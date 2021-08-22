@@ -2,12 +2,9 @@
     el: '#StickySearch',
     data() {
         return {
+            showSearch: false,
             searchType: SearchType.All,
         }
-    },
-    created() {
-    },
-    watch: {
     },
     methods: {
         openUrl(val) {

@@ -1932,13 +1932,10 @@
     <Content Include="Scripts\header\StickyHeader.js">
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\header\StickyHeaderSearchBox.js">
-      <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
-    </Content>
     <Content Include="compilerconfig.json.bindings">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
-    <Content Include="Scripts\npm\jquery\jquery.min.js" />
+    <Content Include="Scripts\npm\jquery\jquery.js" />
     <Content Include="Scripts\npm\tiptap-build\137.js" />
     <Content Include="Scripts\npm\tiptap-build\385.js" />
     <Content Include="Scripts\npm\tiptap-build\756.js" />
@@ -1967,19 +1964,30 @@
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Lazy\LazyLoader.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.vue.ascx" />
+    <Content Include="Views\Shared\Search\HeaderSearch.js">
+      <DependentUpon>HeaderSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\Search.css">
+      <DependentUpon>Search.less</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Search\SearchTemplateLoader.ascx" />
     <Content Include="Views\Shared\Search\SearchComponent.js">
       <DependentUpon>SearchComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Search\SearchComponent.vue.ascx" />
+    <Content Include="Views\Shared\Search\StickySearch.js">
+      <DependentUpon>SearchComponent.js</DependentUpon>
+    </Content>
     <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
@@ -2412,9 +2420,6 @@
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\header\StickyHeaderSearchBox.js.map">
-      <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
-    </Content>
     <Content Include="Style\sidebar.less" />
     <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js.map">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
@@ -2539,7 +2544,6 @@
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
-    <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
@@ -2598,7 +2602,6 @@
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
-    <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
@@ -3565,6 +3568,7 @@
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
+    <TypeScriptCompile Include="Views\Shared\Search\HeaderSearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
@@ -4166,6 +4170,13 @@
     <Content Include="Views\Shared\Lazy\LazyComponent.js.map">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Search\StickySearch.js.map">
+      <DependentUpon>SearchComponent.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\HeaderSearch.js.map">
+      <DependentUpon>HeaderSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\Search.less" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

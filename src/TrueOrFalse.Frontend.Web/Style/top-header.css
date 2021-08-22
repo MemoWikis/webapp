@@ -341,13 +341,41 @@
 }
 #Breadcrumb #StickyHeaderContainer {
   margin-left: auto;
-  display: none;
   justify-content: space-between;
-  margin-top: -22px;
+  display: none;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage {
+  margin-right: 15px;
+  min-width: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage a.TextLinkWithIcon {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0px;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage a.TextLinkWithIcon .userImage {
+  margin: auto;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in {
+  color: #999999;
+  font-size: 32px;
+  padding-top: 0px;
+  transition: color 0.3s;
+  margin: 0;
+  padding: 0 15px;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in:hover {
+  color: #003264;
 }
 #Breadcrumb #StickyHeaderContainer .userImage {
   width: 28px !important;
   height: 28px !important;
+  border: none;
+  text-align: center;
 }
 #Breadcrumb #StickyHeaderContainer #UserProgressContainer {
   white-space: unset;
@@ -361,17 +389,10 @@
   border: none;
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
-  margin-top: 19px;
-  margin-left: 10px;
-  width: 40px;
-  -webkit-transition: width 0.3s;
-}
-#Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBox {
-  border-right: none !important;
-  border: none;
-  padding: 0px;
-  font-weight: 400;
-  text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: width 0.3s;
 }
 #Breadcrumb .fa {
   margin-right: 15px;
@@ -475,7 +496,6 @@
   text-align: left;
   border-radius: 0px;
   padding-top: 0px;
-  max-width: 220px;
   top: 44px;
 }
 #loginAndHelp .dropdown-menu span,

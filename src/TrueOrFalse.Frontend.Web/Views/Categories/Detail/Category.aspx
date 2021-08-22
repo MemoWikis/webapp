@@ -20,8 +20,6 @@
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
-    <%= Scripts.Render("~/bundles/js/CategorySort") %>
-    <%= Scripts.Render("~/bundles/js/tiptap") %>
     <%= Scripts.Render("~/bundles/js/Editor") %>
 
     <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
@@ -29,9 +27,7 @@
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
     </script>
-    <script type="text/x-template" id="editor-menu-bar-template">
-        <%: Html.Partial("~/Views/Shared/Editor/EditorMenuBarComponent.vue.ascx") %>
-    </script>
+    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
@@ -61,7 +57,7 @@
 
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
-    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModalLoader.ascx") %>
+    <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineText/InlineTextComponentLoader.ascx") %>
 
     <div id="TopicTabContent" class="TabContent">
             <% if (Model.IsInTopic) { %>
@@ -85,8 +81,9 @@
         <%: Html.Partial("~/Views/Categories/Edit/DeleteCategoryComponent.vue.ascx") %>
         <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
     </div>
+
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
-    <%= Scripts.Render("~/bundles/js/StickySearch") %>
+    <%= Scripts.Render("~/bundles/js/search") %>
 
 </asp:Content>

@@ -9,7 +9,8 @@ Vue.component('search-component',
     {
         props: {
             searchType: SearchType,
-            id: [String, Number]
+            id: [String, Number],
+            showSearchIcon: Boolean,
         },
         template: '#search-component',
 
@@ -27,6 +28,10 @@ Vue.component('search-component',
                 isMounted: false,
                 lockDropdown: false,
                 noResults: false,
+                categoryCount: 0,
+                questionCount: 0,
+                usersCount: 0,
+                userSearchUrl: '',
             }
         },
         watch: {
@@ -53,7 +58,15 @@ Vue.component('search-component',
             }
         },
         mounted() {
+            var self = this;
             this.isMounted = true;
+            $(document).mouseup(function (e) {
+                var container = $("#"+ self.id +"Container");
+
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    self.showDropdown = false;
+                }
+            });
         },
         methods: {
             search() {
@@ -74,6 +87,10 @@ Vue.component('search-component',
                         self.users = result.users;
                         self.noResults = result.categories.length + result.questions.length + result.users.length <= 0;
                         self.totalCount = result.totalCount;
+                        self.categoryCount = result.categoryCount;
+                        self.questionCount = result.questionCount;
+                        self.userCount = result.userCount;
+                        self.userSearchUrl = result.userSearchUrl;
                         self.$nextTick(() => {
                             $('[data-toggle="tooltip"]').tooltip();
                         });
@@ -83,6 +100,9 @@ Vue.component('search-component',
 
             selectItem(item) {
                 this.selectedItem = item;
+            },
+            openUsers() {
+                location.href = this.userSearchUrl;
             }
         }
     });

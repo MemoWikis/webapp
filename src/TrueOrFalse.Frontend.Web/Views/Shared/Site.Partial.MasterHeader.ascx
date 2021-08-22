@@ -43,8 +43,10 @@
                     </a>
 
                 </div>
-                <div id="StickySearch">
-                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent"/>
+                <div id="HeaderSearch" class="col-xs-6">
+                    <div>
+                        <search-component v-on:select-item="openUrl" :search-type="searchType" id="HeaderSearchComponent" :show-search-icon="true"/>
+                    </div>
                 </div>
                 <div class="col-xs-6 col-LoginAndHelp">
             	    <div id="loginAndHelp" >

@@ -1,0 +1,206 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.searchAutocomplete {
+  z-index: 105;
+  margin: 0;
+}
+.searchAutocomplete .dropdown-menu {
+  width: 60vw;
+  max-width: 440px;
+}
+.searchAutocomplete .dropdown-menu .dropdownFooter {
+  line-height: 20px;
+  padding: 8px;
+  text-align: end;
+}
+.searchAutocomplete .dropdown-menu .dropdownFooter .dropdownLink {
+  color: #0065CA;
+  cursor: pointer;
+}
+.searchAutocomplete .dropdown-menu .dropdownFooter .dropdownLink:hover {
+  text-decoration: underline;
+}
+.searchAutocomplete .searchBanner {
+  background: #003264;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  cursor: unset;
+}
+.searchAutocomplete .searchBanner div {
+  padding: 0 12px;
+  cursor: unset;
+}
+.searchAutocomplete .searchBanner div.link {
+  cursor: pointer;
+  color: white;
+}
+.searchAutocomplete .searchBanner div.link:hover {
+  text-decoration: underline;
+}
+.searchAutocomplete .searchInputContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.searchAutocomplete .searchInputContainer .hasSearchIcon {
+  border-right: none;
+  padding-right: 54px;
+}
+.searchAutocomplete .searchInputContainer .searchIconContainer {
+  height: 34px;
+  font-size: 25px;
+  position: relative;
+  left: -40px;
+}
+.searchAutocomplete .searchResultItem {
+  padding: 4px 8px;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+.searchAutocomplete .searchResultItem:hover {
+  background: #EFEFEF;
+  color: #003264;
+}
+.searchAutocomplete .searchResultItem .searchResultLabelContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.searchAutocomplete .searchResultItem .searchResultLabel {
+  height: 40px;
+  line-height: normal;
+  color: #555555;
+  text-overflow: ellipsis;
+  margin: 0;
+  overflow: hidden;
+  max-width: 408px;
+  white-space: normal;
+}
+.searchAutocomplete .searchResultItem .searchResultSubLabel {
+  color: #DDDDDD;
+  font-style: italic;
+  height: 20px;
+  line-height: normal;
+}
+.searchAutocomplete .searchResultItem img {
+  max-height: 62px;
+  max-width: 62px;
+  height: auto;
+  margin-right: 10px;
+  width: 100%;
+  margin-top: 0px !important;
+}
+.searchAutocomplete .searchResultItem img.authorImg {
+  border-radius: 50%;
+}
+#HeaderSearch {
+  left: 115px;
+  margin-top: 17px;
+  /*    #headerSearchBox {
+        border-right: none !important;
+        border: 1px #979797 solid;
+        height: 44px;
+    }*/
+}
+@media (max-width: 1199.5px) {
+  #HeaderSearch {
+    width: 215.41px;
+    left: 29px;
+  }
+}
+@media (max-width: 991.5px) {
+  #HeaderSearch {
+    display: none;
+  }
+}
+#HeaderSearch input {
+  min-width: 301px;
+}
+#HeaderSearch input.form-control {
+  max-width: 400px;
+}
+#HeaderSearch .dropdown-menu {
+  padding: 0;
+}
+#StickySearch,
+#SmallHeaderSearch {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+#StickySearch .StickySearchContainer input,
+#SmallHeaderSearch .StickySearchContainer input {
+  min-width: 0px;
+  width: 0px;
+  border: none;
+  padding: 0;
+  transition: all 0.3s;
+}
+#StickySearch .StickySearchContainer.showSearch input,
+#SmallHeaderSearch .StickySearchContainer.showSearch input {
+  border: 1px solid #ccc;
+  width: 200px;
+  border-right: none;
+  padding: 6px 12px;
+}
+@media (max-width: 390px) {
+  #StickySearch .StickySearchContainer.showSearch input,
+  #SmallHeaderSearch .StickySearchContainer.showSearch input {
+    width: 120px;
+  }
+}
+#StickySearch .searchButton,
+#SmallHeaderSearch .searchButton {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-left: none;
+  transition: all 0.3s;
+}
+#StickySearch .searchButton.showSearch,
+#SmallHeaderSearch .searchButton.showSearch {
+  border: 1px solid #ccc;
+  border-left: none;
+}
+#StickySearch .searchButton .fa-search,
+#SmallHeaderSearch .searchButton .fa-search {
+  transition: all 0.3s;
+}
+#StickySearch .searchButton:hover,
+#SmallHeaderSearch .searchButton:hover {
+  cursor: pointer;
+}
+#StickySearch .searchButton:hover .fa-search,
+#SmallHeaderSearch .searchButton:hover .fa-search {
+  color: #003264 !important;
+}
+@media (min-width: 991.5px) {
+  #SmallHeaderSearch {
+    display: none;
+  }
+}
+#SmallHeaderSearch .searchButton {
+  background: #003264;
+}
+#SmallHeaderSearch .searchButton:hover .fa-search {
+  color: #AFD534 !important;
+}
+#SmallHeaderSearch .searchButton.showSearch {
+  background: white;
+}

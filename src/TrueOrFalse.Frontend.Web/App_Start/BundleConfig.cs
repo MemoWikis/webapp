@@ -48,8 +48,11 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/searchTemplate")
                 .Include("~/Views/Shared/Search/SearchComponent.js"));
+            bundles.Add(new StyleBundle("~/bundles/searchTemplate")
+                .Include("~/Views/Shared/Search/Search.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/stickySearch")
+            bundles.Add(new ScriptBundle("~/bundles/js/search")
+                .Include("~/Views/Shared/Search/HeaderSearch.js")
                 .Include("~/Views/Shared/Search/StickySearch.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
@@ -105,11 +108,6 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/alertModal")
                 .IncludeDirectory("~/Views/Shared/Modals/AlertModal/","*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
-                .Include("~/Scripts/npm/sortablejs/Sortable.js")
-                .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
-
-
             bundles.Add(new Bundle("~/bundles/js/tiptap")
                 .IncludeDirectory("~/Scripts/npm/tiptap-build/", "*.js"));
 
@@ -117,13 +115,13 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
-                .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
-                .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js")
-                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js"));
+                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
+                .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
+                .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
                 .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));

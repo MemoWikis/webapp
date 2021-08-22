@@ -29,8 +29,12 @@ public class SearchApiController : BaseController
         return Json(new
         {
             categories = categoryItems,
+            categoryCount = elements.CategoriesResultCount,
             questions = questionItems,
-            users = userItems
+            questionCount = elements.QuestionsResultCount,
+            users = userItems,
+            userCount = elements.UsersResultCount,
+            userSearchUrl = Links.UsersSearch(term)
         }, JsonRequestBehavior.AllowGet);
     }
 
