@@ -19,6 +19,8 @@
     data-test-session-id="-1"
     data-current-step-idx=""
     data-is-last-step="" />
+<%= Styles.Render("~/bundles/AnswerQuestion") %>
+<%= Scripts.Render("~/bundles/js/AnswerQuestion") %> 
 
 <%= Scripts.Render("~/bundles/js/d3") %>
 <script type="text/x-template" id="question-details-component">
