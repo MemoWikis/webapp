@@ -59,6 +59,7 @@
             questionTitleHtml: "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>",
             highlightedHtml: "",
             canBeEdited: false,
+            showModal: false
         }
     },
     mounted() {

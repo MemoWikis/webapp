@@ -7,6 +7,7 @@
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
+
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
     <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
         <h4 class="header"><span class="hidden-xs">Du lernst</span> <b>{{selectedQuestionCount}}</b> Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionsCountFromCategory}})</h4>
@@ -38,6 +39,7 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
+    <comment-modal-component/>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>

@@ -2021,6 +2021,8 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.vue.ascx" />
+    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js">
       <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>

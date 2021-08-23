@@ -79,7 +79,7 @@
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
-                            <a class="commentIcon" :href="questionLinkToComment">
+                            <a class="commentIcon" @click.prevent="showModal=true">
                                 <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
                             </a>
                         </div>
@@ -113,8 +113,7 @@
                 </div>
             </div>
         </div>
-        <template>
-            <%: Html.Partial("~/Views/Questions/QuestionList/QuestionComponent.vue.ascx")%>
-        </template>
+        <div v-if="showModal">
+        </div>
     </div>
 </question-component>

@@ -1,7 +1,7 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
 
-<div id="DefaultModalLoader">
-    <% Html.RenderPartial("/Views/Shared/Modals/DefaultModal/DefaultModalComponent.vue.ascx") %>
-</div>
+<script type="x-template" id="modal-component-template">
+    <%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponent.vue.ascx") %>
+</script>
 
 <%= Scripts.Render("~/bundles/js/defaultModal") %>

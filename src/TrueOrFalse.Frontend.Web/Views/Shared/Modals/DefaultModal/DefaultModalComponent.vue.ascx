@@ -1,6 +1,26 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
-<default-modal-component inline-template @close="showModal = false" show-Close-Button="true" >
+<div id="defaultModal">
+    <div class="modal-default-mask">
+        <div class="modal-default-wrapper">
+            <div class="modal-default-container">
+                <div class="modal-default-header">
+                    <a v-if="showCloseButton" @click="$emit('close')">
+                        <i class="fa-cross"></i>
+                    </a>
+                    <slot name="header">
+                    </slot>
+                </div>
 
-</default-modal-component>
+                <div class="modal-default-body">
+                    <slot name="body">
+                    </slot>
+                </div>
 
-<%= Scripts.Render("~/bundles/js/defaultModal") %>
+                <div class="modal-default-footer">
+                    <slot name="footer">
+                    </slot>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
