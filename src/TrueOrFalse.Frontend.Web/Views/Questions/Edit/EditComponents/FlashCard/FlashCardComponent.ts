@@ -38,11 +38,10 @@
     mounted() {
         eventBus.$on('clear-flashcard', () => this.answerEditor.commands.setContent(''));
         if (this.solution) {
-            let content = this.solution;
-            this.answerEditor.commands.setContent(content);
+            this.answerEditor.commands.setContent(this.solution);
             this.$parent.flashCardAnswer = this.solution;
+            this.$parent.solutionIsValid = this.answerEditor.state.doc.textContent.length > 0;
         }
-        this.$parent.solutionIsValid = this.answerEditor.state.doc.textContent.length > 0;
     },
 
     methods: {
