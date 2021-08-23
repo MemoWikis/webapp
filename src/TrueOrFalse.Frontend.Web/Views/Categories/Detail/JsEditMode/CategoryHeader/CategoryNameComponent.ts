@@ -19,14 +19,17 @@ Vue.component('category-name-component',
                 if (name == this.oldCategoryName || name.length <= 0)
                     return;
                 this.validateName(name);
-                eventBus.$emit('content-change');
+                eventBus.$emit('content-change', 'categoryName');
             }
         },
         mounted() {
             if (this.isLearningTab == 'True') {
                 this.controlTab('LearningTab');
             };
-            eventBus.$on('request-save', () => this.saveName());
+            eventBus.$on('request-save', (val) => {
+                if(val === "categoryName")
+                    this.saveName(); 
+            });
             eventBus.$on('cancel-edit-mode',
                 () => {
                     this.categoryName = this.oldCategoryName;
@@ -66,9 +69,9 @@ Vue.component('category-name-component',
                     },
                 });
             }, 500),
-            requestSave() {
-                eventBus.$emit('request-save');
-            },
+            //requestSave() {
+            //    eventBus.$emit('request-save');
+            //},
             saveName() {
                 if (this.categoryName == this.oldCategoryName)
                     return;
@@ -83,13 +86,20 @@ Vue.component('category-name-component',
                         categoryId: id,
                         name: name
                     }),
-                    success: function (result) { 
+                    success: function (result) {
                         if (result.nameHasChanged) {
+                            self.oldCategoryName = result.categoryName;
+                            var saveMessage = "Das Thema wurde gespeichert.";
+                            eventBus.$emit('save-success');
+                            //self.updateAuthors();
+
                             document.title = name;
                             $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
                             window.history.pushState("", name, result.newUrl);
                         } else {
+                            var saveMessage = "Das Thema konnte nicht gespeichert werden.";
                         }
+                        eventBus.$emit('save-msg', saveMessage);
                     },
                 });
             }
