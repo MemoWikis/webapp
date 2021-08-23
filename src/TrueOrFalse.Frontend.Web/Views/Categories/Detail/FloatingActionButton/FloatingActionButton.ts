@@ -35,8 +35,9 @@ var FAB = Vue.component('floating-action-button',
                 showSaveMsg: false,
                 saveMsg: '',
                 saveMsgTimer: null,
-                isNotRootCategory: this.categoryId != 1 
-        }
+                isNotRootCategory: this.categoryId != 1,
+                changedCategoryName: ''
+            }
         },
         watch: {
             isExtended(val) {
@@ -86,7 +87,11 @@ var FAB = Vue.component('floating-action-button',
             } else
                 this.contentIsReady = true;
             eventBus.$on('content-change',
-                () => {
+                (val) => {
+                    this.changedCategoryName = val;
+                       // this.saveContent(val);
+                       this.contentIsReady = true;
+
                     this.contentHasChanged = true;
                 });
             eventBus.$on('save-msg',
@@ -99,6 +104,7 @@ var FAB = Vue.component('floating-action-button',
                     this.saveMsgTimer = setTimeout(() => {
                         self.showSaveMsg = false;
                         self.saveMsg = '';
+                        self.contentIsReady = false;
                     }, 2750);
                 });
         },
@@ -192,12 +198,13 @@ var FAB = Vue.component('floating-action-button',
                         this.editQuestionUrl = null;
                         });
             },
-            saveContent() {
+            saveContent(val) {
                 if (NotLoggedIn.Yes()) {
                     NotLoggedIn.ShowErrorMsg("SaveContentWithBtn");
                     return;
                 }
-                eventBus.$emit('request-save');
+                eventBus.$emit('request-save', val);
+                this.changedCategoryName = '';
             },
             cancelEditMode() {
                 this.isOpen = false;

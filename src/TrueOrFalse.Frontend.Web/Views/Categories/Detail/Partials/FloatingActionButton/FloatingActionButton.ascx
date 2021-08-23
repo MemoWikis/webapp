@@ -24,7 +24,7 @@ Inherits="System.Web.Mvc.ViewUserControl<FloatingActionButtonModel>" %>
                             </div>
 
                             <div class="btn-right" v-show="contentHasChanged" v-else>
-                                <div class="button" @click.prevent="saveContent()" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
+                                <div class="button" @click.prevent="saveContent(changedCategoryName)" :class="{ expanded : editMode }" v-ripple="{center,class: 'r-green'}">
                                     <div class="icon">
                                         <i class="fas fa-save"></i>
                                     </div>

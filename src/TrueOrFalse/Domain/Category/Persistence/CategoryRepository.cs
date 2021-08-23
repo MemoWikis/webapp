@@ -236,9 +236,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (author != null)
             Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated);
-
         Flush();
-
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
     }
 
