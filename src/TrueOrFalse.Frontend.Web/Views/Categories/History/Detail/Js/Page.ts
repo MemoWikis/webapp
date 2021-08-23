@@ -3,9 +3,7 @@ declare var Diff2Html;
 declare var Diff2HtmlUI;
 
 $(() => {
-    
     ShowDiff2Html();
-
 });
 
 function ShowDiff2Html() {
@@ -23,7 +21,7 @@ function ShowDiff2Html() {
     var diffContent = Diff(prevContent, currentContent, 'Änderungen des Inhaltes');
 
     var currentSegments = $('#currentSegments').val();
-    var prevSegments = $('#prevContent').val();
+    var prevSegments = $('#prevSegments').val();
     var diffSegments = Diff(prevSegments, currentSegments, 'Änderungen der Segmente');
 
     var currentDescription = $('#currentDescription').val();

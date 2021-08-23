@@ -20,21 +20,26 @@
     </div>
     <% foreach (var day in Model.Days)
        {
+           var isItemNotPrivatly = false; 
+           foreach (var item in day.Items)
+           {
+               if (item.Visibility == CategoryVisibility.All && item.Author != new UserTinyModel( Sl.SessionUser.User))
+                   isItemNotPrivatly = true; 
+           }
            var afterRelease = ReleaseDate.IsAfterRelease(day.DateTime);
-    %>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h3><%= day.Date %></h3>
+           if (isItemNotPrivatly  )
+           { %>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><%= day.Date %></h3>
+                </div>
             </div>
-        </div>
-
+    <% } %>
         <% foreach (var item in day.Items)
            {
                if (item.IsVisibleToCurrentUser())
                {
                    { %>
-
                     <div class="row change-detail-model">                        
                         <div class="col-xs-4">
                             <a href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId) %>">
@@ -56,11 +61,11 @@
                             <div id="Typ"><%= item.Typ %></div>
                         </div>
                         <div class="col-xs-4">
-                            <%if (afterRelease) {%>
+                      <%--      <%if (afterRelease) {%>
                                 <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId, item.CategoryChangeId) %>">
                                     <i class="fa fa-desktop"></i>&nbsp; Revision anzeigen
                                 </a>&nbsp;
-                            <%} %>
+                            <%} %>--%>
                             <a class="btn btn-sm btn-default <%if (afterRelease) {%>editing-history<%} %> btn-primary c-changes-overview" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.CategoryChangeId) %>">
                                 <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
                             </a>

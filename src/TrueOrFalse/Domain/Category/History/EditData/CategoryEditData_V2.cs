@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -23,6 +22,7 @@ public class CategoryEditData_V2 : CategoryEditData
             .Select(cr => new CategoryRelation_EditData_V2(cr))
             .ToList();
         ImageWasUpdated = imageWasUpdated;
+        Visibility = category.Visibility;
     }
 
     public override string ToJson()
@@ -50,6 +50,7 @@ public class CategoryEditData_V2 : CategoryEditData
         category.CustomSegments = this.CustomSegments;
         category.WikipediaURL = this.WikipediaURL;
         category.DisableLearningFunctions = this.DisableLearningFunctions;
+        category.Visibility = this.Visibility;
 
         // Historic category relations cannot be loaded because we do not have archive data and
         // loading them leads to nasty conflicts and nuisance with NHibernate.

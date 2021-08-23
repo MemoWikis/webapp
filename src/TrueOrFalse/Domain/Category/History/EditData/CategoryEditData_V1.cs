@@ -21,6 +21,7 @@ public class CategoryEditData_V1 : CategoryEditData
         CategoryRelations = category.CategoryRelations
             .Select(cr => new CategoryRelation_EditData_V1(cr))
             .ToList();
+        Visibility = category.Visibility;
     }
 
     public override string ToJson() => JsonConvert.SerializeObject(this);
@@ -43,6 +44,7 @@ public class CategoryEditData_V1 : CategoryEditData
         category.Content = this.Content;
         category.WikipediaURL = this.WikipediaURL;
         category.DisableLearningFunctions = this.DisableLearningFunctions;
+        category.Visibility = this.Visibility;
 
         // Historic CategoryRelations cannot be loaded for DataVersion 1 because there
         // was a bug where data didn't get written properly so correct relation data

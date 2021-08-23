@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +70,9 @@ public class CategoryChangeDayModel
                     break;
                 case CategoryChangeType.Delete: 
                     typ = "Gelöscht";
+                    break;
+                case CategoryChangeType.Published:
+                    typ = "Publish";
                     break;
                 default: 
                     Logg.r().Error("CategoryHistoryModel CategoryChangeType is invalid");

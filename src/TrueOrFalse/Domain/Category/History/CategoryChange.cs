@@ -1,6 +1,5 @@
 ﻿using Seedworks.Lib.Persistence;
 using System;
-using System.Runtime.DesignerServices;
 
 public class CategoryChange : Entity, WithDateCreated
 {
@@ -58,5 +57,7 @@ public enum CategoryChangeType
 {
     Create = 0,
     Update = 1,
-    Delete = 2
+    Delete = 2,
+    Published = 3,
+    Privatized = 4
 }
