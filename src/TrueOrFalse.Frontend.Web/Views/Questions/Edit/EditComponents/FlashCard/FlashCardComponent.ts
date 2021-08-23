@@ -40,9 +40,9 @@
         if (this.solution) {
             let content = this.solution;
             this.answerEditor.commands.setContent(content);
+            this.$parent.flashCardAnswer = this.solution;
         }
         this.$parent.solutionIsValid = this.answerEditor.state.doc.textContent.length > 0;
-
     },
 
     methods: {
