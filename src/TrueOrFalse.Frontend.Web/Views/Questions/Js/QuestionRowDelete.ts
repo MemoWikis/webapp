@@ -13,7 +13,7 @@ class QuestionRowDelete {
 
         var questionIdToDelete;
         $(() => {
-            $('a[href*=#modalDeleteQuestion]').click(function (e) {
+            $('a.modalDeleteQuestionBtn').click(function (e) {
                 questionIdToDelete = $(this).attr("data-questionId");
                 populateDeleteQuestionId(questionIdToDelete);
                 e.preventDefault();

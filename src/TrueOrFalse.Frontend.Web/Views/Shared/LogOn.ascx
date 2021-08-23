@@ -8,10 +8,12 @@
 %>
 <div style="display: flex;">
     <div class="header-item" style="margin-top: -1px; margin-right: 3px;">
-        <div class="input-group" id="SmallHeaderSearchBoxDiv">
-            <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
-            <div class="input-group-btn" style="height: 34px;">
-                <button class="btn btn-default" id="SmallHeaderSearchButton" style="padding-top: 0px; font-size: 29px; align-content: center; display: flex; height: 34px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
+        <div id="SmallHeaderSearch">
+            <div class="searchButton" :class="{ 'showSearch' : showSearch }" @click="showSearch = !showSearch">
+                <i class="fa fa-search" style="font-size:25px; padding:0;margin:0; margin-top:-3px" aria-hidden="true"></i>
+            </div>
+            <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch }">
+                <search-component v-on:select-item="openUrl" :search-type="searchType" id="SmallHeaderSearchComponent"/>
             </div>
         </div>
     </div>

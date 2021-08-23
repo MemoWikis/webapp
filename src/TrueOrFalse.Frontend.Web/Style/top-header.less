@@ -389,13 +389,46 @@
 
     #StickyHeaderContainer {
         margin-left: auto;
-        display: none;
         justify-content: space-between;
-        margin-top: -22px;
+        display: none;
+
+        #BreadcrumbUserDropdownImage {
+            margin-right: 15px;
+            min-width: 29px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            a.TextLinkWithIcon {
+                height: 100%;
+                justify-content: center;
+                align-items: center;
+                padding-left: 0px;
+
+                .userImage {
+                    margin: auto;
+                }
+            }
+
+            .fa-sign-in {
+                color: @memo-grey-dark;
+                font-size: 32px;
+                padding-top: 0px;
+                transition: color 0.3s;
+                margin: 0;
+                padding: 0 15px;
+
+                &:hover {
+                    color: @memo-blue;
+                }
+            }
+        }
 
         .userImage {
             width: 28px !important;
             height: 28px !important;
+            border: none;
+            text-align: center;
         }
 
         #UserProgressContainer {
@@ -414,19 +447,10 @@
         }
 
         #StickyHeaderSearchBoxDiv {
-            margin-top: 19px;
-            margin-left: 10px;
-            width: 40px;
-            -webkit-transition: width 0.3s;
-        }
-
-
-        #StickyHeaderSearchBox {
-            border-right: none !important;
-            border: none;
-            padding: 0px;
-            font-weight: 400;
-            text-overflow: ellipsis;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: width 0.3s;
         }
     }
 
@@ -527,7 +551,6 @@
         text-align: left;
         border-radius: 0px;
         padding-top: 0px;
-        max-width: 220px;
         top: 44px;
 
         span {

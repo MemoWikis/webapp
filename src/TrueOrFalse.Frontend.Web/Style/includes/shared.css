@@ -7720,3 +7720,10 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   letter-spacing: 0.1em;
   color: #FF001F !important;
 }
+input,
+.dropdown-menu {
+  border-radius: 0px !important;
+}
+[v-cloak] {
+  display: none;
+}

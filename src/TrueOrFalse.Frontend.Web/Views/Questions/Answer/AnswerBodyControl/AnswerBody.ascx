@@ -89,7 +89,7 @@
                         </li>
                         <% if (Model.IsInLearningTab && (Model.IsCreator || Model.IsInstallationAdmin)){ %>
                             <li>
-                                <a data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion">
+                                <a data-toggle="modal" data-questionid="<%=Model.QuestionId %>" href="#modalDeleteQuestion" class="modalDeleteQuestionBtn">
                                     <div class="dropdown-icon">
                                         <i class="fas fa-trash"></i>
                                     </div>

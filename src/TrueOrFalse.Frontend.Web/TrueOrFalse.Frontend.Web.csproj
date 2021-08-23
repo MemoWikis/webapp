@@ -316,24 +316,6 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui.css" />
-    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
-    <Content Include="Content\themes\base\jquery.ui.all.css" />
-    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
-    <Content Include="Content\themes\base\jquery.ui.base.css" />
-    <Content Include="Content\themes\base\jquery.ui.button.css" />
-    <Content Include="Content\themes\base\jquery.ui.core.css" />
-    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
-    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
-    <Content Include="Content\themes\base\jquery.ui.menu.css" />
-    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
-    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
-    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
-    <Content Include="Content\themes\base\jquery.ui.slider.css" />
-    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
-    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
-    <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
     <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -348,22 +330,6 @@
     <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Fonts\font-awesome-5.7.2\css\all.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Fonts\font-awesome-5.7.2\css\brands.css" />
@@ -1975,18 +1941,13 @@
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\header\SearchBox.js">
-      <DependentUpon>SearchBox.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\header\StickyHeader.js">
       <DependentUpon>StickyHeader.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\header\StickyHeaderSearchBox.js">
-      <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
     </Content>
     <Content Include="compilerconfig.json.bindings">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
+    <Content Include="Scripts\npm\jquery\jquery.js" />
     <Content Include="Scripts\npm\tiptap-build\137.js" />
     <Content Include="Scripts\npm\tiptap-build\385.js" />
     <Content Include="Scripts\npm\tiptap-build\756.js" />
@@ -2003,6 +1964,7 @@
     <Content Include="Scripts\npm\tiptap-build\tiptapStarterkit.js" />
     <Content Include="Scripts\npm\tiptap-build\tiptapUnderline.js" />
     <Content Include="Scripts\npm\tiptap-build\tiptapVue2.js" />
+    <Content Include="Scripts\npm\vue\vue.min.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\lowlight.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-codeblocklowlight.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-image.js" />
@@ -2015,6 +1977,10 @@
     <Content Include="Views\Questions\Answer\Comments\CommentComponent.js">
       <DependentUpon>CommentComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.js">
       <DependentUpon>CommentsSection.ts</DependentUpon>
     </Content>
@@ -2036,6 +2002,26 @@
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
       <DependentUpon>DefaultModalComponent.ts</DependentUpon>
+      </Content>
+    <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
+    <Content Include="Views\Shared\Lazy\LazyComponent.js">
+      <DependentUpon>LazyComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Lazy\LazyLoader.ascx" />
+    <Content Include="Views\Shared\Lazy\LazyComponent.vue.ascx" />
+    <Content Include="Views\Shared\Search\HeaderSearch.js">
+      <DependentUpon>HeaderSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\Search.css">
+      <DependentUpon>Search.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\SearchTemplateLoader.ascx" />
+    <Content Include="Views\Shared\Search\SearchComponent.js">
+      <DependentUpon>SearchComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\SearchComponent.vue.ascx" />
+    <Content Include="Views\Shared\Search\StickySearch.js">
+      <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
     <Content Include="webpack.config.js" />
     <None Include="job_scheduling_data_2_0.xsd">
@@ -2450,9 +2436,6 @@
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff" />
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff2" />
     <None Include="Log.ignore" />
-    <Content Include="Scripts\header\SearchBox.js.map">
-      <DependentUpon>SearchBox.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Knowledge\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -2471,9 +2454,6 @@
     <Content Include="Style\top-header.less" />
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\header\StickyHeaderSearchBox.js.map">
-      <DependentUpon>StickyHeaderSearchBox.ts</DependentUpon>
     </Content>
     <Content Include="Style\sidebar.less" />
     <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js.map">
@@ -2600,7 +2580,6 @@
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
-    <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
@@ -2659,7 +2638,6 @@
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
-    <TypeScriptCompile Include="Scripts\header\StickyHeaderSearchBox.ts" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
@@ -2969,7 +2947,6 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\header\ActivityPointsPopup.ts" />
-    <TypeScriptCompile Include="Scripts\header\SearchBox.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
@@ -3052,7 +3029,6 @@
     <Content Include="Scripts\Validations.js">
       <DependentUpon>Validations.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\vendor\jquery-watch.js" />
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
     <Content Include="Style\animate.css">
       <DependentUpon>animate.less</DependentUpon>
@@ -3130,7 +3106,6 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
-    <Content Include="Scripts\vendor\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
     <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
     <Content Include="Style\bootstrap\bootstrap.css">
@@ -3196,21 +3171,6 @@
     </Content>
     <Content Include="Style\includes\colors.less" />
     <Content Include="Style\includes\shared.less" />
-    <Content Include="Style\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Style\jquery-ui\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_222222_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_454545_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_888888_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
-    <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
     <Content Include="Style\logo.css">
       <DependentUpon>logo.less</DependentUpon>
     </Content>
@@ -3530,13 +3490,8 @@
     <Content Include="Scripts\vendor.file-uploader\uploader.js" />
     <Content Include="Scripts\vendor.file-uploader\util.js" />
     <Content Include="Scripts\vendor\html5shiv.js" />
-    <Content Include="Scripts\vendor\jquery-2.0.3.js" />
     <Content Include="Scripts\vendor\jquery.scrollTo-1.4.3.1.js" />
-    <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\json2.js" />
-    <Content Include="Scripts\vendor\Markdown.Converter.js" />
-    <Content Include="Scripts\vendor\Markdown.Editor.js" />
-    <Content Include="Scripts\vendor\Markdown.Sanitizer.js" />
     <Content Include="Scripts\typescript.defs\markdown.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
@@ -3633,11 +3588,15 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
+    <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
+    <TypeScriptCompile Include="Views\Shared\Search\HeaderSearch.ts" />
+    <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
+    <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
@@ -4235,6 +4194,19 @@
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js.map">
       <DependentUpon>DefaultModalComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Search\SearchComponent.js.map">
+      <DependentUpon>SearchComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Lazy\LazyComponent.js.map">
+      <DependentUpon>LazyComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\StickySearch.js.map">
+      <DependentUpon>SearchComponent.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\HeaderSearch.js.map">
+      <DependentUpon>HeaderSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Search\Search.less" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

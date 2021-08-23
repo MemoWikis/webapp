@@ -14,8 +14,11 @@
             if (this.isLearningTab == 'True') {
                 this.controlTab('LearningTab');
             };
-            eventBus.$on('request-save', () => this.saveImage());
             eventBus.$on('cancel-edit-mode', () => { $("#CategoryHeaderImg").attr('src', this.imgSrc); });
+            eventBus.$on('request-save', (val) => {
+                if(val !== "categoryName" )
+                this.saveImage();
+            });
             eventBus.$on('tab-change',
                 (tabName) => {
                     this.controlTab(tabName);

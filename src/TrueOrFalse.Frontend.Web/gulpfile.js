@@ -1,7 +1,7 @@
 ﻿/// <binding AfterBuild='copyScripts' />
 var deps = {
     "vue": {
-        "dist/vue.js": ""
+        "dist/vue.min.js": ""
     },
     "vue-textarea-autosize": {
         "dist/vue-textarea-autosize.umd.js": ""
@@ -18,6 +18,9 @@ var deps = {
     "vue-slider-component" : {
         "dist/vue-slider-component.umd.js": ""
     },
+    "jquery": {
+        "dist/jquery.js" : ""
+    }
 };
 
 var merge = require('merge-stream'); 

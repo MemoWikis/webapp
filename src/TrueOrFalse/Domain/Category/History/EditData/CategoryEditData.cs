@@ -9,6 +9,7 @@ public abstract class CategoryEditData
     public string CustomSegments;
     public string WikipediaURL;
     public bool DisableLearningFunctions;
+    public CategoryVisibility Visibility;
 
     public abstract string ToJson();
 

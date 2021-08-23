@@ -72,7 +72,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
             UserEntityCache.Add(categoryCacheItem, Sl.CurrentUserId);
             ModifyRelationsUserEntityCache.AddToParents(categoryCacheItem);
         }
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create); 
+        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+
+        if (category.ParentCategories().Count != 1)
+            Logg.r().Warning("the parentcounter is != 1");
+
+        Sl.CategoryChangeRepo.AddUpdateEntry(category.ParentCategories().First(), Sl.SessionUser.User, false);
     }
 
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
@@ -231,9 +236,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (author != null)
             Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated);
-
         Flush();
-
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
     }
 

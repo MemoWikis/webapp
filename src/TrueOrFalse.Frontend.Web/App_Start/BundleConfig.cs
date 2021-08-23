@@ -11,8 +11,6 @@ namespace TrueOrFalse.View
                   "~/Style/bootstrap/bootstrap.css",
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
-                  "~/Style/jquery-ui/jquery-ui.structure.css",
-                  "~/Style/jquery-ui/jquery-ui.theme.css",
                   "~/Fonts/font-awesome-5.7.2/css/all.css",
                   "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
                   "~/Views/Shared/CategoryLabel.css"));
@@ -23,15 +21,39 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/shared")
-                .IncludeDirectory("~/Scripts/", "*.js")
-                .IncludeDirectory("~/Scripts/vendor", "*.js")
-                .IncludeDirectory("~/Scripts/header", "*.js")
-                .IncludeDirectory("~/Scripts/socialLogins", "*.js")
-                .IncludeDirectory("~/Views/Images", "*.js")
-                .IncludeDirectory("~/Views/Welcome/Login", "*.js")
-                .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/npm/vue/vue.js"));
+            if (Settings.Environment() == "develop") {
+                bundles.Add(new ScriptBundle("~/bundles/shared")
+                    .Include("~/Scripts/npm/jquery/jquery.js")
+                    .IncludeDirectory("~/Scripts/", "*.js")
+                    .IncludeDirectory("~/Scripts/vendor", "*.js")
+                    .IncludeDirectory("~/Scripts/header", "*.js")
+                    .IncludeDirectory("~/Scripts/socialLogins", "*.js")
+                    .IncludeDirectory("~/Views/Images", "*.js")
+                    .IncludeDirectory("~/Views/Welcome/Login", "*.js")
+                    .Include("~/Scripts/npm/vue/vue.js"));
+            } else {
+                bundles.Add(new ScriptBundle("~/bundles/shared")
+                    .Include("~/Scripts/npm/jquery/jquery.js")
+                    .IncludeDirectory("~/Scripts/", "*.js")
+                    .IncludeDirectory("~/Scripts/vendor", "*.js")
+                    .IncludeDirectory("~/Scripts/header", "*.js")
+                    .IncludeDirectory("~/Scripts/socialLogins", "*.js")
+                    .IncludeDirectory("~/Views/Images", "*.js")
+                    .IncludeDirectory("~/Views/Welcome/Login", "*.js")
+                    .Include("~/Scripts/npm/vue/vue.min.js"));
+            }
+
+            bundles.Add(new ScriptBundle("~/bundles/js/lazy")
+                .Include("~/Views/Shared/Lazy/LazyComponent.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/searchTemplate")
+                .Include("~/Views/Shared/Search/SearchComponent.js"));
+            bundles.Add(new StyleBundle("~/bundles/searchTemplate")
+                .Include("~/Views/Shared/Search/Search.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/search")
+                .Include("~/Views/Shared/Search/HeaderSearch.js")
+                .Include("~/Views/Shared/Search/StickySearch.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
@@ -69,7 +91,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .Include("~/Scripts/npm/d3/d3.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
@@ -91,11 +112,6 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/defaultModal")
                 .IncludeDirectory("~/Views/Shared/Modals/DefaultModal/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/CategorySort")
-                .Include("~/Scripts/npm/sortablejs/Sortable.js")
-                .Include("~/Scripts/npm/vue-sortable/vue-sortable.js"));
-
-
             bundles.Add(new Bundle("~/bundles/js/tiptap")
                 .IncludeDirectory("~/Scripts/npm/tiptap-build/", "*.js"));
 
@@ -103,13 +119,13 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
-                .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
-                .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
                 .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js")
-                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js"));
+                .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
+                .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
+                .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
                 .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));
@@ -240,10 +256,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
 
-
             bundles.Add(new StyleBundle("~/bundles/QuestionList")
                 .Include("~/Views/Questions/QuestionList/QuestionList.css"));
-
 
             bundles.Add(new StyleBundle("~/bundles/QuestionHistory")
                 .Include("~/Views/Questions/History/*.css"));
@@ -328,10 +342,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Css/KnowledgeQuestions.css"));
 
             //------------------------ END KNOWLEDGECENTRAL------------------------------------------------------------
-
-            bundles.Add(new ScriptBundle("~/bundles/js/Vue")
-                .Include("~/Scripts/vendor/vuetable-2.js")
-                .Include("~/Scripts/npm/vue/vue.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));

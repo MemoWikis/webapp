@@ -1,8 +1,9 @@
-﻿Vue.component('editor-content', tiptapEditorContent);
+﻿declare var editorContent: any;
 
 var textComponent = Vue.component('text-component',
     {
         props: ['content'],
+        template: '#text-component',
         data() {
             return {
                 linkUrl: null,
@@ -20,6 +21,7 @@ var textComponent = Vue.component('text-component',
             this.$root.content = this.html;
         },
         mounted() {
+            editorContent = Vue.component('editor-content', tiptapEditorContent);
             this.editor = new tiptapEditor({
                 content: this.content,
                 extensions: [

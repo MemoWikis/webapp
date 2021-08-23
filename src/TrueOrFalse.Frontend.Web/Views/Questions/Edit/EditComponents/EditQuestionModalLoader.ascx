@@ -1,7 +1,11 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%= Scripts.Render("~/bundles/js/EditQuestion") %>
+<%@ Control Language="C#" AutoEventWireup="true"%>
+<%
+    var userSession = new SessionUser();
+    var user = userSession.User;
+    var isAdmin = user != null && user.IsInstallationAdmin;
+%>
 <div id="EditQuestionLoaderApp">
-    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModal.vue.ascx") %>
+    <edit-question-modal-component v-if="tiptapIsReady && modalIsReady" is-admin="<%= isAdmin %>" />
 </div>
 <%= Scripts.Render("~/bundles/js/EditQuestionLoader") %>

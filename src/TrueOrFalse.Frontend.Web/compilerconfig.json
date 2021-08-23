@@ -282,5 +282,9 @@
   {
     "outputFile": "Views/Categories/Detail/Partials/Segmentation/Segmentation.css",
     "inputFile": "Views/Categories/Detail/Partials/Segmentation/Segmentation.less"
+  },
+  {
+    "outputFile": "Views/Shared/Search/Search.css",
+    "inputFile": "Views/Shared/Search/Search.less"
   }
 ]

@@ -1,0 +1,228 @@
+﻿@import (reference) '../../../Style/includes/imports.less';
+
+.searchAutocomplete {
+    z-index: 105;
+    margin: 0;
+
+    .dropdown-menu {
+        width: 60vw;
+        max-width: 440px;
+
+        .dropdownFooter {
+            line-height: 20px;
+            padding: 8px;
+            text-align: end;
+
+            .dropdownLink {
+                color: @memo-blue-link;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .searchBanner {
+        background: @memo-blue;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        cursor: unset;
+
+        div {
+            padding: 0 12px;
+            cursor: unset;
+
+            &.link {
+                cursor: pointer;
+                color: white;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .searchInputContainer {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+
+        .hasSearchIcon {
+            border-right: none;
+            padding-right: 54px;
+        }
+
+        .searchIconContainer {
+            height: 34px;
+            font-size: 25px;
+            position: relative;
+            left: -40px;
+        }
+    }
+
+    .searchResultItem {
+        padding: 4px 8px;
+        display: flex;
+        width: 100%;
+        height: 70px;
+        transition: .2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background: @memo-grey-lighter;
+            color: @memo-blue;
+        }
+
+        .searchResultLabelContainer {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .searchResultLabel {
+            height: 40px;
+            line-height: normal;
+            color: @memo-grey-darker;
+            text-overflow: ellipsis;
+            margin: 0;
+            overflow: hidden;
+            max-width: 408px;
+            white-space: normal;
+        }
+
+        .searchResultSubLabel {
+            color: @memo-grey-light;
+            font-style: italic;
+            height: 20px;
+            line-height: normal;
+        }
+
+
+        img {
+            max-height: 62px;
+            max-width: 62px;
+            height: auto;
+            margin-right: 10px;
+            width: 100%;
+            margin-top: 0px !important;
+
+            &.authorImg {
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+#HeaderSearch {
+    left: 115px;
+    margin-top: 17px;
+
+    @media (max-width:(@screen-lg - 0.5)) {
+        width: 215.41px;
+        left: 29px;
+    }
+
+    @media (max-width:(@screen-md-min - 0.5)) {
+        display: none;
+    }
+    /*    #headerSearchBox {
+        border-right: none !important;
+        border: 1px #979797 solid;
+        height: 44px;
+    }*/
+
+    input {
+        min-width: 301px;
+
+        &.form-control {
+            max-width: 400px;
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0;
+    }
+}
+
+#StickySearch, #SmallHeaderSearch {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+
+    .StickySearchContainer {
+        input {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+        }
+
+        &.showSearch {
+            input {
+                border: 1px solid #ccc;
+                width: 200px;
+                border-right: none;
+                padding: 6px 12px;
+
+                @media (max-width:390px) {
+                    width: 120px;
+                }
+
+            }
+        }
+    }
+
+    .searchButton {
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 12px;
+        border: 1px solid transparent;
+        border-left: none;
+        transition: all 0.3s;
+
+        &.showSearch {
+            border: 1px solid #ccc;
+            border-left: none;
+        }
+
+        .fa-search {
+            transition: all 0.3s;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            .fa-search {
+                color: @memo-blue !important;
+            }
+        }
+    }
+}
+
+#SmallHeaderSearch {
+    @media (min-width:(@screen-md-min - 0.5)) {
+        display: none;
+    }
+
+    .searchButton {
+        background: @memo-blue;
+
+        &:hover {
+            .fa-search {
+                color: @memo-green !important;
+            }
+        }
+
+        &.showSearch {
+            background: white;
+        }
+    }
+}

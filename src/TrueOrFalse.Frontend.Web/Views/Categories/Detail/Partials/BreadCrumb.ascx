@@ -55,16 +55,18 @@
     <%} %>
     </div>
     <div id="StickyHeaderContainer">    
-        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:3px">
-            <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
-            <div class="input-group-btn">
-                <button class="btn btn-default" id="StickyHeaderSearchButton" onclick="SearchButtonClick()" style="height:34px; border: none;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0;margin:0; margin-top:-3px" aria-hidden="true"></i></button>
+            <div id="StickySearch">
+                <div class="searchButton" :class="{ 'showSearch' : showSearch}" @click="showSearch = !showSearch" v-cloak>
+                    <i class="fa fa-search" style="font-size:25px; padding:0;margin:0; margin-top:-3px" aria-hidden="true"></i>
+                </div>
+                <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch}" v-cloak>
+                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent"/>
+                </div>
             </div>
-        </div>
-        <div id="BreadcrumbUserDropdownImage"  <%if(Model.IsLoggedIn){ %> style="margin-right: 15px; min-width: 29px;" <%} %>>
+        <div id="BreadcrumbUserDropdownImage">
         <%if(Model.IsLoggedIn){ %>
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
-            <img class="userImage" style="margin-top:21px; border:none; text-align:center;" src="<%= userImage%>" />
+            <img class="userImage" src="<%= userImage%>" />
            </a>   
             <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute; width: 220px;">
                 <li>
@@ -101,7 +103,7 @@
 
             </ul>
         <%}else{%>
-             <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i style="font-size:32px; color:grey; padding-top:19px;" class="fa fa-sign-in"></i></a>
+             <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i class="fa fa-sign-in"></i></a>
         <%} %>
         </div>
     </div>

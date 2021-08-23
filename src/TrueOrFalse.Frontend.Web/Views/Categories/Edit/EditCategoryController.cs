@@ -5,8 +5,6 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using NHibernate;
-using NHibernate.Mapping;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -260,6 +258,7 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
+
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 
@@ -321,7 +320,7 @@ public class EditCategoryController : BaseController
                 .Where(c => c.Id != parentCategoryId)
                 .Select(c => c.Id).ToList())
                 .ToList(); 
-
+                
             related.Add(category);
 
             var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
@@ -359,8 +358,8 @@ public class EditCategoryController : BaseController
             else category.Content = null;
 
             var categoryDb = Sl.CategoryRepo.GetByIdEager(category); 
-                categoryDb.Content = content; 
-            Sl.CategoryRepo.Update(categoryDb, User_());
+            categoryDb.Content = content; 
+            Sl.CategoryChangeRepo.AddUpdateEntry(categoryDb,Sl.SessionUser.User, false);
 
             return Json(true);
         }
@@ -401,14 +400,18 @@ public class EditCategoryController : BaseController
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
         var parentHasBeenRemoved = ParentRemover(parentCategoryIdToRemove, childCategoryId);
+
+        var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+       Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
+
         if (parentHasBeenRemoved)
             return Json(new
             {
                 success = true,
                 key = "unlinked",
             });
-        else
-            return Json(new
+
+        return Json(new
             {
                 success = false,
                 key = "noRemainingParents"
@@ -566,14 +569,11 @@ public class EditCategoryController : BaseController
                     key = "parentIsRoot"
                 });
             categoryCacheItem.Visibility = CategoryVisibility.All;
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Visibility = CategoryVisibility.All;
+            _categoryRepository.Update(category, _sessionUser.User);
+            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
 
-            JobExecute.RunAsTask(scope =>
-            {
-                var category = Sl.CategoryRepo.GetById(categoryId);
-                category.Visibility = CategoryVisibility.All;
-                _categoryRepository.Update(category, _sessionUser.User);
-            }, "PublishCategory");
-            
             return Json(new
             {
                 success = true,
@@ -619,13 +619,9 @@ public class EditCategoryController : BaseController
                 });
         }
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
-
-        JobExecute.RunAsTask(scope =>
-        {
-            var category = Sl.CategoryRepo.GetById(categoryId);
-            category.Visibility = CategoryVisibility.Owner;
-            _categoryRepository.Update(category, _sessionUser.User);
-        }, "SetCategoryToPrivate");
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        category.Visibility = CategoryVisibility.Owner;
+        _categoryRepository.Update(category, _sessionUser.User);
 
         return Json(new
         {
@@ -646,19 +642,17 @@ public class EditCategoryController : BaseController
         {
             var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
             categoryCacheItem.Name = name;
-
-            JobExecute.RunAsTask(scope =>
-            {
-                var category = Sl.CategoryRepo.GetById(categoryId);
-                category.Name = name;
-                Sl.CategoryRepo.Update(category, User_());
-            }, "UpdateCategoryName");
-
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Name = name;
+            //Sl.CategoryRepo.Update(category, User_(), false, false, true);
+            Sl.CategoryChangeRepo.AddTitelIsChangedEntry(category, Sl.SessionUser.User);
             var newUrl = Links.CategoryDetail(categoryCacheItem);
+
             return Json(new
             {
                 nameHasChanged = true,
                 newUrl,
+                categoryName= category.Name
             });
         }
 
@@ -677,5 +671,12 @@ public class EditCategoryController : BaseController
         if (source == "upload")
             Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, _sessionUser.User.Id, licenseOwner);
+    }
+
+    [HttpGet]
+    public string GetTiptap()
+    {
+        var tiptapHtml = ViewRenderer.RenderPartialView("~/Views/Shared/Editor/tiptapLoader.ascx", null, ControllerContext);
+        return tiptapHtml;
     }
 }

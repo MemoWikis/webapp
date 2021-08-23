@@ -2594,7 +2594,7 @@ p:empty {
   position: sticky;
   bottom: 20px;
   right: 20px;
-  z-index: 101;
+  z-index: 16;
   height: 56px;
 }
 #TopicTabFABApp .fab-container,
@@ -3706,6 +3706,9 @@ p:empty {
     margin-top: 30px;
   }
 }
+#ContentModuleApp #MarkdownContent .contentPlaceholder {
+  padding-top: 2px;
+}
 .pin-category-component {
   display: -webkit-box;
   display: -webkit-flex;
@@ -3896,6 +3899,10 @@ p:empty {
   background: #EFEFEF;
   color: #003264;
 }
+.categorySearchAutocomplete .searchResultItem .searchResultLabelContainer {
+  width: 100%;
+  height: 100%;
+}
 .categorySearchAutocomplete .searchResultItem .searchResultLabel {
   height: 40px;
   line-height: normal;
@@ -3916,4 +3923,8 @@ p:empty {
   max-width: 70px;
   height: auto;
   margin-right: 10px;
+}
+.categorySearchAutocomplete .searchResultItem img.authorImg {
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
 }

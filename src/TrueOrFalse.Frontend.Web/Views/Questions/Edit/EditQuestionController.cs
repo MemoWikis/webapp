@@ -471,4 +471,11 @@ public class EditQuestionController : BaseController
             }
         }
     }
+
+    [HttpGet]
+    public string GetEditQuestionModal()
+    {
+        var html = ViewRenderer.RenderPartialView("~/Views/Questions/Edit/EditComponents/EditQuestionTemplateLoader.ascx", null, ControllerContext);
+        return html;
+    }
 }

@@ -23,7 +23,9 @@ new Vue({
             nameIsValid: true,
             errorMsg: '',
             debounceSaveContent: _.debounce(this.saveContent, 400),
-            debounceSaveSegments: _.debounce(this.saveSegments, 400)
+            debounceSaveSegments: _.debounce(this.saveSegments, 400),
+            tiptapIsReady: false,
+            decodedHtml: '',
         };
     },
 
@@ -46,7 +48,10 @@ new Vue({
                     this.changedContent = true;
                 }
             });
-        eventBus.$on('request-save', () => this.debounceSaveContent());
+        eventBus.$on('request-save', (val) => {
+            if (val !== "categoryName")
+                this.debounceSaveContent();
+        });
         eventBus.$on('save-segments', () => this.debounceSaveSegments());
         eventBus.$on('set-category-to-private', (id) => {
             $.ajax({
@@ -79,6 +84,10 @@ new Vue({
     },
 
     mounted() {
+        if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
+            this.tiptapIsReady = true;
+        eventBus.$on('tiptap-is-ready', () => this.tiptapIsReady = true);
+        this.decodedHtml = this.$refs.rawHtml.innerHTML;
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)
             this.footerIsVisible = true;
@@ -88,6 +97,8 @@ new Vue({
             if (!data.isValid)
                 this.errorMsg = data.msg;
         });
+
+        this.$nextTick(() => this.loadTiptap());
     },
 
     updated() {
@@ -95,6 +106,15 @@ new Vue({
     },
 
     methods: {
+        loadTiptap() {
+            $.ajax({
+                type: 'get',
+                url: '/EditCategory/GetTiptap/',
+                success: function (html) {
+                    $(html).insertAfter('script#pin-category-template');
+                },
+            });
+        },
 
         updateAuthors() {
             var self = this;

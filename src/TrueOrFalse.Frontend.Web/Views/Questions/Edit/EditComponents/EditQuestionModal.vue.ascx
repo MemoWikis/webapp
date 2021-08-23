@@ -4,8 +4,6 @@
     var user = userSession.User;
     var isAdmin = user != null && user.IsInstallationAdmin;
 %>
-<edit-question-component inline-template is-admin="<%= isAdmin %>">
-
     <div id="EditQuestionModal" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -103,7 +101,7 @@
                         <div class="input-container">
                             <div class="overline-s no-line">Themenzuordnung</div>
                             <form class="" v-on:submit.prevent>
-                                <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown}">
+                                <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
                                     <div class="related-categories-container">
                                         <template v-for="(category, index) in selectedCategories">
                                             <%: Html.Partial("~/Views/Shared/CategoryChip/CategoryChipComponent.vue.ascx") %>
@@ -165,4 +163,3 @@
 
         </div>
     </div>
-</edit-question-component>
