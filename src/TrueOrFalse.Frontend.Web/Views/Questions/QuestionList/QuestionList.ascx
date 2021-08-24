@@ -38,6 +38,7 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
+    <delete-question-component/>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>

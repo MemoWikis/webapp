@@ -88,7 +88,7 @@ public class QuestionController : BaseController
                 questionTitle = question.Text.TruncateAtWord(90),
                 totalAnswers = question.TotalAnswers(),
                 canNotBeDeleted = !canBeDeleted.Yes,
-                canNotBeDeletedReason = canBeDeleted.IfNot_Reason
+                wuwiCount = canBeDeleted.WuwiCount
             }
         };
     }

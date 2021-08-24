@@ -13,7 +13,7 @@ public class QuestionDelete
         var canBeDeletedResult = CanBeDeleted(Sl.R<SessionUser>().UserId, questionId);
         if (!canBeDeletedResult.Yes)
         {
-            throw new Exception("Question cannot be deleted: " + canBeDeletedResult.IfNot_Reason);
+            throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
 
         var categoriesToUpdate = question.Categories.ToList();
@@ -55,10 +55,7 @@ public class QuestionDelete
             return new CanBeDeletedResult
             {
                 Yes = false,
-                IfNot_Reason = 
-                    "Die Frage kann nicht gelöscht werden, " +
-                    "sie ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer. " +
-                    "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
+                WuwiCount = howOftenInOtherPeopleWuwi
             };
         }
         return new CanBeDeletedResult{ Yes = true };
@@ -67,6 +64,6 @@ public class QuestionDelete
     public class CanBeDeletedResult
     {
         public bool Yes;
-        public string IfNot_Reason = "";
+        public int WuwiCount;
     }
 }

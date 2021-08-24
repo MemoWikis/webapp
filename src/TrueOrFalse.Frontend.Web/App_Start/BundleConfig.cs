@@ -15,9 +15,6 @@ namespace TrueOrFalse.View
                   "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
                   "~/Views/Shared/CategoryLabel.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/markdownCss")
-                .Include("~/Style/markdown-editor.css"));
-
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 
@@ -147,8 +144,6 @@ namespace TrueOrFalse.View
             
             bundles.Add(new ScriptBundle("~/bundles/js/TopicTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/TopicTabFabLoader.js"));
-            bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")
-                .Include("~/Views/Categories/Detail/FloatingActionButton/LearningTabFabLoader.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
                 .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
@@ -259,13 +254,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/History/Detail/Js/*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
-                .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
+                .Include("~/Views/Questions/Js/DeleteQuestionComponent.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/Set")
-                .Include("~/Views/Questions/Answer/AnswerQuestion.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
-                .Include("~/Views/Sets/Detail/Set.css"));
-                
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
@@ -277,12 +267,6 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .Include("~/Views/Widgets/WidgetQuestion.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
-
-            //Markdown
-            bundles.Add(new ScriptBundle("~/bundles/markdown")
-                .Include("~/Scripts/Markdown.Converter.js",
-                         "~/Scripts/Markdown.Sanitizer.js", 
-                         "~/Scripts/Markdown.Editor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
