@@ -595,6 +595,12 @@ public class EditCategoryController : BaseController
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
             .Where(c => c.Visibility == CategoryVisibility.All);
+        if (categoryId == RootCategory.RootCategoryId)
+            return Json(new
+            {
+                success = false,
+                key = "rootCategoryMustBePublic"
+            });
 
         foreach (var c in aggregatedCategories)
         {

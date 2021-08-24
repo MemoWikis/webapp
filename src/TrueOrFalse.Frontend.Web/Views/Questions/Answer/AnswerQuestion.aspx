@@ -26,7 +26,6 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/d3") %>
-    <%= Scripts.Render("~/bundles/js/tiptap") %>
     <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
 
     <script type="text/x-template" id="question-details-component">
