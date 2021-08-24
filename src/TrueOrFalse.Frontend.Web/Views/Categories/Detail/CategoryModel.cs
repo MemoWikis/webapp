@@ -256,7 +256,8 @@ public class CategoryModel : BaseContentModule
     }
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
+        var user = Sl.SessionUser.User; 
         return EntityCache.GetChildren(category.Id).Count(c =>
-                c.Type == CategoryType.Standard);
+                c.Type == CategoryType.Standard && c.Visibility == CategoryVisibility.All || c.Creator == user);
     }
 }
