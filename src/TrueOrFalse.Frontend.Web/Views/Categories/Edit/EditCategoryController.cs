@@ -627,8 +627,7 @@ public class EditCategoryController : BaseController
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
         var category = Sl.CategoryRepo.GetById(categoryId);
         category.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Update(category, _sessionUser.User);
-
+        Sl.CategoryChangeRepo.AddMadePrivateEntry(category,Sl.SessionUser.User);
         return Json(new
         {
             success = true,
@@ -650,7 +649,6 @@ public class EditCategoryController : BaseController
             categoryCacheItem.Name = name;
             var category = Sl.CategoryRepo.GetById(categoryId);
             category.Name = name;
-            //Sl.CategoryRepo.Update(category, User_(), false, false, true);
             Sl.CategoryChangeRepo.AddTitelIsChangedEntry(category, Sl.SessionUser.User);
             var newUrl = Links.CategoryDetail(categoryCacheItem);
 

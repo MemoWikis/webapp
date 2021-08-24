@@ -74,6 +74,9 @@ public class CategoryChangeDayModel
                 case CategoryChangeType.Published:
                     typ = "Publish";
                     break;
+                case CategoryChangeType.Privatized:
+                    typ = "Auf privat gesetzt";
+                    break;
                 case CategoryChangeType.Renamed:
                     typ = "Umbenannt";
                     break;
