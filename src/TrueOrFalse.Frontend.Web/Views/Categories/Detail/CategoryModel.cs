@@ -258,6 +258,6 @@ public class CategoryModel : BaseContentModule
     {
         var user = Sl.SessionUser.User; 
         return EntityCache.GetChildren(category.Id).Count(c =>
-                c.Type == CategoryType.Standard && c.Visibility == CategoryVisibility.All || c.Creator == user);
+                c.Visibility == CategoryVisibility.All || c.Creator == user);
     }
 }

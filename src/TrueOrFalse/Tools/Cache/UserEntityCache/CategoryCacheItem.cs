@@ -222,8 +222,12 @@ public class CategoryCacheItem
 
     public virtual bool IsVisibleToCurrentUser()
     {
+        var sessionUser = Sl.SessionUser.User;
+        if (sessionUser == null)
+            return Visibility == CategoryVisibility.All;
+
         var creator = new UserTinyModel(Creator);
-        return Visibility == CategoryVisibility.All || creator.Id == Sl.SessionUser.UserId;
+        return Visibility == CategoryVisibility.All || creator.Id == Sl.SessionUser.UserId; 
     }
 
     public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();

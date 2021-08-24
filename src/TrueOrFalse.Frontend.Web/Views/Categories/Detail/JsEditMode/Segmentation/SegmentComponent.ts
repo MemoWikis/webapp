@@ -170,16 +170,6 @@ var categoryCardComponent = Vue.component('category-card-component', {
                 this.$parent.loadSegment(this.id);
             }
         },
-        //selectCategory() {
-        //    if (this.editMode) {
-        //        this.isSelected = this.selectedCategories.includes(this.id);
-
-        //        if (this.isSelected)
-        //            this.$emit('unselect-category', this.id);
-        //        else
-        //            this.$emit('select-category', this.id);
-        //    }
-        //},
         removeParent() {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("RemoveParent");

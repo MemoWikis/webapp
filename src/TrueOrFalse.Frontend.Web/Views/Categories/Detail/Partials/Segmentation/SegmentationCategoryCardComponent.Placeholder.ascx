@@ -23,10 +23,10 @@
                         <pin-category-component :category-id="<%= Model.Category.Id %>"/>
                     </span>
 
-                        <% if (Model.Category.CachedData.ChildrenIds.Count == 1)
+                        <% if (Model.Category.CachedData.CountVisibleChildrenIds == 1)
                        { %>1 Unterthema <% } %>
-                        <% if(Model.Category.CachedData.ChildrenIds.Count > 1)
-                           { %><%= Model.Category.CachedData.ChildrenIds.Count  %> Unterthemen <% } 
+                        <% if(Model.Category.CachedData.CountVisibleChildrenIds > 1)
+                           { %><%= Model.Category.CachedData.CountVisibleChildrenIds  %> Unterthemen <% } 
                            else { %><% } %><%=Model.TotalQuestionCount %> Frage<% if(Model.TotalQuestionCount != 1){ %>n<% } %>
                 </div>
                     <%if(Model.TotalQuestionCount > 0) {%>
