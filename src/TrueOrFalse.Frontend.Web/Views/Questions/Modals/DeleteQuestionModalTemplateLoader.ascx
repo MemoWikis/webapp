@@ -4,4 +4,4 @@
     <%: Html.Partial("/Views/Questions/Modals/DeleteQuestionModalComponent.vue.ascx") %>
 </script>
 
-<%= Scripts.Render("bundles/js/DeleteQuestion") %>
+<%= Scripts.Render("~/bundles/js/DeleteQuestion") %>

@@ -32,7 +32,6 @@
                 $.ajax({
                     type: 'POST',
                     url: "/Question/DeleteDetails/" + self.id,
-                    cache: false,
                     success(result) {
                         self.name = result.questionTitle;
                         if (result.canNotBeDeleted) {
@@ -61,7 +60,6 @@
                 $.ajax({
                     type: 'POST',
                     url: "/Question/Delete/" + self.id,
-                    cache: false,
                     success() {
                         Utils.HideSpinner();
                         self.deletionInProgress = false;
@@ -77,6 +75,5 @@
                     }
                 });
             }
-
         }
     })
