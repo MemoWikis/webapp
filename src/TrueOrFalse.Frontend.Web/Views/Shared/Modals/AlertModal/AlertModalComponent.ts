@@ -26,7 +26,8 @@ var messages = {
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
             childIsParent: "Übergeordnete Themen können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
-            nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!"
+            nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
+            rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden."
         },
         question: {
             missingText: "Der Fragetext fehlt.",
