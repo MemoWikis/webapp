@@ -65,7 +65,6 @@
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);
         this.getWishknowledgePinButton();
-        new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
         if (this.isLastItem)
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
@@ -233,6 +232,9 @@
             };
 
             eventBus.$emit('open-edit-question-modal', question);
+        },
+        deleteQuestion() {
+            eventBus.$emit('delete-question', this.questionId);
         }
     },
 });

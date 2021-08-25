@@ -69,6 +69,11 @@ let qlc = Vue.component('question-list-component', {
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
+        eventBus.$on('question-deleted', (id) => {
+            this.questions = this.questions.filter(q => {
+                return q.Id != id;
+            });
+        });
     },
     watch: {
         itemCountPerPage: function (val) {

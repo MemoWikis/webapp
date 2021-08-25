@@ -23,8 +23,6 @@ class AnswerBody {
                     AnswerQuestion.LogTimeForQuestionView();
             });
 
-        new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
-
         $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 
         if (!Utils.IsInWidget()) {

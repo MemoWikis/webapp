@@ -43,14 +43,8 @@
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
-
+<% Html.RenderPartial("~/Views/Questions/Modals/DeleteQuestionModalTemplateLoader.ascx"); %>
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id, Model.ShowLearningSessionConfigurationMessageForQuestionList)); %>
-<% Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
-<div id="LearningTabFABApp">
-    <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, false)) %>
-</div>
-<%= Scripts.Render("~/bundles/js/FloatingActionButton") %>
-<%= Scripts.Render("~/bundles/js/LearningTabFABLoader") %>
 <%= Scripts.Render("~/bundles/js/d3") %>
 
 
