@@ -53,13 +53,6 @@ public class CategoryChangeDayModel
         {
             var typ = "";
             var categoryId = cc.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(cc.Id): -1;
-            if (cc.Category == null)
-            {
-                var allVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId); 
-                var prevVersionData =allVersions[allVersions.Count - 2].GetCategoryChangeData();
-                _catName = prevVersionData.Name;
-            }
-
             switch (cc.Type)
             {
                 case CategoryChangeType.Create: 
