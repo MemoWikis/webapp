@@ -46,11 +46,10 @@ Vue.component('comments-section-component',
 
     Vue.component('comment-answer-component',
         {
-            props: ['idString', 'isSettledString'],
+            props: ['answer', 'commentId'],
             data() {
                 return {
-                    id: parseInt(this.idString),
-                    isSettled: this.isSettledString == 'True',
+                    id: parseInt(this.commentId),
                     readMore: false
                 }
             },
@@ -68,7 +67,7 @@ Vue.component('comments-section-component',
 
 Vue.component('comment-component',
     {
-        props: ['commentIdString', 'isAdminString', 'isOwnerString'],
+        props: ['comment', 'questionId'],
         data() {
             return {
                 readMore: false,
@@ -78,7 +77,8 @@ Vue.component('comment-component',
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
                 isOwner: this.isOwnerString == 'True',
-        }
+                isLoggedIn: IsLoggedIn.Yes,
+            }
         },
 
         created() {
@@ -131,7 +131,7 @@ Vue.component('comment-component',
     });
 Vue.component('comment-answer-add-component',
     {
-        props: [],
+        props: ['currentUserImageUrl', 'parentCommentId'],
         data() {
             return {
                 commentAnswerText: "",
@@ -143,9 +143,9 @@ Vue.component('comment-answer-add-component',
         },
 
         methods: {
-            saveCommentAnswer(parentCommentId) {
+            saveCommentAnswer() {
                 var params = {
-                    commentId: parentCommentId,
+                    commentId: this.parentCommentId,
                     text: this.commentAnswerText
                 };
 

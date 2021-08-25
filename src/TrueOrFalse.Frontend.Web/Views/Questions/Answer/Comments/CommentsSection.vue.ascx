@@ -49,5 +49,3 @@
     </comments-section-component>
 
 </div>
-<%= Scripts.Render("~/bundles/js/CommentsSection") %>
-<%= Scripts.Render("~/bundles/js/defaultModal") %>

@@ -79,7 +79,7 @@
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
-                            <a class="commentIcon" @click.prevent="showModal=true">
+                            <a class="commentIcon" @click.prevent="showModal()">
                                 <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
                             </a>
                         </div>

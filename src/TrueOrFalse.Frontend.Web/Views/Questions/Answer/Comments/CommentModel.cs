@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 public class CommentModel : BaseModel
 {
     /// <summary>Comment.Id</summary>

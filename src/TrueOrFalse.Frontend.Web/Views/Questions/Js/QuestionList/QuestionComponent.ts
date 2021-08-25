@@ -59,7 +59,6 @@
             questionTitleHtml: "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>",
             highlightedHtml: "",
             canBeEdited: false,
-            showModal: false
         }
     },
     mounted() {
@@ -107,6 +106,10 @@
         },
     },
     methods: {
+        showModal() {
+            eventBus.$emit('show-comment-section-modal', this.questionId);
+        },
+
         abbreviateNumber(val) {
             var newVal;
             if (val < 1000000) {

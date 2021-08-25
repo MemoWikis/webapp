@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Mvc;
+using StackExchange.Profiling.Internal;
 
 public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
     public ActionResult SaveComment(
-        int questionId, 
+        int questionId,
         string text,
         bool? typeImprovement,
         bool? typeRemove,
@@ -20,7 +21,7 @@ public class AnswerCommentsController : BaseController
         comment.Text = text;
         comment.Creator = _sessionUser.User;
 
-        if(typeImprovement.HasValue)
+        if (typeImprovement.HasValue)
             comment.ShouldImprove = typeImprovement.Value;
 
         if (typeRemove.HasValue)
@@ -97,5 +98,22 @@ public class AnswerCommentsController : BaseController
         }
         return result;
     }
+    [HttpPost]
+    public Object GetComments(int questionId)
+    {
+        var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
+        
+        var commentsList = new List<CommentModel>();
+        foreach (var comment in _comments)
+        {
+            if (!comment.IsSettled)
+            {
+                commentsList.Add(new CommentModel(comment));
+            }
+        }
 
+        var currentUserImageUrl = new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
+        var result = new {currentUserImageUrl, commentsList };
+        return result;
+    }
 }

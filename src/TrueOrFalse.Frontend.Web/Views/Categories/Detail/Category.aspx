@@ -80,8 +80,7 @@
         <%: Html.Partial("~/Views/Categories/Edit/DeleteCategoryComponent.vue.ascx") %>
         <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
     </div>
-
-    <%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponentLoader.ascx") %>
+    <%: Html.Partial("/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.vue.ascx") %>
 
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>

@@ -268,6 +268,10 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx.cs">
+      <DependentUpon>CommentAnswerAddComponent.vue.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
@@ -1974,12 +1978,16 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentComponent.js">
       <DependentUpon>CommentComponent.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSectionComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.js">
       <DependentUpon>CommentsSection.ts</DependentUpon>
@@ -2002,7 +2010,7 @@
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
       <DependentUpon>DefaultModalComponent.ts</DependentUpon>
-      </Content>
+    </Content>
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
@@ -3514,9 +3522,6 @@
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx.cs">
       <DependentUpon>CommentAnswerAdd.vue.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Questions\Answer\Comments\Comment.vue.ascx.cs">
-      <DependentUpon>Comment.vue.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
