@@ -55,7 +55,13 @@ var deleteCategoryComponent = Vue.component('delete-category-component', {
                 cache: false,
                 success: function () {
                     self.closeModal();
-                    window.location.href = window.location.origin;
+                    var allBreadcrumbLinks = $(".breadcrumb-item > span > a");
+                    var hrefPathRedirect = "";
+                    if (allBreadcrumbLinks.length > 1)
+                        hrefPathRedirect = allBreadcrumbLinks[allBreadcrumbLinks.length - 2].href;
+                    else
+                        hrefPathRedirect = "/"; 
+                    window.location.href = hrefPathRedirect; 
                 },
                 error: function (result) {
                     window.console.log(result);
