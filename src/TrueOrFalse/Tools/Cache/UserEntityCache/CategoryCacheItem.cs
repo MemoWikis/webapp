@@ -210,7 +210,7 @@ public class CategoryCacheItem
             SkipMigration = category.SkipMigration,
             Visibility = category.Visibility,
             TopicMarkdown = category.TopicMarkdown,
-            TotalRelevancePersonalEntries = 50,
+            TotalRelevancePersonalEntries = category.TotalRelevancePersonalEntries,
             Type = category.Type,
             TypeJson = category.TypeJson,
             Url = category.Url,
