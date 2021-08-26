@@ -541,6 +541,10 @@
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionPrivacyContainer .form-check-label i.fa-lock {
   font-size: 14px;
 }
+#QuestionListApp #AddInlineQuestionContainer #AddQuestionBody .btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
 #QuestionListApp #AddInlineQuestionContainer .wuwi-red {
   color: #ff001f;
 }

@@ -8,7 +8,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div id="" class="edit-question-modal-header overline-m overline-title">
+                    <div class="edit-question-modal-header overline-m overline-title">
 
                         <div class="main-header">
                             <div class="add-inline-question-label main-label">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <div class="input-container">
+                        <div class="input-container" v-if="solutionType != 9">
                                 <div class="overline-s no-line">Ergänzungen zur Frage</div>
                                 <div v-if="showQuestionExtension && questionExtensionEditor">
                                     <template>
@@ -68,20 +68,12 @@
                                 </template>
                         </div>
 
-
-                        <template v-if="solutionType == 1">
-                            <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Text/TextSolutionComponent.vue.ascx") %>
-                        </template>
-                        <template v-if="solutionType == 7">
-                            <%: Html.Partial("~/Views/Questions/Edit/EditComponents/MultipleChoice/MultipleChoiceComponent.vue.ascx") %>
-                        </template>
-                        <template v-if="solutionType == 8">
-                            <%: Html.Partial("~/Views/Questions/Edit/EditComponents/MatchList/MatchListComponent.vue.ascx") %>
-                        </template>
-                        <template v-if="solutionType == 9">
-                            <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
-                        </template>
-                        <div v-if="solutionType != 9" class="input-container description-container">
+                        <textsolution-component v-if="solutionType == 1" :solution="textSolution" :highlight-empty-fields="highlightEmptyFields"/>
+                        <multiplechoice-component v-if="solutionType == 7" :solution="multipleChoiceJson" :highlight-empty-fields="highlightEmptyFields"/>
+                        <matchlist-component v-if="solutionType == 8" :solution="matchListJson" :highlight-empty-fields="highlightEmptyFields"/>
+                        <flashcard-component v-if="solutionType == 9" :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields" />
+                        
+                        <div class="input-container description-container">
                             <div class="overline-s no-line">Ergänzungen zur Antwort</div>
                             <div v-if="showDescription && descriptionEditor">
                                 <template>
@@ -103,9 +95,7 @@
                             <form class="" v-on:submit.prevent>
                                 <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
                                     <div class="related-categories-container">
-                                        <template v-for="(category, index) in selectedCategories">
-                                            <%: Html.Partial("~/Views/Shared/CategoryChip/CategoryChipComponent.vue.ascx") %>
-                                        </template>
+                                        <categorychip-component v-for="(category, index) in selectedCategories" :category="category" :index="index" v-on:remove-category-chip="removeCategory" />
                                     </div>
                                     <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="questionCategoriesList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
                                     <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
