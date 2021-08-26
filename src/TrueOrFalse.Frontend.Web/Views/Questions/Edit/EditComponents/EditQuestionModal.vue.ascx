@@ -95,7 +95,7 @@
                             <form class="" v-on:submit.prevent>
                                 <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
                                     <div class="related-categories-container">
-                                        <categorychip-component v-for="(category, index) in selectedCategories" :category="category" :index="index" v-on:remove-category-chip="removeCategory" />
+                                        <categorychip-component v-for="(category, index) in selectedCategories" :key="index" :category="category" :index="index" v-on:remove-category-chip="removeCategory" />
                                     </div>
                                     <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="questionCategoriesList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
                                     <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
