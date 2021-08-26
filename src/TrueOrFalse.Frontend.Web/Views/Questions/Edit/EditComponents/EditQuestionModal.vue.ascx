@@ -67,11 +67,18 @@
                                     </div>
                                 </template>
                         </div>
-
-                        <textsolution-component v-if="solutionType == 1" :solution="textSolution" :highlight-empty-fields="highlightEmptyFields"/>
-                        <multiplechoice-component v-if="solutionType == 7" :solution="multipleChoiceJson" :highlight-empty-fields="highlightEmptyFields"/>
-                        <matchlist-component v-if="solutionType == 8" :solution="matchListJson" :highlight-empty-fields="highlightEmptyFields"/>
-                        <flashcard-component v-if="solutionType == 9" :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields" />
+                        <template v-if="solutionType == 1">
+                            <textsolution-component :solution="textSolution" :highlight-empty-fields="highlightEmptyFields"/>
+                        </template>
+                        <template v-if="solutionType == 7">
+                            <multiplechoice-component :solution="multipleChoiceJson" :highlight-empty-fields="highlightEmptyFields"/>
+                        </template>
+                        <template v-if="solutionType == 8">
+                            <matchlist-component :solution="matchListJson" :highlight-empty-fields="highlightEmptyFields"/>
+                        </template>
+                        <template v-if="solutionType == 9">
+                            <flashcard-component :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields" />
+                        </template>
                         
                         <div class="input-container description-container">
                             <div class="overline-s no-line">Ergänzungen zur Antwort</div>
