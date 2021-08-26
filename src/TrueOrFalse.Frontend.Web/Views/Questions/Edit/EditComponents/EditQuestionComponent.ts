@@ -398,7 +398,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     QuestionId: this.id,
                 }
                 var createJson = {
-                    AddToWishknowledge: this.addToWishknowledge,
+                    AddToWishknowledge: this.addToWuwi,
                 }
                 var visibility = this.isPrivate ? 1 : 0;
                 var jsonExtension = {
@@ -415,7 +415,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 var json = this.edit ? editJson : createJson;
 
                 $.extend(json, jsonExtension);
-
                 return json;
             },
 
