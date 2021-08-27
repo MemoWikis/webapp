@@ -26,7 +26,7 @@ var EditQuestionLoader = new Vue({
                     solution: e.solution
                 };
                 if (this.modalIsReady && this.tiptapIsReady)
-                    $('#EditQuestionModal').data('question', question).modal('show');
+                    $('#EditQuestionModal').data('question', question).modal({ backdrop: 'static', keyboard: false });
                 else if (!this.modalIsReady && this.tiptapIsReady)
                     this.loadEditor(question);
                 else if (!this.tiptapIsReady)

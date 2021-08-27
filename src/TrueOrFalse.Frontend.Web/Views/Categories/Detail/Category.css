@@ -1241,19 +1241,30 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-bottom: 10px;
 }
 #CategoryFooter .footerToolbar .wishknowledge {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#CategoryFooter .footerToolbar .wishknowledge .Pin {
+  height: 44px;
 }
 #CategoryFooter .footerToolbar .wishknowledge #PinLabel {
   padding-left: 10px;
-  padding-top: 4px;
   display: block;
   height: 100%;
-  line-height: 38px;
+  line-height: 44px;
   color: #999999;
 }
 #CategoryFooter .footerToolbar .footerDropdown {
