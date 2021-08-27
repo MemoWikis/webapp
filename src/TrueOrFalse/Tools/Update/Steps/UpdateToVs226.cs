@@ -21,7 +21,7 @@ namespace TrueOrFalse.Updates
                     ADD COLUMN `IsUserStartTopic` BIT DEFAULT 0"
                 ).ExecuteUpdate();
 
-            var users =   Sl.UserRepo.GetAll().Take(1);
+            var users =   Sl.UserRepo.GetAll();
           
           foreach (var user in users)
           {

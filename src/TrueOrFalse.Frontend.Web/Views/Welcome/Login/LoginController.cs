@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class LoginController : BaseController
 {
@@ -27,10 +28,12 @@ public class LoginController : BaseController
 
             TransferActivityPoints.FromSessionToUser();
             Sl.UserRepo.UpdateActivityPointsData();
+            var categoryCacheItem = EntityCache.GetCategoryCacheItem(_sessionUser.User.StartTopicId);
 
             return Json(new
             {
-                Success = true
+                Success = true,
+                localHref = Links.CategoryDetail(categoryCacheItem.Name, categoryCacheItem.Id)
             });
         }
 
