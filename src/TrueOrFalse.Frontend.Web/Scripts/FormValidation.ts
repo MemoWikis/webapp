@@ -42,16 +42,6 @@
             elemForm.data("validator", null);    
     }
 
-    //jQuery.validator.addMethod(
-    //    "numberCommaFormat",
-    //    function (value, element) {
-    //        window.alert('Format-Regel');
-
-    //        return fnNumberFormatCorrect(value)            
-    //    },
-    //    "Die Zahl konnte nicht erkannt werden. Bitte verwende nur Ziffern und Komma."
-    //);
-    
     var validator = $(formSelector).validate(validationSettings);
 
     return validator;
@@ -137,61 +127,4 @@ var fnAddAllOrNothingMethod = function (name, message) {
         },
         message
     );
-
 }
-
-//Add require_from_group method with custom message
-//jQuery.validator.addMethod("methodName", $.validator.methods.require_from_group, "Custom massage");
-
-//var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
-    
-//}
-
-//var fnAddOtherFieldFirstMethod = function (selectorPrimaryField, selectorDependentField, methodName, message) {
-
-//    jQuery.validator.addMethod(
-//        name,
-//        function (value, element) {
-
-//            if (this.optional(element)) {
-//                return true;
-//            }
-//            if (typeof regEx === "string") {
-//                regEx = new RegExp(regEx);
-//            }
-//            return regEx.test(value);
-//        },
-//        message
-//        );
-//}
-
-
-//jQuery.validator.addMethod("otherFieldFirst", )
-
-//$.validator.addMethod(
-//    "requiredOrCheckbox",
-//    function (value, element) {
-//        debugger;
-//        if ($(element).closest(".JS-InputWithCheckbox").find("input[type='checkbox']").length != 0){
-//            var checkboxChecked = $(element).closest(".JS-InputWithCheckbox").find("input[type='checkbox']").is(":checked");
-//            if (value == "") {
-//                if (checkboxChecked) {
-//                    return true;
-//                } else
-//                    return false;
-//            } else
-//                return true;
-//        } else
-//                return true;
-//    },
-//    "Bitte fülle das Feld aus oder klicke die Checkbox an."
-//);
-
-//$.validator.addMethod(
-//    "test",
-//    function (value, element) {
-//        debugger;
-//        return false;
-//    },
-//    "test"
-//);
