@@ -313,8 +313,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryCreate(int parentCategoryId) => GetUrlHelper().Action("Create", "EditCategory", new { parent = parentCategoryId });
-        //public static string Category(Category category) => UriSanitizer.Run(category.Name) + "/" + category.Id;
-
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new {categoryId , categoryChangeId });
 
