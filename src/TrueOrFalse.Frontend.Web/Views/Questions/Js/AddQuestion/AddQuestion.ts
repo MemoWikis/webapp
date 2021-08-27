@@ -163,8 +163,12 @@
             var question = {
                 categoryId: parseInt(this.currentCategoryId),
                 edit: false,
+                questionHtml: this.questionHtml,
+                solution: this.flashCardAnswer,
             };
             eventBus.$emit('open-edit-question-modal', question);
+            this.questionEditor.commands.setContent('');
+            eventBus.$emit('clear-flashcard');
         },
         formValidator() {
             var questionIsValid = this.questionEditor.state.doc.textContent.length > 0;

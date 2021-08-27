@@ -85,10 +85,17 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                         if (this.isAdmin == 'True')
                             this.showPrivacyContainer = true;
                     } else {
-                        this.solutionType = 1;
+                        this.solutionType = 9;
                         let categoryId = $('#EditQuestionModal').data('question').categoryId;
                         this.categoryIds.push(categoryId);
                         var json = { categoryId };
+                        let question = $('#EditQuestionModal').data('question').questionHtml;
+                        if (question) {
+                            this.questionEditor.commands.setContent(question);
+                            this.questionHtml = question;
+                        }
+                        if ($('#EditQuestionModal').data('question').solution)
+                            this.flashCardJson = $('#EditQuestionModal').data('question').solution;
                         var self = this;
                         $.ajax({
                             type: 'post',
@@ -391,7 +398,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     QuestionId: this.id,
                 }
                 var createJson = {
-                    AddToWishknowledge: this.addToWishknowledge,
+                    AddToWishknowledge: this.addToWuwi,
                 }
                 var visibility = this.isPrivate ? 1 : 0;
                 var jsonExtension = {
@@ -408,7 +415,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 var json = this.edit ? editJson : createJson;
 
                 $.extend(json, jsonExtension);
-
                 return json;
             },
 
@@ -417,18 +423,22 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 var self = this;
                 var data = {
                     term: self.searchTerm,
-                    type: 'Categories',
-                    categoriesToFilter: [],
+                    categoriesToFilter: self.categoryIds,
                 };
 
-                $.get("/Api/Search/Category", data,
-                    function (result) {
+                $.ajax({
+                    type: 'Post',
+                    contentType: "application/json",
+                    url: '/Api/Search/Category',
+                    data: JSON.stringify(data),
+                    success: function (result) {
                         self.categories = result.categories;
                         self.totalCount = result.totalCount;
                         self.$nextTick(() => {
                             $('[data-toggle="tooltip"]').tooltip();
                         });
-                    });
+                    },
+                });
             },
 
             getLicenseId() {

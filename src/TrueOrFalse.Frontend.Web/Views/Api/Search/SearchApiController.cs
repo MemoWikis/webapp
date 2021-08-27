@@ -9,6 +9,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
 {
+    [HttpPost]
     public JsonResult ByName(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
@@ -39,7 +40,7 @@ public class SearchApiController : BaseController
     }
 
     [HttpPost]
-    public JsonResult Category(string term, string type, int[] categoriesToFilter)
+    public JsonResult Category(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
         var elements = SearchBoxElementsGet.GoAllCategories(term);

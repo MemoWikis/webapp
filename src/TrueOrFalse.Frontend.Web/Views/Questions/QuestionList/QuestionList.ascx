@@ -38,7 +38,7 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
-    <delete-question-component/>
+    <delete-question-component <%= Sl.SessionUser.IsInstallationAdmin %>/>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>

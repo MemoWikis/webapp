@@ -1,6 +1,7 @@
 ﻿
 Vue.component('matchlist-component', {
-    props: ['solution','highlightEmptyFields'],
+    props: ['solution', 'highlightEmptyFields'],
+    template: '#matchlist-template',
     data() {
         return {
             pairs: [{
@@ -11,10 +12,6 @@ Vue.component('matchlist-component', {
             isSolutionOrdered: false,
         }
     },
-
-    watch: {
-    },
-
     mounted() {
         if (this.solution)
             this.initiateSolution();

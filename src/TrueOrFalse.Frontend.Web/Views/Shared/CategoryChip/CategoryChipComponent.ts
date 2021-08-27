@@ -1,6 +1,7 @@
 ﻿
 Vue.component('categorychip-component', {
     props: ['category', 'index'],
+    template: '#categorychip-template',
     data() {
         return {
             showImage: false,
@@ -8,7 +9,6 @@ Vue.component('categorychip-component', {
             name: '',
         }
     },
-
     mounted() {
         if (!this.category.MiniImageUrl.includes('no-category-picture'))
             this.showImage = true;
