@@ -281,6 +281,8 @@ public class EditCategoryController : BaseController
         if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
+        Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(parentCategoryId), Sl.SessionUser.User, false);
+
         return Json(new
         {
             success = true,
