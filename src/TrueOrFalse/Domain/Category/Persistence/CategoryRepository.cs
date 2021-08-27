@@ -80,6 +80,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.CategoryChangeRepo.AddUpdateEntry(category.ParentCategories().First(), Sl.SessionUser.User, false);
     }
 
+    public void CreateOnlyDb(Category category)
+    {
+        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
+            related.DateModified = related.DateCreated = DateTime.Now;
+        base.Create(category);
+        Flush();
+        _searchIndexCategory.Update(category);
+        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
+    }
+
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
     {
         //Create

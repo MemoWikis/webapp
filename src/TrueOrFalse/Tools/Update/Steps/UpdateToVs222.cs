@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHibernate;
-using TemplateMigration;
+
 
 namespace TrueOrFalse.Updates
 {
     public class UpdateToVs222
     {
+        //All categories get root as their parent
         public static void Run()
         {
             Sl.Resolve<ISession>()
