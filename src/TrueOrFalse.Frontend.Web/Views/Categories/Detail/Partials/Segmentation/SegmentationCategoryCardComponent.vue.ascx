@@ -39,17 +39,21 @@
                         </li>
                     </ul>
                 </div>
-                
-                <a :href="category.LinkToCategory">
-                    <div class="set-question-count">
-                        <span>
-                            <pin-category-component :category-id="categoryId" :initial-wishknowledge-state="category.IsInWishknowledge"/>
-                        </span>
+
+                <div class="set-question-count">
+                    <span>
+                        <pin-category-component :category-id="categoryId" :initial-wishknowledge-state="category.IsInWishknowledge"/>
+                    </span>
+                    <a :href="category.LinkToCategory">
 
                         <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
                         <template v-else-if="category.ChildCategoryCount > 1">{{category.ChildCategoryCount}} Unterthemen</template>
                         {{category.QuestionCount}} Frage<template v-if="category.QuestionCount != 1">n</template>
-                    </div>
+                    </a>
+
+                </div>
+                <a :href="category.LinkToCategory">
+
                     <div v-if="category.QuestionCount > 0" class="KnowledgeBarWrapper">
                         <div v-html="category.KnowledgeBarHtml"></div>
                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
