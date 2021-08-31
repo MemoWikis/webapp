@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse.Tools.Cache.UserWorld;
 
 
 public class UserEntityCache : BaseCache
@@ -78,7 +79,7 @@ public class UserEntityCache : BaseCache
         if (_Categories[userId].ContainsKey(categoryId)) 
             return _Categories[userId][categoryId];
 
-        return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id];
+        return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id]; 
     }
 
     public static CategoryCacheItem GetCategory(int userId, int categoryId)
@@ -178,9 +179,13 @@ public class UserEntityCache : BaseCache
     public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
     {
         var nextParents = EntityCache.GetCategoryCacheItem(categoryId, true).ParentCategories().Distinct().ToList();
+        CategoryCacheItem personelStartsite = null;
         if (nextParents.Count == 0)
-            nextParents.Add(RootCategory.Get);  // Has Category no parent then add Rootcategory
-
+        {
+           personelStartsite= EntityCache.GetCategoryCacheItem(Sl.SessionUser.User.StartTopicId, getDataFromEntityCache: true);
+            nextParents.Add(personelStartsite);  // Has Category no parent then add personel start topic
+        }
+            
         while (nextParents.Count > 0)
         {
             var nextParent = nextParents.First();
@@ -190,7 +195,7 @@ public class UserEntityCache : BaseCache
                 return nextParent;
             }
 
-            if (nextParents.Count == 1 && nextParents.First().IsRootCategory)
+            if (nextParents.Count == 1 && personelStartsite != null)
                 return nextParents.First();
 
             var parentHelperList = nextParent.ParentCategories();

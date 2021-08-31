@@ -183,9 +183,36 @@ public class GraphService
                 }
             }
         }
-        return cacheItemWithChildren.Values.ToList();
+        ChangeFromRootCategoryToPersonalStartSite(userId, cacheItemWithChildren);
+
+        return cacheItemWithChildren.Values.ToList(); 
     }
 
+    private static void ChangeFromRootCategoryToPersonalStartSite(int userId, ConcurrentDictionary<int,CategoryCacheItem> cacheItemWithChildren)
+    {
+        var user = UserCache.GetItem(userId).User;
+        var oldRelationsChildof = cacheItemWithChildren.Values
+            .SelectMany(cci => cci.CategoryRelations
+                .Where(cr => cr.RelatedCategoryId == RootCategory.RootCategoryId
+                             && cr.CategoryRelationType == CategoryRelationType.IsChildOf));
+
+        foreach (var categoryCacheRelation in oldRelationsChildof)
+        {
+            categoryCacheRelation.RelatedCategoryId = user.StartTopicId;
+        }
+
+        cacheItemWithChildren.TryGetValue(1, out var rootCategoryOld);
+        foreach (var categoryRelation in rootCategoryOld.CategoryRelations)
+        {
+            categoryRelation.CategoryId = user.StartTopicId;
+        }
+
+        var personalStartSite = EntityCache.GetCategoryCacheItem(user.StartTopicId, getDataFromEntityCache: true);
+        rootCategoryOld.Name = personalStartSite.Name;
+        rootCategoryOld.Content = personalStartSite.Content;
+        rootCategoryOld.Creator = user;
+        rootCategoryOld.Id = personalStartSite.Id;
+    }
     public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenToCategory(ConcurrentDictionary<int, CategoryCacheItem> categoryList)
     {
         foreach (var category in categoryList.Values)
@@ -237,8 +264,6 @@ public class GraphService
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
-
-    
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
@@ -274,7 +299,6 @@ public class GraphService
             Logg.r().Error("parent1 or parent2 have a NullReferenceException");
             return false;
         }
-
 
         if (parent1.Count != parent2.Count)
             return false;
