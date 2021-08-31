@@ -33,13 +33,6 @@
 
             <fieldset>
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
-                                
-                <%--<div class="row" style="margin-top: 5px; margin-bottom: 5px; padding-bottom: 10px">
-                    <div class="col-sm-offset-2 col-sm-6 col-xs-2" style="text-align: center">
-                        Registrieren mit
-                    </div>
-                </div>--%>
-
                 <div class="form-group omb_login">
                     <div class="row omb_socialButtons">
    	                    <div class="col-xs-12 col-sm-offset-2 col-sm-3" style="padding-top: 7px;">
