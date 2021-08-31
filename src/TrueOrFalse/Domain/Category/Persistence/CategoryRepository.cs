@@ -77,7 +77,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (category.ParentCategories().Count != 1)
             Logg.r().Warning("the parentcounter is != 1");
 
-        Sl.CategoryChangeRepo.AddUpdateEntry(category.ParentCategories().First(), Sl.SessionUser.User, false);
+        var parentCategories = category.ParentCategories();
+
+        if(parentCategories.Count != 0)
+            Sl.CategoryChangeRepo.AddUpdateEntry(parentCategories.First(), Sl.SessionUser.User, false);
     }
 
     public void CreateOnlyDb(Category category)

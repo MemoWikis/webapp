@@ -55,8 +55,23 @@
                         </p>
                     </div>
                 </div>
+                <div class="col-xs-12  " >
+                    <div class="col-lg-3"  style="text-align: center; padding: 10px;">
+                        <i class="fas fa-user-secret" style="color: #2C5FB2; font-size: 220%;"></i>
+                        <p><b>Zum deinem privaten Bereich</b></p>
+                        <p>
+                            <a href="#" id="PrivateArea">Hier</a> kommst du zu deinem privatem Bereich"
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <script>
+        $("#PrivateArea").on("click", (e) => {
+            e.preventDefault; 
+            $.post("/Register/GetUserTopic").done((data) => window.location.href = data); 
+        })
+    </script>
 </asp:Content>
