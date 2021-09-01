@@ -34,7 +34,7 @@ class GraphService_tests : BaseTest
         EntityCache.Clear();
         EntityCache.Init();
 
-        var userPersonnelCategoriesWithRelations =   GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
+        var userPersonnelCategoriesWithRelations =   GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
 
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
         Assert.That(EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("RootElement"));
@@ -88,7 +88,7 @@ class GraphService_tests : BaseTest
         Sl.SessionUser.Login(user);
         EntityCache.Init();
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement),user.Id);
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement),user.Id);
          
         //Test C
         Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations), 
@@ -191,7 +191,7 @@ class GraphService_tests : BaseTest
         EntityCache.Init();
         var rootElement = EntityCache.GetAllCategories().First();
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement,2);
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllWuwiWithRelations_TP(rootElement,2);
 
         //Test I
         Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations)
@@ -247,7 +247,7 @@ class GraphService_tests : BaseTest
         EntityCache.Init();
         var rootElement = EntityCache.GetAllCategories().ByName("A"); 
 
-        var allPersonalCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement, 2);
+        var allPersonalCategoriesWithRelations = GraphService.GetAllWuwiWithRelations_TP(rootElement, 2);
 
         //Test I
         Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("I").CategoryRelations), 
@@ -407,7 +407,7 @@ class GraphService_tests : BaseTest
         EntityCache.Init();
         UserEntityCache.Clear();
 
-        var userPersonnelCategoriesWithRelations = GraphService.GetAllPersonalCategoriesWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
+        var userPersonnelCategoriesWithRelations = GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
 
         //Test F
         Assert.That(IsAllRelationsAChildOf(userPersonnelCategoriesWithRelations.ByName("F").CategoryRelations)
@@ -431,7 +431,7 @@ class GraphService_tests : BaseTest
         
         var rootElement = EntityCache.GetAllCategories().ByName("A");
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllPersonalCategoriesWithRelations_TP(rootElement, 2);
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllWuwiWithRelations_TP(rootElement, 2);
         Assert.That(userPersonelCategoriesWithRealtions.Count, Is.EqualTo(1)); //root topic is ever available
     }
 

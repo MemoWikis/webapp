@@ -244,4 +244,12 @@ public class CategoryCacheItem
 
         return false;
     }
+
+    public bool Contains(CategoryCacheRelation categoryRelation)
+    {
+        return CategoryRelations.Any(
+            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId && 
+            cr.CategoryRelationType == categoryRelation.CategoryRelationType 
+        );
+    }
 }

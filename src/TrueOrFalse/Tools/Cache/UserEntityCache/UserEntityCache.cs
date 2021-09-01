@@ -24,7 +24,7 @@ public class UserEntityCache : BaseCache
         Logg.r().Warning("Cache after user" + " / userId =" + user.Id);
 
         _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
-            .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
+            .GetAllWuwiCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
 
         Logg.r().Warning("Cache after GetAllPersonalCategoriesWithRelations");
 
