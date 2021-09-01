@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -222,7 +223,7 @@ public class CategoryController : BaseController
         return false;
     }
 
-    public void SetMyWorldCookie(bool showMyWorld)
+    public string SetMyWorldCookie(bool showMyWorld)
     {
         HttpCookie cookie = new HttpCookie("memucho_myworld");
             cookie.Expires = DateTime.Now.AddYears(1);
@@ -238,7 +239,9 @@ public class CategoryController : BaseController
             UserEntityCache.Init();
         }
 
-     UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        var startTopicId = _sessionUser.User.StartTopicId;
+        return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: true));
     }
 
     public bool GetMyWorldCookie()
