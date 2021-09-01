@@ -18,7 +18,12 @@ public class CategoryController : BaseController
     [SetThemeMenu(true)]
     public ActionResult Category(int id, int? version)
     {
-        GetMyWorldCookie(); 
+        if (GetMyWorldCookie() && version == null)
+        {
+            var personalStartSite = Sl.SessionUser.User.StartTopicId;
+            id = personalStartSite; 
+        }
+            
         var modelAndCategory = LoadModel(id, version);
         modelAndCategory.CategoryModel.IsInTopic = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
@@ -244,7 +249,7 @@ public class CategoryController : BaseController
         return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: true));
     }
 
-    public bool GetMyWorldCookie()
+    public  bool GetMyWorldCookie()
     {
         HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
         if (cookie != null && IsLoggedIn)
