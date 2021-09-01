@@ -96,7 +96,7 @@ public class GraphService
             {
                 var parentId = parents.First();
 
-                if (IsInWishknowledgeOrParentIsRoot(rootCategoryId, userId, parentId, parents))
+                if (IsInWishknowledgeOrParentIsRoot(rootCategoryId, userId, parentId))
                 {
                     var categoryRelation = new CategoryCacheRelation
                     {
@@ -175,14 +175,9 @@ public class GraphService
         return cacheItemWithChildren.Values.ToList(); 
     }
 
-    private static bool IsInWishknowledgeOrParentIsRoot(int rootCategoryId, int userId, int parentId, List<int> parents)
+    private static bool IsInWishknowledgeOrParentIsRoot(int rootCategoryId, int userId, int parentId)
     {
-        return UserCache.IsInWishknowledge(userId, parentId) || OneParentIsRootCategory(rootCategoryId, parents);
-    }
-
-    private static bool OneParentIsRootCategory(int rootCategoryId, List<int> parents)
-    {
-        return parents.Any(id => id == rootCategoryId);
+        return UserCache.IsInWishknowledge(userId, parentId) || parentId == rootCategoryId;
     }
 
     private static void ChangeFromRootCategoryToPersonalStartSite(int userId, ConcurrentDictionary<int,CategoryCacheItem> cacheItemWithChildren)
