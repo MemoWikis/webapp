@@ -76,7 +76,7 @@ namespace TrueOrFalse
             routes.MapRoute("Categories_Delete", "Loesche/{id}", new { controller = "Categories", action = "Delete" });
             routes.MapRoute("Categories_ById", "Kategorien/{id}", new { controller = "CategoryRedirect", action = "CategoryById" }); // route is used when creating question/questionset (AutocompleteCategories.ts) and adding categories via ajax
             routes.MapRoute("Categories_Edit", "{text}/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
-            routes.MapRoute("Category_Detail_Revision", "{text}/{id}/version/{version}", new { controller = "CategoryRedirect", action = "Category" });
+            routes.MapRoute("Category_Detail_Revision", "{text}/{id}/version/{version}/zurStartseite/{toRootCategorie}", new { controller = "CategoryRedirect", action = "Category" });
             routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}", new { controller = "CategoryRedirect", action = "Category" });
             routes.MapRoute("Category_History", "{categoryName}/{categoryId}/Historie", new { controller = "CategoryHistory", action = "List" });
             routes.MapRoute("Category_History_Detail", "{categoryName}/{categoryId}/Historie/{categoryChangeId}", new { controller = "CategoryHistoryDetail", action = "Detail" });
