@@ -16,51 +16,26 @@
     position: sticky;
     margin: 0;
     width: 100%;
-    min-height: 84px;
     z-index: 100;
     background-color: @memo-blue;
-
-    @media(max-width:767px) {
-        min-height: 47px;
-    }
-
-
+    min-height: 60px;
 
     .HeaderMainRow {
-        height: @masterHeaderMainRowHeight-xs;
-        margin-top: 3px;
-        margin-bottom: 3px;
+        min-height: 60px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        width: 100%;
 
         .col-LoginAndHelp {
-            width: auto;
-            float: right;
-            margin-top: 12px;
-            margin-bottom: 12px;
-
-            .media-below-xs( {
-                padding-left: 0;
-                float: right;
-            }
-
-            );
-
-            .media-below-sm( {
-                margin-top: 0px;
-            }
-
-            );
-            height: @masterHeaderMainRowHeight-xs;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
 
             #loginAndHelp {
                 color: @light-blue;
                 float: right;
                 height: 100%;
-
-                .media-below-sm( {
-                    margin-top: 6px;
-                }
-
-                );
 
                 .header-item {
                     display: flex;
@@ -159,49 +134,10 @@
             }
         }
 
-
-        @media (min-width: @screen-sm-min) {
-            margin-top: 1%;
-            margin-bottom: 1%;
-        }
-
-        @media (min-width: @screen-sm-min) {
-            height: (@masterHeaderMainRowHeight-md);
-            margin-top: 6px;
-            margin-bottom: 6px;
-        }
-
         .fa-dot-circle-o {
             @media(max-width: 580px) {
                 margin-top: 4px;
             }
-        }
-
-        #HeaderSearchBoxDiv {
-            left: 115px;
-            margin-top: 17px;
-            width: 262.41px;
-
-            @media (max-width:(@screen-lg - 0.5)) {
-                width: 215.41px;
-                left: 29px;
-            }
-
-            @media (max-width:(@screen-md-min - 0.5)) {
-                display: none;
-            }
-
-            #headerSearchBox {
-                border-right: none !important;
-                border: 1px #979797 solid;
-                height: 44px;
-            }
-        }
-
-        .userImage {
-            height: 31px;
-            width: 31px;
-            margin-left: 1px;
         }
     }
 
@@ -210,15 +146,6 @@
 
     .col-Logo {
         height: 100%;
-
-        .media-below-md( {
-            padding-right: 0;
-            margin-top: 3px;
-        }
-
-        );
-        width: auto;
-        float: left;
     }
 }
 
@@ -391,10 +318,9 @@
         margin-left: auto;
         justify-content: space-between;
         display: none;
+        height: 100%;
 
         #BreadcrumbUserDropdownImage {
-            margin-right: 15px;
-            min-width: 29px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -424,11 +350,79 @@
             }
         }
 
-        .userImage {
-            width: 28px !important;
-            height: 28px !important;
-            border: none;
-            text-align: center;
+        #dLabelBreadCrumb {
+            #dLabelContainer {
+                display: flex;
+                align-items: center;
+                padding: 0 12px;
+
+                .badge-counter {
+                    position: absolute;
+                    border: solid 2px white;
+                    height: 12px;
+                    width: 12px;
+                    border-radius: 50%;
+                    background: @memo-wuwi-red;
+                    top: 6px;
+                    margin-left: 20px;
+                }
+
+                &:hover {
+                    color: @memo-blue;
+                }
+
+                .userImage {
+                    width: 32px;
+                    height: 32px;
+                    border: none;
+                    border-radius: 50%;
+                    min-width: 32px;
+                }
+
+                .arrow-down {
+                    padding-left: 6px;
+                }
+            }
+        }
+
+        .breadcrumb-login-register-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 100%;
+
+            #StickyRegisterBtn{
+                height: 100%;
+
+                .register-btn {
+                    height: 100% !important;
+                }
+            } 
+            .memo-button {
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+
+                &.login-btn {
+                    .fa-sign-in-alt {
+                        margin-right: 6px;
+                    }
+
+                    &:hover {
+                        color: @memo-green;
+                    }
+                }
+
+                &.register-btn {
+                    background: @memo-green;
+                    color: @memo-blue;
+                    height: 100%;
+
+                    &:hover {
+                        filter: brightness(0.85);
+                    }
+                }
+            }
         }
 
         #UserProgressContainer {
@@ -535,10 +529,67 @@
                 text-decoration: none;
             }
         }
-    }
 
-    i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
-        font-size: 32px;
+        #UserBtn {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+
+            &:hover {
+                color: @memo-green;
+
+                .badge-counter {
+                    color: white;
+                }
+            }
+
+            .main-user-icon-container {
+                display: flex;
+                justify-content: flex-end;
+                margin: 0 10px;
+
+                img {
+                    height: 48px;
+                    width: 48px;
+                    border-radius: 50%;
+                    min-width: 48px;
+                }
+
+                .badge-counter {
+                    position: absolute;
+                    border-radius: 10px;
+                    border: solid 2px #003264;
+                    background: #FF001F;
+                    font-size: 10px;
+                    padding: 0 4px;
+                    height: 20px;
+                    min-width: 20px;
+                    text-align: center;
+                    font-weight: 600;
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                }
+            }
+
+            .user-name {
+                font-family: Open Sans;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 700;
+                letter-spacing: 0em;
+                text-align: left;
+                padding-right: 6px;
+            }
+
+            .arrow-down {
+
+                i.fa-chevron-down {
+                    font-size: 14px;
+                    transition: all 0.3s;
+                }
+            }
+        }
     }
 
     .fa-bars {
@@ -576,17 +627,62 @@
         }
     }
 }
+#loginAndHelp {
+    .dropdown {
+        &.open {
+            .arrow-down {
+                i.fa-chevron-down {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
 
+    .login-register-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .memo-button {
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+
+            &.login-btn {
+                .fa-sign-in-alt{
+                    margin-right: 6px;
+                }
+
+                &:hover {
+                    color: @memo-green;
+                }
+            }
+
+            &.register-btn {
+                background: @memo-green;
+                color: @memo-blue;
+
+                &:hover {
+                    filter: brightness(0.85);
+                }
+            }
+        }
+    }
+}
+#BreadcrumbUserDropdownImage {
+        &.open {
+        }
+}
 
 /*Breadcrumb*/
-
-
 #Breadcrumb {
     z-index: 99;
     color: @memo-grey-dark;
-    #BreadCrumbTrail, .breadcrumb-item{
+
+    #BreadCrumbTrail, .breadcrumb-item {
         height: 100%;
-    } 
+    }
+
     .messages {
         padding-right: 5px;
     }
@@ -601,6 +697,7 @@
         display: flex;
         align-items: center;
         height: 100%;
+
         &:hover {
             color: @memo-blue;
         }

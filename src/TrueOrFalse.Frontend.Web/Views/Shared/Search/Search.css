@@ -49,11 +49,10 @@
 }
 .searchAutocomplete .searchInputContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   flex-wrap: nowrap;
 }
 .searchAutocomplete .searchInputContainer .hasSearchIcon {
-  border-right: none;
   padding-right: 54px;
 }
 .searchAutocomplete .searchInputContainer .searchIconContainer {
@@ -106,101 +105,66 @@
 .searchAutocomplete .searchResultItem img.authorImg {
   border-radius: 50%;
 }
-#HeaderSearch {
-  left: 115px;
-  margin-top: 17px;
-  /*    #headerSearchBox {
-        border-right: none !important;
-        border: 1px #979797 solid;
-        height: 44px;
-    }*/
-}
-@media (max-width: 1199.5px) {
-  #HeaderSearch {
-    width: 215.41px;
-    left: 29px;
-  }
-}
-@media (max-width: 991.5px) {
-  #HeaderSearch {
-    display: none;
-  }
-}
-#HeaderSearch input {
-  min-width: 301px;
-}
-#HeaderSearch input.form-control {
-  max-width: 400px;
-}
-#HeaderSearch .dropdown-menu {
-  padding: 0;
-}
 #StickySearch,
-#SmallHeaderSearch {
+#HeaderSearch {
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
+  height: 100%;
+  align-items: center;
+}
+#StickySearch .StickySearchContainer,
+#HeaderSearch .StickySearchContainer,
+#StickySearch .SearchContainer,
+#HeaderSearch .SearchContainer {
+  width: 100%;
 }
 #StickySearch .StickySearchContainer input,
-#SmallHeaderSearch .StickySearchContainer input {
+#HeaderSearch .StickySearchContainer input,
+#StickySearch .SearchContainer input,
+#HeaderSearch .SearchContainer input {
   min-width: 0px;
   width: 0px;
   border: none;
   padding: 0;
   transition: all 0.3s;
+  background: transparent;
 }
 #StickySearch .StickySearchContainer.showSearch input,
-#SmallHeaderSearch .StickySearchContainer.showSearch input {
+#HeaderSearch .StickySearchContainer.showSearch input,
+#StickySearch .SearchContainer.showSearch input,
+#HeaderSearch .SearchContainer.showSearch input {
   border: 1px solid #ccc;
-  width: 200px;
-  border-right: none;
-  padding: 6px 12px;
-}
-@media (max-width: 390px) {
-  #StickySearch .StickySearchContainer.showSearch input,
-  #SmallHeaderSearch .StickySearchContainer.showSearch input {
-    width: 120px;
-  }
+  width: 100%;
+  padding: 6px 40px 6px 12px;
+  background: white;
 }
 #StickySearch .searchButton,
-#SmallHeaderSearch .searchButton {
-  height: 34px;
+#HeaderSearch .searchButton {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 12px;
-  border: 1px solid transparent;
-  border-left: none;
   transition: all 0.3s;
-}
-#StickySearch .searchButton.showSearch,
-#SmallHeaderSearch .searchButton.showSearch {
-  border: 1px solid #ccc;
-  border-left: none;
+  font-size: 25px;
+  position: absolute;
+  z-index: 1050;
+  width: 34px;
+  transform: translateZ(0);
 }
 #StickySearch .searchButton .fa-search,
-#SmallHeaderSearch .searchButton .fa-search {
+#HeaderSearch .searchButton .fa-search {
   transition: all 0.3s;
 }
+#StickySearch .searchButton .fa-times,
+#HeaderSearch .searchButton .fa-times {
+  display: none;
+}
 #StickySearch .searchButton:hover,
-#SmallHeaderSearch .searchButton:hover {
+#HeaderSearch .searchButton:hover {
   cursor: pointer;
 }
 #StickySearch .searchButton:hover .fa-search,
-#SmallHeaderSearch .searchButton:hover .fa-search {
-  color: #003264 !important;
-}
-@media (min-width: 991.5px) {
-  #SmallHeaderSearch {
-    display: none;
-  }
-}
-#SmallHeaderSearch .searchButton {
-  background: #003264;
-}
-#SmallHeaderSearch .searchButton:hover .fa-search {
+#HeaderSearch .searchButton:hover .fa-search {
   color: #AFD534 !important;
-}
-#SmallHeaderSearch .searchButton.showSearch {
-  background: white;
 }

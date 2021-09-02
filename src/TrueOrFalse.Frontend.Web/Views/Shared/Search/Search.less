@@ -49,11 +49,10 @@
 
     .searchInputContainer {
         display: flex;
-        flex-direction: row;
+        flex-direction: row-reverse;
         flex-wrap: nowrap;
 
         .hasSearchIcon {
-            border-right: none;
             padding-right: 54px;
         }
 
@@ -118,111 +117,62 @@
     }
 }
 
-#HeaderSearch {
-    left: 115px;
-    margin-top: 17px;
 
-    @media (max-width:(@screen-lg - 0.5)) {
-        width: 215.41px;
-        left: 29px;
-    }
-
-    @media (max-width:(@screen-md-min - 0.5)) {
-        display: none;
-    }
-    /*    #headerSearchBox {
-        border-right: none !important;
-        border: 1px #979797 solid;
-        height: 44px;
-    }*/
-
-    input {
-        min-width: 301px;
-
-        &.form-control {
-            max-width: 400px;
-        }
-    }
-
-    .dropdown-menu {
-        padding: 0;
-    }
-}
-
-#StickySearch, #SmallHeaderSearch {
+#StickySearch, #HeaderSearch {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
+    height: 100%;
+    align-items: center;
 
-    .StickySearchContainer {
+    .StickySearchContainer, .SearchContainer {
+        width: 100%;
+
         input {
             min-width: 0px;
             width: 0px;
             border: none;
             padding: 0;
             transition: all 0.3s;
+            background: transparent;
         }
 
         &.showSearch {
             input {
                 border: 1px solid #ccc;
-                width: 200px;
-                border-right: none;
-                padding: 6px 12px;
-
-                @media (max-width:390px) {
-                    width: 120px;
-                }
-
+                width: 100%;
+                padding: 6px 40px 6px 12px;
+                background: white;
             }
         }
     }
 
     .searchButton {
-        height: 34px;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0 12px;
-        border: 1px solid transparent;
-        border-left: none;
         transition: all 0.3s;
-
-        &.showSearch {
-            border: 1px solid #ccc;
-            border-left: none;
-        }
+        font-size: 25px;
+        position: absolute;
+        z-index: 1050;
+        width: 34px;
+        transform: translateZ(0);
 
         .fa-search {
             transition: all 0.3s;
+        }
+
+        .fa-times {
+            display: none;
         }
 
         &:hover {
             cursor: pointer;
 
             .fa-search {
-                color: @memo-blue !important;
-            }
-        }
-    }
-}
-
-#SmallHeaderSearch {
-    @media (min-width:(@screen-md-min - 0.5)) {
-        display: none;
-    }
-
-    .searchButton {
-        background: @memo-blue;
-
-        &:hover {
-            .fa-search {
                 color: @memo-green !important;
             }
-        }
-
-        &.showSearch {
-            background: white;
         }
     }
 }

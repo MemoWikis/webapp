@@ -66,7 +66,17 @@
         <div id="BreadcrumbUserDropdownImage">
         <%if(Model.IsLoggedIn){ %>
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
-            <img class="userImage" src="<%= userImage%>" />
+               <div id="dLabelContainer">
+                   <img class="userImage" src="<%= userImage%>" />
+                   <%--                    <%if (Model.SidebarModel.UnreadMessageCount != 0)
+                      { %>
+                        <div class="badge-counter"></div>
+                    <%}%>--%>
+                   <div class="badge-counter"></div>
+                   <div class="arrow-down">
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+               </div>
            </a>   
             <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0; position: absolute; width: 220px;">
                 <li>
@@ -103,7 +113,11 @@
 
             </ul>
         <%}else{%>
-             <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i class="fa fa-sign-in"></i></a>
+                <div class="breadcrumb-login-register-container">
+                    <a class="TextLinkWithIcon" href="#" data-btn-login="true"><i class="fa fa-sign-in"></i></a>
+                    <a id="StickyRegisterBtn" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>"><div class="btn memo-button register-btn">Kostenlos registrieren!</div></a>
+                </div>
+
         <%} %>
         </div>
     </div>

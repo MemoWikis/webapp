@@ -20,8 +20,6 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Editor") %>
 
-    <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
-
     <script type="text/x-template" id="pin-category-template">
         <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
     </script>
