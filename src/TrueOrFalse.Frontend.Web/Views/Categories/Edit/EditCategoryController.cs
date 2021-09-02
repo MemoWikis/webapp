@@ -21,18 +21,6 @@ public class EditCategoryController : BaseController
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
-    [SetMainMenu(MainMenuEntry.Categories)]
-    [SetThemeMenu]
-    public ViewResult Create(string name, string parent, string type)
-    {
-        var model = new EditCategoryModel { Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
-
-        if (!string.IsNullOrEmpty(parent))
-            model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));
-
-        return View(_viewPath, model);
-    }
-
     //[SetMenu(MainMenuEntry.Categories)]
     [SetThemeMenu(true)]
     public ViewResult Edit(int id)
