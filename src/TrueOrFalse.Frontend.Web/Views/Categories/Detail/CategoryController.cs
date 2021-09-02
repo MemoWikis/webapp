@@ -18,17 +18,18 @@ public class CategoryController : BaseController
     [SetThemeMenu(true)]
     public ActionResult Category(int id, int? version, bool? toRootCategory)
     {
-
-        if (GetMyWorldCookie() && version == null && toRootCategory != true)
-        {
-            var personalStartSite = Sl.SessionUser.User.StartTopicId;
-            id = personalStartSite; 
-        }
+        var user = Sl.SessionUser.User; 
+        var personalStartSiteId = user != null ? user.StartTopicId : -1;
+        if (IsRedirectToPersonalStartsite(id, version, toRootCategory,personalStartSiteId))
+            id = personalStartSiteId; 
         
         var modelAndCategory = LoadModel(id, version, toRootCategory == true);
         modelAndCategory.CategoryModel.IsInTopic = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
     }
+
+    private bool IsRedirectToPersonalStartsite(int id, int? version, bool? toRootCategory, int personalStartSiteId) =>
+        GetMyWorldCookie() && version == null && toRootCategory == false && personalStartSiteId == id; 
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
