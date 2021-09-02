@@ -246,7 +246,6 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
-
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 
@@ -268,6 +267,8 @@ public class EditCategoryController : BaseController
 
         if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
+
+        Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(parentCategoryId), Sl.SessionUser.User, false);
 
         return Json(new
         {
@@ -479,7 +480,6 @@ public class EditCategoryController : BaseController
         return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, type));
     }
 
-
     [AccessOnlyAsLoggedIn]
     private void StoreImage(int categoryId)
     {
@@ -497,7 +497,6 @@ public class EditCategoryController : BaseController
             }
         }
     }
-
 
     [HttpPost]
     [AccessOnlyAsAdmin]

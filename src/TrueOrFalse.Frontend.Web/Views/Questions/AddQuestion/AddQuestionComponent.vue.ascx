@@ -6,7 +6,6 @@
             <div class="add-inline-question-label main-label">
                 Frage hinzufügen 
                 <span>(Karteikarte)</span>
-                <div style="cursor: pointer"@click="createQuestion()">erweiterte Optionen</div>
             </div>
             <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
                 <div>
@@ -33,7 +32,7 @@
                     <div v-if="highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0" class="field-error">Bitte formuliere eine Frage.</div>
                 </div>
                 <div>
-                    <%: Html.Partial("~/Views/Questions/Edit/EditComponents/FlashCard/FlashCardComponent.vue.ascx") %>
+                    <flashcard-component :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"/>
 
                 </div>
                 <div class="input-container">
@@ -44,7 +43,8 @@
                         <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditorPartials/PrivacySelector.vue.ascx") %>
                     </div>
                 </div>
-                <div>
+                <div class="btn-container">
+                    <div class="btn btn-lg btn-link memo-button" @click="createQuestion()">erweiterte Optionen</div>
                     <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
                 </div>
             </div>

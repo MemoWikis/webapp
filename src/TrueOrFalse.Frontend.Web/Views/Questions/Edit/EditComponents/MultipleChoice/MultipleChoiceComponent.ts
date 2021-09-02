@@ -1,16 +1,16 @@
 ﻿
 Vue.component('multiplechoice-component', {
-    props: ['solution','highlightEmptyFields'],
+    props: ['solution', 'highlightEmptyFields'],
+    template: '#multiplechoice-template',
     data() {
         return {
             choices: [{
-                    Text: '',
-                    IsCorrect: true
+                Text: '',
+                IsCorrect: true
             }],
             isSolutionOrdered: false,
         }
     },
-
     mounted() {
         if (this.solution)
             this.initiateSolution();

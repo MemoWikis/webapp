@@ -1,5 +1,4 @@
-﻿<categorychip-component :category="category" :index="index" inline-template v-on:remove-category-chip="removeCategory">
-    <div class="category-chip-component">
+﻿    <div class="category-chip-component">
         <div class="category-chip-container"  @mouseover="hover = true" @mouseleave="hover = false">
             <a :href="category.Url">
                 <div class="category-chip show-tooltip" :title="category.Name">
@@ -18,4 +17,3 @@
         </div>
     </div>
 
-</categorychip-component>
