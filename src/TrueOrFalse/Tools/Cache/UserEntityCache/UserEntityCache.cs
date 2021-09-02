@@ -179,12 +179,7 @@ public class UserEntityCache : BaseCache
     public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
     {
         var nextParents = EntityCache.GetCategoryCacheItem(categoryId, true).ParentCategories().Distinct().ToList();
-        CategoryCacheItem personelStartsite = null;
-        if (nextParents.Count == 0)
-        {
-           personelStartsite= EntityCache.GetCategoryCacheItem(Sl.SessionUser.User.StartTopicId, getDataFromEntityCache: true);
-            nextParents.Add(personelStartsite);  // Has Category no parent then add personel start topic
-        }
+        var user = Sl.SessionUser.User; 
             
         while (nextParents.Count > 0)
         {
@@ -195,8 +190,8 @@ public class UserEntityCache : BaseCache
                 return nextParent;
             }
 
-            if (nextParents.Count == 1 && personelStartsite != null)
-                return nextParents.First();
+            if (nextParents.Count == 1 && user.IsStartTopicTopicId(nextParent.Id))
+                return nextParent;
 
             var parentHelperList = nextParent.ParentCategories();
             nextParents.RemoveAt(0);
@@ -208,6 +203,12 @@ public class UserEntityCache : BaseCache
 
             nextParents.Distinct();
         }
+
+        if (nextParents.Count == 0)
+        {
+            return EntityCache.GetCategoryCacheItem(user.StartTopicId, getDataFromEntityCache: true);
+        }
+
         Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
         throw new NotImplementedException();
     }

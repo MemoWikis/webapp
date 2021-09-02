@@ -16,15 +16,16 @@ public class CategoryController : BaseController
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(int id, int? version)
+    public ActionResult Category(int id, int? version, bool? toRootCategory)
     {
-        if (GetMyWorldCookie() && version == null)
+
+        if (GetMyWorldCookie() && version == null && toRootCategory != true)
         {
             var personalStartSite = Sl.SessionUser.User.StartTopicId;
             id = personalStartSite; 
         }
-            
-        var modelAndCategory = LoadModel(id, version);
+        
+        var modelAndCategory = LoadModel(id, version, toRootCategory == true);
         modelAndCategory.CategoryModel.IsInTopic = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
     }
@@ -49,10 +50,10 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version)
+    private LoadModelResult LoadModel(int id, int? version,bool toRootCategory = false)
     {
         var result = new LoadModelResult();
-        var category = EntityCache.GetCategoryCacheItem(id);
+        var category = EntityCache.GetCategoryCacheItem(id, getDataFromEntityCache: toRootCategory );
         if (category.IsNotVisibleToCurrentUser)
             category = null;
         
@@ -240,12 +241,16 @@ public class CategoryController : BaseController
         if (_sessionUser.IsLoggedIn)
         {
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
-                Logg.r().Warning("Cache CacheKeyIsNotAvailable");
+                Logg.r().Warning("Cache CacheKeyIsNotAvaila>ble");
             UserEntityCache.Init();
         }
 
         UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
-        var startTopicId = _sessionUser.User.StartTopicId;
+        var startTopicId = RootCategory.Get.Id; 
+
+        if (showMyWorld || _sessionUser.IsLoggedIn)
+             startTopicId = _sessionUser.User.StartTopicId;
+
         return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: true));
     }
 
