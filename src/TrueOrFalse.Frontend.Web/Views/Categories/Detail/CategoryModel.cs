@@ -260,4 +260,14 @@ public class CategoryModel : BaseContentModule
         return EntityCache.GetChildren(category.Id).Count(c =>
                 c.Visibility == CategoryVisibility.All || c.Creator == user);
     }
+
+    public bool ShowPinButton()
+    {
+        if(_sessionUser.UserId != -1)
+            return !Category.IsHistoric &&
+                !UserCache.GetItem(_sessionUser.UserId).User.IsStartTopicTopicId(Category.Id) &&
+                Category.Id != RootCategory.RootCategoryId;
+     
+            return !Category.IsHistoric && Category.Id != RootCategory.RootCategoryId; 
+    } 
 }

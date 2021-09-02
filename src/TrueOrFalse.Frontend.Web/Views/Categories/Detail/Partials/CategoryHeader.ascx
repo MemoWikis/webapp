@@ -59,7 +59,7 @@
             <div>
                 <div class="greyed category-sub-header">
                     
-                    <% if (!Model.Category.IsHistoric) { %>
+                    <% if (Model.ShowPinButton() ) { %>
                         <div class="Button Pin mobileHeader" data-category-id="<%= Model.Id %>">
                             <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, displayAdd: false)) %>
@@ -147,7 +147,7 @@
                    { %> 
                     <div class="Border hide-sm"></div>
                 <% } %>
-                <div class="Buttons"><%if (Model.Category.Id != RootCategory.RootCategoryId){%>
+                <div class="Buttons"><%if (Model.ShowPinButton()){%>
                         <div class="PinContainer hide-sm">
                             <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
                                 <a href="#" class="noTextdecoration" style="font-size: 22px;">
