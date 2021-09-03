@@ -15,24 +15,18 @@ public class UserEntityCache : BaseCache
 
     public static void Init(int userId = -1)
     {
-        Logg.r().Warning("Cache UserEntityCache Init start");
-
         var user = userId == -1 ?  
             Sl.SessionUser.User : 
             UserCache.GetItem(userId).User;
 
-        Logg.r().Warning("Cache after user" + " / userId =" + user.Id);
-
         _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
             .GetAllWuwiCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
-
-        Logg.r().Warning("Cache after GetAllPersonalCategoriesWithRelations");
 
         foreach (var cacheItem in _Categories[user.Id])
         {
             ModifyRelationsUserEntityCache.AddToParents(cacheItem.Value);
         }
-        Logg.r().Warning("Cache UserEntityCache Init end");
+
     }
 
     public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId);
@@ -132,7 +126,7 @@ public class UserEntityCache : BaseCache
         foreach (var userId in _Categories.Keys)
             Init(userId);
     }
-    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem entityCacheItem, bool isModifyRelations = false)
+    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem entityCacheItem)
     {
         var listParents = new ConcurrentDictionary<int, int>();
         foreach (var cacheWithUser in GetAllCaches())
@@ -143,6 +137,9 @@ public class UserEntityCache : BaseCache
                 cache.TryGetValue(entityCacheItem.Id, out var userCacheItem);
 
                 userCacheItem.CategoryRelations = new List<CategoryCacheRelation>();
+                userCacheItem.Name = entityCacheItem.Name;
+                userCacheItem.Content = entityCacheItem.Content;
+                userCacheItem.Visibility = entityCacheItem.Visibility; 
 
                 foreach (var categoryCacheRelation in userCacheItem.CategoryRelations)
                 {

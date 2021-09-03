@@ -90,13 +90,14 @@ public class GraphService
         foreach (var wuwiChild in wuwiChildren)
         {
             var parents = GetParentsFromCategory(wuwiChild.Id, isFromUserEntityCache).ToList();
+            var isRootDirectParent = parents.Contains(RootCategory.RootCategoryId); 
             wuwiChild.CategoryRelations.Clear();
 
             while (parents.Count > 0)
             {
                 var parentId = parents.First();
 
-                if (IsInWishknowledgeOrParentIsRoot(rootCategoryId, userId, parentId))
+                if (IsInWishknowledgeOrParentIsRoot(isRootDirectParent, userId, parentId))
                 {
                     var categoryRelation = new CategoryCacheRelation
                     {
@@ -175,9 +176,9 @@ public class GraphService
         return cacheItemWithChildren.Values.ToList(); 
     }
 
-    private static bool IsInWishknowledgeOrParentIsRoot(int rootCategoryId, int userId, int parentId)
+    private static bool IsInWishknowledgeOrParentIsRoot(bool isRootDirectParent, int userId, int parentId)
     {
-        return UserCache.IsInWishknowledge(userId, parentId) || parentId == rootCategoryId;
+        return UserCache.IsInWishknowledge(userId, parentId) ||  isRootDirectParent;
     }
 
     private static void ChangeFromRootCategoryToPersonalStartSite(int userId, ConcurrentDictionary<int,CategoryCacheItem> cacheItemWithChildren)

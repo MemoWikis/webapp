@@ -182,11 +182,6 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("E")).Persist();
             Add("I", parent: secondChildren.ByName("G")).Persist();
 
-
-            var personalStartSite = Add("PersonalStartsite").Persist().All.ByName("PersonalStartsite");
-               
-            
-
             var user = ContextUser.New().Add("User").Persist().All[0];
             var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
                 .Persist()
@@ -194,7 +189,6 @@ namespace TrueOrFalse.Tests
                 .ByName(user.Name + "s Startseite").Id;
 
             user.StartTopicId = personalStartTopicId; 
-            //Sl.UserRepo.Update(user);
 
             if (withWuwi)
             {
@@ -248,6 +242,13 @@ namespace TrueOrFalse.Tests
             CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
             CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
             CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
+
+            var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
+                .Persist()
+                .All
+                .ByName(user.Name + "s Startseite").Id;
+
+            user.StartTopicId = personalStartTopicId;
 
             Sl.SessionUser.Login(user);
         }
