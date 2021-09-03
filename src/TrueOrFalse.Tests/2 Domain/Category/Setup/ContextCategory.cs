@@ -182,13 +182,8 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("E")).Persist();
             Add("I", parent: secondChildren.ByName("G")).Persist();
 
-            var user = ContextUser.New().Add("User").Persist().All[0];
-            var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
-                .Persist()
-                .All
-                .ByName(user.Name + "s Startseite").Id;
-
-            user.StartTopicId = personalStartTopicId; 
+            var user = ContextUser.New().Add("User").Persist(true).All[0];
+         
 
             if (withWuwi)
             {
