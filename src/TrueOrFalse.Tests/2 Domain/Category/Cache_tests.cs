@@ -163,10 +163,8 @@ class User_entity_cache_tests : BaseTest
 
         var allCategories = EntityCache.GetAllCategories(); 
 
-        var user = ContextUser.New().Add("Daniel").Persist().All.First();
+        var user = ContextUser.New().Add("Daniel").Persist(true).All.First();
         Sl.SessionUser.Login(user);
-
-
 
         foreach (var VARIABLE in allCategories)
         {
@@ -190,11 +188,9 @@ class User_entity_cache_tests : BaseTest
     }
 
     [Test]
-    public void Get_all_parents()
+    public void Get_all_parents_from_entity_cache()
     {
-        var user= ContextCategory.New().AddCaseThreeToCache();
-        UserCache.GetItem(user.Id).IsFiltered = true; 
-
+        ContextCategory.New().AddCaseThreeToCache();
         var parentNames = GraphService.GetAllParentsFromEntityCache(
             EntityCache.GetByName("I")
                 .Where(c => c.Name == "I")
