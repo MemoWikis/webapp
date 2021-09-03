@@ -73,7 +73,12 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextCategory AddToEntityCache(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null, bool withId = false, int categoryId = 0)
+        public ContextCategory AddToEntityCache(string categoryName,
+            CategoryType categoryType = CategoryType.Standard,
+            User creator = null,
+            bool withId = false, 
+            int categoryId = 0
+            )
         {
             var category = new Category();
 
@@ -176,11 +181,20 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("C")).Persist();
             Add("I", parent: secondChildren.ByName("E")).Persist();
             Add("I", parent: secondChildren.ByName("G")).Persist();
+
+
+            var personalStartSite = Add("PersonalStartsite").Persist().All.ByName("PersonalStartsite");
                
             
 
             var user = ContextUser.New().Add("User").Persist().All[0];
-            
+            var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
+                .Persist()
+                .All
+                .ByName(user.Name + "s Startseite").Id;
+
+            user.StartTopicId = personalStartTopicId; 
+            //Sl.UserRepo.Update(user);
 
             if (withWuwi)
             {
