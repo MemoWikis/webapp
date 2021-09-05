@@ -17,7 +17,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
 
     public override string BasePath => "/Images/Users/";
-    public string BaseDummyUrl => "/Images/Categories/1_128s.jpg?t=20210716023512";
+    public string BaseDummyUrl => "Images/no-profile-picture-";
 
     public UserImageSettings(int id){
         Id = id;
@@ -82,7 +82,11 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
         var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
-        return BaseDummyUrl;
+        return "//www.gravatar.com/avatar/" +
+               BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
+               Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
+                                    HttpContext.Current.Request.Url.Host +
+                                    HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
     }
 
     protected string GetFallbackImage(UserTinyModel user, int width)
@@ -121,7 +125,11 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
         var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
-        return BaseDummyUrl;
+        return "//www.gravatar.com/avatar/" +
+               BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
+               Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
+                                    HttpContext.Current.Request.Url.Host +
+                                    HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
     }
 
 }

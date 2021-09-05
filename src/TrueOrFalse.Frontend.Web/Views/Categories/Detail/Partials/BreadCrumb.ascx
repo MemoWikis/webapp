@@ -68,11 +68,10 @@
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
                <div id="dLabelContainer">
                    <img class="userImage" src="<%= userImage%>" />
-                   <%--                    <%if (Model.SidebarModel.UnreadMessageCount != 0)
+                                       <%if (Model.SidebarModel.UnreadMessageCount != 0)
                       { %>
                         <div class="badge-counter"></div>
-                    <%}%>--%>
-                   <div class="badge-counter"></div>
+                    <%}%>
                    <div class="arrow-down">
                        <i class="fas fa-chevron-down"></i>
                    </div>

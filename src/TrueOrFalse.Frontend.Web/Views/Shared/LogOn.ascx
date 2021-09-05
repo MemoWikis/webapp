@@ -15,11 +15,10 @@
             <div id="UserBtn">
                 <div class="main-user-icon-container">
                     <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>"/>
-<%--                    <%if (Model.SidebarModel.UnreadMessageCount != 0)
+                    <%if (Model.SidebarModel.UnreadMessageCount != 0)
                       { %>
                         <div class="badge-counter"><%= Model.SidebarModel.UnreadMessageCount %></div>
-                    <%}%>--%>
-                    <div class="badge-counter">200</div>
+                    <%}%>
                 </div>
                 <div class="user-name">
                     <%= userSession.User.Name %>

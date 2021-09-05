@@ -524,7 +524,6 @@
 #loginAndHelp a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down,
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down {
   font-size: 14px;
-  transition: all 0.3s;
 }
 @media (max-width: 580px) {
   #loginAndHelp .fa-bars,
@@ -628,6 +627,15 @@
 }
 #Breadcrumb .last-in-breadcrumb {
   color: #555555;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage .arrow-down i.fa-chevron-down {
+  color: #999999;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage:hover i.fa-chevron-down {
+  color: #003264;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage.open .arrow-down i.fa-chevron-down {
+  transform: rotate(180deg);
 }
 #HeaderBodyContainer {
   padding-right: 0;

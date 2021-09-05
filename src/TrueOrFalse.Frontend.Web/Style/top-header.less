@@ -590,10 +590,8 @@
             }
 
             .arrow-down {
-
                 i.fa-chevron-down {
                     font-size: 14px;
-                    transition: all 0.3s;
                 }
             }
         }
@@ -727,6 +725,28 @@
 
     .last-in-breadcrumb {
         color: @memo-grey-darker;
+    }
+
+    #BreadcrumbUserDropdownImage {
+        .arrow-down {
+            i.fa-chevron-down {
+                color: @memo-grey-dark;
+            }
+        }
+
+        &:hover {
+            i.fa-chevron-down {
+                color: @memo-blue;
+            }
+        }
+
+        &.open {
+            .arrow-down {
+                i.fa-chevron-down {
+                    transform: rotate(180deg);
+                }
+            }
+        }
     }
 }
 
