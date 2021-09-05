@@ -13,8 +13,7 @@
   margin: 0;
 }
 .searchAutocomplete .dropdown-menu {
-  width: 60vw;
-  max-width: 440px;
+  min-width: 280px;
 }
 .searchAutocomplete .dropdown-menu .dropdownFooter {
   line-height: 20px;
@@ -146,7 +145,7 @@
   justify-content: center;
   align-items: center;
   transition: all 0.3s;
-  font-size: 25px;
+  font-size: 20px;
   position: absolute;
   z-index: 1050;
   width: 34px;
@@ -166,5 +165,16 @@
 }
 #StickySearch .searchButton:hover .fa-search,
 #HeaderSearch .searchButton:hover .fa-search {
-  color: #AFD534 !important;
+  color: #AFD534;
+}
+#StickySearch .searchButton .fa-search {
+  color: #999999;
+}
+#StickySearch .searchButton:hover .fa-search {
+  color: #003264;
+}
+@media (max-width: 767px) {
+  #HeaderSearch {
+    padding-right: 0;
+  }
 }

@@ -35,10 +35,7 @@
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('heading', { level: 2})}"
         @click="editor.chain().toggleHeading({ level: 2 }).focus().run()">
-        <b>
-            H2
-
-        </b>
+        <b>H1</b>
     </button>
 
     <button
@@ -46,9 +43,7 @@
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('heading', { level: 3 })}"
         @click="editor.chain().toggleHeading({ level: 3 }).focus().run()">
-        <b>
-            H3
-        </b>
+        <b>H2</b>
     </button>
 
     <button
@@ -85,7 +80,7 @@
         :class="{ 'is-active': editor.isActive('link') }">
         <i class="fas fa-link"></i>
     </button>
-    
+
     <button
         v-if="editor.isActive('link')"
         class="menubar__button"

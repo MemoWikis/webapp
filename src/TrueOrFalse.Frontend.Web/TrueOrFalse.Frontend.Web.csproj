@@ -2559,8 +2559,6 @@
     <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
     <Content Include="Scripts\vendor.somewhere\readme.txt" />
-    <Content Include="Scripts\vendor.somewhere\simplemde.css" />
-    <Content Include="Scripts\vendor.somewhere\simplemde.js" />
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
@@ -3407,9 +3405,6 @@
     <Content Include="Style\z_mixins_2.3.2.css">
       <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\EditCategory.css">
-      <DependentUpon>EditCategory.less</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
@@ -3873,10 +3868,6 @@
     <Content Include="Views\Questions\Answer\Js\Comments.js.map">
       <DependentUpon>Comments.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\EditCategory.less" />
-    <Content Include="Views\Categories\Edit\EditCategory.css.map">
-      <DependentUpon>EditCategory.css</DependentUpon>
-    </Content>
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
@@ -4171,7 +4162,6 @@
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
-    <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />

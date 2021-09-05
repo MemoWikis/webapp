@@ -293,11 +293,9 @@
 }
 #Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in {
   color: #999999;
-  font-size: 32px;
-  padding-top: 0px;
+  font-size: 20px;
   transition: color 0.3s;
-  margin: 0;
-  padding: 0 15px;
+  padding: 0 6px;
 }
 #Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in:hover {
   color: #003264;
@@ -338,17 +336,23 @@
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn {
   height: 100%;
+  margin-right: 32px;
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn .register-btn {
   height: 100% !important;
+  color: white;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn:hover .register-btn {
+  color: #003264;
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button {
   transition: all 0.3s;
   display: flex;
   align-items: center;
 }
-#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn .fa-sign-in-alt {
-  margin-right: 6px;
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn .fa-sign-in {
+  padding: 0 6px;
+  font-size: 20px;
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn:hover {
   color: #AFD534;
@@ -377,10 +381,6 @@
   justify-content: center;
   align-items: center;
   transition: width 0.3s;
-}
-#Breadcrumb .fa {
-  margin-right: 15px;
-  padding-top: 12px;
 }
 #Breadcrumb #EditCategoryBreadcrumbChip {
   margin: 0 20px;
@@ -475,9 +475,9 @@
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn:hover {
   color: #AFD534;
 }
-#loginAndHelp a.TextLinkWithIcon #UserBtn:hover .badge-counter,
-#StickyHeaderContainer a.TextLinkWithIcon #UserBtn:hover .badge-counter {
-  color: white;
+#loginAndHelp a.TextLinkWithIcon #UserBtn .badge-counter,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .badge-counter {
+  color: white !important;
 }
 #loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container,
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container {
@@ -487,10 +487,10 @@
 }
 #loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container img,
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container img {
-  height: 48px;
-  width: 48px;
+  height: 46px;
+  width: 46px;
   border-radius: 50%;
-  min-width: 48px;
+  min-width: 46px;
 }
 #loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container .badge-counter,
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container .badge-counter {
@@ -506,6 +506,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
+  align-items: center;
 }
 #loginAndHelp a.TextLinkWithIcon #UserBtn .user-name,
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn .user-name {
@@ -516,6 +517,9 @@
   letter-spacing: 0em;
   text-align: left;
   padding-right: 6px;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  overflow: hidden;
 }
 #loginAndHelp a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down,
 #StickyHeaderContainer a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down {
@@ -557,6 +561,11 @@
 #StickyHeaderContainer .dropdown-menu i {
   margin: 0px;
 }
+@media (max-width: 767px) {
+  #loginAndHelp {
+    padding-left: 0;
+  }
+}
 #loginAndHelp .dropdown.open .arrow-down i.fa-chevron-down {
   transform: rotate(180deg);
 }
@@ -570,8 +579,9 @@
   display: flex;
   align-items: center;
 }
-#loginAndHelp .login-register-container .memo-button.login-btn .fa-sign-in-alt {
-  margin-right: 6px;
+#loginAndHelp .login-register-container .memo-button.login-btn .fa-sign-in {
+  padding: 0 6px;
+  font-size: 20px;
 }
 #loginAndHelp .login-register-container .memo-button.login-btn:hover {
   color: #AFD534;
@@ -579,6 +589,11 @@
 #loginAndHelp .login-register-container .memo-button.register-btn {
   background: #AFD534;
   color: #003264;
+}
+@media (max-width: 530px) {
+  #loginAndHelp .login-register-container .memo-button.register-btn {
+    display: none !important;
+  }
 }
 #loginAndHelp .login-register-container .memo-button.register-btn:hover {
   filter: brightness(0.85);
@@ -613,4 +628,24 @@
 }
 #Breadcrumb .last-in-breadcrumb {
   color: #555555;
+}
+#HeaderBodyContainer {
+  padding-right: 0;
+}
+#HeaderBodyContainer #loginAndHelp {
+  padding-right: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+#BreadCrumbContainer.search-is-open #BreadCrumbTrail,
+#BreadCrumbContainer.search-is-open #FirstChevron {
+  display: none !important;
+}
+#BreadCrumbContainer.search-is-open #StickyHeaderContainer {
+  width: 100%;
+  margin-left: 30px;
+  justify-self: flex-end;
+}
+#BreadCrumbContainer.search-is-open #StickyHeaderContainer input {
+  max-width: 400px;
 }

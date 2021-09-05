@@ -7,7 +7,7 @@
                     <i class="fas fa-search"></i>
                 </div>
             </div>
-            <ul class="dropdown-menu" :aria-labelledby="id + 'Dropdown'">
+            <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'">
                 <li v-if="categories.length > 0" class="searchBanner">
                     <div>Themen </div>
                     <div>{{categoryCount}} Treffer</div>

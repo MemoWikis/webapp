@@ -177,7 +177,6 @@ class StickyHeaderClass {
         var masterMainWrapperInnerWidth = parseInt($("#MasterMainContent").css("width"));
 
         this.computeFirstElementFadeIn(breadCrumbTrailWidth, masterMainWrapperInnerWidth);
-        breadCrumbTrailWidth = parseInt($("#BreadCrumbTrail").css("width")) + widthStickyHeaderContainer;
 
         while (breadCrumbTrailWidth > masterMainWrapperInnerWidth && this._breadCrumbCounter < this._breadCrumbContainerCount - 1) {
             this._breadCrumbCounter++;

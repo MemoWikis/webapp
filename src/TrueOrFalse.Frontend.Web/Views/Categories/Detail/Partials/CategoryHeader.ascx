@@ -241,7 +241,6 @@
 </div>
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
 <%= Scripts.Render("~/bundles/fileUploader") %>
-<%= Styles.Render("~/bundles/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/PublishCategory") %>
 <%= Scripts.Render("~/bundles/js/MyWorldToggle") %>

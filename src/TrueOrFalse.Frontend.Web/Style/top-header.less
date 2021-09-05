@@ -338,11 +338,9 @@
 
             .fa-sign-in {
                 color: @memo-grey-dark;
-                font-size: 32px;
-                padding-top: 0px;
+                font-size: 20px;
                 transition: color 0.3s;
-                margin: 0;
-                padding: 0 15px;
+                padding: 0 6px;
 
                 &:hover {
                     color: @memo-blue;
@@ -391,21 +389,31 @@
             align-items: center;
             height: 100%;
 
-            #StickyRegisterBtn{
+            #StickyRegisterBtn {
                 height: 100%;
+                margin-right: 32px;
 
                 .register-btn {
                     height: 100% !important;
+                    color: white;
                 }
-            } 
+
+                &:hover {
+                    .register-btn {
+                        color: @memo-blue;
+                    }
+                }
+            }
+
             .memo-button {
                 transition: all 0.3s;
                 display: flex;
                 align-items: center;
 
                 &.login-btn {
-                    .fa-sign-in-alt {
-                        margin-right: 6px;
+                    .fa-sign-in {
+                        padding: 0 6px;
+                        font-size: 20px;
                     }
 
                     &:hover {
@@ -446,11 +454,6 @@
             align-items: center;
             transition: width 0.3s;
         }
-    }
-
-    .fa {
-        margin-right: 15px;
-        padding-top: 12px;
     }
 
     #EditCategoryBreadcrumbChip {
@@ -537,10 +540,10 @@
 
             &:hover {
                 color: @memo-green;
+            }
 
-                .badge-counter {
-                    color: white;
-                }
+            .badge-counter {
+                color: white !important;
             }
 
             .main-user-icon-container {
@@ -549,10 +552,10 @@
                 margin: 0 10px;
 
                 img {
-                    height: 48px;
-                    width: 48px;
+                    height: 46px;
+                    width: 46px;
                     border-radius: 50%;
-                    min-width: 48px;
+                    min-width: 46px;
                 }
 
                 .badge-counter {
@@ -569,6 +572,7 @@
                     display: flex;
                     justify-content: center;
                     text-align: center;
+                    align-items: center;
                 }
             }
 
@@ -580,6 +584,9 @@
                 letter-spacing: 0em;
                 text-align: left;
                 padding-right: 6px;
+                text-overflow: ellipsis;
+                max-width: 100px;
+                overflow: hidden;
             }
 
             .arrow-down {
@@ -628,6 +635,11 @@
     }
 }
 #loginAndHelp {
+
+    @media (max-width: 767px) {
+        padding-left: 0;
+    }
+
     .dropdown {
         &.open {
             .arrow-down {
@@ -649,8 +661,10 @@
             align-items: center;
 
             &.login-btn {
-                .fa-sign-in-alt{
-                    margin-right: 6px;
+
+                .fa-sign-in {
+                    padding: 0 6px;
+                    font-size: 20px;
                 }
 
                 &:hover {
@@ -661,6 +675,10 @@
             &.register-btn {
                 background: @memo-green;
                 color: @memo-blue;
+
+                @media (max-width: 530px) {
+                    display: none !important;
+                }
 
                 &:hover {
                     filter: brightness(0.85);
@@ -712,5 +730,31 @@
     }
 }
 
+#HeaderBodyContainer{
+    padding-right: 0;
+    #loginAndHelp {
+        padding-right: 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
 
+#BreadCrumbContainer {
+
+    &.search-is-open {
+        #BreadCrumbTrail, #FirstChevron {
+            display: none !important;
+        }
+
+        #StickyHeaderContainer {
+            width: 100%;
+            margin-left: 30px;
+            justify-self: flex-end;
+
+            input {
+                max-width: 400px;
+            }
+        }
+    }
+}
 

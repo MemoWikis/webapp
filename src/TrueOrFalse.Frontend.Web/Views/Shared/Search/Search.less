@@ -5,8 +5,7 @@
     margin: 0;
 
     .dropdown-menu {
-        width: 60vw;
-        max-width: 440px;
+        min-width: 280px;
 
         .dropdownFooter {
             line-height: 20px;
@@ -153,7 +152,7 @@
         justify-content: center;
         align-items: center;
         transition: all 0.3s;
-        font-size: 25px;
+        font-size: 20px;
         position: absolute;
         z-index: 1050;
         width: 34px;
@@ -171,8 +170,30 @@
             cursor: pointer;
 
             .fa-search {
-                color: @memo-green !important;
+                color: @memo-green;
             }
         }
+    }
+}
+
+#StickySearch {
+    .searchButton {
+
+        .fa-search {
+            color: @memo-grey-dark;
+        }
+
+        &:hover {
+
+            .fa-search {
+                color: @memo-blue;
+            }
+        }
+    }
+}
+
+#HeaderSearch {
+    @media (max-width: 767px) {
+        padding-right: 0;
     }
 }
