@@ -7,6 +7,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Should_return_correct_categories()
     {
+        EntityCache.Clear();
+        UserEntityCache.Clear();
         ContextCategory.New().AddCaseThreeToCache();
         var user = Sl.SessionUser.User;
        
@@ -60,14 +62,13 @@ class User_entity_cache_tests : BaseTest
 
     [Test]
     public void Give_correct_number_of_cache_items_case_two()
-    {
-       
-            ContextCategory.New().AddCaseTwoToCache();
-            var user = Sl.SessionUser.User;
+    {    EntityCache.Clear();
+        UserEntityCache.Clear();
+        ContextCategory.New().AddCaseTwoToCache();
         EntityCache.Init();
-            user = Sl.SessionUser.User;
-            Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(5));
-            Assert.That(EntityCache.GetAllCategories().Count, Is.EqualTo(10));
+        var user = Sl.SessionUser.User;
+        Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(5));
+        Assert.That(EntityCache.GetAllCategories().Count, Is.EqualTo(10));
     }
 
     [Test]
@@ -303,7 +304,7 @@ class User_entity_cache_tests : BaseTest
 
         var categoryNew = Sl.CategoryRepo.GetByName("New").First();
 
-        Resolve<CategoryDeleter>().Run(categoryNew);
+        Resolve<CategoryDeleter>().Run(categoryNew, true);
 
         var userCaches  = UserEntityCache.GetAllCaches();
         var hasDeletedIdInRelations = false;

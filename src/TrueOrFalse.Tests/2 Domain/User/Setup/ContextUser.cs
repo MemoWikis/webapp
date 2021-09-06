@@ -50,8 +50,11 @@ public class ContextUser
             _userRepo.Create(usr);
             if (withStartTopic)
             {
-                var startTopic = ContextCategory.New(false).Add(usr.Name + "s Startseite", creator: usr).Persist().All.First();
-                usr.StartTopicId = startTopic.Id;
+                var firstStartTopic= ContextCategory.New(false) 
+                    .Add(usr.Name + "s Startseite", creator: usr).Persist()
+                    .All
+                    .First();
+                usr.StartTopicId = firstStartTopic.Id;
             }
         }
         return this;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SolrNet;
 
@@ -8,6 +9,7 @@ namespace TrueOrFalse.Tests
     {
         private readonly CategoryRepository _categoryRepository;
         private readonly ContextUser _contextUser = ContextUser.New();
+        private int NamesCounter = 0; 
         
         public List<Category> All = new List<Category>();
 
@@ -21,7 +23,7 @@ namespace TrueOrFalse.Tests
             _categoryRepository = Sl.R<CategoryRepository>();
 
             if(addContextUser)
-                _contextUser.Add("Context Category" ).Persist();
+                _contextUser.Add("User" + NamesCounter).Persist();
         }
 
         public ContextCategory Add(int amount)
@@ -169,20 +171,18 @@ namespace TrueOrFalse.Tests
                 Add("C", parent: firstChildren.ByName("X1")).Persist();
                 Add("C", parent: firstChildren.ByName("X2")).Persist();
 
-
-            var ThirdChildren = Add("H", parent: firstChildren.ByName("C"))
+                 Add("H", parent: firstChildren.ByName("C"))
                 .Add("G", parent: secondChildren.ByName("C"))
                 .Add("F", parent: secondChildren.ByName("C"))
                 .Add("E", parent: secondChildren.ByName("C"))
                 .Add("D", parent: secondChildren.ByName("B"))
-                .Persist()
-                .All;
+                .Persist();
 
-            Add("I", parent: secondChildren.ByName("C")).Persist();
-            Add("I", parent: secondChildren.ByName("E")).Persist();
-            Add("I", parent: secondChildren.ByName("G")).Persist();
+                Add("I", parent: secondChildren.ByName("C")).Persist();
+                Add("I", parent: secondChildren.ByName("E")).Persist();
+                Add("I", parent: secondChildren.ByName("G")).Persist();
 
-            var user = ContextUser.New().Add("User").Persist(true).All[0];
+            var user = ContextUser.New().Add("User" + new Random().Next(0,32000)).Persist(true).All[0];
          
 
             if (withWuwi)

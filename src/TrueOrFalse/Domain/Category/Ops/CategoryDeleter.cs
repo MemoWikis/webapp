@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Collections.Generic;
+using NHibernate;
 using TrueOrFalse.Search;
 
 public class CategoryDeleter : IRegisterAsInstancePerLifetime
@@ -12,7 +13,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public HasDeleted Run(Category category)
+    public HasDeleted Run(Category category, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true);
         var hasDeleted = new HasDeleted();
@@ -29,13 +30,13 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
         }
-
+        if(!isTestCase){
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
-
-        Sl.UserActivityRepo.DeleteForCategory(category.Id); 
+}
+        Sl.UserActivityRepo.DeleteForCategory(category.Id);
         Sl.CategoryRepo.Delete(category);
 
         Sl.CategoryChangeRepo.AddDeleteEntry(category);
