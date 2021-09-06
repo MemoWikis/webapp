@@ -15,6 +15,7 @@
 .searchAutocomplete .dropdown-menu {
   min-width: 280px;
   width: 100%;
+  padding: 0;
 }
 .searchAutocomplete .dropdown-menu .dropdownFooter {
   line-height: 20px;
@@ -35,6 +36,7 @@
   justify-content: space-between;
   flex-direction: row;
   cursor: unset;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .searchAutocomplete .searchBanner div {
   padding: 0 12px;
