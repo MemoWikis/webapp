@@ -424,7 +424,7 @@ img {
 
 .MenuButtonSM { //to override bootstrap styles several times
     padding: 0px;
-    font-size: 25px;
+    ont-size: 25px;
 }
 
 #MenuButton, #StickyMenuButton {
@@ -2453,4 +2453,86 @@ textarea, input {
 
 .footer-links-memucho {
     margin-top: 40px;
+}
+
+#MemuchoInfoBanner {
+    min-height: 140px;
+    width: 100%;
+    background: #e5effa;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    margin: 0 0 -40px 0;
+
+    .container {
+        height: 100%;
+        padding-top: 45px;
+        min-height: 140px;
+
+        #BannerContainer {
+            display: flex;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            min-height: 95px;
+            flex-wrap: wrap;
+
+            .memucho-info-partial {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+            }
+
+            #BannerText {
+                flex-direction: column;
+                align-items: flex-start;
+                color: @memo-blue;
+                justify-content: center;
+
+
+                .sub-text {
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 20px;
+                    letter-spacing: 1.25px;
+                    width: 100%;
+                    .fa-heart {
+                        color: @memo-wuwi-red;
+                    }
+
+                    @media (max-width: 767px) {
+                        text-align: center;
+                    }
+                }
+
+                .main-text {
+                    font-size: 25px;
+                    font-weight: 400;
+                    line-height: 34px;
+                    letter-spacing: 0em;
+                    width: 100%;
+
+                    @media (max-width: 767px) {
+                        text-align: center;
+                    }
+                }
+            }
+
+            #BannerRedirectBtn {
+                justify-content: space-evenly;
+            }
+
+            .close-banner {
+                color: @memo-grey-darker;
+                padding: 10px;
+
+                &.mobile-close {
+                    position: absolute;
+                    right: 0px;
+                    top: 10px;
+                }
+            }
+        }
+    }
 }

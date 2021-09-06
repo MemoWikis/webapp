@@ -1986,6 +1986,7 @@
     </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
+    <Content Include="Views\Shared\MemuchoInfoBanner.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>

@@ -384,7 +384,7 @@ img {
 }
 .MenuButtonSM {
   padding: 0px;
-  font-size: 25px;
+  ont-size: 25px;
 }
 #MenuButton,
 #StickyMenuButton {
@@ -496,7 +496,7 @@ fieldset[disabled] #StickyMenuButton {
     line-height: 1.33;
     border-radius: 6px;
     padding: 0px;
-    font-size: 25px;
+    ont-size: 25px;
     position: relative;
   }
   #MenuButton .caret,
@@ -589,7 +589,7 @@ fieldset[disabled] #StickyMenuButton:hover {
     line-height: 1.33;
     border-radius: 6px;
     padding: 0px;
-    font-size: 25px;
+    ont-size: 25px;
   }
 }
 #MenuButtonContainer {
@@ -2372,4 +2372,76 @@ input::placeholder {
 }
 .footer-links-memucho {
   margin-top: 40px;
+}
+#MemuchoInfoBanner {
+  min-height: 140px;
+  width: 100%;
+  background: #e5effa;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin: 0 0 -40px 0;
+}
+#MemuchoInfoBanner .container {
+  height: 100%;
+  padding-top: 45px;
+  min-height: 140px;
+}
+#MemuchoInfoBanner .container #BannerContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 95px;
+  flex-wrap: wrap;
+}
+#MemuchoInfoBanner .container #BannerContainer .memucho-info-partial {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText {
+  flex-direction: column;
+  align-items: flex-start;
+  color: #003264;
+  justify-content: center;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 1.25px;
+  width: 100%;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+  color: #FF001F;
+}
+@media (max-width: 767px) {
+  #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
+    text-align: center;
+  }
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .main-text {
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 34px;
+  letter-spacing: 0em;
+  width: 100%;
+}
+@media (max-width: 767px) {
+  #MemuchoInfoBanner .container #BannerContainer #BannerText .main-text {
+    text-align: center;
+  }
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerRedirectBtn {
+  justify-content: space-evenly;
+}
+#MemuchoInfoBanner .container #BannerContainer .close-banner {
+  color: #555555;
+  padding: 10px;
+}
+#MemuchoInfoBanner .container #BannerContainer .close-banner.mobile-close {
+  position: absolute;
+  right: 0px;
+  top: 10px;
 }
