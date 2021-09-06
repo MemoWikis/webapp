@@ -26,6 +26,8 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/d3") %>
+    <%= Scripts.Render("~/bundles/js/jqueryUi") %>
+    <%= Styles.Render("~/bundles/jqueryUi") %>
 
     <script type="text/x-template" id="question-details-component">
         <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
