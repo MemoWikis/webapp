@@ -14,6 +14,7 @@
 }
 .searchAutocomplete .dropdown-menu {
   min-width: 280px;
+  width: 100%;
 }
 .searchAutocomplete .dropdown-menu .dropdownFooter {
   line-height: 20px;

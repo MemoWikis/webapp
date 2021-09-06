@@ -155,6 +155,8 @@
                     eventBus.$emit("change-active-question", lastIndex);
                     self.highlightEmptyFields = false;
                     self.questionEditor.commands.setContent('');
+                    self.questionHtml = '';
+                    self.flashCardAnswer = '';
                     eventBus.$emit('clear-flashcard');
                 },
             });
