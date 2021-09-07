@@ -12,7 +12,7 @@
                 <a href="#">
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
-                <a href="#" class="hidden-xs close-banner">
+                <a href="#" onclick="HideInfoBanner()" class="hidden-xs close-banner">
                     <i class="fas fa-times"></i>
                 </a>
             </div>

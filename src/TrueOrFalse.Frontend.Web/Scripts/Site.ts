@@ -263,6 +263,18 @@ function SetBrowserClass() {
     $('html').addClass(BrowserDetect.browser);
 }
 
+function LoadInfoBanner() {
+
+    var cookie = document.cookie.match('(^|;)\\s*' + "memuchoInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || '';
+    if (cookie != 'hide')
+        $('#MemuchoInfoBanner').addClass('show-banner');
+}
+
+function HideInfoBanner() {
+    $('#MemuchoInfoBanner').removeClass('show-banner');
+    document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+}
+
 $(() => {
 
     new Site();
@@ -280,4 +292,5 @@ $(() => {
     Allowed_only_for_active_users();
     InitClickLog();
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
+    LoadInfoBanner();
 });

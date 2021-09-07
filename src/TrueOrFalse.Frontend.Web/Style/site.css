@@ -52,6 +52,9 @@
 html {
   height: 100%;
   background-color: #EFEFEF;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 body {
   font-family: 'Open Sans', Arial, sans-serif;
@@ -60,6 +63,9 @@ body {
   min-width: 280px;
   position: relative;
   background-color: #F6F8FA;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 h1,
 h2,
@@ -897,6 +903,8 @@ ul.AutocompleteHeader {
   padding-right: 15px;
   padding-bottom: 20px;
   position: relative;
+  z-index: 50;
+  flex: 1;
 }
 #MasterFooter #footerOn {
   display: inline-block;
@@ -2374,13 +2382,28 @@ input::placeholder {
   margin-top: 40px;
 }
 #MemuchoInfoBanner {
-  min-height: 140px;
+  height: 0px;
+  min-height: 0px;
   width: 100%;
   background: #e5effa;
-  position: sticky;
   top: 0;
   z-index: 50;
+  margin: 0;
+  transform: translateY(-140px);
+  transition: transform 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+  opacity: 0;
+  position: relative;
+  pointer-events: none;
+  visibility: hidden;
+}
+#MemuchoInfoBanner.show-banner {
+  opacity: 1;
+  min-height: 140px;
   margin: 0 0 -40px 0;
+  height: unset;
+  transform: translateY(0px);
+  pointer-events: unset;
+  visibility: unset;
 }
 #MemuchoInfoBanner .container {
   height: 100%;
