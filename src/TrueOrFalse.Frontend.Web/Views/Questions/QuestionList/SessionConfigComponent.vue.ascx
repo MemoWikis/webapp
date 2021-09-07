@@ -17,7 +17,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="notLoggedInModal" v-show="!isLoggedIn">
-                        <span class="notLoggedInHeader">Die Lernoptionen sind nur für eingeloggte Nutzer verfügbar.</span>
+                        <span class="notLoggedInHeader">Einige Lernoptionen sind nur für eingeloggte Nutzer verfügbar.</span>
                         <span class="notLoggedInButton"><button class="btn btn-primary"> <%: Html.ActionLink("Kostenlos registrieren", Links.RegisterAction, Links.RegisterController) %></button></span>
                         <span class="login">Ich bin schon Nutzer!&nbsp;<a href="#" data-btn-login="true">Anmelden!</a></span>
                     </div>
@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                                 <div class="test-mode-info" :class="{inactive: !isLoggedIn}" >
-                                    Du willst es Wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
+                                    Du willst es wissen? Im Prüfungsmodus kannst Du Dein Wissen realistisch testen: zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
                                 </div>
                                 <div class="modal-divider"></div>
                                 <div id="CheckboxesLearnOptions" class="row" :class="{inactive: !isLoggedIn}">

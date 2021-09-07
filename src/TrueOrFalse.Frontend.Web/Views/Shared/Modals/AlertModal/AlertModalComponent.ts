@@ -11,6 +11,7 @@ var messages = {
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
             saved: "Deine Frage wurde erfolgreich gespeichert.",
+            delete: "Deine Frage wurde erfolgreich gelöscht."
         },
         user: {}
     },
@@ -26,20 +27,29 @@ var messages = {
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
             childIsParent: "Übergeordnete Themen können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
-            nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!"
+            nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
+            rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden."
         },
         question: {
             missingText: "Der Fragetext fehlt.",
             missingAnswer: "Die Antwort zur Frage fehlt.",
             save: "Deine Frage konnte nicht gespeichert werden.",
             creation: "Deine Frage konnte nicht erstellt werden.",
+            isInWuwi: {
+                part1: "Die Frage kann nicht gelöscht werden, " +
+                    "sie ist ",
+                part2: "x Teil des Wunschwissens anderer Nutzer. " +
+                "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
+            },
+            errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
-        user: {}
+        user: {},
+        default: "Ein Fehler ist aufgetreten"
     }
 }
 
 
-var alertModalComponent = Vue.component('alert-modal-component',
+Vue.component('alert-modal-component',
     {
         data() {
             return {
@@ -64,9 +74,13 @@ var alertModalComponent = Vue.component('alert-modal-component',
 
             eventBus.$on('show-error',
                 (data) => {
-                    this.message = data.msg;
-                    if (data.reload)
-                        this.reload = data.reload;
+                    if (data != null) {
+                        this.message = data.msg;
+                        if (data.reload)
+                            this.reload = data.reload;
+                    } else
+                        this.message = messages.error.default;
+
                     $('#ErrorModal').modal('show');
                 });
             $('#ErrorModal').on('show.bs.modal',

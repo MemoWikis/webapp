@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
@@ -43,12 +44,6 @@ public class SegmentationController : BaseController
         });
     }
 
-    [HttpPost]
-    public JsonResult GetCategoryData(int categoryId)
-    {
-        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations) : GetCategoryCardData(categoryId);
-        return Json(categoryCardData);
-    }
 
     [HttpPost]
     public JsonResult GetCategoriesData(int[] categoryIds)
@@ -71,6 +66,14 @@ public class SegmentationController : BaseController
         return Json(categoryDataList);
     }
 
+    [HttpPost]
+    public JsonResult GetCategoryData(int categoryId)
+    {
+        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations) : GetCategoryCardData(categoryId);
+        return Json(categoryCardData);
+    }
+
+
     private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
@@ -82,7 +85,7 @@ public class SegmentationController : BaseController
         var imageFrontendData = new ImageFrontendData(imageMetaData);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
 
-        var childCategoryCount = categoryCacheItem.CachedData.ChildrenIds.Count;
+        var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds; 
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
         var knowledgeBarHtml = "";
         if (questionCount > 0)

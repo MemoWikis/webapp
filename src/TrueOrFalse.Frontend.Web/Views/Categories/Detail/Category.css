@@ -1241,19 +1241,30 @@ p:empty {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-bottom: 10px;
 }
 #CategoryFooter .footerToolbar .wishknowledge {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#CategoryFooter .footerToolbar .wishknowledge .Pin {
+  height: 44px;
 }
 #CategoryFooter .footerToolbar .wishknowledge #PinLabel {
   padding-left: 10px;
-  padding-top: 4px;
   display: block;
   height: 100%;
-  line-height: 38px;
+  line-height: 44px;
   color: #999999;
 }
 #CategoryFooter .footerToolbar .footerDropdown {
@@ -2588,8 +2599,7 @@ p:empty {
 [v-cloak] {
   display: none;
 }
-#TopicTabFABApp,
-#LearningTabFABApp {
+#TopicTabFABApp {
   position: -webkit-sticky;
   position: sticky;
   bottom: 20px;
@@ -2597,8 +2607,7 @@ p:empty {
   z-index: 16;
   height: 56px;
 }
-#TopicTabFABApp .fab-container,
-#LearningTabFABApp .fab-container {
+#TopicTabFABApp .fab-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2609,8 +2618,7 @@ p:empty {
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse;
 }
-#TopicTabFABApp .fab-container .main-fab-container,
-#LearningTabFABApp .fab-container .main-fab-container {
+#TopicTabFABApp .fab-container .main-fab-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2624,8 +2632,7 @@ p:empty {
   z-index: 999;
 }
 @media (min-width: 1200px) {
-  #TopicTabFABApp .fab-container .main-fab-container,
-  #LearningTabFABApp .fab-container .main-fab-container {
+  #TopicTabFABApp .fab-container .main-fab-container {
     margin-right: -28px;
   }
 }
@@ -2745,8 +2752,7 @@ p:empty {
     position: unset;
   }
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab {
   min-width: 56px;
   height: 56px;
   background-color: #AFD534;
@@ -2780,17 +2786,14 @@ p:empty {
   transition: box-shadow 0.3s, height 0.3s;
   transition: box-shadow 0.3s, height 0.3s, -webkit-box-shadow 0.3s;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab:hover,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab:hover {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab:hover {
   -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 12px rgba(0, 0, 0, 0.12), 0 12px 12px rgba(0, 0, 0, 0.24);
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab.extended,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab.extended {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.extended {
   height: 46px;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label {
   line-height: 56px;
   text-transform: uppercase;
   overflow: hidden;
@@ -2837,31 +2840,26 @@ p:empty {
     height: 48px;
   }
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label.extended,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-label.extended {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-label.extended {
   padding-left: 12px;
   -webkit-animation: increase-size 0.3s forwards;
           animation: increase-size 0.3s forwards;
   line-height: 48px;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.in-edit-mode {
   -webkit-animation: pop-in-normal 0.8s forwards;
           animation: pop-in-normal 0.8s forwards;
   margin-top: -56px;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab.is-sticky,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab.is-sticky {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.is-sticky {
   -webkit-animation: move-right 0.5s forwards;
           animation: move-right 0.5s forwards;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab.is-sticky.in-edit-mode,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab.is-sticky.in-edit-mode {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab.is-sticky.in-edit-mode {
   -webkit-animation: move-left 0.5s forwards;
           animation: move-left 0.5s forwards;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container {
   position: absolute;
   height: 56px;
   width: 18px;
@@ -2878,25 +2876,21 @@ p:empty {
       -ms-flex-align: center;
           align-items: center;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container.extended,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container.extended {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container.extended {
   position: unset;
   height: 48px;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i {
   margin: auto;
   position: absolute;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-pen,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-pen {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-pen {
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
   transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-pen.is-open,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-pen.is-open {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-pen.is-open {
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
@@ -2905,8 +2899,7 @@ p:empty {
           transform: rotate(-180deg) scale(0.5);
   opacity: 0;
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-times,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-times {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-times {
   opacity: 0;
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
@@ -2915,8 +2908,7 @@ p:empty {
   -webkit-transform: rotate(0) scale(0.5);
           transform: rotate(0) scale(0.5);
 }
-#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-times.is-open,
-#LearningTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-times.is-open {
+#TopicTabFABApp .fab-container .main-fab-container .main-fab .fab-icon-container i.fa-times.is-open {
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
@@ -2925,21 +2917,18 @@ p:empty {
           transform: rotate(-180deg) scale(1);
   opacity: 1;
 }
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list {
   position: absolute;
   bottom: 60px;
   width: 300px;
   right: 6px;
 }
 @media (min-width: 1200px) {
-  #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list,
-  #LearningTabFABApp .fab-container .main-fab-container .mini-fab-list {
+  #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list {
     right: -41px;
   }
 }
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2955,8 +2944,7 @@ p:empty {
       -ms-flex-align: center;
           align-items: center;
 }
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab {
   width: 40px;
   height: 40px;
   -webkit-border-radius: 50%;
@@ -2965,18 +2953,15 @@ p:empty {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
 }
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i {
   font-size: 18px;
   margin: auto;
 }
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i.fa-edit,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i.fa-edit {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab i.fa-edit {
   padding-left: 4px;
   padding-bottom: 2px;
 }
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
   text-align: right;
   padding: 0 16px;
   margin-right: 16px;
@@ -2989,18 +2974,14 @@ p:empty {
   line-height: 32px;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab-label,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container:hover .mini-fab-label {
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24);
   -webkit-transition: ease-in 0.1s;
   transition: ease-in 0.1s;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3011,44 +2992,32 @@ p:empty {
   transition: box-shadow 0.3s, -webkit-box-shadow 0.3s;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-fast,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-fast,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-fast,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-fast {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-fast {
   -webkit-animation: pop-in-fast 0.8s forwards;
           animation: pop-in-fast 0.8s forwards;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-normal,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-normal,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-normal,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-normal {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-normal {
   -webkit-animation: pop-in-normal 0.8s forwards;
           animation: pop-in-normal 0.8s forwards;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-slow,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab.pop-slow,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-slow,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-slow {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list .mini-fab-container .mini-fab-label.pop-slow {
   -webkit-animation: pop-in-slow 0.8s forwards;
           animation: pop-in-slow 0.8s forwards;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-fast,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-fast,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-fast,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-fast {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-fast {
   -webkit-animation: pop-out-slow 0.8s forwards;
           animation: pop-out-slow 0.8s forwards;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-normal,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-normal,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-normal,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-normal {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-normal {
   -webkit-animation: pop-out-normal 0.8s forwards;
           animation: pop-out-normal 0.8s forwards;
 }
 #TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-slow,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab.pop-slow,
-#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-slow,
-#LearningTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-slow {
+#TopicTabFABApp .fab-container .main-fab-container .mini-fab-list.is-open .mini-fab-container .mini-fab-label.pop-slow {
   -webkit-animation: pop-out-fast 0.8s forwards;
           animation: pop-out-fast 0.8s forwards;
 }
@@ -3316,8 +3285,7 @@ p:empty {
     opacity: 0;
   }
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar,
-#LearningTabFABApp .edit-mode-bar-container .toolbar {
+#TopicTabFABApp .edit-mode-bar-container .toolbar {
   height: 56px;
   overflow: hidden;
   background-color: #AFD534;
@@ -3345,14 +3313,12 @@ p:empty {
   min-width: 1px;
 }
 @media (min-width: 1200px) {
-  #TopicTabFABApp .edit-mode-bar-container .toolbar,
-  #LearningTabFABApp .edit-mode-bar-container .toolbar {
+  #TopicTabFABApp .edit-mode-bar-container .toolbar {
     -webkit-transform-origin: 65% 25%;
             transform-origin: 65% 25%;
   }
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky,
-#LearningTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky {
   position: absolute;
   -webkit-border-radius: 4px;
           border-radius: 4px;
@@ -3360,13 +3326,11 @@ p:empty {
           transform-origin: right;
   bottom: -22px;
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky:hover,
-#LearningTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky:hover {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.pseudo-sticky:hover {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar.shrink.pseudo-sticky,
-#LearningTabFABApp .edit-mode-bar-container .toolbar.shrink.pseudo-sticky {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.shrink.pseudo-sticky {
   -webkit-animation: move-to-right 0.1s forwards;
           animation: move-to-right 0.1s forwards;
   -webkit-transition: width 0.1s;
@@ -3388,8 +3352,7 @@ p:empty {
     left: 0;
   }
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar.expand,
-#LearningTabFABApp .edit-mode-bar-container .toolbar.expand {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.expand {
   -webkit-transition: width 0.1s;
   transition: width 0.1s;
   -webkit-animation: expand 0.1s forwards;
@@ -3411,13 +3374,11 @@ p:empty {
     left: 0;
   }
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar.is-hidden,
-#LearningTabFABApp .edit-mode-bar-container .toolbar.is-hidden {
+#TopicTabFABApp .edit-mode-bar-container .toolbar.is-hidden {
   -webkit-animation: pop-in-fast 0.8s forwards;
           animation: pop-in-fast 0.8s forwards;
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3435,9 +3396,7 @@ p:empty {
   max-width: 1140px;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .centerText,
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3454,8 +3413,7 @@ p:empty {
   text-transform: uppercase;
   font-weight: 600;
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .saveMsg {
   padding-right: 20px;
   -webkit-animation-name: opacity;
           animation-name: opacity;
@@ -3485,9 +3443,7 @@ p:empty {
   }
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right {
   height: 56px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3500,9 +3456,7 @@ p:empty {
           flex-direction: row-reverse;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left .button,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left .button,
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button {
   margin: auto;
   padding: 0 20px;
   display: -webkit-box;
@@ -3524,25 +3478,19 @@ p:empty {
   cursor: pointer;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left .button .icon,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left .button .icon,
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button .icon,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button .icon {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button .icon {
   font-size: 25px;
 }
 #TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left .button .btn-label,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left .button .btn-label,
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button .btn-label,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button .btn-label {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right .button .btn-label {
   font-size: 12px;
   line-height: 12px;
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-left {
   width: 100%;
   max-width: 200px;
 }
-#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right,
-#LearningTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right {
+#TopicTabFABApp .edit-mode-bar-container .toolbar .toolbar-btn-container .btn-right {
   width: 200px;
 }
 .v-ripple__container {

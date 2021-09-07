@@ -21,10 +21,12 @@ var EditQuestionLoader = new Vue({
                     questionId: e.questionId,
                     edit: e.edit,
                     sessionIndex: e.sessionIndex,
-                    categoryId: e.categoryId
+                    categoryId: e.categoryId,
+                    questionHtml: e.questionHtml,
+                    solution: e.solution
                 };
                 if (this.modalIsReady && this.tiptapIsReady)
-                    $('#EditQuestionModal').data('question', question).modal('show');
+                    $('#EditQuestionModal').data('question', question).modal({ backdrop: 'static', keyboard: false });
                 else if (!this.modalIsReady && this.tiptapIsReady)
                     this.loadEditor(question);
                 else if (!this.tiptapIsReady)

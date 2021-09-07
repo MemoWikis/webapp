@@ -16,47 +16,26 @@
   position: sticky;
   margin: 0;
   width: 100%;
-  min-height: 84px;
   z-index: 100;
   background-color: #003264;
-}
-@media (max-width: 767px) {
-  #MasterHeader {
-    min-height: 47px;
-  }
+  min-height: 60px;
 }
 #MasterHeader .HeaderMainRow {
-  height: 34px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  min-height: 60px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp {
-  width: auto;
-  float: right;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  height: 34px;
-}
-@media (max-width: 479px) {
-  #MasterHeader .HeaderMainRow .col-LoginAndHelp {
-    padding-left: 0;
-    float: right;
-  }
-}
-@media (max-width: 767px) {
-  #MasterHeader .HeaderMainRow .col-LoginAndHelp {
-    margin-top: 0px;
-  }
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp {
   color: #E7ECF6;
   float: right;
   height: 100%;
-}
-@media (max-width: 767px) {
-  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp {
-    margin-top: 6px;
-  }
 }
 #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item {
   display: flex;
@@ -146,60 +125,13 @@
   position: relative;
   margin-right: 0px;
 }
-@media (min-width: 768px) {
-  #MasterHeader .HeaderMainRow {
-    margin-top: 1%;
-    margin-bottom: 1%;
-  }
-}
-@media (min-width: 768px) {
-  #MasterHeader .HeaderMainRow {
-    height: 37px;
-    margin-top: 6px;
-    margin-bottom: 6px;
-  }
-}
 @media (max-width: 580px) {
   #MasterHeader .HeaderMainRow .fa-dot-circle-o {
     margin-top: 4px;
   }
 }
-#MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-  left: 115px;
-  margin-top: 17px;
-  width: 262.41px;
-}
-@media (max-width: 1199.5px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 215.41px;
-    left: 29px;
-  }
-}
-@media (max-width: 991.5px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    display: none;
-  }
-}
-#MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
-  border-right: none !important;
-  border: 1px #979797 solid;
-  height: 44px;
-}
-#MasterHeader .HeaderMainRow .userImage {
-  height: 31px;
-  width: 31px;
-  margin-left: 1px;
-}
 #MasterHeader .col-Logo {
   height: 100%;
-  width: auto;
-  float: left;
-}
-@media (max-width: 991px) {
-  #MasterHeader .col-Logo {
-    padding-right: 0;
-    margin-top: 3px;
-  }
 }
 /* BreadCrumb and Masterheader*/
 /** Default button **/
@@ -343,10 +275,9 @@
   margin-left: auto;
   justify-content: space-between;
   display: none;
+  height: 100%;
 }
 #Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage {
-  margin-right: 15px;
-  min-width: 29px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -362,20 +293,77 @@
 }
 #Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in {
   color: #999999;
-  font-size: 32px;
-  padding-top: 0px;
+  font-size: 20px;
   transition: color 0.3s;
-  margin: 0;
-  padding: 0 15px;
+  padding: 0 6px;
 }
 #Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in:hover {
   color: #003264;
 }
-#Breadcrumb #StickyHeaderContainer .userImage {
-  width: 28px !important;
-  height: 28px !important;
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .badge-counter {
+  position: absolute;
+  border: solid 2px white;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #FF001F;
+  top: 6px;
+  margin-left: 20px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer:hover {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .userImage {
+  width: 32px;
+  height: 32px;
   border: none;
-  text-align: center;
+  border-radius: 50%;
+  min-width: 32px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .arrow-down {
+  padding-left: 6px;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn {
+  height: 100%;
+  margin-right: 32px;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn .register-btn {
+  height: 100% !important;
+  color: white;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn:hover .register-btn {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button {
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn .fa-sign-in {
+  padding: 0 6px;
+  font-size: 20px;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn:hover {
+  color: #AFD534;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.register-btn {
+  background: #AFD534;
+  color: #003264;
+  height: 100%;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.register-btn:hover {
+  filter: brightness(0.85);
 }
 #Breadcrumb #StickyHeaderContainer #UserProgressContainer {
   white-space: unset;
@@ -393,10 +381,6 @@
   justify-content: center;
   align-items: center;
   transition: width 0.3s;
-}
-#Breadcrumb .fa {
-  margin-right: 15px;
-  padding-top: 12px;
 }
 #Breadcrumb #EditCategoryBreadcrumbChip {
   margin: 0 20px;
@@ -481,9 +465,65 @@
 #StickyHeaderContainer a.TextLinkWithIcon:focus * {
   text-decoration: none;
 }
-#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
-#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
-  font-size: 32px;
+#loginAndHelp a.TextLinkWithIcon #UserBtn,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn:hover,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn:hover {
+  color: #AFD534;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .badge-counter,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .badge-counter {
+  color: white !important;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 10px;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container img,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container img {
+  height: 46px;
+  width: 46px;
+  border-radius: 50%;
+  min-width: 46px;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container .badge-counter,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container .badge-counter {
+  position: absolute;
+  border-radius: 10px;
+  border: solid 2px #003264;
+  background: #FF001F;
+  font-size: 10px;
+  padding: 0 4px;
+  height: 20px;
+  min-width: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .user-name,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .user-name {
+  font-family: Open Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-right: 6px;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  overflow: hidden;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down {
+  font-size: 14px;
 }
 @media (max-width: 580px) {
   #loginAndHelp .fa-bars,
@@ -520,6 +560,43 @@
 #StickyHeaderContainer .dropdown-menu i {
   margin: 0px;
 }
+@media (max-width: 767px) {
+  #loginAndHelp {
+    padding-left: 0;
+  }
+}
+#loginAndHelp .dropdown.open .arrow-down i.fa-chevron-down {
+  transform: rotate(180deg);
+}
+#loginAndHelp .login-register-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#loginAndHelp .login-register-container .memo-button {
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+}
+#loginAndHelp .login-register-container .memo-button.login-btn .fa-sign-in {
+  padding: 0 6px;
+  font-size: 20px;
+}
+#loginAndHelp .login-register-container .memo-button.login-btn:hover {
+  color: #AFD534;
+}
+#loginAndHelp .login-register-container .memo-button.register-btn {
+  background: #AFD534;
+  color: #003264;
+}
+@media (max-width: 530px) {
+  #loginAndHelp .login-register-container .memo-button.register-btn {
+    display: none !important;
+  }
+}
+#loginAndHelp .login-register-container .memo-button.register-btn:hover {
+  filter: brightness(0.85);
+}
 /*Breadcrumb*/
 #Breadcrumb {
   z-index: 99;
@@ -550,4 +627,33 @@
 }
 #Breadcrumb .last-in-breadcrumb {
   color: #555555;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage .arrow-down i.fa-chevron-down {
+  color: #999999;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage:hover i.fa-chevron-down {
+  color: #003264;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage.open .arrow-down i.fa-chevron-down {
+  transform: rotate(180deg);
+}
+#HeaderBodyContainer {
+  padding-right: 0;
+}
+#HeaderBodyContainer #loginAndHelp {
+  padding-right: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+#BreadCrumbContainer.search-is-open #BreadCrumbTrail,
+#BreadCrumbContainer.search-is-open #FirstChevron {
+  display: none !important;
+}
+#BreadCrumbContainer.search-is-open #StickyHeaderContainer {
+  width: 100%;
+  margin-left: 30px;
+  justify-self: flex-end;
+}
+#BreadCrumbContainer.search-is-open #StickyHeaderContainer input {
+  max-width: 400px;
 }

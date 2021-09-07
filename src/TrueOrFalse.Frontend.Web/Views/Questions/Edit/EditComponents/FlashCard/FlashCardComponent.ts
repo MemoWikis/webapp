@@ -1,5 +1,6 @@
 ﻿Vue.component('flashcard-component', {
     props: ['solution', 'highlightEmptyFields'],
+    template: '#flashcard-template',
     data() {
         return {
             content: null,

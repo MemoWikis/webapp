@@ -15,9 +15,6 @@ namespace TrueOrFalse.View
                   "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
                   "~/Views/Shared/CategoryLabel.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/markdownCss")
-                .Include("~/Style/markdown-editor.css"));
-
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 
@@ -42,6 +39,12 @@ namespace TrueOrFalse.View
                     .IncludeDirectory("~/Views/Welcome/Login", "*.js")
                     .Include("~/Scripts/npm/vue/vue.min.js"));
             }
+
+            bundles.Add(new StyleBundle("~/bundles/jqueryUi")
+                .IncludeDirectory("~/Style/jquery-ui/","*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/jqueryUI")
+                .Include("~/Scripts/vendor/jqueryUi/jquery-ui.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/lazy")
                 .Include("~/Views/Shared/Lazy/LazyComponent.js"));
@@ -151,8 +154,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/TopicTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/TopicTabFabLoader.js"));
-            bundles.Add(new ScriptBundle("~/bundles/js/LearningTabFABLoader")
-                .Include("~/Views/Categories/Detail/FloatingActionButton/LearningTabFabLoader.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
                 .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
@@ -175,13 +176,11 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
-                .Include("~/Scripts/ValuationPerRow.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
+                .Include("~/Scripts/ValuationPerRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
+                .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Beta")
                 .IncludeDirectory("~/Views/Beta/Js/", "*.js"));
@@ -189,18 +188,10 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/CategoryEdit")
-                .Include("~/Views/Categories/Edit/EditCategory.css")
-                .Include("~/Scripts/vendor.somewhere/simplemde.css")
-                .Include("~/Views/Categories/Detail/Category.css"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
-                //.Include("~/Scripts/vendor.somewhere/simplemde.js")
-                .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
                 .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
@@ -269,12 +260,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/History/Detail/Js/*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
-                .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/Set")
-                .Include("~/Views/Questions/Answer/AnswerQuestion.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
-                .Include("~/Views/Sets/Detail/Set.css"));
+                .Include("~/Views/Questions/Js/DeleteQuestionComponent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
@@ -287,12 +273,6 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .Include("~/Views/Widgets/WidgetQuestion.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
-
-            //Markdown
-            bundles.Add(new ScriptBundle("~/bundles/markdown")
-                .Include("~/Scripts/Markdown.Converter.js",
-                         "~/Scripts/Markdown.Sanitizer.js",
-                         "~/Scripts/Markdown.Editor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
                .Include("~/Scripts/BootstrapCustomUtils.js"));

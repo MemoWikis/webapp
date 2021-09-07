@@ -1,6 +1,7 @@
 ﻿
 Vue.component('textsolution-component', {
     props: ['solution', 'highlightEmptyFields'],
+    template: '#textsolution-template',
     data() {
         return {
             text: '',
@@ -10,7 +11,6 @@ Vue.component('textsolution-component', {
             isEmpty: '',
         }
     },
-
     mounted() {
         if (this.solution)
             this.text = this.solution;
@@ -23,10 +23,7 @@ Vue.component('textsolution-component', {
             this.$parent.solutionIsValid = val.length > 0;
             this.setSolution();
 
-            if (val.length == 0)
-                this.isEmpty = 'is-empty';
-            else
-                this.isEmpty = '';
+            this.isEmpty = val.length == 0 ? 'is-empty' : '';
         }
     },
 

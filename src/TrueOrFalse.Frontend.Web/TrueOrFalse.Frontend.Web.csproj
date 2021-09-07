@@ -268,10 +268,6 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx.cs">
-      <DependentUpon>CommentAnswerAddComponent.vue.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs" />
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
@@ -320,20 +316,6 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Fonts\font-awesome-5.7.2\css\all.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Fonts\font-awesome-5.7.2\css\brands.css" />
@@ -1911,6 +1893,7 @@
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
     <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
+    <Content Include="Images\Logo\Logo.svg" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Logo\Logo_Green_Text.svg" />
     <Content Include="Images\no-profile-picture-20.png" />
@@ -1977,26 +1960,32 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-starterkit.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
-    <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js">
-      <DependentUpon>CommentComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Scripts\vendor\jqueryUi\jquery-ui.js" />
+    <Content Include="Style\jquery-ui\images\ui-icons_444444_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_555555_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_777620_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_777777_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
+    <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSectionComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js">
-      <DependentUpon>CommentsSection.ts</DependentUpon>
+    <Content Include="Views\Questions\Js\DeleteQuestionComponent.js">
+      <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.vue.ascx" />
-    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
+    <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
+    <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
+    <Content Include="Views\Shared\Lazy\LazyComponent.js">
+      <DependentUpon>LazyComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Lazy\LazyLoader.ascx" />
+    <Content Include="Views\Shared\Lazy\LazyComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js">
       <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>
@@ -2006,17 +1995,6 @@
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js.map">
       <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
-      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
-    <Content Include="Views\Shared\Lazy\LazyComponent.js">
-      <DependentUpon>LazyComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Lazy\LazyLoader.ascx" />
-    <Content Include="Views\Shared\Lazy\LazyComponent.vue.ascx" />
     <Content Include="Views\Shared\Search\HeaderSearch.js">
       <DependentUpon>HeaderSearch.ts</DependentUpon>
     </Content>
@@ -2111,9 +2089,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js">
       <DependentUpon>FloatingActionButton.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.js">
-      <DependentUpon>LearningTabFABLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js">
       <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
@@ -2318,7 +2293,6 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.ts" />
@@ -2489,9 +2463,6 @@
     <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js.map">
       <DependentUpon>FloatingActionButton.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\LearningTabFABLoader.js.map">
-      <DependentUpon>LearningTabFABLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js.map">
       <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
     </Content>
@@ -2583,8 +2554,6 @@
     <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
     <Content Include="Scripts\vendor.somewhere\readme.txt" />
-    <Content Include="Scripts\vendor.somewhere\simplemde.css" />
-    <Content Include="Scripts\vendor.somewhere\simplemde.js" />
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
@@ -2635,7 +2604,7 @@
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
@@ -2656,9 +2625,6 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\AnswerQuestionComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentsSection.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.ts" />
@@ -2668,6 +2634,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\AddQuestion\AddQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\DeleteQuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
@@ -3433,9 +3400,6 @@
     <Content Include="Style\z_mixins_2.3.2.css">
       <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\EditCategory.css">
-      <DependentUpon>EditCategory.less</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
@@ -3520,8 +3484,11 @@
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx.cs">
-      <DependentUpon>CommentAnswerAdd.vue.ascx</DependentUpon>
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
+      <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
+      <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
@@ -3596,8 +3563,6 @@
     <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\HeaderSearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
@@ -3711,9 +3676,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\Comment.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
     <Content Include="Scripts\answerQuestion\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
@@ -3768,27 +3733,20 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
-    <Content Include="Views\Questions\Edit\EditQuestion.css">
-      <DependentUpon>EditQuestion.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js">
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionRowDelete.js">
-      <DependentUpon>QuestionRowDelete.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\QuestionRowSelection.js">
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Modals\ModalDeleteQuestion.ascx" />
+    <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
@@ -3836,7 +3794,6 @@
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
-    <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
     <Content Include="Style\components.less" />
@@ -3849,9 +3806,6 @@
     </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestion.js.map">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionRowDelete.js.map">
-      <DependentUpon>QuestionRowDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3884,9 +3838,6 @@
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.less" />
-    <Content Include="Views\Questions\Edit\EditQuestion.css.map">
-      <DependentUpon>EditQuestion.css</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Detail\Set.css.map">
       <DependentUpon>Set.css</DependentUpon>
     </Content>
@@ -3911,10 +3862,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js.map">
       <DependentUpon>Comments.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Edit\EditCategory.less" />
-    <Content Include="Views\Categories\Edit\EditCategory.css.map">
-      <DependentUpon>EditCategory.css</DependentUpon>
     </Content>
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
@@ -4187,18 +4134,6 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js.map">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map">
-      <DependentUpon>CommentComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map">
-      <DependentUpon>CommentsSection.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
-      <DependentUpon>AlertModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js.map">
-      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Search\SearchComponent.js.map">
       <DependentUpon>SearchComponent.ts</DependentUpon>
     </Content>
@@ -4212,11 +4147,16 @@
       <DependentUpon>HeaderSearch.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Search\Search.less" />
+    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
+      <DependentUpon>AlertModalComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\DeleteQuestionComponent.js.map">
+      <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
-    <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
@@ -4247,7 +4187,6 @@
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Error\_500.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Sidebar.Master" />

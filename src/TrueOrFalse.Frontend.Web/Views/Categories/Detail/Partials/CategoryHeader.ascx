@@ -73,7 +73,7 @@
                         <% } %>
                         und
                         <% if (Model.CountAggregatedQuestions == 1) { %> 1 Frage <% }
-                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.Category.GetCountQuestionsAggregated() %> Fragen <% }
+                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.CountAggregatedQuestions %> Fragen <% }
                            else { %> 0 Fragen
                         <% } %>
                     </div>
@@ -241,7 +241,6 @@
 </div>
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
 <%= Scripts.Render("~/bundles/fileUploader") %>
-<%= Styles.Render("~/bundles/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/PublishCategory") %>
 <%= Scripts.Render("~/bundles/js/MyWorldToggle") %>

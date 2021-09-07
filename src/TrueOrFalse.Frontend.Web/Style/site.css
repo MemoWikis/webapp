@@ -195,6 +195,14 @@ img {
   float: left;
   overflow-y: visible;
 }
+#LogoLink #FullLogo {
+  height: 24px;
+  width: 148px;
+}
+#LogoLink #MobileLogo {
+  height: 36px;
+  width: 36px;
+}
 #BetaLogo {
   display: block;
   height: 100%;

@@ -258,7 +258,6 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
-
         var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
         var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
 
@@ -280,6 +279,8 @@ public class EditCategoryController : BaseController
 
         if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
+
+        Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(parentCategoryId), Sl.SessionUser.User, false);
 
         return Json(new
         {
@@ -491,7 +492,6 @@ public class EditCategoryController : BaseController
         return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, type));
     }
 
-
     [AccessOnlyAsLoggedIn]
     private void StoreImage(int categoryId)
     {
@@ -509,7 +509,6 @@ public class EditCategoryController : BaseController
             }
         }
     }
-
 
     [HttpPost]
     [AccessOnlyAsAdmin]
@@ -595,6 +594,12 @@ public class EditCategoryController : BaseController
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
             .Where(c => c.Visibility == CategoryVisibility.All);
+        if (categoryId == RootCategory.RootCategoryId)
+            return Json(new
+            {
+                success = false,
+                key = "rootCategoryMustBePublic"
+            });
 
         foreach (var c in aggregatedCategories)
         {
@@ -621,8 +626,7 @@ public class EditCategoryController : BaseController
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
         var category = Sl.CategoryRepo.GetById(categoryId);
         category.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Update(category, _sessionUser.User);
-
+        Sl.CategoryChangeRepo.AddMadePrivateEntry(category,Sl.SessionUser.User);
         return Json(new
         {
             success = true,
@@ -644,7 +648,6 @@ public class EditCategoryController : BaseController
             categoryCacheItem.Name = name;
             var category = Sl.CategoryRepo.GetById(categoryId);
             category.Name = name;
-            //Sl.CategoryRepo.Update(category, User_(), false, false, true);
             Sl.CategoryChangeRepo.AddTitelIsChangedEntry(category, Sl.SessionUser.User);
             var newUrl = Links.CategoryDetail(categoryCacheItem);
 

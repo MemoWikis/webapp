@@ -20,7 +20,7 @@
                                     </div>
                                 </form>
                                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                                    <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{forbiddenCategoryname}}</a>
+                                    <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{forbiddenCategoryName}}</a>
                                     {{errorMsg}}
                                 </div>
                                 <div class="checkBox" disabled>

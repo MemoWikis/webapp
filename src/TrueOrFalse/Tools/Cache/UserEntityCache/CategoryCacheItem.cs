@@ -210,7 +210,7 @@ public class CategoryCacheItem
             SkipMigration = category.SkipMigration,
             Visibility = category.Visibility,
             TopicMarkdown = category.TopicMarkdown,
-            TotalRelevancePersonalEntries = 50,
+            TotalRelevancePersonalEntries = category.TotalRelevancePersonalEntries,
             Type = category.Type,
             TypeJson = category.TypeJson,
             Url = category.Url,
@@ -222,8 +222,12 @@ public class CategoryCacheItem
 
     public virtual bool IsVisibleToCurrentUser()
     {
+        var sessionUser = Sl.SessionUser.User;
+        if (sessionUser == null)
+            return Visibility == CategoryVisibility.All;
+
         var creator = new UserTinyModel(Creator);
-        return Visibility == CategoryVisibility.All || creator.Id == Sl.SessionUser.UserId;
+        return Visibility == CategoryVisibility.All || creator.Id == Sl.SessionUser.UserId; 
     }
 
     public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();
