@@ -263,11 +263,10 @@ public class CategoryModel : BaseContentModule
 
     public bool ShowPinButton()
     {
-        if(_sessionUser.UserId != -1)
+        if (_sessionUser.UserId != -1)
             return !Category.IsHistoric &&
-                !UserCache.GetItem(_sessionUser.UserId).User.IsStartTopicTopicId(Category.Id) &&
-                Category.Id != RootCategory.RootCategoryId;
-     
-            return !Category.IsHistoric && Category.Id != RootCategory.RootCategoryId; 
+                   !UserCache.GetItem(_sessionUser.UserId).User.IsStartTopicTopicId(Category.Id);
+
+        return !Category.IsHistoric; 
     } 
 }
