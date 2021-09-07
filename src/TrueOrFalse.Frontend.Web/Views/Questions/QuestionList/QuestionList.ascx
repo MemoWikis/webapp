@@ -39,7 +39,7 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
-    <%--<question-comment-section-modal-component/>--%>
+    <question-comment-section-modal-component/>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>

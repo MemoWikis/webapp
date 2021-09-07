@@ -15,7 +15,7 @@
 <div v-if="showCommentSectionModal">
     <default-modal-component>
         <div v-slot:header>
-            <h2>Diskussionen2</h2>
+            <h2>Diskussionen</h2>
         </div>
         <div v-slot:body>
             <comment-section-component/>
