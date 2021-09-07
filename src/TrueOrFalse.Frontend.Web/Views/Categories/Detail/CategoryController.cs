@@ -20,6 +20,7 @@ public class CategoryController : BaseController
     {
         var user = Sl.SessionUser.User; 
         var personalStartSiteId = user != null ? user.StartTopicId : -1;
+        
         if (IsRedirectToPersonalStartsite(id, version, toRootCategory,personalStartSiteId))
             id = personalStartSiteId; 
         

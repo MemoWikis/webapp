@@ -230,7 +230,14 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("G"))
                 .Persist();
 
-            var user = ContextUser.New().Add("User").Persist().All[0];
+            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist().All[0];
+            var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
+                .Persist()
+                .All
+                .ByName(user.Name + "s Startseite").Id;
+
+            user.StartTopicId = personalStartTopicId;
+            Sl.SessionUser.Login(user);
 
             // Add in WUWI
             CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
@@ -238,14 +245,9 @@ namespace TrueOrFalse.Tests
             CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
             CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
 
-            var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
-                .Persist()
-                .All
-                .ByName(user.Name + "s Startseite").Id;
+    
 
-            user.StartTopicId = personalStartTopicId;
-
-            Sl.SessionUser.Login(user);
+          
         }
 
         public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)

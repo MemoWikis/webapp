@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Concurrent;
+using System.Linq;
+using NHibernate;
 using NUnit.Framework;
+using TrueOrFalse;
 using TrueOrFalse.Tests;
 
 class User_entity_cache_tests : BaseTest
@@ -7,8 +10,7 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Should_return_correct_categories()
     {
-        EntityCache.Clear();
-        UserEntityCache.Clear();
+        RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache();
         var user = Sl.SessionUser.User;
        
@@ -62,9 +64,14 @@ class User_entity_cache_tests : BaseTest
 
     [Test]
     public void Give_correct_number_of_cache_items_case_two()
-    {    EntityCache.Clear();
+    {
+       RecycleContainer();
+        Sl.SessionUser.Clear();
+        Sl.CategoryValuationRepo.ClearAllItemCache();
+        Sl.CategoryRepo.ClearAllItemCache();
         UserEntityCache.Clear();
-        ContextCategory.New().AddCaseTwoToCache();
+
+        ContextCategory.New().AddCaseTwoToCache(); 
         EntityCache.Init();
         var user = Sl.SessionUser.User;
         Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(5));
@@ -121,6 +128,12 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_init_for_user_entity_cache_change_name()
     {
+      RecycleContainer();
+        Sl.SessionUser.Clear();
+        Sl.CategoryValuationRepo.ClearAllItemCache();
+        Sl.CategoryRepo.ClearAllItemCache();
+        UserEntityCache.Clear();
+
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
         var user = Sl.SessionUser.User; 
@@ -351,7 +364,6 @@ class User_entity_cache_tests : BaseTest
         new CacheUpdater(category);
 
       var c  =  Sl.CategoryRepo.GetByName("B");
-      //ModifyRelationsForCategory.UpdateCategoryRelationsOfType();
 
         Sl.CategoryRepo.Update(category);
 

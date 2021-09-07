@@ -66,6 +66,12 @@ public class GraphService
 
     public static List<int> GetDirectParents(CategoryCacheItem category)
     {
+        var relations = new List<int>(); 
+        foreach (var relation in category.CategoryRelations)
+        {
+            if(relation.CategoryRelationType == CategoryRelationType.IsChildOf)
+                relations.Add(relation.RelatedCategoryId);
+        }
         return category.CategoryRelations
             .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId).ToList();
@@ -171,7 +177,13 @@ public class GraphService
                 }
             }
         }
-        ChangeFromRootCategoryToPersonalStartSite(userId, cacheItemWithChildren);
+        UserCache.GetItem(userId).CategoryValuations.TryGetValue(RootCategory.RootCategoryId, out var rootCategoryValuation);
+        bool isRootinWuwi = rootCategoryValuation.RelevancePersonal > 1; 
+       
+        if(!isRootinWuwi)
+            ChangeFromRootCategoryToPersonalStartSite(userId, cacheItemWithChildren);
+        else
+            AddRootTopicToPersonalStartsite(userId,cacheItemWithChildren);
 
         return cacheItemWithChildren.Values.ToList(); 
     }
@@ -179,6 +191,29 @@ public class GraphService
     private static bool IsInWishknowledgeOrParentIsRoot(bool isRootDirectParent, int userId, int parentId)
     {
         return UserCache.IsInWishknowledge(userId, parentId) ||  isRootDirectParent;
+    }
+
+    private static void AddRootTopicToPersonalStartsite(int userId, ConcurrentDictionary<int, CategoryCacheItem> cacheItemWithChildren)
+    {
+        var personalStartTopic = EntityCache.GetCategoryCacheItem(UserCache.GetItem(userId).User.StartTopicId, getDataFromEntityCache: true);
+        foreach (var categoryCacheItemId in cacheItemWithChildren.Keys)
+        {
+            personalStartTopic.CategoryRelations.Add(new CategoryCacheRelation
+            {
+                CategoryId = personalStartTopic.Id,
+                CategoryRelationType = CategoryRelationType.IncludesContentOf,
+                RelatedCategoryId = categoryCacheItemId
+            });
+        }
+       
+        cacheItemWithChildren.TryAdd(personalStartTopic.Id, personalStartTopic);
+        cacheItemWithChildren.TryGetValue(RootCategory.RootCategoryId, out var rootCategory); 
+        rootCategory.CategoryRelations.Add(new CategoryCacheRelation
+        {
+            CategoryId = rootCategory.Id,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
+            RelatedCategoryId = personalStartTopic.Id
+        });
     }
 
     private static void ChangeFromRootCategoryToPersonalStartSite(int userId, ConcurrentDictionary<int,CategoryCacheItem> cacheItemWithChildren)

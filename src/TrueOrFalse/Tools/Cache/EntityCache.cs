@@ -235,8 +235,8 @@ public class EntityCache : BaseCache
             UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
         {
             var user = Sl.SessionUser.User;
-            if (categoryId == 1)
-                return UserEntityCache.GetCategory( user.Id, user.StartTopicId); 
+            //if (categoryId == 1 )
+            //    return UserEntityCache.GetCategory( user.Id, user.StartTopicId); 
 
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, user.Id);
         }
