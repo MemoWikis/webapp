@@ -40,6 +40,12 @@ namespace TrueOrFalse.View
                     .Include("~/Scripts/npm/vue/vue.min.js"));
             }
 
+            bundles.Add(new StyleBundle("~/bundles/jqueryUi")
+                .IncludeDirectory("~/Style/jquery-ui/","*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/jqueryUI")
+                .Include("~/Scripts/vendor/jqueryUi/jquery-ui.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/lazy")
                 .Include("~/Views/Shared/Lazy/LazyComponent.js"));
 
