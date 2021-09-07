@@ -1,9 +1,8 @@
-﻿
-<%@ Import Namespace="System.Web.Mvc.Html" %>
+﻿<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <script type="x-template" id="add-comment-component">
-    <% Html.RenderPartial("~/Views/Questions/Answer/Comments/AddCommentComponent.vue.ascx"); %>
+    <%: Html.Partial("~/Views/Questions/Answer/Comments/AddCommentComponent.vue.ascx") %>
 </script>
 <script type="x-template" id="comment-component">
     <%: Html.Partial("~/Views/Questions/Answer/Comments/CommentComponent.vue.ascx") %>
@@ -16,7 +15,7 @@
 <div v-if="showCommentSectionModal">
     <default-modal-component>
         <div v-slot:header>
-            <h2>Diskussionen</h2>
+            <h2>Diskussionen2</h2>
         </div>
         <div v-slot:body>
             <comment-section-component/>

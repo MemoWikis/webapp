@@ -268,6 +268,13 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx.cs">
+      <DependentUpon>CommentAnswerAddComponent.vue.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
+      <DependentUpon>AnswerCommentsController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
@@ -1972,6 +1979,14 @@
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Questions\AnswerQuestionComponent.js" />
+    <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js" />
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.vue.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSectionComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Js\DeleteQuestionComponent.js">
       <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
@@ -1980,6 +1995,8 @@
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
+    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.vue.ascx" />
+    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
@@ -2604,7 +2621,6 @@
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
@@ -2625,6 +2641,9 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\AnswerQuestionComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentComponent.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentsSection.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.ts" />
@@ -3484,12 +3503,6 @@
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
-      <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
-      <DependentUpon>Comment.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
@@ -3558,6 +3571,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
+    <TypeScriptCompile Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
@@ -3676,9 +3690,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
     <Content Include="Scripts\answerQuestion\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
@@ -4153,6 +4164,9 @@
     <Content Include="Views\Questions\Js\DeleteQuestionComponent.js.map">
       <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map" />
+    <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -4204,6 +4218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="DynamicData\FieldTemplates\" />
     <Folder Include="Views\Categories\Detail\JsLearningTab\" />
   </ItemGroup>
   <PropertyGroup>

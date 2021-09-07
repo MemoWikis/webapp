@@ -8,7 +8,7 @@ public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
-    public ActionResult SaveComment(
+    public bool SaveComment(
         int questionId,
         string text,
         bool? typeImprovement,
@@ -32,12 +32,11 @@ public class AnswerCommentsController : BaseController
 
         Resolve<CommentRepository>().Create(comment);
 
-        return View("~/Views/Questions/Answer/Comments/Comment.vue.ascx",
-            new CommentModel(comment));
+        return true;
     }
 
     [HttpPost]
-    public ActionResult SaveAnswer(int commentId, string text)
+    public bool SaveAnswer(int commentId, string text)
     {
         var commentRepo = Resolve<CommentRepository>();
         var parentComment = commentRepo.GetById(commentId);
@@ -51,14 +50,12 @@ public class AnswerCommentsController : BaseController
 
         commentRepo.Create(comment);
 
-        return View("~/Views/Questions/Answer/Comments/CommentAnswer.vue.ascx",
-            new CommentModel(comment));
+        return true;
     }
 
     public ActionResult GetAnswerHtml()
     {
-        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.vue.ascx",
-            new CommentAnswerAddModel());
+        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx");
     }
 
     [HttpPost]
@@ -77,14 +74,14 @@ public class AnswerCommentsController : BaseController
         //todo: inform comment-creator and question-owner with message of changed status
     }
 
-    [HttpPost]
-    public ActionResult GetAllAnswersInclSettledHtml(int commentId)
-    {
-        var comment = Resolve<CommentRepository>().GetById(commentId);
+    //[HttpPost]
+    //public ActionResult GetAllAnswersInclSettledHtml(int commentId)
+    //{
+    //    var comment = Resolve<CommentRepository>().GetById(commentId);
 
-        return View("~/Views/Questions/Answer/Comments/Comment.vue.ascx",
-            new CommentModel(comment, true));
-    }
+    //    return View("~/Views/Questions/Answer/Comments/Comment.vue.ascx",
+    //        new CommentModel(comment, true));
+    //}
 
     [HttpPost]
     public List<CommentModel> GetAllCommentsInclSettledHtml(int questionId)
@@ -102,7 +99,7 @@ public class AnswerCommentsController : BaseController
     public Object GetComments(int questionId)
     {
         var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
-        
+
         var commentsList = new List<CommentModel>();
         foreach (var comment in _comments)
         {
@@ -113,7 +110,7 @@ public class AnswerCommentsController : BaseController
         }
 
         var currentUserImageUrl = new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
-        var result = new {currentUserImageUrl, commentsList };
+        var result = new { currentUserImageUrl, commentsList };
         return result;
     }
 }

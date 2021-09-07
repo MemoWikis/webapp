@@ -2,6 +2,7 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
+
 Vue.component('comments-section-component',
     {
         props: [],
@@ -53,6 +54,8 @@ Vue.component('comments-section-component',
                     readMore: false
                 }
             },
+            template: '#CommentAnswerComponent',
+
 
             mounted() {
 
@@ -67,19 +70,19 @@ Vue.component('comments-section-component',
 
 Vue.component('comment-component',
     {
-        props: ['comment', 'questionId'],
+        props: ['comment', 'questionId', 'currentUserImageUrl'],
         data() {
             return {
                 readMore: false,
                 showAnsweringPanel: false,
                 settled: false,
-                commentId: this.commentIdString,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
-                isOwner: this.isOwnerString == 'True',
+                isOwner: this.comment.CreatorImageUrl == this.currentUserImageUrl,
                 isLoggedIn: IsLoggedIn.Yes,
             }
         },
+        template: '#CommentComponent',
 
         created() {
             const self = this;
@@ -138,6 +141,8 @@ Vue.component('comment-answer-add-component',
             }
         },
 
+        template: '#CommentAnswerAddComponent',
+
         mounted() {
 
         },
@@ -159,11 +164,14 @@ Vue.component('comment-answer-add-component',
 
 Vue.component('add-comment-component',
     {
+        props: ['currentUserImageUrl', 'questionId'],
         data() {
             return {
                 commentText: "",
             }
         },
+
+        template: '#AddCommentComponent',
 
         mounted() {
 

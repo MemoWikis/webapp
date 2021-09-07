@@ -24,7 +24,7 @@ Vue.component('comment-section-component',
                 comments: [] as Comments[],
                 settledComments: [] as Comments[],
                 questionId: 0,
-                currentUserImageUrl: ''
+                currentUserImageUrl: '',
             };
         },
         template: '#comment-section-component',
