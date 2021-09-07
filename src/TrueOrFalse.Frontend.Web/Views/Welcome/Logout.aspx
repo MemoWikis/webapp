@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Ausgeloggt" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<dynamic>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Url.Action("Logout", "Welcome") %>">   
@@ -19,6 +20,7 @@
             <p>Du wurdest erfolgreich ausgeloggt.</p>    
         </div>        
     </div>
+    <%= Scripts.Render("~/bundles/js/search") %>
 
 </asp:Content>
 
