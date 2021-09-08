@@ -4,9 +4,12 @@
 <script type="text/x-template" id="pin-wuwi-template">
     <%: Html.Partial("~/Views/Shared/PinComponentVue/PinComponent.vue.ascx") %>
 </script>
+<%: Html.Partial("~/Views/Questions/Modals/QuestionCommentSectionModalTemplate.vue.ascx") %>
+<%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponent.vue.ascx") %>
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
+
 
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
     <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
@@ -39,7 +42,7 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
-    <question-comment-section-modal-component/>
+    <question-comment-section-modal-component />
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>

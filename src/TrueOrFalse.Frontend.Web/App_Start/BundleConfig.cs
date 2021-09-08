@@ -220,6 +220,7 @@ namespace TrueOrFalse.View
             );
 
             bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
+                .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Comments/","*.js")
                 );
 
@@ -237,9 +238,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListApp")
-                .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js")
-                .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js"));
-
+                .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
+                .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
                 .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")

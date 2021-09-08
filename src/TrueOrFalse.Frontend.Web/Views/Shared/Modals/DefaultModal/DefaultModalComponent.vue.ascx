@@ -1,5 +1,4 @@
-﻿<%@ Import Namespace="System.Web.Optimization" %>
-<div id="defaultModal">
+﻿<div id="defaultModal">
     <div class="modal-default-mask">
         <div class="modal-default-wrapper">
             <div class="modal-default-container">
