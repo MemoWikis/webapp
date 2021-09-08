@@ -11,7 +11,6 @@
     <%: Html.Partial("~/Views/Questions/Answer/Comments/CommentsSectionComponent.vue.ascx") %>
 </script>
 
-
 <div v-if="showCommentSectionModal">
     <default-modal-component>
         <div v-slot:header>
@@ -19,6 +18,7 @@
         </div>
         <div v-slot:body>
             <comment-section-component/>
+            aaa
         </div>
         <div v-slot:footer></div>
     </default-modal-component>

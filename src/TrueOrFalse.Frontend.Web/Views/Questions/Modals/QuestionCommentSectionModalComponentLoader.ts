@@ -5,6 +5,7 @@
 
             };
         },
+        template: '#question-comment-section-modal-component',
         mounted() {
 
         },

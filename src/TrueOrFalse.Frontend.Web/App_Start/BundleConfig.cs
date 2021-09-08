@@ -237,7 +237,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListApp")
-                .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
+                .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js")
+                .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
                 .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
