@@ -57,6 +57,12 @@
                     Wunschwissen: <%= Model.WishCountQuestions %> Fragen / <%= Model.WishCountSets %> Lernsets
                 </div>
             </div>
+            <div style="padding-top: 5px;">
+                <% if (Model.IsStartTopicModified)
+                   { %>
+                <a href="<%= Model.StartTopicUrl %>">Hier kommst du zur Startseite des Users</a>
+                <% } %>
+            </div>
             <%= Model.DescriptionShort %>
         </div>
     </div>
