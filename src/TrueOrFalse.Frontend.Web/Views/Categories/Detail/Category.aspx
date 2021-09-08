@@ -59,7 +59,7 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineText/InlineTextComponentLoader.ascx") %>
 
     <div id="TopicTabContent" class="TabContent">
-            <% if (Model.IsInTopic) { %>
+            <% if (Model.IsInTopicTab) { %>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <% } %>
         </div>

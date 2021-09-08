@@ -340,7 +340,15 @@ namespace TrueOrFalse.Frontend.Web.Code
                 : CategoryDetail(category.Name, category.Id, version);
 
         public static string CategoryDetail(string name, int id, bool toRootCategory = false) =>
-            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, toRootCategory = toRootCategory  });
+            GetUrlHelper().Action("Category", CategoryController, 
+                new { text = UriSanitizer.Run(name), id = id, toRootCategory = toRootCategory  });
+
+
+        public static string CategoryFromNetwork(CategoryCacheItem category) =>
+            CategoryFromNetwork(category.Name, category.Id); 
+        public static string CategoryFromNetwork(string name, int id) =>
+            GetUrlHelper().Action("Category", CategoryController,
+                new {text = UriSanitizer.Run(name), id = id, toRootCategory = true, isFromNetwork = true}); 
 
         public static string CategoryDetailAnalyticsTab(Category category) =>
             CategoryDetail(category) + "/Wissensnetz";

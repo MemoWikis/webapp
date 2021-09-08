@@ -29,7 +29,7 @@ public class CategoryModel : BaseContentModule
     public IList<Question> SingleQuestions;
     public Question EasiestQuestion;
     public Question HardestQuestion;
-    public bool IsInTopic = false;
+    public bool IsInTopicTab = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
     public UserTinyModel Creator;

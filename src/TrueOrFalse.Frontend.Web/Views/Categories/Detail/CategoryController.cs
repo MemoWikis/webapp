@@ -16,16 +16,22 @@ public class CategoryController : BaseController
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(int id, int? version, bool? toRootCategory)
+    public ActionResult Category(int id, int? version, bool? toRootCategory, bool? isFromNetwork)
     {
-        var user = Sl.SessionUser.User; 
-        var personalStartSiteId = user != null ? user.StartTopicId : -1;
-        
-        if (IsRedirectToPersonalStartsite(id, version, toRootCategory,personalStartSiteId))
-            id = personalStartSiteId; 
+        var user = Sl.SessionUser.User;
+        if (isFromNetwork == null)
+        {
+            var personalStartSiteId = user != null ? user.StartTopicId : -1;
+            if (IsRedirectToPersonalStartsite(id, version, toRootCategory, personalStartSiteId))
+                id = personalStartSiteId;
+        }
+        else
+        {
+            DeleteCookie(); 
+        }
         
         var modelAndCategory = LoadModel(id, version, toRootCategory == true);
-        modelAndCategory.CategoryModel.IsInTopic = true;
+        modelAndCategory.CategoryModel.IsInTopicTab = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
     }
 
