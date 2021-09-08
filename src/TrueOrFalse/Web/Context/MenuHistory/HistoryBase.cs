@@ -14,7 +14,7 @@ public class HistoryBase<T> : IEnumerable<T> where T : HistoryItemBase
         if (historyItem == null)
             return;
 
-        _list.RemoveAll(x => x.Id == historyItem.Id); //&& x.Type == historyItem.Type
+        _list.RemoveAll(x => x.Id == historyItem.Id);
         _list.Insert(0, historyItem);
 
         while (_list.Count > _size)
