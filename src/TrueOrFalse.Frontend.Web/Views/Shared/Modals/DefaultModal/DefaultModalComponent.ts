@@ -4,16 +4,7 @@ if (eventBus == null)
 
 var defaultModalComponent = Vue.component('default-modal-component',
     {
+        template: '#default-modal-component',
         props: ['showCloseButton'],
-        data() {
 
-        },
-
-        created() {
-
-        },
-
-        methods: {
-
-        }
     })

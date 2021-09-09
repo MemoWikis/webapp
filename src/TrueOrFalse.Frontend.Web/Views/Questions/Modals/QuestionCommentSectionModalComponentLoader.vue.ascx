@@ -1,6 +1,7 @@
-﻿<div >
-    <default-modal-component>
+﻿<div>
+    <default-modal-component v-if="commentIsLoaded">
         <template v-slot:header>
+            <div>Diskussionen</div>
         </template>
         <template v-slot:body>
             <comment-section-component/>

@@ -25,7 +25,8 @@ Vue.component('comment-section-component',
                 settledComments: [] as Comments[],
                 questionId: 0,
                 currentUserImageUrl: '',
-            };
+                showSettledComments: false
+        };
         },
         template: '#comment-section-component',
         mounted() {

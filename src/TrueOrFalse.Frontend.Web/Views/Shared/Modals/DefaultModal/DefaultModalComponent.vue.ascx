@@ -3,13 +3,12 @@
         <div class="modal-default-wrapper">
             <div class="modal-default-container">
                 <div class="modal-default-header">
-                    <a v-if="showCloseButton" @click="$emit('close')">
-                        <i class="fa-cross"></i>
+                    <a v-if="showCloseButton" @click="$emit('closeModal')">
+                        x
                     </a>
                     <slot name="header">
                     </slot>
                 </div>
-
                 <div class="modal-default-body">
                     <slot name="body">
                     </slot>

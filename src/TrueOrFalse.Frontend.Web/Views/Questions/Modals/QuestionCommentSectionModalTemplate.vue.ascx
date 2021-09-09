@@ -11,9 +11,7 @@
 <script type="x-template" id="question-comment-section-modal-component">
     <%: Html.Partial("/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.vue.ascx") %>
 </script>
-<script type="x-template" id="default-modal-component">
-    <%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponentLoader.ascx") %>
-</script>
+<%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponentLoader.ascx") %>
+
 
 <%= Scripts.Render("~/bundles/js/CommentsSection") %>
-<%= Scripts.Render("~/bundles/js/defaultModal") %>

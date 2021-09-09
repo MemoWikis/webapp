@@ -2018,10 +2018,14 @@
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js.map">
       <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js" />
+    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
+      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js.map">
+      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.js" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js" />
     <Content Include="Views\Shared\Search\HeaderSearch.js">
@@ -3590,7 +3594,6 @@
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\HeaderSearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
@@ -4181,8 +4184,6 @@
     <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map" />
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js.map" />
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.js.map" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map" />
     <None Include="Web.overwritten.config.sample" />

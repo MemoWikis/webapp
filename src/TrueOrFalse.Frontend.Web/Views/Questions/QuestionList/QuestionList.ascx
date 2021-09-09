@@ -5,7 +5,6 @@
     <%: Html.Partial("~/Views/Shared/PinComponentVue/PinComponent.vue.ascx") %>
 </script>
 <%: Html.Partial("~/Views/Questions/Modals/QuestionCommentSectionModalTemplate.vue.ascx") %>
-<%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponent.vue.ascx") %>
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
@@ -38,7 +37,7 @@
                     <div class="dropdown-icon"><i class="fa fa-play"></i></div><span>Fragen jetzt lernen</span>
                 </a></li>
             </ul>
-        </div>
+            </div>
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
