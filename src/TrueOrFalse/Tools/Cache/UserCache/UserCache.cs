@@ -24,6 +24,8 @@ public class UserCache
         return allUserValuations;
     }
 
+    public static User GetUser(int userId) => GetItem(userId).User; 
+    
     public static UserCacheItem GetItem(int userId)
     {
         var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
