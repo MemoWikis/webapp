@@ -208,7 +208,9 @@ public class GraphService
         {
             wuwiChildren.Add(wuwichild);
         }
-        wuwiChildren.Add(rootCategory);
+        if(rootCategory.IsInWishknowledge())
+            wuwiChildren.Add(rootCategory);
+
         return wuwiChildren;
     }
 
