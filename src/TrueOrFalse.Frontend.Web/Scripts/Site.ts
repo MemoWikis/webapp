@@ -296,5 +296,4 @@ $(() => {
     Allowed_only_for_active_users();
     InitClickLog();
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
-    LoadInfoBanner();
 });

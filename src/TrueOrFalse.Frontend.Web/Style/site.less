@@ -2500,6 +2500,7 @@ textarea, input {
             height: 100%;
             min-height: 95px;
             flex-wrap: wrap;
+            padding: 10px 0;
 
             .memucho-info-partial {
                 height: 100%;
@@ -2514,15 +2515,20 @@ textarea, input {
                 color: @memo-blue;
                 justify-content: center;
 
-
                 .sub-text {
                     font-size: 14px;
                     font-weight: 600;
                     line-height: 20px;
                     letter-spacing: 1.25px;
                     width: 100%;
+                    text-transform: uppercase;
 
                     .fa-heart {
+                        @media (max-width: 767px) {
+                            margin-top: 10px;
+                        }
+
+                        font-size: 20px;
                         color: @memo-wuwi-red;
                     }
 
@@ -2549,13 +2555,19 @@ textarea, input {
             }
 
             .close-banner {
-                color: @memo-grey-darker;
+                color: @memo-grey-dark;
                 padding: 10px;
+                font-size: 20px;
+                transition: all 0.3s;
+
+                &:hover {
+                    color: @memo-blue;
+                }
 
                 &.mobile-close {
                     position: absolute;
                     right: 0px;
-                    top: 10px;
+                    top: 0px;
                 }
             }
         }
