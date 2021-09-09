@@ -1970,7 +1970,7 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent - Copy.js">
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js">
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
@@ -4158,7 +4158,7 @@
     <Content Include="Views\Questions\Js\DeleteQuestionComponent.js.map">
       <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent - Copy.js.map">
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js.map">
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config.sample" />
