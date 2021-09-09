@@ -38,7 +38,6 @@
     },
     methods: {
         init() {
-            console.log('test');
             if (this.isLoggedIn && window.innerWidth > 750)
                 this.showSearch = true;
             else if (!this.isLoggedIn && window.innerWidth > 992)
