@@ -41,7 +41,7 @@
                 <%if (!Model.Category.IsHistoric)  {%>
                     <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                        style="font-size: 13px; cursor: pointer; line-height: 32px; padding-top: 4px; color: #555555;"
-                       onclick="eventBus.$emit('open-add-category-modal', <%= Model.Category.Id %>)" 
+                       onclick="eventBus.$emit('create-category', <%= Model.Category.Id %>)" 
                        data-original-title="Neues untergeordnetes Thema erstellen"></i>
                 <%}%>
 
@@ -50,7 +50,7 @@
             <div style="margin-top: 0;">keine untergeordneten Themen
                 <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                     style="font-size: 14px; cursor: pointer"
-                    onclick="eventBus.$emit('open-add-category-modal', <%= Model.Category.Id %>)" 
+                    onclick="eventBus.$emit('create-category', <%= Model.Category.Id %>)" 
                     data-original-title="Neues untergeordnetes Thema erstellen"></i>
             </div>
         <%  } %>

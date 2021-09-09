@@ -3,7 +3,7 @@
 <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld" :category="category" :is-historic="isHistoric">
 
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
-        <div class="row">
+        <div class="row" v-on:click.self="goToCategory()">
             <div class="col-xs-3">
                 <a :href="category.LinkToCategory">
                     <div class="ImageContainer" v-html="category.ImgHtml">

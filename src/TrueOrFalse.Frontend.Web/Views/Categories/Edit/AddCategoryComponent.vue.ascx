@@ -62,11 +62,11 @@
                             <div class="modalFooter">
                                 <template v-if="createCategory">
                                     <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema Erstellen</div>       
-                                    <div class="btn btn-link memo-button" @click="createCategory = false" >Bestehendes Thema verknüpfen</div>
+                                    <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
                                 </template>
                                 <template v-else>
                                     <div class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
-                                    <div class="btn btn-link memo-button" @click="createCategory = true">Neues Thema Erstellen</div>
+                                    <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
                                 </template>
                             </div>   
                         </div>

@@ -51,10 +51,13 @@
                         </template>                    <%}else { %>
                         <div class="hidden">&nbsp;</div><% //if empty, templateparser throws error %>
                     <%} %>
-                    <div v-if="!isHistoric" id="AddToCurrentCategoryBtn" class="col-xs-6 addCategoryCard memo-button" @click="addCategory">
-                        <div>
+                    <div v-if="!isHistoric" class="col-xs-6 addCategoryCard memo-button" :id="addCategoryId">
+                        <div class="addCategoryCardLabel" @click="addCategory(true)">
                             <i class="fas fa-plus"></i> Neues Thema
-                        </div>                    
+                        </div>
+                        <div class="addCategoryCardLabel" @click="addCategory(false)">
+                            <i class="fas fa-plus"></i> Bestehendes Thema
+                        </div>
                     </div>
 
                 </div>

@@ -238,7 +238,7 @@ public class CategoryController : BaseController
             UserEntityCache.Init();
         }
 
-     UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
     }
 
     public bool GetMyWorldCookie()

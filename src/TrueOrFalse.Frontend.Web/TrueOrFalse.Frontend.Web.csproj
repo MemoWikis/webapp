@@ -1977,6 +1977,9 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent - Copy.js">
+      <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Questions\AnswerQuestionComponent.js" />
@@ -2004,6 +2007,7 @@
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.vue.ascx" />
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
+    <Content Include="Views\Shared\MemuchoInfoBanner.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
@@ -2651,6 +2655,7 @@
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
@@ -4180,6 +4185,9 @@
     </Content>
     <Content Include="Views\Questions\Js\DeleteQuestionComponent.js.map">
       <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent - Copy.js.map">
+      <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map" />
