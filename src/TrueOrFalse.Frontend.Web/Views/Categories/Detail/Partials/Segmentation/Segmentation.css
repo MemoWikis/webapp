@@ -92,6 +92,7 @@
   min-height: 150px;
   color: #999999;
   cursor: pointer;
+  flex-direction: column;
 }
 @media (max-width: 649px) {
   #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
@@ -102,6 +103,13 @@
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
   border-color: #AFD534;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel {
+  transition: 0.2s;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel:hover {
   color: #AFD534;
 }
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {

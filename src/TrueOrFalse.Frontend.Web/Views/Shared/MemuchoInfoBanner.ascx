@@ -1,4 +1,6 @@
-﻿<div id="MemuchoInfoBanner">
+﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
+<div id="MemuchoInfoBanner">
     <div class="container">
         <div id="BannerContainer">
             <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
@@ -9,7 +11,7 @@
                 </a>
             </div>
             <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
-                <a href="#">
+                <a href="<%=Links.AboutMemucho() %>">
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
                 <a href="#" onclick="HideInfoBanner()" class="hidden-xs close-banner">

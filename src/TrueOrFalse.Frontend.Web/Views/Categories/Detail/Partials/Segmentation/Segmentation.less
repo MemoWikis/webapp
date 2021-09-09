@@ -89,6 +89,7 @@
                 min-height: 150px;
                 color: @memo-grey-dark;
                 cursor: pointer;
+                flex-direction: column;
 
                 @media (max-width: 649px) {
                     width: 100%;
@@ -96,7 +97,14 @@
 
                 &:hover {
                     border-color: @memo-green;
-                    color: @memo-green;
+                }
+
+                .addCategoryCardLabel {
+                    transition: 0.2s;
+
+                    &:hover {
+                        color: @memo-green;
+                    }
                 }
             }
         }
