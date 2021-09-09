@@ -6,7 +6,7 @@
             <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
                 <div class="sub-text">Alles an einem Ort <i class="fas fa-heart"></i></div>
                 <div class="main-text">Wiki und Lernwerkzeuge vereint!</div>
-                <a href="#" class="visible-xs close-banner mobile-close">
+                <a href="#" onclick="HideInfoBanner()" class="visible-xs close-banner mobile-close">
                     <i class="fas fa-times"></i>
                 </a>
             </div>
