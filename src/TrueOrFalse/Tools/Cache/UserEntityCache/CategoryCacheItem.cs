@@ -46,7 +46,7 @@ public class CategoryCacheItem
 
     public virtual bool IsStartTopicModified()
     {
-        if (CachedData.ChildrenIds.Count > 0)
+        if (CachedData.ChildrenIds.Count ==  0)
             return false; 
        
         return EntityCache.GetCategoryCacheItems(CachedData.ChildrenIds)
