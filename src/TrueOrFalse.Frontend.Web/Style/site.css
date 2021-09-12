@@ -1788,9 +1788,8 @@ strong {
 }
 #EditQuestionModal .modal-footer {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
 }
 #EditQuestionModal select {
   border: solid 1px #DDDDDD;
@@ -2371,9 +2370,8 @@ input::placeholder {
 }
 .cardModal .modal-content .cardModalContent .modalFooter {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
 }
 .cardModal .modal-content .cardModalContent .modalFooter .memo-button {
   margin: 0;
