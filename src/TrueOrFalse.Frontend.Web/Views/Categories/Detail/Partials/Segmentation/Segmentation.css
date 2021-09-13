@@ -59,36 +59,27 @@
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
 }
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover {
-  color: #203256;
-  transition: color 0.1s ease-in-out;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
-  position: absolute;
-  right: 10px;
-  top: -10px;
-}
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
   display: flex;
   border: solid 1px #DDDDDD;
   transition: 0.2s;
-  justify-content: center;
-  align-content: center;
   align-items: center;
-  text-align: center;
   min-height: 150px;
   color: #999999;
   cursor: pointer;
-  flex-direction: column;
+  margin-left: 0;
+  margin-right: 0;
 }
 @media (max-width: 649px) {
   #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
   #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
     width: 100%;
   }
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard .addCategoryLabelContainer,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard .addCategoryLabelContainer {
+  padding: 0;
 }
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
@@ -134,7 +125,6 @@
 #Segmentation .segmentDropdown,
 #Segmentation .dropdown {
   font-size: 35px;
-  height: 30px;
   opacity: 0;
   transition: all 0.1s ease-in-out;
 }
@@ -143,19 +133,33 @@
   opacity: 1;
   transition: all 0.1s ease-in-out;
 }
-.hover a.dropdown-toggle {
-  background: white;
-  transition: all 0.1s ease-in-out;
+#Segmentation .DropdownButton {
+  position: absolute;
+  right: 10px;
+  top: -10px;
 }
-.hover a.dropdown-toggle i {
-  color: #AFD534;
-  transition: all 0.1s ease-in-out;
+#Segmentation .DropdownButton.segmentDropdown {
+  position: relative;
 }
-.hover a.dropdown-toggle:hover {
-  border: 1px solid #DDDDDD;
-  background: white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+#Segmentation .DropdownButton a.dropdown-toggle {
+  background: #FFFFFFE6;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  padding: 6px;
+  transition: all 0.3s ease-in-out;
 }
-.hover a.dropdown-toggle:hover i {
-  color: #203256 !important;
+#Segmentation .DropdownButton a.dropdown-toggle i.fa-ellipsis-v {
+  color: #999999;
+  transition: all 0.3s ease-in-out;
+}
+#Segmentation .hover .DropdownButton a.dropdown-toggle:hover {
+  background: #EFEFEFE6;
+}
+#Segmentation .hover .DropdownButton a.dropdown-toggle:hover i.fa-ellipsis-v {
+  color: #203256;
+}
+#Segmentation .set-question-count a.sub-label {
+  color: #999999;
 }

@@ -44,6 +44,14 @@
         this.init();
     },
     methods: {
+        mouseOver(event) {
+            event.stopPropagation();
+            this.hover = true;
+        },
+        mouseLeave(event) {
+            event.stopPropagation();
+            this.hover = false;
+        },
         goToCategory() {
             window.location.href = this.category.LinkToCategory;
         },
