@@ -42,6 +42,7 @@
                 this.showSearch = true;
             else if (!this.isLoggedIn && window.innerWidth > 992)
                 this.showSearch = true;
+            else this.showSearch = false;
         },
         openUrl(val) {
             location.href = val.Url;

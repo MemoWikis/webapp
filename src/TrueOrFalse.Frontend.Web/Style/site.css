@@ -1788,9 +1788,8 @@ strong {
 }
 #EditQuestionModal .modal-footer {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
 }
 #EditQuestionModal select {
   border: solid 1px #DDDDDD;
@@ -2371,9 +2370,8 @@ input::placeholder {
 }
 .cardModal .modal-content .cardModalContent .modalFooter {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
 }
 .cardModal .modal-content .cardModalContent .modalFooter .memo-button {
   margin: 0;
@@ -2448,6 +2446,7 @@ input::placeholder {
   height: 100%;
   min-height: 95px;
   flex-wrap: wrap;
+  padding: 10px 0;
 }
 #MemuchoInfoBanner .container #BannerContainer .memucho-info-partial {
   height: 100%;
@@ -2467,9 +2466,16 @@ input::placeholder {
   line-height: 20px;
   letter-spacing: 1.25px;
   width: 100%;
+  text-transform: uppercase;
 }
 #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+  font-size: 20px;
   color: #FF001F;
+}
+@media (max-width: 767px) {
+  #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+    margin-top: 10px;
+  }
 }
 @media (max-width: 767px) {
   #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
@@ -2492,11 +2498,16 @@ input::placeholder {
   justify-content: space-evenly;
 }
 #MemuchoInfoBanner .container #BannerContainer .close-banner {
-  color: #555555;
+  color: #999999;
   padding: 10px;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+#MemuchoInfoBanner .container #BannerContainer .close-banner:hover {
+  color: #003264;
 }
 #MemuchoInfoBanner .container #BannerContainer .close-banner.mobile-close {
   position: absolute;
   right: 0px;
-  top: 10px;
+  top: 0px;
 }

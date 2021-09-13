@@ -62,6 +62,18 @@
                 (Developer)
             </div>
         </div>
+        
+        <div class="col-xs-4 infoItemColumn">
+            <div class="TeamPic">
+                <img src="/Images/no-profile-picture-533.png" />
+            </div>
+            <div class="infoCatchWord">
+                Daniel
+            </div>
+            <div class="infoExplanationSnippet">
+                (Developer)
+            </div>
+        </div>
     </div>
 
 </div>
