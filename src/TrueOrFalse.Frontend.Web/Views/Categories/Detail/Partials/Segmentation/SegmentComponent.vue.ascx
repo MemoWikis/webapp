@@ -35,12 +35,22 @@
             <template v-for="(category, index) in categories">
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
             </template>
+            <div v-if="!isHistoric" class="col-xs-6 topic">
+                <div class="addCategoryCard memo-button row" :id="addCategoryId">
+                    <div class="col-xs-3">
+                    </div>
+                    <div class="col-xs-9 addCategoryLabelContainer">
+                        <div class="addCategoryCardLabel" @click="addCategory(true)">
+                            <i class="fas fa-plus"></i> Neues Thema
+                        </div>
+                        <div class="addCategoryCardLabel" @click="addCategory(false)">
+                            <i class="fas fa-plus"></i> Bestehendes Thema
+                        </div>
+                    </div>
 
-            <div v-if="!isHistoric" class="col-xs-6 addCategoryCard memo-button" @click="addCategory" :id="addCategoryId">
-                <div>
-                     <i class="fas fa-plus"></i> Neues Thema
                 </div>
             </div>
+
         </div>
     </div>
 </segment-component>

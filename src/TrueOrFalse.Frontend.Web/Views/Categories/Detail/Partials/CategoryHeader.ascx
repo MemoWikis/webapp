@@ -194,11 +194,19 @@
                                 </a>
                             </li>
                             <li>
-                                <a onclick="eventBus.$emit('open-add-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                <a onclick="eventBus.$emit('create-category', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-plus-circle"></i>
                                     </div>
                                     Thema Erstellen
+                                </a>
+                            </li>
+                            <li>
+                                <a onclick="eventBus.$emit('add-category', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </div>
+                                    Bestehendes Thema hinzufügen
                                 </a>
                             </li>
                             <li>
@@ -241,7 +249,6 @@
 </div>
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
 <%= Scripts.Render("~/bundles/fileUploader") %>
-<%= Styles.Render("~/bundles/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 <%= Scripts.Render("~/bundles/js/PublishCategory") %>
 <%= Scripts.Render("~/bundles/js/MyWorldToggle") %>

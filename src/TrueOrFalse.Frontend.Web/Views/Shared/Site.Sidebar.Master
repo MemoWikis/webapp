@@ -15,7 +15,10 @@
     <div id="Breadcrumb" class="path" >
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model); %>
     </div>  
-    <section id="MasterSection">     
+    <section id="MasterSection">
+        <% Html.RenderPartial("/Views/Shared/MemuchoInfoBanner.ascx", null); %>
+
+
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
         <section id="MasterMainContent" class="container">

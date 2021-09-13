@@ -170,7 +170,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 this.selectedCategories.splice(index, 1);
             }
         },
-        addCategory() {
+        addCategory(val) {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("CreateCategory");
                 return;
@@ -187,7 +187,8 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                 moveCategories: false,
                 categoriesToFilter,
-        }
+                create: val,
+            }
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
         removeChildren() {

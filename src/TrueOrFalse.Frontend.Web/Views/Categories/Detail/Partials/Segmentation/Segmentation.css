@@ -65,39 +65,17 @@
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
 }
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .checkBox:hover {
-  color: #203256;
-  transition: color 0.1s ease-in-out;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton {
-  position: absolute;
-  right: 10px;
-  top: -10px;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i {
-  color: #AFD534;
-  transition: color 0.1s ease-in-out;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i:hover,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .DropdownButton i:hover {
-  color: #203256;
-  transition: color 0.1s ease-in-out;
-}
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
   display: flex;
   border: solid 1px #DDDDDD;
   transition: 0.2s;
-  justify-content: center;
-  align-content: center;
   align-items: center;
-  text-align: center;
   min-height: 150px;
   color: #999999;
   cursor: pointer;
+  margin-left: 0;
+  margin-right: 0;
 }
 @media (max-width: 649px) {
   #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
@@ -105,9 +83,20 @@
     width: 100%;
   }
 }
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard .addCategoryLabelContainer,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard .addCategoryLabelContainer {
+  padding: 0;
+}
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard:hover,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard:hover {
   border-color: #AFD534;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel {
+  transition: 0.2s;
+}
+#Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel:hover,
+#Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard .addCategoryCardLabel:hover {
   color: #AFD534;
 }
 #Segmentation #CustomSegmentSection .segment .segmentSubHeader .segmentKnowledgeBar {
@@ -142,27 +131,41 @@
 #Segmentation .segmentDropdown,
 #Segmentation .dropdown {
   font-size: 35px;
-  height: 30px;
   opacity: 0;
   transition: all 0.1s ease-in-out;
-}
-#Segmentation .segmentDropdown i,
-#Segmentation .dropdown i {
-  color: #AFD534;
-  transition: color 0.1s ease-in-out;
-}
-#Segmentation .segmentDropdown i:hover,
-#Segmentation .dropdown i:hover {
-  color: #203256;
-  transition: color 0.1s ease-in-out;
 }
 #Segmentation .segmentDropdown.hover,
 #Segmentation .dropdown.hover {
   opacity: 1;
   transition: all 0.1s ease-in-out;
 }
-.segmentCategoryCard:hover,
-addCategoryCardBtn:hover {
-  /*        background: @memo-grey-lighter 10%;
-*/
+#Segmentation .DropdownButton {
+  position: absolute;
+  right: 10px;
+  top: -10px;
+}
+#Segmentation .DropdownButton.segmentDropdown {
+  position: relative;
+}
+#Segmentation .DropdownButton a.dropdown-toggle {
+  background: #FFFFFFE6;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  padding: 6px;
+  transition: all 0.3s ease-in-out;
+}
+#Segmentation .DropdownButton a.dropdown-toggle i.fa-ellipsis-v {
+  color: #999999;
+  transition: all 0.3s ease-in-out;
+}
+#Segmentation .hover .DropdownButton a.dropdown-toggle:hover {
+  background: #EFEFEFE6;
+}
+#Segmentation .hover .DropdownButton a.dropdown-toggle:hover i.fa-ellipsis-v {
+  color: #203256;
+}
+#Segmentation .set-question-count a.sub-label {
+  color: #999999;
 }

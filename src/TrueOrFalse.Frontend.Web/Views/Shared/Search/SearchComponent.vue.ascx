@@ -2,12 +2,12 @@
     <form v-on:submit.prevent>
         <div class="form-group dropdown searchAutocomplete" :class="{ 'open' : showDropdown }">
             <div class="searchInputContainer">
-                <input ref="searchInput" class="form-control dropdown-toggle":class="{ 'hasSearchIcon' : showSearchIcon }" type="text" v-model="searchTerm" :id="id" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche"/>
+                <input ref="searchInput" class="form-control dropdown-toggle":class="{ 'hasSearchIcon' : showSearchIcon }" type="text" v-bind:value="searchTerm" v-on:input="searchTerm = $event.target.value" :id="id" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche"/>
                 <div v-if="showSearchIcon" class="searchIconContainer">
                     <i class="fas fa-search"></i>
                 </div>
             </div>
-            <ul class="dropdown-menu" :aria-labelledby="id + 'Dropdown'">
+            <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'">
                 <li v-if="categories.length > 0" class="searchBanner">
                     <div>Themen </div>
                     <div>{{categoryCount}} Treffer</div>

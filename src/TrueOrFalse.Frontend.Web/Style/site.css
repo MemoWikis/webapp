@@ -52,6 +52,9 @@
 html {
   height: 100%;
   background-color: #EFEFEF;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 body {
   font-family: 'Open Sans', Arial, sans-serif;
@@ -60,6 +63,9 @@ body {
   min-width: 280px;
   position: relative;
   background-color: #F6F8FA;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 h1,
 h2,
@@ -194,6 +200,14 @@ img {
   height: 100%;
   float: left;
   overflow-y: visible;
+}
+#LogoLink #FullLogo {
+  height: 24px;
+  width: 148px;
+}
+#LogoLink #MobileLogo {
+  height: 36px;
+  width: 36px;
 }
 #BetaLogo {
   display: block;
@@ -376,7 +390,7 @@ img {
 }
 .MenuButtonSM {
   padding: 0px;
-  font-size: 25px;
+  ont-size: 25px;
 }
 #MenuButton,
 #StickyMenuButton {
@@ -488,7 +502,7 @@ fieldset[disabled] #StickyMenuButton {
     line-height: 1.33;
     border-radius: 6px;
     padding: 0px;
-    font-size: 25px;
+    ont-size: 25px;
     position: relative;
   }
   #MenuButton .caret,
@@ -581,7 +595,7 @@ fieldset[disabled] #StickyMenuButton:hover {
     line-height: 1.33;
     border-radius: 6px;
     padding: 0px;
-    font-size: 25px;
+    ont-size: 25px;
   }
 }
 #MenuButtonContainer {
@@ -889,6 +903,8 @@ ul.AutocompleteHeader {
   padding-right: 15px;
   padding-bottom: 20px;
   position: relative;
+  z-index: 50;
+  flex: 1;
 }
 #MasterFooter #footerOn {
   display: inline-block;
@@ -1772,9 +1788,8 @@ strong {
 }
 #EditQuestionModal .modal-footer {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
 }
 #EditQuestionModal select {
   border: solid 1px #DDDDDD;
@@ -2355,13 +2370,112 @@ input::placeholder {
 }
 .cardModal .modal-content .cardModalContent .modalFooter {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
 }
 .cardModal .modal-content .cardModalContent .modalFooter .memo-button {
   margin: 0;
 }
 .footer-links-memucho {
   margin-top: 40px;
+}
+#MemuchoInfoBanner {
+  height: 0px;
+  min-height: 0px;
+  width: 100%;
+  background: #e5effa;
+  top: 0;
+  z-index: 50;
+  margin: 0;
+  transform: translateY(-140px);
+  transition: transform 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+  opacity: 0;
+  position: relative;
+  pointer-events: none;
+  visibility: hidden;
+}
+#MemuchoInfoBanner.show-banner {
+  opacity: 1;
+  min-height: 140px;
+  margin: 0 0 -40px 0;
+  height: unset;
+  transform: translateY(0px);
+  pointer-events: unset;
+  visibility: unset;
+}
+#MemuchoInfoBanner .container {
+  height: 100%;
+  padding-top: 45px;
+  min-height: 140px;
+}
+#MemuchoInfoBanner .container #BannerContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 95px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+#MemuchoInfoBanner .container #BannerContainer .memucho-info-partial {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText {
+  flex-direction: column;
+  align-items: flex-start;
+  color: #003264;
+  justify-content: center;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 1.25px;
+  width: 100%;
+  text-transform: uppercase;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+  font-size: 20px;
+  color: #FF001F;
+}
+@media (max-width: 767px) {
+  #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 767px) {
+  #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
+    text-align: center;
+  }
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .main-text {
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 34px;
+  letter-spacing: 0em;
+  width: 100%;
+}
+@media (max-width: 767px) {
+  #MemuchoInfoBanner .container #BannerContainer #BannerText .main-text {
+    text-align: center;
+  }
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerRedirectBtn {
+  justify-content: space-evenly;
+}
+#MemuchoInfoBanner .container #BannerContainer .close-banner {
+  color: #999999;
+  padding: 10px;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+#MemuchoInfoBanner .container #BannerContainer .close-banner:hover {
+  color: #003264;
+}
+#MemuchoInfoBanner .container #BannerContainer .close-banner.mobile-close {
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }

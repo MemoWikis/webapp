@@ -40,6 +40,12 @@ namespace TrueOrFalse.View
                     .Include("~/Scripts/npm/vue/vue.min.js"));
             }
 
+            bundles.Add(new StyleBundle("~/bundles/jqueryUi")
+                .IncludeDirectory("~/Style/jquery-ui/","*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/jqueryUI")
+                .Include("~/Scripts/vendor/jqueryUi/jquery-ui.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/lazy")
                 .Include("~/Views/Shared/Lazy/LazyComponent.js"));
 
@@ -165,13 +171,11 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
-                .Include("~/Scripts/ValuationPerRow.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
+                .Include("~/Scripts/ValuationPerRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
+                .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Beta")
                 .IncludeDirectory("~/Views/Beta/Js/", "*.js"));
@@ -179,18 +183,10 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/CategoryEdit")
-                .Include("~/Views/Categories/Edit/EditCategory.css")
-                .Include("~/Scripts/vendor.somewhere/simplemde.css")
-                .Include("~/Views/Categories/Detail/Category.css"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
-                //.Include("~/Scripts/vendor.somewhere/simplemde.js")
-                .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
                 .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")

@@ -106,5 +106,7 @@
         </div>
     </div>
 <% } %>
+    
+    <%= Scripts.Render("~/bundles/js/search") %>
 
 </asp:Content>

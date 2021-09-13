@@ -50,13 +50,27 @@
         }
     },
     mounted() {
-        eventBus.$on('open-add-category-modal',
+        eventBus.$on('create-category',
             id => {
                 var parent = {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                     moveCategories: false,
                     redirect: true,
+                    create: true,
+                }
+                if ($('#LearningTabWithOptions').hasClass("active"))
+                    parent.addCategoryBtnId = null;
+                $('#AddCategoryModal').data('parent', parent).modal('show');
+            });
+        eventBus.$on('add-category',
+            id => {
+                var parent = {
+                    id: id,
+                    addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                    moveCategories: false,
+                    redirect: true,
+                    create: false,
                 }
                 if ($('#LearningTabWithOptions').hasClass("active"))
                     parent.addCategoryBtnId = null;
@@ -64,6 +78,7 @@
             });
         $('#AddCategoryModal').on('show.bs.modal',
             event => {
+                this.createCategory = !!$('#AddCategoryModal').data('parent').create;
                 this.parentId = $('#AddCategoryModal').data('parent').id;
                 this.addCategoryBtnId = $('#AddCategoryModal').data('parent').addCategoryBtnId;
                 this.moveCategories = $('#AddCategoryModal').data('parent').moveCategories;

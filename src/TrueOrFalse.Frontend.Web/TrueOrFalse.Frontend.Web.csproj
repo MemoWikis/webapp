@@ -316,20 +316,6 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Fonts\font-awesome-5.7.2\css\all.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Fonts\font-awesome-5.7.2\css\brands.css" />
@@ -1907,6 +1893,7 @@
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
     <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
+    <Content Include="Images\Logo\Logo.svg" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Logo\Logo_Green_Text.svg" />
     <Content Include="Images\no-profile-picture-20.png" />
@@ -1974,6 +1961,18 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Scripts\vendor\jqueryUi\jquery-ui.js" />
+    <Content Include="Style\jquery-ui\images\ui-icons_444444_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_555555_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_777620_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_777777_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
+    <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js">
+      <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
@@ -1985,6 +1984,7 @@
     </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
+    <Content Include="Views\Shared\MemuchoInfoBanner.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
@@ -2558,8 +2558,6 @@
     <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
     <Content Include="Scripts\vendor.somewhere\readme.txt" />
-    <Content Include="Scripts\vendor.somewhere\simplemde.css" />
-    <Content Include="Scripts\vendor.somewhere\simplemde.js" />
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
@@ -2625,6 +2623,7 @@
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
@@ -3406,9 +3405,6 @@
     <Content Include="Style\z_mixins_2.3.2.css">
       <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\EditCategory.css">
-      <DependentUpon>EditCategory.less</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
@@ -3872,10 +3868,6 @@
     <Content Include="Views\Questions\Answer\Js\Comments.js.map">
       <DependentUpon>Comments.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\EditCategory.less" />
-    <Content Include="Views\Categories\Edit\EditCategory.css.map">
-      <DependentUpon>EditCategory.css</DependentUpon>
-    </Content>
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
@@ -4166,11 +4158,13 @@
     <Content Include="Views\Questions\Js\DeleteQuestionComponent.js.map">
       <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js.map">
+      <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
-    <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
