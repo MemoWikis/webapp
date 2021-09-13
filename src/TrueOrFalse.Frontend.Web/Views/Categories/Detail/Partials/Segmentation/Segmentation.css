@@ -155,7 +155,7 @@
   transition: all 0.3s ease-in-out;
 }
 #Segmentation .hover .DropdownButton a.dropdown-toggle:hover {
-  background: #DDDDDDE6;
+  background: #EFEFEFE6;
 }
 #Segmentation .hover .DropdownButton a.dropdown-toggle:hover i.fa-ellipsis-v {
   color: #203256;
