@@ -44,7 +44,7 @@
                     <span>
                         <pin-category-component :category-id="categoryId" :initial-wishknowledge-state="category.IsInWishknowledge"/>
                     </span>
-                    <a :href="category.LinkToCategory">
+                    <a :href="category.LinkToCategory" class="sub-label">
 
                         <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
                         <template v-else-if="category.ChildCategoryCount > 1">{{category.ChildCategoryCount}} Unterthemen</template>

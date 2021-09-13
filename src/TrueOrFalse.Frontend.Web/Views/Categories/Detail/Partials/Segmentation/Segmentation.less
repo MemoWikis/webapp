@@ -150,38 +150,44 @@
         position: absolute;
         right: 10px;
         top: -10px;
-        background: white;
-        border-radius: 50%;
-        height: 48px;
-        width: 48px;
-        text-align: center;
-        padding: 6px;
 
         &.segmentDropdown {
             position: relative;
         }
 
         a.dropdown-toggle {
-            transition: all .1s ease-in-out;
+            background: #FFFFFFE6;
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            padding: 6px;
+            transition: all .3s ease-in-out;
 
             i.fa-ellipsis-v {
                 color: @memo-grey-dark;
-                transition: all .1s ease-in-out;
+                transition: all .3s ease-in-out;
             }
         }
     }
 
     .hover {
         .DropdownButton {
-            &:hover {
-                background: @memo-grey-lighter;
+            a.dropdown-toggle {
+                &:hover {
+                    background: #DDDDDDE6;
 
-                a.dropdown-toggle {
                     i.fa-ellipsis-v {
                         color: @memo-blue;
                     }
                 }
             }
+        }
+    }
+
+    .set-question-count {
+        a.sub-label {
+            color: @memo-grey-dark;
         }
     }
 }

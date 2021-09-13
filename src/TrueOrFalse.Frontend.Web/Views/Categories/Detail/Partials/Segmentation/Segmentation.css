@@ -137,26 +137,29 @@
   position: absolute;
   right: 10px;
   top: -10px;
-  background: white;
-  border-radius: 50%;
-  height: 48px;
-  width: 48px;
-  text-align: center;
-  padding: 6px;
 }
 #Segmentation .DropdownButton.segmentDropdown {
   position: relative;
 }
 #Segmentation .DropdownButton a.dropdown-toggle {
-  transition: all 0.1s ease-in-out;
+  background: #FFFFFFE6;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  padding: 6px;
+  transition: all 0.3s ease-in-out;
 }
 #Segmentation .DropdownButton a.dropdown-toggle i.fa-ellipsis-v {
   color: #999999;
-  transition: all 0.1s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
-#Segmentation .hover .DropdownButton:hover {
-  background: #EFEFEF;
+#Segmentation .hover .DropdownButton a.dropdown-toggle:hover {
+  background: #DDDDDDE6;
 }
-#Segmentation .hover .DropdownButton:hover a.dropdown-toggle i.fa-ellipsis-v {
+#Segmentation .hover .DropdownButton a.dropdown-toggle:hover i.fa-ellipsis-v {
   color: #203256;
+}
+#Segmentation .set-question-count a.sub-label {
+  color: #999999;
 }
