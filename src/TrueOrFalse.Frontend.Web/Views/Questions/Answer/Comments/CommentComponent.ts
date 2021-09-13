@@ -168,19 +168,22 @@ Vue.component('add-comment-component',
         data() {
             return {
                 commentText: "",
+                isLoggedIn: IsLoggedIn.Yes
             }
         },
 
-        template: '#AddCommentComponent',
+        template: '#add-comment-component',
 
         mounted() {
 
         },
 
         methods: {
-            saveComment(currentQuestionId) {
+            saveComment() {
+                var self = this;
+                console.log(self.questionId);
                 var params = {
-                    questionId: currentQuestionId,
+                    questionId: self.questionId,
                     text: $("#txtNewComment").val()
                 };
                 $.post("/AnswerComments/SaveComment",
@@ -189,6 +192,9 @@ Vue.component('add-comment-component',
                         this.commentText = "";
                         eventBus.$emit('addedComment', data);
                     });
+            },
+            closeModal() {
+                eventBus.$emit('closeModal');
             }
         }
     });

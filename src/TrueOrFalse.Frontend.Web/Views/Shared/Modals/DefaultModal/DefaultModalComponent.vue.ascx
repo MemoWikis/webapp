@@ -1,11 +1,8 @@
 ﻿<div id="defaultModal">
-    <div class="modal-default-mask">
+    <div class="modal-default-mask" @click="closeModal()">
         <div class="modal-default-wrapper">
-            <div class="modal-default-container">
+            <div class="modal-default-container" v-on:click.stop>
                 <div class="modal-default-header">
-                    <a v-if="showCloseButton" @click="$emit('closeModal')">
-                        x
-                    </a>
                     <slot name="header">
                     </slot>
                 </div>

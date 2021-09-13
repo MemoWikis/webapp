@@ -18,35 +18,45 @@
 
 Vue.component('comment-section-component',
     {
+        props: ['questionId'],
         data() {
             return {
                 isLoggedIn: IsLoggedIn.Yes,
                 comments: [] as Comments[],
                 settledComments: [] as Comments[],
-                questionId: 0,
-                currentUserImageUrl: '',
+                currentUserImageUrl: '/Images/Users/5933_128s.jpg?t=20210811103604',
                 showSettledComments: false
-        };
+            };
         },
         template: '#comment-section-component',
         mounted() {
+            this.getComments();
             eventBus.$on('show-comment-section-modal', (id) => {
-                this.getComments();
                 this.questionId = id;
+                this.getComments();
             });
         },
         methods: {
             getComments() {
                 var self = this;
-                $.ajax({
-                    url: '/AnswerComments/GetComments/',
-                    data: {
-                        questionId: self.questionId
-                    },
-                    success(result) {
-                        self.currentUserImageUrl = result.currentUserImageUrl;
-                        self.comments = result.comments;
-                    }
+                console.log(self.questionId);
+                //$.ajax({
+                //    url: '/AnswerComments/GetComments/',
+                //    data: {
+                //        questionId: self.questionId
+                //    },
+                //    success(result) {
+                //        self.currentUserImageUrl = result.currentUserImageUrl;
+                //        self.comments = result.comments;
+                //    }
+                //});
+                var params = {
+                    questionId: self.questionId,
+                };
+                $.post("/AnswerComments/GetComments", params, function (data) {
+                    console.log(data);
+                    self.comments = data.commentsList;
+                    self.currentUserImageUrl = data.currentUserImageUrl;
                 });
             }
         }

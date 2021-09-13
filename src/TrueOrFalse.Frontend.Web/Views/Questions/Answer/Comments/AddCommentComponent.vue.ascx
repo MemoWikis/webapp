@@ -4,7 +4,7 @@
             <div class="commentAnswerAddTopBorder">
                 <div class="panel-body commentAnswerAddTopSpace">
                     <div class="col-xs-2">
-                        <img class="commentUserImg" src="currentUserImageUrl">">
+                        <img class="commentUserImg" :src="currentUserImageUrl">
                     </div>
                     <div class="col-xs-10">
                         <i class="fa fa-spinner fa-spin hide2" id="saveCommentSpinner"></i>
@@ -20,7 +20,7 @@
     </div>
     <div v-else class="row commentLoginContainer">
         <div class="col-xs-12 commentLoginText">
-            Um zu kommentieren, musst du eingeloggt sein. <a href="#" data-btn-login="true">Jetzt anmelden</a>
+            Um zu kommentieren, musst du eingeloggt sein. <a href="#" data-btn-login="true" @click="closeModal()">Jetzt anmelden</a>
         </div>
     </div>
 </div>
