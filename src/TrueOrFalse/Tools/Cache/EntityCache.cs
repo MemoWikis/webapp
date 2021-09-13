@@ -34,7 +34,7 @@ public class EntityCache : BaseCache
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
