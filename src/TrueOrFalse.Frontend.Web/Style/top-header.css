@@ -588,6 +588,7 @@
 #loginAndHelp .login-register-container .memo-button.register-btn {
   background: #AFD534;
   color: #003264;
+  margin-right: 11px;
 }
 @media (max-width: 530px) {
   #loginAndHelp .login-register-container .memo-button.register-btn {
