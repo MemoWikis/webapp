@@ -22,9 +22,6 @@
                         <li @click="removeSegment()"><a>
                             <div class="dropdown-icon"><img class="fas" src="/Images/Icons/sitemap-disable.svg"/></div>Unterthema ausblenden
                         </a></li>
-<%--                        <li @click="removeChildren()" :disabled="disabled"><a>
-                            <div class="dropdown-icon"><i class="fas fa-unlink"></i></div>Verknüpfungen entfernen
-                        </a></li>--%>
                     </ul>
                 </div>
             </div>
