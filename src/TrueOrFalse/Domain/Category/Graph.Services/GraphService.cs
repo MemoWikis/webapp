@@ -94,7 +94,7 @@ public class GraphService
         wuwiChildren.Add(personalStartsite);
 
         var wuwiChildrenDic = wuwiChildren.ToConcurrentDictionary();
-        var cacheItemWithChildren = AddChildrenToCategory(wuwiChildrenDic);
+        var cacheItemWithChildren = AddChildrenIdsToCategoryCacheData(wuwiChildrenDic);
         var noAddChildrenIds = new ConcurrentDictionary<int, int>();
 
         foreach (var categoryCacheItem in cacheItemWithChildren.Values)
@@ -206,7 +206,7 @@ public class GraphService
         return UserCache.IsInWishknowledge(userId, parentId) ||  isRootDirectParent;
     }
 
-    public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenToCategory(ConcurrentDictionary<int, CategoryCacheItem> categories)
+    public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenIdsToCategoryCacheData(ConcurrentDictionary<int, CategoryCacheItem> categories)
     {
         foreach (var category in categories.Values)
         {
