@@ -477,5 +477,60 @@ class User_entity_cache_tests : BaseTest
         Assert.That(allRelationsInCategoryC.Count, Is.EqualTo(1));
     }
 
+
+    ///  <image url = "https://share-your-photo.com/img/b1a0487f97.png" scale="1" />
+    [Test]
+    public void Get_correct_relations_with_another_startsite1()
+    {
+        var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
+        var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
+        var userStartTopic1 = EntityCache.GetCategoryCacheItem(user1.StartTopicId);
+        var userStartTopic2 = Sl.CategoryRepo.GetById(user2.StartTopicId);
+
+        var categoryA = ContextCategory.New(false).Add("A", creator: user1).Persist().All.First();
+        var categoryB = ContextCategory.New(false).Add("B", creator: user1).Persist().All.First();
+        var categoryC = ContextCategory.New(false).Add("C", creator: user1).Persist().All.First();
+
+        categoryC.CategoryRelations.Add(new CategoryRelation
+        {
+            Category = categoryC,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
+            RelatedCategory = categoryA
+        });
+
+        categoryC.CategoryRelations.Add(new CategoryRelation
+        {
+            Category = categoryC,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
+            RelatedCategory = categoryB
+        });
+
+        categoryB.CategoryRelations.Add(new CategoryRelation
+        {
+            Category = categoryB,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
+            RelatedCategory = categoryA
+        });
+
+        categoryB.CategoryRelations.Add(new CategoryRelation
+        {
+            Category = categoryB,
+            CategoryRelationType = CategoryRelationType.IsChildOf,
+            RelatedCategory = userStartTopic2
+        });
+
+        CategoryInKnowledge.Pin(categoryB.Id, user1);
+        CategoryInKnowledge.Pin(categoryC.Id, user1);
+        CategoryInKnowledge.Pin(userStartTopic2.Id, user1);
+
+        EntityCache.Init();
+        UserCache.GetItem(user1.Id).IsFiltered = true;
+        Sl.SessionUser.Login(user1);
+
+        var relationsC = UserEntityCache.GetCategory(user1.Id, categoryC.Id).CategoryRelations;
+        Assert.That(relationsC.First().RelatedCategoryId, Is.EqualTo(categoryB.Id));
+        Assert.That(relationsC.Count, Is.EqualTo(1));
+    }
+
 }
 
