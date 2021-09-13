@@ -8,7 +8,7 @@
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen <br />
-            <a href= <%= Links.CategoryDetail(RootCategory.Get, true) %> >Click me</a>
+            
         </div>
 
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
@@ -16,6 +16,7 @@
                     <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>
                 </template>
         </div>
+        <div class="toRoot">Hier geht es zu <a href= <%= Links.CategoryDetail(RootCategory.Get, true) %> >allen Themen</a> </div>
         <div id="CustomSegmentSection" v-else>
             <%if (Model.Segments != null  && Model.Segments.Any()) {
                       foreach (var segment in Model.Segments)
