@@ -9,7 +9,7 @@ public class GraphService
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
        GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true));
 
-    public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
+    private static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
         var parentIds = GetDirectParents(category);
         var allParents = new List<CategoryCacheItem>();
@@ -86,58 +86,8 @@ public class GraphService
         var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
 
         var personalStartsite = EntityCache.GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true);
-        var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalStartsite); 
-
-        foreach (var wuwiChild in wuwiChildren)
-        {
-            var parents = GetParentsFromCategory(wuwiChild.Id, isFromUserEntityCache).ToList();
-            var isRootDirectParent = parents.Contains(personalStartsite.Id); 
-            wuwiChild.CategoryRelations.Clear();
-
-            while (parents.Count > 0)
-            {
-                var parentId = parents.First();
-
-                if (IsInWishknowledgeOrParentIsRoot(isRootDirectParent, userId, parentId))
-                {
-                    var categoryRelation = new CategoryCacheRelation
-                    {
-                        CategoryRelationType = CategoryRelationType.IsChildOf,
-                        CategoryId = wuwiChild.Id,
-                        RelatedCategoryId = parentId
-                    };
-
-                    if (!wuwiChild.Contains(categoryRelation))
-                        wuwiChild.CategoryRelations.Add(categoryRelation);
-
-                    parents.Remove(parentId);
-                }
-                else
-                {
-                    var currentParents = GetParentsFromCategory(parentId, isFromUserEntityCache);
-                    parents.Remove(parentId);
-
-                    foreach (var cp in currentParents)
-                        parents.Add(cp);
-
-                    parents = parents.Distinct().ToList();
-                }
-            }
-        }
-
-        foreach (var wuwiChild in wuwiChildren)
-        {
-            if (wuwiChild.CategoryRelations.Count == 0) 
-            {
-                wuwiChild.CategoryRelations.Add(new CategoryCacheRelation()
-                {
-                    CategoryRelationType = CategoryRelationType.IsChildOf,
-                    RelatedCategoryId = personalStartsite.Id,
-                    CategoryId = wuwiChild.Id
-                });
-            }
-            wuwiChild.CachedData.ChildrenIds = new List<int>();
-        }
+        var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalStartsite);
+        wuwiChildren = SetNewParents(userId, isFromUserEntityCache, wuwiChildren, personalStartsite);
 
         personalStartsite.CategoryRelations = new List<CategoryCacheRelation>();
         personalStartsite.CachedData.ChildrenIds = new List<int>();
@@ -175,6 +125,64 @@ public class GraphService
         return cacheItemWithChildren.Values.ToList(); 
     }
 
+    private static List<CategoryCacheItem> SetNewParents(int userId, bool isFromUserEntityCache, List<CategoryCacheItem> wuwiChildren,
+        CategoryCacheItem personalStartsite)
+    {
+        foreach (var wuwiChild in wuwiChildren)
+        {
+            var parents = GetParentsFromCategory(wuwiChild.Id, isFromUserEntityCache).ToList();
+            var isPersonalStartsiteDirectParent = parents.Contains(personalStartsite.Id);
+            wuwiChild.CategoryRelations.Clear();
+
+            while (parents.Count > 0)
+            {
+                var parentId = parents.First();
+
+                if (IsInWishknowledgeOrParentIsPersonalStartsite(isPersonalStartsiteDirectParent, userId, parentId))
+                {
+                    var categoryRelation = new CategoryCacheRelation
+                    {
+                        CategoryRelationType = CategoryRelationType.IsChildOf,
+                        CategoryId = wuwiChild.Id,
+                        RelatedCategoryId = parentId
+                    };
+
+                    if (!wuwiChild.Contains(categoryRelation))
+                        wuwiChild.CategoryRelations.Add(categoryRelation);
+
+                    parents.Remove(parentId);
+                }
+                else
+                {
+                    var currentParents = GetParentsFromCategory(parentId, isFromUserEntityCache);
+                    parents.Remove(parentId);
+
+                    foreach (var cp in currentParents)
+                        parents.Add(cp);
+
+                    parents = parents.Distinct().ToList();
+                }
+            }
+        }
+
+        foreach (var wuwiChild in wuwiChildren)
+        {
+            if (wuwiChild.CategoryRelations.Count == 0)
+            {
+                wuwiChild.CategoryRelations.Add(new CategoryCacheRelation()
+                {
+                    CategoryRelationType = CategoryRelationType.IsChildOf,
+                    RelatedCategoryId = personalStartsite.Id,
+                    CategoryId = wuwiChild.Id
+                });
+            }
+
+            wuwiChild.CachedData.ChildrenIds = new List<int>();
+        }
+
+        return wuwiChildren; 
+    }
+
     private static List<CategoryCacheItem> GetAllChildrenFromAllCategories(CategoryCacheItem rootCategory, CategoryCacheItem personalStartsite)
     {
         rootCategory.CategoryRelations.Add(new CategoryCacheRelation
@@ -193,7 +201,7 @@ public class GraphService
         return wuwiChildren;
     }
 
-    private static bool IsInWishknowledgeOrParentIsRoot(bool isRootDirectParent, int userId, int parentId)
+    private static bool IsInWishknowledgeOrParentIsPersonalStartsite(bool isRootDirectParent, int userId, int parentId)
     {
         return UserCache.IsInWishknowledge(userId, parentId) ||  isRootDirectParent;
     }
