@@ -54,17 +54,6 @@
                         opacity: 1;
                         transition: opacity .1s ease-in-out;
                     }
-
-                    &:hover {
-                        color: @memo-blue;
-                        transition: color .1s ease-in-out;
-                    }
-                }
-
-                .DropdownButton {
-                    position: absolute;
-                    right: 10px;
-                    top: -10px;
                 }
             }
 
@@ -72,17 +61,19 @@
                 display: flex;
                 border: solid 1px @memo-grey-light;
                 transition: 0.2s;
-                justify-content: center;
-                align-content: center;
                 align-items: center;
-                text-align: center;
                 min-height: 150px;
                 color: @memo-grey-dark;
                 cursor: pointer;
-                flex-direction: column;
+                margin-left: 0;
+                margin-right: 0;
 
                 @media (max-width: 649px) {
                     width: 100%;
+                }
+
+                .addCategoryLabelContainer {
+                    padding: 0;
                 }
 
                 &:hover {
@@ -144,7 +135,6 @@
 
     .segmentDropdown, .dropdown {
         font-size: 35px;
-        height: 30px;
         opacity: 0;
         transition: all .1s ease-in-out;
     }
@@ -155,25 +145,42 @@
             transition: all .1s ease-in-out;
         }
     }
-}
 
-.hover {
-    a.dropdown-toggle {
+    .DropdownButton {
+        position: absolute;
+        right: 10px;
+        top: -10px;
         background: white;
-        transition: all .1s ease-in-out;
+        border-radius: 50%;
+        height: 48px;
+        width: 48px;
+        text-align: center;
+        padding: 6px;
 
-        i {
-            color: @memo-green;
-            transition: all .1s ease-in-out;
+        &.segmentDropdown {
+            position: relative;
         }
 
-        &:hover {
-            border: 1px solid @memo-grey-light;
-            background: white;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+        a.dropdown-toggle {
+            transition: all .1s ease-in-out;
 
-            i {
-                color: @memo-blue !important;
+            i.fa-ellipsis-v {
+                color: @memo-grey-dark;
+                transition: all .1s ease-in-out;
+            }
+        }
+    }
+
+    .hover {
+        .DropdownButton {
+            &:hover {
+                background: @memo-grey-lighter;
+
+                a.dropdown-toggle {
+                    i.fa-ellipsis-v {
+                        color: @memo-blue;
+                    }
+                }
             }
         }
     }
