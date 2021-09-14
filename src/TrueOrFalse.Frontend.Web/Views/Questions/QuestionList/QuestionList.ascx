@@ -41,8 +41,9 @@
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
-    
-    <question-comment-section-modal-component :commentIsLoaded="commentIsLoaded"/>
+    <div>
+    <question-comment-section-modal-component :comment-is-loaded="commentIsLoaded" :questionId="commentQuestionId"/>
+    </div>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>

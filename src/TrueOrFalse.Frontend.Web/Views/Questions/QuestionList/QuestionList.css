@@ -394,6 +394,7 @@
   text-decoration: none;
   color: #999999;
   font-size: 14px;
+  cursor: pointer;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons .dropdown-menu {
   text-align: left;

@@ -46,7 +46,6 @@ let qlc = Vue.component('question-list-component', {
             pageIsLoading: false,
             lastQuestionInListIndex: null,
             answerBodyHasLoaded: false,
-            commentIsLoaded: false,
     };
     },
     created() {
@@ -67,10 +66,7 @@ let qlc = Vue.component('question-list-component', {
                 this.initQuestionList();
             this.answerBodyHasLoaded = true;
         });
-        eventBus.$on('comment-is-loaded', function () {
-            console.log('commentIsLoaded');
-            this.commentIsLoaded = true;
-        });
+
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
