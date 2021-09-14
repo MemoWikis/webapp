@@ -1,5 +1,5 @@
 ﻿<div>
-    <default-modal-component showCloseButton="true" v-if="commentIsLoaded">
+    <default-modal-component showCloseButton="false" v-if="commentIsLoaded">
         <template v-slot:header>
             <div>Diskussionen</div>
         </template>

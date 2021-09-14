@@ -57,6 +57,7 @@ Vue.component('comment-section-component',
                     console.log(data);
                     self.comments = data.commentsList;
                     self.currentUserImageUrl = data.currentUserImageUrl;
+                    eventBus.$emit('comment-is-loaded');
                 });
             }
         }

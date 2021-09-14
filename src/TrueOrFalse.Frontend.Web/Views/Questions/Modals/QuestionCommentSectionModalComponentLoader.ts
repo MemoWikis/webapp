@@ -1,18 +1,17 @@
 ﻿Vue.component('question-comment-section-modal-component',
     {
         template: '#question-comment-section-modal-component',
-        props: [],
+        props: ['commentIsLoaded'],
         data() {
             return {
-                commentIsLoaded: true,
-                questionId: 6338
+                questionId: 0
         }
         },
-        created() {
+        beforeCreate() {
             const self = this;
-            console.log(self.questionId);
             eventBus.$on('closeModal', function () {
                 self.commentIsLoaded = false;
             });
+
         },
     });
