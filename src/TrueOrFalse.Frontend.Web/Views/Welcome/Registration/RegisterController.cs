@@ -28,11 +28,11 @@ public class RegisterController : BaseController
         var category = new Category
         {
             Name = user.Name + "s Startseite",
-            Content = "<h3>Herzlich willkommen, dies ist dein persönliches Startthema!</h3>" +
+            Content = "<h3>Herzlich willkommen, dies ist deine persönliche Startseite!</h3>" +
                       "<br />" +
-                      "<p> Du kannst diesen Text leicht ändern, in dem du einfach hier anfängt zu tippen.Probier mal!</p>" +
-                      " <p> Achtung: Dieses Thema ist(noch) öffentlich.Du kannst diese Seite im 3 - Punkte - Menü rechts auf privat stellen.</p> " +
-                      "<p>Dann ist dieses Thema nur für dich zu erreichen.Wir helfen die gerne! Wenn du Fragen hast, melde dich. :-)</p> " +
+                      "<p> Du kannst diesen Text leicht ändern, in dem du einfach hier anfängt zu tippen. Probier mal!</p>" +
+                      " <p> Achtung: Dieses Thema ist(noch) öffentlich. Du kannst diese Seite im 3 - Punkte - Menü rechts auf privat stellen.</p> " +
+                      "<p>Dann ist dieses Thema nur für dich zu erreichen. Wir helfen die gerne! Wenn du Fragen hast, melde dich. :-)</p> " +
                       "<br />" +
                       "<p><b>Liebe Grüße, dein memucho - Team.</b></p>",
             Visibility = 0,
