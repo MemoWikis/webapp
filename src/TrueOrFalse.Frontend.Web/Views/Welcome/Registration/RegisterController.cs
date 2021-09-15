@@ -47,7 +47,6 @@ public class RegisterController : BaseController
         return Category(EntityCache.GetCategoryCacheItem(category.Id)) ;
     }
 
-    public ActionResult RegisterSuccess() => View(_viewRegisterSuccessPath, new RegisterSuccessModel());
     public ActionResult Category(CategoryCacheItem category) => View(_viewCategoryDetailPath, new CategoryModel(category));
 
     [HttpPost]
