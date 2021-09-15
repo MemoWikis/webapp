@@ -57,6 +57,6 @@ public class UserRowModel : BaseModel
         StartTopicUrl = Links.
             CategoryFromNetwork(startTopic);
 
-        IsStartTopicModified = startTopic.IsStartTopicModified(); 
+        IsStartTopicModified = startTopic.IsStartTopicModified() || startTopic.GetAggregatedQuestionIdsFromMemoryCache().Count > 0; 
     }
 }
