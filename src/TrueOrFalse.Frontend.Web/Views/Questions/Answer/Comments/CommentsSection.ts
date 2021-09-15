@@ -18,46 +18,40 @@
 
 Vue.component('comment-section-component',
     {
-        props: ['questionId'],
         data() {
             return {
+                questionId: 0,
                 isLoggedIn: IsLoggedIn.Yes,
                 comments: [] as Comments[],
                 settledComments: [] as Comments[],
-                currentUserImageUrl: '/Images/Users/5933_128s.jpg?t=20210811103604',
+                currentUserImageUrl: '',
                 showSettledComments: false
             };
         },
         template: '#comment-section-component',
         mounted() {
-            this.getComments();
-            eventBus.$on('show-comment-section-modal', (id) => {
-                this.questionId = id;
-                this.getComments();
+            eventBus.$on('load-comment-section-modal', (questionId) => {
+                this.getComments(questionId);
+                this.getCurrentUserImgUrl();
             });
+
         },
         methods: {
-            getComments() {
-                var self = this;
-                console.log(self.questionId);
-                //$.ajax({
-                //    url: '/AnswerComments/GetComments/',
-                //    data: {
-                //        questionId: self.questionId
-                //    },
-                //    success(result) {
-                //        self.currentUserImageUrl = result.currentUserImageUrl;
-                //        self.comments = result.comments;
-                //    }
-                //});
-                var params = {
-                    questionId: self.questionId,
-                };
-                $.post("/AnswerComments/GetComments", params, function (data) {
+            getComments(questionId) {
+                const self = this;
+                self.questionId = questionId;
+                $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
+                    self.comments = data;
                     console.log(data);
-                    self.comments = data.commentsList;
-                    self.currentUserImageUrl = data.currentUserImageUrl;
-                    eventBus.$emit('comment-is-loaded');
+                    console.log(this.comments);
+                    eventBus.$emit("comment-is-loaded");
+                });
+            },
+            getCurrentUserImgUrl() {
+                const self = this;
+                $.post("/AnswerComments/GetCurrentUserImgUrl", data => {
+                    console.log(data);
+                    self.currentUserImageUrl = data;
                 });
             }
         }

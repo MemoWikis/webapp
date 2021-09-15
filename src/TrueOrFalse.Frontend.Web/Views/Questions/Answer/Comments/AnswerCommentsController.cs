@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Mvc;
+using NHibernate.Util;
 using StackExchange.Profiling.Internal;
 
 public class AnswerCommentsController : BaseController
@@ -95,12 +96,21 @@ public class AnswerCommentsController : BaseController
         }
         return result;
     }
+
+
     [HttpPost]
-    public Object GetComments(int questionId)
+    public String GetCurrentUserImgUrl()
+    {
+        var currentUserImageUrl = new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
+        return currentUserImageUrl;
+    }
+
+    [HttpPost]
+    public List<CommentModel> GetComments(int questionId)
     {
         var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
-
         var commentsList = new List<CommentModel>();
+
         foreach (var comment in _comments)
         {
             if (!comment.IsSettled)
@@ -108,9 +118,7 @@ public class AnswerCommentsController : BaseController
                 commentsList.Add(new CommentModel(comment));
             }
         }
-
-        var currentUserImageUrl = new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
-        var result = new { currentUserImageUrl, commentsList };
-        return result;
+        //var result = new { currentUserImageUrl, commentsList };
+        return commentsList;
     }
 }

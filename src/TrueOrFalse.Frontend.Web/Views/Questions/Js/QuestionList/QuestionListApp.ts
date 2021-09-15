@@ -52,6 +52,15 @@ var questionListApp = new Vue({
         },
         setActiveQuestionId: function () {
             this.activeQuestionId = parseInt($('input#hddQuestionId').attr('value'));
+        },
+        showCommentModal(questionId) {
+            this.commentQuestionId = questionId;
+            this.commentIsLoaded = true;
+            eventBus.$emit("load-comment-section-modal", questionId);
+            console.log('commentIsLoaded' + questionId + this.commentQuestionId + this.commentIsLoaded);
+        },
+        hideCommentModal() {
+            this.commentIsLoaded = false;
         }
     },
     created: function () {
@@ -75,11 +84,13 @@ var questionListApp = new Vue({
             this.$nextTick(() => this.selectedPageFromActiveQuestion = 1);
         });
 
-        eventBus.$on('show-comment-section-modal', function (questionId) {
-            this.commentQuestionId = questionId;
-            this.commentIsLoaded = true;
-            console.log('commentIsLoaded' + questionId + this.commentQuestionId + this.commentIsLoaded);
+        eventBus.$on('show-comment-section-modal', (questionId) => {
+            this.showCommentModal(questionId);
         });
+        eventBus.$on('closeModal', () => {
+            this.hideCommentModal();
+        });
+
     },
     mounted() {
         $('#CustomSessionConfigBtn').tooltip();
