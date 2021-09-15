@@ -5,6 +5,7 @@ public class RegisterController : BaseController
 {
     private string _viewRegisterPath = "~/Views/Welcome/Registration/Register.aspx";
     private string _viewRegisterSuccessPath = "~/Views/Welcome/Registration/RegisterSuccess.aspx";
+    private string _viewCategoryDetailPath = "~/Views/Categories/Detail/Category.aspx"; 
 
     public ActionResult Register() { return View(_viewRegisterPath, new RegisterModel()); }
 
@@ -43,10 +44,11 @@ public class RegisterController : BaseController
         Sl.CategoryRepo.Create(category);
         _sessionUser.User.StartTopicId = category.Id;
 
-        return RedirectToAction(Links.RegisterSuccess, Links.RegisterController);
+        return Category(EntityCache.GetCategoryCacheItem(category.Id)) ;
     }
 
     public ActionResult RegisterSuccess() => View(_viewRegisterSuccessPath, new RegisterSuccessModel());
+    public ActionResult Category(CategoryCacheItem category) => View(_viewCategoryDetailPath, new CategoryModel(category));
 
     [HttpPost]
     public string GetUserTopic()
