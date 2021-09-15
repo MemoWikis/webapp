@@ -86,10 +86,8 @@
                 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-6" style="border-top:0px; margin-top: 10px;">
-                        
                         <a href="#" data-btn-login="true" class="btn btn-link">Ich bin schon Nutzer!</a>
                         <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-success"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-
                     </div>
                 </div>
                 
