@@ -2226,7 +2226,7 @@ strong {
   padding-top: 3px;
 }
 p.is-editor-empty:first-child::before {
-  content: attr(data-empty-text);
+  content: attr(data-placeholder);
   float: left;
   color: #aaa;
   pointer-events: none;

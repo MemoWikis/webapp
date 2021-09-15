@@ -83,6 +83,10 @@ var questionListApp = new Vue({
                 $("#LearningSessionReminderQuestionList").hide(200);
             });
         this.setActiveQuestionId();
+
+        this.$nextTick(() => {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
     },
     watch: {
         activeQuestion: function (indexQuestion) {

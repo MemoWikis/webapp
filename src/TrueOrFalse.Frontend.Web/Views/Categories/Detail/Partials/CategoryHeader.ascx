@@ -67,14 +67,14 @@
                         </div>
                     <% } %>
                     <div>
-                        <% if (Model.AggregatedTopicCount == 1) { %> 1 Unterthema <% }
-                           else if (Model.AggregatedTopicCount > 1){ %> <%= Model.AggregatedTopicCount %> Unterthemen <% }
-                           else { %> 0 Unterthemen
+                        <% if (Model.AggregatedTopicCount == 1) { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
+                           else if (Model.AggregatedTopicCount > 1){ %> <span id="CategoryHeaderTopicCount"><%= Model.AggregatedTopicCount %></span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span> <% }
+                           else { %> <span id="CategoryHeaderTopicCount">0</span>0 <span id="CategoryHeaderTopicCountLabel">Unterthemen</span>
                         <% } %>
                         und
-                        <% if (Model.CountAggregatedQuestions == 1) { %> 1 Frage <% }
-                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.CountAggregatedQuestions %> Fragen <% }
-                           else { %> 0 Fragen
+                        <% if (Model.CountAggregatedQuestions == 1) { %> <span id="CategoryHeaderQuestionCount">1</span> <span id="CategoryHeaderQuestionCountLabel">Frage</span> <% }
+                           else if (Model.CountAggregatedQuestions > 1){ %> <span id="CategoryHeaderQuestionCount"><%= Model.CountAggregatedQuestions %></span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span> <% }
+                           else { %> <span id="CategoryHeaderQuestionCount">0</span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span>
                         <% } %>
                     </div>
                     <div class="category-sub-header-divider">
