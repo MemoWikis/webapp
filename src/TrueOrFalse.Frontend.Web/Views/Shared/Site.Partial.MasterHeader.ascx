@@ -56,7 +56,8 @@
             <div id="HeaderBodyContainer" class="col-sm-9 col-LoginAndHelp col-xs-10 row">
                 <div id="HeaderSearch" class="<%= searchClasses %>">
                     <div class="searchButton" :class="{ 'showSearch' : showSearch }" @click="showSearch = !showSearch">
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <i v-if="showSearch" class="fas fa-times" aria-hidden="true"></i>
+                        <i v-else class="fa fa-search" aria-hidden="true"></i>
                     </div>
                     <div class="SearchContainer" :class="{ 'showSearch' : showSearch }">
                         <search-component v-on:select-item="openUrl" :search-type="searchType" id="SmallHeaderSearchComponent"/>

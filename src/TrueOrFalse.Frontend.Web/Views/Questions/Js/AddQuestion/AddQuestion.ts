@@ -158,6 +158,11 @@
                     self.questionHtml = '';
                     self.flashCardAnswer = '';
                     eventBus.$emit('clear-flashcard');
+                    let headerCount = parseInt($('#CategoryHeaderQuestionCount').text());
+                    $('#CategoryHeaderQuestionCount').text(++headerCount);
+                    headerCount != 1
+                        ? $('#CategoryHeaderQuestionCountLabel').text('Fragen')
+                        : $('#CategoryHeaderQuestionCountLabel').text('Frage');
                 },
             });
         },

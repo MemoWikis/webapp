@@ -162,6 +162,7 @@
                                         eventBus.$emit('remove-category-cards', data.movedCategories);
                                     else
                                         $('#AddCategoryModal').modal('hide');
+                                    self.addCategoryCount();
                                     Utils.HideSpinner();
                                 }
                             },
@@ -251,6 +252,7 @@
                         }
                         else
                             $('#AddCategoryModal').modal('hide');
+                        self.addCategoryCount();
                         Utils.HideSpinner();
                     } else {
                         self.errorMsg = messages.error.category[data.key];
@@ -259,6 +261,13 @@
                     };
                 },
             });
+        },
+        addCategoryCount() {
+            let headerCount = parseInt($('#CategoryHeaderTopicCount').text());
+            $('#CategoryHeaderTopicCount').text(++headerCount);
+            headerCount != 1
+                ? $('#CategoryHeaderTopicCountLabel').text('Unterthemen')
+                : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
         }
     }
 });

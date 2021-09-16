@@ -161,34 +161,34 @@
         width: 34px;
         transform: translateZ(0);
 
-        .fa-search {
+        .fa-search, .fa-times {
             transition: all 0.3s;
-        }
-
-        .fa-times {
-            display: none;
         }
 
         &:hover {
             cursor: pointer;
 
-            .fa-search {
+            .fa-search, .fa-times {
                 color: @memo-green;
             }
         }
+    }
+
+    .fa-times {
+        padding-right: 6px;
     }
 }
 
 #StickySearch {
     .searchButton {
 
-        .fa-search {
+        .fa-search, .fa-times {
             color: @memo-grey-dark;
         }
 
         &:hover {
 
-            .fa-search {
+            .fa-search, .fa-times {
                 color: @memo-blue;
             }
         }

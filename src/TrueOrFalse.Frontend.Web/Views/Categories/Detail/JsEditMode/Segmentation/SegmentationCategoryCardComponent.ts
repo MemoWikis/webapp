@@ -29,6 +29,12 @@
             knowledgeBarHtml: null,
         };
     },
+
+    mounted() {
+        this.$nextTick(() => {
+            Images.ReplaceDummyImages();
+        });
+    },
     watch: {
         selectedCategories() {
             this.isSelected = this.selectedCategories.includes(this.id);
