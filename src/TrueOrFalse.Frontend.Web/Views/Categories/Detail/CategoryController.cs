@@ -16,21 +16,11 @@ public class CategoryController : BaseController
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]
     [SetThemeMenu(true)]
-    public ActionResult Category(int id, int? version, bool? toRootCategory, bool? isFromNetwork)
+    public ActionResult Category(int id, int? version)
     {
         var user = Sl.SessionUser.User;
-        if (isFromNetwork == null)
-        {
-            var personalStartSiteId = user != null ? user.StartTopicId : -1;
-            if (IsRedirectToPersonalStartsite(id, version, toRootCategory, personalStartSiteId))
-                id = personalStartSiteId;
-        }
-        else
-        {
-            DeleteCookie(); 
-        }
-        
-        var modelAndCategory = LoadModel(id, version, toRootCategory == true);
+       
+        var modelAndCategory = LoadModel(id, version);
         modelAndCategory.CategoryModel.IsInTopicTab = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
     }
@@ -58,10 +48,10 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategoryResult.CategoryModel);
     }
 
-    private LoadModelResult LoadModel(int id, int? version,bool toRootCategory = false)
+    private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
-        var category = EntityCache.GetCategoryCacheItem(id, getDataFromEntityCache: toRootCategory );
+        var category = EntityCache.GetCategoryCacheItem(id );
         if (category.IsNotVisibleToCurrentUser)
             category = null;
         

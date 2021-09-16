@@ -318,15 +318,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new {categoryId });
 
-        public static string CategoryDetail(Category category, bool toRootCategory = false)  =>
+        public static string CategoryDetail(Category category)  =>
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id );
-
-        public static string CategoryDetail(CategoryCacheItem category, bool toRootCategory = false) =>
-            HttpContext.Current == null
-                ? ""
-                : CategoryDetail(category.Name, category.Id, toRootCategory);
 
         public static string CategoryDetail(CategoryCacheItem category) =>
             HttpContext.Current == null
@@ -338,9 +333,9 @@ namespace TrueOrFalse.Frontend.Web.Code
                 ? "" 
                 : CategoryDetail(category.Name, category.Id, version);
 
-        public static string CategoryDetail(string name, int id, bool toRootCategory = false) =>
+        public static string CategoryDetail(string name, int id) =>
             GetUrlHelper().Action("Category", CategoryController, 
-                new { text = UriSanitizer.Run(name), id = id, toRootCategory = toRootCategory  });
+                new { text = UriSanitizer.Run(name), id = id });
 
 
         public static string CategoryFromNetwork(CategoryCacheItem category) =>

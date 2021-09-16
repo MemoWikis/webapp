@@ -16,7 +16,7 @@
                     <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>
                 </template>
         </div>
-        <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <a href= <%= Links.CategoryDetail(RootCategory.Get, true) %> >allen Themen</a> </div>
+        <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <a href= <%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId)) %> >allen Themen</a> </div>
         <div id="CustomSegmentSection" v-else>
             <%if (Model.Segments != null  && Model.Segments.Any()) {
                       foreach (var segment in Model.Segments)
