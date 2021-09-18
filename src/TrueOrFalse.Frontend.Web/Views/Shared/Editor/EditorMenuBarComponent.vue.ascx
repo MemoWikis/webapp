@@ -5,36 +5,36 @@
     <button
         class="menubar__button"
         :class="{ 'is-active':  editor.isActive('bold') }"
-        @click="editor.chain().toggleBold().focus().run()">
+        @mousedown="command('bold')">
         <i class="fas fa-bold"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active':  editor.isActive('italic') }"
-        @click="editor.chain().toggleItalic().focus().run()">
+        @mousedown="command('italic')">
         <i class="fas fa-italic"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('strike') }"
-        @click="editor.chain().toggleStrike().focus().run()">
+        @mousedown="command('strike')">
         <i class="fas fa-strikethrough"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('underline') }"
-        @click="editor.chain().toggleUnderline().focus().run()">
+        @mousedown="command('underline')">
         <i class="fas fa-underline"></i>
     </button>
 
     <button
         v-if="heading"
         class="menubar__button"
-        :class="{ 'is-active': editor.isActive('heading', { level: 2})}"
-        @click="editor.chain().toggleHeading({ level: 2 }).focus().run()">
+        :class="{ 'is-active': editor.isActive('heading', { level: 2 })}"
+        @mousedown="command('h2')">
         <b>H1</b>
     </button>
 
@@ -42,41 +42,41 @@
         v-if="heading"
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('heading', { level: 3 })}"
-        @click="editor.chain().toggleHeading({ level: 3 }).focus().run()">
+        @mousedown="command('h3')">
         <b>H2</b>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('bulletList') }"
-        @click="editor.chain().focus().toggleBulletList().run()">
+        @mousedown="command('bulletList')">
         <i class="fas fa-list-ul"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('orderedList') }"
-        @click="editor.chain().focus().toggleOrderedList().run()">
+        @mousedown="command('orderedList')">
         <i class="fas fa-list-ol"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('blockquote') }"
-        @click="editor.chain().focus().toggleBlockquote().run()">
+        @mousedown="command('blockquote')">
         <i class="fas fa-quote-right"></i>
     </button>
 
     <button
         class="menubar__button"
         :class="{ 'is-active': editor.isActive('codeBlock') }"
-        @click="editor.chain().focus().toggleCodeBlock().run()">
+        @mousedown="command('codeBlock')">
         <i class="fas fa-file-code"></i>
     </button>
 
     <button
         class="menubar__button"
-        @click="setLink"
+        @mousedown="command('setLink')"
         :class="{ 'is-active': editor.isActive('link') }">
         <i class="fas fa-link"></i>
     </button>
@@ -84,13 +84,13 @@
     <button
         v-if="editor.isActive('link')"
         class="menubar__button"
-        @click="editor.chain().focus().unsetLink().run()">
+        @mousedown="command('unsetLink')">
         <i class="fas fa-unlink"></i>
     </button>
 
     <button
         class="menubar__button"
-        @click="editor.chain().focus().setHorizontalRule().run()">
+        @mousedown="command('horizontalRule')">
         <b>
             —
         </b>
@@ -98,13 +98,13 @@
 
     <button
         class="menubar__button"
-        @click="editor.chain().focus().undo().run()">
+        @mousedown="command('undo')">
         <i class="fas fa-undo-alt"></i>
     </button>
 
     <button
         class="menubar__button"
-        @click="editor.chain().focus().redo().run()">
+        @mousedown="command('redo')">
         <i class="fas fa-redo-alt"></i>
     </button>
 

@@ -57,8 +57,7 @@
     <div id="StickyHeaderContainer">    
             <div id="StickySearch">
                 <div class="searchButton" :class="{ 'showSearch' : showSearch}" @click="showSearch = !showSearch" v-cloak>
-                    <i v-if="showSearch" class="fas fa-times" aria-hidden="true"></i>
-                    <i v-else class="fa fa-search" aria-hidden="true"></i>
+                    <i :class="[ showSearch ? 'fas fa-times' : 'fa fa-search',]" aria-hidden="true"></i>
                 </div>
                 <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch}" v-cloak>
                     <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent"/>
