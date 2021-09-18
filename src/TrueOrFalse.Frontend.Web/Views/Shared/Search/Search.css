@@ -152,6 +152,7 @@
   position: absolute;
   z-index: 1050;
   width: 34px;
+  max-width: 34px;
   transform: translateZ(0);
 }
 #StickySearch .searchButton .fa-search,
@@ -159,6 +160,7 @@
 #StickySearch .searchButton .fa-times,
 #HeaderSearch .searchButton .fa-times {
   transition: all 0.3s;
+  max-width: 34px;
 }
 #StickySearch .searchButton:hover,
 #HeaderSearch .searchButton:hover {
