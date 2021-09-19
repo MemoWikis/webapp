@@ -10,13 +10,13 @@
     created() {
         this.init();
 
-        var self = this;
-        window.addEventListener("resize", self.init);
+        //var self = this;
+        //window.addEventListener("resize", self.init);
     },
-    destroyed() {
-        var self = this;
-        window.removeEventListener("resize", self.init);
-    },
+    //destroyed() {
+    //    var self = this;
+    //    window.removeEventListener("resize", self.init);
+    //},
     watch: {
         showSearch(val) {
             let logoContainer = $('#LogoContainer');
