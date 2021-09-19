@@ -4,14 +4,13 @@
         return {
             showSearch: false,
             searchType: SearchType.All,
-            isLoggedIn: IsLoggedIn.Yes
+            isLoggedIn: IsLoggedIn.Yes,
+            lastWidth: 0,
         }
     },
-    created() {
-        this.init();
-    },
-
     mounted() {
+        this.init();
+        this.lastWidth = this.$el.clientWidth;
         var self = this;
         window.addEventListener("resize", self.init());
     },
@@ -40,6 +39,9 @@
     },
     methods: {
         init() {
+            if (this.lastWidth == this.$el.clientWidth)
+                return;
+            else this.lastWidth = this.$el.clientWidth;
             if (this.isLoggedIn && window.innerWidth > 750)
                 this.showSearch = true;
             else if (!this.isLoggedIn && window.innerWidth > 992)
