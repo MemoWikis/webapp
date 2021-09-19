@@ -5,18 +5,10 @@
             showSearch: false,
             searchType: SearchType.All,
             isLoggedIn: IsLoggedIn.Yes,
-            lastWidth: 0,
         }
     },
     mounted() {
         this.init();
-        this.lastWidth = this.$el.clientWidth;
-        var self = this;
-        window.addEventListener("resize", self.init);
-    },
-    destroyed() {
-        var self = this;
-        window.removeEventListener("resize", self.init);
     },
     watch: {
         showSearch(val) {
@@ -39,9 +31,6 @@
     },
     methods: {
         init() {
-            if (this.lastWidth == this.$el.clientWidth)
-                return;
-            else this.lastWidth = this.$el.clientWidth;
             if (this.isLoggedIn && window.innerWidth > 750)
                 this.showSearch = true;
             else if (!this.isLoggedIn && window.innerWidth > 992)
