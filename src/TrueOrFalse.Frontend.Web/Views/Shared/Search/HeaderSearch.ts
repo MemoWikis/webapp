@@ -12,11 +12,11 @@
         this.init();
         this.lastWidth = this.$el.clientWidth;
         var self = this;
-        window.addEventListener("resize", self.init());
+        window.addEventListener("resize", self.init);
     },
     destroyed() {
         var self = this;
-        window.removeEventListener("resize", self.init());
+        window.removeEventListener("resize", self.init);
     },
     watch: {
         showSearch(val) {
