@@ -222,6 +222,7 @@
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailService.cs" />
     <Compile Include="Domain\Category\Graph.Services\GraphService.cs" />
+    <Compile Include="Domain\Category\Graph.Services\GraphServiceHelper.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData_V2.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData.cs" />

@@ -259,6 +259,9 @@ public class EditCategoryController : BaseController
             });
         }
 
+        if(UserCache.GetItem(_sessionUser.UserId).IsFiltered)
+            CategoryInKnowledge.Pin(childCategoryId, _sessionUser.User );
+
         //change CategoryRelations
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
         ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
@@ -266,7 +269,7 @@ public class EditCategoryController : BaseController
         //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 
-        if (EntityCache.GetCategoryCacheItem(childCategoryId).IsInWishknowledge()) 
+        if (UserCache.IsInWishknowledge(_sessionUser.UserId,childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
         Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(parentCategoryId), Sl.SessionUser.User, false);

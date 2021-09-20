@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-public class GraphService
+public class GraphService : GraphServiceHelper
 {
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
        GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true));
@@ -40,9 +40,7 @@ public class GraphService
        var userCache =  UserEntityCache.GetUserCache(userId);
 
        userCache.TryGetValue(category.Id, out var userEntityCacheItem);
-       var parentIds=EntityCache.GetCategoryCacheItems(GetDirectParentIds(userEntityCacheItem))
-           .Where(cci => cci.IsInWishknowledge())
-           .Select(cci => cci.Id).ToList();
+        var parentIds = GetDirectParentIdsInWuwi(userEntityCacheItem); 
 
        var allParents = new List<CategoryCacheItem>();
        var deletedIds = new Dictionary<int, int>();
