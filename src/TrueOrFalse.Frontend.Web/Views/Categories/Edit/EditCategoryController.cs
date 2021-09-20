@@ -392,7 +392,7 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
-        var parentHasBeenRemoved = ParentRemover(parentCategoryIdToRemove, childCategoryId);
+        var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
 
         var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
        Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
@@ -411,44 +411,7 @@ public class EditCategoryController : BaseController
             });
     }
 
-    private bool ParentRemover(int parentCategoryIdToRemove, int childCategoryId)
-    {
 
-        var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
-        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
-        if (updatedParentList.Count == 0)
-            return false;
-
-        if (!IsAllowedTo.ToEdit(childCategory))
-            throw new SecurityException("Not allowed to edit category");
-
-        var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
-        var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove); 
-      
-        ModifyRelationsForCategory.RemoveRelation(
-            childCategoryAsCategory, 
-            parentCategoryAsCategory, 
-            CategoryRelationType.IsChildOf);
-
-        ModifyRelationsForCategory.RemoveRelation(
-            parentCategoryAsCategory,
-            childCategoryAsCategory,
-            CategoryRelationType.IncludesContentOf);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            childCategory,
-            parentCategoryIdToRemove,
-            CategoryRelationType.IsChildOf);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove),
-            childCategoryId,
-            CategoryRelationType.IncludesContentOf);
-
-        UserEntityCache.ReInitAllActiveCategoryCaches();
-
-        return true;
-    }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -458,7 +421,7 @@ public class EditCategoryController : BaseController
         var notRemovedChildrenCategoryIds = new List<int>();
         foreach (int childCategoryId in childCategoryIds)
         {
-            var parentHasBeenRemoved = ParentRemover(parentCategoryId, childCategoryId);
+            var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryId, childCategoryId);
             if (parentHasBeenRemoved)
                 removedChildCategoryIds.Add(childCategoryId);
             else
