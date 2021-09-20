@@ -234,7 +234,7 @@ public class EditCategoryController : BaseController
         if (parentCategoryId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return Json(new
             {
-                success = false,
+                success = false, 
                 key = "parentIsRoot"
             });
         var category = Sl.CategoryRepo.GetById(childCategoryId);
@@ -246,10 +246,10 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
-        var allParents = GraphService.GetAllParentsFromEntityCache(parentCategoryId);
-        var parentIsEqualChild = allParents.Where(c => c.Id == childCategoryId);
+        var parentIsEqualChildCount = GraphService.GetAllParentsFromEntityCache(parentCategoryId)
+            .Count(c => c.Id == childCategoryId);
 
-        if (parentIsEqualChild.Any())
+        if (parentIsEqualChildCount > 0)
         {
             Logg.r().Error( "Child is Parent " );
             return Json(new
@@ -258,6 +258,7 @@ public class EditCategoryController : BaseController
                 key = "childIsParent"
             });
         }
+
         //change CategoryRelations
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
         ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
