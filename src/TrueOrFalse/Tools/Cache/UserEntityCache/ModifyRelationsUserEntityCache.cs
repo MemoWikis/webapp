@@ -40,7 +40,7 @@ public class ModifyRelationsUserEntityCache
                     }
                 }
 
-                var parentsInner = GraphService.GetDirectParents(result);
+                var parentsInner = GraphService.GetDirectParentIds(result);
                 var parentHasBeenAdded = new Dictionary<int, int>();
 
                 while (parentsInner.Count > 0)
@@ -50,7 +50,7 @@ public class ModifyRelationsUserEntityCache
                         parentHasBeenAdded.Add(parentsInner[0], parentsInner[0]);
 
                         cache.TryGetValue(parentsInner[0], out var directParent);
-                        var directParentParents = GraphService.GetDirectParents(directParent);
+                        var directParentParents = GraphService.GetDirectParentIds(directParent);
                         foreach (var parentParent in directParentParents)
                         {
                             parentsInner.Add(parentParent);
