@@ -1961,7 +1961,7 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
-    <Content Include="Scripts\vendor\jqueryUi\jquery-ui.js" />
+    <Content Include="Scripts\vendor\jquery-ui.js" />
     <Content Include="Style\jquery-ui\images\ui-icons_444444_256x240.png" />
     <Content Include="Style\jquery-ui\images\ui-icons_555555_256x240.png" />
     <Content Include="Style\jquery-ui\images\ui-icons_777620_256x240.png" />
