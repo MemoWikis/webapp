@@ -870,64 +870,66 @@
         font-size: 16px;
     }
     //FlashCard
-    #flashCardContent {
-        min-height: 250px;
-        cursor: pointer;
+#flashCardContent {
+    min-height: 250px;
+    cursor: pointer;
+    height: 100%;
+    opacity: 0;
 
-        @media (max-width: 768px) {
-            margin-bottom: 25px;
-        }
+    @media (max-width: 768px) {
+        margin-bottom: 25px;
+    }
 
-        > div, #flashCard-frontContent > p {
-            min-height: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-        }
+    > div, #flashCard-frontContent > p {
+        min-height: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
 
-        #flashCard-back > p {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            align-content: center;
-            justify-content: center;
-
-            img {
-                max-width: 60%;
-            }
-        }
-
-        > div {
-            background-color: white;
-            border: 1px solid darken(@border-grey, 5);
-            box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
-        }
+    #flashCard-back > p {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
 
         img {
-            padding-bottom: 20px;
-        }
-
-        .flipClickHint {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-
-            span {
-                color: silver;
-            }
-        }
-
-        #flashCard-frontContent, #flashCard-back {
-            padding: 15px 15px 40px 15px;
-        }
-
-        #flashCard-frontContent img {
             max-width: 60%;
         }
     }
+
+    > div {
+        background-color: white;
+        border: 1px solid darken(@border-grey, 5);
+        box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
+    }
+
+    img {
+        padding-bottom: 20px;
+    }
+
+    .flipClickHint {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+
+        span {
+            color: silver;
+        }
+    }
+
+    #flashCard-frontContent, #flashCard-back {
+        padding: 15px 15px 40px 15px;
+    }
+
+    #flashCard-frontContent img {
+        max-width: 60%;
+    }
+}
 
     .flashCardAnswerButtons > .btn {
         margin-left: unset;

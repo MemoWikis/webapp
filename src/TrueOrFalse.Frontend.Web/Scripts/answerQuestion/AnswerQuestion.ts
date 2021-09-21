@@ -507,8 +507,16 @@ class AnswerQuestion {
     private FlashCardCheck() {
         var answerSection = $('#AnswerAndSolution .row');
         var hasFlashCard = answerSection.has('#AnswerInputSection #flashCardContent');
-        if (hasFlashCard)
+        if (hasFlashCard) {
             answerSection.addClass('hasFlashCard');
+            setTimeout(() => {
+                    let flashCardHeight = Math.max($('#AnswerInputSection #flashCard-front')[0].scrollHeight,
+                        $('#AnswerInputSection #flashCard-back')[0].scrollHeight);
+                    $('#AnswerInputSection').height(flashCardHeight + 60);
+                    $('#AnswerInputSection #flashCardContent').css('opacity', 1);
+                },
+                1);
+        }
         else
             answerSection.removeClass('hasFlashCard');
     }

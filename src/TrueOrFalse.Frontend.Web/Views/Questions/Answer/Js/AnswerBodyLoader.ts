@@ -176,9 +176,8 @@ class AnswerBodyLoader {
                             eventBus.$emit('load-questions-list');
                     } 
                         //$("#QuestionListApp").hide();
-                eventBus.$emit('change-active-question');
+                    eventBus.$emit('change-active-question');
                 }
-
                 Utils.HideSpinner();
             },
             error: () => {
