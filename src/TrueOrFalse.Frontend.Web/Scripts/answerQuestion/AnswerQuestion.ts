@@ -506,7 +506,7 @@ class AnswerQuestion {
 
     private FlashCardCheck() {
         var answerSection = $('#AnswerAndSolution .row');
-        var hasFlashCard = answerSection.has('#AnswerInputSection #flashCardContent');
+        var hasFlashCard = answerSection.has('#AnswerInputSection #flashCardContent').length > 0;
         if (hasFlashCard) {
             answerSection.addClass('hasFlashCard');
             setTimeout(() => {
