@@ -5,10 +5,17 @@
             showSearch: false,
             searchType: SearchType.All,
             isLoggedIn: IsLoggedIn.Yes,
+            lastWidth: 0,
         }
     },
     mounted() {
         this.init();
+        var self = this;
+        window.addEventListener("resize", self.init);
+    },
+    destroyed() {
+        var self = this;
+        window.removeEventListener("resize", self.init);
     },
     watch: {
         showSearch(val) {

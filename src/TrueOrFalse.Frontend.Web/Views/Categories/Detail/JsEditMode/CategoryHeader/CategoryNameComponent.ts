@@ -2,16 +2,19 @@
 Vue.use(VueTextareaAutosize);
 Vue.component('category-name-component',
     {
-        props: ['oldCategoryName','categoryId','isLearningTab'],
+        props: ['originCategoryName','categoryId','isLearningTab'],
         data() {
             return {
+                oldCategoryName: "",
                 categoryName: "",
                 categoryNameAllowed: null,
                 errorMsg: "",
                 disabled: false,
+                nameHasChanged: false,
             }
         },
         created() {
+            this.oldCategoryName = this.originCategoryName;
             this.categoryName = this.oldCategoryName;
         },
         watch: {
@@ -26,8 +29,8 @@ Vue.component('category-name-component',
             if (this.isLearningTab == 'True') {
                 this.controlTab('LearningTab');
             };
-            eventBus.$on('request-save', (val) => {
-                if(val === "categoryName")
+            eventBus.$on('request-save', () => {
+                if(this.nameHasChanged)
                     this.saveName(); 
             });
             eventBus.$on('cancel-edit-mode',
@@ -59,19 +62,20 @@ Vue.component('category-name-component',
                     data: JSON.stringify({ name: name }),
                     success: function (data) {
                         self.categoryNameAllowed = data.categoryNameAllowed;
-                        if (data.categoryNameAllowed)
-                            eventBus.$emit('name-is-valid', { isValid:true });
-                        else {
-                            self.errorMsg = data.errorMsg;
-                            eventBus.$emit('name-is-valid', { isValid: false, msg: name + data.errorMsg });
+                        if (data.categoryNameAllowed) {
+                            eventBus.$emit('name-is-valid', { isValid: true });
+                            self.nameHasChanged = true;
                         }
-
+                        else {
+                            let errorMsg = messages.error.category[data.key];
+                            self.errorMsg = errorMsg;
+                            let msg = { msg: name + ' ' + errorMsg };
+                            eventBus.$emit('show-error', msg);
+                            eventBus.$emit('name-is-valid', { isValid: false, msg: name + ' ' + errorMsg });
+                        }
                     },
                 });
             }, 500),
-            //requestSave() {
-            //    eventBus.$emit('request-save');
-            //},
             saveName() {
                 if (this.categoryName == this.oldCategoryName)
                     return;
@@ -91,11 +95,10 @@ Vue.component('category-name-component',
                             self.oldCategoryName = result.categoryName;
                             var saveMessage = "Das Thema wurde gespeichert.";
                             eventBus.$emit('save-success');
-                            //self.updateAuthors();
-
                             document.title = name;
                             $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
                             window.history.pushState("", name, result.newUrl);
+                            self.nameHasChanged = false;
                         } else {
                             var saveMessage = "Das Thema konnte nicht gespeichert werden.";
                         }

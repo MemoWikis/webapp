@@ -191,22 +191,27 @@
     flex-grow: 1;
 }
 #Management {
-    .KnowledgeBarWrapper{
-            min-width: 160px;
-            padding: 0 15px;
-        }
-    
+    .KnowledgeBarWrapper {
+        min-width: 160px;
+        padding: 0 15px;
+    }
+
     .PinContainer {
-        display:flex;
+        display: flex;
         justify-content: center;
         width: 90px;
+
         .Pin {
             padding: 0 15px;
+        }
+
+        @media (max-width: 767px) {
+            width: 57px;
         }
     }
 
     .DropdownButton {
-        display:flex;
+        display: flex;
         justify-content: center;
         align-items: center;
     }
@@ -218,9 +223,13 @@
     justify-content: space-between;
     transition: background .3s ease-in;
     padding: 0 13px 0 15px;
-    min-width: 170px !important;
     width: 100%;
     max-width: 170px;
+
+    @media (max-width: 767px) {
+        width: 57px;
+        justify-content: center;
+    }
 
     &.active {
         background-color: rgba(255, 160, 122, 0.2)
