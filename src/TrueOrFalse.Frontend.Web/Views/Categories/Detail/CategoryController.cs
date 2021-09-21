@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -18,8 +16,6 @@ public class CategoryController : BaseController
     [SetThemeMenu(true)]
     public ActionResult Category(int id, int? version)
     {
-        var user = Sl.SessionUser.User;
-       
         var modelAndCategory = LoadModel(id, version);
         modelAndCategory.CategoryModel.IsInTopicTab = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
