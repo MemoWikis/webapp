@@ -17,8 +17,7 @@
                         <i v-if="category.Visibility == 1" class="fas fa-lock"></i>
                     </div>
                 </a>
-
-                <div v-if="!isHistoric" class="Button dropdown DropdownButton" :class="{ hover : showHover && !isHistoric }">
+                <div v-if="!isHistoric && !isMyWorld" class="Button dropdown DropdownButton" :class="{ hover : showHover && !isHistoric && !isMyWorld}">
                     <a href="#" :id="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
