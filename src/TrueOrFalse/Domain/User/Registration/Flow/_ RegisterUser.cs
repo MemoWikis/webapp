@@ -75,8 +75,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
     }
-
-
 }
 
 public class UserCreateResult
