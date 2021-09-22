@@ -34,7 +34,7 @@ public class EntityCache : BaseCache
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenToCategory(categories.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
@@ -221,21 +221,27 @@ public class EntityCache : BaseCache
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
 
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IEnumerable<int> getIds) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
+    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
+        getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
+
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static CategoryCacheItem GetCategoryCacheItem(int categoryId, bool isFromUserEntityCache = false,  bool getDataFromEntityCache = false)
     {
-        if ( !IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
-            return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, Sl.SessionUser.UserId);
+        if (!IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache &&
+            UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
+        {
+            var user = Sl.SessionUser.User;
+            //if (categoryId == 1 )
+            //    return UserEntityCache.GetCategory( user.Id, user.StartTopicId); 
 
+            return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, user.Id);
+        }
         return Categories[categoryId];
     }
-
-    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IEnumerable<int> getIds) =>
-        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
-    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
-        getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
 
     public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
     {

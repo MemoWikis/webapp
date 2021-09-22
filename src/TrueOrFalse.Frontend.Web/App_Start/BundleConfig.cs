@@ -46,6 +46,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/jqueryUI")
                 .Include("~/Scripts/vendor/jqueryUi/jquery-ui.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/bootstrap")
+                .Include("~/Scripts/vendor/bootstrap/bootstrap.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/lazy")
                 .Include("~/Views/Shared/Lazy/LazyComponent.js"));
 

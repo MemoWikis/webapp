@@ -23,6 +23,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual User Creator { get; set; }
 
     public virtual IList<CategoryRelation> CategoryRelations { get; set; }
+    public virtual bool IsUserStartTopic { get; set;  }
 
     public virtual IList<Category> ParentCategories() 
     {

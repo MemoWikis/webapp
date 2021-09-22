@@ -179,6 +179,11 @@
 #Management .PinContainer .Pin {
   padding: 0 15px;
 }
+@media (max-width: 767px) {
+  #Management .PinContainer {
+    width: 57px;
+  }
+}
 #Management .DropdownButton {
   display: flex;
   justify-content: center;
@@ -190,9 +195,14 @@
   justify-content: space-between;
   transition: background 0.3s ease-in;
   padding: 0 13px 0 15px;
-  min-width: 170px !important;
   width: 100%;
   max-width: 170px;
+}
+@media (max-width: 767px) {
+  #MyWorldToggleApp {
+    width: 57px;
+    justify-content: center;
+  }
 }
 #MyWorldToggleApp.active {
   background-color: rgba(255, 160, 122, 0.2);

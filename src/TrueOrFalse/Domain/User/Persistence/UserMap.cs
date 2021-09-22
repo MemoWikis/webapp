@@ -17,6 +17,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.TotalInOthersWishknowledge);
         Map(x => x.FollowerCount);
         Map(x => x.LearningSessionOptions);
+        Map(x => x.StartTopicId); 
 
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);

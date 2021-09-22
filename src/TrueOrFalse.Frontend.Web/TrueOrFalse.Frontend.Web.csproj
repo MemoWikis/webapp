@@ -1968,7 +1968,7 @@
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-underline.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-vue2.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
-    <Content Include="Scripts\vendor\jqueryUi\jquery-ui.js" />
+    <Content Include="Scripts\vendor\jquery-ui.js" />
     <Content Include="Style\jquery-ui\images\ui-icons_444444_256x240.png" />
     <Content Include="Style\jquery-ui\images\ui-icons_555555_256x240.png" />
     <Content Include="Style\jquery-ui\images\ui-icons_777620_256x240.png" />
@@ -3573,9 +3573,6 @@
     <Compile Include="Views\Welcome\Registration\RegisterModelToUser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Welcome\Registration\RegisterSuccessModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Views\Welcome\WelcomeBoxTopCategoriesModel.cs" />
     <Compile Include="Views\Welcome\WelcomeController.cs">
       <SubType>Code</SubType>
@@ -4226,7 +4223,6 @@
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />
-    <Content Include="Views\Welcome\Registration\RegisterSuccess.aspx" />
     <Content Include="Views\Welcome\Welcome.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">

@@ -37,7 +37,10 @@
             title="Noch nicht im Wunschwissen: <br/> <%= Model.CategoryKnowledgeSummary.NotInWishknowledge %> Fragen (<%= Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage %>%)"
             style="width: <%= Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage %>%;"></div>
     <% } %>
-           <div class="ConditionalLegend" style="display: none;">
-               Dein Wissensstand
-           </div>
+    <% if(Model.CategoryKnowledgeSummary.Total > 0) { %>
+        <div class="ConditionalLegend" style="display: none;">
+            Dein Wissensstand
+        </div>
+    <% } %>
+
 </div>

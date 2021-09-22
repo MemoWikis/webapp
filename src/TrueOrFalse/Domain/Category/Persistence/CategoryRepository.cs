@@ -77,7 +77,20 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (category.ParentCategories().Count != 1)
             Logg.r().Warning("the parentcounter is != 1");
 
-        Sl.CategoryChangeRepo.AddUpdateEntry(category.ParentCategories().First(), Sl.SessionUser.User, false);
+        var parentCategories = category.ParentCategories();
+
+        if(parentCategories.Count != 0)
+            Sl.CategoryChangeRepo.AddUpdateEntry(parentCategories.First(), Sl.SessionUser.User, false);
+    }
+
+    public void CreateOnlyDb(Category category)
+    {
+        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
+            related.DateModified = related.DateCreated = DateTime.Now;
+        base.Create(category);
+        Flush();
+        _searchIndexCategory.Update(category);
+        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
     }
 
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)

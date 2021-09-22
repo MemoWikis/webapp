@@ -4,12 +4,12 @@
         return {
             showSearch: false,
             searchType: SearchType.All,
-            isLoggedIn: IsLoggedIn.Yes
+            isLoggedIn: IsLoggedIn.Yes,
+            lastWidth: 0,
         }
     },
-    created() {
+    mounted() {
         this.init();
-
         var self = this;
         window.addEventListener("resize", self.init);
     },

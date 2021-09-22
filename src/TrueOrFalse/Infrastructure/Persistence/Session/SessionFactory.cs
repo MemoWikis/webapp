@@ -89,7 +89,6 @@ namespace TrueOrFalse
                 .Create(useStdOut: false, execute: true);
         }
 
-
         public static void TruncateAllTables()
         {
             const string sqlString =

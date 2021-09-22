@@ -37,10 +37,6 @@ var segmentationComponent = Vue.component('segmentation-component', {
             isHistoric: this.isHistoricString == 'True',
         };
     },
-
-    created() {
-    },
-
     mounted() {
         if (this.childCategoryIds != null)
             this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);

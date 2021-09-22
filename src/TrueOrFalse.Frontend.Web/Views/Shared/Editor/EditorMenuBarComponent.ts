@@ -16,29 +16,75 @@ Vue.component('editor-menu-bar-component',
         data() {
             return {
                 focused: false,
-                timer: null
+                clicked: false,
             }
         },
         created() {
+            var self = this;
             this.editor.on('focus', () => {
-                this.focused = true;
-                clearTimeout(this.timer);
+                self.focused = true;
             });
             this.editor.on('blur', () => {
-                var self = this;
-                this.timer = setTimeout(() => self.focused = false, 200);
+                if (self.clicked) {
+                    self.editor.view.dom.focus();
+                    self.clicked = false;
+                }
+                else
+                    self.focused = false;
             });
         },
         methods: {
-            setLink() {
-                const url = window.prompt('URL');
-
-                this.editor
-                    .chain()
-                    .focus()
-                    .extendMarkRange('link')
-                    .setLink({ href: url })
-                    .run();
+            command(fn) {
+                var self = this;
+                switch (fn) {
+                    case 'bold':
+                        self.editor.chain().toggleBold().focus().run();
+                        break;
+                    case 'italic':
+                        self.editor.chain().toggleItalic().focus().run();
+                        break;
+                    case 'strike':
+                        self.editor.chain().toggleStrike().focus().run();
+                        break;
+                    case 'underline':
+                        self.editor.chain().toggleUnderline().focus().run();
+                        break;
+                    case 'h2':
+                        self.editor.chain().toggleHeading({ level: 2 }).focus().run();
+                        break;
+                    case 'h3':
+                        self.editor.chain().toggleHeading({ level: 3 }).focus().run();
+                        break;
+                    case 'bulletList':
+                        self.editor.chain().toggleBulletList().focus().run();
+                        break;
+                    case 'orderedList':
+                        self.editor.chain().toggleOrderedList().focus().run();
+                        break;
+                    case 'blockquote':
+                        self.editor.chain().toggleBlockquote().focus().run();
+                        break;
+                    case 'codeBlock':
+                        self.editor.chain().toggleCodeBlock().focus().run();
+                        break;
+                    case 'setlink':
+                        const url = window.prompt('URL');
+                        self.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+                        break;
+                    case 'unsetLink':
+                        self.editor.chain().focus().unsetLink().run();
+                        break;
+                    case 'horizontalRule':
+                        self.editor.chain().focus().setHorizontalRule().run();
+                        break;
+                    case 'undo':
+                        self.editor.chain().focus().undo().run();
+                        break;
+                    case 'redo':
+                        self.editor.chain().focus().redo().run();
+                        break;
+                }
+                self.clicked = true;
             },
         }
     });

@@ -1,6 +1,7 @@
 ﻿declare var editorContent: any;
+declare var testEditor: any;
 
-var textComponent = Vue.component('text-component',
+Vue.component('text-component',
     {
         props: ['content'],
         template: '#text-component',
@@ -71,6 +72,7 @@ var textComponent = Vue.component('text-component',
                 nativeExtensions: [
                 ]
             });
+            window.testEditor = this.editor;
             eventBus.$on('save-success',
                 () => {
                     this.contentHasBeenSaved = true;

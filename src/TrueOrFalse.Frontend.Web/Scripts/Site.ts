@@ -192,16 +192,14 @@ class Site {
         }
     }
 
-    static RedirectToDashboard() { location.href = window.location.origin; }
+    static RedirectToPersonelStartsite( link: string) { location.href = link; }
     static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 
     static ReloadPage() { window.location.reload(true) };
-    static ReloadPage_butNotTo_Logout() {
-        if (location.href.indexOf("Ausloggen") !== -1)
-            Site.RedirectToDashboard();
-        else
-            Site.ReloadPage();
+
+    static ReloadPage_butNotTo_Logout(link: string) {
+        Site.RedirectToPersonelStartsite(link);
     }
 
     static CloseAllModals() {

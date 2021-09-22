@@ -35,9 +35,9 @@
         14947 Nuthe-Urstromtal<br />
     </p>
 
-    <div id="approachSketch">
+<%--    <div id="approachSketch">
         <img src="<%= Links.GoogleMapsPreviewPath("Wildau.png") %>" alt="Wildau Peview" />
-    </div>
+    </div>--%>
     <p>
         Deinen Anfahrtsweg kannst du <a href="http://maps.google.com/maps/dir//Nettgendorfer+Str.+7,+14947+Nuthe-Urstromtal" target="blank"><b>hier</b></a> mit GoogleMaps planen.
     </p>

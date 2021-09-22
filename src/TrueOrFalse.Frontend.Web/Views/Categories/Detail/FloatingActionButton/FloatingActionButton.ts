@@ -89,9 +89,7 @@ var FAB = Vue.component('floating-action-button',
             eventBus.$on('content-change',
                 (val) => {
                     this.changedCategoryName = val;
-                       // this.saveContent(val);
-                       this.contentIsReady = true;
-
+                    this.contentIsReady = true;
                     this.contentHasChanged = true;
                 });
             eventBus.$on('save-msg',

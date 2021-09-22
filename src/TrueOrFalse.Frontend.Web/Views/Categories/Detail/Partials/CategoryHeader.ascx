@@ -9,7 +9,8 @@
     <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
     <%: Html.HiddenFor(m => m.ImageGuid) %>
     <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
-    <% var buttonId = Guid.NewGuid(); %>
+    <% var buttonId = Guid.NewGuid(); 
+       var user = Sl.SessionUser.User; %>
     <div id="HeadingSection">
         <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
             <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
@@ -36,12 +37,11 @@
             <h1 style="margin-bottom: 0">
 
                 <%if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin ) {%>
-                    <category-name-component inline-template old-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
+                    <category-name-component inline-template origin-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
                         <textarea-autosize
                             placeholder="Type something here..."
                             ref="categoryNameArea"
                             v-model="categoryName"
-                            :min-height="54"
                             rows="1"
                             @keydown.enter.native.prevent
                             @keyup.enter.native.prevent
@@ -58,26 +58,18 @@
             </h1>
             <div>
                 <div class="greyed category-sub-header">
-                    
-                    <% if (!Model.Category.IsHistoric) { %>
-                        <div class="Button Pin mobileHeader" data-category-id="<%= Model.Id %>">
-                            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, displayAdd: false)) %>
-                            </a>
-                        </div>
-                    <% } %>
-                    <div>
-                        <% if (Model.AggregatedTopicCount == 1) { %> 1 Unterthema <% }
-                           else if (Model.AggregatedTopicCount > 1){ %> <%= Model.AggregatedTopicCount %> Unterthemen <% }
-                           else { %> 0 Unterthemen
+                    <div class="category-stats">
+                        <% if (Model.AggregatedTopicCount == 1) { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
+                           else if (Model.AggregatedTopicCount > 1){ %> <span id="CategoryHeaderTopicCount"><%= Model.AggregatedTopicCount %></span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span> <% }
+                           else { %> <span id="CategoryHeaderTopicCount">0</span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span>
                         <% } %>
                         und
-                        <% if (Model.CountAggregatedQuestions == 1) { %> 1 Frage <% }
-                           else if (Model.CountAggregatedQuestions > 1){ %> <%= Model.CountAggregatedQuestions %> Fragen <% }
-                           else { %> 0 Fragen
+                        <% if (Model.CountAggregatedQuestions == 1) { %> <span id="CategoryHeaderQuestionCount">1</span> <span id="CategoryHeaderQuestionCountLabel">Frage</span> <% }
+                           else if (Model.CountAggregatedQuestions > 1){ %> <span id="CategoryHeaderQuestionCount"><%= Model.CountAggregatedQuestions %></span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span> <% }
+                           else { %> <span id="CategoryHeaderQuestionCount">0</span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span>
                         <% } %>
                     </div>
-                    <div class="category-sub-header-divider">
+                    <div class="category-sub-header-divider hidden-xs">
                         <div class="vertical-line"></div>
                     </div>
                     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", Model); %>
@@ -112,7 +104,6 @@
                             <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                         </a>
                     </div>
-
                 </div>
                 <div id="LearningTabWithOptions" class="Tab">
                     <div id="LearningTab" class="Tab" data-url="<%=Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
@@ -138,17 +129,17 @@
                 </div>
             </div>
             <div id="Management">
-                <div class="Border hide-sm"></div>
                 <div class="KnowledgeBarWrapper col-md-3 hide-sm">
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-                    <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
                 </div>
-                <% if (Model.Category.Id != RootCategory.RootCategoryId)
+                
+                
+                <% if (user != null && !user.IsStartTopicTopicId(Model.Category.Id))
                    { %> 
-                    <div class="Border hide-sm"></div>
+                    <div class="Border"></div>
                 <% } %>
-                <div class="Buttons"><%if (Model.Category.Id != RootCategory.RootCategoryId){%>
-                        <div class="PinContainer hide-sm">
+                <div class="Buttons"><%if (Model.ShowPinButton()){%>
+                        <div class="PinContainer">
                             <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
                                 <a href="#" class="noTextdecoration" style="font-size: 22px;">
                                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, isHeader: true)) %>
@@ -159,7 +150,7 @@
 
 
                     <div id="MyWorldToggleApp" :class="{'active': showMyWorld}" <%if (Model.IsMyWorld){%> class="active"<%} %> v-cloak>
-                        <div class="toggle-label">
+                        <div class="toggle-label hidden-xs">
                             <div>
                                 Zeige nur mein
                                 <br/>

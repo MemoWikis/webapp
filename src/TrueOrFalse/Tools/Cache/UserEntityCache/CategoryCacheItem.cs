@@ -43,7 +43,15 @@ public class CategoryCacheItem
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
+
+    public virtual bool IsStartTopicModified()
+    {
+        if (CachedData.ChildrenIds.Count ==  0)
+            return false; 
+       
+        return EntityCache.GetCategoryCacheItems(CachedData.ChildrenIds)
+            .Count(cci => cci.Visibility == CategoryVisibility.All) > 0; 
+    }
 
     public virtual IList<CategoryCacheItem> ParentCategories(bool getFromEntityCache = false)
     {
@@ -243,5 +251,13 @@ public class CategoryCacheItem
                 return true;
 
         return false;
+    }
+
+    public bool Contains(CategoryCacheRelation categoryRelation)
+    {
+        return CategoryRelations.Any(
+            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId && 
+            cr.CategoryRelationType == categoryRelation.CategoryRelationType 
+        );
     }
 }

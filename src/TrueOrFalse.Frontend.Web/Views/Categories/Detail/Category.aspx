@@ -57,7 +57,7 @@
     <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineText/InlineTextComponentLoader.ascx") %>
 
     <div id="TopicTabContent" class="TabContent">
-            <% if (Model.IsInTopic) { %>
+            <% if (Model.IsInTopicTab) { %>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
             <% } %>
         </div>
@@ -79,7 +79,6 @@
         <%: Html.Partial("~/Views/Categories/Edit/AddCategoryComponent.vue.ascx") %>
     </div>
 <%--    <%: Html.Partial("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.vue.ascx") %>--%>
-
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/search") %>

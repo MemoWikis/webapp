@@ -43,13 +43,13 @@ new Vue({
         window.addEventListener('scroll', this.footerCheck);
         window.addEventListener('resize', this.footerCheck);
         eventBus.$on('content-change',
-            () => {
-                if (this.editMode) {
+            (val) => {
+                if (this.editMode && val != 'categoryName') {
                     this.changedContent = true;
                 }
             });
         eventBus.$on('request-save', (val) => {
-            if (val !== "categoryName")
+            if (this.changedContent)
                 this.debounceSaveContent();
         });
         eventBus.$on('save-segments', () => this.debounceSaveSegments());

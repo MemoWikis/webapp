@@ -1,5 +1,4 @@
-﻿using NHibernate;
-using TemplateMigration;
+﻿using TemplateMigration;
 
 namespace TrueOrFalse.Updates
 {

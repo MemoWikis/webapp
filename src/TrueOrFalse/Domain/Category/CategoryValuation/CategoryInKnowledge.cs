@@ -16,7 +16,7 @@ public class CategoryInKnowledge
         CreateJob(JobQueueType.AddCategoryToWishKnowledge,
             new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
 
-        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        var questions =EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true).GetAggregatedQuestionsFromMemoryCache();
         var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
         var userCategoryAnswers = Sl.R<AnswerRepo>().GetByQuestion(questions.GetIds().ToList(), user.Id);
         foreach (var question in questions)

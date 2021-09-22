@@ -309,22 +309,19 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string CategoryNewController = "CategoryNew";
         public const string CategoryEditController = "EditCategory";
         public const string CategoryCreateAction = "Create";
-        public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
-        public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
+
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryCreate(int parentCategoryId) => GetUrlHelper().Action("Create", "EditCategory", new { parent = parentCategoryId });
-        //public static string Category(Category category) => UriSanitizer.Run(category.Name) + "/" + category.Id;
-
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
             GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new {categoryId , categoryChangeId });
 
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new {categoryId });
 
-        public static string CategoryDetail(Category category) =>
+        public static string CategoryDetail(Category category)  =>
             HttpContext.Current == null 
                 ? "" 
-                : CategoryDetail(category.Name, category.Id);
+                : CategoryDetail(category.Name, category.Id );
 
         public static string CategoryDetail(CategoryCacheItem category) =>
             HttpContext.Current == null
@@ -337,7 +334,15 @@ namespace TrueOrFalse.Frontend.Web.Code
                 : CategoryDetail(category.Name, category.Id, version);
 
         public static string CategoryDetail(string name, int id) =>
-            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id });
+            GetUrlHelper().Action("Category", CategoryController, 
+                new { text = UriSanitizer.Run(name), id = id });
+
+
+        public static string CategoryFromNetwork(CategoryCacheItem category) =>
+            CategoryFromNetwork(category.Name, category.Id); 
+        public static string CategoryFromNetwork(string name, int id) =>
+            GetUrlHelper().Action("Category", CategoryController,
+                new {text = UriSanitizer.Run(name), id = id, toRootCategory = true, isFromNetwork = true}); 
 
         public static string CategoryDetailAnalyticsTab(Category category) =>
             CategoryDetail(category) + "/Wissensnetz";

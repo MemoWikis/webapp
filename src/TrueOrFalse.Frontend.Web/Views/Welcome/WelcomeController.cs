@@ -10,7 +10,13 @@ public class WelcomeController : BaseController
     [SetThemeMenu]
     public ActionResult Welcome()
     {
-        var category = RootCategory.Get; 
+        CategoryCacheItem category;
+        var sessionUser = Sl.SessionUser;
+        if (sessionUser.IsLoggedIn)
+            category = EntityCache.GetCategoryCacheItem(sessionUser.User.StartTopicId, getDataFromEntityCache: true);
+        else
+            category = RootCategory.Get; 
+
         return Redirect(Links.CategoryDetail(category)); ;
     }
 

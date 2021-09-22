@@ -15,10 +15,10 @@
         if (element == null)
             return;
 
-        Google._auth2.attachClickHandler(element, {},
-            googleUser => Google.OnLoginSuccess(googleUser),
-            error => Google.OnLoginError(error)
-        );        
+        //Google._auth2.attachClickHandler(element, {},
+        //    googleUser => Google.OnLoginSuccess(googleUser),
+        //    error => Google.OnLoginError(error)
+        //);        
     }
 
    private InitApi() {
@@ -28,24 +28,24 @@
         }) as any);
     }
 
-   private static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
+   //private static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
 
-        var googleId = googleUser.getBasicProfile().getId();
-        var googleIdToken = googleUser.getAuthResponse().id_token;
+   //     var googleId = googleUser.getBasicProfile().getId();
+   //     var googleIdToken = googleUser.getAuthResponse().id_token;
 
-        if (GoogleMemuchoUser.Exists(googleId)) {
-            GoogleMemuchoUser.Login(googleId, googleIdToken);
-            Site.ReloadPage_butNotTo_Logout();
-            return;
-        }
+   //     if (GoogleMemuchoUser.Exists(googleId)) {
+   //         GoogleMemuchoUser.Login(googleId, googleIdToken);
+   //         Site.ReloadPage_butNotTo_Logout();
+   //         return;
+   //     }
 
-        if (GoogleMemuchoUser.CreateAndLogin(googleUser)) {
-            Site.RedirectToRegistrationSuccess();
-        }
-    }
+   //     if (GoogleMemuchoUser.CreateAndLogin(googleUser)) {
+   //         Site.RedirectToRegistrationSuccess();
+   //     }
+   // }
 
-    private static OnLoginError(error) {
-        alert(JSON.stringify(error, undefined, 2));
-    }
+   // private static OnLoginError(error) {
+   //     alert(JSON.stringify(error, undefined, 2));
+   // }
 
 }

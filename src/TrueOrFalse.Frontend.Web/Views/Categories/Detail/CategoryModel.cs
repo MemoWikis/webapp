@@ -29,7 +29,7 @@ public class CategoryModel : BaseContentModule
     public IList<Question> SingleQuestions;
     public Question EasiestQuestion;
     public Question HardestQuestion;
-    public bool IsInTopic = false;
+    public bool IsInTopicTab = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
     public UserTinyModel Creator;
@@ -260,4 +260,13 @@ public class CategoryModel : BaseContentModule
         return EntityCache.GetChildren(category.Id).Count(c =>
                 c.Visibility == CategoryVisibility.All || c.Creator == user);
     }
+
+    public bool ShowPinButton()
+    {
+        if (_sessionUser.UserId != -1)
+            return !Category.IsHistoric &&
+                   !UserCache.GetItem(_sessionUser.UserId).User.IsStartTopicTopicId(Category.Id);
+
+        return !Category.IsHistoric; 
+    } 
 }

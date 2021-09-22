@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse.Tools.Cache.UserWorld;
 
 
 public class UserEntityCache : BaseCache
@@ -14,24 +15,18 @@ public class UserEntityCache : BaseCache
 
     public static void Init(int userId = -1)
     {
-        Logg.r().Warning("Cache UserEntityCache Init start");
-
         var user = userId == -1 ?  
             Sl.SessionUser.User : 
             UserCache.GetItem(userId).User;
 
-        Logg.r().Warning("Cache after user" + " / userId =" + user.Id);
-
         _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
-            .GetAllPersonalCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
-
-        Logg.r().Warning("Cache after GetAllPersonalCategoriesWithRelations");
+            .GetAllWuwiCategoriesWithRelations(RootCategory.RootCategoryId, userId, true).ToConcurrentDictionary());
 
         foreach (var cacheItem in _Categories[user.Id])
         {
             ModifyRelationsUserEntityCache.AddToParents(cacheItem.Value);
         }
-        Logg.r().Warning("Cache UserEntityCache Init end");
+
     }
 
     public static bool IsCacheAvailable(int userId) => _Categories.ContainsKey(userId);
@@ -78,7 +73,7 @@ public class UserEntityCache : BaseCache
         if (_Categories[userId].ContainsKey(categoryId)) 
             return _Categories[userId][categoryId];
 
-        return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id];
+        return _Categories[userId][GetNextParentInWishknowledge(categoryId).Id]; 
     }
 
     public static CategoryCacheItem GetCategory(int userId, int categoryId)
@@ -131,7 +126,7 @@ public class UserEntityCache : BaseCache
         foreach (var userId in _Categories.Keys)
             Init(userId);
     }
-    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem entityCacheItem, bool isModifyRelations = false)
+    public static void ChangeCategoryInUserEntityCaches(CategoryCacheItem entityCacheItem)
     {
         var listParents = new ConcurrentDictionary<int, int>();
         foreach (var cacheWithUser in GetAllCaches())
@@ -142,6 +137,9 @@ public class UserEntityCache : BaseCache
                 cache.TryGetValue(entityCacheItem.Id, out var userCacheItem);
 
                 userCacheItem.CategoryRelations = new List<CategoryCacheRelation>();
+                userCacheItem.Name = entityCacheItem.Name;
+                userCacheItem.Content = entityCacheItem.Content;
+                userCacheItem.Visibility = entityCacheItem.Visibility; 
 
                 foreach (var categoryCacheRelation in userCacheItem.CategoryRelations)
                 {
@@ -178,9 +176,8 @@ public class UserEntityCache : BaseCache
     public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
     {
         var nextParents = EntityCache.GetCategoryCacheItem(categoryId, true).ParentCategories().Distinct().ToList();
-        if (nextParents.Count == 0)
-            nextParents.Add(RootCategory.Get);  // Has Category no parent then add Rootcategory
-
+        var user = Sl.SessionUser.User; 
+            
         while (nextParents.Count > 0)
         {
             var nextParent = nextParents.First();
@@ -190,8 +187,8 @@ public class UserEntityCache : BaseCache
                 return nextParent;
             }
 
-            if (nextParents.Count == 1 && nextParents.First().IsRootCategory)
-                return nextParents.First();
+            if (nextParents.Count == 1 && user.IsStartTopicTopicId(nextParent.Id))
+                return nextParent;
 
             var parentHelperList = nextParent.ParentCategories();
             nextParents.RemoveAt(0);
@@ -203,6 +200,12 @@ public class UserEntityCache : BaseCache
 
             nextParents.Distinct();
         }
+
+        if (nextParents.Count == 0)
+        {
+            return EntityCache.GetCategoryCacheItem(user.StartTopicId, getDataFromEntityCache: true);
+        }
+
         Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");
         throw new NotImplementedException();
     }

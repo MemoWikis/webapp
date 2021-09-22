@@ -2068,7 +2068,6 @@ b, strong {
     display: flex;
     width: 100%;
 }
-
 .inline-text-editor, .inline-question-editor, #flashCardContent {
     position: relative;
 
@@ -2262,7 +2261,7 @@ b, strong {
 }
 
 p.is-editor-empty:first-child::before {
-    content: attr(data-empty-text);
+    content: attr(data-placeholder);
     float: left;
     color: #aaa;
     pointer-events: none;
@@ -2512,27 +2511,15 @@ textarea, input {
     pointer-events: none;
     visibility: hidden;
 
-    &.show-banner {
-        opacity: 1;
-        min-height: 140px;
-        margin: 0 0 -40px 0;
-        height: unset;
-        transform: translateY(0px);
-        pointer-events: unset;
-        visibility: unset;
-    }
-
     .container {
         height: 100%;
         padding-top: 45px;
-        min-height: 140px;
 
         #BannerContainer {
             display: flex;
             display: flex;
             align-items: center;
             height: 100%;
-            min-height: 95px;
             flex-wrap: wrap;
             padding: 10px 0;
 
@@ -2603,6 +2590,24 @@ textarea, input {
                     right: 0px;
                     top: 0px;
                 }
+            }
+        }
+    }
+
+    &.show-banner {
+        opacity: 1;
+        min-height: 140px;
+        margin: 0 0 -40px 0;
+        height: unset;
+        transform: translateY(0px);
+        pointer-events: unset;
+        visibility: unset;
+
+        .container {
+            min-height: 140px;
+
+            #BannerContainer {
+                min-height: 95px;
             }
         }
     }

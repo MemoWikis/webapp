@@ -1,12 +1,14 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
 <segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>" is-historic-string="<%= Model.Category.IsHistoric %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
         <div class="segmentationHeader overline-m">
-            Untergeordnete Themen
+            Untergeordnete Themen <br />
+            
         </div>
 
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
@@ -14,6 +16,7 @@
                     <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>
                 </template>
         </div>
+        <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <a href= <%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId)) %> >allen Themen</a> </div>
         <div id="CustomSegmentSection" v-else>
             <%if (Model.Segments != null  && Model.Segments.Any()) {
                       foreach (var segment in Model.Segments)

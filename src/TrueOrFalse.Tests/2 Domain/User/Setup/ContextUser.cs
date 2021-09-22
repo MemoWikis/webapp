@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using TrueOrFalse.Tests;
 
 public class ContextUser
 {
@@ -27,7 +29,7 @@ public class ContextUser
         return this;
     }
 
-    public ContextUser Add()
+    public ContextUser Add() 
     {
         All.Add(new User {
             Id = 0, 
@@ -41,11 +43,20 @@ public class ContextUser
         return this;
     }
 
-    public ContextUser Persist()
+    public ContextUser Persist(bool withStartTopic = false)
     {
         foreach (var usr in All)
+        {
             _userRepo.Create(usr);
-
+            if (withStartTopic)
+            {
+                var firstStartTopic= ContextCategory.New(false) 
+                    .Add(usr.Name + "s Startseite", creator: usr).Persist()
+                    .All
+                    .First();
+                usr.StartTopicId = firstStartTopic.Id;
+            }
+        }
         return this;
     }
 }

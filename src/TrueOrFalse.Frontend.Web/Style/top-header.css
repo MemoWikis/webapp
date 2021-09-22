@@ -336,7 +336,7 @@
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn {
   height: 100%;
-  margin-right: 32px;
+  margin-right: 31px;
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn .register-btn {
   height: 100% !important;

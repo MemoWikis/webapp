@@ -11,10 +11,13 @@
             eventBus.$on('set-category-img-src', (src) => this.imgSrc = src);
         },
         mounted() {
+            this.imgSrc = $("#CategoryHeaderImg").attr('src');
             if (this.isLearningTab == 'True') {
                 this.controlTab('LearningTab');
             };
-            eventBus.$on('cancel-edit-mode', () => { $("#CategoryHeaderImg").attr('src', this.imgSrc); });
+            eventBus.$on('cancel-edit-mode', () => {
+                $("#CategoryHeaderImg").attr('src', this.imgSrc);
+            });
             eventBus.$on('request-save', (val) => {
                 if(val !== "categoryName" )
                 this.saveImage();

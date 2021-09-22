@@ -40,8 +40,8 @@ Vue.component('my-world-toggle-component',
                 var s = this.showMyWorld;
 
                 if (IsLoggedIn.Yes && !this.isLoading) {
-                    $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done(() => {
-                        location.reload();
+                    $.post(`/Category/SetMyWorldCookie/?showMyWorld=${s}`).done((url) => {
+                        location.href = url; 
                     });
                 }
 

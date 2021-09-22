@@ -3,8 +3,8 @@
 <% if (Model.IsHeader) { %> 
     <div class="iAdded pinButton <%= Model.IsWishknowledge ? "" : "hide2" %>">
         <i class="fa fa-heart show-tooltip" title="Thema aus deinem Wunschwissen entfernen"></i>
-        <div class="Text hideOnHover">Hinzugefügt</div>
-        <div class="Text showOnHover">Entfernen</div>
+        <div class="Text hideOnHover hidden-xs">Hinzugefügt</div>
+        <div class="Text showOnHover hidden-xs">Entfernen</div>
 
     </div>
     <div class="iAddedNot show-tooltip pinButton <%= Model.IsWishknowledge ? "hide2" : "" %>" title="Thema zu deinem Wunschwissen hinzufügen">

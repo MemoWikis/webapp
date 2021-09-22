@@ -2226,7 +2226,7 @@ strong {
   padding-top: 3px;
 }
 p.is-editor-empty:first-child::before {
-  content: attr(data-empty-text);
+  content: attr(data-placeholder);
   float: left;
   color: #aaa;
   pointer-events: none;
@@ -2425,25 +2425,14 @@ input::placeholder {
   pointer-events: none;
   visibility: hidden;
 }
-#MemuchoInfoBanner.show-banner {
-  opacity: 1;
-  min-height: 140px;
-  margin: 0 0 -40px 0;
-  height: unset;
-  transform: translateY(0px);
-  pointer-events: unset;
-  visibility: unset;
-}
 #MemuchoInfoBanner .container {
   height: 100%;
   padding-top: 45px;
-  min-height: 140px;
 }
 #MemuchoInfoBanner .container #BannerContainer {
   display: flex;
   align-items: center;
   height: 100%;
-  min-height: 95px;
   flex-wrap: wrap;
   padding: 10px 0;
 }
@@ -2509,4 +2498,19 @@ input::placeholder {
   position: absolute;
   right: 0px;
   top: 0px;
+}
+#MemuchoInfoBanner.show-banner {
+  opacity: 1;
+  min-height: 140px;
+  margin: 0 0 -40px 0;
+  height: unset;
+  transform: translateY(0px);
+  pointer-events: unset;
+  visibility: unset;
+}
+#MemuchoInfoBanner.show-banner .container {
+  min-height: 140px;
+}
+#MemuchoInfoBanner.show-banner .container #BannerContainer {
+  min-height: 95px;
 }

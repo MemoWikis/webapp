@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -17,11 +16,13 @@ public class CategoryController : BaseController
     [SetThemeMenu(true)]
     public ActionResult Category(int id, int? version)
     {
-        GetMyWorldCookie(); 
         var modelAndCategory = LoadModel(id, version);
-        modelAndCategory.CategoryModel.IsInTopic = true;
+        modelAndCategory.CategoryModel.IsInTopicTab = true;
         return View(_viewLocation, modelAndCategory.CategoryModel);
     }
+
+    private bool IsRedirectToPersonalStartsite(int id, int? version, bool? toRootCategory, int personalStartSiteId) =>
+        GetMyWorldCookie() && version == null && toRootCategory == false && personalStartSiteId == id; 
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
@@ -46,7 +47,7 @@ public class CategoryController : BaseController
     private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
-        var category = EntityCache.GetCategoryCacheItem(id);
+        var category = EntityCache.GetCategoryCacheItem(id );
         if (category.IsNotVisibleToCurrentUser)
             category = null;
         
@@ -222,7 +223,7 @@ public class CategoryController : BaseController
         return false;
     }
 
-    public void SetMyWorldCookie(bool showMyWorld)
+    public string SetMyWorldCookie(bool showMyWorld)
     {
         HttpCookie cookie = new HttpCookie("memucho_myworld");
             cookie.Expires = DateTime.Now.AddYears(1);
@@ -234,14 +235,20 @@ public class CategoryController : BaseController
         if (_sessionUser.IsLoggedIn)
         {
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
-                Logg.r().Warning("Cache CacheKeyIsNotAvailable");
+                Logg.r().Warning("Cache CacheKeyIsNotAvaila>ble");
             UserEntityCache.Init();
         }
 
         UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        var startTopicId = RootCategory.Get.Id; 
+
+        if (showMyWorld || _sessionUser.IsLoggedIn)
+             startTopicId = _sessionUser.User.StartTopicId;
+
+        return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: true));
     }
 
-    public bool GetMyWorldCookie()
+    public  bool GetMyWorldCookie()
     {
         HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
         if (cookie != null && IsLoggedIn)
