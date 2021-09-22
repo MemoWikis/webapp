@@ -4,7 +4,6 @@ using TrueOrFalse.Frontend.Web.Code;
 public class RegisterController : BaseController
 {
     private string _viewRegisterPath = "~/Views/Welcome/Registration/Register.aspx";
-    private string _viewRegisterSuccessPath = "~/Views/Welcome/Registration/RegisterSuccess.aspx";
     private string _viewCategoryDetailPath = "~/Views/Categories/Detail/Category.aspx"; 
 
     public ActionResult Register() { return View(_viewRegisterPath, new RegisterModel()); }
@@ -25,19 +24,7 @@ public class RegisterController : BaseController
         RegisterUser.Run(user);
         _sessionUser.Login(user);
 
-        var category = new Category
-        {
-            Name = user.Name + "s Wiki",
-            Content = "<h2>Herzlich willkommen, dies ist dein persönliches Wiki!</h2>" +
-                      "<p> Du kannst diesen Text leicht ändern, in dem du einfach hier anfängt zu tippen. Probier mal!</p>" +
-                      " <p> Achtung: Dieses Thema ist(noch) öffentlich. Du kannst diese Seite im 3 - Punkte - Menü rechts auf privat stellen.</p> " +
-                      "<p>Dann ist dieses Thema nur für dich zu erreichen. Wir helfen die gerne! Wenn du Fragen hast, melde dich. :-)</p> " +
-                      "<p><b>Liebe Grüße, dein memucho - Team.</b></p>",
-            Visibility = 0,
-            Creator = user,
-            Type = CategoryType.Standard,
-            IsUserStartTopic = true
-        };
+        var category = PersonalTopic.GetPersonalCategory(user); 
         user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
         _sessionUser.User.StartTopicId = category.Id;
