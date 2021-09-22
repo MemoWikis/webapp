@@ -1,7 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld" :category="category" :is-historic="isHistoric">
-
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="mouseOver" @mouseleave="mouseLeave" :class="{ hover : showHover }">
         <div class="row" v-on:click.self="goToCategory()">
             <div class="col-xs-3">
@@ -38,30 +37,23 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="set-question-count">
                     <span>
                         <pin-category-component :category-id="categoryId" :initial-wishknowledge-state="category.IsInWishknowledge"/>
                     </span>
                     <a :href="category.LinkToCategory" class="sub-label">
-
                         <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
                         <template v-else-if="category.ChildCategoryCount > 1">{{category.ChildCategoryCount}} Unterthemen</template>
                         {{category.QuestionCount}} Frage<template v-if="category.QuestionCount != 1">n</template>
                     </a>
-
                 </div>
                 <a :href="category.LinkToCategory">
-
                     <div v-if="category.QuestionCount > 0" class="KnowledgeBarWrapper">
                         <div v-html="category.KnowledgeBarHtml"></div>
                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                     </div>
                 </a>
-
-
             </div>
         </div>
     </div>
-
 </category-card-component>
