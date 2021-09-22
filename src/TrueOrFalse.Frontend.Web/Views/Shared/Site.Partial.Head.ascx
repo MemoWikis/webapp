@@ -3,6 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <%= Styles.Render("~/bundles/css") %>
 <%= Scripts.Render("~/bundles/shared") %>
+<%= Scripts.Render("~/bundles/js/bootstrap") %>
 
 <% if (!Settings.DevelopOffline()){ %>
     <link href='//fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>

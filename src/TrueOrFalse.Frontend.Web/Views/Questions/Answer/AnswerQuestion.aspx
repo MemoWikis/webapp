@@ -27,6 +27,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/d3") %>
     <%= Scripts.Render("~/bundles/js/jqueryUi") %>
+    <%= Scripts.Render("~/bundles/js/bootstrap") %>
     <%= Styles.Render("~/bundles/jqueryUi") %>
 
     <script type="text/x-template" id="question-details-component">
@@ -272,5 +273,5 @@
 </div>
 
 </div>
-    <%= Scripts.Render("~/bundles/js/search") %>
+    <%= Scripts.Render("~/bundles/js/stickySearch") %>
 </asp:Content>

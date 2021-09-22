@@ -57,8 +57,10 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/searchTemplate")
                 .Include("~/Views/Shared/Search/Search.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/search")
-                .Include("~/Views/Shared/Search/HeaderSearch.js")
+            bundles.Add(new ScriptBundle("~/bundles/js/headerSearch")
+                .Include("~/Views/Shared/Search/HeaderSearch.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/stickySearch")
                 .Include("~/Views/Shared/Search/StickySearch.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
