@@ -23,11 +23,11 @@ public class FacebookUsersApiController : BaseController
         var registerResult = RegisterUser.Run(facebookUser);
 
         if (registerResult.Success)
-            R<SessionUser>().Login(
-                Sl.UserRepo.UserGetByFacebookId(facebookUser.id)
-            );
-
-        Sl.CategoryRepo.Create(PersonalTopic.GetPersonalCategory(Sl.UserRepo.UserGetByFacebookId(facebookUser.id)));
+        {
+            var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
+            R<SessionUser>().Login(user);
+            PersonalTopic.CreatePersonalCategory(user);
+        }
         return new JsonResult { Data = registerResult };
     }
     
