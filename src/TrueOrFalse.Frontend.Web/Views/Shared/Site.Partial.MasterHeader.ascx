@@ -75,3 +75,7 @@
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
+
+<% if (!userSession.IsLoggedIn) { %>
+    <%= Scripts.Render("~/bundles/js/headerSearch") %>
+<%} %>
