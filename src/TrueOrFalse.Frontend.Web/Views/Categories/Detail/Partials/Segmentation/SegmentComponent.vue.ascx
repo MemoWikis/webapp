@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId" :is-historic="isHistoric">
+<segment-component inline-template :edit-mode="editMode" :ref="'segment'+ s.CategoryId" :title="s.Title" :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId" :is-historic="isHistoric" :parent-id="categoryId">
     <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIdsString" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover : showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">

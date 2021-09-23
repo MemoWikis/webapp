@@ -7,6 +7,7 @@
         editMode: Boolean,
         isMyWorld: Boolean,
         isHistoric: Boolean,
+        parentId: Number
     },
 
     data() {
@@ -31,10 +32,6 @@
             knowledgeBarData: null
         };
     },
-
-    created() {
-    },
-
     mounted() {
         this.getSegmentData();
         this.segmentId = "Segment-" + this.categoryId;
@@ -147,7 +144,12 @@
                 NotLoggedIn.ShowErrorMsg("RemoveSegment");
                 return;
             }
+            var data = {
+                parentId: this.parentId,
+                newCategoryId: this.categoryId
+            };
             eventBus.$emit('remove-segment', parseInt(this.categoryId));
+            eventBus.$emit('add-category-card', data);
         },
         addCategory(val) {
             if (NotLoggedIn.Yes()) {
