@@ -9,7 +9,7 @@
     </div>
     <div class="iAddedNot show-tooltip pinButton <%= Model.IsWishknowledge ? "hide2" : "" %>" title="Thema zu deinem Wunschwissen hinzufügen">
         <i class="fa fa-heart-o"></i>
-        <div class="Text">Hinzufügen</div>
+        <div class="Text hidden-xs">Hinzufügen</div>
     </div>
     <div class="iAddSpinner hide2" style="color: #FF001F !important;"><i class="fa fa-spinner fa-spin"></i></div>
 <%} else { %>

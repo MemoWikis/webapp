@@ -883,6 +883,7 @@
   -webkit-border-radius: 5px;
           border-radius: 5px;
   height: 33px;
+  min-width: 150px;
 }
 .matchlist-divider {
   border-bottom: 1px solid;
