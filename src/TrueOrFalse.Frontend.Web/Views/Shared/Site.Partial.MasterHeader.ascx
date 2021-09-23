@@ -72,8 +72,6 @@
             </div>
         </div>
     </header>
-    <%= Scripts.Render("~/bundles/js/headerSearch") %>
-
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
