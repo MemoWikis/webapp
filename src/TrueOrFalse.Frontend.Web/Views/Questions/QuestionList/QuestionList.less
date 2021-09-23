@@ -156,6 +156,10 @@
         transition: all .2s ease-out;
         margin-right: 20px;
 
+        @media(max-width: @screen-xxs-max) {
+            margin-right: 0;
+        }
+
         &.open {
             height: unset;
             margin-top: 20px;
@@ -561,8 +565,8 @@
     }
 
     @media(max-width: @screen-xxs-max) {
-        margin-right: -20px;
-        margin-left: -20px;
+        margin-right: -10px;
+        margin-left: -10px;
     }
 
 
@@ -572,6 +576,10 @@
         padding: 22px 21px 30px;
         font-size: 16px;
         margin-right: 20px;
+
+        @media(max-width: @screen-xxs-max) {
+            margin-right: 0;
+        }
 
         .add-inline-question-label {
             font-weight: 700;
@@ -626,6 +634,10 @@
                 padding-right: 24px;
                 flex: 1;
 
+                @media(max-width: @screen-xxs-max) {
+                    padding-right: 0;
+                }
+
                 .ProseMirror {
                     padding: 11px 15px 0;
                 }
@@ -657,6 +669,11 @@
             .btn-container {
                 display: flex;
                 justify-content: flex-end;
+
+                @media(max-width: @screen-xxs-max) {
+                    justify-content: center;
+                    flex-wrap: wrap-reverse;
+                }
             }
         }
 

@@ -130,6 +130,11 @@
   transition: all 0.2s ease-out;
   margin-right: 20px;
 }
+@media (max-width: 479px) {
+  #QuestionListApp .singleQuestionRow {
+    margin-right: 0;
+  }
+}
 #QuestionListApp .singleQuestionRow.open {
   height: unset;
   margin-top: 20px;
@@ -464,8 +469,8 @@
 }
 @media (max-width: 479px) {
   #QuestionListApp {
-    margin-right: -20px;
-    margin-left: -20px;
+    margin-right: -10px;
+    margin-left: -10px;
   }
 }
 #QuestionListApp #AddInlineQuestionContainer {
@@ -474,6 +479,11 @@
   padding: 22px 21px 30px;
   font-size: 16px;
   margin-right: 20px;
+}
+@media (max-width: 479px) {
+  #QuestionListApp #AddInlineQuestionContainer {
+    margin-right: 0;
+  }
 }
 #QuestionListApp #AddInlineQuestionContainer .add-inline-question-label {
   font-weight: 700;
@@ -521,6 +531,11 @@
   padding-right: 24px;
   flex: 1;
 }
+@media (max-width: 479px) {
+  #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer {
+    padding-right: 0;
+  }
+}
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody #AddQuestionFormContainer .ProseMirror {
   padding: 11px 15px 0;
 }
@@ -545,6 +560,12 @@
 #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody .btn-container {
   display: flex;
   justify-content: flex-end;
+}
+@media (max-width: 479px) {
+  #QuestionListApp #AddInlineQuestionContainer #AddQuestionBody .btn-container {
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+  }
 }
 #QuestionListApp #AddInlineQuestionContainer .wuwi-red {
   color: #ff001f;

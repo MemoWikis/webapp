@@ -46,8 +46,8 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/jqueryUI")
                 .Include("~/Scripts/vendor/jqueryUi/jquery-ui.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/bootstrap")
-                .Include("~/Scripts/vendor/bootstrap/bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js/bootstrapTooltip")
+                .Include("~/Scripts/vendor/bootstrapTooltip/bootstrap-tooltip.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/lazy")
                 .Include("~/Views/Shared/Lazy/LazyComponent.js"));
@@ -57,8 +57,10 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/searchTemplate")
                 .Include("~/Views/Shared/Search/Search.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/search")
-                .Include("~/Views/Shared/Search/HeaderSearch.js")
+            bundles.Add(new ScriptBundle("~/bundles/js/headerSearch")
+                .Include("~/Views/Shared/Search/HeaderSearch.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/stickySearch")
                 .Include("~/Views/Shared/Search/StickySearch.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")

@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%
@@ -71,6 +72,8 @@
             </div>
         </div>
     </header>
+    <%= Scripts.Render("~/bundles/js/headerSearch") %>
+
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>

@@ -20,7 +20,7 @@
             <p>Du wurdest erfolgreich ausgeloggt.</p>    
         </div>        
     </div>
-    <%= Scripts.Render("~/bundles/js/search") %>
+    <%= Scripts.Render("~/bundles/js/stickySearch") %>
 
 </asp:Content>
 
