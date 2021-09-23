@@ -485,11 +485,9 @@ public class EditCategoryModel : BaseModel
                         HasError = true,
                         ErrorMessage = new ErrorMessage(errorMessage)
                     };
-
                     return;
                 }
             }
-
             ModifyRelationsForCategory.AddParentCategory(Sl.CategoryRepo.GetByIdEager(category.Id), parentFromDb.Id);            
         }
     }
@@ -547,7 +545,6 @@ public class EditCategoryModel : BaseModel
         return true;
     }
 }
-
 
 public class ConvertToCategoryResult
 {
