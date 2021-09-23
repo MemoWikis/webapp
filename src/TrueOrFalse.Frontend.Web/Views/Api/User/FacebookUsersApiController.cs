@@ -28,6 +28,7 @@ public class FacebookUsersApiController : BaseController
             R<SessionUser>().Login(user);
             PersonalTopic.CreatePersonalCategory(user);
         }
+
         return new JsonResult { Data = registerResult };
     }
     
