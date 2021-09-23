@@ -31,27 +31,24 @@ Vue.component('comment-section-component',
         template: '#comment-section-component',
         mounted() {
             eventBus.$on('load-comment-section-modal', (questionId) => {
-                this.getComments(questionId);
+                //this.getComments(questionId);
                 this.getCurrentUserImgUrl();
             });
 
         },
         methods: {
-            getComments(questionId) {
-                const self = this;
-                self.questionId = questionId;
-                $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
-                    self.comments = data;
-                    console.log(data);
-                    console.log(this.comments);
-                    eventBus.$emit("comment-is-loaded");
-                });
-            },
+            //getComments(questionId) {
+            //    const self = this;
+            //    self.questionId = questionId;
+            //    $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
+            //        self.comments = data as Comments[];
+            //        eventBus.$emit("comment-is-loaded");
+            //    });
+            //},
             getCurrentUserImgUrl() {
                 const self = this;
-                $.post("/AnswerComments/GetCurrentUserImgUrl", data => {
-                    console.log(data);
-                    self.currentUserImageUrl = data;
+                $.post("/AnswerComments/GetCurrentUserImgUrl", url => {
+                    self.currentUserImageUrl = url as String;
                 });
             }
         }

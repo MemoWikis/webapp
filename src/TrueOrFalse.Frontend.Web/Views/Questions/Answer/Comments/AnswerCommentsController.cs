@@ -118,7 +118,6 @@ public class AnswerCommentsController : BaseController
                 commentsList.Add(new CommentModel(comment));
             }
         }
-        //var result = new { currentUserImageUrl, commentsList };
         return commentsList;
     }
 }

@@ -105,6 +105,7 @@ var questionListApp = new Vue({
         this.$nextTick(() => {
             $('[data-toggle="tooltip"]').tooltip()
         });
+        eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
     },
     watch: {
         activeQuestion: function (indexQuestion) {

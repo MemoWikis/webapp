@@ -8,7 +8,7 @@ var defaultModalComponent = Vue.component('default-modal-component',
         props: ['showCloseButton'],
         methods: {
             closeModal() {
-                eventBus.$emit('closeModal');
+                eventBus.$emit('close-modal');
             }
         }
     })

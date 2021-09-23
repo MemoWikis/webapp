@@ -7,8 +7,8 @@
         }
         },
         beforeCreate() {
-            eventBus.$on('closeModal', () => {
-                this.commentIsLoaded = false;
+            eventBus.$on('close-modal', () => {
+                eventBus.$emit('unload-comment');
             });
 
         },

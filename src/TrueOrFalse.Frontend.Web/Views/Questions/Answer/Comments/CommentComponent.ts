@@ -194,7 +194,7 @@ Vue.component('add-comment-component',
                     });
             },
             closeModal() {
-                eventBus.$emit('closeModal');
+                eventBus.$emit('close-modal');
             }
         }
     });
