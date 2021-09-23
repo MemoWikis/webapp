@@ -27,9 +27,10 @@ public class FacebookUsersApiController : BaseController
                 Sl.UserRepo.UserGetByFacebookId(facebookUser.id)
             );
 
+        Sl.CategoryRepo.Create(PersonalTopic.GetPersonalCategory(Sl.UserRepo.UserGetByFacebookId(facebookUser.id)));
         return new JsonResult { Data = registerResult };
     }
-
+    
     [HttpPost]
     public JsonResult UserExists(string facebookId)
     {

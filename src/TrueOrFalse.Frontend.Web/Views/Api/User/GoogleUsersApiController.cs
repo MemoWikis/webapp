@@ -32,7 +32,7 @@ public class GoogleUsersApiController : BaseController
             R<SessionUser>().Login(
                 Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId)
             );
-
+        Sl.CategoryRepo.Create(PersonalTopic.GetPersonalCategory(Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId)));
         return new JsonResult { Data = registerResult };
     }
 
