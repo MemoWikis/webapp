@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Mvc;
-using NHibernate.Util;
-using StackExchange.Profiling.Internal;
+using Newtonsoft.Json;
+
 
 public class AnswerCommentsController : BaseController
 {
@@ -106,7 +106,7 @@ public class AnswerCommentsController : BaseController
     }
 
     [HttpPost]
-    public List<CommentModel> GetComments(int questionId)
+    public String GetComments(int questionId)
     {
         var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
         var commentsList = new List<CommentModel>();
@@ -118,6 +118,11 @@ public class AnswerCommentsController : BaseController
                 commentsList.Add(new CommentModel(comment));
             }
         }
-        return commentsList;
+
+        var json = JsonConvert.SerializeObject(commentsList, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+        });
+        return json;
     }
 }

@@ -29,22 +29,24 @@ Vue.component('comment-section-component',
             };
         },
         template: '#comment-section-component',
-        mounted() {
+        created() {
+            this.getCurrentUserImgUrl();
+            this.getComments(6338);
+
             eventBus.$on('load-comment-section-modal', (questionId) => {
                 //this.getComments(questionId);
-                this.getCurrentUserImgUrl();
             });
 
         },
         methods: {
-            //getComments(questionId) {
-            //    const self = this;
-            //    self.questionId = questionId;
-            //    $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
-            //        self.comments = data as Comments[];
-            //        eventBus.$emit("comment-is-loaded");
-            //    });
-            //},
+            getComments(questionId) {
+                const self = this;
+                self.questionId = questionId;
+                $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
+                    self.comments = JSON.parse(data);
+                    eventBus.$emit("comment-is-loaded");
+                });
+            },
             getCurrentUserImgUrl() {
                 const self = this;
                 $.post("/AnswerComments/GetCurrentUserImgUrl", url => {

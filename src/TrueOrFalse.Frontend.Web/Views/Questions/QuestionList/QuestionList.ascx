@@ -42,7 +42,7 @@
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
     <div>
-    <question-comment-section-modal-component :comment-is-loaded="commentIsLoaded" :questionId="commentQuestionId"/>
+    <question-comment-section-modal-component :comment-is-loaded="commentIsLoaded" :question-id="commentQuestionId"/>
     </div>
 </div>
 
