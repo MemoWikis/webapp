@@ -101,9 +101,8 @@ public class SegmentationModel : BaseContentModule
                 foreach (var c in categoriesToAdd)
                     inSegmentCategoryList.Add(c);
             }
-
-            notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id) && !notInSegmentCategoryList.Any(s => s.Id == c.Id)));
         }
+        notInSegmentCategoryList.AddRange(categoryList.Where(c => !inSegmentCategoryList.Any(s => c.Id == s.Id) && !notInSegmentCategoryList.Any(s => s.Id == c.Id)));
 
         HasCustomSegments = true;
         return notInSegmentCategoryList.OrderBy(c => c.Name).ToList();

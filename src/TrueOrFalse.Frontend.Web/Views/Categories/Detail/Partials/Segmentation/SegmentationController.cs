@@ -31,21 +31,6 @@ public class SegmentationController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetCategoryCard(int categoryId)
-    {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
-        var categoryCardHtml = ViewRenderer.RenderPartialView(
-            "~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx", new SegmentationCategoryCardModel(category),
-            ControllerContext);
-
-        return Json(new
-        {
-            html = categoryCardHtml
-        });
-    }
-
-
-    [HttpPost]
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;

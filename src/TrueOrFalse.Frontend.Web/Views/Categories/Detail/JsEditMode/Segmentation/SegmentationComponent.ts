@@ -113,6 +113,22 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 },
             });
         },
+        getCategory(id) {
+            var self = this;
+            var data = {
+                id: id,
+            };
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Segmentation/GetCategoryData',
+                data: JSON.stringify(data),
+                success: function (c) {
+                    self.categories.push(c);
+                    self.$nextTick(() => Images.ReplaceDummyImages());
+                },
+            });
+        },
         loadSegment(id) {
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg("CreateSegment");
@@ -123,6 +139,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 return;
 
             this.currentChildCategoryIds = this.currentChildCategoryIds.filter(c => c != id);
+            this.categories = this.categories.filter(c => c.Id != id);
 
             var self = this;
             var data = { CategoryId: id }
@@ -139,23 +156,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                         if (index == -1)
                             self.segments.push(segment);
                         eventBus.$emit('save-segments');
-                    } else {
-                    };
-                },
-            });
-        },
-        addCategoryToBaseList(id) {
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoryCard',
-                data: JSON.stringify({ categoryId: id }),
-                success: function (data) {
-                    if (data) {
-                        eventBus.$emit('save-segments');
-                    } else {
-
-                    };
+                    }
                 },
             });
         },

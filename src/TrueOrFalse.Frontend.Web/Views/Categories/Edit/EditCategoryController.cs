@@ -238,8 +238,17 @@ public class EditCategoryController : BaseController
                 key = "parentIsRoot"
             });
         var category = Sl.CategoryRepo.GetById(childCategoryId);
-        var children = EntityCache.GetChildren(parentCategoryId);
-        if (children.Any(c => c.Id == childCategoryId))
+        var children = EntityCache.GetChildren(parentCategoryId, getFromEntityCache: true);
+        var isChildrenLinked = children.Any(c => c.Id == childCategoryId);
+        
+        if(isChildrenLinked && UserCache.GetItem(_sessionUser.UserId).IsFiltered)
+            return Json(new
+            {
+                success = false,
+                key = "isLinkedInNonWuwi"
+            });
+
+        if (isChildrenLinked)
             return Json(new
             {
                 success = false,

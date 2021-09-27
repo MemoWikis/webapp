@@ -258,13 +258,13 @@ public class EntityCache : BaseCache
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 
-    public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false)
+    public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false, bool getFromEntityCache= false)
     {
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == categoryId)
-                .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache))).ToList();
+                .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
     }
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);  

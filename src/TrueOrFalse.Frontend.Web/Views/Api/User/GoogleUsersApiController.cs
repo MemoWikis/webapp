@@ -29,9 +29,11 @@ public class GoogleUsersApiController : BaseController
         var registerResult = RegisterUser.Run(googleUser);
 
         if (registerResult.Success)
-            R<SessionUser>().Login(
-                Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId)
-            );
+        {
+            var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId); 
+            R<SessionUser>().Login(user);
+            PersonalTopic.CreatePersonalCategory(user);
+        }
 
         return new JsonResult { Data = registerResult };
     }
