@@ -192,14 +192,14 @@ class Site {
         }
     }
 
-    static RedirectToPersonelStartsite( link: string) { location.href = link; }
+    static RedirectToPersonalHomepage( link: string) { location.href = link; }
     static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 
     static ReloadPage() { window.location.reload(true) };
 
     static ReloadPage_butNotTo_Logout(link: string) {
-        Site.RedirectToPersonelStartsite(link);
+        Site.RedirectToPersonalHomepage(link);
     }
 
     static CloseAllModals() {

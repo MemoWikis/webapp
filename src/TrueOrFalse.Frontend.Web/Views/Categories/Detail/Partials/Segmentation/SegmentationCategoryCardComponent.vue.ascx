@@ -38,7 +38,7 @@
                     </ul>
                 </div>
                 <div class="set-question-count">
-                    <span>
+                    <span v-if="!category.IsPersonalHomepage">
                         <pin-category-component :category-id="categoryId" :initial-wishknowledge-state="category.IsInWishknowledge"/>
                     </span>
                     <a :href="category.LinkToCategory" class="sub-label">

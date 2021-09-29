@@ -6,14 +6,13 @@
 
 <segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>" is-historic-string="<%= Model.Category.IsHistoric %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
-        <%if (Model.Category.Id != RootCategory.RootCategoryId) {%>
-            <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <a href=<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId)) %>>allen Themen</a></div>
-        <%} %>
+
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen <br/>
-
         </div>
-
+        <%if (Model.ShowLinkToRootCategory) {%>
+            <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <a href=<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.RootCategoryId)) %>>allen Themen</a></div>
+        <%} %>
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
             <template v-for="s in segments">
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>
