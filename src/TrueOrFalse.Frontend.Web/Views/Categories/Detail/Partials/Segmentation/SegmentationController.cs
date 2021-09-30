@@ -34,16 +34,20 @@ public class SegmentationController : BaseController
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
+        int startTopicId = 0;
 
         if (IsLoggedIn)
+        {
             userValuation = UserCache.GetItem(UserId).CategoryValuations;
-        
+            startTopicId = UserCache.GetUser(UserId).StartTopicId;
+        }
+
         var categoryDataList = new List<CategoryCardData>();
         foreach (int categoryId in categoryIds)
         {
             CategoryCardData categoryCardData;
 
-            categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, userValuation) : GetCategoryCardData(categoryId);
+            categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId) : GetCategoryCardData(categoryId);
 
             categoryDataList.Add(categoryCardData);
         }
@@ -54,12 +58,12 @@ public class SegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoryData(int categoryId)
     {
-        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations) : GetCategoryCardData(categoryId);
+        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations, UserCache.GetUser(UserId).StartTopicId) : GetCategoryCardData(categoryId);
         return Json(categoryCardData);
     }
 
 
-    private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null)
+    private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null, int? startTopicId = null)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
 
@@ -77,9 +81,14 @@ public class SegmentationController : BaseController
             knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
 
         var isInWishknowledge = false;
+        var isPersonalHomepage = false;
         if (IsLoggedIn)
+        {
             if (userValuation.ContainsKey(categoryId))
                 isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
+            isPersonalHomepage = categoryCacheItem.Id == startTopicId;
+        }
+
 
         return new CategoryCardData
         {
@@ -92,7 +101,8 @@ public class SegmentationController : BaseController
             KnowledgeBarHtml = knowledgeBarHtml,
             ChildCategoryCount = childCategoryCount,
             QuestionCount = questionCount,
-            IsInWishknowledge = isInWishknowledge
+            IsInWishknowledge = isInWishknowledge,
+            IsPersonalHomepage = isPersonalHomepage
         };
     }
 
@@ -108,6 +118,7 @@ public class SegmentationController : BaseController
         public int ChildCategoryCount;
         public int QuestionCount;
         public bool IsInWishknowledge = false;
+        public bool IsPersonalHomepage = false;
     }
 
     [HttpPost]

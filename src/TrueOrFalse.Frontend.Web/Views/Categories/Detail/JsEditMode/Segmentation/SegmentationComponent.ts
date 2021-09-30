@@ -68,18 +68,39 @@ var segmentationComponent = Vue.component('segmentation-component', {
             this.loaded = false;
         });
         eventBus.$on('category-data-finished-loading', () => this.showComponents());
+        eventBus.$on('add-category',
+            () => {
+                this.$nextTick(() => {
+                    var categoriesToFilter = this.setCategoriesToFilter();
+                    eventBus.$emit('set-categories-to-filter', categoriesToFilter);
+                });
+            });
+
     },
 
     watch: {
         hover(val) {
             this.showHover = !!(val && this.editMode);
+        },
+        currentChildCategoryIds() {
+            var categoriesToFilter = this.setCategoriesToFilter();
+            eventBus.$emit('set-categories-to-filter', categoriesToFilter);
+        },
+        segments() {
+            var categoriesToFilter = this.setCategoriesToFilter();
+            eventBus.$emit('set-categories-to-filter', categoriesToFilter);
         }
     },
-
-    updated() {
-    },
-
     methods: {
+        setCategoriesToFilter() {
+            var categoriesToFilter = Array.from(this.currentChildCategoryIds);
+            categoriesToFilter.push(parseInt(this.categoryId));
+            this.segments.forEach(s => {
+                categoriesToFilter.push(s.CategoryId);
+            });
+
+            return categoriesToFilter;
+        },
         addNewCategoryCard(id) {
             var self = this;
             var data = {
@@ -178,11 +199,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
             }
 
             var self = this;
-            var categoriesToFilter = Array.from(self.currentChildCategoryIds);
-            categoriesToFilter.push(parseInt(self.categoryId));
-            self.segments.forEach(s => {
-                categoriesToFilter.push(s.CategoryId);
-            });
+            var categoriesToFilter = this.setCategoriesToFilter();
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),

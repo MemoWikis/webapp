@@ -86,13 +86,13 @@ public class GraphService : GraphServiceHelper
         userId = userId == -1 ? Sl.CurrentUserId : userId;
         var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
 
-        var personalStartsite = EntityCache.GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true);
-        var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalStartsite);
-        wuwiChildren = SetNewParents(userId, isFromUserEntityCache, wuwiChildren, personalStartsite);
+        var personalHomepage = EntityCache.GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true);
+        var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalHomepage);
+        wuwiChildren = SetNewParents(userId, isFromUserEntityCache, wuwiChildren, personalHomepage);
 
-        personalStartsite.CategoryRelations = new List<CategoryCacheRelation>();
-        personalStartsite.CachedData.ChildrenIds = new List<int>();
-        wuwiChildren.Add(personalStartsite);
+        personalHomepage.CategoryRelations = new List<CategoryCacheRelation>();
+        personalHomepage.CachedData.ChildrenIds = new List<int>();
+        wuwiChildren.Add(personalHomepage);
 
         var wuwiChildrenDic = wuwiChildren.ToConcurrentDictionary();
         var cacheItemWithChildren = AddChildrenIdsToCategoryCacheData(wuwiChildrenDic);
@@ -127,19 +127,19 @@ public class GraphService : GraphServiceHelper
     }
 
     private static List<CategoryCacheItem> SetNewParents(int userId, bool isFromUserEntityCache, List<CategoryCacheItem> wuwiChildren,
-        CategoryCacheItem personalStartsite)
+        CategoryCacheItem personalHomepage)
     {
         foreach (var wuwiChild in wuwiChildren)
         {
             var parents = GetParentsFromCategory(wuwiChild.Id, isFromUserEntityCache).ToList();
-            var isPersonalStartsiteDirectParent = parents.Contains(personalStartsite.Id);
+            var hasPersonalHomepageAsDirectParent = parents.Contains(personalHomepage.Id);
             wuwiChild.CategoryRelations.Clear();
 
             while (parents.Count > 0)
             {
                 var parentId = parents.First();
 
-                if (IsInWishknowledgeOrParentIsPersonalStartsite(isPersonalStartsiteDirectParent, userId, parentId))
+                if (IsInWishknowledgeOrParentIsPersonalHomepage(hasPersonalHomepageAsDirectParent, userId, parentId))
                 {
                     var categoryRelation = new CategoryCacheRelation
                     {
@@ -173,7 +173,7 @@ public class GraphService : GraphServiceHelper
                 wuwiChild.CategoryRelations.Add(new CategoryCacheRelation()
                 {
                     CategoryRelationType = CategoryRelationType.IsChildOf,
-                    RelatedCategoryId = personalStartsite.Id,
+                    RelatedCategoryId = personalHomepage.Id,
                     CategoryId = wuwiChild.Id
                 });
             }
@@ -184,17 +184,17 @@ public class GraphService : GraphServiceHelper
         return wuwiChildren; 
     }
 
-    private static List<CategoryCacheItem> GetAllChildrenFromAllCategories(CategoryCacheItem rootCategory, CategoryCacheItem personalStartsite)
+    private static List<CategoryCacheItem> GetAllChildrenFromAllCategories(CategoryCacheItem rootCategory, CategoryCacheItem personalHomepage)
     {
         rootCategory.CategoryRelations.Add(new CategoryCacheRelation
         {
             CategoryId = rootCategory.Id,
             CategoryRelationType = CategoryRelationType.IsChildOf,
-            RelatedCategoryId = personalStartsite.Id
+            RelatedCategoryId = personalHomepage.Id
         });
 
         var wuwiChildren = EntityCache.GetAllCategories()
-            .Where(c=> c.IsInWishknowledge())
+            .Where(c=> c.IsInWishknowledge() && c.Id != personalHomepage.Id)
             .Distinct()
             .Select(c => c.DeepClone())
             .ToList(); 
@@ -202,7 +202,7 @@ public class GraphService : GraphServiceHelper
         return wuwiChildren;
     }
 
-    private static bool IsInWishknowledgeOrParentIsPersonalStartsite(bool isRootDirectParent, int userId, int parentId)
+    private static bool IsInWishknowledgeOrParentIsPersonalHomepage(bool isRootDirectParent, int userId, int parentId)
     {
         return UserCache.IsInWishknowledge(userId, parentId) ||  isRootDirectParent;
     }

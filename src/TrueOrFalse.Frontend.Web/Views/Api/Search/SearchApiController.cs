@@ -47,8 +47,8 @@ public class SearchApiController : BaseController
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
-
-        items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
+        if (categoriesToFilter != null)
+            items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
 
         return Json(new
         {

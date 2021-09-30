@@ -19,6 +19,7 @@ public class SegmentationModel : BaseContentModule
     public string NotInSegmentCategoryIds;
     public string SegmentJson;
     public bool IsMyWorld { get; set; }
+    public bool ShowLinkToRootCategory = false;
 
     public SegmentationModel(CategoryCacheItem category)
     {
@@ -51,6 +52,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
 
+        ShowLinkToRootCategory = category.Creator.StartTopicId == category.Id;
     }
 
 

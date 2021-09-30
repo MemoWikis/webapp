@@ -21,7 +21,7 @@ public class CategoryController : BaseController
         return View(_viewLocation, modelAndCategory.CategoryModel);
     }
 
-    private bool IsRedirectToPersonalStartsite(int id, int? version, bool? toRootCategory, int personalStartSiteId) =>
+    private bool IsRedirectToPersonalHomepage(int id, int? version, bool? toRootCategory, int personalStartSiteId) =>
         GetMyWorldCookie() && version == null && toRootCategory == false && personalStartSiteId == id; 
 
     public ActionResult CategoryLearningTab(int id, int? version)
@@ -303,6 +303,8 @@ public class CategoryController : BaseController
     public bool AddToWishknowledge(int categoryId)
     {
         var user = User_();
+        if (categoryId == user.StartTopicId)
+            return false;
         var userValuation = UserCache.GetItem(user.Id).CategoryValuations;
         var isInWishknowledge = false;
         if (userValuation.ContainsKey(categoryId) && user != null) { }

@@ -50,6 +50,11 @@
         }
     },
     mounted() {
+        eventBus.$on('set-categories-to-filter', (ids) => {
+            this.$nextTick(() => {
+                this.categoriesToFilter = ids;
+            });
+        });
         eventBus.$on('create-category',
             id => {
                 var parent = {

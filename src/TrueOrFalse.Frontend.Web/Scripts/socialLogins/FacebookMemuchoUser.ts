@@ -83,7 +83,7 @@
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
-            //Site.RedirectToPersonelStartsite();
+            //Site.RedirectToPersonalHomepage();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
@@ -101,7 +101,7 @@
                     if (stayOnPage)
                         //Site.ReloadPage_butNotTo_Logout();
                     //else
-                        //Site.RedirectToPersonelStartsite();
+                        //Site.RedirectToPersonalHomepage();
 
                     return;
                 }
