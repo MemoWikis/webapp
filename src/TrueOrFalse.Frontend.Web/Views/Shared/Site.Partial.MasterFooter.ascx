@@ -1,9 +1,14 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
 <%@ Import Namespace="System.Reflection" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
-
+<%= Scripts.Render("~/bundles/js/stickySearch") %>
+<%  var userSession = new SessionUser();
+    if (!userSession.IsLoggedIn) { %>
+    <span id="headersearchspan">test</span>
+    <%= Scripts.Render("~/bundles/js/headerSearch") %>
+<%} %>
 <div class="row Promoter">
     <div class="col-xs-12">
     </div>

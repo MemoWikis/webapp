@@ -16,7 +16,6 @@ public class TopNavMenu
 
     public bool IsCategoryBreadCrumb = true;
     public bool QuestionBreadCrumb = false;
-    public bool IsWidgetOrKnowledgeCentral; 
-
+    public bool IsWidgetOrKnowledgeCentral;
     public bool IsWelcomePage;
 }

@@ -129,6 +129,8 @@
                 </div>
             </div>
             <div id="Management">
+                <div class="Border hide-sm"></div>
+
                 <div class="KnowledgeBarWrapper col-md-3 hide-sm">
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                 </div>
