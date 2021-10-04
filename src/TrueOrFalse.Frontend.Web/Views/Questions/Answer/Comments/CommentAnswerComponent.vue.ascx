@@ -5,7 +5,7 @@
     <div class="col-xs-10 commentUserDetails">
         <div>
             <span>
-                <a href="answer.creatorUrl">{{answer.creatorName}}</a>
+                <a href="answer.creatorUrl">{{answer.CreatorName}}</a>
                 <span class="commentUserDetails">vor {{answer.CreationDateNiceText}}</span>
             </span>
             <span v-if="answer.isSettled">
@@ -14,7 +14,7 @@
             </span>
         </div>
         <div class="answerTextContainer">
-            {{answer.text}}    
+            {{answer.Text}}    
         </div>
     </div>
 </div>

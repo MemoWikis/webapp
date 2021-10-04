@@ -1,18 +1,17 @@
-﻿
-    <div class="commentPanel" id="CommentComponent">
-        <div class="panel-heading" v-if="comment.isSettled">
+﻿    <div class="commentPanel" id="CommentComponent">
+        <div class="panel-heading" v-if="comment.IsSettled">
                 <br/>
                 <span class="commentSettledInfo"><i class="fa fa-check">&nbsp;</i>Dieser Kommentar wurde als erledigt markiert.</span>
         </div>
         <div class="panel-body">
             <div class="col-xs-2">
-                <img class="commentUserImg" src="comment.creatorImageUrl">
+                <img class="commentUserImg" :src="comment.ImageUrl">
             </div>
             <div class="col-xs-10">
                 <div class="commentUserDetails">
-                    <a href="comment.creatorUrl" class="commentUserName">{{comment.creatorName}}</a>
+                    <a href="comment.creatorUrl" class="commentUserName">{{comment.CreatorName}}</a>
                     <span class="greyed commentDate">
-                        vor <span class="cursor-hand show-tooltip" title="erstellt am {{comment.CreationDate }}">{{comment.creationDateNiceText}}</span>
+                        vor <span class="cursor-hand show-tooltip" >{{comment.CreationDateNiceText}}</span>
                     </span>
                 </div>
 
@@ -21,28 +20,27 @@
                         <ul class="fa-ul commentModalImproveText" v-for="shouldReason in comment.ShouldReasons">
 
                                 <li>
-                                    <i class="fa-li fa fa-repeat commentShouldReasonImprove"></i>{{shouldReason}}
+                                    <i class="fa-li fa fa-repeat commentShouldReasonImprove"></i>{{ShouldReason}}
                                 </li>
                         </ul>
                     </div>
 
-                    <div class="ReasonList" v-if="shouldBeDeleted">
+                    <div class="ReasonList" v-if="false">
                         Ich bitte darum, dass diese Frage gelöscht wird, weil:
                         <ul class="fa-ul commentShouldReasonDelete" v-for="shouldReason in comment.ShouldReasons">
                             <li >
-                                    <i class="fa-li fa fa-fire commentImproveFire"></i>{{shouldReason}}
+                                    <i class="fa-li fa fa-fire commentImproveFire"></i>{{ShouldReason}}
                                 </li>
                         </ul>
                     </div>
-
-                    <p class="commentText" v-if="comment.text.length < 200">{{comment.text}}</p>
+                    <p class="commentText" v-if="comment.Text.length < 50">{{comment.Text}}</p>
                     <span v-else>
-                    <span v-if="readMore"><p class="commentText">{{comment.text}}</p>
+                    <span v-if="readMore"><p class="">{{comment.Text}}</p>
                         <a class="cursor-hand" @click="readMore=false">
                             ...Weniger
                         </a>
                     </span>
-                    <span v-else><p class="commentText">{{comment.text.Substring(0,200)}}</p>
+                    <span v-else><p class="commentText">{{comment.Text.slice(0,50)}}...</p>
                     <a class="cursor-hand" @click="readMore=true">
                         ...Mehr
                     </a>
@@ -63,8 +61,8 @@
                 <a v-if="false" class="commentThumbsIcon">
                     <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp 0
                 </a>
-                <span class="commentSpeechBubbleIcon">
-                <i class="fa fa-comments-o" aria-hidden="true"></i> &nbsp {{comment.answers.Count}}
+                <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                <i class="fa fa-comments-o commentAnswersCount" aria-hidden="true"></i> &nbsp {{comment.Answers.length}}
                 </span>
             </div>
 
@@ -81,7 +79,7 @@
                     <a @click="showAnsweringPanel = true" class="btnAnswerComment btn btn-link commentFooterText" >Antworten</a>
                 </div>
         </div>
-        <div class="commentAnswers" v-for="answer in comment.answers">
+        <div v-if="showCommentAnswers" class="commentAnswers" v-for="answer in comment.Answers">
 
             <comment-answer-component :answer="answer" :commentId="comment.id"/>
 
@@ -91,6 +89,6 @@
         </div>
 
         <div v-if="showAnsweringPanel && isLoggedIn" >
-            <answer-add-component :currentUserImageUrl="currentUserImageUrl" :parentCommentId="comment.id"/>
+            <comment-answer-add-component :currentUserImageUrl="currentUserImageUrl" :parentCommentId="comment.Id"/>
         </div>
     </div>

@@ -2,87 +2,23 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
-
-Vue.component('comments-section-component',
-    {
-        props: [],
-        data() {
-            return {
-                addedComments: [''],
-                showSettledComments: false,
-            }
-        },
-
-        created() {
-            const self = this;
-            eventBus.$on('addedComment', function (commentHTML) {
-                self.addComment(commentHTML);
-            });
-        },
-
-        methods: {
-
-            addComment(commentHTML) {
-                this.addedComments.push(commentHTML);
-            },
-
-            revealSettledComments(commentId) {
-                $.ajax({
-                    type: 'POST',
-                    url: "/AnswerComments/GetAllAnswersInclSettledHtml",
-                    data: { commentId: commentId },
-                    cache: false,
-                    success(data) {
-                        this.settledComments = data;
-                        console.log(data);
-                    },
-                    error(e) {
-                        console.log(e);
-                        window.alert("Ein Fehler ist aufgetreten.");
-                    }
-                });
-            }
-        }
-    }),
-
-    Vue.component('comment-answer-component',
-        {
-            props: ['answer', 'commentId'],
-            data() {
-                return {
-                    id: parseInt(this.commentId),
-                    readMore: false
-                }
-            },
-            template: '#CommentAnswerComponent',
-
-
-            mounted() {
-
-            },
-
-            methods: {
-
-            }
-        });
-
-
-
 Vue.component('comment-component',
     {
         props: ['comment', 'questionId', 'currentUserImageUrl'],
-        data() {
+
+        data: function () {
             return {
                 readMore: false,
                 showAnsweringPanel: false,
                 settled: false,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
-                isOwner: this.comment.CreatorImageUrl == this.currentUserImageUrl,
+                isOwner: this.comment.imageUrl == this.currentUserImageUrl,
                 isLoggedIn: IsLoggedIn.Yes,
+                showCommentAnswers: false
             }
         },
-        template: '#CommentComponent',
+        template: '#comment-component',
 
         created() {
             const self = this;
@@ -93,8 +29,6 @@ Vue.component('comment-component',
         },
 
         methods: {
-
-
             addAnswer(answerHTML) {
                 this.addedAnswers.push(answerHTML);
             },
@@ -132,35 +66,7 @@ Vue.component('comment-component',
             }
         }
     });
-Vue.component('comment-answer-add-component',
-    {
-        props: ['currentUserImageUrl', 'parentCommentId'],
-        data() {
-            return {
-                commentAnswerText: "",
-            }
-        },
 
-        template: '#CommentAnswerAddComponent',
-
-        mounted() {
-
-        },
-
-        methods: {
-            saveCommentAnswer() {
-                var params = {
-                    commentId: this.parentCommentId,
-                    text: this.commentAnswerText
-                };
-
-                $.post("/AnswerComments/SaveAnswer", params, function (data) {
-                    console.log(this.commentAnswerText);
-                    eventBus.$emit('addedAnswer' + params.commentId, data);
-                });
-            }
-        }
-    });
 
 Vue.component('add-comment-component',
     {
@@ -195,6 +101,58 @@ Vue.component('add-comment-component',
             },
             closeModal() {
                 eventBus.$emit('close-modal');
+            }
+        }
+    });
+
+
+Vue.component('comment-answer-component',
+    {
+        props: ['answer', 'commentId'],
+        data() {
+            return {
+                id: parseInt(this.commentId),
+                readMore: false
+            }
+        },
+        template: '#comment-answer-component',
+
+
+        mounted() {
+
+        },
+
+        methods: {
+
+        }
+    });
+
+Vue.component('comment-answer-add-component',
+    {
+        props: ['currentUserImageUrl', 'parentCommentId'],
+        data() {
+            return {
+                commentAnswerText: "",
+            }
+        },
+
+        template: '#comment-answer-add-component',
+
+        mounted() {
+
+        },
+
+        methods: {
+            saveCommentAnswer() {
+                var params = {
+                    commentId: this.parentCommentId,
+                    text: this.commentAnswerText
+                };
+
+                $.post("/AnswerComments/SaveAnswer", params, function (data) {
+                    console.log(this.commentAnswerText);
+                    eventBus.$emit('addedAnswer' + params.commentId, data);
+                });
             }
         }
     });

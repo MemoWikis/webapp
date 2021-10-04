@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-public class CommentModel : BaseModel
+public class CommentModel
 {
     /// <summary>Comment.Id</summary>
     public int Id;
@@ -10,7 +10,6 @@ public class CommentModel : BaseModel
     public string ImageUrl;
     public string Text;
 
-    public UserTinyModel Creator;
 
     public bool ShouldBeImproved;
     public bool ShouldBeDeleted;
@@ -27,11 +26,10 @@ public class CommentModel : BaseModel
     {
         
         Id = comment.Id;
-        Creator = new UserTinyModel(comment.Creator);
-        CreatorName = Creator.Name;
+        CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
-        ImageUrl = new UserImageSettings(Creator.Id).GetUrl_128px_square(Creator).Url;
+        ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator).Url;
         Text = comment.Text;
 
         ShouldBeImproved = comment.ShouldImprove;

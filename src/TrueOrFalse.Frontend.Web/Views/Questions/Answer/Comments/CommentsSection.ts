@@ -1,16 +1,16 @@
-﻿interface Comments {
+﻿interface IComments {
     id: number,
     creatorName: string,
     creationDate: string,
     creationDateNiceText: string,
-    creatorImageUrl: string,
+    imageUrl: string,
     creatorUrl: string,
     text: string,
     shouldBeImproved: boolean,
     shouldBeDeleted: boolean,
     isSettled: boolean,
     shouldReasons: string[],
-    answers: Comments[],
+    answers: IComments[],
     settledAnswersCount: number,
     showSettledAnswers: boolean,
 }
@@ -18,24 +18,24 @@
 
 Vue.component('comment-section-component',
     {
+        props: ['questionId'],
+
         data() {
             return {
-                questionId: 0,
                 isLoggedIn: IsLoggedIn.Yes,
-                comments: [] as Comments[],
-                settledComments: [] as Comments[],
+                comments: [] as IComments[],
+                settledComments: [] as IComments[],
                 currentUserImageUrl: '',
+                currentUserId: 0,
                 showSettledComments: false
             };
         },
         template: '#comment-section-component',
         created() {
             this.getCurrentUserImgUrl();
-            this.getComments(6338);
+            this.getCurrentUserId();
+            this.getComments(this.questionId);
 
-            eventBus.$on('load-comment-section-modal', (questionId) => {
-                //this.getComments(questionId);
-            });
 
         },
         methods: {
@@ -43,7 +43,7 @@ Vue.component('comment-section-component',
                 const self = this;
                 self.questionId = questionId;
                 $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
-                    self.comments = JSON.parse(data);
+                    self.comments = JSON.parse(data) as IComments[];
                     eventBus.$emit("comment-is-loaded");
                 });
             },
@@ -51,6 +51,11 @@ Vue.component('comment-section-component',
                 const self = this;
                 $.post("/AnswerComments/GetCurrentUserImgUrl", url => {
                     self.currentUserImageUrl = url as String;
+                });
+            },
+            getCurrentUserId() {
+                $.post("/AnswerComments/GetCurrentUserId", id => {
+                    this.currentUserId = parseInt(id);
                 });
             }
         }

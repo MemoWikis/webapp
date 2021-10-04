@@ -269,9 +269,6 @@
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx.cs">
-      <DependentUpon>CommentAnswerAddComponent.vue.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>AnswerCommentsController.cs</DependentUpon>
     </Compile>
@@ -1987,9 +1984,19 @@
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js" />
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js">
+      <DependentUpon>CommentComponent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map">
+      <DependentUpon>CommentComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js">
+      <DependentUpon>CommentsSection.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map">
+      <DependentUpon>CommentsSection.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentsSectionComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Js\DeleteQuestionComponent.js">
@@ -4189,8 +4196,6 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js.map">
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map" />
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map" />

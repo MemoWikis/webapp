@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
+using WebGrease.Css.Extensions;
 
 
 public class AnswerCommentsController : BaseController
@@ -106,11 +109,23 @@ public class AnswerCommentsController : BaseController
     }
 
     [HttpPost]
+    public int GetCurrentUserId()
+    {
+        return _sessionUser.User.Id;
+    }
+
+    [HttpPost]
+    public String GetUserImgUrl(int userId)
+    {
+        var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
+        return userImageUrl;
+    }
+
+    [HttpPost]
     public String GetComments(int questionId)
     {
         var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
         var commentsList = new List<CommentModel>();
-
         foreach (var comment in _comments)
         {
             if (!comment.IsSettled)
@@ -118,10 +133,9 @@ public class AnswerCommentsController : BaseController
                 commentsList.Add(new CommentModel(comment));
             }
         }
-
-        var json = JsonConvert.SerializeObject(commentsList, Formatting.Indented, new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(commentsList.ToArray(), Formatting.Indented, new JsonSerializerSettings
         {
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         });
         return json;
     }

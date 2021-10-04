@@ -835,6 +835,12 @@
 .FooterQuestionDetails .comment-link .fa-comment {
   color: #979797;
 }
+.commentSection {
+  max-height: -webkit-calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .commentSettledInfo {
   color: darkgray;
   margin: 5px 10px 15px;
@@ -898,14 +904,18 @@
   position: relative;
 }
 .commentThumbsIcon {
-  font-size: 18px;
+  font-size: 16px;
   color: #999999;
   padding-right: 24px;
   padding-left: 156px;
 }
 .commentSpeechBubbleIcon {
-  font-size: 18px;
+  font-size: 16px;
   color: #999999;
+  cursor: pointer;
+}
+commentAnswersCount {
+  font-size: 16px;
 }
 .commentMarkAsSettledContainer {
   position: absolute;
