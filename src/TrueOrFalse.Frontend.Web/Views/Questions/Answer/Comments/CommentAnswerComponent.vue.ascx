@@ -1,11 +1,11 @@
 ﻿<div class="panel-body commentRelativeContainer" id="CommentAnswerComponent">
     <div class="col-xs-2">
-        <img class="pull-right answerUserImage" src="answer.creatorImageUrl">
+        <img class="pull-right answerUserImage" :src="answer.ImageUrl">
     </div>
     <div class="col-xs-10 commentUserDetails">
         <div>
             <span>
-                <a href="answer.creatorUrl">{{answer.CreatorName}}</a>
+                <a :href="answer.ImageUrl">{{answer.CreatorName}}</a>
                 <span class="commentUserDetails">vor {{answer.CreationDateNiceText}}</span>
             </span>
             <span v-if="answer.isSettled">

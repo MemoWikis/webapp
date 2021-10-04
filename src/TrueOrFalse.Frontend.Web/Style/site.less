@@ -2471,16 +2471,19 @@ textarea, input {
 .modal-default-wrapper {
     display: table-cell;
     vertical-align: middle;
+
 }
 
 .modal-default-container {
-    width: 920px;
+    max-width: 30%;
     margin: 0px auto;
-    padding: 20px 30px;
+    padding: 2em 1em;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
+    max-height: calc(100vh - 1em);
+    overflow: hidden
 }
 
 .modal-default-header h3 {

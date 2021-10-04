@@ -3,7 +3,7 @@
             <div class="commentAnswerAddTopBorder">
                 <div class="panel-body commentAnswerAddTopSpace">
                     <div class="col-xs-2">
-                        <img class="commentUserImg" src="{{currentUserImageUrl}}">
+                        <img class="commentUserImg" :src="currentUserImageUrl">
                     </div>
                     <div class="col-xs-10">
                         <textarea class="commentAnswerAddTextArea form-control" v-model="commentAnswerText" placeholder="Neue Antwort hinzufügen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
