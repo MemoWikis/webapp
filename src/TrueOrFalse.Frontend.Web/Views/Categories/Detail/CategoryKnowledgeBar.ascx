@@ -1,7 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryKnowledgeBarModel>" %>
 
-<div class="category-knowledge-bar" data-category-id="<%= Model.Category.Id%>" style="position: relative;">
+<div class="category-knowledge-bar <% if(Model.CategoryKnowledgeSummary.Total == 0) { %>show-tooltip<% } %>" data-category-id="<%= Model.Category.Id%>" title="<% if(Model.CategoryKnowledgeSummary.Total == 0) { %>Es gibt keine Fragen in diesem Thema<% } %>">
+        
 
     <% if(Model.CategoryKnowledgeSummary.NeedsLearningPercentage > 0) { %>
         <div class="needs-learning show-tooltip"
@@ -37,10 +38,7 @@
             title="Noch nicht im Wunschwissen: <br/> <%= Model.CategoryKnowledgeSummary.NotInWishknowledge %> Fragen (<%= Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage %>%)"
             style="width: <%= Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage %>%;"></div>
     <% } %>
-    <% if(Model.CategoryKnowledgeSummary.Total > 0) { %>
-        <div class="ConditionalLegend" style="display: none;">
-            Dein Wissensstand
-        </div>
-    <% } %>
-
+    <div class="ConditionalLegend" style="display: none;">
+        Dein Wissensstand
+    </div>
 </div>

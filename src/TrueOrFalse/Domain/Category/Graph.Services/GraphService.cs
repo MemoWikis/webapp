@@ -194,7 +194,7 @@ public class GraphService : GraphServiceHelper
         });
 
         var wuwiChildren = EntityCache.GetAllCategories()
-            .Where(c=> c.IsInWishknowledge() && c.Id != personalHomepage.Id)
+            .Where(c=> c.IsInWishknowledge())
             .Distinct()
             .Select(c => c.DeepClone())
             .ToList(); 

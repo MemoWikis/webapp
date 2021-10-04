@@ -81,6 +81,5 @@
 <%--    <%: Html.Partial("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.vue.ascx") %>--%>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
-    <%= Scripts.Render("~/bundles/js/stickySearch") %>
 
 </asp:Content>

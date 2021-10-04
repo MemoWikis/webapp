@@ -934,6 +934,10 @@ p:empty {
   text-align: start;
   top: 16px;
 }
+#CategoryHeader .category-knowledge-bar {
+  position: relative;
+  background: #EFEFEF;
+}
 #CategoryHeader .category-knowledge-bar .ConditionalLegend {
   display: block !important;
   position: absolute;

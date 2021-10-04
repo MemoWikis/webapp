@@ -104,7 +104,4 @@
         </div>
     </div>
 <% } %>
-    
-    <%= Scripts.Render("~/bundles/js/stickySearch") %>
-
 </asp:Content>

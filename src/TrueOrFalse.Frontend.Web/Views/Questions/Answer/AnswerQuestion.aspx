@@ -272,6 +272,5 @@
 
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
     </div>
-    <%= Scripts.Render("~/bundles/js/stickySearch") %>
               
 </asp:Content>
