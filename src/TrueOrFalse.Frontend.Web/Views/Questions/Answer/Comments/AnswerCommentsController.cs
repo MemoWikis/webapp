@@ -12,7 +12,7 @@ public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
-    public bool SaveComment(
+    public CommentModel SaveComment(
         int questionId,
         string text,
         bool? typeImprovement,
@@ -36,7 +36,9 @@ public class AnswerCommentsController : BaseController
 
         Resolve<CommentRepository>().Create(comment);
 
-        return true;
+        var commentModel = new CommentModel(comment);
+
+        return commentModel;
     }
 
     [HttpPost]
@@ -129,6 +131,25 @@ public class AnswerCommentsController : BaseController
         foreach (var comment in _comments)
         {
             if (!comment.IsSettled)
+            {
+                commentsList.Add(new CommentModel(comment));
+            }
+        }
+        var json = JsonConvert.SerializeObject(commentsList.ToArray(), Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        return json;
+    }
+
+    [HttpPost]
+    public String GetSettledComments(int questionId)
+    {
+        var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
+        var commentsList = new List<CommentModel>();
+        foreach (var comment in _comments)
+        {
+            if (comment.IsSettled)
             {
                 commentsList.Add(new CommentModel(comment));
             }

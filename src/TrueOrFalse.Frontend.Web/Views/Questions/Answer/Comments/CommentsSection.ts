@@ -27,24 +27,36 @@ Vue.component('comment-section-component',
                 settledComments: [] as IComments[],
                 currentUserImageUrl: '',
                 currentUserId: 0,
-                showSettledComments: false
+                showSettledComments: false,
+                commentsLoaded: false
             };
         },
         template: '#comment-section-component',
         created() {
+            var self = this;
             this.getCurrentUserImgUrl();
             this.getCurrentUserId();
-            this.getComments(this.questionId);
-
+            this.getComments();
+            this.getSettledComments();
+            eventBus.$on('new-comment-added', function () {
+                self.getComments();
+                self.getSettledComments();
+            });
 
         },
         methods: {
-            getComments(questionId) {
+            getComments() {
                 const self = this;
-                self.questionId = questionId;
                 $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
                     self.comments = JSON.parse(data) as IComments[];
-                    eventBus.$emit("comment-is-loaded");
+                    this.commentsLoaded = true;
+                });
+            },
+            getSettledComments() {
+                const self = this;
+                $.post("/AnswerComments/GetSettledComments?questionId=" + self.questionId, data => {
+                    self.settledComments = JSON.parse(data) as IComments[];
+                    this.commentsLoaded = true;
                 });
             },
             getCurrentUserImgUrl() {

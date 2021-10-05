@@ -76,7 +76,7 @@
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Als nicht Erledigt Markieren
                     </a>
-                    <a @click="showAnsweringPanel = true" class="btnAnswerComment btn btn-link commentFooterText" >Antworten</a>
+                    <a @click="showAnsweringPanel = true; showCommentAnswers = true" class="btnAnswerComment btn btn-link commentFooterText" >Antworten</a>
                 </div>
         </div>
         <div v-if="showCommentAnswers" class="commentAnswers" v-for="answer in comment.Answers">

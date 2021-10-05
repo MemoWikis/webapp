@@ -57,7 +57,6 @@ var questionListApp = new Vue({
             this.commentQuestionId = questionId;
             this.commentIsLoaded = true;
             eventBus.$emit("load-comment-section-modal", questionId);
-            console.log('commentIsLoaded' + questionId + this.commentQuestionId + this.commentIsLoaded);
         },
         hideCommentModal() {
             this.commentIsLoaded = false;

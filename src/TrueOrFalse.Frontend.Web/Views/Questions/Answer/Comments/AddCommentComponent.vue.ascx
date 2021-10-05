@@ -7,8 +7,8 @@
                         <img class="commentUserImg" :src="currentUserImageUrl">
                     </div>
                     <div class="col-xs-10">
-                        <i class="fa fa-spinner fa-spin hide2" id="saveCommentSpinner"></i>
-                        <textarea class="commentAnswerAddTextArea form-control" id="txtNewComment" placeholder="Neuen Kommentar hinzufügen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
+                        <i class="fa fa-spinner fa-spin hide2" v-if="!commentsLoaded" id="saveCommentSpinner"></i>
+                        <textarea class="commentAnswerAddTextArea form-control" v-model="commentText" placeholder="Neue Diskussion starten. Bitte höflich, freundlich und sachlich schreiben."></textarea>
                     </div>
 
                     <div class="col-xs-12" style="padding-top: 18px;">

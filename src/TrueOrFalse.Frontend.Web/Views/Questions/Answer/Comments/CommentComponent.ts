@@ -13,7 +13,7 @@ Vue.component('comment-component',
                 settled: false,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
-                isOwner: this.comment.imageUrl == this.currentUserImageUrl,
+                isOwner: false,
                 isLoggedIn: IsLoggedIn.Yes,
                 showCommentAnswers: false
             }
@@ -22,16 +22,10 @@ Vue.component('comment-component',
 
         created() {
             const self = this;
-            eventBus.$on('addedAnswer' + self.commentId, function (answerHTML) {
-                console.log('addedAnswerCommentComp' + self.commentId);
-                self.addAnswer(answerHTML);
-            });
+            self.isOwner = self.comment.ImageUrl == self.currentUserImageUrl;
         },
 
         methods: {
-            addAnswer(answerHTML) {
-                this.addedAnswers.push(answerHTML);
-            },
 
             markAsSettled(commentId) {
                 $.ajax({
@@ -40,6 +34,7 @@ Vue.component('comment-component',
                     data: { commentId: commentId },
                     cache: false,
                     success(e) {
+                        eventBus.$emit('new-comment-added');
                     },
                     error(e) {
                         console.log(e);
@@ -57,6 +52,7 @@ Vue.component('comment-component',
                     cache: false,
                     success(e) {
                         self.settled = false;
+                        eventBus.$emit('new-comment-added');
                     },
                     error(e) {
                         console.log(e);
@@ -70,12 +66,12 @@ Vue.component('comment-component',
 
 Vue.component('add-comment-component',
     {
-        props: ['currentUserImageUrl', 'questionId'],
+        props: ['currentUserImageUrl', 'questionId', 'commentsLoaded'],
         data() {
             return {
                 commentText: "",
-                isLoggedIn: IsLoggedIn.Yes
-            }
+                isLoggedIn: IsLoggedIn.Yes,
+        }
         },
 
         template: '#add-comment-component',
@@ -87,16 +83,15 @@ Vue.component('add-comment-component',
         methods: {
             saveComment() {
                 var self = this;
-                console.log(self.questionId);
                 var params = {
                     questionId: self.questionId,
-                    text: $("#txtNewComment").val()
+                    text: this.commentText
                 };
                 $.post("/AnswerComments/SaveComment",
                     params,
-                    function (data) {
+                    () => {
                         this.commentText = "";
-                        eventBus.$emit('addedComment', data);
+                        eventBus.$emit('new-comment-added');
                     });
             },
             closeModal() {
@@ -149,9 +144,9 @@ Vue.component('comment-answer-add-component',
                     text: this.commentAnswerText
                 };
 
-                $.post("/AnswerComments/SaveAnswer", params, function (data) {
-                    console.log(this.commentAnswerText);
-                    eventBus.$emit('addedAnswer' + params.commentId, data);
+                $.post("/AnswerComments/SaveAnswer", params, () => {
+                    this.commentAnswerText = "";
+                    eventBus.$emit('new-comment-added');
                 });
             }
         }
