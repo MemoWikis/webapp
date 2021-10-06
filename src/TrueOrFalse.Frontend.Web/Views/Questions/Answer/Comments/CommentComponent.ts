@@ -70,6 +70,7 @@ Vue.component('add-comment-component',
         data() {
             return {
                 commentText: "",
+                commentTitle: "",
                 isLoggedIn: IsLoggedIn.Yes,
         }
         },
@@ -85,12 +86,14 @@ Vue.component('add-comment-component',
                 var self = this;
                 var params = {
                     questionId: self.questionId,
-                    text: this.commentText
+                    text: this.commentText,
+                    title: this.commentTitle
                 };
                 $.post("/AnswerComments/SaveComment",
                     params,
                     () => {
                         this.commentText = "";
+                        this.commentTitle = "";
                         eventBus.$emit('new-comment-added');
                     });
             },

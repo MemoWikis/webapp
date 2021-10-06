@@ -33,6 +33,7 @@
                                 </li>
                         </ul>
                     </div>
+                    <h3>{{comment.Title}}</h3>
                     <p class="commentText" v-if="comment.Text.length < 50">{{comment.Text}}</p>
                     <span v-else>
                     <span v-if="readMore"><p class="">{{comment.Text}}</p>

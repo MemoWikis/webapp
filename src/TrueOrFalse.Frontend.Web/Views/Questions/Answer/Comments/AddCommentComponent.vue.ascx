@@ -8,6 +8,7 @@
                     </div>
                     <div class="col-xs-10">
                         <i class="fa fa-spinner fa-spin hide2" v-if="!commentsLoaded" id="saveCommentSpinner"></i>
+                        <textarea class="commentAnswerAddTextArea form-control" v-model="commentTitle" placeholder="Gib den Titel deiner Diskussion ein. Er sollte eindeutig sein und deinen Gedanken kurz zusammenfassen."></textarea>
                         <textarea class="commentAnswerAddTextArea form-control" v-model="commentText" placeholder="Neue Diskussion starten. Bitte höflich, freundlich und sachlich schreiben."></textarea>
                     </div>
 

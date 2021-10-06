@@ -15,6 +15,7 @@ public class AnswerCommentsController : BaseController
     public CommentModel SaveComment(
         int questionId,
         string text,
+        string title,
         bool? typeImprovement,
         bool? typeRemove,
         string typeKeys)
@@ -23,6 +24,7 @@ public class AnswerCommentsController : BaseController
         comment.Type = CommentType.AnswerQuestion;
         comment.TypeId = questionId;
         comment.Text = text;
+        comment.Title = title;
         comment.Creator = _sessionUser.User;
 
         if (typeImprovement.HasValue)
@@ -57,11 +59,6 @@ public class AnswerCommentsController : BaseController
         commentRepo.Create(comment);
 
         return true;
-    }
-
-    public ActionResult GetAnswerHtml()
-    {
-        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx");
     }
 
     [HttpPost]

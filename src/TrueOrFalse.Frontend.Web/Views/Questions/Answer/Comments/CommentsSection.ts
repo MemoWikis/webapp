@@ -5,6 +5,7 @@
     creationDateNiceText: string,
     imageUrl: string,
     creatorUrl: string,
+    title: string,
     text: string,
     shouldBeImproved: boolean,
     shouldBeDeleted: boolean,

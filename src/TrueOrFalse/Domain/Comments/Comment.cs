@@ -12,6 +12,7 @@ public class Comment : DomainEntity
 
     public virtual IList<Comment> Answers { get; set; }
     public virtual User Creator { get; set; }
+    public virtual string Title { get; set; }
 
     public virtual string Text { get; set; }
 

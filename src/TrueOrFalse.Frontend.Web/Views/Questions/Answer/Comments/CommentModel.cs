@@ -8,6 +8,7 @@ public class CommentModel
     public string CreationDate;
     public string CreationDateNiceText;
     public string ImageUrl;
+    public string Title;
     public string Text;
 
 
@@ -30,6 +31,7 @@ public class CommentModel
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
         ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator).Url;
+        Title = comment.Title ?? "";
         Text = comment.Text;
 
         ShouldBeImproved = comment.ShouldImprove;

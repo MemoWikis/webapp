@@ -19,6 +19,7 @@ public class CommentMap : ClassMap<Comment>
         Map(x => x.IsSettled);
           
         References(x => x.Creator);
+        Map(x => x.Title);
         Map(x => x.Text);
 
         Map(x => x.DateCreated);
