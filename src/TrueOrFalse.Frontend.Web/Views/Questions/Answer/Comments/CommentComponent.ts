@@ -72,7 +72,7 @@ Vue.component('add-comment-component',
                 commentText: "",
                 commentTitle: "",
                 isLoggedIn: IsLoggedIn.Yes,
-        }
+            }
         },
 
         template: '#add-comment-component',
@@ -83,19 +83,23 @@ Vue.component('add-comment-component',
 
         methods: {
             saveComment() {
-                var self = this;
-                var params = {
-                    questionId: self.questionId,
-                    text: this.commentText,
-                    title: this.commentTitle
-                };
-                $.post("/AnswerComments/SaveComment",
-                    params,
-                    () => {
-                        this.commentText = "";
-                        this.commentTitle = "";
-                        eventBus.$emit('new-comment-added');
-                    });
+                if (this.commentText.length > 20 && this.commentTitle.length > 5) {
+                    var self = this;
+                    var params = {
+                        questionId: self.questionId,
+                        text: this.commentText,
+                        title: this.commentTitle
+                    };
+                    $.post("/AnswerComments/SaveComment",
+                        params,
+                        () => {
+                            this.commentText = "";
+                            this.commentTitle = "";
+                            eventBus.$emit('new-comment-added');
+                        });
+                } else {
+                    console.log("Kommentar zu kurz");
+                }
             },
             closeModal() {
                 eventBus.$emit('close-modal');
