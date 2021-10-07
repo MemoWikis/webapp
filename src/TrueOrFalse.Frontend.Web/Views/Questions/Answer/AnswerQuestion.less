@@ -774,11 +774,11 @@
 
 .commentSettledInfo {
     color: darkgray;
-    margin: 5px 10px 15px;
+    margin: 3em 0 2em 0;
 }
 
 .commentPanel {
-    margin-top: 7px;
+    margin-top: 18px;
     background-color: #EFEFEF;
 }
 
@@ -823,6 +823,14 @@
     float: left;
     color: tomato;
 }
+.commentTitle{
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.commentTextContainer{
+    padding:1em 0 1em 0;
+}
 
 .commentText {
     line-break: anywhere;
@@ -841,6 +849,7 @@
     position: relative;
     bottom: -8px;
     left: 124px;
+    cursor: pointer;
 }
 
 .commentRelativeContainer {
@@ -855,13 +864,13 @@
 }
 
 .commentSpeechBubbleIcon {
-    font-size: 16px;
+    font-size: 14px;
     color: #999999;
     cursor: pointer;
 }
 
 commentAnswersCount {
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .commentMarkAsSettledContainer {
@@ -879,11 +888,6 @@ commentAnswersCount {
     margin-top: 40px;
 }
 
-.answerUserImage {
-    max-height: 48px;
-    border-radius: 50%;
-}
-
 .answerTextContainer {
     margin-top: 10px;
 }
@@ -893,10 +897,46 @@ commentAnswersCount {
     right: 0;
 }
 
+.commentAnswersContainer {
+    background-color: white;
+    border: solid #DDDDDD;
+    border-width: 0px 1px 1px 1px;
+}
+
+.answerBorder {
+    border-bottom: 1px solid #DDDDDD;
+    width: 75%;
+    padding-bottom: 5em;
+    margin-left: 12em;
+}
+
+.commentAnswerCreationDate{
+    color:#999999;
+    font-size:12px;
+    line-height:18px;
+}
+
 .commentAnswerAddContainer {
     margin-top: 7px;
     border: none;
     box-shadow: none;
+}
+
+.addCommentUsrImg {
+    border-radius: 50%;
+    max-height: 48px;
+}
+
+.addCommentTitle {
+    color: #999999;
+    font-size: 12px;
+    line-height: 18px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.addCommentInputTitle{
+    padding-bottom:20px;
 }
 
 .commentAnswerAddTopBorder {
@@ -910,7 +950,6 @@ commentAnswersCount {
 .commentAnswerAddTextArea {
     resize: none;
     width: 100%;
-    background-color: #EFEFEF;
     min-height: 96px;
     border: none;
     border-radius: 0;

@@ -3,17 +3,22 @@
         <div class="panel-body">
             <div class="commentAnswerAddTopBorder">
                 <div class="panel-body commentAnswerAddTopSpace">
-                    <div class="col-xs-2">
-                        <img class="commentUserImg" :src="currentUserImageUrl">
+                    <div class="col-xs-1">
+                        <img class="addCommentUsrImg" :src="currentUserImageUrl">
                     </div>
-                    <div class="col-xs-10">
+                    <div class="col-xs-11">
                         <i class="fa fa-spinner fa-spin hide2" v-if="!commentsLoaded" id="saveCommentSpinner"></i>
-                        <textarea class="commentAnswerAddTextArea form-control" v-model="commentTitle" placeholder="Gib den Titel deiner Diskussion ein. Er sollte eindeutig sein und deinen Gedanken kurz zusammenfassen."></textarea>
-                        <textarea class="commentAnswerAddTextArea form-control" v-model="commentText" placeholder="Neue Diskussion starten. Bitte höflich, freundlich und sachlich schreiben."></textarea>
+                        <div class="addCommentTitle">Neue Diskussion hinzufügen</div>
+                        <div class="addCommentInputTitle">
+                            <input type="text" class="form-control" v-model="commentTitle" placeholder="Gib bitte den Titel der Diskussion ein." />
+                        </div>
+                        <div>
+                            <textarea class="commentAnswerAddTextArea form-control" v-model="commentText" placeholder="Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
+                        </div>
                     </div>
 
                     <div class="col-xs-12" style="padding-top: 18px;">
-                        <a class="btn btn-secondary memo-button pull-right commentAnswerAddSaveBtn" @click="saveComment()">Speichern</a>
+                        <a class="btn btn-primary memo-button pull-right " @click="saveComment()">Diskussion hinzufügen</a>
                     </div>
                 </div>
             </div>

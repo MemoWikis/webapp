@@ -1,12 +1,13 @@
 ﻿<div class="panel-body commentRelativeContainer" id="CommentAnswerComponent">
-    <div class="col-xs-2">
-        <img class="pull-right answerUserImage" :src="answer.ImageUrl">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-1">
+        <img class="pull-right commentUserImg" :src="answer.ImageUrl">
     </div>
-    <div class="col-xs-10 commentUserDetails">
+    <div class="col-xs-9 commentUserDetails">
         <div>
             <span>
                 <a :href="answer.ImageUrl">{{answer.CreatorName}}</a>
-                <span class="commentUserDetails">vor {{answer.CreationDateNiceText}}</span>
+                <span class="commentAnswerCreationDate">vor {{answer.CreationDateNiceText}}</span>
             </span>
             <span v-if="answer.isSettled">
                 <br />
@@ -17,4 +18,5 @@
             {{answer.Text}}    
         </div>
     </div>
+    <div v-if="!lastAnswer" class="answerBorder"></div>
 </div>

@@ -110,7 +110,7 @@ Vue.component('add-comment-component',
 
 Vue.component('comment-answer-component',
     {
-        props: ['answer', 'commentId'],
+        props: ['answer', 'commentId', 'lastAnswer'],
         data() {
             return {
                 id: parseInt(this.commentId),

@@ -4,21 +4,16 @@
             <comment-component :comment="comment" :question-id="questionId" :currentUserImageUrl="currentUserImageUrl" :currentUserId="currentUserId" />
         </div>
         <div v-if="settledComments.length > 0">
-            <div v-if="showSettledComments" class="commentSettledInfo">
-                Diese Frage hat {{settledComments.length}}
-                <span v-if="settledComments.length > 1"> weitere als erledigt markiert Kommentare
+            <div  class="commentSettledInfo">
+                Die Frage hat {{settledComments.length}}
+                <span v-if="settledComments.length == 1"> geschlossene Diskussion
                 </span>
-                <span v-if="settledComments.length == 1"> weiteren als erledigt markiert Kommentar
+                <span v-else> geschlossene Diskussionen
                 </span>
-                (<a class="cursor-hand" @click="showSettledComments = false" data-question-id="questionId">alle verstecken</a>).
-            </div>
-            <div v-else class="commentSettledInfo">
-                Diese Frage hat {{settledComments.length}}
-                <span v-if="settledComments.length != 1"> weitere als erledigt markierte Kommentare
-                </span>
-                <span v-if="settledComments.length == 1"> weiteren als erledigt markiert Kommentar
-                </span>
-                (<a class="cursor-hand" @click="showSettledComments = true" data-question-id="questionId">alle anzeigen</a>).
+
+                <a v-if="showSettledComments" class="cursor-hand" @click="showSettledComments = false" data-question-id="questionId">(ausblenden)</a>
+                <a v-else class="cursor-hand" @click="showSettledComments = true" data-question-id="questionId">(einblenden)</a>
+
             </div>
 
             <div v-if="showSettledComments">
