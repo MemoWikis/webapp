@@ -44,7 +44,7 @@ class TopicNavigationMigrationTest
         
         var newContent = TopicNavigationMigration.RemoveTopicNavigation(testString, dummyList) ; 
         var newContent2 = TopicNavigationMigration.RemoveTopicNavigation(testString2, dummyList); 
-        var newContent3 = TopicNavigationMigration.RemoveTopicNavigation(testString2, dummyList); 
+        var newContent3 = TopicNavigationMigration.RemoveTopicNavigation(testString3, dummyList); 
         Assert.That(newContent, Is.EqualTo(expectedResult));
         Assert.That(newContent2, Is.EqualTo(expectedResult));
         Assert.That(newContent3, Is.EqualTo(expectedResult));

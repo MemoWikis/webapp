@@ -78,14 +78,16 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
-        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered; 
-        TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
+        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
+        var currentRootWiki = GetRootWiki(category);
+        _sessionUser.SetRootWiki(currentRootWiki);
+        TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, currentRootWiki);
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
         var safeText =  category.Content == null ? null : Regex.Replace(category.Content, "<.*?>", ""); ; 
         
-            MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
+        MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
@@ -172,6 +174,35 @@ public class CategoryModel : BaseContentModule
         editQuestionModel.Categories.Add(Sl.CategoryRepo.GetByIdEager((int)category.Id));
 
         EditQuestionModel = editQuestionModel;
+    }
+
+    private CategoryCacheItem GetRootWiki(CategoryCacheItem categoryCacheItem)
+    {
+        var currentRootWiki = _sessionUser.RootWiki;
+        if (categoryCacheItem.IsRootWiki())
+            return categoryCacheItem;
+
+        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
+        if (parents.All(c => c != currentRootWiki) || currentRootWiki == null)
+        {
+            var creatorRootWikiId = categoryCacheItem.Creator.StartTopicId;
+            if (parents.Any(c => c.Id == creatorRootWikiId))
+            {
+                var newRootWiki = parents.FirstOrDefault(c => c.Id == creatorRootWikiId);
+                return newRootWiki; 
+            }
+
+            if (_sessionUser.IsLoggedIn)
+            {
+                var userRootWikiId = UserCache.GetUser(_sessionUser.UserId).StartTopicId;
+                var userRootWiki = EntityCache.GetCategoryCacheItem(userRootWikiId);
+                return userRootWiki;
+            }
+
+            return RootCategory.Get;
+        }
+
+        return currentRootWiki;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

@@ -260,4 +260,9 @@ public class CategoryCacheItem
             cr.CategoryRelationType == categoryRelation.CategoryRelationType 
         );
     }
+
+    public virtual bool IsRootWiki()
+    {
+        return Id == Creator.StartTopicId;
+    }
 }

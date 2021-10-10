@@ -56,7 +56,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
         JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
-     
     }
 
     public void Logout()
@@ -130,5 +129,16 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         }
 
         return totalPoints;
+    }
+
+    public CategoryCacheItem RootWiki
+    {
+        get => Data.Get<CategoryCacheItem>("RootWiki");
+        private set => Data["RootWiki"] = value;
+    }
+
+    public void SetRootWiki(CategoryCacheItem category)
+    {
+        RootWiki = category;
     }
 }

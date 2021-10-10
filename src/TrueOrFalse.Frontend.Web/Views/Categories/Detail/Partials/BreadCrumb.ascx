@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#"  Inherits="System.Web.Mvc.ViewUserControl<BaseModel>" %>
+<%@ Import Namespace="Markdig.Helpers" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%  var userSession = new SessionUser();
     var user = userSession.User;
@@ -9,11 +10,12 @@
         var imageSetttings = new UserImageSettings(userSession.User.Id);
         userImage = imageSetttings.GetUrl_30px_square(userSession.User).Url;
     }
+    var url = "/";
 %>
 
 <div id="BreadCrumbContainer" class="container">
     <span>
-        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
+        <a href="<%= url %>" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite" >
             <i class="fas fa-home"></i>
         </a>
     </span>
@@ -60,7 +62,7 @@
                     <i :class="[ showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
                 </div>
                 <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch }" v-cloak>
-                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent"/>
+                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent" :show-search="showSearch"/>
                 </div>
             </div>
         <div id="BreadcrumbUserDropdownImage">

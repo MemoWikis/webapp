@@ -295,6 +295,33 @@ public class EntityCache : BaseCache
         return descendants;
     }
 
+    public static IList<CategoryCacheItem> 
+        GetAllParents(int childId, bool getFromEntityCache = false)
+    {
+        var currentGeneration = EntityCache.GetCategoryCacheItem(childId).ParentCategories();
+        var nextGeneration = new List<CategoryCacheItem>();
+        var ascendants = new List<CategoryCacheItem>();
+
+        while (currentGeneration.Count > 0)
+        {
+            ascendants.AddRange(currentGeneration);
+
+            foreach (var parent in currentGeneration)
+            {
+                var parents = parent.ParentCategories();
+                if (parents.Count > 0)
+                {
+                    nextGeneration.AddRange(parents);
+                }
+            }
+
+            currentGeneration = nextGeneration.Except(ascendants).Where(c => c.Id != childId).Distinct().ToList();
+            nextGeneration = new List<CategoryCacheItem>();
+        }
+
+        return ascendants;
+    }
+
     public static List<CategoryCacheItem> GetByName(string name, CategoryType type = CategoryType.Standard)
     {
         var allCategories = GetAllCategories();
