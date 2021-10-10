@@ -62,7 +62,7 @@
                             <i :class="[ showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
                         </div>
                         <div class="SearchContainer" :class="{ 'showSearch' : showSearch }">
-                            <search-component v-on:select-item="openUrl" :search-type="searchType" id="SmallHeaderSearchComponent"/>
+                            <search-component v-on:select-item="openUrl" :search-type="searchType" id="SmallHeaderSearchComponent" :show-search="showSearch"/>
                         </div>
                     </div>
                     <div id="loginAndHelp" class="<%= loginClasses %>">
