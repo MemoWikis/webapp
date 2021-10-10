@@ -60,7 +60,7 @@
                     <i :class="[ showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
                 </div>
                 <div class="StickySearchContainer" :class="{ 'showSearch' : showSearch }" v-cloak>
-                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent"/>
+                    <search-component v-on:select-item="openUrl" :search-type="searchType" id="StickySearchComponent" :show-search="showSearch"/>
                 </div>
             </div>
         <div id="BreadcrumbUserDropdownImage">
