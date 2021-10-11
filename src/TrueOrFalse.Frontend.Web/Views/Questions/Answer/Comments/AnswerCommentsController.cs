@@ -12,35 +12,29 @@ public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
-    public CommentModel SaveComment(
-        int questionId,
-        string text,
-        string title,
-        bool? typeImprovement,
-        bool? typeRemove,
-        string typeKeys)
+    public CommentModel SaveComment(SaveCommentJson saveCommentJson)
     {
         var comment = new Comment();
         comment.Type = CommentType.AnswerQuestion;
-        comment.TypeId = questionId;
-        comment.Text = text;
-        comment.Title = title;
+        comment.TypeId = saveCommentJson.questionId;
+        comment.Text = saveCommentJson.text;
+        comment.Title = saveCommentJson.title;
         comment.Creator = _sessionUser.User;
 
-        if (typeImprovement.HasValue)
-            comment.ShouldImprove = typeImprovement.Value;
-
-        if (typeRemove.HasValue)
-            comment.ShouldRemove = typeRemove.Value;
-
-        if (!String.IsNullOrEmpty(typeKeys))
-            comment.ShouldKeys = typeKeys;
 
         Resolve<CommentRepository>().Create(comment);
 
         var commentModel = new CommentModel(comment);
 
         return commentModel;
+    }
+
+    public class SaveCommentJson
+    {
+        
+        public int questionId { get; set; }
+        public string text { get; set; }
+    public string title { get; set; }
     }
 
     [HttpPost]

@@ -14,14 +14,14 @@
                     </span>
                 </div>
                 <div class="commentTextContainer">
-                    <p class="commentText" v-if="comment.Text.length < 50">{{comment.Text}}</p>
+                    <p class="commentText" v-if="comment.Text.length < 50" v-html="comment.Text"></p>
                     <span v-else>
-                    <span v-if="readMore"><p class="">{{comment.Text}}</p>
+                    <span v-if="readMore"><p v-html="comment.Text"></p>
                         <a class="cursor-hand" @click="readMore=false">
                             ...Weniger
                         </a>
                     </span>
-                    <span v-else><p class="commentText">{{comment.Text.slice(0,50)}}...</p>
+                    <span v-else><p class="commentText" v-html="comment.Text.slice(0,50)">...</p>
                     <a class="cursor-hand" @click="readMore=true">
                         ...Mehr
                     </a>

@@ -72,16 +72,63 @@ Vue.component('add-comment-component',
                 commentText: "",
                 commentTitle: "",
                 isLoggedIn: IsLoggedIn.Yes,
+                commentEditor: null,
+                commentJson: null,
+                commentHtml: null,
+                flashCardJson: null,
+                highlightEmptyFields: false,
+
             }
         },
 
         template: '#add-comment-component',
 
         mounted() {
-
+            this.initQuickCreate();
         },
 
         methods: {
+
+            initQuickCreate() {
+                var self = this;
+                self.$nextTick(() => {
+
+                    Vue.component('editor-content', tiptapEditorContent);
+                    self.commentEditor = new tiptapEditor({
+                        editable: true,
+                        extensions: [
+                            tiptapStarterKit,
+                            tiptapLink.configure({
+                                HTMLAttributes: {
+                                    target: '_self',
+                                    rel: 'noopener noreferrer nofollow'
+                                }
+                            }),
+                            tiptapCodeBlockLowlight.configure({
+                                lowlight,
+                            }),
+                            tiptapUnderline,
+                            tiptapPlaceholder.configure({
+                                emptyEditorClass: 'is-editor-empty',
+                                emptyNodeClass: 'is-empty',
+                                placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
+                                showOnlyCurrent: true,
+                            }),
+                            tiptapImage
+                        ],
+                        onUpdate: ({ editor }) => {
+                            self.commentJson = editor.getJSON();
+                            self.commentText = editor.getHTML();
+                            self.formValidator();
+                        },
+                    });
+                });
+            },
+
+            formValidator() {
+                this.disabled = this.commentEditor.state.doc.textContent.length > 0;
+            },
+
             saveComment() {
                 if (this.commentText.length > 20 && this.commentTitle.length > 5) {
                     var self = this;
@@ -90,13 +137,18 @@ Vue.component('add-comment-component',
                         text: this.commentText,
                         title: this.commentTitle
                     };
-                    $.post("/AnswerComments/SaveComment",
-                        params,
-                        () => {
+                    $.ajax({
+                        type: 'post',
+                        contentType: "application/json",
+                        url: "/AnswerComments/SaveComment",
+                        data: JSON.stringify(params),
+                        success: (result) => {
                             this.commentText = "";
                             this.commentTitle = "";
                             eventBus.$emit('new-comment-added');
-                        });
+                        },
+                        error: () => { }
+                    });
                 } else {
                     console.log("Kommentar zu kurz");
                 }
