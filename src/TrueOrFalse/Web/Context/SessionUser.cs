@@ -120,7 +120,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         ActivityPoints.Add(activityPoints);
     }
 
-    public int getTotalActivityPoints()
+    public int GetTotalActivityPoints()
     {
         int totalPoints = 0;
         foreach (var activity in ActivityPoints)
@@ -131,14 +131,16 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         return totalPoints;
     }
 
-    public CategoryCacheItem RootWiki
+    public CategoryCacheItem CurrentWiki
     {
-        get => Data.Get<CategoryCacheItem>("RootWiki");
-        private set => Data["RootWiki"] = value;
+        get => Data.Get<CategoryCacheItem>("CurrentWiki");
+        private set => Data["CurrentWiki"] = value;
     }
 
-    public void SetRootWiki(CategoryCacheItem category)
+    public void SetWiki(CategoryCacheItem category)
     {
-        RootWiki = category;
+        CurrentWiki = category;
     }
+
+    public bool IsInOwnWiki() => CurrentWiki.Id == User.StartTopicId;
 }

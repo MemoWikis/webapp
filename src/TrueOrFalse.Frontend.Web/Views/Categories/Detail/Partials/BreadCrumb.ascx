@@ -19,11 +19,17 @@
             <i class="fas fa-home"></i>
         </a>
     </span>
-    <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories != null && Model.TopNavMenu.BreadCrumbCategories.Items.Count > 0){ %>
-        <span id="FirstChevron">
-            <i class="fa fa-chevron-right"></i>
-        </span>
-    <% } %>
+    <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories != null && Model.TopNavMenu.BreadCrumbCategories.Items.Count > 0){
+        if(Sl.SessionUser.IsInOwnWiki()) {%>
+            <span id="FirstChevron">
+                <i class="fa fa-chevron-right"></i>
+            </span>
+        <% }
+        else { %>
+            <span id="FirstChevron">
+                &nbsp;|
+            </span><% }
+       } %>
 
 
     <div id="BreadCrumbTrail">
