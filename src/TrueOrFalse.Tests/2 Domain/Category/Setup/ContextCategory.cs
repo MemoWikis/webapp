@@ -38,7 +38,8 @@ namespace TrueOrFalse.Tests
             string categoryName, 
             CategoryType categoryType = CategoryType.Standard, 
             User creator = null, 
-            Category parent = null)
+            Category parent = null,
+            List<Category> parents = null)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -70,7 +71,22 @@ namespace TrueOrFalse.Tests
                 category.CategoryRelations = categoryRelations;
             }
 
-            if(!_categoryRepository.Exists(categoryName))
+            if (parents != null) // set parent
+            {
+                foreach (var p in parents)
+                {
+                    categoryRelations.Add(new CategoryRelation
+                    {
+                        Category = category,
+                        RelatedCategory = p,
+                        CategoryRelationType = CategoryRelationType.IsChildOf
+                    });
+
+                }
+                category.CategoryRelations = categoryRelations;
+            }
+
+            if (!_categoryRepository.Exists(categoryName))
                 All.Add(category);
             return this;
         }

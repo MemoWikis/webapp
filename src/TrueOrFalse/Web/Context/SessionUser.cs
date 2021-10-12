@@ -142,5 +142,5 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         CurrentWiki = category;
     }
 
-    public bool IsInOwnWiki() => CurrentWiki.Id == User.StartTopicId;
+    public bool IsInOwnWiki() => IsLoggedIn ? CurrentWiki.Id == User.StartTopicId : CurrentWiki.Id == RootCategory.RootCategoryId;
 }

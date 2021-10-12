@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Conventions.Inspections;
+using GraphJsonDtos;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -65,6 +67,11 @@ public class Crumbtrail_test : BaseTest
         var secondRoot = context.Add("second").Persist().All.First();
         var rootOfFirstRoot = context.Add("rofr").Persist().All.First();
         var globalRoot = context.Add("global").Persist().All.First();
+        var branchRoot = context.Add("branch").Persist().All.First();
+
+
+        var userContext = ContextUser.New();
+        var branchUser = userContext.Add("secondUser").Persist().All.First();
 
         var rootOfFirstRootContext = context
             .Add("first", parent: rootOfFirstRoot)
@@ -101,19 +108,57 @@ public class Crumbtrail_test : BaseTest
         var globalRootAsCache = CategoryCacheItem.ToCacheCategory(globalRoot);
 
 
-        var crumbtrail_1_2_1_1 = CrumbtrailService.Get(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.2.1.1")), firstRootAsCache);
+        var crumbtrail_1_2_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.2.1.1")), firstRootAsCache);
         Assert.That(crumbtrail_1_2_1_1.ToDebugString(), Is.EqualTo("first => 1.2 => 1.2.1 => [1.2.1.1]"));
 
-        var crumbtrail_x_1_1_1 = CrumbtrailService.Get(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("x.1.1.1")), secondRootAsCache);
+        var crumbtrail_x_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("x.1.1.1")), secondRootAsCache);
         Assert.That(crumbtrail_x_1_1_1.ToDebugString(), Is.EqualTo("second => x.1.1 => [x.1.1.1]"));
 
-        var crumbtrail_xg_1_1_1 = CrumbtrailService.Get(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("xg.1.1.1")), secondRootAsCache);
+        var crumbtrail_xg_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("xg.1.1.1")), secondRootAsCache);
         Assert.That(crumbtrail_xg_1_1_1.ToDebugString(), Is.EqualTo("second => g.1.1 => [xg.1.1.1]"));
 
-        var crumbtrail_1_1_1_1 = CrumbtrailService.Get(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), firstRootAsCache);
+        var crumbtrail_1_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), firstRootAsCache);
         Assert.That(crumbtrail_1_1_1_1.ToDebugString(), Is.EqualTo("first => 1.1 => 1.1.1 => [1.1.1.1]"));
 
-        var crumbtrail_rofr_1_1_1_1 = CrumbtrailService.Get(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), rootOfFirstRootAsCache);
+        var crumbtrail_rofr_1_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), rootOfFirstRootAsCache);
         Assert.That(crumbtrail_rofr_1_1_1_1.ToDebugString(), Is.EqualTo("rofr => first => 1.1 => 1.1.1 => [1.1.1.1]"));
+    }
+
+    [Test]
+    public void Get_Correct_BreadcrumbItems()
+    {
+        var categoryContext = ContextCategory.New();
+        var userContext = ContextUser.New();
+
+        var aWikiUser = userContext.Add("aWikiUser").Persist().All.First();
+        var aWiki = categoryContext.Add("aWiki", creator: aWikiUser).Persist().All.First();
+
+        var bWikiUser = userContext.Add("bWikiUser").Persist().All.First();
+        var bWiki = categoryContext.Add("bWiki", creator: bWikiUser).Persist().All.First();
+        var bWikiCache = CategoryCacheItem.ToCacheCategory(bWiki);
+
+        var cWikiUser = userContext.Add("cWikiUser").Persist().All.First();
+        var cWiki = categoryContext.Add("cWiki", creator: cWikiUser).Persist().All.First();
+        var cWikiCache = CategoryCacheItem.ToCacheCategory(cWiki);
+
+        var memuchoWikiUser = userContext.Add("memuchoWikiUser").Persist().All.First();
+        var memuchoWiki = categoryContext.Add("memuchoWiki", creator: memuchoWikiUser).Persist().All.First();
+        var memuchoWikiCache = CategoryCacheItem.ToCacheCategory(memuchoWiki);
+
+        var bPersonalx_0_0_0 = categoryContext.Add("bPersonalx_0_0_0", parent: bWiki, creator: bWikiUser).Persist().All.First();
+
+        var memuchoCat1Parents = new List<Category>();
+        memuchoCat1Parents.Add(memuchoWiki);
+        memuchoCat1Parents.Add(aWiki);
+        memuchoCat1Parents.Add(bPersonalx_0_0_0);
+        var memuchoCat0_x_0_0 = categoryContext.Add("memuchoCat0_x_0_0", parents: memuchoCat1Parents, creator: memuchoWikiUser).Persist().All.First();
+
+        var memuchoCat0_0_x_0 = categoryContext.Add("memuchoCat0_0_x_0", parent: memuchoCat0_x_0_0, creator: memuchoWikiUser).Persist().All.First();
+        var aPersonal0_0_x_0 = categoryContext.Add("aPersonalCat0_0_x_0", parent: memuchoCat0_x_0_0, creator: aWikiUser).Persist().All.First();
+
+        var currentCategoryParents = new List<Category>();
+        currentCategoryParents.Add(memuchoCat0_0_x_0);
+        currentCategoryParents.Add(aPersonal0_0_x_0);
+        var currentCategory0_0_0_x = categoryContext.Add("memuchoCat0_0_0_x", parents: memuchoCat1Parents, creator: memuchoWikiUser).Persist().All.First();
     }
 }

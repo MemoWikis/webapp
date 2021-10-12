@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Conventions.Inspections;
 
 public class CrumbtrailService
@@ -48,10 +49,10 @@ public class CrumbtrailService
         {
             var parents = category.ParentCategories();
             var rootWikiParent = parents.FirstOrDefault(c => c == root);
+            parents = OrderParentList(parents, root.Creator);
             if (rootWikiParent != null)
                 AddBreadcrumbParent(result, rootWikiParent, root);
             else
-            {
                 foreach (var parent in parents)
                 {
                     if (result.Rootfound)
@@ -59,7 +60,6 @@ public class CrumbtrailService
                     if (IsLinkedToRoot(parent, root))
                         AddBreadcrumbParent(result, parent, root);
                 }
-            }
         }
 
         result.Items = result.Items.Reverse().ToList();
@@ -80,8 +80,8 @@ public class CrumbtrailService
         crumbtrail.Add(categoryCacheItem);
         if (root == categoryCacheItem)
             return;
-
         var parents = categoryCacheItem.ParentCategories();
+        parents = OrderParentList(parents, root.Creator);
 
         foreach (var parent in parents)
         {
@@ -95,5 +95,16 @@ public class CrumbtrailService
                 AddBreadcrumbParent(crumbtrail, parent, root);
         }
 
+    }
+
+    private static List<CategoryCacheItem> OrderParentList(IList<CategoryCacheItem> parents, User wikiCreator)
+    {
+        var parentsWithWikiCreator = parents.Where(c => c.Creator == wikiCreator).Select(c => c);
+        var parentsWithoutWikiCreator = parents.Where(c => c.Creator != wikiCreator).Select(c => c);
+        var orderedParents = new List<CategoryCacheItem>();
+        orderedParents.AddRange(parentsWithWikiCreator);
+        orderedParents.AddRange(parentsWithoutWikiCreator);
+
+        return orderedParents;
     }
 }
