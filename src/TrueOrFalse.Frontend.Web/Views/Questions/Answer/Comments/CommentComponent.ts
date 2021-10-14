@@ -4,7 +4,7 @@ if (eventBus == null)
 
 Vue.component('comment-component',
     {
-        props: ['comment', 'questionId', 'currentUserImageUrl'],
+        props: ['comment', 'questionId', 'currentUserImageUrl', 'currentUserName'],
 
         data: function () {
             return {
@@ -15,13 +15,15 @@ Vue.component('comment-component',
                 isInstallationAdmin: this.isAdminString == 'True',
                 isOwner: false,
                 isLoggedIn: IsLoggedIn.Yes,
-                showCommentAnswers: false
+                showCommentAnswers: false,
+                foldOut: false
             }
         },
         template: '#comment-component',
 
         created() {
             const self = this;
+            self.foldOut = !self.comment.IsSettled;
             self.isOwner = self.comment.ImageUrl == self.currentUserImageUrl;
         },
 
@@ -119,15 +121,12 @@ Vue.component('add-comment-component',
                         onUpdate: ({ editor }) => {
                             self.commentJson = editor.getJSON();
                             self.commentText = editor.getHTML();
-                            self.formValidator();
                         },
                     });
                 });
             },
 
-            formValidator() {
-                this.disabled = this.commentEditor.state.doc.textContent.length > 0;
-            },
+
 
             saveComment() {
                 if (this.commentText.length > 20 && this.commentTitle.length > 5) {
@@ -144,6 +143,7 @@ Vue.component('add-comment-component',
                         data: JSON.stringify(params),
                         success: (result) => {
                             this.commentText = "";
+                            this.commentEditor.commands.setContent('');
                             this.commentTitle = "";
                             eventBus.$emit('new-comment-added');
                         },
@@ -183,7 +183,7 @@ Vue.component('comment-answer-component',
 
 Vue.component('comment-answer-add-component',
     {
-        props: ['currentUserImageUrl', 'parentCommentId'],
+        props: ['currentUserImageUrl', 'parentCommentId', 'currentUserName', 'currentUserUrl'],
         data() {
             return {
                 commentAnswerText: "",

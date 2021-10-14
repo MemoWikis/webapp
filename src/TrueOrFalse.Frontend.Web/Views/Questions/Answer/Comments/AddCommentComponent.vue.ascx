@@ -7,27 +7,20 @@
                         <img class="addCommentUsrImg" :src="currentUserImageUrl">
                     </div>
                     <div class="col-xs-11">
-<%--                        <div class="addCommentTitle">Neue Diskussion hinzufügen</div>
+                        <div id="AddCommentFormContainer"  class="inline-question-editor">
                         <div class="addCommentInputTitle">
+                            <div class="overline-s no-line">Titel der Diskussion</div>
                             <input type="text" class="form-control" v-model="commentTitle" placeholder="Gib bitte den Titel der Diskussion ein." />
                         </div>
                         <div>
-                            <textarea class="commentAnswerAddTextArea form-control" v-model="commentText" placeholder="Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben."></textarea>
-                        </div>--%>
-                    <div id="AddCommentFormContainer"  class="inline-question-editor">
-                        <div class="addCommentInputTitle">
-                            <div class="overline-s no-line">Titel</div>
-                            <input type="text" class="form-control" v-model="commentTitle" placeholder="Gib bitte den Titel der Diskussion ein." />
-                        </div>
-                        <div>
-                            <div class="overline-s no-line">Diskussion</div>
+                            <div class="overline-s no-line">Beschreibung der Diskussion</div>
                             <template v-if="commentEditor">
                                 <editor-menu-bar-component :editor="commentEditor"/>
                             </template>
                             <template>
-                                <editor-content :editor="commentEditor" :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }"/>
+                                <editor-content :editor="commentEditor" :class="{ 'is-empty': highlightEmptyFields }"/>
                             </template>
-                            <div v-if="highlightEmptyFields && commentEditor.state.doc.textContent.length <= 0" class="field-error">Bitte formuliere eine Frage.</div>
+                            <div v-if="highlightEmptyFields" class="field-error">Bitte formuliere eine Beschreibung.</div>
                         </div>
                     </div>
                     </div>

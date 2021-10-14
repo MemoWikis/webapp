@@ -29,7 +29,8 @@ Vue.component('comment-section-component',
                 currentUserImageUrl: '',
                 currentUserId: 0,
                 showSettledComments: false,
-                commentsLoaded: false
+                commentsLoaded: false,
+                currentUserName: 'Garsek'
             };
         },
         template: '#comment-section-component',
@@ -37,6 +38,7 @@ Vue.component('comment-section-component',
             var self = this;
             this.getCurrentUserImgUrl();
             this.getCurrentUserId();
+            this.getCurrentUserName();
             this.getComments();
             this.getSettledComments();
             eventBus.$on('new-comment-added', function () {
@@ -69,6 +71,11 @@ Vue.component('comment-section-component',
             getCurrentUserId() {
                 $.post("/AnswerComments/GetCurrentUserId", id => {
                     this.currentUserId = parseInt(id);
+                });
+            },
+            getCurrentUserName() {
+                $.post("/AnswerComments/GetCurrentUserName", name => {
+                    this.currentUserName = name;
                 });
             }
         }

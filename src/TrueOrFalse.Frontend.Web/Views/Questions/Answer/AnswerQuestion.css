@@ -887,6 +887,20 @@
 .commentTitle {
   font-size: 18px;
   line-height: 22px;
+  color: #555555;
+}
+.pointer {
+  cursor: pointer;
+}
+.commentSettledBox {
+  background: #555555;
+  color: white;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  line-height: 16px;
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 8px 6px 8px;
 }
 .commentTextContainer {
   padding: 1em 0 1em 0;
@@ -898,6 +912,7 @@
   max-height: 60px;
   white-space: nowrap;
   -webkit-line-clamp: 4;
+  color: #555555;
 }
 .settledCommentsDescription {
   text-align: right;

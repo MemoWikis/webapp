@@ -108,6 +108,12 @@ public class AnswerCommentsController : BaseController
     }
 
     [HttpPost]
+    public string GetCurrentUserName()
+    {
+        return _sessionUser.User.Name;
+    }
+
+    [HttpPost]
     public String GetUserImgUrl(int userId)
     {
         var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;

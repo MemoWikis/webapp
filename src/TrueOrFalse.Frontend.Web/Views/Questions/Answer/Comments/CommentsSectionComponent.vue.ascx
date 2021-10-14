@@ -1,7 +1,7 @@
 ﻿<div id="CommentsSection">
     <div class="commentSection">
         <div v-for="comment in comments" class="comment">
-            <comment-component :comment="comment" :question-id="questionId" :currentUserImageUrl="currentUserImageUrl" :currentUserId="currentUserId" />
+            <comment-component :comment="comment" :question-id="questionId" :currentUserImageUrl="currentUserImageUrl" :currentUserId="currentUserId" :currentUserName="currentUserName"/>
         </div>
         <div v-if="settledComments.length > 0">
             <div  class="commentSettledInfo">
