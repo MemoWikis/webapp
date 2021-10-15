@@ -15,7 +15,7 @@ Vue.component('comment-component',
                 isInstallationAdmin: this.isAdminString == 'True',
                 isOwner: false,
                 isLoggedIn: IsLoggedIn.Yes,
-                showCommentAnswers: false,
+                showCommentAnswers: true,
                 foldOut: false
             }
         },

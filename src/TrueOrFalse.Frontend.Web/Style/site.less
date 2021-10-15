@@ -352,7 +352,7 @@ img {
     font-size: 12px;
     text-align: center;
     white-space: normal;
-    padding-top:10px;
+    padding-top: 10px;
 
     span {
         vertical-align: baseline !important;
@@ -667,7 +667,7 @@ ul.AutocompleteHeader {
 
     .btn-group.active {
 
-        .btn { 
+        .btn {
             color: @global-text-color;
             font-weight: bold;
         }
@@ -701,7 +701,6 @@ ul.AutocompleteHeader {
             padding-left: 0;
             padding-right: 0;
         }
-
     }
 }
 /*******************************************************************/
@@ -837,7 +836,9 @@ ul.AutocompleteHeader {
 
     .media-below-md( {
         padding-top: 0;
-    });
+    }
+
+    );
 }
 
 #GlobalLicense {
@@ -925,8 +926,9 @@ ul.AutocompleteHeader {
 
         &:last-child > div {
             .media-md-up( {
-               // float: right;
+                // float: right;
             }
+
             );
         }
     }
@@ -1076,6 +1078,7 @@ a.button span.ui-icon {
     fieldset {
         border: none;
     }
+
     div.col-you-have-to-be-logged-in {
         padding-bottom: 5px;
         padding-right: 15px;
@@ -1667,9 +1670,10 @@ h3 {
     color: @memo-grey-darker;
 }
 
-.body-l,.body-m,.body-s,.body-xs{
+.body-l, .body-m, .body-s, .body-xs {
     width: 100%;
     margin-bottom: 10px;
+
     &.bold {
         font-weight: 700;
     }
@@ -1731,7 +1735,7 @@ h3 {
         padding-bottom: 0;
     }
 
-    &.overline-title{
+    &.overline-title {
         color: @memo-grey-darker;
     }
 }
@@ -2068,6 +2072,7 @@ b, strong {
     display: flex;
     width: 100%;
 }
+
 .inline-text-editor, .inline-question-editor, #flashCardContent {
     position: relative;
 
@@ -2308,6 +2313,7 @@ textarea, input {
         border-radius: 0;
     }
 }
+
 #ErrorModal, #SuccessModal {
     .modal-body, .modal-footer, .modal-header {
         display: flex;
@@ -2319,6 +2325,7 @@ textarea, input {
         flex-direction: column;
     }
 }
+
 #ErrorModal {
     h3 {
         color: @memo-salmon;
@@ -2330,6 +2337,7 @@ textarea, input {
         color: @memo-green;
     }
 }
+
 .ProseMirror {
     li {
         p {
@@ -2369,12 +2377,14 @@ textarea, input {
     border: none;
     border-radius: 0;
 }
+
 .field-error {
     color: @memo-salmon;
     width: 100%;
     white-space: nowrap;
     font-size: 12px;
 }
+
 .field-error-container {
     position: relative;
 
@@ -2471,19 +2481,26 @@ textarea, input {
 .modal-default-wrapper {
     display: table-cell;
     vertical-align: middle;
-
 }
 
 .modal-default-container {
     max-width: 50%;
     margin: 0px auto;
-    padding: 2em 1em;
+    padding: 64px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
     max-height: calc(100vh - 1em);
-    overflow: hidden
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.modal-close-button {
+    margin-top: -30px;
+    float: right;
+    font-size: 24px;
+    color: #767676;
 }
 
 .modal-default-header h3 {

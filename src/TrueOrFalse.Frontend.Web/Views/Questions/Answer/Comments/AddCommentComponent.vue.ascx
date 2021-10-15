@@ -1,8 +1,8 @@
 ﻿<div id="AddCommentComponent">
-    <div v-if="isLoggedIn" class="panel panel-default commentAddContainer">
+    <div v-if="isLoggedIn" class="commentAddContainer">
         <div class="panel-body">
-            <div class="commentAnswerAddTopBorder">
-                <div class="panel-body commentAnswerAddTopSpace">
+            <div>
+                <div class="commentAnswerAddTopSpace">
                     <div class="col-xs-1">
                         <img class="addCommentUsrImg" :src="currentUserImageUrl">
                     </div>
