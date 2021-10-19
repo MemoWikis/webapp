@@ -107,4 +107,35 @@ public class CrumbtrailService
 
         return orderedParents;
     }
+
+    public static CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem)
+    {
+        var sessionUser = Sl.SessionUser;
+        var currentWikiId = sessionUser.CurrentWikiId;
+        if (categoryCacheItem.IsWiki())
+            return categoryCacheItem;
+
+        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
+        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0)
+        {
+            var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
+            if (parents.Any(c => c.Id == creatorWikiId))
+            {
+                var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
+                return newWiki;
+            }
+
+            if (sessionUser.IsLoggedIn)
+            {
+                var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
+                var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
+                if (parents.Any(c => c == userWiki))
+                    return userWiki;
+            }
+
+            return RootCategory.Get;
+        }
+
+        return EntityCache.GetCategoryCacheItem(currentWikiId);
+    }
 }

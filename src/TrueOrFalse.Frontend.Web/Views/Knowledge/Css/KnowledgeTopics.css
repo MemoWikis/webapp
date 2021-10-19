@@ -36,7 +36,7 @@
   display: block;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid #999999;
+  border: 2px solid #767676;
   border-radius: 50px;
 }
 #app .switch .onoffswitch-inner {
@@ -69,7 +69,7 @@
   content: "";
   padding-right: 10px;
   background-color: #EEEEEE;
-  color: #999999;
+  color: #767676;
   text-align: right;
 }
 #app .switch .onoffswitch-switch {
@@ -82,7 +82,7 @@
   top: 1px;
   bottom: 0;
   right: 24px;
-  border: 2px solid #999999;
+  border: 2px solid #767676;
   border-radius: 4px;
   transition: all 0.3s ease-in 0s;
 }
@@ -220,7 +220,7 @@
   }
 }
 .vuetable .td-knowledge-bar-wrapper .KnowledgeBarLegend {
-  color: #999999;
+  color: #767676;
   margin-top: -10px;
   font-size: 12px;
   line-height: 1.5em;

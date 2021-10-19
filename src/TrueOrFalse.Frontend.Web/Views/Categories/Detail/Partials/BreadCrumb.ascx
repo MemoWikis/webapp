@@ -31,7 +31,7 @@
        if (!Sl.SessionUser.IsInOwnWiki())
        { %>
         <span id="FirstChevron">
-            &nbsp;|
+            <div id="BreadcrumbDivider"></div>
         </span><% } %>
 
 

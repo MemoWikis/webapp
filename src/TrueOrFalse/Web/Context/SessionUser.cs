@@ -84,36 +84,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         }
     }
 
-    private int _currentTestSessionId
-    {
-        get => Data.Get("_currentTestSessionId", 0);
-        set => Data["_currentTestSessionId"] = value;
-    }
-
-    public int GetNextTestSessionId()
-    {
-        lock ("6F33CE8C-F40E-4E7D-85D8-5C025AD98F87")
-        {
-            var currentSessionId = _currentTestSessionId;
-            currentSessionId++;
-            _currentTestSessionId = currentSessionId;
-            return currentSessionId;
-        }
-    }
-
-    public List<int> AnsweredQuestionIds
-    {
-        get => Data.Get<List<int>>("answeredQuestionIds");
-        set => Data["answeredQuestionIds"] = value;
-    }
-
-    public SessionUser()
-    {
-        if (AnsweredQuestionIds == null)
-            AnsweredQuestionIds = new List<int>();
-    }
-
-    public List<ActivityPoints> ActivityPoints => Data.Get("pointActivitys", new List<ActivityPoints>());
+    public List<ActivityPoints> ActivityPoints => Data.Get("pointActivities", new List<ActivityPoints>());
 
     public void AddPointActivity(ActivityPoints activityPoints)
     {
@@ -131,16 +102,13 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         return totalPoints;
     }
 
-    public CategoryCacheItem CurrentWiki
+    public int CurrentWikiId
     {
-        get => Data.Get<CategoryCacheItem>("CurrentWiki");
-        private set => Data["CurrentWiki"] = value;
+        get => Data.Get("currentWikiId", IsLoggedIn ? User.StartTopicId : 1);
+        private set => Data["currentWikiId"] = value;
     }
 
-    public void SetWiki(CategoryCacheItem category)
-    {
-        CurrentWiki = category;
-    }
+    public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
 
-    public bool IsInOwnWiki() => IsLoggedIn ? CurrentWiki.Id == User.StartTopicId : CurrentWiki.Id == RootCategory.RootCategoryId;
+    public bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
 }

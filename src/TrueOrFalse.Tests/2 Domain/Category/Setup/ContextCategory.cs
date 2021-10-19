@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
         public ContextCategory Add(int amount)
         {
             for (var i = 0; i < amount; i++)
-                Add($"category name {0}");
+                Add($"category name {i+1}", id: i+1);
 
             return this;
         }
@@ -39,7 +39,8 @@ namespace TrueOrFalse.Tests
             CategoryType categoryType = CategoryType.Standard, 
             User creator = null, 
             Category parent = null,
-            List<Category> parents = null)
+            List<Category> parents = null,
+            int id = 0)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -54,6 +55,10 @@ namespace TrueOrFalse.Tests
                     Creator = creator ?? _contextUser.All.First(),
                     Type = categoryType,
                 };
+
+                if (id > 0)
+                    category.Id = id;
+
             }
 
             var categoryRelations = category.CategoryRelations.Count != 0 ? category.CategoryRelations : new List<CategoryRelation>();
@@ -87,7 +92,10 @@ namespace TrueOrFalse.Tests
             }
 
             if (!_categoryRepository.Exists(categoryName))
+            {
                 All.Add(category);
+                AddToEntityCache(categoryName);
+            }
             return this;
         }
 

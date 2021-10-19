@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions.Inspections;
+using FluentNHibernate.Diagnostics;
 using GraphJsonDtos;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
@@ -160,5 +161,35 @@ public class Crumbtrail_test : BaseTest
         currentCategoryParents.Add(memuchoCat0_0_x_0);
         currentCategoryParents.Add(aPersonal0_0_x_0);
         var currentCategory0_0_0_x = categoryContext.Add("memuchoCat0_0_0_x", parents: memuchoCat1Parents, creator: memuchoWikiUser).Persist().All.First();
+    }
+
+    [Test]
+    public void Get_Correct_Wiki()
+    {
+        var contextCategory = ContextCategory.New();
+
+        var filler1 = contextCategory.Add(categoryName: "category name 1", id: 1).Persist().All.ByName("category name 1");
+        var filler2 = contextCategory.Add(categoryName: "category name 2", id: 2).Persist().All.ByName("category name 2");
+        var filler3 = contextCategory.Add(categoryName: "category name 3", id: 3).Persist().All.ByName("category name 3");
+        var filler4 = contextCategory.Add(categoryName: "category name 4", id: 4).Persist().All.ByName("category name 4");
+        var category5 = contextCategory.Add(categoryName: "category name 5", id: 5).Persist().All.ByName("category name 5");
+        var childOf5 = contextCategory.Add(categoryName: "child of 5", parent: category5, id: 6).Persist().All.ByName("child of 5");
+
+
+        var filler3Cache = CategoryCacheItem.ToCacheCategory(filler3);
+        var childOf5Cache = CategoryCacheItem.ToCacheCategory(childOf5);
+
+        var sessionUser = Sl.SessionUser;
+        var beforeSettingId = sessionUser.CurrentWikiId;
+        sessionUser.SetWikiId(filler3Cache);
+
+        var wikiIdShouldBe3 = sessionUser.CurrentWikiId;
+
+        Assert.That(beforeSettingId, Is.EqualTo(1));
+        Assert.That(wikiIdShouldBe3, Is.EqualTo(3));
+
+        var newWiki = CrumbtrailService.GetWiki(childOf5Cache);
+
+        Assert.That(newWiki, Is.EqualTo(5));
     }
 }

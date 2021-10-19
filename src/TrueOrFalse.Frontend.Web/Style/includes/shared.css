@@ -6487,7 +6487,7 @@
   font-size: 12px;
 }
 .greyed {
-  color: #999999;
+  color: #767676;
 }
 /*  Page Styles
 ----------------------------------------------------------*/
@@ -6870,7 +6870,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 .HeartToAddButton.questionBodyPin .iAdded .pinLabel.showOnHover,
 .HeartToAddButton.questionBodyPin .iAddedNot .pinLabel.showOnHover {
   display: none;
-  color: #999999;
+  color: #767676;
 }
 .HeartToAddButton.questionBodyPin .iAdded:hover .showOnHover,
 .HeartToAddButton.questionBodyPin .iAddedNot:hover .showOnHover {
@@ -7438,7 +7438,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 .Card .ItemInfo a,
 .Card .ItemInfo a:hover,
 .Card .ItemInfo a:focus {
-  color: #999999 !important;
+  color: #767676 !important;
   text-decoration: none !important;
 }
 .Card .ImageLicenseCaption {
@@ -7456,7 +7456,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 .ButtonEllipsis {
   margin-left: 0px !important;
   font-size: 18px;
-  color: #999999;
+  color: #767676;
   transition: all 0.1s ease-in-out;
 }
 .ButtonEllipsis:hover {
@@ -7474,7 +7474,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .ButtonOnHover.disabled {
   background-color: white !important;
-  color: #999999 !important;
+  color: #767676 !important;
 }
 .CardBig {
   padding-top: 15px;

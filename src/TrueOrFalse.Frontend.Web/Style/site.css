@@ -139,7 +139,7 @@ a.PlainTextLook:focus {
 a.DisabledLink {
   pointer-events: none;
   cursor: default;
-  color: #999999;
+  color: #767676;
 }
 /*Headings*/
 .ColoredUnderline {
@@ -370,7 +370,7 @@ img {
 }
 #activity-popover-content-inner .ProgressInfoText {
   text-align: center;
-  color: #999999;
+  color: #767676;
   font-weight: normal !important;
 }
 #activity-popover-content-inner #NextLevelProgressSpanPercentageDone {
@@ -826,7 +826,7 @@ ul.AutocompleteHeader {
   text-align: right;
 }
 #MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-footer a {
-  color: #999999;
+  color: #767676;
 }
 #MasterMainWrapper {
   background-color: white;
@@ -885,7 +885,7 @@ ul.AutocompleteHeader {
   max-width: 850px;
   margin-left: auto;
   margin-right: auto;
-  color: #999999;
+  color: #767676;
 }
 #GlobalLicense .CCLogo {
   display: block;
@@ -1578,7 +1578,7 @@ a.noTextdecoration:hover {
 }
 i.fa-lock {
   font-size: 14px;
-  color: #999999;
+  color: #767676;
   padding: 0 2px;
 }
 i.fa-lock.header-icon {
@@ -1613,7 +1613,7 @@ h3 {
   font-size: 18px;
   font-weight: 400;
   line-height: 22px;
-  color: #999999;
+  color: #767676;
 }
 .body-l {
   font-size: 18px;
@@ -1687,7 +1687,7 @@ h3 {
 }
 .overline-s,
 .overline-m {
-  color: #999999;
+  color: #767676;
   font-weight: 600;
   border-bottom: solid 1px #DDDDDD;
 }
@@ -1727,7 +1727,7 @@ h3 {
   color: #DDDDDD;
 }
 .underline-s a {
-  color: #999999;
+  color: #767676;
   transition: color 0.1s ease-in-out;
 }
 .underline-s a:hover {
@@ -2095,7 +2095,7 @@ strong {
 .ProseMirror code .hljs-quote,
 #AnswerBody code .hljs-quote,
 .singleQuestionRow code .hljs-quote {
-  color: #999999;
+  color: #767676;
 }
 .ProseMirror code .hljs-variable,
 #AnswerBody code .hljs-variable,
@@ -2254,7 +2254,7 @@ p.is-editor-empty:first-child::before {
 }
 textarea::placeholder,
 input::placeholder {
-  color: #999999;
+  color: #767676;
   font-style: italic;
 }
 #AddCategoryApp input {
@@ -2363,10 +2363,10 @@ input::placeholder {
 }
 .cardModal .modal-content .cardModalContent .modalBody .checkBox {
   user-select: none;
-  color: #999999;
+  color: #767676;
 }
 .cardModal .modal-content .cardModalContent .modalBody .checkBox i {
-  color: #999999;
+  color: #767676;
 }
 .cardModal .modal-content .cardModalContent .modalFooter {
   display: flex;
@@ -2455,7 +2455,7 @@ input::placeholder {
   justify-content: space-evenly;
 }
 #MemuchoInfoBanner .container #BannerContainer .close-banner {
-  color: #999999;
+  color: #767676;
   padding: 10px;
   font-size: 20px;
   transition: all 0.3s;
@@ -2482,4 +2482,7 @@ input::placeholder {
 }
 #MemuchoInfoBanner.show-banner .container #BannerContainer {
   min-height: 95px;
+}
+.border-bottom-grey {
+  border-bottom: solid 1px #DDDDDD;
 }

@@ -79,8 +79,8 @@ public class CategoryModel : BaseContentModule
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
-        var currentRootWiki = GetWiki(category);
-        _sessionUser.SetWiki(currentRootWiki);
+        var currentRootWiki = CrumbtrailService.GetWiki(category);
+        _sessionUser.SetWikiId(currentRootWiki);
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
@@ -176,35 +176,7 @@ public class CategoryModel : BaseContentModule
         EditQuestionModel = editQuestionModel;
     }
 
-    private CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem)
-    {
-        var currentWiki = _sessionUser.CurrentWiki;
-        if (categoryCacheItem.IsWiki())
-            return categoryCacheItem;
 
-        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
-        if (parents.All(c => c != currentWiki) || currentWiki == null)
-        {
-            var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
-            if (parents.Any(c => c.Id == creatorWikiId))
-            {
-                var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
-                return newWiki; 
-            }
-
-            if (_sessionUser.IsLoggedIn)
-            {
-                var userWikiId = UserCache.GetUser(_sessionUser.UserId).StartTopicId;
-                var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
-                if (parents.Any(c => c == userWiki))
-                    return userWiki;
-            }
-
-            return RootCategory.Get;
-        }
-
-        return currentWiki;
-    }
 
     private List<Question> GetTopQuestionsInSubCats()
     {

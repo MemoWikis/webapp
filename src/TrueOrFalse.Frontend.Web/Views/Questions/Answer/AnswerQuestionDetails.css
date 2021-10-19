@@ -299,7 +299,7 @@
 #QuestionDetailsFooter {
   display: flex;
   justify-content: space-between;
-  color: #999999;
+  color: #767676;
 }
 #QuestionDetailsFooter .questionDetailsFooterPartialLeft {
   width: 60%;
@@ -335,7 +335,7 @@
 #QuestionDetailsFooter .questionDetailsFooterPartialRight .wishknowledgeCount a,
 #QuestionDetailsFooter .questionDetailsFooterPartialRight .viewCount a,
 #QuestionDetailsFooter .questionDetailsFooterPartialRight .commentCount a {
-  color: #999999;
+  color: #767676;
 }
 #QuestionDetailsFooter .questionDetailsFooterPartialRight .wishknowledgeCount a:hover,
 #QuestionDetailsFooter .questionDetailsFooterPartialRight .viewCount a:hover,

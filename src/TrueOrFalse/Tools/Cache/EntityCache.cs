@@ -240,7 +240,7 @@ public class EntityCache : BaseCache
 
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, user.Id);
         }
-        return Categories[categoryId];
+        return Categories[categoryId];  
     }
 
     public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
@@ -295,10 +295,19 @@ public class EntityCache : BaseCache
         return descendants;
     }
 
+    public static List<CategoryCacheItem> ParentCategories(int categoryId, bool isFromEntityCache = false, bool getFromEntityCache = false)
+    {
+        var allCategories = GetAllCategories();
+
+        return allCategories.SelectMany(c =>
+            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.CategoryId == categoryId)
+                .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
+    }
+
     public static IList<CategoryCacheItem> 
         GetAllParents(int childId, bool getFromEntityCache = false)
     {
-        var currentGeneration = EntityCache.GetCategoryCacheItem(childId).ParentCategories();
+        var currentGeneration = ParentCategories(childId);
         var nextGeneration = new List<CategoryCacheItem>();
         var ascendants = new List<CategoryCacheItem>();
 
