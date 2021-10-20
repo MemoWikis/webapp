@@ -261,7 +261,7 @@ public class CategoryCacheItem
         );
     }
 
-    public virtual bool IsWiki()
+    public bool IsWiki()
     {
         return Id == Creator.StartTopicId;
     }

@@ -69,6 +69,8 @@ public class CategoryModel : BaseContentModule
     public string ImageGuid { get; set; }
     public string ImageLicenseOwner { get; set; }
     public bool IsMyWorld { get; set; }
+    public bool IsWiki { get; set; }
+
     
     public EditQuestionModel EditQuestionModel;
 
@@ -79,6 +81,7 @@ public class CategoryModel : BaseContentModule
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
+        IsWiki = category.IsWiki() || RootCategory.RootCategoryId == category.Id;
         var currentRootWiki = CrumbtrailService.GetWiki(category);
         _sessionUser.SetWikiId(currentRootWiki);
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);

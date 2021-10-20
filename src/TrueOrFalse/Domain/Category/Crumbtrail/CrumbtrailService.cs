@@ -45,7 +45,7 @@ public class CrumbtrailService
     public static Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
-        if (!category.IsWiki())
+        if (!category.IsWiki() || category.Id != RootCategory.RootCategoryId)
         {
             var parents = category.ParentCategories();
             var rootWikiParent = parents.FirstOrDefault(c => c == root);
@@ -112,7 +112,7 @@ public class CrumbtrailService
     {
         var sessionUser = Sl.SessionUser;
         var currentWikiId = sessionUser.CurrentWikiId;
-        if (categoryCacheItem.IsWiki())
+        if (categoryCacheItem.IsWiki() || RootCategory.RootCategoryId == categoryCacheItem.Id)
             return categoryCacheItem;
 
         var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);

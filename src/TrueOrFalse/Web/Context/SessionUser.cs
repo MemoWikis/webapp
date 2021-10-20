@@ -48,6 +48,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         HasBetaAccess = true;
         IsLoggedIn = true;
         User = user;
+        CurrentWikiId = user.StartTopicId;
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
@@ -64,6 +65,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         IsLoggedIn = false;
         IsInstallationAdmin = false;
         User = null;
+        CurrentWikiId = 1;
+
         if (HttpContext.Current != null)
             FormsAuthentication.SignOut();
     }
@@ -104,11 +107,12 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public int CurrentWikiId
     {
-        get => Data.Get("currentWikiId", IsLoggedIn ? User.StartTopicId : 1);
+        get => Data.Get("currentWikiId", 1);
         private set => Data["currentWikiId"] = value;
     }
 
     public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public void SetWikiId(int id) => CurrentWikiId = id;
 
     public bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
 }

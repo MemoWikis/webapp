@@ -244,6 +244,7 @@
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
     <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\Breadcrumb\BreadcrumbApiController.cs" />
     <Compile Include="Views\Api\CategoriesController.cs" />
     <Compile Include="Views\Api\CategoryApiModel.cs" />
     <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
@@ -1974,6 +1975,8 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js">
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbFirstChevron.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbTrail.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />

@@ -1,4 +1,5 @@
-﻿
+﻿declare var s: any;
+
 class StickyHeaderClass {
     private _breadcrumb;
     private _header;
@@ -292,5 +293,5 @@ class StickyHeaderClass {
 
 $(() => {
     if (!Utils.IsInWidget())
-        var s = new StickyHeaderClass();
+        s = new StickyHeaderClass();
 });
