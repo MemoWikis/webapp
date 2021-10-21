@@ -11,6 +11,7 @@ Vue.component('search-component',
             searchType: SearchType,
             id: [String, Number],
             showSearchIcon: Boolean,
+            showSearch: Boolean,
         },
         template: '#search-component',
 
@@ -46,6 +47,10 @@ Vue.component('search-component',
                 else
                     this.showDropdown = false;
             },
+            showSearch(val) {
+                if (val)
+                    this.$refs.searchInput.focus();
+            }
         },
         created() {
             var self = this;
