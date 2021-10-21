@@ -290,8 +290,3 @@ class StickyHeaderClass {
         this._isAddEllipsis = true;
     }
 }
-
-$(() => {
-    if (!Utils.IsInWidget())
-        s = new StickyHeaderClass();
-});

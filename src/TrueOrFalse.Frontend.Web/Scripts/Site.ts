@@ -299,7 +299,7 @@ function UpdateBreadCrumb() {
         data: JSON.stringify(json),
         success: function (result) {
             $('#FirstChevron').replaceWith(result.firstChevron);
-            $('#BreadCrumbTrail').replaceWith(result.breadcrumbTrail);
+            $('#BreadCrumbTrail').html(result.breadcrumbTrail);
 
             session.setItem('currentWikiId', result.newWikiId);
 
