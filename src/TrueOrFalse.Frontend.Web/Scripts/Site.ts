@@ -303,7 +303,7 @@ function UpdateBreadCrumb() {
 
             session.setItem('currentWikiId', result.newWikiId);
 
-            window.s = new StickyHeaderClass();
+            s = new StickyHeaderClass();
         },
     });
 }
