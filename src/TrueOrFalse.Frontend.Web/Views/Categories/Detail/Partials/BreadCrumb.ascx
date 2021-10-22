@@ -4,18 +4,19 @@
 <% var userSession = new SessionUser();
    var user = userSession.User;
    string userImage = "";
+   string toolTipToHomepage = "Zur Startseite";
 
    if (Model.IsLoggedIn)
    {
        var imageSetttings = new UserImageSettings(userSession.User.Id);
        userImage = imageSetttings.GetUrl_30px_square(userSession.User).Url;
+       toolTipToHomepage = "Zu deinem Wiki";
    }
-   var url = "/";
 %>
 
 <div id="BreadCrumbContainer" class="container">
     <span>
-        <a href="<%= url %>" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="Zur Startseite">
+        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="<%= toolTipToHomepage %>">
             <i class="fas fa-home"></i>
         </a>
     </span>
