@@ -326,4 +326,5 @@ $(() => {
     InitClickLog();
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
     UpdateBreadCrumb();
+    LoadInfoBanner();
 });
