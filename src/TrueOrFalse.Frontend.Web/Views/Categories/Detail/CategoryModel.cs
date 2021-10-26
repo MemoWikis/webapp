@@ -69,6 +69,8 @@ public class CategoryModel : BaseContentModule
     public string ImageGuid { get; set; }
     public string ImageLicenseOwner { get; set; }
     public bool IsMyWorld { get; set; }
+    public bool IsWiki { get; set; }
+
     
     public EditQuestionModel EditQuestionModel;
 
@@ -78,14 +80,17 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
-        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered; 
-        TopNavMenu.BreadCrumbCategories = CrumbtrailService.Get(category, RootCategory.Get);
+        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
+        IsWiki = category.IsWiki() || RootCategory.RootCategoryId == category.Id;
+        var currentRootWiki = CrumbtrailService.GetWiki(category);
+        _sessionUser.SetWikiId(currentRootWiki);
+        TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
         var safeText =  category.Content == null ? null : Regex.Replace(category.Content, "<.*?>", ""); ; 
         
-            MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
+        MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
@@ -173,6 +178,8 @@ public class CategoryModel : BaseContentModule
 
         EditQuestionModel = editQuestionModel;
     }
+
+
 
     private List<Question> GetTopQuestionsInSubCats()
     {

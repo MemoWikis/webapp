@@ -277,6 +277,37 @@ function OpenInfo(url) {
     window.location.href = url;
 }
 
+function UpdateBreadCrumb() {
+    var session = window.sessionStorage;
+    var currentCategoryId = $('#hhdCategoryId').val();
+    if ($('#hddIsWiki').val() == 'True')
+        session.setItem('currentWikiId', currentCategoryId);
+    var sessionWikiId = parseInt(session.getItem('currentWikiId'));
+
+    var currentWikiId = 0;
+    if (!isNaN(sessionWikiId))
+        currentWikiId = sessionWikiId;
+
+    var json = {
+        wikiId: currentWikiId,
+        currentCategoryId: currentCategoryId,
+    }
+    $.ajax({
+        type: 'Post',
+        contentType: "application/json",
+        url: '/BreadcrumbApi/SetWiki',
+        data: JSON.stringify(json),
+        success: function (result) {
+            $('#FirstChevron').replaceWith(result.firstChevron);
+            $('#BreadCrumbTrail').html(result.breadcrumbTrail);
+
+            session.setItem('currentWikiId', result.newWikiId);
+
+            s = new StickyHeaderClass();
+        },
+    });
+}
+
 $(() => {
 
     new Site();
@@ -294,4 +325,6 @@ $(() => {
     Allowed_only_for_active_users();
     InitClickLog();
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
+    UpdateBreadCrumb();
+    LoadInfoBanner();
 });

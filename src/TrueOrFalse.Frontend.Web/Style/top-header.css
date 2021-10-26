@@ -658,3 +658,10 @@
 #BreadCrumbContainer.search-is-open #StickyHeaderContainer input {
   max-width: 400px;
 }
+#BreadCrumbContainer #BreadcrumbDivider {
+  width: 1px;
+  background-color: #DDDDDD;
+  height: 29px;
+  min-width: 1px;
+  margin-left: 10px;
+}

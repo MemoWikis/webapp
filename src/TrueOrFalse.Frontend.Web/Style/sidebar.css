@@ -9,7 +9,7 @@
 }@media (max-width: 649px) {
 }@media (min-width: 650px) {
 }.SidebarCardMixin {
-  border: #d6d6d6 solid 0.03125em;
+  border: #DDDDDD solid 0.03125em;
   margin-bottom: 1.25em;
 }
 .SidebarCardMixin a {
@@ -54,7 +54,7 @@
   max-width: 252px;
 }
 #SidebarCards #AutorCard {
-  border: #d6d6d6 solid 0.03125em;
+  border: #DDDDDD solid 0.03125em;
   margin-bottom: 1.25em;
   min-height: 10.75em;
   display: flex;
@@ -103,7 +103,7 @@
   color: #0560AB;
 }
 #SidebarCards #MultipleAutorCard {
-  border: #d6d6d6 solid 0.03125em;
+  border: #DDDDDD solid 0.03125em;
   margin-bottom: 1.25em;
   padding: 0 0.67em 0 0.6em;
 }
@@ -159,7 +159,7 @@
   overflow: hidden;
 }
 #SidebarCards #ActivityPointsCard {
-  border: #d6d6d6 solid 0.03125em;
+  border: #DDDDDD solid 0.03125em;
   margin-bottom: 1.25em;
   padding: 0 0.67em 0 0.6em;
 }
@@ -171,7 +171,7 @@
 }
 #SidebarCards #CategorySuggestionCard,
 #SidebarCards #CreateQuestionCard {
-  border: #d6d6d6 solid 0.03125em;
+  border: #DDDDDD solid 0.03125em;
   margin-bottom: 1.25em;
   display: flex;
   flex-direction: column;
@@ -191,7 +191,7 @@
   text-align: center;
 }
 #SidebarCards #EduPartnerCard {
-  border: #d6d6d6 solid 0.03125em;
+  border: #DDDDDD solid 0.03125em;
   margin-bottom: 1.25em;
   padding: 0.9375em;
   padding-bottom: 0.3125em;

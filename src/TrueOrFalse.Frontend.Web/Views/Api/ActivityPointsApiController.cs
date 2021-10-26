@@ -17,15 +17,15 @@ public class ActivityPointsApiController : BaseController
 
         if (!isLoggedIn)
         {
-            var oldUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints());
+            var oldUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.GetTotalActivityPoints());
             Sl.SessionUser.AddPointActivity(activityPoints);
-            var newUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints());
+            var newUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.GetTotalActivityPoints());
 
             var levelPopupAsHtml = "";
             if (oldUserLevel < newUserLevel)
-                levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(newUserLevel, Sl.SessionUser.getTotalActivityPoints(), false), ControllerContext);
+                levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(newUserLevel, Sl.SessionUser.GetTotalActivityPoints(), false), ControllerContext);
 
-            return new JsonResult { Data = new { totalPoints = Sl.SessionUser.getTotalActivityPoints(), levelPopup = levelPopupAsHtml} };
+            return new JsonResult { Data = new { totalPoints = Sl.SessionUser.GetTotalActivityPoints(), levelPopup = levelPopupAsHtml} };
         }
 
         if (isLoggedIn)

@@ -2523,3 +2523,6 @@ input::placeholder {
 #MemuchoInfoBanner.show-banner .container #BannerContainer {
   min-height: 95px;
 }
+.border-bottom-grey {
+  border-bottom: solid 1px #DDDDDD;
+}

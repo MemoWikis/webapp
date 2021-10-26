@@ -260,4 +260,9 @@ public class CategoryCacheItem
             cr.CategoryRelationType == categoryRelation.CategoryRelationType 
         );
     }
+
+    public bool IsWiki()
+    {
+        return Id == Creator.StartTopicId;
+    }
 }

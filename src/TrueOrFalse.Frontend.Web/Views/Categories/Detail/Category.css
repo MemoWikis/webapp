@@ -1299,7 +1299,7 @@ p:empty {
 #CategoryFooter #Footer-CategoryLearning,
 #CategoryFooter #Footer-CategoryNetwork {
   padding: 30px 0;
-  border-top: solid 1px #d6d6d6;
+  border-top: solid 1px #DDDDDD;
 }
 @media (max-width: 991px) {
   #MasterMainWrapper {
@@ -1628,7 +1628,7 @@ p:empty {
   padding-top: 20px;
 }
 .contentModuleSettings .selectModuleContainer .moduleSection.bottomBorder {
-  border-bottom: solid 1px #d6d6d6;
+  border-bottom: solid 1px #DDDDDD;
 }
 .contentModuleSettings .selectModuleContainer .moduleSection .mainModules {
   -webkit-box-orient: horizontal;
@@ -2338,7 +2338,7 @@ p:empty {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   background: #fff;
-  border-color: #D6D6D6;
+  border-color: #DDDDDD;
   border-width: 0.1px;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
           box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
@@ -2356,7 +2356,7 @@ p:empty {
   height: 12px;
   border-radius: 50%;
   background: #fff;
-  border-color: #D6D6D6;
+  border-color: #DDDDDD;
   border-width: 0.1px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -2376,7 +2376,7 @@ p:empty {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding-bottom: 10px;
-  border-bottom: solid 1px #d6d6d6;
+  border-bottom: solid 1px #DDDDDD;
 }
 #KnowledgeGraphTools #graphToolbar #graphDropdownMenu .sliderContainer #GraphSelectionContainer .dropdown-toggle,
 #KnowledgeGraphTools #knowledgeGraphFullscreen #graphDropdownMenu .sliderContainer #GraphSelectionContainer .dropdown-toggle,

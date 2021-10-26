@@ -1,4 +1,5 @@
-﻿
+﻿declare var s: any;
+
 class StickyHeaderClass {
     private _breadcrumb;
     private _header;
@@ -289,8 +290,3 @@ class StickyHeaderClass {
         this._isAddEllipsis = true;
     }
 }
-
-$(() => {
-    if (!Utils.IsInWidget())
-        var s = new StickyHeaderClass();
-});
