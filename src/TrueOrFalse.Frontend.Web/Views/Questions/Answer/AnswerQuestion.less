@@ -771,22 +771,34 @@
 }
 
 .commentSettledInfo {
-    color: darkgray;
+    color: @memo-grey-dark;
     margin: 32px 0 0 0;
 }
-.commentAnswersContainer{
-    padding-top:25px;
+
+.commentAnswersContainer {
+    padding-top: 25px;
 }
+
 .commentPanel {
+    background-color: #0032640A;
+    margin-bottom: 24px;
+}
+
+.commentPanelSpace {
     margin-top: 18px;
-    background-color: #EFEFEF;
     padding-top: 16px;
+}
+
+.commentEditor {
+    color: @memo-grey-dark !important;
+    font-size:14px !important;
+    height:42px;
 }
 
 .commentUserImg {
     border-radius: 50%;
     max-height: 20px;
-    padding-right: 8px;
+    padding-right: 4px;
 }
 
 .commentUserDetails {
@@ -795,14 +807,16 @@
 }
 
 .commentUserName {
-    font-size: 12px;
-    line-height:18px;
+    font-size: 14px;
+    line-height: 18px;
     vertical-align: middle;
-    padding-right: 1em;
+    padding-right: 8px;
 }
 
 .commentDate {
     font-size: 12px;
+    color: @memo-grey-dark;
+    vertical-align: middle;
 }
 
 .commentModalImproveText {
@@ -840,29 +854,23 @@
     font-size: 18px;
     line-height: 22px;
     max-width: 600px;
-    color: #555555;
+    color: @memo-grey-darker;
 }
 
 .pointer {
     cursor: pointer;
 }
 
-.settledCommentTag {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
 
 .commentSettledBox {
-    background: #555555;
+    background: @memo-grey-darker;
     color: white;
     border-radius: 4px;
     line-height: 16px;
     font-size: 12px;
     text-align: center;
-    padding: 6px 18px 6px 8px;
+    padding: 8px 8px 8px 8px;
+    margin-right: 16px;
 }
 
 .commentTextContainer {
@@ -870,7 +878,7 @@
 }
 
 .commentText {
-    color: #555555;
+    color: @memo-grey-darker;
     width: 800px;
 }
 
@@ -892,23 +900,23 @@
 
 .commentThumbsIcon {
     font-size: 16px;
-    color: #767676;
+    color: @memo-grey-dark;
     padding-right: 24px;
     padding-left: 156px;
 }
 
 .commentSpeechBubbleIcon {
     font-size: 14px;
-    color: #767676;
+    color: @memo-grey-dark;
     cursor: pointer;
 }
 
-.commentSpeechBubbleText{
-    font-size:12px;
+.commentSpeechBubbleText {
+    font-size: 14px;
 }
 
 commentAnswersCount {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .commentMarkAsSettledContainer {
@@ -943,13 +951,13 @@ commentAnswersCount {
 
 .answerBorder {
     border-bottom: 1px solid #DDDDDD;
-    width: 50%;
+    width: 75%;
     padding-bottom: 5em;
     margin-left: 24%;
 }
 
 .commentAnswerCreationDate {
-    color: #767676;
+    color: @memo-grey-dark;
     font-size: 12px;
     line-height: 18px;
 }
@@ -963,10 +971,11 @@ commentAnswersCount {
 .addCommentUsrImg {
     border-radius: 50%;
     max-height: 48px;
+    padding-right: 10px;
 }
 
 .addCommentTitle {
-    color: #767676;
+    color: @memo-grey-dark;
     font-size: 12px;
     line-height: 18px;
     text-transform: uppercase;

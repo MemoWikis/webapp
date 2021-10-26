@@ -72,7 +72,7 @@
   transition: 0.2s;
   align-items: center;
   min-height: 150px;
-  color: #999999;
+  color: #767676;
   cursor: pointer;
   margin-left: 0;
   margin-right: 0;
@@ -157,7 +157,7 @@
   transition: all 0.3s ease-in-out;
 }
 #Segmentation .DropdownButton a.dropdown-toggle i.fa-ellipsis-v {
-  color: #999999;
+  color: #767676;
   transition: all 0.3s ease-in-out;
 }
 #Segmentation .hover .DropdownButton a.dropdown-toggle:hover {
@@ -167,5 +167,5 @@
   color: #203256;
 }
 #Segmentation .set-question-count a.sub-label {
-  color: #999999;
+  color: #767676;
 }

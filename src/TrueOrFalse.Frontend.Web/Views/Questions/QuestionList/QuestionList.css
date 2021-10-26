@@ -22,7 +22,7 @@
 }
 #QuestionListApp #QuestionListHeaderDropDown .btn {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
   transition: all 0.1s ease-in-out;
 }
 #QuestionListApp #QuestionListHeaderDropDown .btn:hover {
@@ -61,7 +61,7 @@
 }
 #QuestionListApp .rootElement #CustomSessionConfigBtn.btn {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
   transition: all 0.1s ease-in-out;
 }
 #QuestionListApp .rootElement #CustomSessionConfigBtn.btn:hover {
@@ -75,7 +75,7 @@
   }
 }
 #QuestionListApp #QuestionFooterIcons .btn-link {
-  color: #999999 !important;
+  color: #767676 !important;
 }
 #QuestionListApp .drop-down-question-sort {
   display: flex;
@@ -388,7 +388,7 @@
   }
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons {
-  color: #999999;
+  color: #767676;
   font-size: 11px;
   margin: 0;
   display: flex;
@@ -397,7 +397,7 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionFooterIcons a.commentIcon {
   text-decoration: none;
-  color: #999999;
+  color: #767676;
   font-size: 14px;
   cursor: pointer;
 }
@@ -571,7 +571,7 @@
   color: #ff001f;
 }
 #QuestionListApp #AddInlineQuestionContainer .wuwi-grey {
-  color: #999999;
+  color: #767676;
 }
 #QuestionListApp.no-questions {
   background: none;

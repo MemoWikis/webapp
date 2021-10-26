@@ -7,6 +7,7 @@ public class CommentModel
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
+    public string CreatorUrl;
     public string ImageUrl;
     public string Title;
     public string Text;
@@ -30,6 +31,7 @@ public class CommentModel
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
+        CreatorUrl = "/Nutzer/" + comment.Creator.Name + "/" + comment.Creator.Id;
         ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator).Url;
         Title = comment.Title ?? "";
         Text = comment.Text;

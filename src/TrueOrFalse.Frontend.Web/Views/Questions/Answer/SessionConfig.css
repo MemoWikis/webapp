@@ -103,7 +103,7 @@
   padding-left: 20px;
 }
 #SessionConfigModal .modal-body .test-mode-info {
-  color: #999999;
+  color: #767676;
   font-size: 12px;
   margin-top: 16px;
   max-width: 485px;
@@ -224,7 +224,7 @@
   color: #555555;
 }
 #SessionConfigModal .modal-body #SafeLearnOptions .info-options {
-  color: #999999;
+  color: #767676;
   margin-top: 13px;
   max-width: 344px;
   font-size: 12px;

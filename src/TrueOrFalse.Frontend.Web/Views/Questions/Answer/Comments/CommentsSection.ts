@@ -30,7 +30,7 @@ Vue.component('comment-section-component',
                 currentUserId: 0,
                 showSettledComments: false,
                 commentsLoaded: false,
-                currentUserName: 'Garsek'
+                currentUserName: ''
             };
         },
         template: '#comment-section-component',

@@ -470,7 +470,7 @@ p:empty {
 .setCardMiniList .topic .KnowledgeBarLegend,
 .topicNavigation .setCardMini .KnowledgeBarLegend,
 .setCardMiniList .setCardMini .KnowledgeBarLegend {
-  color: #999999;
+  color: #767676;
   font-size: 12px;
   line-height: 1.5em;
   opacity: 0;
@@ -887,7 +887,7 @@ p:empty {
   height: auto;
 }
 #CategoryHeader .LicenseInfo {
-  color: #999999;
+  color: #767676;
   text-align: center;
 }
 #CategoryHeader #Management {
@@ -947,7 +947,7 @@ p:empty {
   text-align: center;
   font-size: 10px;
   line-height: 10px;
-  color: #999999;
+  color: #767676;
 }
 #CategoryHeader .category-sub-header {
   display: -webkit-box;
@@ -1068,7 +1068,7 @@ p:empty {
   display: inline;
   padding-left: 3px;
   font-size: 12px;
-  color: #999999;
+  color: #767676;
   text-transform: uppercase;
   vertical-align: middle;
   -webkit-transition: color 0.3s ease;
@@ -1089,7 +1089,7 @@ p:empty {
   display: none;
 }
 #CategoryHeader .Buttons .Pin:hover .Text.showOnHover {
-  color: #999999 !important;
+  color: #767676 !important;
   display: unset;
 }
 #CategoryHeader .Buttons .Pin:hover i {
@@ -1098,7 +1098,7 @@ p:empty {
 #CategoryHeader .Buttons .dropdown-toggle,
 #CategoryHeader .Buttons .header-savebtn {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
 }
 #CategoryHeader .Buttons .dropdown-toggle:hover,
 #CategoryHeader .Buttons .header-savebtn:hover,
@@ -1284,7 +1284,7 @@ p:empty {
   display: block;
   height: 100%;
   line-height: 44px;
-  color: #999999;
+  color: #767676;
 }
 #CategoryFooter .footerToolbar .footerDropdown {
   padding-top: 8px;
@@ -1294,7 +1294,7 @@ p:empty {
 }
 #CategoryFooter .footerToolbar .footerDropdown .fa-ellipsis-v {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
 }
 #CategoryFooter #Footer-CategoryLearning,
 #CategoryFooter #Footer-CategoryNetwork {
@@ -1889,7 +1889,7 @@ p:empty {
 }
 .ContentModule .ModuleBorder .singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend,
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
-  color: #999999;
+  color: #767676;
   margin-top: -10px;
   font-size: 12px;
   line-height: 1.5em;
@@ -2097,7 +2097,7 @@ p:empty {
 }
 .ContentModule .ButtonWrapper .Button .ButtonEllipsis {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
 }
 .ContentModule .ButtonWrapper .Button .delete {
   border-top: 1px solid #ccc;
@@ -2109,7 +2109,7 @@ p:empty {
   left: -50px;
   margin-top: -50px;
   font-size: 18px;
-  color: #999999;
+  color: #767676;
   width: 40px;
   height: 100px;
   display: -webkit-box;
@@ -2174,7 +2174,7 @@ p:empty {
 }
 .ContentModule .ModuleHandle .ModuleHandleInner .ButtonEllipsis {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
 }
 #ContentModulePlaceholder {
   width: 100%;
@@ -2229,7 +2229,7 @@ p:empty {
 #KnowledgeGraphTools #knowledgeGraphFullscreen,
 #KnowledgeGraphTools #knowledgeBarCheckBox {
   padding: 0 5px;
-  color: #999999;
+  color: #767676;
   line-height: 20px;
   vertical-align: middle;
 }
@@ -2536,7 +2536,7 @@ p:empty {
 #KnowledgeGraphTools #knowledgeGraphFullscreen i,
 #KnowledgeGraphTools #knowledgeBarCheckBox i {
   font-size: 18px;
-  color: #999999;
+  color: #767676;
 }
 #KnowledgeGraphTools #knowledgeGraphFullscreen {
   padding: 0;
@@ -2572,7 +2572,7 @@ p:empty {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #999999;
+  background-color: #767676;
   -webkit-transition: 0.1s;
   transition: 0.1s;
   -webkit-border-radius: 60px;
@@ -2605,7 +2605,7 @@ p:empty {
 #KnowledgeGraphHelpText {
   padding-left: 20px;
   font-size: 14px;
-  color: #999999;
+  color: #767676;
 }
 .setQuestionCount .Pin .fa-heart-o,
 .ItemInfo .Pin .fa-heart-o,

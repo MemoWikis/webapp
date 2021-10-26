@@ -23,7 +23,6 @@ Vue.component('comment-component',
 
         created() {
             const self = this;
-            self.foldOut = !self.comment.IsSettled;
             self.isOwner = self.comment.ImageUrl == self.currentUserImageUrl;
         },
 
@@ -60,7 +59,10 @@ Vue.component('comment-component',
                         console.log(e);
                         window.alert("Ein Fehler ist aufgetreten");
                     }
-                })
+                });
+            },
+            emitSaveAnswer() {
+                eventBus.$emit('saveAnswer');
             }
         }
     });
@@ -90,6 +92,9 @@ Vue.component('add-comment-component',
         },
 
         methods: {
+            cancel() {
+                eventBus.$emit('close-modal');
+            },
 
             initQuickCreate() {
                 var self = this;
@@ -192,8 +197,12 @@ Vue.component('comment-answer-add-component',
 
         template: '#comment-answer-add-component',
 
-        mounted() {
+        created() {
 
+            var self = this;
+            eventBus.$on('saveAnswer', function () {
+                self.saveCommentAnswer();
+            });
         },
 
         methods: {

@@ -52,7 +52,7 @@
 .CardsMiniPortrait .CardMiniColumn .LicenseInfo {
   margin-left: 8px;
   margin-right: 8px;
-  color: #999999;
+  color: #767676;
 }
 .CardsMiniPortrait .CardMiniColumn .LicenseInfo {
   line-height: 18px;
@@ -121,7 +121,7 @@ h2 {
 h3 {
   font-size: 26px;
   font-weight: 600;
-  color: #999999;
+  color: #767676;
   text-align: center;
 }
 h4 {
@@ -194,7 +194,7 @@ h4 {
   margin-top: 0;
   margin-bottom: 50px;
   text-align: center;
-  color: #999999;
+  color: #767676;
   font-size: 22px;
 }
 .EduCategoryRow {
@@ -588,7 +588,7 @@ fieldset[disabled] .EduCategory.active {
 #ContentAvailable .EduCategoryLinkCard .EduCategoryTextSub {
   display: inline-block;
   margin-top: 20px;
-  color: #999999;
+  color: #767676;
   font-weight: 500;
 }
 /* BLOGPOST CAROUSEL
@@ -620,12 +620,12 @@ fieldset[disabled] .EduCategory.active {
   max-height: 200px;
 }
 #blogposts .carousel .carousel-inner .carousel-img .img-caption {
-  color: #999999;
+  color: #767676;
   font-size: smaller;
 }
 #blogposts .carousel .carousel-inner p.authorInfo {
   margin-bottom: 0px;
-  color: #999999;
+  color: #767676;
   font-size: smaller;
 }
 #blogposts .carousel .carousel-inner h4 {

@@ -840,35 +840,45 @@
   max-height: calc(100vh - 80px);
 }
 .commentSettledInfo {
-  color: darkgray;
+  color: #767676;
   margin: 32px 0 0 0;
 }
 .commentAnswersContainer {
   padding-top: 25px;
 }
 .commentPanel {
+  background-color: #0032640A;
+  margin-bottom: 24px;
+}
+.commentPanelSpace {
   margin-top: 18px;
-  background-color: #EFEFEF;
   padding-top: 16px;
+}
+.commentEditor {
+  color: #767676 !important;
+  font-size: 14px !important;
+  height: 42px;
 }
 .commentUserImg {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   max-height: 20px;
-  padding-right: 8px;
+  padding-right: 4px;
 }
 .commentUserDetails {
   padding-bottom: 12px;
   padding-left: 0;
 }
 .commentUserName {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   vertical-align: middle;
-  padding-right: 1em;
+  padding-right: 8px;
 }
 .commentDate {
   font-size: 12px;
+  color: #767676;
+  vertical-align: middle;
 }
 .commentModalImproveText {
   float: left;
@@ -905,14 +915,6 @@
 .pointer {
   cursor: pointer;
 }
-.settledCommentTag {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
 .commentSettledBox {
   background: #555555;
   color: white;
@@ -921,7 +923,8 @@
   line-height: 16px;
   font-size: 12px;
   text-align: center;
-  padding: 6px 18px 6px 8px;
+  padding: 8px 8px 8px 8px;
+  margin-right: 16px;
 }
 .commentTextContainer {
   padding: 1em 0 2em 0;
@@ -955,10 +958,10 @@
   cursor: pointer;
 }
 .commentSpeechBubbleText {
-  font-size: 12px;
+  font-size: 14px;
 }
 commentAnswersCount {
-  font-size: 12px;
+  font-size: 14px;
 }
 .commentMarkAsSettledContainer {
   position: absolute;
@@ -986,7 +989,7 @@ commentAnswersCount {
 }
 .answerBorder {
   border-bottom: 1px solid #DDDDDD;
-  width: 50%;
+  width: 75%;
   padding-bottom: 5em;
   margin-left: 24%;
 }
@@ -1005,6 +1008,7 @@ commentAnswersCount {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   max-height: 48px;
+  padding-right: 10px;
 }
 .addCommentTitle {
   color: #767676;

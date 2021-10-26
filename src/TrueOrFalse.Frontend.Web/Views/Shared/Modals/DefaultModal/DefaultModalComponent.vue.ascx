@@ -2,7 +2,7 @@
     <div class="modal-default-mask" @click="closeModal()">
         <div class="modal-default-wrapper">
             <div class="modal-default-container" v-on:click.stop>
-                <i v-if="showCloseButton" class="fa fa-times pull-right pointer modal-close-button" @click="closeModal()"></i>
+                <img v-if="showCloseButton" src="/img/close_black.svg" class="pull-right pointer modal-close-button" @click="closeModal()"/>
                 <div class="modal-default-header">
                     <slot name="header">
                     </slot>

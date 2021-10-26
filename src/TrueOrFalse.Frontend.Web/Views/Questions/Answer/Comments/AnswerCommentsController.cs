@@ -71,14 +71,6 @@ public class AnswerCommentsController : BaseController
         //todo: inform comment-creator and question-owner with message of changed status
     }
 
-    //[HttpPost]
-    //public ActionResult GetAllAnswersInclSettledHtml(int commentId)
-    //{
-    //    var comment = Resolve<CommentRepository>().GetById(commentId);
-
-    //    return View("~/Views/Questions/Answer/Comments/Comment.vue.ascx",
-    //        new CommentModel(comment, true));
-    //}
 
     [HttpPost]
     public List<CommentModel> GetAllCommentsInclSettledHtml(int questionId)

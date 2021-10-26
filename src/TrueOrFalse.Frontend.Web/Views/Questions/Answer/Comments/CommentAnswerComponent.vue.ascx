@@ -4,11 +4,11 @@
     </div>
     <div class="col-xs-9 commentUserDetails">
         <div>
-            <span>
+            <a class="pointer" :href="answer.CreatorUrl">
                 <img class="commentUserImg" :src="answer.ImageUrl">
-                <a :href="answer.ImageUrl">{{answer.CreatorName}}</a>
-                <span class="commentAnswerCreationDate">vor {{answer.CreationDateNiceText}}</span>
-            </span>
+                <a class="commentUserName" >{{answer.CreatorName}}</a>
+            </a>
+            <span class="commentDate">vor {{answer.CreationDateNiceText}}</span>
             <span v-if="answer.isSettled">
                 <br />
                 <span class="commentSettledInfo"><i class="fa fa-check">&nbsp;</i>Dieser Kommentar wurde als erledigt markiert.</span>
