@@ -2009,8 +2009,6 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionListComponent.js">
       <DependentUpon>QuestionListComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionRowDelete.js" />
-    <Content Include="Views\Questions\Js\ToQuestionSet.js" />
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.js">
       <DependentUpon>QuestionCommentSectionModalComponentLoader.ts</DependentUpon>
@@ -4204,8 +4202,6 @@
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponent.js.map" />
     <Content Include="Views\Shared\Modals\ErrorModal\ErrorModalComponentLoader.js.map" />
-    <Content Include="Views\Questions\Js\QuestionRowDelete.js.map" />
-    <Content Include="Views\Questions\Js\ToQuestionSet.js.map" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
