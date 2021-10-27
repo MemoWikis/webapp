@@ -110,11 +110,15 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js")
                 .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
+
             bundles.Add(new ScriptBundle("~/bundles/js/d3")
                 .Include("~/Scripts/npm/d3/d3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/alertModal")
-                .IncludeDirectory("~/Views/Shared/Modals/AlertModal/","*.js"));
+                .IncludeDirectory("~/Views/Shared/Modals/AlertModal/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/defaultModal")
+                .IncludeDirectory("~/Views/Shared/Modals/DefaultModal/", "*.js"));
 
             bundles.Add(new Bundle("~/bundles/js/tiptap")
                 .IncludeDirectory("~/Scripts/npm/tiptap-build/", "*.js"));
@@ -152,12 +156,13 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
                 .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/FloatingActionButton.js"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/js/TopicTabFABLoader")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/TopicTabFabLoader.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
                 .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
+
 
             bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
                 .Include("~/Views/Categories/History/*.css"));
@@ -216,7 +221,13 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
-                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js"));
+                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js")
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
+                .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
+                .IncludeDirectory("~/Views/Questions/Answer/Comments/","*.js")
+                );
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
@@ -232,6 +243,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListApp")
+                .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
@@ -302,7 +314,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Js/WishKnowledgeContent.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
-                .Include("~/Views/Knowledge/Js/_dashboard.js")); 
+                .Include("~/Views/Knowledge/Js/_dashboard.js"));
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
                 .Include("~/Views/Knowledge/Css/_dashBoard.css"));

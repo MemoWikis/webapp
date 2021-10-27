@@ -4,9 +4,12 @@
 <script type="text/x-template" id="pin-wuwi-template">
     <%: Html.Partial("~/Views/Shared/PinComponentVue/PinComponent.vue.ascx") %>
 </script>
+<%: Html.Partial("~/Views/Questions/Modals/QuestionCommentSectionModalTemplate.vue.ascx") %>
 <%= Styles.Render("~/bundles/QuestionList") %>
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
+
+
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
     <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
         <h4 class="header"><span class="hidden-xs">Du lernst</span> <b>{{selectedQuestionCount}}</b> Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionsCountFromCategory}})</h4>
@@ -34,17 +37,13 @@
                     <div class="dropdown-icon"><i class="fa fa-play"></i></div><span>Fragen jetzt lernen</span>
                 </a></li>
             </ul>
-        </div>
+            </div>
         </div>
     </div>
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
-    <delete-question-component <%= Sl.SessionUser.IsInstallationAdmin %>/>
+    <div>
+    <question-comment-section-modal-component :comment-is-loaded="commentIsLoaded" :question-id="commentQuestionId"/>
+    </div>
 </div>
 
 <%= Scripts.Render("~/bundles/js/QuestionListApp") %>
-
-
-
-
-
-

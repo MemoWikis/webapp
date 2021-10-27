@@ -83,7 +83,3 @@
             </div>
         </div>
     </question-list-component>
-
-
-
-

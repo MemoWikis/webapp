@@ -97,7 +97,6 @@
     ShowAddAnswer(e: BaseJQueryEventObject, buttonElem : JQuery) {
 
         e.preventDefault();
-
         var self = this;
         buttonElem = $(buttonElem);
 
@@ -127,7 +126,6 @@
 
         e.preventDefault();
         var self = this;
-
         var params = {
             commentId: commentId,
             text: $(divAnswerEdit.find("textarea")[0]).val()
@@ -198,6 +196,7 @@
             data: { commentId: commentId },
             cache: false,
             success(data) {
+                
                 var commentDiv = buttonElem.parents(".comment");
                 commentDiv.html(data);
                 commentDiv.animate({ opacity: 0.00 }, 0)

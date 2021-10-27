@@ -105,6 +105,10 @@
         },
     },
     methods: {
+        showModal() {
+            eventBus.$emit('show-comment-section-modal', this.questionId);
+        },
+
         abbreviateNumber(val) {
             var newVal;
             if (val < 1000000) {

@@ -1,41 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using WebGrease.Css.Extensions;
+
 
 public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
-    public ActionResult SaveComment(
-        int questionId, 
-        string text,
-        bool? typeImprovement,
-        bool? typeRemove,
-        string typeKeys)
+    public CommentModel SaveComment(SaveCommentJson saveCommentJson)
     {
         var comment = new Comment();
         comment.Type = CommentType.AnswerQuestion;
-        comment.TypeId = questionId;
-        comment.Text = text;
+        comment.TypeId = saveCommentJson.questionId;
+        comment.Text = saveCommentJson.text;
+        comment.Title = saveCommentJson.title;
         comment.Creator = _sessionUser.User;
 
-        if(typeImprovement.HasValue)
-            comment.ShouldImprove = typeImprovement.Value;
-
-        if (typeRemove.HasValue)
-            comment.ShouldRemove = typeRemove.Value;
-
-        if (!String.IsNullOrEmpty(typeKeys))
-            comment.ShouldKeys = typeKeys;
 
         Resolve<CommentRepository>().Create(comment);
 
-        return View("~/Views/Questions/Answer/Comments/Comment.ascx",
-            new CommentModel(comment));
+        var commentModel = new CommentModel(comment);
+
+        return commentModel;
+    }
+
+    public class SaveCommentJson
+    {
+        
+        public int questionId { get; set; }
+        public string text { get; set; }
+    public string title { get; set; }
     }
 
     [HttpPost]
-    public ActionResult SaveAnswer(int commentId, string text)
+    public bool SaveAnswer(int commentId, string text)
     {
         var commentRepo = Resolve<CommentRepository>();
         var parentComment = commentRepo.GetById(commentId);
@@ -49,14 +52,7 @@ public class AnswerCommentsController : BaseController
 
         commentRepo.Create(comment);
 
-        return View("~/Views/Questions/Answer/Comments/CommentAnswer.ascx",
-            new CommentModel(comment));
-    }
-
-    public ActionResult GetAnswerHtml()
-    {
-        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx",
-            new CommentAnswerAddModel());
+        return true;
     }
 
     [HttpPost]
@@ -75,28 +71,82 @@ public class AnswerCommentsController : BaseController
         //todo: inform comment-creator and question-owner with message of changed status
     }
 
-    [HttpPost]
-    public ActionResult GetAllAnswersInclSettledHtml(int commentId)
-    {
-        var comment = Resolve<CommentRepository>().GetById(commentId);
-
-        return View("~/Views/Questions/Answer/Comments/Comment.ascx",
-            new CommentModel(comment, true));
-    }
 
     [HttpPost]
-    public string GetAllCommentsInclSettledHtml(int questionId)
+    public List<CommentModel> GetAllCommentsInclSettledHtml(int questionId)
     {
         var comments = Resolve<CommentRepository>().GetForDisplay(questionId);
 
-        var result = new StringBuilder();
+        var result = new List<CommentModel>();
         foreach (var comment in comments)
         {
-            result.AppendLine("<div class=\"comment " + (comment.IsSettled ? "commentIsSettled" : "") + "\">");
-            result.AppendLine(ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/Comment.ascx", new CommentModel(comment), ControllerContext));
-            result.AppendLine("</div>");
+            result.Add(new CommentModel(comment));
         }
-        return result.ToString();
+        return result;
     }
 
+
+    [HttpPost]
+    public String GetCurrentUserImgUrl()
+    {
+        var currentUserImageUrl = new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
+        return currentUserImageUrl;
+    }
+
+    [HttpPost]
+    public int GetCurrentUserId()
+    {
+        return _sessionUser.User.Id;
+    }
+
+    [HttpPost]
+    public string GetCurrentUserName()
+    {
+        return _sessionUser.User.Name;
+    }
+
+    [HttpPost]
+    public String GetUserImgUrl(int userId)
+    {
+        var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
+        return userImageUrl;
+    }
+
+    [HttpPost]
+    public String GetComments(int questionId)
+    {
+        var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
+        var commentsList = new List<CommentModel>();
+        foreach (var comment in _comments)
+        {
+            if (!comment.IsSettled)
+            {
+                commentsList.Add(new CommentModel(comment));
+            }
+        }
+        var json = JsonConvert.SerializeObject(commentsList.ToArray(), Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        return json;
+    }
+
+    [HttpPost]
+    public String GetSettledComments(int questionId)
+    {
+        var _comments = Resolve<CommentRepository>().GetForDisplay(questionId);
+        var commentsList = new List<CommentModel>();
+        foreach (var comment in _comments)
+        {
+            if (comment.IsSettled)
+            {
+                commentsList.Add(new CommentModel(comment));
+            }
+        }
+        var json = JsonConvert.SerializeObject(commentsList.ToArray(), Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
+        return json;
+    }
 }

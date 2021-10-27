@@ -62,7 +62,6 @@ body {
   color: #203256;
   min-width: 280px;
   position: relative;
-  background-color: #F6F8FA;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -2376,6 +2375,46 @@ input::placeholder {
 .cardModal .modal-content .cardModalContent .modalFooter .memo-button {
   margin: 0;
 }
+.modal-default-mask {
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+.modal-default-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+.modal-default-container {
+  max-width: 50%;
+  margin: 0px auto;
+  padding: 64px 40px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  max-height: calc(100vh - 1em);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.modal-close-button {
+  margin-top: -30px;
+  float: right;
+  font-size: 24px;
+  color: #767676;
+}
+.modal-default-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+.modal-default-body {
+  margin: 20px 0;
+}
 .footer-links-memucho {
   margin-top: 40px;
 }
@@ -2485,4 +2524,10 @@ input::placeholder {
 }
 .border-bottom-grey {
   border-bottom: solid 1px #DDDDDD;
+}
+#AddCommentFormContainer .ProseMirror {
+  padding: 11px 16px 0;
+  min-height: 63px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
