@@ -14,6 +14,6 @@
   <debugUserNHProfiler>false</debugUserNHProfiler>
   <debugMiniProfiler>true</debugMiniProfiler>
 
-  <disableAllJobs>true</disableAllJobs>
+  <disableAllJobs>false</disableAllJobs>
 
 </configuration>

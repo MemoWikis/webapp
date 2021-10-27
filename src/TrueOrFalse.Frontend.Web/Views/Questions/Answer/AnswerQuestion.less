@@ -1,11 +1,11 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 .no-white-background;
 //Variables
-@BackgroundColorProgressBar: @memo-grey-lighter ;
+@BackgroundColorProgressBar: @memo-grey-lighter;
 @pixel3: 3px;
 
 //Mixins
-.font-size12-and-padding{
+.font-size12-and-padding {
     font-size: 12px;
     padding-top: 2px;
     padding-left: 10px;
@@ -18,16 +18,18 @@
 .CardsContentMargin {
     margin-left: 8px;
     margin-right: 8px;
-} 
+}
 
 .navLinks {
     float: right;
     margin-bottom: 10px;
 
-    .media-below-md({
+    .media-below-md( {
         width: 100%;
         float: none;
-    });
+    }
+
+    );
 
     & > div {
         display: inline-block !important;
@@ -146,6 +148,7 @@
             display: none;
         }
     }
+
     );
 }
 
@@ -180,7 +183,7 @@
 
 .SessionHeaderColumnWidth(@rightColWidthPercentage) {
     .QuestionCount, .EduPartnerWrapper {
-        width: @rightColWidthPercentage  * 1%;
+        width: @rightColWidthPercentage * 1%;
     }
 
     .SessionTitle {
@@ -345,7 +348,7 @@
     padding-right: 10px;
 
     &.TypeCategory {
-        line-height:44px;
+        line-height: 44px;
     }
 }
 
@@ -384,7 +387,7 @@
     line-height: @line-height-base;
 }
 
-#btnCheck, #btnNext{
+#btnCheck, #btnNext {
     padding-right: 10px;
 }
 
@@ -393,9 +396,11 @@
     padding-bottom: 20px;
     margin: 0;
 
-    .media-sm-up ({
+    .media-sm-up ( {
         padding-bottom: 30px;
-    });
+    }
+
+    );
 }
 
 
@@ -698,179 +703,435 @@
 }
 
 
-    /*---------------------------------------------------------------------------
+/*---------------------------------------------------------------------------
                                  FooterQuestionDetails
 -----------------------------------------------------------------------------*/
-    .FooterQuestionDetails {
-        color: @grey6x5;
-        padding-bottom: 10px;
+.FooterQuestionDetails {
+    color: @grey6x5;
+    padding-bottom: 10px;
 
-        .col-md-2 {
-            width: 20%;
+    .col-md-2 {
+        width: 20%;
 
-            .media-below-md( {
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            );
+        .media-below-md( {
+            width: 100%;
+            justify-content: flex-start;
         }
 
-        .col-md-10 {
-            width: 80%;
-            display: flex;
-            justify-content: center;
-            padding-top: 4px;
+        );
+    }
 
-            .media-below-md( {
-                width: 100%;
-                justify-content: flex-start;
-            }
+    .col-md-10 {
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        padding-top: 4px;
 
-            );
+        .media-below-md( {
+            width: 100%;
+            justify-content: flex-start;
         }
 
-        .TextLinkWithIcon {
-            flex-flow: row;
+        );
+    }
 
-            .TextDiv {
-                padding-top: 3px;
-            }
-        }
+    .TextLinkWithIcon {
+        flex-flow: row;
 
-        .created {
-            .font-size12-and-padding();
-            padding-left: 0;
-        }
-
-        .processed {
-            .font-size12-and-padding();
-        }
-
-        .comment-link {
-            margin-left: auto;
-            padding-right: 0;
-
-            .fa {
-                padding-right: 0;
-            }
-
-            .fa-comment {
-                color: #979797;
-            }
+        .TextDiv {
+            padding-top: 3px;
         }
     }
 
-    .commentSettledInfo {
-        color: darkgray;
+    .created {
+        .font-size12-and-padding();
+        padding-left: 0;
     }
 
-    .MarkdownImage {
-        img {
-            max-height: 500px;
-
-            .media-below-sm( {
-                max-height: 250px;
-            }
-
-            );
-        }
+    .processed {
+        .font-size12-and-padding();
     }
 
-    #MasterWidget {
-        #AnswerBody {
-            border: none;
-            box-shadow: none;
-            // padding: 0;
-            margin-bottom: 0;
-        }
+    .comment-link {
+        margin-left: auto;
+        padding-right: 0;
 
-        #LicenseQuestion {
-            margin-top: 10px;
-            // padding: 0;
-        }
-
-        #video-pager {
-            border: none;
-            padding-left: 0;
+        .fa {
             padding-right: 0;
         }
+
+        .fa-comment {
+            color: #979797;
+        }
     }
-    //MatchList
-    .matchlist-leftelementwrapper {
-        text-align: center;
+}
+
+.commentSection {
+    max-height: calc(100vh - 80px);
+}
+
+.commentSettledInfo {
+    color: @memo-grey-dark;
+    margin: 32px 0 0 0;
+}
+
+.commentAnswersContainer {
+    padding-top: 25px;
+}
+
+.commentPanel {
+    background-color: #0032640A;
+    margin-bottom: 24px;
+}
+
+.commentPanelSpace {
+    margin-top: 18px;
+    padding-top: 16px;
+}
+
+.commentEditor {
+    color: @memo-grey-dark !important;
+    font-size:14px !important;
+    height:42px;
+}
+
+.commentUserImg {
+    border-radius: 50%;
+    max-height: 20px;
+    padding-right: 4px;
+}
+
+.commentUserDetails {
+    padding-bottom: 12px;
+    padding-left: 0;
+}
+
+.commentUserName {
+    font-size: 14px;
+    line-height: 18px;
+    vertical-align: middle;
+    padding-right: 8px;
+}
+
+.commentDate {
+    font-size: 12px;
+    color: @memo-grey-dark;
+    vertical-align: middle;
+}
+
+.commentModalImproveText {
+    float: left;
+    position: relative;
+    top: -3px;
+    padding-left: 10px;
+    list-style-type: none;
+}
+
+.commentShouldReasonImprove {
+    float: left;
+}
+
+.commmentShouldReasonDelete {
+    float: left;
+    position: relative;
+    top: -3px;
+    padding-left: 10px;
+    list-style-type: none;
+}
+
+.commentImproveFire {
+    float: left;
+    color: tomato;
+}
+
+.comment-modal-title {
+    color: #003264;
+    font-size: 25px;
+    line-height: 34px;
+}
+
+.commentTitle {
+    font-size: 18px;
+    line-height: 22px;
+    max-width: 600px;
+    color: @memo-grey-darker;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+.commentSettledBox {
+    background: @memo-grey-darker;
+    color: white;
+    border-radius: 4px;
+    line-height: 16px;
+    font-size: 12px;
+    text-align: center;
+    padding: 8px 8px 8px 8px;
+    margin-right: 16px;
+}
+
+.commentTextContainer {
+    padding: 1em 0 2em 0;
+}
+
+.commentText {
+    color: @memo-grey-darker;
+    width: 800px;
+}
+
+.settledCommentsDescription {
+    text-align: right;
+}
+
+.commentIconsContainer {
+    position: relative;
+    bottom: -8px;
+    left: 124px;
+    cursor: pointer;
+}
+
+.commentButtonsContainer {
+    position: relative;
+    margin: 10px auto;
+}
+
+.commentThumbsIcon {
+    font-size: 16px;
+    color: @memo-grey-dark;
+    padding-right: 24px;
+    padding-left: 156px;
+}
+
+.commentSpeechBubbleIcon {
+    font-size: 14px;
+    color: @memo-grey-dark;
+    cursor: pointer;
+}
+
+.commentSpeechBubbleText {
+    font-size: 14px;
+}
+
+commentAnswersCount {
+    font-size: 14px;
+}
+
+.commentMarkAsSettledContainer {
+    position: absolute;
+    bottom: 8px;
+    right: 20px;
+}
+
+.commentFooterText {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.commentAnswers {
+    margin-top: 40px;
+}
+
+.answerTextContainer {
+    margin-top: 10px;
+}
+
+.answerFooter {
+    position: absolute;
+    right: 0;
+}
+
+.commentAnswersContainer {
+    background-color: white;
+    border: solid #DDDDDD;
+    border-width: 0px 1px 1px 1px;
+}
+
+.answerBorder {
+    border-bottom: 1px solid #DDDDDD;
+    width: 75%;
+    padding-bottom: 5em;
+    margin-left: 24%;
+}
+
+.commentAnswerCreationDate {
+    color: @memo-grey-dark;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.commentAnswerAddContainer {
+    margin-top: 7px;
+    border: none;
+    box-shadow: none;
+}
+
+.addCommentUsrImg {
+    border-radius: 50%;
+    max-height: 48px;
+    padding-right: 10px;
+}
+
+.addCommentTitle {
+    color: @memo-grey-dark;
+    font-size: 12px;
+    line-height: 18px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.addCommentInputTitle {
+    padding-bottom: 20px;
+}
+
+.commentAnswerAddTopBorder {
+    border-top: 1px solid #DDDDDD;
+}
+
+.commentAnswerAddTopSpace {
+    padding-top: 40px;
+}
+
+.commentAnswerAddTextArea {
+    resize: none;
+    width: 100%;
+    min-height: 96px;
+    border: none;
+    border-radius: 0;
+}
+
+.commentAnswerAddSaveSpace {
+    padding-top: 24px;
+}
+
+.commentAddContainer {
+    margin-top: 7px;
+    border: none;
+    padding-bottom: 64px;
+}
+
+.commentLoginContainer {
+    margin-bottom: 18px;
+}
+
+.commentLoginText {
+    padding-top: 10px;
+    color: darkgray
+}
+
+.c {
+    border: 1px solid #0065CA;
+    color: #0065ca
+}
+
+.MarkdownImage {
+    img {
+        max-height: 500px;
+
+        .media-below-sm( {
+            max-height: 250px;
+        }
+
+        );
+    }
+}
+
+#MasterWidget {
+    #AnswerBody {
+        border: none;
+        box-shadow: none;
+        // padding: 0;
+        margin-bottom: 0;
     }
 
-    .matchlist-pairrow {
-        margin-bottom: 10px;
-        margin-top: 2px;
-        display: flex;
-        align-content: center;
-        align-items: center;
+    #LicenseQuestion {
+        margin-top: 10px;
+        // padding: 0;
     }
 
-    .matchlist-droppable {
-        border: 1px dashed;
-        border-radius: 5px;
-        height: 33px;
-        min-width: 150px;
+    #video-pager {
+        border: none;
+        padding-left: 0;
+        padding-right: 0;
     }
+}
+//MatchList
+.matchlist-leftelementwrapper {
+    text-align: center;
+}
 
-    .matchlist-divider {
-        border-bottom: 1px solid;
-        margin: 20px 25% 0 25%;
-    }
+.matchlist-pairrow {
+    margin-bottom: 10px;
+    margin-top: 2px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
 
-    .matchlist-hovered {
-        background-color: gainsboro;
-    }
+.matchlist-droppable {
+    border: 1px dashed;
+    border-radius: 5px;
+    height: 33px;
+    min-width: 150px;
+}
 
-    #matchlist-rightelements {
-        margin-top: 20px;
-        padding: 0 13px 0 10px;
-        display: flex;
-        align-items: flex-start;
-        align-content: space-around;
-        flex-flow: row wrap;
-        justify-content: space-between;
-    }
+.matchlist-divider {
+    border-bottom: 1px solid;
+    margin: 20px 25% 0 25%;
+}
 
-    .matchlist-rightelement {
-        display: inline-block;
-        word-wrap: break-word;
-        border: 1px solid;
-        padding: 2px 0 3px 0;
-        border-radius: 3px;
-        margin: 10px 0 0 0;
-        cursor: move;
-        background-color: white;
-        text-align: center;
-        white-space: pre-wrap;
-    }
+.matchlist-hovered {
+    background-color: gainsboro;
+}
 
-    .matchlist-droppable-dropped {
-        height: initial;
-        padding: 2px;
-        display: inline-block;
-        width: 100%;
-    }
+#matchlist-rightelements {
+    margin-top: 20px;
+    padding: 0 13px 0 10px;
+    display: flex;
+    align-items: flex-start;
+    align-content: space-around;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
 
-    .matchlist-rightelement-dropped {
-        position: static !important;
-        margin: unset;
-        width: 100%;
-    }
-    //matchlist-mobile
-    .matchlist-mobilepairrow {
-        margin-bottom: 20px;
-    }
+.matchlist-rightelement {
+    display: inline-block;
+    word-wrap: break-word;
+    border: 1px solid;
+    padding: 2px 0 3px 0;
+    border-radius: 3px;
+    margin: 10px 0 0 0;
+    cursor: move;
+    background-color: white;
+    text-align: center;
+    white-space: pre-wrap;
+}
 
-    .matchlist-elementlabel {
-        text-align: left;
-        margin-bottom: 5px;
-        font-size: 16px;
-    }
-    //FlashCard
+.matchlist-droppable-dropped {
+    height: initial;
+    padding: 2px;
+    display: inline-block;
+    width: 100%;
+}
+
+.matchlist-rightelement-dropped {
+    position: static !important;
+    margin: unset;
+    width: 100%;
+}
+//matchlist-mobile
+.matchlist-mobilepairrow {
+    margin-bottom: 20px;
+}
+
+.matchlist-elementlabel {
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+//FlashCard
 #flashCardContent {
     min-height: 250px;
     cursor: pointer;
@@ -932,105 +1193,105 @@
     }
 }
 
-    .flashCardAnswerButtons > .btn {
-        margin-left: unset;
+.flashCardAnswerButtons > .btn {
+    margin-left: unset;
+}
+
+.singleCatFullWidth {
+    margin-top: 2.25em;
+    margin-bottom: 2.25em;
+
+    .col-xs-9 {
+        @media(max-width: 1200px) {
+            width: 100%;
+        }
+
+        .col-xs-2 {
+            min-width: 128px;
+        }
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .buttons {
+        padding-top: 15px;
+    }
+}
+/* Primary Category Card */
+#Topics {
+    h4 {
+        font-size: 25px;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .col-xs-9 {
+            width: 100%;
+        }
+    }
+
+    #MoreParentsAndChildrens {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .SingleCategoryAttention {
+        padding-left: 10px;
+    }
+
+    .marginTop50Bottom30 {
+        margin-top: 50px;
+        margin-bottom: 30px;
     }
 
     .singleCatFullWidth {
-        margin-top: 2.25em;
-        margin-bottom: 2.25em;
-
-        .col-xs-9 {
-            @media(max-width: 1200px) {
-                width: 100%;
-            }
-
-            .col-xs-2 {
-                min-width: 128px;
-            }
-        }
-
-        .flex {
-            display: flex;
-            align-items: center;
-        }
-
-        .buttons {
-            padding-top: 15px;
-        }
-    }
-    /* Primary Category Card */
-    #Topics {
-        h4 {
-            font-size: 25px;
-        }
-
-        @media screen and (max-width: 1200px) {
-            .col-xs-9 {
-                width: 100%;
-            }
-        }
-
-        #MoreParentsAndChildrens {
-            margin-top: 30px;
-            margin-bottom: 30px;
+        @media screen and (max-width: 767px) {
             text-align: center;
-            font-weight: 500;
-        }
+            margin-top: 10px;
 
-        .SingleCategoryAttention {
-            padding-left: 10px;
-        }
-
-        .marginTop50Bottom30 {
-            margin-top: 50px;
-            margin-bottom: 30px;
-        }
-
-        .singleCatFullWidth {
-            @media screen and (max-width: 767px) {
-                text-align: center;
-                margin-top: 10px;
-
-                .row {
-                    display: block;
-                }
+            .row {
+                display: block;
             }
+        }
 
-            .col-sm-2 {
-                @media screen and (max-width: 768px) {
-                    margin-bottom: 10px;
-                }
+        .col-sm-2 {
+            @media screen and (max-width: 768px) {
+                margin-bottom: 10px;
             }
         }
     }
-    /*--------------------------ActivityPoints---------------------
+}
+/*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
-    #activityPointsDispaly {
-        font-size: 22px;
-        font-family: sans-serif;
-        line-height: normal;
-        color: RGB(185,219,79);
-        text-align: right;
-        padding: 10px 0;
+#activityPointsDispaly {
+    font-size: 22px;
+    font-family: sans-serif;
+    line-height: normal;
+    color: RGB(185,219,79);
+    text-align: right;
+    padding: 10px 0;
 
-        &.hideOnBigScreen {
-            @media(min-width: 1200px) {
-                display: none;
-            }
-        }
-
-        .fa-info-circle {
-            font-size: 14px;
-        }
-
-        small {
-            font-size: 10px;
-            display: block;
+    &.hideOnBigScreen {
+        @media(min-width: 1200px) {
+            display: none;
         }
     }
-    /*-----------------------AnswerQuestionBodyMenu--------------------
+
+    .fa-info-circle {
+        font-size: 14px;
+    }
+
+    small {
+        font-size: 10px;
+        display: block;
+    }
+}
+/*-----------------------AnswerQuestionBodyMenu--------------------
 
 ---------------------------------------------------------------*/
 .AnswerQuestionBodyMenu {
@@ -1038,7 +1299,7 @@
     float: right;
 
     .Pin {
-        .iAddedNot, .iAdded{
+        .iAddedNot, .iAdded {
             padding-right: 12px;
         }
     }
@@ -1074,21 +1335,21 @@
     }
 }
 
-    .SingleCategoryAttention {
-        .well {
-            background-color: rgba(112, 112, 112, .08)
+.SingleCategoryAttention {
+    .well {
+        background-color: rgba(112, 112, 112, .08)
+    }
+}
+
+
+
+@media(max-width:767px) {
+    .row {
+        &.hasFlashCard {
+            margin-top: 37px;
         }
     }
-
-
-
-    @media(max-width:767px) {
-        .row {
-            &.hasFlashCard {
-                margin-top: 37px;
-            }
-        }
-    }
+}
 
 
 #QuestionTitle, #AnswerAndSolution, h3.QuestionText {

@@ -48,13 +48,6 @@
     }
   },
   {
-    "outputFile": "Views/Questions/Questions.css",
-    "inputFile": "Views/Questions/Questions.less",
-    "minify": {
-      "enabled": false
-    }
-  },
-  {
     "outputFile": "Views/Questions/Answer/AnswerQuestion.css",
     "inputFile": "Views/Questions/Answer/AnswerQuestion.less",
     "minify": {

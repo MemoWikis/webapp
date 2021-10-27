@@ -792,6 +792,7 @@
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\PersonalTopic.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs227.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs226.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs225.cs" />

@@ -61,7 +61,6 @@ body {
     .old-font-style();
     min-width: 280px;
     position: relative;
-    background-color: @color-background-global;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -352,7 +351,7 @@ img {
     font-size: 12px;
     text-align: center;
     white-space: normal;
-    padding-top:10px;
+    padding-top: 10px;
 
     span {
         vertical-align: baseline !important;
@@ -667,7 +666,7 @@ ul.AutocompleteHeader {
 
     .btn-group.active {
 
-        .btn { 
+        .btn {
             color: @global-text-color;
             font-weight: bold;
         }
@@ -701,7 +700,6 @@ ul.AutocompleteHeader {
             padding-left: 0;
             padding-right: 0;
         }
-
     }
 }
 /*******************************************************************/
@@ -837,7 +835,9 @@ ul.AutocompleteHeader {
 
     .media-below-md( {
         padding-top: 0;
-    });
+    }
+
+    );
 }
 
 #GlobalLicense {
@@ -925,8 +925,9 @@ ul.AutocompleteHeader {
 
         &:last-child > div {
             .media-md-up( {
-               // float: right;
+                // float: right;
             }
+
             );
         }
     }
@@ -1076,6 +1077,7 @@ a.button span.ui-icon {
     fieldset {
         border: none;
     }
+
     div.col-you-have-to-be-logged-in {
         padding-bottom: 5px;
         padding-right: 15px;
@@ -1667,9 +1669,10 @@ h3 {
     color: @memo-grey-darker;
 }
 
-.body-l,.body-m,.body-s,.body-xs{
+.body-l, .body-m, .body-s, .body-xs {
     width: 100%;
     margin-bottom: 10px;
+
     &.bold {
         font-weight: 700;
     }
@@ -1731,7 +1734,7 @@ h3 {
         padding-bottom: 0;
     }
 
-    &.overline-title{
+    &.overline-title {
         color: @memo-grey-darker;
     }
 }
@@ -2068,6 +2071,7 @@ b, strong {
     display: flex;
     width: 100%;
 }
+
 .inline-text-editor, .inline-question-editor, #flashCardContent {
     position: relative;
 
@@ -2308,6 +2312,7 @@ textarea, input {
         border-radius: 0;
     }
 }
+
 #ErrorModal, #SuccessModal {
     .modal-body, .modal-footer, .modal-header {
         display: flex;
@@ -2319,6 +2324,7 @@ textarea, input {
         flex-direction: column;
     }
 }
+
 #ErrorModal {
     h3 {
         color: @memo-salmon;
@@ -2330,6 +2336,7 @@ textarea, input {
         color: @memo-green;
     }
 }
+
 .ProseMirror {
     li {
         p {
@@ -2369,12 +2376,14 @@ textarea, input {
     border: none;
     border-radius: 0;
 }
+
 .field-error {
     color: @memo-salmon;
     width: 100%;
     white-space: nowrap;
     font-size: 12px;
 }
+
 .field-error-container {
     position: relative;
 
@@ -2454,6 +2463,52 @@ textarea, input {
             }
         }
     }
+}
+
+.modal-default-mask {
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modal-default-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-default-container {
+    max-width: 50%;
+    margin: 0px auto;
+    padding: 64px 40px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    max-height: calc(100vh - 1em);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.modal-close-button {
+    margin-top: -30px;
+    float: right;
+    font-size: 24px;
+    color: #767676;
+}
+
+.modal-default-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-default-body {
+    margin: 20px 0;
 }
 
 .footer-links-memucho {
@@ -2579,4 +2634,14 @@ textarea, input {
 
 .border-bottom-grey {
     border-bottom: solid 1px @memo-grey-light;
+}
+
+#AddCommentFormContainer {
+    .ProseMirror {
+        padding: 11px 16px 0;
+        min-height: 63px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+
+    }
 }

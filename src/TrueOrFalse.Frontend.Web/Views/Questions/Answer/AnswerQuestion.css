@@ -835,8 +835,223 @@
 .FooterQuestionDetails .comment-link .fa-comment {
   color: #979797;
 }
+.commentSection {
+  max-height: -webkit-calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+}
 .commentSettledInfo {
+  color: #767676;
+  margin: 32px 0 0 0;
+}
+.commentAnswersContainer {
+  padding-top: 25px;
+}
+.commentPanel {
+  background-color: #0032640A;
+  margin-bottom: 24px;
+}
+.commentPanelSpace {
+  margin-top: 18px;
+  padding-top: 16px;
+}
+.commentEditor {
+  color: #767676 !important;
+  font-size: 14px !important;
+  height: 42px;
+}
+.commentUserImg {
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  max-height: 20px;
+  padding-right: 4px;
+}
+.commentUserDetails {
+  padding-bottom: 12px;
+  padding-left: 0;
+}
+.commentUserName {
+  font-size: 14px;
+  line-height: 18px;
+  vertical-align: middle;
+  padding-right: 8px;
+}
+.commentDate {
+  font-size: 12px;
+  color: #767676;
+  vertical-align: middle;
+}
+.commentModalImproveText {
+  float: left;
+  position: relative;
+  top: -3px;
+  padding-left: 10px;
+  list-style-type: none;
+}
+.commentShouldReasonImprove {
+  float: left;
+}
+.commmentShouldReasonDelete {
+  float: left;
+  position: relative;
+  top: -3px;
+  padding-left: 10px;
+  list-style-type: none;
+}
+.commentImproveFire {
+  float: left;
+  color: tomato;
+}
+.comment-modal-title {
+  color: #003264;
+  font-size: 25px;
+  line-height: 34px;
+}
+.commentTitle {
+  font-size: 18px;
+  line-height: 22px;
+  max-width: 600px;
+  color: #555555;
+}
+.pointer {
+  cursor: pointer;
+}
+.commentSettledBox {
+  background: #555555;
+  color: white;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  line-height: 16px;
+  font-size: 12px;
+  text-align: center;
+  padding: 8px 8px 8px 8px;
+  margin-right: 16px;
+}
+.commentTextContainer {
+  padding: 1em 0 2em 0;
+}
+.commentText {
+  color: #555555;
+  width: 800px;
+}
+.settledCommentsDescription {
+  text-align: right;
+}
+.commentIconsContainer {
+  position: relative;
+  bottom: -8px;
+  left: 124px;
+  cursor: pointer;
+}
+.commentButtonsContainer {
+  position: relative;
+  margin: 10px auto;
+}
+.commentThumbsIcon {
+  font-size: 16px;
+  color: #767676;
+  padding-right: 24px;
+  padding-left: 156px;
+}
+.commentSpeechBubbleIcon {
+  font-size: 14px;
+  color: #767676;
+  cursor: pointer;
+}
+.commentSpeechBubbleText {
+  font-size: 14px;
+}
+commentAnswersCount {
+  font-size: 14px;
+}
+.commentMarkAsSettledContainer {
+  position: absolute;
+  bottom: 8px;
+  right: 20px;
+}
+.commentFooterText {
+  font-size: 14px;
+  font-weight: 400;
+}
+.commentAnswers {
+  margin-top: 40px;
+}
+.answerTextContainer {
+  margin-top: 10px;
+}
+.answerFooter {
+  position: absolute;
+  right: 0;
+}
+.commentAnswersContainer {
+  background-color: white;
+  border: solid #DDDDDD;
+  border-width: 0px 1px 1px 1px;
+}
+.answerBorder {
+  border-bottom: 1px solid #DDDDDD;
+  width: 75%;
+  padding-bottom: 5em;
+  margin-left: 24%;
+}
+.commentAnswerCreationDate {
+  color: #767676;
+  font-size: 12px;
+  line-height: 18px;
+}
+.commentAnswerAddContainer {
+  margin-top: 7px;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.addCommentUsrImg {
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  max-height: 48px;
+  padding-right: 10px;
+}
+.addCommentTitle {
+  color: #767676;
+  font-size: 12px;
+  line-height: 18px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.addCommentInputTitle {
+  padding-bottom: 20px;
+}
+.commentAnswerAddTopBorder {
+  border-top: 1px solid #DDDDDD;
+}
+.commentAnswerAddTopSpace {
+  padding-top: 40px;
+}
+.commentAnswerAddTextArea {
+  resize: none;
+  width: 100%;
+  min-height: 96px;
+  border: none;
+  -webkit-border-radius: 0;
+          border-radius: 0;
+}
+.commentAnswerAddSaveSpace {
+  padding-top: 24px;
+}
+.commentAddContainer {
+  margin-top: 7px;
+  border: none;
+  padding-bottom: 64px;
+}
+.commentLoginContainer {
+  margin-bottom: 18px;
+}
+.commentLoginText {
+  padding-top: 10px;
   color: darkgray;
+}
+.c {
+  border: 1px solid #0065CA;
+  color: #0065ca;
 }
 .MarkdownImage img {
   max-height: 500px;

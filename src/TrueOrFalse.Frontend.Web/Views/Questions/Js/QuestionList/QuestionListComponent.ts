@@ -46,7 +46,7 @@ let qlc = Vue.component('question-list-component', {
             pageIsLoading: false,
             lastQuestionInListIndex: null,
             answerBodyHasLoaded: false,
-        };
+    };
     },
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
@@ -66,6 +66,7 @@ let qlc = Vue.component('question-list-component', {
                 this.initQuestionList();
             this.answerBodyHasLoaded = true;
         });
+
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();

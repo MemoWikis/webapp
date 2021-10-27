@@ -584,7 +584,7 @@ public class AnswerQuestionController : BaseController
                 stepCount = learningSession.Steps.Count 
             } : null,
             url = currentUrl,
-            commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", answerQuestionModel, ControllerContext),
+            commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSectionComponent.vue.ascx", answerQuestionModel, ControllerContext),
             offlineDevelopment = Settings.DevelopOffline(),
             menuHtml,
             isInTestMode

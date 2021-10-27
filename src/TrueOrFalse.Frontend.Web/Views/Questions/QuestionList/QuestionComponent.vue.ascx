@@ -79,7 +79,7 @@
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
-                            <a class="commentIcon" :href="questionLinkToComment">
+                            <a class="commentIcon" @click.stop="showModal()">
                                 <i class="fa fa-comment"><span style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
                             </a>
                         </div>
@@ -99,7 +99,7 @@
                                 <li><a :href="linkToQuestionVersions" data-allowed="logged-in">
                                     <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div><span>Bearbeitungshistorie der Frage</span>
                                 </a></li>
-                                <li><a :href="questionLinkToComment">
+                                <li><a @click.stop="showModal()">
                                     <div class="dropdown-icon"><i class="fas fa-comment"></i></div><span>Frage kommentieren</span>
                                 </a></li>
                                 <li v-if="isAdmin == 'True'">
@@ -112,6 +112,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-if="showModal">
         </div>
     </div>
 </question-component>

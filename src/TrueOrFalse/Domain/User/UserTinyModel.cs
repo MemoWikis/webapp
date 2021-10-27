@@ -1,4 +1,7 @@
-﻿public interface IUserTinyModel
+﻿using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+
+public interface IUserTinyModel
 {
     int Id { get; set;}
     string Name { get; }
@@ -26,8 +29,10 @@ public class UserTinyModel : IUserTinyModel
     public bool ShowWishKnowledge { get; set; }
     public bool IsMember { get; }
 
+    [ScriptIgnore]
     private readonly User _user;
 
+    [ScriptIgnore]
     public User User => _user;
 
     public bool IsMemuchoUser { get; }
