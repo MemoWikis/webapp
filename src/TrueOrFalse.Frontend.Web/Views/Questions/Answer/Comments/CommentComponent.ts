@@ -80,7 +80,8 @@ Vue.component('add-comment-component',
                 commentJson: null,
                 commentHtml: null,
                 flashCardJson: null,
-                highlightEmptyFields: false,
+                highlightEmptyComment: false,
+                highlightEmptyTitle: false
 
             }
         },
@@ -134,7 +135,7 @@ Vue.component('add-comment-component',
 
 
             saveComment() {
-                if (this.commentText.length > 20 && this.commentTitle.length > 5) {
+                if (this.commentText.length > 10 && this.commentTitle.length > 5) {
                     var self = this;
                     var params = {
                         questionId: self.questionId,
@@ -150,12 +151,22 @@ Vue.component('add-comment-component',
                             this.commentText = "";
                             this.commentEditor.commands.setContent('');
                             this.commentTitle = "";
+                            this.highlightEmptyComment = false;
+                            this.highlightEmptyTitle = false;
                             eventBus.$emit('new-comment-added');
                         },
                         error: () => { }
                     });
                 } else {
-                    console.log("Kommentar zu kurz");
+                    this.highlightEmptyComment = false;
+                    this.highlightEmptyTitle = false;
+
+                    if (this.commentText.length < 10) {
+                        this.highlightEmptyComment = true;
+                    }
+                    if (this.commentTitle.length < 5) {
+                        this.highlightEmptyTitle = true;
+                    }
                 }
             },
             closeModal() {
@@ -192,6 +203,12 @@ Vue.component('comment-answer-add-component',
         data() {
             return {
                 commentAnswerText: "",
+                commentAnswerJson: "",
+                isLoggedIn: IsLoggedIn.Yes,
+                answerEditor: null,
+                answerHtml: null,
+                flashCardJson: null,
+                highlightEmptyAnswer: false,
             }
         },
 
@@ -205,17 +222,71 @@ Vue.component('comment-answer-add-component',
             });
         },
 
-        methods: {
-            saveCommentAnswer() {
-                var params = {
-                    commentId: this.parentCommentId,
-                    text: this.commentAnswerText
-                };
+        mounted() {
+            this.initQuickCreate();
+        },
 
-                $.post("/AnswerComments/SaveAnswer", params, () => {
-                    this.commentAnswerText = "";
-                    eventBus.$emit('new-comment-added');
+        methods: {
+
+            initQuickCreate() {
+                var self = this;
+                self.$nextTick(() => {
+
+                    Vue.component('editor-content', tiptapEditorContent);
+                    self.answerEditor = new tiptapEditor({
+                        editable: true,
+                        extensions: [
+                            tiptapStarterKit,
+                            tiptapLink.configure({
+                                HTMLAttributes: {
+                                    target: '_self',
+                                    rel: 'noopener noreferrer nofollow'
+                                }
+                            }),
+                            tiptapCodeBlockLowlight.configure({
+                                lowlight,
+                            }),
+                            tiptapUnderline,
+                            tiptapPlaceholder.configure({
+                                emptyEditorClass: 'is-editor-empty',
+                                emptyNodeClass: 'is-empty',
+                                placeholder: 'Bitte formuliere deinen Beitrag höflich, freundlich und sachlich.',
+                                showOnlyCurrent: true,
+                            }),
+                            tiptapImage
+                        ],
+                        onUpdate: ({ editor }) => {
+                            self.commentAnswerJson = editor.getJSON();
+                            self.commentAnswerText = editor.getHTML();
+                        },
+                    });
                 });
-            }
+            },
+
+            saveCommentAnswer() {
+                if (this.commentAnswerText.length > 10) {
+                    var self = this;
+                    var params = {
+                        commentId: this.parentCommentId,
+                        text: this.commentAnswerText
+                    };
+                    $.ajax({
+                        type: 'post',
+                        contentType: "application/json",
+                        url: "/AnswerComments/SaveAnswer",
+                        data: JSON.stringify(params),
+                        success: (result) => {
+                            this.commentAnswerText = "";
+                            this.answerEditor.commands.setContent('');
+                            this.highlightEmptyAnswer = false;
+                            eventBus.$emit('new-comment-added');
+                        },
+                        error: () => {}
+                    });
+                } else {
+                   this.highlightEmptyAnswer = true;
+
+                }
+            },
         }
     });

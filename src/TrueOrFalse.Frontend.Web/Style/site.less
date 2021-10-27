@@ -61,7 +61,6 @@ body {
     .old-font-style();
     min-width: 280px;
     position: relative;
-    background-color: @color-background-global;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -2635,4 +2634,14 @@ textarea, input {
 
 .border-bottom-grey {
     border-bottom: solid 1px @memo-grey-light;
+}
+
+#AddCommentFormContainer {
+    .ProseMirror {
+        padding: 11px 16px 0;
+        min-height: 63px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+
+    }
 }

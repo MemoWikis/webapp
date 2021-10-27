@@ -15,8 +15,21 @@
             </span>
         </div>
         <div class="answerTextContainer">
-            {{answer.Text}}    
-        </div>
+            <span class="commentText" v-if="answer.Text.length < 350" v-html="answer.Text"></span>
+            <span v-else>
+                <span v-if="readMore"><span v-html="answer.Text"></span>
+                    <a class="cursor-hand" @click="readMore=false">
+                        Weniger
+                    </a>
+                </span>
+                <span v-else>
+                    <span class="commentText" v-html="answer.Text.slice(0,350) + '...'">
+
+                    </span>
+                    <a class="cursor-hand" @click="readMore=true">Mehr
+                    </a>
+                </span>
+            </span>        </div>
     </div>
     <div v-if="!lastAnswer" class="answerBorder"></div>
 </div>

@@ -84,7 +84,7 @@
             <div v-if="showCommentAnswers" class="" v-for="(answer, index) in comment.Answers">
                 <comment-answer-component :answer="answer" :comment-id="comment.Id" :last-answer="comment.Answers.length -1 == index"/>
             </div>
-            <div v-if="showAnsweringPanel && isLoggedIn && !comment.IsSettled" >
+            <div v-if="isLoggedIn && !comment.IsSettled" >
                 <comment-answer-add-component :currentUserImageUrl="currentUserImageUrl" :parentCommentId="comment.Id" :currentUserName="currentUserName"/>
             </div>
             
