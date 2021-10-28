@@ -4,13 +4,12 @@ if (eventBus == null)
 
 Vue.component('comment-component',
     {
-        props: ['comment', 'questionId', 'currentUserImageUrl', 'currentUserName'],
+        props: ['comment', 'questionId', 'currentUserImageUrl', 'currentUserName', 'isAdminString'],
 
         data: function () {
             return {
                 readMore: false,
                 showAnsweringPanel: false,
-                settled: false,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
                 isOwner: false,
@@ -23,6 +22,7 @@ Vue.component('comment-component',
 
         created() {
             const self = this;
+            self.isInstallationAdmin = self.isAdminString == "True";
             self.isOwner = self.comment.ImageUrl == self.currentUserImageUrl;
         },
 

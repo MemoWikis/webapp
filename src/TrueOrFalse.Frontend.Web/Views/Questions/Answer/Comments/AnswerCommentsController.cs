@@ -106,6 +106,12 @@ public class AnswerCommentsController : BaseController
     }
 
     [HttpPost]
+    public bool GetCurrentUserAdmin()
+    {
+        return _sessionUser.User.IsInstallationAdmin;
+    }
+
+    [HttpPost]
     public String GetUserImgUrl(int userId)
     {
         var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
