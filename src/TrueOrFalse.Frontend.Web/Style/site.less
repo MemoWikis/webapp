@@ -2495,146 +2495,176 @@ textarea, input {
     overflow-x: hidden;
 }
 
-.modal-close-button {
-    margin-top: -30px;
-    float: right;
-    font-size: 24px;
-    color: #767676;
+@media only screen and (max-width: 1080px) and (min-width: 850px) {
+    .modal-default-container {
+        max-width: 75%;
+        margin: 0px auto;
+        padding: 64px 40px;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+        transition: all 0.3s ease;
+        max-height: calc(100vh - 1em);
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
 
-.modal-default-header h3 {
-    margin-top: 0;
-    color: #42b983;
+@media (max-width: 849px) {
+    .modal-default-container {
+        max-width: 100%;
+        margin: 0px auto;
+        padding: 64px 40px;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+        transition: all 0.3s ease;
+        max-height: calc(100vh - 0.1em);
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
 
-.modal-default-body {
-    margin: 20px 0;
-}
-
-.footer-links-memucho {
-    margin-top: 40px;
-}
-
-#MemuchoInfoBanner {
-    height: 0px;
-    min-height: 0px;
-    width: 100%;
-    background: #e5effa;
-    top: 0;
-    z-index: 50;
-    margin: 0;
-    transform: translateY(-140px);
-    transition: transform 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
-    opacity: 0;
-    position: relative;
-    pointer-events: none;
-    visibility: hidden;
-
-    .container {
-        height: 100%;
-        padding-top: 45px;
-
-        #BannerContainer {
-            display: flex;
-            display: flex;
-            align-items: center;
-            height: 100%;
-            flex-wrap: wrap;
-            padding: 10px 0;
-
-            .memucho-info-partial {
-                height: 100%;
-                display: flex;
-                align-items: center;
-                padding: 10px;
-            }
-
-            #BannerText {
-                flex-direction: column;
-                align-items: flex-start;
-                color: @memo-blue;
-                justify-content: center;
-
-                .sub-text {
-                    font-size: 14px;
-                    font-weight: 600;
-                    line-height: 20px;
-                    letter-spacing: 1.25px;
-                    width: 100%;
-                    text-transform: uppercase;
-
-                    .fa-heart {
-                        @media (max-width: 767px) {
-                            margin-top: 10px;
-                        }
-
-                        font-size: 20px;
-                        color: @memo-wuwi-red;
-                    }
-
-                    @media (max-width: 767px) {
-                        text-align: center;
-                    }
-                }
-
-                .main-text {
-                    font-size: 25px;
-                    font-weight: 400;
-                    line-height: 34px;
-                    letter-spacing: 0em;
-                    width: 100%;
-
-                    @media (max-width: 767px) {
-                        text-align: center;
-                    }
-                }
-            }
-
-            #BannerRedirectBtn {
-                justify-content: space-evenly;
-            }
-
-            .close-banner {
-                color: @memo-grey-dark;
-                padding: 10px;
-                font-size: 20px;
-                transition: all 0.3s;
-
-                &:hover {
-                    color: @memo-blue;
-                }
-
-                &.mobile-close {
-                    position: absolute;
-                    right: 0px;
-                    top: 0px;
-                }
-            }
-        }
+    .modal-close-button {
+        margin-top: -30px;
+        float: right;
+        font-size: 24px;
+        color: #767676;
     }
 
-    &.show-banner {
-        opacity: 1;
-        min-height: 140px;
-        margin: 0 0 -40px 0;
-        height: unset;
-        transform: translateY(0px);
-        pointer-events: unset;
-        visibility: unset;
+    .modal-default-header h3 {
+        margin-top: 0;
+        color: #42b983;
+    }
+
+    .modal-default-body {
+        margin: 20px 0;
+    }
+
+    .footer-links-memucho {
+        margin-top: 40px;
+    }
+
+    #MemuchoInfoBanner {
+        height: 0px;
+        min-height: 0px;
+        width: 100%;
+        background: #e5effa;
+        top: 0;
+        z-index: 50;
+        margin: 0;
+        transform: translateY(-140px);
+        transition: transform 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+        opacity: 0;
+        position: relative;
+        pointer-events: none;
+        visibility: hidden;
 
         .container {
-            min-height: 140px;
+            height: 100%;
+            padding-top: 45px;
 
             #BannerContainer {
-                min-height: 95px;
+                display: flex;
+                display: flex;
+                align-items: center;
+                height: 100%;
+                flex-wrap: wrap;
+                padding: 10px 0;
+
+                .memucho-info-partial {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                }
+
+                #BannerText {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    color: @memo-blue;
+                    justify-content: center;
+
+                    .sub-text {
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        letter-spacing: 1.25px;
+                        width: 100%;
+                        text-transform: uppercase;
+
+                        .fa-heart {
+                            @media (max-width: 767px) {
+                                margin-top: 10px;
+                            }
+
+                            font-size: 20px;
+                            color: @memo-wuwi-red;
+                        }
+
+                        @media (max-width: 767px) {
+                            text-align: center;
+                        }
+                    }
+
+                    .main-text {
+                        font-size: 25px;
+                        font-weight: 400;
+                        line-height: 34px;
+                        letter-spacing: 0em;
+                        width: 100%;
+
+                        @media (max-width: 767px) {
+                            text-align: center;
+                        }
+                    }
+                }
+
+                #BannerRedirectBtn {
+                    justify-content: space-evenly;
+                }
+
+                .close-banner {
+                    color: @memo-grey-dark;
+                    padding: 10px;
+                    font-size: 20px;
+                    transition: all 0.3s;
+
+                    &:hover {
+                        color: @memo-blue;
+                    }
+
+                    &.mobile-close {
+                        position: absolute;
+                        right: 0px;
+                        top: 0px;
+                    }
+                }
+            }
+        }
+
+        &.show-banner {
+            opacity: 1;
+            min-height: 140px;
+            margin: 0 0 -40px 0;
+            height: unset;
+            transform: translateY(0px);
+            pointer-events: unset;
+            visibility: unset;
+
+            .container {
+                min-height: 140px;
+
+                #BannerContainer {
+                    min-height: 95px;
+                }
             }
         }
     }
-}
 
-.border-bottom-grey {
-    border-bottom: solid 1px @memo-grey-light;
-}
+    .border-bottom-grey {
+        border-bottom: solid 1px @memo-grey-light;
+    }
 
 #AddCommentFormContainer {
     .ProseMirror {
@@ -2642,6 +2672,23 @@ textarea, input {
         min-height: 63px;
         word-wrap: break-word;
         white-space: pre-wrap;
+    }
 
+    @media (max-width: 449px) {
+        .ProseMirror {
+            padding: 11px 16px 0;
+            min-height: 94px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    }
+
+    @media (max-width: 349px) {
+        .ProseMirror {
+            padding: 11px 16px 0;
+            min-height: 125px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
     }
 }

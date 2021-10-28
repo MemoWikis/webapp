@@ -33,14 +33,14 @@
                     </div>
                     <div class="commentTitle" v-else-if="comment.Text.length > 25">{{comment.Text.slice(0,25)}}... &nbsp &nbsp
                                 <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
-                                    <i class="fa fa-comments-o commentAnswersCount" aria-hidden="true"></i>
+                                    <i class="fa fa-comments commentAnswersCount" aria-hidden="true"></i>
                                     <span class="commentSpeechBubbleText" v-if="comment.Answers.length == 1">&nbsp {{comment.Answers.length}} Beitrag</span>
                                     <span class="commentSpeechBubbleText" v-else>&nbsp {{comment.Answers.length}} Beiträge</span>
                                 </span>
                             </div>
                             <div class="commentTitle" v-else>{{comment.Text}} &nbsp &nbsp
                                 <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
-                                    <i class="fa fa-comments-o commentAnswersCount" aria-hidden="true"></i>  
+                                    <i class="fa fa-comments commentAnswersCount" aria-hidden="true"></i>  
                                     <span class="commentSpeechBubbleText" v-if="comment.Answers.length == 1">&nbsp {{comment.Answers.length}} Beitrag</span>
                                     <span class="commentSpeechBubbleText" v-else>&nbsp {{comment.Answers.length}} Beiträge</span>
                                 </span>
