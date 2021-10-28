@@ -77,7 +77,6 @@ public class Category : DomainEntity, ICreator, ICloneable
         list = Sl.CategoryRepo.GetByIds(categoryIds); 
 
         if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
-
             list = list.Where(c => c.IsInWishknowledge()).ToList(); 
 
         if (includingSelf)

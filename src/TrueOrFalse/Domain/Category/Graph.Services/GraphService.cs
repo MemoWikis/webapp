@@ -7,7 +7,7 @@ using System.Linq;
 public class GraphService : GraphServiceHelper
 {
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
-       GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true));
+        GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true));
 
     private static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
@@ -21,7 +21,7 @@ public class GraphService : GraphServiceHelper
 
             if (!deletedIds.ContainsKey(parentIds[0]))
             {
-                allParents.Add(parent);//Avoidance of circular references
+                allParents.Add(parent); //Avoidance of circular references
 
                 deletedIds.Add(parentIds[0], parentIds[0]);
                 var currentParents = GetDirectParentIds(parent);
@@ -30,49 +30,57 @@ public class GraphService : GraphServiceHelper
                     parentIds.Add(currentParent);
                 }
             }
+
             parentIds.RemoveAt(0);
         }
+
         return allParents;
     }
 
     public static List<CategoryCacheItem> GetAllParentsFromUserEntityCache(int userId, CategoryCacheItem category)
     {
-       var userCache =  UserEntityCache.GetUserCache(userId);
+        var userCache = UserEntityCache.GetUserCache(userId);
 
-       userCache.TryGetValue(category.Id, out var userEntityCacheItem);
-        var parentIds = GetDirectParentIdsInWuwi(userEntityCacheItem); 
+        userCache.TryGetValue(category.Id, out var userEntityCacheItem);
+        var parentIds = GetDirectParentIdsInWuwi(userEntityCacheItem);
 
-       var allParents = new List<CategoryCacheItem>();
-       var deletedIds = new Dictionary<int, int>();
+        var allParents = new List<CategoryCacheItem>();
+        var deletedIds = new Dictionary<int, int>();
 
-       while (parentIds.Count > 0)
-       { 
-           userCache.TryGetValue(parentIds[0], out var parent);
+        while (parentIds.Count > 0)
+        {
+            userCache.TryGetValue(parentIds[0], out var parent);
+            if (!deletedIds.ContainsKey(parentIds[0]))
+            {
+                if (parent != null)
+                {
+                    allParents.Add(parent); //Avoidance of circular references
 
-           if (!deletedIds.ContainsKey(parentIds[0]))
-           {
-               allParents.Add(parent);//Avoidance of circular references
+                    var currentParents = GetDirectParentIds(parent);
+                    foreach (var currentParent in currentParents)
+                    {
+                        parentIds.Add(currentParent);
+                    }
+                }
 
-               deletedIds.Add(parentIds[0], parentIds[0]);
-               var currentParents = GetDirectParentIds(parent);
-               foreach (var currentParent in currentParents)
-               {
-                   parentIds.Add(currentParent);
-               }
-           }
-           parentIds.RemoveAt(0);
-       }
-       return allParents;
+                deletedIds.Add(parentIds[0], parentIds[0]);
+            }
+
+            parentIds.RemoveAt(0);
+        }
+
+        return allParents;
     }
 
     public static List<int> GetDirectParentIds(CategoryCacheItem category)
     {
-        var relations = new List<int>(); 
+        var relations = new List<int>();
         foreach (var relation in category.CategoryRelations)
         {
-            if(relation.CategoryRelationType == CategoryRelationType.IsChildOf)
+            if (relation.CategoryRelationType == CategoryRelationType.IsChildOf)
                 relations.Add(relation.RelatedCategoryId);
         }
+
         return category.CategoryRelations
             .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId).ToList();
@@ -81,12 +89,14 @@ public class GraphService : GraphServiceHelper
     public static IList<CategoryCacheItem> GetAllWuwiWithRelations_TP(CategoryCacheItem category, int userId = -1) =>
         GetAllWuwiCategoriesWithRelations(category.Id, userId, true);
 
-    public static IList<CategoryCacheItem> GetAllWuwiCategoriesWithRelations(int rootCategoryId, int userId = -1, bool isFromUserEntityCache = false)
+    public static IList<CategoryCacheItem> GetAllWuwiCategoriesWithRelations(int rootCategoryId, int userId = -1,
+        bool isFromUserEntityCache = false)
     {
         userId = userId == -1 ? Sl.CurrentUserId : userId;
         var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
 
-        var personalHomepage = EntityCache.GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true);
+        var personalHomepage =
+            EntityCache.GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true);
         var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalHomepage);
         wuwiChildren = SetNewParents(userId, isFromUserEntityCache, wuwiChildren, personalHomepage);
 
@@ -123,10 +133,12 @@ public class GraphService : GraphServiceHelper
                 }
             }
         }
-        return cacheItemWithChildren.Values.ToList(); 
+
+        return cacheItemWithChildren.Values.ToList();
     }
 
-    private static List<CategoryCacheItem> SetNewParents(int userId, bool isFromUserEntityCache, List<CategoryCacheItem> wuwiChildren,
+    private static List<CategoryCacheItem> SetNewParents(int userId, bool isFromUserEntityCache,
+        List<CategoryCacheItem> wuwiChildren,
         CategoryCacheItem personalHomepage)
     {
         foreach (var wuwiChild in wuwiChildren)
@@ -181,10 +193,11 @@ public class GraphService : GraphServiceHelper
             wuwiChild.CachedData.ChildrenIds = new List<int>();
         }
 
-        return wuwiChildren; 
+        return wuwiChildren;
     }
 
-    private static List<CategoryCacheItem> GetAllChildrenFromAllCategories(CategoryCacheItem rootCategory, CategoryCacheItem personalHomepage)
+    private static List<CategoryCacheItem> GetAllChildrenFromAllCategories(CategoryCacheItem rootCategory,
+        CategoryCacheItem personalHomepage)
     {
         rootCategory.CategoryRelations.Add(new CategoryCacheRelation
         {
@@ -194,26 +207,28 @@ public class GraphService : GraphServiceHelper
         });
 
         var wuwiChildren = EntityCache.GetAllCategories()
-            .Where(c=> c.IsInWishknowledge())
+            .Where(c => c.IsInWishknowledge())
             .Distinct()
             .Select(c => c.DeepClone())
-            .ToList(); 
+            .ToList();
 
         return wuwiChildren;
     }
 
     private static bool IsInWishknowledgeOrParentIsPersonalHomepage(bool isRootDirectParent, int userId, int parentId)
     {
-        return UserCache.IsInWishknowledge(userId, parentId) ||  isRootDirectParent;
+        return UserCache.IsInWishknowledge(userId, parentId) || isRootDirectParent;
     }
 
-    public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenIdsToCategoryCacheData(ConcurrentDictionary<int, CategoryCacheItem> categories)
+    public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenIdsToCategoryCacheData(
+        ConcurrentDictionary<int, CategoryCacheItem> categories)
     {
         foreach (var category in categories.Values)
         {
             foreach (var categoryRelation in category.CategoryRelations)
             {
-                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildOf && categories.ContainsKey(categoryRelation.RelatedCategoryId))
+                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildOf &&
+                    categories.ContainsKey(categoryRelation.RelatedCategoryId))
                 {
                     categories[categoryRelation.RelatedCategoryId].CachedData.ChildrenIds
                         .Add(categories[categoryRelation.CategoryId].Id);
@@ -225,6 +240,7 @@ public class GraphService : GraphServiceHelper
         {
             category.Value.CachedData.ChildrenIds = category.Value.CachedData.ChildrenIds.Distinct().ToList();
         }
+
         return categories;
     }
 
@@ -243,7 +259,8 @@ public class GraphService : GraphServiceHelper
             .Select(cr => cr.RelatedCategoryId);
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category, IList<CategoryCacheItem> oldParents)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category,
+        IList<CategoryCacheItem> oldParents)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
 
@@ -257,7 +274,8 @@ public class GraphService : GraphServiceHelper
         }
 
         foreach (var parentCategory in parentsFromParentCategories)
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(
+                EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
@@ -286,6 +304,7 @@ public class GraphService : GraphServiceHelper
             parent.UpdateCountQuestionsAggregated();
         }
     }
+
     public static bool IsCategoryParentEqual(IList<CategoryCacheItem> parent1, IList<CategoryCacheItem> parent2)
     {
         if (parent1 == null || parent2 == null)
@@ -304,5 +323,4 @@ public class GraphService : GraphServiceHelper
 
         return result == 0;
     }
-
 }

@@ -8,9 +8,11 @@ using System.Threading.Tasks;
     {
         protected static List<int> GetDirectParentIdsInWuwi(CategoryCacheItem userEntityCacheItem)
         {
-            return EntityCache.GetCategoryCacheItems(GraphService.GetDirectParentIds(userEntityCacheItem))
-                .Where(cci => cci.IsInWishknowledge())
+            var directParentIds = GraphService.GetDirectParentIds(userEntityCacheItem);
+            var directParentIdsInWuwi = EntityCache.GetCategoryCacheItems(directParentIds)
+                .Where(cci => cci.IsInWishknowledge() || cci.Id == Sl.SessionUser.User.StartTopicId)
                 .Select(cci => cci.Id).ToList();
+            return directParentIdsInWuwi;
         }
     }
 
