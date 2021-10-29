@@ -93,7 +93,7 @@
                                         <div class="dropdown-icon"><i class="fa fa-pen"></i></div><span>Frage bearbeiten</span>
                                     </a>
                                 </li>
-                                <li><a :href="linkToQuestion">
+                                <li v-if="isAdmin == 'True'"><a :href="linkToQuestion">
                                     <div class="dropdown-icon"><i class="fas fa-file"></i></div><span>Frageseite anzeigen</span>
                                 </a></li>
                                 <li><a :href="linkToQuestionVersions" data-allowed="logged-in">

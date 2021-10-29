@@ -56,7 +56,7 @@ Vue.component('comment-section-component',
                 $.post("/AnswerComments/GetComments?questionId=" + self.questionId, data => {
                     self.comments = JSON.parse(data) as IComments[];
                     this.commentsLoaded = true;
-                    eventBus.$emit('send-coomments-count', self.comments.count);
+                    eventBus.$emit('send-comments-count', self.questionId, self.comments.length);
                 });
             },
             getSettledComments() {

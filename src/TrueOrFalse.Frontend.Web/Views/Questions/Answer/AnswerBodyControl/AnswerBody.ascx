@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<%=Links.GetUrl(Model.Question) + "#JumpLabel" %>">
+                            <a onclick="eventBus.$emit('show-comment-section-modal', <%=Model.QuestionId%>)">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-comment"></i>
                                 </div>
