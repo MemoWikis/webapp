@@ -1,7 +1,7 @@
 ﻿<div id="CommentsSection">
     <div class="commentSection">
         <div v-for="comment in comments" class="comment">
-            <comment-component :comment="comment" :question-id="questionId" :currentUserImageUrl="currentUserImageUrl" :currentUserId="currentUserId" :currentUserName="currentUserName"/>
+            <comment-component :comment="comment" :question-id="questionId" :current-user-image-url="currentUserImageUrl" :current-user-id="currentUserId" :current-user-name="currentUserName" :is-admin-string="isAdmin"/>
         </div>
         <div v-if="settledComments.length > 0">
             <div  class="commentSettledInfo">
@@ -18,12 +18,12 @@
 
             <div v-if="showSettledComments">
                 <div v-for="settledComment in settledComments " class="comment">
-                    <comment-component :comment="settledComment" :id="questionId"/>
+                    <comment-component :comment="settledComment" :question-id="questionId" :current-user-image-url="currentUserImageUrl" :current-user-id="currentUserId" :current-user-name="currentUserName" :is-admin-string="isAdmin"/>
                 </div>
             </div>
         </div>
         <div class="addCommentComponent">
-            <add-comment-component :currentUserImageUrl="currentUserImageUrl" :questionId="questionId" :comments-loaded="commentsLoaded"/>
+            <add-comment-component :currentUserImageUrl="currentUserImageUrl" :questionId="questionId" :comments-loaded="commentsLoaded" />
         </div>
     </div>
 </div>

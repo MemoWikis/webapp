@@ -3,7 +3,7 @@
         <div>
             <div class="col-xs-3"></div>
                 <div class="col-xs-9">
-                    <div class="input-container">
+                    <div id="AddCommentFormContainer" class="input-container">
                         <div class="overline-s no-line">Deine Antwort</div>
                         <template v-if="answerEditor">
                             <editor-menu-bar-component :editor="answerEditor"/>

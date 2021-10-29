@@ -153,7 +153,6 @@ public class CategoryCacheItem
     }
 
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
-
     public CategoryCacheItem()
     {
     }

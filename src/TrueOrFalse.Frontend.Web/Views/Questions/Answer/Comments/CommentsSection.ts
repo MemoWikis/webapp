@@ -30,14 +30,17 @@ Vue.component('comment-section-component',
                 currentUserId: 0,
                 showSettledComments: false,
                 commentsLoaded: false,
-                currentUserName: ''
-            };
+                currentUserName: '',
+                isAdmin: false
+
+        };
         },
         template: '#comment-section-component',
         created() {
             var self = this;
             this.getCurrentUserImgUrl();
             this.getCurrentUserId();
+            this.getCurrentUserAdmin();
             this.getCurrentUserName();
             this.getComments();
             this.getSettledComments();
@@ -77,6 +80,11 @@ Vue.component('comment-section-component',
             getCurrentUserName() {
                 $.post("/AnswerComments/GetCurrentUserName", name => {
                     this.currentUserName = name;
+                });
+            },
+            getCurrentUserAdmin() {
+                $.post("/AnswerComments/GetCurrentUserAdmin", admin => {
+                    this.isAdmin = admin;
                 });
             }
         }
