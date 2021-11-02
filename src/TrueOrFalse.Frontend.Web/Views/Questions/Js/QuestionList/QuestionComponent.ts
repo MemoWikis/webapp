@@ -61,6 +61,18 @@
             canBeEdited: false,
         }
     },
+
+    created() {
+        var self = this;
+        eventBus.$on('send-comments-count',
+            function(modalQuestionId, newCommentCount) {
+                if (modalQuestionId === self.questionId) {
+                    console.log(newCommentCount);
+                    self.commentCount = newCommentCount as number;
+                }
+            });
+    },
+
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);

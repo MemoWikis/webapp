@@ -56,7 +56,6 @@ public class AnswerCommentsController : BaseController
     }
 
     [HttpPost]
-    [AccessOnlyAsAdmin]
     public void MarkCommentAsSettled(int commentId)
     {
         Sl.R<CommentRepository>().UpdateIsSettled(commentId, true);
@@ -64,7 +63,6 @@ public class AnswerCommentsController : BaseController
     }
 
     [HttpPost]
-    [AccessOnlyAsAdmin]
     public void MarkCommentAsUnsettled(int commentId)
     {
         Sl.R<CommentRepository>().UpdateIsSettled(commentId, false);

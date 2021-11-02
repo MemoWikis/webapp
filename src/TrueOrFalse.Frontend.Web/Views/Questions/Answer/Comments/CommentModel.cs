@@ -18,7 +18,7 @@ public class CommentModel
 
     public bool IsSettled;
 
-    public List<string> ShouldReasons; 
+    public List<string> ShouldReasons;
 
     public IEnumerable<CommentModel> Answers = new List<CommentModel>();
     public int AnswersSettledCount = 0;
@@ -26,7 +26,7 @@ public class CommentModel
 
     public CommentModel(Comment comment, bool showSettled = false)
     {
-        
+
         Id = comment.Id;
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
@@ -76,4 +76,19 @@ public static class CommentModelListExt
 
         return totalCount;
     }
+    public static int GetUnsettledCount(this IList<CommentModel> comments)
+    {
+        var totalCount = 0;
+
+        foreach (var comment in comments)
+        {
+            if (!comment.IsSettled)
+            {
+                totalCount++;
+            }
+        }
+
+        return totalCount;
+    }
 }
+

@@ -2431,7 +2431,8 @@ input::placeholder {
   }
 }
 .modal-close-button {
-  margin-top: -30px;
+  margin-top: -44px;
+  margin-right: -20px;
   float: right;
   font-size: 24px;
   color: #767676;

@@ -57,6 +57,7 @@ public class AnswerBodyModel : BaseModel
         !IsLearningSession && !IsTestSession && !DisableCommentLink;
 
     public int CommentCount = -1;
+    public int UnsettledCommentCount = 0;
 
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
@@ -93,7 +94,7 @@ public class AnswerBodyModel : BaseModel
         AjaxUrl_GetSolution = url => Links.GetSolution(url, answerQuestionModel.Question);
 
         CommentCount = answerQuestionModel.Comments.GetTotalCount();
-
+        UnsettledCommentCount = answerQuestionModel.Comments.GetUnsettledCount();
         DisableCommentLink = answerQuestionModel.DisableCommentLink;
         DisableAddKnowledgeButton = answerQuestionModel.DisableAddKnowledgeButton;
 
