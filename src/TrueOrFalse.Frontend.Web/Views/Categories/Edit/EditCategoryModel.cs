@@ -512,7 +512,7 @@ public class EditCategoryModel : BaseModel
         var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
         var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove); 
 
-        if (updatedParentList.Count == 0 && !parentCategoryAsCategory.IsUserStartTopic)
+        if ((updatedParentList.Count == 0 && !parentCategoryAsCategory.IsUserStartTopic) || (updatedParentList.All(c => c.Visibility != CategoryVisibility.All) && childCategory.Visibility == CategoryVisibility.All))
             return false;
 
         if (!IsAllowedTo.ToEdit(childCategory))

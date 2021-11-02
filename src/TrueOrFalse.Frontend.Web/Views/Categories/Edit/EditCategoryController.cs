@@ -278,9 +278,10 @@ public class EditCategoryController : BaseController
         //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
 
-        if (UserCache.IsInWishknowledge(_sessionUser.UserId,childCategoryId)) 
+        if (UserCache.IsInWishknowledge(_sessionUser.UserId, childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
+        Sl.CategoryRepo.Update(category, User_());
         Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(parentCategoryId), Sl.SessionUser.User, false);
 
         return Json(new
@@ -401,9 +402,10 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
-        var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
 
-        var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+       var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
+
+       var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
        Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
 
         if (parentHasBeenRemoved)

@@ -176,11 +176,14 @@ public class Crumbtrail_test : BaseTest
         var childOf5 = contextCategory.Add(categoryName: "child of 5", parent: category5, id: 6).Persist().All.ByName("child of 5");
 
 
-        var filler3Cache = CategoryCacheItem.ToCacheCategory(filler3);
-        var childOf5Cache = CategoryCacheItem.ToCacheCategory(childOf5);
+
+        EntityCache.Init();
 
         var sessionUser = Sl.SessionUser;
         var beforeSettingId = sessionUser.CurrentWikiId;
+
+        var filler3Cache = EntityCache.GetCategoryCacheItem(filler3.Id);
+        var childOf5Cache = EntityCache.GetCategoryCacheItem(childOf5.Id);
         sessionUser.SetWikiId(filler3Cache);
 
         var wikiIdShouldBe3 = sessionUser.CurrentWikiId;
@@ -188,8 +191,8 @@ public class Crumbtrail_test : BaseTest
         Assert.That(beforeSettingId, Is.EqualTo(1));
         Assert.That(wikiIdShouldBe3, Is.EqualTo(3));
 
-        var newWiki = CrumbtrailService.GetWiki(childOf5Cache);
+        var newWikiId = CrumbtrailService.GetWiki(childOf5Cache).Id;
 
-        Assert.That(newWiki, Is.EqualTo(5));
+        Assert.That(newWikiId, Is.EqualTo(5));
     }
 }

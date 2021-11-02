@@ -53,7 +53,7 @@ class GraphService_tests : BaseTest
 
         var firstChildrenIds = context
             .Add("B", parent: rootElement)
-            .Add("C", parent:rootElement)
+            .Add("C", parent: rootElement)
             .Persist()
             .All;
 
@@ -554,6 +554,44 @@ class GraphService_tests : BaseTest
         }
         Logg.r().Error("Category or CategoryRelations have a NullReferenceException");
         return false;
+    }
+
+    [Test]
+    public void Should_get_parents_after_wuwi_toggle()
+    {
+
+        var context = ContextCategory.New();
+
+        var parent = context.Add("parent", id: 1).Persist().All.First();
+
+        var userRoot = context
+            .Add("userRoot", parent: parent, id: 2)
+            .Persist()
+            .All.ByName("userRoot");
+
+        var user = ContextUser.New().Add("User").Persist().All[0];
+        Sl.SessionUser.Login(user);
+        EntityCache.Clear();
+        EntityCache.Init();
+
+        user.StartTopicId = 2;
+
+        var parentCacheItem = EntityCache.GetCategoryCacheItem(parent.Id);
+        var userRootCacheItem = EntityCache.GetCategoryCacheItem(userRoot.Id);
+
+        var parentOfUserRootIdsBeforeFiltering = GraphService.GetDirectParentIds(userRootCacheItem);
+        Assert.That(parentOfUserRootIdsBeforeFiltering.Count, Is.EqualTo(1));
+
+        UserEntityCache.Init();
+        UserCache.GetItem(user.Id).IsFiltered = true;
+
+        var parentOfUserRootIdsWhileFiltered = GraphService.GetDirectParentIds(userRootCacheItem);
+        Assert.That(parentOfUserRootIdsWhileFiltered.Count, Is.EqualTo(0));
+
+        UserCache.GetItem(user.Id).IsFiltered = false;
+
+        var parentOfUserRootIdsAfterFiltering = GraphService.GetDirectParentIds(userRootCacheItem);
+        Assert.That(parentOfUserRootIdsAfterFiltering.Count, Is.EqualTo(1));
     }
 }
 

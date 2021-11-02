@@ -60,7 +60,7 @@ public class SearchApiController : BaseController
     public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Select(c => new SearchCategoryItem
+            elements.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(c => new SearchCategoryItem
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -76,7 +76,7 @@ public class SearchApiController : BaseController
     public static void AddQuestionItems(List<SearchQuestionItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Questions.Select((q, index) => new SearchQuestionItem
+            elements.Questions.Where(q => q.IsVisibleToCurrentUser()).Select((q, index) => new SearchQuestionItem
             {
                 Id = q.Id,
                 Name = q.Text.Wrap(200),
