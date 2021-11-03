@@ -3,7 +3,7 @@
         <div>
             <div class="col-xs-3"></div>
                 <div class="col-xs-9">
-                    <div id="AddCommentTextFormContainer"  class="inline-question-editor col-xs-11">
+                    <div id="AddAnswerTextFormContainer"  class="inline-question-editor col-xs-11">
                         <div class="input-container">
                             <div class="overline-s no-line">Dein Antwortsbeitrag</div>
                             <template v-if="answerEditor">

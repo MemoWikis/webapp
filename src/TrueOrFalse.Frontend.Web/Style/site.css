@@ -2554,7 +2554,7 @@ input::placeholder {
 .border-bottom-grey {
   border-bottom: solid 1px #DDDDDD;
 }
-#AddCommentTextFormContainer .ProseMirror {
+#AddAnswerTextFormContainer .ProseMirror {
   padding: 11px 16px 0;
   min-height: 63px;
   word-wrap: break-word;
@@ -2562,7 +2562,7 @@ input::placeholder {
   width: 110%;
 }
 @media (max-width: 449px) {
-  #AddCommentTextFormContainer .ProseMirror {
+  #AddAnswerTextFormContainer .ProseMirror {
     padding: 11px 16px 0;
     min-height: 94px;
     word-wrap: break-word;
@@ -2571,7 +2571,7 @@ input::placeholder {
   }
 }
 @media (max-width: 349px) {
-  #AddCommentTextFormContainer .ProseMirror {
+  #AddAnswerTextFormContainer .ProseMirror {
     padding: 11px 16px 0;
     min-height: 125px;
     word-wrap: break-word;
@@ -2579,12 +2579,33 @@ input::placeholder {
     width: 110%;
   }
 }
+#AddCommentTextFormContainer .ProseMirror {
+  padding: 11px 16px 0;
+  min-height: 63px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+@media (max-width: 449px) {
+  #AddCommentTextFormContainer .ProseMirror {
+    padding: 11px 16px 0;
+    min-height: 94px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
+@media (max-width: 349px) {
+  #AddCommentTextFormContainer .ProseMirror {
+    padding: 11px 16px 0;
+    min-height: 125px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
 #AddCommentTitleFormContainer .ProseMirror {
   padding: 11px 16px 0;
   min-height: auto;
   word-wrap: break-word;
   white-space: pre-wrap;
-  width: 110%;
 }
 @media (max-width: 449px) {
   #AddCommentTitleFormContainer .ProseMirror {
@@ -2592,7 +2613,6 @@ input::placeholder {
     min-height: auto;
     word-wrap: break-word;
     white-space: pre-wrap;
-    width: 110%;
   }
 }
 @media (max-width: 349px) {
@@ -2601,6 +2621,5 @@ input::placeholder {
     min-height: auto;
     word-wrap: break-word;
     white-space: pre-wrap;
-    width: 110%;
   }
 }
