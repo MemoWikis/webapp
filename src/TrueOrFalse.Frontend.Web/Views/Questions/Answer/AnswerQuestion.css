@@ -863,7 +863,7 @@
   -webkit-border-radius: 50%;
           border-radius: 50%;
   max-height: 20px;
-  padding-right: 4px;
+  margin-right: 4px;
 }
 .commentUserDetails {
   padding-bottom: 12px;
@@ -944,7 +944,8 @@
 }
 .commentButtonsContainer {
   position: relative;
-  margin: 10px auto;
+  margin: 10px 32px 25px 15px;
+  height: 36px;
 }
 .commentThumbsIcon {
   font-size: 16px;
@@ -964,9 +965,7 @@ commentAnswersCount {
   font-size: 14px;
 }
 .commentMarkAsSettledContainer {
-  position: absolute;
-  bottom: 8px;
-  right: 20px;
+  padding-right: 50px;
 }
 .commentFooterText {
   font-size: 14px;
@@ -999,7 +998,7 @@ commentAnswersCount {
   line-height: 18px;
 }
 .commentAnswerAddContainer {
-  margin-top: 7px;
+  height: 120px;
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -1008,7 +1007,7 @@ commentAnswersCount {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   max-height: 48px;
-  padding-right: 10px;
+  margin-right: 10px;
 }
 .addCommentTitle {
   color: #767676;

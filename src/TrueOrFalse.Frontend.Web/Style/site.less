@@ -2667,12 +2667,13 @@ textarea, input {
         border-bottom: solid 1px @memo-grey-light;
     }
 
-#AddCommentFormContainer {
+#AddCommentTextFormContainer {
     .ProseMirror {
         padding: 11px 16px 0;
         min-height: 63px;
         word-wrap: break-word;
         white-space: pre-wrap;
+        width: 110%;
     }
 
     @media (max-width: 449px) {
@@ -2681,6 +2682,7 @@ textarea, input {
             min-height: 94px;
             word-wrap: break-word;
             white-space: pre-wrap;
+            width: 110%;
         }
     }
 
@@ -2690,6 +2692,37 @@ textarea, input {
             min-height: 125px;
             word-wrap: break-word;
             white-space: pre-wrap;
+            width: 110%;
+        }
+    }
+}
+
+#AddCommentTitleFormContainer {
+    .ProseMirror {
+        padding: 11px 16px 0;
+        min-height: auto;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        width: 110%;
+    }
+
+    @media (max-width: 449px) {
+        .ProseMirror {
+            padding: 11px 16px 0;
+            min-height: auto;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            width: 110%;
+        }
+    }
+
+    @media (max-width: 349px) {
+        .ProseMirror {
+            padding: 11px 16px 0;
+            min-height: auto;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            width: 110%;
         }
     }
 }
