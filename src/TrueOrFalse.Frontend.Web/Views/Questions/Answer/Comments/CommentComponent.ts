@@ -9,6 +9,8 @@ Vue.component('comment-component',
         data: function () {
             return {
                 readMore: false,
+                readMoreHtml: '<a class=\"cursor-hand\" onclick=\"eventBus.$emit(\'read-more-toggle\')\">&nbsp Mehr</a>',
+                readLessHtml: '<a class=\"cursor-hand\" onclick=\"eventBus.$emit(\'read-more-toggle\')\">&nbsp Weniger</a>',
                 showAnsweringPanel: false,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
@@ -24,7 +26,12 @@ Vue.component('comment-component',
             const self = this;
             self.isInstallationAdmin = self.isAdminString == "True";
             self.isOwner = self.comment.ImageUrl == self.currentUserImageUrl;
+
+            eventBus.$on('read-more-toggle', function () {
+                self.readMore = !self.readMore;
+            });
         },
+
 
         methods: {
 
@@ -79,6 +86,9 @@ Vue.component('add-comment-component',
                 commentEditor: null,
                 commentJson: null,
                 commentHtml: null,
+                titleEditor: null,
+                titleJson: null,
+                titleHtml: null,
                 flashCardJson: null,
                 highlightEmptyComment: false,
                 highlightEmptyTitle: false
@@ -102,6 +112,36 @@ Vue.component('add-comment-component',
                 self.$nextTick(() => {
 
                     Vue.component('editor-content', tiptapEditorContent);
+                    self.titleEditor = new tiptapEditor({
+                        editable: true,
+                        extensions: [
+                            tiptapStarterKit,
+                            tiptapLink.configure({
+                                HTMLAttributes: {
+                                    target: '_self',
+                                    rel: 'noopener noreferrer nofollow'
+                                }
+                            }),
+                            tiptapCodeBlockLowlight.configure({
+                                lowlight,
+                            }),
+                            tiptapUnderline,
+                            tiptapPlaceholder.configure({
+                                emptyEditorClass: 'is-editor-empty',
+                                emptyNodeClass: 'is-empty',
+                                placeholder: 'Gib bitte den Titel der Diskussion ein.',
+                                showOnlyCurrent: true,
+                            }),
+                            tiptapImage
+                        ],
+                        onUpdate: ({ editor }) => {
+                            self.titleJson = editor.getJSON();
+                            self.commentTitle = editor.getHTML();
+                        },
+                    });
+
+                    Vue.component('editor-content', tiptapEditorContent);
+
                     self.commentEditor = new tiptapEditor({
                         editable: true,
                         extensions: [
@@ -135,12 +175,13 @@ Vue.component('add-comment-component',
 
 
             saveComment() {
-                if (this.commentText.length > 10 && this.commentTitle.length > 5) {
-                    var self = this;
+                var self = this;
+
+                if (self.commentText.length > 10 && self.commentTitle.length > 5) {
                     var params = {
                         questionId: self.questionId,
-                        text: this.commentText,
-                        title: this.commentTitle
+                        text: self.commentText,
+                        title: self.commentTitle
                     };
                     $.ajax({
                         type: 'post',
@@ -148,24 +189,25 @@ Vue.component('add-comment-component',
                         url: "/AnswerComments/SaveComment",
                         data: JSON.stringify(params),
                         success: (result) => {
-                            this.commentText = "";
-                            this.commentEditor.commands.setContent('');
-                            this.commentTitle = "";
-                            this.highlightEmptyComment = false;
-                            this.highlightEmptyTitle = false;
+                            self.commentText = "";
+                            self.commentEditor.commands.setContent('');
+                            self.titleEditor.commands.setContent('');
+                            self.commentTitle = "";
+                            self.highlightEmptyComment = false;
+                            self.highlightEmptyTitle = false;
                             eventBus.$emit('new-comment-added');
                         },
                         error: () => { }
                     });
                 } else {
-                    this.highlightEmptyComment = false;
-                    this.highlightEmptyTitle = false;
+                    self.highlightEmptyComment = false;
+                    self.highlightEmptyTitle = false;
 
-                    if (this.commentText.length < 10) {
-                        this.highlightEmptyComment = true;
+                    if (self.commentText.length < 17) {
+                        self.highlightEmptyComment = true;
                     }
-                    if (this.commentTitle.length < 5) {
-                        this.highlightEmptyTitle = true;
+                    if (self.commentTitle.length < 12) {
+                        self.highlightEmptyTitle = true;
                     }
                 }
             },
@@ -264,11 +306,12 @@ Vue.component('comment-answer-add-component',
             },
 
             saveCommentAnswer() {
-                if (this.commentAnswerText.length > 10) {
-                    var self = this;
+                var self = this;
+
+                if (self.commentAnswerText.length > 17) {
                     var params = {
-                        commentId: this.parentCommentId,
-                        text: this.commentAnswerText
+                        commentId: self.parentCommentId,
+                        text: self.commentAnswerText
                     };
                     $.ajax({
                         type: 'post',
@@ -276,15 +319,15 @@ Vue.component('comment-answer-add-component',
                         url: "/AnswerComments/SaveAnswer",
                         data: JSON.stringify(params),
                         success: (result) => {
-                            this.commentAnswerText = "";
-                            this.answerEditor.commands.setContent('');
-                            this.highlightEmptyAnswer = false;
+                            self.commentAnswerText = "";
+                            self.answerEditor.commands.setContent('');
+                            self.highlightEmptyAnswer = false;
                             eventBus.$emit('new-comment-added');
                         },
                         error: () => {}
                     });
                 } else {
-                   this.highlightEmptyAnswer = true;
+                   self.highlightEmptyAnswer = true;
 
                 }
             },
