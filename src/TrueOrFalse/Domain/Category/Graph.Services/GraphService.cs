@@ -95,8 +95,8 @@ public class GraphService : GraphServiceHelper
         userId = userId == -1 ? Sl.CurrentUserId : userId;
         var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
 
-        var personalHomepage =
-            EntityCache.GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true);
+        var personalHomepage = EntityCache
+            .GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true).DeepClone();
         var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalHomepage);
         wuwiChildren = SetNewParents(userId, isFromUserEntityCache, wuwiChildren, personalHomepage);
 

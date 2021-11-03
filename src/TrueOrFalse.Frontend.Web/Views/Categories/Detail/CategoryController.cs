@@ -235,15 +235,18 @@ public class CategoryController : BaseController
         if (_sessionUser.IsLoggedIn)
         {
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
-                Logg.r().Warning("Cache CacheKeyIsNotAvaila>ble");
+                Logg.r().Warning("Cache CacheKeyIsNotAvailable");
             UserEntityCache.Init();
         }
 
         UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
-        var startTopicId = RootCategory.Get.Id; 
+        var startTopicId = RootCategory.Get.Id;
 
         if (showMyWorld || _sessionUser.IsLoggedIn)
-             startTopicId = _sessionUser.User.StartTopicId;
+        {
+            startTopicId = _sessionUser.User.StartTopicId;
+            return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: false));
+        }
 
         return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: true));
     }
