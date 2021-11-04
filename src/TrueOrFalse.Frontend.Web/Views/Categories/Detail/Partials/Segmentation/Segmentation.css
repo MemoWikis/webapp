@@ -14,6 +14,12 @@
 }
 #Segmentation .toRoot {
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  color: #555555;
+}
+#Segmentation .toRoot .category-chip-container {
+  margin-left: 4px;
 }
 #Segmentation .overline-m {
   margin-bottom: 15px;

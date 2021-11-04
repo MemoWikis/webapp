@@ -328,7 +328,7 @@
 }
 #Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .breadCrumb-userName {
   color: #767676;
-  padding: 0 4px;
+  padding-left: 4px;
   max-width: 64px;
   text-overflow: ellipsis;
   overflow: hidden;

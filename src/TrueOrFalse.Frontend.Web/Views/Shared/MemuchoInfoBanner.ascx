@@ -15,7 +15,7 @@
                 </a>
             </div>
             <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
-                <a href="#" onclick="OpenInfo('<%=Links.AboutMemucho() %>')">
+                <a href="#" onclick="OpenInfo('<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.IntroCategoryId)) %>')">
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
                 <a href="#" onclick="HideInfoBanner()" class="hidden-xs close-banner">
