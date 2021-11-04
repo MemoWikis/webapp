@@ -839,6 +839,12 @@
   max-height: -webkit-calc(100vh - 80px);
   max-height: calc(100vh - 80px);
 }
+.spinner {
+  z-index: 101;
+  left: -webkit-calc(50% - 37.5px);
+  left: calc(50% - 37.5px);
+  margin-top: 450px;
+}
 .commentSettledInfo {
   color: #767676;
   margin: 32px 0 0 0;
