@@ -304,6 +304,7 @@
   display: flex;
   align-items: center;
   padding: 0 12px;
+  height: 100%;
 }
 #Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .badge-counter {
   position: absolute;
@@ -315,9 +316,6 @@
   top: 6px;
   margin-left: 20px;
 }
-#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer:hover {
-  color: #003264;
-}
 #Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .userImage {
   width: 32px;
   height: 32px;
@@ -327,6 +325,19 @@
 }
 #Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .arrow-down {
   padding-left: 6px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .breadCrumb-userName {
+  color: #767676;
+  padding: 0 4px;
+  max-width: 64px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer:hover {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer:hover .breadCrumb-userName {
+  color: #003264;
 }
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container {
   display: flex;
@@ -664,4 +675,7 @@
   height: 29px;
   min-width: 1px;
   margin-left: 10px;
+}
+#BreadCrumbTrailContainer {
+  display: contents;
 }

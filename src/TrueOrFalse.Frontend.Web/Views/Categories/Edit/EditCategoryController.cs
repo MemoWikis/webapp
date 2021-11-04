@@ -402,24 +402,23 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
-
-       var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
-
-       var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
-       Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
-
-        if (parentHasBeenRemoved)
+        var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
+        if (!parentHasBeenRemoved)
             return Json(new
             {
-                success = true,
-                key = "unlinked",
+                success = false,
+                key = "noRemainingParents",
             });
 
+
+        var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+        Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
+
         return Json(new
-            {
-                success = false,
-                key = "noRemainingParents"
-            });
+        {
+            success = true,
+            key = "unlinked"
+        });
     }
 
 
