@@ -2377,7 +2377,7 @@ input::placeholder {
 }
 .modal-default-mask {
   position: fixed;
-  z-index: 1050;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -2399,6 +2399,7 @@ input::placeholder {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   max-height: calc(100vh - 1em);
+  min-height: 400px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
