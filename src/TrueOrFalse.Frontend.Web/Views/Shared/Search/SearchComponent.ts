@@ -48,7 +48,7 @@ Vue.component('search-component',
                     this.showDropdown = false;
             },
             showSearch(val) {
-                if (val)
+                if (val && this.$refs.searchInput != undefined)
                     this.$refs.searchInput.focus();
             }
         },
