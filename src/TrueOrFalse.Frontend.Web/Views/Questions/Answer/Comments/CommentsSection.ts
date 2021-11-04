@@ -31,13 +31,16 @@ Vue.component('comment-section-component',
                 showSettledComments: false,
                 commentsLoaded: false,
                 currentUserName: '',
-                isAdmin: false
+                isAdmin: false,
+                allLoaded: false
 
         };
         },
         template: '#comment-section-component',
         created() {
             var self = this;
+            self.allLoaded = false;
+            Utils.ShowSpinner();
             this.getCurrentUserImgUrl();
             this.getCurrentUserId();
             this.getCurrentUserAdmin();
@@ -57,6 +60,8 @@ Vue.component('comment-section-component',
                     self.comments = JSON.parse(data) as IComments[];
                     this.commentsLoaded = true;
                     eventBus.$emit('send-comments-count', self.questionId, self.comments.length);
+                    Utils.HideSpinner();
+                    self.allLoaded = true;
                 });
             },
             getSettledComments() {

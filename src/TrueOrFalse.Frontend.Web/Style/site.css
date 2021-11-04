@@ -2377,7 +2377,7 @@ input::placeholder {
 }
 .modal-default-mask {
   position: fixed;
-  z-index: 1050;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -2399,6 +2399,7 @@ input::placeholder {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   max-height: calc(100vh - 1em);
+  min-height: 400px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -2554,7 +2555,7 @@ input::placeholder {
 .border-bottom-grey {
   border-bottom: solid 1px #DDDDDD;
 }
-#AddCommentTextFormContainer .ProseMirror {
+#AddAnswerTextFormContainer .ProseMirror {
   padding: 11px 16px 0;
   min-height: 63px;
   word-wrap: break-word;
@@ -2562,7 +2563,7 @@ input::placeholder {
   width: 110%;
 }
 @media (max-width: 449px) {
-  #AddCommentTextFormContainer .ProseMirror {
+  #AddAnswerTextFormContainer .ProseMirror {
     padding: 11px 16px 0;
     min-height: 94px;
     word-wrap: break-word;
@@ -2571,7 +2572,7 @@ input::placeholder {
   }
 }
 @media (max-width: 349px) {
-  #AddCommentTextFormContainer .ProseMirror {
+  #AddAnswerTextFormContainer .ProseMirror {
     padding: 11px 16px 0;
     min-height: 125px;
     word-wrap: break-word;
@@ -2579,12 +2580,33 @@ input::placeholder {
     width: 110%;
   }
 }
+#AddCommentTextFormContainer .ProseMirror {
+  padding: 11px 16px 0;
+  min-height: 63px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+@media (max-width: 449px) {
+  #AddCommentTextFormContainer .ProseMirror {
+    padding: 11px 16px 0;
+    min-height: 94px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
+@media (max-width: 349px) {
+  #AddCommentTextFormContainer .ProseMirror {
+    padding: 11px 16px 0;
+    min-height: 125px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
 #AddCommentTitleFormContainer .ProseMirror {
   padding: 11px 16px 0;
   min-height: auto;
   word-wrap: break-word;
   white-space: pre-wrap;
-  width: 110%;
 }
 @media (max-width: 449px) {
   #AddCommentTitleFormContainer .ProseMirror {
@@ -2592,7 +2614,6 @@ input::placeholder {
     min-height: auto;
     word-wrap: break-word;
     white-space: pre-wrap;
-    width: 110%;
   }
 }
 @media (max-width: 349px) {
@@ -2601,6 +2622,5 @@ input::placeholder {
     min-height: auto;
     word-wrap: break-word;
     white-space: pre-wrap;
-    width: 110%;
   }
 }

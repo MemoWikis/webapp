@@ -1,22 +1,10 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BreadCrumbModel>" %>
 <%@ Import Namespace="Markdig.Helpers" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<% var userSession = new SessionUser();
-   var user = userSession.User;
-   string userImage = "";
-   string toolTipToHomepage = "Zur Startseite";
-
-   if (Model.IsLoggedIn)
-   {
-       var imageSetttings = new UserImageSettings(userSession.User.Id);
-       userImage = imageSetttings.GetUrl_30px_square(userSession.User).Url;
-       toolTipToHomepage = "Zu deinem Wiki";
-   }
-%>
 
 <div id="BreadCrumbContainer" class="container">
     <span>
-        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="<%= toolTipToHomepage %>">
+        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="<%= Model.ToolTipToHomepage %>">
             <i class="fas fa-home"></i>
         </a>
     </span>
@@ -39,7 +27,8 @@
                { %>
                 <a class="TextLinkWithIcon dropdown-toggle" id="dLabelBreadCrumb" data-toggle="dropdown" href="#">
                     <div id="dLabelContainer">
-                        <img class="userImage" src="<%= userImage %>"/>
+                        <img class="userImage" src="<%= Model.UserImage %>"/>
+                        <div class="breadCrumb-userName hidden-xs"><%= Model.UserName %></div>
                         <% if (Model.SidebarModel.UnreadMessageCount != 0)
                            { %>
                             <div class="badge-counter"></div>
@@ -78,13 +67,13 @@
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Network) %>" href="<%= Links.Network() %>">Deine Netzwerk</a>
                     </li>
                     <li>
-                        <a class="<%= Model.UserMenuActive(UserMenuEntry.UserDetail) %>" href="<%= Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Deine Profilseite</a>
+                        <a class="<%= Model.UserMenuActive(UserMenuEntry.UserDetail) %>" href="<%= Url.Action(Links.UserAction, Links.UserController, new {name = Model.UserName, id = Model.User.Id}) %>">Deine Profilseite</a>
                     </li>
                     <li class="divider"></li>
                     <li>
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.UserSettings) %>" href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>">Konto-Einstellungen</a>
                     </li>
-                    <% if (userSession.IsInstallationAdmin)
+                    <% if (Model.IsInstallationAdmin)
                        { %>
                         <li>
                             <a style="padding-bottom: 15px;" href="<%= Url.Action("Maintenance", "Maintenance") %>">Administrativ</a>
@@ -94,8 +83,8 @@
                         </li>
                     <% } %>
                     <li>
-                        <a <% if (!userSession.IsInstallationAdmin)
-                              { %> style="padding-bottom: 15px;" <% } %> href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser ? "true" : "" %>">Ausloggen</a>
+                        <a <% if (!Model.IsInstallationAdmin)
+                              { %> style="padding-bottom: 15px;" <% } %> href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= Model.User.IsFacebookUser ? "true" : "" %>">Ausloggen</a>
                     </li>
 
                 </ul>
