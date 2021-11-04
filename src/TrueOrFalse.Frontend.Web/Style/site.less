@@ -2465,6 +2465,7 @@ textarea, input {
     }
 }
 
+
 .modal-default-mask {
     position: fixed;
     z-index: 100;
@@ -2475,6 +2476,8 @@ textarea, input {
     background-color: rgba(0, 0, 0, 0.5);
     display: table;
     transition: opacity 0.3s ease;
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
 }
 
 .modal-default-wrapper {
@@ -2494,6 +2497,23 @@ textarea, input {
     min-height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
+    opacity: 1;
+    animation-name: open-default-modal;
+    animation-duration: 150ms;
+}
+
+@keyframes open-default-modal {
+    from {
+        width: 30%;
+        height: 320px;
+        opacity: 0.2;
+    }
+
+    to {
+        width: 50%;
+        height: auto;
+        opacity: 1;
+    }
 }
 
 @media only screen and (max-width: 1080px) and (min-width: 850px) {
@@ -2511,7 +2531,7 @@ textarea, input {
     }
 }
 
-@media (max-width: 849px) {
+@media (max-width: 849px) and (min-width: 386px) {
     .modal-default-container {
         max-width: 100%;
         margin: 0px auto;
@@ -2520,7 +2540,24 @@ textarea, input {
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
         transition: all 0.3s ease;
-        max-height: calc(100vh - 0.1em);
+        max-height: none;
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
+@media (max-width: 385px) {
+    .modal-default-container {
+        max-width: 100%;
+        margin: 0px auto;
+        padding: 8px 4px;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+        transition: all 0.3s ease;
+        max-height: none;
+        height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -2532,6 +2569,15 @@ textarea, input {
     float: right;
     font-size: 24px;
     color: #767676;
+}
+
+@media (max-width: 849px) {
+    .modal-close-button {
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        margin: 0;
+    }
 }
 
 .modal-default-header h3 {
@@ -2704,6 +2750,7 @@ textarea, input {
         min-height: 63px;
         word-wrap: break-word;
         white-space: pre-wrap;
+        width: 102%;
     }
 
     @media (max-width: 449px) {
@@ -2731,6 +2778,7 @@ textarea, input {
         min-height: auto;
         word-wrap: break-word;
         white-space: pre-wrap;
+        width: 102%;
     }
 
     @media (max-width: 449px) {
