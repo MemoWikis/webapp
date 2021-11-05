@@ -1,6 +1,5 @@
 ﻿<div class="commentAnswerAddContainer" id="CommentAnswerAddComponent">
-    <div class="panel-body">
-        <div>
+    <div class="panel-body row">
             <div class="col-xs-2"></div>
                 <div class="col-xs-10">
                     <div id="AddAnswerTextFormContainer"  class="inline-question-editor col-xs-11">
@@ -17,5 +16,4 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
