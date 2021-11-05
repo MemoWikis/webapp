@@ -1,8 +1,6 @@
 ﻿<div class="panel-body commentRelativeContainer" id="CommentAnswerComponent">
     <div class="col-xs-2"></div>
-    <div class="col-xs-1">
-    </div>
-    <div class="col-xs-9 commentUserDetails">
+    <div class="col-xs-10 commentUserDetails">
         <div>
             <a class="pointer" :href="answer.CreatorUrl">
                 <img class="commentUserImg" :src="answer.ImageUrl">
