@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BDDish.Model;
 using TrueOrFalse.Tests;
 
 public class ContextUser
@@ -48,7 +49,7 @@ public class ContextUser
         foreach (var usr in All)
         {
             _userRepo.Create(usr);
-            if (withStartTopic)
+            if (withStartTopic && usr != null)
             {
                 var firstStartTopic= ContextCategory.New(false) 
                     .Add(usr.Name + "s Startseite", creator: usr).Persist()

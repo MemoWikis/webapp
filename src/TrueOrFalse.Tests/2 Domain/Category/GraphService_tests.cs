@@ -13,31 +13,31 @@ class GraphService_tests : BaseTest
 
         var rootElement = context.Add("RootElement").Persist().All.First();
 
-        var firstChildrenIdss = context
+        var firstChildrenIds = context
             .Add("Sub1", parent: rootElement)
             .Persist()
             .All;
 
         var secondChildrenIds = context.
-            Add("SubSub1", parent: firstChildrenIdss.ByName("Sub1"))
+            Add("SubSub1", parent: firstChildrenIds.ByName("Sub1"))
             .Persist()
             .All
             .ByName("SubSub1");
 
 
         // Add User
-        var user = ContextUser.New().Add("User").Persist().All[0];
+        var user = ContextUser.New().Add("User").Persist(true).All[0];
 
-        CategoryInKnowledge.Pin(firstChildrenIdss.ByName("SubSub1").Id, user);
+        CategoryInKnowledge.Pin(firstChildrenIds.ByName("SubSub1").Id, user);
 
         Sl.SessionUser.Login(user);
         EntityCache.Clear();
         EntityCache.Init();
 
-        var userPersonnelCategoriesWithRelations =   GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
+        var userPersonnelCategoriesWithRelations = GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement), 2);
 
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
-        Assert.That(EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("RootElement"));
+        Assert.That(EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("Users Startseite"));
         Assert.That(EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryId).Name, Is.EqualTo("SubSub1"));
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType, Is.EqualTo(CategoryRelationType.IsChildOf));
     }
@@ -77,7 +77,8 @@ class GraphService_tests : BaseTest
         context.Add("I", parent: secondChildrenIds.ByName("G"))
             .Persist();
 
-        var user = ContextUser.New().Add("User").Persist().All[0];
+        var user = ContextUser.New().Add("User").Persist(true).All[0];
+        var userRoot = context.All.ByName("Users Startseite");
 
         // Add in WUWI
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("C").Id, user);
@@ -86,9 +87,10 @@ class GraphService_tests : BaseTest
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("I").Id, user);
 
         Sl.SessionUser.Login(user);
+
         EntityCache.Init();
 
-        var userPersonelCategoriesWithRealtions = GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(rootElement),user.Id);
+        var userPersonelCategoriesWithRealtions = GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(userRoot),user.Id);
          
         //Test C
         Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations), 
@@ -398,7 +400,7 @@ class GraphService_tests : BaseTest
             .Persist()
             .All;
 
-        var user = ContextUser.New().Add("User").Persist().All[0];
+        var user = ContextUser.New().Add("User").Persist(true).All[0];
 
         // Add in WUWI
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("F").Id, user);
@@ -559,25 +561,27 @@ class GraphService_tests : BaseTest
     [Test]
     public void Should_get_parents_after_wuwi_toggle()
     {
+        EntityCache.Clear();
 
         var context = ContextCategory.New();
+        var user = ContextUser.New().Add("WuwiUser").Persist().All[0];
 
         var parent = context.Add("parent", id: 1).Persist().All.First();
-
         var userRoot = context
-            .Add("userRoot", parent: parent, id: 2)
+            .Add("userRoot", parent: parent, id: 2, creator: user)
             .Persist()
-            .All.ByName("userRoot");
-
-        var user = ContextUser.New().Add("User").Persist().All[0];
-        Sl.SessionUser.Login(user);
-        EntityCache.Clear();
-        EntityCache.Init();
+            .All
+            .ByName("userRoot");
 
         user.StartTopicId = 2;
 
-        var parentCacheItem = EntityCache.GetCategoryCacheItem(parent.Id);
-        var userRootCacheItem = EntityCache.GetCategoryCacheItem(userRoot.Id);
+        Sl.SessionUser.Login(user);
+        EntityCache.Init();
+        CategoryCacheItem.ToCacheCategory(parent);
+        CategoryCacheItem.ToCacheCategory(userRoot);
+        //AllToCache(context.All);
+
+        var userRootCacheItem = EntityCache.GetCategoryCacheItem(2);
 
         var parentOfUserRootIdsBeforeFiltering = GraphService.GetDirectParentIds(userRootCacheItem);
         Assert.That(parentOfUserRootIdsBeforeFiltering.Count, Is.EqualTo(1));
@@ -592,6 +596,12 @@ class GraphService_tests : BaseTest
 
         var parentOfUserRootIdsAfterFiltering = GraphService.GetDirectParentIds(userRootCacheItem);
         Assert.That(parentOfUserRootIdsAfterFiltering.Count, Is.EqualTo(1));
+    }
+
+    private void AllToCache(List<Category> categories)
+    {
+        foreach (var cat in categories)
+            CategoryCacheItem.ToCacheCategory(cat);
     }
 }
 
