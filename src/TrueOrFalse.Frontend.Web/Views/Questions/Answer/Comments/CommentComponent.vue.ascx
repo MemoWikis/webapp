@@ -63,7 +63,7 @@
                     </span>
                 </span>
                 </div>
-                <div class="commentUserDetails col-xs-6">
+                <div class="commentUserDetails">
                     <a class="pointer" :href="comment.CreatorUrl">
                     <img class="commentUserImg" :src="comment.ImageUrl">
                     <a class="commentUserName">{{comment.CreatorName}}</a>

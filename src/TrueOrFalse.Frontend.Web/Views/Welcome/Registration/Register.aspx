@@ -36,12 +36,12 @@
                 <div class="form-group omb_login">
                     <div class="row omb_socialButtons">
    	                    <div class="col-xs-12 col-sm-offset-2 col-sm-3" style="padding-top: 7px;">
-		                    <a href="#" class="btn btn-block omb_btn-facebook" id="btn-login-with-facebook" style="width: 100%">
+		                    <a href="#" class="btn btn-block omb_btn-facebook" id="btn-login-with-facebook-modal" style="width: 100%">
 			                    <span>Facebook</span>
 		                    </a>
 	                    </div>
         	            <div class="col-xs-12 col-sm-3" style="padding-top: 7px;">
-		                    <a href="#" class="btn btn-block omb_btn-google" id="btn-login-with-google">
+		                    <a href="#" class="btn btn-block omb_btn-google" id="btn-login-with-google-modal">
 			                    <span>Google+</span>
 		                    </a>
 	                    </div>	
