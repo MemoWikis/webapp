@@ -14,7 +14,7 @@
                                 <template >
                                     <editor-content :editor="titleEditor"  :class="{ 'is-empty': highlightEmptyComment && commentEditor.state.doc.textContent.length <= 10 }"/>
                                 </template>
-                                <div v-if="highlightEmptyComment" class="field-error">Bitte formuliere einen Titel</div>
+                                <div v-if="highlightEmptyTitle" class="field-error">Bitte formuliere einen Titel</div>
                             </div>
                             <div class="input-container" id="AddCommentTextFormContainer">
                             <div class="overline-s no-line">Dein Diskussionsbeitrag</div>
