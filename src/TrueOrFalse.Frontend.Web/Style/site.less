@@ -2465,19 +2465,42 @@ textarea, input {
     }
 }
 
+.no-scroll{
+    overflow:hidden;
+}
+
+@media (max-width: 849px) {
+    .modal-default {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1050;
+    }
+}
 
 .modal-default-mask {
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     display: table;
     transition: opacity 0.3s ease;
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-width: 850px) {
+    .modal-default-mask {
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .modal-default-wrapper {
@@ -2486,16 +2509,19 @@ textarea, input {
 }
 
 .modal-default-container {
-    max-width: 50%;
-    margin: 0px auto;
-    padding: 64px 40px;
+    width: 50%;
+    margin: 0 auto;
+    position: absolute;
+    top: 5%;
+    left: 25%;
+    padding: 64px 40px 4px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
-    max-height: calc(100vh - 1em);
-    min-height: 400px;
-    overflow-y: scroll;
+    max-height: calc(100vh - 5em);
+    min-height: 100px;
+    overflow-y: auto;
     overflow-x: hidden;
     opacity: 1;
     animation-name: open-default-modal;
@@ -2518,22 +2544,28 @@ textarea, input {
 
 @media only screen and (max-width: 1080px) and (min-width: 850px) {
     .modal-default-container {
-        max-width: 75%;
-        margin: 0px auto;
+        position: absolute;
+        top: 5%;
+        left: 12.5%;
+        width: 75%;
+        margin: 0 auto;
         padding: 64px 40px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
         transition: all 0.3s ease;
         max-height: calc(100vh - 1em);
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
     }
 }
 
 @media (max-width: 849px) and (min-width: 386px) {
     .modal-default-container {
-        max-width: 100%;
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
         margin: 0px auto;
         padding: 64px 40px;
         background-color: #fff;
@@ -2541,6 +2573,7 @@ textarea, input {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
         transition: all 0.3s ease;
         max-height: none;
+        min-height: none;
         height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
@@ -2549,7 +2582,10 @@ textarea, input {
 
 @media (max-width: 385px) {
     .modal-default-container {
-        max-width: 100%;
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
         margin: 0px auto;
         padding: 8px 4px;
         background-color: #fff;
@@ -2557,6 +2593,7 @@ textarea, input {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
         transition: all 0.3s ease;
         max-height: none;
+        min-height: none;
         height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
@@ -2564,16 +2601,17 @@ textarea, input {
 }
 
 .modal-close-button {
-    margin-top: -44px;
-    margin-right: -20px;
-    float: right;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    margin: 0;
     font-size: 24px;
     color: #767676;
 }
 
 @media (max-width: 849px) {
     .modal-close-button {
-        position: fixed;
+        position: absolute;
         right: 20px;
         top: 20px;
         margin: 0;
@@ -2720,7 +2758,7 @@ textarea, input {
         min-height: 63px;
         word-wrap: break-word;
         white-space: pre-wrap;
-        width: 110%;
+        width: 95%;
     }
 
     @media (max-width: 449px) {
@@ -2729,7 +2767,6 @@ textarea, input {
             min-height: 94px;
             word-wrap: break-word;
             white-space: pre-wrap;
-            width: 110%;
         }
     }
 
@@ -2739,7 +2776,6 @@ textarea, input {
             min-height: 125px;
             word-wrap: break-word;
             white-space: pre-wrap;
-            width: 110%;
         }
     }
 }
@@ -2750,7 +2786,7 @@ textarea, input {
         min-height: 63px;
         word-wrap: break-word;
         white-space: pre-wrap;
-        width: 102%;
+        width: 97%;
     }
 
     @media (max-width: 449px) {
@@ -2778,7 +2814,7 @@ textarea, input {
         min-height: auto;
         word-wrap: break-word;
         white-space: pre-wrap;
-        width: 102%;
+        width: 97%;
     }
 
     @media (max-width: 449px) {

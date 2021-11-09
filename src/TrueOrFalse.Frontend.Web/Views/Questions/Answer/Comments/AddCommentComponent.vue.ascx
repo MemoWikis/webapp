@@ -3,7 +3,7 @@
         <div class="panel-body">
             <div>
                 <div class="commentAnswerAddTopSpace row">
-                    <div class="col-xs-1">
+                    <div class="col-xs-1 addCommentUsrImgContainer">
                         <img class="addCommentUsrImg" :src="currentUserImageUrl">
                     </div>
                     <div >
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div style="padding-top: 18px;">
-                        <a class="btn btn-primary memo-button pull-right " @click="saveComment()">Diskussion hinzufügen</a>
+                        <a class="btn btn-primary memo-button pull-right addCommentBtn" @click="saveComment()">Diskussion hinzufügen</a>
                         <a class="btn btn-lg btn-link memo-button pull-right " @click="cancel()">Abbrechen</a>
                     </div>
                 </div>

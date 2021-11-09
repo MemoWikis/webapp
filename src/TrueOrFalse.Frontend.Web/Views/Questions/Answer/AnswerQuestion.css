@@ -928,15 +928,18 @@ p {
   background: #555555;
   color: white;
   -webkit-border-radius: 4px;
-          border-radius: 4px;
+  border-radius: 4px;
   line-height: 16px;
   font-size: 12px;
-  text-align: center;
-  padding: 8px 8px 8px 8px;
+  padding: 3px 8px 8px 8px;
   margin-right: 16px;
+  height: 24px;
+  display: inline-block;
+  text-align: center;
+  width: 96px;
 }
 .commentTextContainer {
-  padding: 1em 0 2em 0;
+  padding: 12px 0 21px 0;
 }
 .commentText {
   color: #555555;
@@ -953,7 +956,7 @@ p {
 }
 .commentButtonsContainer {
   position: relative;
-  margin: 10px 32px 25px 15px;
+  margin: 10px 28px 25px 15px;
   height: 36px;
 }
 .commentThumbsIcon {
@@ -1012,11 +1015,16 @@ commentAnswersCount {
   -webkit-box-shadow: none;
           box-shadow: none;
 }
+.noPadding {
+  padding: 0;
+}
 .addCommentUsrImg {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   max-height: 48px;
-  margin-right: 10px;
+}
+.addCommentUsrImgContainer {
+  padding-left: 0 !important;
 }
 .addCommentTitle {
   color: #767676;
@@ -1027,6 +1035,9 @@ commentAnswersCount {
 }
 .addCommentInputTitle {
   padding-bottom: 20px;
+}
+.addCommentBtn {
+  margin-right: 27px;
 }
 .commentAnswerAddTopBorder {
   border-top: 1px solid #DDDDDD;
@@ -1046,9 +1057,8 @@ commentAnswersCount {
   padding-top: 24px;
 }
 .commentAddContainer {
-  margin-top: 7px;
   border: none;
-  padding-bottom: 64px;
+  padding-bottom: 8px;
 }
 .commentLoginContainer {
   margin-bottom: 18px;

@@ -177,7 +177,7 @@ Vue.component('add-comment-component',
             saveComment() {
                 var self = this;
 
-                if (self.commentText.length > 10 && self.commentTitle.length > 5) {
+                if (self.commentText.length > 17 && self.commentTitle.length > 12) {
                     var params = {
                         questionId: self.questionId,
                         text: self.commentText,

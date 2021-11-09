@@ -85,17 +85,17 @@
                 <comment-answer-add-component :currentUserImageUrl="currentUserImageUrl" :parentCommentId="comment.Id" :currentUserName="currentUserName"/>
             </div>
             
-            <div class="commentButtonsContainer" v-if="isLoggedIn">
-                <div v-if="!comment.IsSettled">
+            <div class="commentButtonsContainer" style="display: flex; flex-direction: row-reverse; justify-content: end;" v-if="isLoggedIn">
+                <div v-if="!comment.IsSettled" >
                     <a v-if="showAnsweringPanel" @click="emitSaveAnswer()" class="btn btn-primary memo-button pull-right">Antworten</a>
                     <a v-else @click="showAnsweringPanel = true; showCommentAnswers = true" class="btn btn-primary memo-button pull-right" >Antworten</a>
                 </div>
-                <div class="commentMarkAsSettledContainer" >
+                <div>
                     <a v-if="isInstallationAdmin && !comment.IsSettled || isOwner && !comment.IsSettled" @click="markAsSettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">
                         Diskussion schliessen
                     </a>
                     <a v-if="isInstallationAdmin && comment.IsSettled" @click.stop="markAsUnsettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">
-                        Diskussion wiedereröffnen
+                        Diskussion wieder eröffnen
                     </a>
                 </div>
             </div>
