@@ -956,7 +956,7 @@ p {
 }
 .commentButtonsContainer {
   position: relative;
-  margin: 10px 28px 25px 15px;
+  margin: 0px 28px 25px 15px;
   height: 36px;
 }
 .commentThumbsIcon {
@@ -1010,7 +1010,6 @@ commentAnswersCount {
   line-height: 18px;
 }
 .commentAnswerAddContainer {
-  height: 120px;
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
