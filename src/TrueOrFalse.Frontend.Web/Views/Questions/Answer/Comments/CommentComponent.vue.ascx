@@ -87,8 +87,7 @@
             
             <div class="commentButtonsContainer" style="display: flex; flex-direction: row-reverse; justify-content: end;" v-if="isLoggedIn">
                 <div v-if="!comment.IsSettled" >
-                    <a v-if="showAnsweringPanel" @click="emitSaveAnswer()" class="btn btn-primary memo-button pull-right">Antworten</a>
-                    <a v-else @click="showAnsweringPanel = true; showCommentAnswers = true" class="btn btn-primary memo-button pull-right" >Antworten</a>
+                    <a @click="emitSaveAnswer()" class="btn btn-primary memo-button pull-right">Antworten</a>
                 </div>
                 <div>
                     <a v-if="isInstallationAdmin && !comment.IsSettled || isOwner && !comment.IsSettled" @click="markAsSettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">

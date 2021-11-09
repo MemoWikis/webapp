@@ -69,7 +69,8 @@ Vue.component('comment-component',
                 });
             },
             emitSaveAnswer() {
-                eventBus.$emit('saveAnswer');
+                var self = this;
+                eventBus.$emit('saveAnswer', self.comment.Id);
             }
         }
     });
@@ -259,8 +260,10 @@ Vue.component('comment-answer-add-component',
         created() {
 
             var self = this;
-            eventBus.$on('saveAnswer', function () {
-                self.saveCommentAnswer();
+            eventBus.$on('saveAnswer', function (commentId) {
+                if(self.parentCommentId == commentId){
+                    self.saveCommentAnswer();
+                }
             });
         },
 
