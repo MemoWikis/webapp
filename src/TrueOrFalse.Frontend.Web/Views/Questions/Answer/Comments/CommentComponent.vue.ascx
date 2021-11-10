@@ -68,7 +68,7 @@
                     <a class="commentUserName">{{comment.CreatorName}}</a>
                     </a>
                     <span class="greyed commentDate">
-                        vor <span class="cursor-hand show-tooltip" >{{comment.CreationDateNiceText}}</span>
+                        vor <span class="show-tooltip" >{{comment.CreationDateNiceText}}</span>
                     </span>
                 </div>
                 </div>
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="commentAnswersContainer" v-if="foldOut && isInstallationAdmin|| foldOut && comment.Answers.length > 0 || !comment.IsSettled">
+        <div class="commentAnswersContainer" v-if="foldOut && isInstallationAdmin|| foldOut && comment.Answers.length > 0 || !comment.IsSettled  && isInstallationAdmin|| !comment.IsSettled && comment.Answers.length > 0 || !comment.IsSettled && isLoggedIn">
             <div v-if="showCommentAnswers" class="" v-for="(answer, index) in comment.Answers">
                 <comment-answer-component :answer="answer" :comment-id="comment.Id" :last-answer="comment.Answers.length -1 == index"/>
             </div>

@@ -30,7 +30,7 @@
                     </div>
                     <div style="padding-top: 18px;">
                         <a class="btn btn-primary memo-button pull-right addCommentBtn" @click="saveComment()">Diskussion hinzufügen</a>
-                        <a class="btn btn-lg btn-link memo-button pull-right " @click="cancel()">Abbrechen</a>
+                        <a class="btn btn-lg btn-link memo-button pull-right " @click="closeModal()">Abbrechen</a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
     </div>
     <div v-else class="row commentLoginContainer">
         <div class="col-xs-12 commentLoginText">
-            Um zu kommentieren, musst du eingeloggt sein. <a href="#" data-btn-login="true" @click="closeModal()">Jetzt anmelden</a>
+            Um zu kommentieren, musst du eingeloggt sein. <a href="#" data-btn-login="true"  @click="closeModal()" class="btn btn-link">&nbsp; Jetzt anmelden</a>
         </div>
     </div>
 </div>
