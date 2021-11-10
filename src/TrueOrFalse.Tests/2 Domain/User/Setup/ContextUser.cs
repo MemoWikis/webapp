@@ -44,14 +44,24 @@ public class ContextUser
         return this;
     }
 
-    public ContextUser Persist(bool withStartTopic = false)
+    public ContextUser Persist(bool withStartTopic = false, ContextCategory context = null)
     {
         foreach (var usr in All)
         {
             _userRepo.Create(usr);
             if (withStartTopic && usr != null)
             {
-                var firstStartTopic= ContextCategory.New(false) 
+                Category firstStartTopic;
+                if (context != null)
+                {
+                    var newId = context.All.Count + 1;
+                    firstStartTopic = context
+                        .Add(usr.Name + "s Startseite", creator: usr, id: newId).Persist()
+                        .All
+                        .ByName(usr.Name + "s Startseite");
+                }
+                else
+                    firstStartTopic = ContextCategory.New(false) 
                     .Add(usr.Name + "s Startseite", creator: usr).Persist()
                     .All
                     .First();

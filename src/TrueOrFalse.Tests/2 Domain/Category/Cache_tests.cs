@@ -377,7 +377,7 @@ class User_entity_cache_tests : BaseTest
         EntityCache.GetCategoryCacheItem(user1.StartTopicId); 
         var userStartTopic2 = Sl.CategoryRepo.GetById(user2.StartTopicId);
 
-        var categoryA = ContextCategory.New(false).Add ("A", creator: user1).Persist().All.First();
+        var categoryA = ContextCategory.New(false).Add("A", creator: user1).Persist().All.First();
         var categoryB = ContextCategory.New(false).Add("B", creator: user1).Persist().All.First();
         var categoryC = ContextCategory.New(false).Add("C", creator: user1).Persist().All.First();
 

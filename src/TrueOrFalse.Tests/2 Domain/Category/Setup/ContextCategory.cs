@@ -252,10 +252,8 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("G"))
                 .Persist();
 
-            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist().All[0];
-            var personalStartTopicId = Add(user.Name + "s Startseite", creator: user)
-                .Persist()
-                .All
+            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
+            var personalStartTopicId = Add(user.Name + "s Startseite").Persist().All
                 .ByName(user.Name + "s Startseite").Id;
 
             user.StartTopicId = personalStartTopicId;
