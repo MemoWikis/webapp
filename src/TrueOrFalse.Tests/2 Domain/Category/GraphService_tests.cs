@@ -5,7 +5,7 @@ using TrueOrFalse.Tests;
 
 class GraphService_tests : BaseTest
 {
-    [Test]
+    [Test, Sequential]
     public void Should_get_correct_category_with_relations()
     {
         EntityCache.Clear();
@@ -326,7 +326,7 @@ class GraphService_tests : BaseTest
         Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("X3")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X3"), userWikiName),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X3"), "A"),
             Is.EqualTo(true));
 
         Assert.That(IsAllRelationsAChildOf(allPersonalCategoriesWithRelations.ByName("X").CategoryRelations)
@@ -335,7 +335,7 @@ class GraphService_tests : BaseTest
         Assert.That(IsCategoryRelationsCategoriesIdCorrect(allPersonalCategoriesWithRelations.ByName("X")),
             Is.EqualTo(true));
 
-        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X"), userWikiName),
+        Assert.That(HasCorrectParent(allPersonalCategoriesWithRelations.ByName("X"), "A"),
             Is.EqualTo(true));
 
         Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("X"), "I"),
@@ -374,16 +374,16 @@ class GraphService_tests : BaseTest
         Assert.That(allPersonalCategoriesWithRelations.ByName("G").CachedData.ChildrenIds.Count,
             Is.EqualTo(1));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName(userWikiName), "B"),
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "B"),
             Is.EqualTo(true));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName(userWikiName), "X"),
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X"),
             Is.EqualTo(true));
 
-        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName(userWikiName), "X3"),
+        Assert.That(ContextCategory.HasCorrectChild(allPersonalCategoriesWithRelations.ByName("A"), "X3"),
             Is.EqualTo(true));
 
-        Assert.That(allPersonalCategoriesWithRelations.ByName(userWikiName).CachedData.ChildrenIds.Count,
+        Assert.That(allPersonalCategoriesWithRelations.ByName("A").CachedData.ChildrenIds.Count,
             Is.EqualTo(3));
     }
 
@@ -448,6 +448,7 @@ class GraphService_tests : BaseTest
     [Test]
     public void Without_wish_knowledge()
     {
+        EntityCache.Clear();
         RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache(false);
         EntityCache.Init();

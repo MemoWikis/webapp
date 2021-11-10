@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Configuration;
 using System.Linq;
 using NHibernate;
 using NUnit.Framework;
@@ -7,7 +8,7 @@ using TrueOrFalse.Tests;
 
 class User_entity_cache_tests : BaseTest
 {
-    [Test]
+    [Test, Sequential]
     public void Should_return_correct_categories()
     {
         RecycleContainer();
@@ -302,15 +303,15 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Delete_category()
     {
-        var cateContext = ContextCategory.New();
-        var user1 = cateContext.AddCaseThreeToCache();
-        var user = cateContext.AddCaseThreeToCache();
+        var context = ContextCategory.New();
+        var user1 = context.AddCaseThreeToCache();
+        var user = context.AddCaseThreeToCache();
 
         EntityCache.Init();
         UserEntityCache.GetAllCaches();	// This expression causes side effects and will not be evaluated	
 
-        cateContext.Add("New", creator: user,parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
-        cateContext.Add("New1",creator: user, parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
+        context.Add("New", creator: user,parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
+        context.Add("New1",creator: user, parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
 
         CategoryInKnowledge.Pin(EntityCache.GetByName("New").First().Id, user1);
         CategoryInKnowledge.Pin(EntityCache.GetByName("New1").First().Id, user1);
@@ -416,6 +417,7 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Get_correct_relations_with_another_startsite()
     {
+
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
         var userStartTopic1 = EntityCache.GetCategoryCacheItem(user1.StartTopicId);

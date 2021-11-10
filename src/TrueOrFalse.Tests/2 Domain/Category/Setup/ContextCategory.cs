@@ -172,11 +172,12 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public User AddCaseThreeToCache(bool withWuwi = true)
+        public User AddCaseThreeToCache(bool withWuwi = true, ContextCategory context = null)
         {
             //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
-            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist(true).All[0];
+            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist(true, context ?? this).All[0];
             var rootElement = Add("A").Persist().All.First();
+            var userRootElement = Add(user.Name + "s Startseite").Persist().All.ByName(user.Name + "s Startseite");
 
             var firstChildren =
                 Add("X", parent: rootElement)

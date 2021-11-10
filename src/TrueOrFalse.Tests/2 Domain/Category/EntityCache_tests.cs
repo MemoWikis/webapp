@@ -10,7 +10,7 @@ using TrueOrFalse.Tests;
 class EntityCache_tests : BaseTest
 {
 
-    [Test]
+    [Test, Sequential]
     public void Should_get_direct_childrens()
     {
         var context = ContextCategory.New();
