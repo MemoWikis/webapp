@@ -17,13 +17,13 @@ class EntityCache_tests : BaseTest
 
         var parent = context.Add("RootElement").Persist().All.First();
 
-        var firstChildrens = context
+        var firstChildren = context
             .Add("Sub1", parent: parent)
             .Persist()
             .All;
 
         var secondChildren = context.
-            Add("SubSub1", parent: firstChildrens.ByName("Sub1"))
+            Add("SubSub1", parent: firstChildren.ByName("Sub1"))
             .Persist()
             .All
             .ByName("SubSub1");

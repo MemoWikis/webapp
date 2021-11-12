@@ -390,7 +390,10 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_special_case()
     {
-        https: //docs.google.com/drawings/d/1CWJoFSk5aAJf1EOpWqf1Ffr6ncjwxpOcJqFWZEXUVk4
+        EntityCache.Clear();
+        UserEntityCache.Clear();
+
+        //docs.google.com/drawings/d/1CWJoFSk5aAJf1EOpWqf1Ffr6ncjwxpOcJqFWZEXUVk4
 
         var context = ContextCategory.New();
 
@@ -449,6 +452,7 @@ class GraphService_tests : BaseTest
     public void Without_wish_knowledge()
     {
         EntityCache.Clear();
+        UserEntityCache.Clear();
         RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache(false);
         EntityCache.Init();

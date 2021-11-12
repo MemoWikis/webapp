@@ -172,11 +172,15 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public User AddCaseThreeToCache(bool withWuwi = true, ContextCategory context = null)
+        public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null, bool withLogin = false)
         {
             //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
-            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist(true, context ?? this).All[0];
             var rootElement = Add("A").Persist().All.First();
+
+            if (contextUser == null)
+                contextUser = ContextUser.New();
+            var user = contextUser.Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
+            var context = this;
             var userRootElement = Add(user.Name + "s Startseite").Persist().All.ByName(user.Name + "s Startseite");
 
             var firstChildren =
@@ -218,9 +222,14 @@ namespace TrueOrFalse.Tests
                 CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
             }
 
-            Sl.SessionUser.Login(user);
+            //Sl.SessionUser.Login(user);
             EntityCache.Init();
+
+            if (withLogin)
+                Sl.SessionUser.Login(user);
             UserEntityCache.Init(user.Id);
+            if (withLogin)
+                Sl.SessionUser.Logout();
             return user;
         }
 

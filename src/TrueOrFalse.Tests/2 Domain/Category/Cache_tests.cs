@@ -11,6 +11,8 @@ class User_entity_cache_tests : BaseTest
     [Test, Sequential]
     public void Should_return_correct_categories()
     {
+        EntityCache.Clear();
+
         RecycleContainer();
         ContextCategory.New().AddCaseThreeToCache();
         var user = Sl.SessionUser.User;
@@ -56,6 +58,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Give_correct_number_of_cache_items_case_three()
     {
+        EntityCache.Clear();
+
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
         var user = Sl.SessionUser.User;
@@ -82,6 +86,7 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Give_correct_children()
     {
+        EntityCache.Clear();
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
         var user = Sl.SessionUser.User;
@@ -97,7 +102,9 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_next_parent_in_wishknowledge()
     {
-      var user = ContextCategory.New().AddCaseThreeToCache();
+        EntityCache.Clear();
+
+        var user = ContextCategory.New().AddCaseThreeToCache();
       ContextCategory.New().Add("noParent").Persist();
       var noParent = EntityCache.GetAllCategories().ByName("noParent");
       CategoryInKnowledge.Pin(noParent.Id, user);
@@ -129,7 +136,9 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_init_for_user_entity_cache_change_name()
     {
-      RecycleContainer();
+        EntityCache.Clear();
+
+        RecycleContainer();
         Sl.SessionUser.Clear();
         Sl.CategoryValuationRepo.ClearAllItemCache();
         Sl.CategoryRepo.ClearAllItemCache();
@@ -149,6 +158,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_change_for_all_user_entity_caches()
     {
+        EntityCache.Clear();
+
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
 
@@ -172,7 +183,9 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Test_delete_category()
     {
-       var A =  ContextCategory.New().Add("A").Persist().All.First();
+        EntityCache.Clear();
+
+        var A =  ContextCategory.New().Add("A").Persist().All.First();
         var B = ContextCategory.New().Add("B", parent: A ).Persist().All.ByName("B");
         ContextCategory.New().Add("C", parent: B).Persist();
 
@@ -205,6 +218,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Get_all_parents_from_entity_cache()
     {
+        EntityCache.Clear();
+
         ContextCategory.New().AddCaseThreeToCache();
         var parentNames = GraphService.GetAllParentsFromEntityCache(
             EntityCache.GetByName("I")
@@ -226,6 +241,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Create_category()
     {
+        EntityCache.Clear();
+
         var cateContext = ContextCategory.New();
         var user = cateContext.AddCaseThreeToCache();
         EntityCache.Init();
@@ -290,6 +307,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Create_category_test_case_2_without_my_world()
     {
+        EntityCache.Clear();
+
         var context = ContextCategory.New();
         context.Add("1").Persist();
         context.Add("2", parent: context.All.ByName("1")).Persist();
@@ -303,9 +322,13 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Delete_category()
     {
+        EntityCache.Clear();
+        UserEntityCache.Clear();
+
         var context = ContextCategory.New();
-        var user1 = context.AddCaseThreeToCache();
-        var user = context.AddCaseThreeToCache();
+        var contextUser = ContextUser.New();
+        var user1 = context.AddCaseThreeToCache(contextUser: contextUser, withLogin: true);
+        var user = context.AddCaseThreeToCache(contextUser: contextUser, withLogin: true);
 
         EntityCache.Init();
         UserEntityCache.GetAllCaches();	// This expression causes side effects and will not be evaluated	
@@ -349,6 +372,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Update_category()
     {
+        EntityCache.Clear();
+
         var cateContext = ContextCategory.New();
         var user = cateContext.AddCaseThreeToCache();
         var all = cateContext.All;
@@ -373,6 +398,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Get_correct_relations_from_another_startsite()
     {
+        EntityCache.Clear();
+
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First(); 
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
         EntityCache.GetCategoryCacheItem(user1.StartTopicId); 
@@ -417,6 +444,7 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Get_correct_relations_with_another_startsite()
     {
+        EntityCache.Clear();
 
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
@@ -484,6 +512,8 @@ class User_entity_cache_tests : BaseTest
     [Test]
     public void Get_correct_relations_with_another_startsite1()
     {
+        EntityCache.Clear();
+
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
         var userStartTopic1 = EntityCache.GetCategoryCacheItem(user1.StartTopicId);
