@@ -99,7 +99,7 @@
                                 <li><a :href="linkToQuestionVersions" data-allowed="logged-in">
                                     <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div><span>Bearbeitungshistorie der Frage</span>
                                 </a></li>
-                                <li><a @click.stop="showModal()">
+                                <li><a @click="showModal()">
                                     <div class="dropdown-icon"><i class="fas fa-comment"></i></div><span>Frage kommentieren</span>
                                 </a></li>
                                 <li v-if="isAdmin == 'True'">

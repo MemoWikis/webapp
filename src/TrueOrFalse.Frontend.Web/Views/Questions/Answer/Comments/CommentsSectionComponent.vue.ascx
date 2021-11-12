@@ -7,9 +7,11 @@
             <div v-if="settledComments.length > 0">
                 <div  class="commentSettledInfo">
                     Die Frage hat {{settledComments.length}}
-                    <span v-if="settledComments.length == 1"> geschlossene Diskussion
+                    <span v-if="settledComments.length == 1">
+                        geschlossene Diskussion
                     </span>
-                    <span v-else> geschlossene Diskussionen
+                    <span v-else>
+                        geschlossene Diskussionen
                     </span>
 
                     <a v-if="showSettledComments" class="cursor-hand" @click="showSettledComments = false" data-question-id="questionId">(ausblenden)</a>

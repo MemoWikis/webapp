@@ -24,28 +24,27 @@
                             <i class="fa fa-chevron-up pointer" v-else></i>
                         </span>
                     </div>
-                    <div class="commentTitle" v-if="comment.Title.length > 0" v-html="comment.Title + '&nbsp &nbsp'">
+                    <div class="commentTitle" v-if="comment.Title.length > 0" v-html="comment.Title">
                         <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
                             <i class="fa fa-comments commentAnswersCount" aria-hidden="true"></i>
                             <span class="commentSpeechBubbleText" v-if="comment.Answers.length == 1">&nbsp {{comment.Answers.length}} Beitrag</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp {{comment.Answers.length}} Beiträge</span>
                         </span>
                     </div>
-                    <div class="commentTitle" v-else-if="comment.Text.length > 25" v-html="comment.Text.slice(0,25) + '...' + '&nbsp &nbsp'">
+                    <div class="commentTitle" v-else-if="comment.Text.length > 25" v-html="comment.Text.slice(0,25) + '...'">
                                 <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
                                     <i class="fa fa-comments commentAnswersCount" aria-hidden="true"></i>
                                     <span class="commentSpeechBubbleText" v-if="comment.Answers.length == 1">&nbsp {{comment.Answers.length}} Beitrag</span>
                                     <span class="commentSpeechBubbleText" v-else>&nbsp {{comment.Answers.length}} Beiträge</span>
                                 </span>
-                            </div>
-                            <div class="commentTitle" v-else v-html="comment.Text + '&nbsp &nbsp'">
-                                <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
-                                    <i class="fa fa-comments commentAnswersCount" aria-hidden="true"></i>  
-                                    <span class="commentSpeechBubbleText" v-if="comment.Answers.length == 1">&nbsp {{comment.Answers.length}} Beitrag</span>
-                                    <span class="commentSpeechBubbleText" v-else>&nbsp {{comment.Answers.length}} Beiträge</span>
-                                </span>
-                            </div>
-
+                    </div>
+                    <div class="commentTitle" v-else v-html="comment.Text">
+                        <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                            <i class="fa fa-comments commentAnswersCount" aria-hidden="true"></i>
+                            <span class="commentSpeechBubbleText" v-if="comment.Answers.length == 1">&nbsp {{comment.Answers.length}} Beitrag</span>
+                            <span class="commentSpeechBubbleText" v-else>&nbsp {{comment.Answers.length}} Beiträge</span>
+                        </span>
+                      </div>
                 </div>
 
                 <div v-if="foldOut || !comment.IsSettled">
@@ -69,7 +68,7 @@
                     <a class="commentUserName">{{comment.CreatorName}}</a>
                     </a>
                     <span class="greyed commentDate">
-                        vor <span class="cursor-hand show-tooltip" >{{comment.CreationDateNiceText}}</span>
+                        vor <span class="show-tooltip" >{{comment.CreationDateNiceText}}</span>
                     </span>
                 </div>
                 </div>
@@ -77,7 +76,7 @@
             </div>
         </div>
 
-        <div class="commentAnswersContainer" v-if="foldOut|| !comment.IsSettled">
+        <div class="commentAnswersContainer" v-if="foldOut && isInstallationAdmin|| foldOut && comment.Answers.length > 0 || !comment.IsSettled  && isInstallationAdmin|| !comment.IsSettled && comment.Answers.length > 0 || !comment.IsSettled && isLoggedIn">
             <div v-if="showCommentAnswers" class="" v-for="(answer, index) in comment.Answers">
                 <comment-answer-component :answer="answer" :comment-id="comment.Id" :last-answer="comment.Answers.length -1 == index"/>
             </div>
@@ -85,18 +84,20 @@
                 <comment-answer-add-component :currentUserImageUrl="currentUserImageUrl" :parentCommentId="comment.Id" :currentUserName="currentUserName"/>
             </div>
             
-            <div class="commentButtonsContainer" v-if="isLoggedIn">
-                <div v-if="!comment.IsSettled">
-                    <a v-if="showAnsweringPanel" @click="emitSaveAnswer()" class="btn btn-primary memo-button pull-right">Antworten</a>
-                    <a v-else @click="showAnsweringPanel = true; showCommentAnswers = true" class="btn btn-primary memo-button pull-right" >Antworten</a>
-                </div>
-                <div class="commentMarkAsSettledContainer" >
-                    <a v-if="isInstallationAdmin && !comment.IsSettled || isOwner && !comment.IsSettled" @click="markAsSettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">
-                        Diskussion schliessen
-                    </a>
-                    <a v-if="isInstallationAdmin && comment.IsSettled" @click.stop="markAsUnsettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">
-                        Diskussion wiedereröffnen
-                    </a>
+            <div class="commentButtonsContainer row" style="" v-if="isLoggedIn">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-10">
+                    <div v-if="!comment.IsSettled" class="pull-right">
+                        <a @click="emitSaveAnswer()" class="btn btn-primary memo-button ">Antworten</a>
+                    </div>
+                    <div class="pull-right">
+                        <a v-if="isInstallationAdmin && !comment.IsSettled || isOwner && !comment.IsSettled" @click="markAsSettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button" data-comment-id="comment.Id">
+                            Diskussion schliessen
+                        </a>
+                        <a v-if="isInstallationAdmin && comment.IsSettled" @click.stop="markAsUnsettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button" data-comment-id="comment.Id">
+                            Diskussion wieder eröffnen
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

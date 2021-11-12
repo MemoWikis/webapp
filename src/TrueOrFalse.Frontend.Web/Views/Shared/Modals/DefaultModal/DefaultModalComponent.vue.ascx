@@ -1,4 +1,4 @@
-﻿<div id="defaultModal">
+﻿<div id="defaultModal" class="modal-default">
     <div class="modal-default-mask" @click="closeModal()">
         <div class="modal-default-wrapper">
             <div class="modal-default-container" v-on:click.stop>

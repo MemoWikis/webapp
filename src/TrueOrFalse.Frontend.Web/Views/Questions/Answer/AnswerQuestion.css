@@ -850,7 +850,7 @@ p {
 }
 .commentSettledInfo {
   color: #767676;
-  margin: 32px 0 0 0;
+  margin: 24px 0 24px 0;
 }
 .commentAnswersContainer {
   padding-top: 25px;
@@ -875,8 +875,14 @@ p {
   margin-right: 4px;
 }
 .commentUserDetails {
-  padding-bottom: 12px;
+  padding-bottom: 30px;
   padding-left: 0;
+  border: none !important;
+}
+.answerUserDetails {
+  padding-bottom: 30px;
+  padding-left: 0;
+  border-bottom: 1px solid #DDDDDD;
 }
 .commentUserName {
   font-size: 14px;
@@ -928,15 +934,18 @@ p {
   background: #555555;
   color: white;
   -webkit-border-radius: 4px;
-          border-radius: 4px;
+  border-radius: 4px;
   line-height: 16px;
   font-size: 12px;
-  text-align: center;
-  padding: 8px 8px 8px 8px;
+  padding: 3px 8px 8px 8px;
   margin-right: 16px;
+  height: 24px;
+  display: inline-block;
+  text-align: center;
+  width: 96px;
 }
 .commentTextContainer {
-  padding: 1em 0 2em 0;
+  padding: 12px 0 21px 0;
 }
 .commentText {
   color: #555555;
@@ -953,7 +962,7 @@ p {
 }
 .commentButtonsContainer {
   position: relative;
-  margin: 10px 32px 25px 15px;
+  margin: 0px 5px 25px 0px;
   height: 36px;
 }
 .commentThumbsIcon {
@@ -965,7 +974,6 @@ p {
 .commentSpeechBubbleIcon {
   font-size: 14px;
   color: #767676;
-  cursor: pointer;
 }
 .commentSpeechBubbleText {
   font-size: 14px;
@@ -1007,16 +1015,20 @@ commentAnswersCount {
   line-height: 18px;
 }
 .commentAnswerAddContainer {
-  height: 120px;
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+.noPadding {
+  padding: 0;
 }
 .addCommentUsrImg {
   -webkit-border-radius: 50%;
           border-radius: 50%;
   max-height: 48px;
-  margin-right: 10px;
+}
+.addCommentUsrImgContainer {
+  padding-left: 0 !important;
 }
 .addCommentTitle {
   color: #767676;
@@ -1027,6 +1039,9 @@ commentAnswersCount {
 }
 .addCommentInputTitle {
   padding-bottom: 20px;
+}
+.addCommentBtn {
+  margin-right: 27px;
 }
 .commentAnswerAddTopBorder {
   border-top: 1px solid #DDDDDD;
@@ -1046,9 +1061,8 @@ commentAnswersCount {
   padding-top: 24px;
 }
 .commentAddContainer {
-  margin-top: 7px;
   border: none;
-  padding-bottom: 64px;
+  padding-bottom: 8px;
 }
 .commentLoginContainer {
   margin-bottom: 18px;

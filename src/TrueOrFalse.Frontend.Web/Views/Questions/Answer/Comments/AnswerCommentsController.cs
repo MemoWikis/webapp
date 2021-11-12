@@ -87,33 +87,69 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public String GetCurrentUserImgUrl()
     {
-        var currentUserImageUrl = new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
-        return currentUserImageUrl;
+        if (_sessionUser.User != null)
+        {
+            var currentUserImageUrl =
+                new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
+            return currentUserImageUrl;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     [HttpPost]
     public int GetCurrentUserId()
     {
-        return _sessionUser.User.Id;
+        if (_sessionUser.User != null)
+        {
+            return _sessionUser.User.Id;
+        }
+        else
+        {
+            return -1;
+        }
     }
 
     [HttpPost]
     public string GetCurrentUserName()
     {
-        return _sessionUser.User.Name;
+        if (_sessionUser.User != null)
+        {
+                return _sessionUser.User.Name;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     [HttpPost]
     public bool GetCurrentUserAdmin()
     {
-        return _sessionUser.User.IsInstallationAdmin;
+        if (_sessionUser.User != null)
+        {
+                    return _sessionUser.User.IsInstallationAdmin;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     [HttpPost]
     public String GetUserImgUrl(int userId)
     {
-        var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
+        if (_sessionUser.User != null)
+        {
+                        var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
         return userImageUrl;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     [HttpPost]

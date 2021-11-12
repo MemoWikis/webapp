@@ -782,7 +782,7 @@ p {
 
 .commentSettledInfo {
     color: @memo-grey-dark;
-    margin: 32px 0 0 0;
+    margin: 24px 0 24px 0;
 }
 
 .commentAnswersContainer {
@@ -812,8 +812,15 @@ p {
 }
 
 .commentUserDetails {
-    padding-bottom: 12px;
+    padding-bottom: 30px;
     padding-left: 0;
+    border: none !important;
+}
+
+.answerUserDetails {
+    padding-bottom: 30px;
+    padding-left: 0;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .commentUserName {
@@ -875,16 +882,21 @@ p {
 .commentSettledBox {
     background: @memo-grey-darker;
     color: white;
+    -webkit-border-radius: 4px;
     border-radius: 4px;
     line-height: 16px;
     font-size: 12px;
     text-align: center;
-    padding: 8px 8px 8px 8px;
+    padding: 3px 8px 8px 8px;
     margin-right: 16px;
+    height: 24px;
+    display: inline-block;
+    text-align: center;
+    width: 96px;
 }
 
 .commentTextContainer {
-    padding: 1em 0 2em 0;
+    padding: 12px 0 21px 0;
 }
 
 .commentText {
@@ -905,7 +917,7 @@ p {
 
 .commentButtonsContainer {
     position: relative;
-    margin: 10px 32px 25px 15px;
+    margin: 0px 5px 25px 0px;
     height: 36px;
 }
 
@@ -919,7 +931,6 @@ p {
 .commentSpeechBubbleIcon {
     font-size: 14px;
     color: @memo-grey-dark;
-    cursor: pointer;
 }
 
 .commentSpeechBubbleText {
@@ -972,15 +983,21 @@ commentAnswersCount {
 }
 
 .commentAnswerAddContainer {
-    height: 120px;
     border: none;
     box-shadow: none;
+}
+
+.noPadding {
+    padding: 0;
 }
 
 .addCommentUsrImg {
     border-radius: 50%;
     max-height: 48px;
-    margin-right: 10px;
+}
+
+.addCommentUsrImgContainer {
+    padding-left: 0 !important;
 }
 
 .addCommentTitle {
@@ -993,6 +1010,10 @@ commentAnswersCount {
 
 .addCommentInputTitle {
     padding-bottom: 20px;
+}
+
+.addCommentBtn {
+    margin-right: 27px;
 }
 
 .commentAnswerAddTopBorder {
@@ -1016,9 +1037,8 @@ commentAnswersCount {
 }
 
 .commentAddContainer {
-    margin-top: 7px;
     border: none;
-    padding-bottom: 64px;
+    padding-bottom: 8px;
 }
 
 .commentLoginContainer {

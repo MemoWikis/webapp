@@ -69,7 +69,8 @@ Vue.component('comment-component',
                 });
             },
             emitSaveAnswer() {
-                eventBus.$emit('saveAnswer');
+                var self = this;
+                eventBus.$emit('saveAnswer', self.comment.Id);
             }
         }
     });
@@ -103,10 +104,6 @@ Vue.component('add-comment-component',
         },
 
         methods: {
-            cancel() {
-                eventBus.$emit('close-modal');
-            },
-
             initQuickCreate() {
                 var self = this;
                 self.$nextTick(() => {
@@ -177,7 +174,7 @@ Vue.component('add-comment-component',
             saveComment() {
                 var self = this;
 
-                if (self.commentText.length > 10 && self.commentTitle.length > 5) {
+                if (self.commentText.length > 17 && self.commentTitle.length > 12) {
                     var params = {
                         questionId: self.questionId,
                         text: self.commentText,
@@ -212,6 +209,7 @@ Vue.component('add-comment-component',
                 }
             },
             closeModal() {
+                document.body.classList.remove('no-scroll');
                 eventBus.$emit('close-modal');
             }
         }
@@ -259,8 +257,10 @@ Vue.component('comment-answer-add-component',
         created() {
 
             var self = this;
-            eventBus.$on('saveAnswer', function () {
-                self.saveCommentAnswer();
+            eventBus.$on('saveAnswer', function (commentId) {
+                if(self.parentCommentId == commentId){
+                    self.saveCommentAnswer();
+                }
             });
         },
 

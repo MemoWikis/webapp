@@ -20,3 +20,5 @@
 <%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponentLoader.ascx") %>
 
 <%= Scripts.Render("~/bundles/js/CommentsSection") %>
+<%= Scripts.Render("~/bundles/RegistrationJs") %>    
+<%= Styles.Render("~/bundles/Registration") %>
