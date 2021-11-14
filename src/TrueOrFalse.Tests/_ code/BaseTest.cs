@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using NHibernate;
@@ -30,8 +31,14 @@ public class BaseTest
         DateTimeX.ResetOffset();
     }
 
+    [TearDown]
     public void RecycleContainer()
     {
+        EntityCache.Clear();
+        UserEntityCache.Clear();
+        Sl.SessionUser.Clear();
+        Sl.CategoryValuationRepo.ClearAllItemCache();
+        Sl.CategoryRepo.ClearAllItemCache();
         R<ISession>().Flush();
         _container.Dispose();
         BuildContainer();
