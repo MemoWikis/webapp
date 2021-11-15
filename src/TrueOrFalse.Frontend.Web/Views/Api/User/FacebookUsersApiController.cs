@@ -32,6 +32,7 @@ public class FacebookUsersApiController : BaseController
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
             R<SessionUser>().Login(user);
             PersonalTopic.CreatePersonalCategory(user);
+            UserEntityCache.Init(user.Id);
         }
 
         return new JsonResult { Data = registerResult };
