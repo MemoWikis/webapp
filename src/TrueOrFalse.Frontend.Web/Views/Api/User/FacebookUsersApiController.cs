@@ -47,11 +47,15 @@ public class FacebookUsersApiController : BaseController
     public string DataDeletionCallback(string jsonUserData)
     {
         JObject userData = JObject.Parse(jsonUserData);
+        if(String.IsNullOrEmpty(GetHashString(userData["user_id"]?.ToString())))
+        {
+            return "Error";
+        }
         var confirmationCode = GetHashString(userData["user_id"]?.ToString());
 
         SendEmail.Run(new MailMessage(
             Settings.EmailFrom,
-            "justin-schwab@web.de",
+            Settings.EmailToMemucho,
             "Facebook Data Deletion Callback",
             $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."));
         var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
