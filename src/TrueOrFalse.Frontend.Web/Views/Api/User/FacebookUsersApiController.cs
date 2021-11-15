@@ -1,5 +1,10 @@
 using System;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class FacebookUsersApiController : BaseController
 {
@@ -36,5 +41,51 @@ public class FacebookUsersApiController : BaseController
     public JsonResult UserExists(string facebookId)
     {
         return Json(Sl.UserRepo.FacebookUserExists(facebookId));
+    }
+
+    [HttpPost]
+    public string DataDeletionCallback(string jsonUserData)
+    {
+        JObject userData = JObject.Parse(jsonUserData);
+        if(String.IsNullOrEmpty(GetHashString(userData["user_id"]?.ToString())))
+        {
+            return "Error";
+        }
+        var confirmationCode = GetHashString(userData["user_id"]?.ToString());
+
+        SendEmail.Run(new MailMessage(
+            Settings.EmailFrom,
+            Settings.EmailToMemucho,
+            "Facebook Data Deletion Callback",
+            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."));
+        var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
+        return JsonConvert.SerializeObject(requestAnswer); ;
+    }
+
+    public static string GetHashString(string inputString)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (byte b in GetHash(inputString))
+            sb.Append(b.ToString("X2"));
+
+        return sb.ToString();
+    }
+
+    public static byte[] GetHash(string inputString)
+    {
+        using (HashAlgorithm algorithm = SHA256.Create())
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+    }
+
+    [HttpPost]
+    public string UserExistsString(string facebookId)
+    {
+        bool userExists = Sl.UserRepo.FacebookUserExists(facebookId);
+        if (userExists)
+        {
+            return "Der Rückruf zur Datenlöschung für deinen Facebook Account wurde noch nicht ausgeführt. Bitte gib uns bis zu 48 Stunden Zeit deine Anfrage zu bearbeiten.";
+        }
+
+        return "Dieser Facebook Account ist nicht mit memucho verbunden";
     }
 }
