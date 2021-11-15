@@ -7,9 +7,6 @@ class GraphService_tests : BaseTest
     [Test, Sequential]
     public void Should_get_correct_category_with_relations()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         var context = ContextCategory.New();
 
         var rootElement = context.Add("RootElement").Persist().All.First();
@@ -54,9 +51,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_simple_test()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         // Case https://docs.google.com/drawings/d/1Wbne-XXmYkA578uSc6nY0mxz_s-pG8E9Q9flmgY2ZNY/
 
         var context = ContextCategory.New();
@@ -205,9 +199,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_middle_test()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         ContextCategory.New().AddCaseTwoToCache();
         EntityCache.Init();
         var rootElement = EntityCache.GetAllCategories().First();
@@ -266,9 +257,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_complex_test()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
 
@@ -400,10 +388,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Wish_knowledge_filter_special_case()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
-
         //docs.google.com/drawings/d/1CWJoFSk5aAJf1EOpWqf1Ffr6ncjwxpOcJqFWZEXUVk4
 
         var context = ContextCategory.New();
@@ -460,9 +444,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Without_wish_knowledge()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         ContextCategory.New().AddCaseThreeToCache(false);
         EntityCache.Init();
 
@@ -475,9 +456,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Should_delete_all_includes_content_of_relations()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         ContextCategory.New().AddCaseThreeToCache();
         var rootCategoryOriginal = EntityCache.GetAllCategories().First().DeepClone();
 
@@ -605,9 +583,6 @@ class GraphService_tests : BaseTest
     [Test]
     public void Should_get_parents_after_wuwi_toggle()
     {
-        RecycleContainer();
-        EntityCache.Clear();
-        UserEntityCache.Clear();
         var context = ContextCategory.New();
 
         var parent = context.Add("parent").Persist().All.First();

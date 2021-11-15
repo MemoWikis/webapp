@@ -37,8 +37,6 @@ public class BaseTest
         EntityCache.Clear();
         UserEntityCache.Clear();
         Sl.SessionUser.Clear();
-        Sl.CategoryValuationRepo.ClearAllItemCache();
-        Sl.CategoryRepo.ClearAllItemCache();
         R<ISession>().Flush();
         _container.Dispose();
         BuildContainer();
