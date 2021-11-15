@@ -1,6 +1,6 @@
-﻿<div class="panel-body commentRelativeContainer" id="CommentAnswerComponent">
+﻿<div class="panel-body commentRelativeContainer row" id="CommentAnswerComponent">
     <div class="col-xs-2"></div>
-    <div class="col-xs-10 commentUserDetails">
+    <div class="col-xs-10 answerUserDetails" v-bind:class="{ commentUserDetails: lastAnswer }">
         <div>
             <a class="pointer" :href="answer.CreatorUrl">
                 <img class="commentUserImg" :src="answer.ImageUrl">
@@ -29,5 +29,4 @@
                 </span>
             </span>        </div>
     </div>
-    <div v-if="!lastAnswer" class="answerBorder"></div>
 </div>

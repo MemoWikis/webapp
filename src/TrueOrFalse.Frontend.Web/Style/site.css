@@ -2380,8 +2380,7 @@ input::placeholder {
 }
 @media (max-width: 849px) {
   .modal-default {
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     position: fixed;
     top: 0;
     right: 0;
@@ -2637,7 +2636,7 @@ input::placeholder {
   min-height: 63px;
   word-wrap: break-word;
   white-space: pre-wrap;
-  width: 95%;
+  width: 100%;
 }
 @media (max-width: 449px) {
   #AddAnswerTextFormContainer .ProseMirror {
@@ -2660,7 +2659,6 @@ input::placeholder {
   min-height: 63px;
   word-wrap: break-word;
   white-space: pre-wrap;
-  width: 97%;
 }
 @media (max-width: 449px) {
   #AddCommentTextFormContainer .ProseMirror {
@@ -2683,7 +2681,7 @@ input::placeholder {
   min-height: auto;
   word-wrap: break-word;
   white-space: pre-wrap;
-  width: 97%;
+  width: 100%;
 }
 @media (max-width: 449px) {
   #AddCommentTitleFormContainer .ProseMirror {

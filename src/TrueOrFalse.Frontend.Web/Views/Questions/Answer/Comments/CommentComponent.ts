@@ -104,10 +104,6 @@ Vue.component('add-comment-component',
         },
 
         methods: {
-            cancel() {
-                eventBus.$emit('close-modal');
-            },
-
             initQuickCreate() {
                 var self = this;
                 self.$nextTick(() => {
@@ -213,6 +209,7 @@ Vue.component('add-comment-component',
                 }
             },
             closeModal() {
+                document.body.classList.remove('no-scroll');
                 eventBus.$emit('close-modal');
             }
         }

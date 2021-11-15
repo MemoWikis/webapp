@@ -850,7 +850,7 @@ p {
 }
 .commentSettledInfo {
   color: #767676;
-  margin: 32px 0 0 0;
+  margin: 24px 0 24px 0;
 }
 .commentAnswersContainer {
   padding-top: 25px;
@@ -875,8 +875,14 @@ p {
   margin-right: 4px;
 }
 .commentUserDetails {
-  padding-bottom: 12px;
+  padding-bottom: 30px;
   padding-left: 0;
+  border: none !important;
+}
+.answerUserDetails {
+  padding-bottom: 30px;
+  padding-left: 0;
+  border-bottom: 1px solid #DDDDDD;
 }
 .commentUserName {
   font-size: 14px;
@@ -956,7 +962,7 @@ p {
 }
 .commentButtonsContainer {
   position: relative;
-  margin: 0px 28px 25px 15px;
+  margin: 0px 5px 25px 0px;
   height: 36px;
 }
 .commentThumbsIcon {
@@ -968,7 +974,6 @@ p {
 .commentSpeechBubbleIcon {
   font-size: 14px;
   color: #767676;
-  cursor: pointer;
 }
 .commentSpeechBubbleText {
   font-size: 14px;

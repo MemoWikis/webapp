@@ -68,7 +68,7 @@
                     <a class="commentUserName">{{comment.CreatorName}}</a>
                     </a>
                     <span class="greyed commentDate">
-                        vor <span class="cursor-hand show-tooltip" >{{comment.CreationDateNiceText}}</span>
+                        vor <span class="show-tooltip" >{{comment.CreationDateNiceText}}</span>
                     </span>
                 </div>
                 </div>
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="commentAnswersContainer" v-if="foldOut && isInstallationAdmin|| foldOut && comment.Answers.length > 0 || !comment.IsSettled">
+        <div class="commentAnswersContainer" v-if="foldOut && isInstallationAdmin|| foldOut && comment.Answers.length > 0 || !comment.IsSettled  && isInstallationAdmin|| !comment.IsSettled && comment.Answers.length > 0 || !comment.IsSettled && isLoggedIn">
             <div v-if="showCommentAnswers" class="" v-for="(answer, index) in comment.Answers">
                 <comment-answer-component :answer="answer" :comment-id="comment.Id" :last-answer="comment.Answers.length -1 == index"/>
             </div>
@@ -84,17 +84,20 @@
                 <comment-answer-add-component :currentUserImageUrl="currentUserImageUrl" :parentCommentId="comment.Id" :currentUserName="currentUserName"/>
             </div>
             
-            <div class="commentButtonsContainer" style="display: flex; flex-direction: row-reverse; justify-content: end;" v-if="isLoggedIn">
-                <div v-if="!comment.IsSettled" >
-                    <a @click="emitSaveAnswer()" class="btn btn-primary memo-button pull-right">Antworten</a>
-                </div>
-                <div>
-                    <a v-if="isInstallationAdmin && !comment.IsSettled || isOwner && !comment.IsSettled" @click="markAsSettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">
-                        Diskussion schliessen
-                    </a>
-                    <a v-if="isInstallationAdmin && comment.IsSettled" @click.stop="markAsUnsettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button pull-right" data-comment-id="comment.Id">
-                        Diskussion wieder eröffnen
-                    </a>
+            <div class="commentButtonsContainer row" style="" v-if="isLoggedIn">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-10">
+                    <div v-if="!comment.IsSettled" class="pull-right">
+                        <a @click="emitSaveAnswer()" class="btn btn-primary memo-button ">Antworten</a>
+                    </div>
+                    <div class="pull-right">
+                        <a v-if="isInstallationAdmin && !comment.IsSettled || isOwner && !comment.IsSettled" @click="markAsSettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button" data-comment-id="comment.Id">
+                            Diskussion schliessen
+                        </a>
+                        <a v-if="isInstallationAdmin && comment.IsSettled" @click.stop="markAsUnsettled(comment.Id)" href="#" class="btn btn-lg btn-link memo-button" data-comment-id="comment.Id">
+                            Diskussion wieder eröffnen
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
