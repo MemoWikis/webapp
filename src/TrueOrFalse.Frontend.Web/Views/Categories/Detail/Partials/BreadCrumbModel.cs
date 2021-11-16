@@ -9,8 +9,9 @@ public class BreadCrumbModel : BaseModel
     public string UserImage = "";
     public string UserName = "";
     public string ToolTipToHomepage = "Zur Startseite";
-    public BreadCrumbModel()
+    public BreadCrumbModel(TopNavMenu topNavMenu)
     {
+        TopNavMenu = topNavMenu;
         User = _sessionUser.User;
         if (IsLoggedIn)
         {

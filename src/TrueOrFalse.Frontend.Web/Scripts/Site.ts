@@ -280,6 +280,11 @@ function OpenInfo(url) {
 function UpdateBreadCrumb() {
     var session = window.sessionStorage;
     var currentCategoryId = $('#hhdCategoryId').val();
+
+    if (currentCategoryId == undefined) {
+        s = new StickyHeaderClass();
+        return;
+    }
     if ($('#hddIsWiki').val() == 'True')
         session.setItem('currentWikiId', currentCategoryId);
     var sessionWikiId = parseInt(session.getItem('currentWikiId'));
@@ -302,8 +307,8 @@ function UpdateBreadCrumb() {
             $('#BreadCrumbTrail').html(result.breadcrumbTrail);
 
             session.setItem('currentWikiId', result.newWikiId);
-
             s = new StickyHeaderClass();
+
         },
     });
 }

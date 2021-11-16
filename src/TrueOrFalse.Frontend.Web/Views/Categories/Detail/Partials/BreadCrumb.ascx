@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BreadCrumbModel>" %>
 <%@ Import Namespace="Markdig.Helpers" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code"%>
 
 <div id="BreadCrumbContainer" class="container">
     <span>

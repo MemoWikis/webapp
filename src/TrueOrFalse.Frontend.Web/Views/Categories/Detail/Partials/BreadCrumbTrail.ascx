@@ -19,7 +19,7 @@
 
             <% if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()))
                { %>
-                <span style="display: flex; margin-left: 10px;">
+                <span>
                     <a class="show-tooltip" id="<%= i %>BreadCrumb" href="<%= breadCrumbItem.Url %>" title="<%= breadCrumbItem.ToolTipText %>" data-placement="bottom">
                         <%= breadCrumbItem.Text %>
                     </a>
@@ -27,7 +27,7 @@
             <% }
                else
                { %>
-                <span style="display: inline-table; margin-left: 10px;">
+                <span>
                     <a id="<%= i %>BreadCrumb" class="show-tooltip" href="<%= breadCrumbItem.Url %>" title="<%= breadCrumbItem.ToolTipText %>" data-placement="bottom"><%= breadCrumbItem.Text %></a>
                     <% if (!breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last()))
                        { %>
