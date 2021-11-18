@@ -118,6 +118,11 @@
         $("#rowLoginMessage").show();
         $("#rowLoginMessage div").text(message);
     }
+
+    public static onSignIn() {
+        console.log("FB_Login_Successful");
+        location.reload();
+    }
 }
 
 $(() => {

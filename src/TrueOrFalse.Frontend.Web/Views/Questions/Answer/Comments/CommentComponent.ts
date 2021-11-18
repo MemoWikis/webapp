@@ -45,7 +45,6 @@ Vue.component('comment-component',
                         eventBus.$emit('new-comment-added');
                     },
                     error(e) {
-                        console.log(e);
                         window.alert("Ein Fehler ist aufgetreten");
                     }
                 })
@@ -63,7 +62,6 @@ Vue.component('comment-component',
                         eventBus.$emit('new-comment-added');
                     },
                     error(e) {
-                        console.log(e);
                         window.alert("Ein Fehler ist aufgetreten");
                     }
                 });

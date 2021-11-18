@@ -67,7 +67,6 @@
         eventBus.$on('send-comments-count',
             function(modalQuestionId, newCommentCount) {
                 if (modalQuestionId === self.questionId) {
-                    console.log(newCommentCount);
                     self.commentCount = newCommentCount as number;
                     document.getElementById("commentCountAnswerBody").innerHTML = newCommentCount as string;
                 }
