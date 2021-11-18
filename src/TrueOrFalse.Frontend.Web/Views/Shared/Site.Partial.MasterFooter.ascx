@@ -6,7 +6,6 @@
 <%= Scripts.Render("~/bundles/js/stickySearch") %>
 <%  var userSession = new SessionUser();
     if (!userSession.IsLoggedIn) { %>
-    <span id="headersearchspan">test</span>
     <%= Scripts.Render("~/bundles/js/headerSearch") %>
 <%} %>
 <div class="row Promoter">

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using FluentNHibernate.Conventions;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -553,10 +554,18 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsLoggedIn]
     public JsonResult SetCategoryToPrivate(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var hasRights = HasEditRights(categoryCacheItem);
+        if (!hasRights)
+            return Json(new
+            {
+                success = false,
+                key = "missingRights"
+            });
+
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
             .Where(c => c.Visibility == CategoryVisibility.All);
         if (categoryId == RootCategory.RootCategoryId)
@@ -581,16 +590,45 @@ public class EditCategoryController : BaseController
         foreach (var q in aggregatedQuestions)
         {
             bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-            if (!childHasPublicParent)
+            bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
+            if (!childHasPublicParent || questionIsPinned)
                 return Json(new
                 {
                     success = false,
                     key = "publicQuestions"
                 });
         }
-        categoryCacheItem.Visibility = CategoryVisibility.Owner;
+
         var category = Sl.CategoryRepo.GetById(categoryId);
+
+        var pinCount = category.TotalRelevancePersonalEntries;
+        if (pinCount >= 10)
+        {
+            return Json(new
+            {
+                success = true,
+                key = "tooPopular"
+            });
+        }
+
+        if (pinCount >= 1)
+        {
+            var userCache = UserCache.GetAllCacheItems();
+            var usersWithPin = userCache.Where(u => u.CategoryValuations.ContainsKey(category.Id)).Select(u => u.User);
+            foreach (var user in usersWithPin)
+            {
+                if (user == category.Creator)
+                    continue;
+                CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), user);
+                UserEntityCache.DeleteCacheForUser(user.Id);
+                UserEntityCache.Init(user.Id);
+            }
+
+        }
+
+        categoryCacheItem.Visibility = CategoryVisibility.Owner;
         category.Visibility = CategoryVisibility.Owner;
+        Sl.CategoryRepo.Update(category);
         Sl.CategoryChangeRepo.AddMadePrivateEntry(category,Sl.SessionUser.User);
         return Json(new
         {
@@ -646,5 +684,15 @@ public class EditCategoryController : BaseController
     {
         var tiptapHtml = ViewRenderer.RenderPartialView("~/Views/Shared/Editor/tiptapLoader.ascx", null, ControllerContext);
         return tiptapHtml;
+    }
+
+    private bool HasEditRights(Category category)
+    {
+        return category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin;
+    }
+
+    private bool HasEditRights(CategoryCacheItem categoryCacheItem)
+    {
+        return categoryCacheItem.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin;
     }
 }
