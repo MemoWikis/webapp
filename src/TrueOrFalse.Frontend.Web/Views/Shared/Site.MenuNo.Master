@@ -21,7 +21,7 @@
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
     <div id="Breadcrumb" class="path" <%if (Model.TopNavMenu.IsWelcomePage)
         {%> style="display: none;" <%} %>>
-        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", new BreadCrumbModel());%>
+        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", new BreadCrumbModel(Model.TopNavMenu));%>
     </div>
     <section id="MasterSection">
 

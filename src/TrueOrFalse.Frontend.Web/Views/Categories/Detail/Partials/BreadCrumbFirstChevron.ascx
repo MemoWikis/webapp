@@ -9,7 +9,7 @@
         </span>
 <% }
        }
-   if (!Sl.SessionUser.IsInOwnWiki())
+   if (!Sl.SessionUser.IsInOwnWiki() || (!Model.TopNavMenu.IsCategoryBreadCrumb && Model.TopNavMenu.BreadCrumb != null ))
    { %>
     <span id="FirstChevron">
         <div id="BreadcrumbDivider"></div>
