@@ -1,6 +1,6 @@
 ﻿<div class="panel-body commentRelativeContainer row" id="CommentAnswerComponent">
-    <div class="col-xs-2"></div>
-    <div class="col-xs-10 answerUserDetails" v-bind:class="{ commentUserDetails: lastAnswer }">
+    <div class="col-sm-2 hidden-xs"></div>
+    <div class="col-xs-12 col-sm-10 answerUserDetails" v-bind:class="{ commentUserDetails: lastAnswer }">
         <div>
             <a class="pointer" :href="answer.CreatorUrl">
                 <img class="commentUserImg" :src="answer.ImageUrl">
@@ -27,6 +27,7 @@
                     <a class="cursor-hand" @click="readMore=true">Mehr
                     </a>
                 </span>
-            </span>        </div>
+            </span>
+        </div>
     </div>
 </div>
