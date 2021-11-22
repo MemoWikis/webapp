@@ -2378,7 +2378,7 @@ input::placeholder {
 .no-scroll {
   overflow: hidden;
 }
-@media (max-width: 849px) {
+@media (max-width: 850px) {
   .modal-default {
     overflow-y: auto;
     position: fixed;
@@ -2390,7 +2390,7 @@ input::placeholder {
   }
 }
 .modal-default-mask {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   display: table;
   transition: opacity 0.3s ease;
   -webkit-transform: translate(0, 0);
@@ -2460,7 +2460,7 @@ input::placeholder {
     overflow-x: hidden;
   }
 }
-@media (max-width: 849px) and (min-width: 386px) {
+@media (max-width: 850px) and (min-width: 386px) {
   .modal-default-container {
     width: 100%;
     position: relative;
@@ -2516,8 +2516,8 @@ input::placeholder {
 }
 .header-default-modal {
   color: #003264;
-  font-size: 25px;
-  line-height: 34px;
+  font-size: 18px;
+  line-height: 22px;
   font-weight: 600;
 }
 .errorHeaderModal {
@@ -2533,19 +2533,46 @@ input::placeholder {
 .adminIconHeaderModal {
   padding-left: 5px;
   color: #0065CA;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 900;
 }
 .modal-default-footer {
   position: relative;
   bottom: 0px;
   width: 100%;
+  padding: 20px 0 40px 0;
+  font-size: 14px;
 }
 .modal-default-body {
   margin: 20px 0;
 }
 .modalSecondActionButton {
   margin-right: 14px;
+}
+@media (max-width: 850px) {
+  .modalSecondActionButton {
+    margin-right: 0;
+    margin-top: 8px;
+  }
+  .modal-button {
+    width: 100%;
+  }
+}
+.errorButton1Modal {
+  background: #FFA07A;
+  border-color: #FFA07A;
+  color: white !important;
+}
+.successButton1Modal {
+  background: #AFD534;
+  border-color: #AFD534;
+  color: white !important;
+}
+.errorButton2Modal {
+  color: #FFA07A !important;
+}
+.successButton2Modal {
+  color: #AFD534 !important;
 }
 .footer-links-memucho {
   margin-top: 40px;

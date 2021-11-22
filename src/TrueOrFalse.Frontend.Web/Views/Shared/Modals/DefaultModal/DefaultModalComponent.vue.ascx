@@ -22,8 +22,8 @@
                     <slot name="footer"></slot>
                     <div class="row">
                         <div class="col-xs-12">
-                            <a v-if="button1Text != null" class="btn btn-primary memo-button pull-right" @click="action1()">{{button1Text}}</a>
-                            <a v-if="button2Text != null" class="btn btn-lg btn-link memo-button pull-right modalSecondActionButton" @click="action2()">{{button2Text}}</a>
+                            <a v-if="button1Text != null" class="btn btn-primary memo-button pull-right modal-button" v-bind:class="{ errorButton1Modal: isError, successButton1Modal: isSuccess }" @click="action1()">{{button1Text}}</a>
+                            <a v-if="button2Text != null" class="btn btn-lg btn-link memo-button pull-right modalSecondActionButton modal-button" v-bind:class="{ errorButton2Modal: isError, successButton2Modal: isSuccess }" @click="action2()">{{button2Text}}</a>
                         </div>
                     </div>
                 </div>
