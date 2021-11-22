@@ -2514,12 +2514,38 @@ input::placeholder {
     margin: 0;
   }
 }
-.modal-default-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.header-default-modal {
+  color: #003264;
+  font-size: 25px;
+  line-height: 34px;
+  font-weight: 600;
+}
+.errorHeaderModal {
+  color: #FFA07A !important;
+}
+.successHeaderModal {
+  color: #AFD534 !important;
+}
+.iconHeaderModal {
+  padding-right: 5px;
+  font-weight: 900;
+}
+.adminIconHeaderModal {
+  padding-left: 5px;
+  color: #0065CA;
+  font-size: 18px;
+  font-weight: 900;
+}
+.modal-default-footer {
+  position: relative;
+  bottom: 0px;
+  width: 100%;
 }
 .modal-default-body {
   margin: 20px 0;
+}
+.modalSecondActionButton {
+  margin-right: 14px;
 }
 .footer-links-memucho {
   margin-top: 40px;
