@@ -138,28 +138,27 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             var contextCategory = ContextCategory.New();
             var contextUser = ContextUser.New();
             var contextQuestion = ContextQuestion.New();
-            var all = contextCategory.Add("Root").Add("B").Add("C").Add("D").Persist().All;
+            contextCategory.Add("Root").Add("B").Add("C").Add("D").Persist();
 
-            var users = contextUser.Add("Admin").Add("NonAdmin").Add("publicWiki").Persist(true, contextCategory);
+            var users = contextUser.Add("Admin").Add("NonAdmin").Add("publicWiki").Add("questionInWuwi").Persist(true, contextCategory);
             var admin = contextUser.All[0];
             var nonAdmin = contextUser.All[1];
             var publicWikiUser = contextUser.All[2];
-            var publicWiki = contextCategory.All.ByName("publicWikis Startseite");
+            var questionInWuwiUser = contextUser.All[3];
+            var publicWiki = contextCategory.Persist().All.ByName("publicWikis Startseite");
             contextCategory.Add("publicWikis Child", parent: publicWiki, creator: publicWikiUser, id: 8).Persist();
 
-            var questionInWuwiUser = contextUser.Add("questionInWuwi").Persist(true, contextCategory).All[3];
             var questionInWuwiWiki = contextCategory.All.ByName("questionInWuwis Startseite");
 
-            var question1 = contextQuestion.AddQuestion(creator: questionInWuwiUser).Persist().All[0];
-            var question2 = contextQuestion.AddQuestion(creator: questionInWuwiUser).Persist().All[1];
-            var question3 = contextQuestion.AddQuestion(creator: questionInWuwiUser).Persist().All[2];
-            question1.Categories.Add(questionInWuwiWiki);
-            question2.Categories.Add(questionInWuwiWiki);
-            question3.Categories.Add(questionInWuwiWiki);
 
             var editCategoryController = new EditCategoryController(categoryRepo);
             var categoryValuationRepo = Sl.CategoryValuationRepo;
+
             EntityCache.Init();
+
+            var question = contextQuestion.AddQuestion(creator: questionInWuwiUser).Persist().All[0];
+            question.Categories.Add(questionInWuwiWiki);
+            Sl.SessionUser.Login(admin);
 
             var wuwiUsers = new List<User>();
             var i = 0;
@@ -167,16 +166,13 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             {
                 var name = "PinUser" + (i + 1);
                 var wuwiUser = contextUser.Add(name).Persist(false).All.First(u => u.Name == name);
-                CategoryInKnowledge.Pin(publicWiki.Id, wuwiUser);
+                CategoryInKnowledge.UpdateCategoryValuationTest(publicWiki.Id, wuwiUser);
                 wuwiUsers.Add(wuwiUser);
                 i++;
             }
 
-            QuestionInKnowledge.Pin(question1.Id, wuwiUsers.First());
-            QuestionInKnowledge.Pin(question2.Id, wuwiUsers.First());
-            QuestionInKnowledge.Pin(question3.Id, wuwiUsers.First());
+            QuestionInKnowledge.Pin(question.Id, wuwiUsers.First());
 
-            Sl.SessionUser.Login(admin);
 
             editCategoryController.SetCategoryToPrivate(publicWiki.Id);
             editCategoryController.SetCategoryToPrivate(questionInWuwiWiki.Id);

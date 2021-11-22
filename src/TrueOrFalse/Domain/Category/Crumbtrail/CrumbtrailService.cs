@@ -77,7 +77,8 @@ public class CrumbtrailService
 
     private static void AddBreadcrumbParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
     {
-        crumbtrail.Add(categoryCacheItem);
+        if (categoryCacheItem.IsVisibleToCurrentUser())
+            crumbtrail.Add(categoryCacheItem);
         if (root == categoryCacheItem)
             return;
         var parents = categoryCacheItem.ParentCategories();
@@ -87,7 +88,8 @@ public class CrumbtrailService
         {
             if (parent == root)
             {
-                crumbtrail.Add(parent);
+                if (parent.IsVisibleToCurrentUser())
+                    crumbtrail.Add(parent);
                 break;
             }
 

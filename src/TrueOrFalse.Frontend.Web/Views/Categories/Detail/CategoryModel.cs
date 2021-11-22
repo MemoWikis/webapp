@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Ajax.Utilities;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule 
@@ -131,7 +132,13 @@ public class CategoryModel : BaseContentModule
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
-        CategoriesParent = category.ParentCategories();
+        var parentCategories = category.ParentCategories();
+        if (parentCategories.All(c => c.IsNotVisibleToCurrentUser))
+        {
+            var parents = SearchForParent(parentCategories);
+            CategoriesParent = parents;
+        } else CategoriesParent = parentCategories.Where(c => c.IsVisibleToCurrentUser()).ToList();
+
         CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
             UserEntityCache.GetChildren(category.Id, UserId) :
            EntityCache.GetChildren(category.Id, true);
@@ -180,7 +187,22 @@ public class CategoryModel : BaseContentModule
     }
 
 
+    private List<CategoryCacheItem> SearchForParent(IList<CategoryCacheItem> children)
+    {
+        var parents = new List<CategoryCacheItem>();
+        foreach (var child in children)
+        {
+            parents.AddRange(child.ParentCategories());
+        }
 
+        if (parents.Count > 0 && parents.All(c => c.IsNotVisibleToCurrentUser))
+        {
+            var parentsToCheck = new List<CategoryCacheItem>(parents);
+            parents = SearchForParent(parentsToCheck);
+        }
+
+        return parents.DistinctBy(c => c.Id).ToList();
+    } 
     private List<Question> GetTopQuestionsInSubCats()
     {
         var topQuestions = new List<Question>();

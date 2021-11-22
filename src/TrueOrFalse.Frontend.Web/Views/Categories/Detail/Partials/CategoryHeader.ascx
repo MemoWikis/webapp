@@ -220,7 +220,7 @@
                                     </a>
                                 </li>
                             <%}%>
-                            <%if (Model.IsInstallationAdmin && Model.Category.Visibility == CategoryVisibility.All) {%>
+                            <%if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.All) {%>
                                 <li>
                                     <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                         <div class="dropdown-icon">

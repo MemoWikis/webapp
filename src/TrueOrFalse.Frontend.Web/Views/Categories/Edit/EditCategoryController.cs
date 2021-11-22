@@ -568,47 +568,49 @@ public class EditCategoryController : BaseController
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
             .Where(c => c.Visibility == CategoryVisibility.All);
-        if (categoryId == RootCategory.RootCategoryId)
-            return Json(new
-            {
-                success = false,
-                key = "rootCategoryMustBePublic"
-            });
-
-        foreach (var c in aggregatedCategories)
-        {
-            bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-            if (!childHasPublicParent)
-                return Json(new
-                {
-                    success = false,
-                    key = "publicChildCategories"
-                });
-        }
-
-        var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
-        foreach (var q in aggregatedQuestions)
-        {
-            bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-            bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
-            if (!childHasPublicParent || questionIsPinned)
-                return Json(new
-                {
-                    success = false,
-                    key = "publicQuestions"
-                });
-        }
-
         var category = Sl.CategoryRepo.GetById(categoryId);
-
         var pinCount = category.TotalRelevancePersonalEntries;
-        if (pinCount >= 10)
+        if (!Sl.SessionUser.IsInstallationAdmin)
         {
-            return Json(new
+            if (categoryId == RootCategory.RootCategoryId)
+                return Json(new
+                {
+                    success = false,
+                    key = "rootCategoryMustBePublic"
+                });
+
+            foreach (var c in aggregatedCategories)
             {
-                success = true,
-                key = "tooPopular"
-            });
+                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                if (!childHasPublicParent)
+                    return Json(new
+                    {
+                        success = false,
+                        key = "publicChildCategories"
+                    });
+            }
+
+            var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
+            foreach (var q in aggregatedQuestions)
+            {
+                bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
+                if (!childHasPublicParent || questionIsPinned)
+                    return Json(new
+                    {
+                        success = false,
+                        key = "publicQuestions"
+                    });
+            }
+
+            if (pinCount >= 10)
+            {
+                return Json(new
+                {
+                    success = true,
+                    key = "tooPopular"
+                });
+            }
         }
 
         if (pinCount >= 1)
