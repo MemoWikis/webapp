@@ -819,8 +819,18 @@ p {
 
 .answerUserDetails {
     padding-bottom: 30px;
-    padding-left: 0;
+    padding-left: 15px;
     border-bottom: 1px solid #DDDDDD;
+}
+
+@media (max-width: 767px) {
+
+    .answerUserDetails {
+        padding-bottom: 30px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-bottom: 1px solid #DDDDDD;
+    }
 }
 
 .commentUserName {
@@ -921,6 +931,16 @@ p {
     height: 36px;
 }
 
+@media (max-width: 767px) {
+    .commentButtonsContainer {
+        margin: 0px 5px 55px 0px;
+    }
+}
+
+.answerBtn {
+    margin-bottom: 12px;
+}
+
 .commentThumbsIcon {
     font-size: 16px;
     color: @memo-grey-dark;
@@ -985,6 +1005,7 @@ commentAnswersCount {
 .commentAnswerAddContainer {
     border: none;
     box-shadow: none;
+    margin: 0 25px 0 21px;
 }
 
 .noPadding {
