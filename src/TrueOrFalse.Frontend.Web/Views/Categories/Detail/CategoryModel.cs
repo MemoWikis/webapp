@@ -82,7 +82,7 @@ public class CategoryModel : BaseContentModule
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
-        IsWiki = category.IsWiki() || RootCategory.RootCategoryId == category.Id;
+        IsWiki = category.IsWiki();
         var currentRootWiki = CrumbtrailService.GetWiki(category);
         _sessionUser.SetWikiId(currentRootWiki);
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);
