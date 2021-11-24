@@ -525,7 +525,7 @@ public class EditCategoryController : BaseController
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
 
-        if (categoryCacheItem.HasPublicParent())
+        if (categoryCacheItem.HasPublicParent() || categoryCacheItem.Creator.StartTopicId == categoryId)
         {
             if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1))
                 return Json(new
@@ -590,19 +590,6 @@ public class EditCategoryController : BaseController
                     });
             }
 
-            var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
-            foreach (var q in aggregatedQuestions)
-            {
-                bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-                bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
-                if (!childHasPublicParent || questionIsPinned)
-                    return Json(new
-                    {
-                        success = false,
-                        key = "publicQuestions"
-                    });
-            }
-
             if (pinCount >= 10)
             {
                 return Json(new
@@ -612,20 +599,24 @@ public class EditCategoryController : BaseController
                 });
             }
         }
-
-        if (pinCount >= 1)
+        var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
+        var userCache = UserCache.GetAllCacheItems();
+        foreach (var q in aggregatedQuestions)
         {
-            var userCache = UserCache.GetAllCacheItems();
-            var usersWithPin = userCache.Where(u => u.CategoryValuations.ContainsKey(category.Id)).Select(u => u.User);
-            foreach (var user in usersWithPin)
+            bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+            bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
+            if (Sl.SessionUser.IsInstallationAdmin && !childHasPublicParent && questionIsPinned)
             {
-                if (user == category.Creator)
-                    continue;
-                CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), user);
-                UserEntityCache.DeleteCacheForUser(user.Id);
-                UserEntityCache.Init(user.Id);
-            }
-
+                var questionInUserCache = userCache.Where(u => u.QuestionValuations.ContainsKey(q.Id));
+                foreach (var qv in questionInUserCache)
+                    if (qv.QuestionValuations[q.Id].IsInWishKnowledge)
+                        QuestionInKnowledge.Unpin(q.Id, qv.User);
+            } else if (!childHasPublicParent || questionIsPinned)
+                return Json(new
+                {
+                    success = false,
+                    key = "publicQuestions"
+                });
         }
 
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
