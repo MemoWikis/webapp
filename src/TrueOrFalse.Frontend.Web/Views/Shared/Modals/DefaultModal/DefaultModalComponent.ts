@@ -5,12 +5,12 @@ if (eventBus == null)
 var defaultModalComponent = Vue.component('default-modal-component',
     {
         template: '#default-modal-component',
-        props: ['id', 'showCloseButton', 'isAdminContent', 'modalType', 'iconClasses', 'headerText', 'button1Text', 'button2Text', 'action1Emit', 'action2Emit'],
+        props: ['id', 'showCloseButton', 'adminContent', 'modalType', 'iconClasses', 'button1Text', 'button2Text', 'action1Emit', 'action2Emit'],
         data: function () {
             return {
                 isError: false,
                 isSuccess: false,
-
+                isAdminContent: this.adminContent == "true"
             }
         },
         created() {

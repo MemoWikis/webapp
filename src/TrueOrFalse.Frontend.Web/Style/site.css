@@ -2418,7 +2418,7 @@ input::placeholder {
   position: absolute;
   top: 5%;
   left: 25%;
-  padding: 64px 40px 4px 40px;
+  padding: 54px 40px 4px 40px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2450,7 +2450,7 @@ input::placeholder {
     left: 12.5%;
     width: 75%;
     margin: 0 auto;
-    padding: 64px 40px;
+    padding: 54px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2467,7 +2467,7 @@ input::placeholder {
     top: 0;
     left: 0;
     margin: 0px auto;
-    padding: 64px 40px;
+    padding: 54px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2515,7 +2515,7 @@ input::placeholder {
   }
 }
 .header-default-modal {
-  color: #003264;
+  color: #555555;
   font-size: 18px;
   line-height: 22px;
   font-weight: 600;
@@ -2544,7 +2544,8 @@ input::placeholder {
   font-size: 14px;
 }
 .modal-default-body {
-  margin: 20px 0;
+  margin-top: 12px;
+  color: #767676;
 }
 .modalSecondActionButton {
   margin-right: 14px;

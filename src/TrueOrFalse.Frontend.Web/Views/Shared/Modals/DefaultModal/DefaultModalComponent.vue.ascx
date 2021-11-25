@@ -6,7 +6,7 @@
                 <div class="header-default-modal" v-bind:class="{ errorHeaderModal: isError, successHeaderModal: isSuccess }">
                     <i v-if="isError" class="fas fa-times-circle iconHeaderModal"></i>
                     <i v-if="isSuccess" class="fas fa-check-circle iconHeaderModal"></i>
-                    <i v-if="iconClasses != null" v-bind:class="iconClasses" class="iconHeaderModal"></i>
+                    <i v-if="iconClasses != null && iconClasses.length > 0" v-bind:class="iconClasses" class="iconHeaderModal"></i>
 
                     <slot name="header">
                     </slot>
