@@ -6,11 +6,13 @@ Vue.component('comment-component',
     {
         props: ['comment', 'questionId', 'currentUserImageUrl', 'currentUserName', 'isAdminString'],
 
-        data: function () {
+        data: function() {
             return {
                 readMore: false,
-                readMoreHtml: '<a class=\"cursor-hand\" onclick=\"eventBus.$emit(\'read-more-toggle\')\">&nbsp Mehr</a>',
-                readLessHtml: '<a class=\"cursor-hand\" onclick=\"eventBus.$emit(\'read-more-toggle\')\">&nbsp Weniger</a>',
+                readMoreHtml:
+                    '<a class=\"cursor-hand\" onclick=\"eventBus.$emit(\'read-more-toggle\')\">&nbsp Mehr</a>',
+                readLessHtml:
+                    '<a class=\"cursor-hand\" onclick=\"eventBus.$emit(\'read-more-toggle\')\">&nbsp Weniger</a>',
                 showAnsweringPanel: false,
                 addedAnswers: [''],
                 isInstallationAdmin: this.isAdminString == 'True',
@@ -27,13 +29,18 @@ Vue.component('comment-component',
             self.isInstallationAdmin = self.isAdminString == "True";
             self.isOwner = self.comment.ImageUrl == self.currentUserImageUrl;
 
-            eventBus.$on('read-more-toggle', function () {
-                self.readMore = !self.readMore;
-            });
+            eventBus.$on('read-more-toggle',
+                function() {
+                    self.readMore = !self.readMore;
+                });
         },
 
 
         methods: {
+            openLogin() {
+                eventBus.$emit('open-login-modal');
+
+            },
 
             markAsSettled(commentId) {
                 $.ajax({

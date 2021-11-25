@@ -270,7 +270,6 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAdd.vue.ascx.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>AnswerCommentsController.cs</DependentUpon>
     </Compile>
@@ -2059,6 +2058,11 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Login\QuestionCommentSectionModalComponentLoader.js">
+      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.vue.ascx" />
+    <Content Include="Views\Welcome\Login\LoginModalTemplate.vue.ascx" />
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <None Include="job_scheduling_data_2_0.xsd">
@@ -3625,6 +3629,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
@@ -4201,6 +4206,9 @@
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
+    <Content Include="Views\Welcome\Login\QuestionCommentSectionModalComponentLoader.js.map">
+      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

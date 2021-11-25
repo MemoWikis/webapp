@@ -1,6 +1,7 @@
 ﻿    <div v-bind:class="{commentPanelSpace: !comment.IsSettled}" class="commentPanel" id="CommentComponent">
         <div class="panel-body">
             <div class="col-xs-12">
+
                 <%--UnsettledComment--%>
                 <div v-if="!comment.IsSettled">
                 <span class="commentTitle" v-if="comment.Title.length > 0" v-html="comment.Title + '&nbsp &nbsp'"></span>

@@ -1,14 +1,18 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="FluentNHibernate.Utils" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
 <%
     var userSession = new SessionUser();
     var user = userSession.User;
 %>
+
+
 <% if (userSession.IsLoggedIn)
-   {
-       var imageSetttings = new UserImageSettings(userSession.User.Id);
+    {
+        var imageSetttings = new UserImageSettings(userSession.User.Id);
 %>
     <div class="dropdown" id="HeaderUserDropdown">
         <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
@@ -16,7 +20,7 @@
                 <div class="main-user-icon-container">
                     <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>"/>
                     <%if (Model.SidebarModel.UnreadMessageCount != 0)
-                      { %>
+                        { %>
                         <div class="badge-counter"><%= Model.SidebarModel.UnreadMessageCount %></div>
                     <%}%>
                 </div>
@@ -42,7 +46,7 @@
                 <a class="<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>" style="display: flex;">
                     Deine Nachrichten
                     <% if (Model.SidebarModel.UnreadMessageCount != 0)
-                       { %>
+                        { %>
                         <svg class="badge" height="100" width="100">
                             <g>
                                 <circle cx="16" cy="10" r="8" fill="#FF001F"/>
@@ -63,7 +67,7 @@
                 <a class="<%= Model.UserMenuActive(UserMenuEntry.UserSettings) %>" href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>">Konto-Einstellungen</a>
             </li>
             <% if (userSession.IsInstallationAdmin)
-               { %>
+                { %>
                 <li>
                     <a style="padding-bottom: 15px;" href="<%= Url.Action("Maintenance", "Maintenance") %>">Administrativ</a>
                 </li>
@@ -73,7 +77,7 @@
             <% } %>
             <li>
                 <a <% if (!userSession.IsInstallationAdmin)
-                      { %> style="padding-bottom: 15px;" <% } %> href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser ? "true" : "" %>">Ausloggen</a>
+                    { %> style="padding-bottom: 15px;" <% } %> href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser ? "true" : "" %>">Ausloggen</a>
             </li>
 
         </ul>
@@ -81,12 +85,16 @@
 
 
 <%
-            }
-  else
-  {
+    }
+    else
+    {
 %>
+    <div>
+        <login-modal-component-loader/>
+    </div>
+
     <div class="login-register-container">
-        <div class="btn memo-button link-btn login-btn" data-btn-login="true">            
+        <div class="btn memo-button link-btn login-btn" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">            
             <i class="fa fa-sign-in"></i>
             Anmelden
         </div>
@@ -94,5 +102,6 @@
     </div>
 
 <%
-            }
+    }
 %>
+<%= Scripts.Render("~/bundles/LoginModalTemplate") %>
