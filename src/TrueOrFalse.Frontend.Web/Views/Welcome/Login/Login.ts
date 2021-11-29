@@ -1,4 +1,7 @@
-﻿class Login {
+﻿
+
+
+class Login {
 
     private static IsClicked = false;
     constructor() {

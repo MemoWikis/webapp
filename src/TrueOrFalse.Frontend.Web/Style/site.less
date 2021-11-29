@@ -2465,11 +2465,11 @@ textarea, input {
     }
 }
 
-.no-scroll{
-    overflow:hidden;
+.no-scroll {
+    overflow: hidden;
 }
 
-@media (max-width: 849px) {
+@media (max-width: 850px) {
     .modal-default {
         overflow-y: auto;
         position: fixed;
@@ -2482,7 +2482,7 @@ textarea, input {
 }
 
 .modal-default-mask {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
     display: table;
     transition: opacity 0.3s ease;
     -webkit-transform: translate(0, 0);
@@ -2508,12 +2508,11 @@ textarea, input {
 }
 
 .modal-default-container {
-    width: 50%;
     margin: 0 auto;
     position: absolute;
     top: 5%;
     left: 25%;
-    padding: 64px 40px 4px 40px;
+    padding: 54px 40px 4px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2548,7 +2547,7 @@ textarea, input {
         left: 12.5%;
         width: 75%;
         margin: 0 auto;
-        padding: 64px 40px;
+        padding: 54px 40px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2559,21 +2558,21 @@ textarea, input {
     }
 }
 
-@media (max-width: 849px) and (min-width: 386px) {
+@media (max-width: 850px) and (min-width: 386px) {
     .modal-default-container {
-        width: 100%;
+        width: 100% !important;
         position: relative;
         top: 0;
         left: 0;
         margin: 0px auto;
-        padding: 64px 40px;
+        padding: 54px 40px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
         transition: all 0.3s ease;
         max-height: none;
         min-height: none;
-        height: 100%;
+        height: 100% !important;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -2617,13 +2616,98 @@ textarea, input {
     }
 }
 
-.modal-default-header h3 {
-    margin-top: 0;
-    color: #42b983;
+.header-default-modal {
+    color: @memo-grey-darker;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 600;
+}
+
+.errorHeaderModal {
+    color: @memo-salmon !important;
+}
+
+.successHeaderModal {
+    color: @memo-green !important;
+}
+
+.iconHeaderModal {
+    padding-right: 5px;
+    font-weight: 900;
+}
+
+.adminIconHeaderModal {
+    padding-left: 5px;
+    color: @memo-blue-link;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.modal-default-footer {
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    padding: 20px 0 0px 0;
+    font-size: 14px;
+}
+
+.modal-default-footer-text {
+    padding: 50px 0 35px 0;
+    color: @memo-grey-dark !important;
+    text-align: center;
+    width: 100%;
 }
 
 .modal-default-body {
-    margin: 20px 0;
+    margin-top: 12px;
+    color: @memo-grey-dark;
+}
+
+
+
+.modalSecondActionButton {
+    margin-right: 14px;
+}
+
+
+
+@media (max-width: 850px) {
+    .modalSecondActionButton {
+        margin-right: 0;
+        margin-top: 8px;
+    }
+
+    .modal-button {
+        width: 100%;
+    }
+}
+
+.fullSizeButtons{
+    width:100%;
+}
+
+.noPadding{
+    padding: 0;
+}
+
+.errorButton1Modal {
+    background: @memo-salmon;
+    border-color: @memo-salmon;
+    color: white !important;
+}
+
+.successButton1Modal {
+    background: @memo-green;
+    border-color: @memo-green;
+    color: white !important;
+}
+
+.errorButton2Modal {
+    color: @memo-salmon !important;
+}
+
+.successButton2Modal {
+    color: @memo-green !important;
 }
 
 .footer-links-memucho {

@@ -1,10 +1,10 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LoginModel>" %>
+﻿<%--<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LoginModel>" %>--%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <%= Styles.Render("~/bundles/Registration") %>        
 
-<div id="modalLogin" class="modal fade">
+<div id="LoginComponent" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -23,14 +23,14 @@
                     </div>
                 </div>
                             
-<% using (Html.BeginForm("", "", null, FormMethod.Post, new { id = "LoginForm" })) { %>
+<%--<% using (Html.BeginForm("", "", null, FormMethod.Post, new { id = "LoginForm" })) { %>--%>
 
     <div class="row">
         
         <div class="form-horizontal col-xs-12" role="form">
             
             <fieldset>
-                <% Html.Message(Model.Message); %>
+<%--                <% Html.Message(Model.Message); %>--%>
 
                 <div class="form-group omb_login">
                     <div class="omb_socialButtons">
@@ -75,17 +75,17 @@
                 </div>
 
                 <div class="form-group">
-                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-xs-offset-1 col-xs-3 xxs-stack control-label" })%>
+                 <%--   <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-xs-offset-1 col-xs-3 xxs-stack control-label" })%>
                     <div class="col-xs-6 xxs-stack">
                         <%= Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control" })%> 
                     </div>
-                    <%: Html.ValidationMessageFor(m => m.EmailAddress)%>
+                    <%: Html.ValidationMessageFor(m => m.EmailAddress)%>--%>
                 </div>
 
                 <div class="form-group">
                     <label class="col-xs-offset-1 col-xs-3 xxs-stack control-label" for="Password">Passwort</label>
                     <div class="col-xs-6 xxs-stack">
-                        <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>
+<%--                        <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>--%>
                     </div>
                  </div>
                                  
@@ -94,7 +94,7 @@
                         <input type="submit" value="Einloggen" class="btn btn-primary memo-button" id="btnModalLogin" /> 
 
                         <label class="checkbox" style="white-space:nowrap;">
-                            <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Eingeloggt bleiben
+<%--                            <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Eingeloggt bleiben--%>
                         </label>
                         
                     </div>
@@ -102,10 +102,10 @@
                 
                 <div class="form-group"> 
                     <div class="col-xs-offset-1 col-xs-10 xxs-stack" style="padding-top: 30px;">
-                        <a href="<%= Url.Action("PasswordRecovery", "Welcome") %>">Passwort vergessen?</a><br/>
+<%--                        <a href="<%= Url.Action("PasswordRecovery", "Welcome") %>">Passwort vergessen?</a><br/>--%>
                         
                         <div style="padding-top: 5px;">
-                            <strong>Noch kein Benutzer?</strong>&nbsp; <%: Html.ActionLink("Jetzt registrieren!", Links.RegisterAction, Links.RegisterController) %><br/><br />
+<%--                            <strong>Noch kein Benutzer?</strong>&nbsp; <%: Html.ActionLink("Jetzt registrieren!", Links.RegisterAction, Links.RegisterController) %><br/><br />--%>
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
     </div>
             
             <%--<a href="#" data-dismiss="modal" class="btn btn-default" id="btnCloseDateDelete">Schließen</a>--%>
-<% } %>
+<%--<% } %>--%>
 
             </div>
         </div>

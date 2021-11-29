@@ -2,6 +2,8 @@
 <%@ Import Namespace="Markdig.Helpers" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code"%>
 
+<%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
+
 <div id="BreadCrumbContainer" class="container">
     <span>
         <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="<%= Model.ToolTipToHomepage %>">
@@ -92,7 +94,7 @@
               else
               { %>
                 <div class="breadcrumb-login-register-container">
-                    <a class="TextLinkWithIcon" href="#" data-btn-login="true">
+                    <a class="TextLinkWithIcon" href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">
                         <i class="fa fa-sign-in"></i>
                     </a>
                     <a id="StickyRegisterBtn" class="hidden-xs hidden-sm" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>">
