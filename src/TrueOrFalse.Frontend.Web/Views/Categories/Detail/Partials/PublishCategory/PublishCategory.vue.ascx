@@ -2,9 +2,7 @@
 
 <publish-category-component inline-template>
     <div id="PublishCategoryComponent">
-        <div class="btn btn-primary" @click="openPublishModal">
-            <i class="fas fa-upload"></i> <span class="hidden-xs">Thema</span> veröffentlichen
-        </div>  
+        <i class="fas fa-lock header-icon" @click="openPublishModal"></i>
         <div class="modal fade" id="PublishCategoryModal" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
             <div v-if="publishRequestConfirmation" class="modal-dialog modal-xs">
                 <div class="modal-content after-request-modal">

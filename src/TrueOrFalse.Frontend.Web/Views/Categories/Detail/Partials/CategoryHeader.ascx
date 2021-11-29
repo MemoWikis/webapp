@@ -54,7 +54,8 @@
                         <%= Model.Name %>
                 <%} %>
 
-                <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%><i class="fas fa-lock header-icon"></i>
+                <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%>
+                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/PublishCategory/PublishCategory.vue.ascx"); %>
                 <%} %>
             </h1>
             <div>
@@ -90,9 +91,6 @@
                     <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
                 </div>
             <% } %>
-            <%if (Model.Category.Visibility == CategoryVisibility.Owner) {%>
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/PublishCategory/PublishCategory.vue.ascx"); %>
-            <%} %>
         </div>
     </div>
 
