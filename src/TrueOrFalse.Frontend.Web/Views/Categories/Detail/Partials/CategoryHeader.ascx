@@ -2,6 +2,7 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryToPrivate/CategoryToPrivateLoader.ascx"); %>
 
 <div id="CategoryHeader">
     <%: Html.HiddenFor(m => m.ImageIsNew) %>
@@ -238,7 +239,7 @@
             </div>
         </div>
     <% } %>
-    
+    <category-to-private-component/>
 </div>
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
 <%= Scripts.Render("~/bundles/fileUploader") %>

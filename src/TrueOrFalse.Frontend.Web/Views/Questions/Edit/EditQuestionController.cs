@@ -338,6 +338,27 @@ public class EditQuestionController : BaseController
         }
     }
 
+    public void SetQuestionsToPrivate(List<int> questionIds)
+    {
+        foreach (var questionId in questionIds)
+        {
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            var otherUsersHaveQuestionInWuwi =
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
+            if ((questionCacheItem.Creator == Sl.SessionUser.User && !otherUsersHaveQuestionInWuwi) || Sl.SessionUser.IsInstallationAdmin)
+            {
+                questionCacheItem.Visibility = QuestionVisibility.Owner;
+                EntityCache.AddOrUpdate(questionCacheItem);
+                JobExecute.RunAsTask(scope =>
+                {
+                    var question = Sl.QuestionRepo.GetById(questionId);
+                    question.Visibility = QuestionVisibility.Owner;
+                    _questionRepo.Update(question);
+                }, "SetQuestionsToPrivate");
+            }
+        }
+    }
+
     [HttpGet]
     public string GetEditQuestionModal()
     {

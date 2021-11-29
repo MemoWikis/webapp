@@ -534,10 +534,14 @@ public class EditCategoryController : BaseController
                     key = "parentIsRoot"
                 });
             categoryCacheItem.Visibility = CategoryVisibility.All;
-            var category = Sl.CategoryRepo.GetById(categoryId);
-            category.Visibility = CategoryVisibility.All;
-            _categoryRepository.Update(category, _sessionUser.User);
-            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
+            JobExecute.RunAsTask(scope =>
+            {
+                var category = Sl.CategoryRepo.GetById(categoryId);
+                category.Visibility = CategoryVisibility.All;
+                _categoryRepository.Update(category, _sessionUser.User);
+                Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
+            }, "PublishCategory");
+
 
             return Json(new
             {
@@ -566,10 +570,49 @@ public class EditCategoryController : BaseController
                 key = "missingRights"
             });
 
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
+            .Where(c => c.Visibility == CategoryVisibility.All);
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        var pinCount = category.TotalRelevancePersonalEntries;
+        if (!Sl.SessionUser.IsInstallationAdmin)
+        {
+            if (categoryId == RootCategory.RootCategoryId)
+                return Json(new
+                {
+                    success = false,
+                    key = "rootCategoryMustBePublic"
+                });
+
+            foreach (var c in aggregatedCategories)
+            {
+                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                if (!childHasPublicParent)
+                    return Json(new
+                    {
+                        success = false,
+                        key = "publicChildCategories"
+                    });
+            }
+
+            if (pinCount >= 10)
+            {
+                return Json(new
+                {
+                    success = true,
+                    key = "tooPopular"
+                });
+            }
+        }
+
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
-        category.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(category);
-        Sl.CategoryChangeRepo.AddMadePrivateEntry(category,Sl.SessionUser.User);
+
+        JobExecute.RunAsTask(scope =>
+        {
+            category.Visibility = CategoryVisibility.Owner;
+            Sl.CategoryRepo.Update(category);
+            Sl.CategoryChangeRepo.AddMadePrivateEntry(category, Sl.SessionUser.User);
+        }, "SetCategoryToPrivate");
+
         return Json(new
         {
             success = true,

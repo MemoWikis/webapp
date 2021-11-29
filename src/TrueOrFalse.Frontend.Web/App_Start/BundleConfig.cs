@@ -150,6 +150,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryToPrivate")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/CategoryToPrivate/", "*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/MyWorldToggle")
                 .IncludeDirectory("~/Views/Shared/MyWorldToggle/", "*.js"));
 

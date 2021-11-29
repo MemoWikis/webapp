@@ -2,11 +2,13 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
-Vue.component('publish-category-component',{
+Vue.component('category-to-private-component', {
+    template: "#category-to-private",
     data() {
         return {
             categoryId: null,
-            setQuestionsPrivate: false,
+            questionsToPrivate: false,
+            allQuestionsToPrivate: false,
             confirmLicense: false,
             categoryName: "",
             personalQuestionIds: [],
@@ -16,6 +18,7 @@ Vue.component('publish-category-component',{
             publishSuccess: false,
             publishRequestConfirmation: false,
             forceAllQuestionsToPrivate: false,
+            setToPrivateConfirmation: false,
         };
     },
 
@@ -26,13 +29,14 @@ Vue.component('publish-category-component',{
     },
 
     mounted() {
+        var self = this;
+        eventBus.$on('set-category-to-private', (id) => self.openSetCategoryToPrivateModal());
     },
 
     methods: {
         openSetCategoryToPrivateModal() {
             this.resetModal();
             this.getSetCategoryToPrivateModalData();
-            $('#SetToPrivateModal').modal('show');
         },
         resetModal() {
             this.publishQuestions = false;
@@ -54,17 +58,22 @@ Vue.component('publish-category-component',{
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: '/GetSetCategoryToPrivateModalData',
+                url: '/GetCategoryToPrivateModalData',
                 data: JSON.stringify(data),
                 success: function (result) {
                     if (result.success == false) {
-
+                        let data = {
+                            msg: messages.error.category[result.key],
+                        }
+                        eventBus.$emit('show-error', data);
+                    } else {
+                        self.categoryName = result.categoryName;
+                        self.personalQuestionIds = result.personalQuestionIds;
+                        self.personalQuestionCount = result.personalQuestionCount;
+                        self.allQuestionIds = result.allQuestionIds;
+                        self.allQuestionCount = result.allQuestionCount;
+                        $('#CategoryToPrivateModal').modal('show');
                     }
-                    self.categoryName = result.categoryName;
-                    self.personalQuestionIds = result.personalQuestionIds;
-                    self.personalQuestionCount = result.personalQuestionCount;
-                    self.allQuestionIds = result.allQuestionIds;
-                    self.allQuestionCount = result.allQuestionCount;
                 },
             });
         },
@@ -79,10 +88,10 @@ Vue.component('publish-category-component',{
                 url: '/EditCategory/SetCategoryToPrivate',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    if (result.success) {
-                        $('#SetToPrivateModal').modal('hide');
-                        if (self.setQuestionsToPrivate)
-                            self.setQuestionsToPrivateHandler();
+                    if (result.success == true) {
+                        $('#CategoryToPrivateModal').modal('hide');
+                        if (self.questionsToPrivate || self.allQuestionsToPrivate)
+                            self.setQuestionsToPrivate();
                         let data = {
                             msg: messages.success.category.setToPrivate,
                             reload: true,
@@ -90,7 +99,7 @@ Vue.component('publish-category-component',{
                         eventBus.$emit('show-success', data);
 
                     } else {
-                        $('#SetToPrivateModal').modal('hide');
+                        $('#CategoryToPrivateModal').modal('hide');
                         let data = {
                             msg: messages.error.category[result.key]
                         };
@@ -99,11 +108,10 @@ Vue.component('publish-category-component',{
                 },
             });
         },
-        setQuestionsToPrivateHandler() {
+        setQuestionsToPrivate() {
             var self = this;
             var data = {
                 questionIds: self.forceAllQuestionsToPrivate ? self.allQuestionsIds : self.personalQuestionIds,
-                allQuestions: self.forceAllQuestionsToPrivate
             };
             $.ajax({
                 type: 'Post',

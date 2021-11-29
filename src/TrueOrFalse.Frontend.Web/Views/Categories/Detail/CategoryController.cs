@@ -343,7 +343,7 @@ public class CategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult GetSetCategoryToPrivateModalData(int categoryId)
+    public JsonResult GetCategoryToPrivateModalData(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
         var userCacheItem = UserCache.GetItem(User_().Id);
@@ -359,7 +359,7 @@ public class CategoryController : BaseController
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
             .Where(c => c.Visibility == CategoryVisibility.All);
-        var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
+        var publicAggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true).Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = categoryCacheItem.TotalRelevancePersonalEntries;
         if (!Sl.SessionUser.IsInstallationAdmin)
         {
@@ -382,7 +382,7 @@ public class CategoryController : BaseController
             }
 
             var pinnedQuestionIds = new List<int>();
-            foreach (var q in aggregatedQuestions)
+            foreach (var q in publicAggregatedQuestions)
             {
                 bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
                 if (questionIsPinned)
@@ -407,7 +407,7 @@ public class CategoryController : BaseController
             }
         }
 
-        var filteredAggregatedQuestions = aggregatedQuestions.Where(q => q.Creator == userCacheItem.User)
+        var filteredAggregatedQuestions = publicAggregatedQuestions.Where(q => q.Creator == userCacheItem.User)
             .Select(q => q.Id).ToList();
 
         return Json(new
@@ -415,8 +415,8 @@ public class CategoryController : BaseController
             categoryName = categoryCacheItem.Name,
             personalQuestionIds = filteredAggregatedQuestions,
             personalQuestionCount = filteredAggregatedQuestions.Count(),
-            allQuestionIds = aggregatedQuestions.Select(q => q.Id).ToList(),
-            allQuestionCount = aggregatedQuestions.Count()
+            allQuestionIds = publicAggregatedQuestions.Select(q => q.Id).ToList(),
+            allQuestionCount = publicAggregatedQuestions.Count()
         });
     }
 
