@@ -4,7 +4,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/bundles/Registration") %>
     <%= Scripts.Render("~/bundles/RegistrationJs") %>
 </asp:Content>
 

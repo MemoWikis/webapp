@@ -4,6 +4,5 @@
 </script>
 
 <%: Html.Partial("/Views/Shared/Modals/DefaultModal/DefaultModalComponentLoader.ascx") %>
+<%= Scripts.Render("~/bundles/LoginModalTemplate") %>
 
-<%= Scripts.Render("~/bundles/RegistrationJs") %>    
-<%= Styles.Render("~/bundles/Registration") %>

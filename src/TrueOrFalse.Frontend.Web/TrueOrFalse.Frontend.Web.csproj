@@ -2063,12 +2063,6 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.js">
-      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.js.map">
-      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Login\LoginModalComponentLoader.vue.ascx" />
     <Content Include="Views\Welcome\Login\LoginModalTemplate.vue.ascx" />
     <Content Include="webpack.config.js" />

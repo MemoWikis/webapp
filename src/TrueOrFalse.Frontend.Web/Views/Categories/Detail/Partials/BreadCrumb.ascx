@@ -1,9 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BreadCrumbModel>" %>
-<%@ Import Namespace="Markdig.Helpers" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code"%>
-
-<%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
-
 <div id="BreadCrumbContainer" class="container">
     <span>
         <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="<%= Model.ToolTipToHomepage %>">
