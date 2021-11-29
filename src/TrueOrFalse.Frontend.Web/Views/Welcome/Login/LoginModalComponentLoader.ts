@@ -84,5 +84,30 @@ var loginApp = new Vue({
             () => {
                 this.loaded = false;
             });
+
+        eventBus.$on('login-Facebook',
+            () => {
+                var self = this;
+                self.FacebookLogin();
+            });
+        eventBus.$on('login-Google',
+            () => {
+                var self = this;
+                self.GoogleLogin();
+            });
     },
+
+    methods: {
+        FacebookLogin() {
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
+        },
+
+        GoogleLogin() {
+            new Google();
+            setTimeout(() => {
+                    Google.AttachClickHandler('btn-login-with-google-modal');
+                },
+                500);
+        },
+    }
 });

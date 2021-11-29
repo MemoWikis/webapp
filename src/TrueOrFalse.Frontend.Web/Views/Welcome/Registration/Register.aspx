@@ -25,12 +25,12 @@
 
             <div class="form-group omb_login row">
                 <div class="col-sm-offset-2 col-sm-8 omb_socialButtons" style="padding-right: 5px;">
-                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
+                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" onclick="eventBus.$emit('login-Facebook')">
                         <a class="btn btn-block cursor-hand" id="btn-login-with-facebook-modal">
                             <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span style="text-transform: uppercase;">weiter mit Facebook</span>
                         </a>
                     </div>
-                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-left: 5px;">
+                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-left: 5px;" onclick="eventBus.$emit('login-Google')">
                         <a class="btn btn-block cursor-hand" id="btn-login-with-google-modal">
                             <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span style="text-transform: uppercase;">weiter mit Google</span>
                         </a>
