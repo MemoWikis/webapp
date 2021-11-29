@@ -26,7 +26,6 @@ namespace TrueOrFalse.View
                     .IncludeDirectory("~/Scripts/header", "*.js")
                     .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                     .IncludeDirectory("~/Views/Images", "*.js")
-                    .IncludeDirectory("~/Views/Welcome/Login", "*.js")
                     .Include("~/Scripts/npm/vue/vue.js"));
             } else {
                 bundles.Add(new ScriptBundle("~/bundles/shared")
@@ -36,7 +35,6 @@ namespace TrueOrFalse.View
                     .IncludeDirectory("~/Scripts/header", "*.js")
                     .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                     .IncludeDirectory("~/Views/Images", "*.js")
-                    .IncludeDirectory("~/Views/Welcome/Login", "*.js")
                     .Include("~/Scripts/npm/vue/vue.min.js"));
             }
 
@@ -80,8 +78,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/RegistrationJs")
                 .Include("~/Views/Welcome/Js/Validation.js")
-                .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js")
-                .IncludeDirectory("~/Views/Welcome/Login/", "*.js"));
+                .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/LoginModalTemplate")
                 .Include("~/Views/Welcome/Login/LoginModalComponentLoader.js"));
@@ -153,6 +150,9 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryToPrivate")
+                .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/CategoryToPrivate/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/MyWorldToggle")
                 .IncludeDirectory("~/Views/Shared/MyWorldToggle/", "*.js"));

@@ -6,8 +6,9 @@
 <%= Scripts.Render("~/bundles/js/stickySearch") %>
 <%  var userSession = new SessionUser();
     if (!userSession.IsLoggedIn) { %>
-    <span id="headersearchspan">test</span>
     <%= Scripts.Render("~/bundles/js/headerSearch") %>
+    <%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
+    <%= Styles.Render("~/bundles/Registration") %>
 <%} %>
 <div class="row Promoter">
     <div class="col-xs-12">

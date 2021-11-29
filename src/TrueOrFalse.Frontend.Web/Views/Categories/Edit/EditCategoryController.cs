@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using FluentNHibernate.Conventions;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -410,7 +411,6 @@ public class EditCategoryController : BaseController
                 key = "noRemainingParents",
             });
 
-
         var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
         Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
 
@@ -524,7 +524,7 @@ public class EditCategoryController : BaseController
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
 
-        if (categoryCacheItem.HasPublicParent())
+        if (categoryCacheItem.HasPublicParent() || categoryCacheItem.Creator.StartTopicId == categoryId)
         {
             if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1))
                 return Json(new
@@ -553,45 +553,57 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsLoggedIn]
     public JsonResult SetCategoryToPrivate(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
-            .Where(c => c.Visibility == CategoryVisibility.All);
-        if (categoryId == RootCategory.RootCategoryId)
+        var hasRights = IsAllowedTo.ToEdit(categoryCacheItem);
+        if (!hasRights)
             return Json(new
             {
                 success = false,
-                key = "rootCategoryMustBePublic"
+                key = "missingRights"
             });
 
-        foreach (var c in aggregatedCategories)
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
+            .Where(c => c.Visibility == CategoryVisibility.All);
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        var pinCount = category.TotalRelevancePersonalEntries;
+        if (!Sl.SessionUser.IsInstallationAdmin)
         {
-            bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-            if (!childHasPublicParent)
+            if (categoryId == RootCategory.RootCategoryId)
                 return Json(new
                 {
                     success = false,
-                    key = "publicChildCategories"
+                    key = "rootCategoryMustBePublic"
                 });
+
+            foreach (var c in aggregatedCategories)
+            {
+                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                if (!childHasPublicParent)
+                    return Json(new
+                    {
+                        success = false,
+                        key = "publicChildCategories"
+                    });
+            }
+
+            if (pinCount >= 10)
+            {
+                return Json(new
+                {
+                    success = true,
+                    key = "tooPopular"
+                });
+            }
         }
 
-        var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
-        foreach (var q in aggregatedQuestions)
-        {
-            bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-            if (!childHasPublicParent)
-                return Json(new
-                {
-                    success = false,
-                    key = "publicQuestions"
-                });
-        }
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
-        var category = Sl.CategoryRepo.GetById(categoryId);
         category.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryChangeRepo.AddMadePrivateEntry(category,Sl.SessionUser.User);
+        Sl.CategoryRepo.Update(category);
+        Sl.CategoryChangeRepo.AddMadePrivateEntry(category, Sl.SessionUser.User);
+
         return Json(new
         {
             success = true,

@@ -113,6 +113,11 @@ public class UserEntityCache : BaseCache
             _Categories.TryRemove(Sl.SessionUser.UserId, out _);
     }
 
+
+    public static void DeleteCacheForUser(int userId)
+    {
+        _Categories.TryRemove(userId, out _);
+    }
     public static void DeleteCategory(int categoryId)
     {
         foreach (var userCache in _Categories.Values)

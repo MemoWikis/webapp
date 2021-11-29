@@ -29,7 +29,9 @@ var messages = {
             childIsParent: "Übergeordnete Themen können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
             nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
-            rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden."
+            rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden.",
+            missingRights: "Dir fehlen die notwendigen Rechte.",
+            tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User"
         },
         question: {
             missingText: "Der Fragetext fehlt.",
