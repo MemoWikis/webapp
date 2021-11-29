@@ -1,107 +1,101 @@
 ﻿<%@ Page Title="Registrieren" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<RegisterModel>" %>
+
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Registration") %>
-    <%= Scripts.Render("~/bundles/RegistrationJs") %>    
-    
+    <%= Scripts.Render("~/bundles/RegistrationJs") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <% using (Html.BeginForm("Register", "Register", null, FormMethod.Post, new { id = "RegistrationForm", enctype = "multipart/form-data" })){%>
-    
+
+    <% using (Html.BeginForm("Register", "Register", null, FormMethod.Post, new { id = "RegistrationForm", enctype = "multipart/form-data" }))
+        {%>
+
     <div class="row">
-        <div class="BackToHome col-md-3">
-            <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
-        </div>
-        
-        <div class="form-horizontal col-md-9">            
+        <div class="form-horizontal col-md-12">
             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                <div class="col-xs-12" >
-                    <h1>Jetzt registrieren. memucho ist kostenlos.</h1>                 
+                <div class="col-xs-8 col-xs-offset-2">
+                    <h1>Registrieren</h1>
                 </div>
-                <div class="col-xs-12" >
-                    Wir schützen und respektieren deine Privatsphäre.
-                    Wir gehen sorgfältig mit deinen Daten um. 
+                <div class="col-xs-8 col-xs-offset-2">
+                    Dein Wiki ist noch einen Klick entfernt.
                 </div>
-                <div class="col-xs-12" >
-                    <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst memucho ohne Einschränkungen nutzen :-)
+            </div>
+            
+            <div class="form-group omb_login row">
+                <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
+                    <div class="col-xs-12 col-sm-5 socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand" id="btn-login-with-facebook-modal">
+                            <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span>mit Facebook</span>
+                        </a>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-sm-offset-2 socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand" id="btn-login-with-google-modal">
+                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span>mit Google</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <fieldset>
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
-                <div class="form-group omb_login">
-                    <div class="row omb_socialButtons">
-   	                    <div class="col-xs-12 col-sm-offset-2 col-sm-3" style="padding-top: 7px;">
-		                    <a href="#" class="btn btn-block omb_btn-facebook" id="btn-login-with-facebook-modal" style="width: 100%">
-			                    <span>Facebook</span>
-		                    </a>
-	                    </div>
-        	            <div class="col-xs-12 col-sm-3" style="padding-top: 7px;">
-		                    <a href="#" class="btn btn-block omb_btn-google" id="btn-login-with-google-modal">
-			                    <span>Google+</span>
-		                    </a>
-	                    </div>	
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-6" style="font-size: 12px; padding-top: 5px;">
-                        *Datenschutz und Nutzungsbedingungen siehe unten.
-                    </div>
-                </div>                
-                
+
+
                 <div class="row" style="margin-top: 30px; margin-bottom: 5px;">
-                    <div class="col-sm-offset-2  col-sm-2 col-xs-5" style="border-bottom: 1px solid silver"></div>
+                    <div class="col-sm-offset-3 col-sm-2 col-xs-5" style="border-bottom: 1px solid silver"></div>
                     <div class="col-sm-2 col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
                     <div class="col-sm-2 col-xs-5" style="border-bottom: 1px solid silver"></div>
                 </div>
 
                 <div class="form-group">
-                    <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="col-sm-6">
+<%--                    <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 col-sm-offset-2 control-label" }) %>--%>
+                    <div class="col-sm-offset-2 col-sm-8">
                         <%: Html.TextBoxFor(model => model.Name, new { @class="form-control", placeholder = Model.Name }) %>
                         <%: Html.ValidationMessageFor(model => model.Name) %>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
-                    <%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="col-sm-6">
+                    <%--<%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 col-sm-offset-2 control-label" }) %>--%>
+                    <div class="col-sm-offset-2 col-sm-8">
                         <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Email) %>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="col-sm-6">
+                    <%--<%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2  col-sm-offset-2 control-label" }) %>--%>
+                    <div class="col-sm-offset-2 col-sm-8">
                         <%: Html.PasswordFor(model => model.Password, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Password) %>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-6" style="border-top:0px; margin-top: 10px;">
-                        <a href="#" data-btn-login="true" class="btn btn-link">Ich bin schon Nutzer!</a>
-                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-success"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-6" style="font-size: 12px; padding-top: 20px;">
-                        In dem du dich registrierst, erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
-                        und unserer <a href="<%=Links.Imprint %>">Datenschutzerklärung</a> einverstanden. <br />
-                        <br/>
-                        <b>Du musst mind. 16 Jahre alt sein, um Dich zu registrieren! <a href="/Impressum#under16">Hier findest Du mehr Infos dazu.</a></b>
+                    <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
+                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary memo-button col-sm-12">Registrieren</a>
                     </div>
                 </div>
 
-            </fieldset>            
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
+                        <p href="#" style="text-align: center;">Ich bin schon Nutzer! <br/>
+                        <a data-btn-login="true" class="cursor-hand" style="text-align: center;">Anmelden</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8" style="font-size: 12px; padding-top: 20px; text-align: center;">
+                        Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
+                        und unserer <a href="<%=Links.Imprint %>">Datenschutzerklärung</a> einverstanden. Du musst mind. 16 Jahre alt sein, <a href="/Impressum#under16">hier mehr Infos!</a>
+                    </div>
+                </div>
+
+            </fieldset>
         </div>
     </div>
-<% } %>
+    <% } %>
 </asp:Content>

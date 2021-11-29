@@ -2378,7 +2378,7 @@ input::placeholder {
 .no-scroll {
   overflow: hidden;
 }
-@media (max-width: 849px) {
+@media (max-width: 850px) {
   .modal-default {
     overflow-y: auto;
     position: fixed;
@@ -2390,7 +2390,7 @@ input::placeholder {
   }
 }
 .modal-default-mask {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   display: table;
   transition: opacity 0.3s ease;
   -webkit-transform: translate(0, 0);
@@ -2413,12 +2413,11 @@ input::placeholder {
   vertical-align: middle;
 }
 .modal-default-container {
-  width: 50%;
   margin: 0 auto;
   position: absolute;
   top: 5%;
   left: 25%;
-  padding: 64px 40px 4px 40px;
+  padding: 54px 40px 4px 40px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2450,7 +2449,7 @@ input::placeholder {
     left: 12.5%;
     width: 75%;
     margin: 0 auto;
-    padding: 64px 40px;
+    padding: 54px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2460,21 +2459,21 @@ input::placeholder {
     overflow-x: hidden;
   }
 }
-@media (max-width: 849px) and (min-width: 386px) {
+@media (max-width: 850px) and (min-width: 386px) {
   .modal-default-container {
-    width: 100%;
+    width: 100% !important;
     position: relative;
     top: 0;
     left: 0;
     margin: 0px auto;
-    padding: 64px 40px;
+    padding: 54px 40px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
     max-height: none;
     min-height: none;
-    height: 100%;
+    height: 100% !important;
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -2514,12 +2513,78 @@ input::placeholder {
     margin: 0;
   }
 }
-.modal-default-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.header-default-modal {
+  color: #555555;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+}
+.errorHeaderModal {
+  color: #FFA07A !important;
+}
+.successHeaderModal {
+  color: #AFD534 !important;
+}
+.iconHeaderModal {
+  padding-right: 5px;
+  font-weight: 900;
+}
+.adminIconHeaderModal {
+  padding-left: 5px;
+  color: #0065CA;
+  font-size: 12px;
+  font-weight: 900;
+}
+.modal-default-footer {
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  padding: 20px 0 0px 0;
+  font-size: 14px;
+}
+.modal-default-footer-text {
+  padding: 50px 0 35px 0;
+  color: #767676 !important;
+  text-align: center;
+  width: 100%;
 }
 .modal-default-body {
-  margin: 20px 0;
+  margin-top: 12px;
+  color: #767676;
+}
+.modalSecondActionButton {
+  margin-right: 14px;
+}
+@media (max-width: 850px) {
+  .modalSecondActionButton {
+    margin-right: 0;
+    margin-top: 8px;
+  }
+  .modal-button {
+    width: 100%;
+  }
+}
+.fullSizeButtons {
+  width: 100%;
+}
+.noPadding {
+  padding: 0;
+}
+.errorButton1Modal {
+  background: #FFA07A;
+  border-color: #FFA07A;
+  color: white !important;
+}
+.successButton1Modal {
+  background: #AFD534;
+  border-color: #AFD534;
+  color: white !important;
+}
+.errorButton2Modal {
+  color: #FFA07A !important;
+}
+.successButton2Modal {
+  color: #AFD534 !important;
 }
 .footer-links-memucho {
   margin-top: 40px;
