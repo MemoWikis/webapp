@@ -2508,7 +2508,6 @@ textarea, input {
 }
 
 .modal-default-container {
-    width: 50%;
     margin: 0 auto;
     position: absolute;
     top: 5%;
@@ -2561,7 +2560,7 @@ textarea, input {
 
 @media (max-width: 850px) and (min-width: 386px) {
     .modal-default-container {
-        width: 100%;
+        width: 100% !important;
         position: relative;
         top: 0;
         left: 0;
@@ -2573,7 +2572,7 @@ textarea, input {
         transition: all 0.3s ease;
         max-height: none;
         min-height: none;
-        height: 100%;
+        height: 100% !important;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -2648,14 +2647,23 @@ textarea, input {
     position: relative;
     bottom: 0px;
     width: 100%;
-    padding: 20px 0 40px 0;
+    padding: 20px 0 0px 0;
     font-size: 14px;
+}
+
+.modal-default-footer-text {
+    padding: 50px 0 35px 0;
+    color: @memo-grey-dark !important;
+    text-align: center;
+    width: 100%;
 }
 
 .modal-default-body {
     margin-top: 12px;
     color: @memo-grey-dark;
 }
+
+
 
 .modalSecondActionButton {
     margin-right: 14px;
@@ -2674,6 +2682,13 @@ textarea, input {
     }
 }
 
+.fullSizeButtons{
+    width:100%;
+}
+
+.noPadding{
+    padding: 0;
+}
 
 .errorButton1Modal {
     background: @memo-salmon;

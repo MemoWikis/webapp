@@ -3,14 +3,12 @@
 <%@ Import Namespace="FluentNHibernate.Utils" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
+<%= Scripts.Render("~/bundles/LoginModalTemplate") %>
 
 <%
     var userSession = new SessionUser();
     var user = userSession.User;
 %>
-<div id="LoginApp">
-    <login-modal-component-loader v-if="loaded"/>
-</div>
 
 
 <% if (userSession.IsLoggedIn)
@@ -92,7 +90,9 @@
     else
     {
 %>
-
+    <div id="LoginApp">
+        <login-modal-component-loader v-if="loaded"/>
+    </div>
     <div class="login-register-container">
         <div class="btn memo-button link-btn login-btn" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">            
             <i class="fa fa-sign-in"></i>
@@ -104,4 +104,3 @@
 <%
     }
 %>
-<%= Scripts.Render("~/bundles/LoginModalTemplate") %>

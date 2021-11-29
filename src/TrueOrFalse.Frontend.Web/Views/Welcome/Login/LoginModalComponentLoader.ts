@@ -4,14 +4,13 @@
 Vue.component('login-modal-component-loader',
     {
         template: '#login-modal-component-loader',
-        props: ['showLoginModalProp'],
         data() {
             return {
-                showLoginModal: false,
-                eMail: 'Hi',
-                password: String,
+                eMail: '',
+                password: '',
                 persistentLogin: false,
-                errorMessage: String
+                errorMessage: '',
+                passwordInputType: 'password',
             }
         },
         beforeCreate() {
@@ -20,7 +19,11 @@ Vue.component('login-modal-component-loader',
 
         },
         mounted() {
-
+            eventBus.$on('login-clicked',
+                () => {
+                    var self = this;
+                    self.SubmitForm();
+                });
         },
 
         methods: {
@@ -41,9 +44,9 @@ Vue.component('login-modal-component-loader',
                 var self = this;
 
                 var data = {
-                    EmailAddress: self.email ,
+                    EmailAddress: self.eMail ,
                     Password: self.password,
-                    PersistentLogin: self.persistentLogin
+                    PersistentLogin: self.persistentLogin,
                 }
 
                 $.post("/Login/Login", data, (result) => {
@@ -68,7 +71,7 @@ var loginApp = new Vue({
     props: [],
     data() {
         return {
-            loaded: true
+            loaded: false
     }
     },
     mounted() {

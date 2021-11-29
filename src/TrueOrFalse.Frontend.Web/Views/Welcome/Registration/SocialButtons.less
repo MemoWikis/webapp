@@ -1,7 +1,8 @@
-﻿
+﻿@import (reference) '../../../Style/includes/imports.less';
+
 .omb_login .omb_socialButtons a {
-    color: #555555;
-    border: 1px solid #DDDDDD;
+    color: @memo-grey-darker;
+    border: 1px solid @memo-grey-light;
     font-weight: 600;
 }
 
@@ -13,11 +14,43 @@
 .socialMediaLogo {
     height: 20px;
     position: absolute;
-    left: 2em;
+    left: 1em;
 }
 
 .socialMediaBtnContainer {
     padding: 7px 0 0 0;
     display: flex;
     align-items: center;
+}
+
+.loginInputs {
+    resize: none;
+    height: 44px;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 15px 0;
+    border: solid @memo-grey-light 1px;
+    box-shadow: none;
+    color: @memo-grey-dark !important;
+}
+
+.eyeIcon {
+    position: absolute;
+    top: 16px;
+    font-size: 16px;
+    right: 30px;
+    cursor: pointer;
+}
+
+.checkboxText {
+    vertical-align: top !important;
+    padding-left: 4px;
+}
+.infoContainer{
+    margin: -10px 0 15px 0;
+}
+
+.infoText {
+    margin: 30px 0 35px;
+    font-size: 12px;
 }

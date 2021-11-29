@@ -5,16 +5,20 @@ if (eventBus == null)
 var defaultModalComponent = Vue.component('default-modal-component',
     {
         template: '#default-modal-component',
-        props: ['id', 'showCloseButton', 'adminContent', 'modalType', 'iconClasses', 'button1Text', 'button2Text', 'action1Emit', 'action2Emit'],
+        props: ['id', 'showCloseButton', 'adminContent', 'modalType', 'iconClasses', 'button1Text', 'button2Text', 'action1Emit', 'action2Emit', 'modalWidth', 'isFullSizeButtons'],
         data: function () {
             return {
                 isError: false,
                 isSuccess: false,
-                isAdminContent: this.adminContent == "true"
-            }
+                isAdminContent: this.adminContent == "true",
+                modalWidthData: this.modalWidth,
+        }
         },
         created() {
             var self = this;
+            if (self.modalWidth == null) {
+                self.modalWidthData = '50%';
+            }
             document.body.classList.add('no-scroll');
             if (self.modalType == 'error') {
                 self.isError = true;
