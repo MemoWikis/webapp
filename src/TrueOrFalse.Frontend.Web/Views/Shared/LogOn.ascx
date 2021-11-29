@@ -2,12 +2,15 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="FluentNHibernate.Utils" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
 <%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
+
 <%
     var userSession = new SessionUser();
     var user = userSession.User;
 %>
+<div id="LoginApp">
+    <login-modal-component-loader v-if="loaded"/>
+</div>
 
 
 <% if (userSession.IsLoggedIn)
@@ -89,9 +92,6 @@
     else
     {
 %>
-    <div>
-        <login-modal-component-loader/>
-    </div>
 
     <div class="login-register-container">
         <div class="btn memo-button link-btn login-btn" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">            

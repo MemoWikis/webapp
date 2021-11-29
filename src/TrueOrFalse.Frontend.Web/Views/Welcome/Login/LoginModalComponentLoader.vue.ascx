@@ -1,35 +1,38 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div>
+<div id="LoginModalComponentLoader">
     <default-modal-component showCloseButton="true">
         <template v-slot:header>
             <span>Login</span>
         </template>
         <template v-slot:body>
-            <div class="form-group omb_login">
-                <div class="omb_socialButtons">
-                    <div class="col-xs-offset-1 col-xs-5 xxs-stack" style="padding-top: 7px;">
-	                           
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                        <a href="#" class="btn btn-block omb_btn-facebook" id="btn-login-with-facebook-modal" style="width: 100%">
-                            <span>Facebook</span>
+            <div class="form-group omb_login row">
+                <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
+                    <div class="col-xs-12 col-sm-5 socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand" id="btn-login-with-facebook-modal">
+                            <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span>mit Facebook</span>
                         </a>
                     </div>
-                    <div class="col-xs-5 xxs-stack" style="padding-top: 7px;">
-                        <a href="#" class="btn btn-block omb_btn-google" id="btn-login-with-google-modal" >
-                            <span>Google+</span>
+                    <div class="col-xs-12 col-sm-5 col-sm-offset-2 socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand" id="btn-login-with-google-modal">
+                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span>mit Google</span>
                         </a>
-                    </div>	
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-xs-offset-1 col-xs-10 xxs-stack" style="font-size: 12px; padding-top: 7px;">
-                    *Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
-                    und unserer <a href="<%=Links.Imprint %>">Datenschutzerklärung</a> einverstanden. 
-                    <br/><br/>
-                    Du musst mind. 16 Jahre alt sein, <a href="/Impressum#under16">hier mehr Infos</a>!
+
+            <div class="row" style="margin-top: 20px; margin-bottom: 5px;">
+                <div class="col-xs-10 col-xs-offset-1 xxs-stack">
+                    <div class="row">
+                        <div class="col-xs-5"><div class="Divider" style="margin-right: -10px;"></div></div>
+                        <div class="col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
+                        <div class="col-xs-5"><div class="Divider" style="margin-left: -10px;"></div></div>
+                    </div>
                 </div>
+                    
             </div>
+
+
         </template>
         <template v-slot:footer></template>
     </default-modal-component>

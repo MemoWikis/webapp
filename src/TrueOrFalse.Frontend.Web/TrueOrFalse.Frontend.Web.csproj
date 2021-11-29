@@ -2058,7 +2058,10 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Login\QuestionCommentSectionModalComponentLoader.js">
+    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.js">
+      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.js.map">
       <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Login\LoginModalComponentLoader.vue.ascx" />
@@ -4206,9 +4209,6 @@
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
-    <Content Include="Views\Welcome\Login\QuestionCommentSectionModalComponentLoader.js.map">
-      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
-    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
