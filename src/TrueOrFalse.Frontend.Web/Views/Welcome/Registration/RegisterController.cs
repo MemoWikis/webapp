@@ -28,11 +28,11 @@ public class RegisterController : BaseController
         user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
         _sessionUser.User.StartTopicId = category.Id;
-
-        return Category(EntityCache.GetCategoryCacheItem(category.Id)) ;
+        UserCache.AddOrUpdate(user);
+        return Category(EntityCache.GetCategoryCacheItem(category.Id));
     }
 
-    public ActionResult Category(CategoryCacheItem category) => View(_viewCategoryDetailPath, new CategoryModel(category));
+    public ActionResult Category(CategoryCacheItem category) => Redirect(Links.CategoryDetail(category));
 
     [HttpPost]
     public string GetUserTopic()
