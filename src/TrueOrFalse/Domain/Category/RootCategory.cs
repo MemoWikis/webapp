@@ -9,5 +9,5 @@ public class RootCategory
     public static IReadOnlyList<int> LockedCategoryIds = new List<int> {1, 682, 689, 709};
     public static bool IsMainCategory(int categoryId) => LockedCategoryIds.Any(c => c == categoryId);
 
-    public const int IntroCategoryId = 1818;
+    public const int IntroCategoryId = 1864;
 }

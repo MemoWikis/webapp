@@ -1981,10 +1981,14 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js">
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\JsEditMode\SetCategoryToPrivate\PublishCategoryComponent.js">
+      <DependentUpon>SetCategoryToPrivateComponent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbFirstChevron.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbTrail.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetCategoryToPrivate\SetCategoryToPrivate.ascx" />
     <Content Include="Views\Questions\AnswerQuestionComponent.js" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
@@ -2671,6 +2675,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\SetCategoryToPrivate\SetCategoryToPrivateComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
@@ -4199,6 +4204,9 @@
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
+    <Content Include="Views\Categories\Detail\JsEditMode\SetCategoryToPrivate\PublishCategoryComponent.js.map">
+      <DependentUpon>SetCategoryToPrivateComponent.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -4251,6 +4259,9 @@
     <Folder Include="bin\" />
     <Folder Include="DynamicData\FieldTemplates\" />
     <Folder Include="Views\Categories\Detail\JsLearningTab\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -558,66 +558,13 @@ public class EditCategoryController : BaseController
     public JsonResult SetCategoryToPrivate(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
-        var hasRights = HasEditRights(categoryCacheItem);
+        var hasRights = IsAllowedTo.ToEdit(categoryCacheItem);
         if (!hasRights)
             return Json(new
             {
                 success = false,
                 key = "missingRights"
             });
-
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
-            .Where(c => c.Visibility == CategoryVisibility.All);
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        var pinCount = category.TotalRelevancePersonalEntries;
-        if (!Sl.SessionUser.IsInstallationAdmin)
-        {
-            if (categoryId == RootCategory.RootCategoryId)
-                return Json(new
-                {
-                    success = false,
-                    key = "rootCategoryMustBePublic"
-                });
-
-            foreach (var c in aggregatedCategories)
-            {
-                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-                if (!childHasPublicParent)
-                    return Json(new
-                    {
-                        success = false,
-                        key = "publicChildCategories"
-                    });
-            }
-
-            if (pinCount >= 10)
-            {
-                return Json(new
-                {
-                    success = true,
-                    key = "tooPopular"
-                });
-            }
-        }
-        var aggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true);
-        var userCache = UserCache.GetAllCacheItems();
-        foreach (var q in aggregatedQuestions)
-        {
-            bool childHasPublicParent = q.Categories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
-            bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
-            if (Sl.SessionUser.IsInstallationAdmin && !childHasPublicParent && questionIsPinned)
-            {
-                var questionInUserCache = userCache.Where(u => u.QuestionValuations.ContainsKey(q.Id));
-                foreach (var qv in questionInUserCache)
-                    if (qv.QuestionValuations[q.Id].IsInWishKnowledge)
-                        QuestionInKnowledge.Unpin(q.Id, qv.User);
-            } else if (!childHasPublicParent || questionIsPinned)
-                return Json(new
-                {
-                    success = false,
-                    key = "publicQuestions"
-                });
-        }
 
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
         category.Visibility = CategoryVisibility.Owner;
@@ -677,15 +624,5 @@ public class EditCategoryController : BaseController
     {
         var tiptapHtml = ViewRenderer.RenderPartialView("~/Views/Shared/Editor/tiptapLoader.ascx", null, ControllerContext);
         return tiptapHtml;
-    }
-
-    private bool HasEditRights(Category category)
-    {
-        return category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin;
-    }
-
-    private bool HasEditRights(CategoryCacheItem categoryCacheItem)
-    {
-        return categoryCacheItem.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin;
     }
 }
