@@ -41,7 +41,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail" @keydown.enter="SubmitForm()"/>
+                            <input placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail" @keydown.enter="SubmitForm()" @click="errorMessage = ''"/>
                         </div>
                     </div>
                 </form>
@@ -51,7 +51,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input placeholder="" :type="passwordInputType" width="100%" class="loginInputs" v-model="password" @keydown.enter="SubmitForm()"/>
+                            <input placeholder="" :type="passwordInputType" width="100%" class="loginInputs" v-model="password" @keydown.enter="SubmitForm()" @click="errorMessage = ''"/>
                             <i class="fas fa-eye eyeIcon" v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'"></i>
                             <i v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" class="fas fa-eye-slash eyeIcon"></i>
                         </div>
@@ -66,6 +66,7 @@
                         <a href="/Login/PasswortZuruecksetzen">Passwort vergessen?</a>
                     </div>
                 </div>
+                <div class="errorMessage" v-if="errorMessage.length > 0">{{errorMessage}}</div>
             </div>
 
         </template>
