@@ -411,7 +411,6 @@ public class EditCategoryController : BaseController
                 key = "noRemainingParents",
             });
 
-
         var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
         Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
 
@@ -534,14 +533,10 @@ public class EditCategoryController : BaseController
                     key = "parentIsRoot"
                 });
             categoryCacheItem.Visibility = CategoryVisibility.All;
-            JobExecute.RunAsTask(scope =>
-            {
-                var category = Sl.CategoryRepo.GetById(categoryId);
-                category.Visibility = CategoryVisibility.All;
-                _categoryRepository.Update(category, _sessionUser.User);
-                Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
-            }, "PublishCategory");
-
+            var category = Sl.CategoryRepo.GetById(categoryId);
+            category.Visibility = CategoryVisibility.All;
+            _categoryRepository.Update(category, _sessionUser.User);
+            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
 
             return Json(new
             {
@@ -605,13 +600,9 @@ public class EditCategoryController : BaseController
         }
 
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
-
-        JobExecute.RunAsTask(scope =>
-        {
-            category.Visibility = CategoryVisibility.Owner;
-            Sl.CategoryRepo.Update(category);
-            Sl.CategoryChangeRepo.AddMadePrivateEntry(category, Sl.SessionUser.User);
-        }, "SetCategoryToPrivate");
+        category.Visibility = CategoryVisibility.Owner;
+        Sl.CategoryRepo.Update(category);
+        Sl.CategoryChangeRepo.AddMadePrivateEntry(category, Sl.SessionUser.User);
 
         return Json(new
         {

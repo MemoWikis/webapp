@@ -349,12 +349,9 @@ public class EditQuestionController : BaseController
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                JobExecute.RunAsTask(scope =>
-                {
-                    var question = Sl.QuestionRepo.GetById(questionId);
-                    question.Visibility = QuestionVisibility.Owner;
-                    _questionRepo.Update(question);
-                }, "SetQuestionsToPrivate");
+                var question = Sl.QuestionRepo.GetById(questionId);
+                question.Visibility = QuestionVisibility.Owner;
+                _questionRepo.Update(question);
             }
         }
     }
