@@ -48,30 +48,30 @@ class Login {
         $("#needs-to-be-logged-in").show();
     }
 
-    //private static InitializeFacebook() {
+    private static InitializeFacebook() {
 
-    //    $("#btn-login-with-facebook-modal").click(() => {
-    //        FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
-    //    });
-    //}
+        $("#btn-login-with-facebook-modal").click(() => {
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
+        });
+    }
 
-    //private static InitializeGoogleLogin() {
-    //    $("#btn-login-with-google-modal").on("click", () => {
-    //        new Google();
-    //            setTimeout(() => {
-    //                    Google.AttachClickHandler('btn-login-with-google-modal');
-    //                },
-    //                500);
+    private static InitializeGoogleLogin() {
+        $("#btn-login-with-google-modal").on("click", () => {
+            new Google();
+                setTimeout(() => {
+                        Google.AttachClickHandler('btn-login-with-google-modal');
+                    },
+                    500);
 
-    //        if (!this.IsClicked) {
-    //            setTimeout(() => {
-    //                    this.IsClicked = true;
-    //                    $("#btn-login-with-google-modal")[0].click();
-    //                },
-    //                1000);
-    //        }
-    //    });
-    //}
+            if (!this.IsClicked) {
+                setTimeout(() => {
+                        this.IsClicked = true;
+                        $("#btn-login-with-google-modal")[0].click();
+                    },
+                    1000);
+            }
+        });
+    }
 
     private static InitializeForm() {
 
