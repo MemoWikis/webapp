@@ -60,8 +60,9 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             <% if (Model.Category.Visibility == CategoryVisibility.Owner)
                { %>
 
-                <a onclick="eventBus.$emit('open-publish-category-modal')">
+                <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')">
                     <i class="fas fa-lock header-icon"></i>
+                    <i class="fas fa-unlock header-icon"></i>
                 </a>
             <% } %>
         </h1>
@@ -188,7 +189,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <li>
                             <a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in">
                                 <div class="dropdown-icon">
-                                    <i class="fa fa-code-fork"></i>
+                                    <i class="fas fa-history"></i>
                                 </div>
                                 Bearbeitungshistorie
                             </a>
@@ -225,17 +226,6 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 Wissensnetz anzeigen
                             </a>
                         </li>
-                        <% if (Model.IsOwnerOrAdmin)
-                           { %>
-                            <li>
-                                <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
-                                    <div class="dropdown-icon">
-                                        <i class="fas fa-trash"></i>
-                                    </div>
-                                    Thema löschen
-                                </a>
-                            </li>
-                        <% } %>
                         <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.All)
                            { %>
                             <li>
@@ -247,6 +237,29 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 </a>
                             </li>
                         <% } %>
+                        <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.Owner)
+                           { %>
+                            <li>
+                                <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fas fa-unlock"></i>   
+                                    </div>
+                                    Thema veröffentlichen
+                                </a>
+                            </li>
+                        <% } %>
+                        <% if (Model.IsOwnerOrAdmin)
+                           { %>
+                            <li>
+                                <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                    <div class="dropdown-icon">
+                                        <i class="fas fa-trash"></i>
+                                    </div>
+                                    Thema löschen
+                                </a>
+                            </li>
+                        <% } %>
+
                     </ul>
                 </div>
             </div>

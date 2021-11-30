@@ -526,7 +526,7 @@ public class EditCategoryController : BaseController
 
         if (categoryCacheItem.HasPublicParent() || categoryCacheItem.Creator.StartTopicId == categoryId)
         {
-            if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1))
+            if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
                 return Json(new
                 {
                     success = false,

@@ -1594,7 +1594,7 @@ a.noTextdecoration:hover {
     opacity: 0.4;
 }
 
-i.fa-lock {
+i.fa-lock, i.fa-unlock {
     font-size: 14px;
     color: @global-text-color-grey;
     padding: 0 2px;
@@ -1604,6 +1604,31 @@ i.fa-lock {
         cursor: pointer;
 
         &:hover {
+            color: @memo-blue;
+        }
+    }
+}
+
+a.lock-hover {
+    cursor: pointer;
+
+    i.fa-unlock {
+        display: none !important;
+    }
+
+    i.fa-lock {
+        display: unset !important;
+    }
+
+    &:hover {
+
+        i.fa-lock {
+            display: none !important;
+            color: @memo-blue;
+        }
+
+        i.fa-unlock {
+            display: unset !important;
             color: @memo-blue;
         }
     }

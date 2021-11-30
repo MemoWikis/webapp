@@ -1575,16 +1575,36 @@ a.noTextdecoration:hover {
   border-top: 1px grey solid;
   opacity: 0.4;
 }
-i.fa-lock {
+i.fa-lock,
+i.fa-unlock {
   font-size: 14px;
   color: #767676;
   padding: 0 2px;
 }
-i.fa-lock.header-icon {
+i.fa-lock.header-icon,
+i.fa-unlock.header-icon {
   font-size: 24px;
   cursor: pointer;
 }
-i.fa-lock.header-icon:hover {
+i.fa-lock.header-icon:hover,
+i.fa-unlock.header-icon:hover {
+  color: #003264;
+}
+a.lock-hover {
+  cursor: pointer;
+}
+a.lock-hover i.fa-unlock {
+  display: none !important;
+}
+a.lock-hover i.fa-lock {
+  display: unset !important;
+}
+a.lock-hover:hover i.fa-lock {
+  display: none !important;
+  color: #003264;
+}
+a.lock-hover:hover i.fa-unlock {
+  display: unset !important;
   color: #003264;
 }
 /*******************************************************************/
