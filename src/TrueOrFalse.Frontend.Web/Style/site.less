@@ -2762,6 +2762,11 @@ textarea, input {
     pointer-events: none;
     visibility: hidden;
 
+    &.skip-animation {
+        transition: transform 0s ease-out, min-height 0s ease-out, opacity 0s ease-out, visibility 0s ease-out !important;
+        height: unset !important;
+    }
+
     .container {
         height: 100%;
         padding-top: 45px;

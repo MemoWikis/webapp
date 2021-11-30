@@ -1,11 +1,22 @@
-﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true"%>
 
-<div id="MemuchoInfoBanner">
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
+<% var cookieValue = "";
+
+   if (Request.Cookies["memuchoInfoBanner"] != null)
+       cookieValue = Request.Cookies["memuchoInfoBanner"].Value;
+   var notFirstTimeClass = "";
+   if (cookieValue == "notFirstTime")
+       notFirstTimeClass = "skip-animation";
+%>
+
+<div id="MemuchoInfoBanner" class="<%= notFirstTimeClass %>">
     <div class="container">
         <div id="BannerContainer">
             <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
                 <div class="sub-text">
-                    Alles an einem Ort 
+                    Alles an einem Ort
                     <br class="visible-xs"/>
                     <i class="fas fa-heart"></i>
                 </div>

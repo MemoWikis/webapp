@@ -263,8 +263,10 @@ function SetBrowserClass() {
 
 function LoadInfoBanner() {
     var cookie = document.cookie.match('(^|;)\\s*' + "memuchoInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || '';
-    if (cookie != 'hide')
+    if (cookie != 'hide') {
         $('#MemuchoInfoBanner').addClass('show-banner');
+        document.cookie = "memuchoInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+    }
 }
 
 function HideInfoBanner() {
