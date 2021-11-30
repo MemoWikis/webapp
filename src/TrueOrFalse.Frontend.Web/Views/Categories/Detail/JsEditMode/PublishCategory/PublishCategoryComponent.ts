@@ -2,7 +2,8 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
-Vue.component('publish-category-component',{
+var pub = Vue.component('publish-category-component', {
+    template: '#publish-category',
     data() {
         return {
             categoryId: null,
@@ -25,13 +26,14 @@ Vue.component('publish-category-component',{
     },
 
     mounted() {
+        var self = this;
+        eventBus.$on('open-publish-category-modal', () => self.openPublishModal());
     },
 
     methods: {
         openPublishModal() {
             this.resetModal();
             this.getCategoryPublishModalData();
-            $('#PublishCategoryModal').modal('show');
         },
         resetModal() {
             this.blinkTimer = null;
@@ -59,6 +61,7 @@ Vue.component('publish-category-component',{
                     self.categoryName = result.categoryName;
                     self.questionIds = result.questionIds;
                     self.questionCount = result.questionCount;
+                    $('#PublishCategoryModal').modal('show');
                 },
             });
         },

@@ -1582,6 +1582,10 @@ i.fa-lock {
 }
 i.fa-lock.header-icon {
   font-size: 24px;
+  cursor: pointer;
+}
+i.fa-lock.header-icon:hover {
+  color: #003264;
 }
 /*******************************************************************/
 /*  new Styles 
