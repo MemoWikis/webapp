@@ -53,30 +53,6 @@ new Vue({
                 this.debounceSaveContent();
         });
         eventBus.$on('save-segments', () => this.debounceSaveSegments());
-        eventBus.$on('set-category-to-private', (id) => {
-            $.ajax({
-                type: 'post',
-                contentType: "application/json",
-                url: '/EditCategory/SetCategoryToPrivate',
-                data: JSON.stringify({
-                    categoryId: id
-                }),
-                success: function (result) {
-                    if (result.success == true) {
-                        let data = {
-                            msg: messages.success.category[result.key],
-                            reload: true,
-                        }
-                        eventBus.$emit('show-success', data);
-                    } else {
-                        let data = {
-                            msg: messages.error.category[result.key],
-                        }
-                        eventBus.$emit('show-error', data);
-                    };
-                },
-            });
-        });
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);

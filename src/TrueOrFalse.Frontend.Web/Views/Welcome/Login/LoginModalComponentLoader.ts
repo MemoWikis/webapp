@@ -1,7 +1,8 @@
-﻿if (eventBus == null)
+﻿declare var eventBus: any;
+if (eventBus == null)
     var eventBus = new Vue();
 
-Vue.component('login-modal-component-loader',
+var loginModal = Vue.component('login-modal-component-loader',
     {
         template: '#login-modal-component-loader',
         data() {
@@ -14,8 +15,6 @@ Vue.component('login-modal-component-loader',
             }
         },
         beforeCreate() {
-
-
 
         },
         mounted() {
@@ -44,23 +43,25 @@ Vue.component('login-modal-component-loader',
                 var self = this;
 
                 var data = {
-                    EmailAddress: self.eMail ,
+                    EmailAddress: self.eMail,
                     Password: self.password,
                     PersistentLogin: self.persistentLogin,
                 }
 
-                $.post("/Login/Login", data, (result) => {
-                    if (!result.Success) {
-                        self.errorMessage = result.Message;
-                        return;
-                    }
+                $.post("/Login/Login",
+                    data,
+                    (result) => {
+                        if (!result.Success) {
+                            self.errorMessage = result.Message;
+                            return;
+                        }
 
-                    var backToLocation = Utils.GetQueryString().backTo;
-                    if (backToLocation != undefined)
-                        location.href = backToLocation;
-                    else
-                        Site.ReloadPage_butNotTo_Logout(result.localHref);
-                });
+                        var backToLocation = Utils.GetQueryString().backTo;
+                        if (backToLocation != undefined)
+                            location.href = backToLocation;
+                        else
+                            Site.ReloadPage_butNotTo_Logout(result.localHref);
+                    });
             }
         }
     });
@@ -72,7 +73,7 @@ var loginApp = new Vue({
     data() {
         return {
             loaded: false
-    }
+        }
     },
     mounted() {
         eventBus.$on('show-login-modal',
@@ -83,5 +84,30 @@ var loginApp = new Vue({
             () => {
                 this.loaded = false;
             });
+
+        eventBus.$on('login-Facebook',
+            () => {
+                var self = this;
+                self.FacebookLogin();
+            });
+        eventBus.$on('login-Google',
+            () => {
+                var self = this;
+                self.GoogleLogin();
+            });
     },
+
+    methods: {
+        FacebookLogin() {
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
+        },
+
+        GoogleLogin() {
+            new Google();
+            setTimeout(() => {
+                    Google.AttachClickHandler('btn-login-with-google-modal');
+                },
+                500);
+        },
+    }
 });

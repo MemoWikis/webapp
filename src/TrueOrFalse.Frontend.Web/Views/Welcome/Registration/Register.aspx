@@ -4,7 +4,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/bundles/Registration") %>
     <%= Scripts.Render("~/bundles/RegistrationJs") %>
 </asp:Content>
 
@@ -23,21 +22,23 @@
                     Dein Wiki ist noch einen Klick entfernt.
                 </div>
             </div>
-            
+
             <div class="form-group omb_login row">
-                <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
-                    <div class="col-xs-12 col-sm-5 socialMediaBtnContainer">
+                <div class="col-sm-offset-2 col-sm-8 omb_socialButtons" style="padding-right: 5px;">
+                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" onclick="eventBus.$emit('login-Facebook')">
                         <a class="btn btn-block cursor-hand" id="btn-login-with-facebook-modal">
-                            <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span>mit Facebook</span>
+                            <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span style="text-transform: uppercase;">weiter mit Facebook</span>
                         </a>
                     </div>
-                    <div class="col-xs-12 col-sm-5 col-sm-offset-2 socialMediaBtnContainer">
+                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-left: 5px;" onclick="eventBus.$emit('login-Google')">
                         <a class="btn btn-block cursor-hand" id="btn-login-with-google-modal">
-                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span>mit Google</span>
+                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span style="text-transform: uppercase;">weiter mit Google</span>
                         </a>
                     </div>
                 </div>
             </div>
+
+
 
             <fieldset>
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
@@ -48,26 +49,30 @@
                     <div class="col-sm-2 col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
                     <div class="col-sm-2 col-xs-5" style="border-bottom: 1px solid silver"></div>
                 </div>
+                <div class="input-container">
+                    <form class="form-horizontal">
+                        <div class="form-group">
 
-                <div class="form-group">
-<%--                    <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 col-sm-offset-2 control-label" }) %>--%>
-                    <div class="col-sm-offset-2 col-sm-8">
-                        <%: Html.TextBoxFor(model => model.Name, new { @class="form-control", placeholder = Model.Name }) %>
-                        <%: Html.ValidationMessageFor(model => model.Name) %>
-                    </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <div class="overline-s no-line">Benutzername</div>
+                                <%: Html.TextBoxFor(model => model.Name, new { @class="form-control", placeholder = Model.Name }) %>
+                                <%: Html.ValidationMessageFor(model => model.Name) %>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="form-group">
-                    <%--<%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 col-sm-offset-2 control-label" }) %>--%>
                     <div class="col-sm-offset-2 col-sm-8">
+                        <div class="overline-s no-line">E-Mail</div>
                         <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Email) %>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <%--<%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2  col-sm-offset-2 control-label" }) %>--%>
                     <div class="col-sm-offset-2 col-sm-8">
+                        <div class="overline-s no-line">Passwort</div>
                         <%: Html.PasswordFor(model => model.Password, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Password) %>
                     </div>
@@ -81,8 +86,10 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                        <p href="#" style="text-align: center;">Ich bin schon Nutzer! <br/>
-                        <a data-btn-login="true" class="cursor-hand" style="text-align: center;">Anmelden</a>
+                        <p href="#" style="text-align: center;">
+                            Ich bin schon Nutzer!
+                            <br />
+                            <a data-btn-login="true" class="cursor-hand" style="text-align: center;">Anmelden</a>
                         </p>
                     </div>
                 </div>

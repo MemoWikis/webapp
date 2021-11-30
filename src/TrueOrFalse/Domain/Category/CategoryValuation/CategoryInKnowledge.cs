@@ -5,6 +5,7 @@ using System.Web.Script.Serialization;
 using FluentNHibernate.Conventions;
 using NHibernate;
 using TrueOrFalse;
+using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class CategoryInKnowledge
@@ -160,6 +161,10 @@ public class CategoryInKnowledge
         }
     }
 
+    public static void UpdateCategoryValuationTest(int categoryId, User user, int relevance = 50)
+    {
+        UpdateCategoryValuation(categoryId, user, relevance);
+    }
     private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
     {
         CreateOrUpdateCategoryValuation.Run(categoryId, user.Id, relevancePeronal: relevance);

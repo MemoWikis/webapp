@@ -1984,8 +1984,11 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbFirstChevron.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbTrail.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryToPrivate\CategoryToPrivateLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryToPrivate\CategoryToPrivate.vue.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategoryLoader.ascx" />
     <Content Include="Views\Questions\AnswerQuestionComponent.js" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
@@ -2057,12 +2060,6 @@
     <Content Include="Views\Shared\Search\SearchComponent.vue.ascx" />
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.js">
-      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.js.map">
-      <DependentUpon>LoginModalComponentLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Login\LoginModalComponentLoader.vue.ascx" />
     <Content Include="Views\Welcome\Login\LoginModalTemplate.vue.ascx" />
@@ -2680,6 +2677,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryToPrivate\CategoryToPrivateComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
@@ -4261,6 +4259,9 @@
     <Folder Include="bin\" />
     <Folder Include="DynamicData\FieldTemplates\" />
     <Folder Include="Views\Categories\Detail\JsLearningTab\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

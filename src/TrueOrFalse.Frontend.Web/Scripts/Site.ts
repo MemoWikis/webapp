@@ -273,7 +273,6 @@ function HideInfoBanner() {
 }
 
 function OpenInfo(url) {
-    HideInfoBanner();
     window.location.href = url;
 }
 

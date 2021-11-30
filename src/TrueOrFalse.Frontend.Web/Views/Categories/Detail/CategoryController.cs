@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -337,6 +338,85 @@ public class CategoryController : BaseController
             categoryName = categoryCacheItem.Name,
             questionIds = filteredAggregatedQuestions,
             questionCount = filteredAggregatedQuestions.Count()
+        });
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult GetCategoryToPrivateModalData(int categoryId)
+    {
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var userCacheItem = UserCache.GetItem(User_().Id);
+
+
+        var hasRights = IsAllowedTo.ToEdit(categoryCacheItem);
+        if (!hasRights)
+            return Json(new
+            {
+                success = false,
+                key = "missingRights"
+            });
+
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
+            .Where(c => c.Visibility == CategoryVisibility.All);
+        var publicAggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true).Where(q => q.Visibility == QuestionVisibility.All).ToList();
+        var pinCount = categoryCacheItem.TotalRelevancePersonalEntries;
+        if (!Sl.SessionUser.IsInstallationAdmin)
+        {
+            if (categoryId == RootCategory.RootCategoryId)
+                return Json(new
+                {
+                    success = false,
+                    key = "rootCategoryMustBePublic"
+                });
+
+            foreach (var c in aggregatedCategories)
+            {
+                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                if (!childHasPublicParent)
+                    return Json(new
+                    {
+                        success = false,
+                        key = "publicChildCategories"
+                    });
+            }
+
+            var pinnedQuestionIds = new List<int>();
+            foreach (var q in publicAggregatedQuestions)
+            {
+                bool questionIsPinned = q.TotalRelevanceForAllEntries > 0;
+                if (questionIsPinned)
+                    pinnedQuestionIds.Add(q.Id);
+            }
+
+            if (pinnedQuestionIds.Count > 0)
+                return Json(new
+                {
+                    success = false,
+                    key = "questionIsPinned",
+                    pinnedQuestionIds
+                });
+
+            if (pinCount >= 10)
+            {
+                return Json(new
+                {
+                    success = true,
+                    key = "tooPopular"
+                });
+            }
+        }
+
+        var filteredAggregatedQuestions = publicAggregatedQuestions.Where(q => q.Creator == userCacheItem.User)
+            .Select(q => q.Id).ToList();
+
+        return Json(new
+        {
+            categoryName = categoryCacheItem.Name,
+            personalQuestionIds = filteredAggregatedQuestions,
+            personalQuestionCount = filteredAggregatedQuestions.Count(),
+            allQuestionIds = publicAggregatedQuestions.Select(q => q.Id).ToList(),
+            allQuestionCount = publicAggregatedQuestions.Count()
         });
     }
 

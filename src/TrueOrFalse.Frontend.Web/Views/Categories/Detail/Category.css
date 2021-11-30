@@ -3693,37 +3693,50 @@ p:empty {
   text-transform: uppercase;
   letter-spacing: 1.25px;
 }
-#PublishCategoryComponent #PublishCategoryModal {
+#PublishCategoryModal,
+#CategoryToPrivateModal {
   color: #555555;
 }
-#PublishCategoryComponent #PublishCategoryModal .dismiss-modal-button {
+#PublishCategoryModal .btn,
+#CategoryToPrivateModal .btn {
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+}
+#PublishCategoryModal .dismiss-modal-button,
+#CategoryToPrivateModal .dismiss-modal-button {
   position: absolute;
   z-index: 100;
   right: 10px;
   top: 6px;
   font-size: 24px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-xs {
+#PublishCategoryModal .modal-xs,
+#CategoryToPrivateModal .modal-xs {
   width: 100% !important;
   max-width: 450px !important;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-m {
+#PublishCategoryModal .modal-m,
+#CategoryToPrivateModal .modal-m {
   width: 100% !important;
   max-width: 787px !important;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content {
+#PublishCategoryModal .modal-content,
+#CategoryToPrivateModal .modal-content {
   padding: 24px;
   font-size: 14px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .subHeader {
+#PublishCategoryModal .modal-content .subHeader,
+#CategoryToPrivateModal .modal-content .subHeader {
   padding-left: 16px;
   line-height: 18px;
   margin-bottom: 16px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .modalHeader {
+#PublishCategoryModal .modal-content .modalHeader,
+#CategoryToPrivateModal .modal-content .modalHeader {
   padding: 16px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container {
+#PublishCategoryModal .modal-content .checkbox-container,
+#CategoryToPrivateModal .modal-content .checkbox-container {
   cursor: pointer;
   padding: 16px;
   display: -webkit-box;
@@ -3735,26 +3748,32 @@ p:empty {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container .checkbox-icon {
+#PublishCategoryModal .modal-content .checkbox-container .checkbox-icon,
+#CategoryToPrivateModal .modal-content .checkbox-container .checkbox-icon {
   font-size: 24px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container .checkbox-icon .fa-check-square {
+#PublishCategoryModal .modal-content .checkbox-container .checkbox-icon .fa-check-square,
+#CategoryToPrivateModal .modal-content .checkbox-container .checkbox-icon .fa-check-square {
   color: #0065CA;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container .checkbox-label {
+#PublishCategoryModal .modal-content .checkbox-container .checkbox-label,
+#CategoryToPrivateModal .modal-content .checkbox-container .checkbox-label {
   padding-top: 4px;
   line-height: 20px;
   padding-left: 10px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container.license-info {
+#PublishCategoryModal .modal-content .checkbox-container.license-info,
+#CategoryToPrivateModal .modal-content .checkbox-container.license-info {
   background-color: #EFEFEF;
   margin-bottom: 40px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container.license-info .checkbox-label {
+#PublishCategoryModal .modal-content .checkbox-container.license-info .checkbox-label,
+#CategoryToPrivateModal .modal-content .checkbox-container.license-info .checkbox-label {
   line-height: 18px;
   font-size: 12px;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .checkbox-container.license-info .blink {
+#PublishCategoryModal .modal-content .checkbox-container.license-info .blink,
+#CategoryToPrivateModal .modal-content .checkbox-container.license-info .blink {
   -webkit-animation: blinker 1s linear infinite;
           animation: blinker 1s linear infinite;
 }
@@ -3768,7 +3787,8 @@ p:empty {
     opacity: 0;
   }
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .modalFooter {
+#PublishCategoryModal .modal-content .modalFooter,
+#CategoryToPrivateModal .modal-content .modalFooter {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3778,18 +3798,22 @@ p:empty {
       -ms-flex-pack: end;
           justify-content: flex-end;
 }
-#PublishCategoryComponent #PublishCategoryModal .modal-content .modalFooter .disabled-btn {
+#PublishCategoryModal .modal-content .modalFooter .disabled-btn,
+#CategoryToPrivateModal .modal-content .modalFooter .disabled-btn {
   cursor: not-allowed;
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
           box-shadow: none;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal {
+#PublishCategoryModal .after-request-modal,
+#CategoryToPrivateModal .after-request-modal {
   padding: 45px 45px 76px 45px;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalBody,
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalFooter {
+#PublishCategoryModal .after-request-modal .modalBody,
+#CategoryToPrivateModal .after-request-modal .modalBody,
+#PublishCategoryModal .after-request-modal .modalFooter,
+#CategoryToPrivateModal .after-request-modal .modalFooter {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3810,29 +3834,38 @@ p:empty {
   text-align: center;
   width: 100%;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalBody i,
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalFooter i {
+#PublishCategoryModal .after-request-modal .modalBody i,
+#CategoryToPrivateModal .after-request-modal .modalBody i,
+#PublishCategoryModal .after-request-modal .modalFooter i,
+#CategoryToPrivateModal .after-request-modal .modalFooter i {
   font-size: 24px;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalBody i.fa-times-circle,
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalFooter i.fa-times-circle {
+#PublishCategoryModal .after-request-modal .modalBody i.fa-times-circle,
+#CategoryToPrivateModal .after-request-modal .modalBody i.fa-times-circle,
+#PublishCategoryModal .after-request-modal .modalFooter i.fa-times-circle,
+#CategoryToPrivateModal .after-request-modal .modalFooter i.fa-times-circle {
   color: #FFA07A;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalBody i.fa-check-circle,
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .modalFooter i.fa-check-circle {
+#PublishCategoryModal .after-request-modal .modalBody i.fa-check-circle,
+#CategoryToPrivateModal .after-request-modal .modalBody i.fa-check-circle,
+#PublishCategoryModal .after-request-modal .modalFooter i.fa-check-circle,
+#CategoryToPrivateModal .after-request-modal .modalFooter i.fa-check-circle {
   color: #AFD534;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .message {
+#PublishCategoryModal .after-request-modal .message,
+#CategoryToPrivateModal .after-request-modal .message {
   padding-top: 16px;
   padding-bottom: 40px;
   line-height: 20px;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .btn {
+#PublishCategoryModal .after-request-modal .btn,
+#CategoryToPrivateModal .after-request-modal .btn {
   width: 154px;
   border: none;
   background-color: #FFA07A;
 }
-#PublishCategoryComponent #PublishCategoryModal .after-request-modal .btn.success {
+#PublishCategoryModal .after-request-modal .btn.success,
+#CategoryToPrivateModal .after-request-modal .btn.success {
   background-color: #AFD534;
 }
 .categorySearchAutocomplete .dropdown-menu {

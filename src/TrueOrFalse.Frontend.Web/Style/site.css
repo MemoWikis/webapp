@@ -1582,6 +1582,10 @@ i.fa-lock {
 }
 i.fa-lock.header-icon {
   font-size: 24px;
+  cursor: pointer;
+}
+i.fa-lock.header-icon:hover {
+  color: #003264;
 }
 /*******************************************************************/
 /*  new Styles 
@@ -2409,14 +2413,17 @@ input::placeholder {
   }
 }
 .modal-default-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  height: 100%;
 }
 .modal-default-container {
   margin: 0 auto;
   position: absolute;
   top: 5%;
-  left: 25%;
+  order: 1;
+  flex-wrap: nowrap;
+  align-items: center;
   padding: 54px 40px 4px 40px;
   background-color: #fff;
   border-radius: 2px;

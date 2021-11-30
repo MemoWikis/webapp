@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests._2_Domain.Category
@@ -127,6 +128,69 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             parentHasRelationToD =
                 TestHelper.hasRelation(parentEntityCache, parent.Id, childD.Id, CategoryRelationType.IncludesContentOf);
             Assert.That(parentHasRelationToD, Is.EqualTo(false));
+
+        }
+
+        [Test]
+        public void Admin_Can_Set_Any_Category_To_Private()
+        {
+            var categoryRepo = Sl.CategoryRepo;
+            var contextCategory = ContextCategory.New();
+            var contextUser = ContextUser.New();
+            var contextQuestion = ContextQuestion.New();
+            contextCategory.Add("Root").Add("B").Add("C").Add("D").Persist();
+
+            var users = contextUser.Add("Admin").Add("NonAdmin").Add("publicWiki").Add("questionInWuwi").Persist(true, contextCategory);
+            var admin = contextUser.All[0];
+            var nonAdmin = contextUser.All[1];
+            var publicWikiUser = contextUser.All[2];
+            var questionInWuwiUser = contextUser.All[3];
+            var publicWiki = contextCategory.Persist().All.ByName("publicWikis Startseite");
+            contextCategory.Add("publicWikis Child", parent: publicWiki, creator: publicWikiUser, id: 8).Persist();
+
+            var questionInWuwiWiki = contextCategory.All.ByName("questionInWuwis Startseite");
+
+
+            var editCategoryController = new EditCategoryController(categoryRepo);
+            var categoryValuationRepo = Sl.CategoryValuationRepo;
+
+            EntityCache.Init();
+
+            var question = contextQuestion.AddQuestion(creator: questionInWuwiUser).Persist().All[0];
+            question.Categories.Add(questionInWuwiWiki);
+            Sl.SessionUser.Login(admin);
+
+            var wuwiUsers = new List<User>();
+            var i = 0;
+            while (i < 10)
+            {
+                var name = "PinUser" + (i + 1);
+                var wuwiUser = contextUser.Add(name).Persist(false).All.First(u => u.Name == name);
+                CategoryInKnowledge.UpdateCategoryValuationTest(publicWiki.Id, wuwiUser);
+                wuwiUsers.Add(wuwiUser);
+                i++;
+            }
+
+            QuestionInKnowledge.Pin(question.Id, wuwiUsers.First());
+
+
+            editCategoryController.SetCategoryToPrivate(publicWiki.Id);
+            editCategoryController.SetCategoryToPrivate(questionInWuwiWiki.Id);
+
+            var publicWikiCategory = categoryRepo.GetById(publicWiki.Id);
+            var questionInWuwiWikiCategory = categoryRepo.GetById(publicWiki.Id);
+            Assert.That(publicWikiCategory.Visibility, Is.EqualTo(CategoryVisibility.Owner));
+            Assert.That(questionInWuwiWikiCategory.Visibility, Is.EqualTo(CategoryVisibility.Owner));
+
+            var pinUserHasNoPublicWikiInWuwi = Sl.UserRepo.GetByName("PinUser1");
+            var publicWikiIsWishknowledgeForPinUser1 = categoryValuationRepo.GetByUser(pinUserHasNoPublicWikiInWuwi.Id).First(v => v.CategoryId == publicWiki.Id && pinUserHasNoPublicWikiInWuwi.Id == v.UserId).IsInWishKnowledge();
+
+            Assert.That(publicWikiIsWishknowledgeForPinUser1, Is.EqualTo(false));
+        }
+
+        [Test]
+        public void Creator_Can_Set_Own_Category_To_Private()
+        {
 
         }
     }
