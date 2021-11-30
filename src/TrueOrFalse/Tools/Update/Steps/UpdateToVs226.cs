@@ -22,7 +22,7 @@ namespace TrueOrFalse.Updates
           
           foreach (var user in users)
           {
-            var category = PersonalTopic.GetPersonalCategory(user); 
+            var category = PersonalTopic.GetPersonalCategory(user);
             Sl.CategoryRepo.CreateOnlyDb(category);
             user.StartTopicId = category.Id; 
           }

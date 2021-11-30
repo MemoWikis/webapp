@@ -24,7 +24,8 @@ public class RegisterController : BaseController
         RegisterUser.Run(user);
         _sessionUser.Login(user);
 
-        var category = PersonalTopic.GetPersonalCategory(user); 
+        var category = PersonalTopic.GetPersonalCategory(user);
+        category.Visibility = CategoryVisibility.Owner;
         user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
         _sessionUser.User.StartTopicId = category.Id;
