@@ -35,12 +35,12 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), isHeader: true) %>
         </div>
     <% } %>
-    <div id="HeadingContainer" data-category-name="<%= Model.Name %>">
+    <div id="HeadingContainer" data-category-name="<%= Server.HtmlEncode(Model.Name) %>">
         <h1 style="margin-bottom: 0">
 
             <% if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin)
                { %>
-                <category-name-component inline-template origin-category-name="<%= Model.Name %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
+                <category-name-component inline-template origin-category-name="<%= Server.HtmlEncode(Model.Name) %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
                     <textarea-autosize
                         placeholder="Type something here..."
                         ref="categoryNameArea"
@@ -50,7 +50,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         @keyup.enter.native.prevent
                         :disabled="disabled"/>
                 </category-name-component>
-                <div v-else><%= Model.Name %></div>
+                <div v-else><%= Server.HtmlEncode(Model.Name) %></div>
             <% }
               else
               { %>
