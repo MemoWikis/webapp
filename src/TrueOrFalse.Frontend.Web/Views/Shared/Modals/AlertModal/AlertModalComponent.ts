@@ -6,7 +6,8 @@ var messages = {
         category: {
             publish: "Dein Thema wurde erfolgreich veröffentlicht.",
             setToPrivate: "Das Thema wurde erfolgreich auf 'Privat' gesetzt.",
-            unlinked: "Die Verknüpfung wurde erfolgreich gelöst."
+            unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
+            addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt."
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",

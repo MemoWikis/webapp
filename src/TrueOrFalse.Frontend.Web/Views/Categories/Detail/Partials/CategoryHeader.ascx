@@ -219,6 +219,14 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </a>
                         </li>
                         <li>
+                            <a onclick="eventBus.$emit('add-to-personal-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <i class="fa fa-plus-circle"></i>
+                                </div>
+                                Zu meinem Wiki hinzufügen
+                            </a>
+                        </li>
+                        <li>
                             <a href="" id="AnalyticsTab" data-url="<%= Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-project-diagram"></i>

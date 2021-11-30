@@ -50,6 +50,7 @@
         }
     },
     mounted() {
+        var self = this;
         eventBus.$on('set-categories-to-filter', (ids) => {
             this.$nextTick(() => {
                 this.categoriesToFilter = ids;
@@ -80,6 +81,33 @@
                 if ($('#LearningTabWithOptions').hasClass("active"))
                     parent.addCategoryBtnId = null;
                 $('#AddCategoryModal').data('parent', parent).modal('show');
+            });
+        eventBus.$on('add-to-personal-wiki',
+            id => {
+                var data = {
+                    categoryId: id
+                };
+                $.ajax({
+                    type: 'Post',
+                    contentType: "application/json",
+                    url: '/EditCategory/AddToPersonalWiki',
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data.success) {
+                            let eventData = {
+                                msg: messages.success.category[data.key]
+                            }
+                            eventBus.$emit('show-success', eventData);
+                            Utils.HideSpinner();
+                        } else {
+                            let eventData = {
+                                msg: messages.error.category[data.key]
+                            }
+                            eventBus.$emit('show-error', eventData);
+                            Utils.HideSpinner();
+                        };
+                    },
+                });
             });
         $('#AddCategoryModal').on('show.bs.modal',
             event => {

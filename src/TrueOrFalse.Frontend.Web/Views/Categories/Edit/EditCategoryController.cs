@@ -295,6 +295,66 @@ public class EditCategoryController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
+    public JsonResult AddToPersonalWiki(int categoryId)
+    {
+
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        var personalWikiId = Sl.SessionUser.User.StartTopicId;
+        var children = EntityCache.GetChildren(personalWikiId, getFromEntityCache: true);
+        var isChildrenLinked = children.Any(c => c.Id == categoryId);
+
+        if (isChildrenLinked && UserCache.GetItem(_sessionUser.UserId).IsFiltered)
+            return Json(new
+            {
+                success = false,
+                key = "isLinkedInNonWuwi"
+            });
+
+        if (isChildrenLinked)
+            return Json(new
+            {
+                success = false,
+                key = "isAlreadyLinkedAsChild"
+            });
+
+        var parentIsEqualChildCount = GraphService.GetAllParentsFromEntityCache(personalWikiId)
+            .Count(c => c.Id == categoryId);
+
+        if (parentIsEqualChildCount > 0)
+        {
+            Logg.r().Error("Child is Parent ");
+            return Json(new
+            {
+                success = false,
+                key = "childIsParent"
+            });
+        }
+
+        if (UserCache.GetItem(_sessionUser.UserId).IsFiltered)
+            CategoryInKnowledge.Pin(categoryId, _sessionUser.User);
+
+        //change CategoryRelations
+        ModifyRelationsForCategory.AddParentCategory(category, personalWikiId);
+        ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(personalWikiId), category.Id, CategoryRelationType.IncludesContentOf);
+
+        //Change EntityCacheRelations
+        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true), personalWikiId);
+
+        if (UserCache.IsInWishknowledge(_sessionUser.UserId, categoryId))
+            UserEntityCache.ReInitAllActiveCategoryCaches();
+
+        Sl.CategoryRepo.Update(category, User_());
+        Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(personalWikiId), Sl.SessionUser.User, false);
+
+        return Json(new
+        {
+            success = true,
+            key = "addedToPersonalWiki"
+        });
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
         var category = new Category(name) { Creator = _sessionUser.User };
