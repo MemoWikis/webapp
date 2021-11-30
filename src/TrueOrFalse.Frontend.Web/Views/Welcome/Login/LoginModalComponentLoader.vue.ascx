@@ -9,12 +9,12 @@
             <div class="form-group omb_login row">
                 <div class="col-sm-12 omb_socialButtons">
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-right: 5px;">
-                        <a class="btn btn-block cursor-hand" id="btn-login-with-facebook-modal">
+                        <a class="btn btn-block cursor-hand" id="btn-login-with-facebook-modal" @click="FacebookLogin()">
                             <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span style="text-transform: uppercase; font-size: 12px;">weiter mit Facebook</span>
                         </a>
                     </div>
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-left: 5px;">
-                        <a class="btn btn-block cursor-hand" id="btn-login-with-google-modal">
+                        <a class="btn btn-block cursor-hand" @click="GoogleLogin()" id="btn-login-with-google-modal">
                             <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span style="text-transform: uppercase; font-size: 12px;">weiter mit Google</span>
                         </a>
                     </div>
