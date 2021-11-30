@@ -13,7 +13,7 @@ namespace TrueOrFalse.Updates
 
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"UPDATE Category SET Name='Memucho Wiki' WHERE id=" + rootCategoryId
+                    @"UPDATE Category SET Name='Globales Wiki' WHERE id=" + rootCategoryId
                 ).ExecuteUpdate();
         }
     }
