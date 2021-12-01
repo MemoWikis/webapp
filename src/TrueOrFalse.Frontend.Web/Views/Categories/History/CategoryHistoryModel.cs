@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Visitors;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -48,11 +49,11 @@ public class CategoryChangeDayModel
         Date = date.ToString("dd.MM.yyyy");
         DateTime = date;
         Items = changes
-            .Where(cc => cc.Category != null)
+            .Where(cc => cc.Category != null && cc.Category.IsVisibleToCurrentUser())
             .Select(cc =>
         {
             var typ = "";
-            var categoryId = cc.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(cc.Id): -1;
+            var categoryId = cc.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(cc.Id): -1;  
             switch (cc.Type)
             {
                 case CategoryChangeType.Create: 

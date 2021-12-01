@@ -471,8 +471,7 @@ public class EditCategoryController : BaseController
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
         var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
-        var isWiki = EntityCache.GetCategoryCacheItem(childCategoryId).Creator.StartTopicId == childCategoryId;
-        if (!parentHasBeenRemoved && !isWiki)
+        if (!parentHasBeenRemoved)
             return Json(new
             {
                 success = false,
