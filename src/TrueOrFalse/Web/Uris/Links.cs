@@ -361,7 +361,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id, version = version }, null);
 
         public static string CategoryRestore(int categoryId, int categoryChangeId) => 
-            GetUrlHelper().Action("Restore", CategoryController, new { categoryId = categoryId, categoryChangeId = categoryChangeId});
+            GetUrlHelper().Action("Restore", CategoryEditController, new { categoryId = categoryId, categoryChangeId = categoryChangeId});
 
         public static string CategoryChangesOverview(int pageToShow) =>
             GetUrlHelper().Action("List", "CategoryChangesOverview", new { pageToShow = pageToShow });
