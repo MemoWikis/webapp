@@ -102,13 +102,18 @@ public class CategoryHistoryDetailModel : BaseModel
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
-                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations;
-                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations;
+                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations.Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
+                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations.Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
 
                 CurrentRelations = SortedListOfRelations(currentRelationsList);
                 PrevRelations = SortedListOfRelations(prevRelationsList);
             }
         }
+    }
+
+    private bool CrIsVisibleToCurrentUser(int categoryId, int relatedCategoryId)
+    {
+        return EntityCache.GetCategoryCacheItem(categoryId).IsVisibleToCurrentUser() && EntityCache.GetCategoryCacheItem(relatedCategoryId).IsVisibleToCurrentUser();
     }
 
     private string Relation2String(CategoryRelation_EditData relation)
