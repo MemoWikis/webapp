@@ -102,8 +102,8 @@ public class CategoryHistoryDetailModel : BaseModel
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
-                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations.Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
-                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations.Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
+                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations;
+                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations;
 
                 CurrentRelations = SortedListOfRelations(currentRelationsList);
                 PrevRelations = SortedListOfRelations(prevRelationsList);
