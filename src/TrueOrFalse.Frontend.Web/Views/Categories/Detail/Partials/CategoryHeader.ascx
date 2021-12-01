@@ -260,7 +260,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 </a>
                             </li>
                         <% } %>
-                        <% if (Model.IsOwnerOrAdmin)
+                        <% if (Model.IsOwnerOrAdmin && Model.Category.Id != Model.Category.Creator.StartTopicId)
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
