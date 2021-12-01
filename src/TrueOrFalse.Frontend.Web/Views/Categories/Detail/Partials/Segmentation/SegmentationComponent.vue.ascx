@@ -11,7 +11,7 @@
             Untergeordnete Themen <br/>
         </div>
         <%if (Model.ShowLinkToRootCategory) {%>
-            <div v-if="!isMyWorld" class="toRoot">Hier geht es zum <% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
+            <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
         <%} %>
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
             <template v-for="s in segments">
