@@ -218,7 +218,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 Bestehendes Thema hinzufügen
                             </a>
                         </li>
-                        <% if (Model.Category.Id != user.StartTopicId)
+                        <% if (Sl.SessionUser.IsLoggedIn && Model.Category.Id != Sl.SessionUser.User.StartTopicId)
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('add-to-personal-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
