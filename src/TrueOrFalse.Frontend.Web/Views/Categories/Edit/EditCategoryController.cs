@@ -300,6 +300,13 @@ public class EditCategoryController : BaseController
 
         var category = Sl.CategoryRepo.GetById(categoryId);
         var personalWikiId = Sl.SessionUser.User.StartTopicId;
+
+        if (categoryId == personalWikiId)
+            return Json(new
+            {
+                success = false,
+                key = "loopLink"
+            });
         var children = EntityCache.GetChildren(personalWikiId, getFromEntityCache: true);
         var isChildrenLinked = children.Any(c => c.Id == categoryId);
 
