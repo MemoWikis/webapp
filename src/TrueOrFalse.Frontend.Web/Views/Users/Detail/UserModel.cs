@@ -28,6 +28,8 @@ public class UserModel : BaseModel
     public UserTinyModel User;
     public int UserIdProfile;
     public bool DoIFollow;
+    public CategoryCacheItem UserWiki;
+    public bool ShowWiki = false;
 
     public UserModel(User user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
     {
@@ -59,5 +61,13 @@ public class UserModel : BaseModel
         UserIdProfile = User.Id;
         var followerIAm = R<FollowerIAm>().Init(new List<int> { UserIdProfile }, UserId);
         DoIFollow = followerIAm.Of(User.Id);
+
+        var userWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
+        if (userWiki != null && userWiki.IsVisibleToCurrentUser())
+        {
+            UserWiki = EntityCache.GetCategoryCacheItem(userWiki.Id);
+            ShowWiki = true;
+        }
+
     }
 }

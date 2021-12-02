@@ -187,7 +187,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                         <li>
-                            <a href="<%= Links.CategoryHistory(Model.Id) %>" data-allowed="logged-in">
+                            <a href="<%= Links.CategoryHistory(Model.Id) %>">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-history"></i>
                                 </div>

@@ -76,7 +76,7 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentDateCreated = currentRevision.DateCreated;
         CurrentName = currentVersionTypeDelete ? previouisRevisionData.Name :  currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
-        CurrentContent = currentRevisionData.Content;
+        CurrentContent = FormatHtmlString(currentRevisionData.Content);
         CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
@@ -94,7 +94,7 @@ public class CategoryHistoryDetailModel : BaseModel
             var prevRevisionData = previousRevision.GetCategoryChangeData();
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
-            PrevContent = prevRevisionData?.Content;
+            PrevContent = prevRevisionData != null ? FormatHtmlString(prevRevisionData?.Content) : null ;
             PrevSegments = prevRevisionData?.CustomSegments;
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
@@ -102,8 +102,8 @@ public class CategoryHistoryDetailModel : BaseModel
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
-                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations;
-                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations;
+                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData).CategoryRelations.Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
+                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations.Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
 
                 CurrentRelations = SortedListOfRelations(currentRelationsList);
                 PrevRelations = SortedListOfRelations(prevRelationsList);
@@ -111,9 +111,21 @@ public class CategoryHistoryDetailModel : BaseModel
         }
     }
 
+    private string FormatHtmlString(string unformatted)
+    {
+        var placeHolderAdded = "<xmlRootPlaceholder>" + unformatted + "</xmlRootPlaceholder>";
+        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString().Replace("<xmlRootPlaceholder>", "")
+            .Replace("</xmlRootPlaceholder>", "");
+        return formatted;
+    }
+
     private bool CrIsVisibleToCurrentUser(int categoryId, int relatedCategoryId)
     {
-        return EntityCache.GetCategoryCacheItem(categoryId).IsVisibleToCurrentUser() && EntityCache.GetCategoryCacheItem(relatedCategoryId).IsVisibleToCurrentUser();
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var relatedCategory = EntityCache.GetCategoryCacheItem(relatedCategoryId);
+        if (category != null && relatedCategory != null)
+            return category.IsVisibleToCurrentUser() && relatedCategory.IsVisibleToCurrentUser();
+        return false;
     }
 
     private string Relation2String(CategoryRelation_EditData relation)

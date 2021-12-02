@@ -396,6 +396,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Contact => GetUrlHelper().Action("Contact", "Welcome");
 
         public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
+        public static string Error500(string backTo) => GetUrlHelper().Action("_500", "Error", new {backTo = backTo});
 
         public static bool IsLinkToWikipedia(string url)
         {
