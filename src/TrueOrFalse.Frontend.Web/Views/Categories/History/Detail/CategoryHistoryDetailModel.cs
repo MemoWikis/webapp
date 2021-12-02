@@ -76,7 +76,7 @@ public class CategoryHistoryDetailModel : BaseModel
         CurrentDateCreated = currentRevision.DateCreated;
         CurrentName = currentVersionTypeDelete ? previouisRevisionData.Name :  currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
-        CurrentContent = currentRevisionData.Content;
+        CurrentContent = FormatHtmlString(currentRevisionData.Content);
         CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
         CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
@@ -94,7 +94,7 @@ public class CategoryHistoryDetailModel : BaseModel
             var prevRevisionData = previousRevision.GetCategoryChangeData();
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
-            PrevContent = prevRevisionData?.Content;
+            PrevContent = prevRevisionData != null ? FormatHtmlString(prevRevisionData?.Content) : null ;
             PrevSegments = prevRevisionData?.CustomSegments;
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
@@ -109,6 +109,14 @@ public class CategoryHistoryDetailModel : BaseModel
                 PrevRelations = SortedListOfRelations(prevRelationsList);
             }
         }
+    }
+
+    private string FormatHtmlString(string unformatted)
+    {
+        var placeHolderAdded = "<xmlRootPlaceholder>" + unformatted + "</xmlRootPlaceholder>";
+        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString().Replace("<xmlRootPlaceholder>", "")
+            .Replace("</xmlRootPlaceholder>", "");
+        return formatted;
     }
 
     private bool CrIsVisibleToCurrentUser(int categoryId, int relatedCategoryId)
