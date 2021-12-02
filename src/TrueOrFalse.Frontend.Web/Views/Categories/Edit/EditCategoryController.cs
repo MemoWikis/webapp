@@ -728,11 +728,17 @@ public class EditCategoryController : BaseController
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
-    public ActionResult Restore(int categoryId, int categoryChangeId)
+    public ActionResult Restore(int categoryId, int categoryChangeId, ActionExecutingContext filterContext)
     {
-        RestoreCategory.Run(categoryChangeId, this.User_());
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        if (category != null && IsAllowedTo.ToEdit(category))
+        {
+            RestoreCategory.Run(categoryChangeId, this.User_());
 
-        var categoryName = Sl.CategoryRepo.GetById(categoryId).Name;
-        return Redirect(Links.CategoryDetail(categoryName, categoryId));
+            var categoryName = Sl.CategoryRepo.GetById(categoryId).Name;
+            return Redirect(Links.CategoryDetail(categoryName, categoryId));
+        }
+
+        return Redirect(Links.Error500(filterContext.HttpContext.Request.Path));
     }
 }
