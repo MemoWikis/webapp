@@ -12,13 +12,13 @@
                     <div class="col-md-12">Um diese Funktion zu nutzen, musst du eingeloggt sein. <br/>
                         Wenn du noch kein Nutzer bist, registriere dich jetzt.
                         <span style="font-style: italic;">memucho ist kostenlos.</span>
-                        <%--<br /> Jetzt <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>!--%>
+                        <%--<br /> Jetzt <a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">einloggen</a> oder <a href="/Registrieren">registrieren</a>!--%>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" data-dismiss="modal" class="btn btn-secondary memo-button" id="btnCloseDateDelete">Jetzt nicht, danke</a>
-                <a href="#" data-btn-login="true" class="btn btn-secondary memo-button" id=""><i class="fa fa-sign-in">&nbsp;</i>Einloggen</a>
+                <a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')" class="btn btn-secondary memo-button" id=""><i class="fa fa-sign-in">&nbsp;</i>Einloggen</a>
                 <a href="/Registrieren" class="btn btn-success memo-button" id="btnCloseDateDelete"><i class="fa fa-chevron-circle-right">&nbsp;&nbsp;</i>Jetzt Registrieren</a>
             </div>
         </div>

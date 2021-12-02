@@ -2410,7 +2410,7 @@ input::placeholder {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1050;
+    z-index: 1060;
   }
 }
 .modal-default-mask {
@@ -2425,7 +2425,7 @@ input::placeholder {
 @media (min-width: 850px) {
   .modal-default-mask {
     position: fixed;
-    z-index: 100;
+    z-index: 1050;
     top: 0;
     left: 0;
     width: 100%;

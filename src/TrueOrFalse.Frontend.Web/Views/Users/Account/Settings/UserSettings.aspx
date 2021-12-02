@@ -40,7 +40,7 @@
         <% if (!Model.IsLoggedIn) { %>
             <div class="row">
                 <div class="col-xs-9 xxs-stack">
-                    Um Einstellungen vorzunehmen, musst du dich <a href="#" data-btn-login="true">einloggen</a>.
+                    Um Einstellungen vorzunehmen, musst du dich <a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">einloggen</a>.
                 </div>
             </div>
             <% return;

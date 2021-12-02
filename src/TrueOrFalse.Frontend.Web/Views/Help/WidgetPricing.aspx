@@ -88,7 +88,7 @@
                                         <%  var isLoggedIn = Sl.R<SessionUser>().IsLoggedIn;
                                             if (!isLoggedIn)
                                             { %>
-					                            <a href="#" data-btn-login="true" class="btn btn-primary">Jetzt einloggen</a>
+					                            <a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')" class="btn btn-primary">Jetzt einloggen</a>
                                         <% }
                                             else
                                             {%>

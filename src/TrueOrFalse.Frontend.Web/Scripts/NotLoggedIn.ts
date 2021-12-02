@@ -9,9 +9,10 @@
     }
 
     static ShowErrorMsg(feature = "unknown") {
-        //$('#modalNotLoggedIn').modal('show');
+        eventBus.$emit('show-login-modal');
 
-        Login.OpenModal(null, Login.ShowFeatureInfo);
+        //$('#modalNotLoggedIn').modal('show');
+        //Login.OpenModal(null, Login.ShowFeatureInfo);
     }
 }
 

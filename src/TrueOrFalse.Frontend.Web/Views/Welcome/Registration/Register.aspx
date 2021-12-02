@@ -89,7 +89,7 @@
                         <p href="#" style="text-align: center;">
                             Ich bin schon Nutzer!
                             <br />
-                            <a data-btn-login="true" class="cursor-hand" style="text-align: center;">Anmelden</a>
+                            <a data-btn-login="true" class="cursor-hand" style="text-align: center;" onclick="eventBus.$emit('show-login-modal')">Anmelden</a>
                         </p>
                     </div>
                 </div>

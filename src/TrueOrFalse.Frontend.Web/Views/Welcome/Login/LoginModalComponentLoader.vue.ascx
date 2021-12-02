@@ -59,8 +59,10 @@
                 </form>
                 <div class="infoContainer col-sm-12 noPadding">
                     <div class="col-sm-4 noPadding">
-                        <input type="checkbox" v-model="persistentLogin"/>
-                        <span class="checkboxText">Angemeldet bleiben</span>
+                        <label class="cursor-hand">
+                            <input type="checkbox" class="cursor-hand" v-model="persistentLogin"/>
+                            <span class="checkboxText">Angemeldet bleiben</span>
+                        </label>
                     </div>
                     <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
                         <a href="/Login/PasswortZuruecksetzen">Passwort vergessen?</a>
