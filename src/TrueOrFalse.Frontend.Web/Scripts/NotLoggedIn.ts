@@ -9,6 +9,7 @@
     }
 
     static ShowErrorMsg(feature = "unknown") {
+        Site.CloseAllModals();
         eventBus.$emit('show-login-modal');
 
         //$('#modalNotLoggedIn').modal('show');

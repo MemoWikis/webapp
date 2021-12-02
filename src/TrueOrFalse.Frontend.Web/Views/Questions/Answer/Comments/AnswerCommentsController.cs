@@ -43,6 +43,11 @@ public class AnswerCommentsController : BaseController
         var commentRepo = Resolve<CommentRepository>();
         var parentComment = commentRepo.GetById(commentId);
 
+        if (parentComment.IsSettled)
+        {
+            return false;
+        }
+
         var comment = new Comment();
         comment.Type = CommentType.AnswerQuestion;
         comment.TypeId = parentComment.TypeId;
