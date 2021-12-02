@@ -97,7 +97,12 @@
             </div>
         <% } %>
     </div>
-    
+    <%if (Model.ShowWiki) {%>
+        <div id="UserProfileWikiLink">
+            <div class="toWiki"><strong>Hier geht es zu</strong> <% Html.RenderPartial("CategoryLabel", Model.UserWiki); %></div>
+        </div>
+    <%} %>
+
     <div class="row" id="user-main">
         
         <div id="MobileSubHeader" class="MobileSubHeader DesktopHide" style="margin-top: 20px;">

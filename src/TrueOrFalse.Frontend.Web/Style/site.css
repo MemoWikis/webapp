@@ -2795,3 +2795,13 @@ input::placeholder {
     white-space: pre-wrap;
   }
 }
+#UserProfileWikiLink .toWiki {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  color: #003264;
+}
+#UserProfileWikiLink .toWiki .category-chip-container {
+  margin-left: 4px;
+  color: #555555;
+}
