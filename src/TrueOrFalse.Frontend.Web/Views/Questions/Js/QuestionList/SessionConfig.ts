@@ -261,7 +261,7 @@ let sc= Vue.component('session-config-component', {
             this.loadQuestionCount();
             $('#SessionConfigModal').modal('show');
             this.openLogin = false;
-            $(".data-btn-login").click();
+            eventBus.$emit('show-login-modal')
         },
         goToLogin() {
             this.openLogin = true;

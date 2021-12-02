@@ -4,6 +4,6 @@
     <h4>Einloggen oder registrieren</h4>
     <p>
         Um Wunschwissen oder eigene Fragen zu verwenden, <br/>
-        musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+        musst du dich <a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
     </p>
 </div>

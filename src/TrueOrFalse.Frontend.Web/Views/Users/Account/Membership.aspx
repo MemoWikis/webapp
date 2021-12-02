@@ -161,7 +161,7 @@
                     <h3>Einloggen oder registrieren</h3>
                     <p>
                         Um Mitglied zu werden 
-                        musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+                        musst du dich <a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
                     </p>
                 </div>
             <% }%>
