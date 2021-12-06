@@ -6,6 +6,8 @@ public class RestoreCategory
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
+        var historicCategoryCacheItem = CategoryCacheItem.ToCacheCategory(historicCategory);
+        EntityCache.AddOrUpdate(historicCategoryCacheItem);
         Sl.CategoryRepo.Update(historicCategory, author);
 
         NotifyAboutRestore(categoryChange);

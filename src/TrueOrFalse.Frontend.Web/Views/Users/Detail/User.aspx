@@ -58,13 +58,14 @@
                     <h4 style="margin-top: 0;">Erstellte Inhalte</h4>
                     <div><%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt</div>
                     <div><%= Model.AmountCreatedCategories %>  Themen erstellt</div>
+                    <%if (Model.ShowWiki) {%>
+                        <a href="<%= Links.CategoryDetail(Model.UserWiki) %>">Zu <%= Model.User.Name %>s Wiki</a>
+                    <%} %>
                 </div>
             
                 <div class="column">
                     <h4 style="margin-top: 0;">Wunschwissen</h4>
                     <div><%= Model.AmountWishCountQuestions %> Fragen gemerkt</div>
-                    <div><%= Model.AmountWishCountSets %> Lernsets gemerkt</div>
-                    <div></div>
                 </div>
 
             </div>
@@ -90,18 +91,7 @@
                 <% } %>
             </div>
         </div>
-        
-        <% if (Model.IsCurrentUser) { %>
-            <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <a href="<%= Links.WidgetStats() %>" class="btn btn-default">Zur Widget-Statistik</a>
-            </div>
-        <% } %>
     </div>
-    <%if (Model.ShowWiki) {%>
-        <div id="UserProfileWikiLink">
-            <div class="toWiki"><strong>Hier geht es zu</strong> <% Html.RenderPartial("CategoryLabel", Model.UserWiki); %></div>
-        </div>
-    <%} %>
 
     <div class="row" id="user-main">
         
