@@ -231,7 +231,6 @@
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\About\AboutController.cs" />
     <Compile Include="Views\About\AboutMemuchoModel.cs" />
-    <Compile Include="Views\About\ForTeachersModel.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -2855,9 +2854,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\About\ForTeachers.css">
-      <DependentUpon>ForTeachers.less</DependentUpon>
-    </Content>
     <Content Include="Views\About\Jobs.css">
       <DependentUpon>Jobs.less</DependentUpon>
     </Content>
@@ -4044,11 +4040,9 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\ForTeachers.aspx" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\ForTeachers.less" />
     <Content Include="Views\About\Jobs.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
