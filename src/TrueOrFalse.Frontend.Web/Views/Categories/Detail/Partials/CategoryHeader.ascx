@@ -230,14 +230,14 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </li>
                         <% } %>
 
-                        <li>
+<%--                        <li>
                             <a href="" id="AnalyticsTab" data-url="<%= Links.CategoryDetailAnalyticsTab(Model.Name, Model.Id) %>" data-allowed="logged-in" class="Tab">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-project-diagram"></i>
                                 </div>
                                 Wissensnetz anzeigen
                             </a>
-                        </li>
+                        </li>--%>
                         <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.All)
                            { %>
                             <li>
