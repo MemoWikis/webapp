@@ -22,6 +22,7 @@
     </a>
     <% foreach (var day in Model.Days) { 
            var afterRelease = ReleaseDate.IsAfterRelease(day.DateTime);
+           if (day.Items.Count > 0) {
     %>
     
         <div class="row">
@@ -51,6 +52,7 @@
                     </a>
                 </div>
             </div>
-        <% } %>
+        <% }
+           } %>
     <% } %>
 </asp:Content>
