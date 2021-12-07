@@ -2060,8 +2060,8 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.vue.ascx" />
-    <Content Include="Views\Welcome\Login\LoginModalTemplate.vue.ascx" />
+    <Content Include="Views\Welcome\Login\LoginModalComponentTemplate.vue.ascx" />
+    <Content Include="Views\Welcome\Login\LoginModalLoader.ascx" />
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <None Include="job_scheduling_data_2_0.xsd">
@@ -2346,6 +2346,7 @@
     <Content Include="Views\Categories\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
@@ -3626,7 +3627,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponentLoader.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponent.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
@@ -4201,7 +4202,6 @@
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
-    <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />

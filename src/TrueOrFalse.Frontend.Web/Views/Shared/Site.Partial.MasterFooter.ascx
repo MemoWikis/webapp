@@ -7,7 +7,7 @@
 <%  var userSession = new SessionUser();
     if (!userSession.IsLoggedIn) { %>
     <%= Scripts.Render("~/bundles/js/headerSearch") %>
-    <%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
+    <%: Html.Partial("/Views/Welcome/Login/LoginModalLoader.ascx") %>
     <%= Styles.Render("~/bundles/Registration") %>
 <%} %>
 <div class="row Promoter">
