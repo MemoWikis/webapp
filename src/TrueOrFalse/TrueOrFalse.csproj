@@ -792,7 +792,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\PersonalTopic.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\MailManager.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailTransmitter.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs227.cs" />
