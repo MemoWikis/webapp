@@ -115,6 +115,6 @@ public class WelcomeController : BaseController
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "Newsletter sign up request",
-            requesterEmail + " asked to sign up for newsletter."));
+            requesterEmail + " asked to sign up for newsletter."), MailMessagePriority.Medium);
     }
 }

@@ -64,7 +64,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             SendEmail.Run(new MailMessage("daniel.majunke@googlemail.com", to,
                 "Report TotalWishKnowledge in other people",
-                $"Hallo {name}, hier die gewünschten Zahlen: {report}"));
+                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), MailMessagePriority.Medium);
         }
     }
 }

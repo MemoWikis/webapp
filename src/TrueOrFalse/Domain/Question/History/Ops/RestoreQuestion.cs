@@ -37,6 +37,6 @@ public class RestoreQuestion
         mail.From = new MailAddress(Settings.EmailFrom);
         mail.Subject = subject;
         mail.Body = body;
-        global::SendEmail.Run(mail);
+        global::SendEmail.Run(mail, MailMessagePriority.Low);
     }
 }

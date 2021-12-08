@@ -55,5 +55,11 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
             _session.QueryOver<JobQueue>()
                 .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge).List();
     }
+    public IList<JobQueue> GetAllMailMessages()
+    {
+        return
+            _session.QueryOver<JobQueue>()
+                .Where(j => j.JobQueueType == JobQueueType.MailMessage).List();
+    }
 }
     

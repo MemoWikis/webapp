@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Tools.ScheduledJobs.Jobs;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -65,6 +66,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForCategory>().Build(),
                 TriggerBuilder.Create()
                     .WithSimpleSchedule(x => x.WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
+                        .RepeatForever()).Build());
+        }
+        private static void Schedule_MailTransmitter()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<MailManager>().Build(),
+                TriggerBuilder.Create()
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(1)
                         .RepeatForever()).Build());
         }
 
