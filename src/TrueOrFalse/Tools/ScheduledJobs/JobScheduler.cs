@@ -40,6 +40,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_KnowledgeReportCheck();
             Schedule_LOM_Export();
             Schedule_RecalcTotalWishInOthersPeople();
+            Schedule_MailManager();
 
         }
 
@@ -68,7 +69,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .WithSimpleSchedule(x => x.WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
                         .RepeatForever()).Build());
         }
-        private static void Schedule_MailTransmitter()
+        private static void Schedule_MailManager()
         {
             _scheduler.ScheduleJob(JobBuilder.Create<MailManager>().Build(),
                 TriggerBuilder.Create()

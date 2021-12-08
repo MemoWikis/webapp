@@ -8,7 +8,6 @@
     public enum MailMessagePriority
     {
         Low = 0,
-        Medium = 1,
-        High = 2,
-        Immediately = 3,
+        Medium = 5,
+        High = 10
     }

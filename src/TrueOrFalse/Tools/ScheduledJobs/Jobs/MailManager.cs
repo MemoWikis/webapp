@@ -2,23 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Core.Lifetime;
 using Newtonsoft.Json;
 using Quartz;
+using Quartz.Impl;
 using RollbarSharp;
 
 namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 {
-    class MailManager : IJob
+    class MailManager : IJob //scheduledMailTransmitter
     {
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
-                List<int> successfullJobIds = new List<int>();
+                var successfulJobIds = new List<int>();
                 var jobs = scope.R<JobQueueRepo>().GetAllMailMessages();
+
+                //increase interval when mail jobs exist
+                if (jobs.Count > 0)
+                {
+                    var newTrigger = TriggerBuilder.Create()
+                        .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromMilliseconds(100))
+                            .RepeatForever()).Build();
+                    var oldTrigger = context.Trigger;
+                    var scheduler = StdSchedulerFactory.GetDefaultScheduler();
+                    scheduler.RescheduleJob(oldTrigger.Key, newTrigger);
+                }
+
                 var jobsByMailPriority = jobs.OrderByDescending(j => JsonConvert.DeserializeObject<MailMessageJob>(j.JobContent)?.Priority);
 
                 foreach (var mailMessageJob in jobsByMailPriority)
@@ -30,7 +40,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                         if (currentMailMessage != null)
                         {
                             smtpClient.Send(currentMailMessage);
-                            successfullJobIds.Add(mailMessageJob.Id);
+                            successfulJobIds.Add(mailMessageJob.Id);
                         }
                         else
                         {
@@ -46,11 +56,25 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     }
                 }
 
+
                 //Delete jobs that have been executed successfully
-                if (successfullJobIds.Count <= 0) return;
-                scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
-                Logg.r().Information("Job MailManager send " + successfullJobIds.Count + " mails.");
-                successfullJobIds.Clear();
+                if (successfulJobIds.Count > 0)
+                {
+                    scope.R<JobQueueRepo>().DeleteById(successfulJobIds);
+                    Logg.r().Information("Job MailManager send " + successfulJobIds.Count + " mails.");
+                    successfulJobIds.Clear();
+                }
+
+                //decrease interval when no mail job exist
+                if (scope.R<JobQueueRepo>().GetAllMailMessages().Count == 0)
+                {
+                    var newTrigger = TriggerBuilder.Create()
+                        .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromMilliseconds(1000))
+                            .RepeatForever()).Build();
+                    var oldTrigger = context.Trigger;
+                    var scheduler = StdSchedulerFactory.GetDefaultScheduler();
+                    scheduler.RescheduleJob(oldTrigger.Key, newTrigger);
+                }
             }, "MailManager");
         }
     }
