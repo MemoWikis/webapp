@@ -10,12 +10,6 @@ public class AboutController : Controller
     }
 
     [SetMainMenu(MainMenuEntry.None)]
-    public ActionResult ForTeachers()
-    {
-        return View(new ForTeachersModel());
-    }
-
-    [SetMainMenu(MainMenuEntry.None)]
     public ActionResult Jobs()
     {
         return View(new BaseModel());

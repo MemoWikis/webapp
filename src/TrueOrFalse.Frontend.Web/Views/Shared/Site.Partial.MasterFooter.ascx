@@ -7,7 +7,7 @@
 <%  var userSession = new SessionUser();
     if (!userSession.IsLoggedIn) { %>
     <%= Scripts.Render("~/bundles/js/headerSearch") %>
-    <%: Html.Partial("/Views/Welcome/Login/LoginModalTemplate.vue.ascx") %>
+    <%: Html.Partial("/Views/Welcome/Login/LoginModalLoader.ascx") %>
     <%= Styles.Render("~/bundles/Registration") %>
 <%} %>
 <div class="row Promoter">
@@ -21,7 +21,6 @@
         <b>memucho</b><br />
         <a href="<%=Links.Team() %>">Team</a><br />
         <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br />
-        <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br />
         <a href="<%= Links.Users() %>">Alle Nutzer</a><br />
             &nbsp;<br />
         <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br />

@@ -2,9 +2,9 @@
 if (eventBus == null)
     var eventBus = new Vue();
 
-var loginModal = Vue.component('login-modal-component-loader',
+var loginModal = Vue.component('login-modal-component',
     {
-        template: '#login-modal-component-loader',
+        template: '#login-modal-template',
         data() {
             return {
                 eMail: '',

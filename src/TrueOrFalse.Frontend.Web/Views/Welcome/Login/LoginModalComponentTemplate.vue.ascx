@@ -1,6 +1,4 @@
-﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
-<div id="LoginModalComponentLoader">
+﻿<div id="LoginModalComponent">
     <default-modal-component showCloseButton="true" modalWidth="600px" button1Text="Anmelden" action1Emit="login-clicked" isFullSizeButtons="true">
         <template v-slot:header>
             <span>Anmelden</span>
@@ -41,7 +39,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail" @keydown.enter="SubmitForm()" @click="errorMessage = ''"/>
+                            <input name="login" placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail" @keydown.enter="SubmitForm()" @click="errorMessage = ''"/>
                         </div>
                     </div>
                 </form>
@@ -51,7 +49,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input placeholder="" :type="passwordInputType" width="100%" class="loginInputs" v-model="password" @keydown.enter="SubmitForm()" @click="errorMessage = ''"/>
+                            <input name="password" placeholder="" :type="passwordInputType" width="100%" class="loginInputs" v-model="password" @keydown.enter="SubmitForm()" @click="errorMessage = ''"/>
                             <i class="fas fa-eye eyeIcon" v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'"></i>
                             <i v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" class="fas fa-eye-slash eyeIcon"></i>
                         </div>

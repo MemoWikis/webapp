@@ -17,8 +17,12 @@
             <h1><i class="fa fa-list-ul"></i>&nbsp; Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
         </div>
     </div>
+    <a class="btn btn-sm btn-default" href="<%= Links.CategoryChangesOverview(1) %>">
+        Zur Bearbeitungshistorie aller Themen
+    </a>
     <% foreach (var day in Model.Days) { 
            var afterRelease = ReleaseDate.IsAfterRelease(day.DateTime);
+           if (day.Items.Count > 0) {
     %>
     
         <div class="row">
@@ -48,6 +52,7 @@
                     </a>
                 </div>
             </div>
-        <% } %>
+        <% }
+           } %>
     <% } %>
 </asp:Content>

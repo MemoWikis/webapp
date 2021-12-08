@@ -6,7 +6,16 @@ public class RestoreCategory
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
-        Sl.CategoryRepo.Update(historicCategory, author);
+        var category = Sl.CategoryRepo.GetById(historicCategory.Id);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+
+        category.Name = historicCategory.Name;
+        category.Content = historicCategory.Content;
+        categoryCacheItem.Name = historicCategory.Name;
+        categoryCacheItem.Content = historicCategory.Content;
+
+        EntityCache.AddOrUpdate(categoryCacheItem);
+        Sl.CategoryRepo.Update(category, author);
 
         NotifyAboutRestore(categoryChange);
     }

@@ -3,8 +3,8 @@
     public static User Run(RegisterModel registerModel)
     {
         var user = new User();
-        user.EmailAddress = registerModel.Email.TrimAndReplaceWhitespacesWithSingleSpace();
-        user.Name = registerModel.Name.TrimAndReplaceWhitespacesWithSingleSpace();
+        user.EmailAddress = registerModel.Login.TrimAndReplaceWhitespacesWithSingleSpace();
+        user.Name = registerModel.UserName.TrimAndReplaceWhitespacesWithSingleSpace();
 
         SetUserPassword.Run(registerModel.Password.Trim(), user);
 

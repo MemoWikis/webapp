@@ -11,10 +11,10 @@ public class RegisterController : BaseController
     [HttpPost]
     public ActionResult Register(RegisterModel model)
     {
-        if (!IsEmailAddressAvailable.Yes(model.Email))
+        if (!IsEmailAddressAvailable.Yes(model.Login))
             ModelState.AddModelError("E-Mail", "Diese E-Mail-Adresse ist bereits registriert.");
 
-        if (!global::IsUserNameAvailable.Yes(model.Name))
+        if (!global::IsUserNameAvailable.Yes(model.UserName))
             ModelState.AddModelError("Name", "Dieser Benutzername ist bereits vergeben.");
 
         if (!ModelState.IsValid)

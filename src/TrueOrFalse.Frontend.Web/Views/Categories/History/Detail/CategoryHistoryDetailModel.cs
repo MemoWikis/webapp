@@ -121,8 +121,18 @@ public class CategoryHistoryDetailModel : BaseModel
 
     private bool CrIsVisibleToCurrentUser(int categoryId, int relatedCategoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
-        var relatedCategory = EntityCache.GetCategoryCacheItem(relatedCategoryId);
+        CategoryCacheItem category = null;
+        CategoryCacheItem relatedCategory = null;
+
+        try
+        {
+            category = EntityCache.GetCategoryCacheItem(categoryId);
+            relatedCategory = EntityCache.GetCategoryCacheItem(relatedCategoryId);
+        }
+        catch
+        {
+
+        }
         if (category != null && relatedCategory != null)
             return category.IsVisibleToCurrentUser() && relatedCategory.IsVisibleToCurrentUser();
         return false;

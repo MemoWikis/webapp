@@ -597,13 +597,12 @@ p:empty {
 
 #CategoryHeader, #TopicTabContent {
     line-height: 1.5;
-    margin-top:10px;
-
+    margin-top: 10px;
     .new-font-style();
     color: @global-text-color;
 
     h1, h2, h3, h4, h5 {
-       //font-family: Open Sans;
+        //font-family: Open Sans;
         line-height: 1.2;
     }
 
@@ -615,31 +614,39 @@ p:empty {
 
         .media-below-sm( {
             font-size: 6vw;
-        });
+        }
+
+        );
     }
 
     h2 {
         font-size: @font-size-h2-mem;
 
-        .media-below-sm({
+        .media-below-sm( {
             font-size: @font-size-h3-mem;
-        });
+        }
+
+        );
     }
 
     h3 {
         font-size: @font-size-h3-mem;
 
-        .media-below-sm({
+        .media-below-sm( {
             font-size: @font-size-h4-mem;
-        });
+        }
+
+        );
     }
 
     h4 {
         font-size: @font-size-h3-mem;
 
-        .media-below-sm({
+        .media-below-sm( {
             font-size: @font-size-h4-mem;
-        });
+        }
+
+        );
     }
 }
 
@@ -2757,20 +2764,6 @@ p:empty {
     }
 }
 
-#ContentModuleApp {
-    #MarkdownContent {
-        .ProseMirror {
-            @media (max-width: 600px) {
-                margin-top: 30px;
-            }
-        }
-
-        .contentPlaceholder {
-            padding-top: 2px;
-        }
-    }
-}
-
 .pin-category-component {
     display: flex;
     align-items: center;
@@ -2992,5 +2985,37 @@ p:empty {
             }
         }
 
+    }
+}
+
+#TopicTabContent {
+    #ContentModuleApp {
+        #MarkdownContent {
+            .ProseMirror {
+                @media (max-width: 600px) {
+                    margin-top: 30px;
+                }
+
+                h2 {
+                    margin-top: 70px !important;
+
+                    &:first-child {
+                        margin-top: 0px !important;
+                    }
+                }
+
+                h3 {
+                    margin-top: 35px !important;
+
+                    &:first-child {
+                        margin-top: 0px !important;
+                    }
+                }
+            }
+
+            .contentPlaceholder {
+                padding-top: 2px;
+            }
+        }
     }
 }

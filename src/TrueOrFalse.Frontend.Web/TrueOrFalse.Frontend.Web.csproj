@@ -231,7 +231,6 @@
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\About\AboutController.cs" />
     <Compile Include="Views\About\AboutMemuchoModel.cs" />
-    <Compile Include="Views\About\ForTeachersModel.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -2061,8 +2060,8 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentLoader.vue.ascx" />
-    <Content Include="Views\Welcome\Login\LoginModalTemplate.vue.ascx" />
+    <Content Include="Views\Welcome\Login\LoginModalComponentTemplate.vue.ascx" />
+    <Content Include="Views\Welcome\Login\LoginModalLoader.ascx" />
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <None Include="job_scheduling_data_2_0.xsd">
@@ -2347,6 +2346,7 @@
     <Content Include="Views\Categories\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
@@ -2855,9 +2855,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\About\ForTeachers.css">
-      <DependentUpon>ForTeachers.less</DependentUpon>
-    </Content>
     <Content Include="Views\About\Jobs.css">
       <DependentUpon>Jobs.less</DependentUpon>
     </Content>
@@ -3630,7 +3627,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponentLoader.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponent.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
@@ -4044,11 +4041,9 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\ForTeachers.aspx" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\ForTeachers.less" />
     <Content Include="Views\About\Jobs.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
@@ -4207,7 +4202,6 @@
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
-    <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />

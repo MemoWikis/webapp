@@ -3668,14 +3668,6 @@ p:empty {
 .questionTitle p {
   margin: 0;
 }
-@media (max-width: 600px) {
-  #ContentModuleApp #MarkdownContent .ProseMirror {
-    margin-top: 30px;
-  }
-}
-#ContentModuleApp #MarkdownContent .contentPlaceholder {
-  padding-top: 2px;
-}
 .pin-category-component {
   display: -webkit-box;
   display: -webkit-flex;
@@ -3927,4 +3919,24 @@ p:empty {
 .categorySearchAutocomplete .searchResultItem img.authorImg {
   -webkit-border-radius: 50%;
           border-radius: 50%;
+}
+@media (max-width: 600px) {
+  #TopicTabContent #ContentModuleApp #MarkdownContent .ProseMirror {
+    margin-top: 30px;
+  }
+}
+#TopicTabContent #ContentModuleApp #MarkdownContent .ProseMirror h2 {
+  margin-top: 70px !important;
+}
+#TopicTabContent #ContentModuleApp #MarkdownContent .ProseMirror h2:first-child {
+  margin-top: 0px !important;
+}
+#TopicTabContent #ContentModuleApp #MarkdownContent .ProseMirror h3 {
+  margin-top: 35px !important;
+}
+#TopicTabContent #ContentModuleApp #MarkdownContent .ProseMirror h3:first-child {
+  margin-top: 0px !important;
+}
+#TopicTabContent #ContentModuleApp #MarkdownContent .contentPlaceholder {
+  padding-top: 2px;
 }

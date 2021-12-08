@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="LoginApp">
-    <login-modal-component-loader v-if="loaded"/>
+    <login-modal-component v-if="loaded"/>
 </div>
 <div class="login-register-container">
     <div class="btn memo-button link-btn login-btn" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">

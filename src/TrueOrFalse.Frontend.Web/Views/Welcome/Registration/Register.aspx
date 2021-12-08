@@ -55,8 +55,8 @@
 
                             <div class="col-sm-offset-2 col-sm-8">
                                 <div class="overline-s no-line">Benutzername</div>
-                                <%: Html.TextBoxFor(model => model.Name, new { @class="form-control", placeholder = Model.Name }) %>
-                                <%: Html.ValidationMessageFor(model => model.Name) %>
+                                <%: Html.TextBoxFor(model => model.UserName, new { @class="form-control", placeholder = Model.UserName }) %>
+                                <%: Html.ValidationMessageFor(model => model.UserName) %>
                             </div>
                         </div>
                     </form>
@@ -65,8 +65,8 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                         <div class="overline-s no-line">E-Mail</div>
-                        <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
-                        <%: Html.ValidationMessageFor(model => model.Email) %>
+                        <%: Html.TextBoxFor(model => model.Login, new { @class="form-control" }) %>
+                        <%: Html.ValidationMessageFor(model => model.Login) %>
                     </div>
                 </div>
 

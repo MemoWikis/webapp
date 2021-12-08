@@ -179,8 +179,6 @@ namespace TrueOrFalse
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });
             routes.MapRoute("Category_Learning_Button", "{categoryName}/{Id}/Lernen", new { controller = "Category", action = "CategoryLearningTab" });
-            routes.MapRoute("Analytics_Tab", "{categoryName}/{Id}/Wissensnetz", new { controller = "Category", action = "CategoryAnalyticsTab" });
-
             routes.MapRoute("Category", "{text}/{id}", new { controller = "Category", action = "Category" });
             routes.MapRoute("GetSegmentHtml", "Segmentation/GetSegmentHtml", new { controller = "Segmentation", action = "GetSegmentHtml" });
             routes.MapRoute("GetCategoryCard", "Segmentation/GetCategoryCard", new { controller = "Segmentation", action = "GetCategoryCard" });

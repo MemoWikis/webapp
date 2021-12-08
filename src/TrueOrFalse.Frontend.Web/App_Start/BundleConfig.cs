@@ -80,8 +80,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Welcome/Js/Validation.js")
                 .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/LoginModalTemplate")
-                .Include("~/Views/Welcome/Login/LoginModalComponentLoader.js"));
+            bundles.Add(new ScriptBundle("~/bundles/LoginModalComponent")
+                .Include("~/Views/Welcome/Login/LoginModalComponent.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Registration")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
