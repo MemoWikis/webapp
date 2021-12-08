@@ -31,28 +31,31 @@
             </div>
         </div>
         
-        <% foreach (var item in day.Items){ %>
+        <% foreach (var item in day.Items){ 
+        
+                if (item.IsVisibleToCurrentUser()) {%>
     
-            <div class="row change-detail-model">
-                <div class="col-xs-3">
-                    <a href="<%= Links.UserDetail(item.Author) %>"><img src="<%= item.AuthorImageUrl %>" height="20"/></a>
-                    <b><a href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a></b>
-                </div>
-                <div class="col-xs-3 show-tooltip"  data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
-                    vor <%= item.ElapsedTime %> um <%= item.Time %>
-                </div>
-                <div class="col-xs-6 pull-right">
-<%--                    <%if (afterRelease) {%>
-                        <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId, item.CategoryChangeId) %>">
-                            <i class="fa fa-desktop"></i> Revision anzeigen
-                        </a>&nbsp;
-                    <%} %>--%>
-                    <a id="DisplayChanges" class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
-                        <i class="fa fa-code-fork"></i> Änderungen anzeigen
-                    </a>
-                </div>
-            </div>
-        <% }
+                    <div class="row change-detail-model">
+                        <div class="col-xs-3">
+                            <a href="<%= Links.UserDetail(item.Author) %>"><img src="<%= item.AuthorImageUrl %>" height="20"/></a>
+                            <b><a href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a></b>
+                        </div>
+                        <div class="col-xs-3 show-tooltip"  data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
+                            vor <%= item.ElapsedTime %> um <%= item.Time %>
+                        </div>
+                        <div class="col-xs-6 pull-right">
+<%--                            <%if (afterRelease) {%>
+                                <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId, item.CategoryChangeId) %>">
+                                    <i class="fa fa-desktop"></i> Revision anzeigen
+                                </a>&nbsp;
+                            <%} %>--%>
+                            <a id="DisplayChanges" class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
+                                <i class="fa fa-code-fork"></i> Änderungen anzeigen
+                            </a>
+                        </div>
+                    </div>
+                <% }
+           }
            } %>
     <% } %>
 </asp:Content>
