@@ -101,10 +101,12 @@ public class CategoryChangeDayModel
             ElapsedTime = TimeElapsedAsText.Run(change.DateCreated),
             DateTime = change.DateCreated.ToString("dd.MM.yyyy HH:mm"),
             Time = change.DateCreated.ToString("HH:mm"),
+            DateCreated = change.DateCreated,
             CategoryChangeId = change.Id,
             CategoryId = change.Category == null ? categoryId : change.Category.Id,
             CategoryName = change.Category == null ? _catName : change.Category.Name,
             Typ = typ,
+            Type = change.Type,
             CreatorId = new UserTinyModel(change.Category.Creator).Id,
             Visibility = change.Category.Visibility,
         };
@@ -129,10 +131,12 @@ public class CategoryChangeDetailModel
     public string ElapsedTime;
     public string DateTime;
     public string Time;
+    public DateTime DateCreated;
     public int CategoryChangeId;
     public int CategoryId;
     public string CategoryName;
     public string Typ;
+    public CategoryChangeType Type;
     public CategoryVisibility Visibility;
     public bool IsPrivate => Visibility == CategoryVisibility.Owner || Visibility == CategoryVisibility.OwnerAndFriends;
     public int CreatorId;

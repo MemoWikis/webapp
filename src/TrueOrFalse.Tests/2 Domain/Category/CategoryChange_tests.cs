@@ -8,6 +8,8 @@ using TrueOrFalse.Tests;
 [TestFixture]
 class CategoryChange_tests : BaseTest
 {
+    private CategoryChangeDayModel _currentCategoryChangeDayModel;
+
     [Test]
     public void Should_save_category_changes()
     {
@@ -92,9 +94,10 @@ class CategoryChange_tests : BaseTest
         categoryChanges.Add(relationToMerge2);
         categoryChanges.Add(currentRev);
 
-        var mergedList = GetMergedItems(categoryChanges);
+        _currentCategoryChangeDayModel = GetCategoryChangeDayModel(categoryChanges);
+        var mergedList = _currentCategoryChangeDayModel.Items;
 
-        Assert.That(mergedList.Count, Is.EqualTo(4));
+        Assert.That(mergedList.Count, Is.EqualTo(3));
     }
 
     [Test]
@@ -150,58 +153,90 @@ class CategoryChange_tests : BaseTest
         categoryChanges.Add(revToMerge3);
         categoryChanges.Add(currentRev);
 
-        var mergedList = GetMergedItems(categoryChanges);
+        _currentCategoryChangeDayModel = GetCategoryChangeDayModel(categoryChanges);
+        var mergedList = _currentCategoryChangeDayModel.Items;
 
         Assert.That(mergedList.Count, Is.EqualTo(3));
     }
 
-    public List<CategoryChangeViewItem> GetMergedItems(IList<CategoryChange> changes)
+    //public List<CategoryChangeDetailModel> GetMergedItems(IList<CategoryChange> changes)
+    //{
+    //    var unsortedList = new List<CategoryChangeDetailModel>();
+    //    var groupedList = changes.OrderBy(cc => cc.DateCreated).GroupBy(cc => cc.Type);
+
+    //    foreach (var group in groupedList)
+    //    {
+    //        CategoryChange previousChange = null;
+    //        CategoryChangeViewItem currentCategoryChangeViewItem = null;
+    //        var i = 1;
+
+    //        var sortedChanges = group.OrderBy(cc => cc.DateCreated);
+    //        foreach (var cc in sortedChanges)
+    //        {
+    //            if (currentCategoryChangeViewItem != null && previousChange != null)
+    //            {
+    //                if ((cc.DateCreated - previousChange.DateCreated).TotalMinutes <= 15 
+    //                    && cc.Category.Visibility == previousChange.Category.Visibility
+    //                    && cc.Author == previousChange.Author)
+    //                {
+    //                    currentCategoryChangeViewItem.LastEdit = cc.DateCreated;
+    //                    currentCategoryChangeViewItem.CategoryChanges.Add(cc);
+    //                    if (group.Count() == i)
+    //                        unsortedList.Add(new CategoryChangeDetailModel(cc));
+    //                }
+    //                else
+    //                {
+    //                    unsortedList.Add(currentCategoryChangeViewItem);
+    //                    currentCategoryChangeViewItem = GetCategoryChangeSession(cc);
+    //                    currentCategoryChangeViewItem.CategoryChanges.Add(cc);
+    //                    if (group.Count() == i)
+    //                        unsortedList.Add(currentCategoryChangeViewItem);
+    //                }
+    //            }
+    //            else
+    //            {   
+    //                currentCategoryChangeViewItem = GetCategoryChangeSession(cc);
+    //                currentCategoryChangeViewItem.CategoryChanges.Add(cc);
+    //                unsortedList.Add(currentCategoryChangeViewItem);
+    //            }
+
+    //            previousChange = cc;
+    //            i++;
+    //        }
+    //    }
+
+    //    return unsortedList.OrderByDescending(cc => cc.LastEdit).ToList();
+    //}
+
+    public CategoryChangeDayModel GetCategoryChangeDayModel(IList<CategoryChange> changes)
     {
-        var unsortedList = new List<CategoryChangeViewItem>();
-        var groupedList = changes.OrderBy(cc => cc.DateCreated).GroupBy(cc => cc.Type);
+        _currentCategoryChangeDayModel = new CategoryChangeDayModel(DateTime.Now, changes);
+        var items = new List<CategoryChangeDetailModel>();
+        var currenCategoryChangeDetailModel = new CategoryChangeDetailModel();
 
-        foreach (var group in groupedList)
+        changes
+            .Where(cc => cc.Category != null && cc.Category.IsVisibleToCurrentUser()).ToList().ForEach(cc => GetMergedItems(cc, currenCategoryChangeDetailModel, items));
+
+        _currentCategoryChangeDayModel.Date = DateTime.Now.ToString("dd.MM.yyyy");
+        _currentCategoryChangeDayModel.DateTime = DateTime.Now;
+        _currentCategoryChangeDayModel.Items = items;
+
+        return _currentCategoryChangeDayModel;
+    }
+
+    public void GetMergedItems(CategoryChange change, CategoryChangeDetailModel currenCategoryChangeDetailModel, List<CategoryChangeDetailModel> items)
+    {
+        if (change.Author.Id == currenCategoryChangeDetailModel.Author.Id &&
+            change.Category.Visibility == currenCategoryChangeDetailModel.Visibility &&
+            change.Type == CategoryChangeType.Text &&
+            (currenCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
+            currenCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(_currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change));
+        else
         {
-            CategoryChange previousChange = null;
-            CategoryChangeViewItem currentCategoryChangeViewItem = null;
-            var i = 1;
-
-            var sortedChanges = group.OrderBy(cc => cc.DateCreated);
-            foreach (var cc in sortedChanges)
-            {
-                if (currentCategoryChangeViewItem != null && previousChange != null)
-                {
-                    if ((cc.DateCreated - previousChange.DateCreated).TotalMinutes <= 15 
-                        && cc.Category.Visibility == previousChange.Category.Visibility
-                        && cc.Author == previousChange.Author)
-                    {
-                        currentCategoryChangeViewItem.LastEdit = cc.DateCreated;
-                        currentCategoryChangeViewItem.CategoryChanges.Add(cc);
-                        if (group.Count() == i)
-                            unsortedList.Add(currentCategoryChangeViewItem);
-                    }
-                    else
-                    {
-                        unsortedList.Add(currentCategoryChangeViewItem);
-                        currentCategoryChangeViewItem = GetCategoryChangeSession(cc);
-                        currentCategoryChangeViewItem.CategoryChanges.Add(cc);
-                        if (group.Count() == i)
-                            unsortedList.Add(currentCategoryChangeViewItem);
-                    }
-                }
-                else
-                {   
-                    currentCategoryChangeViewItem = GetCategoryChangeSession(cc);
-                    currentCategoryChangeViewItem.CategoryChanges.Add(cc);
-                    unsortedList.Add(currentCategoryChangeViewItem);
-                }
-
-                previousChange = cc;
-                i++;
-            }
+            var newDetailModel = _currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change);
+            items.Add(newDetailModel);
+            currenCategoryChangeDetailModel = newDetailModel;
         }
-
-        return unsortedList.OrderByDescending(cc => cc.LastEdit).ToList();
     }
 
     public CategoryChangeViewItem GetCategoryChangeSession(CategoryChange cc)
