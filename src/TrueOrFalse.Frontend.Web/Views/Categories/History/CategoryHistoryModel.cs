@@ -95,9 +95,9 @@ public class CategoryChangeDayModel
         return new CategoryChangeDetailModel
         {
             Author = new UserTinyModel(change.Author),
-            AuthorName = new UserTinyModel(change.Author).Name,
-            AuthorImageUrl = new UserImageSettings(new UserTinyModel(change.Author).Id)
-                .GetUrl_85px_square(new UserTinyModel(change.Author)).Url,
+            //AuthorName = new UserTinyModel(change.Author).Name,
+            //AuthorImageUrl = new UserImageSettings(new UserTinyModel(change.Author).Id)
+            //    .GetUrl_85px_square(new UserTinyModel(change.Author)).Url,
             ElapsedTime = TimeElapsedAsText.Run(change.DateCreated),
             DateTime = change.DateCreated.ToString("dd.MM.yyyy HH:mm"),
             Time = change.DateCreated.ToString("HH:mm"),

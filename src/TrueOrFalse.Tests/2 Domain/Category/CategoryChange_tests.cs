@@ -9,6 +9,8 @@ using TrueOrFalse.Tests;
 class CategoryChange_tests : BaseTest
 {
     private CategoryChangeDayModel _currentCategoryChangeDayModel;
+    private CategoryChangeDetailModel _currentCategoryChangeDetailModel;
+
 
     [Test]
     public void Should_save_category_changes()
@@ -212,10 +214,9 @@ class CategoryChange_tests : BaseTest
     {
         _currentCategoryChangeDayModel = new CategoryChangeDayModel(DateTime.Now, changes);
         var items = new List<CategoryChangeDetailModel>();
-        var currenCategoryChangeDetailModel = new CategoryChangeDetailModel();
 
-        for (int i = 0; i < changes.Count -1; i++)
-            GetMergedItems(changes[i], currenCategoryChangeDetailModel, items);
+        for (int i = changes.Count -1; i > -1; i--)
+            GetMergedItems(changes[i], items);
         
         _currentCategoryChangeDayModel.Date = DateTime.Now.ToString("dd.MM.yyyy");
         _currentCategoryChangeDayModel.DateTime = DateTime.Now;
@@ -224,21 +225,25 @@ class CategoryChange_tests : BaseTest
         return _currentCategoryChangeDayModel;
     }
 
-    public void GetMergedItems(CategoryChange change, CategoryChangeDetailModel currenCategoryChangeDetailModel, List<CategoryChangeDetailModel> items)
+    public void GetMergedItems(CategoryChange change, List<CategoryChangeDetailModel> items)
     {
         if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
             return;
-
-        if (change.Author.Id == currenCategoryChangeDetailModel.Author.Id &&
-            change.Category.Visibility == currenCategoryChangeDetailModel.Visibility &&
+        var timeDifference = _currentCategoryChangeDetailModel != null ? (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated -
+                                                                          change.DateCreated).TotalMinutes : 0;
+        if (_currentCategoryChangeDetailModel != null &&
+            change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
+            change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
-            (currenCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
-            currenCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(_currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change));
+            (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
+            _currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(_currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change));
         else
         {
             var newDetailModel = _currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change);
+            newDetailModel.AggregatedCategoryChangeDetailModel = new List<CategoryChangeDetailModel> { newDetailModel };
+            _currentCategoryChangeDetailModel = newDetailModel;
             items.Add(newDetailModel);
-            currenCategoryChangeDetailModel = newDetailModel;
+
         }
     }
 
