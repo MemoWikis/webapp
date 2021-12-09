@@ -214,9 +214,9 @@ class CategoryChange_tests : BaseTest
         var items = new List<CategoryChangeDetailModel>();
         var currenCategoryChangeDetailModel = new CategoryChangeDetailModel();
 
-        changes
-            .Where(cc => cc.Category != null && cc.Category.IsVisibleToCurrentUser()).ToList().ForEach(cc => GetMergedItems(cc, currenCategoryChangeDetailModel, items));
-
+        for (int i = 0; i < changes.Count -1; i++)
+            GetMergedItems(changes[i], currenCategoryChangeDetailModel, items);
+        
         _currentCategoryChangeDayModel.Date = DateTime.Now.ToString("dd.MM.yyyy");
         _currentCategoryChangeDayModel.DateTime = DateTime.Now;
         _currentCategoryChangeDayModel.Items = items;
@@ -226,6 +226,9 @@ class CategoryChange_tests : BaseTest
 
     public void GetMergedItems(CategoryChange change, CategoryChangeDetailModel currenCategoryChangeDetailModel, List<CategoryChangeDetailModel> items)
     {
+        if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
+            return;
+
         if (change.Author.Id == currenCategoryChangeDetailModel.Author.Id &&
             change.Category.Visibility == currenCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
