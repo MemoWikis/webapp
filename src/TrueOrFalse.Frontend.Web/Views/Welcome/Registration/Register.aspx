@@ -41,8 +41,9 @@
 
 
             <fieldset>
-                <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
-
+                <div  class="col-sm-offset-2">
+                    <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
+                </div>
 
                 <div class="row" style="margin-top: 30px; margin-bottom: 5px;">
                     <div class="col-sm-offset-3 col-sm-2 col-xs-5" style="border-bottom: 1px solid silver"></div>
