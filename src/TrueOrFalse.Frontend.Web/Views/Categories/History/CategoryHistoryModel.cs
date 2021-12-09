@@ -53,14 +53,18 @@ public class CategoryChangeDayModel
     public IList<CategoryChangeDetailModel> Items;
     private string _catName;
     public DateTime DateTime;
+    private CategoryChangeDetailModel _currentCategoryChangeDetailModel;
 
     public CategoryChangeDayModel(DateTime date, IList<CategoryChange> changes)
     {
         Date = date.ToString("dd.MM.yyyy");
         DateTime = date;
-        Items = changes
-            .Where(cc => cc.Category != null && cc.Category.IsVisibleToCurrentUser())
-            .Select(GetCategoryChangeDetailModel).ToList();
+        var items = new List<CategoryChangeDetailModel>();
+
+        for (int i = 0; i < changes.Count; i++)
+            GetMergedItems(changes[i], items);
+
+        Items = items;
     }
 
     public CategoryChangeDetailModel GetCategoryChangeDetailModel(CategoryChange change)
@@ -92,12 +96,14 @@ public class CategoryChangeDayModel
                 break;
         }
 
+        var userTinyModel = new UserTinyModel(change.Author);
+
         return new CategoryChangeDetailModel
         {
-            Author = new UserTinyModel(change.Author),
-            //AuthorName = new UserTinyModel(change.Author).Name,
-            //AuthorImageUrl = new UserImageSettings(new UserTinyModel(change.Author).Id)
-            //    .GetUrl_85px_square(new UserTinyModel(change.Author)).Url,
+            Author = userTinyModel,
+            AuthorName = userTinyModel.Name,
+            AuthorImageUrl = new UserImageSettings(userTinyModel.Id)
+                .GetUrl_85px_square(userTinyModel).Url,
             ElapsedTime = TimeElapsedAsText.Run(change.DateCreated),
             DateTime = change.DateCreated.ToString("dd.MM.yyyy HH:mm"),
             Time = change.DateCreated.ToString("HH:mm"),
@@ -111,6 +117,25 @@ public class CategoryChangeDayModel
             Visibility = change.Category.Visibility,
         };
     }
+    public void GetMergedItems(CategoryChange change, List<CategoryChangeDetailModel> items)
+    {
+        if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
+            return;
+        if (_currentCategoryChangeDetailModel != null &&
+            change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
+            change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
+            change.Type == CategoryChangeType.Text &&
+            _currentCategoryChangeDetailModel.Type == change.Type &&
+            (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
+            _currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(GetCategoryChangeDetailModel(change));
+        else
+        {
+            var newDetailModel = GetCategoryChangeDetailModel(change);
+            newDetailModel.AggregatedCategoryChangeDetailModel = new List<CategoryChangeDetailModel> { newDetailModel };
+            _currentCategoryChangeDetailModel = newDetailModel;
+            items.Add(newDetailModel);
+        }
+    }
 }
 
 public class CategoryChangeViewItem
@@ -123,7 +148,7 @@ public class CategoryChangeViewItem
     public List<CategoryChange> CategoryChanges;
 }
 
-public class CategoryChangeDetailModel
+public class  CategoryChangeDetailModel
 {
     public UserTinyModel Author;
     public string AuthorName;

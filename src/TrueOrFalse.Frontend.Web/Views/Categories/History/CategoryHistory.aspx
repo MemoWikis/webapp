@@ -54,6 +54,7 @@
                             </a>
                         </div>
                     </div>
+                    <div> changeCount: <%= item.AggregatedCategoryChangeDetailModel.Count %></div>
                 <% }
            }
            } %>

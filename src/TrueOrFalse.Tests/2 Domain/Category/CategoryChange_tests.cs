@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Util;
 using NUnit.Framework;
+using TrueOrFalse;
 using TrueOrFalse.Tests;
 
 [TestFixture]
@@ -28,6 +29,8 @@ class CategoryChange_tests : BaseTest
     {
         var category = ContextCategory.New().Add("Category").Persist().All[0];
         var user = ContextUser.New().Add("user").Persist().All[0];
+        user.EmailAddress = "testmemucho@memucho.memucho";
+        Sl.UserRepo.Update(user);
         var currentRev = new CategoryChange
         {
             DateCreated = new DateTime(2021, 12, 5, 11, 0, 0),
@@ -37,7 +40,7 @@ class CategoryChange_tests : BaseTest
             Id = 7
         };
 
-        var relationToMerge2 = new CategoryChange
+        var relation2 = new CategoryChange
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 30, 0),
             Category = category,
@@ -46,7 +49,7 @@ class CategoryChange_tests : BaseTest
             Id = 6
         };
 
-        var textToMerge3 = new CategoryChange
+        var text3 = new CategoryChange
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 20, 0),
             Category = category,
@@ -54,7 +57,7 @@ class CategoryChange_tests : BaseTest
             Type = CategoryChangeType.Text,
             Id = 5
         };
-        var relationToMerge1 = new CategoryChange
+        var relation1 = new CategoryChange
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 17, 0),
             Category = category,
@@ -91,15 +94,15 @@ class CategoryChange_tests : BaseTest
         categoryChanges.Add(initialRev);
         categoryChanges.Add(textToMerge1);
         categoryChanges.Add(textToMerge2);
-        categoryChanges.Add(relationToMerge1);
-        categoryChanges.Add(textToMerge3);
-        categoryChanges.Add(relationToMerge2);
+        categoryChanges.Add(relation1);
+        categoryChanges.Add(text3);
+        categoryChanges.Add(relation2);
         categoryChanges.Add(currentRev);
 
-        _currentCategoryChangeDayModel = GetCategoryChangeDayModel(categoryChanges);
+        _currentCategoryChangeDayModel = GetCategoryChangeDayModel(categoryChanges.OrderByDescending(cc => cc.DateCreated).ToList());
         var mergedList = _currentCategoryChangeDayModel.Items;
 
-        Assert.That(mergedList.Count, Is.EqualTo(3));
+        Assert.That(mergedList.Count, Is.EqualTo(6));
     }
 
     [Test]
@@ -107,6 +110,8 @@ class CategoryChange_tests : BaseTest
     {
         var category = ContextCategory.New().Add("Category").Persist().All[0];
         var user = ContextUser.New().Add("user").Persist().All[0];
+        user.EmailAddress = "testmemucho@memucho.memucho";
+        Sl.UserRepo.Update(user);
         var currentRev = new CategoryChange
         {
             DateCreated = new DateTime(2021, 12, 5, 11, 0, 0),
@@ -155,7 +160,9 @@ class CategoryChange_tests : BaseTest
         categoryChanges.Add(revToMerge3);
         categoryChanges.Add(currentRev);
 
-        _currentCategoryChangeDayModel = GetCategoryChangeDayModel(categoryChanges);
+
+        _currentCategoryChangeDayModel =
+            GetCategoryChangeDayModel(categoryChanges.OrderByDescending(cc => cc.DateCreated).ToList());
         var mergedList = _currentCategoryChangeDayModel.Items;
 
         Assert.That(mergedList.Count, Is.EqualTo(3));
@@ -215,9 +222,9 @@ class CategoryChange_tests : BaseTest
         _currentCategoryChangeDayModel = new CategoryChangeDayModel(DateTime.Now, changes);
         var items = new List<CategoryChangeDetailModel>();
 
-        for (int i = changes.Count -1; i > -1; i--)
+        for (int i = 0; i < changes.Count; i++)
             GetMergedItems(changes[i], items);
-        
+
         _currentCategoryChangeDayModel.Date = DateTime.Now.ToString("dd.MM.yyyy");
         _currentCategoryChangeDayModel.DateTime = DateTime.Now;
         _currentCategoryChangeDayModel.Items = items;
@@ -229,12 +236,11 @@ class CategoryChange_tests : BaseTest
     {
         if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
             return;
-        var timeDifference = _currentCategoryChangeDetailModel != null ? (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated -
-                                                                          change.DateCreated).TotalMinutes : 0;
         if (_currentCategoryChangeDetailModel != null &&
             change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
             change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
+            _currentCategoryChangeDetailModel.Type == change.Type &&
             (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
             _currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(_currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change));
         else
@@ -243,7 +249,6 @@ class CategoryChange_tests : BaseTest
             newDetailModel.AggregatedCategoryChangeDetailModel = new List<CategoryChangeDetailModel> { newDetailModel };
             _currentCategoryChangeDetailModel = newDetailModel;
             items.Add(newDetailModel);
-
         }
     }
 
