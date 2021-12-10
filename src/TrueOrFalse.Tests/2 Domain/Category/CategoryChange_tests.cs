@@ -9,10 +9,6 @@ using TrueOrFalse.Tests;
 [TestFixture]
 class CategoryChange_tests : BaseTest
 {
-    private CategoryChangeDayModel _currentCategoryChangeDayModel;
-    private CategoryChangeDetailModel _currentCategoryChangeDetailModel;
-
-
     [Test]
     public void Should_save_category_changes()
     {
@@ -99,8 +95,10 @@ class CategoryChange_tests : BaseTest
         categoryChanges.Add(relation2);
         categoryChanges.Add(currentRev);
 
-        _currentCategoryChangeDayModel = GetCategoryChangeDayModel(categoryChanges.OrderByDescending(cc => cc.DateCreated).ToList());
-        var mergedList = _currentCategoryChangeDayModel.Items;
+        var categoryChangeDayModel = new CategoryChangeDayModel(DateTime.Now,
+            categoryChanges.OrderByDescending(cc => cc.DateCreated).ToList());
+
+        var mergedList = categoryChangeDayModel.Items;
 
         Assert.That(mergedList.Count, Is.EqualTo(6));
     }
@@ -160,110 +158,11 @@ class CategoryChange_tests : BaseTest
         categoryChanges.Add(revToMerge3);
         categoryChanges.Add(currentRev);
 
+        var categoryChangeDayModel = new CategoryChangeDayModel(DateTime.Now,
+            categoryChanges.OrderByDescending(cc => cc.DateCreated).ToList());
 
-        _currentCategoryChangeDayModel =
-            GetCategoryChangeDayModel(categoryChanges.OrderByDescending(cc => cc.DateCreated).ToList());
-        var mergedList = _currentCategoryChangeDayModel.Items;
+        var mergedList = categoryChangeDayModel.Items;
 
         Assert.That(mergedList.Count, Is.EqualTo(3));
-    }
-
-    //public List<CategoryChangeDetailModel> GetMergedItems(IList<CategoryChange> changes)
-    //{
-    //    var unsortedList = new List<CategoryChangeDetailModel>();
-    //    var groupedList = changes.OrderBy(cc => cc.DateCreated).GroupBy(cc => cc.Type);
-
-    //    foreach (var group in groupedList)
-    //    {
-    //        CategoryChange previousChange = null;
-    //        CategoryChangeViewItem currentCategoryChangeViewItem = null;
-    //        var i = 1;
-
-    //        var sortedChanges = group.OrderBy(cc => cc.DateCreated);
-    //        foreach (var cc in sortedChanges)
-    //        {
-    //            if (currentCategoryChangeViewItem != null && previousChange != null)
-    //            {
-    //                if ((cc.DateCreated - previousChange.DateCreated).TotalMinutes <= 15 
-    //                    && cc.Category.Visibility == previousChange.Category.Visibility
-    //                    && cc.Author == previousChange.Author)
-    //                {
-    //                    currentCategoryChangeViewItem.LastEdit = cc.DateCreated;
-    //                    currentCategoryChangeViewItem.CategoryChanges.Add(cc);
-    //                    if (group.Count() == i)
-    //                        unsortedList.Add(new CategoryChangeDetailModel(cc));
-    //                }
-    //                else
-    //                {
-    //                    unsortedList.Add(currentCategoryChangeViewItem);
-    //                    currentCategoryChangeViewItem = GetCategoryChangeSession(cc);
-    //                    currentCategoryChangeViewItem.CategoryChanges.Add(cc);
-    //                    if (group.Count() == i)
-    //                        unsortedList.Add(currentCategoryChangeViewItem);
-    //                }
-    //            }
-    //            else
-    //            {   
-    //                currentCategoryChangeViewItem = GetCategoryChangeSession(cc);
-    //                currentCategoryChangeViewItem.CategoryChanges.Add(cc);
-    //                unsortedList.Add(currentCategoryChangeViewItem);
-    //            }
-
-    //            previousChange = cc;
-    //            i++;
-    //        }
-    //    }
-
-    //    return unsortedList.OrderByDescending(cc => cc.LastEdit).ToList();
-    //}
-
-    public CategoryChangeDayModel GetCategoryChangeDayModel(IList<CategoryChange> changes)
-    {
-        _currentCategoryChangeDayModel = new CategoryChangeDayModel(DateTime.Now, changes);
-        var items = new List<CategoryChangeDetailModel>();
-
-        for (int i = 0; i < changes.Count; i++)
-            GetMergedItems(changes[i], items);
-
-        _currentCategoryChangeDayModel.Date = DateTime.Now.ToString("dd.MM.yyyy");
-        _currentCategoryChangeDayModel.DateTime = DateTime.Now;
-        _currentCategoryChangeDayModel.Items = items;
-
-        return _currentCategoryChangeDayModel;
-    }
-
-    public void GetMergedItems(CategoryChange change, List<CategoryChangeDetailModel> items)
-    {
-        if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
-            return;
-        if (_currentCategoryChangeDetailModel != null &&
-            change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
-            change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
-            change.Type == CategoryChangeType.Text &&
-            _currentCategoryChangeDetailModel.Type == change.Type &&
-            (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
-            _currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(_currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change));
-        else
-        {
-            var newDetailModel = _currentCategoryChangeDayModel.GetCategoryChangeDetailModel(change);
-            newDetailModel.AggregatedCategoryChangeDetailModel = new List<CategoryChangeDetailModel> { newDetailModel };
-            _currentCategoryChangeDetailModel = newDetailModel;
-            items.Add(newDetailModel);
-        }
-    }
-
-    public CategoryChangeViewItem GetCategoryChangeSession(CategoryChange cc)
-    {
-        var categoryChangeSession = new CategoryChangeViewItem
-        {
-            Author = new UserTinyModel(cc.Author),
-            LastEdit = cc.DateCreated,
-            FirstEdit = cc.DateCreated,
-            Visibility = cc.Category.Visibility,
-            Type = cc.Type,
-            CategoryChanges = new List<CategoryChange>()
-        };
-
-        return categoryChangeSession;
     }
 }

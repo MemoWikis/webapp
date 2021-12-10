@@ -6,19 +6,24 @@ public class CategoryHistoryDetailController : Controller
 {
     public ActionResult Detail(int categoryChangeId, int categoryId)
     {
-        var model = GetCategoryHistoryDetailModel(categoryId, categoryChangeId);
+        return Detail(categoryId, categoryChangeId, categoryChangeId);
+    }
+
+    public ActionResult Detail(int categoryId, int firstEditId, int selectedRevId)
+    {
+        var model = GetCategoryHistoryDetailModel(categoryId, firstEditId, selectedRevId);
 
         return View("~/Views/Categories/History/Detail/CategoryHistoryDetail.aspx", model);
     }
 
-    public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(int categoryId, int categoryChangeId)
+    public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(int categoryId, int firstEditId, int selectedRevId)
     {
         var listWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
 
-        var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == categoryChangeId);
-        var previousRevision = listWithAllVersions.LastOrDefault(c => c.Id < categoryChangeId);
-        var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > categoryChangeId);
+        var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == selectedRevId);
+        var previousRevision = listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
+        var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > selectedRevId);
         return new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
     }
 }

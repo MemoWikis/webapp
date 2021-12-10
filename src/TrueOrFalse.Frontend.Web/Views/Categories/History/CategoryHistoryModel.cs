@@ -38,13 +38,6 @@ public class CategoryHistoryModel : BaseModel
             ))
             .ToList();
     }
-
-    public bool HasChangesVisibleToCurrentUser(int categoryChangeId)
-    {
-        var hasChanges = false;
-        var categoryHistoryDetailModel = _categoryHistoryDetailController.GetCategoryHistoryDetailModel(CategoryId, categoryChangeId);
-        return hasChanges;
-    }
 }
 
 public class CategoryChangeDayModel
@@ -59,12 +52,17 @@ public class CategoryChangeDayModel
     {
         Date = date.ToString("dd.MM.yyyy");
         DateTime = date;
+        Items = GetItems(changes);
+    }
+
+    private List<CategoryChangeDetailModel> GetItems(IList<CategoryChange> changes)
+    {
         var items = new List<CategoryChangeDetailModel>();
 
-        for (int i = 0; i < changes.Count; i++)
-            GetMergedItems(changes[i], items);
+        foreach (var change in changes)
+            AppendItems(items, change);
 
-        Items = items;
+        return items;
     }
 
     public CategoryChangeDetailModel GetCategoryChangeDetailModel(CategoryChange change)
@@ -90,6 +88,18 @@ public class CategoryChangeDayModel
                 break;
             case CategoryChangeType.Renamed:
                 typ = "Umbenannt";
+                break;
+            case CategoryChangeType.Text:
+                typ = "Text";
+                break;
+            case CategoryChangeType.Relations:
+                typ = "Beziehungsdaten";
+                break;
+            case CategoryChangeType.Image:
+                typ = "Bild";
+                break;
+            case CategoryChangeType.Restore:
+                typ = "Wiederherstellung";
                 break;
             default:
                 Logg.r().Error("CategoryHistoryModel CategoryChangeType is invalid");
@@ -117,17 +127,21 @@ public class CategoryChangeDayModel
             Visibility = change.Category.Visibility,
         };
     }
-    public void GetMergedItems(CategoryChange change, List<CategoryChangeDetailModel> items)
+    public void AppendItems(List<CategoryChangeDetailModel> items, CategoryChange change)
     {
         if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
             return;
+
         if (_currentCategoryChangeDetailModel != null &&
             change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
             change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
             _currentCategoryChangeDetailModel.Type == change.Type &&
-            (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated - change.DateCreated).TotalMinutes < 15)
+            (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated -
+             change.DateCreated).TotalMinutes < 15)
+        {
             _currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Add(GetCategoryChangeDetailModel(change));
+        }
         else
         {
             var newDetailModel = GetCategoryChangeDetailModel(change);

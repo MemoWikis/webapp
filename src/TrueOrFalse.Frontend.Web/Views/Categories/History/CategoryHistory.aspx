@@ -55,6 +55,8 @@
                         </div>
                     </div>
                     <div> changeCount: <%= item.AggregatedCategoryChangeDetailModel.Count %></div>
+                    <div> lastEdit: <%= item.AggregatedCategoryChangeDetailModel.First().DateCreated %></div>
+                    <div> firstEdit: <%= item.AggregatedCategoryChangeDetailModel.Last().DateCreated %></div>
                 <% }
            }
            } %>

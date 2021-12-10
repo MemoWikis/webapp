@@ -15,7 +15,7 @@ public class RestoreCategory
         categoryCacheItem.Content = historicCategory.Content;
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, author);
+        Sl.CategoryRepo.Update(category, author, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }

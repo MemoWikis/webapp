@@ -63,5 +63,6 @@ public enum CategoryChangeType
     Renamed = 5,
     Text = 6,
     Relations = 7,
-    Image = 8
+    Image = 8,
+    Restore = 9,
 }

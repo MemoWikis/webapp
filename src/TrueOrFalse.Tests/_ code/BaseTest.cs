@@ -84,7 +84,7 @@ public class BaseTest
         builder.RegisterModule(new SolrNetModule(cores));
         _container = builder.Build();
         ServiceLocator.Init(_container);
-
+        Sl.IsUnitTest = true;
     }
 
     public static T Resolve<T>()
