@@ -38,18 +38,17 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     var scheduler = StdSchedulerFactory.GetDefaultScheduler();
                     scheduler.RescheduleJob(oldTrigger.Key, newTrigger);
 
-
                     var jobsByMailPriority = jobs.OrderByDescending(j => JsonConvert.DeserializeObject<MailMessageJob>(j.JobContent)?.Priority);
 
 
                     try
                     {
-                        var currentMailMessage = JsonConvert.DeserializeObject<MailMessageJob>(jobsByMailPriority.First().JobContent)?.MailMessage;
+                        var currentMailMessage = JsonConvert.DeserializeObject<MailMessageJob>(jobsByMailPriority.FirstOrDefault()?.JobContent)?.MailMessage;
                         var smtpClient = new SmtpClient();
-                        if (currentMailMessage != null)
+                        if (currentMailMessage != null && !successfulJobIds.Contains(jobsByMailPriority.FirstOrDefault().Id))
                         {
                             smtpClient.Send(currentMailMessage);
-                            successfulJobIds.Add(jobsByMailPriority.First().Id);
+                            successfulJobIds.Add(jobsByMailPriority.FirstOrDefault().Id);
                         }
                         else
                         {
@@ -66,8 +65,6 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 
                     //Delete job that has been executed
                     scope.R<JobQueueRepo>().DeleteById(successfulJobIds);
-                    Logg.r().Information("Job ScheduledMailTransmitter send " + successfulJobIds.Count + " mails.");
-                    successfulJobIds.Clear();
                 }
             }, "ScheduledMailTransmitter");
         }
