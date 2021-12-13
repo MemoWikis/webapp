@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Web;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using RollbarSharp;
-
 namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 {
     class ScheduledMailTransmitter : IJob //scheduledMailTransmitter
@@ -15,7 +15,12 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
         {
             JobExecute.Run(scope =>
             {
-                var successfulJobIds = new List<int>();
+                var successfulJobIds = (List<int>)HttpContext.Current.Cache["SuccessfulMailJobs"];
+                if (successfulJobIds == null)
+                {
+                    successfulJobIds = new List<int>();
+                    HttpContext.Current.Cache.Insert("SuccessfulMailJobs", successfulJobIds);
+                }
                 var jobs = scope.R<JobQueueRepo>().GetAllMailMessages();
 
                 //increase interval when mail jobs exist
@@ -49,6 +54,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                         {
                             smtpClient.Send(currentMailMessage);
                             successfulJobIds.Add(jobsByMailPriority.FirstOrDefault().Id);
+                            HttpContext.Current.Cache.Insert("SuccessfulMailJobs", successfulJobIds);
                         }
                         else
                         {
