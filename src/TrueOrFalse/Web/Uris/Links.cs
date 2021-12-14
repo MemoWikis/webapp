@@ -312,7 +312,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryCreate(int parentCategoryId) => GetUrlHelper().Action("Create", "EditCategory", new { parent = parentCategoryId });
         public static string CategoryHistoryDetail(int categoryId, int categoryChangeId) => 
-            GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new {categoryId , categoryChangeId });
+            GetUrlHelper().Action("Detail", "CategoryHistoryDetail", new { categoryId , categoryChangeId });
+        public static string CategoryHistoryDetail(int categoryId, int firstEditId, int selectedRevId) =>
+            GetUrlHelper().Action("GroupedDetail", "CategoryHistoryDetail", new { categoryId, firstEditId, selectedRevId });
 
         public static string CategoryHistory(int categoryId) =>
             GetUrlHelper().Action("List", "CategoryHistory", new {categoryId });

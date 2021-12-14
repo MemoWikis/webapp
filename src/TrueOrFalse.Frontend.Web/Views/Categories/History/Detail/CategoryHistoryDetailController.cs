@@ -6,10 +6,10 @@ public class CategoryHistoryDetailController : Controller
 {
     public ActionResult Detail(int categoryChangeId, int categoryId)
     {
-        return Detail(categoryId, categoryChangeId, categoryChangeId);
+        return GroupedDetail(categoryId, categoryChangeId, categoryChangeId);
     }
 
-    public ActionResult Detail(int categoryId, int firstEditId, int selectedRevId)
+    public ActionResult GroupedDetail(int categoryId, int firstEditId, int selectedRevId)
     {
         var model = GetCategoryHistoryDetailModel(categoryId, firstEditId, selectedRevId);
 

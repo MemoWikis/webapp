@@ -58,7 +58,7 @@ public class ModifyRelationsForCategory
         UpdateCategoryRelationsOfType(categoryCacheItem.Id, allChildrenAsId, CategoryRelationType.IncludesContentOf);
 
         categoryCacheItem.UpdateCountQuestionsAggregated();
-        Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true);
+        Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true, author: Sl.SessionUser.User, type: CategoryChangeType.Relations);
     }
 
     public static IEnumerable<CategoryRelation> GetExistingRelations(Category category, CategoryRelationType relationType)

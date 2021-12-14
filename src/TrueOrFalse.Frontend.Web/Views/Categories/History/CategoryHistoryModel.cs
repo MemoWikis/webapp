@@ -14,6 +14,7 @@ public class CategoryHistoryModel : BaseModel
     public IList<CategoryChangeDayModel> Days;
     public CategoryCacheItem Category;
     private CategoryHistoryDetailController _categoryHistoryDetailController = new CategoryHistoryDetailController();
+    private readonly IOrderedEnumerable<CategoryChange> _listWithAllVersions;
 
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
     {
@@ -37,7 +38,49 @@ public class CategoryHistoryModel : BaseModel
                 (IList<CategoryChange>) group.OrderByDescending(g => g.DateCreated).ToList()
             ))
             .ToList();
+        _listWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
     }
+
+    public RelationChangeItem GetRelationChange(CategoryChangeDetailModel item)
+    {
+        var selectedRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
+        var previousRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.LastOrDefault(c => c.Id < item.CategoryChangeId).Data);
+
+        var count = 0;
+        var isVisibleToCurrentUser = true;
+        if (selectedRevision != null && previousRevision != null)
+        {
+            var selectedRevisionCategoryRelations = selectedRevision.CategoryRelations;
+            var previousRevisionCategoryRelations = previousRevision.CategoryRelations;
+            var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Except(previousRevisionCategoryRelations);
+            var previousRevNotSelectedRev = previousRevisionCategoryRelations.Except(selectedRevisionCategoryRelations);
+
+            count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
+
+            var mergedList = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev);
+
+            foreach (var cr in mergedList)
+            {
+                var categoryIsVisible = EntityCache.GetCategoryCacheItem(cr.CategoryId).IsVisibleToCurrentUser();
+                var relatedCategoryIsVisible = EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).IsVisibleToCurrentUser();
+                if (!categoryIsVisible || !relatedCategoryIsVisible)
+                    isVisibleToCurrentUser = false;
+            }
+        }
+
+        return new RelationChangeItem
+        {
+            Count = count,
+            IsVisibleToCurrentUser = isVisibleToCurrentUser
+        };
+    }
+
+    public class RelationChangeItem
+    {
+        public int Count;
+        public bool IsVisibleToCurrentUser;
+    }
+
 }
 
 public class CategoryChangeDayModel
@@ -150,16 +193,6 @@ public class CategoryChangeDayModel
             items.Add(newDetailModel);
         }
     }
-}
-
-public class CategoryChangeViewItem
-{
-    public UserTinyModel Author;
-    public DateTime FirstEdit;
-    public DateTime LastEdit;
-    public CategoryVisibility Visibility;
-    public CategoryChangeType Type;
-    public List<CategoryChange> CategoryChanges;
 }
 
 public class  CategoryChangeDetailModel

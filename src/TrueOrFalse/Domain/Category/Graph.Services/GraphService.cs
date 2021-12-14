@@ -299,7 +299,7 @@ public class GraphService : GraphServiceHelper
                 existingRelations);
 
             ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
-            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
+            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), author: Sl.SessionUser.User, isFromModifiyRelations: true, type: CategoryChangeType.Relations );
 
             parent.UpdateCountQuestionsAggregated();
         }
