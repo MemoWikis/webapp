@@ -1,13 +1,18 @@
-﻿.change-detail-model {
+﻿@import '../../../Style/includes/imports.less';
+
+.change-detail-model {
     border: 1px solid silver;
-    margin-top: 20px;
+    margin: -1px;
     margin-left: 0px;
     padding: 10px;
-    .allThemesHistory{
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+
+    .allThemesHistory {
         margin-top: 10px;
     }
-}
-.change-detail-model {
+
     .editing-history {
         margin-top: 10px;
     }
@@ -37,7 +42,7 @@
     }
 
     @media screen and (max-width: 733px) {
-        #DisplayChanges {
+        .display-changes {
             margin-top: 10px;
         }
     }
@@ -48,7 +53,7 @@
             margin-bottom: 10px;
         }
 
-        #DisplayChanges {
+        .display-changes {
             margin-top: 0px;
         }
     }
@@ -60,7 +65,7 @@
     }
 
     @media screen and (max-width: 401px) {
-        #DisplayChanges {
+        .display-changes {
             margin-top: 10px;
         }
     }
@@ -77,6 +82,58 @@
         color: #2C5FB2;
         font-weight: 900;
         padding-top: 10px;
+    }
+
+    &.panel-group {
+        padding: 0px;
+
+        .panel {
+            border: none;
+            border-bottom: none;
+            border-radius: 0;
+            box-shadow: none;
+            width: 100%;
+
+            .panel-heading {
+                color: @memo-grey-dark;
+                border: none;
+                background: none;
+                border-radius: 0;
+                cursor: pointer;
+                min-height: 60px;
+                display: flex;
+                align-items: center;
+
+                .fa-chevron-up {
+                    display: block;
+                }
+
+                .fa-chevron-down {
+                    display: none;
+                }
+
+                .collapsed {
+                    .fa-chevron-up {
+                        display: none;
+                    }
+
+                    .fa-chevron-down {
+                        display: block;
+                    }
+                }
+            }
+
+            .list-group {
+                .list-group-item {
+                    min-height: 60px;
+
+                    &:last-child {
+                        border-bottom: none;
+                        border-radius: 0;
+                    }
+                }
+            }
+        }
     }
 }
 

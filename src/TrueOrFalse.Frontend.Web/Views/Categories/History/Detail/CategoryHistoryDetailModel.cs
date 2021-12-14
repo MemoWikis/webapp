@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using FluentNHibernate.Conventions;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -113,7 +114,8 @@ public class CategoryHistoryDetailModel : BaseModel
 
     private string FormatHtmlString(string unformatted)
     {
-        var placeHolderAdded = "<xmlRootPlaceholder>" + unformatted + "</xmlRootPlaceholder>";
+        var decoded = HttpUtility.HtmlDecode(unformatted);
+        var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
         var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString().Replace("<xmlRootPlaceholder>", "")
             .Replace("</xmlRootPlaceholder>", "");
         return formatted;

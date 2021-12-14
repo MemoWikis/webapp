@@ -80,7 +80,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         var parentCategories = category.ParentCategories();
 
         if(parentCategories.Count != 0)
-            Sl.CategoryChangeRepo.AddUpdateEntry(parentCategories.First(), Sl.SessionUser.User, false);
+            Sl.CategoryChangeRepo.AddUpdateEntry(parentCategories.First(), Sl.SessionUser.User, false, type: CategoryChangeType.Relations);
     }
 
     public void CreateOnlyDb(Category category)
