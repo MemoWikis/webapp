@@ -102,7 +102,7 @@
                                 <li><a @click="showModal()">
                                     <div class="dropdown-icon"><i class="fas fa-comment"></i></div><span>Frage kommentieren</span>
                                 </a></li>
-                                <li v-if="isAdmin == 'True'">
+                                <li>
                                     <a @click="deleteQuestion()">
                                         <div class="dropdown-icon"><i class="fas fa-trash"></i></div><span>Frage löschen</span>
                                     </a>

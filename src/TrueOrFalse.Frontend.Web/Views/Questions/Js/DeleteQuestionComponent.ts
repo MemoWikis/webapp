@@ -35,9 +35,13 @@
                     success(result) {
                         self.name = result.questionTitle;
                         if (result.canNotBeDeleted) {
-                            self.errorMsg = messages.error.question.isInWuwi.part1 +
-                                result.wuwiCount +
-                                messages.error.question.isInWuwi.part2;
+                            if (result.wuwiCount > 0) {
+                                self.errorMsg = messages.error.question.isInWuwi.part1 +
+                                    result.wuwiCount +
+                                    messages.error.question.isInWuwi.part2;
+                            } else
+                                self.errorMsg = messages.error.question.rights,
+
                             self.showDeleteInfo = false;
                             self.showErrorMsg = true;
                         } else 
