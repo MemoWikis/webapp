@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Visitors;
@@ -46,41 +47,37 @@ public class CategoryHistoryModel : BaseModel
         var selectedRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
         var previousRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.LastOrDefault(c => c.Id < item.CategoryChangeId).Data);
 
-        var count = 0;
-        var isVisibleToCurrentUser = true;
+        var relationChangeItem = new RelationChangeItem();
+
         if (selectedRevision != null && previousRevision != null)
         {
             var selectedRevisionCategoryRelations = selectedRevision.CategoryRelations;
             var previousRevisionCategoryRelations = previousRevision.CategoryRelations;
-            var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Except(previousRevisionCategoryRelations);
-            var previousRevNotSelectedRev = previousRevisionCategoryRelations.Except(selectedRevisionCategoryRelations);
+            var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Where(l1 => !previousRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
+            var previousRevNotSelectedRev = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
 
-            count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
+            var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
+            relationChangeItem.RelationAdded = count >= 1;
 
-            var mergedList = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev);
-
-            foreach (var cr in mergedList)
-            {
-                var categoryIsVisible = EntityCache.GetCategoryCacheItem(cr.CategoryId).IsVisibleToCurrentUser();
-                var relatedCategoryIsVisible = EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).IsVisibleToCurrentUser();
-                if (!categoryIsVisible || !relatedCategoryIsVisible)
-                    isVisibleToCurrentUser = false;
-            }
+            var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First();
+            var categoryIsVisible = EntityCache.GetCategoryCacheItem(relationChange.CategoryId).IsVisibleToCurrentUser();
+            var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
+            if (!categoryIsVisible || !relatedCategory.IsVisibleToCurrentUser())
+                relationChangeItem.IsVisibleToCurrentUser = false;
+            relationChangeItem.RelatedCategory = relatedCategory;
+            relationChangeItem.Type = relationChange.RelationType;
         }
 
-        return new RelationChangeItem
-        {
-            Count = count,
-            IsVisibleToCurrentUser = isVisibleToCurrentUser
-        };
+        return relationChangeItem;
     }
 
     public class RelationChangeItem
     {
-        public int Count;
-        public bool IsVisibleToCurrentUser;
+        public bool RelationAdded = false;
+        public bool IsVisibleToCurrentUser = true;
+        public CategoryRelationType Type;
+        public CategoryCacheItem RelatedCategory;
     }
-
 }
 
 public class CategoryChangeDayModel
@@ -124,7 +121,7 @@ public class CategoryChangeDayModel
                 typ = "Gelöscht";
                 break;
             case CategoryChangeType.Published:
-                typ = "Publish";
+                typ = "Veröffentlicht";
                 break;
             case CategoryChangeType.Privatized:
                 typ = "Auf privat gesetzt";
@@ -136,7 +133,7 @@ public class CategoryChangeDayModel
                 typ = "Text";
                 break;
             case CategoryChangeType.Relations:
-                typ = "Beziehungsdaten";
+                typ = "Verknüpfung";
                 break;
             case CategoryChangeType.Image:
                 typ = "Bild";

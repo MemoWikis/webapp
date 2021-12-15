@@ -38,8 +38,22 @@
             <% foreach (var item in day.Items)
                {
                    var i = 1;
+                   var itemIsVisibleToCurrentUser = true;
+                   var relationChangeItem = new CategoryHistoryModel.RelationChangeItem();
+                   var label = item.Typ;
+                   if (item.Type == CategoryChangeType.Relations)
+                   {
+                       relationChangeItem = Model.GetRelationChange(item);
+                       itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
+                       if (relationChangeItem.RelationAdded)
+                           label = label + " hinzugefügt";
+                       else
+                           label = label + " entfernt";
+                   }
 
-                   if (item.IsVisibleToCurrentUser())
+                   if (itemIsVisibleToCurrentUser)
+                   {
+                       if (item.IsVisibleToCurrentUser())
                    { %>
                     <% if (item.AggregatedCategoryChangeDetailModel.Count > 1)
                        {
@@ -116,25 +130,27 @@
                         <div class="col-xs-3 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                             vor <%= item.ElapsedTime %> um <%= item.Time %>
                         </div>
-                        <div class="col-xs-6 pull-right">
-                            <% if (item.Type == CategoryChangeType.Relations)
-                               {
-                                   var relationChangeItem = Model.GetRelationChange(item);
-                                   if (relationChangeItem.IsVisibleToCurrentUser)
-                                   {
-                                       if (relationChangeItem.Count > 0)
-                                       {
-                            %>
-                                        <div> Thema hinzugefuegt</div>
+                        <div class="col-xs-6 pull-right change-detail">
+                            <div class="change-detail-label"><%= label %></div>
+                            <%
+                                if (item.Type == CategoryChangeType.Relations)
+                                {
+                                    var relationChangeString = "";
+                                    if (relationChangeItem.Type == CategoryRelationType.IsChildOf)
+                                        relationChangeString = " ist übergeordnet";
+                                    else if (relationChangeItem.Type == CategoryRelationType.IncludesContentOf)
+                                        relationChangeString = " ist untergeordnet";
 
-                                    <%
-                               }
-                               else
-                               { %>
-                                        <div> Thema entfernt</div>
-                                <% }
-                           }%>
-                            <% } else {%>
+                            %>
+                            <div>
+                                <a href="<%= Links.CategoryDetail(relationChangeItem.RelatedCategory) %>">
+                                    <%= relationChangeItem.RelatedCategory.Name %>
+                                </a>
+                                
+                                <%= relationChangeString %>
+                            </div>
+                            <%
+                                } else {%>
                                 <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.CategoryChangeId) %>">
                                     Ansehen
                                 </a>
@@ -144,6 +160,8 @@
 
                     <%}%>
                 <% }
+
+                   }
                    i++;
                }
            } %>

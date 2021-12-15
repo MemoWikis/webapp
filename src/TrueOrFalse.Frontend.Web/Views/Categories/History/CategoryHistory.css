@@ -118,6 +118,18 @@
   border-bottom: none;
   border-radius: 0;
 }
+.change-detail-model .change-detail {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.change-detail-model .change-detail .change-detail-label {
+  background: #EFEFEF;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 600;
+  padding: 4px 12px;
+}
 #HeaderCategoryHistory {
   margin-top: -30px;
 }
