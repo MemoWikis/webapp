@@ -84,22 +84,23 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                            else
                            { %> <span id="CategoryHeaderQuestionCount">0</span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span>
                     <% } %>
+
+                </div>
+                <div class="category-sub-header-divider hidden-xs">
+                    <div class="vertical-line"></div>
+                </div>
+                <div class="category-stats">
+                    <span class="show-tooltip" data-placement="top" data-original-title="<%= Model.GetViews() %> Views">
+                        <i class="fas fa-eye" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %>
+                    </span>
                 </div>
                 <div class="category-sub-header-divider hidden-xs">
                     <div class="vertical-line"></div>
                 </div>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", Model); %>
 
-                <% if (Model.IsInstallationAdmin)
-                   { %>
-                    <a href="#" id="jsAdminStatistics">
-                        <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
-                            (<i class="fas fa-user-cog" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
-                        </span>
-                    </a>
-                    <div id="last60DaysViews" style="display: none"></div>
-                <% } %>
             </div>
+
         </div>
         <% if (!Model.Category.IsHistoric)
            { %>

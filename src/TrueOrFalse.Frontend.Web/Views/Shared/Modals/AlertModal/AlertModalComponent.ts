@@ -45,6 +45,7 @@ var messages = {
                 part2: "x Teil des Wunschwissens anderer Nutzer. " +
                 "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
             },
+            rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
         user: {},

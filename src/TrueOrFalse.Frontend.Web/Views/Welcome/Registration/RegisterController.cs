@@ -18,7 +18,7 @@ public class RegisterController : BaseController
             ModelState.AddModelError("Name", "Dieser Benutzername ist bereits vergeben.");
 
         if (!ModelState.IsValid)
-            return View(model);
+            return View(_viewRegisterPath, model);
 
         var user = RegisterModelToUser.Run(model);
         RegisterUser.Run(user);

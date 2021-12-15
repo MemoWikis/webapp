@@ -16,6 +16,8 @@ public class QuestionDelete
             throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
 
+        EntityCache.Remove(question);
+
         var categoriesToUpdate = question.Categories.ToList();
         //delete connected db-entries
         Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);
@@ -49,21 +51,34 @@ public class QuestionDelete
 
     public static CanBeDeletedResult CanBeDeleted(int currentUserId, int questionId)
     {
-        var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, questionId);
-        if (howOftenInOtherPeopleWuwi > 0)
+        var questionCreator = EntityCache.GetQuestionById(questionId).Creator;
+        if (Sl.SessionUser.User == questionCreator || Sl.SessionUser.IsInstallationAdmin)
         {
-            return new CanBeDeletedResult
+            var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, questionId);
+            if (howOftenInOtherPeopleWuwi > 0)
             {
-                Yes = false,
-                WuwiCount = howOftenInOtherPeopleWuwi
-            };
+                return new CanBeDeletedResult
+                {
+                    Yes = false,
+                    WuwiCount = howOftenInOtherPeopleWuwi
+                };
+            }
+
+            return new CanBeDeletedResult { Yes = true };
         }
-        return new CanBeDeletedResult{ Yes = true };
+        return new CanBeDeletedResult
+        {
+            Yes = false,
+            HasRights = false
+        };
+
+
     }
 
     public class CanBeDeletedResult
     {
         public bool Yes;
         public int WuwiCount;
+        public bool HasRights = true;
     }
 }
