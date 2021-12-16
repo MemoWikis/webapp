@@ -15,7 +15,6 @@ public class CategoryHistoryModel : BaseModel
     public string CategoryUrl;
     public IList<CategoryChangeDayModel> Days;
     public CategoryCacheItem Category;
-    private CategoryHistoryDetailController _categoryHistoryDetailController = new CategoryHistoryDetailController();
     private readonly IOrderedEnumerable<CategoryChange> _listWithAllVersions;
 
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
@@ -72,18 +71,18 @@ public class CategoryHistoryModel : BaseModel
         return relationChangeItem;
     }
 
-    public class RelationChangeItem
-    {
-        public bool RelationAdded = false;
-        public bool IsVisibleToCurrentUser = true;
-        public CategoryRelationType Type;
-        public CategoryCacheItem RelatedCategory;
-    }
-
     public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
     {
         return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == item.Author.Id;
     }
+}
+
+public class RelationChangeItem
+{
+    public bool RelationAdded = false;
+    public bool IsVisibleToCurrentUser = true;
+    public CategoryRelationType Type;
+    public CategoryCacheItem RelatedCategory;
 }
 
 public class CategoryChangeDayModel
@@ -179,6 +178,7 @@ public class CategoryChangeDayModel
             return;
 
         if (_currentCategoryChangeDetailModel != null &&
+            change.Category.Id == _currentCategoryChangeDetailModel.CategoryId &&
             change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
             change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
