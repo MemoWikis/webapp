@@ -7,5 +7,6 @@ public class JobQueueMap : ClassMap<JobQueue>
         Id(x => x.Id);
         Map(x => x.JobQueueType);
         Map(x => x.JobContent);
+        Map(x => x.Priority);
     }
 }

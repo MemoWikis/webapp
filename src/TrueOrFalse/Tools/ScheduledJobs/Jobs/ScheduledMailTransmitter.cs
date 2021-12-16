@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using Newtonsoft.Json;
-using NHibernate.Criterion;
 using Quartz;
 using Quartz.Impl;
 using RollbarSharp;
@@ -24,10 +22,10 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     successfulJobIds = new List<int>();
                     HttpContext.Current.Cache.Insert(SuccessfulMailJobs, successfulJobIds);
                 }
-                var jobs = scope.R<JobQueueRepo>().GetAllMailMessages();
+                var job = scope.R<JobQueueRepo>().GetTopPriorityMailMessage();
 
-                //increase interval when mail jobs exist
-                if (jobs.Count == 0)
+                //increase interval when no mail job exist
+                if (job != null)
                 {
                     if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) ==
                         context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(1000))
@@ -38,28 +36,28 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     return;
                 }
 
+                //decrease interval when mail job exist
                 if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) ==
                     context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(100))
                 {
                     SetJobInterval(100, context);
                 }
 
-                var jobsByMailPriority = jobs.OrderByDescending(j => JsonConvert.DeserializeObject<MailMessageJob>(j.JobContent)?.Priority);
 
 
                 try
                 {
-                    var currentMailMessage = JsonConvert.DeserializeObject<MailMessageJob>(jobsByMailPriority.FirstOrDefault()?.JobContent)?.MailMessage;
+                    var currentMailMessage = JsonConvert.DeserializeObject<MailMessage>(job.JobContent);
                     var smtpClient = new SmtpClient();
-                    if (currentMailMessage != null && !successfulJobIds.Contains(jobsByMailPriority.FirstOrDefault().Id))
+                    if (currentMailMessage != null && !successfulJobIds.Contains(job.Id))
                     {
                         smtpClient.Send(currentMailMessage);
-                        successfulJobIds.Add(jobsByMailPriority.FirstOrDefault().Id);
+                        successfulJobIds.Add(job.Id);
                         HttpContext.Current.Cache.Insert(SuccessfulMailJobs, successfulJobIds);
                     }
                     else
                     {
-                        var e = new Exception(jobsByMailPriority.First().JobContent + jobsByMailPriority.First().Id);
+                        var e = new Exception(job.JobContent + job.Id);
                         Logg.r().Error(e, "Error in job ScheduledMailTransmitter. MailMessage was null.");
                         new RollbarClient().SendException(e);
                     }

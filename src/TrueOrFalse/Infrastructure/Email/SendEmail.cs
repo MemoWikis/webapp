@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
 using Newtonsoft.Json;
 
 public class SendEmail
@@ -10,8 +11,7 @@ public class SendEmail
             return;
         }
 
-        MailMessageJob mail = new MailMessageJob() { MailMessage = mailMessage, Priority = priority};
 
-        Sl.JobQueueRepo.Add(JobQueueType.MailMessage, JsonConvert.SerializeObject(mail));
+        Sl.JobQueueRepo.Add(JobQueueType.MailMessage, JsonConvert.SerializeObject(mailMessage), Convert.ToInt32(priority));
     }
 }

@@ -8,12 +8,13 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     {
     }
 
-    public void Add(JobQueueType jobQueueType, string jobContent)
+    public void Add(JobQueueType jobQueueType, string jobContent, int priority = 0)
     {
         Session.Save(new JobQueue
         {
             JobQueueType = jobQueueType,
-            JobContent = jobContent
+            JobContent = jobContent,
+            Priority = 0
         });
         Session.Flush();
     }
@@ -21,7 +22,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     public void DeleteById(IList<int> jobIds)
     {
         var query = $"DELETE FROM jobqueue WHERE jobqueue.Id IN ({string.Join(", ", jobIds)})";
-        _session.CreateSQLQuery(query).ExecuteUpdate(); 
+        _session.CreateSQLQuery(query).ExecuteUpdate();
     }
 
     public void DeleteAllJobs(JobQueueType jobQueueType)
@@ -32,7 +33,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
 
     public IList<JobQueue> GetReputationUpdateUsers()
     {
-        return 
+        return
             _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.UpdateReputationForUser).List();
     }
 
@@ -55,11 +56,11 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
             _session.QueryOver<JobQueue>()
                 .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge).List();
     }
-    public IList<JobQueue> GetAllMailMessages()
+    public JobQueue GetTopPriorityMailMessage()
     {
-        return
-            _session.QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.MailMessage).List();
+        return Sl.Resolve<ISession>()
+            .CreateSQLQuery(
+                @"SELECT * FROM jobqueue ORDER BY Priority DESC; SELECT * FROM jobqueue WHERE JobQueueType = 5 LIMIT 1;")
+            .UniqueResult<JobQueue>();
     }
 }
-    
