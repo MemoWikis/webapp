@@ -159,6 +159,7 @@ public class CategoryChangeDayModel
             AuthorName = userTinyModel.Name,
             AuthorImageUrl = new UserImageSettings(userTinyModel.Id)
                 .GetUrl_85px_square(userTinyModel).Url,
+            CategoryImageUrl = new CategoryImageSettings(change.Category.Id).GetUrl_50px().Url,
             ElapsedTime = TimeElapsedAsText.Run(change.DateCreated),
             DateTime = change.DateCreated.ToString("dd.MM.yyyy HH:mm"),
             Time = change.DateCreated.ToString("HH:mm"),
@@ -203,6 +204,7 @@ public class  CategoryChangeDetailModel
     public UserTinyModel Author;
     public string AuthorName;
     public string AuthorImageUrl;
+    public string CategoryImageUrl;
     public string ElapsedTime;
     public string DateTime;
     public string Time;

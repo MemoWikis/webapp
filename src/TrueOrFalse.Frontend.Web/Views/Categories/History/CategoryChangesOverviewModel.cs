@@ -25,4 +25,48 @@ public class CategoryChangesOverviewModel : BaseModel
             ))
             .ToList();
     }
+
+    public IList<CategoryChange> GetCategoryChanges(CategoryChangeDayModel model)
+    {
+        var changes = new List<CategoryChange>();
+
+        var currentCategoryIds = model.Items.Select(c => c.CategoryId).Distinct();
+        foreach (var id in currentCategoryIds)
+            changes.AddRange(Sl.CategoryChangeRepo.GetForCategory(id).OrderBy(c => c.Id));
+        return changes;
+    }
+
+    public RelationChangeItem GetRelationChange(CategoryChangeDetailModel item, IList<CategoryChange> changes)
+    {
+        var selectedRevision = CategoryEditData_V2.CreateFromJson(changes.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
+        var previousRevision = CategoryEditData_V2.CreateFromJson(changes.LastOrDefault(c => c.Id < item.CategoryChangeId).Data);
+
+        var relationChangeItem = new RelationChangeItem();
+
+        if (selectedRevision != null && previousRevision != null)
+        {
+            var selectedRevisionCategoryRelations = selectedRevision.CategoryRelations;
+            var previousRevisionCategoryRelations = previousRevision.CategoryRelations;
+            var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Where(l1 => !previousRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
+            var previousRevNotSelectedRev = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
+
+            var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
+            relationChangeItem.RelationAdded = count >= 1;
+
+            var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First();
+            var categoryIsVisible = EntityCache.GetCategoryCacheItem(relationChange.CategoryId).IsVisibleToCurrentUser();
+            var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
+            if (!categoryIsVisible || !relatedCategory.IsVisibleToCurrentUser())
+                relationChangeItem.IsVisibleToCurrentUser = false;
+            relationChangeItem.RelatedCategory = relatedCategory;
+            relationChangeItem.Type = relationChange.RelationType;
+        }
+
+        return relationChangeItem;
+    }
+
+    public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
+    {
+        return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == item.Author.Id;
+    }
 }

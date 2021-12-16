@@ -19,6 +19,14 @@
   color: #767676;
   flex-wrap: wrap;
 }
+.change-detail-model .col-xs-3 {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.change-detail-model .col-xs-3 a {
+  margin-right: 4px;
+}
 .change-detail-model .allThemesHistory {
   margin-top: 10px;
 }
@@ -113,7 +121,6 @@
   margin-right: 4px;
 }
 .change-detail-model .change-detail.relation-detail .history-link {
-  max-width: 140px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

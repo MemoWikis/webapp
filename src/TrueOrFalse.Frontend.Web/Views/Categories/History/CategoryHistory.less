@@ -11,6 +11,15 @@
     color: @memo-grey-dark;
     flex-wrap: wrap;
 
+    .col-xs-3 {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        a {
+            margin-right: 4px;
+        }
+    }
+
     .allThemesHistory {
         margin-top: 10px;
     }
@@ -123,7 +132,6 @@
             }
 
             .history-link {
-                max-width: 140px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;

@@ -18,12 +18,15 @@
             <h1><i class="fa fa-list"></i>&nbsp; Bearbeitungshistorie aller Themen</h1>
         </div>
     </div>
-    <% foreach (var day in Model.Days)
-       {
+    <%         
+        var d = 1;
+        foreach (var day in Model.Days)
+        {
+            var changes = Model.GetCategoryChanges(day);
            var isItemNotPrivatly = false; 
            foreach (var item in day.Items)
            {
-               if (item.Visibility == CategoryVisibility.All && item.Author != new UserTinyModel( Sl.SessionUser.User))
+               if (item.Visibility == CategoryVisibility.All && item.Author != new UserTinyModel(Sl.SessionUser.User))
                    isItemNotPrivatly = true; 
            }
            var afterRelease = ReleaseDate.IsAfterRelease(day.DateTime);
@@ -36,44 +39,140 @@
             </div>
     <% } %>
         <% foreach (var item in day.Items)
-           {
-               if (item.IsVisibleToCurrentUser())
                {
+                   var i = 1;
+                   var itemIsVisibleToCurrentUser = true;
+                   var relationChangeItem = new RelationChangeItem();
+                   var label = item.Typ;
+                   if (item.Type == CategoryChangeType.Relations)
+                   {
+                       relationChangeItem = Model.GetRelationChange(item, changes);
+                       itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
+                       if (relationChangeItem.RelationAdded)
+                           label = label + " hinzugefügt";
+                       else
+                           label = label + " entfernt";
+                   }
+
+                   if (itemIsVisibleToCurrentUser)
+                   {
+                       if (item.IsVisibleToCurrentUser())
                    { %>
-                    <div class="row change-detail-model">                        
-                        <div class="col-xs-4">
-                            <a href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId) %>">
-                                <b><%= item.CategoryName %></b>
-                                <% if (item.Visibility == CategoryVisibility.Owner)
-                                   { %>
-                                    <i class="fas fa-lock"></i>
-                                <% } %>
-                            </a>
+                    <% if (item.AggregatedCategoryChangeDetailModel.Count > 1 && Model.IsAuthorOrAdmin(item))
+                       {
+                    %>
+                    <div class="panel-group row change-detail-model" id="accordion<%= d+"-"+i %>" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                                <div class="panel-heading row collapsed" role="tab" id="heading<%= d+"-"+i %>" role="button" data-toggle="collapse" data-parent="#accordion<%= d+"-"+i %>" href="#collapse<%= d+"-"+i %>" aria-controls="collapse<%= d+"-"+i %>" expanded="false">
+                                    <div class="col-xs-3">
+                                        <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>">
+                                            <img class="history-author" src="<%= item.CategoryImageUrl %>" height="20"/>
+                                        </a>
+                                            <a  class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>"><%= item.CategoryName %></a>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-2 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
+                                        <a  class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
+                                        um <%= item.Time %>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-7 pull-right change-detail">
+                                        <div class="change-detail-label pointer"><%= label %></div>
+                                        <div class="pointer"></div>
+                                        <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" role="button" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.AggregatedCategoryChangeDetailModel.Last().CategoryChangeId, item.CategoryChangeId) %>">
+                                            Ansehen
+                                        </a>
+                                        <div class="chevron-container pointer">
+                                            <i class="fas fa-chevron-down pull-right"></i>
+                                            <i class="fas fa-chevron-up pull-right"></i>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            <div id="collapse<%= d+"-"+i %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= d+"-"+i %>">
+                                <ul class="list-group">
+                                                
+                                    <% foreach (var ai in item.AggregatedCategoryChangeDetailModel)
+                                       {
+                                    %>
+                                        <li class="list-group-item row">
+                                            <div class="col-xs-3">
+                                                <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>">
+                                                    <img class="history-author" src="<%= item.CategoryImageUrl %>" height="20"/>
+                                                </a>
+                                                    <a  class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>"><%= item.CategoryName %></a>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-2 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
+                                                <a  class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
+                                                um <%= item.Time %>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-7 pull-right change-detail">
+                                                <div class="change-detail-label"><%= label %></div>
+
+                                                <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" href="<%= Links.CategoryHistoryDetail(item.CategoryId, ai.CategoryChangeId) %>">
+                                                    Ansehen
+                                                </a>
+                                                <div class="change-detail-spacer">
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    <%
+                                    } %>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="col-xs-4 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
-                            <a href="<%= Links.UserDetail(item.Author) %>">
-                                <img src="<%= item.AuthorImageUrl %>" height="20"/>
+                    </div>
+                    <%
+                   }
+                   else {%>
+                    <div class="row change-detail-model">
+                        <div class="col-xs-3">
+                            <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>">
+                                <img class="history-author" src="<%= item.CategoryImageUrl %>" height="20"/>
                             </a>
-                            <b>
-                                <a href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
-                            </b>
+                                <a  class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>"><%= item.CategoryName %></a>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
+                            <a  class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
                             um <%= item.Time %>
-                            <div id="Typ"><%= item.Typ %></div>
                         </div>
-                        <div class="col-xs-4">
-                            <a class="btn btn-sm btn-default <%if (afterRelease) {%>editing-history<%} %> btn-primary c-changes-overview" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.CategoryChangeId) %>">
-                                <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
-                            </a>
-                            <a class="btn btn-sm btn-default editing-history" href="<%= Links.CategoryHistory(item.CategoryId) %>">
-                                <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
-                            </a>
+                        <div class="col-xs-6 col-sm-7 pull-right change-detail <%= item.Type == CategoryChangeType.Relations ? "relation-detail" : ""%>">
+                            <div class="change-detail-label"><%= label %></div>
+                            <%
+                                if (item.Type == CategoryChangeType.Relations)
+                                {
+                                    var relationChangeString = "";
+                                    if (relationChangeItem.Type == CategoryRelationType.IsChildOf)
+                                        relationChangeString = " ist übergeordnet";
+                                    else if (relationChangeItem.Type == CategoryRelationType.IncludesContentOf)
+                                        relationChangeString = " ist untergeordnet";
+
+                            %>
+                            <div class="related-category-name">
+                                <a class="history-link" href="<%= Links.CategoryDetail(relationChangeItem.RelatedCategory) %>">
+                                    <%= relationChangeItem.RelatedCategory.Name %>
+                                </a>
+                                
+                                <%= relationChangeString %>
+                            </div>
+                            <%
+                                } else {%>
+                                <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.AggregatedCategoryChangeDetailModel.Last().CategoryChangeId, item.CategoryChangeId) %>">
+                                    Ansehen
+                                </a>
+                                <div class="change-detail-spacer">
+                                </div>
+                            <%}%>                            
                         </div>
                     </div>
 
+                    <%}%>
                 <% }
+
+                   }
+                   i++;
                }
-           }
-        } %>
+           d++;
+       } %>
 
     <br/>
     <br/>

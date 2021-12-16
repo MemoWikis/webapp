@@ -25,7 +25,6 @@
         var d = 1;
         foreach (var day in Model.Days)
        {
-           var afterRelease = ReleaseDate.IsAfterRelease(day.DateTime);
            if (day.Items.Count > 0)
            {
     %>
@@ -65,9 +64,7 @@
                                         <a class="history-link" href="<%= Links.UserDetail(item.Author) %>">
                                             <img class="history-author" src="<%= item.AuthorImageUrl %>" height="20"/>
                                         </a>
-                                        <b>
                                             <a  class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
-                                        </b>
                                     </div>
                                     <div class="col-xs-3 col-sm-2 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                                         vor <%= item.ElapsedTime %>
@@ -97,9 +94,7 @@
                                                 <a class="history-link"href="<%= Links.UserDetail(ai.Author) %>">   
                                                     <img class="history-author" src="<%= ai.AuthorImageUrl %>" height="20"/>
                                                 </a>
-                                                <b>
                                                     <a class="history-link" href="<%= Links.UserDetail(ai.Author) %>"><%= ai.AuthorName %></a>
-                                                </b>
                                             </div>
                                             <div class="col-xs-3 col-sm-2 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= ai.DateTime %>">
                                                 vor <%= ai.ElapsedTime %> um <%= ai.Time %>
@@ -129,9 +124,7 @@
                             <a class="history-link" href="<%= Links.UserDetail(item.Author) %>">
                                 <img class="history-author" src="<%= item.AuthorImageUrl %>" height="20"/>
                             </a>
-                            <b>
                                 <a class="history-link"href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
-                            </b>
                         </div>
                         <div class="col-xs-3 col-sm-2 show-tooltip" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                             vor <%= item.ElapsedTime %> um <%= item.Time %>
