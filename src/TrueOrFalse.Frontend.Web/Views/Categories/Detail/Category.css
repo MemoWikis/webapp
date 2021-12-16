@@ -969,6 +969,9 @@ p:empty {
     padding-bottom: 4px;
   }
 }
+#CategoryHeader .category-sub-header .category-stats.category-views {
+  font-size: 14px;
+}
 #CategoryHeader .category-sub-header .category-sub-header-divider {
   display: -webkit-box;
   display: -webkit-flex;

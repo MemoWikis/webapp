@@ -89,7 +89,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                 <div class="category-sub-header-divider hidden-xs">
                     <div class="vertical-line"></div>
                 </div>
-                <div class="category-stats">
+                <div class="category-stats category-views">
                     <span class="show-tooltip" data-placement="top" data-original-title="<%= Model.GetViews() %> Views">
                         <i class="fas fa-eye" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %>
                     </span>
