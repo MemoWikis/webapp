@@ -152,7 +152,6 @@ public class CategoryChangeDayModel
         }
 
         var userTinyModel = new UserTinyModel(change.Author);
-
         return new CategoryChangeDetailModel
         {
             Author = userTinyModel,
@@ -170,7 +169,8 @@ public class CategoryChangeDayModel
             Typ = typ,
             Type = change.Type,
             CreatorId = new UserTinyModel(change.Category.Creator).Id,
-            Visibility = change.Category.Visibility,
+            Visibility = change.GetCategoryChangeData().Visibility,
+            CurrentVisibility = change.Category.Visibility
         };
     }
     public void AppendItems(List<CategoryChangeDetailModel> items, CategoryChange change)
@@ -181,7 +181,7 @@ public class CategoryChangeDayModel
         if (_currentCategoryChangeDetailModel != null &&
             change.Category.Id == _currentCategoryChangeDetailModel.CategoryId &&
             change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
-            change.Category.Visibility == _currentCategoryChangeDetailModel.Visibility &&
+            change.GetCategoryChangeData().Visibility == _currentCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
             _currentCategoryChangeDetailModel.Type == change.Type &&
             (_currentCategoryChangeDetailModel.AggregatedCategoryChangeDetailModel.Last().DateCreated -
@@ -215,11 +215,12 @@ public class  CategoryChangeDetailModel
     public string Typ;
     public CategoryChangeType Type;
     public CategoryVisibility Visibility;
+    public CategoryVisibility CurrentVisibility;
     public bool IsPrivate => Visibility == CategoryVisibility.Owner || Visibility == CategoryVisibility.OwnerAndFriends;
     public int CreatorId;
     public bool IsVisibleToCurrentUser()
     {
-        return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(CreatorId);
+        return (CurrentVisibility == CategoryVisibility.All && Visibility == CategoryVisibility.All) || Sl.SessionUser.IsLoggedInUser(CreatorId);
     }
 
     public List<CategoryChangeDetailModel> AggregatedCategoryChangeDetailModel;

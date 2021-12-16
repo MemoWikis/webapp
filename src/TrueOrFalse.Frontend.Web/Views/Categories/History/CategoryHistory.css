@@ -165,8 +165,10 @@
 .change-detail-model.panel-group .panel .panel-heading .chevron-container {
   width: 27px;
 }
-.change-detail-model.panel-group .panel img.history-author {
+.change-detail-model.panel-group .panel img.history-author,
+.change-detail-model.panel-group .panel img.history-category {
   margin-left: 5px;
+  width: 20px;
 }
 .change-detail-model.panel-group .panel .list-group .list-group-item {
   min-height: 60px;
@@ -181,8 +183,13 @@
 .change-detail-model.panel-group .panel .list-group .list-group-item .change-detail-spacer {
   width: 26px;
 }
-.change-detail-model .history-link .history-author {
+.change-detail-model .history-date {
+  flex-wrap: wrap;
+}
+.change-detail-model .history-link .history-author,
+.change-detail-model .history-link .history-category {
   border-radius: 10px;
+  width: 20px;
 }
 #HeaderCategoryHistory {
   margin-top: -30px;

@@ -15,6 +15,7 @@
         height: 100%;
         display: flex;
         align-items: center;
+
         a {
             margin-right: 4px;
         }
@@ -188,8 +189,9 @@
                 }
             }
 
-            img.history-author {
+            img.history-author, img.history-category {
                 margin-left: 5px;
+                width: 20px;
             }
 
             .list-group {
@@ -212,10 +214,14 @@
         }
     }
 
+    .history-date {
+        flex-wrap: wrap;
+    }
 
     .history-link {
-        .history-author {
+        .history-author, .history-category {
             border-radius: 10px;
+            width: 20px;
         }
     }
 }
