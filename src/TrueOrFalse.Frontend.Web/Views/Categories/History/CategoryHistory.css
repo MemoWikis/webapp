@@ -103,15 +103,13 @@
   padding: 4px 12px;
   justify-self: flex-start;
   white-space: nowrap;
+  margin-right: 8px;
 }
 .change-detail-model .change-detail .change-detail-spacer {
   width: 22px;
 }
 .change-detail-model .change-detail.relation-detail {
   flex-wrap: wrap-reverse;
-}
-.change-detail-model .change-detail.relation-detail .change-detail-label {
-  margin-right: 8px;
 }
 .change-detail-model .change-detail.relation-detail .related-category-name {
   display: flex;
