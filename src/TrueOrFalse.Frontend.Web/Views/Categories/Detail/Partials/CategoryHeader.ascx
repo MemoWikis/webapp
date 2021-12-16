@@ -244,7 +244,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.Owner)
                            { %>
                             <li>
-                                <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                <a onclick="eventBus.$emit('open-publish-category-modal')" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fas fa-unlock"></i>   
                                     </div>
