@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using NHibernate.Util;
 using NUnit.Framework;
 using TrueOrFalse;
@@ -164,5 +165,17 @@ class CategoryChange_tests : BaseTest
         var mergedList = categoryChangeDayModel.Items;
 
         Assert.That(mergedList.Count, Is.EqualTo(3));
+    }
+
+    [Test]
+    public void XmlTest()
+    {
+        var brokenString =
+            "' \" > < &";
+
+        var model = new CategoryHistoryDetailModel();
+        var formatted = model.FormatHtmlString(brokenString);
+
+        Assert.That(formatted,  Is.EqualTo("&amp;apos; &amp;quot; &amp;gt; &amp;lt; &amp;"));
     }
 }

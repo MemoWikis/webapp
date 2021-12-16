@@ -42,7 +42,9 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevRelations;
     public CategoryVisibility PrevVisibility;
 
-    
+    public CategoryHistoryDetailModel()
+    {
+    }
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
@@ -112,9 +114,9 @@ public class CategoryHistoryDetailModel : BaseModel
         }
     }
 
-    private string FormatHtmlString(string unformatted)
+    public string FormatHtmlString(string unformatted)
     {
-        var decoded = HttpUtility.HtmlDecode(unformatted.Replace("&apos;", "'").Replace("&quot;", "\"").Replace("&gt;", ">").Replace("&lt;", "<").Replace("&amp;", "&"));
+        var decoded = HttpUtility.HtmlDecode(unformatted).Replace("'", "&apos;").Replace("\"", "&quot;").Replace(">", "&gt;").Replace("<", "&lt;").Replace("&", "&amp;");
         var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
         var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString().Replace("<xmlRootPlaceholder>", "")
             .Replace("</xmlRootPlaceholder>", "");
