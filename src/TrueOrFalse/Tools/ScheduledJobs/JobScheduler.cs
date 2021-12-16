@@ -71,7 +71,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         }
         private static void Schedule_MailTransmitter()
         {
-            _scheduler.ScheduleJob(JobBuilder.Create<ScheduledMailTransmitter>().Build(),
+            _scheduler.ScheduleJob(JobBuilder.Create<ScheduledMailSender>().Build(),
                 TriggerBuilder.Create()
                     .WithSimpleSchedule(x => x.WithIntervalInSeconds(1)
                         .RepeatForever()).Build());

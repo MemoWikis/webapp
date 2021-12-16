@@ -1,27 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
+using System.Runtime.Caching;
 using System.Web;
+
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using RollbarSharp;
 namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 {
-    class ScheduledMailTransmitter : IJob //scheduledMailTransmitter
+    class ScheduledMailSender : IJob
     {
-        private const string SuccessfulMailJobs = "SuccessfulMailJobs-19B1DFD8-0DA3-4B69-BFC8-08095EEEFB08";
-
+        private const string CacheKey = "SuccessfulMailJobs-19B1DFD8-0DA3-4B69-BFC8-08095EEEFB08";
+        ObjectCache Cache = MemoryCache.Default;
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
-                var successfulJobIds = (List<int>)HttpContext.Current.Cache[SuccessfulMailJobs];
-                if (successfulJobIds == null)
-                {
-                    successfulJobIds = new List<int>();
-                    HttpContext.Current.Cache.Insert(SuccessfulMailJobs, successfulJobIds);
-                }
+                var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey); ;
                 var job = scope.R<JobQueueRepo>().GetTopPriorityMailMessage();
 
                 //increase interval when no mail job exist
@@ -53,25 +51,25 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     {
                         smtpClient.Send(currentMailMessage);
                         successfulJobIds.Add(job.Id);
-                        HttpContext.Current.Cache.Insert(SuccessfulMailJobs, successfulJobIds);
+                        Cache.Add(CacheKey, successfulJobIds, DateTimeOffset.MaxValue);
                     }
                     else
                     {
                         var e = new Exception(job.JobContent + job.Id);
-                        Logg.r().Error(e, "Error in job ScheduledMailTransmitter. MailMessage was null.");
+                        Logg.r().Error(e, "Error in job ScheduledMailSender. MailMessage was null.");
                         new RollbarClient().SendException(e);
                     }
                 }
                 catch (Exception e)
                 {
-                    Logg.r().Error(e, "Error in job ScheduledMailTransmitter.");
+                    Logg.r().Error(e, "Error in job ScheduledMailSender.");
                     new RollbarClient().SendException(e);
                 }
 
                 //Delete job that has been executed
                 scope.R<JobQueueRepo>().DeleteById(successfulJobIds);
 
-            }, "ScheduledMailTransmitter");
+            }, "ScheduledMailSender");
         }
 
         void SetJobInterval(int interval, IJobExecutionContext context)
