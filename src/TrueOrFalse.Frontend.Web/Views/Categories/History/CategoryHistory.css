@@ -147,6 +147,7 @@
   align-items: center;
   color: #767676;
   transition: background-color ease-in-out 0.2s;
+  flex-wrap: wrap;
 }
 .change-detail-model.panel-group .panel .panel-heading:hover {
   background-color: rgba(239, 239, 239, 0.2);
