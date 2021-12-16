@@ -39,7 +39,7 @@
                {
                    var i = 1;
                    var itemIsVisibleToCurrentUser = true;
-                   var relationChangeItem = new CategoryHistoryModel.RelationChangeItem();
+                   var relationChangeItem = new RelationChangeItem();
                    var label = item.Typ;
                    if (item.Type == CategoryChangeType.Relations)
                    {
