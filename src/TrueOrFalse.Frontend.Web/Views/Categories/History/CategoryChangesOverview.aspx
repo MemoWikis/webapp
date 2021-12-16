@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/CategoryHistory") %>
     <%
-        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Bearbeitungshistorie aller Themen", Url = Links.QuestionChangesOverview(1), ToolTipText = "Bearbeitungshistorie aller Themen" });
+        Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = "Bearbeitungshistorie aller Themen", Url = Links.CategoryChangesOverview(1), ToolTipText = "Bearbeitungshistorie aller Themen" });
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
 </asp:Content>
