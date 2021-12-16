@@ -1,0 +1,1 @@
+﻿$('a.history-link').on('click', (e) => e.stopPropagation())

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using FluentNHibernate.Visitors;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -77,6 +78,11 @@ public class CategoryHistoryModel : BaseModel
         public bool IsVisibleToCurrentUser = true;
         public CategoryRelationType Type;
         public CategoryCacheItem RelatedCategory;
+    }
+
+    public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
+    {
+        return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == item.Author.Id;
     }
 }
 

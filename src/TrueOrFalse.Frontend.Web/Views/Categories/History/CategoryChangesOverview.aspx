@@ -61,11 +61,6 @@
                             <div id="Typ"><%= item.Typ %></div>
                         </div>
                         <div class="col-xs-4">
-                      <%--      <%if (afterRelease) {%>
-                                <a class="btn btn-sm btn-default btn-primary" href="<%= Links.CategoryDetail(item.CategoryName, item.CategoryId, item.CategoryChangeId) %>">
-                                    <i class="fa fa-desktop"></i>&nbsp; Revision anzeigen
-                                </a>&nbsp;
-                            <%} %>--%>
                             <a class="btn btn-sm btn-default <%if (afterRelease) {%>editing-history<%} %> btn-primary c-changes-overview" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.CategoryChangeId) %>">
                                 <i class="fa fa-code-fork"></i>&nbsp; Änderungen anzeigen
                             </a>
@@ -93,4 +88,5 @@
             </a>
         </div>
     </div>
+    <%= Scripts.Render("~/bundles/js/CategoryHistory") %>
 </asp:Content>
