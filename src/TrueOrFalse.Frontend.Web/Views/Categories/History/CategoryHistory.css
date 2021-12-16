@@ -83,6 +83,7 @@
 }
 .change-detail-model .btn {
   margin-left: auto;
+  margin-right: 10px;
 }
 .change-detail-model #Typ {
   color: #2C5FB2;
@@ -164,6 +165,10 @@
 }
 .change-detail-model.panel-group .panel .panel-heading .chevron-container {
   width: 27px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 .change-detail-model.panel-group .panel img.history-author,
 .change-detail-model.panel-group .panel img.history-category {
