@@ -199,6 +199,7 @@
 .change-detail-model .history-link .history-category {
   border-radius: 10px;
   width: 20px;
+  min-width: 20px;
 }
 #HeaderCategoryHistory {
   margin-top: -30px;
