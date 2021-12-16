@@ -42,7 +42,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevRelations;
     public CategoryVisibility PrevVisibility;
 
-    public CategoryHistoryDetailModel()
+    public CategoryHistoryDetailModel(bool isTest)
     {
     }
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)

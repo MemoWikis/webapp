@@ -173,7 +173,7 @@ class CategoryChange_tests : BaseTest
         var brokenString =
             "' \" > < &";
 
-        var model = new CategoryHistoryDetailModel();
+        var model = new CategoryHistoryDetailModel(true);
         var formatted = model.FormatHtmlString(brokenString);
 
         Assert.That(formatted,  Is.EqualTo("&amp;apos; &amp;quot; &amp;gt; &amp;lt; &amp;"));
