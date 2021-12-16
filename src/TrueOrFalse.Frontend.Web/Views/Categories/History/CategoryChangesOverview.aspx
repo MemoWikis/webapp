@@ -82,7 +82,7 @@
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                                                 <li>
-                                                    <a href="<%= Links.CategoryHistory(item.CategoryId) %>">
+                                                    <a href="<%= Links.CategoryHistory(item.CategoryId) %>" class="history-link">
                                                         <div class="dropdown-icon">
                                                             <i class="fas fa-history"></i>
                                                         </div>

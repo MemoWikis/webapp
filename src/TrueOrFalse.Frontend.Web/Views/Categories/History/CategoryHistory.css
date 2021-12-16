@@ -134,6 +134,7 @@
   border-radius: 0;
   box-shadow: none;
   width: 100%;
+  overflow: visible;
 }
 .change-detail-model.panel-group .panel .panel-heading {
   border: none;
@@ -173,6 +174,9 @@
 .change-detail-model.panel-group .panel img.history-category {
   margin-left: 5px;
   width: 20px;
+}
+.change-detail-model.panel-group .panel .list-group {
+  overflow: hidden;
 }
 .change-detail-model.panel-group .panel .list-group .list-group-item {
   min-height: 60px;
