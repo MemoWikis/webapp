@@ -131,12 +131,12 @@ public class AnswerBodyModel : BaseModel
         if (IsLearningSession)
             AjaxUrl_LearningSessionAmendAfterShowSolution = Links.LearningSessionAmendAfterShowSolution;
 
-        QuestionText = question.Text;
+        QuestionText = question.TextHtml;
         QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
 
         if (question.SolutionType == TrueOrFalse.SolutionType.FlashCard)
         {
-            QuestionText = EscapeFlashCardText(QuestionText);
+            QuestionText = EscapeFlashCardText(question.TextHtml);
             QuestionTextMarkdown = EscapeFlashCardText(QuestionTextMarkdown);
         }
 

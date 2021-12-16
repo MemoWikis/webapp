@@ -23,7 +23,7 @@
                         emptyNodeClass: 'is-empty',
                         placeholder: 'Rückseite der Karteikarte',
                         showOnlyCurrent: true,
-                    })
+                    }),
                 ],
                 content: this.content,
                 onUpdate: ({ editor }) => {

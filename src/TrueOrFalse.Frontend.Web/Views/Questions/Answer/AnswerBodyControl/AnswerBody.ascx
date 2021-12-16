@@ -147,7 +147,7 @@
 
                             if (Model.SolutionType == SolutionType.FlashCard.ToString()){ %>
                                 <script type="text/javascript">
-                                    var questionText = '<h3 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h3>';
+                                    var questionText = '<p class="QuestionText" style="text-align: center; font-family: Open Sans, Arial, sans-serif; margin: 0;"><%= Model.QuestionText %></p>';
                                     var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown %>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
                                     $('#flashCard-frontContent img').load(function() {
