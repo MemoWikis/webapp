@@ -24,6 +24,7 @@
                         placeholder: 'Rückseite der Karteikarte',
                         showOnlyCurrent: true,
                     }),
+                    tiptapImage
                 ],
                 content: this.content,
                 onUpdate: ({ editor }) => {
