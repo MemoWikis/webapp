@@ -116,10 +116,12 @@ public class CategoryHistoryDetailModel : BaseModel
 
     public string FormatHtmlString(string unformatted)
     {
-        var decoded = HttpUtility.HtmlDecode(unformatted);
+        var decoded = HttpUtility.HtmlDecode(unformatted.Replace("&amp;", "&amp;amp;"));
         var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
-        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString().Replace("<xmlRootPlaceholder>", "")
-            .Replace("</xmlRootPlaceholder>", "");
+        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString()
+            .Replace("<xmlRootPlaceholder>", "")
+            .Replace("</xmlRootPlaceholder>", "")
+            .Replace("&amp;", "&");
         return formatted;
     }
 

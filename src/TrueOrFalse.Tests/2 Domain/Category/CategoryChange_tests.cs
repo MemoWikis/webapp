@@ -171,11 +171,11 @@ class CategoryChange_tests : BaseTest
     public void XmlTest()
     {
         var brokenString =
-            "' \" > < &";
+            "&amp;";
 
         var model = new CategoryHistoryDetailModel(true);
         var formatted = model.FormatHtmlString(brokenString);
 
-        Assert.That(formatted,  Is.EqualTo("&amp;apos; &amp;quot; &amp;gt; &amp;lt; &amp;"));
+        Assert.That(formatted, Is.EqualTo("&"));
     }
 }
