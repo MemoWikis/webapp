@@ -176,6 +176,9 @@ class CategoryChange_tests : BaseTest
         var model = new CategoryHistoryDetailModel(true);
         var formatted = model.FormatHtmlString(brokenString);
 
+        var empty = model.FormatHtmlString(null);
+
         Assert.That(formatted, Is.EqualTo("&"));
+        Assert.That(empty, Is.EqualTo(""));
     }
 }
