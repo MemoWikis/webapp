@@ -15,7 +15,8 @@
 
     <div class="row" id="HeaderCategoryHistory">
         <div class="col-12">
-            <h1>Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
+            <h1 class="hidden-sm hidden-xs hidden-xxs">Bearbeitungshistorie '<%= Model.CategoryName %>'</h1>
+            <h3 class="hidden-md hidden-lg">Bearbeitungshistorie '<%= Model.CategoryName %>'</h3>
         </div>
     </div>
     <a class="btn btn-sm btn-default" href="<%= Links.CategoryChangesOverview(1) %>">

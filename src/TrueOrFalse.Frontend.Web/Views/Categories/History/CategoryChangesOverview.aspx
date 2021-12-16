@@ -15,7 +15,8 @@
 
 <div class="row">
     <div class="col-12">
-        <h1>Bearbeitungshistorie aller Themen</h1>
+        <h1 class="hidden-sm hidden-xs hidden-xxs">Bearbeitungshistorie aller Themen</h1>
+        <h3 class="hidden-md hidden-lg">Bearbeitungshistorie aller Themen</h3>
     </div>
 </div>
 <%
