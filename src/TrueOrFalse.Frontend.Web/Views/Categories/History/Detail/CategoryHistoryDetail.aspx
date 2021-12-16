@@ -16,7 +16,7 @@
     
     <div class="row">
         <div class="col-12">
-            <h1><i class="fa fa-code-fork"></i> &nbsp; Änderungen für '<%= Model.CategoryName %>'</h1>
+            <h1>Änderungen für '<%= Model.CategoryName %>'</h1>
         </div>
     </div>
     
@@ -29,11 +29,6 @@
             </div>
             
             <div class="col dropdown" style="float: right">
-    <%--            <% if (ReleaseDate.IsAfterRelease(Model.CurrentDateCreated)) {%>
-                    <a class="btn btn-primary" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId, Model.CurrentId) %>">
-                        <i class="fa fa-desktop"></i> &nbsp; Anzeige dieser Revision
-                    </a>
-                <%}%>--%>
                 <a class="btn btn-default" href="<%= Links.CategoryHistory(Model.CategoryId) %>">
                     <i class="fa fa-list-ul"></i> &nbsp; Bearbeitungshistorie
                 </a>
