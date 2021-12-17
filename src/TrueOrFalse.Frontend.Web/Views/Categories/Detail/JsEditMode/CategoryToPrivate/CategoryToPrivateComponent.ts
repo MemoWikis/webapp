@@ -17,7 +17,6 @@ Vue.component('category-to-private-component', {
             allQuestionCount: 0,
             publishSuccess: false,
             publishRequestConfirmation: false,
-            forceAllQuestionsToPrivate: false,
             setToPrivateConfirmation: false,
         };
     },
@@ -26,6 +25,17 @@ Vue.component('category-to-private-component', {
         this.categoryId = $("#hhdCategoryId").val();
     },
     destroyed() {
+    },
+
+    watch: {
+        questionsToPrivate(val) {
+            if (val)
+                this.allQuestionsToPrivate = false;
+        },
+        allQuestionsToPrivate(val) {
+            if (val)
+                this.questionsToPrivate = false;
+        }
     },
 
     mounted() {
@@ -111,7 +121,7 @@ Vue.component('category-to-private-component', {
         setQuestionsToPrivate() {
             var self = this;
             var data = {
-                questionIds: self.forceAllQuestionsToPrivate ? self.allQuestionsIds : self.personalQuestionIds,
+                questionIds: self.allQuestionsToPrivate ? self.allQuestionIds : self.personalQuestionIds,
             };
             $.ajax({
                 type: 'Post',

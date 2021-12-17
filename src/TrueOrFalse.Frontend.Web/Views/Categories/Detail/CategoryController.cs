@@ -321,7 +321,7 @@ public class CategoryController : BaseController
         });
         var filteredAggregatedQuestions = categoryCacheItem
             .GetAggregatedQuestionsFromMemoryCache()
-            .Where(q => q.Creator == userCacheItem.User)
+            .Where(q => q.Creator == userCacheItem.User && q.IsPrivate())
             .Select(q => q.Id).ToList();
 
         return Json(new
