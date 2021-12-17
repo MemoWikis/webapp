@@ -118,7 +118,7 @@ public class CategoryHistoryDetailModel : BaseModel
     {
         if (String.IsNullOrEmpty(unformatted))
             return "";
-        var decoded = HttpUtility.HtmlDecode(unformatted.Replace("&amp;", "&amp;amp;"));
+        var decoded = HttpUtility.HtmlDecode(unformatted.Replace("&amp;", "&amp;amp;") .Replace("<br>", "<br/>"));
         var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
         var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString()
             .Replace("<xmlRootPlaceholder>", "")
