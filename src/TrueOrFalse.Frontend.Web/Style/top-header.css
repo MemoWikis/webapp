@@ -133,6 +133,44 @@
 #MasterHeader .col-Logo {
   height: 100%;
 }
+/*Stage Overlay & Banner*/
+.stageOverlayContainer {
+  background-color: white;
+  z-index: 10000;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+.stageOverlayText {
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+  padding: 0 130px;
+}
+.stageOverlayCloseButton {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  cursor: pointer;
+}
+.closedContainer {
+  display: none !important;
+}
+.stageBanner {
+  z-index: 10000;
+  position: fixed;
+  top: 11px;
+  right: -57px;
+  width: 127px;
+  text-align: center;
+  font-size: 11px;
+  padding: 2px;
+  padding-left: 40px;
+  transform: rotate(90deg);
+  color: white;
+}
 /* BreadCrumb and Masterheader*/
 /** Default button **/
 .btn-breadcrumb {
