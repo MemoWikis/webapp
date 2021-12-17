@@ -6,7 +6,7 @@
     var showEnvironment = false;
     var backgroundColor = "";
     var text = "";
-    var showStageOverlay = true;
+    var showStageOverlay = false;
     if (Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho" || Request.Url.Host == "localhost")
     {
         showEnvironment = true;
