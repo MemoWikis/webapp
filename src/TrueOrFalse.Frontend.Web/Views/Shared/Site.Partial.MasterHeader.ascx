@@ -6,7 +6,7 @@
     var showEnvironment = false;
     var backgroundColor = "";
     var text = "";
-    var showStageOverlay = false;
+    var showStageOverlay = true;
     if (Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho" || Request.Url.Host == "localhost")
     {
         showEnvironment = true;
@@ -44,7 +44,7 @@
     <% if (showStageOverlay && !userSession.IsLoggedIn)
        { %>
     <div class="stageOverlayContainer" id="StageOverlay">
-        <h3 class="stageOverlayText"><img src="/Images/Logo/LogoPictogram.png"/> <br/> <br/>Du hast die Stage Seite von memucho gefunden. Achtung Änderungen hier sind nicht von langer Dauer. Falls du nur sehen möchtest, was du in Zukunft erwarten kannst, schau dich ruhig ein wenig um.</h3>
+        <h3 class="stageOverlayText"><img src="/Images/Logo/LogoPictogram.png"/> <br/> <br/>Du hast die Stage Seite von memucho gefunden. Achtung Änderungen hier sind nicht von langer Dauer. Falls du nur sehen möchtest, was du in Zukunft erwarten kannst, schau dich ruhig ein wenig um. <br/> Zurück zu <a href="https://memucho.de/">memucho</a>.</h3>
         <img class="stageOverlayCloseButton" src="/img/close_black.svg" onclick="document.getElementById('StageOverlay').classList.add('closedContainer')"/>
     </div>
     <% } %>
