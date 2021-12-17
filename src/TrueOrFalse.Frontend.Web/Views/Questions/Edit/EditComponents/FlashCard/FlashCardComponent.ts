@@ -31,6 +31,21 @@
                     this.$parent.flashCardAnswer = editor.getHTML();
                     this.$parent.solutionIsValid = this.answerEditor.state.doc.textContent.length > 0;
                 },
+                editorProps: {
+                    handlePaste: (view, pos, event) => {
+                        let eventContent = event.content.content;
+                        if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                            let src = eventContent[0].attrs.src;
+                            if (src.length > 1048576 && src.startsWith('data:image')) {
+                                let data = {
+                                    msg: messages.error.image.tooBig
+                                }
+                                eventBus.$emit('show-error', data);
+                                return true;
+                            }
+                        }
+                    },
+                }
             }),
             answerJson: null,
             answerHtml: null,

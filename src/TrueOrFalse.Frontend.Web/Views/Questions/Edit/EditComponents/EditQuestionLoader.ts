@@ -13,8 +13,8 @@ var EditQuestionLoader = new Vue({
     mounted() {
         if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
             this.tiptapIsReady = true;
-        eventBus.$on('tiptap-is-ready', () => this.tiptapIsReady = true);
-        eventBus.$on('edit-question-is-ready', () => this.modalIsReady = true);
+        eventBus.$on('tiptap-is-ready', () => this.$nextTick(() => this.tiptapIsReady = true));
+        eventBus.$on('edit-question-is-ready', () => this.$nextTick(() => this.modalIsReady = true));
         eventBus.$on('open-edit-question-modal',
             e => {
                 var question = {
