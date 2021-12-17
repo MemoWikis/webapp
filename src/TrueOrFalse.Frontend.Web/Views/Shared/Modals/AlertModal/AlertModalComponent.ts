@@ -51,7 +51,7 @@ var messages = {
         user: {},
         default: "Ein Fehler ist aufgetreten.",
         image: {
-            tooBig: "Das Bild ist zu groß. Das Bild darf maximal 1MB groß sein."
+            tooBig: "Die Bildgröße überschreitet das erlaubte Maximum von 1MB."
         }
     }
 }
