@@ -894,8 +894,24 @@ p:empty {
         #Authors {
             display: flex;
 
-            a.author {
+            .dropdown {
+                display:flex;
+                align-items: center;
             }
+
+            .author-img-container {
+                display: flex;
+                align-items: center;
+
+                .author {
+                    .img-hover {
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+            }
+
+
 
             .author-img {
                 margin-right: 4px;
@@ -903,6 +919,7 @@ p:empty {
                 height: 20px;
                 width: 20px;
                 object-fit: cover;
+                min-width: 20px;
             }
 
             .author-listitem {

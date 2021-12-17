@@ -28,7 +28,7 @@ class Images {
 
     private static AddHoverCheckboxArea() {
         $('.JS-InitImage').each(function () {
-            $(this).wrap("<div style='position: relative;'></div>");
+            $(this).wrap("<div style='position: relative;' class='img-hover'></div>");
             $("<div class='SelectAreaCheckbox'>" +
                 "<div class='CheckboxIconContainer'>" +
                 "<i class='Checked-Icon fa fa-check-square-o'></i>" +

@@ -27,7 +27,8 @@ public class UserRowModel : BaseModel
     public bool IsMember;
     public bool DoIFollow;
     public User User;
-    public bool IsStartTopicModified; 
+    public bool IsStartTopicModified;
+    public bool ShowWiki = false;
 
     public UserRowModel(
         User user, 
@@ -57,6 +58,11 @@ public class UserRowModel : BaseModel
         StartTopicUrl = Links.
             CategoryFromNetwork(startTopic);
 
-        IsStartTopicModified = startTopic.IsStartTopicModified() || startTopic.GetAggregatedQuestionIdsFromMemoryCache().Count > 0; 
+        IsStartTopicModified = startTopic.IsStartTopicModified() || startTopic.GetAggregatedQuestionIdsFromMemoryCache().Count > 0;
+        var userWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
+        if (userWiki != null && userWiki.IsVisibleToCurrentUser())
+        {
+            ShowWiki = true;
+        }
     }
 }

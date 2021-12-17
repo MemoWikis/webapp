@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div style="padding-top: 5px;">
-                <% if (Model.IsStartTopicModified)
+                <% if (Model.ShowWiki && Model.IsStartTopicModified)
                    { %>
                 <a href="<%= Model.StartTopicUrl %>">Hier kommst du zur Startseite des Users</a>
                 <% } %>
