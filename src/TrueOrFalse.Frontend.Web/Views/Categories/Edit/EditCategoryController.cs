@@ -63,7 +63,7 @@ public class EditCategoryController : BaseController
         var isChangeParents = !GraphService.IsCategoryParentEqual(newParents,oldParents);
 
 
-        model.UpdateCategory(Sl.CategoryRepo.GetByIdEager(oldcategoryCacheItem.Id));
+        model.UpdateCategory(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id));
 
         if (model.Name != oldcategoryCacheItem.Name && categoryAllowed.No(model, oldcategoryCacheItem.Type))
         {
@@ -72,7 +72,7 @@ public class EditCategoryController : BaseController
         }
         else
         {
-            _categoryRepository.Update(Sl.CategoryRepo.GetByIdEager(oldcategoryCacheItem.Id), _sessionUser.User, Request["ImageIsNew"] == "true");
+            _categoryRepository.Update(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id), _sessionUser.User, Request["ImageIsNew"] == "true");
 
             model.Message
                 = new SuccessMessage(
@@ -92,7 +92,7 @@ public class EditCategoryController : BaseController
         else
             UserEntityCache.ChangeCategoryInUserEntityCaches(oldcategoryCacheItem);
 
-        model.Init(Sl.CategoryRepo.GetByIdEager(oldcategoryCacheItem.Id));
+        model.Init(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id));
         model.IsEditing = true;
         model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(oldcategoryCacheItem.Id).ToList();
 
@@ -238,7 +238,7 @@ public class EditCategoryController : BaseController
                 success = false, 
                 key = "parentIsRoot"
             });
-        var category = Sl.CategoryRepo.GetById(childCategoryId);
+        var category = _categoryRepository.GetById(childCategoryId);
         var children = EntityCache.GetChildren(parentCategoryId, getFromEntityCache: true);
         var isChildrenLinked = children.Any(c => c.Id == childCategoryId);
         
@@ -274,7 +274,7 @@ public class EditCategoryController : BaseController
 
         //change CategoryRelations
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
-        ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
+        ModifyRelationsForCategory.AddCategoryRelationOfType(_categoryRepository.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
 
         //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
@@ -282,8 +282,7 @@ public class EditCategoryController : BaseController
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
-        Sl.CategoryRepo.Update(category, User_());
-        Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(parentCategoryId), Sl.SessionUser.User, false);
+        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
 
         return Json(new
         {
@@ -298,7 +297,7 @@ public class EditCategoryController : BaseController
     public JsonResult AddToPersonalWiki(int categoryId)
     {
 
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = _categoryRepository.GetById(categoryId);
         var personalWikiId = Sl.SessionUser.User.StartTopicId;
 
         if (categoryId == personalWikiId)
@@ -342,7 +341,7 @@ public class EditCategoryController : BaseController
 
         //change CategoryRelations
         ModifyRelationsForCategory.AddParentCategory(category, personalWikiId);
-        ModifyRelationsForCategory.AddCategoryRelationOfType(Sl.CategoryRepo.GetByIdEager(personalWikiId), category.Id, CategoryRelationType.IncludesContentOf);
+        ModifyRelationsForCategory.AddCategoryRelationOfType(_categoryRepository.GetByIdEager(personalWikiId), category.Id, CategoryRelationType.IncludesContentOf);
 
         //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true), personalWikiId);
@@ -350,8 +349,7 @@ public class EditCategoryController : BaseController
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, categoryId))
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
-        Sl.CategoryRepo.Update(category, User_());
-        Sl.CategoryChangeRepo.AddUpdateEntry(Sl.CategoryRepo.GetById(personalWikiId), Sl.SessionUser.User, false);
+        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
 
         return Json(new
         {
@@ -371,14 +369,14 @@ public class EditCategoryController : BaseController
 
         JobExecute.RunAsTask(scope =>
         {
-            ModifyRelationsForCategory.AddParentCategory(Sl.CategoryRepo.GetByIdEager(category.Id), parentCategoryId);
+            ModifyRelationsForCategory.AddParentCategory(_categoryRepository.GetByIdEager(category.Id), parentCategoryId);
         }, "ModifyRelationForCategoryJob");
 
-        Sl.CategoryRepo.Create(category);
+        _categoryRepository.Create(category);
         var movedCategories = new List<int>();
         foreach (var childCategoryId in childCategoryIds)
         {
-            var childCategory = Sl.CategoryRepo.GetByIdEager(childCategoryId);
+            var childCategory = _categoryRepository.GetByIdEager(childCategoryId);
             var hasNoPrivateRelation = childCategory.Visibility != CategoryVisibility.Owner && parentCategory.Visibility == CategoryVisibility.Owner;
             if (hasNoPrivateRelation)
                 continue;
@@ -386,7 +384,7 @@ public class EditCategoryController : BaseController
             RemoveParent(parentCategoryId, childCategoryId);
             movedCategories.Add(childCategoryId);
 
-            var related = Sl.CategoryRepo
+            var related = _categoryRepository
                 .GetByIdsEager(childCategory.ParentCategories()
                 .Where(c => c.Id != parentCategoryId)
                 .Select(c => c.Id).ToList())
@@ -394,14 +392,14 @@ public class EditCategoryController : BaseController
                 
             related.Add(category);
 
-            var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
+            var childCategoryAsCategory = _categoryRepository.GetByIdEager(childCategory.Id);
             ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
                 childCategory.Id, 
                 related.Select(c => c.Id).ToList(), 
                 CategoryRelationType.IsChildOf
             );
 
-            Sl.CategoryRepo.Update(childCategoryAsCategory, _sessionUser.User);
+            _categoryRepository.Update(childCategoryAsCategory, _sessionUser.User, type: CategoryChangeType.Relations);
         }
         UserEntityCache.ReInitAllActiveCategoryCaches();
 
@@ -428,9 +426,9 @@ public class EditCategoryController : BaseController
                 category.Content = content;
             else category.Content = null;
 
-            var categoryDb = Sl.CategoryRepo.GetByIdEager(category); 
+            var categoryDb = _categoryRepository.GetByIdEager(category); 
             categoryDb.Content = content; 
-            Sl.CategoryChangeRepo.AddUpdateEntry(categoryDb,Sl.SessionUser.User, false);
+            _categoryRepository.Update(categoryDb, _sessionUser.User, type: CategoryChangeType.Text);
 
             return Json(true);
         }
@@ -443,7 +441,7 @@ public class EditCategoryController : BaseController
     {
         if (RootCategory.IsMainCategory(categoryId) && !IsInstallationAdmin)
             return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = _categoryRepository.GetById(categoryId);
 
         if (category != null)
         {
@@ -459,7 +457,7 @@ public class EditCategoryController : BaseController
             EntityCache.AddOrUpdate(cacheItem);
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
-            Sl.CategoryRepo.Update(category, User_());
+            _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
 
             return Json(true);
         }
@@ -478,8 +476,8 @@ public class EditCategoryController : BaseController
                 key = "noRemainingParents",
             });
 
-        var parent = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
-        Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
+        var parent = _categoryRepository.GetById(parentCategoryIdToRemove);
+        _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
 
         return Json(new
         {
@@ -558,7 +556,7 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsAdmin]
     public void ResetAggregation(int categoryId)
     {
-        var catRepo = Sl.CategoryRepo;
+        var catRepo = _categoryRepository;
 
         var category = catRepo.GetById(categoryId);
 
@@ -575,7 +573,7 @@ public class EditCategoryController : BaseController
 
     public ActionResult GetEditCategoryAggregationModalContent(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = _categoryRepository.GetById(categoryId);
         return View("~/Views/Categories/Modals/EditAggregationModal.ascx", new EditCategoryModel(category));
     }
 
@@ -600,10 +598,9 @@ public class EditCategoryController : BaseController
                     key = "parentIsRoot"
                 });
             categoryCacheItem.Visibility = CategoryVisibility.All;
-            var category = Sl.CategoryRepo.GetById(categoryId);
+            var category = _categoryRepository.GetById(categoryId);
             category.Visibility = CategoryVisibility.All;
-            _categoryRepository.Update(category, _sessionUser.User);
-            Sl.CategoryChangeRepo.AddPublishEntry(Sl.CategoryRepo.GetById(categoryId), _sessionUser.User);
+            _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Published);
 
             return Json(new
             {
@@ -634,7 +631,7 @@ public class EditCategoryController : BaseController
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
             .Where(c => c.Visibility == CategoryVisibility.All);
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = _categoryRepository.GetById(categoryId);
         var pinCount = category.TotalRelevancePersonalEntries;
         if (!Sl.SessionUser.IsInstallationAdmin)
         {
@@ -668,8 +665,7 @@ public class EditCategoryController : BaseController
 
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
         category.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(category);
-        Sl.CategoryChangeRepo.AddMadePrivateEntry(category, Sl.SessionUser.User);
+        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Privatized);
 
         return Json(new
         {
@@ -690,9 +686,9 @@ public class EditCategoryController : BaseController
         {
             var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
             categoryCacheItem.Name = name;
-            var category = Sl.CategoryRepo.GetById(categoryId);
+            var category = _categoryRepository.GetById(categoryId);
             category.Name = name;
-            Sl.CategoryChangeRepo.AddTitelIsChangedEntry(category, Sl.SessionUser.User);
+            _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Renamed);
             var newUrl = Links.CategoryDetail(categoryCacheItem);
 
             return Json(new
@@ -735,7 +731,7 @@ public class EditCategoryController : BaseController
         {
             RestoreCategory.Run(categoryChangeId, this.User_());
 
-            var categoryName = Sl.CategoryRepo.GetById(categoryId).Name;
+            var categoryName = _categoryRepository.GetById(categoryId).Name;
             return Redirect(Links.CategoryDetail(categoryName, categoryId));
         }
 

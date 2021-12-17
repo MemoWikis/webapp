@@ -465,15 +465,6 @@
 #btnNext {
   padding-right: 10px;
 }
-.QuestionText {
-  padding-bottom: 20px;
-  margin: 0;
-}
-@media (min-width: 768px) {
-  .QuestionText {
-    padding-bottom: 30px;
-  }
-}
 #levelPopupModal,
 #levelPopupModal .modal-title,
 #levelPopupModal .title-text {
@@ -1278,7 +1269,26 @@ commentAnswersCount {
 }
 #flashCardContent #flashCard-frontContent,
 #flashCardContent #flashCard-back {
-  padding: 15px 15px 40px 15px;
+  padding: 15px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 #flashCardContent #flashCard-frontContent img {
   max-width: 60%;

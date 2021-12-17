@@ -48,6 +48,8 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
     protected string GetFallbackImage(IUserTinyModel user, int width)
     {
+        if (Sl.IsUnitTest)
+            return "";
         var emailAddress = user.EmailAddress;
 
         if (user.IsFacebookUser)

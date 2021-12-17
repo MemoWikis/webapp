@@ -56,6 +56,7 @@ public class Sl
     public static ImageStore ImageStore => R<ImageStore>();
 
     public static MembershipRepo MembershipRepo => R<MembershipRepo>();
+    public static bool IsUnitTest = false;
 }
 
 public static class SlExt

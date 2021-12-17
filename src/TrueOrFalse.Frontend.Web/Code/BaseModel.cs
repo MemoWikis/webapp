@@ -41,4 +41,6 @@
     {
         return  UserMenu.UserMenuActive(userMenuEntry);
     }
+
+    public bool ShowSidebar = false;
 }

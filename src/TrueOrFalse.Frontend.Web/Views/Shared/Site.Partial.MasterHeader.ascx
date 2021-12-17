@@ -6,8 +6,8 @@
     var showEnvironment = false;
     var backgroundColor = "";
     var text = "";
-
-    if (Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho")
+    var showStageOverlay = false;
+    if (Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho" || Request.Url.Host == "localhost")
     {
         showEnvironment = true;
         backgroundColor = "#afd534";
@@ -26,6 +26,8 @@
         showEnvironment = true;
         backgroundColor = "orange";
         text = "S T A G E";
+        showStageOverlay = true;
+
     }
 
     var userSession = new SessionUser();
@@ -35,14 +37,21 @@
 
 
 <% if (showEnvironment)
-   { %>
-    <div class="" style="background-color: <%= backgroundColor %>; z-index: 10000; position: fixed; top: 11px; right: -57px; width: 127px; text-align: center; font-size: 11px; padding: 2px; padding-left: 40px; transform: rotate(90deg); color: white">
+    { %>
+    <div style="background-color: <%= backgroundColor %>;" class="stageBanner">
         <%= text %>
     </div>
+    <% if (showStageOverlay && !userSession.IsLoggedIn)
+       { %>
+    <div class="stageOverlayContainer" id="StageOverlay">
+        <h3 class="stageOverlayText"><img src="/Images/Logo/LogoPictogram.png"/> <br/> <br/>Du hast die Stage Seite von memucho gefunden. Achtung Änderungen hier sind nicht von langer Dauer. Falls du nur sehen möchtest, was du in Zukunft erwarten kannst, schau dich ruhig ein wenig um. <br/> Zurück zu <a href="https://memucho.de/">memucho</a>.</h3>
+        <img class="stageOverlayCloseButton" src="/img/close_black.svg" onclick="document.getElementById('StageOverlay').classList.add('closedContainer')"/>
+    </div>
+    <% } %>
 <% } %>
 
 <% if (!userSession.IsLoggedIn)
-   {%>
+    {%>
     <header id="MasterHeader">
         <div id="MasterHeaderContainer"class="container">
             <div class="HeaderMainRow row">

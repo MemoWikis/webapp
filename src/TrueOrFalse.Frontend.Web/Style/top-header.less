@@ -149,77 +149,121 @@
     }
 }
 
+/*Stage Overlay & Banner*/
+
+.stageOverlayContainer {
+    background-color: white;
+    z-index: 10000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.stageOverlayText {
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 0 530px;
+}
+
+.stageOverlayCloseButton{
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    cursor: pointer;
+}
+
+.closedContainer {
+    display: none !important;
+}
+
+.stageBanner {
+    z-index: 10000;
+    position: fixed;
+    top: 11px;
+    right: -57px;
+    width: 127px;
+    text-align: center;
+    font-size: 11px;
+    padding: 2px;
+    padding-left: 40px;
+    transform: rotate(90deg);
+    color: white
+}
+
 /* BreadCrumb and Masterheader*/
 
-    /** Default button **/
-    .btn-breadcrumb {
-        a {
-            text-decoration: underline;
-        }
-
-        a.current {
-            text-decoration: none;
-        }
-        /** Breadcrumb **/
-        .btn:not(:last-child):after {
-            content: " ";
-            display: block;
-            width: 0;
-            height: 0;
-            border-top: 17px solid transparent;
-            border-bottom: 17px solid transparent;
-            border-left: 10px solid white;
-            position: absolute;
-            top: 50%;
-            margin-top: -17px;
-            left: 100%;
-            z-index: 3;
-        }
-
-        .btn:not(:last-child):before {
-            content: " ";
-            display: block;
-            width: 0;
-            height: 0;
-            border-top: 17px solid transparent;
-            border-bottom: 17px solid transparent;
-            border-left: 10px solid rgb(173, 173, 173);
-            position: absolute;
-            top: 50%;
-            margin-top: -17px;
-            margin-left: 1px;
-            left: 100%;
-            z-index: 3;
-        }
-        /** The Spacing **/
-        .btn {
-            padding: 6px 12px 6px 24px;
-        }
-
-        .btn:first-child {
-            padding: 6px 6px 6px 10px;
-        }
-
-        .btn:last-child {
-            padding: 6px 18px 6px 24px;
-        }
-
-        .btn.btn-default:not(:last-child):after {
-            border-left: 10px solid #fff;
-        }
-
-        .btn.btn-default:not(:last-child):before {
-            border-left: 10px solid #ccc;
-        }
-
-        .btn.btn-default:hover:not(:last-child):after {
-            border-left: 10px solid #ebebeb;
-        }
-
-        .btn.btn-default:hover:not(:last-child):before {
-            border-left: 10px solid #adadad;
-        }
+/** Default button **/
+.btn-breadcrumb {
+    a {
+        text-decoration: underline;
     }
+
+    a.current {
+        text-decoration: none;
+    }
+    /** Breadcrumb **/
+    .btn:not(:last-child):after {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 17px solid transparent;
+        border-bottom: 17px solid transparent;
+        border-left: 10px solid white;
+        position: absolute;
+        top: 50%;
+        margin-top: -17px;
+        left: 100%;
+        z-index: 3;
+    }
+
+    .btn:not(:last-child):before {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 17px solid transparent;
+        border-bottom: 17px solid transparent;
+        border-left: 10px solid rgb(173, 173, 173);
+        position: absolute;
+        top: 50%;
+        margin-top: -17px;
+        margin-left: 1px;
+        left: 100%;
+        z-index: 3;
+    }
+    /** The Spacing **/
+    .btn {
+        padding: 6px 12px 6px 24px;
+    }
+
+    .btn:first-child {
+        padding: 6px 6px 6px 10px;
+    }
+
+    .btn:last-child {
+        padding: 6px 18px 6px 24px;
+    }
+
+    .btn.btn-default:not(:last-child):after {
+        border-left: 10px solid #fff;
+    }
+
+    .btn.btn-default:not(:last-child):before {
+        border-left: 10px solid #ccc;
+    }
+
+    .btn.btn-default:hover:not(:last-child):after {
+        border-left: 10px solid #ebebeb;
+    }
+
+    .btn.btn-default:hover:not(:last-child):before {
+        border-left: 10px solid #adadad;
+    }
+}
 
 
 #Breadcrumb {
@@ -380,7 +424,7 @@
 
                 .breadCrumb-userName {
                     color: @memo-grey-dark;
-                    padding-left:4px;
+                    padding-left: 4px;
                     max-width: 64px;
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -491,9 +535,9 @@
     }
 }
 
-    .ShowBreadcrumb {
-        display: block !important;
-    }
+.ShowBreadcrumb {
+    display: block !important;
+}
 
 
 #loginAndHelp, #StickyHeaderContainer {
@@ -646,6 +690,7 @@
         }
     }
 }
+
 #loginAndHelp {
 
     @media (max-width: 767px) {
@@ -700,9 +745,10 @@
         }
     }
 }
+
 #BreadcrumbUserDropdownImage {
-        &.open {
-        }
+    &.open {
+    }
 }
 
 /*Breadcrumb*/
@@ -765,8 +811,9 @@
     }
 }
 
-#HeaderBodyContainer{
+#HeaderBodyContainer {
     padding-right: 0;
+
     #loginAndHelp {
         padding-right: 0;
         display: flex;
@@ -800,7 +847,7 @@
         margin-left: 10px;
     }
 }
+
 #BreadCrumbTrailContainer {
     display: contents;
 }
-

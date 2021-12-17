@@ -177,6 +177,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistoryDetail")
                 .Include("~/Views/Categories/History/Detail/Js/*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistory")
+                .Include("~/Views/Categories/History/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 

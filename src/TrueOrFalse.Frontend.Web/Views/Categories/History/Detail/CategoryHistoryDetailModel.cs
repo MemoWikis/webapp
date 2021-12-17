@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using FluentNHibernate.Conventions;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -41,7 +42,9 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevRelations;
     public CategoryVisibility PrevVisibility;
 
-    
+    public CategoryHistoryDetailModel(bool isTest)
+    {
+    }
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
@@ -111,11 +114,16 @@ public class CategoryHistoryDetailModel : BaseModel
         }
     }
 
-    private string FormatHtmlString(string unformatted)
+    public string FormatHtmlString(string unformatted)
     {
-        var placeHolderAdded = "<xmlRootPlaceholder>" + unformatted + "</xmlRootPlaceholder>";
-        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString().Replace("<xmlRootPlaceholder>", "")
-            .Replace("</xmlRootPlaceholder>", "");
+        if (String.IsNullOrEmpty(unformatted))
+            return "";
+        var decoded = HttpUtility.HtmlDecode(unformatted.Replace("&amp;", "&amp;amp;"));
+        var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
+        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString()
+            .Replace("<xmlRootPlaceholder>", "")
+            .Replace("</xmlRootPlaceholder>", "")
+            .Replace("&amp;", "&");
         return formatted;
     }
 

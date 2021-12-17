@@ -391,20 +391,6 @@
     padding-right: 10px;
 }
 
-
-.QuestionText {
-    padding-bottom: 20px;
-    margin: 0;
-
-    .media-sm-up ( {
-        padding-bottom: 30px;
-    }
-
-    );
-}
-
-
-
 .apply-open-sans-font() {
     font-family: 'Open Sans' !important;
 }
@@ -1230,7 +1216,13 @@ commentAnswersCount {
     }
 
     #flashCard-frontContent, #flashCard-back {
-        padding: 15px 15px 40px 15px;
+        padding:15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
     }
 
     #flashCard-frontContent img {

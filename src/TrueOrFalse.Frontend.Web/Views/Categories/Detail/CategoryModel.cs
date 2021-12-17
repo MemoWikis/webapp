@@ -81,6 +81,7 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
+        ShowSidebar = true;
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         IsWiki = category.IsWiki();
         var currentRootWiki = CrumbtrailService.GetWiki(category);
