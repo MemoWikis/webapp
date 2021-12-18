@@ -132,7 +132,7 @@ public class CategoryHistoryDetailModel : BaseModel
             .Replace("<xmlRootPlaceholder>", "")
             .Replace("</xmlRootPlaceholder>", "")
             .Replace("&amp;", "&")
-            .Replace(imgTagCloser, "");
+            .Replace(imgTagCloser, "\r\n ");
         return formatted;
     }
 

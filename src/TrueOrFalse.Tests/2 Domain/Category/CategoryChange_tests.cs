@@ -191,6 +191,6 @@ class CategoryChange_tests : BaseTest
         var model = new CategoryHistoryDetailModel(true);
         var formatted = model.FormatHtmlString(imgString);
 
-        Assert.That(formatted, Is.EqualTo("\r\n  <img src=\"data:image/png;base64,YII=\" alt=\"0\">"));
+        Assert.That(formatted, Is.EqualTo("\r\n  <img src=\"data:image/png;base64,YII=\" alt=\"0\">\r\n "));
     }
 }
