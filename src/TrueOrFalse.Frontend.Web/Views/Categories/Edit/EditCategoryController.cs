@@ -416,8 +416,8 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveCategoryContent(int categoryId, string content = null)
     {
-        if (RootCategory.IsMainCategory(categoryId) && !IsInstallationAdmin)
-            return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
+        if (RootCategory.LockedCategory(categoryId) && !IsInstallationAdmin)
+            return Json("Diese Seite kann nur von einem Admin bearbeitet werden");
 
         var category = EntityCache.GetCategoryCacheItem(categoryId);
         if (category != null)
@@ -439,8 +439,8 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
     {
-        if (RootCategory.IsMainCategory(categoryId) && !IsInstallationAdmin)
-            return Json("Die Startseite kann nur von einem Admin bearbeitet werden");
+        if (RootCategory.LockedCategory(categoryId) && !IsInstallationAdmin)
+            return Json("Diese Seite kann nur von einem Admin bearbeitet werden");
         var category = _categoryRepository.GetById(categoryId);
 
         if (category != null)

@@ -841,12 +841,26 @@ ul.AutocompleteHeader {
 }
 
 #GlobalLicense {
-    padding: 35px 20px 10px 20px;
     font-size: 14px;
     line-height: 1.3em;
-    max-width: 850px;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+    z-index: 0;
+
+    .license-container {
+        background: @memo-grey-lighter;
+        padding: 44px 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .license-text-container {
+            max-width: 1090px;
+        }
+    }
+
     .greyed;
 
     .CCLogo {
@@ -861,7 +875,7 @@ ul.AutocompleteHeader {
 /* MASTER FOOTER
 ----------------------------------------------------------*/
 #MasterFooter {
-    background-color: @background-grey;
+    background-color: @memo-blue;
     padding-top: 20px;
     padding-left: 15px; //for Bootstrap .row
     padding-right: 15px; //for Bootstrap .row
@@ -869,6 +883,13 @@ ul.AutocompleteHeader {
     position: relative;
     z-index: 50;
     flex: 1;
+    color: @white;
+    font-size: 14px;
+    font-weight: 400;
+
+    a {
+        color: @white;
+    }
 
     #footerOn {
         display: inline-block;
@@ -912,7 +933,7 @@ ul.AutocompleteHeader {
         padding-bottom: 20px;
 
         .media-below-xs ( {
-            text-align: center;
+            padding: 0 30px;
         }
 
         );
@@ -929,6 +950,53 @@ ul.AutocompleteHeader {
             }
 
             );
+        }
+
+        #MasterFooterLogoContainer {
+            #MasterFooterLogo {
+                cursor: pointer;
+            }
+
+            .overline-s {
+                margin-top: 10px;
+                margin-bottom: 28px;
+            }
+        }
+
+        .footer-group {
+            padding-bottom: 25px;
+        }
+
+        .overline-m, .overline-s {
+            color: @white;
+        }
+    }
+
+    #FooterEndContainer {
+        @media (max-width: 768px) {
+            padding: 0 30px;
+        }
+
+        #FooterEnd {
+            margin-top: 17px;
+            padding-top: 17px;
+            border-top: solid @white 1px;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+
+            img {
+                margin: 0 10px;
+            }
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                align-items: start;
+
+                img {
+                    margin: 25px 0 5px;
+                }
+            }
         }
     }
 }

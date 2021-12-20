@@ -25,15 +25,7 @@
 
 
 <div class="row" style="padding-top:30px;">
-    <div class="BackToHome col-md-3">
-        <p>
-            <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
-        </p>
-        <p>
-            <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
-        </p>
-    </div>
-    <div class="form-horizontal col-md-9">
+    <div class="form-horizontal col-md-12">
 
         <h2 class="PageHeader">Nutzungsbedingungen</h2>
         

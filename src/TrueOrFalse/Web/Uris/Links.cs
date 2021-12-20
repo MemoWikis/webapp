@@ -338,7 +338,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             GetUrlHelper().Action("Category", CategoryController, 
                 new { text = UriSanitizer.Run(name), id = id });
 
-
         public static string CategoryFromNetwork(CategoryCacheItem category) =>
             CategoryFromNetwork(category.Name, category.Id); 
         public static string CategoryFromNetwork(string name, int id) =>

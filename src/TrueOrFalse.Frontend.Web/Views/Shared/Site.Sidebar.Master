@@ -28,7 +28,6 @@
                     <section id="MasterMainWrapper">
                         <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
                     </section>
-                    <% Html.RenderPartial("GlobalLicense"); %>
                 </section>
                 <% if (Model.ShowSidebar)
                    {
@@ -44,6 +43,8 @@
         
     </section>
     <%-- FOOTER--%>
+<% Html.RenderPartial("GlobalLicense"); %>
+
     <footer id="MasterFooter">
         <div class="row">
             <div class="container">

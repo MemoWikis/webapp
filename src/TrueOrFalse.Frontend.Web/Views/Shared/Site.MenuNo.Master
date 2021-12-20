@@ -33,7 +33,6 @@
                     <section id="MasterMainWrapper">
                         <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
                     </section>
-                    <% Html.RenderPartial("GlobalLicense"); %>
                 </section>
                 <section id="MasterSidebarColumn" class="col-md-3">                  
                     <% Html.RenderPartial("Sidebar", Model.SidebarModel); %>                                        
@@ -43,6 +42,8 @@
     </section>
 
     <%-- FOOTER--%>
+<% Html.RenderPartial("GlobalLicense"); %>
+
     <footer id="MasterFooter">
         <div class="container">
             <%// ReSharper disable Asp.NotResolved

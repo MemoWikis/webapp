@@ -1897,7 +1897,9 @@
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
     <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
+    <Content Include="Images\Logo\BitwerkeLogo.svg" />
     <Content Include="Images\Logo\Logo.svg" />
+    <Content Include="Images\Logo\LogoIconText.svg" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Logo\Logo_Green_Text.svg" />
     <Content Include="Images\no-profile-picture-20.png" />
