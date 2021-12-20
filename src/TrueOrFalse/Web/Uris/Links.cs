@@ -55,9 +55,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string AboutController = "About";
 
         public static string Team() => GetUrlHelper().Action("Team", WelcomeController);
-        public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", AboutController);
-        public static string WelfareCompany() => GetUrlHelper().Action("WelfareCompany", AboutController);
-        public static string Jobs() => GetUrlHelper().Action("Jobs", AboutController);
         public static string Promoter() => GetUrlHelper().Action("Promoter", WelcomeController);
 
         /* Welcome */
@@ -116,9 +113,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AnswerQuestionController = "AnswerQuestion";
 
-        public static string QuestionsAll() => GetUrlHelper().Action(Questions, QuestionsController);
-        public static string QuestionsMine() => GetUrlHelper().Action(QuestionsMineAction, QuestionsController);
-        public static string QuestionsWish() => GetUrlHelper().Action(QuestionsWishAction, QuestionsController);
+
 
         public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem){
             return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
@@ -152,9 +147,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionHistoryDetail(int questionId, int revisionId) =>
             GetUrlHelper().Action("Detail", "QuestionHistoryDetail", new { questionId = questionId, revisionId = revisionId});
-
-        public static string QuestionRestore(int questionId, int questionChangeId) =>
-            GetUrlHelper().Action("Restore", QuestionsController, new { questionId = questionId, questionChangeId = questionChangeId });
 
         public static string QuestionChangesOverview(int pageToShow) =>
             GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow = pageToShow });

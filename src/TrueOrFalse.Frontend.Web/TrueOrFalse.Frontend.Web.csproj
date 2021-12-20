@@ -229,8 +229,6 @@
     <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
-    <Compile Include="Views\About\AboutController.cs" />
-    <Compile Include="Views\About\AboutMemuchoModel.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -2146,9 +2144,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\About\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js">
       <DependentUpon>FloatingActionButton.ts</DependentUpon>
     </Content>
@@ -2442,9 +2437,6 @@
     <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
       <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Fonts\font-awesome-5.7.2\less\brands.less" />
     <Content Include="Fonts\font-awesome-5.7.2\less\fontawesome.less" />
     <Content Include="Fonts\font-awesome-5.7.2\less\regular.less" />
@@ -2631,7 +2623,6 @@
     <Content Include="Views\Help\WidgetExamples.aspx" />
     <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="Views\Help\Widget.aspx" />
-    <Content Include="Views\About\Master.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />
     <Content Include="Views\Drafts\WidgetSet.html" />
     <Content Include="Views\Drafts\WidgetVideo.html" />
@@ -2674,7 +2665,6 @@
     <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
-    <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
@@ -2743,19 +2733,12 @@
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.css">
       <DependentUpon>WidgetStats.less</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Contact.aspx" />
-    <Content Include="Views\Welcome\Contact.css">
-      <DependentUpon>Contact.less</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Partials\TeamPics.ascx" />
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
     <Content Include="Views\Welcome\Promoter.css">
       <DependentUpon>Promoter.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Team.css">
-      <DependentUpon>Team.less</DependentUpon>
     </Content>
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
@@ -2859,9 +2842,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\About\Jobs.css">
-      <DependentUpon>Jobs.less</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
@@ -2901,11 +2881,6 @@
     <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\About\AboutMemucho.css">
-      <DependentUpon>AboutMemucho.less</DependentUpon>
-    </Content>
-    <Content Include="Views\About\Jobs.aspx" />
-    <Content Include="Views\About\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -4033,7 +4008,6 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
@@ -4048,12 +4022,10 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\Jobs.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Help\Widget.less" />
-    <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
@@ -4074,8 +4046,6 @@
     </Content>
     <Content Include="Views\Welcome\Promoter.aspx" />
     <Content Include="Views\Welcome\Promoter.less" />
-    <Content Include="Views\Welcome\Team.aspx" />
-    <Content Include="Views\Welcome\Team.less" />
     <Content Include="Views\Shared\Spinner\Spinner.less" />
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.less" />
@@ -4229,7 +4199,6 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\About\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />
