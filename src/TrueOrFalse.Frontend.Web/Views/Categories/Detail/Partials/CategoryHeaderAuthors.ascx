@@ -4,7 +4,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
 <div id="Authors">
     <% foreach (var author in Model.Authors.Take(7)) { %>
-        <a class="author" href="<%= Links.UserDetail(author.User) %>" data-toggle="tooltip" data-placement="top" title="<%= author.Name %>">
+        <a class="author-img-container" href="<%= Links.UserDetail(author.User) %>" data-toggle="tooltip" data-placement="top" title="<%= author.Name %>">
             <div class="author">
                 <img class="ItemImage JS-InitImage author-img" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
                 <span class="author-img-label"></span>

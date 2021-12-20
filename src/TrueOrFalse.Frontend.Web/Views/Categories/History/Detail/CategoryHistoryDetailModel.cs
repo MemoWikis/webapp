@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using FluentNHibernate.Conventions;
+using NHibernate.Id;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel : BaseModel
@@ -118,12 +120,19 @@ public class CategoryHistoryDetailModel : BaseModel
     {
         if (String.IsNullOrEmpty(unformatted))
             return "";
-        var decoded = HttpUtility.HtmlDecode(unformatted.Replace("&amp;", "&amp;amp;"));
+        var secureString = unformatted
+            .Replace("&amp;", "&amp;amp;")
+            .Replace("<br>", "<br/>");
+
+        var imgTagCloser = "</img>" + Guid.NewGuid();
+        var closedImgTags = Regex.Replace(secureString, "<img.*?\">", "$&" + imgTagCloser);
+        var decoded = HttpUtility.HtmlDecode(closedImgTags);
         var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
         var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString()
             .Replace("<xmlRootPlaceholder>", "")
             .Replace("</xmlRootPlaceholder>", "")
-            .Replace("&amp;", "&");
+            .Replace("&amp;", "&")
+            .Replace(imgTagCloser, "\r\n ");
         return formatted;
     }
 

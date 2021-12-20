@@ -140,6 +140,21 @@ Vue.component('add-comment-component',
                             self.titleJson = editor.getJSON();
                             self.commentTitle = editor.getHTML();
                         },
+                        editorProps: {
+                            handlePaste: (view, pos, event) => {
+                                let eventContent = event.content.content;
+                                if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                                    let src = eventContent[0].attrs.src;
+                                    if (src.length > 1048576 && src.startsWith('data:image')) {
+                                        let data = {
+                                            msg: messages.error.image.tooBig
+                                        }
+                                        eventBus.$emit('show-error', data);
+                                        return true;
+                                    }
+                                }
+                            },
+                        }
                     });
 
                     Vue.component('editor-content', tiptapEditorContent);
@@ -170,6 +185,21 @@ Vue.component('add-comment-component',
                             self.commentJson = editor.getJSON();
                             self.commentText = editor.getHTML();
                         },
+                        editorProps: {
+                            handlePaste: (view, pos, event) => {
+                                let eventContent = event.content.content;
+                                if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                                    let src = eventContent[0].attrs.src;
+                                    if (src.length > 1048576 && src.startsWith('data:image')) {
+                                        let data = {
+                                            msg: messages.error.image.tooBig
+                                        }
+                                        eventBus.$emit('show-error', data);
+                                        return true;
+                                    }
+                                }
+                            },
+                        }
                     });
                 });
             },
@@ -306,6 +336,21 @@ Vue.component('comment-answer-add-component',
                             self.commentAnswerJson = editor.getJSON();
                             self.commentAnswerText = editor.getHTML();
                         },
+                        editorProps: {
+                            handlePaste: (view, pos, event) => {
+                                let eventContent = event.content.content;
+                                if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                                    let src = eventContent[0].attrs.src;
+                                    if (src.length > 1048576 && src.startsWith('data:image')) {
+                                        let data = {
+                                            msg: messages.error.image.tooBig
+                                        }
+                                        eventBus.$emit('show-error', data);
+                                        return true;
+                                    }
+                                }
+                            },
+                        }
                     });
                 });
             },

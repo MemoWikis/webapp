@@ -27,7 +27,6 @@
         backgroundColor = "orange";
         text = "S T A G E";
         showStageOverlay = true;
-
     }
 
     var userSession = new SessionUser();
@@ -41,11 +40,13 @@
     <div style="background-color: <%= backgroundColor %>;" class="stageBanner">
         <%= text %>
     </div>
-    <% if (showStageOverlay && !userSession.IsLoggedIn)
+    <% if (showStageOverlay)
        { %>
     <div class="stageOverlayContainer" id="StageOverlay">
-        <h3 class="stageOverlayText"><img src="/Images/Logo/LogoPictogram.png"/> <br/> <br/>Du hast die Stage Seite von memucho gefunden. Achtung Änderungen hier sind nicht von langer Dauer. Falls du nur sehen möchtest, was du in Zukunft erwarten kannst, schau dich ruhig ein wenig um. <br/> Zurück zu <a href="https://memucho.de/">memucho</a>.</h3>
-        <img class="stageOverlayCloseButton" src="/img/close_black.svg" onclick="document.getElementById('StageOverlay').classList.add('closedContainer')"/>
+        <h3 class="stageOverlayText"><img src="/Images/Logo/LogoPictogram.png"/> <br/> <br/>Du bist auf stage.memucho.de. Hier werden Entwicklungen getestet, bevor sie Live-gehen. 
+           <br/> <b>Achtung: Alle Änderungen, die du hier machst, werden verworfen.</b> <br/>
+            Die live Seite findest du hier: <a href="https://memucho.de/">memucho</a>.</h3>
+        <img class="stageOverlayCloseButton" src="/img/close_black.svg" onclick="hideStageOverlay()"/>
     </div>
     <% } %>
 <% } %>
@@ -84,3 +85,4 @@
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
+<script src="/Scripts/header/MasterHeader.js"></script>

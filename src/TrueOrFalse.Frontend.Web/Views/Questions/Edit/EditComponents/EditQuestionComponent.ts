@@ -171,6 +171,19 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                         editorProps: {
                             handleClick: (view, pos, event) => {
                             },
+                            handlePaste: (view, pos, event) => {
+                                let eventContent = event.content.content;
+                                if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                                    let src = eventContent[0].attrs.src;
+                                    if (src.length > 1048576 && src.startsWith('data:image')) {
+                                        let data = {
+                                            msg: messages.error.image.tooBig
+                                        }
+                                        eventBus.$emit('show-error', data);
+                                        return true;
+                                    }
+                                }
+                            },
                             attributes: {
                                 id: 'QuestionInputField',
                             }
@@ -204,6 +217,19 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     ],
                     editorProps: {
                         handleClick: (view, pos, event) => {
+                        },
+                        handlePaste: (view, pos, event) => {
+                            let eventContent = event.content.content;
+                            if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                                let src = eventContent[0].attrs.src;
+                                if (src.length > 1048576 && src.startsWith('data:image')) {
+                                    let data = {
+                                        msg: messages.error.image.tooBig
+                                    }
+                                    eventBus.$emit('show-error', data);
+                                    return true;
+                                }
+                            }
                         },
                         attributes: {
                             id: 'QuestionExtensionInputField',
@@ -240,6 +266,21 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     onUpdate: ({ editor }) => {
                         this.descriptionHtml = editor.getHTML();
                     },
+                    editorProps: {
+                        handlePaste: (view, pos, event) => {
+                            let eventContent = event.content.content;
+                            if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
+                                let src = eventContent[0].attrs.src;
+                                if (src.length > 1048576 && src.startsWith('data:image')) {
+                                    let data = {
+                                        msg: messages.error.image.tooBig
+                                    }
+                                    eventBus.$emit('show-error', data);
+                                    return true;
+                                }
+                            }
+                        },
+                    }
                 });
             },
             destroyEditors() {

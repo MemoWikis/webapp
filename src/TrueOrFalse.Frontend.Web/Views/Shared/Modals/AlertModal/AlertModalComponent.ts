@@ -49,7 +49,10 @@ var messages = {
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
         user: {},
-        default: "Ein Fehler ist aufgetreten"
+        default: "Ein Fehler ist aufgetreten.",
+        image: {
+            tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
+        }
     }
 }
 

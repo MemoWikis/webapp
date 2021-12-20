@@ -181,4 +181,16 @@ class CategoryChange_tests : BaseTest
         Assert.That(formatted, Is.EqualTo("&"));
         Assert.That(empty, Is.EqualTo(""));
     }
+
+    [Test]
+    public void SafeImgXmlTest()
+    {
+        var imgString =
+            "<img src=\"data:image/png;base64,YII=\" alt=\"0\">";
+
+        var model = new CategoryHistoryDetailModel(true);
+        var formatted = model.FormatHtmlString(imgString);
+
+        Assert.That(formatted, Is.EqualTo("\r\n  <img src=\"data:image/png;base64,YII=\" alt=\"0\">\r\n "));
+    }
 }
