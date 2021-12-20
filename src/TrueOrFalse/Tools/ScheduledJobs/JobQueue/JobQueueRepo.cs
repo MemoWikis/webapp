@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using NHibernate;
+using NHibernate.Transform;
+using RollbarSharp;
 using Seedworks.Lib.Persistence;
 
 public class JobQueueRepo : RepositoryDb<JobQueue>
@@ -14,7 +17,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
         {
             JobQueueType = jobQueueType,
             JobContent = jobContent,
-            Priority = 0
+            Priority = priority
         });
         Session.Flush();
     }
@@ -58,9 +61,23 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     }
     public JobQueue GetTopPriorityMailMessage()
     {
-        return Sl.Resolve<ISession>()
+        //Sl.Resolve<ISession>()
+        //    .CreateSQLQuery(
+        //       @"SELECT * FROM memucho_test.jobqueue ORDER BY Priority DESC;");
+        var result = Sl.Resolve<ISession>()
             .CreateSQLQuery(
-                @"SELECT * FROM jobqueue ORDER BY Priority DESC; SELECT * FROM jobqueue WHERE JobQueueType = 5 LIMIT 1;")
-            .UniqueResult<JobQueue>();
+                @"SELECT 
+                    Id, JobQueueType, JobContent
+                FROM
+                    memucho_test.jobqueue
+                WHERE
+                    Priority = (SELECT 
+                    MAX(Priority)
+                FROM
+                    memucho_test.jobqueue)
+                LIMIT 1;"
+                ).SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue))).List(); ;
+        
+        return (JobQueue)result[0];
     }
 }

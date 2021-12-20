@@ -66,8 +66,11 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     new RollbarClient().SendException(e);
                 }
 
+                var currentJobId = new List<int>();
+                if (!(job is null)) currentJobId.Add(job.Id);
+
                 //Delete job that has been executed
-                scope.R<JobQueueRepo>().DeleteById(successfulJobIds);
+                scope.R<JobQueueRepo>().DeleteById(currentJobId);
 
             }, "ScheduledMailSender");
         }
