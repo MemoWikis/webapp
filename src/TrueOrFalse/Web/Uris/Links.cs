@@ -106,14 +106,11 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /*Question*/
         public const string Questions = "Questions";
-        public const string QuestionsController = "Questions";
         public const string QuestionsMineAction = "QuestionsMine";
         public const string QuestionsWishAction = "QuestionsWish";
         public const string EditQuestionController = "EditQuestion";
 
         public const string AnswerQuestionController = "AnswerQuestion";
-
-
 
         public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem){
             return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
@@ -147,6 +144,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionHistoryDetail(int questionId, int revisionId) =>
             GetUrlHelper().Action("Detail", "QuestionHistoryDetail", new { questionId = questionId, revisionId = revisionId});
+
+        public static string QuestionRestore(int questionId, int questionChangeId) =>
+            GetUrlHelper().Action("Restore", QuestionsController, new { questionId = questionId, questionChangeId = questionChangeId });
 
         public static string QuestionChangesOverview(int pageToShow) =>
             GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow = pageToShow });
