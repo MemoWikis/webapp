@@ -23,7 +23,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                 var job = scope.R<JobQueueRepo>().GetTopPriorityMailMessage();
 
                 //increase interval when no mail job exist
-                if (job != null)
+                if (job == null)
                 {
                     if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) ==
                         context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(1000))
@@ -45,7 +45,8 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 
                 try
                 {
-                    var currentMailMessage = JsonConvert.DeserializeObject<MailMessage>(job.JobContent);
+                    var currentMailMessageDeserializeObject = JsonConvert.DeserializeObject(job.JobContent);
+                    var currentMailMessage = new MailMessage();
                     var smtpClient = new SmtpClient();
                     if (currentMailMessage != null && !successfulJobIds.Contains(job.Id))
                     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading;
@@ -10,12 +11,15 @@ class Mail_persistence : BaseTest
 {
     [Test]
 
-    public void Test()
+    public void MailSendingTest()
     {
         CleanEmailsFromPickupDirectory.Run();
         var lowPriorityMails = CreateLowPriorityMails();
-        SendTestMails(lowPriorityMails);
+        var x = SendTestMails(lowPriorityMails);
+        var b = x.FindIndex(a => a.Contains("High"));
 
+        Assert.That(x.Count, Is.EqualTo(21));
+        Assert.That(b, Is.EqualTo(1));
     }
 
     public List<MailMessage> CreateLowPriorityMails()
@@ -33,12 +37,12 @@ class Mail_persistence : BaseTest
         return mails;
     }
 
-    public void SendTestMails(List<MailMessage> lowPriorityMails)
+    public List<string> SendTestMails(List<MailMessage> lowPriorityMails)
     {
-        foreach (var mail in lowPriorityMails)
-        {
-            SendEmail.Run(mail, MailMessagePriority.Low);
-        }
+        //foreach (var mail in lowPriorityMails)
+        //{
+        //    SendEmail.Run(mail, MailMessagePriority.Low);
+        //}
 
         var highPriorityMail = new MailMessage(Settings.EmailFrom,
             Settings.EmailToMemucho,
@@ -48,14 +52,10 @@ class Mail_persistence : BaseTest
 
         SendEmail.Run(highPriorityMail, MailMessagePriority.High);
         JobScheduler.Start();
-        Thread.Sleep(2000);
-
+        Thread.Sleep(2000000000);
 
         var x = GetEmailsFromPickupDirectory.Run().ToList();
-        var b = x.FindIndex(a => a.Contains("High"));
 
-        //Assert.That(x, Is.EqualTo(21));
-        //Assert.That(b, Is.EqualTo(1));
-
+        return x;
     }
 }
