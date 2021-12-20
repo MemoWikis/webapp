@@ -145,9 +145,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionHistoryDetail(int questionId, int revisionId) =>
             GetUrlHelper().Action("Detail", "QuestionHistoryDetail", new { questionId = questionId, revisionId = revisionId});
 
-        public static string QuestionRestore(int questionId, int questionChangeId) =>
-            GetUrlHelper().Action("Restore", QuestionsController, new { questionId = questionId, questionChangeId = questionChangeId });
-
         public static string QuestionChangesOverview(int pageToShow) =>
             GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow = pageToShow });
 
