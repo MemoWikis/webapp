@@ -8,6 +8,7 @@ declare var tiptapUnderline: any;
 declare var tiptapImage: any;
 declare var lowlight: any;
 declare var toHtml: any;
+declare var thisEditor: any;
 
 Vue.component('editor-menu-bar-component',
     {
@@ -76,7 +77,7 @@ Vue.component('editor-menu-bar-component',
                         break;
                     case 'addImage':
                         const imgUrl = window.prompt('Bild URL');
-                        self.editor.chain().focus().setImage({ href: imgUrl }).run();
+                        self.editor.chain().focus().setImage({ src: imgUrl }).run();
                         break;
                     case 'horizontalRule':
                         self.editor.chain().focus().setHorizontalRule().run();
