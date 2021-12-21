@@ -2268,6 +2268,11 @@ strong {
 .singleQuestionRow code .hljs-strong {
   font-weight: 700;
 }
+.ProseMirror img.ProseMirror-selectednode,
+#AnswerBody img.ProseMirror-selectednode,
+.singleQuestionRow img.ProseMirror-selectednode {
+  outline: 3px solid #AFD534;
+}
 .singleQuestionRow pre {
   margin: 0;
 }

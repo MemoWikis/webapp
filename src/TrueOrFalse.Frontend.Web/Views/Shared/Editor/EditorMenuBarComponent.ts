@@ -67,12 +67,16 @@ Vue.component('editor-menu-bar-component',
                     case 'codeBlock':
                         self.editor.chain().toggleCodeBlock().focus().run();
                         break;
-                    case 'setlink':
-                        const url = window.prompt('URL');
-                        self.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+                    case 'setLink':
+                        const linkUrl = window.prompt('Link URL');
+                        self.editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run();
                         break;
                     case 'unsetLink':
                         self.editor.chain().focus().unsetLink().run();
+                        break;
+                    case 'addImage':
+                        const imgUrl = window.prompt('Bild URL');
+                        self.editor.chain().focus().setImage({ href: imgUrl }).run();
                         break;
                     case 'horizontalRule':
                         self.editor.chain().focus().setHorizontalRule().run();

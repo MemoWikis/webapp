@@ -179,5 +179,12 @@ Vue.component('text-component',
                 command({ href: url });
                 this.hideLinkMenu();
             },
+            addImage() {
+                const url = window.prompt('URL')
+
+                if (url) {
+                    this.editor.chain().focus().setImage({ src: url }).run()
+                }
+            },
         },
     });
