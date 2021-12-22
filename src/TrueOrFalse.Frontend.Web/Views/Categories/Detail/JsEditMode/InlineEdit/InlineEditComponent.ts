@@ -1,5 +1,15 @@
 ﻿declare var editorContent: any;
-declare var testEditor: any;
+declare var editorTest: any;
+
+class Guid {
+    static newGuid() {
+        return 'xxx-xyx-xxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+}
 
 Vue.component('text-component',
     {
@@ -16,6 +26,9 @@ Vue.component('text-component',
                 savedContent: null,
                 editor: null,
                 menuBarComponentKey: '0',
+                target: '_blank',
+                indexTimer: null,
+                headings: [],
             }
         },
         created() {
@@ -28,12 +41,12 @@ Vue.component('text-component',
                 extensions: [
                     tiptapStarterKit.configure({
                         heading: {
-                            levels: [2, 3]
+                            levels: [2, 3],
                         }
                     }),
                     tiptapLink.configure({
                         HTMLAttributes: {
-                            target: '_self',
+                            target: this.target,
                             rel: 'noopener noreferrer nofollow'
                         }
                     }),
@@ -53,6 +66,8 @@ Vue.component('text-component',
                 editorProps: {
                     handleKeyDown: (e, k) => {
                         this.contentIsChanged = true;
+                        if (k.ctrlKey == true)
+                            this.target = '_blank';
                     },
                     handlePaste: (view, pos, event) => {
                         let eventContent = event.content.content;
@@ -77,6 +92,18 @@ Vue.component('text-component',
                 onUpdate: ({ editor }) => {
                     this.json = editor.getJSON();
                     this.html = editor.getHTML();
+                    var children = editor.view.docView.children;
+                    var foundHeading = children.find(c => c.node.type.name == 'heading') != undefined;
+
+                    var self = this;
+                    self.updateIndex();
+                    if (foundHeading) {
+                        clearTimeout(self.indexTimer);
+                        this.indexTimer = setTimeout(() => {
+                            },
+                            1000);
+                    }
+
                 },
                 onFocus({ editor, event }) {
                 },
@@ -85,7 +112,6 @@ Vue.component('text-component',
                 nativeExtensions: [
                 ]
             });
-            window.testEditor = this.editor;
             eventBus.$on('save-success',
                 () => {
                     this.contentHasBeenSaved = true;
@@ -152,6 +178,8 @@ Vue.component('text-component',
                         });
                     this.menuBarComponentKey = !this.menuBarComponentKey;
                 });
+            window.editorTest = this.editor;
+
         },
         watch: {
             html() {
@@ -178,6 +206,36 @@ Vue.component('text-component',
             setLinkUrl(command, url) {
                 command({ href: url });
                 this.hideLinkMenu();
+            },
+            updateIndex() {
+                var headings = []
+                var transaction = this.editor.state.tr;
+
+                var self = this;
+
+                this.editor.state.doc.descendants((node, pos) => {
+                    if (node.type.name == 'heading') {
+                        var id = `heading-${headings.length + 1}`
+                        if (node.attrs.id !== id) {
+                            transaction.setNodeMarkup(pos, undefined, {
+                                ...node.attrs,
+                                id,
+                            })
+                        }
+
+                        headings.push({
+                            level: node.attrs.level,
+                            text: node.textContent,
+                            id,
+                        })
+                    }
+                })
+                
+                transaction.setMeta('preventUpdate', true)
+                console.log(transaction)
+                self.editor.view.dispatch(transaction)
+
+                this.headings = headings
             },
         },
     });

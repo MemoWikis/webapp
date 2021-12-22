@@ -8,15 +8,24 @@
     </div>
     <div id="SidebarContent">
         <div class="sidebar-card">
-            <div class="overline-s">Unterstützen</div>
+            <div class="overline-m no-line"><a class="" href="<%= Links.CategoryDetail("Zur Doku",RootCategory.IntroCategoryId) %>">Zur Doku</a><br/></div>
+        </div>
+        
+<%--        <div class="sidebar-card">
+            <div class="overline-s no-line"><a class="" href="">Unterstütze Uns</a><br/></div>
+        </div>--%>
+
+        <div class="sidebar-card">
+            <div class="overline-m no-line"><a href="https://discord.com/invite/nXKwGrN" target="_blank"><i class="fab fa-discord" aria-hidden="true">&nbsp;</i>Discord</a><br/></div>
             <div>
-                <div class="body-s">Bitwerke – Code und 3D</div>
-                <div class="body-l grey-darker">Softwareentwicklung</div>
-                <div class="body-s">Wir, die Macher von memucho freuen uns über Softwareentwicklungsaufträge.</div>
-            </div>
-            <div class="underline-s">
-                <a href="https://bitwerke.de/"><i class="fas fa-external-link-alt"></i>  Bitwerke.de</a>
+                <div class="body-m grey-darker">
+                    Du willst dich mit uns unterhalten?
+                    <br />
+                    Dann triff dich mit uns in Discord!
+                </div>
             </div>
         </div>
+        
+        <div id="SidebarIndex" class="sidebar-card"></div>
     </div>
 </div>
