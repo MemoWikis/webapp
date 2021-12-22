@@ -7,9 +7,6 @@
         <div class="CollectionType TypeCategory">Thema</div>
             <% var category = EntityCache.GetCategoryCacheItem(Model.CategoryModel.Id); 
                 Html.RenderPartial("CategoryLabel", category); %>
-        <% if(Model.LearningSession != null && Model.LearningSession.Config.InWishknowledge) { %>
-            <a href="<%= Links.QuestionsWish() %>">Dein Wunschwissen</a>
-        <% } %>
     </div>
 </div>
 <div class="SessionBar">
