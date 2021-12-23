@@ -12,13 +12,6 @@
     <%= Styles.Render("~/bundles/Registration") %>
 <% } %>
 
-<%
-   if (Request.Url.Host == "stage.memucho.de")
-   {
-       Scripts.Render("~/bundles/js/StageOverlay");
-   }
-%>
-
 <div class="row Promoter">
     <div class="col-xs-12">
     </div>
