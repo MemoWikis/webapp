@@ -14,12 +14,12 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
     <% if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin)
        { %>
         <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
-            <div class="ImageContainer" @click="openImageUploadModal()">
-                <div class="imageUploadBtn" v-if="!disabled">
+            <div class="ImageContainer">
+                <div class="imageUploadBtn" v-if="!disabled" @click="openImageUploadModal()">
                     <div>
                         <i class="fas fa-pen"></i>
                     </div>
-                    <div class="imageUploadLabel">
+                    <div class="imageUploadLabel hidden-xs">
                         Verwende ein <br/>
                         anderes Bild
                     </div>

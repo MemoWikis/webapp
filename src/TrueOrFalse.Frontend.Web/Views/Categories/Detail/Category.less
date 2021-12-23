@@ -895,7 +895,7 @@ p:empty {
             display: flex;
 
             .dropdown {
-                display:flex;
+                display: flex;
                 align-items: center;
             }
 
@@ -1110,7 +1110,7 @@ p:empty {
                 display: flex;
                 justify-content: center;
                 z-index: 80;
-                background: #FFFFFFE6;
+                background: #FFFFFFBF;
                 height: 100%;
                 top: 0;
                 align-items: center;
@@ -1121,10 +1121,19 @@ p:empty {
                 flex-direction: column;
                 cursor: pointer;
                 color: @memo-green;
+                max-height: 120px;
+                margin-top: 12px;
+                transition: ease-in 0.2s;
+
+                @media (max-width: 767px) {
+                    height: 40px;
+                    width: 40px;
+                    margin-left: auto;
+                    right: 0;
+                }
 
                 &:hover {
-                    opacity: 1;
-                    transition: ease-in 0.2s;
+                    background: #FFFFFFE6;
                 }
 
                 .imageUploadLabel {
@@ -1135,6 +1144,12 @@ p:empty {
                         font-size: 12px;
                         line-height: 14px;
                     }
+                }
+            }
+
+            &:hover {
+                .imageUploadBtn {
+                    opacity: 1;
                 }
             }
         }

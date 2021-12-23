@@ -48,7 +48,9 @@
             Die live Seite findest du hier: <a href="https://memucho.de/">memucho</a>.</h3>
         <img class="stageOverlayCloseButton" src="/img/close_black.svg" onclick="hideStageOverlay()"/>
     </div>
-    <% } %>
+    <% 
+        Scripts.Render("~/bundles/js/StageOverlay");
+       } %>
 <% } %>
 
 <% if (!userSession.IsLoggedIn)
@@ -85,4 +87,3 @@
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
-<script src="/Scripts/header/MasterHeader.js"></script>

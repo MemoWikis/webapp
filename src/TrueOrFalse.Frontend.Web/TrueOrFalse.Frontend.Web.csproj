@@ -1935,12 +1935,6 @@
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\header\MasterHeader.js">
-      <DependentUpon>MasterHeader.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\header\MasterHeader.js.map">
-      <DependentUpon>MasterHeader.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\header\StickyHeader.js">
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>
@@ -2344,7 +2338,7 @@
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
     <None Include="Web.overwritten.config.sample" />
-    <TypeScriptCompile Include="Scripts\header\MasterHeader.ts" />
+    <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />

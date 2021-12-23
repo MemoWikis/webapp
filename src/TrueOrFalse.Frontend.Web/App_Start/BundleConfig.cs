@@ -38,6 +38,10 @@ namespace TrueOrFalse.View
                     .Include("~/Scripts/npm/vue/vue.min.js"));
             }
 
+            bundles.Add	(new ScriptBundle	("~/bundles/js/stageOverlay")
+                .Include("~/Scripts/header/StageOverlay.js")
+            );
+
             bundles.Add(new StyleBundle("~/bundles/jqueryUi")
                 .IncludeDirectory("~/Style/jquery-ui/","*.css"));
 

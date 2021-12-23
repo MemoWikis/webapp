@@ -1231,7 +1231,7 @@ p:empty {
       -ms-flex-pack: center;
           justify-content: center;
   z-index: 80;
-  background: #FFFFFFE6;
+  background: #FFFFFFBF;
   height: 100%;
   top: 0;
   -webkit-box-align: center;
@@ -1250,11 +1250,21 @@ p:empty {
           flex-direction: column;
   cursor: pointer;
   color: #AFD534;
-}
-#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn:hover {
-  opacity: 1;
+  max-height: 120px;
+  margin-top: 12px;
   -webkit-transition: ease-in 0.2s;
   transition: ease-in 0.2s;
+}
+@media (max-width: 767px) {
+  #CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn {
+    height: 40px;
+    width: 40px;
+    margin-left: auto;
+    right: 0;
+  }
+}
+#CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn:hover {
+  background: #FFFFFFE6;
 }
 #CategoryHeader #HeadingSection .ImageContainer .imageUploadBtn .imageUploadLabel {
   font-size: 14px;
@@ -1265,6 +1275,9 @@ p:empty {
     font-size: 12px;
     line-height: 14px;
   }
+}
+#CategoryHeader #HeadingSection .ImageContainer:hover .imageUploadBtn {
+  opacity: 1;
 }
 #CategoryHeader #HeadingSection #HeadingContainer h1 {
   width: 100%;
