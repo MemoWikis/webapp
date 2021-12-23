@@ -85,4 +85,3 @@
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
-<script src="/Scripts/header/MasterHeader.js"></script>
