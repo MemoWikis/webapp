@@ -131,7 +131,7 @@ public class CategoryModel : BaseContentModule
         var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
         Authors = AuthorViewModel.Convert(authors);
 
-        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
+        IsOwnerOrAdmin = Creator != null ? _sessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
 
         var parentCategories = category.ParentCategories();
         if (parentCategories.All(c => c.IsNotVisibleToCurrentUser))
