@@ -120,20 +120,24 @@ public class CrumbtrailService
         var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
         if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0)
         {
-            var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
-            if (parents.Any(c => c.Id == creatorWikiId))
+            if (categoryCacheItem.Creator != null)
             {
-                var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
-                return newWiki;
+                var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
+                if (parents.Any(c => c.Id == creatorWikiId))
+                {
+                    var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
+                    return newWiki;
+                }
+
+                if (sessionUser.IsLoggedIn)
+                {
+                    var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
+                    var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
+                    if (parents.Any(c => c == userWiki))
+                        return userWiki;
+                }
             }
 
-            if (sessionUser.IsLoggedIn)
-            {
-                var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
-                var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
-                if (parents.Any(c => c == userWiki))
-                    return userWiki;
-            }
 
             return RootCategory.Get;
         }
