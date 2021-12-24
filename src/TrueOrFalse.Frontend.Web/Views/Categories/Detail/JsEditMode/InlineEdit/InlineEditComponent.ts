@@ -95,17 +95,17 @@ Vue.component('text-component',
                 onUpdate: ({ editor }) => {
                     this.json = editor.getJSON();
                     this.html = editor.getHTML();
-                    var children = editor.view.docView.children;
-                    var foundHeading = children.find(c => c.node.type.name == 'heading') != undefined;
+                    //var children = editor.view.docView.children;
+                    //var foundHeading = children.find(c => c.node.type.name == 'heading') != undefined;
 
-                    var self = this;
-                    self.updateIndex();
-                    if (foundHeading) {
-                        clearTimeout(self.indexTimer);
-                        this.indexTimer = setTimeout(() => {
-                            },
-                            1000);
-                    }
+                    //var self = this;
+                    //self.updateIndex();
+                    //if (foundHeading) {
+                    //    clearTimeout(self.indexTimer);
+                    //    this.indexTimer = setTimeout(() => {
+                    //        },
+                    //        1000);
+                    //}
 
                 },
                 onFocus({ editor, event }) {
