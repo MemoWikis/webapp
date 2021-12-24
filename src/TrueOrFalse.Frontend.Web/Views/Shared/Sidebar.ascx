@@ -10,10 +10,6 @@
         <div class="sidebar-card">
             <div class="overline-m no-line"><a class="" href="<%= Links.CategoryDetail("Zur Doku",RootCategory.IntroCategoryId) %>">Zur Doku</a><br/></div>
         </div>
-        
-<%--        <div class="sidebar-card">
-            <div class="overline-s no-line"><a class="" href="">Unterstütze Uns</a><br/></div>
-        </div>--%>
 
         <div class="sidebar-card">
             <div class="overline-m no-line"><a href="https://discord.com/invite/nXKwGrN" target="_blank"><i class="fab fa-discord" aria-hidden="true">&nbsp;</i>Discord</a><br/></div>

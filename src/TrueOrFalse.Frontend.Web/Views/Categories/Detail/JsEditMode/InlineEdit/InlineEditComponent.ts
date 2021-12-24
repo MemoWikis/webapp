@@ -1,15 +1,15 @@
 ﻿declare var editorContent: any;
 declare var editorTest: any;
 
-class Guid {
-    static newGuid() {
-        return 'xxx-xyx-xxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0,
-                v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-}
+//class Guid {
+//    static newShortGuid() {
+//        return 'xxx-xyx-xxxx'.replace(/[xy]/g, function (c) {
+//            var r = Math.random() * 16 | 0,
+//                v = c == 'x' ? r : (r & 0x3 | 0x8);
+//            return v.toString(16);
+//        });
+//    }
+//}
 
 Vue.component('text-component',
     {
@@ -28,7 +28,7 @@ Vue.component('text-component',
                 menuBarComponentKey: '0',
                 target: '_blank',
                 indexTimer: null,
-                headings: [],
+            //    headings: [],
             }
         },
         created() {
@@ -42,6 +42,9 @@ Vue.component('text-component',
                     tiptapStarterKit.configure({
                         heading: {
                             levels: [2, 3],
+                            HTMLAttributes: {
+                                class: 'heading'
+                            }
                         }
                     }),
                     tiptapLink.configure({
@@ -207,35 +210,35 @@ Vue.component('text-component',
                 command({ href: url });
                 this.hideLinkMenu();
             },
-            updateIndex() {
-                var headings = []
-                var transaction = this.editor.state.tr;
+        //    updateIndex() {
+        //        var headings = []
+        //        var transaction = this.editor.state.tr;
 
-                var self = this;
+        //        var self = this;
 
-                this.editor.state.doc.descendants((node, pos) => {
-                    if (node.type.name == 'heading') {
-                        var id = `heading-${headings.length + 1}`
-                        if (node.attrs.id !== id) {
-                            transaction.setNodeMarkup(pos, undefined, {
-                                ...node.attrs,
-                                id,
-                            })
-                        }
+        //        this.editor.state.doc.descendants((node, pos) => {
+        //            if (node.type.name == 'heading') {
+        //                var id = `heading-${headings.length + 1}`
+        //                if (node.attrs.id !== id) {
+        //                    transaction.setNodeMarkup(pos, undefined, {
+        //                        ...node.attrs,
+        //                        id,
+        //                    })
+        //                }
 
-                        headings.push({
-                            level: node.attrs.level,
-                            text: node.textContent,
-                            id,
-                        })
-                    }
-                })
+        //                headings.push({
+        //                    level: node.attrs.level,
+        //                    text: node.textContent,
+        //                    id,
+        //                })
+        //            }
+        //        })
                 
-                transaction.setMeta('preventUpdate', true)
-                console.log(transaction)
-                self.editor.view.dispatch(transaction)
+        //        transaction.setMeta('preventUpdate', true)
+        //        console.log(transaction)
+        //        self.editor.view.dispatch(transaction)
 
-                this.headings = headings
-            },
+        //        this.headings = headings
+        //    },
         },
     });

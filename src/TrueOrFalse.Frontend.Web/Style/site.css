@@ -794,6 +794,13 @@ ul.AutocompleteHeader {
 #MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card {
   padding-left: 30px;
   font-family: 'Open Sans';
+  padding-bottom: 10px;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card a {
+  color: #767676;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card a:hover {
+  color: #003264;
 }
 #MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-title {
   font-size: 12px;
