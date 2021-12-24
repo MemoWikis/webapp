@@ -241,7 +241,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 </a>
                             </li>
                         <% } %>
-                        <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.Owner)
+                        <% if (Model.IsOwnerOrAdmin && Model.Category.Visibility == CategoryVisibility.Owner)
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('open-publish-category-modal')" data-allowed="logged-in">
