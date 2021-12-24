@@ -52,7 +52,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
 
-        ShowLinkToRootCategory = category.Creator.StartTopicId == category.Id;
+        ShowLinkToRootCategory = category.Creator != null && category.Creator.StartTopicId == category.Id;
     }
 
 
