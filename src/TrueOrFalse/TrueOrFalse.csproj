@@ -278,6 +278,7 @@
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
     <Compile Include="Infrastructure\Email\MailMessageJob.cs" />
+    <Compile Include="Infrastructure\Email\MailMessageJson.cs" />
     <Compile Include="Infrastructure\Logging\LoggController.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />

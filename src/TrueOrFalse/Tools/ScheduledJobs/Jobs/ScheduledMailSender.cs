@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
         {
             JobExecute.Run(scope =>
             {
-                var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey); ;
+                var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey) ?? new List<int>();
                 var job = scope.R<JobQueueRepo>().GetTopPriorityMailMessage();
 
                 //increase interval when no mail job exist
@@ -35,20 +35,19 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                 }
 
                 //decrease interval when mail job exist
-                if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) ==
+                if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) !=
                     context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(100))
                 {
                     SetJobInterval(100, context);
                 }
 
-
-
                 try
                 {
-                    var currentMailMessageDeserializeObject = JsonConvert.DeserializeObject(job.JobContent);
-                    var currentMailMessage = new MailMessage();
+                    var currentMailMessageJson = JsonConvert.DeserializeObject<MailMessageJson>(job.JobContent);
+                    var currentMailMessage = new MailMessage(currentMailMessageJson.From, currentMailMessageJson.To,
+                        currentMailMessageJson.Subject, currentMailMessageJson.Body);
                     var smtpClient = new SmtpClient();
-                    if (currentMailMessage != null && !successfulJobIds.Contains(job.Id))
+                    if (!successfulJobIds.Contains(job.Id))
                     {
                         smtpClient.Send(currentMailMessage);
                         successfulJobIds.Add(job.Id);
@@ -68,11 +67,10 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                 }
 
                 var currentJobId = new List<int>();
-                if (!(job is null)) currentJobId.Add(job.Id);
+                currentJobId.Add(job.Id);
 
                 //Delete job that has been executed
                 scope.R<JobQueueRepo>().DeleteById(currentJobId);
-
             }, "ScheduledMailSender");
         }
 
