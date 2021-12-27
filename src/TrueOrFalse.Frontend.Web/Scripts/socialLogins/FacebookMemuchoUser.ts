@@ -58,7 +58,7 @@
 
     static Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
 
-        //FacebookMemuchoUser.Throw_if_not_exists(facebookId);
+        FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
         $.ajax({
             type: 'POST', async: false, cache: false,
@@ -66,10 +66,10 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success() {
-                if (stayOnPage)
-                    Site.ReloadPage_butNotTo_Logout();
-                else
-                    Site.ReloadPage_butNotTo_Logout("/");
+                //if (stayOnPage)
+                //    Site.ReloadPage_butNotTo_Logout();
+                //else
+                //    Site.ReloadPage_butNotTo_Logout("/");
             }
         });
 
