@@ -50,9 +50,10 @@
 
                     success = false;
                 }
-            } 
+            }
         });
 
+        Site.ReloadPage_butNotTo_Logout("/");
         return success;
     }
 
@@ -66,17 +67,16 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success() {
-                //if (stayOnPage)
-                //    Site.ReloadPage_butNotTo_Logout();
-                //else
-                //    Site.ReloadPage_butNotTo_Logout("/");
+                if (stayOnPage)
+                    Site.ReloadPage_butNotTo_Logout();
+                else
+                    Site.ReloadPage_butNotTo_Logout("/");
             }
         });
 
     }
 
-    static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
-    {
+    static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus(response => {
             this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
         });
@@ -122,11 +122,11 @@
                 });
 
             }, { scope: 'email' });
-        }        
+        }
 
     }
 
-    static Logout(onLogout : () => void) {
+    static Logout(onLogout: () => void) {
         FB.getLoginStatus(response => {
             if (response.status === 'connected') {
                 FB.logout(responseLogout => {
