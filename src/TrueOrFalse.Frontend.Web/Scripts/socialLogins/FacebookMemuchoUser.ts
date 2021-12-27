@@ -49,7 +49,8 @@
                     //alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
 
                     success = false;
-                }
+                } else if (result.Success == true)
+                    window.location.href = result.localHref;
             } 
         });
 
@@ -65,7 +66,10 @@
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
-            success() {
+            success(result) {
+
+                if (result.Success == true)
+                    window.location.href = result.localHref;
                 //if (stayOnPage)
                 //    Site.ReloadPage_butNotTo_Logout();
                 //else
