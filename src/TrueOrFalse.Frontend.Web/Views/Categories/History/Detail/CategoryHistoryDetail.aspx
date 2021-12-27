@@ -45,12 +45,7 @@
                                     <div class="dropdown-icon"><i class="fa fa-undo"></i></div>
                                      Wiederherstellen
                                 </a>
-                            <% } else { %>
-                                <a id="editButton" data-allowed="logged-in" href="<%= Links.CategoryEdit(Model.CategoryName, Model.CategoryId) %>">
-                                    <div class="dropdown-icon"><i class="fa fa-edit"></i></div>Thema bearbeiten
-                                </a>
                             <% } %>
-                        <% } %>
                     </li>
                     <li>
                         <a href="<%= Links.CategoryChangesOverview(1) %>">
