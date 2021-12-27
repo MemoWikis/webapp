@@ -56,7 +56,7 @@
         return success;
     }
 
-    static Login(facebookId: string, facebookAccessToken, stayOnPage: boolean) {
+    static Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
 
         //FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 

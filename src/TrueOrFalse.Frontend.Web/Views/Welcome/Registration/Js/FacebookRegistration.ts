@@ -4,7 +4,7 @@
 
         FB.getLoginStatus(response => {
             if (response.status === 'connected') {
-                FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, false);
+                FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
                 //Site.RedirectToPersonalHomepage();
             }
         });
