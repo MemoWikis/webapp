@@ -27,7 +27,7 @@ var loginModal = Vue.component('login-modal-component',
 
         methods: {
             FacebookLogin() {
-                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
+                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
             },
 
             GoogleLogin() {
