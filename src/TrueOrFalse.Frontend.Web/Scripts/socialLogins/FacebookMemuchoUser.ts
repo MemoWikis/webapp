@@ -46,7 +46,7 @@
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
 
                     var reason = result.EmailAlreadyInUse == true ? " Die Email-Adresse ist bereits in Verwendung" : "";
-                    alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
+                    //alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
 
                     success = false;
                 }
@@ -83,7 +83,7 @@
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
-            //Site.RedirectToPersonalHomepage();
+            Site.ReloadPage_butNotTo_Logout();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
@@ -99,9 +99,9 @@
                     FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
 
                     if (stayOnPage)
-                        //Site.ReloadPage_butNotTo_Logout();
-                    //else
-                        //Site.RedirectToPersonalHomepage();
+                        Site.ReloadPage_butNotTo_Logout();
+                    else
+                        Site.ReloadPage_butNotTo_Logout("/");
 
                     return;
                 }
@@ -115,7 +115,7 @@
                     if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
                         Site.RedirectToRegistrationSuccess();
                     } else {
-                        alert("Leider ist ein Fehler aufgetreten.");
+                        Site.RedirectToRegistrationSuccess();
                     }
                 });
 
