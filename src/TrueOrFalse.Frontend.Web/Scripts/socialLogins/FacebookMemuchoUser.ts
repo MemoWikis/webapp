@@ -50,10 +50,10 @@
 
                     success = false;
                 }
-            }
+            } 
         });
 
-        Site.ReloadPage_butNotTo_Logout("/");
+            //Site.ReloadPage_butNotTo_Logout("/");
         return success;
     }
 
@@ -76,7 +76,8 @@
 
     }
 
-    static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
+    static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
+    {
         FB.getLoginStatus(response => {
             this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
         });
@@ -122,11 +123,11 @@
                 });
 
             }, { scope: 'email' });
-        }
+        }        
 
     }
 
-    static Logout(onLogout: () => void) {
+    static Logout(onLogout : () => void) {
         FB.getLoginStatus(response => {
             if (response.status === 'connected') {
                 FB.logout(responseLogout => {
