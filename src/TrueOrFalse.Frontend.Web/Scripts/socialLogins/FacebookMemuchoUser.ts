@@ -67,13 +67,8 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success(result) {
-
                 if (result.Success == true)
                     window.location.href = result.localHref;
-                //if (stayOnPage)
-                //    Site.ReloadPage_butNotTo_Logout();
-                //else
-                //    Site.ReloadPage_butNotTo_Logout("/");
             }
         });
 
