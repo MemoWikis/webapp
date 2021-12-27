@@ -64,12 +64,15 @@
             type: 'POST', async: false, cache: false,
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/FacebookUsers/Login/",
-            error(error) { throw error }
+            error(error) { throw error },
+            success() {
+                if (stayOnPage)
+                    Site.ReloadPage_butNotTo_Logout();
+                else
+                    Site.ReloadPage_butNotTo_Logout("/");
+            }
         });
-        if (stayOnPage)
-            Site.ReloadPage_butNotTo_Logout();
-        else
-            Site.ReloadPage_butNotTo_Logout("/");
+
     }
 
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
