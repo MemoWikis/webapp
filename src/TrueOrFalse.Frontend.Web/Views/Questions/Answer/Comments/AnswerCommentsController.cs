@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
-using WebGrease.Css.Extensions;
 
 
 public class AnswerCommentsController : BaseController
@@ -31,10 +27,10 @@ public class AnswerCommentsController : BaseController
 
     public class SaveCommentJson
     {
-        
+
         public int questionId { get; set; }
         public string text { get; set; }
-    public string title { get; set; }
+        public string title { get; set; }
     }
 
     [HttpPost]
@@ -98,10 +94,8 @@ public class AnswerCommentsController : BaseController
                 new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
             return currentUserImageUrl;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     [HttpPost]
@@ -111,10 +105,7 @@ public class AnswerCommentsController : BaseController
         {
             return _sessionUser.User.Id;
         }
-        else
-        {
-            return -1;
-        }
+        return -1;
     }
 
     [HttpPost]
@@ -122,12 +113,10 @@ public class AnswerCommentsController : BaseController
     {
         if (_sessionUser.User != null)
         {
-                return _sessionUser.User.Name;
+            return _sessionUser.User.Name;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     [HttpPost]
@@ -135,12 +124,10 @@ public class AnswerCommentsController : BaseController
     {
         if (_sessionUser.User != null)
         {
-                    return _sessionUser.User.IsInstallationAdmin;
+            return _sessionUser.User.IsInstallationAdmin;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     [HttpPost]
@@ -148,13 +135,11 @@ public class AnswerCommentsController : BaseController
     {
         if (_sessionUser.User != null)
         {
-                        var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
-        return userImageUrl;
+            var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
+            return userImageUrl;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     [HttpPost]

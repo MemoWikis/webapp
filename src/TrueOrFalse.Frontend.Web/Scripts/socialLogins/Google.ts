@@ -35,7 +35,7 @@
 
         if (GoogleMemuchoUser.Exists(googleId)) {
             GoogleMemuchoUser.Login(googleId, googleIdToken);
-            Site.ReloadPage_butNotTo_Logout("/");
+            Site.ReloadPage_butNotTo_Logout();
             return;
         }
 

@@ -46,7 +46,7 @@
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
 
                     var reason = result.EmailAlreadyInUse == true ? " Die Email-Adresse ist bereits in Verwendung" : "";
-                    alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
+                    //alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
 
                     success = false;
                 }
@@ -56,7 +56,7 @@
         return success;
     }
 
-    static Login(facebookId: string, facebookAccessToken) {
+    static Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
@@ -64,8 +64,15 @@
             type: 'POST', async: false, cache: false,
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/FacebookUsers/Login/",
-            error(error) { throw error }
+            error(error) { throw error },
+            success() {
+                //if (stayOnPage)
+                //    Site.ReloadPage_butNotTo_Logout();
+                //else
+                //    Site.ReloadPage_butNotTo_Logout("/");
+            }
         });
+
     }
 
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
@@ -82,8 +89,8 @@
 
         if (response.status === 'connected') {
 
-            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
-            //Site.RedirectToPersonalHomepage();
+            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
+            Site.ReloadPage_butNotTo_Logout();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
@@ -96,12 +103,7 @@
                     return;
 
                 if (FacebookMemuchoUser.Exists(facebookId)) {
-                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
-
-                    if (stayOnPage)
-                        //Site.ReloadPage_butNotTo_Logout();
-                    //else
-                        //Site.RedirectToPersonalHomepage();
+                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
 
                     return;
                 }
@@ -115,7 +117,7 @@
                     if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
                         Site.RedirectToRegistrationSuccess();
                     } else {
-                        alert("Leider ist ein Fehler aufgetreten.");
+                        Site.RedirectToRegistrationSuccess();
                     }
                 });
 

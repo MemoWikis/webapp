@@ -198,7 +198,7 @@ class Site {
 
     static ReloadPage() { window.location.reload(true) };
 
-    static ReloadPage_butNotTo_Logout(link: string) {
+    static ReloadPage_butNotTo_Logout(link: string = window.location.pathname) {
         Site.RedirectToPersonalHomepage(link);
     }
 

@@ -27,15 +27,13 @@ var loginModal = Vue.component('login-modal-component',
 
         methods: {
             FacebookLogin() {
-                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
-                window.location.href = '/';
+                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
             },
 
             GoogleLogin() {
                 new Google();
                 setTimeout(() => {
                     Google.AttachClickHandler('btn-login-with-google-modal');
-                    window.location.href = '/';
                     },
                     500);
             },
