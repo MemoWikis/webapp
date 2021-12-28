@@ -45,8 +45,13 @@
 
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
 
-                    var reason = result.EmailAlreadyInUse == true ? " Die Email-Adresse ist bereits in Verwendung" : "";
-                    //alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
+                    if (result.EmailAlreadyInUse == true) {
+                        let data = {
+                            msg: messages.error.user.emailInUse
+                        }
+                        eventBus.$emit('show-error', data);
+
+                    }
 
                     success = false;
                 } else if (result.Success == true)

@@ -48,7 +48,9 @@ var messages = {
             rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
-        user: {},
+        user: {
+            emailInUse: "Die Email-Adresse ist bereits in Verwendung."
+        },
         default: "Ein Fehler ist aufgetreten.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
