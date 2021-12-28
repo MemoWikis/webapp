@@ -28,7 +28,7 @@
     static CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
 
         var success = false;
-
+        Utils.ShowSpinner();
         $.ajax({
             type: 'POST', async: false, cache: false,
             data: { facebookUser: user },
@@ -52,10 +52,11 @@
                         eventBus.$emit('show-error', data);
 
                     }
+                    Utils.HideSpinner();
 
                     success = false;
                 } else if (result.Success == true)
-                    window.location.href = "/";
+                    setTimeout(() => window.location.href = "/", 1000);
             } 
         });
 
