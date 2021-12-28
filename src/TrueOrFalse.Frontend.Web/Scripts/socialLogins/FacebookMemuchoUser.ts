@@ -50,7 +50,7 @@
 
                     success = false;
                 } else if (result.Success == true)
-                    window.location.href = result.localHref;
+                    window.location.href = "/";
             } 
         });
 
