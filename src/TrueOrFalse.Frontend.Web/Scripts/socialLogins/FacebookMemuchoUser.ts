@@ -66,9 +66,8 @@
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
-            success(result) {
-                if (result.Success == true)
-                    window.location.href = result.localHref;
+            success() {
+                window.location.reload();
             }
         });
 
