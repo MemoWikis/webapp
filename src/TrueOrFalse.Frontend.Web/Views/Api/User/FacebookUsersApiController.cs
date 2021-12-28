@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class FacebookUsersApiController : BaseController
 {
@@ -26,7 +27,6 @@ public class FacebookUsersApiController : BaseController
     public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
     {
         var registerResult = RegisterUser.Run(facebookUser);
-
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
@@ -35,9 +35,26 @@ public class FacebookUsersApiController : BaseController
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
             _sessionUser.User.StartTopicId = category.Id;
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    Success = true,
+                    registerResult,
+                    localHref = Links.CategoryDetail(category.Name, category.Id)
+                }
+            };
         }
 
-        return new JsonResult { Data = registerResult };
+        return new JsonResult
+        {
+            Data = new
+            {
+                Success = false,
+                registerResult
+            }
+        };
     }
     
     [HttpPost]
