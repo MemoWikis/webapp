@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Ajax.Utilities;
@@ -81,6 +82,8 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
+        if (category == null)
+            throw new Exception("category doesn't exist");
         ShowSidebar = true;
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         IsWiki = category.IsWiki();
