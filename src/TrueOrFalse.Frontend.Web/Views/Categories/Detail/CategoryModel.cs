@@ -257,18 +257,6 @@ public class CategoryModel : BaseContentModule
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 
-    public string GetViewsPerDay()
-    {
-         var views =  Sl.CategoryViewRepo
-            .GetPerDay(Id)
-            .Select(item => item.Date.ToShortDateString() + " " + item.Views)
-            .ToList();
-
-         return !views.Any() 
-            ? "" 
-            : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
-    }
-
     public Question GetDummyQuestion()
     {
         var questionId = 0; 
