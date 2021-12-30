@@ -1,4 +1,0 @@
-$(() => {
-   var wkc= new WishKnowledgeContent();
-});
-
