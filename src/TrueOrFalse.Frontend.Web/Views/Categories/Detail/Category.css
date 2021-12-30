@@ -1279,14 +1279,22 @@ p:empty {
 #CategoryHeader #HeadingSection .ImageContainer:hover .imageUploadBtn {
   opacity: 1;
 }
+#CategoryHeader #HeadingSection #HeadingContainer {
+  min-height: 150px;
+}
 #CategoryHeader #HeadingSection #HeadingContainer h1 {
   width: 100%;
+  min-height: 60px;
+  margin-top: 0px;
+  margin: 0;
 }
 #CategoryHeader #HeadingSection #HeadingContainer h1 textarea {
   outline: none;
   border: none;
   width: 100%;
   height: 54px;
+  padding: 0;
+  letter-spacing: -1.5px;
 }
 #CategoryHeader #HeadingSection #HeadingContainer h1 textarea:disabled {
   background: none;
