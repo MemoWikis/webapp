@@ -333,4 +333,6 @@ $(() => {
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
     UpdateBreadCrumb();
     LoadInfoBanner();
+    if (window.location.host.startsWith("stage.memucho.de"))
+        checkStageOverlay();
 });
