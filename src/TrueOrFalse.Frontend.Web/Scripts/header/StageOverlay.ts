@@ -5,7 +5,7 @@
 function checkStageOverlay() {
     var showStageOverlay = sessionStorage.getItem('showStageOverlay');
     var overlay = document.getElementById('StageOverlay');
-    if (showStageOverlay == 'false' && overlay != null) {
-        overlay.classList.add('closedContainer');
+    if (showStageOverlay != 'false' && overlay != null) {
+        overlay.classList.remove('closedContainer');
     }
 }
