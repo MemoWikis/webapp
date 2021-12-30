@@ -144,7 +144,6 @@ class AnswerBodyLoader {
                     $("div#comments").replaceWith(result.commentsAsHtml);
 
                     new AnswerBody();
-                    FillSparklineTotals();
                     initTooltips();
                     Images.Init();
                     initClickLog("div#LicenseQuestion");

@@ -2620,6 +2620,7 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\History\CategoryHistory.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\KnowledgeBar.ts" />
     <TypeScriptCompile Include="Views\Questions\AnswerQuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentsSection.ts" />

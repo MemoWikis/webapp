@@ -103,7 +103,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
-                .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
+                .Include("~/Views/Knowledge/KnowledgeBar.js")
                 .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
                 .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
                 .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
