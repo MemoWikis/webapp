@@ -226,7 +226,7 @@
                         Du hast dein Wunschwissen gelernt. Dein Wunschwissen enthält
                     </p>
                     <ul>
-                        <li><a href="<%= Links.QuestionsWish() %>"><%= Model.WishCountQuestions %> Fragen</a></li>
+                        <li><%= Model.WishCountQuestions %> Fragen</li>
                     </ul>
                 </div>
             </div>
