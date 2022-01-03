@@ -5,7 +5,9 @@
         var doesExist = false;
 
         $.ajax({
-            type: 'POST', async: false, cache: false,
+            type: 'POST',
+            async: false,
+            cache: false,
             data: { facebookId: facebookId },
             url: "/Api/FacebookUsers/UserExists",
             error(error) { console.log(error); },
@@ -26,41 +28,34 @@
     }
 
     static CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
-
-        var success = false;
         Utils.ShowSpinner();
         $.ajax({
-            type: 'POST', async: false, cache: false,
+            type: 'POST',
+            async: false,
+            cache: false,
             data: { facebookUser: user },
             url: "/Api/FacebookUsers/CreateAndLogin/",
             error(error) {
+                Utils.HideSpinner();
                 Rollbar.error("Something went wrong", error);
-                success = false;
             },
             success(result) {
+                Utils.HideSpinner();
 
-                success = true;
-
-                if (result.Success == false) {
+                if (result.Success == true)
+                    Site.RedirectToRegistrationSuccess();
+                else {
 
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
-
                     if (result.EmailAlreadyInUse == true) {
                         let data = {
                             msg: messages.error.user.emailInUse
                         }
                         eventBus.$emit('show-error', data);
-
                     }
-                    Utils.HideSpinner();
-
-                    success = false;
-                } else if (result.Success == true)
-                    setTimeout(() => window.location.href = "/", 1000);
-            } 
+                }
+            }
         });
-
-        return success;
     }
 
     static Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
@@ -68,7 +63,9 @@
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
         $.ajax({
-            type: 'POST', async: false, cache: false,
+            type: 'POST',
+            async: false,
+            cache: false,
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
@@ -79,8 +76,7 @@
 
     }
 
-    static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
-    {
+    static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus(response => {
             this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
         });
@@ -100,33 +96,36 @@
 
             FB.login(response => {
 
-                var facebookId = response.authResponse.userID;
-                var facebookAccessToken = response.authResponse.accessToken;
+                    var facebookId = response.authResponse.userID;
+                    var facebookAccessToken = response.authResponse.accessToken;
 
-                if (response.status !== "connected")
-                    return;
+                    if (response.status !== "connected")
+                        return;
 
-                if (FacebookMemuchoUser.Exists(facebookId)) {
-                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
+                    if (FacebookMemuchoUser.Exists(facebookId)) {
+                        FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
 
-                    return;
-                }
+                        return;
+                    }
 
-                if (disallowRegistration) {
-                    Site.RedirectToRegistration();
-                    return;
-                }
+                    if (disallowRegistration) {
+                        Site.RedirectToRegistration();
+                        return;
+                    }
 
-                Facebook.GetUser(facebookId, facebookAccessToken, (user: FacebookUserFields) => {
-                    Site.RedirectToRegistrationSuccess();
-                });
+                    Facebook.GetUser(facebookId,
+                        facebookAccessToken,
+                        (user: FacebookUserFields) => {
+                            FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken);
+                        });
 
-            }, { scope: 'email' });
-        }        
+                },
+                { scope: 'email' });
+        }
 
     }
 
-    static Logout(onLogout : () => void) {
+    static Logout(onLogout: () => void) {
         FB.getLoginStatus(response => {
             if (response.status === 'connected') {
                 FB.logout(responseLogout => {

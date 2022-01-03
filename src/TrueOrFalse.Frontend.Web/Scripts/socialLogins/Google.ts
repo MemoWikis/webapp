@@ -39,10 +39,8 @@
             return;
         }
 
-        if (GoogleMemuchoUser.CreateAndLogin(googleUser)) {
-            Site.RedirectToRegistrationSuccess();
-        }
-    }
+        GoogleMemuchoUser.CreateAndLogin(googleUser);
+   }
 
     private static OnLoginError(error) {
         alert(JSON.stringify(error, undefined, 2));
