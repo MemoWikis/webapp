@@ -103,7 +103,7 @@ class Site {
     }
 
     static RedirectToPersonalHomepage( link: string) { location.href = link; }
-    static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
+    static RedirectToRegistrationSuccess() { location.href = "/"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 
     static ReloadPage() { window.location.reload(true) };

@@ -118,11 +118,7 @@
                 }
 
                 Facebook.GetUser(facebookId, facebookAccessToken, (user: FacebookUserFields) => {
-                    if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
-                        Site.RedirectToRegistrationSuccess();
-                    } else {
-                        Site.RedirectToRegistrationSuccess();
-                    }
+                    Site.RedirectToRegistrationSuccess();
                 });
 
             }, { scope: 'email' });
