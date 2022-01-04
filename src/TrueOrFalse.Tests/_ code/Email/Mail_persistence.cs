@@ -15,11 +15,13 @@ class Mail_persistence : BaseTest
     {
         CleanEmailsFromPickupDirectory.Run();
 
-        SendEmail.Run(CreateLowPriorityMails());
-        SendEmail.Run(GetHighPriorityMail(), MailMessagePriority.High);
+        var user = createTestUser();
+
+        SendEmail.Run(CreateLowPriorityMails(user));
+        SendEmail.Run(GetHighPriorityMail(user), MailMessagePriority.High);
 
         JobScheduler.Start();
-        Thread.Sleep(220);
+        Thread.Sleep(220000000);
 
         var mailsInDirectory = GetEmailsFromPickupDirectory.Run().ToList();
         var highPriorityMails = mailsInDirectory.FindAll(a => a.Contains("High"));
@@ -28,7 +30,7 @@ class Mail_persistence : BaseTest
         Assert.That(highPriorityMails.Count, Is.EqualTo(1));
     }
 
-    public List<MailMessage> CreateLowPriorityMails()
+    public List<MailMessage> CreateLowPriorityMails(User user)
     {
         var mails = new List<MailMessage>();
 
@@ -36,7 +38,7 @@ class Mail_persistence : BaseTest
         {
             mails.Add(new MailMessage(
                 Settings.EmailFrom,
-                Settings.EmailToMemucho,
+                user.EmailAddress,
                 "Low Priority Mail",
                 "This is a Low Priority Email")
             );
@@ -45,15 +47,28 @@ class Mail_persistence : BaseTest
         return mails;
     }
 
-    private static MailMessage GetHighPriorityMail()
+    private static MailMessage GetHighPriorityMail(User user)
     {
         var highPriorityMail = new MailMessage(
             Settings.EmailFrom,
-            Settings.EmailToMemucho,
+            user.EmailAddress,
             "High Priority Mail",
             "This is a High Priority Email"
         );
 
         return highPriorityMail;
+    }
+
+    private User createTestUser()
+    {
+        var user = new User();
+        user.Name = "Vorname Nachname";
+        user.Birthday = new DateTime(1980, 08, 03);
+        user.BouncedMail = false;
+        user.EmailAddress = "ab@c.de";
+        
+        var userRepository = Resolve<UserRepo>();
+        userRepository.Create(user);
+        return user;
     }
 }

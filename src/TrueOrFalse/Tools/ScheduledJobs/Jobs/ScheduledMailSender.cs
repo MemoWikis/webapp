@@ -19,8 +19,9 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
         {
             JobExecute.Run(scope =>
             {
-                var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey) ?? new List<int>();
                 var job = scope.R<JobQueueRepo>().GetTopPriorityMailMessage();
+
+                var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey) ?? new List<int>();
 
                 //increase interval when no mail job exist
                 if (job == null)
