@@ -42,13 +42,15 @@
     </div>
     <% if (showStageOverlay)
        { %>
-    <div class="stageOverlayContainer" id="StageOverlay">
+    <div class="stageOverlayContainer closedContainer" id="StageOverlay">
         <h3 class="stageOverlayText"><img src="/Images/Logo/LogoPictogram.png"/> <br/> <br/>Du bist auf stage.memucho.de. Hier werden Entwicklungen getestet, bevor sie Live-gehen. 
            <br/> <b>Achtung: Alle Änderungen, die du hier machst, werden verworfen.</b> <br/>
-            Die live Seite findest du hier: <a href="https://memucho.de/">memucho</a>.</h3>
+            Die live Seite findest du hier: <a href="https://memucho.de/">memucho.de</a>.</h3>
         <img class="stageOverlayCloseButton" src="/img/close_black.svg" onclick="hideStageOverlay()"/>
     </div>
-    <% } %>
+    <% 
+        Scripts.Render("~/bundles/js/StageOverlay");
+       } %>
 <% } %>
 
 <% if (!userSession.IsLoggedIn)
@@ -85,4 +87,3 @@
 <%} %>
 
 <%: Html.Partial("~/Views/Shared/Search/SearchTemplateLoader.ascx") %>
-<script src="/Scripts/header/MasterHeader.js"></script>

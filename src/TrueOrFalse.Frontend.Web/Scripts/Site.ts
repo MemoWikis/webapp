@@ -1,43 +1,4 @@
-﻿function FillSparklineTotals() {
-    if (isAnswered(".sparklineTotalsUser"))
-        FillSparksElements(".sparklineTotalsUser");
-    else
-        FillSparksElements(".sparklineTotalsUser", "#949494", '#FFA07A', "pie", false);
-
-    if (isAnswered(".sparklineTotals"))
-        FillSparksElements(".sparklineTotals");
-    else
-        FillSparksElements(".sparklineTotals", "#949494", '#FFA07A', "pie", false);
-}
-
-function isAnswered(elementName: string) {
-    if (parseInt($(elementName).attr("data-answersTrue")) === 0 &&
-        parseInt($(elementName).attr("data-answersFalse")) === 0)
-        return false;
-
-    return true;
-}
-
-function FillSparksElements(elementName: string, color1 = '#AFD534', color2 = '#FFA07A', sparkType = "pie", isAnswered = true) {
-
-    $(elementName).each(function () {
-        if (isAnswered) {
-            $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))],
-                {
-                    type: sparkType,
-                    sliceColors: [color1, color2]
-                });
-        } else {
-            $(this).sparkline([100, 0],
-                {
-                    type: sparkType,
-                    sliceColors: [color1, color2]
-                });
-        }
-    });
-}
-
-function InitLabelTooltips() {
+﻿function InitLabelTooltips() {
     $('.label-category').each(function () {
 
         if (!$(this).attr('data-original-title') && !$(this).attr('title')) {//Proceed only for those labels that don't have a tooltip text specified yet
@@ -51,22 +12,6 @@ function InitLabelTooltips() {
                 else
                     $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
             }
-            $(this).tooltip();
-        }
-    });
-
-    $('.label-set').each(function () {
-        if (!$(this).attr('data-original-title') && !$(this).attr('title')) {//Proceed only for those labels that don't have a tooltip text specified yet
-
-            $(this).addClass('show-tooltip');
-            if ($(this)[0]
-                .scrollWidth >
-                $(this).innerWidth())
-                //this is simpler and more to the point, but in cases when content is just truncated does not work in firefox; reason: scrollWidth gives different values in FF and Chrome
-                //if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2*(parseInt($(this).css('border-left-width')))))
-                $(this).attr('title', 'Zum Lernset "' + $(this).html() + '"').attr('data-placement', 'top');
-            else
-                $(this).attr('title', 'Zum Lernset').attr('data-placement', 'top');
             $(this).tooltip();
         }
     });
@@ -84,7 +29,7 @@ function InitIconTooltips(awesomeClass: string, tooltipText: string) {
     });
 }
 
-function Allowed_only_for_active_users() {
+function allowedOnlyForActiveUsers() {
     $("[data-allowed=logged-in]")
         .click(function (e) {
             var elem = $(this);
@@ -95,7 +40,7 @@ function Allowed_only_for_active_users() {
         });
 }
 
-function InitClickLog(limitingSlector: string = null) {
+function initClickLog(limitingSlector: string = null) {
     $(limitingSlector + "[data-click-log]")
         .click(function () {
             var data = $(this).attr("data-click-log");
@@ -110,49 +55,14 @@ function InitClickLog(limitingSlector: string = null) {
         });
 }
 
-function InitTooltips() {
+function initTooltips() {
     InitLabelTooltips();
     InitIconTooltips('fa-trash-o', 'Löschen');
     InitIconTooltips('fa-pencil', 'Bearbeiten');
     $('.show-tooltip').tooltip();
 }
 
-function InitPopoverForAllSets() {
-    $("[popover-all-sets-for]").click(function (e) {
-
-        e.preventDefault();
-
-        var elem = $(this);
-
-        if (elem.attr("loaded") == "true")
-            return;
-
-        $.post("/Api/Sets/ForQuestion", {
-            "questionId": elem.attr("popover-all-sets-for")
-        }, function (data) {
-
-            elem.attr("loaded", "true");
-
-            var content = "";
-            for (var i = 5; i < data.length; i++) {
-                content += "<a href='" + data[i].Url + "'><span class='label label-set' style='display:block;'>" + data[i].Name + "</span></a>&nbsp;";
-            }
-
-            content = "<div style=''>" + content + "</div>";
-
-            elem.popover({
-                title: 'Weitere Lernsets:',
-                html: true,
-                content: content,
-                trigger: 'click'
-            });
-
-            elem.popover('show');
-        });
-    });
-}
-
-function PreventDropdonwnsFromBeingHorizontallyOffscreen(limitingSlector: string = null) {
+function preventDropdonwnsFromBeingHorizontallyOffscreen(limitingSlector: string = null) {
     $(limitingSlector + '.dropdown')
         .on('shown.bs.dropdown',
             function (e) {
@@ -193,12 +103,12 @@ class Site {
     }
 
     static RedirectToPersonalHomepage( link: string) { location.href = link; }
-    static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
+    static RedirectToRegistrationSuccess() { location.href = "/"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 
     static ReloadPage() { window.location.reload(true) };
 
-    static ReloadPage_butNotTo_Logout(link: string) {
+    static ReloadPage_butNotTo_Logout(link: string = window.location.pathname) {
         Site.RedirectToPersonalHomepage(link);
     }
 
@@ -256,12 +166,12 @@ var BrowserDetect = {//https://stackoverflow.com/a/13480430
 
 };
 
-function SetBrowserClass() {
+function setBrowserClass() {
     BrowserDetect.init();
     $('html').addClass(BrowserDetect.browser);
 }
 
-function LoadInfoBanner() {
+function loadInfoBanner() {
     var cookie = document.cookie.match('(^|;)\\s*' + "memuchoInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || '';
     if (cookie != 'hide') {
         $('#MemuchoInfoBanner').addClass('show-banner');
@@ -269,7 +179,7 @@ function LoadInfoBanner() {
     }
 }
 
-function HideInfoBanner() {
+function hideInfoBanner() {
     $('#MemuchoInfoBanner').removeClass('show-banner');
     document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
 }
@@ -278,17 +188,17 @@ function OpenInfo(url) {
     window.location.href = url;
 }
 
-function UpdateBreadCrumb() {
-    var session = window.sessionStorage;
+function updateBreadCrumb() {
+    var sessionStorage = window.sessionStorage;
     var currentCategoryId = $('#hhdCategoryId').val();
 
     if (currentCategoryId == undefined) {
-        s = new StickyHeaderClass();
+        new StickyHeaderClass();
         return;
     }
     if ($('#hddIsWiki').val() == 'True')
-        session.setItem('currentWikiId', currentCategoryId);
-    var sessionWikiId = parseInt(session.getItem('currentWikiId'));
+        sessionStorage.setItem('currentWikiId', currentCategoryId);
+    var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId'));
 
     var currentWikiId = 0;
     if (!isNaN(sessionWikiId))
@@ -307,30 +217,22 @@ function UpdateBreadCrumb() {
             $('#FirstChevron').replaceWith(result.firstChevron);
             $('#BreadCrumbTrail').html(result.breadcrumbTrail);
 
-            session.setItem('currentWikiId', result.newWikiId);
-            s = new StickyHeaderClass();
-
+            sessionStorage.setItem('currentWikiId', result.newWikiId);
+            new StickyHeaderClass();
         },
     });
 }
 
 $(() => {
-
     new Site();
-
-    $("#logo").hover(
-        function () { $(this).animate({ 'background-size': '100%' }, 250); },
-        function () { $(this).animate({ 'background-size': '86%' }, 250); }
-    );
-
-    SetBrowserClass();
-    InitPopoverForAllSets();
-    FillSparklineTotals();
-    InitTooltips();
+    setBrowserClass();
+    updateBreadCrumb();
+    initTooltips();
     Images.Init();
-    Allowed_only_for_active_users();
-    InitClickLog();
-    PreventDropdonwnsFromBeingHorizontallyOffscreen();
-    UpdateBreadCrumb();
-    LoadInfoBanner();
+    allowedOnlyForActiveUsers();
+    initClickLog();
+    preventDropdonwnsFromBeingHorizontallyOffscreen();
+    loadInfoBanner();
+    if (window.location.host.startsWith("stage.memucho.de"))
+        checkStageOverlay();
 });

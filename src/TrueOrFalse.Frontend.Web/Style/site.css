@@ -794,6 +794,13 @@ ul.AutocompleteHeader {
 #MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card {
   padding-left: 30px;
   font-family: 'Open Sans';
+  padding-bottom: 10px;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card a {
+  color: #767676;
+}
+#MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card a:hover {
+  color: #003264;
 }
 #MasterSidebarColumn #Sidebar #SidebarContent .sidebar-card .sidebar-title {
   font-size: 12px;
@@ -878,13 +885,24 @@ ul.AutocompleteHeader {
   }
 }
 #GlobalLicense {
-  padding: 35px 20px 10px 20px;
   font-size: 14px;
   line-height: 1.3em;
-  max-width: 850px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+  z-index: 0;
   color: #767676;
+}
+#GlobalLicense .license-container {
+  background: #EFEFEF;
+  padding: 44px 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#GlobalLicense .license-container .license-text-container {
+  max-width: 1090px;
 }
 #GlobalLicense .CCLogo {
   display: block;
@@ -896,7 +914,7 @@ ul.AutocompleteHeader {
 /* MASTER FOOTER
 ----------------------------------------------------------*/
 #MasterFooter {
-  background-color: #EFEFEF;
+  background-color: #003264;
   padding-top: 20px;
   padding-left: 15px;
   padding-right: 15px;
@@ -904,6 +922,12 @@ ul.AutocompleteHeader {
   position: relative;
   z-index: 50;
   flex: 1;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+}
+#MasterFooter a {
+  color: #fff;
 }
 #MasterFooter #footerOn {
   display: inline-block;
@@ -941,7 +965,7 @@ ul.AutocompleteHeader {
 }
 @media (max-width: 479px) {
   #MasterFooter .FooterCol {
-    text-align: center;
+    padding: 0 30px;
   }
 }
 @media (min-width: 480px) {
@@ -950,6 +974,45 @@ ul.AutocompleteHeader {
   }
 }
 @media (min-width: 992px) {
+}
+#MasterFooter .FooterCol #MasterFooterLogoContainer #MasterFooterLogo {
+  cursor: pointer;
+}
+#MasterFooter .FooterCol #MasterFooterLogoContainer .overline-s {
+  margin-top: 10px;
+  margin-bottom: 28px;
+}
+#MasterFooter .FooterCol .footer-group {
+  padding-bottom: 25px;
+}
+#MasterFooter .FooterCol .overline-m,
+#MasterFooter .FooterCol .overline-s {
+  color: #fff;
+}
+@media (max-width: 768px) {
+  #MasterFooter #FooterEndContainer {
+    padding: 0 30px;
+  }
+}
+#MasterFooter #FooterEndContainer #FooterEnd {
+  margin-top: 17px;
+  padding-top: 17px;
+  border-top: solid #fff 1px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+#MasterFooter #FooterEndContainer #FooterEnd img {
+  margin: 0 10px;
+}
+@media (max-width: 768px) {
+  #MasterFooter #FooterEndContainer #FooterEnd {
+    flex-direction: column;
+    align-items: start;
+  }
+  #MasterFooter #FooterEndContainer #FooterEnd img {
+    margin: 25px 0 5px;
+  }
 }
 .Promoter #efre {
   width: 170px;
@@ -2211,6 +2274,11 @@ strong {
 #AnswerBody code .hljs-strong,
 .singleQuestionRow code .hljs-strong {
   font-weight: 700;
+}
+.ProseMirror img.ProseMirror-selectednode,
+#AnswerBody img.ProseMirror-selectednode,
+.singleQuestionRow img.ProseMirror-selectednode {
+  outline: 3px solid #AFD534;
 }
 .singleQuestionRow pre {
   margin: 0;

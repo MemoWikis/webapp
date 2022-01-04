@@ -229,8 +229,6 @@
     <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
-    <Compile Include="Views\About\AboutController.cs" />
-    <Compile Include="Views\About\AboutMemuchoModel.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -299,11 +297,6 @@
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
-    <Compile Include="Views\Knowledge\KnowledgeTopics.cs" />
-    <Compile Include="Views\Knowledge\KnowledgeQuestions.cs" />
-    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
-    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
-    <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -1897,7 +1890,9 @@
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
     <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
+    <Content Include="Images\Logo\BitwerkeLogo.svg" />
     <Content Include="Images\Logo\Logo.svg" />
+    <Content Include="Images\Logo\LogoIconText.svg" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Logo\Logo_Green_Text.svg" />
     <Content Include="Images\no-profile-picture-20.png" />
@@ -1934,12 +1929,6 @@
     </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\header\MasterHeader.js">
-      <DependentUpon>MasterHeader.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\header\MasterHeader.js.map">
-      <DependentUpon>MasterHeader.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\header\StickyHeader.js">
       <DependentUpon>StickyHeader.ts</DependentUpon>
@@ -2144,9 +2133,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\About\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js">
       <DependentUpon>FloatingActionButton.ts</DependentUpon>
     </Content>
@@ -2347,7 +2333,7 @@
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
     <None Include="Web.overwritten.config.sample" />
-    <TypeScriptCompile Include="Scripts\header\MasterHeader.ts" />
+    <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
@@ -2356,35 +2342,9 @@
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
-    <Content Include="Views\Knowledge\Css\KnowledgeQuestions.css">
-      <DependentUpon>KnowledgeQuestions.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Css\KnowledgeTopics.css">
-      <DependentUpon>KnowledgeTopics.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Css\_dashBoard.css">
-      <DependentUpon>_dashBoard.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Js\KnowledgeDates.js" />
-    <Content Include="Views\Knowledge\Js\KnowledgeQuestions.js" />
-    <Content Include="Views\Knowledge\Js\KnowledgeTopics.js" />
-    <Content Include="Views\Knowledge\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
-      <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Js\_dashboard.js">
-      <DependentUpon>_dashboard.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Partials\KnowledgeQuestions.ascx" />
-    <Content Include="Views\Knowledge\Partials\KnowledgeTopics.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
-    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.js">
-      <DependentUpon>KnowledgeWheel.ascx</DependentUpon>
-    </Content>
     <Content Include="Views\Maintenance\Js\CMS.js">
       <DependentUpon>CMS.ts</DependentUpon>
     </Content>
@@ -2424,8 +2384,6 @@
     </Content>
     <Content Include="Views\Error\Error.less" />
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
-    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
-    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
@@ -2439,9 +2397,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
       <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\About\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Fonts\font-awesome-5.7.2\less\brands.less" />
     <Content Include="Fonts\font-awesome-5.7.2\less\fontawesome.less" />
@@ -2474,21 +2429,8 @@
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff" />
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff2" />
     <None Include="Log.ignore" />
-    <Content Include="Views\Knowledge\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\History\CategoryHistory.less" />
-    <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js.map">
-      <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Partials\_Dashboard.ascx" />
-    <Content Include="Views\Knowledge\Css\_dashBoard.less" />
-    <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
-    <Content Include="Views\Knowledge\Css\KnowledgeQuestions.less" />
     <Content Include="Style\tabs.less" />
-    <Content Include="Views\Knowledge\Js\_dashboard.js.map">
-      <DependentUpon>_dashboard.ts</DependentUpon>
-    </Content>
     <Content Include="Style\top-header.less" />
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
@@ -2496,9 +2438,6 @@
     <Content Include="Style\sidebar.less" />
     <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js.map">
       <DependentUpon>InlineEditComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.js.map">
-      <DependentUpon>KnowledgeWheel.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js.map">
       <DependentUpon>KnowledgeGraph.ts</DependentUpon>
@@ -2629,7 +2568,6 @@
     <Content Include="Views\Help\WidgetExamples.aspx" />
     <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="Views\Help\Widget.aspx" />
-    <Content Include="Views\About\Master.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />
     <Content Include="Views\Drafts\WidgetSet.html" />
     <Content Include="Views\Drafts\WidgetVideo.html" />
@@ -2672,7 +2610,6 @@
     <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
-    <TypeScriptCompile Include="Views\About\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
@@ -2683,6 +2620,7 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\History\CategoryHistory.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\KnowledgeBar.ts" />
     <TypeScriptCompile Include="Views\Questions\AnswerQuestionComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentsSection.ts" />
@@ -2705,9 +2643,6 @@
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\History\Detail\Js\HistoryDetail.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Js\_dashboard.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
@@ -2741,19 +2676,12 @@
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.css">
       <DependentUpon>WidgetStats.less</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Contact.aspx" />
-    <Content Include="Views\Welcome\Contact.css">
-      <DependentUpon>Contact.less</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Partials\TeamPics.ascx" />
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
     <Content Include="Views\Welcome\Promoter.css">
       <DependentUpon>Promoter.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Team.css">
-      <DependentUpon>Team.less</DependentUpon>
     </Content>
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
@@ -2857,9 +2785,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\About\Jobs.css">
-      <DependentUpon>Jobs.less</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
@@ -2891,7 +2816,6 @@
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
-    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Shared\AddToWishknowledgeButton.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
@@ -2899,11 +2823,6 @@
     <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\About\AboutMemucho.css">
-      <DependentUpon>AboutMemucho.less</DependentUpon>
-    </Content>
-    <Content Include="Views\About\Jobs.aspx" />
-    <Content Include="Views\About\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -3000,7 +2919,6 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
@@ -3083,9 +3001,6 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Drafts\FontAwesome.aspx" />
-    <Content Include="Views\Knowledge\Knowledge.css">
-      <DependentUpon>Knowledge.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
@@ -3556,8 +3471,6 @@
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
-    <Compile Include="Views\Knowledge\KnowledgeController.cs" />
-    <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
@@ -3977,10 +3890,6 @@
     <Content Include="Views\Beta\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Knowledge.less" />
-    <Content Include="Views\Knowledge\Knowledge.css.map">
-      <DependentUpon>Knowledge.css</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -4031,7 +3940,6 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
@@ -4046,12 +3954,10 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\About\Jobs.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Help\Widget.less" />
-    <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
@@ -4072,8 +3978,6 @@
     </Content>
     <Content Include="Views\Welcome\Promoter.aspx" />
     <Content Include="Views\Welcome\Promoter.less" />
-    <Content Include="Views\Welcome\Team.aspx" />
-    <Content Include="Views\Welcome\Team.less" />
     <Content Include="Views\Shared\Spinner\Spinner.less" />
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.less" />
@@ -4213,7 +4117,6 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Scripts\JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
-    <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
     <TypeScriptCompile Include="Views\Users\Js\Page.ts" />
@@ -4227,7 +4130,6 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\About\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />

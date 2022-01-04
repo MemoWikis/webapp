@@ -32,7 +32,6 @@
 #Segmentation #GeneratedSegmentSection,
 #Segmentation .segment,
 #Segmentation .segmentCategoryCard {
-  border: solid transparent 1px;
   transition: 0.2s;
 }
 #Segmentation #GeneratedSegmentSection.hover,

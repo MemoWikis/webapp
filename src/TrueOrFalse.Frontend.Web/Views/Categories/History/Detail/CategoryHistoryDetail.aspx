@@ -39,18 +39,16 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
                     <li>
-                        <% if (new SessionUser().IsLoggedIn) {
-                            if (Model.NextRevExists) { %>
+                        <% if (new SessionUser().IsLoggedIn)
+                           {
+                               if (Model.NextRevExists)
+                               { %>
                                 <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
                                     <div class="dropdown-icon"><i class="fa fa-undo"></i></div>
                                      Wiederherstellen
                                 </a>
-                            <% } else { %>
-                                <a id="editButton" data-allowed="logged-in" href="<%= Links.CategoryEdit(Model.CategoryName, Model.CategoryId) %>">
-                                    <div class="dropdown-icon"><i class="fa fa-edit"></i></div>Thema bearbeiten
-                                </a>
-                            <% } %>
-                        <% } %>
+                            <% }
+                           } %>
                     </li>
                     <li>
                         <a href="<%= Links.CategoryChangesOverview(1) %>">

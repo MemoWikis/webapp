@@ -14,12 +14,12 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
     <% if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin)
        { %>
         <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
-            <div class="ImageContainer" @click="openImageUploadModal()">
-                <div class="imageUploadBtn" v-if="!disabled">
+            <div class="ImageContainer">
+                <div class="imageUploadBtn" v-if="!disabled" @click="openImageUploadModal()">
                     <div>
                         <i class="fas fa-pen"></i>
                     </div>
-                    <div class="imageUploadLabel">
+                    <div class="imageUploadLabel hidden-xs">
                         Verwende ein <br/>
                         anderes Bild
                     </div>
@@ -91,7 +91,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                 </div>
                 <div class="category-stats category-views">
                     <span class="show-tooltip" data-placement="top" data-original-title="<%= Model.GetViews() %> Views">
-                        <i class="fas fa-eye" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %>
+                        <i class="fas fa-eye">&nbsp;</i><%= Model.GetViews() %>
                     </span>
                 </div>
                 <div class="category-sub-header-divider hidden-xs">
@@ -230,7 +230,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 </a>
                             </li>
                         <% } %>
-                        <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.All)
+                        <% if (Model.IsOwnerOrAdmin && Model.Category.Visibility == CategoryVisibility.All)
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
@@ -241,7 +241,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 </a>
                             </li>
                         <% } %>
-                        <% if ((Model.IsInstallationAdmin || Model.Category.Creator == Sl.SessionUser.User) && Model.Category.Visibility == CategoryVisibility.Owner)
+                        <% if (Model.IsOwnerOrAdmin && Model.Category.Visibility == CategoryVisibility.Owner)
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('open-publish-category-modal')" data-allowed="logged-in">
@@ -252,7 +252,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 </a>
                             </li>
                         <% } %>
-                        <% if (Model.IsOwnerOrAdmin && Model.Category.Id != Model.Category.Creator.StartTopicId)
+                        <% if (Model.IsOwnerOrAdmin && (Model.Category.Creator == null || Model.Category.Id != Model.Category.Creator.StartTopicId))
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">

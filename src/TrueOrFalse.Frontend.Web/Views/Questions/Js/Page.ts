@@ -21,8 +21,6 @@ class Page
         $('#selectNotCreatedByMe').click(() => { _page.RowSelector.SelectAllWhereIAmNotOwner(); });
 
         new Pin(PinType.Question);
-
-        FillSparklineTotals();
     }
 }
 

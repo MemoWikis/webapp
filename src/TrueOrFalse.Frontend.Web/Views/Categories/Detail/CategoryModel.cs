@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Ajax.Utilities;
@@ -81,6 +82,8 @@ public class CategoryModel : BaseContentModule
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
+        if (category == null)
+            throw new Exception("category doesn't exist");
         ShowSidebar = true;
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         IsWiki = category.IsWiki();
@@ -131,7 +134,7 @@ public class CategoryModel : BaseContentModule
         var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
         Authors = AuthorViewModel.Convert(authors);
 
-        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(Creator.Id);
+        IsOwnerOrAdmin = Creator != null ? _sessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
 
         var parentCategories = category.ParentCategories();
         if (parentCategories.All(c => c.IsNotVisibleToCurrentUser))
@@ -253,18 +256,6 @@ public class CategoryModel : BaseContentModule
     }
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
-
-    public string GetViewsPerDay()
-    {
-         var views =  Sl.CategoryViewRepo
-            .GetPerDay(Id)
-            .Select(item => item.Date.ToShortDateString() + " " + item.Views)
-            .ToList();
-
-         return !views.Any() 
-            ? "" 
-            : views.Aggregate((a, b) => a + " " + b + System.Environment.NewLine);
-    }
 
     public Question GetDummyQuestion()
     {

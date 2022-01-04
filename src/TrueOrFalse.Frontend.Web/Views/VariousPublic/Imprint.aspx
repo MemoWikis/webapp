@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Impressum & Datenschutzerklärung" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
+﻿<%@ Page Title="Impressum & Datenschutzerklärung" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -26,10 +26,7 @@
 
 
     <div class="row" style="padding-top: 30px;">
-        <div class="BackToHome col-md-3">
-            <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
-        </div>
-        <div class="form-horizontal col-md-9">
+    <div class="form-horizontal col-md-12">
 
             <h1 class="PageHeader">Impressum & Datenschutzerklärung</h1>
 

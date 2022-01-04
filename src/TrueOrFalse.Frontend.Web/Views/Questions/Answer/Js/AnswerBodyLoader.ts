@@ -144,15 +144,14 @@ class AnswerBodyLoader {
                     $("div#comments").replaceWith(result.commentsAsHtml);
 
                     new AnswerBody();
-                    FillSparklineTotals();
-                    InitTooltips();
+                    initTooltips();
                     Images.Init();
-                    InitClickLog("div#LicenseQuestion");
-                    InitClickLog("div#AnswerBody");
-                    InitClickLog("div#AnswerQuestionPager");
-                    InitClickLog("div#answerQuestionDetails");
-                    InitClickLog("div#comments");
-                    PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+                    initClickLog("div#LicenseQuestion");
+                    initClickLog("div#AnswerBody");
+                    initClickLog("div#AnswerQuestionPager");
+                    initClickLog("div#answerQuestionDetails");
+                    initClickLog("div#comments");
+                    preventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
                     if (this._getCustomSession)
                         this._getCustomSession = false;
                     if ($("div[data-div-type='questionDetails']").length > 1)

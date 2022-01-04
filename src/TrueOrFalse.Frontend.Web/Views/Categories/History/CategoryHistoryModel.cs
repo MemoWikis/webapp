@@ -60,9 +60,11 @@ public class CategoryHistoryModel : BaseModel
             relationChangeItem.RelationAdded = count >= 1;
 
             var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First();
-            var categoryIsVisible = EntityCache.GetCategoryCacheItem(relationChange.CategoryId).IsVisibleToCurrentUser();
+            var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
+            var categoryIsVisible = category?.IsVisibleToCurrentUser() ?? false;
             var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
-            if (!categoryIsVisible || !relatedCategory.IsVisibleToCurrentUser())
+            var relatedCategoryIsVisible = relatedCategory?.IsVisibleToCurrentUser() ?? false;
+            if (!categoryIsVisible || !relatedCategoryIsVisible)
                 relationChangeItem.IsVisibleToCurrentUser = false;
             relationChangeItem.RelatedCategory = relatedCategory;
             relationChangeItem.Type = relationChange.RelationType;

@@ -52,11 +52,4 @@ public class QuestionSearchSpecSession : IRegisterAsInstancePerLifetime
         Sl.SessionUiData.SearchSpecQuestions.Add(result);
         return result;
     }
-
-    public static string GetUrl(SearchTabType searchTab)
-    {
-        if (searchTab == SearchTabType.Mine) return Links.QuestionsMine();
-        if (searchTab == SearchTabType.Wish) return Links.QuestionsWish();
-        return Links.QuestionsAll();
-    }
 }

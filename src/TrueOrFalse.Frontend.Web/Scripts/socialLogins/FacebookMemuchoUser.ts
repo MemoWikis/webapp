@@ -5,7 +5,9 @@
         var doesExist = false;
 
         $.ajax({
-            type: 'POST', async: false, cache: false,
+            type: 'POST',
+            async: false,
+            cache: false,
             data: { facebookId: facebookId },
             url: "/Api/FacebookUsers/UserExists",
             error(error) { console.log(error); },
@@ -26,50 +28,55 @@
     }
 
     static CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
-
-        var success = false;
-
+        Utils.ShowSpinner();
         $.ajax({
-            type: 'POST', async: false, cache: false,
+            type: 'POST',
+            async: false,
+            cache: false,
             data: { facebookUser: user },
             url: "/Api/FacebookUsers/CreateAndLogin/",
             error(error) {
+                Utils.HideSpinner();
                 Rollbar.error("Something went wrong", error);
-                success = false;
             },
             success(result) {
+                Utils.HideSpinner();
 
-                success = true;
-
-                if (result.Success == false) {
+                if (result.Success == true)
+                    Site.RedirectToRegistrationSuccess();
+                else {
 
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
-
-                    var reason = result.EmailAlreadyInUse == true ? " Die Email-Adresse ist bereits in Verwendung" : "";
-                    alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
-
-                    success = false;
+                    if (result.EmailAlreadyInUse == true) {
+                        let data = {
+                            msg: messages.error.user.emailInUse
+                        }
+                        eventBus.$emit('show-error', data);
+                    }
                 }
-            } 
+            }
         });
-
-        return success;
     }
 
-    static Login(facebookId: string, facebookAccessToken) {
+    static Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
         $.ajax({
-            type: 'POST', async: false, cache: false,
+            type: 'POST',
+            async: false,
+            cache: false,
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/FacebookUsers/Login/",
-            error(error) { throw error }
+            error(error) { throw error },
+            success() {
+                window.location.reload();
+            }
         });
+
     }
 
-    static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
-    {
+    static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus(response => {
             this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
         });
@@ -82,49 +89,43 @@
 
         if (response.status === 'connected') {
 
-            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
-            //Site.RedirectToPersonalHomepage();
+            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
+            Site.ReloadPage_butNotTo_Logout();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
             FB.login(response => {
 
-                var facebookId = response.authResponse.userID;
-                var facebookAccessToken = response.authResponse.accessToken;
+                    var facebookId = response.authResponse.userID;
+                    var facebookAccessToken = response.authResponse.accessToken;
 
-                if (response.status !== "connected")
-                    return;
+                    if (response.status !== "connected")
+                        return;
 
-                if (FacebookMemuchoUser.Exists(facebookId)) {
-                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
+                    if (FacebookMemuchoUser.Exists(facebookId)) {
+                        FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
 
-                    if (stayOnPage)
-                        //Site.ReloadPage_butNotTo_Logout();
-                    //else
-                        //Site.RedirectToPersonalHomepage();
-
-                    return;
-                }
-
-                if (disallowRegistration) {
-                    Site.RedirectToRegistration();
-                    return;
-                }
-
-                Facebook.GetUser(facebookId, facebookAccessToken, (user: FacebookUserFields) => {
-                    if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
-                        Site.RedirectToRegistrationSuccess();
-                    } else {
-                        alert("Leider ist ein Fehler aufgetreten.");
+                        return;
                     }
-                });
 
-            }, { scope: 'email' });
-        }        
+                    if (disallowRegistration) {
+                        Site.RedirectToRegistration();
+                        return;
+                    }
+
+                    Facebook.GetUser(facebookId,
+                        facebookAccessToken,
+                        (user: FacebookUserFields) => {
+                            FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken);
+                        });
+
+                },
+                { scope: 'email' });
+        }
 
     }
 
-    static Logout(onLogout : () => void) {
+    static Logout(onLogout: () => void) {
         FB.getLoginStatus(response => {
             if (response.status === 'connected') {
                 FB.logout(responseLogout => {

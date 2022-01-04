@@ -87,7 +87,7 @@
         });
 
         $(".alert-message").alert();
-        //$('.show-tooltip').tooltip(); moved to Site.ts InitTooltips()
+        //$('.show-tooltip').tooltip(); moved to Site.ts initTooltips()
         $('.show-popover').popover();
 
         $('#showUserOptions').click(function () {

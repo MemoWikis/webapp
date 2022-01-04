@@ -21,7 +21,7 @@
                     <i class="fas fa-heart"></i>
                 </div>
                 <div class="main-text">Wiki und Lernwerkzeuge vereint!</div>
-                <a href="#" onclick="HideInfoBanner()" class="visible-xs close-banner mobile-close">
+                <a href="#" onclick="hideInfoBanner()" class="visible-xs close-banner mobile-close">
                     <i class="fas fa-times"></i>
                 </a>
             </div>
@@ -29,7 +29,7 @@
                 <a href="#" onclick="OpenInfo('<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.IntroCategoryId)) %>')">
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
-                <a href="#" onclick="HideInfoBanner()" class="hidden-xs close-banner">
+                <a href="#" onclick="hideInfoBanner()" class="hidden-xs close-banner">
                     <i class="fas fa-times"></i>
                 </a>
             </div>

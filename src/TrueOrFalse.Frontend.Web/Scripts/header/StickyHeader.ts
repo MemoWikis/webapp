@@ -1,6 +1,4 @@
-﻿declare var s: any;
-
-class StickyHeaderClass {
+﻿class StickyHeaderClass {
     private _breadcrumb;
     private _header;
     private _masterHeaderOuterHeight = $("#MasterHeader").outerHeight();

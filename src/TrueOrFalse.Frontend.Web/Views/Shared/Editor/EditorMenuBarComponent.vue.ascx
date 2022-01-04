@@ -87,6 +87,12 @@
         @mousedown="command('unsetLink')">
         <i class="fas fa-unlink"></i>
     </button>
+    
+    <button
+        class="menubar__button"
+        @mousedown="command('addImage')">
+        <i class="far fa-image"></i>
+    </button>
 
     <button
         class="menubar__button"

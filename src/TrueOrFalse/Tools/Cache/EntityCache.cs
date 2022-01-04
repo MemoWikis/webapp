@@ -236,7 +236,9 @@ public class EntityCache : BaseCache
             var user = Sl.SessionUser.User;
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, user.Id);
         }
-        return Categories[categoryId];  
+
+        Categories.TryGetValue(categoryId, out var category);
+        return category;  
     }
 
     public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
