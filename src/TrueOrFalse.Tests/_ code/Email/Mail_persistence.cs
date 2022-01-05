@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading;
@@ -23,11 +24,14 @@ class Mail_persistence : BaseTest
         JobScheduler.Start();
         Thread.Sleep(25000);
 
-        var mailsInDirectory = GetEmailsFromPickupDirectory.Run().ToList();
-        var highPriorityMails = mailsInDirectory.FindAll(a => a.Contains("High"));
-
+        var mailsInDirectory = GetEmailsFromPickupDirectory.GetAsDateSortedList();
+        bool highPriorityMailIsFirst = false;
+        using (var sr = new StreamReader(mailsInDirectory[0].FullName))
+        { 
+            highPriorityMailIsFirst = sr.ReadToEnd().Contains("High");
+        }
         Assert.That(mailsInDirectory.Count, Is.EqualTo(21));
-        Assert.That(highPriorityMails.Count, Is.EqualTo(1));
+        Assert.That(highPriorityMailIsFirst, Is.EqualTo(true));
     }
 
     public List<MailMessage> CreateLowPriorityMails(User user)
@@ -71,4 +75,5 @@ class Mail_persistence : BaseTest
         userRepository.Create(user);
         return user;
     }
+
 }
