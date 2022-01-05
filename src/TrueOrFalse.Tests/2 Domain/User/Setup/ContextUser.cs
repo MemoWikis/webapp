@@ -30,6 +30,12 @@ public class ContextUser
         return this;
     }
 
+    public ContextUser AddWithEmail(string mailAddress)
+    {
+        All.Add(new User { EmailAddress = mailAddress });
+        return this;
+    }
+
     public ContextUser Add() 
     {
         All.Add(new User {
