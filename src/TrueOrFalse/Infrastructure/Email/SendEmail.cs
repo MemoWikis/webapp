@@ -22,7 +22,7 @@ public class SendEmail
         if (user == null)
             throw new Exception("no receiver");
 
-        if (!user.BouncedMail)
+        if (user.BouncedMail)
             return;
 
         var mailMessageForJob = new MailMessageJson(mailMessage.From.Address, mailMessage.To[0].Address, mailMessage.Subject, mailMessage.Body);

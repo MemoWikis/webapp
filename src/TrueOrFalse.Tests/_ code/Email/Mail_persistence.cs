@@ -21,7 +21,7 @@ class Mail_persistence : BaseTest
         SendEmail.Run(GetHighPriorityMail(user), MailMessagePriority.High);
 
         JobScheduler.Start();
-        Thread.Sleep(220000000);
+        Thread.Sleep(25000);
 
         var mailsInDirectory = GetEmailsFromPickupDirectory.Run().ToList();
         var highPriorityMails = mailsInDirectory.FindAll(a => a.Contains("High"));

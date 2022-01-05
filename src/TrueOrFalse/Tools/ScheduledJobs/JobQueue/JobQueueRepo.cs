@@ -69,15 +69,18 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 @"SELECT 
                     Id, JobQueueType, JobContent
                 FROM
-                    memucho.jobqueue
+                    memucho_test.jobqueue
                 WHERE
                     Priority = (SELECT 
                     MAX(Priority)
                 FROM
-                    memucho.jobqueue)
+                    memucho_test.jobqueue)
                 LIMIT 1;"
                 ).SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue))).List();
-        
+        if (result.Count == 0)
+        {
+            return null;
+        }
         return (JobQueue)result[0];
     }
 }
