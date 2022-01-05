@@ -20,6 +20,6 @@ public class HtmlMessage
         mailMessage.Body = parsedTemplate;
         mailMessage.IsBodyHtml = true;
 
-        SendEmail.Run(mailMessage);
+        SendEmail.Run(mailMessage, MailMessagePriority.Medium);
     }
 }

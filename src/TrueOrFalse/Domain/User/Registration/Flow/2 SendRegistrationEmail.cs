@@ -20,6 +20,6 @@ public class SendRegistrationEmail
         mail.Subject = "Willkommen bei memucho";
         mail.Body = emailBody.ToString();
             
-        SendEmail.Run(mail);
+        SendEmail.Run(mail, MailMessagePriority.High);
     }
 }

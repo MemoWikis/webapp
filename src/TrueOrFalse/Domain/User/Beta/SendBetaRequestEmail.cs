@@ -8,6 +8,6 @@ public class SendBetaRequestEmail
             Settings.EmailFrom, 
             Settings.EmailToMemucho,
             "Beta access request", 
-            requesterEmail + " asked for private beta access."));
+            requesterEmail + " asked for private beta access."), MailMessagePriority.Low);
     }
 }

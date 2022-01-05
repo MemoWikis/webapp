@@ -8,6 +8,8 @@ public class UserMap : ClassMap<User>
         Map(x => x.PasswordHashedAndSalted);
         Map(x => x.Salt);
         Map(x => x.EmailAddress);
+        Map(x => x.BouncedMail);
+        Map(x => x.MailBounceReason);
         Map(x => x.Name);
         Map(x => x.IsEmailConfirmed);
         Map(x => x.IsInstallationAdmin);
