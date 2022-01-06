@@ -243,11 +243,4 @@ public class Category : DomainEntity, ICreator, ICloneable
     {
         return this.MemberwiseClone(); 
     }
-
-    public virtual bool IsRootCategory => Id == RootCategory.RootCategoryId;
-    public virtual bool IsVisibleToCurrentUser()
-    {
-        var creator = new UserTinyModel(Creator);
-        return Visibility == CategoryVisibility.All || Sl.SessionUser.IsLoggedInUser(creator.Id);
-    }
 }
