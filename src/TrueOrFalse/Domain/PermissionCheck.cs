@@ -3,49 +3,8 @@ using System.Web.Razor.Tokenizer;
 
 public class PermissionCheck
 {
-    //public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.R<SessionUser>().User, category);
-    public static bool CanEdit(Category category) => CheckAccess(Sl.R<SessionUser>().User, category);
-
-    public static bool CanDelete(Category category) => CheckAccess(Sl.R<SessionUser>().User, category);
-
-    private static bool CheckAccess(User user, ICreator entity)
-    {
-        var t = entity.GetType().FullName;
-        if (user == null || entity == null)
-            return false;
-
-        if (user.IsInstallationAdmin)
-            return true;
-
-        if (entity.GetType().FullName == "Category")
-            return true;
-
-        if (user.Id == entity.Creator.Id)
-            return true;
-
-        return false;
-    }
-
-    private static bool CheckAccess(User user, CategoryCacheItem entity)
-    {
-        var t = entity.GetType().FullName;
-        if (user == null || entity == null)
-            return false;
-
-        if (user.IsInstallationAdmin)
-            return true;
-
-        if (entity.GetType().FullName == "Category")
-            return true;
-
-        if (user.Id == entity.Creator.Id)
-            return true;
-
-        return false;
-    }
-
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategoryCacheItem(id));
-    public static bool CanView(Category category) => CanView(Sl.R<SessionUser>().User, CategoryCacheItem.ToCacheCategory(category));
+    public static bool CanView(Category category) => CanView(CategoryCacheItem.ToCacheCategory(category));
     public static bool CanView(CategoryCacheItem category) => CanView(Sl.R<SessionUser>().User, category);
     public static bool CanView(User user, CategoryCacheItem category)
     {
@@ -57,6 +16,7 @@ public class PermissionCheck
     }
 
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategoryCacheItem(id));
+    public static bool CanEdit(Category category) => CanEdit(CategoryCacheItem.ToCacheCategory(category));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.R<SessionUser>().User, category);
     public static bool CanEdit(User user, CategoryCacheItem category)
     {
@@ -69,6 +29,7 @@ public class PermissionCheck
         return false;
     }
 
+    public static bool CanDelete(Category category) => CanEdit(CategoryCacheItem.ToCacheCategory(category));
     public static bool CanDelete(CategoryCacheItem category) => CanDelete(Sl.R<SessionUser>().User, category);
     public static bool CanDelete(User user, CategoryCacheItem category)
     {
@@ -92,7 +53,6 @@ public class PermissionCheck
     }
 
     public static bool CanEdit(Question question) => CanEdit(Sl.R<SessionUser>().User, question);
-
     public static bool CanEdit(User user, Question question)
     {
         if (user == null)

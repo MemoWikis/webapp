@@ -242,5 +242,5 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual object Clone()
     {
         return this.MemberwiseClone(); 
-    }
+    }   
 }
