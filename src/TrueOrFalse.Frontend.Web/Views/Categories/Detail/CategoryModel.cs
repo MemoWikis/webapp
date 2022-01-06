@@ -141,7 +141,7 @@ public class CategoryModel : BaseContentModule
         {
             var parents = SearchForParent(parentCategories);
             CategoriesParent = parents;
-        } else CategoriesParent = parentCategories.Where(c => c.IsVisibleToCurrentUser()).ToList();
+        } else CategoriesParent = parentCategories.Where(c => PermissionCheck.CanView(c)).ToList();
 
         CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
             UserEntityCache.GetChildren(category.Id, UserId) :
@@ -263,13 +263,13 @@ public class CategoryModel : BaseContentModule
         if (IsMyWorld)
              questionId = Category
                 .GetAggregatedQuestionsFromMemoryCache()
-                .Where(q => q.IsVisibleToCurrentUser() && q.IsInWishknowledge())
+                .Where(q => PermissionCheck.CanView(q) && q.IsInWishknowledge())
                 .Select(q => q.Id)
                 .FirstOrDefault();
         else
          questionId = Category
                 .GetAggregatedQuestionsFromMemoryCache()
-                .Where(q => q.IsVisibleToCurrentUser())
+                .Where(q => PermissionCheck.CanView(q))
                 .Select(q => q.Id)
                 .FirstOrDefault();
 
@@ -279,7 +279,7 @@ public class CategoryModel : BaseContentModule
     {
         var user = Sl.SessionUser.User; 
         return EntityCache.GetChildren(category.Id).Count(c =>
-                c.Visibility == CategoryVisibility.All || c.Creator == user);
+                PermissionCheck.CanView(c));
     }
 
     public bool ShowPinButton()

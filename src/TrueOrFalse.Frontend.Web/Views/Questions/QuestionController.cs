@@ -79,7 +79,7 @@ public class QuestionController : BaseController
     {
         var question = _questionRepo.GetById(questionId);
         var userTiny = new UserTinyModel(question.Creator);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(userTiny.Id, questionId);
+        var canBeDeleted = QuestionDelete.CanBeDeleted(userTiny.Id, question);
 
         return new JsonResult
         {

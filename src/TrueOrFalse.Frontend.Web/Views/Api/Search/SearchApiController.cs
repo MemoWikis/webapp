@@ -60,7 +60,7 @@ public class SearchApiController : BaseController
     public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Where(c => c.IsVisibleToCurrentUser()).Select(c => new SearchCategoryItem
+            elements.Categories.Where(c => PermissionCheck.CanView(c)).Select(c => new SearchCategoryItem
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -76,7 +76,7 @@ public class SearchApiController : BaseController
     public static void AddQuestionItems(List<SearchQuestionItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Questions.Where(q => q.IsVisibleToCurrentUser()).Select((q, index) => new SearchQuestionItem
+            elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
             {
                 Id = q.Id,
                 Name = q.Text.Wrap(200),
@@ -203,7 +203,7 @@ public class SearchApiController : BaseController
 
     private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)
     {
-        var questions = elements.Questions.Where(q => q.IsVisibleToCurrentUser()).ToList();
+        var questions = elements.Questions.Where(q => PermissionCheck.CanView(q)).ToList();
 
         var removedQuestionCount = elements.Questions.Count - questions.Count;
 

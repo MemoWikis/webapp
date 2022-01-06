@@ -4,7 +4,7 @@
 <div style="display: flex; flex-wrap: wrap;">
 
     <% foreach(var category in Model.Categories){ %>
-        <% if (category.IsVisibleToCurrentUser()){%>
+        <% if (PermissionCheck.CanView(category)){%>
 
             <% if(category.IsSpoiler(Model)){ %>
 

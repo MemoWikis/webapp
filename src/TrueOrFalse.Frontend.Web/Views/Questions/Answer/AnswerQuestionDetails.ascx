@@ -26,7 +26,7 @@
     </div>
     
     <div class="questionDetailsFooterPartialRight">
-        <% if (Model.Question.IsVisibleToCurrentUser()){ %>
+        <% if (PermissionCheck.CanView(Model.Question)){ %>
             <div class="wishknowledgeCount"><i class="fas fa-heart"></i><span id="<%= "WishknowledgeCounter-" + Model.QuestionId %>" data-relevance="<%= Model.IsInWishknowledge %>"><%= Model.Question.TotalRelevancePersonalEntries %></span></div>
             <div class="viewCount"><i class="fas fa-eye"></i><span><%= Model.Question.TotalViews %></span></div>
             <div class="commentCount pointer" onclick="eventBus.$emit('show-comment-section-modal', <%=Model.QuestionId%>)"><a ><i class="fas fa-comment"></i><span id="commentCountAnswerBody"><%= Model.UnsettledCommentCount %></span></a></div>

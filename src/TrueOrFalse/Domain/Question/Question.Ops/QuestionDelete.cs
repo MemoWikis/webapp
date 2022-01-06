@@ -10,7 +10,7 @@ public class QuestionDelete
         var question = questionRepo.GetById(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
-        var canBeDeletedResult = CanBeDeleted(Sl.R<SessionUser>().UserId, questionId);
+        var canBeDeletedResult = CanBeDeleted(Sl.R<SessionUser>().UserId, question);
         if (!canBeDeletedResult.Yes)
         {
             throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
@@ -49,12 +49,12 @@ public class QuestionDelete
         }
     }
 
-    public static CanBeDeletedResult CanBeDeleted(int currentUserId, int questionId)
+    public static CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
     {
-        var questionCreator = EntityCache.GetQuestionById(questionId).Creator;
-        if (Sl.SessionUser.User == questionCreator || Sl.SessionUser.IsInstallationAdmin)
+        var questionCreator = question.Creator;
+        if (PermissionCheck.CanDelete(question))
         {
-            var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, questionId);
+            var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
             if (howOftenInOtherPeopleWuwi > 0)
             {
                 return new CanBeDeletedResult
@@ -71,8 +71,6 @@ public class QuestionDelete
             Yes = false,
             HasRights = false
         };
-
-
     }
 
     public class CanBeDeletedResult

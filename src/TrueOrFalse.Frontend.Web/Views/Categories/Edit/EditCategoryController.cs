@@ -28,7 +28,7 @@ public class EditCategoryController : BaseController
     {
         var category = _categoryRepository.GetById(id);
 
-        if (!IsAllowedTo.ToEdit(category))
+        if (!PermissionCheck.CanEdit(category))
             throw new SecurityException("Not allowed to edit category");
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
@@ -48,7 +48,7 @@ public class EditCategoryController : BaseController
         var oldcategoryCacheItem = EntityCache.GetCategoryCacheItem(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(oldcategoryCacheItem, HistoryItemType.Edit));
 
-        if (!IsAllowedTo.ToEdit(oldcategoryCacheItem))
+        if (!PermissionCheck.CanEdit(oldcategoryCacheItem))
             throw new SecurityException("Not allowed to edit categoty");
 
         var categoryAllowed = new CategoryNameAllowed();
@@ -416,15 +416,13 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveCategoryContent(int categoryId, string content = null)
     {
-        if (RootCategory.LockedCategory(categoryId) && !IsInstallationAdmin)
-            return Json("Diese Seite kann nur von einem Admin bearbeitet werden");
+        if (PermissionCheck.CanEditCategory(categoryId))
+            return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
         var category = EntityCache.GetCategoryCacheItem(categoryId);
         if (category != null)
         {
-            if (content != null)
-                category.Content = content;
-            else category.Content = null;
+            category.Content = content ?? null;
 
             var categoryDb = _categoryRepository.GetByIdEager(category); 
             categoryDb.Content = content; 
@@ -439,8 +437,8 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
     {
-        if (RootCategory.LockedCategory(categoryId) && !IsInstallationAdmin)
-            return Json("Diese Seite kann nur von einem Admin bearbeitet werden");
+        if (PermissionCheck.CanEditCategory(categoryId))
+            return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
         var category = _categoryRepository.GetById(categoryId);
 
         if (category != null)
@@ -621,7 +619,7 @@ public class EditCategoryController : BaseController
     public JsonResult SetCategoryToPrivate(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
-        var hasRights = IsAllowedTo.ToEdit(categoryCacheItem);
+        var hasRights = PermissionCheck.CanEdit(categoryCacheItem);
         if (!hasRights)
             return Json(new
             {
@@ -727,7 +725,7 @@ public class EditCategoryController : BaseController
     public ActionResult Restore(int categoryId, int categoryChangeId, ActionExecutingContext filterContext)
     {
         var category = EntityCache.GetCategoryCacheItem(categoryId);
-        if (category != null && IsAllowedTo.ToEdit(category))
+        if (category != null && PermissionCheck.CanEdit(category))
         {
             RestoreCategory.Run(categoryChangeId, this.User_());
 

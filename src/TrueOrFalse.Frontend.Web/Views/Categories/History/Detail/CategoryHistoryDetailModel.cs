@@ -151,7 +151,7 @@ public class CategoryHistoryDetailModel : BaseModel
 
         }
         if (category != null && relatedCategory != null)
-            return category.IsVisibleToCurrentUser() && relatedCategory.IsVisibleToCurrentUser();
+            return PermissionCheck.CanView(category) && PermissionCheck.CanView(relatedCategory);
         return false;
     }
 

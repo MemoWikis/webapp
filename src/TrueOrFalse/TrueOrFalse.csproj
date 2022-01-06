@@ -339,7 +339,7 @@
     <Compile Include="Domain\ContentRecommendation\ContentRecommendation.cs" />
     <Compile Include="Domain\ContentRecommendation\ContentRecommendationResult.cs" />
     <Compile Include="Domain\ICreator.cs" />
-    <Compile Include="Domain\IsAllowedTo.cs" />
+    <Compile Include="Domain\PermissionCheck.cs" />
     <Compile Include="Domain\Knowledge\GetKnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />

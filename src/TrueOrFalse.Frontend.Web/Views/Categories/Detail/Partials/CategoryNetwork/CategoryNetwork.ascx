@@ -15,7 +15,7 @@
             <div class="related-categories">
                 <% foreach (var category in Model.CategoriesParent)
                     { %>
-                    <% if (category.IsVisibleToCurrentUser()) 
+                    <% if (PermissionCheck.CanView(category)) 
                             Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
             </div>
@@ -35,7 +35,7 @@
         <% if(Model.CategoriesChildren.Count > 0){ %>
             <div class="related-categories">
                 <% foreach(var category in Model.CategoriesChildren){ %>
-                    <% if (category.IsVisibleToCurrentUser()) 
+                    <% if (PermissionCheck.CanView(category)) 
                         Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
                 <%if (!Model.Category.IsHistoric)  {%>

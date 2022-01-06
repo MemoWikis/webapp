@@ -61,9 +61,9 @@ public class CategoryHistoryModel : BaseModel
 
             var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First();
             var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
-            var categoryIsVisible = category?.IsVisibleToCurrentUser() ?? false;
+            var categoryIsVisible = category != null && PermissionCheck.CanView(category);
             var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
-            var relatedCategoryIsVisible = relatedCategory?.IsVisibleToCurrentUser() ?? false;
+            var relatedCategoryIsVisible = relatedCategory != null && PermissionCheck.CanView(relatedCategory);
             if (!categoryIsVisible || !relatedCategoryIsVisible)
                 relationChangeItem.IsVisibleToCurrentUser = false;
             relationChangeItem.RelatedCategory = relatedCategory;

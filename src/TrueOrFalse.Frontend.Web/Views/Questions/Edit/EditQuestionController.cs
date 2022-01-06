@@ -263,7 +263,7 @@ public class EditQuestionController : BaseController
         }
         else
         {
-            if (!IsAllowedTo.ToEdit(_questionRepo.GetById(questionId)))
+            if (!PermissionCheck.CanEdit(_questionRepo.GetById(questionId)))
                 throw new SecurityException("Not allowed to edit question");
         }
 
@@ -313,7 +313,7 @@ public class EditQuestionController : BaseController
     {
         if (soundfile == null) return;
 
-        if (!IsAllowedTo.ToEdit(_questionRepo.GetById(questionId)))
+        if (!PermissionCheck.CanEdit(_questionRepo.GetById(questionId)))
             throw new SecurityException("Not allowed to edit question");
 
         new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));

@@ -45,7 +45,6 @@
                 if (result.Success == true)
                     Site.RedirectToRegistrationSuccess();
                 else {
-
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                     if (result.EmailAlreadyInUse == true) {
                         let data = {

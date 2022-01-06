@@ -251,7 +251,7 @@ public class EntityCache : BaseCache
                 categories.Add(category);
         }
 
-        return categories.Where(c => c.IsVisibleToCurrentUser()).ToList();
+        return categories.Where(c => PermissionCheck.CanView(c)).ToList();
     }
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();

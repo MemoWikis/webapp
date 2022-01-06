@@ -516,7 +516,7 @@ public class EditCategoryModel : BaseModel
              (updatedParentList.All(c => c.Visibility != CategoryVisibility.All) && childCategory.Visibility == CategoryVisibility.All))
             return false;
 
-        if (!IsAllowedTo.ToEdit(childCategory))
+        if (!PermissionCheck.CanEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);

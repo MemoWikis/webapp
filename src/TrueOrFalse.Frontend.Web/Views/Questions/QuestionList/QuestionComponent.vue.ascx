@@ -15,7 +15,7 @@
                     :selected-page-from-active-question="selectedPageFromActiveQuestion"
                     :length-of-questions-array="questions[0].LearningSessionStepCount"
                     :question-link-to-comment ="q.LinkToComment"
-                    :link-to-edit-question ="q.LinkToEditQuestion"
+                    :link-to-edit-question ="q.LinkCanEditQuestion"
                     :link-to-question-versions ="q.LinkToQuestionVersions"
                     :link-to-question ="q.LinkToQuestion"
                     :key="q.Id"
