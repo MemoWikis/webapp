@@ -137,11 +137,11 @@ public class CategoryModel : BaseContentModule
         IsOwnerOrAdmin = Creator != null ? _sessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
 
         var parentCategories = category.ParentCategories();
-        if (parentCategories.All(c => c.IsNotVisibleToCurrentUser))
+        if (parentCategories.All(c => !PermissionCheck.CanView(c)))
         {
             var parents = SearchForParent(parentCategories);
             CategoriesParent = parents;
-        } else CategoriesParent = parentCategories.Where(c => PermissionCheck.CanView(c)).ToList();
+        } else CategoriesParent = parentCategories.Where(PermissionCheck.CanView).ToList();
 
         CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
             UserEntityCache.GetChildren(category.Id, UserId) :
@@ -199,7 +199,7 @@ public class CategoryModel : BaseContentModule
             parents.AddRange(child.ParentCategories());
         }
 
-        if (parents.Count > 0 && parents.All(c => c.IsNotVisibleToCurrentUser))
+        if (parents.Count > 0 && parents.All(c => !PermissionCheck.CanView(c)))
         {
             var parentsToCheck = new List<CategoryCacheItem>(parents);
             parents = SearchForParent(parentsToCheck);

@@ -177,7 +177,7 @@ public class CategoryChangeDayModel
     }
     public void AppendItems(List<CategoryChangeDetailModel> items, CategoryChange change)
     {
-        if (change.Category == null || change.Category.IsNotVisibleToCurrentUser)
+        if (change.Category == null || !PermissionCheck.CanView(change.Category))
             return;
 
         if (_currentCategoryChangeDetailModel != null &&

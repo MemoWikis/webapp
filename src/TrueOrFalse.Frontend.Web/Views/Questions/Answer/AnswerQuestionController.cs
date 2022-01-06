@@ -518,7 +518,7 @@ public class AnswerQuestionController : BaseController
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
-            categories = question.Categories.Where(c => PermissionCheck.CanView(c)).Select(c => new
+            categories = question.Categories.Where(PermissionCheck.CanView).Select(c => new
             {
                 name = c.Name,
                 categoryType = c.Type,

@@ -9,7 +9,7 @@ public class CategoryCachedData
     public IList<int> ChildrenIds  { get; set; } = new List<int>();
 
     public int CountVisibleChildrenIds =>
-        EntityCache.GetCategoryCacheItems(ChildrenIds).Count(cci => PermissionCheck.CanView(cci));
+        EntityCache.GetCategoryCacheItems(ChildrenIds).Count(PermissionCheck.CanView);
 
     public int CountAllChildrenIds => ChildrenIds.Count; 
 }

@@ -63,7 +63,7 @@ public class UserModel : BaseModel
         DoIFollow = followerIAm.Of(User.Id);
 
         var userWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
-        if (userWiki != null && userWiki.IsVisibleToCurrentUser())
+        if (userWiki != null && PermissionCheck.CanView(userWiki))
         {
             UserWiki = EntityCache.GetCategoryCacheItem(userWiki.Id);
             ShowWiki = true;

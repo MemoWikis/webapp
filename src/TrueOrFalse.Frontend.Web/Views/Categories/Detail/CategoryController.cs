@@ -117,7 +117,7 @@ public class CategoryController : BaseController
     public void CategoryById(int id)
     {
         var category = Resolve<CategoryRepository>().GetById(id);
-        if (category.IsNotVisibleToCurrentUser)
+        if (!PermissionCheck.CanView(category))
             category = null;
         Response.Redirect(Links.CategoryDetail(category));
     }

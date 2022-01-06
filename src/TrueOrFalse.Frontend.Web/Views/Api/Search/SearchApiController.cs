@@ -60,7 +60,7 @@ public class SearchApiController : BaseController
     public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Where(c => PermissionCheck.CanView(c)).Select(c => new SearchCategoryItem
+            elements.Categories.Where(PermissionCheck.CanView).Select(c => new SearchCategoryItem
             {
                 Id = c.Id,
                 Name = c.Name,

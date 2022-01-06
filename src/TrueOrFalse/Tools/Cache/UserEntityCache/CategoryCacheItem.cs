@@ -136,7 +136,7 @@ public class CategoryCacheItem
 
 
         if (onlyVisible)
-            questions = questions.Where(q => q.IsVisibleToCurrentUser());
+            questions = questions.Where(PermissionCheck.CanView);
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
             questions = questions.Where(q => q.IsInWishknowledge()); 
@@ -226,18 +226,6 @@ public class CategoryCacheItem
             DateCreated = category.DateCreated
         };
     }
-
-    public virtual bool IsVisibleToCurrentUser()
-    {
-        var sessionUser = Sl.SessionUser.User;
-        if (sessionUser == null)
-            return Visibility == CategoryVisibility.All;
-
-        var creator = new UserTinyModel(Creator);
-        return Visibility == CategoryVisibility.All || creator.Id == Sl.SessionUser.UserId; 
-    }
-
-    public virtual bool IsNotVisibleToCurrentUser => !IsVisibleToCurrentUser();
 
     public virtual bool HasPublicParent() {
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
