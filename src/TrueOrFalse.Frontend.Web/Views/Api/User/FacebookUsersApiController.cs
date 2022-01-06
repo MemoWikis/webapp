@@ -77,7 +77,7 @@ public class FacebookUsersApiController : BaseController
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "Facebook Data Deletion Callback",
-            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."));
+            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."), MailMessagePriority.High);
         var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
         return JsonConvert.SerializeObject(requestAnswer); ;
     }

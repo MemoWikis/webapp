@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using Quartz;
+using Quartz.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class RegisterController : BaseController
@@ -22,6 +24,9 @@ public class RegisterController : BaseController
 
         var user = RegisterModelToUser.Run(model);
         RegisterUser.Run(user);
+        ISchedulerFactory schedFact = new StdSchedulerFactory();
+        var x = schedFact.AllSchedulers;
+
         _sessionUser.Login(user);
 
         var category = PersonalTopic.GetPersonalCategory(user);

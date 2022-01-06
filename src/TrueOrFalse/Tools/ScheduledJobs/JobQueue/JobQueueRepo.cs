@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using NHibernate;
+using NHibernate.Transform;
+using RollbarSharp;
 using Seedworks.Lib.Persistence;
 
 public class JobQueueRepo : RepositoryDb<JobQueue>
@@ -8,12 +11,13 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     {
     }
 
-    public void Add(JobQueueType jobQueueType, string jobContent)
+    public void Add(JobQueueType jobQueueType, string jobContent, int priority = 0)
     {
         Session.Save(new JobQueue
         {
             JobQueueType = jobQueueType,
-            JobContent = jobContent
+            JobContent = jobContent,
+            Priority = priority
         });
         Session.Flush();
     }
@@ -21,7 +25,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     public void DeleteById(IList<int> jobIds)
     {
         var query = $"DELETE FROM jobqueue WHERE jobqueue.Id IN ({string.Join(", ", jobIds)})";
-        _session.CreateSQLQuery(query).ExecuteUpdate(); 
+        _session.CreateSQLQuery(query).ExecuteUpdate();
     }
 
     public void DeleteAllJobs(JobQueueType jobQueueType)
@@ -32,7 +36,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
 
     public IList<JobQueue> GetReputationUpdateUsers()
     {
-        return 
+        return
             _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.UpdateReputationForUser).List();
     }
 
@@ -55,5 +59,25 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
             _session.QueryOver<JobQueue>()
                 .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge).List();
     }
+    public JobQueue GetTopPriorityMailMessage()
+    {
+        var result = Sl.Resolve<ISession>()
+            .CreateSQLQuery(
+                @"SELECT 
+                    Id, JobQueueType, JobContent
+                FROM
+                    memucho.jobqueue
+                WHERE
+                    Priority = (SELECT 
+                    MAX(Priority)
+                FROM
+                    memucho.jobqueue)
+                LIMIT 1;"
+                ).SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue))).List();
+        if (result.Count == 0)
+        {
+            return null;
+        }
+        return (JobQueue)result[0];
+    }
 }
-    

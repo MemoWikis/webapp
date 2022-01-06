@@ -18,8 +18,8 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
         var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
-        _tokenRepository.Create(new PasswordRecoveryToken{ Email = email, Token = token });
-        SendEmail.Run(GetMailMessage(email, passwortResetUrl));
+        _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
+        SendEmail.Run(GetMailMessage(email, passwortResetUrl), MailMessagePriority.High);
 
         return new PasswordRecoveryResult { Success = true };
     }

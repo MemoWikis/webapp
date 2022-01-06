@@ -12,10 +12,7 @@ public class WelcomeController : BaseController
     {
         CategoryCacheItem category;
         var sessionUser = Sl.SessionUser;
-        if (sessionUser.IsLoggedIn)
-            category = EntityCache.GetCategoryCacheItem(sessionUser.User.StartTopicId, getDataFromEntityCache: true);
-        else
-            category = RootCategory.Get; 
+        category = sessionUser.IsLoggedIn ? EntityCache.GetCategoryCacheItem(sessionUser.User.StartTopicId, getDataFromEntityCache: true) : RootCategory.Get; 
 
         return Redirect(Links.CategoryDetail(category)); ;
     }
@@ -115,6 +112,6 @@ public class WelcomeController : BaseController
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "Newsletter sign up request",
-            requesterEmail + " asked to sign up for newsletter."));
+            requesterEmail + " asked to sign up for newsletter."), MailMessagePriority.Medium);
     }
 }

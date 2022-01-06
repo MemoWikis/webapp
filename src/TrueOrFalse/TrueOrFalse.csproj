@@ -170,6 +170,7 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -276,6 +277,8 @@
     <Compile Include="Domain\SaveType.cs" />
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
+    <Compile Include="Infrastructure\Email\MailMessageJob.cs" />
+    <Compile Include="Infrastructure\Email\MailMessageJson.cs" />
     <Compile Include="Infrastructure\Logging\LoggController.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
@@ -791,6 +794,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\PersonalTopic.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs227.cs" />
@@ -808,6 +812,10 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs213.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs212.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs229.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
     <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
     <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
