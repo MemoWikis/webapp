@@ -278,8 +278,7 @@ public class CategoryModel : BaseContentModule
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
         var user = Sl.SessionUser.User; 
-        return EntityCache.GetChildren(category.Id).Count(c =>
-                PermissionCheck.CanView(c));
+        return EntityCache.GetChildren(category.Id).Count(PermissionCheck.CanView);
     }
 
     public bool ShowPinButton()

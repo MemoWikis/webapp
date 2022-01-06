@@ -26,7 +26,7 @@ public class SegmentationModel : BaseContentModule
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         Category = category;
         
-        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(c => PermissionCheck.CanView(category)) : EntityCache.GetChildren(category.Id).Where(c => PermissionCheck.CanView(category));
+        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(PermissionCheck.CanView) : EntityCache.GetChildren(category.Id).Where(PermissionCheck.CanView);
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();

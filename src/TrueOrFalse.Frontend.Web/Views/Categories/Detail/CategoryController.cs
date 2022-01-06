@@ -49,7 +49,7 @@ public class CategoryController : BaseController
     {
         var result = new LoadModelResult();
         var category = EntityCache.GetCategoryCacheItem(id);
-        if (category != null && !PermissionCheck.CanView(category))
+        if (!PermissionCheck.CanView(category))
             category = null;
         
         var isCategoryNull = category == null;
@@ -340,8 +340,7 @@ public class CategoryController : BaseController
         var userCacheItem = UserCache.GetItem(User_().Id);
 
 
-        var hasRights = PermissionCheck.CanEdit(categoryCacheItem);
-        if (!hasRights)
+        if (!PermissionCheck.CanEdit(categoryCacheItem))
             return Json(new
             {
                 success = false,

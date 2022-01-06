@@ -619,8 +619,7 @@ public class EditCategoryController : BaseController
     public JsonResult SetCategoryToPrivate(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
-        var hasRights = PermissionCheck.CanEdit(categoryCacheItem);
-        if (!hasRights)
+        if (!PermissionCheck.CanEdit(categoryCacheItem))
             return Json(new
             {
                 success = false,
@@ -725,7 +724,7 @@ public class EditCategoryController : BaseController
     public ActionResult Restore(int categoryId, int categoryChangeId, ActionExecutingContext filterContext)
     {
         var category = EntityCache.GetCategoryCacheItem(categoryId);
-        if (category != null && PermissionCheck.CanEdit(category))
+        if (PermissionCheck.CanEdit(category))
         {
             RestoreCategory.Run(categoryChangeId, this.User_());
 

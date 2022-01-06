@@ -60,7 +60,7 @@ public class UserRowModel : BaseModel
 
         IsStartTopicModified = startTopic.IsStartTopicModified() || startTopic.GetAggregatedQuestionIdsFromMemoryCache().Count > 0;
         var userWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
-        if (userWiki != null && PermissionCheck.CanView(userWiki))
+        if (PermissionCheck.CanView(userWiki))
         {
             ShowWiki = true;
         }
