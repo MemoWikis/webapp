@@ -518,13 +518,13 @@ public class AnswerQuestionController : BaseController
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
-            categories = question.Categories.Where(PermissionCheck.CanView).Select(c => new
+            categories = question.CategoriesVisibleToCurrentUser().Select(c => new
             {
                 name = c.Name,
                 categoryType = c.Type,
                 linkToCategory = Links.CategoryDetail(c),
                 isPrivate = c.Visibility == CategoryVisibility.Owner,
-            }).AsEnumerable().Distinct().ToList(),
+            }).Distinct().ToList(),
             visibility = question.Visibility,
             dateNow,
             endTimer = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()

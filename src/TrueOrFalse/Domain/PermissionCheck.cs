@@ -5,7 +5,7 @@ public class PermissionCheck
 {
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategoryCacheItem(id));
     public static bool CanView(Category category) => CanView(CategoryCacheItem.ToCacheCategory(category));
-    public static bool CanView(CategoryCacheItem category) => CanView(Sl.R<SessionUser>().User, category);
+    public static bool CanView(CategoryCacheItem category) => CanView(Sl.SessionUser.User, category);
 
     public static bool CanView(User user, CategoryCacheItem category)
     {
@@ -23,7 +23,7 @@ public class PermissionCheck
 
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategoryCacheItem(id));
     public static bool CanEdit(Category category) => CanEdit(CategoryCacheItem.ToCacheCategory(category));
-    public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.R<SessionUser>().User, category);
+    public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.SessionUser.User, category);
     public static bool CanEdit(User user, CategoryCacheItem category)
     {
         if (user == null || category == null)
@@ -39,7 +39,7 @@ public class PermissionCheck
     }
 
     public static bool CanDelete(Category category) => CanEdit(CategoryCacheItem.ToCacheCategory(category));
-    public static bool CanDelete(CategoryCacheItem category) => CanDelete(Sl.R<SessionUser>().User, category);
+    public static bool CanDelete(CategoryCacheItem category) => CanDelete(Sl.SessionUser.User, category);
     public static bool CanDelete(User user, CategoryCacheItem category)
     {
         if (user == null || category == null)
@@ -54,7 +54,7 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanView(Question question) => CanView(Sl.R<SessionUser>().User, question);
+    public static bool CanView(Question question) => CanView(Sl.SessionUser.User, question);
 
     public static bool CanView(User user, Question question)
     {
@@ -70,7 +70,7 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanEdit(Question question) => CanEdit(Sl.R<SessionUser>().User, question);
+    public static bool CanEdit(Question question) => CanEdit(Sl.SessionUser.User, question);
 
     public static bool CanEdit(User user, Question question)
     {
@@ -83,7 +83,7 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanDelete(Question question) => CanDelete(Sl.R<SessionUser>().User, question);
+    public static bool CanDelete(Question question) => CanDelete(Sl.SessionUser.User, question);
 
     public static bool CanDelete(User user, Question question)
     {

@@ -176,4 +176,6 @@ public class Question : DomainEntity, ICreator
     public virtual string TextExtendedHtml { get; set; }
     public virtual string DescriptionHtml { get; set; }
     public virtual bool SkipMigration { get; set; }
+
+    public virtual IEnumerable<Category> CategoriesVisibleToCurrentUser() => Categories.Where(PermissionCheck.CanView);
 }
