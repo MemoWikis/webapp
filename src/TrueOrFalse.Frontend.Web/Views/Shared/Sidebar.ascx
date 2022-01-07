@@ -8,7 +8,7 @@
     </div>
     <div id="SidebarContent">
         <div class="sidebar-card">
-            <div class="overline-m no-line"><a class="" href="<%= Links.CategoryDetail("Zur Doku",RootCategory.IntroCategoryId) %>">Zur Doku</a><br/></div>
+            <div class="overline-m no-line"><a class="" href="<%= Links.CategoryDetail("Zur Dokumentation",RootCategory.IntroCategoryId) %>">Zur Dokumentation</a><br/></div>
         </div>
 
         <div class="sidebar-card">
