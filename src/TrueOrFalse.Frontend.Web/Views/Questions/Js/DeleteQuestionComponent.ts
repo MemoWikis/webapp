@@ -50,7 +50,9 @@
                         $('#modalDeleteQuestion').modal('show');
                     },
                     error() {
-                        eventBus.$emit('show-error');
+                        Alerts.showError({
+                            text: self.errorMsg
+                        });
                     }
                 });
             },
@@ -68,7 +70,9 @@
                         Utils.HideSpinner();
                         self.deletionInProgress = false;
                         eventBus.$emit('question-deleted', self.id);
-                        eventBus.$emit('show-success', messages.success.question.delete);
+                        Alerts.showSuccess({
+                            text: messages.success.question.delete
+                        });
                         $('#modalDeleteQuestion').modal('hide');
                     },
                     error() {

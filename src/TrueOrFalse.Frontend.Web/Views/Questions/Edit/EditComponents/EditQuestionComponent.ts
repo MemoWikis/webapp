@@ -401,15 +401,13 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                         self.highlightEmptyFields = false;
                         Utils.HideSpinner();
                         if (result.error) {
-                            let data = {
-                                msg: messages.error.question[result.key]
-                            }
-                            eventBus.$emit('show-error', data);
+                            Alerts.showError({
+                                text: messages.error.question[result.key]
+                            });
                         } else {
-                            let data = {
-                                msg: self.edit ? messages.success.question.saved : messages.success.question.created
-                            }
-                            eventBus.$emit('show-success', data);
+                            Alerts.showSuccess({
+                                text: self.edit ? messages.success.question.saved : messages.success.question.created
+                            });
                         }
                         $('#EditQuestionModal').modal('hide');
     

@@ -58,6 +58,16 @@ var messages = {
     }
 }
 
+type AlertMsg = { text: string, reload?: boolean }
+
+class Alerts {
+    static showError(msg: AlertMsg): void {
+        eventBus.$emit('show-error', msg);
+    }
+    static showSuccess(msg: AlertMsg): void {
+        eventBus.$emit('show-success', msg);
+    }
+} 
 
 Vue.component('alert-modal-component',
     {
@@ -70,31 +80,27 @@ Vue.component('alert-modal-component',
         },
         mounted() {
             eventBus.$on('show-success',
-                (data) => {
+                (data: AlertMsg) => {
                     this.error = false;
-                    this.message = data.msg;
+                    this.message = data.text;
                     if (data.reload)
                         this.reload = data.reload;
                     $('#SuccessModal').modal('show');
 
                 });
 
-            $('#SuccessModal').on('hidden.bs.modal',
-                () => this.clearData());
+            $('#SuccessModal').on('hidden.bs.modal', () => this.clearData());
 
             eventBus.$on('show-error',
-                (data) => {
+                (data: AlertMsg) => {
                     if (data != null) {
-                        this.message = data.msg;
+                        this.message = data.text;
                         if (data.reload)
                             this.reload = data.reload;
                     } else
                         this.message = messages.error.default;
 
                     $('#ErrorModal').modal('show');
-                });
-            $('#ErrorModal').on('show.bs.modal',
-                event => {
                 });
 
             $('#ErrorModal').on('hidden.bs.modal',

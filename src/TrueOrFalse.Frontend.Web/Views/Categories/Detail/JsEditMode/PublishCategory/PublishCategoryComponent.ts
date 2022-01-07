@@ -89,19 +89,17 @@ var pub = Vue.component('publish-category-component', {
                 success: function (result) {
                     if (result.success) {
                         $('#PublishCategoryModal').modal('hide');
-                        let data = {
-                            msg: messages.success.category.publish,
+                        Alerts.showSuccess({
+                            text: messages.success.category.publish,
                             reload: true,
-                        }
-                        eventBus.$emit('show-success', data);
+                        });
                         if (self.publishQuestions)
                             self.publishPrivateQuestions();
                     } else {
                         $('#PublishCategoryModal').modal('hide');
-                        let data = {
-                            msg: messages.error.category[result.key]
-                        };
-                        eventBus.$emit('show-error', data);
+                        Alerts.showError({
+                            text: messages.error.category[result.key]
+                        });
                     }
                 },
             });

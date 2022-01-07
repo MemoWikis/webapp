@@ -72,10 +72,9 @@ Vue.component('category-to-private-component', {
                 data: JSON.stringify(data),
                 success: function (result) {
                     if (result.success == false) {
-                        let data = {
-                            msg: messages.error.category[result.key],
-                        }
-                        eventBus.$emit('show-error', data);
+                        Alerts.showError({
+                            text: messages.error.category[result.key]
+                        });
                     } else {
                         self.categoryName = result.categoryName;
                         self.personalQuestionIds = result.personalQuestionIds;
@@ -102,18 +101,16 @@ Vue.component('category-to-private-component', {
                         $('#CategoryToPrivateModal').modal('hide');
                         if (self.questionsToPrivate || self.allQuestionsToPrivate)
                             self.setQuestionsToPrivate();
-                        let data = {
-                            msg: messages.success.category.setToPrivate,
+                        Alerts.showSuccess({
+                            text: messages.success.category.setToPrivate,
                             reload: true,
-                        }
-                        eventBus.$emit('show-success', data);
+                        });
 
                     } else {
                         $('#CategoryToPrivateModal').modal('hide');
-                        let data = {
-                            msg: messages.error.category[result.key]
-                        };
-                        eventBus.$emit('show-error', data);
+                        Alerts.showError({
+                            text: messages.error.category[result.key]
+                        });
                     }
                 },
             });

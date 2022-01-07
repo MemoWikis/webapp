@@ -36,10 +36,9 @@ var deleteCategoryComponent = Vue.component('delete-category-component', {
                 success: function (data) {
                     self.categoryName = data.CategoryName;
                     if (data.HasChildren) {
-                        let eventData = {
-                            msg: messages.error.category.notLastChild
-                        }
-                        eventBus.$emit('show-error', eventData);
+                        Alerts.showError({
+                            text: messages.error.category.notLastChild
+                        });
                     }
 
                     else

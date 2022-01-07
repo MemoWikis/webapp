@@ -100,16 +100,15 @@
                         self.$parent.categories = self.$parent.categories.filter((c) => {
                             return c.Id != self.categoryId;
                         });
-                        let eventData = {
-                            msg: messages.success.category[data.key]
-                        }
-                        eventBus.$emit('show-success', eventData);
+
+                        Alerts.showSuccess({
+                            text: messages.success.category[data.key]
+                        });
                     }
                     else {
-                        let eventData = {
-                            msg: messages.error.category[data.key]
-                        }
-                        eventBus.$emit('show-error', eventData);
+                        Alerts.showError({
+                            text: messages.error.category[data.key]
+                        });
                     }
                 },
             });

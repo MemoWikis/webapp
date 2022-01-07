@@ -47,10 +47,9 @@
                 else {
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                     if (result.EmailAlreadyInUse == true) {
-                        let data = {
-                            msg: messages.error.user.emailInUse
-                        }
-                        eventBus.$emit('show-error', data);
+                        Alerts.showError({
+                            text: messages.error.user.emailInUse
+                        });
                     }
                 }
             }

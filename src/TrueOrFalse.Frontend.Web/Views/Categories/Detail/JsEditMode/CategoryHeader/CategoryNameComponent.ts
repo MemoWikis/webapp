@@ -69,8 +69,9 @@ Vue.component('category-name-component',
                         else {
                             let errorMsg = messages.error.category[data.key];
                             self.errorMsg = errorMsg;
-                            let msg = { msg: name + ' ' + errorMsg };
-                            eventBus.$emit('show-error', msg);
+                            Alerts.showError({
+                                text: name + ' ' + errorMsg
+                            });
                             eventBus.$emit('name-is-valid', { isValid: false, msg: name + ' ' + errorMsg });
                         }
                     },

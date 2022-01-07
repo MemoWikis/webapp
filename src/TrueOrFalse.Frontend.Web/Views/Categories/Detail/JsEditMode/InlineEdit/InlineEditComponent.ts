@@ -77,10 +77,9 @@ Vue.component('text-component',
                         if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
                             let src = eventContent[0].attrs.src;
                             if (src.length > 1048576 && src.startsWith('data:image')) {
-                                let data = {
-                                    msg: messages.error.image.tooBig
-                                }
-                                eventBus.$emit('show-error', data);
+                                Alerts.showError({
+                                    text: messages.error.image.tooBig
+                                });
                                 return true;
                             }
                         }
@@ -160,10 +159,9 @@ Vue.component('text-component',
                                     if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
                                         let src = eventContent[0].attrs.src;
                                         if (src.length > 1048576 && src.startsWith('data:image')) {
-                                            let data = {
-                                                msg: messages.error.image.tooBig
-                                            }
-                                            eventBus.$emit('show-error', data);
+                                            Alerts.showError({
+                                                text: messages.error.image.tooBig
+                                            });
                                             return true;
                                         }
                                     }

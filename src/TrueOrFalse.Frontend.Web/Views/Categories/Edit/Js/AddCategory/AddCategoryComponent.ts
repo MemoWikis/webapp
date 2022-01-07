@@ -94,16 +94,14 @@
                     data: JSON.stringify(data),
                     success: function (data) {
                         if (data.success) {
-                            let eventData = {
-                                msg: messages.success.category[data.key]
-                            }
-                            eventBus.$emit('show-success', eventData);
+                            Alerts.showSuccess({
+                                text: messages.success.category[data.key]
+                            });
                             Utils.HideSpinner();
                         } else {
-                            let eventData = {
-                                msg: messages.error.category[data.key]
-                            }
-                            eventBus.$emit('show-error', eventData);
+                            Alerts.showError({
+                                text: messages.error.category[data.key]
+                            });
                             Utils.HideSpinner();
                         };
                     },
