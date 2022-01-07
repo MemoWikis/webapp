@@ -23,6 +23,7 @@ public class AnswerBodyModel : BaseModel
 
     public string QuestionLastEditedOn;
     public string QuestionText;
+    public string QuestionDescription;
     public string QuestionTextMarkdown;
     public LicenseQuestion LicenseQuestion;
     public bool IsLastQuestion = false;
@@ -132,6 +133,7 @@ public class AnswerBodyModel : BaseModel
             AjaxUrl_LearningSessionAmendAfterShowSolution = Links.LearningSessionAmendAfterShowSolution;
 
         QuestionText = question.TextHtml;
+        QuestionDescription = question.DescriptionHtml;
         QuestionTextMarkdown = question.TextExtended != null ? MarkdownMarkdig.ToHtml(question.TextExtended) : "";
 
         if (question.SolutionType == TrueOrFalse.SolutionType.FlashCard)

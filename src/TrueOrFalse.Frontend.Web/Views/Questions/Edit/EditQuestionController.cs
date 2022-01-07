@@ -160,6 +160,7 @@ public class EditQuestionController : BaseController
     {
         question.TextHtml = questionDataJson.TextHtml;
         question.Text = safeText;
+        question.DescriptionHtml = questionDataJson.DescriptionHtml;
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
 
         var categories = new List<Category>();
@@ -208,6 +209,7 @@ public class EditQuestionController : BaseController
         public int[] CategoryIds { get; set; }
         public int QuestionId { get; set; }
         public string TextHtml { get; set; }
+        public string DescriptionHtml { get; set; }
         public dynamic Solution { get; set; }
         public string SolutionMetadataJson { get; set; }
         public int Visibility { get; set; }
