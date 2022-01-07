@@ -44,7 +44,7 @@
                     <a :href="category.LinkToCategory" class="sub-label">
                         <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
                         <template v-else-if="category.ChildCategoryCount > 1">{{category.ChildCategoryCount}} Unterthemen</template>
-                        {{category.QuestionCount}} Frage<template v-if="category.QuestionCount != 1">n</template>
+                        <span v-if="category.QuestionCount > 0">{{category.QuestionCount}} Frage<template v-if="category.QuestionCount != 1">n</template></span>
                     </a>
                 </div>
                 <a :href="category.LinkToCategory">
