@@ -182,6 +182,7 @@ function loadInfoBanner() {
 }
 
 function hideInfoBanner() {
+    $('#MemuchoInfoBanner').removeClass('skip-animation');
     $('#MemuchoInfoBanner').removeClass('show-banner');
     document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
 }
