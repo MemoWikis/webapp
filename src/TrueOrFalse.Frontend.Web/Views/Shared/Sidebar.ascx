@@ -17,7 +17,7 @@
                 <div class="body-m grey-darker">
                     Du willst dich mit uns unterhalten?
                     <br />
-                    Dann triff dich mit uns in Discord!
+                    Dann triff dich mit uns auf <a href="https://discord.com/invite/nXKwGrN" target="_blank">Discord</a>!
                 </div>
             </div>
         </div>
