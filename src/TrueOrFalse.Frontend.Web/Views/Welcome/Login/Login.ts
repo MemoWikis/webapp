@@ -35,8 +35,6 @@ class Login {
                 afterLoad();
 
             self.InitializeForm();
-            self.InitializeFacebook();
-            self.InitializeGoogleLogin();
         });
     }
 
@@ -46,31 +44,6 @@ class Login {
 
     static ShowFeatureInfo() {
         $("#needs-to-be-logged-in").show();
-    }
-
-    private static InitializeFacebook() {
-
-        $("#btn-login-with-facebook-modal").click(() => {
-            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
-        });
-    }
-
-    private static InitializeGoogleLogin() {
-        $("#btn-login-with-google-modal").on("click", () => {
-            new Google();
-                setTimeout(() => {
-                        Google.AttachClickHandler('btn-login-with-google-modal');
-                    },
-                    500);
-
-            if (!this.IsClicked) {
-                setTimeout(() => {
-                        this.IsClicked = true;
-                        $("#btn-login-with-google-modal")[0].click();
-                    },
-                    1000);
-            }
-        });
     }
 
     private static InitializeForm() {
@@ -113,7 +86,7 @@ class Login {
             if (backToLocation != undefined)
                 location.href = backToLocation;
             else
-                Site.ReloadPage_butNotTo_Logout(result.localHref);
+                Site.ReloadPageExceptLogoutAndRegister();
         });
     }
 

@@ -30,14 +30,6 @@ var loginModal = Vue.component('login-modal-component',
                 FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
             },
 
-            GoogleLogin() {
-                new Google();
-                setTimeout(() => {
-                    Google.AttachClickHandler('btn-login-with-google-modal');
-                    },
-                    500);
-            },
-
             SubmitForm() {
 
                 var self = this;
@@ -60,7 +52,7 @@ var loginModal = Vue.component('login-modal-component',
                         if (backToLocation != undefined)
                             location.href = backToLocation;
                         else
-                            Site.ReloadPage_butNotTo_Logout(result.localHref);
+                            Site.ReloadPageExceptLogoutAndRegister(result.localHref);
                     });
             }
         }
@@ -76,6 +68,19 @@ var loginApp = new Vue({
         }
     },
     mounted() {
+        new Google();
+        setTimeout(() => {
+                Google.AttachClickHandler('GoogleLogin');
+                Google.AttachClickHandler('GoogleRegister');
+            },
+            500);
+
+        $("#FacebookLogin").click(() => {
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*disallowRegistration*/ false);
+        });
+        $("#FacebookRegister").click(() => {
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*disallowRegistration*/ false);
+        });
         eventBus.$on('show-login-modal',
             () => {
                 this.loaded = true;
@@ -90,24 +95,11 @@ var loginApp = new Vue({
                 var self = this;
                 self.FacebookLogin();
             });
-        eventBus.$on('login-Google',
-            () => {
-                var self = this;
-                self.GoogleLogin();
-            });
     },
 
     methods: {
         FacebookLogin() {
             FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
-        },
-
-        GoogleLogin() {
-            new Google();
-            setTimeout(() => {
-                    Google.AttachClickHandler('btn-login-with-google-modal');
-                },
-                500);
         },
     }
 });

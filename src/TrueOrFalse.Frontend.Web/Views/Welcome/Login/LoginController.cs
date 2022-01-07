@@ -28,12 +28,10 @@ public class LoginController : BaseController
 
             TransferActivityPoints.FromSessionToUser();
             Sl.UserRepo.UpdateActivityPointsData();
-            var categoryCacheItem = EntityCache.GetCategoryCacheItem(_sessionUser.User.StartTopicId);
 
             return Json(new
             {
                 Success = true,
-                localHref = Links.CategoryDetail(categoryCacheItem.Name, categoryCacheItem.Id)
             });
         }
 
