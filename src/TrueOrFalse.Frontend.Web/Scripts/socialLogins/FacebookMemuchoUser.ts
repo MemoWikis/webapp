@@ -68,7 +68,7 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success() {
-                window.location.reload();
+                Site.ReloadPageExceptLogoutAndRegister();
             }
         });
 
@@ -88,7 +88,7 @@
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
-            Site.ReloadPage_butNotTo_Logout();
+            Site.ReloadPageExceptLogoutAndRegister();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 

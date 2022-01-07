@@ -89,7 +89,6 @@ class Site {
         if ($(this).attr("data-is-facebook") == "true") {
             $.post("/Category/DeleteCookie").done(
                 (data) => {
-                    console.log(data);
                     FacebookMemuchoUser.Logout(redirect);
                 }
             );
@@ -102,14 +101,17 @@ class Site {
         }
     }
 
-    static RedirectToPersonalHomepage( link: string) { location.href = link; }
+    static RedirectToPersonalHomepage(link: string) { location.href = link; }
     static RedirectToRegistrationSuccess() { location.href = "/"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 
     static ReloadPage() { window.location.reload(true) };
 
-    static ReloadPage_butNotTo_Logout(link: string = window.location.pathname) {
-        Site.RedirectToPersonalHomepage(link);
+    static ReloadPageExceptLogoutAndRegister(link: string = window.location.pathname) {
+        var isRegisterOrLogout = link == '/Registrieren' || link == '/Ausloggen';
+        if (isRegisterOrLogout)
+            location.href = "/";
+        else Site.ReloadPage();
     }
 
     static CloseAllModals() {

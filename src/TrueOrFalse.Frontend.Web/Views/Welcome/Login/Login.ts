@@ -113,7 +113,7 @@ class Login {
             if (backToLocation != undefined)
                 location.href = backToLocation;
             else
-                Site.ReloadPage_butNotTo_Logout(result.localHref);
+                Site.ReloadPageExceptLogoutAndRegister();
         });
     }
 
