@@ -23,6 +23,11 @@ var loginModal = Vue.component('login-modal-component',
                     var self = this;
                     self.SubmitForm();
                 });
+
+            setTimeout(() => {
+                    Google.AttachClickHandler('GoogleLogin');
+                },
+                500);
         },
 
         methods: {
@@ -70,7 +75,6 @@ var loginApp = new Vue({
     mounted() {
         new Google();
         setTimeout(() => {
-                Google.AttachClickHandler('GoogleLogin');
                 Google.AttachClickHandler('GoogleRegister');
             },
             500);
