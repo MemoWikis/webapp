@@ -23,9 +23,8 @@
                                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{forbiddenCategoryName}}</a>
                                     {{errorMsg}}
                                 </div>
-                                <div class="checkBox" disabled>
-                                    <i class="fas fa-check-square"></i>
-                                    Privates Thema
+                                <div class="categoryPrivate">
+                                    <p><b> Das Thema ist privat.</b> Du kannst es später im das Dreipunkt-Menü oder direkt über das Schloss-Icon veröffentlichen.</p>
                                 </div>
                             </div>
                             <div class="modalBody" v-else>

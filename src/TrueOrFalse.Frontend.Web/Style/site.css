@@ -2426,10 +2426,10 @@ input::placeholder {
 }
 .cardModal .modal-content {
   padding: 34px 50px;
+  color: #767676;
 }
 .cardModal .modal-content .cardModalContent h4 {
   font-size: 25px;
-  text-align: center;
   padding-bottom: 24px;
 }
 .cardModal .modal-content .cardModalContent .modalBody {
@@ -2452,12 +2452,8 @@ input::placeholder {
   text-decoration: none;
   color: #0065CA;
 }
-.cardModal .modal-content .cardModalContent .modalBody .checkBox {
-  user-select: none;
-  color: #767676;
-}
-.cardModal .modal-content .cardModalContent .modalBody .checkBox i {
-  color: #767676;
+.cardModal .modal-content .cardModalContent .modalBody .categoryPrivate {
+  padding-top: 10px;
 }
 .cardModal .modal-content .cardModalContent .modalFooter {
   display: flex;
