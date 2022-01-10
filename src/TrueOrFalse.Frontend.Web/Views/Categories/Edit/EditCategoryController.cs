@@ -416,7 +416,7 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveCategoryContent(int categoryId, string content = null)
     {
-        if (PermissionCheck.CanEditCategory(categoryId))
+        if (!PermissionCheck.CanEditCategory(categoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
         var category = EntityCache.GetCategoryCacheItem(categoryId);
@@ -437,7 +437,7 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveSegments(int categoryId, List<SegmentJson> segmentation = null)
     {
-        if (PermissionCheck.CanEditCategory(categoryId))
+        if (!PermissionCheck.CanEditCategory(categoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
         var category = _categoryRepository.GetById(categoryId);
 
