@@ -19,7 +19,7 @@
                     <div class="notLoggedInModal" v-show="!isLoggedIn">
                         <span class="notLoggedInHeader">Einige Lernoptionen sind nur für eingeloggte Nutzer verfügbar.</span>
                         <span class="notLoggedInButton"><button class="btn btn-primary"> <%: Html.ActionLink("Kostenlos registrieren", Links.RegisterAction, Links.RegisterController) %></button></span>
-                        <span class="login">Ich bin schon Nutzer!&nbsp;<a href="#" data-btn-login="true" onclick="eventBus.$emit('show-login-modal')">Anmelden!</a></span>
+                        <span class="login">Ich bin schon Nutzer!&nbsp;<a href="#" data-btn-login="true" v-on:click="goToLogin()">Anmelden!</a></span>
                     </div>
                     <div class="modal-header" id="SessionConfigHeader">
                         <h5>LERNOPTIONEN</h5>

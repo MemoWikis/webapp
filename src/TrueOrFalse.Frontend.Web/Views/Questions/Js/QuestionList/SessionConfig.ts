@@ -261,11 +261,12 @@ let sc= Vue.component('session-config-component', {
             this.loadQuestionCount();
             $('#SessionConfigModal').modal('show');
             this.openLogin = false;
-            eventBus.$emit('show-login-modal')
         },
         goToLogin() {
             this.openLogin = true;
             $('#SessionConfigModal').modal('hide');
+            document.body.classList.remove('modal-open');
+            eventBus.$emit('show-login-modal');
         },
         safeQuestionFilter() {
             this.questionFilter.allQuestions = this.allQuestions;
