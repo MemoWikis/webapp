@@ -65,6 +65,7 @@ public class Category : DomainEntity, ICreator, ICloneable
             : new List<Category>();
     }
 
+    //Aggregated Categories returns all categories with CategorieRelationType "includesContentOf"
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
         var categoryIds = new List<int>();
