@@ -39,7 +39,8 @@
             return;
         }
 
-        GoogleMemuchoUser.CreateAndLogin(googleUser);
+       GoogleMemuchoUser.CreateAndLogin(googleUser);
+       Site.ReloadPageExceptLogoutAndRegister();
    }
 
     private static OnLoginError(error) {
