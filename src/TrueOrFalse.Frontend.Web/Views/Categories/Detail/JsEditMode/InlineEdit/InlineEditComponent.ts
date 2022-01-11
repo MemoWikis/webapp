@@ -68,8 +68,6 @@ Vue.component('text-component',
                 editorProps: {
                     handleKeyDown: (e, k) => {
                         this.contentIsChanged = true;
-                        if (k.ctrlKey == true)
-                            this.target = '_blank';
                     },
                     handlePaste: (view, pos, event) => {
                         let eventContent = event.content.content;
