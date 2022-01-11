@@ -152,9 +152,6 @@ public class AnswerBodyModel : BaseModel
         SolutionTypeInt = (int)question.SolutionType;
         SolutionModel = GetQuestionSolution.Run(question);
 
-        var currentSessionId = System.Web.HttpContext.Current.Session.SessionID;
-        Logg.r().Information("SessionId: AnswerBody for - {currentSessionId}", currentSessionId);
-
         TotalActivityPoints = IsLoggedIn ? _sessionUser.User.ActivityPoints : _sessionUser.GetTotalActivityPoints();
 
         QuestionTitle = Regex.Replace(QuestionText, "<.*?>", String.Empty);

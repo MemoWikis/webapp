@@ -31,9 +31,6 @@ public class ActivityPointsApiController : BaseController
                 );
             }
 
-            var currentSessionId = System.Web.HttpContext.Current.Session.SessionID;
-            Logg.r().Information("SessionId: Update Activity for - {currentSessionId}, ActivityPoints: {pts}", currentSessionId, _sessionUser.User.ActivityPoints);
-
             return new JsonResult
             {
                 Data = new
