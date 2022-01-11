@@ -30,7 +30,9 @@ public class GoogleUsersApiController : BaseController
 
         if (registerResult.Success)
         {
-            var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId); 
+            var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
+            SendRegistrationEmail.Run(user);
+            WelcomeMsg.Send(user);
             R<SessionUser>().Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;

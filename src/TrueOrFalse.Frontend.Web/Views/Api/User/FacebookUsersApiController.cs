@@ -30,6 +30,8 @@ public class FacebookUsersApiController : BaseController
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
+            SendRegistrationEmail.Run(user);
+            WelcomeMsg.Send(user);
             R<SessionUser>().Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
