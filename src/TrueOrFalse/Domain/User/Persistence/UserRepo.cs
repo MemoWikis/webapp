@@ -190,7 +190,7 @@ public class UserRepo : RepositoryDbBase<User>
 
         var userLevel = UserLevelCalculator.GetLevel(totalPointCount);
 
-        var user = GetByIds(Sl.SessionUser.UserId).First();
+        var user = GetById(Sl.SessionUser.UserId);
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);

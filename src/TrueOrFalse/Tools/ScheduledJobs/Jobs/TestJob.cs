@@ -10,8 +10,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                Thread.Sleep(10);
-                Logg.r().Information("Hashcode ISession {0}", scope.R<ISession>().GetHashCode());
+                Thread.Sleep(1);
+                Logg.r().Information("HttpContext {0}", System.Web.HttpContext.Current);
             }, "TestJob1");
         }
     }
@@ -22,8 +22,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                Thread.Sleep(10);
-                Logg.r().Information("Hashcode ISession {0}", scope.R<ISession>().GetHashCode());
+                Thread.Sleep(1);
+                Logg.r().Information("HttpContext {0}", System.Web.HttpContext.Current);
             }, "TestJob2");
         }
     }

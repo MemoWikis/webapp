@@ -73,7 +73,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public void UpdateUser()
     {
-        User = Sl.Resolve<UserRepo>().GetById(Sl.SessionUser.UserId);
+        User = Sl.UserRepo.GetById(Sl.SessionUser.UserId);
     }
 
     public int UserId
@@ -97,10 +97,9 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     public int GetTotalActivityPoints()
     {
         int totalPoints = 0;
-        foreach (var activity in ActivityPoints)
-        {
+        
+        foreach (var activity in ActivityPoints) 
             totalPoints += activity.Amount;
-        }
 
         return totalPoints;
     }

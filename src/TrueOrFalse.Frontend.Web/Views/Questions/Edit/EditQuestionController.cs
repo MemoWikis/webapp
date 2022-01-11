@@ -198,7 +198,7 @@ public class EditQuestionController : BaseController
             learningSession.Steps.Insert(questionDataJson.SessionIndex, step);
         }
 
-        question.License = Sl.R<SessionUser>().IsInstallationAdmin
+        question.License = IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         return question;
@@ -326,7 +326,7 @@ public class EditQuestionController : BaseController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator == Sl.SessionUser.User)
+            if (questionCacheItem.Creator == _sessionUser.User)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
@@ -344,7 +344,7 @@ public class EditQuestionController : BaseController
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator == Sl.SessionUser.User && !otherUsersHaveQuestionInWuwi) || Sl.SessionUser.IsInstallationAdmin)
+            if ((questionCacheItem.Creator == _sessionUser.User && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

@@ -211,7 +211,7 @@ public class EditCategoryController : BaseController
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
 
-        CategoryInKnowledge.Pin(category.Id, Sl.SessionUser.User);
+        CategoryInKnowledge.Pin(category.Id, _sessionUser.User);
         StoreImage(category.Id);
 
         return Json(new
@@ -232,7 +232,7 @@ public class EditCategoryController : BaseController
                 success = false,
                 key = "loopLink"
             });
-        if (parentCategoryId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
+        if (parentCategoryId == RootCategory.RootCategoryId && !IsInstallationAdmin)
             return Json(new
             {
                 success = false, 
@@ -298,7 +298,7 @@ public class EditCategoryController : BaseController
     {
 
         var category = _categoryRepository.GetById(categoryId);
-        var personalWikiId = Sl.SessionUser.User.StartTopicId;
+        var personalWikiId = _sessionUser.User.StartTopicId;
 
         if (categoryId == personalWikiId)
             return Json(new
@@ -439,8 +439,8 @@ public class EditCategoryController : BaseController
     {
         if (!PermissionCheck.CanEditCategory(categoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
-        var category = _categoryRepository.GetById(categoryId);
 
+        var category = _categoryRepository.GetById(categoryId);
         if (category != null)
         {
             if (segmentation != null)
@@ -589,7 +589,7 @@ public class EditCategoryController : BaseController
 
         if (categoryCacheItem.HasPublicParent() || categoryCacheItem.Creator.StartTopicId == categoryId)
         {
-            if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
+            if (categoryCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !IsInstallationAdmin)
                 return Json(new
                 {
                     success = false,
@@ -630,7 +630,7 @@ public class EditCategoryController : BaseController
             .Where(c => c.Visibility == CategoryVisibility.All);
         var category = _categoryRepository.GetById(categoryId);
         var pinCount = category.TotalRelevancePersonalEntries;
-        if (!Sl.SessionUser.IsInstallationAdmin)
+        if (!IsInstallationAdmin)
         {
             if (categoryId == RootCategory.RootCategoryId)
                 return Json(new

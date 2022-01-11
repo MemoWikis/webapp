@@ -14,8 +14,6 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     {
         _reputationCalc = reputationCalc;
         _userRepo = userRepo;
-
-
     }
 
     public static void ForQuestion(int questionId)
@@ -36,18 +34,19 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         ScheduleUpdate(userTiny.Id);
     }
 
-    public static void ForUser(User user) => 
+    public static void ForUser(User user) =>
         ScheduleUpdate(user.Id);
 
     public static void ForUser(UserTinyModel user) =>
         ScheduleUpdate(user.Id);
-    private static void ScheduleUpdate(int userId) => 
+
+    private static void ScheduleUpdate(int userId) =>
         Sl.JobQueueRepo.Add(JobQueueType.UpdateReputationForUser, userId.ToString());
 
     public void Run(User userToUpdate)
     {
         var oldReputation = userToUpdate.Reputation;
-        var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
+        var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
 
         var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
         foreach (User user in users)
@@ -83,5 +82,4 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
             _userRepo.Update(result.User.User);
         }
     }
-
 }

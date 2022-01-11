@@ -124,7 +124,7 @@ public class AnswerCommentsController : BaseController
     {
         if (_sessionUser.User != null)
         {
-            return _sessionUser.User.IsInstallationAdmin;
+            return IsInstallationAdmin;
         }
 
         return false;

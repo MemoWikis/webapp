@@ -351,7 +351,7 @@ public class CategoryController : BaseController
             .Where(c => c.Visibility == CategoryVisibility.All);
         var publicAggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true).Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = categoryCacheItem.TotalRelevancePersonalEntries;
-        if (!Sl.SessionUser.IsInstallationAdmin)
+        if (!IsInstallationAdmin)
         {
             if (categoryId == RootCategory.RootCategoryId)
                 return Json(new

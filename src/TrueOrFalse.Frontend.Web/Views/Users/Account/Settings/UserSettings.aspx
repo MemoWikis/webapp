@@ -177,7 +177,7 @@
 
                         <div class="form-group" style="margin-top: 30px;">
                             <div class="noLabel columnControlsFull">
-                                <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>
+                                <button type="submit" class="btn btn-primary" name="btnSave" value="saveUserSettings">Speichern</button>
                             </div>
                         </div>
                     </div>

@@ -43,7 +43,7 @@ public class UserController : BaseController
     [HttpPost]
     public bool SetUserWorldInUserCache(bool showMyWorld)
     {
-        if (!Sl.SessionUser.IsLoggedIn)
+        if (!IsLoggedIn)
             return false;
 
         UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;

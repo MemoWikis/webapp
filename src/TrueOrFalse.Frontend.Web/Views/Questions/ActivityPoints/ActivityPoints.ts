@@ -24,7 +24,7 @@
     }
 
     private static updatePointsDisplay(levelData) {
-        $("#activityPointsDispaly #activityPoints").html(levelData.totalPoints.toString());
+        $("#activityPointsDisplay #activityPoints").html(levelData.totalPoints.toString());
         $("#header-level-display text").html(levelData.userLevel);
     }
 

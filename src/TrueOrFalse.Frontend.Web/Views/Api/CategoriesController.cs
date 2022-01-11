@@ -5,7 +5,7 @@ using Seedworks.Lib;
 
 namespace TrueOrFalse.View.Web.Views.Api
 {
-    public class CategoriesController : Controller
+    public class CategoriesController : BaseController
     {
         // GET: Categories
         [HttpPost]
@@ -39,7 +39,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             var hasDeleted = Sl.CategoryDeleter.Run(category);
             foreach (var parent in parentCategories)
             {
-                Sl.CategoryChangeRepo.AddUpdateEntry(parent, Sl.SessionUser.User, false);
+                Sl.CategoryChangeRepo.AddUpdateEntry(parent, _sessionUser.User, false);
             }
 
             return hasDeleted;

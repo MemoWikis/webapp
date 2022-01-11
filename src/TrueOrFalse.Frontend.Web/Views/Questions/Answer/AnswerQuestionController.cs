@@ -652,7 +652,7 @@ public class AnswerQuestionController : BaseController
 
             return LearningSessionCreator.GetQuestionCount(c);
         }
-        config.CurrentUserId = Sl.SessionUser.UserId;
+        config.CurrentUserId = _sessionUser.UserId;
 
         if (config.IsMyWorld())
         {

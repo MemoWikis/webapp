@@ -11,8 +11,7 @@ public class WelcomeController : BaseController
     public ActionResult Welcome()
     {
         CategoryCacheItem category;
-        var sessionUser = Sl.SessionUser;
-        category = sessionUser.IsLoggedIn ? EntityCache.GetCategoryCacheItem(sessionUser.User.StartTopicId, getDataFromEntityCache: true) : RootCategory.Get; 
+        category = IsLoggedIn ? EntityCache.GetCategoryCacheItem(_sessionUser.User.StartTopicId, getDataFromEntityCache: true) : RootCategory.Get; 
 
         return Redirect(Links.CategoryDetail(category)); ;
     }

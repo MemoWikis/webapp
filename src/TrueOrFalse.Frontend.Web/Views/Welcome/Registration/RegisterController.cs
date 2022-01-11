@@ -43,7 +43,7 @@ public class RegisterController : BaseController
     [HttpPost]
     public string GetUserTopic()
     {
-        var userCategory = EntityCache.GetCategoryCacheItem(Sl.SessionUser.User.StartTopicId);
+        var userCategory = EntityCache.GetCategoryCacheItem(_sessionUser.User.StartTopicId);
         return Links.CategoryDetail(userCategory);
     }
 }

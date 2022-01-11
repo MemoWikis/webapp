@@ -288,7 +288,7 @@
     </div>
         <% if (!Model.IsInWidget  && Model.SolutionType != SolutionType.FlashCard.ToString())
            { %>
-            <div id="activityPointsDispaly" class="<%if (Model.IsLoggedIn){%>hideOnBigScreen<%} %>">
+            <div id="activityPointsDisplay" class="<%if (Model.IsLoggedIn){%>hideOnBigScreen<%} %>">
                 <small>Dein Punktestand</small>
                 <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
                 <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">

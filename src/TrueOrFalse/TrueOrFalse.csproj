@@ -847,7 +847,7 @@
     <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
     <Compile Include="Domain\User\Registration\Password\HashPassword.cs" />
     <Compile Include="Domain\User\Registration\Password\SetUserPassword.cs" />
-    <Compile Include="Domain\User\Registration\Password\IsValdidPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\IsValidPassword.cs" />
     <Compile Include="Infrastructure\Email\SendEmail.cs">
       <SubType>Code</SubType>
     </Compile>
