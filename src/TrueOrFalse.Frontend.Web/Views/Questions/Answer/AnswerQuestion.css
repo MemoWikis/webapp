@@ -1360,7 +1360,7 @@ commentAnswersCount {
 /*--------------------------ActivityPoints---------------------
 
 ---------------------------------------------------------------*/
-#activityPointsDispaly {
+#ActivityPointsDisplay {
   font-size: 22px;
   font-family: sans-serif;
   line-height: normal;
@@ -1368,15 +1368,10 @@ commentAnswersCount {
   text-align: right;
   padding: 10px 0;
 }
-@media (min-width: 1200px) {
-  #activityPointsDispaly.hideOnBigScreen {
-    display: none;
-  }
-}
-#activityPointsDispaly .fa-info-circle {
+#ActivityPointsDisplay .fa-info-circle {
   font-size: 14px;
 }
-#activityPointsDispaly small {
+#ActivityPointsDisplay small {
   font-size: 10px;
   display: block;
 }
