@@ -9,7 +9,7 @@ public class ValidateEmailConfirmationKey : IRegisterAsInstancePerLifetime
         _userRepo = userRepo;
     }
 
-    public bool IsValid(string affirmationKey, bool whenValidConfirm = true)
+    public bool IsValid(string affirmationKey)
     {
         if (affirmationKey.Length <= 4)
             return false;
