@@ -26,7 +26,6 @@ Vue.component('text-component',
                 savedContent: null,
                 editor: null,
                 menuBarComponentKey: '0',
-                target: '_blank',
                 indexTimer: null,
             //    headings: [],
             }
@@ -49,7 +48,7 @@ Vue.component('text-component',
                     }),
                     tiptapLink.configure({
                         HTMLAttributes: {
-                            target: this.target,
+                            target: '_self',
                             rel: 'noopener noreferrer nofollow'
                         }
                     }),
