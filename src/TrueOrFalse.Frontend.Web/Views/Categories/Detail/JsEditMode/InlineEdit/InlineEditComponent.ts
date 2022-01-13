@@ -28,7 +28,6 @@ Vue.component('text-component',
                 menuBarComponentKey: '0',
                 indexTimer: null,
                 editable: true,
-                ctrlIsHeld: false,
             //    headings: [],
             }
         },
@@ -51,10 +50,9 @@ Vue.component('text-component',
                     }),
                     tiptapLink.configure({
                         HTMLAttributes: {
-                            target: '_self',
                             rel: 'noopener noreferrer nofollow'
                         },
-                        openOnClick: !this.ctrlIsHeld,
+                        openOnClick: true,
                     }),
                     tiptapPlaceholder.configure({
                         emptyEditorClass: 'is-editor-empty',
@@ -72,14 +70,16 @@ Vue.component('text-component',
                 editorProps: {
                     handleKeyDown: (e, k) => {
                         this.contentIsChanged = true;
-                        if (k.ctrlKey == true)
-                            this.ctrlIsHeld = true;
                     },
-                    handleClickOn: (v, p, n, nP, e, d) => {
-                        if (e.target.nodeName == 'A' && this.ctrlIsHeld) {
-                            window.open(e.target.href, '_blank');
-                            return;
+                    handleClick: (view, pos, event) => {
+                        var _a;
+                        const attrs = this.editor.getAttributes('link');
+                        const link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
+                        if (link && attrs.href) {
+                            window.open(attrs.href, event.ctrlKey ? '_blank' : '_self');
+                            return true;
                         }
+                        return false;
                     },
                     handlePaste: (view, pos, event) => {
                         let eventContent = event.content.content;
@@ -103,17 +103,6 @@ Vue.component('text-component',
                 onUpdate: ({ editor }) => {
                     this.json = editor.getJSON();
                     this.html = editor.getHTML();
-                    //var children = editor.view.docView.children;
-                    //var foundHeading = children.find(c => c.node.type.name == 'heading') != undefined;
-
-                    //var self = this;
-                    //self.updateIndex();
-                    //if (foundHeading) {
-                    //    clearTimeout(self.indexTimer);
-                    //    this.indexTimer = setTimeout(() => {
-                    //        },
-                    //        1000);
-                    //}
 
                 },
                 onFocus({ editor, event }) {
@@ -221,35 +210,5 @@ Vue.component('text-component',
                 command({ href: url });
                 this.hideLinkMenu();
             },
-        //    updateIndex() {
-        //        var headings = []
-        //        var transaction = this.editor.state.tr;
-
-        //        var self = this;
-
-        //        this.editor.state.doc.descendants((node, pos) => {
-        //            if (node.type.name == 'heading') {
-        //                var id = `heading-${headings.length + 1}`
-        //                if (node.attrs.id !== id) {
-        //                    transaction.setNodeMarkup(pos, undefined, {
-        //                        ...node.attrs,
-        //                        id,
-        //                    })
-        //                }
-
-        //                headings.push({
-        //                    level: node.attrs.level,
-        //                    text: node.textContent,
-        //                    id,
-        //                })
-        //            }
-        //        })
-                
-        //        transaction.setMeta('preventUpdate', true)
-        //        console.log(transaction)
-        //        self.editor.view.dispatch(transaction)
-
-        //        this.headings = headings
-        //    },
         },
     });
