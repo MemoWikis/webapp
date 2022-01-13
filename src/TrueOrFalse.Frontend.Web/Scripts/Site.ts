@@ -121,6 +121,8 @@ class Site {
     static DevelopOffline() {
         return developOffline;
     }
+
+    public static IsMobile = false;
 }
 
 var BrowserDetect = {//https://stackoverflow.com/a/13480430
@@ -129,6 +131,9 @@ var BrowserDetect = {//https://stackoverflow.com/a/13480430
     init: function () {
         this.browser = this.searchString(this.dataBrowser) || "Other";
         //this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "Unknown";
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            Site.IsMobile = true;
+        }
     },
     searchString: function (data) {
         for (var i = 0; i < data.length; i++) {

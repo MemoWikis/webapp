@@ -73,10 +73,11 @@ Vue.component('text-component',
                     },
                     handleClick: (view, pos, event) => {
                         var _a;
-                        const attrs = this.editor.getAttributes('link');
-                        const link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
-                        if (link && attrs.href) {
-                            window.open(attrs.href, event.ctrlKey ? '_blank' : '_self');
+                        var attrs = this.editor.getAttributes('link');
+                        var href = Site.IsMobile ? event.target.href : attrs.href;
+                        var link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
+                        if (link && href) {
+                            window.open(href, event.ctrlKey ? '_blank' : '_self');
                             return true;
                         }
                         return false;
