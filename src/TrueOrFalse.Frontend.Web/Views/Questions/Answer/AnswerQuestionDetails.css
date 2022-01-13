@@ -161,18 +161,13 @@
 #QuestionDetailsApp #questionDetailsContainer #categoryList {
   padding-bottom: 10px;
 }
-@media (max-width: 767px) {
-  #QuestionDetailsApp #questionDetailsContainer #categoryList.isLandingPage {
-    display: none;
-  }
-}
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {
   max-height: 308px;
   overflow: hidden;
 }
 @media (max-width: 479px) {
   #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {
-    display: none;
+    padding-top: 10px;
   }
 }
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListLinks {
@@ -182,11 +177,6 @@
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListLinks a {
   line-height: 20px;
   padding-right: 5px;
-}
-@media (min-width: 480px) {
-  #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListLinks {
-    display: none;
-  }
 }
 #QuestionDetailsApp #questionDetailsContainer #questionStatistics #counterContainer .counterBody {
   display: flex;

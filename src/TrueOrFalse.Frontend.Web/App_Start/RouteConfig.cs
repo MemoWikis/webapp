@@ -97,7 +97,7 @@ namespace TrueOrFalse
             routes.MapRoute("KnowledgeUeberblick", "Wissenszentrale/Ueberblick", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("KnowledgeTopics", "Wissenszentrale/Themen", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("KnowledgeFragen", "Wissenszentrale/Fragen", new { controller = "Knowledge", action = "Knowledge" });
-            routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Knowledge", action = "EmailConfirmation" });
+            routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Register", action = "EmailConfirmation" });
 
             routes.MapRoute("AlgoInsight", "AlgoInsight/{action}", new { controller = "AlgoInsight", action = "AlgoInsight" });
 

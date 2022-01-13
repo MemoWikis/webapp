@@ -46,4 +46,11 @@ public class RegisterController : BaseController
         var userCategory = EntityCache.GetCategoryCacheItem(_sessionUser.User.StartTopicId);
         return Links.CategoryDetail(userCategory);
     }
+
+    public ActionResult EmailConfirmation(string emailKey)
+    {
+        var validator = new ValidateEmailConfirmationKey(Sl.UserRepo);
+        var mailConfirmed = validator.IsValid(emailKey);
+        return Category(EntityCache.GetCategoryCacheItem(1));
+    }
 }

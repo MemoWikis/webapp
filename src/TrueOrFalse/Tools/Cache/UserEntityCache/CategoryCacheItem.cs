@@ -55,7 +55,7 @@ public class CategoryCacheItem
 
     public virtual IList<CategoryCacheItem> ParentCategories(bool getFromEntityCache = false)
     {
-        return CategoryRelations.Any()
+         return CategoryRelations != null && CategoryRelations.Any()
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
