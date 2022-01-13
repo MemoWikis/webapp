@@ -510,11 +510,16 @@ public class EditCategoryModel : BaseModel
     {
         var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
         var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
-        var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove); 
+        var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove);
 
-        if (updatedParentList.Count == 0 && !childCategory.IsWiki() || 
-             (updatedParentList.All(c => c.Visibility != CategoryVisibility.All) && childCategory.Visibility == CategoryVisibility.All))
-            return false;
+        if (!childCategory.IsWiki())
+        {
+            var publicChildWithPrivateParents = updatedParentList.All(c => c.Visibility != CategoryVisibility.All) && childCategory.Visibility == CategoryVisibility.All;
+
+            if (updatedParentList.Count == 0 || publicChildWithPrivateParents)
+                return false;
+        }
+
 
         if (!PermissionCheck.CanEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
