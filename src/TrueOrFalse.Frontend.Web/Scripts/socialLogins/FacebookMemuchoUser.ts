@@ -43,7 +43,7 @@
                 Utils.HideSpinner();
 
                 if (result.Success == true)
-                    Site.RedirectToRegistrationSuccess();
+                    Site.ReloadPageExceptLogoutAndRegister();
                 else {
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                     if (result.EmailAlreadyInUse == true) {
