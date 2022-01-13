@@ -27,6 +27,8 @@ Vue.component('text-component',
                 editor: null,
                 menuBarComponentKey: '0',
                 indexTimer: null,
+                editable: true,
+                ctrlIsHeld: false,
             //    headings: [],
             }
         },
@@ -36,6 +38,7 @@ Vue.component('text-component',
         mounted() {
             editorContent = Vue.component('editor-content', tiptapEditorContent);
             this.editor = new tiptapEditor({
+                editable: this.editable,
                 content: this.content,
                 extensions: [
                     tiptapStarterKit.configure({
@@ -50,7 +53,8 @@ Vue.component('text-component',
                         HTMLAttributes: {
                             target: '_self',
                             rel: 'noopener noreferrer nofollow'
-                        }
+                        },
+                        openOnClick: !this.ctrlIsHeld,
                     }),
                     tiptapPlaceholder.configure({
                         emptyEditorClass: 'is-editor-empty',
@@ -68,6 +72,14 @@ Vue.component('text-component',
                 editorProps: {
                     handleKeyDown: (e, k) => {
                         this.contentIsChanged = true;
+                        if (k.ctrlKey == true)
+                            this.ctrlIsHeld = true;
+                    },
+                    handleClickOn: (v, p, n, nP, e, d) => {
+                        if (e.target.nodeName == 'A' && this.ctrlIsHeld) {
+                            window.open(e.target.href, '_blank');
+                            return;
+                        }
                     },
                     handlePaste: (view, pos, event) => {
                         let eventContent = event.content.content;
@@ -123,6 +135,7 @@ Vue.component('text-component',
                     this.editor.destroy();
                     this.editor =
                         new tiptapEditor({
+                            editable: this.editable,
                             content: newContent,
                             extensions: [
                                 tiptapStarterKit.configure({
@@ -188,7 +201,10 @@ Vue.component('text-component',
 
             json() {
                 this.$root.json = this.json;
-            }
+            },
+            editable() {
+                this.editor.setEditable(this.editable);
+            },
         },
         methods: {
             showLinkMenu(attrs) {
