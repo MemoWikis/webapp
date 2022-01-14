@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 
 public class ModifyRelationsForCategory
 {
@@ -132,7 +133,7 @@ public class ModifyRelationsForCategory
         }
     }
 
-    public static void RemoveRelation(Category category,Category relatedCategory, CategoryRelationType categoryRelationType)
+    public static void RemoveRelation(Category category, Category relatedCategory, CategoryRelationType categoryRelationType)
     {
         for (int i = 0; i < category.CategoryRelations.Count; i++)
         {
@@ -145,5 +146,55 @@ public class ModifyRelationsForCategory
                 break;
             }
         }
-    } 
+    }
+
+    public static bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId)
+    {
+        var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
+        var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
+        var parentCategoryAsCategory = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+
+        if (!childCategory.IsStartPage() && CheckParentAvailability(parentCategories, childCategory))
+            return false;
+
+        if (!PermissionCheck.CanEdit(childCategory))
+            throw new SecurityException("Not allowed to edit category");
+
+        var childCategoryAsCategory = Sl.CategoryRepo.GetById(childCategory.Id);
+      
+        RemoveRelation(
+            childCategoryAsCategory, 
+            parentCategoryAsCategory, 
+            CategoryRelationType.IsChildOf);
+
+        RemoveRelation(
+            parentCategoryAsCategory,
+            childCategoryAsCategory,
+            CategoryRelationType.IncludesContentOf);
+
+        ModifyRelationsEntityCache.RemoveRelation(
+            childCategory,
+            parentCategoryIdToRemove,
+            CategoryRelationType.IsChildOf);
+
+        ModifyRelationsEntityCache.RemoveRelation(
+            EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove),
+            childCategoryId,
+            CategoryRelationType.IncludesContentOf);
+
+        UserEntityCache.ReInitAllActiveCategoryCaches();
+
+        return true;
+    }
+
+    private static bool CheckParentAvailability(IEnumerable<CategoryCacheItem> parentCategories, CategoryCacheItem childCategory)
+    {
+        var allParentsArePrivate = parentCategories.All(c => c.Visibility != CategoryVisibility.All);
+        var childIsPublic = childCategory.Visibility == CategoryVisibility.All;
+
+        if (!parentCategories.Any() || allParentsArePrivate && childIsPublic)
+            return false;
+
+        return true;
+    }
 }

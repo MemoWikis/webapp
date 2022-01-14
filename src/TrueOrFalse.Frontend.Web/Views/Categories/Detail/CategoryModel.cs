@@ -86,7 +86,7 @@ public class CategoryModel : BaseContentModule
             throw new Exception("category doesn't exist");
         ShowSidebar = true;
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
-        IsWiki = category.IsWiki();
+        IsWiki = category.IsStartPage();
         var currentRootWiki = CrumbtrailService.GetWiki(category);
         _sessionUser.SetWikiId(currentRootWiki);
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);

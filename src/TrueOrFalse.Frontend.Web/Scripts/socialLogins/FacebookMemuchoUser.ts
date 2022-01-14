@@ -42,11 +42,11 @@
             success(result) {
                 Utils.HideSpinner();
 
-                if (result.Success == true)
+                if (result.Success)
                     Site.ReloadPageExceptLogoutAndRegister();
                 else {
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
-                    if (result.EmailAlreadyInUse == true) {
+                    if (result.EmailAlreadyInUse) {
                         Alerts.showError({
                             text: messages.error.user.emailInUse
                         });

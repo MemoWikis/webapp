@@ -466,7 +466,7 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
     {
-        var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryIdToRemove, childCategoryId);
+        var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryIdToRemove, childCategoryId);
         if (!parentHasBeenRemoved)
             return Json(new
             {
@@ -494,7 +494,7 @@ public class EditCategoryController : BaseController
         var notRemovedChildrenCategoryIds = new List<int>();
         foreach (int childCategoryId in childCategoryIds)
         {
-            var parentHasBeenRemoved = EditCategoryModel.ParentRemover(parentCategoryId, childCategoryId);
+            var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryId, childCategoryId);
             if (parentHasBeenRemoved)
                 removedChildCategoryIds.Add(childCategoryId);
             else

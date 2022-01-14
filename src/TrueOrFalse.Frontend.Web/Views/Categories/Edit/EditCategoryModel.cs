@@ -505,51 +505,6 @@ public class EditCategoryModel : BaseModel
             .Select(x => Convert.ToInt32(x))
             .Any(c => c == categoryId);
     }
-    
-    public static bool ParentRemover(int parentCategoryIdToRemove, int childCategoryId)
-    {
-        var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
-        var updatedParentList = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove).ToList();
-        var parentCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(parentCategoryIdToRemove);
-
-        if (!childCategory.IsWiki())
-        {
-            var publicChildWithPrivateParents = updatedParentList.All(c => c.Visibility != CategoryVisibility.All) && childCategory.Visibility == CategoryVisibility.All;
-
-            if (updatedParentList.Count == 0 || publicChildWithPrivateParents)
-                return false;
-        }
-
-
-        if (!PermissionCheck.CanEdit(childCategory))
-            throw new SecurityException("Not allowed to edit category");
-
-        var childCategoryAsCategory = Sl.CategoryRepo.GetByIdEager(childCategory.Id);
-      
-        ModifyRelationsForCategory.RemoveRelation(
-            childCategoryAsCategory, 
-            parentCategoryAsCategory, 
-            CategoryRelationType.IsChildOf);
-
-        ModifyRelationsForCategory.RemoveRelation(
-            parentCategoryAsCategory,
-            childCategoryAsCategory,
-            CategoryRelationType.IncludesContentOf);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            childCategory,
-            parentCategoryIdToRemove,
-            CategoryRelationType.IsChildOf);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove),
-            childCategoryId,
-            CategoryRelationType.IncludesContentOf);
-
-        UserEntityCache.ReInitAllActiveCategoryCaches();
-
-        return true;
-    }
 }
 
 public class ConvertToCategoryResult

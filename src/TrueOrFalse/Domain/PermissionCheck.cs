@@ -45,7 +45,7 @@ public class PermissionCheck
         if (user == null || category == null)
             return false;
 
-        if (category.IsWiki())
+        if (category.IsStartPage())
             return false;
 
         if (category.Creator == user || user.IsInstallationAdmin)

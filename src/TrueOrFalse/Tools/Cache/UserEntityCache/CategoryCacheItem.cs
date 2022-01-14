@@ -248,12 +248,14 @@ public class CategoryCacheItem
         );
     }
 
-    public bool IsWiki()
+    public bool IsStartPage()
     {
         if (Id == RootCategory.RootCategoryId)
             return true;
+
         if (Creator != null)
             return Id == Creator.StartTopicId;
+
         return false;
     }
 }
