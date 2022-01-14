@@ -39,12 +39,12 @@
                 </a>
                 <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right: 0; position: absolute; width: 220px;">
                     <li>
-                        <a id="UserProgressContainer" href="<%= Links.Knowledge() %>">
+                        <div id="UserProgressContainer">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
                             <div id="activity-popover-container">
                                 <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
                             </div>
-                        </a>
+                        </div>
                     </li>
                     <li class="divider"></li>
                     <li>
