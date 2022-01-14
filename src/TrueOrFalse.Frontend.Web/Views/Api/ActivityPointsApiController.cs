@@ -31,13 +31,20 @@ public class ActivityPointsApiController : BaseController
                 );
             }
 
+            var activityLevel = _sessionUser.User.ActivityLevel;
+            var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);
+            var activityPointsTillNextLevel = activityPointsAtNextLevel - _sessionUser.User.ActivityPoints;
+            var activityPointsPercentageOfNextLevel = _sessionUser.User.ActivityPoints == 0 ? 0 : 100 * _sessionUser.User.ActivityPoints / activityPointsAtNextLevel;
+
             return new JsonResult
             {
                 Data = new
                 {
                     totalPoints = _sessionUser.User.ActivityPoints,
-                    userLevel = _sessionUser.User.ActivityLevel,
-                    levelPopup = levelPopupAsHtml
+                    userLevel = activityLevel,
+                    levelPopup = levelPopupAsHtml,
+                    activityPointsTillNextLevel,
+                    activityPointsPercentageOfNextLevel
                 }
             };
         } 

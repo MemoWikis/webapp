@@ -659,7 +659,7 @@
 #Breadcrumb .messages {
   padding-right: 5px;
 }
-#Breadcrumb span {
+#Breadcrumb .breadcrumb-item span {
   display: flex;
   align-items: center;
   height: 100%;
