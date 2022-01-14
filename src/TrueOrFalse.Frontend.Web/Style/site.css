@@ -2869,3 +2869,6 @@ input::placeholder {
   margin-left: 4px;
   color: #555555;
 }
+.dropdown .dropdown-backdrop {
+  display: none;
+}
