@@ -40,7 +40,8 @@ const messages = {
             missingAnswer: "Die Antwort zur Frage fehlt.",
             save: "Deine Frage konnte nicht gespeichert werden.",
             creation: "Deine Frage konnte nicht erstellt werden.",
-            isInWuwi: (count: number | string) => `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
+            isInWuwi: (count: number | string): string =>
+                `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
