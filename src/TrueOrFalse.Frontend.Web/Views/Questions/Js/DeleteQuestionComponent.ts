@@ -36,9 +36,7 @@
                         self.name = result.questionTitle;
                         if (result.canNotBeDeleted) {
                             if (result.wuwiCount > 0) {
-                                self.errorMsg = messages.error.question.isInWuwi.part1 +
-                                    result.wuwiCount +
-                                    messages.error.question.isInWuwi.part2;
+                                self.errorMsg = messages.error.question.isInWuwi(result.WuwiCount);
                             } else
                                 self.errorMsg = messages.error.question.rights,
 

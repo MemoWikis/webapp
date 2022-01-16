@@ -1,7 +1,8 @@
 ﻿declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
-var messages = {
+
+const messages = {
     success: {
         category: {
             publish: "Dein Thema wurde erfolgreich veröffentlicht.",
@@ -26,7 +27,7 @@ var messages = {
             parentIsRoot: "Unter 'Alle Themem', darfst du nur private Themen neu hinzufügen",
             loopLink: "Man kann keine Themen sich selber unterordnen",
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
-            isLinkedInNonWuwi: "Du hast das Thema außerhalb deines Wunschwissens schon untergeordnet, bitte stelle:  'Zeige nur dein Wunschwissen' aus und füge die Kategorie deinem Wunschwissen hinzu. ",
+            isLinkedInNonWuwi: "Du hast das Thema außerhalb deines Wunschwissens schon untergeordnet, bitte stelle: 'Zeige nur dein Wunschwissen' aus und füge die Kategorie deinem Wunschwissen hinzu. ",
             childIsParent: "Übergeordnete Themen können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
             nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
@@ -39,12 +40,7 @@ var messages = {
             missingAnswer: "Die Antwort zur Frage fehlt.",
             save: "Deine Frage konnte nicht gespeichert werden.",
             creation: "Deine Frage konnte nicht erstellt werden.",
-            isInWuwi: {
-                part1: "Die Frage kann nicht gelöscht werden, " +
-                    "sie ist ",
-                part2: "x Teil des Wunschwissens anderer Nutzer. " +
-                "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
-            },
+            isInWuwi: (count: Number) => `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
