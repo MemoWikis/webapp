@@ -21,6 +21,17 @@ public class PermissionCheck
         return false;
     }
 
+    public static bool CanView(User creator, CategoryVisibility visibility)
+    {
+        if (visibility == CategoryVisibility.All)
+            return true;
+
+        if (visibility == CategoryVisibility.Owner && creator == Sl.SessionUser.User)
+            return true;
+
+        return false;
+    }
+
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategoryCacheItem(id));
     public static bool CanEdit(Category category) => CanEdit(CategoryCacheItem.ToCacheCategory(category));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.SessionUser.User, category);

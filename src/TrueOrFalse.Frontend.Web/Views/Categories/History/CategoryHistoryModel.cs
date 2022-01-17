@@ -46,10 +46,9 @@ public class CategoryHistoryModel : BaseModel
     {
         var selectedRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
         var previousRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.LastOrDefault(c => c.Id < item.CategoryChangeId).Data);
-
         var relationChangeItem = new RelationChangeItem();
 
-        if (selectedRevision != null && previousRevision != null)
+        if (previousRevision != null)
         {
             var selectedRevisionCategoryRelations = selectedRevision.CategoryRelations;
             var previousRevisionCategoryRelations = previousRevision.CategoryRelations;
@@ -57,15 +56,24 @@ public class CategoryHistoryModel : BaseModel
             var previousRevNotSelectedRev = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
 
             var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
+            if (count == 0)
+                return null;
+
             relationChangeItem.RelationAdded = count >= 1;
 
-            var relationChange = selectedRevNotPreviousRev.Any() && previousRevNotSelectedRev.Any() ? selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First() : null;
-            var category = relationChange == null ? null : EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
+            var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).Last();
+            var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
             var categoryIsVisible = PermissionCheck.CanView(category);
             var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
             var relatedCategoryIsVisible = PermissionCheck.CanView(relatedCategory);
-            if (!categoryIsVisible || !relatedCategoryIsVisible)
-                relationChangeItem.IsVisibleToCurrentUser = false;
+
+            var canViewRevisions =
+                PermissionCheck.CanView(UserCache.GetUser(item.CreatorId), selectedRevision.Visibility) &&
+                PermissionCheck.CanView(UserCache.GetUser(item.CreatorId), previousRevision.Visibility);
+
+            if (categoryIsVisible && relatedCategoryIsVisible && canViewRevisions)
+                relationChangeItem.IsVisibleToCurrentUser = true;
+
             relationChangeItem.RelatedCategory = relatedCategory;
             relationChangeItem.Type = relationChange.RelationType;
         }
@@ -75,14 +83,14 @@ public class CategoryHistoryModel : BaseModel
 
     public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
     {
-        return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == item.Author.Id;
+        return _sessionUser.IsInstallationAdmin || _sessionUser.UserId == item.Author.Id;
     }
 }
 
 public class RelationChangeItem
 {
-    public bool RelationAdded = false;
-    public bool IsVisibleToCurrentUser = true;
+    public bool RelationAdded;
+    public bool IsVisibleToCurrentUser;
     public CategoryRelationType Type;
     public CategoryCacheItem RelatedCategory;
 }

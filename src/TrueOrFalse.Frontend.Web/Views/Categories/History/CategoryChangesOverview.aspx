@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<CategoryChangesOverviewModel>" %>
 
+<%@ Import Namespace="System.Runtime.InteropServices.WindowsRuntime" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -42,11 +43,19 @@
                if (item.Type == CategoryChangeType.Relations)
                {
                    relationChangeItem = Model.GetRelationChange(item, changes);
-                   itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
-                   if (relationChangeItem.RelationAdded)
-                       label += " hinzugefügt";
+                   if (relationChangeItem != null)
+                   {
+                       itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
+                       if (relationChangeItem.RelationAdded)
+                           label += " hinzugefügt";
+                       else
+                           label += " entfernt";
+                   }
                    else
-                       label += " entfernt";
+                   {
+                       item.Type = CategoryChangeType.Update;
+                       label = "Update";
+                   }
                }
 
                if (itemIsVisibleToCurrentUser && item.IsVisibleToCurrentUser())

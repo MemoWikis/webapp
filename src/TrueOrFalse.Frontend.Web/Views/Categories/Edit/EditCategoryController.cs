@@ -476,6 +476,8 @@ public class EditCategoryController : BaseController
 
         var parent = _categoryRepository.GetById(parentCategoryIdToRemove);
         _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
+        var child = _categoryRepository.GetById(childCategoryId);
+        _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
 
         return Json(new
         {

@@ -45,11 +45,19 @@
                    if (item.Type == CategoryChangeType.Relations)
                    {
                        relationChangeItem = Model.GetRelationChange(item);
-                       itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
-                       if (relationChangeItem.RelationAdded)
-                           label += " hinzugefügt";
+                       if (relationChangeItem != null)
+                       {
+                           itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
+                           if (relationChangeItem.RelationAdded)
+                               label += " hinzugefügt";
+                           else
+                               label += " entfernt";
+                       }
                        else
-                           label += " entfernt";
+                       {
+                           item.Type = CategoryChangeType.Update;
+                           label = "Update";
+                       }
                    }
 
                    if (itemIsVisibleToCurrentUser && item.IsVisibleToCurrentUser())
