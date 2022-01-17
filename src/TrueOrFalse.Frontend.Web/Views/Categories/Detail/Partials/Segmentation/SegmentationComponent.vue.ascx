@@ -8,11 +8,12 @@
     <div :key="componentKey" id="Segmentation" v-cloak>
 
         <div class="segmentationHeader overline-m">
-            Untergeordnete Themen <br/>
+            Untergeordnete Themen
+            <%if (Model.ShowLinkToRootCategory) {%>
+                <div v-if="!isMyWorld" class="toRoot"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
+            <%} %>
         </div>
-        <%if (Model.ShowLinkToRootCategory) {%>
-            <div v-if="!isMyWorld" class="toRoot">Hier geht es zu <% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
-        <%} %>
+
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>
             <template v-for="s in segments">
                 <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentComponent.vue.ascx") %>

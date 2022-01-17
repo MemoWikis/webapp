@@ -239,7 +239,7 @@ public class EditCategoryController : BaseController
                 key = "parentIsRoot"
             });
         var category = _categoryRepository.GetById(childCategoryId);
-        var children = EntityCache.GetChildren(parentCategoryId, getFromEntityCache: true);
+        var children = EntityCache.GetAllChildren(parentCategoryId, true);
         var isChildrenLinked = children.Any(c => c.Id == childCategoryId);
         
         if(isChildrenLinked && UserCache.GetItem(_sessionUser.UserId).IsFiltered)
@@ -256,10 +256,10 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
-        var parentIsEqualChildCount = GraphService.GetAllParentsFromEntityCache(parentCategoryId)
-            .Count(c => c.Id == childCategoryId);
+        var selectedCategoryIsParent = GraphService.GetAllParentsFromEntityCache(parentCategoryId)
+            .Any(c => c.Id == childCategoryId);
 
-        if (parentIsEqualChildCount > 0)
+        if (selectedCategoryIsParent)
         {
             Logg.r().Error( "Child is Parent " );
             return Json(new
@@ -306,7 +306,7 @@ public class EditCategoryController : BaseController
                 success = false,
                 key = "loopLink"
             });
-        var children = EntityCache.GetChildren(personalWikiId, getFromEntityCache: true);
+        var children = EntityCache.GetAllChildren(personalWikiId, true);
         var isChildrenLinked = children.Any(c => c.Id == categoryId);
 
         if (isChildrenLinked && UserCache.GetItem(_sessionUser.UserId).IsFiltered)
@@ -323,10 +323,10 @@ public class EditCategoryController : BaseController
                 key = "isAlreadyLinkedAsChild"
             });
 
-        var parentIsEqualChildCount = GraphService.GetAllParentsFromEntityCache(personalWikiId)
-            .Count(c => c.Id == categoryId);
+        var selectedCategoryIsParent = GraphService.GetAllParentsFromEntityCache(personalWikiId)
+            .Any(c => c.Id == categoryId);
 
-        if (parentIsEqualChildCount > 0)
+        if (selectedCategoryIsParent)
         {
             Logg.r().Error("Child is Parent ");
             return Json(new

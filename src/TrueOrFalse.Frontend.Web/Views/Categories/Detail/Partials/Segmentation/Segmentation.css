@@ -13,13 +13,16 @@
   margin-bottom: 40px;
 }
 #Segmentation .toRoot {
-  margin-bottom: 30px;
   display: flex;
   align-items: center;
   color: #555555;
 }
 #Segmentation .toRoot .category-chip-container {
+  margin-top: -10px;
   margin-left: 4px;
+  text-transform: initial;
+  font-weight: initial;
+  letter-spacing: normal;
 }
 #Segmentation .overline-m {
   margin-bottom: 15px;

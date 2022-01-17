@@ -59,8 +59,8 @@ public class CategoryHistoryModel : BaseModel
             var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
             relationChangeItem.RelationAdded = count >= 1;
 
-            var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First();
-            var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
+            var relationChange = selectedRevNotPreviousRev.Any() && previousRevNotSelectedRev.Any() ? selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).First() : null;
+            var category = relationChange == null ? null : EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
             var categoryIsVisible = PermissionCheck.CanView(category);
             var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
             var relatedCategoryIsVisible = PermissionCheck.CanView(relatedCategory);

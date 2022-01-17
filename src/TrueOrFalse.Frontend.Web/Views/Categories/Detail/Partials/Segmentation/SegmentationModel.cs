@@ -19,7 +19,7 @@ public class SegmentationModel : BaseContentModule
     public string NotInSegmentCategoryIds;
     public string SegmentJson;
     public bool IsMyWorld { get; set; }
-    public bool ShowLinkToRootCategory = false;
+    public bool ShowLinkToRootCategory;
 
     public SegmentationModel(CategoryCacheItem category)
     {
@@ -52,7 +52,9 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
 
-        ShowLinkToRootCategory = category.Creator != null && category.Creator.StartTopicId == category.Id;
+        ShowLinkToRootCategory = GraphService.GetAllParentsFromEntityCache(category.Id).All(c => c.Id != RootCategory.RootCategoryId) && 
+                                 EntityCache.GetAllChildren(category.Id, true).All(c => c.Id != RootCategory.RootCategoryId) &&
+                                 category != RootCategory.Get;
     }
 
 
