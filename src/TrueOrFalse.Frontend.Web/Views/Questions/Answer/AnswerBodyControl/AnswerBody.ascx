@@ -286,7 +286,7 @@
             </div>
         </div>
     </div>
-        <% if (!Model.IsInWidget  && Model.SolutionType != SolutionType.FlashCard.ToString())
+        <% if (!Model.IsInWidget)
            { %>
             <div id="ActivityPointsDisplay">
                 <small>Dein Punktestand</small>
