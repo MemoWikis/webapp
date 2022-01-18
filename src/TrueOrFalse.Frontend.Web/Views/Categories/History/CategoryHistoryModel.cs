@@ -36,7 +36,7 @@ public class CategoryHistoryModel : BaseModel
             .OrderByDescending(group => group.Key)
             .Select(group => new CategoryChangeDayModel(
                 group.Key, 
-                (IList<CategoryChange>) group.OrderByDescending(g => g.DateCreated).ToList()
+                (IList<CategoryChange>)group.OrderByDescending(g => g.DateCreated).ToList()
             ))
             .ToList();
         _listWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
