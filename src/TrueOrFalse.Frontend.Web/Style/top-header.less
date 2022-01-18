@@ -490,12 +490,13 @@
                 }
             }
         }
-
+        #UserProgressItemContainer {
+            cursor: default;
+        }
         #UserProgressContainer {
             white-space: unset;
             padding: 0px;
             display: block;
-
 
             #activity-popover-container {
                 padding: 0px 20px 0px 20px;
@@ -677,7 +678,7 @@
             font-weight: normal;
             color: black;
             font-size: 16px;
-            padding: 15px 0 15px 23.34px;
+            padding: 15px 0 15px 23px;
 
             &.active {
                 background-color: @light-grey-hover;
@@ -852,4 +853,95 @@
 
 #BreadCrumbTrailContainer {
     display: contents;
+}
+
+#activity-popover-title {
+    font-size: 16px;
+    color: black;
+    height: 48px;
+    padding: 23px 0 7px 23px;
+    display: flex;
+    line-height: 26px;
+    cursor:default;
+}
+
+#activity-popover-content-inner {
+    line-height: normal;
+    color: black;
+    font-size: 12px;
+    text-align: center;
+    white-space: normal;
+    padding-top: 10px;
+    cursor: default;
+
+    span {
+        vertical-align: baseline !important;
+        height: auto !important;
+        line-height: normal !important;
+    }
+
+    .ProgressBarContainer, .ProgressBarSegment {
+        height: 25px;
+        border: transparent;
+        background-color: transparent;
+        cursor: default;
+    }
+
+    .ProgressBarContainer {
+        display: table;
+        width: 100%;
+        margin-bottom: 8px;
+        margin-top: 5px;
+        .clearfix;
+    }
+
+    .ProgressBarSegment {
+        display: table-cell;
+        overflow: hidden;
+        text-align: center;
+        vertical-align: top; //Fix Firefox height bug
+        left: 5px;
+        border-radius: 0px 16px 16px 0px;
+    }
+
+    .ProgressBarLegend {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 100%;
+        min-width: 30px;
+        font-weight: bold;
+    }
+
+    .ProgressBarDone {
+        background-color: @memo-green;
+        position: relative;
+        overflow: visible;
+        border-radius: 0px 16px 16px 0px;
+        border-right: white 2px solid;
+    }
+
+    .ProgressBarLeft {
+        background-color: @memo-grey-light;
+    }
+
+    .ProgressInfoText {
+        text-align: center;
+        color: @global-text-color-grey;
+        font-weight: normal !important;
+        cursor: default;
+        line-height: 16px;
+        padding-bottom: 8px;
+    }
+
+    #NextLevelProgressSpanPercentageDone {
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        height: 100% !important;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
 }
