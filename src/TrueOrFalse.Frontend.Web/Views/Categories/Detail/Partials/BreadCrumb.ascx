@@ -38,7 +38,7 @@
                     </div>
                 </a>
                 <ul id="BreadcrumbUserDropdown" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right: 0; position: absolute; width: 220px;">
-                    <li>
+                    <li id="UserProgressItemContainer">
                         <div id="UserProgressContainer">
                             <div id="activity-popover-title">Deine Lernpunkte</div>
                             <div id="activity-popover-container">

@@ -35,7 +35,6 @@ public class CategoryChangesOverviewModel : BaseModel
             changes.AddRange(Sl.CategoryChangeRepo.GetForCategory(id).OrderBy(c => c.Id));
         return changes;
     }
-
     public RelationChangeItem GetRelationChange(CategoryChangeDetailModel item, IList<CategoryChange> changes)
     {
         var changesForCurrentCategory = changes.Where(c => c.Category.Id == item.CategoryId);
@@ -83,6 +82,6 @@ public class CategoryChangesOverviewModel : BaseModel
 
     public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
     {
-        return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == item.Author.Id;
+        return _sessionUser.IsInstallationAdmin || _sessionUser.UserId == item.Author.Id;
     }
 }

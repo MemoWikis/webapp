@@ -231,6 +231,12 @@ function updateBreadCrumb() {
     });
 }
 
+function disableCloseOnActivityPoints() {
+    $(document).on('click', '#UserProgressItemContainer', function (e) {
+        e.stopPropagation();
+    });
+}
+
 $(() => {
     new Site();
     setBrowserClass();
@@ -243,4 +249,5 @@ $(() => {
     loadInfoBanner();
     if (window.location.host.startsWith("stage.memucho.de"))
         checkStageOverlay();
+    disableCloseOnActivityPoints();
 });

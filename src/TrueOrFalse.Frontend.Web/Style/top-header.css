@@ -414,6 +414,9 @@
 #Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.register-btn:hover {
   filter: brightness(0.85);
 }
+#Breadcrumb #StickyHeaderContainer #UserProgressItemContainer {
+  cursor: default;
+}
 #Breadcrumb #StickyHeaderContainer #UserProgressContainer {
   white-space: unset;
   padding: 0px;
@@ -598,7 +601,7 @@
   font-weight: normal;
   color: black;
   font-size: 16px;
-  padding: 15px 0 15px 23.34px;
+  padding: 15px 0 15px 23px;
 }
 #loginAndHelp .dropdown-menu a.active,
 #StickyHeaderContainer .dropdown-menu a.active {
@@ -716,4 +719,100 @@
 }
 #BreadCrumbTrailContainer {
   display: contents;
+}
+#activity-popover-title {
+  font-size: 16px;
+  color: black;
+  height: 48px;
+  padding: 23px 0 7px 23px;
+  display: flex;
+  line-height: 26px;
+  cursor: default;
+}
+#activity-popover-content-inner {
+  line-height: normal;
+  color: black;
+  font-size: 12px;
+  text-align: center;
+  white-space: normal;
+  padding-top: 10px;
+  cursor: default;
+}
+#activity-popover-content-inner span {
+  vertical-align: baseline !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+#activity-popover-content-inner .ProgressBarContainer,
+#activity-popover-content-inner .ProgressBarSegment {
+  height: 25px;
+  border: transparent;
+  background-color: transparent;
+  cursor: default;
+}
+#activity-popover-content-inner .ProgressBarContainer {
+  display: table;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-top: 5px;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+  left: 5px;
+  border-radius: 0px 16px 16px 0px;
+}
+#activity-popover-content-inner .ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+#activity-popover-content-inner .ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+  border-radius: 0px 16px 16px 0px;
+  border-right: white 2px solid;
+}
+#activity-popover-content-inner .ProgressBarLeft {
+  background-color: #DDDDDD;
+}
+#activity-popover-content-inner .ProgressInfoText {
+  text-align: center;
+  color: #767676;
+  font-weight: normal !important;
+  cursor: default;
+  line-height: 16px;
+  padding-bottom: 8px;
+}
+#activity-popover-content-inner #NextLevelProgressSpanPercentageDone {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  height: 100% !important;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
 }
