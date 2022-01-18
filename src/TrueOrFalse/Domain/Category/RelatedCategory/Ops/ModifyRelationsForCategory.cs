@@ -24,7 +24,7 @@ public class ModifyRelationsForCategory
         RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType));
     }
 
-    public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType)
+    public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType, bool isRelatedParent = false)
     {
         var relatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId);
         var categoryRelationToAdd = new CategoryRelation()
@@ -38,21 +38,27 @@ public class ModifyRelationsForCategory
             category.CategoryRelations.Add(categoryRelationToAdd);
         }
 
-        //Get all Children of Children and add them to the CategoryRelations
-        foreach (CategoryRelation categoryRelation in relatedCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf))
+        //Get all GrandChildren and add them to the CategoryRelations
+        if (isRelatedParent == false)
         {
-            AddCategoryRelationOfType(category, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf);
+            foreach (CategoryRelation categoryRelation in relatedCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf))
+            {
+                AddCategoryRelationOfType(category, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf, true);
+            }
         }
-
         //Get all Parents and add RelatedCategories to them
         foreach (CategoryRelation relatedCategoryRelation in category.CategoryRelations.Where(cr =>
-            cr.CategoryRelationType == CategoryRelationType.IsChildOf).ToList())
+                cr.CategoryRelationType == CategoryRelationType.IsChildOf).ToList())
         {
             foreach (CategoryRelation categoryRelation in category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList())
             {
-                AddCategoryRelationOfType(relatedCategoryRelation.RelatedCategory, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf);
+                if (relatedCategoryRelation.RelatedCategory.CategoryRelations.All(cr => cr.RelatedCategory != categoryRelation.RelatedCategory))
+                {
+                    AddCategoryRelationOfType(relatedCategoryRelation.RelatedCategory, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf, true);
+                }
             }
         }
+
     }
 
     public static void AddParentCategory(Category child, int parent)
