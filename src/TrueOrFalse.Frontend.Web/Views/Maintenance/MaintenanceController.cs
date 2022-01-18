@@ -314,12 +314,12 @@ public class MaintenanceController : BaseController
     public ActionResult CreateAggregationsForAll()
     {
         var allCategories = Sl.CategoryRepo.GetAll();
-
         foreach (var category in allCategories)
         {
             Logg.r().Information("Created aggregates for {0}", category.Name);
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategoryCacheItem(category.Id));
         }
+        Logg.r().Information("Aggregations where created");
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
