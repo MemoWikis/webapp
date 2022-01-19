@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
 using SolrNet.Mapping.Validation.Rules;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class QuestionRepo : RepositoryDbBase<Question>
 {
@@ -51,13 +53,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
         var categoriesIds = _session
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
             .List<int>();
-
-        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id + " AND Category_id is not null";
-
+        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
+                    " AND Category_id is not null";
         var categoriesReferences = _session
             .CreateSQLQuery(query)
             .List<int>();
-
         var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
 
         _searchIndexQuestion.Update(question);
@@ -75,26 +75,26 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Select(r => r.Category.Id))
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
-
-            Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
-
         EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
+
+        Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
 
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateCountQuestionsAggregated();
-            Sl.CategoryRepo.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+            JobScheduler.StartImmediately_UpdateAggregatedCategoryForQuestion(category.Id);
         }
+
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
     }
+
 
     public void UpdateBeforeEntityCacheInit(Question question, bool withSolr = true)
     {
         if(withSolr)
-        _searchIndexQuestion.Update(question);
+            _searchIndexQuestion.Update(question);
         base.Update(question);
 
         Flush();

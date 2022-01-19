@@ -169,6 +169,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
+
+        public static void StartImmediately_UpdateAggregatedCategoryForQuestion(int categoryId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<UpdateAggregatedCategoryForQuestion>()
+                    .UsingJobData("categoryId", categoryId)
+                    .Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
     }
 }
 

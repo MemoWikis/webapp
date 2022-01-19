@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using FluentNHibernate.Data;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -65,19 +67,18 @@ public class EditQuestionController : BaseController
                     key = "missingText",
                 }
             };
-        var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
-        question = UpdateQuestion(question, questionDataJson, safeText);
-            
-        _questionRepo.Update(question);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
-        EntityCache.AddOrUpdate(question);
+
+        var question = EntityCache.GetQuestionById(questionDataJson.QuestionId);
+        var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
+
+        _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
-
+        {
+            InsertNewQuestionToLearningSession(updatedQuestion, questionDataJson.SessionIndex);
+        }
         var questionController = new QuestionController(_questionRepo);
-
-        return questionController.LoadQuestion(question.Id);
+        return questionController.LoadQuestion(updatedQuestion.Id);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -164,8 +165,10 @@ public class EditQuestionController : BaseController
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
 
         var categories = new List<Category>();
+
         foreach (var categoryId in questionDataJson.CategoryIds)
             categories.Add(Sl.CategoryRepo.GetById(categoryId));
+
         question.Categories = categories;
         question.Visibility = (QuestionVisibility) questionDataJson.Visibility;
 
@@ -178,6 +181,7 @@ public class EditQuestionController : BaseController
             question.Solution = serializer.Serialize(solutionModelFlashCard);
         } else
             question.Solution = questionDataJson.Solution;
+
         question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
 
         if (!String.IsNullOrEmpty(questionDataJson.ReferencesJson))
@@ -201,6 +205,7 @@ public class EditQuestionController : BaseController
         question.License = IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
+
         return question;
     }
 
