@@ -75,17 +75,10 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Select(r => r.Category.Id))
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
+
         EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
-
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
-
-        var aggregatedCategoriesToUpdate =
-            CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
-
-        foreach (var category in aggregatedCategoriesToUpdate)
-        {
-            JobScheduler.StartImmediately_UpdateAggregatedCategoryForQuestion(category.Id);
-        }
+        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
 
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
     }

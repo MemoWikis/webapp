@@ -1,4 +1,6 @@
-﻿using Quartz;
+﻿using System.Collections.Generic;
+using NHibernate.Mapping;
+using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools.ScheduledJobs.Jobs;
@@ -170,12 +172,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 TriggerBuilder.Create().StartNow().Build());
         }
 
-        public static void StartImmediately_UpdateAggregatedCategoryForQuestion(int categoryId)
+        public static void StartImmediately_UpdateAggregatedCategoriesForQuestion(List<int> categoryIds)
         {
+            var job = JobBuilder.Create<UpdateAggregatedCategoriesForQuestion>()
+                .Build();
+
+            job.JobDataMap["categoryids"] = categoryIds;
+
             _scheduler.ScheduleJob(
-                JobBuilder.Create<UpdateAggregatedCategoryForQuestion>()
-                    .UsingJobData("categoryId", categoryId)
-                    .Build(),
+                job,
                 TriggerBuilder.Create().StartNow().Build());
         }
     }

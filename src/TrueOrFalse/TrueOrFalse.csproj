@@ -794,7 +794,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\PersonalTopic.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoryForQuestion.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
