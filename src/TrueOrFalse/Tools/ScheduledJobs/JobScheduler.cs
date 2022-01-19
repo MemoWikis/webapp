@@ -177,7 +177,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var job = JobBuilder.Create<UpdateAggregatedCategoriesForQuestion>()
                 .Build();
 
-            job.JobDataMap["categoryids"] = categoryIds;
+            job.JobDataMap["categoryIds"] = categoryIds;
 
             _scheduler.ScheduleJob(
                 job,
