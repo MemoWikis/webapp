@@ -181,6 +181,7 @@
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="2 Domain\Category\Automatic_inclusion_tests.cs" />
+    <Compile Include="2 Domain\Category\CategoryRelationsPersistence.cs" />
     <Compile Include="2 Domain\Category\SessionUser_test.cs" />
     <Compile Include="2 Domain\Category\Crumbtrail_test.cs" />
     <Compile Include="2 Domain\Category\Edit_category_tests.cs" />
