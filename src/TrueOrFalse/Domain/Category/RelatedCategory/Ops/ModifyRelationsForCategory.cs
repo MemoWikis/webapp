@@ -24,57 +24,49 @@ public class ModifyRelationsForCategory
         RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType));
     }
 
-    public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType)
+    public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType, bool isRelatedParent = false)
     {
-        if (category.CategoryRelations.Any(r => r.RelatedCategory.Id == relatedCategoryId && r.CategoryRelationType == relationType))
-            return;
+        var relatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId);
+        var categoryRelationToAdd = new CategoryRelation()
+        {
+            Category = category,
+            RelatedCategory = relatedCategory,
+            CategoryRelationType = relationType
+        };
+        if (!category.CategoryRelations.Any(cr => cr.Category == categoryRelationToAdd.Category && cr.RelatedCategory == categoryRelationToAdd.RelatedCategory))
+        {
+            category.CategoryRelations.Add(categoryRelationToAdd);
+        }
 
-        category.CategoryRelations.Add(
-            new CategoryRelation()
+        if (relationType != CategoryRelationType.IncludesContentOf)
+        {
+
+            //Get all GrandChildren and add them to the CategoryRelations
+            if (isRelatedParent == false)
             {
-                Category = category,
-                RelatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId),
-                CategoryRelationType = relationType
-            });
+                foreach (CategoryRelation categoryRelation in category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf))
+                {
+                    AddCategoryRelationOfType(category, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf, true);
+                }
+            }
+        }
+
+        else
+        {
+            //Get all Parents and add RelatedCategories to them
+            foreach (CategoryRelation relatedCategoryRelation in category.CategoryRelations.Where(cr =>
+                cr.CategoryRelationType == CategoryRelationType.IsChildOf).ToList())
+            {
+                foreach (CategoryRelation categoryRelation in category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList())
+                {
+                    if (relatedCategoryRelation.RelatedCategory.CategoryRelations.All(cr => cr.RelatedCategory != categoryRelation.RelatedCategory))
+                    {
+                        AddCategoryRelationOfType(relatedCategoryRelation.RelatedCategory, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf, true);
+                    }
+                }
+            }
+        }
     }
-
-
-    //public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, CategoryRelationType relationType, bool isRelatedParent = false)
-    //{
-    //    var relatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId);
-    //    var categoryRelationToAdd = new CategoryRelation()
-    //    {
-    //        Category = category,
-    //        RelatedCategory = relatedCategory,
-    //        CategoryRelationType = relationType
-    //    };
-    //    if (!category.CategoryRelations.Any(cr => cr.Category == categoryRelationToAdd.Category && cr.RelatedCategory == categoryRelationToAdd.RelatedCategory))
-    //    {
-    //        category.CategoryRelations.Add(categoryRelationToAdd);
-    //    }
-
-    //    //Get all GrandChildren and add them to the CategoryRelations
-    //    if (isRelatedParent == false)
-    //    {
-    //        foreach (CategoryRelation categoryRelation in relatedCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf))
-    //        {
-    //            AddCategoryRelationOfType(category, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf, true);
-    //        }
-    //    }
-    //    //Get all Parents and add RelatedCategories to them
-    //    foreach (CategoryRelation relatedCategoryRelation in category.CategoryRelations.Where(cr =>
-    //            cr.CategoryRelationType == CategoryRelationType.IsChildOf).ToList())
-    //    {
-    //        foreach (CategoryRelation categoryRelation in category.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList())
-    //        {
-    //            if (relatedCategoryRelation.RelatedCategory.CategoryRelations.All(cr => cr.RelatedCategory != categoryRelation.RelatedCategory))
-    //            {
-    //                AddCategoryRelationOfType(relatedCategoryRelation.RelatedCategory, categoryRelation.RelatedCategory.Id, CategoryRelationType.IncludesContentOf, true);
-    //            }
-    //        }
-    //    }
-
-    //}
 
     public static void AddParentCategory(Category child, int parent)
     {
@@ -165,7 +157,8 @@ public class ModifyRelationsForCategory
                 {
                     category.CategoryRelations.RemoveAt(j);
                     var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
-                    categoryCacheItem.CategoryRelations.RemoveAt(j);
+                    if (categoryCacheItem.CategoryRelations.Count >= j)
+                        categoryCacheItem.CategoryRelations.RemoveAt(j);
                 }
             }
         }
