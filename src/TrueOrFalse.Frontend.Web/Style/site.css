@@ -2592,6 +2592,113 @@ input::placeholder {
 .footer-links-memucho {
   margin-top: 40px;
 }
+#MemuchoBetaBanner {
+  height: 0px;
+  min-height: 0px;
+  width: 100%;
+  background: linear-gradient(0deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), #FFFFFF;
+  top: 0;
+  z-index: 50;
+  margin: 0;
+  transform: translateY(-140px);
+  transition: transform 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+  opacity: 0;
+  position: relative;
+  pointer-events: none;
+  visibility: hidden;
+}
+#MemuchoBetaBanner.skip-animation {
+  transition: transform 0s ease-out, min-height 0s ease-out, opacity 0s ease-out, visibility 0s ease-out !important;
+  height: unset !important;
+}
+#MemuchoBetaBanner .container {
+  height: 100%;
+  padding-top: 45px;
+}
+#MemuchoBetaBanner .container #BannerContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+#MemuchoBetaBanner .container #BannerContainer .memucho-info-partial {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+#MemuchoBetaBanner .container #BannerContainer #BannerText {
+  flex-direction: column;
+  align-items: flex-start;
+  color: #003264;
+  justify-content: center;
+}
+#MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 1.25px;
+  width: 100%;
+  text-transform: uppercase;
+}
+#MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+  font-size: 20px;
+  color: #FF001F;
+}
+@media (max-width: 767px) {
+  #MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 767px) {
+  #MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text {
+    text-align: center;
+  }
+}
+#MemuchoBetaBanner .container #BannerContainer #BannerText .main-text {
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 34px;
+  letter-spacing: 0em;
+  width: 100%;
+}
+@media (max-width: 767px) {
+  #MemuchoBetaBanner .container #BannerContainer #BannerText .main-text {
+    text-align: center;
+  }
+}
+#MemuchoBetaBanner .container #BannerContainer #BannerRedirectBtn {
+  justify-content: space-evenly;
+}
+#MemuchoBetaBanner .container #BannerContainer .close-banner {
+  color: #767676;
+  padding: 10px;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+#MemuchoBetaBanner .container #BannerContainer .close-banner:hover {
+  color: #003264;
+}
+#MemuchoBetaBanner .container #BannerContainer .close-banner.mobile-close {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+#MemuchoBetaBanner.show-banner {
+  opacity: 1;
+  min-height: 54px;
+  height: unset;
+  transform: translateY(0px);
+  pointer-events: unset;
+  visibility: unset;
+}
+#MemuchoBetaBanner.show-banner .container {
+  min-height: 54px;
+}
+#MemuchoBetaBanner.show-banner .container #BannerContainer {
+  min-height: 54px;
+}
 #MemuchoInfoBanner {
   height: 0px;
   min-height: 0px;
