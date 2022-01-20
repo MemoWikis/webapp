@@ -62,7 +62,7 @@ namespace TrueOrFalse
 
             /* API */
             routes.MapRoute("Questions_DeleteDetail", "Question/DeleteDetails/{questionId}", new { controller = "Question", action = "DeleteDetails" });
-            /* API */ routes.MapRoute("Questions_Delete", "Question/Delete/{questionId}", new { controller = "Question", action = "Delete" });
+            /* API */ routes.MapRoute("Questions_Delete", "Question/Delete", new { controller = "Question", action = "Delete" });
             /* API */ routes.MapRoute("Question_SendAnswer", "Questions/SendAnswer/{id}", new { controller = "AnswerQuestion", action = "SendAnswer" });
             /* API */ routes.MapRoute("Question_GetSolution", "Questions/GetSolution/{id}", new { controller = "AnswerQuestion", action = "GetSolution" });
             /* API */ routes.MapRoute("Question_CountLastAnswerAsCorrect", "Questions/CountLastAnswerAsCorrect/{id}", new { controller = "AnswerQuestion", action = "CountLastAnswerAsCorrect" });

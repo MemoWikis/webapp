@@ -61,13 +61,19 @@
                 Utils.ShowSpinner();
 
                 var self = this;
+                var data = {
+                    questionId: self.id,
+                    sessionIndex: $('#hddIsLearningSession').attr('data-current-step-idx')
+                }
                 $.ajax({
                     type: 'POST',
-                    url: "/Question/Delete/" + self.id,
-                    success() {
+                    url: "/Question/Delete",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success(result) {
                         Utils.HideSpinner();
                         self.deletionInProgress = false;
-                        eventBus.$emit('question-deleted', self.id);
+                        eventBus.$emit('question-deleted', { id: result.questionId, index: result.sessionIndex - 1});
                         Alerts.showSuccess({
                             text: messages.success.question.delete
                         });

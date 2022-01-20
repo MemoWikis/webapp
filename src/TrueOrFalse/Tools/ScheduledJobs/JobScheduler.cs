@@ -183,6 +183,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 job,
                 TriggerBuilder.Create().StartNow().Build());
         }
+
+        public static void StartImmediately_DeleteQuestion(int questionId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<DeleteQuestion>()
+                    .UsingJobData("questionId", questionId)
+                    .Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
     }
 }
 

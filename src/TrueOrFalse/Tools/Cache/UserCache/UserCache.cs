@@ -113,9 +113,14 @@ public class UserCache
     {
         foreach (var userId in Sl.UserRepo.GetAllIds())
         {
-            var cacheItem = GetItem(userId);
-            cacheItem.QuestionValuations.TryRemove(questionId, out var questValOut);
+            RemoveQuestionForUser(userId, questionId);
         }
+    }
+
+    public static void RemoveQuestionForUser(int userId, int questionId)
+    {
+        var cacheItem = GetItem(userId);
+        cacheItem.QuestionValuations.TryRemove(questionId, out var questValOut);
     }
 
     public static List<UserCacheItem> GetAllActiveCaches()

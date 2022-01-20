@@ -70,10 +70,25 @@ let qlc = Vue.component('question-list-component', {
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
-        eventBus.$on('question-deleted', (id) => {
+        eventBus.$on('question-deleted', (data) => {
             this.questions = this.questions.filter(q => {
-                return q.Id != id;
+                return q.Id != data.id;
             });
+
+            if (this.questions.length <= 0)
+                this.hasQuestions = false;
+
+            var answerBody = new AnswerBody();
+            var skipIndex = this.questions != null ? -5 : 0;
+
+            if (this.questions.length >= 1)
+                answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+                    "?skipStepIdx=" +
+                    skipIndex +
+                    "&index=" +
+                    data.index);
+
+            eventBus.$emit('change-active-question');
         });
     },
     watch: {

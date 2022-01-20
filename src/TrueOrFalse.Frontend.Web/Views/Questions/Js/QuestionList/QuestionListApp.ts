@@ -62,7 +62,7 @@ var questionListApp = new Vue({
             this.commentIsLoaded = false;
         }
     },
-    created: function () {
+    created() {
         eventBus.$on("change-active-question", () => this.setActiveQuestionId());
         eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
         this.questionsCount = this.getAllQuestionsCountFromCategory();
@@ -105,6 +105,7 @@ var questionListApp = new Vue({
             $('[data-toggle="tooltip"]').tooltip()
         });
         eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
+
     },
     watch: {
         activeQuestion: function (indexQuestion) {

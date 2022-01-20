@@ -95,10 +95,17 @@ public class QuestionController : BaseController
     }
 
     [HttpPost]
-    public EmptyResult Delete(int questionId)
+    public JsonResult Delete(int questionId, int sessionIndex)
     {
         QuestionDelete.Run(questionId);
-        return new EmptyResult();
+        LearningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
+        return new JsonResult
+        {
+            Data = new {
+                sessionIndex,
+                questionId
+            }
+        };
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]

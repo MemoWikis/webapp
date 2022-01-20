@@ -393,8 +393,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
 
                             if (!self.edit)
                                 eventBus.$emit('add-question-to-list', result);
-                            else
-                                eventBus.$emit('reload-question-id', result.Id);
                             eventBus.$emit("change-active-question", self.sessionIndex);
                         }
 

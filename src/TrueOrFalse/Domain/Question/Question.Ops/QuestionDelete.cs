@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class QuestionDelete
 {
@@ -17,36 +19,8 @@ public class QuestionDelete
         }
 
         EntityCache.Remove(question);
-
-        var categoriesToUpdate = question.Categories.ToList();
-        //delete connected db-entries
-        Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);
-        Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
-        Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
-        Sl.R<UserActivityRepo>().DeleteForQuestion(questionId);
-        Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
-        Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);
-        Sl.R<CommentRepository>().DeleteForQuestion(questionId);
-        Sl.R<ISession>()
-            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
-            .ExecuteUpdate();
-        Sl.R<ISession>()
-            .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
-            .ExecuteUpdate(); //probably not necessary
-
-        questionRepo.Delete(question);
-        Sl.QuestionChangeRepo.AddDeleteEntry(question);
-
-        Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
-
-        var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);
-
-        foreach (var category in aggregatedCategoriesToUpdate)
-        {
-            category.UpdateCountQuestionsAggregated();
-            Sl.CategoryRepo.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
-        }
+        UserCache.RemoveQuestionForUser(Sl.SessionUser.UserId, questionId);
+        JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 
     public static CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)

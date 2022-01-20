@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -46,7 +47,7 @@ public class EditQuestionController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
         if (questionDataJson.IsLearningTab)
-            InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+            LearningSessionCache.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -75,7 +76,7 @@ public class EditQuestionController : BaseController
 
         if (questionDataJson.IsLearningTab)
         {
-            InsertNewQuestionToLearningSession(updatedQuestion, questionDataJson.SessionIndex);
+            LearningSessionCache.InsertNewQuestionToLearningSession(updatedQuestion, questionDataJson.SessionIndex);
         }
         var questionController = new QuestionController(_questionRepo);
         return questionController.LoadQuestion(updatedQuestion.Id);
@@ -128,7 +129,7 @@ public class EditQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
-        InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
+        LearningSessionCache.InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -142,12 +143,6 @@ public class EditQuestionController : BaseController
         return Regex.Replace(text, "<.*?>", "");
     }
 
-    private void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
-    {
-        var learningSession = LearningSessionCache.GetLearningSession();
-        var step = new LearningSessionStep(question);
-        learningSession.Steps.Insert(sessionIndex, step);
-    }
     public class FlashCardLoader
     {
         public int CategoryId { get; set; }
