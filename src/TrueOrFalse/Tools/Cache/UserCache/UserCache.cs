@@ -109,7 +109,7 @@ public class UserCache
     }
 
     /// <summary> Used for question delete </summary>
-    public static void RemoveAllForQuestion(int questionId)
+    public static void RemoveQuestionForAllUsers(int questionId)
     {
         foreach (var userId in Sl.UserRepo.GetAllIds())
         {

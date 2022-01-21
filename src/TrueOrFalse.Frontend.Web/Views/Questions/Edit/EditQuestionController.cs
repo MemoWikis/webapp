@@ -16,7 +16,6 @@ using TrueOrFalse.Web;
 public class EditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
-    private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
     private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
     public EditQuestionController(QuestionRepo questionRepo){
@@ -75,9 +74,8 @@ public class EditQuestionController : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-        {
             LearningSessionCache.InsertNewQuestionToLearningSession(updatedQuestion, questionDataJson.SessionIndex);
-        }
+
         var questionController = new QuestionController(_questionRepo);
         return questionController.LoadQuestion(updatedQuestion.Id);
     }
