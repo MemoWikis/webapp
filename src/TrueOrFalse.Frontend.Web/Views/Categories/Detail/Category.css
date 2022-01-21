@@ -972,6 +972,12 @@ p:empty {
 #CategoryHeader .category-sub-header .category-stats.category-views {
   font-size: 14px;
 }
+@media (max-width: 767px) {
+  #CategoryHeader .category-sub-header .category-stats.category-views {
+    width: auto !important;
+    padding: 4px 0;
+  }
+}
 #CategoryHeader .category-sub-header .category-sub-header-divider {
   display: -webkit-box;
   display: -webkit-flex;
@@ -997,6 +1003,12 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+@media (max-width: 767px) {
+  #CategoryHeader .category-sub-header #Authors {
+    width: auto;
+    padding: 4px 0;
+  }
 }
 #CategoryHeader .category-sub-header #Authors .dropdown {
   display: -webkit-box;

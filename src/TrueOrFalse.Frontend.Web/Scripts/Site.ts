@@ -182,6 +182,7 @@ function loadInfoBanner() {
     var cookie = document.cookie.match('(^|;)\\s*' + "memuchoInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || '';
     if (cookie != 'hide') {
         $('#MemuchoInfoBanner').addClass('show-banner');
+        $('#MemuchoBetaBanner').addClass('show-banner');
         document.cookie = "memuchoInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
     }
 }
@@ -189,6 +190,8 @@ function loadInfoBanner() {
 function hideInfoBanner() {
     $('#MemuchoInfoBanner').removeClass('skip-animation');
     $('#MemuchoInfoBanner').removeClass('show-banner');
+    $('#MemuchoBetaBanner').removeClass('skip-animation');
+    $('#MemuchoBetaBanner').removeClass('show-banner');
     document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
 }
 

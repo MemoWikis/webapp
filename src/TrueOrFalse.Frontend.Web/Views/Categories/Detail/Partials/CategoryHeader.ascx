@@ -84,8 +84,8 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                            else
                            { %> <span id="CategoryHeaderQuestionCount">0</span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span>
                     <% } %>
-
                 </div>
+                
                 <div class="category-sub-header-divider hidden-xs">
                     <div class="vertical-line"></div>
                 </div>
@@ -94,7 +94,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <i class="fas fa-eye">&nbsp;</i><%= Model.GetViews() %>
                     </span>
                 </div>
-                <div class="category-sub-header-divider hidden-xs">
+                <div class="category-sub-header-divider">
                     <div class="vertical-line"></div>
                 </div>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", Model); %>

@@ -875,6 +875,11 @@ p:empty {
 
             &.category-views {
                 font-size: 14px;
+
+                @media(max-width: 767px) {
+                    width: auto !important;
+                    padding: 4px 0;
+                }
             }
         }
 
@@ -893,6 +898,11 @@ p:empty {
 
         #Authors {
             display: flex;
+
+            @media(max-width: 767px) {
+                width: auto;
+                padding: 4px 0;
+            }
 
             .dropdown {
                 display: flex;
@@ -1156,6 +1166,7 @@ p:empty {
 
         #HeadingContainer {
             min-height: 150px;
+
             h1 {
                 width: 100%;
                 min-height: 56px;
