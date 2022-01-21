@@ -975,7 +975,7 @@ p:empty {
 @media (max-width: 767px) {
   #CategoryHeader .category-sub-header .category-stats.category-views {
     width: auto !important;
-    padding-right: 12px;
+    padding: 4px 0;
   }
 }
 #CategoryHeader .category-sub-header .category-sub-header-divider {
@@ -1003,6 +1003,12 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+@media (max-width: 767px) {
+  #CategoryHeader .category-sub-header #Authors {
+    width: auto;
+    padding: 4px 0;
+  }
 }
 #CategoryHeader .category-sub-header #Authors .dropdown {
   display: -webkit-box;

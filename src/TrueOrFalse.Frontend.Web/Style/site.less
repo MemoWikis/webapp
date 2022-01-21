@@ -2472,7 +2472,8 @@ textarea, input {
                         color: @memo-blue-link;
                     }
                 }
-                .categoryPrivate{
+
+                .categoryPrivate {
                     padding-top: 10px;
                 }
             }
@@ -2710,11 +2711,11 @@ textarea, input {
     }
 }
 
-.fullSizeButtons{
-    width:100%;
+.fullSizeButtons {
+    width: 100%;
 }
 
-.noPadding{
+.noPadding {
     padding: 0;
 }
 
@@ -2784,7 +2785,7 @@ textarea, input {
             #BannerText {
                 flex-direction: column;
                 align-items: flex-start;
-                color: @memo-blue;
+                color: @memo-grey-darker;
                 justify-content: center;
 
                 .sub-text {
@@ -2793,7 +2794,16 @@ textarea, input {
                     line-height: 20px;
                     letter-spacing: 1.25px;
                     width: 100%;
-                    text-transform: uppercase;
+
+                    b {
+                        font-weight: 700;
+                    }
+
+                    @media (max-width: 767px) {
+                        width: 80%;
+                        margin: 0 auto;
+                    }
+
 
                     .fa-heart {
                         @media (max-width: 767px) {
@@ -2802,10 +2812,6 @@ textarea, input {
 
                         font-size: 20px;
                         color: @memo-wuwi-red;
-                    }
-
-                    @media (max-width: 767px) {
-                        text-align: center;
                     }
                 }
 
@@ -2831,6 +2837,7 @@ textarea, input {
                 padding: 10px;
                 font-size: 20px;
                 transition: all 0.3s;
+
 
                 &:hover {
                     color: @memo-blue;
@@ -2885,7 +2892,6 @@ textarea, input {
 
     .container {
         height: 100%;
-        padding-top: 45px;
 
         #BannerContainer {
             display: flex;
@@ -2968,7 +2974,7 @@ textarea, input {
 
     &.show-banner {
         opacity: 1;
-        min-height: 140px;
+        min-height: 96px;
         margin: 0 0 -40px 0;
         height: unset;
         transform: translateY(0px);
@@ -2976,7 +2982,7 @@ textarea, input {
         visibility: unset;
 
         .container {
-            min-height: 140px;
+            min-height: 96px;
 
             #BannerContainer {
                 min-height: 95px;

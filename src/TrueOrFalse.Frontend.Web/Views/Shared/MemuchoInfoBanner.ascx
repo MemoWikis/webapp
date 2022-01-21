@@ -16,18 +16,18 @@
         <div id="BannerContainer">
             <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
                 <div class="sub-text">
-                    Hi early adopters! memucho befindet sich in der zweiten <a href="https://memucho.de/Entwicklungsstatus-Beta/9032">Beta-Phase</a>
+                    <b>Hi early adopters!</b> memucho befindet sich in der zweiten <a href="/Entwicklungsstatus-Beta/9032">Beta-Phase</a>
                 </div>
                 <a href="#" onclick="hideInfoBanner()" class="visible-xs close-banner mobile-close" style="top: auto">
-                    <i class="fas fa-times"></i>
+                    <img src="/img/close_black.svg" alt="close Button"/>
                 </a>
             </div>
             <div id="BannerRedirectBtn" class="hidden-xs col-sm-5 memucho-info-partial">
-                <a href="#" onclick="OpenInfo('<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(RootCategory.IntroCategoryId)) %>')" style="visibility: hidden;">
+                <a href="#" style="visibility: hidden;">
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
                 <a href="#" onclick="hideInfoBanner()" class="close-banner">
-                    <i class="fas fa-times"></i>
+                    <img src="/img/close_black.svg" alt="close Button"/>
                 </a>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="main-text">Wiki und Lernwerkzeuge vereint!</div>
                 <a href="#" onclick="hideInfoBanner()" class="visible-xs close-banner mobile-close">
-                    <i class="fas fa-times"></i>
+                    <img src="/img/close_black.svg" alt="close Button"/>
                 </a>
             </div>
             <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
@@ -52,7 +52,7 @@
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
                 <a href="#" onclick="hideInfoBanner()" class="hidden-xs close-banner">
-                    <i class="fas fa-times"></i>
+                    <img src="/img/close_black.svg" alt="close Button"/>
                 </a>
             </div>
         </div>

@@ -89,12 +89,12 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                 <div class="category-sub-header-divider hidden-xs">
                     <div class="vertical-line"></div>
                 </div>
-                <div class="category-stats category-views" style="width: auto; padding-right: 10px;">
+                <div class="category-stats category-views">
                     <span class="show-tooltip" data-placement="top" data-original-title="<%= Model.GetViews() %> Views">
                         <i class="fas fa-eye">&nbsp;</i><%= Model.GetViews() %>
                     </span>
                 </div>
-                <div class="category-sub-header-divider hidden-xs">
+                <div class="category-sub-header-divider">
                     <div class="vertical-line"></div>
                 </div>
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", Model); %>

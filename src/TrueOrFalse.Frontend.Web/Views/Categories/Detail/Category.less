@@ -878,7 +878,7 @@ p:empty {
 
                 @media(max-width: 767px) {
                     width: auto !important;
-                    padding-right: 12px;
+                    padding: 4px 0;
                 }
             }
         }
@@ -898,6 +898,11 @@ p:empty {
 
         #Authors {
             display: flex;
+
+            @media(max-width: 767px) {
+                width: auto;
+                padding: 4px 0;
+            }
 
             .dropdown {
                 display: flex;
