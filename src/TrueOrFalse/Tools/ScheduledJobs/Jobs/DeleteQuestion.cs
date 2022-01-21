@@ -12,10 +12,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public void Execute(IJobExecutionContext context)
         {
-            Logg.r().Information("Job started - DeleteQuestion");
 
             var dataMap = context.JobDetail.JobDataMap;
             var questionId = dataMap.GetInt("questionId");
+            Logg.r().Information("Job started - DeleteQuestion {id}", questionId);
 
             UserCache.RemoveQuestionForAllUsers(questionId);
 
@@ -38,12 +38,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var question = questionRepo.GetById(questionId);
 
             questionRepo.Delete(question);
-            Logg.r().Information("Delete Question {id}", questionId);
 
             var categoriesToUpdateIds = question.Categories.Select(c => c.Id).ToList();
 
             Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
             JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
+            Logg.r().Information("Question {id} deleted", questionId);
         }
     }
 }
