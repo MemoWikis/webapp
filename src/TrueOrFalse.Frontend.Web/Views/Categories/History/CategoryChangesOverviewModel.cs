@@ -29,10 +29,11 @@ public class CategoryChangesOverviewModel : BaseModel
     public IList<CategoryChange> GetCategoryChanges(CategoryChangeDayModel model)
     {
         var changes = new List<CategoryChange>();
-
         var currentCategoryIds = model.Items.Select(c => c.CategoryId).Distinct();
+
         foreach (var id in currentCategoryIds)
             changes.AddRange(Sl.CategoryChangeRepo.GetForCategory(id).OrderBy(c => c.Id));
+
         return changes;
     }
     public RelationChangeItem GetRelationChange(CategoryChangeDetailModel item, IList<CategoryChange> changes)
@@ -42,10 +43,5 @@ public class CategoryChangesOverviewModel : BaseModel
 
         var changesForCurrentCategory = changes.Where(c => c.Category.Id == item.CategoryId);
         return RelationChangeItem.GetRelationChange(item, changesForCurrentCategory);
-    }
-
-    public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
-    {
-        return _sessionUser.IsInstallationAdmin || _sessionUser.UserId == item.Author.Id;
     }
 }

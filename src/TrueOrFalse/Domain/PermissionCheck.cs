@@ -113,7 +113,7 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool IsAuthorOrAdmin(int creatorId)
+    public static bool IsAuthorOrAdmin(int? creatorId)
     {
         return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == creatorId;
     }

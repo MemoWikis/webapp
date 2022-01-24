@@ -47,7 +47,8 @@
 
                    if (item.IsVisibleToCurrentUser() && item.RelationIsVisibleToCurrentUser)
                    {
-                       if (item.AggregatedCategoryChangeDetailModel.Count > 1 && PermissionCheck.IsAuthorOrAdmin(item.Author.Id))
+                       var itemAuthorId = item.Author != null ? item.Author.Id : (int?)null;
+                       if (item.AggregatedCategoryChangeDetailModel.Count > 1 && PermissionCheck.IsAuthorOrAdmin(itemAuthorId))
                        {
             %>
                         <div class="panel-group row change-detail-model" id="accordion<%= panelId %>" role="tablist" aria-multiselectable="true">

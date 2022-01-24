@@ -22,15 +22,12 @@ public class CategoryHistoryModel : BaseModel
         Data data = new Data(); ;
 
         if (category == null)
-        {
             data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
-        }
 
         CategoryName = category == null ?  data.Name :  category.Name;
         CategoryId = categoryId;
         CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
         Category = EntityCache.GetCategoryCacheItem(categoryId);
-
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)
@@ -48,11 +45,6 @@ public class CategoryHistoryModel : BaseModel
             return null;
 
         return RelationChangeItem.GetRelationChange(item, _listWithAllVersions);
-    }
-
-    public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
-    {
-        return _sessionUser.IsInstallationAdmin || _sessionUser.UserId == item.Author.Id;
     }
 }
 
@@ -85,6 +77,7 @@ public class CategoryChangeDayModel
     {
         var label = "";
         var categoryId = change.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(change.Id) : -1;
+
         switch (change.Type)
         {
             case CategoryChangeType.Create:
@@ -123,6 +116,7 @@ public class CategoryChangeDayModel
         }
 
         var userTinyModel = new UserTinyModel(change.Author);
+
         return new CategoryChangeDetailModel
         {
             Author = userTinyModel,
