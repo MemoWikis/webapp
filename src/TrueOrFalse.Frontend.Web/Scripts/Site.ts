@@ -108,7 +108,7 @@ class Site {
     static ReloadPage() { window.location.reload(true) };
 
     static LoadValidPage(link: string = window.location.pathname) {
-        const isInvalid = link == '/Registrieren' || link == '/Ausloggen' || link == '/Fehler/500';
+        const isInvalid = link == '/Registrieren' || link == '/Ausloggen' || link == '/Fehler/500' || link == '/Fehler/404';
         if (isInvalid)
             location.href = "/";
         else Site.ReloadPage();
