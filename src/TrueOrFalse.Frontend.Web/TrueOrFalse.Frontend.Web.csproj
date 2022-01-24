@@ -1918,6 +1918,7 @@
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
     <Content Include="img\close_black.svg" />
+    <Content Include="img\fire_heart.svg" />
     <Content Include="robots.not-live.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
