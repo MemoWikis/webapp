@@ -22,10 +22,16 @@ public class RelationChangeItem
             var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Where(l1 => !previousRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
             var previousRevNotSelectedRev = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
 
-            var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
-            if (count == 0)
+            var noRelationChangeInformation = !selectedRevNotPreviousRev.Any() && !previousRevNotSelectedRev.Any();
+            var lastRelationChangeForSelectedRevision =
+                selectedRevNotPreviousRev.Any() ? selectedRevNotPreviousRev.Last() : null;
+            var lastRelationChangeForPreviousRevision =
+                previousRevNotSelectedRev.Any() ? previousRevNotSelectedRev.Last() : null;
+
+            if (noRelationChangeInformation || lastRelationChangeForSelectedRevision == lastRelationChangeForPreviousRevision)
                 return null;
 
+            var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
             relationChangeItem.RelationAdded = count >= 1;
 
             var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).Last();
