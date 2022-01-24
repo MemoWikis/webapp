@@ -37,47 +37,11 @@ public class CategoryChangesOverviewModel : BaseModel
     }
     public RelationChangeItem GetRelationChange(CategoryChangeDetailModel item, IList<CategoryChange> changes)
     {
+        if (item.Type != CategoryChangeType.Relations)
+            return null;
+
         var changesForCurrentCategory = changes.Where(c => c.Category.Id == item.CategoryId);
-
-        var selectedCategoryChange = changesForCurrentCategory.FirstOrDefault(c => c.Id == item.CategoryChangeId);
-        var previousCategoryChange = changesForCurrentCategory.LastOrDefault(c => c.Id < item.CategoryChangeId);
-
-        var selectedRevision = CategoryEditData_V2.CreateFromJson(selectedCategoryChange.Data);
-        var previousRevision = CategoryEditData_V2.CreateFromJson(previousCategoryChange.Data);
-
-        var relationChangeItem = new RelationChangeItem();
-
-        if (previousRevision != null)
-        {
-            var selectedRevisionCategoryRelations = selectedRevision.CategoryRelations;
-            var previousRevisionCategoryRelations = previousRevision.CategoryRelations;
-            var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Where(l1 => !previousRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
-            var previousRevNotSelectedRev = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
-
-            var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
-            if (count == 0)
-                return null;
-
-            relationChangeItem.RelationAdded = count >= 1;
-
-            var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).Last();
-            var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
-            var categoryIsVisible = PermissionCheck.CanView(category);
-            var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
-            var relatedCategoryIsVisible = PermissionCheck.CanView(relatedCategory);
-
-            var canViewRevisions =
-                PermissionCheck.CanView(UserCache.GetUser(item.CreatorId), selectedRevision.Visibility) &&
-                PermissionCheck.CanView(UserCache.GetUser(item.CreatorId), previousRevision.Visibility);
-
-            if (categoryIsVisible && relatedCategoryIsVisible && canViewRevisions)
-                relationChangeItem.IsVisibleToCurrentUser = true;
-
-            relationChangeItem.RelatedCategory = relatedCategory;
-            relationChangeItem.Type = relationChange.RelationType;
-        }
-
-        return relationChangeItem;
+        return RelationChangeItem.GetRelationChange(item, changesForCurrentCategory);
     }
 
     public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)

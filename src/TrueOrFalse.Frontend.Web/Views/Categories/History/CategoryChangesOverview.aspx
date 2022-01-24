@@ -33,34 +33,19 @@
                 <h3><%= day.Date %></h3>
             </div>
         </div>
-        <% foreach (var item in day.Items)
+        <% foreach (var model in day.Items)
            {
+               var item = model;
                var i = 1;
                var panelId = Guid.NewGuid();
-               var itemIsVisibleToCurrentUser = true;
-               var relationChangeItem = new RelationChangeItem();
-               var label = item.Typ;
-               if (item.Type == CategoryChangeType.Relations)
-               {
-                   relationChangeItem = Model.GetRelationChange(item, changes);
-                   if (relationChangeItem != null)
-                   {
-                       itemIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
-                       if (relationChangeItem.RelationAdded)
-                           label += " hinzugefügt";
-                       else
-                           label += " entfernt";
-                   }
-                   else
-                   {
-                       item.Type = CategoryChangeType.Update;
-                       label = "Update";
-                   }
-               }
+               var relationChangeItem = Model.GetRelationChange(item, changes);
 
-               if (itemIsVisibleToCurrentUser && item.IsVisibleToCurrentUser())
+               if (item.Type == CategoryChangeType.Relations)
+                   item = RelationChangeItem.GetSafeItem(item, relationChangeItem);
+
+               if (item.IsVisibleToCurrentUser() && item.RelationIsVisibleToCurrentUser)
                {
-                   if (item.AggregatedCategoryChangeDetailModel.Count > 1 && Model.IsAuthorOrAdmin(item))
+                   if (item.AggregatedCategoryChangeDetailModel.Count > 1 && PermissionCheck.IsAuthorOrAdmin(item.Author.Id))
                    {
         %>
                     <div class="panel-group row change-detail-model" id="accordion<%= panelId %>" role="tablist" aria-multiselectable="true">
@@ -77,7 +62,7 @@
                                     um <%= item.Time %>
                                 </div>
                                 <div class="col-xs-6 col-sm-7 pull-right change-detail">
-                                    <div class="change-detail-label pointer"><%= label %></div>
+                                    <div class="change-detail-label pointer"><%= item.Label %></div>
                                     <div class="pointer"></div>
                                     <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" role="button" href="<%= Links.CategoryHistoryDetail(item.CategoryId, item.AggregatedCategoryChangeDetailModel.Last().CategoryChangeId, item.CategoryChangeId) %>">
                                         Ansehen
@@ -125,7 +110,7 @@
                                                 um <%= item.Time %>
                                             </div>
                                             <div class="col-xs-6 col-sm-7 pull-right change-detail">
-                                                <div class="change-detail-label"><%= label %></div>
+                                                <div class="change-detail-label"><%= item.Label %></div>
 
                                                 <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" href="<%= Links.CategoryHistoryDetail(item.CategoryId, ai.CategoryChangeId) %>">
                                                     Ansehen
@@ -175,7 +160,7 @@
                             um <%= item.Time %>
                         </div>
                         <div class="col-xs-6 col-sm-7 pull-right change-detail <%= item.Type == CategoryChangeType.Relations ? "relation-detail" : "" %>">
-                            <div class="change-detail-label"><%= label %></div>
+                            <div class="change-detail-label"><%= item.Label %></div>
                             <%
                                 if (item.Type == CategoryChangeType.Relations)
                                 {
