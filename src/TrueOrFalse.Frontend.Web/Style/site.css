@@ -2592,6 +2592,9 @@ input::placeholder {
 .footer-links-memucho {
   margin-top: 40px;
 }
+.fullWidth {
+  width: 100%;
+}
 #MemuchoBetaBanner {
   height: 0px;
   min-height: 0px;
@@ -2633,6 +2636,9 @@ input::placeholder {
   align-items: flex-start;
   color: #555555;
   justify-content: center;
+}
+#MemuchoBetaBanner .container #BannerContainer #BannerText .bannerTextContainer {
+  padding-left: 0;
 }
 #MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text {
   font-size: 14px;
@@ -2746,6 +2752,9 @@ input::placeholder {
   align-items: flex-start;
   color: #003264;
   justify-content: center;
+}
+#MemuchoInfoBanner .container #BannerContainer #BannerText .bannerTextContainer {
+  padding-left: 0;
 }
 #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
   font-size: 14px;
