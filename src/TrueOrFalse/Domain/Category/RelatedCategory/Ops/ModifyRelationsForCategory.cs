@@ -185,7 +185,7 @@ public class ModifyRelationsForCategory
         var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
         var parentCategoryAsCategory = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
 
-        if (!childCategory.IsStartPage() && CheckParentAvailability(parentCategories, childCategory))
+        if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
 
         if (!PermissionCheck.CanEdit(childCategory))
