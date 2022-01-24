@@ -26,33 +26,38 @@
     <div class="container">
         <div id="BannerContainer" class="row">
             <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
+                <a href="#" onclick="hideBetaBanner()" class="visible-xs close-banner mobile-close">
+                    <img src="/img/close_black.svg" alt="X" />
+                </a>
                 <div class="sub-text">
                     <b>Hi early adopters!</b> memucho befindet sich in der zweiten <a href="/Entwicklungsstatus-Beta/9032">Beta-Phase</a>
                 </div>
-                <a href="#" onclick="hideBetaBanner()" class="visible-xs close-banner mobile-close" style="top: auto">
-                    <img src="/img/close_black.svg" alt="close Button" />
-                </a>
+
             </div>
             <div id="BannerRedirectBtn" class="hidden-xs col-sm-5 memucho-info-partial">
                 <a href="#" style="visibility: hidden;">
                     <div class="memo-button btn btn-primary">Jetzt mehr erfahren</div>
                 </a>
-                <a href="#" onclick="hideBetaBanner()" class="close-banner">
+                <a href="#" onclick="hideBetaBanner()" class="hidden-xs close-banner">
                     <img src="/img/close_black.svg" alt="close Button" />
                 </a>
             </div>
         </div>
     </div>
 </div>
+
 <div id="MemuchoInfoBanner" class="<%= notFirstTimeInfoClass %>">
     <div id="InfoBannerContainer" class="container <%= topBannerClass %>">
         <div id="BannerContainer" class="row">
             <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
+                <a href="#" onclick="hideInfoBanner()" class="visible-xs close-banner mobile-close">
+                    <img src="/img/close_black.svg" alt="X" />
+                </a>
                 <div class="row fullWidth">
-                    <div id="BannerImg" class="col-sm-1 hidden-xs">
-                        <img src="/img/fire_heart.svg" alt="FeurigesHerz" />
+                    <div id="BannerImg" class="col-sm-2 hidden-xs">
+                        <img src="/img/fire_heart.svg" class="pull-right" alt="FeurigesHerz" />
                     </div>
-                    <div class="col-sm-11 bannerTextContainer">
+                    <div class="col-sm-10 bannerTextContainer">
                         <div class="sub-text">
                             Alles an einem Ort
                         </div>
@@ -60,9 +65,7 @@
                             <img src="/img/fire_heart.svg" alt="FeurigesHerz" />
                         </div>
                         <div class="main-text">Wiki und Lernwerkzeuge vereint!</div>
-                        <a href="#" onclick="hideInfoBanner()" class="visible-xs close-banner mobile-close">
-                            <img src="/img/close_black.svg" alt="X" />
-                        </a>
+
                     </div>
                 </div>
             </div>
