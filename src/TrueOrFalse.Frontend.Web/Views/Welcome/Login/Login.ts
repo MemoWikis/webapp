@@ -86,7 +86,7 @@ class Login {
             if (backToLocation != undefined)
                 location.href = backToLocation;
             else
-                Site.ReloadPageExceptLogoutAndRegister();
+                Site.LoadValidPage();
         });
     }
 

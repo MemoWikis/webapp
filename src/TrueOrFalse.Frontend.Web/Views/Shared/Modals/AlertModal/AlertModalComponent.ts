@@ -1,7 +1,6 @@
 ﻿declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
-
 const messages = {
     success: {
         category: {
@@ -55,7 +54,10 @@ const messages = {
     }
 }
 
-type AlertMsg = { text: string, reload?: boolean }
+type AlertMsg = {
+    text: string,
+    reload?: boolean,
+}
 
 class Alerts {
     static showError(msg: AlertMsg): void {
@@ -64,7 +66,7 @@ class Alerts {
     static showSuccess(msg: AlertMsg): void {
         eventBus.$emit('show-success', msg);
     }
-} 
+}
 
 Vue.component('alert-modal-component',
     {
@@ -100,8 +102,7 @@ Vue.component('alert-modal-component',
                     $('#ErrorModal').modal('show');
                 });
 
-            $('#ErrorModal').on('hidden.bs.modal',
-                () => this.clearData());
+            $('#ErrorModal').on('hidden.bs.modal', () => this.clearData());
         },
 
         methods: {

@@ -35,12 +35,12 @@
 
         if (GoogleMemuchoUser.Exists(googleId)) {
             GoogleMemuchoUser.Login(googleId, googleIdToken);
-            Site.ReloadPageExceptLogoutAndRegister();
+            Site.LoadValidPage();
             return;
         }
 
        GoogleMemuchoUser.CreateAndLogin(googleUser);
-       Site.ReloadPageExceptLogoutAndRegister();
+       Site.LoadValidPage();
    }
 
     private static OnLoginError(error) {
