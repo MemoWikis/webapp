@@ -57,7 +57,7 @@ var loginModal = Vue.component('login-modal-component',
                         if (backToLocation != undefined)
                             location.href = backToLocation;
                         else
-                            Site.ReloadPageExceptLogoutAndRegister(result.localHref);
+                            Site.LoadValidPage(result.localHref);
                     });
             }
         }

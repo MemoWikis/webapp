@@ -43,7 +43,7 @@
                 Utils.HideSpinner();
 
                 if (result.Success)
-                    Site.ReloadPageExceptLogoutAndRegister();
+                    Site.LoadValidPage();
                 else {
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                     if (result.EmailAlreadyInUse) {
@@ -68,7 +68,7 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success() {
-                Site.ReloadPageExceptLogoutAndRegister();
+                Site.LoadValidPage();
             }
         });
 
@@ -88,7 +88,7 @@
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
-            Site.ReloadPageExceptLogoutAndRegister();
+            Site.LoadValidPage();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 

@@ -107,9 +107,9 @@ class Site {
 
     static ReloadPage() { window.location.reload(true) };
 
-    static ReloadPageExceptLogoutAndRegister(link: string = window.location.pathname) {
-        var isRegisterOrLogout = link == '/Registrieren' || link == '/Ausloggen';
-        if (isRegisterOrLogout)
+    static LoadValidPage(link: string = window.location.pathname) {
+        const isInvalid = link == '/Registrieren' || link == '/Ausloggen' || link == '/Fehler/500';
+        if (isInvalid)
             location.href = "/";
         else Site.ReloadPage();
     }
