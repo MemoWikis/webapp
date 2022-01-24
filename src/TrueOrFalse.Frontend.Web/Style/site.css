@@ -2598,7 +2598,7 @@ input::placeholder {
   width: 100%;
   background: linear-gradient(0deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.2)), #FFFFFF;
   top: 0;
-  z-index: 50;
+  z-index: 51;
   margin: 0;
   transform: translateY(-140px);
   transition: transform 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
@@ -2673,6 +2673,7 @@ input::placeholder {
 }
 #MemuchoBetaBanner .container #BannerContainer #BannerRedirectBtn {
   justify-content: space-evenly;
+  max-height: 32px;
 }
 #MemuchoBetaBanner .container #BannerContainer .close-banner {
   color: #767676;
@@ -2720,6 +2721,9 @@ input::placeholder {
 #MemuchoInfoBanner.skip-animation {
   transition: transform 0s ease-out, min-height 0s ease-out, opacity 0s ease-out, visibility 0s ease-out !important;
   height: unset !important;
+}
+#MemuchoInfoBanner .topBannerClass {
+  padding-top: 45px;
 }
 #MemuchoInfoBanner .container {
   height: 100%;

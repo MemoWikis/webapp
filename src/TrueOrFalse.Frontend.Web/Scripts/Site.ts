@@ -182,7 +182,6 @@ function loadInfoBanner() {
     var cookie = document.cookie.match('(^|;)\\s*' + "memuchoInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || '';
     if (cookie != 'hide') {
         $('#MemuchoInfoBanner').addClass('show-banner');
-        $('#MemuchoBetaBanner').addClass('show-banner');
         document.cookie = "memuchoInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
     }
 }
@@ -190,9 +189,22 @@ function loadInfoBanner() {
 function hideInfoBanner() {
     $('#MemuchoInfoBanner').removeClass('skip-animation');
     $('#MemuchoInfoBanner').removeClass('show-banner');
+    document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+}
+
+function loadBetaBanner() {
+    var cookie = document.cookie.match('(^|;)\\s*' + "memuchoBetaBanner" + '\\s*=\\s*([^;]+)')?.pop() || '';
+    if (cookie != 'hide') {
+        $('#MemuchoBetaBanner').addClass('show-banner');
+        document.cookie = "memuchoBetaBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+    }
+}
+
+function hideBetaBanner() {
     $('#MemuchoBetaBanner').removeClass('skip-animation');
     $('#MemuchoBetaBanner').removeClass('show-banner');
-    document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+    $('#InfoBannerContainer').addClass('topBannerClass');
+    document.cookie = "memuchoBetaBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
 }
 
 function OpenInfo(url) {
@@ -250,6 +262,7 @@ $(() => {
     initClickLog();
     preventDropdonwnsFromBeingHorizontallyOffscreen();
     loadInfoBanner();
+    loadBetaBanner();
     if (window.location.host.startsWith("stage.memucho.de"))
         checkStageOverlay();
     disableCloseOnActivityPoints();
