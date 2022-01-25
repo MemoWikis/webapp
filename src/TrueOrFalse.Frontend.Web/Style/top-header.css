@@ -294,6 +294,11 @@
 #Breadcrumb .fa-dot-circle-o {
   color: #AED71B;
 }
+@media (min-width: 768px) {
+  #Breadcrumb .house-align {
+    padding-left: 0 !important;
+  }
+}
 #Breadcrumb a {
   color: #767676;
   text-decoration: none;

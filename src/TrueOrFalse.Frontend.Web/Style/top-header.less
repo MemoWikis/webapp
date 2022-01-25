@@ -167,7 +167,7 @@
     padding: 0 10%;
 }
 
-.stageOverlayCloseButton{
+.stageOverlayCloseButton {
     position: fixed;
     top: 16px;
     right: 16px;
@@ -340,6 +340,12 @@
         color: #AED71B;
     }
 
+    @media (min-width: 768px) {
+        .house-align {
+            padding-left: 0 !important;
+        }
+    }
+
     a {
         color: @memo-grey-dark;
         text-decoration: none;
@@ -490,9 +496,11 @@
                 }
             }
         }
+
         #UserProgressItemContainer {
             cursor: default;
         }
+
         #UserProgressContainer {
             white-space: unset;
             padding: 0px;
@@ -862,7 +870,7 @@
     padding: 23px 0 7px 23px;
     display: flex;
     line-height: 26px;
-    cursor:default;
+    cursor: default;
 }
 
 #activity-popover-content-inner {
