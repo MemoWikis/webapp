@@ -22,15 +22,12 @@ public class CategoryHistoryModel : BaseModel
         Data data = new Data(); ;
 
         if (category == null)
-        {
             data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
-        }
 
         CategoryName = category == null ?  data.Name :  category.Name;
         CategoryId = categoryId;
         CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
         Category = EntityCache.GetCategoryCacheItem(categoryId);
-
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)
@@ -44,55 +41,11 @@ public class CategoryHistoryModel : BaseModel
 
     public RelationChangeItem GetRelationChange(CategoryChangeDetailModel item)
     {
-        var selectedRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
-        var previousRevision = CategoryEditData_V2.CreateFromJson(_listWithAllVersions.LastOrDefault(c => c.Id < item.CategoryChangeId).Data);
-        var relationChangeItem = new RelationChangeItem();
+        if (item.Type != CategoryChangeType.Relations)
+            return null;
 
-        if (previousRevision != null)
-        {
-            var selectedRevisionCategoryRelations = selectedRevision.CategoryRelations;
-            var previousRevisionCategoryRelations = previousRevision.CategoryRelations;
-            var selectedRevNotPreviousRev = selectedRevisionCategoryRelations.Where(l1 => !previousRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
-            var previousRevNotSelectedRev = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
-
-            var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
-            if (count == 0)
-                return null;
-
-            relationChangeItem.RelationAdded = count >= 1;
-
-            var relationChange = selectedRevNotPreviousRev.Concat(previousRevNotSelectedRev).Last();
-            var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
-            var categoryIsVisible = PermissionCheck.CanView(category);
-            var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
-            var relatedCategoryIsVisible = PermissionCheck.CanView(relatedCategory);
-
-            var canViewRevisions =
-                PermissionCheck.CanView(UserCache.GetUser(item.CreatorId), selectedRevision.Visibility) &&
-                PermissionCheck.CanView(UserCache.GetUser(item.CreatorId), previousRevision.Visibility);
-
-            if (categoryIsVisible && relatedCategoryIsVisible && canViewRevisions)
-                relationChangeItem.IsVisibleToCurrentUser = true;
-
-            relationChangeItem.RelatedCategory = relatedCategory;
-            relationChangeItem.Type = relationChange.RelationType;
-        }
-
-        return relationChangeItem;
+        return RelationChangeItem.GetRelationChange(item, _listWithAllVersions);
     }
-
-    public bool IsAuthorOrAdmin(CategoryChangeDetailModel item)
-    {
-        return _sessionUser.IsInstallationAdmin || _sessionUser.UserId == item.Author.Id;
-    }
-}
-
-public class RelationChangeItem
-{
-    public bool RelationAdded;
-    public bool IsVisibleToCurrentUser;
-    public CategoryRelationType Type;
-    public CategoryCacheItem RelatedCategory;
 }
 
 public class CategoryChangeDayModel
@@ -122,39 +75,40 @@ public class CategoryChangeDayModel
 
     public CategoryChangeDetailModel GetCategoryChangeDetailModel(CategoryChange change)
     {
-        var typ = "";
+        var label = "";
         var categoryId = change.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(change.Id) : -1;
+
         switch (change.Type)
         {
             case CategoryChangeType.Create:
-                typ = "Erstellt";
+                label = "Erstellt";
                 break;
             case CategoryChangeType.Update:
-                typ = "Update";
+                label = "Update";
                 break;
             case CategoryChangeType.Delete:
-                typ = "Gelöscht";
+                label = "Gelöscht";
                 break;
             case CategoryChangeType.Published:
-                typ = "Veröffentlicht";
+                label = "Veröffentlicht";
                 break;
             case CategoryChangeType.Privatized:
-                typ = "Auf privat gesetzt";
+                label = "Auf privat gesetzt";
                 break;
             case CategoryChangeType.Renamed:
-                typ = "Umbenannt";
+                label = "Umbenannt";
                 break;
             case CategoryChangeType.Text:
-                typ = "Text";
+                label = "Text";
                 break;
             case CategoryChangeType.Relations:
-                typ = "Verknüpfung";
+                label = "Verknüpfung";
                 break;
             case CategoryChangeType.Image:
-                typ = "Bild";
+                label = "Bild";
                 break;
             case CategoryChangeType.Restore:
-                typ = "Wiederherstellung";
+                label = "Wiederherstellung";
                 break;
             default:
                 Logg.r().Error("CategoryHistoryModel CategoryChangeType is invalid");
@@ -162,6 +116,7 @@ public class CategoryChangeDayModel
         }
 
         var userTinyModel = new UserTinyModel(change.Author);
+
         return new CategoryChangeDetailModel
         {
             Author = userTinyModel,
@@ -176,7 +131,7 @@ public class CategoryChangeDayModel
             CategoryChangeId = change.Id,
             CategoryId = change.Category == null ? categoryId : change.Category.Id,
             CategoryName = change.Category == null ? _catName : change.Category.Name,
-            Typ = typ,
+            Label = label,
             Type = change.Type,
             CreatorId = new UserTinyModel(change.Category.Creator).Id,
             Visibility = change.GetCategoryChangeData().Visibility,
@@ -222,7 +177,7 @@ public class  CategoryChangeDetailModel
     public int CategoryChangeId;
     public int CategoryId;
     public string CategoryName;
-    public string Typ;
+    public string Label;
     public CategoryChangeType Type;
     public CategoryVisibility Visibility;
     public CategoryVisibility CurrentVisibility;
@@ -232,7 +187,7 @@ public class  CategoryChangeDetailModel
     {
         return (CurrentVisibility == CategoryVisibility.All && Visibility == CategoryVisibility.All) || Sl.SessionUser.IsLoggedInUser(CreatorId);
     }
-
+    public bool RelationIsVisibleToCurrentUser = true;
     public List<CategoryChangeDetailModel> AggregatedCategoryChangeDetailModel;
 }
 

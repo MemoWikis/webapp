@@ -32,6 +32,12 @@ public class PermissionCheck
         return false;
     }
 
+    public static bool CanView(User creator, CategoryVisibility previousVisibility,
+        CategoryVisibility selectedVisibility)
+    {
+        return CanView(creator, previousVisibility) && CanView(creator, selectedVisibility);
+    }
+
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategoryCacheItem(id));
     public static bool CanEdit(Category category) => CanEdit(CategoryCacheItem.ToCacheCategory(category));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.SessionUser.User, category);
@@ -105,5 +111,10 @@ public class PermissionCheck
             return true;
 
         return false;
+    }
+
+    public static bool IsAuthorOrAdmin(int? creatorId)
+    {
+        return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == creatorId;
     }
 }

@@ -266,6 +266,7 @@
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
+    <Compile Include="Views\Categories\History\RelationChangeItem.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>AnswerCommentsController.cs</DependentUpon>
