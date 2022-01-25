@@ -16,7 +16,8 @@ public class RelationChangeItem
     private static IEnumerable<CategoryRelation_EditData_V2> _selectedRelationsWithoutPreviousRelations;
     private static IEnumerable<CategoryRelation_EditData_V2> _previousRelationsWithoutSelectedRelations;
 
-    public static RelationChangeItem GetRelationChangeItem(CategoryChangeDetailModel item, IEnumerable<CategoryChange> changes)
+    public static RelationChangeItem GetRelationChangeItem(CategoryChangeDetailModel item,
+        IEnumerable<CategoryChange> changes)
     {
         _item = item;
         GetRevisions(changes);
@@ -40,8 +41,10 @@ public class RelationChangeItem
         var selectedRevisionCategoryRelations = _selectedRevision.CategoryRelations;
         var previousRevisionCategoryRelations = _previousRevision.CategoryRelations;
 
-        _selectedRelationsWithoutPreviousRelations = selectedRevisionCategoryRelations.Where(l1 => !previousRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
-        _previousRelationsWithoutSelectedRelations = previousRevisionCategoryRelations.Where(l1 => !selectedRevisionCategoryRelations.Any(l2 => l1.RelatedCategoryId == l2.RelatedCategoryId));
+        _selectedRelationsWithoutPreviousRelations = selectedRevisionCategoryRelations.Where(l1 =>
+            previousRevisionCategoryRelations.All(l2 => l1.RelatedCategoryId != l2.RelatedCategoryId));
+        _previousRelationsWithoutSelectedRelations = previousRevisionCategoryRelations.Where(l1 =>
+            selectedRevisionCategoryRelations.All(l2 => l1.RelatedCategoryId != l2.RelatedCategoryId));
 
         var count = selectedRevisionCategoryRelations.Count() - previousRevisionCategoryRelations.Count();
         relationChangeItem.RelationAdded = count >= 1;
@@ -59,15 +62,19 @@ public class RelationChangeItem
         return noRelationDifference ||
                lastRelationChangeForSelectedRevision == lastRelationChangeForPreviousRevision;
     }
+
     private static void GetRevisions(IEnumerable<CategoryChange> changes)
     {
-        _selectedRevision = CategoryEditData_V2.CreateFromJson(changes.FirstOrDefault(c => c.Id == _item.CategoryChangeId).Data);
-        _previousRevision = CategoryEditData_V2.CreateFromJson(changes.LastOrDefault(c => c.Id < _item.CategoryChangeId).Data);
+        _selectedRevision =
+            CategoryEditData_V2.CreateFromJson(changes.FirstOrDefault(c => c.Id == _item.CategoryChangeId).Data);
+        _previousRevision =
+            CategoryEditData_V2.CreateFromJson(changes.LastOrDefault(c => c.Id < _item.CategoryChangeId).Data);
     }
 
     private static void BuildRelationChangeItem(RelationChangeItem relationChangeItem)
     {
-        var relationChange = _selectedRelationsWithoutPreviousRelations.Concat(_previousRelationsWithoutSelectedRelations).Last();
+        var relationChange = _selectedRelationsWithoutPreviousRelations
+            .Concat(_previousRelationsWithoutSelectedRelations).Last();
 
         var category = EntityCache.GetCategoryCacheItem(relationChange.CategoryId);
         var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
