@@ -30,7 +30,7 @@
                     <img src="/img/close_black.svg" alt="X" />
                 </a>
                 <div class="sub-text">
-                    <b>Hi early adopters!</b> memucho befindet sich in der zweiten <a href="/Entwicklungsstatus-Beta/9032">Beta-Phase</a>
+                    <b>Hi early adopters!</b> memucho befindet sich in der zweiten <a href="/Entwicklungsstatus-Beta/9032">Beta-Phase</a>.
                 </div>
 
             </div>
@@ -54,7 +54,7 @@
                     <img src="/img/close_black.svg" alt="X" />
                 </a>
                 <div class="row fullWidth">
-                    <div id="BannerImg" class="col-sm-2 hidden-xs">
+                    <div id="BannerImg" class="col-sm-1 hidden-xs">
                         <img src="/img/fire_heart.svg" class="pull-right" alt="FeurigesHerz" />
                     </div>
                     <div class="col-sm-10 bannerTextContainer">

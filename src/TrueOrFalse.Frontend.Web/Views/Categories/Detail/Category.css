@@ -991,8 +991,8 @@ p:empty {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 #CategoryHeader .category-sub-header .category-sub-header-divider .vertical-line {
   height: 16px;

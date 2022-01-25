@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code"%>
 <div id="BreadCrumbContainer" class="container">
     <span>
-        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip" data-placement="bottom" title="<%= Model.ToolTipToHomepage %>">
+        <a href="/" id="BreadcrumbLogoSmall" class="show-tooltip house-align" data-placement="bottom" title="<%= Model.ToolTipToHomepage %>">
             <i class="fas fa-home"></i>
         </a>
     </span>
