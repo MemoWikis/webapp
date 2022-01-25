@@ -42,6 +42,6 @@ public class CategoryChangesOverviewModel : BaseModel
             return null;
 
         var changesForCurrentCategory = changes.Where(c => c.Category.Id == item.CategoryId);
-        return RelationChangeItem.GetRelationChange(item, changesForCurrentCategory);
+        return RelationChangeItem.GetRelationChangeItem(item, changesForCurrentCategory);
     }
 }

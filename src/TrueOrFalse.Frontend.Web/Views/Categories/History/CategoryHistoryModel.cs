@@ -44,7 +44,7 @@ public class CategoryHistoryModel : BaseModel
         if (item.Type != CategoryChangeType.Relations)
             return null;
 
-        return RelationChangeItem.GetRelationChange(item, _listWithAllVersions);
+        return RelationChangeItem.GetRelationChangeItem(item, _listWithAllVersions);
     }
 }
 
@@ -189,6 +189,23 @@ public class  CategoryChangeDetailModel
     }
     public bool RelationIsVisibleToCurrentUser = true;
     public List<CategoryChangeDetailModel> AggregatedCategoryChangeDetailModel;
+
+    public static void SetLabelAndVisibility(CategoryChangeDetailModel item, RelationChangeItem relationChangeItem)
+    {
+        if (relationChangeItem == null)
+        {
+            item.Type = CategoryChangeType.Update;
+            item.Label = "Update";
+            return;
+        }
+
+        item.RelationIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
+
+        if (relationChangeItem.RelationAdded)
+            item.Label += " hinzugefügt";
+        else
+            item.Label += " entfernt";
+    }
 }
 
 public class Data
