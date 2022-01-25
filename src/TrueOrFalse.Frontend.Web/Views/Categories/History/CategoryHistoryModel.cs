@@ -164,7 +164,7 @@ public class CategoryChangeDayModel
     }
 }
 
-public class  CategoryChangeDetailModel
+public class CategoryChangeDetailModel
 {
     public UserTinyModel Author;
     public string AuthorName;
@@ -190,21 +190,21 @@ public class  CategoryChangeDetailModel
     public bool RelationIsVisibleToCurrentUser = true;
     public List<CategoryChangeDetailModel> AggregatedCategoryChangeDetailModel;
 
-    public static void SetLabelAndVisibility(CategoryChangeDetailModel item, RelationChangeItem relationChangeItem)
+    public void SetLabelAndVisibility(RelationChangeItem relationChangeItem)
     {
         if (relationChangeItem == null)
         {
-            item.Type = CategoryChangeType.Update;
-            item.Label = "Update";
+            Type = CategoryChangeType.Update;
+            Label = "Update";
             return;
         }
 
-        item.RelationIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
+        RelationIsVisibleToCurrentUser = relationChangeItem.IsVisibleToCurrentUser;
 
         if (relationChangeItem.RelationAdded)
-            item.Label += " hinzugefügt";
+            Label += " hinzugefügt";
         else
-            item.Label += " entfernt";
+            Label += " entfernt";
     }
 }
 

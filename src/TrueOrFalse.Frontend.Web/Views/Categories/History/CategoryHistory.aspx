@@ -43,7 +43,7 @@
                    var relationChangeItem = Model.GetRelationChange(item);
 
                    if (item.Type == CategoryChangeType.Relations)
-                       CategoryChangeDetailModel.SetLabelAndVisibility(item, relationChangeItem);
+                       item.SetLabelAndVisibility(relationChangeItem);
 
                    if (item.IsVisibleToCurrentUser() && item.RelationIsVisibleToCurrentUser)
                    {

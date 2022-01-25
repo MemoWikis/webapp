@@ -21,7 +21,6 @@ class GraphService_tests : BaseTest
             .All
             .ByName("SubSub1");
 
-
         // Add User
         var user = ContextUser.New().Add("User").Persist(true, context).All[0];
         var userRoot = context.Add("Users Startseite").Persist().All.ByName("Users Startseite");
