@@ -15,7 +15,6 @@ public class CategoryChangesOverviewModel : BaseModel
         var query = $@"SELECT * FROM CategoryChange cc ORDER BY cc.DateCreated DESC LIMIT {revisionsToSkip},{revisionsToShow}";
         var revisions = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).List<CategoryChange>();
 
-        
         Days = revisions
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)
