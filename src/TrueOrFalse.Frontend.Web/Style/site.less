@@ -2744,8 +2744,10 @@ textarea, input {
 }
 
 
-.fullWidth{
-    width: 100%;
+.fullWidth {
+    @media (min-width: 391px) {
+        width: 100%;
+    }
 }
 
 #MemuchoBetaBanner {
@@ -2792,6 +2794,10 @@ textarea, input {
                 align-items: flex-start;
                 color: @memo-grey-darker;
                 justify-content: center;
+
+                .bannerIcon {
+                    padding-top: 5px;
+                }
 
                 .bannerTextContainer {
                     padding-left: 0;
@@ -2852,7 +2858,7 @@ textarea, input {
 
                 &.mobile-close {
                     position: absolute;
-                    padding-top: 0;
+                    padding-top: 5px;
                     right: 0px;
                     top: 0px;
                 }
@@ -2901,7 +2907,7 @@ textarea, input {
     .topBannerClass {
         padding-top: 45px;
     }
-    
+
     .container {
         height: 100%;
 
@@ -2926,8 +2932,8 @@ textarea, input {
                 color: @memo-blue;
                 justify-content: center;
 
-                .bannerTextContainer{
-                    padding-left:0;
+                .bannerTextContainer {
+                    padding-left: 0;
                 }
 
                 .sub-text {
@@ -2983,6 +2989,7 @@ textarea, input {
                     position: absolute;
                     right: 0px;
                     top: 0px;
+                    padding-top: 5px;
                 }
             }
         }
