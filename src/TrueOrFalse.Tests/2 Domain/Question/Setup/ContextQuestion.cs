@@ -54,10 +54,10 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false, IList<Category> categoriesQuestions = null)
+        public ContextQuestion AddQuestions(int amount, User creator = null, bool withId = false, IList<Category> categoriesQuestions = null, bool persistImmediately = false)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion("Question" + i, "Solution" + i, i, withId, creator, categoriesQuestions);
+                AddQuestion("Question" + i, "Solution" + i, i, withId, creator, categoriesQuestions, persistImmediately: persistImmediately);
             return this;
         }
 
@@ -68,7 +68,9 @@ namespace TrueOrFalse.Tests
             bool withId = false,
             User creator = null,
             IList<Category> categories = null,
-            int correctnessProbability = 0)
+            int correctnessProbability = 0,
+            bool persistImmediately = false)
+            
         {
             var question = new Question();
             if (withId)
@@ -86,7 +88,7 @@ namespace TrueOrFalse.Tests
 
             All.Add(question);
 
-            if (_persistQuestionsImmediately)
+            if (_persistQuestionsImmediately || persistImmediately)
                 _questionRepo.Create(question);
 
             return this;

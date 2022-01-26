@@ -104,7 +104,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 var parentIds = UserEntityCache.GetParentsIds(Sl.CurrentUserId, categoryCacheItem.Id);
                 foreach (var parentId in parentIds)
                 {
-                    UserEntityCache.GetCategory(Sl.CurrentUserId, parentId).CachedData.ChildrenIds.Add(categoryCacheItem.Id); 
+                    UserEntityCache.GetCategory(Sl.CurrentUserId, parentId).CachedData.AddChildId(categoryCacheItem.Id); 
                 }
             }
 
@@ -112,7 +112,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             var parents = EntityCache.GetCategoryCacheItems(GraphService.GetDirectParentIds(categoryCacheItem));
             foreach (var parent in parents)
             {
-                parent.CachedData.ChildrenIds.Add(categoryCacheItem.Id);
+                parent.CachedData.AddChildId(categoryCacheItem.Id);
             }
         }
 
@@ -144,7 +144,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     if (exceptIdsToAdd.Any())
                         foreach (var id in exceptIdsToAdd)
                             if (userEntityCache.ContainsKey(id))
-                                userEntityCache[id].CachedData.ChildrenIds.Add(categoryCacheItem.Id);
+                                userEntityCache[id].CachedData.AddChildId(categoryCacheItem.Id);
                             else
                             {
                                 hasAllIds = false;
@@ -154,7 +154,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     if (exceptIdsToDelete.Any())
                         foreach (var id in exceptIdsToDelete)
                             if (userEntityCache.ContainsKey(id) && hasAllIds)
-                                userEntityCache[id].CachedData.ChildrenIds.Remove(categoryCacheItem.Id);
+                                userEntityCache[id].CachedData.RemoveChildId(categoryCacheItem.Id);
                             else
                             {
                                 hasAllIds = false;
@@ -184,11 +184,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
             if (exceptIdsToAdd1.Any() || exceptIdsToDelete1.Any())
             {
                 foreach (var id in exceptIdsToAdd1)
-                    EntityCache.GetCategoryCacheItem(id, getDataFromEntityCache: true).CachedData.ChildrenIds
-                        .Add(categoryCacheItem.Id);
+                    EntityCache.GetCategoryCacheItem(id, getDataFromEntityCache: true).CachedData
+                        .AddChildId(categoryCacheItem.Id);
 
                 foreach (var id in exceptIdsToDelete1)
-                    EntityCache.GetCategoryCacheItem(id, getDataFromEntityCache: true).CachedData.ChildrenIds.Remove(categoryCacheItem.Id);
+                    EntityCache.GetCategoryCacheItem(id, getDataFromEntityCache: true).CachedData.RemoveChildId(categoryCacheItem.Id);
             }
         }
 
@@ -207,7 +207,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     foreach (var id in GetIdsToRemove(oldCategoryCacheItem))
                     {
                         userCache.TryGetValue(id, out var parent);
-                        parent.CachedData.ChildrenIds.Remove(categoryCacheItem.Id);
+                        parent.CachedData.RemoveChildId(categoryCacheItem.Id);
                     }
                 }
             }
@@ -215,7 +215,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             //EntityCache
             foreach (var parent in categoryCacheItem.ParentCategories(true))
             {
-                parent.CachedData.ChildrenIds.Remove(categoryCacheItem.Id);
+                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
             }
         }
     }

@@ -5,11 +5,35 @@ using System.Linq;
 [Serializable]
 public class CategoryCachedData
 {
-    public IList<int> TotalAggregatedChildrenIds { get; set; } = new List<int>();
-    public IList<int> ChildrenIds  { get; set; } = new List<int>();
+    private List<int> _childrenIds = new List<int>();
+
+    public IReadOnlyList<int> ChildrenIds => _childrenIds;
+
+    public void AddChildId(int childId)
+    {
+        _childrenIds.Add(childId);
+    }
+
+    public void AddChildIds(List<int> childrenIds)
+    {
+        _childrenIds = childrenIds;
+    }
+
+    public void RemoveChildId(int childId)
+    {
+        _childrenIds.Remove(childId);
+    }
+
+    public void RemoveChildIds(List<int> childrenIds)
+    {
+        _childrenIds.RemoveAll(childrenIds.Contains);
+    }
+
+    public void ClearChildIds()
+    {
+        _childrenIds = new List<int>();
+    }
 
     public int CountVisibleChildrenIds =>
         EntityCache.GetCategoryCacheItems(ChildrenIds).Count(PermissionCheck.CanView);
-
-    public int CountAllChildrenIds => ChildrenIds.Count; 
 }
