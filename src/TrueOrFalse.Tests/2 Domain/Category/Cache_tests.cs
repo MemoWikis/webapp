@@ -312,7 +312,7 @@ class User_entity_cache_tests : BaseTest
 
         var hasChildrenInUserCachedData = UserEntityCache.GetCategory(user.Id, user.StartTopicId)
             .CachedData.ChildrenIds
-            .IndexOf(newCat.Id) != -1;
+            .ElementAt(newCat.Id) != -1;
 
         var hasChildrenInEntityCachedData = EntityCache.GetByName("X2")
             .SelectMany(cCI => cCI.CachedData.ChildrenIds.Select(id => id)).ToList().IndexOf(newCat.Id) != -1;
@@ -331,13 +331,13 @@ class User_entity_cache_tests : BaseTest
         hasChildrenInUserCachedData = UserEntityCache.GetCategory(user.Id, user.StartTopicId)
             .CachedData
             .ChildrenIds
-            .IndexOf(newCat.Id) != -1;
+            .ElementAt(newCat.Id) != -1;
 
         hasChildrenInEntityCachedData = EntityCache.GetByName("X2")
             .First()
             .CachedData
             .ChildrenIds
-            .IndexOf(newCat.Id) != -1;
+            .ElementAt(newCat.Id) != -1;
 
         Assert.That(hasChildrenInUserCachedData, Is.EqualTo(true));
         Assert.That(hasChildrenInEntityCachedData, Is.EqualTo(true));
