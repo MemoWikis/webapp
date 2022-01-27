@@ -61,6 +61,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                { %>
 
                 <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')">
+                <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken.">
                     <i class="fas fa-lock header-icon"></i>
                     <i class="fas fa-unlock header-icon"></i>
                 </a>
@@ -69,26 +70,19 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
         <div>
             <div class="greyed category-sub-header">
                 <div class="category-stats">
-                    <% if (Model.AggregatedTopicCount == 1)
-                       { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
-                       else if (Model.AggregatedTopicCount > 1)
-                       { %> <span id="CategoryHeaderTopicCount"><%= Model.AggregatedTopicCount %></span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span> <% }
-                           else
-                           { %> <span id="CategoryHeaderTopicCount">0</span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span>
-                    <% } %>
-                    und
-                    <% if (Model.CountAggregatedQuestions == 1)
-                       { %> <span id="CategoryHeaderQuestionCount">1</span> <span id="CategoryHeaderQuestionCountLabel">Frage</span> <% }
-                       else if (Model.CountAggregatedQuestions > 1)
-                       { %> <span id="CategoryHeaderQuestionCount"><%= Model.CountAggregatedQuestions %></span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span> <% }
-                           else
-                           { %> <span id="CategoryHeaderQuestionCount">0</span> <span id="CategoryHeaderQuestionCountLabel">Fragen</span>
-                    <% } %>
+                    <a class="smooth-scroll" href="#Segmentation">
+                        <% if (Model.AggregatedTopicCount == 1)
+                           { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
+                           else if (Model.AggregatedTopicCount > 1)
+                           { %> <span id="CategoryHeaderTopicCount"><%= Model.AggregatedTopicCount %></span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span> <% } %>
+                    </a>
                 </div>
-                
-                <div class="category-sub-header-divider hidden-xs">
-                    <div class="vertical-line"></div>
-                </div>
+                <% if (Model.AggregatedTopicCount >= 1)
+                   { %> 
+                    <div class="category-sub-header-divider hidden-xs">
+                        <div class="vertical-line"></div>
+                    </div>
+                <% } %>
                 <div class="category-stats category-views">
                     <span class="show-tooltip" data-placement="top" data-original-title="<%= Model.GetViews() %> Views">
                         <i class="fas fa-eye">&nbsp;</i><%= Model.GetViews() %>

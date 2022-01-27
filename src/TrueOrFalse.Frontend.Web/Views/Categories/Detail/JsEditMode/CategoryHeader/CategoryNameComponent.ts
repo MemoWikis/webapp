@@ -1,5 +1,6 @@
 ﻿declare var VueTextareaAutosize: any;
 Vue.use(VueTextareaAutosize);
+
 Vue.component('category-name-component',
     {
         props: ['originCategoryName','categoryId','isLearningTab'],
@@ -41,6 +42,10 @@ Vue.component('category-name-component',
                 (tabName) => {
                     this.controlTab(tabName);
                 });
+            var self = this;
+            $(window).resize(() => {
+                self.$refs.categoryNameArea.resize();
+            });
         },
         methods: {
             controlTab(tabName) {
@@ -106,6 +111,6 @@ Vue.component('category-name-component',
                         eventBus.$emit('save-msg', saveMessage);
                     },
                 });
-            }
+            },
         },
     });

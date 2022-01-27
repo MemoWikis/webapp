@@ -2594,7 +2594,7 @@ input::placeholder {
 }
 @media (min-width: 391px) {
   .fullWidth {
-    width: 100%;
+    width: calc(100% 20px);
   }
 }
 #MemuchoBetaBanner {
@@ -2814,7 +2814,6 @@ input::placeholder {
 #MemuchoInfoBanner.show-banner {
   opacity: 1;
   min-height: 96px;
-  margin: 0 0 -40px 0;
   height: unset;
   transform: translateY(0px);
   pointer-events: unset;
@@ -2909,4 +2908,7 @@ input::placeholder {
 }
 .dropdown .dropdown-backdrop {
   display: none;
+}
+#MemuchoBannerContainer.has-banner {
+  margin: 0 0 -40px 0;
 }

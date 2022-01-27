@@ -183,6 +183,7 @@ function loadInfoBanner() {
     if (cookie != 'hide') {
         $('#MemuchoInfoBanner').addClass('show-banner');
         document.cookie = "memuchoInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+        $('#MemuchoBannerContainer').addClass('has-banner');
     }
 }
 
@@ -190,6 +191,7 @@ function hideInfoBanner() {
     $('#MemuchoInfoBanner').removeClass('skip-animation');
     $('#MemuchoInfoBanner').removeClass('show-banner');
     document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+    checkBanner();
 }
 
 function loadBetaBanner() {
@@ -197,6 +199,7 @@ function loadBetaBanner() {
     if (cookie != 'hide') {
         $('#MemuchoBetaBanner').addClass('show-banner');
         document.cookie = "memuchoBetaBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+        $('#MemuchoBannerContainer').addClass('has-banner');
     }
 }
 
@@ -205,6 +208,13 @@ function hideBetaBanner() {
     $('#MemuchoBetaBanner').removeClass('show-banner');
     $('#InfoBannerContainer').addClass('topBannerClass');
     document.cookie = "memuchoBetaBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
+    checkBanner();
+}
+
+function checkBanner() {
+    let memuchoBannerContainer = $('#MemuchoBannerContainer');
+    if (memuchoBannerContainer.find('.show-banner').length == 0)
+        memuchoBannerContainer.removeClass('has-banner');
 }
 
 function OpenInfo(url) {
@@ -252,6 +262,18 @@ function disableCloseOnActivityPoints() {
     });
 }
 
+function smoothAnchor() {
+    document.querySelectorAll('a.smooth-scroll').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
 $(() => {
     new Site();
     setBrowserClass();
@@ -266,4 +288,5 @@ $(() => {
     if (window.location.host.startsWith("stage.memucho.de"))
         checkStageOverlay();
     disableCloseOnActivityPoints();
+    smoothAnchor();
 });
