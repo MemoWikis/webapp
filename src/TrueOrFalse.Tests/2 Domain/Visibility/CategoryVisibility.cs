@@ -15,35 +15,37 @@ namespace TrueOrFalse.Tests._2_Domain.Visibility
             //Arrange
             var context = ContextCategory.New();
             var parentA = context
-                .Add("Category")
+                .Add("Root")
                 .Persist()
                 .All.First();
 
-            var subCategories = ContextCategory
-                .New()
-                .Add("Sub1")
-                .Add("Sub2", parent: parentA)
-                .Add("Sub3", parent: parentA)
+            var subCategories = context
+                .Add("Child", parent:parentA)
+                .Persist()
+                .All;
+
+            subCategories = context
+                .Add("GrandChild", parent: subCategories.ByName("Child"))
                 .Persist()
                 .All;
 
             context
-                .Add(subCategories.ByName("Sub1").Name, parent: subCategories.ByName("Sub3"))
-                .Persist();
+                .Add(subCategories.ByName("GrandChild").Name, parent: subCategories.ByName("Child"));
             
             EntityCache.Init();
 
-            subCategories.ByName("Sub3").Visibility = global::CategoryVisibility.Owner;
+            subCategories.ByName("Child").Visibility = global::CategoryVisibility.Owner;
+            subCategories.ByName("GrandChild").Visibility = global::CategoryVisibility.All;
 
             ContextQuestion.New().AddQuestions(15, 
-                categoriesQuestions: subCategories.Where(sc => sc.Name == "Sub1").ToList(), 
+                categoriesQuestions: subCategories.Where(sc => sc.Name == "GrandChild").ToList(), 
                 persistImmediately: true);
             
             EntityCache.Init();
 
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub3").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Category").Id).GetCountQuestionsAggregated(), Is.EqualTo(0));
+            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("GrandChild").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
+            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Child").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
+            Assert.That(Sl.CategoryRepo.GetById(parentA.Id).GetCountQuestionsAggregated(), Is.EqualTo(0));
         }
     }
 }

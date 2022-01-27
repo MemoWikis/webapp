@@ -34,6 +34,11 @@ public class CategoryCachedData
         _childrenIds = new List<int>();
     }
 
+    public int GetChild(int id)
+    {
+        return _childrenIds[id];
+    }
+
     public int CountVisibleChildrenIds =>
         EntityCache.GetCategoryCacheItems(ChildrenIds).Count(PermissionCheck.CanView);
 }

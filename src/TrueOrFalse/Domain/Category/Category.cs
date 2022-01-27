@@ -23,9 +23,10 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual User Creator { get; set; }
 
     public virtual IList<CategoryRelation> CategoryRelations { get; set; }
-    public virtual bool IsUserStartTopic { get; set;  }
 
-    public virtual IList<Category> ParentCategories() 
+    public virtual bool IsUserStartTopic { get; set; }
+
+    public virtual IList<Category> ParentCategories()
     {
         return CategoryRelations.Any()
             ? CategoryRelations
@@ -40,7 +41,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     private IEnumerable<int> _categoriesToExcludeIds;
     public virtual IEnumerable<int> CategoriesToExcludeIds() =>
         _categoriesToExcludeIds ?? (_categoriesToExcludeIds = CategoriesToExcludeIdsString
-            .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x)));
 
 
@@ -65,84 +66,7 @@ public class Category : DomainEntity, ICreator, ICloneable
             : new List<Category>();
     }
 
-    //Aggregated Categories returns all categories with CategorieRelationType "includesContentOf"
-    public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
-    {
-        var categoryIds = new List<int>();
-
-        categoryIds = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => r.RelatedCategory.Id).ToList();
-
-        IList<Category> list;
-
-        list = Sl.CategoryRepo.GetByIds(categoryIds); 
-
-        if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
-            list = list.Where(c => c.IsInWishknowledge()).ToList(); 
-
-        if (includingSelf)
-            list.Add(this);
-
-        return list;
-    }
-
-    public virtual IList<Category> NonAggregatedCategories()
-    {
-        return Sl.R<CategoryRepository>()
-            .GetDescendants(Id)
-            .Except(AggregatedCategories(includingSelf: false))
-            .Except(CategoriesToExclude())
-            .Distinct()
-            .ToList();
-    }
-
     public virtual int CountQuestionsAggregated { get; set; }
-
-    public virtual void UpdateCountQuestionsAggregated()
-    {
-        CountQuestionsAggregated = GetCountQuestionsAggregated();
-    }
-
-    public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
-    {
-        if (inCategoryOnly)
-            return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
-
-        return GetAggregatedQuestionsFromMemoryCache().Count;
-    }
-
-    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
-    {
-        IEnumerable<Question> questions;
-
-        if (fullList)
-        {
-            questions = AggregatedCategories()
-                .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
-                .Distinct();
-        }
-        else
-        {
-            questions = EntityCache.GetQuestionsForCategory(categoryId)
-                .Distinct();
-        }
-
-
-        if (onlyVisible)
-        {
-            questions = questions.Where(PermissionCheck.CanView);
-        }
-
-        return questions.ToList();
-    }
-
-    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
-    {
-        return AggregatedCategories()
-            .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Id))
-            .Distinct()
-            .ToList();
-    }
 
     public virtual int CountQuestions { get; set; }
     public virtual int CountSets { get; set; }
@@ -167,16 +91,18 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
 
-    public Category(){
+    public Category()
+    {
         CategoryRelations = new List<CategoryRelation>();
         Type = CategoryType.Standard;
     }
 
-    public Category(string name) : this(){
+    public Category(string name) : this()
+    {
         Name = name;
     }
 
-    public virtual bool IsSpoiler(Question question) => 
+    public virtual bool IsSpoiler(Question question) =>
         IsSpoilerCategory.Yes(Name, question);
 
     public virtual object GetTypeModel()
@@ -242,6 +168,6 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual object Clone()
     {
-        return this.MemberwiseClone(); 
-    }   
+        return this.MemberwiseClone();
+    }
 }

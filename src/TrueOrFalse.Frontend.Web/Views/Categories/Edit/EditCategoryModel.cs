@@ -80,7 +80,6 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.MagazineArticle)
             parentCategories = parentCategories.Where(c => c.Type != CategoryType.Magazine && c.Type != CategoryType.MagazineIssue).ToList();
 
-
         Category = category;
         Name = category.Name;
         Id = category.Id;
