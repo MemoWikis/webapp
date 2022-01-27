@@ -54,10 +54,10 @@
                         <img src="/img/close_black.svg" alt="X" />
                     </a>
                     <div class="row fullWidth">
-                        <div id="BannerImg" class="col-sm-1 hidden-xs">
+                    <div id="BannerImg" class="col-sm-1 hidden-xs bannerIcon">
                             <img src="/img/fire_heart.svg" class="pull-right" alt="FeurigesHerz" />
                         </div>
-                        <div class="col-sm-10 bannerTextContainer">
+                    <div class="col-sm-10 col-xs-12 bannerTextContainer">
                             <div class="sub-text">
                                 Alles an einem Ort
                             </div>
