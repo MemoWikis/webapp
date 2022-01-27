@@ -2594,7 +2594,7 @@ input::placeholder {
 }
 @media (min-width: 391px) {
   .fullWidth {
-    width: 100%;
+    width: calc(100% 20px);
   }
 }
 #MemuchoBetaBanner {
