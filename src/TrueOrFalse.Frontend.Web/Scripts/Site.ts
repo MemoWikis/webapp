@@ -252,6 +252,18 @@ function disableCloseOnActivityPoints() {
     });
 }
 
+function smoothAnchor() {
+    document.querySelectorAll('a.smooth-scroll').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
 $(() => {
     new Site();
     setBrowserClass();
@@ -266,4 +278,5 @@ $(() => {
     if (window.location.host.startsWith("stage.memucho.de"))
         checkStageOverlay();
     disableCloseOnActivityPoints();
+    smoothAnchor();
 });
