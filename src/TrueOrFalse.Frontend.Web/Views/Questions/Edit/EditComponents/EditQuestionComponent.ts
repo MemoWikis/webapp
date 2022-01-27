@@ -163,7 +163,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                             tiptapPlaceholder.configure({
                                 emptyEditorClass: 'is-editor-empty',
                                 emptyNodeClass: 'is-empty',
-                                placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+                                placeholder: 'Gib den Fragetext ein',
                                 showOnlyCurrent: true,
                             }),
                             tiptapImage
@@ -210,7 +210,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                         tiptapPlaceholder.configure({
                             emptyEditorClass: 'is-editor-empty',
                             emptyNodeClass: 'is-empty',
-                            placeholder: 'Gib den Fragetext ein',
+                            placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
                             showOnlyCurrent: true,
                         }),
                         tiptapImage
