@@ -612,11 +612,9 @@ p:empty {
         font-weight: 400;
         margin-top: 5px;
 
-        .media-below-sm( {
-            font-size: 6vw;
-        }
-
-        );
+        .media-below-sm({
+            font-size: max(6vw, 24px);
+        });
     }
 
     h2 {
@@ -782,6 +780,7 @@ p:empty {
                 align-items: center;
             }
         }
+
         .tooltip {
             letter-spacing: normal;
         }
@@ -789,7 +788,7 @@ p:empty {
 
     .ImageContainer {
         width: 120px;
-        padding-top: 12px;
+        padding-top: clamp(5px, 1.8vw, 12px);
 
         .media-below-sm( {
             width: 15%;
@@ -1089,7 +1088,7 @@ p:empty {
         }
 
         #HeadingSection {
-            margin-bottom: 50px;
+            margin-bottom: 15px;
         }
     }
 
@@ -1135,7 +1134,7 @@ p:empty {
                 cursor: pointer;
                 color: @memo-green;
                 max-height: 120px;
-                margin-top: 12px;
+                margin-top: clamp(5px, 1.8vw, 12px);
                 transition: ease-in 0.2s;
 
                 @media (max-width: 767px) {
@@ -1172,7 +1171,6 @@ p:empty {
 
             h1 {
                 width: 100%;
-                min-height: 56px;
                 margin-top: 0px;
                 margin: 0;
                 padding: 2px;
@@ -1181,7 +1179,6 @@ p:empty {
                     outline: none;
                     border: none;
                     width: 100%;
-                    height: 54px;
                     padding: 2px;
                     letter-spacing: -1.5px;
                     margin: -2px;
