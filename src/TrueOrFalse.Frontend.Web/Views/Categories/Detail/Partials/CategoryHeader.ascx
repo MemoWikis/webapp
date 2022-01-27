@@ -61,6 +61,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                { %>
 
                 <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')">
+                <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken.">
                     <i class="fas fa-lock header-icon"></i>
                     <i class="fas fa-unlock header-icon"></i>
                 </a>
