@@ -94,7 +94,6 @@ public class EditCategoryModel : BaseModel
         CategoriesToInclude = category.CategoriesToInclude();
         CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         CategoriesToExclude = category.CategoriesToExclude();
-        DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
     }
 
     public ConvertToCategoryResult ConvertToCategory()

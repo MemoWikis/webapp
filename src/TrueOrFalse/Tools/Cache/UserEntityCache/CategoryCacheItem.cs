@@ -189,13 +189,13 @@ public class CategoryCacheItem
             .ToList();
     }
 
-    public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
-    {
-        if (inCategoryOnly)
-            return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
+    //public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
+    //{
+    //    if (inCategoryOnly)
+    //        return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
 
-        return GetAggregatedQuestionsFromMemoryCache().Count;
-    }
+    //    return GetAggregatedQuestionsFromMemoryCache().Count;
+    //}
 
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
