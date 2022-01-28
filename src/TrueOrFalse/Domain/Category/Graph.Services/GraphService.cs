@@ -246,7 +246,7 @@ public class GraphService
         foreach (var category in categories)
         {
             category.Value.CachedData.ClearChildIds();
-            category.Value.CachedData.AddChildIds(category.Value.CachedData.ChildrenIds.Distinct().ToList());
+            category.Value.CachedData.AddChildIds(category.Value.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).Select(ccr => ccr.RelatedCategoryId).Distinct().ToList());
         }
 
         return categories;
