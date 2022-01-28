@@ -120,8 +120,10 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             <div id="LearningTabWithOptions" class="Tab">
                 <div id="LearningTab" class="Tab" data-url="<%= Links.CategoryDetailLearningTab(Model.Name, Model.Id) %>">
                     <a href="">
-                        Fragen
-                    </a>
+                        <b>Fragen</b> 
+                        <%if (Model.CountAggregatedQuestions > 0)
+                            {%>(<%=  Model.CountAggregatedQuestions%>)
+                        <%}%> </a>
                     <div id="LearnOptionsHeaderContainer">
                         <i id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
                         </i>
