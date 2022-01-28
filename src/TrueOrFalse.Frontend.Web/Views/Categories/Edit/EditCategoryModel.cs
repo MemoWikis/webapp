@@ -22,7 +22,7 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> AggregatedCategories = new List<Category>();
 
-    public IList<Category> NonAggregatedCategories = new List<Category>();
+    //public IList<Category> NonAggregatedCategories = new List<Category>();
 
     public string CategoriesToExcludeIdsString { get; set; }
 
@@ -85,8 +85,8 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
-        AggregatedCategories = category.AggregatedCategories(includingSelf: false).OrderBy(c => c.Name).ToList();
-        NonAggregatedCategories = category.NonAggregatedCategories();
+        AggregatedCategories = Category.ToCategories(CategoryCacheItem.ToCacheCategory(category).AggregatedCategories(includingSelf: false).OrderBy(c => c.Name)).ToList();
+        //NonAggregatedCategories = Category.ToCategories(CategoryCacheItem.ToCacheCategory(category).NonAggregatedCategories());
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;

@@ -106,7 +106,7 @@ public class CategoryCacheItem
             EntityCache.GetCategoryCacheItem(id).CategoryRelations.Count(cr => cr.RelatedCategoryId == Id && cr.CategoryRelationType == CategoryRelationType.IsChildOf) > 0);
         if (visibleCategoryIds.Count > 0)
         {
-            var i = visibleCategoryIds.Count -1;
+            var i = visibleCategoryIds.Count - 1;
             while (i >= 0)
             {
                 visibleCategoryIds.AddRange(EntityCache.GetCategoryCacheItem(visibleCategoryIds[i]).AggregatedCategories().Select(cci => cci.Id));
@@ -127,22 +127,7 @@ public class CategoryCacheItem
         return list;
     }
 
-    public override IList<Category> NonAggregatedCategories()
-    {
-        return Sl.R<CategoryRepository>()
-            .GetDescendants(Id)
-            .Except(AggregatedCategories(includingSelf: false))
-            .Except(CategoriesToExclude())
-            .Distinct()
-            .ToList();
-    }
-
     public int CountQuestionsAggregated { get; set; }
-
-    public UpdateCountQuestionsAggregated()
-    {
-        CountQuestionsAggregated = GetCountQuestionsAggregated();
-    }
 
     public void UpdateCountQuestionsAggregated()
     {
@@ -157,37 +142,6 @@ public class CategoryCacheItem
         return GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
-    {
-        IEnumerable<Question> questions;
-
-        if (fullList)
-        {
-            questions = AggregatedCategories()
-                .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
-                .Distinct();
-        }
-        else
-        {
-            questions = EntityCache.GetQuestionsForCategory(categoryId)
-                .Distinct();
-        }
-
-        if (onlyVisible)
-        {
-            questions = questions.Where(PermissionCheck.CanView);
-        }
-
-        return questions.ToList();
-    }
-
-    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
-    {
-        return AggregatedCategories()
-            .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Id))
-            .Distinct()
-            .ToList();
-    }
 
     //public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
     //{
@@ -218,6 +172,7 @@ public class CategoryCacheItem
 
         return questions.ToList();
     }
+
 
     public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
     {

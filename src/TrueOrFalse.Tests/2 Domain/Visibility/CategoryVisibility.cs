@@ -43,9 +43,9 @@ namespace TrueOrFalse.Tests._2_Domain.Visibility
             
             EntityCache.Init();
 
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("GrandChild").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
-            Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Child").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
-            Assert.That(Sl.CategoryRepo.GetById(parentA.Id).GetCountQuestionsAggregated(), Is.EqualTo(0));
+            Assert.That(EntityCache.GetCategoryCacheItem(subCategories.ByName("GrandChild").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
+            Assert.That(EntityCache.GetCategoryCacheItem(subCategories.ByName("Child").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
+            Assert.That(EntityCache.GetCategoryCacheItem(parentA.Id).GetCountQuestionsAggregated(), Is.EqualTo(0));
         }
     }
 }

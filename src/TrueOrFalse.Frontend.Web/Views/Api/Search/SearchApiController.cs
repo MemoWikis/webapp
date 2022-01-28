@@ -65,7 +65,7 @@ public class SearchApiController : BaseController
                 Id = c.Id,
                 Name = c.Name,
                 Url = Links.CategoryDetail(c.Name, c.Id),
-                QuestionCount = c.GetCountQuestionsAggregated(),
+                QuestionCount = CategoryCacheItem.ToCacheCategory(c).GetCountQuestionsAggregated(),
                 ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
                 IconHtml = GetIconHtml(c),
                 MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category)).GetImageUrl(30, true, false, ImageType.Category).Url,

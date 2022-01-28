@@ -120,7 +120,7 @@ public class CategoryRedirectController : BaseController
     public string WishKnowledgeInTheBox(int categoryId) =>
         ViewRenderer.RenderPartialView( 
             "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
-            new WishKnowledgeInTheBoxModel(Sl.CategoryRepo.GetById(categoryId)),
+            new WishKnowledgeInTheBoxModel(EntityCache.GetCategoryCacheItem(categoryId)),
             ControllerContext
         );
 
