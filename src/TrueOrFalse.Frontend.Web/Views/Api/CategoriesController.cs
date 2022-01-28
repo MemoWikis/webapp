@@ -28,13 +28,13 @@ namespace TrueOrFalse.View.Web.Views.Api
         public CategoryDeleter.HasDeleted Delete(int id)
         {
             var category = Sl.CategoryRepo.GetById(id);
+            if (category == null)
+                throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
+
             var parentIds =
                 EntityCache.GetCategoryCacheItem(id).ParentCategories().Select(c => c.Id)
                     .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
             var parentCategories = Sl.CategoryRepo.GetByIds(parentIds);
-
-            if (category == null)
-                throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
             var hasDeleted = Sl.CategoryDeleter.Run(category);
             foreach (var parent in parentCategories)
