@@ -1,5 +1,4 @@
 ﻿declare var editorContent: any;
-declare var editorTest: any;
 
 //class Guid {
 //    static newShortGuid() {
@@ -10,7 +9,6 @@ declare var editorTest: any;
 //        });
 //    }
 //}
-
 Vue.component('text-component',
     {
         props: ['content'],
@@ -28,7 +26,7 @@ Vue.component('text-component',
                 menuBarComponentKey: '0',
                 indexTimer: null,
                 editable: true,
-            //    headings: [],
+                images: [],
             }
         },
         created() {
@@ -44,7 +42,7 @@ Vue.component('text-component',
                         heading: {
                             levels: [2, 3],
                             HTMLAttributes: {
-                                class: 'heading'
+                                class: 'inline-text-heading'
                             }
                         }
                     }),
@@ -84,6 +82,7 @@ Vue.component('text-component',
                     },
                     handlePaste: (view, pos, event) => {
                         let eventContent = event.content.content;
+                        var v = this;
                         if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
                             let src = eventContent[0].attrs.src;
                             if (src.length > 1048576 && src.startsWith('data:image')) {
@@ -91,6 +90,7 @@ Vue.component('text-component',
                                     text: messages.error.image.tooBig
                                 });
                                 return true;
+                            } else if (src.startsWith('data:image')) {
                             }
                         }
                     },
@@ -104,7 +104,7 @@ Vue.component('text-component',
                 onUpdate: ({ editor }) => {
                     this.json = editor.getJSON();
                     this.html = editor.getHTML();
-
+                    this.handleImage(editor)
                 },
                 onFocus({ editor, event }) {
                 },
@@ -170,20 +170,20 @@ Vue.component('text-component',
                             onPaste: () => {
                                 this.contentIsChanged = true;
                             },
-                            onUpdate: () => {
+                            onUpdate: ({editor}) => {
                                 this.json = this.editor.getJSON();
                                 this.html = this.editor.getHTML();
+                                this.handleImage(editor)
                             },
                             nativeExtensions: [
                             ]
                         });
                     this.menuBarComponentKey = !this.menuBarComponentKey;
                 });
-            window.editorTest = this.editor;
 
         },
         watch: {
-            html() {
+            html(val) {
                 this.$root.content = this.html;
                 if (this.contentIsChanged)
                     eventBus.$emit('content-change');
@@ -197,6 +197,22 @@ Vue.component('text-component',
             },
         },
         methods: {
+            handleImage(editor) {
+                let images = [];
+                editor.state.doc.descendants((node, pos) => {
+                    if (node.type.name === 'image') {
+                        images.push(node.attrs.src)
+                    }
+                })
+
+                this.images = images;
+            },
+            updateHeading(headings) {
+
+                headings.map((heading, index) => {
+                    $('.inline-text-heading')[index].attr('id', heading.id);
+                })
+            },
             showLinkMenu(attrs) {
                 this.linkUrl = attrs.href;
                 this.$nextTick(() => {

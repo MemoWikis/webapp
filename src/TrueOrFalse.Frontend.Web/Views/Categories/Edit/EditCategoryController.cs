@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
-using FluentNHibernate.Conventions;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -374,6 +374,7 @@ public class EditCategoryController : BaseController
 
         _categoryRepository.Create(category);
         var movedCategories = new List<int>();
+
         foreach (var childCategoryId in childCategoryIds)
         {
             var childCategory = _categoryRepository.GetByIdEager(childCategoryId);
@@ -401,6 +402,7 @@ public class EditCategoryController : BaseController
 
             _categoryRepository.Update(childCategoryAsCategory, _sessionUser.User, type: CategoryChangeType.Relations);
         }
+
         UserEntityCache.ReInitAllActiveCategoryCaches();
 
         return Json(new
@@ -412,25 +414,35 @@ public class EditCategoryController : BaseController
         });
     }
 
+    public class SaveCategoryContentModel
+    {
+        public int CategoryId { get; set; }
+        public string Content { get; set; }
+    }
+
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveCategoryContent(int categoryId, string content = null)
+    public JsonResult SaveCategoryContent()
     {
-        if (!PermissionCheck.CanEditCategory(categoryId))
+        var stream = Request.InputStream;
+        stream.Seek(0, SeekOrigin.Begin);
+        var json = new StreamReader(stream).ReadToEnd();
+        var model = JsonConvert.DeserializeObject<SaveCategoryContentModel>(json);
+
+        if (!PermissionCheck.CanEditCategory(model.CategoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
-        if (category != null)
-        {
-            category.Content = content ?? null;
+        var category = EntityCache.GetCategoryCacheItem(model.CategoryId);
 
-            var categoryDb = _categoryRepository.GetByIdEager(category); 
-            categoryDb.Content = content; 
-            _categoryRepository.Update(categoryDb, _sessionUser.User, type: CategoryChangeType.Text);
+        if (category == null) 
+            return Json(false);
 
-            return Json(true);
-        }
-        return Json(false);
+        category.Content = model.Content ?? null;
+        var categoryDb = _categoryRepository.GetByIdEager(category);
+        categoryDb.Content = model.Content;
+        _categoryRepository.Update(categoryDb, _sessionUser.User, type: CategoryChangeType.Text);
+
+        return Json(true);
     }
 
     [HttpPost]
@@ -441,25 +453,21 @@ public class EditCategoryController : BaseController
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
         var category = _categoryRepository.GetById(categoryId);
-        if (category != null)
-        {
-            if (segmentation != null)
-                category.CustomSegments = JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
-            else
-                category.CustomSegments = null;
 
-            var cacheItem = CategoryCacheItem.ToCacheCategory(category);
-            EntityCache.AddOrUpdate(cacheItem);
-            UserEntityCache.ReInitAllActiveCategoryCaches();
+        if (category == null) 
+            return Json(false);
 
-            _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
+        category.CustomSegments = segmentation != null ? 
+            JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) : 
+            null;
 
-            return Json(true);
-        }
-        return Json(false);
+        var cacheItem = CategoryCacheItem.ToCacheCategory(category);
+        EntityCache.AddOrUpdate(cacheItem);
+        UserEntityCache.ReInitAllActiveCategoryCaches();
+        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
+
+        return Json(true);
+
     }
 
     [AccessOnlyAsLoggedIn]

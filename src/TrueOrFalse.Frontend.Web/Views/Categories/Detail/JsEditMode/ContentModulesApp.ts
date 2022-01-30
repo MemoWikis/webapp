@@ -134,24 +134,26 @@ new Vue({
         },
 
         saveContent() {
-            if (NotLoggedIn.Yes()) {
+            if (NotLoggedIn.Yes())
                 return;
-            }
+
             var self = this;
+
             if (!this.nameIsValid) {
                 eventBus.$emit('save-msg', self.errorMsg);
                 return;
             }
 
             var data = {
-                categoryId: self.categoryId,
-                content: self.content,
+                CategoryId: self.categoryId,
+                Content: self.content,
             }
+
             $.ajax({
                 type: 'post',
-                contentType: "application/json",
                 url: '/Category/SaveCategoryContent',
                 data: JSON.stringify(data),
+                contentType: "application/json",
                 success: function (success) {
                     if (success == true) {
                         self.saveSuccess = true;
