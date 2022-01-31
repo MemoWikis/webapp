@@ -440,7 +440,7 @@ public class EditCategoryController : BaseController
         categoryCacheItem.Content = model.Content;
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        var category = _categoryRepository.GetByIdEager(categoryCacheItem);
+        var category = _categoryRepository.GetById(categoryCacheItem.Id);
         category.Content = model.Content;
         _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 
