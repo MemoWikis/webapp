@@ -9,10 +9,10 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%: Html.HiddenFor(m => m.ImageGuid) %>
 <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
 <% var buttonId = Guid.NewGuid();
-   var user = Sl.SessionUser.User; %>
+    var user = Sl.SessionUser.User; %>
 <div id="HeadingSection">
     <% if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin)
-       { %>
+        { %>
         <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
             <div class="ImageContainer">
                 <div class="imageUploadBtn" v-if="!disabled" @click="openImageUploadModal()">
@@ -29,8 +29,8 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             </div>
         </category-image-component>
     <% }
-      else
-      { %>
+        else
+        { %>
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), isHeader: true) %>
         </div>
@@ -39,7 +39,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
         <h1 style="margin-bottom: 0">
 
             <% if (Model.Category.Creator == Sl.SessionUser.User || Sl.SessionUser.IsInstallationAdmin)
-               { %>
+                { %>
                 <category-name-component inline-template origin-category-name="<%= Server.HtmlEncode(Model.Name) %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
                     <textarea-autosize
                         placeholder="Type something here..."
@@ -52,18 +52,19 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                 </category-name-component>
                 <div v-else><%= Server.HtmlEncode(Model.Name) %></div>
             <% }
-              else
-              { %>
+                else
+                { %>
                 <%= Model.Name %>
             <% } %>
 
             <% if (Model.Category.Visibility == CategoryVisibility.Owner)
-               { %>
+                { %>
 
                 <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')">
                 <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken.">
                     <i class="fas fa-lock header-icon"></i>
                     <i class="fas fa-unlock header-icon"></i>
+                </a>
                 </a>
             <% } %>
         </h1>
@@ -72,13 +73,13 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                 <div class="category-stats">
                     <a class="smooth-scroll" href="#Segmentation">
                         <% if (Model.AggregatedTopicCount == 1)
-                           { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
-                           else if (Model.AggregatedTopicCount > 1)
-                           { %> <span id="CategoryHeaderTopicCount"><%= Model.AggregatedTopicCount %></span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span> <% } %>
+                            { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
+                                                                                                                                             else if (Model.AggregatedTopicCount > 1)
+                                                                                                                                             { %> <span id="CategoryHeaderTopicCount"><%= Model.AggregatedTopicCount %></span> <span id="CategoryHeaderTopicCountLabel">Unterthemen</span> <% } %>
                     </a>
                 </div>
                 <% if (Model.AggregatedTopicCount >= 1)
-                   { %> 
+                    { %> 
                     <div class="category-sub-header-divider hidden-xs">
                         <div class="vertical-line"></div>
                     </div>
@@ -97,7 +98,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
         </div>
         <% if (!Model.Category.IsHistoric)
-           { %>
+            { %>
             <div class="KnowledgeBarWrapper mobileHeader">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
             </div>
@@ -106,7 +107,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 </div>
 
 <% if (!Model.Category.IsHistoric)
-   { %>
+    { %>
     <div id="TabsBar">
         <div id="CategoryTabsApp" class="Tabs">
             <div id="TopicTab" class="Tab" data-url="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
@@ -125,7 +126,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <i id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
                         </i>
                         <% if (!Model.ShowLearningSessionConfigurationMessageForTab)
-                           { %>
+                            { %>
                             <div id="SessionConfigReminderHeader" class="hide">
                                 <span>
                                     <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
@@ -148,12 +149,12 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
 
             <% if (user != null && !user.IsStartTopicTopicId(Model.Category.Id))
-               { %>
+                { %>
                 <div class="Border"></div>
             <% } %>
             <div class="Buttons">
                 <% if (Model.ShowPinButton())
-                   { %>
+                    { %>
                     <div class="PinContainer">
                         <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
                             <a href="#" class="noTextdecoration" style="font-size: 22px;">
@@ -165,7 +166,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
 
                 <div id="MyWorldToggleApp" :class="{'active': showMyWorld}" <% if (Model.IsMyWorld)
-                                                                               { %> class="active"<% } %> v-cloak>
+                    { %> class="active"<% } %> v-cloak>
                     <div class="toggle-label hidden-xs">
                         <div>
                             Zeige nur mein
@@ -214,7 +215,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </a>
                         </li>
                         <% if (Sl.SessionUser.IsLoggedIn && Model.Category.Id != Sl.SessionUser.User.StartTopicId)
-                           { %>
+                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('add-to-personal-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
@@ -225,7 +226,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </li>
                         <% } %>
                         <% if (Model.IsOwnerOrAdmin && Model.Category.Visibility == CategoryVisibility.All)
-                           { %>
+                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
@@ -236,7 +237,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </li>
                         <% } %>
                         <% if (Model.IsOwnerOrAdmin && Model.Category.Visibility == CategoryVisibility.Owner)
-                           { %>
+                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('open-publish-category-modal')" data-allowed="logged-in">
                                     <div class="dropdown-icon">
@@ -247,7 +248,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </li>
                         <% } %>
                         <% if (PermissionCheck.CanDelete(Model.Category))
-                           { %>
+                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
