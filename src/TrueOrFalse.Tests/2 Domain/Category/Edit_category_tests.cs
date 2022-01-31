@@ -187,11 +187,5 @@ namespace TrueOrFalse.Tests._2_Domain.Category
 
             Assert.That(publicWikiIsWishknowledgeForPinUser1, Is.EqualTo(false));
         }
-
-        [Test]
-        public void Creator_Can_Set_Own_Category_To_Private()
-        {
-
-        }
     }
 }
