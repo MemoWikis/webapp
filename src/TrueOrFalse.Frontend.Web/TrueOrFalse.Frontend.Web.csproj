@@ -2556,7 +2556,6 @@
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreen.ascx" />
-    <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
     </Content>
@@ -3405,7 +3404,6 @@
     <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
-    <Content Include="Views\Categories\Modals\ModalDeleteCategory.ascx" />
     <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\bootstrap.aspx" />
     <Content Include="Views\Drafts\Forms.aspx" />

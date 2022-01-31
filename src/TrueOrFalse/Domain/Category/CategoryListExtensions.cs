@@ -9,15 +9,6 @@ public static class CategoryListExtensions
     public static CategoryCacheItem ByName(this IEnumerable<CategoryCacheItem> categories, string name) =>
         categories.First(c => c.Name == name);
 
-
-    public static string GetValueByIndex(this IEnumerable<Category> categories, int index)
-    {
-        if (categories != null && categories.Count() > index)
-            return categories.ToList()[index].Name;
-
-        return "";
-    }
-
     public static IEnumerable<int> GetIds(this IEnumerable<CategoryCacheItem> sets) =>
         sets.Select(q => q.Id).ToList();
 

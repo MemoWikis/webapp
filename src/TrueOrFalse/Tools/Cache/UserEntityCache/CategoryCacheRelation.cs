@@ -18,6 +18,10 @@ public class CategoryCacheRelation
         if (listCategoryRelations == null)
             Logg.r().Error("CategoryRelations cannot be null");
 
+        if (listCategoryRelations.Count <= 0)
+        {
+            return result;
+        }
         foreach (var categoryRelation in listCategoryRelations)
         {
             result.Add(ToUserEntityCacheRelation(categoryRelation));

@@ -35,14 +35,25 @@
   border-bottom: solid 5px transparent;
   text-align: center;
   flex-grow: 1;
+  color: #555555;
+  line-height: 18px !important;
 }
 #CategoryHeader .Tabs .Tab a {
   display: block;
   height: 100%;
-  line-height: 38px;
   padding-left: 20px;
   padding-right: 20px;
   color: #767676;
+}
+@media (min-width: 389px) {
+  #CategoryHeader .Tabs .Tab a {
+    margin: auto 0;
+  }
+}
+@media (max-width: 991px) {
+  #CategoryHeader .Tabs .Tab a {
+    font-size: 14px;
+  }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   #CategoryHeader .Tabs .Tab a {
@@ -60,6 +71,9 @@
 #CategoryHeader .Tabs .Tab a:focus {
   text-decoration: none;
   color: #003264;
+}
+#CategoryHeader .Tabs .Tab b {
+  font-weight: 700;
 }
 #CategoryHeader .Tabs .Tab.active {
   border-bottom-color: #003264;

@@ -128,7 +128,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = EntityCache.GetCategoryCacheItem(categoryId);
 
         return category.GetAggregatedQuestionsFromMemoryCache();
     }

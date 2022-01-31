@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 public class OrderCategoriesByQuestionCountAndLevel
 {
-    public static IList<Category> Run(IList<Category> categories)
+    public static IList<Category> Run(IList<CategoryCacheItem> categories)
     {
-        var output = new List<Category>();
+        var output = new List<CategoryCacheItem>();
         categories = categories.OrderByDescending(c => c.CountQuestionsAggregated).ToList();
 
         foreach (var category in categories) //sort list of categories putting child categories after their parents
@@ -43,6 +43,8 @@ public class OrderCategoriesByQuestionCountAndLevel
                 insertAfterIndex = output.Count - 1; //if category is not sub-topic of any already selected, then insert it at the end
             output.Insert(insertAfterIndex + 1, category);
         }
-        return output;
+
+        var categoryList = Category.ToCategories(output).ToList();
+        return categoryList;
     }
 }

@@ -68,20 +68,20 @@ public class MaintenanceController : BaseController
         return result;
     }
 
-    [HttpPost]
-    public string CmsRenderCategoriesWithNonAggregatedChildren()
-    {
-        var categories = Sl.CategoryRepo.GetAllEager();
-        categories = categories.Where(c => c.NonAggregatedCategories().Any()).ToList();
+    //[HttpPost]
+    //public string CmsRenderCategoriesWithNonAggregatedChildren()
+    //{
+    //    var categories = Sl.CategoryRepo.GetAllEager();
+    //    categories = categories.Where(c => c.NonAggregatedCategories().Any()).ToList();
 
-        var result = categories.Count() + " categories found:<br/>";
-        foreach (var category in categories)
-        {
-            result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
-        }
+    //    var result = categories.Count() + " categories found:<br/>";
+    //    foreach (var category in categories)
+    //    {
+    //        result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
+    //    }
 
-        return result;
-    }
+    //    return result;
+    //}
 
     [HttpPost]
     public string CmsRenderCategoriesInSeveralRootCategories()
@@ -296,9 +296,9 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult CheckForCategoriesWithIncorrectQuestionCount()
     {
-        var list = new List<Category>();
+        var list = new List<CategoryCacheItem>();
 
-        var cats = Sl.R<CategoryRepository>().GetAll();
+        var cats = EntityCache.GetAllCategories();
 
         foreach (var cat in cats)
         {

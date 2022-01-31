@@ -23,7 +23,6 @@ public class GetCategoryChildren
         return EntityCache.GetAllChildren(category.Id, getFromEntityCache).Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
-
     }
 
     public static List<CategoryCacheItem> WithAppliedRulesFromMemory(CategoryCacheItem category)
