@@ -414,7 +414,7 @@ public class EditCategoryController : BaseController
         });
     }
 
-    public class SaveCategoryContentModel
+    public class CategoryContentModel
     {
         public int CategoryId { get; set; }
         public string Content { get; set; }
@@ -427,7 +427,7 @@ public class EditCategoryController : BaseController
         var stream = Request.InputStream;
         stream.Seek(0, SeekOrigin.Begin);
         var json = new StreamReader(stream).ReadToEnd();
-        var model = JsonConvert.DeserializeObject<SaveCategoryContentModel>(json);
+        var model = JsonConvert.DeserializeObject<CategoryContentModel>(json);
 
         if (!PermissionCheck.CanEditCategory(model.CategoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
@@ -440,7 +440,7 @@ public class EditCategoryController : BaseController
         categoryCacheItem.Content = model.Content;
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        var category = _categoryRepository.GetByIdEager(categoryCacheItem.Id);
+        var category = _categoryRepository.GetByIdEager(categoryCacheItem);
         category.Content = model.Content;
         _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 

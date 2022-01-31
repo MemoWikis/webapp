@@ -166,7 +166,7 @@ namespace TrueOrFalse
             }
 
             /*Api*/routes.MapRoute("EditPreview", "Category/RenderContentModule", new { controller = "Category", action = "RenderContentModule" });
-            /*Api*/routes.MapRoute("EditSave", "Category/SaveCategoryContent", new { controller = "EditCategory", action = "SaveCategoryContent" });
+            /*Api*/routes.MapRoute("EditSave", "Category/SaveContent", new { controller = "EditCategory", action = "SaveContent" });
             /*Api*/routes.MapRoute("EditSegments", "Category/SaveSegments", new { controller = "EditCategory", action = "SaveSegments" });
             /*Api*/routes.MapRoute("GetWishknowledge", "Category/GetWishknowledge", new { controller = "Category", action = "GetWishknowledge" });
             /*Api*/
