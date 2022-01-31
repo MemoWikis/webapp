@@ -859,7 +859,7 @@ p:empty {
 }
 #CategoryHeader .ImageContainer {
   width: 120px;
-  padding-top: clamp(5px, 1.8vw, 12px);
+  padding-top: clamp(7px, 1.8vw, 12px);
   -webkit-box-flex: 0;
   -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
