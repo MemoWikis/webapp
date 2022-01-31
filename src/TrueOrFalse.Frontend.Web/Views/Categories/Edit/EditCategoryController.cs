@@ -422,7 +422,7 @@ public class EditCategoryController : BaseController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveCategoryContent()
+    public JsonResult SaveContent()
     {
         var stream = Request.InputStream;
         stream.Seek(0, SeekOrigin.Begin);
@@ -432,15 +432,17 @@ public class EditCategoryController : BaseController
         if (!PermissionCheck.CanEditCategory(model.CategoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
-        var category = EntityCache.GetCategoryCacheItem(model.CategoryId);
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(model.CategoryId);
 
-        if (category == null) 
+        if (categoryCacheItem == null) 
             return Json(false);
 
-        category.Content = model.Content ?? null;
-        var categoryDb = _categoryRepository.GetByIdEager(category);
-        categoryDb.Content = model.Content;
-        _categoryRepository.Update(categoryDb, _sessionUser.User, type: CategoryChangeType.Text);
+        categoryCacheItem.Content = model.Content;
+        EntityCache.AddOrUpdate(categoryCacheItem);
+
+        var category = _categoryRepository.GetByIdEager(categoryCacheItem.Id);
+        category.Content = model.Content;
+        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 
         return Json(true);
     }

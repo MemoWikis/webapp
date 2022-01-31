@@ -151,7 +151,7 @@ new Vue({
 
             $.ajax({
                 type: 'post',
-                url: '/Category/SaveCategoryContent',
+                url: '/Category/SaveContent',
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 success: function (success) {
