@@ -1203,10 +1203,6 @@ commentAnswersCount {
 #flashCardContent > div,
 #flashCardContent #flashCard-frontContent > p {
   min-height: inherit;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -1223,22 +1219,16 @@ commentAnswersCount {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  display: inline;
 }
 #flashCardContent #flashCard-back > p {
   width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  display: inline;
   -webkit-align-content: center;
       -ms-flex-line-pack: center;
           align-content: center;
@@ -1246,6 +1236,10 @@ commentAnswersCount {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 #flashCardContent #flashCard-back > p img {
   max-width: 60%;

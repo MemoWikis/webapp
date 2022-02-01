@@ -18,7 +18,7 @@ public class CategoryCacheRelation
         if (listCategoryRelations == null)
             Logg.r().Error("CategoryRelations cannot be null");
 
-        if (listCategoryRelations.Count <= 0)
+        if (listCategoryRelations.Count <= 0 || listCategoryRelations == null)
         {
             return result;
         }
