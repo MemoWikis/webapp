@@ -112,7 +112,12 @@ public class PermissionCheck
 
         return false;
     }
-
+    public static bool IsAuthorOrAdmin(UserTinyModel author)
+    {
+        if (author == null)
+            return IsAuthorOrAdmin((int?)null);
+        return IsAuthorOrAdmin(author.Id);
+    }
     public static bool IsAuthorOrAdmin(int? creatorId)
     {
         return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == creatorId;
