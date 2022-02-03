@@ -46,10 +46,8 @@
 
                    if (item.IsVisibleToCurrentUser() && item.RelationIsVisibleToCurrentUser)
                    {
-                       var itemAuthorId = item.Author != null ? item.Author.Id : (int?)null;
-                       if (item.AggregatedCategoryChangeDetailModel.Count > 1 && PermissionCheck.IsAuthorOrAdmin(itemAuthorId))
-                       {
-            %>
+                       if (item.AggregatedCategoryChangeDetailModel.Count > 1 && PermissionCheck.IsAuthorOrAdmin(item.Author))
+                       { %>
                         <div class="panel-group row change-detail-model" id="accordion<%= panelId %>" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
                                 <div class="panel-heading row collapsed" role="tab" id="heading<%= panelId %>" role="button" data-toggle="collapse" data-parent="#accordion<%= panelId %>" href="#collapse<%= panelId %>" aria-controls="collapse<%= panelId %>" expanded="false">
