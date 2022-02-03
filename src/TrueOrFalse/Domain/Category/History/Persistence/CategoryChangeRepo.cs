@@ -24,7 +24,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, CategoryChangeType type) => AddUpdateOrCreateEntry(category, author, type, imageWasUpdated);
     public void AddPublishEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Published);
     public void AddMadePrivateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Privatized);
-    public void AddTitelIsChangedEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Renamed);
+    public void AddTitleIsChangedEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Renamed);
 
     private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
     {

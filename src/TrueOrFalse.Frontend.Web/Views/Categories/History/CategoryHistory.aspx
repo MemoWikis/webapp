@@ -28,7 +28,7 @@
         {
             if (day.Items.Count > 0 && day.Items.Any(i => i.IsVisibleToCurrentUser()))
             {
-    %>
+    %><div class="category-change-day">
             <div class="row">
                 <div class="col-md-12">
                     <h3><%= day.Date %></h3>
@@ -161,7 +161,7 @@
                    i++;
                }
             } %>
-
+        </div>
 
     <% d++;
         } %>

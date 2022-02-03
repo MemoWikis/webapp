@@ -13,14 +13,15 @@ public class RelationChangeItem
 
     public static RelationChangeItem GetRelationChangeItem(CategoryChangeDetailModel item, IEnumerable<CategoryChange> changes)
     {
-        var selectedRevision = CategoryEditData_V2.CreateFromJson(changes.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
-        var previousRevision = CategoryEditData_V2.CreateFromJson(changes.LastOrDefault(c => c.Id < item.CategoryChangeId).Data);
+        var selectedRevisionData = CategoryEditData_V2.CreateFromJson(changes.FirstOrDefault(c => c.Id == item.CategoryChangeId).Data);
         var relationChangeItem = new RelationChangeItem();
+        var prevRevision = changes.LastOrDefault(c => c.Id < item.CategoryChangeId);
 
-        if (previousRevision == null) 
-            return relationChangeItem;
-        
-        var relationChangeResult = GetChangedRelation(selectedRevision, previousRevision);
+        if (prevRevision == null)
+            return null;
+
+        var previousRevisionData = CategoryEditData_V2.CreateFromJson(prevRevision.Data);
+        var relationChangeResult = GetChangedRelation(selectedRevisionData, previousRevisionData);
 
         if (relationChangeResult == null)
             return null;
@@ -30,7 +31,7 @@ public class RelationChangeItem
         var relationChange = relationChangeResult.Relation;
         var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
         
-        relationChangeItem.IsVisibleToCurrentUser = IsVisibleToCurrentUser2(relationChange, relatedCategory, previousRevision, selectedRevision, item.CreatorId);
+        relationChangeItem.IsVisibleToCurrentUser = IsVisibleToCurrentUser2(relationChange, relatedCategory, previousRevisionData, selectedRevisionData, item.CreatorId);
         relationChangeItem.RelatedCategory = relatedCategory;
         relationChangeItem.Type = relationChange.RelationType;
 

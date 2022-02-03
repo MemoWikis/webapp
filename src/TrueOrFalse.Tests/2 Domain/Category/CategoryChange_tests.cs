@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -192,5 +193,32 @@ class CategoryChange_tests : BaseTest
         var formatted = model.FormatHtmlString(imgString);
 
         Assert.That(formatted, Is.EqualTo("\r\n  <img src=\"data:image/png;base64,YII=\" alt=\"0\">\r\n "));
+    }
+
+    [Test]
+    public void GetNullRelationChangeItemForNonExistingPreviousRevision()
+    {
+        var category = ContextCategory.New().Add("Category 1").Persist().All[0];
+        var changes = new List<CategoryChange>();
+
+        changes.Add(
+            new CategoryChange
+                {
+                    Id = 1,
+                    Author = new User(),
+                    Category = category,
+                    Data = "{\"CategoryRelations\":[],\"ImageWasUpdated\":false,\"Name\":\"M Ts Wiki\",\"Description\":null,\"TopicMarkdown\":null,\"Content\":\"\",\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":1}",
+                    DataVersion = 1,
+                    DateCreated = new DateTime(2010, 10, 10, 10, 10, 10),
+                    ShowInSidebar = false,
+                    Type = CategoryChangeType.Create
+                }
+            );
+
+        var item = new CategoryChangeDetailModel();
+        item.CategoryChangeId = 1;
+        var relationChangeItem = RelationChangeItem.GetRelationChangeItem(item, changes);
+
+        Assert.That(relationChangeItem, Is.EqualTo(null));
     }
 }
