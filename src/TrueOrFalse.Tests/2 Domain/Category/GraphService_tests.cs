@@ -96,37 +96,37 @@ class GraphService_tests : BaseTest
 
         EntityCache.Init();
 
-        var userPersonelCategoriesWithRealtions =
+        var userPersonalCategoriesWithRelations =
             GraphService.GetAllWuwiWithRelations_TP(CategoryCacheItem.ToCacheCategory(userRoot), user.Id);
 
         //Test C
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations),
+        Assert.That(IsAllRelationsAChildOf(userPersonalCategoriesWithRelations.ByName("C").CategoryRelations),
             Is.EqualTo(false));
 
-        Assert.That(userPersonelCategoriesWithRealtions.ByName("C").CategoryRelations.First().RelatedCategoryId,
+        Assert.That(userPersonalCategoriesWithRelations.ByName("C").CategoryRelations.First().RelatedCategoryId,
             Is.EqualTo(userRoot.Id));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("C").CategoryRelations
                 .First()
                 .CategoryId,
             Is.EqualTo(secondChildrenIds.ByName("C").Id));
 
         //Test I
-        Assert.That(IsAllRelationsAChildOf(userPersonelCategoriesWithRealtions.ByName("I").CategoryRelations),
+        Assert.That(IsAllRelationsAChildOf(userPersonalCategoriesWithRelations.ByName("I").CategoryRelations),
             Is.EqualTo(true));
 
-        Assert.That(ContextCategory.HasCorrectParent(userPersonelCategoriesWithRealtions.ByName("I"), "C"),
+        Assert.That(ContextCategory.HasCorrectParent(userPersonalCategoriesWithRelations.ByName("I"), "C"),
             Is.EqualTo(true));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("I")
                 .CategoryRelations
                 .First()
                 .CategoryId,
             Is.EqualTo(secondChildrenIds.ByName("I").Id));
 
-        var relationId = userPersonelCategoriesWithRealtions
+        var relationId = userPersonalCategoriesWithRelations
             .ByName("I")
             .CategoryRelations.Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "E")
             .Select(cr => cr.RelatedCategoryId).First();
@@ -134,13 +134,13 @@ class GraphService_tests : BaseTest
         Assert.That(relationId,
             Is.EqualTo(secondChildrenIds.ByName("E").Id));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("I")
                 .CategoryRelations[1]
                 .CategoryId,
             Is.EqualTo(secondChildrenIds.ByName("I").Id));
 
-        relationId = userPersonelCategoriesWithRealtions
+        relationId = userPersonalCategoriesWithRelations
             .ByName("I")
             .CategoryRelations.Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "G")
             .Select(cr => cr.RelatedCategoryId).First();
@@ -148,47 +148,47 @@ class GraphService_tests : BaseTest
         Assert.That(relationId,
             Is.EqualTo(secondChildrenIds.ByName("G").Id));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("I")
                 .CategoryRelations[2]
                 .CategoryId,
             Is.EqualTo(secondChildrenIds.ByName("I").Id));
 
         // Test G 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("G").CategoryRelations
                 .First()
                 .CategoryRelationType,
             Is.EqualTo(CategoryRelationType.IsChildOf));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("G")
                 .CategoryRelations
                 .First()
                 .RelatedCategoryId,
             Is.EqualTo(firstChildrenIds.ByName("C").Id));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("G").CategoryRelations
                 .First()
                 .CategoryId,
             Is.EqualTo(secondChildrenIds.ByName("G").Id));
 
         // Test E
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("E").CategoryRelations
                 .First()
                 .CategoryRelationType,
             Is.EqualTo(CategoryRelationType.IsChildOf));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("E")
                 .CategoryRelations
                 .First()
                 .RelatedCategoryId,
             Is.EqualTo(firstChildrenIds.ByName("C").Id));
 
-        Assert.That(userPersonelCategoriesWithRealtions
+        Assert.That(userPersonalCategoriesWithRelations
                 .ByName("E").CategoryRelations
                 .First()
                 .CategoryId,
