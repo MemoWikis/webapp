@@ -13,7 +13,7 @@ namespace TrueOrFalse.Tests.Persistence
         {
             var categoryRepo = Resolve<CategoryRepository>();
 
-            var user = new User {Name = "Some user"};
+            var user = new User { Name = "Some user" };
             Resolve<UserRepo>().Create(user);
 
             var category = new Category("Sports")
@@ -70,14 +70,14 @@ namespace TrueOrFalse.Tests.Persistence
             Assert.That(children.Any(c => c.Name == "DailyIssue-2"), Is.True);
             Assert.That(children.Any(c => c.Name == "DailyIssue-3"), Is.True);
         }
-       
+
         [Test]
         public void Get_correct_aggregated_categories()
         {
             var context = ContextCategory.New();
-           var user =  context.AddCaseThreeToCache();
+            var user = context.AddCaseThreeToCache();
 
-           var categories = Sl.CategoryRepo.GetAllEager();
+            var categories = EntityCache.GetAllCategories();
 
             for (int i = 0; i < categories.Count; i++)
             {
@@ -86,11 +86,11 @@ namespace TrueOrFalse.Tests.Persistence
                     var category = categories.ByName("A");
 
                     category.CategoryRelations.Add(
-                        new CategoryRelation()
+                        new CategoryCacheRelation()
                         {
-                            Category = category ,
+                            CategoryId = category.Id,
                             CategoryRelationType = CategoryRelationType.IncludesContentOf,
-                            RelatedCategory = categories[i]
+                            RelatedCategoryId = categories[i].Id
                         });
 
                     context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
@@ -100,7 +100,7 @@ namespace TrueOrFalse.Tests.Persistence
             var usercacheItem2 = UserCache.GetItem(user.Id);
             usercacheItem2.IsFiltered = true;
             Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(7));
-            
+
             usercacheItem2.IsFiltered = false;
             Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(13));
         }
