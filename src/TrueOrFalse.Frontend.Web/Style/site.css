@@ -2592,9 +2592,10 @@ input::placeholder {
 .footer-links-memucho {
   margin-top: 40px;
 }
-@media (min-width: 391px) {
+@media (max-width: 767px) {
   .fullWidth {
-    width: calc(100% 20px);
+    width: 100%;
+    margin: 0;
   }
 }
 #MemuchoBetaBanner {
@@ -2638,6 +2639,12 @@ input::placeholder {
   align-items: flex-start;
   color: #555555;
   justify-content: center;
+  padding: 10px 0;
+}
+@media (max-width: 767px) {
+  #MemuchoBetaBanner .container #BannerContainer #BannerText {
+    align-items: center;
+  }
 }
 #MemuchoBetaBanner .container #BannerContainer #BannerText .bannerIcon {
   padding-top: 5px;
@@ -2649,6 +2656,7 @@ input::placeholder {
   font-size: 14px;
   line-height: 20px;
   width: 100%;
+  padding: 0 10px;
 }
 #MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text b {
   font-weight: 700;
@@ -2657,6 +2665,7 @@ input::placeholder {
   #MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text {
     width: 80%;
     margin: 0 auto;
+    text-align: center;
   }
 }
 #MemuchoBetaBanner .container #BannerContainer #BannerText .sub-text .fa-heart {
@@ -2673,6 +2682,7 @@ input::placeholder {
   font-weight: 400;
   line-height: 34px;
   width: 100%;
+  padding: 0 10px;
 }
 @media (max-width: 767px) {
   #MemuchoBetaBanner .container #BannerContainer #BannerText .main-text {
@@ -2755,9 +2765,6 @@ input::placeholder {
   align-items: flex-start;
   color: #003264;
   justify-content: center;
-}
-#MemuchoInfoBanner .container #BannerContainer #BannerText .bannerTextContainer {
-  padding-left: 0;
 }
 #MemuchoInfoBanner .container #BannerContainer #BannerText .sub-text {
   font-size: 14px;

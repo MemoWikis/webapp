@@ -54,15 +54,9 @@
                         <img src="/img/close_black.svg" alt="X" />
                     </a>
                     <div class="row fullWidth">
-                    <div id="BannerImg" class="col-sm-1 hidden-xs bannerIcon">
-                            <img src="/img/fire_heart.svg" class="pull-right" alt="FeurigesHerz" />
-                        </div>
-                    <div class="col-sm-10 col-xs-12 bannerTextContainer">
+                        <div class="col-xs-12">
                             <div class="sub-text">
                                 Alles an einem Ort
-                            </div>
-                            <div class="visible-xs sub-text">
-                                <img src="/img/fire_heart.svg" alt="FeurigesHerz" />
                             </div>
                             <div class="main-text">Wiki und Lernwerkzeuge vereint!</div>
     

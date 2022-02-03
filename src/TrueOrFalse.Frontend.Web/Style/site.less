@@ -2745,8 +2745,9 @@ textarea, input {
 
 
 .fullWidth {
-    @media (min-width: 391px) {
-        width: calc(100% +20px);
+    @media (max-width: 767px) {
+        width: 100%;
+        margin:0;
     }
 }
 
@@ -2794,6 +2795,11 @@ textarea, input {
                 align-items: flex-start;
                 color: @memo-grey-darker;
                 justify-content: center;
+                padding: 10px 0;
+
+                @media (max-width: 767px) {
+                    align-items: center;
+                }
 
                 .bannerIcon {
                     padding-top: 5px;
@@ -2807,6 +2813,7 @@ textarea, input {
                     font-size: 14px;
                     line-height: 20px;
                     width: 100%;
+                    padding: 0 10px;
 
                     b {
                         font-weight: 700;
@@ -2815,6 +2822,7 @@ textarea, input {
                     @media (max-width: 767px) {
                         width: 80%;
                         margin: 0 auto;
+                        text-align: center;
                     }
 
 
@@ -2833,6 +2841,7 @@ textarea, input {
                     font-weight: 400;
                     line-height: 34px;
                     width: 100%;
+                    padding: 0 10px;
 
                     @media (max-width: 767px) {
                         text-align: center;
@@ -2931,10 +2940,6 @@ textarea, input {
                 align-items: flex-start;
                 color: @memo-blue;
                 justify-content: center;
-
-                .bannerTextContainer {
-                    padding-left: 0;
-                }
 
                 .sub-text {
                     font-size: 14px;
