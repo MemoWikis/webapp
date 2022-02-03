@@ -42,7 +42,9 @@ var EditQuestionLoader = new Vue({
                 success: function (html) {
                     $(html).insertBefore('#EditQuestionLoaderApp');
                     if (question != null)
-                        self.loadModal(question);
+                        self.$nextTick(() => {
+                            self.loadModal(question);
+                        });
                 },
             });
         },
