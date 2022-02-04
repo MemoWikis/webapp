@@ -1,6 +1,6 @@
 ﻿<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld" :category="category" :is-historic="isHistoric" >
+<category-card-component @select-category="selectCategory" @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index" :is-my-world="isMyWorld" :category="category" :is-historic="isHistoric">
     <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="mouseOver" @mouseleave="mouseLeave" :class="{ hover : showHover }">
         <div class="row" v-on:click.self="goToCategory()">
             <div class="col-xs-3">
@@ -10,12 +10,15 @@
                 </a>
             </div>
             <div class="col-xs-9">
-                <a :href="category.LinkToCategory">
-                    <div class="topic-name">
+                <div class="topic-name">
+                    <a :href="category.LinkToCategory">
                         <template v-html="category.CategoryTypeHtml"></template> {{category.Name}}
-                        <i v-if="category.Visibility == 1" class="fas fa-lock"></i>
+                    </a>
+                    <div v-if="visibility == 1" class="segmentCardLock" @click="openPublishModal" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken.">
+                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-unlock"></i>
                     </div>
-                </a>
+                </div>
                 <div v-if="!isHistoric && !isMyWorld" class="Button dropdown DropdownButton" :class="{ hover : showHover && !isHistoric && !isMyWorld}">
                     <a href="#" :id="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>

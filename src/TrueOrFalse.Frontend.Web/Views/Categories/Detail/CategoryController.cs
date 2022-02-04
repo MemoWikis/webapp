@@ -314,14 +314,19 @@ public class CategoryController : BaseController
     {
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
         var userCacheItem = UserCache.GetItem(User_().Id);
+
         if (categoryCacheItem.Creator != userCacheItem.User)
             return Json(new
-        {
-            success = false,
-        });
+            {
+                success = false,
+            });
+
         var filteredAggregatedQuestions = categoryCacheItem
             .GetAggregatedQuestionsFromMemoryCache()
-            .Where(q => q.Creator == userCacheItem.User && q.IsPrivate())
+            .Where(q => 
+                q.Creator == userCacheItem.User && 
+                q.IsPrivate() && 
+                PermissionCheck.CanEdit(q))
             .Select(q => q.Id).ToList();
 
         return Json(new

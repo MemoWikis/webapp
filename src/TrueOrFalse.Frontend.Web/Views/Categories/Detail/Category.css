@@ -840,7 +840,7 @@ p:empty {
           justify-content: start;
 }
 #CategoryHeader #HeadingContainer h1 i {
-  padding-left: 10px;
+  padding: 0 5px;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;

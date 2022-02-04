@@ -72,6 +72,32 @@
                         transition: opacity .1s ease-in-out;
                     }
                 }
+
+                .segmentCardLock {
+                    cursor: pointer;
+                    display: inline-flex;
+
+                    i.fa-unlock {
+                        display: none !important;
+                    }
+
+                    i.fa-lock {
+                        display: unset !important;
+                    }
+
+                    &:hover {
+
+                        i.fa-lock {
+                            display: none !important;
+                            color: @memo-blue;
+                        }
+
+                        i.fa-unlock {
+                            display: unset !important;
+                            color: @memo-blue;
+                        }
+                    }
+                }
             }
 
             .addCategoryCard {

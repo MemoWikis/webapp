@@ -107,7 +107,6 @@ public class Question : DomainEntity, ICreator
 
     public virtual bool IsPrivate() => Visibility != QuestionVisibility.All;
 
-
     public virtual void UpdateReferences(IList<Reference> references)
     {
         var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
