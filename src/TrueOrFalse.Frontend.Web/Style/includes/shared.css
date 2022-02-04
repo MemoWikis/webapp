@@ -7730,3 +7730,6 @@ input,
 [v-cloak] {
   display: none;
 }
+.Button {
+  word-break: normal;
+}
