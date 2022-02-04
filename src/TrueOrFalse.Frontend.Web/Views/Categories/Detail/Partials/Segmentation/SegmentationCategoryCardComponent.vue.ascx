@@ -38,6 +38,13 @@
                                 </div>Verknüpfung entfernen
                             </a>
                         </li>
+                        <li v-if="visibility == 1">
+                            <a @click="openPublishModal">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>Thema veröffentlichen
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="set-question-count">
