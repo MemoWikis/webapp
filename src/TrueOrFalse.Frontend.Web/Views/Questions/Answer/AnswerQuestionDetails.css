@@ -159,7 +159,7 @@
   font-weight: 600;
 }
 #QuestionDetailsApp #questionDetailsContainer #categoryList {
-  padding-bottom: 10px;
+  padding-bottom: 30px;
 }
 #QuestionDetailsApp #questionDetailsContainer #categoryList .categoryListChips {
   max-height: 308px;
