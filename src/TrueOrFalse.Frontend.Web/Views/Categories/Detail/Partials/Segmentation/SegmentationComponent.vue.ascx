@@ -8,7 +8,7 @@
     <div :key="componentKey" id="Segmentation" v-cloak>
 
         <div class="segmentationHeader overline-m">
-            Untergeordnete Themen
+            Untergeordnete Themen <template v-if="categories.length >0">({{categories.length}})</template>
             <%if (Model.ShowLinkToRootCategory) {%>
                 <div v-if="!isMyWorld" class="toRoot"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
             <%} %>
