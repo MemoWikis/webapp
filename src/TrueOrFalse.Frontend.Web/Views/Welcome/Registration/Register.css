@@ -82,20 +82,40 @@
   color: #FFA07A;
   padding: 5px 0 0 0;
 }
-.register-divider {
-  border-bottom: solid 1px #DDDDDD;
-  margin-bottom: 20px;
+.register-divider-container {
+  height: 53px;
+  margin-bottom: 10px;
 }
-.register-divider .register-divider-label-container {
+.register-divider-container .register-divider-label-container,
+.register-divider-container .register-divider {
   position: absolute;
-  top: -10px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 0 10px;
+  margin: 0 -10px;
+  height: 100%;
 }
-.register-divider .register-divider-label-container .register-divider-label {
+.register-divider-container .register-divider-label-container .register-divider-label,
+.register-divider-container .register-divider .register-divider-label {
   background: white;
-  padding: 10px;
-  margin-top: -10px;
+  height: 53px;
+  width: 53px;
+  border-radius: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register-divider-container .register-divider-label-container .register-divider-line,
+.register-divider-container .register-divider .register-divider-line {
+  height: 1px;
+  background: #DDDDDD;
+  width: 100%;
+}
+.login-register {
+  color: #767676;
+}
+.register-title {
+  padding-left: 7px;
 }
