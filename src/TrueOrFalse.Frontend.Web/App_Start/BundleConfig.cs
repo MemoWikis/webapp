@@ -2,7 +2,8 @@
 
 namespace TrueOrFalse.View
 {
-    public class BundleConfig
+    public class 
+        BundleConfig
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
@@ -88,7 +89,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Welcome/Login/LoginModalComponent.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Registration")
-                .Include("~/Views/Welcome/Registration/SocialButtons.css"));
+                .Include("~/Views/Welcome/Registration/Register.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Help")
                 .IncludeDirectory("~/Views/Help/Js", "*.js"));
@@ -185,7 +186,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/History/*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Login")
-                .Include("~/Views/Welcome/Registration/SocialButtons.css"));
+                .Include("~/Views/Welcome/Registration/Register.css"));
 
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));

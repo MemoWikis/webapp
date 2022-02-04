@@ -19,13 +19,36 @@
 }
 .socialMediaLogo {
   height: 20px;
-  position: absolute;
-  left: 1em;
 }
 .socialMediaBtnContainer {
   padding: 7px 0 0 0;
   display: flex;
   align-items: center;
+}
+@media (min-width: 768px) {
+  .socialMediaBtnContainer {
+    padding: 0 2.5px;
+  }
+}
+.socialMediaBtnContainer .socialMediaBtn {
+  display: flex;
+}
+.socialMediaBtnContainer .socialMediaBtn .socialMediaLogo {
+  padding: 0 0px 0 16px;
+}
+.socialMediaBtnContainer .socialMediaBtn .socialMediaLabel {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px 0 8px;
+}
+.omb_socialButtons:first-child {
+  padding-left: 7px;
+}
+.omb_socialButtons:last-child {
+  padding-right: 7px;
 }
 .loginInputs {
   resize: none;
@@ -58,4 +81,21 @@
 .errorMessage {
   color: #FFA07A;
   padding: 5px 0 0 0;
+}
+.register-divider {
+  border-bottom: solid 1px #DDDDDD;
+  margin-bottom: 20px;
+}
+.register-divider .register-divider-label-container {
+  position: absolute;
+  top: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.register-divider .register-divider-label-container .register-divider-label {
+  background: white;
+  padding: 10px;
+  margin-top: -10px;
 }

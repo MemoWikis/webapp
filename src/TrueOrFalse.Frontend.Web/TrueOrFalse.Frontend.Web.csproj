@@ -2059,6 +2059,9 @@
     </Content>
     <Content Include="Views\Welcome\Login\LoginModalComponentTemplate.vue.ascx" />
     <Content Include="Views\Welcome\Login\LoginModalLoader.ascx" />
+    <Content Include="Views\Welcome\Registration\Register.css">
+      <DependentUpon>Register.less</DependentUpon>
+    </Content>
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <None Include="job_scheduling_data_2_0.xsd">
@@ -2834,9 +2837,6 @@
     </Content>
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Registration\SocialButtons.css">
-      <DependentUpon>SocialButtons.less</DependentUpon>
     </Content>
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
@@ -3936,7 +3936,7 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Registration\SocialButtons.less" />
+    <Content Include="Views\Welcome\Registration\Register.less" />
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
