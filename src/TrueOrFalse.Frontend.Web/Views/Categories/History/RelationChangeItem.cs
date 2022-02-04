@@ -91,10 +91,15 @@ public class RelationChangeItem
     public static string GetRelationChangeLabel(RelationChangeItem item)
     {
         var removalString = item.RelationAdded ? "" : " nicht mehr";
-        if (item.Type == CategoryRelationType.IsChildOf)
-            return $" ist{removalString} übergeordnet";
-        if (item.Type == CategoryRelationType.IncludesContentOf)
-            return $" ist{removalString} untergeordnet";
-        return "";
+
+        switch (item.Type)
+        {
+            case CategoryRelationType.IsChildOf:
+                return $" ist{removalString} übergeordnet";
+            case CategoryRelationType.IncludesContentOf:
+                return $" ist{removalString} untergeordnet";
+            default:
+                return "";
+        }
     }
 }
