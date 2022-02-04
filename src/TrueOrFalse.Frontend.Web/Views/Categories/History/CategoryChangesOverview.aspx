@@ -164,19 +164,13 @@
                                 <%
                                     if (item.Type == CategoryChangeType.Relations)
                                     {
-                                        var relationChangeString = "";
-                                        if (relationChangeItem.Type == CategoryRelationType.IsChildOf)
-                                            relationChangeString = " ist übergeordnet";
-                                        else if (relationChangeItem.Type == CategoryRelationType.IncludesContentOf)
-                                            relationChangeString = " ist untergeordnet";
-
                                 %>
                                     <div class="related-category-name">
                                         <a class="history-link" href="<%= Links.CategoryDetail(relationChangeItem.RelatedCategory) %>">
                                             <%= relationChangeItem.RelatedCategory.Name %>
                                         </a>
 
-                                        <%= relationChangeString %>
+                                        <%= RelationChangeItem.GetRelationChangeLabel(relationChangeItem) %>
                                     </div>
                                 <%
                                 }

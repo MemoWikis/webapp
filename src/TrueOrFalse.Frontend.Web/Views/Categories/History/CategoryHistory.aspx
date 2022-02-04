@@ -28,7 +28,8 @@
         {
             if (day.Items.Count > 0 && day.Items.Any(i => i.IsVisibleToCurrentUser()))
             {
-    %><div class="category-change-day">
+    %>
+        <div class="category-change-day">
             <div class="row">
                 <div class="col-md-12">
                     <h3><%= day.Date %></h3>
@@ -104,15 +105,15 @@
 
                                             </li>
                                         <%
-                                               } %>
+                                           } %>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     <%
-                           }
-                        else
-                        { %>
+                       }
+                       else
+                       { %>
                         <div class="row change-detail-model">
                             <div class="col-xs-3">
                                 <a class="history-link" href="<%= Links.UserDetail(item.Author) %>">
@@ -127,25 +128,18 @@
                                 <div class="change-detail-label"><%= item.Label %></div>
                                 <%
                                     if (item.Type == CategoryChangeType.Relations)
-                                    {
-                                        var relationChangeString = "";
-                                        if (relationChangeItem.Type == CategoryRelationType.IsChildOf)
-                                            relationChangeString = " ist übergeordnet";
-                                        else if (relationChangeItem.Type == CategoryRelationType.IncludesContentOf)
-                                            relationChangeString = " ist untergeordnet";
-
-                                %>
+                                    { %>
                                     <div class="related-category-name">
                                         <a class="history-link" href="<%= Links.CategoryDetail(relationChangeItem.RelatedCategory) %>">
                                             <%= relationChangeItem.RelatedCategory.Name %>
                                         </a>
 
-                                        <%= relationChangeString %>
+                                        <%= RelationChangeItem.GetRelationChangeLabel(relationChangeItem) %>
                                     </div>
                                 <%
-                                        }
-                                        else
-                                        { %>
+                                    }
+                                    else
+                                    { %>
                                     <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.AggregatedCategoryChangeDetailModel.Last().CategoryChangeId, item.CategoryChangeId) %>">
                                         Ansehen
                                     </a>
@@ -155,7 +149,7 @@
                             </div>
                         </div>
 
-        <% }
+            <% }
                    }
                    i++;
                }

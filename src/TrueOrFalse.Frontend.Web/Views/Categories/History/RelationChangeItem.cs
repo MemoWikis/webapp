@@ -86,5 +86,15 @@ public class RelationChangeItem
     { 
         public CategoryRelation_EditData_V2 Relation { get; set; }
         public int Count { get; set; }  
-    };
+    }
+
+    public static string GetRelationChangeLabel(RelationChangeItem item)
+    {
+        var removalString = item.RelationAdded ? "" : " nicht mehr";
+        if (item.Type == CategoryRelationType.IsChildOf)
+            return $" ist{removalString} übergeordnet";
+        if (item.Type == CategoryRelationType.IncludesContentOf)
+            return $" ist{removalString} untergeordnet";
+        return "";
+    }
 }
