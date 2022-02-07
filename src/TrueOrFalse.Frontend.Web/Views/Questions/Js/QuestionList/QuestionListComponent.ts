@@ -66,7 +66,7 @@ let qlc = Vue.component('question-list-component', {
                 this.initQuestionList();
             this.answerBodyHasLoaded = true;
         });
-
+        eventBus.$on('remove-question-from-list', (id: Number) => { this.removeQuestionFromList(id) });
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
@@ -228,6 +228,12 @@ let qlc = Vue.component('question-list-component', {
             if (this.questions.length <= 0)
                 this.renderNewSessionBar(q.Id);
             this.questions.push(q);
+        },
+        removeQuestionFromList(id: Number) {
+            var self = this;
+            self.questions.forEach((q, index) => {
+                if (q.Id == id) self.questions.splice(index, 1);
+            });
         },
         renderNewSessionBar(id) {
             $.ajax({
