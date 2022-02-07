@@ -138,6 +138,7 @@
   width: auto;
   display: inline-flex;
   justify-content: center;
+  align-items: center;
 }
 #CategoryHeader #LearningTabWithOptions #LearningTab a {
   padding-right: 5px;
