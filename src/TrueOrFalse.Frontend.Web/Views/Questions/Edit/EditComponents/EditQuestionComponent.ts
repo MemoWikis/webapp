@@ -377,8 +377,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     return;
                 }
 
-                var questionHasBeenRemoved = !this.categoryIds.find(id => id == this.currentCategoryId);
-                debugger;
                 $.ajax({
                     type: 'post',
                     contentType: "application/json",
@@ -394,10 +392,13 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 skipIndex +
                                 "&index=" +
                                 self.sessionIndex);
-                            if (questionHasBeenRemoved)
+
+                            if (self.categoryIds.find(id => id == self.currentCategoryId))
                                 eventBus.$emit('remove-question-from-list', result.Id);
+
                             if (!self.edit)
                                 eventBus.$emit('add-question-to-list', result);
+
                             eventBus.$emit("change-active-question", self.sessionIndex);
                         }
 
