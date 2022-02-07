@@ -120,6 +120,9 @@ Vue.component('question-list-component', {
                 startNumber = startNumber + 1;
             }
             this.pageArray = newArray;
+
+            if (val < this.selectedPage)
+                this.selectedPage = val;
         },
         leftSelectorArray() {
             if (this.leftSelectorArray.length >= 2) {
@@ -134,7 +137,7 @@ Vue.component('question-list-component', {
             }
             else
                 this.showRightPageSelector = false;
-        }
+        },
     },
     methods: {
         initQuestionList() {
