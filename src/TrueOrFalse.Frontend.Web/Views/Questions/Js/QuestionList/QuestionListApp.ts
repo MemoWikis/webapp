@@ -5,7 +5,7 @@ declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
 
-new Vue({
+let questionListApp = new Vue({
     el: '#QuestionListApp',
     data: {
         isQuestionListToShow: false,
