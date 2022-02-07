@@ -5,7 +5,7 @@ declare var eventBus: any;
 if (eventBus == null)
     var eventBus = new Vue();
 
-var questionListApp = new Vue({
+new Vue({
     el: '#QuestionListApp',
     data: {
         isQuestionListToShow: false,
@@ -21,6 +21,71 @@ var questionListApp = new Vue({
         commentIsLoaded: false,
         commentQuestionId: 0
     },
+
+    created() {
+        eventBus.$on("change-active-question", () => this.setActiveQuestionId());
+        eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
+        this.questionsCount = this.getAllQuestionsCountFromCategory();
+        eventBus.$on("send-selected-questions", (numberOfQuestions) => {
+            numberOfQuestions !== this.questionsCount
+                ? this.selectedQuestionCount = numberOfQuestions
+                : this.selectedQuestionCount = "alle";
+        });
+        eventBus.$on('update-selected-page', (selectedPage) => {
+            this.$nextTick(() => this.selectedPageFromActiveQuestion = selectedPage);
+        });
+        eventBus.$on('add-question-to-list',
+            () => {
+                this.getAllQuestionsCountFromCategory();
+            });
+        eventBus.$on('init-new-session', () => {
+            this.$nextTick(() => this.selectedQuestionCount = 'alle');
+            this.$nextTick(() => this.selectedPageFromActiveQuestion = 1);
+        });
+
+        eventBus.$on('show-comment-section-modal', (questionId) => {
+            this.showCommentModal(questionId);
+        });
+        eventBus.$on('closeModal', () => {
+            this.hideCommentModal();
+        });
+
+    },
+
+    mounted() {
+        $('#CustomSessionConfigBtn').tooltip();
+
+        $("#LearningSessionReminderQuestionList>.fa-times-circle").on('click',
+            () => {
+                $.post("/Category/SetSettingsCookie?name=SessionConfigurationMessageList");
+                $("#LearningSessionReminderQuestionList").hide(200);
+            });
+        this.setActiveQuestionId();
+
+        this.$nextTick(() => {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
+        eventBus.$on('update-question-count', () => { this.getAllQuestionsCountFromCategory() });
+    },
+
+    watch: {
+        activeQuestion: function (indexQuestion) {
+            let questionsPerPage = 25 - 1; // question 25 is page 2 question 0  then 0 -24 = 25 questions
+            let selectedPage = Math.floor(indexQuestion / (questionsPerPage));
+            if (indexQuestion > questionsPerPage) {
+                this.activeQuestion = 0 + (indexQuestion % (questionsPerPage + 1));
+                this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
+            }
+        },
+        questionsCount(val) {
+            if (val < 1)
+                this.hasNoQuestions = true;
+            else
+                this.hasNoQuestions = false;
+        }
+    },
+
     methods: {
         toggleQuestionsList() {
             this.isQuestionListToShow = !this.isQuestionListToShow;
@@ -62,66 +127,5 @@ var questionListApp = new Vue({
             this.commentIsLoaded = false;
         }
     },
-    created() {
-        eventBus.$on("change-active-question", () => this.setActiveQuestionId());
-        eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
-        this.questionsCount = this.getAllQuestionsCountFromCategory();
-        eventBus.$on("send-selected-questions", (numberOfQuestions) => {
-            numberOfQuestions !== this.questionsCount
-                ? this.selectedQuestionCount = numberOfQuestions
-                : this.selectedQuestionCount = "alle";
-        });
-        eventBus.$on('update-selected-page', (selectedPage) => {
-            this.$nextTick(() => this.selectedPageFromActiveQuestion = selectedPage);
-        });
-        eventBus.$on('add-question-to-list',
-            () => {
-                this.getAllQuestionsCountFromCategory();
-            });
-        eventBus.$on('init-new-session', () => {
-            this.$nextTick(() => this.selectedQuestionCount = 'alle');
-            this.$nextTick(() => this.selectedPageFromActiveQuestion = 1);
-        });
-
-        eventBus.$on('show-comment-section-modal', (questionId) => {
-            this.showCommentModal(questionId);
-        });
-        eventBus.$on('closeModal', () => {
-            this.hideCommentModal();
-        });
-
-    },
-    mounted() {
-        $('#CustomSessionConfigBtn').tooltip();
-
-        $("#LearningSessionReminderQuestionList>.fa-times-circle").on('click',
-            () => {
-                $.post("/Category/SetSettingsCookie?name=SessionConfigurationMessageList");
-                $("#LearningSessionReminderQuestionList").hide(200);
-            });
-        this.setActiveQuestionId();
-
-        this.$nextTick(() => {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-        eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
-
-    },
-    watch: {
-        activeQuestion: function (indexQuestion) {
-            let questionsPerPage = 25 - 1; // question 25 is page 2 question 0  then 0 -24 = 25 questions
-            let selectedPage = Math.floor(indexQuestion / (questionsPerPage));
-            if (indexQuestion > questionsPerPage) {
-                this.activeQuestion = 0 + (indexQuestion % (questionsPerPage + 1));
-                this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
-            }
-        },
-        questionsCount(val) {
-            if (val < 1)
-                this.hasNoQuestions = true;
-            else
-                this.hasNoQuestions = false;
-        }
-    }
 });
 
