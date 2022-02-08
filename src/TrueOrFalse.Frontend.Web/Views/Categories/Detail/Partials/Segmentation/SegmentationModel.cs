@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.WebPages;
 using Newtonsoft.Json;
 
 public class SegmentationModel : BaseContentModule

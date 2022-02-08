@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using System.Web.ModelBinding;
 using System.Web.Mvc;
 
 public class UserController : BaseController
