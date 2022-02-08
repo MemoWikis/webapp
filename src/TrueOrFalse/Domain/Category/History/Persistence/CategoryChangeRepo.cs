@@ -19,14 +19,14 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public void AddCreateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, CategoryChangeType type) => AddUpdateOrCreateEntry(category, author, type, imageWasUpdated);
-    public void AddPublishEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Published);
-    public void AddMadePrivateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Privatized);
-    public void AddTitleIsChangedEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Renamed);
+    public void AddCreateEntry(Category category, User author, int parentCategoryId = -1) => AddUpdateOrCreateEntry(category, parentCategoryId, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, int parentCategoryId = -1) => AddUpdateOrCreateEntry(category, parentCategoryId, author, CategoryChangeType.Update, imageWasUpdated);
+    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, CategoryChangeType type, int parentCategoryId = -1) => AddUpdateOrCreateEntry(category, parentCategoryId, author, type, imageWasUpdated);
+    public void AddPublishEntry(Category category, User author, int parentCategoryId = -1) => AddUpdateOrCreateEntry(category, parentCategoryId, author, CategoryChangeType.Published);
+    public void AddMadePrivateEntry(Category category, User author, int parentCategoryId = -1) => AddUpdateOrCreateEntry(category, parentCategoryId, author, CategoryChangeType.Privatized);
+    public void AddTitleIsChangedEntry(Category category, User author, int parentCategoryId = -1) => AddUpdateOrCreateEntry(category, parentCategoryId, author, CategoryChangeType.Renamed);
 
-    private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
+    private void AddUpdateOrCreateEntry(Category category,int parentCategoryId, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
     {
         var categoryChange = new CategoryChange
         {
@@ -35,6 +35,11 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Author = author,
             DataVersion = 2
         };
+
+        if (parentCategoryId > 0)
+        {
+            categoryChange.ParentCategoryId = parentCategoryId;
+        }
         
         categoryChange.SetData(category, imageWasUpdated);
 
@@ -56,7 +61,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         var query = _session
             .QueryOver<CategoryChange>()
-            .Where(c => c.Category.Id == categoryId);
+            .Where(c => c.Category.Id == categoryId || c.ParentCategoryId == categoryId);
 
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
@@ -65,8 +70,9 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .Left.JoinAlias(c => c.Author, () => aliasUser)
             .Left.JoinAlias(c => c.Category, () => aliasCategory);
 
-        return query
+        var categoryChangeList = query
             .List();
+        return categoryChangeList;
     }
 
     public CategoryChange GetByIdEager(int categoryChangeId)

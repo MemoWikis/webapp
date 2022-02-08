@@ -4,6 +4,7 @@ using System;
 public class CategoryChange : Entity, WithDateCreated
 {
     public virtual Category Category { get; set; }
+    public virtual int ParentCategoryId { get; set; }
     public virtual int DataVersion { get; set; }
     public virtual string Data { get; set; }
 

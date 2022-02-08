@@ -19,7 +19,7 @@ public class CategoryHistoryModel : BaseModel
 
     public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
     {
-        Data data = new Data(); ;
+        Data data = new Data();
 
         if (category == null)
             data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
@@ -130,6 +130,7 @@ public class CategoryChangeDayModel
             DateCreated = change.DateCreated,
             CategoryChangeId = change.Id,
             CategoryId = change.Category == null ? categoryId : change.Category.Id,
+            ParentCategoryId = change.ParentCategoryId,
             CategoryName = change.Category == null ? _catName : change.Category.Name,
             Label = label,
             Type = change.Type,
@@ -176,6 +177,7 @@ public class CategoryChangeDetailModel
     public DateTime DateCreated;
     public int CategoryChangeId;
     public int CategoryId;
+    public int ParentCategoryId;
     public string CategoryName;
     public string Label;
     public CategoryChangeType Type;
