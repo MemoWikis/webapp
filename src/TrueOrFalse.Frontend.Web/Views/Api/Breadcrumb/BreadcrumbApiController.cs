@@ -22,11 +22,12 @@ public class BreadCrumbApiController : BaseController
         model.TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentWiki);
         var firstChevron = ViewRenderer.RenderPartialView("/Views/Categories/Detail/Partials/BreadCrumbFirstChevron.ascx", model, ControllerContext);
         var breadcrumbTrail = ViewRenderer.RenderPartialView("/Views/Categories/Detail/Partials/BreadCrumbTrail.ascx", model, ControllerContext);
+
         return Json(new
         {
             newWikiId = currentWiki.Id,
             firstChevron,
-            breadcrumbTrail
+            breadcrumbTrail,
         });
     }
 }

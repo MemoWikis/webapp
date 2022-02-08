@@ -15,7 +15,7 @@ public class GetBreadCrumb
 
     private static List<CategoryCacheItem> GetParent(CategoryCacheItem categoryCacheItem, List<CategoryCacheItem> result)
     {
-        var defaultCategories = EntityCache.GetCategoryCacheItems( Sl.CategoryRepo.GetRootCategoriesListÍds());
+        var defaultCategories = EntityCache.GetCategoryCacheItems( Sl.CategoryRepo.GetRootCategoryListIds());
         if (!categoryCacheItem.ParentCategories().Any() || defaultCategories.Contains(categoryCacheItem))
             return result;
 
