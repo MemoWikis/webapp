@@ -126,43 +126,45 @@ Vue.component('question-details-component', {
 
     watch: {
 
-        personalAnswerCount: function(val) {
+        personalAnswerCount(val) {
             if (val > 0)
                 this.showPersonalArc = true;
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             this.answerCount = this.abbreviateNumber(val);
         },
 
-        personalAnsweredCorrectly: function(val) {
+        personalAnsweredCorrectly(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             this.correctAnswers = this.abbreviateNumber(val);
         },
 
-        personalAnsweredWrongly: function (val) {
+        personalAnsweredWrongly(val) {
             this.personalStartAngle = 100 - (100 / this.personalAnswerCount * this.personalAnsweredCorrectly);
             this.wrongAnswers = this.abbreviateNumber(val);
         },
 
-        overallAnswerCount: function(val) {
+        overallAnswerCount(val) {
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
             this.allAnswerCount = this.abbreviateNumber(val);
         },
 
-        overallAnsweredCorrectly: function (val) {
+        overallAnsweredCorrectly(val) {
             this.allCorrectAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
         },
 
-        overallAnsweredWrongly: function (val) {
+        overallAnsweredWrongly(val) {
             this.allWrongAnswers = this.abbreviateNumber(val);
             this.overallStartAngle = 100 - (100 / this.overallAnswerCount * this.overallAnsweredCorrectly);
         },
     },
 
-    mounted: function () {
-        if (!this.arcLoaded) {
-            this.loadData();
-        }
+    mounted() {
+        this.$nextTick(() => {
+            if (!this.arcLoaded) {
+                this.loadData();
+            }
+        });
     },
 
     methods: {
@@ -297,14 +299,12 @@ Vue.component('question-details-component', {
 
             self.arcSvg.selectAll("path").data(data).enter()
                 .append("path")
-                .style("fill", function (d) { return d.fill })
-                .attr("class", function (d) { return d.class })
+                .style("fill", d => d.fill)
+                .attr("class", d => d.class)
                 .attr("d", arc);
 
             self.arcSvg.selectAll(".personalArc")
-                .style("visibility", function() {
-                    return self.showPersonalArc ? "visible" : "hidden";
-                });
+                .style("visibility", () => this.showPersonalArc ? "visible" : "hidden");
 
             this.drawProbabilityLabel();
             this.setAvgLabel();
@@ -324,8 +324,8 @@ Vue.component('question-details-component', {
                 .attr("font-family", "font-family:'Open Sans'")
                 .attr("font-weight", "regular")
                 .attr("font-size", "12")
-                .text(function (d) { return "∅ " + d + "%" })
-                .each(function () {
+                .text(d => { return "∅ " + d + "%" })
+                .each(() => {
                     var thisWidth = this.getComputedTextLength();
                     self.avgProbabilityLabelWidth = thisWidth;
                     this.remove();
@@ -367,9 +367,7 @@ Vue.component('question-details-component', {
                 .endAngle(self.avgAngle);
 
             self.arcSvg.append("svg:text")
-                .attr("transform", function (d) {
-                    return "translate(" + pos.centroid(d) + ")";
-                })
+                .attr("transform", d => "translate(" + pos.centroid(d) + ")")
                 .attr("dx", self.dxAvgLabel)
                 .attr("dy", self.dyAvgLabel)
                 .attr("text-anchor", self.avgLabelAnchor)
@@ -416,7 +414,7 @@ Vue.component('question-details-component', {
                 .attr("y", 20)
                 .attr("height", 20)
                 .style("fill", self.personalColor)
-                .style("visibility", function () {
+                .style("visibility", () => {
                     return self.isLoggedIn ? "visible" : "hidden";
                 })
                 .attr("transform", "translate(0,0)");
@@ -433,7 +431,7 @@ Vue.component('question-details-component', {
                 .style("fill", () => self.personalColor == "#999999" ? "white" : "#555555")
                 .attr("transform", "translate(0,0)")
                 .text(self.personalProbabilityText)
-                .each(function () {
+                .each(() => {
                     textWidth = this.getComputedTextLength();
                 });
 
@@ -461,7 +459,7 @@ Vue.component('question-details-component', {
                 .attr("font-weight", "bold")
                 .attr("font-size", "30px")
                 .text(self.personalProbability)
-                .each(function () {
+                .each(() => {
                     var thisWidth = this.getComputedTextLength();
                     probabilityLabelWidth = thisWidth;
                     this.remove();
@@ -475,8 +473,8 @@ Vue.component('question-details-component', {
                 .attr("font-family", "font-family:'Open Sans'")
                 .attr("font-weight", "medium")
                 .attr("font-size", "18px")
-                .text(function (d) { return d })
-                .each(function () {
+                .text(d => d)
+                .each(() => {
                     var thisWidth = 0;
                     self.percentageLabelWidth = thisWidth;
                     this.remove();
@@ -551,8 +549,8 @@ Vue.component('question-details-component', {
                 .data(personalCounterData)
                 .enter()
                 .append("path")
-                .style("fill", function (d) { return d.fill })
-                .attr("class", function (d) { return d.class })
+                .style("fill", d =>  d.fill)
+                .attr("class", d =>  d.class)
                 .attr("d", arc);
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
@@ -564,7 +562,7 @@ Vue.component('question-details-component', {
                 .attr('width', '14px')
                 .attr('x', -7)
                 .attr('y', -8)
-                .html(function () {
+                .html(() => {
                     var fontColor = self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
                     return "<i class='fas fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
                 });
@@ -586,15 +584,15 @@ Vue.component('question-details-component', {
                 .data(overallCounterData)
                 .enter()
                 .append("path")
-                .style("fill", function (d) { return d.fill })
-                .attr("class", function (d) { return d.class })
+                .style("fill", d => d.fill )
+                .attr("class", d => d.class )
                 .attr("d", arc);
 
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
                 .style("visibility", () => self.overallAnswerCount > 0 ? "visible" : "hidden");
 
             self.overallCounterSvg.selectAll("i")
-                .style("color", function () {
+                .style("color", () => {
                     return self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
 
@@ -604,7 +602,7 @@ Vue.component('question-details-component', {
                 .attr('width', '20px')
                 .attr('x', -10)
                 .attr('y', -8)
-                .html(function () {
+                .html(() => {
                     var fontColor = self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
                     if (self.visibility == 1)
                         return "<i class='fas fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>";
@@ -624,13 +622,13 @@ Vue.component('question-details-component', {
                 .attr("dx", -(labelWidth / 2) - 5 + "px")
                 .style("fill", () => self.showPersonalArc ? self.personalColor : "#DDDDDD")
                 .tween("text",
-                    function () {
+                    () => {
                         var selection = d3.select(this);
                         var start = d3.select(this).text();
                         var end = self.personalProbability;
                         var interpolator = d3.interpolateNumber(start, end);
 
-                        return function(t) { selection.text(Math.round(interpolator(t))); };
+                        return t => { selection.text(Math.round(interpolator(t))); };
                     });
 
             var pos = d3.arc()
@@ -649,22 +647,19 @@ Vue.component('question-details-component', {
                 .delay(400)
                 .duration(400)
                 .style("opacity", 1.0)
-                .attr("transform",
-                    function (d) {
-                        return "translate(" + pos.centroid(d) + ")";
-                    })
+                .attr("transform", d => "translate(" + pos.centroid(d) + ")")
                 .attr("dx", self.dxAvgLabel)
                 .attr("dy", self.dyAvgLabel)
                 .attr("text-anchor", self.avgLabelAnchor)
                 .tween("text",
-                    function () {
+                    () => {
                         var selection = d3.select(this);
                         var text = d3.select(this).text();
                         var numbers = text.match(/(\d+)/);
                         var end = self.avgProbability;
                         var interpolator = d3.interpolateNumber(numbers[0], end);
 
-                        return function (t) {
+                        return t => {
                             selection.text("∅ " + Math.round(interpolator(t)) + "%");
                         };
                     });;
@@ -678,10 +673,10 @@ Vue.component('question-details-component', {
                 .transition()
                 .duration(800)
                 .style("fill", self.personalColor)
-                .style("visibility", function () {
+                .style("visibility", () =>  {
                     return self.showPersonalArc ? "visible" : "hidden";
                 })
-                .attrTween("d", function(d) {
+                .attrTween("d", d => {
                     return self.arcTween(d,
                         self.personalArcData.startAngle,
                         self.personalArcData.endAngle,
@@ -692,7 +687,7 @@ Vue.component('question-details-component', {
             self.arcSvg.selectAll(".avgArc")
                 .transition()
                 .duration(800)
-                .attrTween("d", function (d) {
+                .attrTween("d", d => {
                     return self.arcTween(d,
                         self.avgArcData.startAngle,
                         self.avgArcData.endAngle,
@@ -703,7 +698,7 @@ Vue.component('question-details-component', {
             var probabilityTextWidth;
             self.arcSvg.selectAll(".personalProbabilityText")
                 .text(self.personalProbabilityText)
-                .each(function () {
+                .each(() => {
                     probabilityTextWidth = this.getComputedTextLength();
                 })
                 .transition()
@@ -728,19 +723,19 @@ Vue.component('question-details-component', {
             var self = this;
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
-                .style("visibility", function () {
+                .style("visibility", () => {
                     return self.personalAnswerCount > 0 ? "visible" : "hidden";
                 });
 
             self.personalCounterSvg.selectAll("i")
-                .style("color", function () {
+                .style("color", () => {
                     return self.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
 
             self.personalCounterSvg.selectAll(".personalWrongAnswerCounter")
                 .transition()
                 .duration(800)
-                .attrTween("d", function (d) {
+                .attrTween("d", d => {
                     return self.arcTween(d,
                         self.personalWrongAnswerCountData.startAngle,
                         self.personalWrongAnswerCountData.endAngle,
@@ -751,7 +746,7 @@ Vue.component('question-details-component', {
             self.personalCounterSvg.selectAll(".personalCorrectAnswerCounter")
                 .transition()
                 .duration(800)
-                .attrTween("d", function (d) {
+                .attrTween("d", d => {
                     return self.arcTween(d,
                         self.personalCorrectAnswerCountData.startAngle,
                         self.personalCorrectAnswerCountData.endAngle,
@@ -766,19 +761,19 @@ Vue.component('question-details-component', {
 
 
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
-                .style("visibility", function () {
+                .style("visibility", () => {
                     return self.overallAnswerCount > 0 ? "visible" : "hidden";
                 });
 
             self.overallCounterSvg.selectAll("i")
-                .style("color", function () {
+                .style("color", () => {
                     return self.overallAnswerCount > 0 ? "#999999" : "#DDDDDD";
                 });
 
             self.overallCounterSvg.selectAll(".overallWrongAnswerCounter")
                 .transition()
                 .duration(800)
-                .attrTween("d", function (d) {
+                .attrTween("d", d => {
                     return self.arcTween(d,
                         self.overallWrongAnswerCountData.startAngle,
                         self.overallWrongAnswerCountData.endAngle,
@@ -789,7 +784,7 @@ Vue.component('question-details-component', {
             self.overallCounterSvg.selectAll(".overallCorrectAnswerCounter")
                 .transition()
                 .duration(800)
-                .attrTween("d", function (d) {
+                .attrTween("d", d => {
                     return self.arcTween(d,
                         self.overallCorrectAnswerCountData.startAngle,
                         self.overallCorrectAnswerCountData.endAngle,
@@ -810,7 +805,7 @@ Vue.component('question-details-component', {
             var interpolateRadiusStart = d3.interpolate(d.innerRadius, newInnerRadius);
             var interpolateEnd = d3.interpolate(d.endAngle, newEndAngle);
             var interpolateRadiusEnd = d3.interpolate(d.outerRadius, newOuterRadius);
-            return function (t) {
+            return t => {
                 d.innerRadius = interpolateRadiusStart(t);
                 d.outerRadius = interpolateRadiusEnd(t);
                 d.startAngle = interpolateStart(t);
