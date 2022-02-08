@@ -1,11 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using NHibernate.Linq.Expressions;
-using Seedworks.Lib;
-using Seedworks.Lib.Persistence;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class BreadCrumbApiController : BaseController
 {
@@ -22,12 +16,14 @@ public class BreadCrumbApiController : BaseController
         model.TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentWiki);
         var firstChevron = ViewRenderer.RenderPartialView("/Views/Categories/Detail/Partials/BreadCrumbFirstChevron.ascx", model, ControllerContext);
         var breadcrumbTrail = ViewRenderer.RenderPartialView("/Views/Categories/Detail/Partials/BreadCrumbTrail.ascx", model, ControllerContext);
+        var breadcrumbHasGlobalWiki = model.TopNavMenu.BreadCrumbCategories.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId);
 
         return Json(new
         {
             newWikiId = currentWiki.Id,
             firstChevron,
             breadcrumbTrail,
+            breadcrumbHasGlobalWiki
         });
     }
 }

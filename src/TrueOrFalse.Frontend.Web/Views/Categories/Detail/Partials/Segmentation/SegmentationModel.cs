@@ -52,9 +52,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
 
-        ShowLinkToRootCategory = GraphService.GetAllParentsFromEntityCache(category.Id).All(c => c.Id != RootCategory.RootCategoryId) && 
-                                 EntityCache.GetAllChildren(category.Id, true).All(c => c.Id != RootCategory.RootCategoryId) &&
-                                 category != RootCategory.Get;
+        ShowLinkToRootCategory = !UserCache.GetItem(_sessionUser.UserId).IsFiltered;
     }
 
 

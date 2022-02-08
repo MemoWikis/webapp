@@ -250,6 +250,9 @@ function updateBreadCrumb() {
             $('#FirstChevron').replaceWith(result.firstChevron);
             $('#BreadCrumbTrail').html(result.breadcrumbTrail);
 
+            if (!result.breadcrumbHasGlobalWiki)
+                $('#SegmentationLinkToGlobalWiki').show();
+
             sessionStorage.setItem('currentWikiId', result.newWikiId);
             new StickyHeaderClass();
         },

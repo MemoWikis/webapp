@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SegmentationModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
@@ -10,7 +9,7 @@
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen <template v-if="categories.length >0">({{categories.length}})</template>
             <%if (Model.ShowLinkToRootCategory) {%>
-                <div v-if="!isMyWorld" class="toRoot"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
+                <div v-if="!isMyWorld" class="toRoot" id="SegmentationLinkToGlobalWiki" style="display:none"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
             <%} %>
         </div>
 
