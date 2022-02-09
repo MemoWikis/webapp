@@ -65,7 +65,7 @@ public class SegmentationModel : BaseContentModule
         {
             var segment = new Segment();
             var segmentItem = EntityCache.GetCategoryCacheItem(s.CategoryId);
-            if (PermissionCheck.CanView(segmentItem))
+            if (!PermissionCheck.CanView(segmentItem))
                 continue;
             segment.Item = EntityCache.GetCategoryCacheItem(s.CategoryId);
             segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;

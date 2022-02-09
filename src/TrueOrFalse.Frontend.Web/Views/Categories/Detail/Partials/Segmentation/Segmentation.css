@@ -72,29 +72,6 @@
   opacity: 1;
   transition: opacity 0.1s ease-in-out;
 }
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock {
-  cursor: pointer;
-  display: inline-flex;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock i.fa-unlock,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock i.fa-unlock {
-  display: none !important;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock i.fa-lock,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock i.fa-lock {
-  display: unset !important;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock:hover i.fa-lock,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock:hover i.fa-lock {
-  display: none !important;
-  color: #203256;
-}
-#Segmentation #CustomSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock:hover i.fa-unlock,
-#Segmentation #GeneratedSegmentSection .topicNavigation .segmentCategoryCard .segmentCardLock:hover i.fa-unlock {
-  display: unset !important;
-  color: #203256;
-}
 #Segmentation #CustomSegmentSection .topicNavigation .addCategoryCard,
 #Segmentation #GeneratedSegmentSection .topicNavigation .addCategoryCard {
   display: flex;
@@ -141,6 +118,7 @@
 }
 #Segmentation .segmentHeader .segmentTitle {
   display: inline-flex;
+  align-items: center;
 }
 #Segmentation .segmentHeader .segmentTitle a {
   color: #203256;
@@ -198,4 +176,35 @@
 }
 #Segmentation .set-question-count a.sub-label {
   color: #767676;
+}
+#Segmentation .segmentCardLock,
+#Segmentation .segmentLock {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+}
+#Segmentation .segmentCardLock i.fa-unlock,
+#Segmentation .segmentLock i.fa-unlock {
+  display: none !important;
+}
+#Segmentation .segmentCardLock i.fa-lock,
+#Segmentation .segmentLock i.fa-lock {
+  display: unset !important;
+}
+#Segmentation .segmentCardLock:hover i.fa-lock,
+#Segmentation .segmentLock:hover i.fa-lock {
+  display: none !important;
+  color: #203256;
+}
+#Segmentation .segmentCardLock:hover i.fa-unlock,
+#Segmentation .segmentLock:hover i.fa-unlock {
+  display: unset !important;
+  color: #203256;
+}
+#Segmentation .segmentLock {
+  height: 20px;
+}
+#Segmentation .segmentLock i {
+  font-size: 18px;
 }
