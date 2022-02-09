@@ -393,7 +393,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 "&index=" +
                                 self.sessionIndex);
 
-                            if (self.categoryIds.find(id => id == self.currentCategoryId))
+                            if (!self.categoryIds.find(id => id == self.currentCategoryId))
                                 eventBus.$emit('remove-question-from-list', result.Id);
 
                             if (!self.edit)
