@@ -5,8 +5,10 @@ using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using FluentNHibernate.Data;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 
 [SetUserMenu(UserMenuEntry.None)]
@@ -238,7 +240,6 @@ public class EditCategoryController : BaseController
                 success = false, 
                 key = "parentIsRoot"
             });
-        var category = _categoryRepository.GetById(childCategoryId);
         var children = EntityCache.GetAllChildren(parentCategoryId, true);
         var isChildrenLinked = children.Any(c => c.Id == childCategoryId);
         
@@ -272,23 +273,19 @@ public class EditCategoryController : BaseController
         if(UserCache.GetItem(_sessionUser.UserId).IsFiltered)
             CategoryInKnowledge.Pin(childCategoryId, _sessionUser.User );
 
-        //change CategoryRelations
-        ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
-        ModifyRelationsForCategory.AddCategoryRelationOfType(_categoryRepository.GetByIdEager(parentCategoryId), category.Id, CategoryRelationType.IncludesContentOf);
+        var child = EntityCache.GetCategoryCacheItem(childCategoryId, true);
+        ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
 
-        //Change EntityCacheRelations
-        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(childCategoryId, getDataFromEntityCache: true), parentCategoryId);
+        JobScheduler.StartImmediately_ModifyCategoryRelation(childCategoryId, parentCategoryId);
 
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
-        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
-
         return Json(new
         {
             success = true,
-            url = Links.CategoryDetail(category),
-            id = category.Id
+            url = Links.CategoryDetail(child),
+            id = childCategoryId
         });
     }
 
@@ -297,7 +294,6 @@ public class EditCategoryController : BaseController
     public JsonResult AddToPersonalWiki(int categoryId)
     {
 
-        var category = _categoryRepository.GetById(categoryId);
         var personalWikiId = _sessionUser.User.StartTopicId;
 
         if (categoryId == personalWikiId)
@@ -306,6 +302,7 @@ public class EditCategoryController : BaseController
                 success = false,
                 key = "loopLink"
             });
+
         var children = EntityCache.GetAllChildren(personalWikiId, true);
         var isChildrenLinked = children.Any(c => c.Id == categoryId);
 
@@ -339,17 +336,12 @@ public class EditCategoryController : BaseController
         if (UserCache.GetItem(_sessionUser.UserId).IsFiltered)
             CategoryInKnowledge.Pin(categoryId, _sessionUser.User);
 
-        //change CategoryRelations
-        ModifyRelationsForCategory.AddParentCategory(category, personalWikiId);
-        ModifyRelationsForCategory.AddCategoryRelationOfType(_categoryRepository.GetByIdEager(personalWikiId), category.Id, CategoryRelationType.IncludesContentOf);
-
-        //Change EntityCacheRelations
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true), personalWikiId);
 
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, categoryId))
             UserEntityCache.ReInitAllActiveCategoryCaches();
 
-        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Relations);
+        JobScheduler.StartImmediately_ModifyCategoryRelation(categoryId, personalWikiId);
 
         return Json(new
         {

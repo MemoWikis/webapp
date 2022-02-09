@@ -192,6 +192,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
+
+        public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<ModifyCategoryRelation>()
+                    .UsingJobData("childCategoryId", childCategoryId)
+                    .UsingJobData("parentCategoryId", parentCategoryId)
+                    .Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
     }
 }
 

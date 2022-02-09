@@ -2256,9 +2256,6 @@
     <Content Include="Views\Questions\Js\QuestionList\QuestionComponent.js">
       <DependentUpon>QuestionComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionList\SessionConfig.js">
-      <DependentUpon>SessionConfig.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\SessionConfigComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
@@ -2654,7 +2651,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\SessionConfig.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionList\SessionConfigComponent.ts" />
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
@@ -4048,9 +4045,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionComponent.js.map">
       <DependentUpon>QuestionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionList\SessionConfig.js.map">
-      <DependentUpon>SessionConfig.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\Account\WidgetStats\Js\WidgetStats.js.map">
       <DependentUpon>WidgetStats.ts</DependentUpon>
