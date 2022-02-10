@@ -204,6 +204,9 @@
         },
         hideChildren() {
             this.filterChildren(this.selectedCategories);
+        },
+        openPublishModal() {
+            eventBus.$emit('open-publish-category-modal', this.categoryId);
         }
     },
 });

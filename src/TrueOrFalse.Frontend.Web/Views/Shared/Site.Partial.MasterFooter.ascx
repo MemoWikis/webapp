@@ -9,8 +9,8 @@
    { %>
     <%= Scripts.Render("~/bundles/js/headerSearch") %>
     <%: Html.Partial("/Views/Welcome/Login/LoginModalLoader.ascx") %>
-    <%= Styles.Render("~/bundles/Registration") %>
 <% } %>
+<%= Styles.Render("~/bundles/Registration") %>
 
 <div class="row Promoter">
     <div class="col-xs-12">

@@ -1,0 +1,121 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.omb_login .omb_socialButtons a {
+  color: #555555;
+  border: 1px solid #DDDDDD;
+  font-weight: 600;
+}
+.omb_login .omb_socialButtons a:hover {
+  color: black;
+  border: 1px solid black;
+}
+.socialMediaLogo {
+  height: 20px;
+}
+.socialMediaBtnContainer {
+  padding: 7px 0 0 0;
+  display: flex;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .socialMediaBtnContainer {
+    padding: 0 2.5px;
+  }
+}
+.socialMediaBtnContainer .socialMediaBtn {
+  display: flex;
+}
+.socialMediaBtnContainer .socialMediaBtn .socialMediaLogo {
+  padding: 0 0px 0 16px;
+}
+.socialMediaBtnContainer .socialMediaBtn .socialMediaLabel {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px 0 8px;
+}
+.omb_socialButtons:first-child {
+  padding-left: 7px;
+}
+.omb_socialButtons:last-child {
+  padding-right: 7px;
+}
+.loginInputs {
+  resize: none;
+  height: 44px;
+  overflow: hidden;
+  width: 100%;
+  padding: 0 15px 0;
+  border: solid #DDDDDD 1px;
+  box-shadow: none;
+  color: #767676 !important;
+}
+.eyeIcon {
+  position: absolute;
+  top: 16px;
+  font-size: 16px;
+  right: 30px;
+  cursor: pointer;
+}
+.checkboxText {
+  vertical-align: top !important;
+  padding-left: 4px;
+}
+.infoContainer {
+  margin: -10px 0 15px 0;
+}
+.consentInfoText {
+  margin-top: 30px;
+  font-size: 12px;
+}
+.errorMessage {
+  color: #FFA07A;
+  padding: 5px 0 0 0;
+}
+.register-divider-container {
+  height: 53px;
+  margin-bottom: 10px;
+}
+.register-divider-container .register-divider-label-container,
+.register-divider-container .register-divider {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 10px;
+  margin: 0 -10px;
+  height: 100%;
+}
+.register-divider-container .register-divider-label-container .register-divider-label,
+.register-divider-container .register-divider .register-divider-label {
+  background: white;
+  height: 53px;
+  width: 53px;
+  border-radius: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register-divider-container .register-divider-label-container .register-divider-line,
+.register-divider-container .register-divider .register-divider-line {
+  height: 1px;
+  background: #DDDDDD;
+  width: 100%;
+}
+.login-register {
+  color: #767676;
+}
+.register-title {
+  padding-left: 7px;
+}

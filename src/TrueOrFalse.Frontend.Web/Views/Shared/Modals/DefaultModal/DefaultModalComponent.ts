@@ -5,14 +5,17 @@ if (eventBus == null)
 var defaultModalComponent = Vue.component('default-modal-component',
     {
         template: '#default-modal-component',
-        props: ['id', 'showCloseButton', 'adminContent', 'modalType', 'iconClasses', 'button1Text', 'button2Text', 'action1Emit', 'action2Emit', 'modalWidth', 'isFullSizeButtons'],
-        data: function () {
+        props: [
+            'id', 'showCloseButton', 'adminContent', 'modalType', 'iconClasses', 'button1Text', 'button2Text',
+            'action1Emit', 'action2Emit', 'modalWidth', 'isFullSizeButtons'
+        ],
+        data: function() {
             return {
                 isError: false,
                 isSuccess: false,
                 isAdminContent: this.adminContent == "true",
-                modalWidthData: this.modalWidth,
-        }
+                modalWidthData: this.modalWidth + 'px',
+            }
         },
         created() {
             var self = this;
@@ -27,8 +30,18 @@ var defaultModalComponent = Vue.component('default-modal-component',
                 self.isSuccess = true;
             }
         },
+        mounted() {
+            this.resize();
 
+            $(window).resize(() => {
+                this.resize();
+            });
+        },
         methods: {
+            resize() {
+                var windowWidth = $(window).width();
+                this.modalWidthData = windowWidth < this.modalWidth ? windowWidth + 'px' : this.modalWidth + 'px';
+            },
             closeModal() {
                 document.body.classList.remove('no-scroll');
                 eventBus.$emit('close-modal');

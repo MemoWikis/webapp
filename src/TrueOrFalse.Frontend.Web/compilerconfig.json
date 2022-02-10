@@ -149,10 +149,6 @@
     "inputFile": "Views/Categories/Edit/EditCategory.less"
   },
   {
-    "outputFile": "Views/Welcome/Registration/SocialButtons.css",
-    "inputFile": "Views/Welcome/Registration/SocialButtons.less"
-  },
-  {
     "outputFile": "Style/bootstrap/bootstrap.css",
     "inputFile": "Style/bootstrap/bootstrap.less"
   },
@@ -286,5 +282,9 @@
   {
     "outputFile": "Views/Shared/Search/Search.css",
     "inputFile": "Views/Shared/Search/Search.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Registration/Register.css",
+    "inputFile": "Views/Welcome/Registration/Register.less"
   }
 ]

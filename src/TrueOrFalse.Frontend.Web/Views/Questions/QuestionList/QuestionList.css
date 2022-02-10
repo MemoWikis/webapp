@@ -120,7 +120,7 @@
   color: #555555;
 }
 #QuestionListApp .singleQuestionRow {
-  background: linear-gradient(to right, #D6D6D6 0px, #D6D6D6 8px, #ffffffff 9px, #ffffffff 100%);
+  background: linear-gradient(to right, #DDDDDD 0px, #DDDDDD 8px, #ffffffff 9px, #ffffffff 100%);
   font-family: "Open Sans";
   font-size: 14px;
   border: 0.05px solid #DDDDDD;
@@ -341,7 +341,7 @@
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel {
   font-weight: bold;
-  color: #D6D6D6;
+  color: #DDDDDD;
 }
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.percentageLabel.solid {
   color: #AFD534;
@@ -358,7 +358,7 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom .questionStats .probabilitySection span.chip {
   padding: 1px 10px;
   border-radius: 20px;
-  background: #D6D6D6;
+  background: #DDDDDD;
   color: #555555;
   white-space: nowrap;
 }
@@ -447,7 +447,7 @@
   width: unset;
 }
 #QuestionListApp #QuestionListPagination .pagination .page-item.disabled .page-link {
-  color: #D6D6D6;
+  color: #DDDDDD;
 }
 #QuestionListApp #QuestionListPagination .pagination .page-item .page-link {
   width: 100%;

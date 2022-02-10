@@ -7,7 +7,6 @@
     margin-bottom: 40px;
 
     .toRoot {
-        display: flex;
         align-items: center;
         color: @memo-grey-darker;
 
@@ -127,6 +126,7 @@
 
         .segmentTitle {
             display: inline-flex;
+            align-items: center;
 
             a {
                 color: @memo-blue;
@@ -205,6 +205,42 @@
     .set-question-count {
         a.sub-label {
             color: @memo-grey-dark;
+        }
+    }
+
+    .segmentCardLock, .segmentLock {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 10px;
+
+        i.fa-unlock {
+            display: none !important;
+        }
+
+        i.fa-lock {
+            display: unset !important;
+        }
+
+        &:hover {
+
+            i.fa-lock {
+                display: none !important;
+                color: @memo-blue;
+            }
+
+            i.fa-unlock {
+                display: unset !important;
+                color: @memo-blue;
+            }
+        }
+    }
+
+    .segmentLock {
+        height: 20px;
+
+        i {
+            font-size: 18px;
         }
     }
 }

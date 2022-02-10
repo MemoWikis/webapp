@@ -16,7 +16,7 @@
     Visibility: Number;
 }
 
-let qlc = Vue.component('question-list-component', {
+Vue.component('question-list-component', {
     components: {
         VueSlider: window['vue-slider-component']
     },
@@ -25,7 +25,8 @@ let qlc = Vue.component('question-list-component', {
         'isAdmin',
         'isQuestionListToShow',
         'activeQuestionId',
-        'selectedPageFromActiveQuestion'],
+        'selectedPageFromActiveQuestion',
+        'questionCount'],
     data() {
         return {
             pages: 0,
@@ -46,7 +47,7 @@ let qlc = Vue.component('question-list-component', {
             pageIsLoading: false,
             lastQuestionInListIndex: null,
             answerBodyHasLoaded: false,
-    };
+        };
     },
     created() {
         eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
@@ -66,7 +67,7 @@ let qlc = Vue.component('question-list-component', {
                 this.initQuestionList();
             this.answerBodyHasLoaded = true;
         });
-
+        eventBus.$on('remove-question-from-list', (id: Number) => { this.removeQuestionFromList(id) });
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
@@ -92,22 +93,25 @@ let qlc = Vue.component('question-list-component', {
         });
     },
     watch: {
-        itemCountPerPage: function (val) {
-            this.pages = Math.ceil(this.allQuestionCount / val);
+        questionCount() {
+            this.updatePageCount(this.selectedPage);
         },
-        selectedPageFromActiveQuestion: function(val) {
+        itemCountPerPage(val) {
+            this.pages = Math.ceil(this.questionCount / val);
+        },
+        selectedPageFromActiveQuestion(val) {
             this.selectedPage = val;
         },
-        questions: function() {
+        questions() {
             if (this.questions.length > 0)
                 this.hasQuestions = true;
             if (this.questions.length == 1)
                 this.questionText = "Frage";
         },
-        selectedPage: function(val) {
+        selectedPage(val) {
             this.loadQuestions(val);
         },
-        pages: function (val) {
+        pages(val) {
             let newArray = [];
 
             let startNumber = 1;
@@ -116,21 +120,24 @@ let qlc = Vue.component('question-list-component', {
                 startNumber = startNumber + 1;
             }
             this.pageArray = newArray;
+
+            if (val < this.selectedPage)
+                this.selectedPage = val;
         },
-        leftSelectorArray: function() {
+        leftSelectorArray() {
             if (this.leftSelectorArray.length >= 2) {
                 this.showLeftPageSelector = true;
             }
             else
                 this.showLeftPageSelector = false;
         },
-        rightSelectorArray: function () {
+        rightSelectorArray() {
             if (this.rightSelectorArray.length >= 2) {
                 this.showRightPageSelector = true;
             }
             else
                 this.showRightPageSelector = false;
-        }
+        },
     },
     methods: {
         initQuestionList() {
@@ -156,7 +163,7 @@ let qlc = Vue.component('question-list-component', {
             this.showLeftSelectionDropUp = false;
             this.showRightSelectionDropUp = false;
             if (typeof this.questions[0] != "undefined")
-                this.pages = Math.ceil(this.questions[0].LearningSessionStepCount / this.itemCountPerPage);
+                this.pages = Math.ceil(this.questionCount / this.itemCountPerPage);
             else
                 this.pages = 1;
             this.$nextTick(function () {
@@ -228,6 +235,12 @@ let qlc = Vue.component('question-list-component', {
             if (this.questions.length <= 0)
                 this.renderNewSessionBar(q.Id);
             this.questions.push(q);
+        },
+        removeQuestionFromList(id: Number) {
+            var self = this;
+            self.questions.forEach((q, index) => {
+                if (q.Id == id) self.questions.splice(index, 1);
+            });
         },
         renderNewSessionBar(id) {
             $.ajax({

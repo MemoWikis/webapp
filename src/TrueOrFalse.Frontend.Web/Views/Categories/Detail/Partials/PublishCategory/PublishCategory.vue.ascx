@@ -58,8 +58,8 @@
                 </div>
             </div>
             <div class="modalFooter">
-                <div class="btn btn-link" data-dismiss="modal" aria-label="Close">abbrechen</div>
-                <div class="btn btn-primary" id="PublishCategoryBtn" @click="publishCategory" :class="{ 'disabled-btn': !confirmLicense }">veröffentlichen</div>
+                <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">abbrechen</div>
+                <div class="btn btn-primary memo-button" id="PublishCategoryBtn" @click="publishCategory" :class="{ 'disabled-btn': !confirmLicense }">veröffentlichen</div>
             </div>
         </div>
     </div>

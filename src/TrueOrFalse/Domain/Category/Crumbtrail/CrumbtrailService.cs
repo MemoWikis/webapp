@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Conventions.Inspections;
 
 public class CrumbtrailService
 {
@@ -79,23 +78,31 @@ public class CrumbtrailService
     {
         if (PermissionCheck.CanView(categoryCacheItem))
             crumbtrail.Add(categoryCacheItem);
+
         if (root == categoryCacheItem)
             return;
+
         var parents = categoryCacheItem.ParentCategories();
         parents = OrderParentList(parents, root.Creator);
-
-        foreach (var parent in parents)
-        {
-            if (parent == root)
+        
+        if (parents.Any(c => c.Id == root.Id))
+            crumbtrail.Add(root);
+        else
+            foreach (var parent in parents)
             {
-                if (PermissionCheck.CanView(parent))
-                    crumbtrail.Add(parent);
-                break;
-            }
+                if (crumbtrail.Rootfound)
+                    break;
 
-            if (IsLinkedToRoot(parent, root))
-                AddBreadcrumbParent(crumbtrail, parent, root);
-        }
+                if (parent == root)
+                {
+                    if (PermissionCheck.CanView(parent))
+                        crumbtrail.Add(parent);
+                    break;
+                }
+
+                if (IsLinkedToRoot(parent, root))
+                    AddBreadcrumbParent(crumbtrail, parent, root);
+            }
 
     }
 
@@ -118,26 +125,28 @@ public class CrumbtrailService
             return categoryCacheItem;
 
         var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
-        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0)
+        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)
             {
                 var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
-                if (parents.Any(c => c.Id == creatorWikiId))
+                if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(creatorWikiId)))
                 {
-                    var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
-                    return newWiki;
-                }
+                    if (parents.Any(c => c.Id == creatorWikiId))
+                    {
+                        var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
+                        return newWiki;
+                    }
 
-                if (sessionUser.IsLoggedIn)
-                {
-                    var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
-                    var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
-                    if (parents.Any(c => c == userWiki))
-                        return userWiki;
+                    if (sessionUser.IsLoggedIn)
+                    {
+                        var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
+                        var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
+                        if (parents.Any(c => c == userWiki))
+                            return userWiki;
+                    }
                 }
             }
-
 
             return RootCategory.Get;
         }

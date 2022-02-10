@@ -57,15 +57,19 @@
                     </div>
                 </div>
                                 
-                <div class="row" style="margin-top: 20px; margin-bottom: 5px;">
-                    <div class="col-xs-10 col-xs-offset-1 xxs-stack">
-                        <div class="row">
-                            <div class="col-xs-5"><div class="Divider" style="margin-right: -10px;"></div></div>
-                            <div class="col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
-                            <div class="col-xs-5"><div class="Divider" style="margin-left: -10px;"></div></div>
+                <<div class="row" style="margin-bottom: 10px;">
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <div class="register-divider-container">
+                            <div class="register-divider">
+                                <div class="register-divider-line"></div>
+                            </div>
+                            <div class="register-divider-label-container">
+                                <div class="register-divider-label">
+                                    oder
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
                 </div>
                 
                 <div class="row" id="rowLoginMessage" style="display: none">

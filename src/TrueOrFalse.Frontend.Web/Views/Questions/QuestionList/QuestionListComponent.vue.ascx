@@ -7,7 +7,8 @@
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
         :active-question-id="activeQuestionId"
-        :selected-page-from-active-question="selectedPageFromActiveQuestion">
+        :selected-page-from-active-question="selectedPageFromActiveQuestion"
+        :question-count="questionsCount">
         <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
             <template v-for="(q, index) in questions">
                 <%: Html.Partial("~/Views/Questions/QuestionList/QuestionComponent.vue.ascx")%>

@@ -60,11 +60,9 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             <% if (Model.Category.Visibility == CategoryVisibility.Owner)
                 { %>
 
-                <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')">
-                <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal')" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken.">
+                <a class="lock-hover" onclick="eventBus.$emit('open-publish-category-modal', <%=Model.Category.Id %>)">
                     <i class="fas fa-lock header-icon"></i>
-                    <i class="fas fa-unlock header-icon"></i>
-                </a>
+                    <i class="fas fa-unlock header-icon" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken."></i>
                 </a>
             <% } %>
         </h1>
@@ -241,7 +239,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <% if (Model.IsOwnerOrAdmin && Model.Category.Visibility == CategoryVisibility.Owner)
                             { %>
                             <li>
-                                <a onclick="eventBus.$emit('open-publish-category-modal')" data-allowed="logged-in">
+                                <a onclick="eventBus.$emit('open-publish-category-modal', <%=Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fas fa-unlock"></i>   
                                     </div>

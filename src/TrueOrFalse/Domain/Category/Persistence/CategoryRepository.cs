@@ -509,9 +509,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public const int SchuleId = 682;
     public const int ZertifikateId = 689;
 
-    public IEnumerable<int> GetRootCategoryInts() => GetRootCategoriesListÍds();
+    public IEnumerable<int> GetRootCategoryInts() => GetRootCategoryListIds();
 
-    public List<int> GetRootCategoriesListÍds()
+    public List<int> GetRootCategoryListIds()
     {
         return new List<int>
         {

@@ -34,6 +34,11 @@
         this.$nextTick(() => {
             Images.ReplaceDummyImages();
         });
+        eventBus.$on('publish-category',
+            id => {
+                if (this.id == id)
+                    this.visibility = 0;
+            });
     },
     watch: {
         selectedCategories() {
@@ -66,6 +71,8 @@
             this.checkboxId = this.segmentId + '-Checkbox' + this.id;
             if (this.isCustomSegment)
                 this.dropdownId += this.$parent.id;
+
+            this.visibility = this.category.Visibility;
         },
 
         thisToSegment() {
@@ -116,6 +123,9 @@
         hideCategory() {
             this.$parent.filterChildren([this.categoryId]);
         },
+        openPublishModal() {
+            eventBus.$emit('open-publish-category-modal', this.categoryId);
+        }
 
     }
 });

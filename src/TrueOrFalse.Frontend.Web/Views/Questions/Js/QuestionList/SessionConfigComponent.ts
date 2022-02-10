@@ -1,10 +1,13 @@
 ﻿declare var VueSlider: any;
 
-let sc= Vue.component('session-config-component', {
+let sc = Vue.component('session-config-component', {
+
     components: {
         VueSlider: window['vue-slider-component']
     },
-    props: ['questionsCount', 'allQuestionsCountFromCategory','isMyWorld'],
+
+    props: ['questionsCount', 'allQuestionsCountFromCategory', 'isMyWorld'],
+
     data() {
         return {
             answerBody: new AnswerBody(),
@@ -48,10 +51,12 @@ let sc= Vue.component('session-config-component', {
             isFirstLoad: true
         };
     },
+
     created() {
         eventBus.$on('openLearnOptions', () => { this.openModal() });
         eventBus.$on("start-learning-session", () => { this.loadCustomSession() });
     },
+
     mounted() {
         var self = this;
         this.loadQuestionCount();
@@ -80,6 +85,7 @@ let sc= Vue.component('session-config-component', {
             this.$nextTick(() => this.selectedQuestionCount = this.maxSelectableQuestionCount);
         });
     },
+
     watch: {
         probabilityRange: function () {
             this.questionFilter.minProbability = this.probabilityRange[0];
@@ -205,9 +211,10 @@ let sc= Vue.component('session-config-component', {
             this.maxQuestionCountIsZero = val === 0;
         }
     },
+
     methods: {
         loadQuestionCount() {
-            this.safeQuestionFilter();
+            this.saveQuestionFilter();
 
             $.ajax({
                 url: "/AnswerQuestion/GetQuestionCount/",
@@ -243,7 +250,7 @@ let sc= Vue.component('session-config-component', {
             eventBus.$emit('update-selected-page', 1);
             AnswerQuestion.LogTimeForQuestionView();
 
-            this.safeQuestionFilter(); 
+            this.saveQuestionFilter(); 
 
             if (this.isMyWorld == 'True')
                 this.questionFilter.isNotQuestionInWishKnowledge = false;
@@ -268,7 +275,7 @@ let sc= Vue.component('session-config-component', {
             document.body.classList.remove('modal-open');
             eventBus.$emit('show-login-modal');
         },
-        safeQuestionFilter() {
+        saveQuestionFilter() {
             this.questionFilter.allQuestions = this.allQuestions;
             this.questionFilter.isNotQuestionInWishKnowledge = this.isNotQuestionInWishKnowledge;
             this.questionFilter.inWishknowledge = this.inWishknowledge;

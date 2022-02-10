@@ -160,9 +160,12 @@ Vue.component('question-details-component', {
     },
 
     mounted: function () {
-        if (!this.arcLoaded) {
-            this.loadData();
-        }
+        this.$nextTick(() => {
+            if (!this.arcLoaded) {
+                this.loadData();
+            }
+        });
+
     },
 
     methods: {

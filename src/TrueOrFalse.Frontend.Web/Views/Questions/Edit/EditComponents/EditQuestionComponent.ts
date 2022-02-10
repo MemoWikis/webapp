@@ -57,6 +57,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 isLearningTab: false,
                 showPrivacyContainer: false,
                 lockSaveButton: false,
+                currentCategoryId: 0,
             }
         },
         mounted() {
@@ -64,6 +65,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 this.addToWuwi = true;
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
+                    this.currentCategoryId = $('#hhdCategoryId').val();
                     this.isLearningTab = $('#LearningTabWithOptions').hasClass('active');
                     this.showQuestionExtension = false;
                     this.showDescription = false;
@@ -391,9 +393,14 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 "&index=" +
                                 self.sessionIndex);
 
+                            if (!self.categoryIds.find(id => id == self.currentCategoryId))
+                                eventBus.$emit('remove-question-from-list', result.Id);
+
                             if (!self.edit)
                                 eventBus.$emit('add-question-to-list', result);
-                            eventBus.$emit("change-active-question", self.sessionIndex);
+
+                            eventBus.$emit('change-active-question', self.sessionIndex);
+                            eventBus.$emit('update-question-count');
                         }
 
                         self.highlightEmptyFields = false;

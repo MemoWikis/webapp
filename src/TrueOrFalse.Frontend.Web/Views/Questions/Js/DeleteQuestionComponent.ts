@@ -73,7 +73,8 @@
                     success(result) {
                         Utils.HideSpinner();
                         self.deletionInProgress = false;
-                        eventBus.$emit('question-deleted', { id: result.questionId, index: result.sessionIndex - 1});
+                        eventBus.$emit('question-deleted', { id: result.questionId, index: result.sessionIndex - 1 });
+                        eventBus.$emit('update-question-count');
                         Alerts.showSuccess({
                             text: messages.success.question.delete
                         });

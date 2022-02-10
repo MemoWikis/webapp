@@ -6,6 +6,7 @@ var pub = Vue.component('publish-category-component', {
     template: '#publish-category',
     data() {
         return {
+            currentCategoryId: null,
             categoryId: null,
             publishQuestions: false,
             confirmLicense: false,
@@ -18,20 +19,17 @@ var pub = Vue.component('publish-category-component', {
             blink: false,
         };
     },
-
     created() {
-        this.categoryId = $("#hhdCategoryId").val();
+        this.currentCategoryId = $("#hhdCategoryId").val();
     },
-    destroyed() {
-    },
-
     mounted() {
         var self = this;
-        eventBus.$on('open-publish-category-modal', () => self.openPublishModal());
+        eventBus.$on('open-publish-category-modal', (id) => self.openPublishModal(id));
     },
 
     methods: {
-        openPublishModal() {
+        openPublishModal(id) {
+            this.categoryId = id;
             this.resetModal();
             this.getCategoryPublishModalData();
         },
@@ -89,12 +87,20 @@ var pub = Vue.component('publish-category-component', {
                 success: function (result) {
                     if (result.success) {
                         $('#PublishCategoryModal').modal('hide');
+
+                        var publishCurrentCategory = self.currentCategoryId == self.categoryId;
+
                         Alerts.showSuccess({
                             text: messages.success.category.publish,
-                            reload: true,
+                            reload: publishCurrentCategory,
                         });
+
+                        if (!publishCurrentCategory)
+                            eventBus.$emit('publish-category', self.categoryId);
+
                         if (self.publishQuestions)
                             self.publishPrivateQuestions();
+
                     } else {
                         $('#PublishCategoryModal').modal('hide');
                         Alerts.showError({

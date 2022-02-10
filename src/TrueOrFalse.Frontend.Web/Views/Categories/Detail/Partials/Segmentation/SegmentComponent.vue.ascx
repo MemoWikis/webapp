@@ -5,12 +5,15 @@
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
-                    <a :href="linkToCategory">                        
+                    <a :href="linkToCategory">
                         <h2>
                             {{segmentTitle}}
-                            <i v-if="visibility == 1" class="fas fa-lock"></i>
                         </h2>
                     </a>
+                    <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip" title="Thema ist privat. Zum Veröffentlichen klicken.">
+                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-unlock"></i>
+                    </div>
                     <pin-category-component :category-id="categoryId"/>
 
                 </div>
@@ -19,13 +22,24 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li @click="removeSegment()"><a>
-                            <div class="dropdown-icon"><img class="fas" src="/Images/Icons/sitemap-disable.svg"/></div>Unterthema ausblenden
-                        </a></li>
+                        <li @click="removeSegment()">
+                            <a>
+                                <div class="dropdown-icon">
+                                    <img class="fas" src="/Images/Icons/sitemap-disable.svg"/>
+                                </div>Unterthema ausblenden
+                            </a>
+                        </li>
+                        <li v-if="visibility == 1">
+                            <a @click="openPublishModal">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>Thema veröffentlichen
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="segmentKnowledgeBar">
                 <div class="KnowledgeBarWrapper" v-html="knowledgeBarHtml">
                 </div>
@@ -33,7 +47,7 @@
         </div>
         <div class="topicNavigation row" :key="cardsKey">
             <template v-for="(category, index) in categories">
-                <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx")%>
+                <%: Html.Partial("~/Views/Categories/Detail/Partials/Segmentation/SegmentationCategoryCardComponent.vue.ascx") %>
             </template>
             <div v-if="!isHistoric" class="col-xs-6 topic">
                 <div class="addCategoryCard memo-button row" :id="addCategoryId">

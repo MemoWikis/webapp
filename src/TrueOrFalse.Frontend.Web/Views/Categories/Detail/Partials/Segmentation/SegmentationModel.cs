@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.WebPages;
 using Newtonsoft.Json;
 
 public class SegmentationModel : BaseContentModule
@@ -52,9 +51,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
 
-        ShowLinkToRootCategory = GraphService.GetAllParentsFromEntityCache(category.Id).All(c => c.Id != RootCategory.RootCategoryId) && 
-                                 EntityCache.GetAllChildren(category.Id, true).All(c => c.Id != RootCategory.RootCategoryId) &&
-                                 category != RootCategory.Get;
+        ShowLinkToRootCategory = !UserCache.GetItem(_sessionUser.UserId).IsFiltered;
     }
 
 
@@ -68,7 +65,7 @@ public class SegmentationModel : BaseContentModule
         {
             var segment = new Segment();
             var segmentItem = EntityCache.GetCategoryCacheItem(s.CategoryId);
-            if (PermissionCheck.CanView(segmentItem))
+            if (!PermissionCheck.CanView(segmentItem))
                 continue;
             segment.Item = EntityCache.GetCategoryCacheItem(s.CategoryId);
             segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;

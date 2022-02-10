@@ -1,35 +1,39 @@
 ﻿<div id="LoginModalComponent">
-    <default-modal-component showCloseButton="true" modalWidth="600px" button1Text="Anmelden" action1Emit="login-clicked" isFullSizeButtons="true">
+    <default-modal-component showCloseButton="true" modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked" isFullSizeButtons="true">
         <template v-slot:header>
             <span>Anmelden</span>
         </template>
         <template v-slot:body>
+
             <div class="form-group omb_login row">
                 <div class="col-sm-12 omb_socialButtons">
-                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-right: 5px;">
-                        <a class="btn btn-block cursor-hand" id="FacebookLogin" @click="FacebookLogin()">
-                            <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo"><span style="text-transform: uppercase; font-size: 12px;">weiter mit Facebook</span>
+                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand socialMediaBtn" id="socialMediaBtnContainer">
+                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
+                            <div class="socialMediaLabel">weiter mit Google</div>
                         </a>
                     </div>
-                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" style="padding-left: 5px;">
-                        <a class="btn btn-block cursor-hand" id="GoogleLogin">
-                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleLogin" class="socialMediaLogo"><span style="text-transform: uppercase; font-size: 12px;">weiter mit Google</span>
+                    <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"  @click="FacebookLogin()">
+                            <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
+                            <div class="socialMediaLabel">weiter mit Facebook</div>
                         </a>
                     </div>
                 </div>
             </div>
             
-            <p class="infoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="/AGB">Nutzungsbedingungen</a> und unserer <a href="/Impressum">Datenschutzerklärung</a> einverstanden. Du musst mind. 16 Jahre alt sein, <a href="/Impressum#under16">hier mehr Infos!</a></p>
+            <p class="consentInfoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="/AGB">Nutzungsbedingungen</a> und unserer <a href="/Impressum">Datenschutzerklärung</a> einverstanden. Du musst mind. 16 Jahre alt sein, <a href="/Impressum#under16">hier mehr Infos!</a></p>
 
-            <div class="row" style="margin-top: 20px; margin-bottom: 5px;">
-                <div class="col-xs-10 col-xs-offset-1 xxs-stack">
-                    <div class="row">
-                        <div class="col-xs-5">
-                            <div class="Divider" style="margin-right: -10px;"></div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12">
+                    <div class="register-divider-container">
+                        <div class="register-divider">
+                            <div class="register-divider-line"></div>
                         </div>
-                        <div class="col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
-                        <div class="col-xs-5">
-                            <div class="Divider" style="margin-left: -10px;"></div>
+                        <div class="register-divider-label-container">
+                            <div class="register-divider-label">
+                                oder
+                            </div>
                         </div>
                     </div>
                 </div>

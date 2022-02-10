@@ -793,6 +793,7 @@
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\PersonalTopic.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\ModifyCategoryRelation.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\DeleteQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
