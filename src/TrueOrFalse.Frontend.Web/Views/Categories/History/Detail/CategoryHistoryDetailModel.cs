@@ -10,6 +10,7 @@ using TrueOrFalse.Frontend.Web.Code;
 public class CategoryHistoryDetailModel : BaseModel
 {
     public int CategoryId;
+    public List<int> ParentCategoryIds;
     public string CategoryName;
     public string CategoryUrl;
 
@@ -59,6 +60,7 @@ public class CategoryHistoryDetailModel : BaseModel
         currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
 
         CategoryId = currentRevision.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(currentRevision.Id):  currentRevision.Category.Id;
+        ParentCategoryIds = currentRevision.ParentCategoryIds;
 
         if (currentVersionTypeDelete)                       // is currentVersion deleted then is too category deleted
             CategoryName = previouisRevisionData.Name;
