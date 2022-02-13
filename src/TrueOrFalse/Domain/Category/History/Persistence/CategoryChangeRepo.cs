@@ -1,9 +1,11 @@
 ﻿using NHibernate;
 using System.Collections.Generic;
+using System.Linq;
+using NHibernate.Criterion;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
-    public CategoryChangeRepo(ISession session) : base(session){}
+    public CategoryChangeRepo(ISession session) : base(session) { }
 
     public void AddDeleteEntry(Category category)
     {
@@ -35,7 +37,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Author = author,
             DataVersion = 2
         };
-        
+
+
         categoryChange.SetData(category, imageWasUpdated);
 
         base.Create(categoryChange);
@@ -53,10 +56,16 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     {
         User aliasUser = null;
         Category aliasCategory = null;
+        Category aliasParentCategory = null;
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var childIds = categoryCacheItem.CategoryRelations.Where(cci =>
+            cci.CategoryRelationType == CategoryRelationType.IncludesContentOf).Select(cr => cr.RelatedCategoryId).ToList();
 
         var query = _session
             .QueryOver<CategoryChange>()
-            .Where(c => c.Category.Id == categoryId);
+            .Where(c => c.Category.Id == categoryId || c.Category.Id.IsIn(childIds));
+
+
 
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
@@ -65,8 +74,18 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .Left.JoinAlias(c => c.Author, () => aliasUser)
             .Left.JoinAlias(c => c.Category, () => aliasCategory);
 
-        return query
+        var categoryChangeList = query
             .List();
+
+        categoryChangeList = categoryChangeList.Where(cc =>
+            cc.Category.Id == categoryId ||
+            cc.Type != CategoryChangeType.Text &&
+            cc.Type != CategoryChangeType.Image &&
+            cc.Type != CategoryChangeType.Restore &&
+            cc.Type != CategoryChangeType.Update &&
+            cc.Type != CategoryChangeType.Relations)
+            .ToList();
+        return categoryChangeList;
     }
 
     public CategoryChange GetByIdEager(int categoryChangeId)
@@ -97,5 +116,9 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     public virtual int GetCategoryId(int version)
     {
         return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+    }
+    public virtual int GetParentCategoryId(int version)
+    {
+        return Sl.Resolve<ISession>().CreateSQLQuery("Select Parent_Category_Ids FROM categorychange where id = " + version).UniqueResult<int>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Conventions.Inspections;
+using FluentNHibernate.Mapping;
 
 public class CategoryChangeMap : ClassMap<CategoryChange>
 {
@@ -6,7 +7,7 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
     {
         Id(x => x.Id);
 
-        References(x => x.Category).NotFound.Ignore(); ;
+        References(x => x.Category).NotFound.Ignore();
 
         Map(x => x.Data);
         Map(x => x.ShowInSidebar);
