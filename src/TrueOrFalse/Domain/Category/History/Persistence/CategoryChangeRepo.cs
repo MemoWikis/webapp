@@ -1,10 +1,11 @@
 ﻿using NHibernate;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Criterion;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
-    public CategoryChangeRepo(ISession session) : base(session){}
+    public CategoryChangeRepo(ISession session) : base(session) { }
 
     public void AddDeleteEntry(Category category)
     {
@@ -20,14 +21,14 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public void AddCreateEntry(Category category, User author, List<int> parentCategoryIds = null) => AddUpdateOrCreateEntry(category, parentCategoryIds, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, List<int> parentCategoryIds = null) => AddUpdateOrCreateEntry(category, parentCategoryIds, author, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, CategoryChangeType type, List<int> parentCategoryIds = null) => AddUpdateOrCreateEntry(category, parentCategoryIds, author, type, imageWasUpdated);
-    public void AddPublishEntry(Category category, User author, List<int> parentCategoryIds = null) => AddUpdateOrCreateEntry(category, parentCategoryIds, author, CategoryChangeType.Published);
-    public void AddMadePrivateEntry(Category category, User author, List<int> parentCategoryIds = null) => AddUpdateOrCreateEntry(category, parentCategoryIds, author, CategoryChangeType.Privatized);
-    public void AddTitleIsChangedEntry(Category category, User author, List<int> parentCategoryIds = null) => AddUpdateOrCreateEntry(category, parentCategoryIds, author, CategoryChangeType.Renamed);
+    public void AddCreateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Update, imageWasUpdated);
+    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, CategoryChangeType type) => AddUpdateOrCreateEntry(category, author, type, imageWasUpdated);
+    public void AddPublishEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Published);
+    public void AddMadePrivateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Privatized);
+    public void AddTitleIsChangedEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Renamed);
 
-    private void AddUpdateOrCreateEntry(Category category,List<int> parentCategoryIds, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
+    private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
     {
         var categoryChange = new CategoryChange
         {
@@ -37,11 +38,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             DataVersion = 2
         };
 
-        if (parentCategoryIds != null && parentCategoryIds.Count > 0)
-        {
-            categoryChange.ParentCategoryIds = parentCategoryIds;
-        }
-        
+
         categoryChange.SetData(category, imageWasUpdated);
 
         base.Create(categoryChange);
@@ -60,11 +57,15 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         User aliasUser = null;
         Category aliasCategory = null;
         Category aliasParentCategory = null;
-
+        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var childIds = categoryCacheItem.CategoryRelations.Where(cci =>
+            cci.CategoryRelationType == CategoryRelationType.IncludesContentOf).Select(cr => cr.RelatedCategoryId).ToList();
 
         var query = _session
             .QueryOver<CategoryChange>()
-            .Where(c => c.Category.Id == categoryId);
+            .Where(c => c.Category.Id == categoryId || c.Category.Id.IsIn(childIds));
+
+
 
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
@@ -75,6 +76,15 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         var categoryChangeList = query
             .List();
+
+        categoryChangeList = categoryChangeList.Where(cc =>
+            cc.Category.Id == categoryId ||
+            cc.Type != CategoryChangeType.Text &&
+            cc.Type != CategoryChangeType.Image &&
+            cc.Type != CategoryChangeType.Restore &&
+            cc.Type != CategoryChangeType.Update &&
+            cc.Type != CategoryChangeType.Relations)
+            .ToList();
         return categoryChangeList;
     }
 
@@ -90,12 +100,11 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     public virtual CategoryChange GetNextRevision(CategoryChange categoryChange)
     {
         var categoryId = categoryChange.Category.Id;
-        var parentCategoryIds = categoryChange.ParentCategoryIds.ToString();
         var currentRevisionDate = categoryChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
         var query = $@"
             
             SELECT * FROM CategoryChange cc
-            WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' and cc.Parent_Category_Id = {parentCategoryIds} 
+            WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' 
             ORDER BY cc.DateCreated 
             LIMIT 1
 
@@ -110,6 +119,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     }
     public virtual int GetParentCategoryId(int version)
     {
-        return Sl.Resolve<ISession>().CreateSQLQuery("Select Parent_Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+        return Sl.Resolve<ISession>().CreateSQLQuery("Select Parent_Category_Ids FROM categorychange where id = " + version).UniqueResult<int>();
     }
 }

@@ -6,8 +6,6 @@ using System.Linq;
 public class CategoryChange : Entity, WithDateCreated
 {
     public virtual Category Category { get; set; }
-    public virtual List<CategoryCacheItem> ParentCategories { get; set; }
-    public virtual List<int> ParentCategoryIds { get; set; }
     public virtual int DataVersion { get; set; }
     public virtual string Data { get; set; }
 
@@ -34,11 +32,6 @@ public class CategoryChange : Entity, WithDateCreated
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
         }
-    }
-
-    public virtual void GetParentsFromDB(string dbData)
-    {
-        ParentCategoryIds = dbData.Split(',').Select(int.Parse).ToList();
     }
 
     public virtual CategoryEditData GetCategoryChangeData()

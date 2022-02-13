@@ -8,7 +8,6 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
         Id(x => x.Id);
 
         References(x => x.Category).NotFound.Ignore();
-        Map(x => x.ParentCategoryIds).Column("Parent_Category_Id");
 
         Map(x => x.Data);
         Map(x => x.ShowInSidebar);

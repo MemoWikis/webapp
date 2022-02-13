@@ -17,7 +17,7 @@ public class CategoryHistoryModel : BaseModel
     public CategoryCacheItem Category;
     private readonly IOrderedEnumerable<CategoryChange> _listWithAllVersions;
 
-    public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
+    public CategoryHistoryModel(CategoryCacheItem category, IList<CategoryChange> categoryChanges, int categoryId )
     {
         Data data = new Data();
 
@@ -130,7 +130,6 @@ public class CategoryChangeDayModel
             DateCreated = change.DateCreated,
             CategoryChangeId = change.Id,
             CategoryId = change.Category == null ? categoryId : change.Category.Id,
-            ParentCategoryIds = change.ParentCategoryIds,
             CategoryName = change.Category == null ? _catName : change.Category.Name,
             Label = label,
             Type = change.Type,
@@ -141,7 +140,7 @@ public class CategoryChangeDayModel
     }
     public void AppendItems(List<CategoryChangeDetailModel> items, CategoryChange change)
     {
-        if (change.Category == null || !PermissionCheck.CanView(change.Category))
+        if (change.Category == null || !PermissionCheck.CanView(change.Category) || change.Author == null)
             return;
 
         if (_currentCategoryChangeDetailModel != null &&
@@ -177,7 +176,6 @@ public class CategoryChangeDetailModel
     public DateTime DateCreated;
     public int CategoryChangeId;
     public int CategoryId;
-    public List<int> ParentCategoryIds;
     public string CategoryName;
     public string Label;
     public CategoryChangeType Type;

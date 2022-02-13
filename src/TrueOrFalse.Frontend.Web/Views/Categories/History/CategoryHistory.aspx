@@ -94,7 +94,7 @@
                                                     vor <%= ai.ElapsedTime %> um <%= ai.Time %>
                                                 </div>
                                                 <div class="col-xs-6 col-sm-7 pull-right change-detail">
-                                                    <div class="change-detail-label"><%= item.Label %></div>
+                                                    <div class="change-detail-label"><%= item.Label %> aaa</div>
 
                                                     <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, ai.CategoryChangeId) %>">
                                                         Ansehen
@@ -126,6 +126,11 @@
                             </div>
                             <div class="col-xs-6 col-sm-7 pull-right change-detail <%= item.Type == CategoryChangeType.Relations ? "relation-detail" : "" %>">
                                 <div class="change-detail-label"><%= item.Label %></div>
+                                
+                                <% if (item.CategoryId != Model.CategoryId)
+                                   { %>
+                                    <div>Unterkategorie: <a href="/<%=item.CategoryName %>/<%=item.CategoryId %>"> <%= item.CategoryName %></a></div>
+                                <% } %>
                                 <%
                                     if (item.Type == CategoryChangeType.Relations)
                                     { %>

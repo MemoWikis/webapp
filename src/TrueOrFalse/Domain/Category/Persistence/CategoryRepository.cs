@@ -65,7 +65,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(categoryCacheItem);
 
         var parentCategoryIds = categoryCacheItem.ParentCategories().Select(cci => cci.Id).ToList();
-        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator, parentCategoryIds);
+        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
 
 
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
@@ -84,7 +84,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (parentCategories.Count != 0)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, Sl.SessionUser.User, false, type: CategoryChangeType.Relations, parentCategoryIds);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, Sl.SessionUser.User, false, type: CategoryChangeType.Relations);
         }
     }
 
@@ -95,8 +95,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Create(category);
         Flush();
         _searchIndexCategory.Update(category);
-        var parentCategoryIds = category.ParentCategories().Select(cci => cci.Id).ToList();
-        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator, parentCategoryIds);
+        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
     }
 
     public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
