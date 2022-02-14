@@ -53,9 +53,6 @@ Vue.component('question-list-component', {
         eventBus.$on('reload-knowledge-state', () => this.initQuestionList());
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('init-new-session', () => {
-            this.$nextTick(() => this.initQuestionList());
-        });
         eventBus.$on('add-question-to-list', (q: QuestionListItem) => { this.addQuestionToList(q)});
     },
     mounted() {
