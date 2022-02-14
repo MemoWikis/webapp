@@ -29,7 +29,7 @@ public class LeitnerSimulationTest : BaseTest
         sb.AppendLine($"Amount questions: {numberOfQuestions}");
         sb.AppendLine($"Amount days: {numberOfDays}");
         sb.AppendLine("");
-        sb.AppendLine($"Total Leitner repititions: {leitnerSimulation.Days.GetSumOfRepetitions()}");
+        sb.AppendLine($"Total Leitner repetitions: {leitnerSimulation.Days.GetSumOfRepetitions()}");
         sb.AppendLine("");
 
         sb.AppendLine("----------------------------------------------------------");
@@ -45,7 +45,7 @@ public class LeitnerSimulationTest : BaseTest
                     $"Box{(box.ToRepeat ? "*" : "")}{box.Number}: " +
                     $"(before:) {box.Questions.Count} / (after:) {day.BoxesAfter.ByNumber(box.Number).Questions.Count}");
             }
-            sb.AppendLine($"Sum of repititions: {day.GetSumOfRepetitions()}");
+            sb.AppendLine($"Sum of repetitions: {day.GetSumOfRepetitions()}");
         }
 
         sb.AppendLine("----------------------------------------------------------");

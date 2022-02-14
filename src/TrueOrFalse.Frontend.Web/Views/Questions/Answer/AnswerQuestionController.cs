@@ -428,7 +428,7 @@ public class AnswerQuestionController : BaseController
                 MaxProbability = config.MaxProbability,
                 MinProbability = config.MinProbability,
                 MaxQuestionCount = config.MaxQuestionCount,
-                Repetitions = config.Repititions,
+                Repetitions = config.Repetitions,
                 AnswerHelp = config.AnswerHelp
             };
 

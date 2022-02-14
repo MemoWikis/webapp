@@ -13,6 +13,6 @@
     createdByCurrentUser: boolean;
     safeLearningSessionOptions: boolean; 
     answerHelp: true;
-    repititions: true;
+    repetitions: true;
     randomQuestions: false;
  }

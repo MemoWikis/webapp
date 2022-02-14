@@ -24,7 +24,7 @@ let sc = Vue.component('session-config-component', {
                 safeLearningSessionOptions: false,
                 categoryId: $('#hhdCategoryId').val(),
                 answerHelp: true,
-                repititions: true,
+                repetitions: true,
                 randomQuestions: false
             },
             isLoggedIn: true,
@@ -45,7 +45,7 @@ let sc = Vue.component('session-config-component', {
             displayNone: true,
             randomQuestions: false,
             answerHelp: true,
-            repititions: true,
+            repetitions: true,
             categoryName: $("#hhdCategoryName").val(),
             displayMinus: false,
             isFirstLoad: true
@@ -98,11 +98,11 @@ let sc = Vue.component('session-config-component', {
             if (val == true) {
                 this.randomQuestions = true;
                 this.answerHelp = false;
-                this.repititions = false;
+                this.repetitions = false;
             } else {
                 this.randomQuestions = false;
                 this.answerHelp = true;
-                this.repititions = true;
+                this.repetitions = true;
             }
 
         },
@@ -200,9 +200,9 @@ let sc = Vue.component('session-config-component', {
             }
 
         },
-        repititions: function () {
-            this.questionFilter.repititions = this.repititions;
-            if (this.repititions == true) {
+        repetitions: function () {
+            this.questionFilter.repetitions = this.repetitions;
+            if (this.repetitions == true) {
                 this.isTestMode = false;
                 this.questionFilter.isInTestMode = false;
             }

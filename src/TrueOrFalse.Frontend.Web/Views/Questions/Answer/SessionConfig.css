@@ -29,18 +29,18 @@
 }
 #QuestionSortSessionConfig .randomQuestions,
 #QuestionSortSessionConfig .answerHelp,
-#QuestionSortSessionConfig .repititions {
+#QuestionSortSessionConfig .repetitions {
   display: flex;
   font-size: 14px;
 }
 #QuestionSortSessionConfig .randomQuestions span,
 #QuestionSortSessionConfig .answerHelp span,
-#QuestionSortSessionConfig .repititions span {
+#QuestionSortSessionConfig .repetitions span {
   padding-left: 10px;
 }
 #QuestionSortSessionConfig .randomQuestions i,
 #QuestionSortSessionConfig .answerHelp i,
-#QuestionSortSessionConfig .repititions i {
+#QuestionSortSessionConfig .repetitions i {
   font-size: 12px;
   font-family: 'Open Sans';
   padding-left: 10px;

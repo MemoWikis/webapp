@@ -114,9 +114,9 @@
                                     </label>
                                     <span>&nbsp;Antworthilfe<i> Die Antworthilfe zeigt dir auf Wunsch die richtige Antwort</i></span>
                                 </div>
-                                <div class="repititions" :class="{inactive: !isLoggedIn || isTestMode}">
-                                    <input type="checkbox" id="repititions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repititions" />
-                                    <label for="repititions" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
+                                <div class="repetitions" :class="{inactive: !isLoggedIn || isTestMode}">
+                                    <input type="checkbox" id="repetitions" style="display:none" :disabled="isTestModeOrNotLoginIn" v-model="repetitions" />
+                                    <label for="repetitions" class="toggle" :class="{forbidden: !isLoggedIn || isTestMode}">
                                         <span></span>
                                     </label>
                                     <span>&nbsp;Wiederholungen<i> Falsch gelöste Fragen werden dir zur Beantwortung erneut vorgelegt.</i></span>

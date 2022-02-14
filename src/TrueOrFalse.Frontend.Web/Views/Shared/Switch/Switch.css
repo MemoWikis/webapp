@@ -62,10 +62,10 @@
   transform: translateX(18px);
   background: #AFD534;
 }
-#repititions:checked + .toggle:before {
+#repetitions:checked + .toggle:before {
   background: #e7f5bffa;
 }
-#repititions:checked + .toggle span {
+#repetitions:checked + .toggle span {
   transform: translateX(18px);
   background: #AFD534;
 }

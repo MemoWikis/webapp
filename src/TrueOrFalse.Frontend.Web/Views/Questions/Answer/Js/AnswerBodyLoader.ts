@@ -82,7 +82,7 @@ class AnswerBodyLoader {
                 createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : true,
                 safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false,
                 answerHelp: questionFilter != null ? questionFilter.answerHelp : true,
-                repititions: questionFilter != null ? questionFilter.repititions : true,
+                repetitions: questionFilter != null ? questionFilter.repetitions : true,
                 randomQuestions: questionFilter != null ? questionFilter.randomQuestions : false
             }
 
