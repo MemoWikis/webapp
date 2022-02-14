@@ -27,7 +27,9 @@ public class QuestionListModel : BaseModel
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
-        var userQuestionValuation = Sl.SessionUser.IsLoggedIn ? UserCache.GetItem(Sl.SessionUser.UserId).QuestionValuations : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+        var userQuestionValuation = Sl.SessionUser.IsLoggedIn 
+            ? UserCache.GetItem(Sl.SessionUser.UserId).QuestionValuations 
+            : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var learningSession = LearningSessionCache.GetLearningSession();
         var steps = learningSession.Steps;
         var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage);

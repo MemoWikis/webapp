@@ -27,6 +27,15 @@ public class LearningSessionCache
         var step = new LearningSessionStep(question);
         learningSession.Steps.Insert(sessionIndex, step);
     }
+
+    public static void EditQuestionInLearningSession(Question question, int sessionIndex)
+    {
+        var learningSession = GetLearningSession();
+
+        foreach (var step in learningSession.Steps)
+            if (step.Question.Id == question.Id)
+                step.Question = question;
+    }
     public static int RemoveQuestionFromLearningSession(int sessionIndex, int questionId)
     {
         var learningSession = GetLearningSession();
