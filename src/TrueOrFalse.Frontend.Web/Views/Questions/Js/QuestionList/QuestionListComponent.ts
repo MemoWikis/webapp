@@ -57,7 +57,6 @@ Vue.component('question-list-component', {
             this.$nextTick(() => this.initQuestionList());
         });
         eventBus.$on('add-question-to-list', (q: QuestionListItem) => { this.addQuestionToList(q)});
-        eventBus.$on('remove-question-from-list', () => this.initQuestionList());
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();

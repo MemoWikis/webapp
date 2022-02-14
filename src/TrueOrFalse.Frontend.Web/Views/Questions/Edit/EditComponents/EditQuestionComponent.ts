@@ -391,10 +391,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 "?skipStepIdx=" +
                                 skipIndex +
                                 "&index=" +
-                                self.sessionIndex);
-
-                            if (!self.categoryIds.find(id => id == self.currentCategoryId))
-                                eventBus.$emit('remove-question-from-list', result.Id);
+                                self.sessionIndex); 
 
                             if (!self.edit)
                                 eventBus.$emit('add-question-to-list', result);

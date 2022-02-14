@@ -83,6 +83,10 @@
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
     watch: {
+        isLastItem(val) {
+            if (val)
+                this.$parent.lastQuestionInListIndex = this.questionIndex;
+        },
         questionTitle(title) {
             this.questionTitleHtml = "<div class='body-m bold margin-bottom-0'>" + title + "</div>";
         },
