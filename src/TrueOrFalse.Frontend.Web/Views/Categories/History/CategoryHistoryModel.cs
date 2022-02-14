@@ -17,9 +17,9 @@ public class CategoryHistoryModel : BaseModel
     public CategoryCacheItem Category;
     private readonly IOrderedEnumerable<CategoryChange> _listWithAllVersions;
 
-    public CategoryHistoryModel(Category category, IList<CategoryChange> categoryChanges, int categoryId )
+    public CategoryHistoryModel(CategoryCacheItem category, IList<CategoryChange> categoryChanges, int categoryId )
     {
-        Data data = new Data(); ;
+        Data data = new Data();
 
         if (category == null)
             data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
@@ -140,7 +140,7 @@ public class CategoryChangeDayModel
     }
     public void AppendItems(List<CategoryChangeDetailModel> items, CategoryChange change)
     {
-        if (change.Category == null || !PermissionCheck.CanView(change.Category))
+        if (change.Category == null || !PermissionCheck.CanView(change.Category) || change.Author == null)
             return;
 
         if (_currentCategoryChangeDetailModel != null &&

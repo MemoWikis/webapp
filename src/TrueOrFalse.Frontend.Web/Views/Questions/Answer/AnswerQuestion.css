@@ -1219,6 +1219,7 @@ commentAnswersCount {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  text-align: center;
   display: inline;
 }
 #flashCardContent #flashCard-back > p {

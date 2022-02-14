@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using TrueOrFalse.Updates;
 
 public class EntityCache : BaseCache
 {
@@ -63,6 +64,7 @@ public class EntityCache : BaseCache
         {
             Init();
         }
+
         return CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
     }
 
@@ -192,6 +194,12 @@ public class EntityCache : BaseCache
     public static void Remove(CategoryCacheItem category)
     {
         Remove(Categories, category);
+        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
+        foreach (var connectedQuestion in connectedQuestions)
+        {
+            var categoryInQuestion = connectedQuestion.Categories.FirstOrDefault(c => c.Id == category.Id);
+            connectedQuestion.Categories.Remove(categoryInQuestion);
+        }
         CategoryQuestionsList.TryRemove(category.Id, out var catOut);
     }
 

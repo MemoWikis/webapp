@@ -64,7 +64,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
+        var parentCategoryIds = categoryCacheItem.ParentCategories().Select(cci => cci.Id).ToList();
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
+
+
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
 
         if (UserEntityCache.HasUserCache(Sl.CurrentUserId))
@@ -79,8 +82,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         var parentCategories = category.ParentCategories();
 
-        if(parentCategories.Count != 0)
-            Sl.CategoryChangeRepo.AddUpdateEntry(parentCategories.First(), Sl.SessionUser.User, false, type: CategoryChangeType.Relations);
+        if (parentCategories.Count != 0)
+        {
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, Sl.SessionUser.User, false, type: CategoryChangeType.Relations);
+        }
     }
 
     public void CreateOnlyDb(Category category)
@@ -104,7 +109,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 var parentIds = UserEntityCache.GetParentsIds(Sl.CurrentUserId, categoryCacheItem.Id);
                 foreach (var parentId in parentIds)
                 {
-                    UserEntityCache.GetCategory(Sl.CurrentUserId, parentId).CachedData.AddChildId(categoryCacheItem.Id); 
+                    UserEntityCache.GetCategory(Sl.CurrentUserId, parentId).CachedData.AddChildId(categoryCacheItem.Id);
                 }
             }
 
@@ -240,14 +245,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override void Update(Category category) => Update(category);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
-    public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false, CategoryChangeType type = CategoryChangeType.Update)
+    public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false, CategoryChangeType type = CategoryChangeType.Update, bool createCategoryChange = true)
     {
-        if (!isFromModifiyRelations) 
+        if (!isFromModifiyRelations)
             _searchIndexCategory.Update(category);
 
         base.Update(category);
 
-        if (author != null)
+        if (author != null && createCategoryChange)
             Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated, type);
 
         Flush();
@@ -281,7 +286,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
     }
 
-    public override  void Delete(Category category)
+    public override void Delete(Category category)
     {
         _searchIndexCategory.Delete(category);
         base.Delete(category);
