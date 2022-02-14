@@ -14,8 +14,7 @@ public class QuestionListController : BaseController
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber)
     {
-        var newQuestionList = QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage, IsLoggedIn);
-        return Json(newQuestionList);
+        return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
     [HttpPost]
@@ -92,8 +91,8 @@ public class QuestionListController : BaseController
         var model = new AnswerQuestionModel(question, true);
         if (_sessionUser.IsLoggedIn)
         {
-            ConcurrentDictionary<int, QuestionValuationCacheItem> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-            userQuestionValuation = UserCache.GetItem(_sessionUser.UserId).QuestionValuations;
+            var userQuestionValuation = UserCache.GetItem(_sessionUser.UserId).QuestionValuations;
+
             if (userQuestionValuation.ContainsKey(questionId))
                 hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;
         }
@@ -102,6 +101,25 @@ public class QuestionListController : BaseController
         {
             correctnessProbability = model.HistoryAndProbability.CorrectnessProbability.CPPersonal,
             hasPersonalAnswer
+        });
+    }
+
+    private readonly LearningSession _learningSession = LearningSessionCache.GetLearningSession();
+
+    [HttpPost]
+    public JsonResult GetCurrentLearningSessionData(int categoryId)
+    {
+        return Json(new
+        {
+            stepCount = _learningSession.Steps.Count,
+            currentQuestionCount = _learningSession.Steps
+                .Select(s => s.Question)
+                .Distinct()
+                .Count(),
+            allQuestionCount = EntityCache
+                .GetCategoryCacheItem(categoryId)
+                .GetAggregatedQuestionsFromMemoryCache()
+                .Count,
         });
     }
 }

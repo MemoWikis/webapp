@@ -11,8 +11,11 @@
 
 
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
-    <div class="col-xs-12 drop-down-question-sort" v-show="questionsCount > 0">
-        <h4 class="header"><span class="hidden-xs">Du lernst</span> <b>{{selectedQuestionCount}}</b> Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionsCountFromCategory}})</h4>
+    <div class="col-xs-12 drop-down-question-sort" v-show="stepCount > 0">
+        <h4 class="header"><span class="hidden-xs">Du lernst</span> 
+            <template v-if="currentQuestionCount == allQuestionCount"><b>alle</b> </template>
+            <template v-else><b>{{currentQuestionCount}}</b></template>
+            Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionCount}})</h4>
         <div id="ButtonAndDropdown">
             <%: Html.Partial("~/Views/Questions/QuestionList/SessionConfigComponent.vue.ascx", Model) %>
 

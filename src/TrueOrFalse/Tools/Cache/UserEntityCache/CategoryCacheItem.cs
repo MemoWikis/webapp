@@ -163,7 +163,6 @@ public class CategoryCacheItem
             questions = EntityCache.GetQuestionsForCategory(categoryId)
                 .Distinct();
 
-
         if (onlyVisible)
             questions = questions.Where(PermissionCheck.CanView);
 

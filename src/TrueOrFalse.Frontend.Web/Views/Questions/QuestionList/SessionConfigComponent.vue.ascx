@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<QuestionListModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<session-config-component inline-template @update="updateQuestionsCount" :questions-count="questionsCount" :all-questions-count-from-category="allQuestionsCountFromCategory" is-my-world="<%= UserCache.GetItem(Model.UserId).IsFiltered %>">
+<session-config-component inline-template :questions-count="allQuestionCount" :all-question-count="allQuestionCount" is-my-world="<%= UserCache.GetItem(Model.UserId).IsFiltered %>">
     <div class="rootElement">
                 <% if(Model.IsSessionNoteFadeIn){%>
                 <div id="LearningSessionReminderQuestionList">
@@ -124,7 +124,7 @@
                             </div>
                         </div>
                         <div class="themes-info">
-                            <p> Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionsCountFromCategory}})</p>
+                            <p> Du lernst <b>{{selectedQuestionCount}}</b> Fragen aus dem Thema {{categoryName}} ({{allQuestionCount}})</p>
                         </div>
                     </div>
                     <div class="modal-footer">

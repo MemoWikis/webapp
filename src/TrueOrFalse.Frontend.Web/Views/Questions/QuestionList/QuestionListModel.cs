@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListModel : BaseModel
@@ -27,44 +25,34 @@ public class QuestionListModel : BaseModel
         EditQuestionModel = editQuestionModel;
     }
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, bool isLoggedIn)
+    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
-        var allQuestions = LearningSessionCache.GetLearningSession().Steps.Select(q => q.Question).ToList();
-        var user = isLoggedIn ? Sl.R<SessionUser>().User : null;
+        var userQuestionValuation = Sl.SessionUser.IsLoggedIn ? UserCache.GetItem(Sl.SessionUser.UserId).QuestionValuations : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+        var learningSession = LearningSessionCache.GetLearningSession();
+        var steps = learningSession.Steps;
+        var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage);
 
-        ConcurrentDictionary<int, QuestionValuationCacheItem> userQuestionValuation = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        if (user != null)
-            userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
-
-
-        var questionsOfCurrentPage = allQuestions.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
         var newQuestionList = new List<QuestionListJson.Question>();
-        var learningSessionStepCount = allQuestions.Count();
 
-        foreach (var q in questionsOfCurrentPage)
+        foreach (var step in stepsOfCurrentPage)
         {
-            var question = new QuestionListJson.Question();
-            question.Id = q.Id;
-            question.Title = q.Text;
-            question.LinkToQuestion = Links.GetUrl(q);
-            question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
-            question.LearningSessionStepCount = learningSessionStepCount;
-            question.LinkToQuestion = Links.GetUrl(q);
-            question.LinkToEditQuestion = Links.EditQuestion( q.Text, q.Id);
-            question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
-            question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
-            question.CorrectnessProbability = q.CorrectnessProbability;
-            question.Visibility = q.Visibility;
-
-            var learningSession = LearningSessionCache.GetLearningSession();
-            if (learningSession != null)
+            var q = step.Question;
+            var question = new QuestionListJson.Question
             {
-                var steps = learningSession.Steps;
-                var index = steps.IndexOf(s => s.Question.Id == q.Id);
-                question.SessionIndex = index;
-            }
+                Id = q.Id,
+                Title = q.Text,
+                LinkToQuestion = Links.GetUrl(q),
+                ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url,
+                LearningSessionStepCount = steps.Count,
+                LinkToEditQuestion = Links.EditQuestion(q.Text, q.Id),
+                LinkToQuestionVersions = Links.QuestionHistory(q.Id),
+                LinkToComment = Links.GetUrl(q) + "#JumpLabel",
+                CorrectnessProbability = q.CorrectnessProbability,
+                Visibility = q.Visibility,
+                SessionIndex = steps.IndexOf(step),
+            };
 
-            if (userQuestionValuation.ContainsKey(q.Id) && user != null)
+            if (userQuestionValuation.ContainsKey(q.Id) && Sl.SessionUser.IsLoggedIn)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
                 question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
@@ -72,6 +60,7 @@ public class QuestionListModel : BaseModel
             }
             newQuestionList.Add(question);
         }
+
         return newQuestionList;
     }
 }

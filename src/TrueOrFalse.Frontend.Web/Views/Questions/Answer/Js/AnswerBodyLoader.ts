@@ -171,11 +171,14 @@ class AnswerBodyLoader {
                         $("#QuestionDetails").fadeIn();
                         $(".FooterQuestionDetails").fadeIn();
                         //$("#QuestionListApp").show(); 
-                        if (isNewSession)
-                            eventBus.$emit('load-questions-list');
-                    } 
+                    }
+
+                    if (isNewSession)
+                        eventBus.$emit('init-new-session');
+
                         //$("#QuestionListApp").hide();
                     eventBus.$emit('change-active-question');
+                    eventBus.$emit('update-question-list');
                 }
                 Utils.HideSpinner();
             },

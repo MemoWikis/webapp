@@ -35,7 +35,6 @@ class AnswerBody {
             $("#row-1:visible").focus();
         }
 
-        eventBus.$emit('answerbody-loaded');
         document.getElementById('AnswerBody').querySelectorAll('code').forEach(block => {
             block.innerHTML = Utils.GetHighlightedCode(block.textContent);
         });

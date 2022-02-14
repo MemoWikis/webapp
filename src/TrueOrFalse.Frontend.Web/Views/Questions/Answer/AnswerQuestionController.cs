@@ -428,7 +428,7 @@ public class AnswerQuestionController : BaseController
                 MaxProbability = config.MaxProbability,
                 MinProbability = config.MinProbability,
                 MaxQuestionCount = config.MaxQuestionCount,
-                Repititions = config.Repititions,
+                Repetitions = config.Repititions,
                 AnswerHelp = config.AnswerHelp
             };
 
@@ -658,7 +658,9 @@ public class AnswerQuestionController : BaseController
         {
             config.IsNotQuestionInWishKnowledge = false;
         }
-        return LearningSessionCreator.GetQuestionCount(config);
+
+        var count = LearningSessionCreator.GetQuestionCount(config);
+        return count;
     }
 
     [HttpPost]
@@ -686,6 +688,6 @@ public class SafeLearningSessionOptionsHelper
    public int MinProbability { get; set; }
    public int MaxProbability { get; set; }
    public int MaxQuestionCount { get; set; }
-   public bool Repititions { get; set;}
+   public bool Repetitions { get; set;}
    public bool AnswerHelp { get; set;  }
 }

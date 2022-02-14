@@ -19,8 +19,6 @@ namespace QuestionListJson
         public int LearningSessionStepCount { get; set; }
         public string LinkToComment { get; set; }
         public string LinkToEditQuestion { get; set; }
-        public string LinkToDeleteQuestion { get; set; }
-        public string LinkToQuestionDetailSite { get; set; }
         public string LinkToQuestionVersions { get; set; }
         public int SessionIndex { get; set; }
         public QuestionVisibility Visibility { get; set; }

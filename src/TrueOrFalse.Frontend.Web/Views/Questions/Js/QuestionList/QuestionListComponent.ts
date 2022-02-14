@@ -50,24 +50,14 @@ Vue.component('question-list-component', {
         };
     },
     created() {
-        eventBus.$on('reload-knowledge-state', () => this.loadQuestions(this.selectedPage));
+        eventBus.$on('reload-knowledge-state', () => this.initQuestionList());
         eventBus.$on('reload-wishknowledge-state-per-question', (data) => this.changeQuestionWishknowledgeState(data.questionId, data.isInWishknowledge));
         eventBus.$on('reload-correctnessprobability-for-question', (id) => this.getUpdatedCorrectnessProbability(id));
-        eventBus.$on('load-questions-list', () => {
-            this.$nextTick(() => this.initQuestionList());
-        });
         eventBus.$on('init-new-session', () => {
             this.$nextTick(() => this.initQuestionList());
         });
         eventBus.$on('add-question-to-list', (q: QuestionListItem) => { this.addQuestionToList(q)});
-        eventBus.$on('answerbody-loaded', () => {
-            if (this.answerBodyHasLoaded)
-                return;
-            else
-                this.initQuestionList();
-            this.answerBodyHasLoaded = true;
-        });
-        eventBus.$on('remove-question-from-list', (id: Number) => { this.removeQuestionFromList(id) });
+        eventBus.$on('remove-question-from-list', () => this.initQuestionList());
     },
     mounted() {
         this.categoryId = $("#hhdCategoryId").val();
@@ -91,6 +81,7 @@ Vue.component('question-list-component', {
 
             eventBus.$emit('change-active-question');
         });
+        eventBus.$on('update-question-list', () => this.initQuestionList());
     },
     watch: {
         questionCount() {
@@ -155,6 +146,7 @@ Vue.component('question-list-component', {
                 success: questions => {
                     this.questions = questions;
                     this.updatePageCount(selectedPage);
+                    eventBus.$emit('update-question-count');
                 },
             });
         },

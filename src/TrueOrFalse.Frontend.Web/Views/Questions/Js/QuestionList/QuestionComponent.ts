@@ -56,13 +56,15 @@
             answerCount: "0",
             correctAnswers: "0",
             wrongAnswers: "0",
-            questionTitleHtml: "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>",
+            questionTitleHtml: "",
             highlightedHtml: "",
             canBeEdited: false,
         }
     },
 
     created() {
+        this.questionTitleHtml = "<div class='body-m bold margin-bottom-0'>" + this.questionTitle + "</div>";
+
         var self = this;
         eventBus.$on('send-comments-count',
             function(modalQuestionId, newCommentCount) {
@@ -81,6 +83,9 @@
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
     watch: {
+        questionTitle(title) {
+            this.questionTitleHtml = "<div class='body-m bold margin-bottom-0'>" + title + "</div>";
+        },
         isQuestionListToShow(val) {
             if (val != this.showFullQuestion)
                 this.expandQuestion();

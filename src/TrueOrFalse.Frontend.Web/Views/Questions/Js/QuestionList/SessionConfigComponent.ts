@@ -6,7 +6,7 @@ let sc = Vue.component('session-config-component', {
         VueSlider: window['vue-slider-component']
     },
 
-    props: ['questionsCount', 'allQuestionsCountFromCategory', 'isMyWorld'],
+    props: ['questionsCount', 'allQuestionCount', 'isMyWorld'],
 
     data() {
         return {
@@ -258,7 +258,9 @@ let sc = Vue.component('session-config-component', {
             this.answerBody.Loader.loadNewSession(this.questionFilter, true);
             $('#SessionConfigModal').modal('hide');
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
-            eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
+            this.$nextTick(() => {
+                eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
+            })
             this.isFirstLoad = firstLoad;
         },
         matchSize() {

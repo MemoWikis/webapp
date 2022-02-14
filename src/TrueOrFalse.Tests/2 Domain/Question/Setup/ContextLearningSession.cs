@@ -22,7 +22,6 @@ internal static class ContextLearningSession
                 MaxQuestionCount = amountQuestions,
                 CurrentUserId = -1,
                 MaxProbability = 100
-                
             });
         return learningSession;
     }

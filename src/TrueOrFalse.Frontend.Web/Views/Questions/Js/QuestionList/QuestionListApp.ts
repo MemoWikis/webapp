@@ -10,36 +10,34 @@ let questionListApp = new Vue({
     data: {
         isQuestionListToShow: false,
         answerBody: new AnswerBody(),
-        questionsCount: 10,
         activeQuestion: 0, // which question is active
         learningSessionData: "",
         selectedPageFromActiveQuestion: 1,
-        allQuestionsCountFromCategory: 0,
-        selectedQuestionCount: "alle",
         activeQuestionId: 0 as Number,
         hasNoQuestions: true,
         commentIsLoaded: false,
-        commentQuestionId: 0
+        commentQuestionId: 0,
+        stepCount: 0,
+        currentQuestionCount: 0,
+        repetitionCount: 0,
+        allQuestionCount: 0,
     },
 
     created() {
         eventBus.$on("change-active-question", () => this.setActiveQuestionId());
         eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
-        this.questionsCount = this.getAllQuestionsCountFromCategory();
-        eventBus.$on("send-selected-questions", (numberOfQuestions) => {
-            numberOfQuestions !== this.questionsCount
-                ? this.selectedQuestionCount = numberOfQuestions
-                : this.selectedQuestionCount = "alle";
+        eventBus.$on("send-selected-questions", () => {
+            this.getCurrentLearningSessionData();
         });
         eventBus.$on('update-selected-page', (selectedPage) => {
             this.$nextTick(() => this.selectedPageFromActiveQuestion = selectedPage);
         });
         eventBus.$on('add-question-to-list',
             () => {
-                this.getAllQuestionsCountFromCategory();
+                this.getCurrentLearningSessionData();
             });
         eventBus.$on('init-new-session', () => {
-            this.$nextTick(() => this.selectedQuestionCount = 'alle');
+            this.$nextTick(() => this.getCurrentLearningSessionData());
             this.$nextTick(() => this.selectedPageFromActiveQuestion = 1);
         });
 
@@ -63,10 +61,10 @@ let questionListApp = new Vue({
         this.setActiveQuestionId();
 
         this.$nextTick(() => {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
         });
         eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
-        eventBus.$on('update-question-count', () => { this.getAllQuestionsCountFromCategory() });
+        eventBus.$on('update-question-count', () => { this.getCurrentLearningSessionData() });
     },
 
     watch: {
@@ -78,11 +76,8 @@ let questionListApp = new Vue({
                 this.selectedPageFromActiveQuestion = selectedPage + 1;      //question 25 is page 2 
             }
         },
-        questionsCount(val) {
-            if (val < 1)
-                this.hasNoQuestions = true;
-            else
-                this.hasNoQuestions = false;
+        stepCount(val) {
+            this.hasNoQuestions = val < 1;
         }
     },
 
@@ -93,25 +88,21 @@ let questionListApp = new Vue({
         startNewLearningSession: () => {
             eventBus.$emit("start-learning-session");
         },
-        updateQuestionsCount: function (val) {
-            this.questionsCount = val;
-        },
         changeActiveQuestion: function (index) {
             this.activeQuestion = index;
         },
-        getAllQuestionsCountFromCategory() {
+        getCurrentLearningSessionData() {
             $.ajax({
-                url: "/AnswerQuestion/GetQuestionCount/",
+                url: "/QuestionList/GetCurrentLearningSessionData/",
                 data: {
-                    config: null,
                     categoryId: $("#hhdCategoryId").val()
                 },
                 type: "POST",
                 success: result => {
-                    result = parseInt(result);
-                    this.questionsCount = result;
-                    this.allQuestionsCountFromCategory = result;
-
+                    this.allQuestionCount = result.allQuestionCount;
+                    this.stepCount = result.stepCount;
+                    this.currentQuestionCount = result.currentQuestionCount;
+                    this.repetitionCount = this.stepCount - this.currentQuestionCount;
                 }
             });
         },

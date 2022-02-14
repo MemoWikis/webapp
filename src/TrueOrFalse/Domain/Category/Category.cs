@@ -111,9 +111,6 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual int CountQuestions { get; set; }
     public virtual int CountSets { get; set; }
-
-    public virtual string FeaturedSetsIdsString { get; set; }
-
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }

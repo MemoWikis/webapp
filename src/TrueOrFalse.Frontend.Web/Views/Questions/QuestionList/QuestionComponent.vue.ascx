@@ -18,7 +18,7 @@
                     :link-to-edit-question ="q.LinkCanEditQuestion"
                     :link-to-question-versions ="q.LinkToQuestionVersions"
                     :link-to-question ="q.LinkToQuestion"
-                    :key="q.Id"
+                    :key="q.SessionIndex"
                     :session-index="q.SessionIndex"
                     :is-last-item="index == (questions.length-1)"
                     :visibility="q.Visibility">

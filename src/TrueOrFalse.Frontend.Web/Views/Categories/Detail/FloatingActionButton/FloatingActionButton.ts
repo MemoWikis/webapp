@@ -67,7 +67,7 @@ var FAB = Vue.component('floating-action-button',
             window.addEventListener('scroll', this.handleScroll);
             window.addEventListener('resize', this.footerCheck);
             if (this.isLearningTab)
-                eventBus.$on('load-questions-list', this.getEditQuestionUrl);
+                eventBus.$on('init-new-session', this.getEditQuestionUrl);
             eventBus.$on('tab-change', () => this.cancelEditMode());
             if (IsLoggedIn.Yes) {
                 this.disableSave = false;

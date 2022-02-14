@@ -3,12 +3,12 @@
 <question-list-component 
         inline-template 
         category-id="<%= Model.CategoryId %>" 
-        :all-question-count="questionsCount" 
+        :all-question-count="allQuestionCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
         :is-question-list-to-show="isQuestionListToShow"
         :active-question-id="activeQuestionId"
         :selected-page-from-active-question="selectedPageFromActiveQuestion"
-        :question-count="questionsCount">
+        :question-count="currentQuestionCount">
         <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
             <template v-for="(q, index) in questions">
                 <%: Html.Partial("~/Views/Questions/QuestionList/QuestionComponent.vue.ascx")%>
