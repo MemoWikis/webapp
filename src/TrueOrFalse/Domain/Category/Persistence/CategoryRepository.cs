@@ -245,14 +245,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override void Update(Category category) => Update(category);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
-    public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false, CategoryChangeType type = CategoryChangeType.Update)
+    public void Update(Category category, User author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false, CategoryChangeType type = CategoryChangeType.Update, bool createCategoryChange = true)
     {
         if (!isFromModifiyRelations)
             _searchIndexCategory.Update(category);
 
         base.Update(category);
 
-        if (author != null)
+        if (author != null && createCategoryChange)
             Sl.CategoryChangeRepo.AddUpdateEntry(category, author, imageWasUpdated, type);
 
         Flush();
