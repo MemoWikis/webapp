@@ -56,16 +56,16 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     {
         User aliasUser = null;
         Category aliasCategory = null;
-        Category aliasParentCategory = null;
         var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
-        var childIds = categoryCacheItem.CategoryRelations.Where(cci =>
-            cci.CategoryRelationType == CategoryRelationType.IncludesContentOf).Select(cr => cr.RelatedCategoryId).ToList();
+        var childIds = categoryCacheItem
+            .CategoryRelations
+            .Where(cci => cci.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(cr => cr.RelatedCategoryId)
+            .ToList();
 
         var query = _session
             .QueryOver<CategoryChange>()
             .Where(c => c.Category.Id == categoryId || c.Category.Id.IsIn(childIds));
-
-
 
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
@@ -85,6 +85,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             cc.Type != CategoryChangeType.Update &&
             cc.Type != CategoryChangeType.Relations)
             .ToList();
+
         return categoryChangeList;
     }
 
@@ -107,8 +108,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' 
             ORDER BY cc.DateCreated 
             LIMIT 1
+        ";
 
-            ";
         var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
         return nextRevision;
     }
