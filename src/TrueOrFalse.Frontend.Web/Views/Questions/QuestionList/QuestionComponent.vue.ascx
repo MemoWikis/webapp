@@ -33,7 +33,7 @@
                     <div class="questionContainerTopSection col-xs-11" >
                         <div class="questionHeader row">
                             <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
-                                <component :is="questionTitleHtml && {template:questionTitleHtml}" @hook:mounted="highlightCode(questionTitleId)" ></component>
+                                <component :is="questionTitleHtml && { template:questionTitleHtml }" @hook:mounted="highlightCode(questionTitleId)" ></component>
                                 <div v-if="visibility == 1" class="privateQuestionIcon">
                                     <p>
                                         <i class="fas fa-lock"></i>

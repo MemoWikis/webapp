@@ -269,8 +269,6 @@
                 </div>
             </div>
         </div>
-
-<% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
     </div>
               
 </asp:Content>

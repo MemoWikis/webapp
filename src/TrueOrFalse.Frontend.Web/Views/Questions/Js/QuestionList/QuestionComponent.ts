@@ -67,7 +67,7 @@
 
         var self = this;
         eventBus.$on('send-comments-count',
-            function(modalQuestionId, newCommentCount) {
+            (modalQuestionId, newCommentCount) => {
                 if (modalQuestionId === self.questionId) {
                     self.commentCount = newCommentCount as number;
                     document.getElementById("commentCountAnswerBody").innerHTML = newCommentCount as string;
@@ -188,7 +188,7 @@
                     } else {
                         this.answer = "<div>" + data.answer + "</div>";;
                         if (data.extendedAnswer != null)
-                            this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";;
+                            this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";
                     };
                     if (data.categories) {
                         this.categories = data.categories;
@@ -197,7 +197,7 @@
                     this.references = data.references;
                     this.author = data.author;
                     this.authorImage = data.authorImage;
-                    this.extendedQuestion = data.extendedQuestion;
+                    this.extendedQuestion = "<div>" + data.extendedQuestion + "</div>";
                     this.commentCount = data.commentCount;
                     this.isCreator = data.isCreator && this.isLoggedIn;
                     this.editUrl = data.editUrl;
