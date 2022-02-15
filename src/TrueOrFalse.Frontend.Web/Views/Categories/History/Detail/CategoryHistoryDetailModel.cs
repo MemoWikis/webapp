@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using FluentNHibernate.Conventions;
 using NHibernate.Id;
+using NHibernate.Transform;
+using Serilog;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel : BaseModel
@@ -43,10 +45,6 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevWikipediaUrl;
     public string PrevRelations;
     public CategoryVisibility PrevVisibility;
-
-    public CategoryHistoryDetailModel(bool isTest)
-    {
-    }
 
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
@@ -114,7 +112,7 @@ public class CategoryHistoryDetailModel : BaseModel
         }
     }
 
-    public string FormatHtmlString(string unformatted)
+    public static string FormatHtmlString(string unformatted)
     {
         if (String.IsNullOrEmpty(unformatted))
             return "";
@@ -144,12 +142,14 @@ public class CategoryHistoryDetailModel : BaseModel
             category = EntityCache.GetCategoryCacheItem(categoryId);
             relatedCategory = EntityCache.GetCategoryCacheItem(relatedCategoryId);
         }
-        catch
+        catch(Exception e)
         {
-
+            Logg.Error(e);
         }
+
         if (category != null && relatedCategory != null)
             return PermissionCheck.CanView(category) && PermissionCheck.CanView(relatedCategory);
+
         return false;
     }
 
@@ -191,21 +191,27 @@ public class CategoryHistoryDetailModel : BaseModel
         string res = "";
         if (relations != null && relations.IsNotEmpty())
         {
-            var parents = relations.Where(r => r.RelationType == CategoryRelationType.IsChildOf);
+            var parents = relations
+                .Where(r => r.RelationType == CategoryRelationType.IsChildOf)
+                .ToList();
+
             res += "Übergeordnete Themen\n";
-            res += (parents.IsEmpty())
+            res += parents.IsEmpty()
                 ? "<keine>"
                 : string.Join("\n", parents.Select(Relation2String));
 
-            var children = relations.Where(r => r.RelationType == CategoryRelationType.IncludesContentOf);
+            var children = relations
+                .Where(r => r.RelationType == CategoryRelationType.IncludesContentOf)
+                .ToList();
+
             res += "\n\nUntergeordnete Themen\n";
-            res += (children.IsEmpty())
+            res += children.IsEmpty()
                 ? "<keine>"
                 : string.Join("\n", children.Select(Relation2String));
 
             var otherRelations = relations.Where(r => r.RelationType != CategoryRelationType.IsChildOf && r.RelationType != CategoryRelationType.IncludesContentOf);
             res += "\n\nAndere Beziehungsdaten\n";
-            res += (otherRelations.IsEmpty())
+            res += otherRelations.IsEmpty()
                 ? "<keine>"
                 : string.Join("\n", children.Select(Relation2String));
         }
