@@ -1,14 +1,9 @@
 ﻿@import (reference) '../../../../Style/includes/imports.less';
 
-@color-correctAnswer: #1bbd00;
-@color-correctAfterRepetitionAnswer: #fdd648;
-@color-wrongAnswer: @dark-red;
-@color-notAnswered: lightgray;
-/*@color-correctAnswer: inherit;
-@color-correctAfterRepetitionAnswer: inherit;
-@color-wrongAnswer: inherit;
-@color-notAnswered: inherit;*/
-
+@color-correctAnswer: @solid-knowledge-color;
+@color-correctAfterRepetitionAnswer: @needs-consolidation-color;
+@color-wrongAnswer: @needs-learning-color;
+@color-notAnswered: @not-learned-color;
 
 #ResultMainColumn{
 
@@ -171,7 +166,6 @@
 .QuestionLearned {
      margin-bottom: 7px;
      border: 1px solid lightgray;
-     border-radius: 4px;
      padding: 5px 10px;
      background-color: @white;
 

@@ -227,21 +227,16 @@ Vue.component('question-details-component', {
         },
 
         setPersonalProbability() {
-            if (this.isInWishknowledge) {
-                if (this.personalAnswerCount <= 0) {
-                    this.personalProbabilityText = "Nicht gelernt";
-                    this.personalColor = "#999999";
-                }
-                else if (this.personalProbability >= 80)
-                    this.personalProbabilityText = "Sicheres Wissen";
-                else if (this.personalProbability < 80 && this.personalProbability >= 50)
-                    this.personalProbabilityText = "Zu festigen";
-                else if (this.personalProbability < 50 && this.personalProbability >= 0)
-                    this.personalProbabilityText = "Zu lernen";
-            } else {
-                this.personalColor = "#DDDDDD";
-                this.personalProbabilityText = "Nicht im Wunschwissen";
+            if (this.personalAnswerCount <= 0) {
+                this.personalProbabilityText = "Nicht gelernt";
+                this.personalColor = "#999999";
             }
+            else if (this.personalProbability >= 80)
+                this.personalProbabilityText = "Sicheres Wissen";
+            else if (this.personalProbability < 80 && this.personalProbability >= 50)
+                this.personalProbabilityText = "Zu festigen";
+            else if (this.personalProbability < 50 && this.personalProbability >= 0)
+                this.personalProbabilityText = "Zu lernen";
 
         },
 

@@ -39,6 +39,7 @@
                 if (this.id == id)
                     this.visibility = 0;
             });
+        $('.show-tooltip').tooltip();
     },
     watch: {
         selectedCategories() {

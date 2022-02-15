@@ -8,11 +8,7 @@
 }@media (max-width: 767px) {
 }@media (max-width: 649px) {
 }@media (min-width: 650px) {
-}/*@color-correctAnswer: inherit;
-@color-correctAfterRepetitionAnswer: inherit;
-@color-wrongAnswer: inherit;
-@color-notAnswered: inherit;*/
-#LearningTabContent #ResultMainColumn {
+}#LearningTabContent #ResultMainColumn {
   width: 100%;
 }
 #LearningTabContent #ResultSideColumn {
@@ -79,18 +75,18 @@
   color: #fff;
 }
 .chartCorrectAnswer {
-  background-color: #1bbd00;
+  background-color: #AFD534;
   color: #fff;
 }
 .chartCorrectAfterRepetitionAnswer {
   background-color: #fdd648;
 }
 .chartWrongAnswer {
-  background-color: #B13A48;
+  background-color: lightsalmon;
   color: #fff;
 }
 .chartNotAnswered {
-  background-color: lightgray;
+  background-color: #999999;
 }
 .SummaryText {
   font-size: 16px;
@@ -122,16 +118,16 @@
   width: 35px;
 }
 .sumPctRight {
-  background-color: #1bbd00;
+  background-color: #AFD534;
 }
 .sumPctRightAfterRep {
   background-color: #fdd648;
 }
 .sumPctWrong {
-  background-color: #B13A48;
+  background-color: lightsalmon;
 }
 .sumPctNotAnswered {
-  background-color: lightgray;
+  background-color: #999999;
 }
 .sumExpl {
   text-align: left;
@@ -150,7 +146,6 @@
 .QuestionLearned {
   margin-bottom: 7px;
   border: 1px solid lightgray;
-  border-radius: 4px;
   padding: 5px 10px;
   background-color: #fff;
   /*i.fa-check {
@@ -172,16 +167,16 @@
   font-size: 14px;
 }
 .QuestionLearned.AnsweredRight .AnswerResultIcon {
-  color: #1bbd00;
+  color: #AFD534;
 }
 .QuestionLearned.AnsweredRightAfterRepetition .AnswerResultIcon {
   color: #fdd648;
 }
 .QuestionLearned.AnsweredWrong .AnswerResultIcon {
-  color: #B13A48;
+  color: lightsalmon;
 }
 .QuestionLearned.Unanswered .AnswerResultIcon {
-  color: lightgray;
+  color: #999999;
 }
 .answerDetails {
   padding-left: 30px;

@@ -528,7 +528,7 @@ p:empty {
   background-color: #AFD534;
 }
 .category-knowledge-bar .not-learned {
-  background-color: silver;
+  background-color: #999999;
 }
 .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #DDDDDD;
@@ -2029,7 +2029,7 @@ p:empty {
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
 .ContentModule .ModuleBorder .singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-learned,
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-learned {
-  background-color: silver;
+  background-color: #999999;
 }
 .ContentModule .ModuleBorder .singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
 .ContentModule .ModuleBorder .singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,

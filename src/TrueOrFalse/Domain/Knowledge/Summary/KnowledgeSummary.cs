@@ -31,8 +31,8 @@ public class KnowledgeSummary
 
     public KnowledgeSummary(int notInWishKnowledge = 0, int notLearned = 0, int needsLearning = 0, int needsConsolidation = 0, int solid = 0, string options="standard")
     {
-        NotInWishknowledge = notInWishKnowledge;
-        NotLearned = notLearned;
+        NotInWishknowledge = 0;
+        NotLearned = notLearned + notInWishKnowledge;
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;

@@ -11,9 +11,7 @@
 <input type="hidden" id="hddIsResultSite" value="true"/>
 
 <h2 style="margin-bottom: 15px; margin-top: 0px;">
-    <span class="<%
-                    if (Model.LearningSession.Config.InWishknowledge) Response.Write("ColoredUnderline Knowledge");
-                 %>">Ergebnis</span>
+    Ergebnis
 </h2>
     
 
@@ -89,11 +87,11 @@
         <div class="buttonRow">
             <% if (!Model.LearningSession.Config.InWishknowledge || Model.LearningSession.Config.IsAnonymous()) { %>
                 <a href="<%= Links.CategoryDetail(Model.LearningSession.Config.Category.Name, Model.LearningSession.Config.CategoryId) %>" class="btn btn-link " style="padding-right: 10px">Zum Thema</a>
-                <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningSession" style="padding-right: 10px">
+                <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px">
                     Weiterlernen
                 </a>   
             <% } else if (Model.LearningSession.Config.InWishknowledge) { %>
-                <a href="<%=Links.StartLearningSession(Model.LearningSession)  %>" class="btn btn-primary nextLearningSession" style="padding-right: 10px">
+                <a href="<%=Links.StartLearningSession(Model.LearningSession)  %>" class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px">
                     Neue Lernsitzung
                 </a>
             <% } else {

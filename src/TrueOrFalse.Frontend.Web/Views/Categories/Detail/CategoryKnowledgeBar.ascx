@@ -31,13 +31,6 @@
             title="Noch nicht gelernt: <br/> <%= Model.CategoryKnowledgeSummary.NotLearned %> Fragen (<%= Model.CategoryKnowledgeSummary.NotLearnedPercentage %>%)"
             style="width: <%= Model.CategoryKnowledgeSummary.NotLearnedPercentage %>%;"></div>
     <% } %>
-
-    <% if(Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage > 0) { %>
-        <div class="not-in-wish-knowledge show-tooltip"
-            data-html="true"
-            title="Noch nicht im Wunschwissen: <br/> <%= Model.CategoryKnowledgeSummary.NotInWishknowledge %> Fragen (<%= Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage %>%)"
-            style="width: <%= Model.CategoryKnowledgeSummary.NotInWishknowledgePercentage %>%;"></div>
-    <% } %>
     <div class="ConditionalLegend" style="display: none;">
         Dein Wissensstand
     </div>
