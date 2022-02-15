@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using NHibernate.Util;
 using NUnit.Framework;
-using TrueOrFalse;
 using TrueOrFalse.Tests;
 
 [TestFixture]
@@ -174,10 +170,9 @@ class CategoryChange_tests : BaseTest
         var brokenString =
             "&amp;";
 
-        var model = new CategoryHistoryDetailModel(true);
-        var formatted = model.FormatHtmlString(brokenString);
+        var formatted = CategoryHistoryDetailModel.FormatHtmlString(brokenString);
 
-        var empty = model.FormatHtmlString(null);
+        var empty = CategoryHistoryDetailModel.FormatHtmlString(null);
 
         Assert.That(formatted, Is.EqualTo("&"));
         Assert.That(empty, Is.EqualTo(""));
@@ -189,8 +184,7 @@ class CategoryChange_tests : BaseTest
         var imgString =
             "<img src=\"data:image/png;base64,YII=\" alt=\"0\">";
 
-        var model = new CategoryHistoryDetailModel(true);
-        var formatted = model.FormatHtmlString(imgString);
+        var formatted = CategoryHistoryDetailModel.FormatHtmlString(imgString);
 
         Assert.That(formatted, Is.EqualTo("\r\n  <img src=\"data:image/png;base64,YII=\" alt=\"0\">\r\n "));
     }
@@ -199,21 +193,20 @@ class CategoryChange_tests : BaseTest
     public void GetNullRelationChangeItemForNonExistingPreviousRevision()
     {
         var category = ContextCategory.New().Add("Category 1").Persist().All[0];
-        var changes = new List<CategoryChange>();
-
-        changes.Add(
+        var changes = new List<CategoryChange>
+        {
             new CategoryChange
-                {
-                    Id = 1,
-                    Author = new User(),
-                    Category = category,
-                    Data = "{\"CategoryRelations\":[],\"ImageWasUpdated\":false,\"Name\":\"M Ts Wiki\",\"Description\":null,\"TopicMarkdown\":null,\"Content\":\"\",\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":1}",
-                    DataVersion = 1,
-                    DateCreated = new DateTime(2010, 10, 10, 10, 10, 10),
-                    ShowInSidebar = false,
-                    Type = CategoryChangeType.Create
-                }
-            );
+            {
+                Id = 1,
+                Author = new User(),
+                Category = category,
+                Data = "{\"CategoryRelations\":[],\"ImageWasUpdated\":false,\"Name\":\"M Ts Wiki\",\"Description\":null,\"TopicMarkdown\":null,\"Content\":\"\",\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":1}",
+                DataVersion = 1,
+                DateCreated = new DateTime(2010, 10, 10, 10, 10, 10),
+                ShowInSidebar = false,
+                Type = CategoryChangeType.Create
+            }
+        };
 
         var item = new CategoryChangeDetailModel();
         item.CategoryChangeId = 1;
