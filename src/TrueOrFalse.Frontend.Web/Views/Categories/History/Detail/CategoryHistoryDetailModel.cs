@@ -47,6 +47,7 @@ public class CategoryHistoryDetailModel : BaseModel
     public CategoryHistoryDetailModel(bool isTest)
     {
     }
+
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
@@ -54,28 +55,25 @@ public class CategoryHistoryDetailModel : BaseModel
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
-        var previouisRevisionData = !PrevRevExists ? null :  previousRevision.GetCategoryChangeData();
+        var previouisRevisionData = !PrevRevExists ? null : previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
 
-        CategoryId = currentRevision.Category == null ? Sl.CategoryChangeRepo.GetCategoryId(currentRevision.Id):  currentRevision.Category.Id;
+        CategoryId = currentRevision.Category == null ? 
+            Sl.CategoryChangeRepo.GetCategoryId(currentRevision.Id) :  
+            currentRevision.Category.Id;
 
-        if (currentVersionTypeDelete)                       // is currentVersion deleted then is too category deleted
+        if (currentVersionTypeDelete) // is currentVersion deleted then is too category deleted
             CategoryName = previouisRevisionData.Name;
-        else if(isCategoryDeleted)                        // is category deleted  then currentversion type delete is not necessarily
-        {
-            CategoryName = currentRevisionData.Name;   
-        }
+        else if (isCategoryDeleted) // is category deleted  then currentversion type delete is not necessarily
+            CategoryName = currentRevisionData.Name;
         else
-        {
             CategoryName = currentRevision.Category.Name;
-        }
 
         Author = new UserTinyModel(currentRevision.Author);
         AuthorName = new UserTinyModel(currentRevision.Author).Name;
         AuthorImageUrl = new UserImageSettings(new UserTinyModel(currentRevision.Author).Id).GetUrl_85px_square(new UserTinyModel(currentRevision.Author)).Url;
         CategoryUrl = isCategoryDeleted ? "" : Links.CategoryDetail(CategoryName, CategoryId);
-
        
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
