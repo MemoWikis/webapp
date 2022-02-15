@@ -100,7 +100,7 @@ class AnswerBodyLoader {
             $("#AnswerBody").fadeOut();
             $("#QuestionDetails").fadeOut();
             $(".FooterQuestionDetails").fadeOut();
-            $(".SessionSessionHeading").fadeOut();
+            $(".SessionHeading").fadeOut();
             $(".SessionBar").fadeOut();
             $("#spanPercentageDone").html(0 + "%");
             $("#progressPercentageDone").width(0 + "%");
@@ -160,12 +160,12 @@ class AnswerBodyLoader {
                         $("div[data-div-type='testSessionHeader']").slice(1).remove();
 
                     if (continueWithNewSession) {
-                        $(".SessionSessionHeading").fadeIn();
+                        $(".SessionHeading").fadeIn();
                         $(".SessionBar").fadeIn();
                         $("#QuestionListApp").fadeIn();
                     }
                     if (loadedFromVue) {
-                        $(".SessionSessionHeading").fadeIn();
+                        $(".SessionHeading").fadeIn();
                         $(".SessionBar").fadeIn();
                         $("#AnswerBody").fadeIn();
                         $("#QuestionDetails").fadeIn();

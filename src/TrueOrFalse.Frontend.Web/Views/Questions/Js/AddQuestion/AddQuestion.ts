@@ -141,7 +141,7 @@
                 return;
             }
             var self = this;
-            var lastIndex = parseInt($('#QuestionListComponent').attr("data-last-index")) + 1;
+            var lastIndex = $('.singleQuestionRow ').length > 0 ? parseInt($('#QuestionListComponent').attr("data-last-index")) + 1 : null;
             var json = {
                 CategoryId: this.currentCategoryId,
                 TextHtml: this.questionHtml,

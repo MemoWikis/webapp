@@ -67,13 +67,13 @@ Vue.component('question-list-component', {
 
             var answerBody = new AnswerBody();
             var skipIndex = this.questions != null ? -5 : 0;
-
+            var index = this.questions.length > 0 && data.index === -1 ? 0 : data.index;
             if (this.questions.length >= 1)
                 answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                     "?skipStepIdx=" +
                     skipIndex +
                     "&index=" +
-                    data.index);
+                    index);
 
             eventBus.$emit('change-active-question');
         });
@@ -92,8 +92,25 @@ Vue.component('question-list-component', {
         questions() {
             if (this.questions.length > 0)
                 this.hasQuestions = true;
+
             if (this.questions.length == 1)
                 this.questionText = "Frage";
+
+            if (this.questions.length <= 0) {
+                this.hasQuestions = false;
+
+                $('#SessionHeaderContainer').replaceWith(
+                    "<div id='NoQuestionsSessionBar' class='NoQuestions' style='margin-top: 40px;'>" +
+                        "Es sind leider noch keine Fragen zum Lernen in diesem Thema enthalten." +
+                    "</div>"
+                );
+
+                $("#AnswerBody").html(
+                    "<input type='hidden' id='hddSolutionTypeNum' value='1'>" +
+                    "<div id='QuestionDetails' data-div-type='questionDetails'></div>"
+                );
+            }
+
         },
         selectedPage(val) {
             this.loadQuestions(val);
@@ -223,12 +240,6 @@ Vue.component('question-list-component', {
             if (this.questions.length <= 0)
                 this.renderNewSessionBar(q.Id);
             this.questions.push(q);
-        },
-        removeQuestionFromList(id: Number) {
-            var self = this;
-            self.questions.forEach((q, index) => {
-                if (q.Id == id) self.questions.splice(index, 1);
-            });
         },
         renderNewSessionBar(id) {
             $.ajax({

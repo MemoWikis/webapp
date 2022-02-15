@@ -510,12 +510,14 @@ class AnswerQuestion {
         if (hasFlashCard) {
             answerSection.addClass('hasFlashCard');
             setTimeout(() => {
+                if ($('#AnswerInputSection #flashCard-front').length > 0) {
                     let flashCardHeight = Math.max($('#AnswerInputSection #flashCard-front')[0].scrollHeight,
                         $('#AnswerInputSection #flashCard-back')[0].scrollHeight);
                     $('#AnswerInputSection').height(flashCardHeight + 60);
                     $('#AnswerInputSection #flashCardContent').css('opacity', 1);
-                },
-                1);
+                }
+
+            }, 1);
         }
         else
             answerSection.removeClass('hasFlashCard');
