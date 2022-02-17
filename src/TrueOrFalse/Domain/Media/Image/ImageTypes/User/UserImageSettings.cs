@@ -62,7 +62,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
             return url;
         }
 
-        if (user.IsGoogleUser)
+        if (user.IsGoogleUser && !IsNullOrEmpty(Settings.GoogleApiKey))
         {
             var url = $"https://admin.googleapis.com/admin/directory/v1/users/{user.GoogleId}/photos/thumbnail&key={Settings.GoogleApiKey}";
 

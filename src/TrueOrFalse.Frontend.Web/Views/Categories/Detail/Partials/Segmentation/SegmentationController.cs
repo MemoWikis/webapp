@@ -20,7 +20,7 @@ public class SegmentationController : BaseController
             segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategoryCacheItems(json.ChildCategoryIds)
                 .Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategoryCacheItems(json.ChildCategoryIds).ToList();
         else
-            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) :  EntityCache.GetChildren(categoryId);
+            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) : EntityCache.GetChildren(categoryId);
 
         return Json(new
         {
@@ -74,11 +74,12 @@ public class SegmentationController : BaseController
         var imageFrontendData = new ImageFrontendData(imageMetaData);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
 
-        var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds; 
+        var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds;
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
         var knowledgeBarHtml = "";
         if (questionCount > 0)
-            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
+            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
+                new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
 
         var isInWishknowledge = false;
         var isPersonalHomepage = false;
@@ -88,7 +89,6 @@ public class SegmentationController : BaseController
                 isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
             isPersonalHomepage = categoryCacheItem.Id == startTopicId;
         }
-
 
         return new CategoryCardData
         {
@@ -104,6 +104,7 @@ public class SegmentationController : BaseController
             IsInWishknowledge = isInWishknowledge,
             IsPersonalHomepage = isPersonalHomepage
         };
+
     }
 
     private class CategoryCardData
