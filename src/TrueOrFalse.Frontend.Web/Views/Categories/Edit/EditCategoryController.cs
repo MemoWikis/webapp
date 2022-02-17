@@ -280,7 +280,9 @@ public class EditCategoryController : BaseController
 
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
-
+        
+        EntityCache.GetCategoryCacheItem(parentCategoryId).CachedData.AddChildId(childCategoryId);
+        
         return Json(new
         {
             success = true,
