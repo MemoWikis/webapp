@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
 
@@ -44,6 +45,11 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
         CategoryRepository.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
+        var parentIds = EntityCache.ParentCategories(category.Id).Select(cci => cci.Id).ToList();
+        foreach (var parentId in parentIds)
+        {
+            EntityCache.GetCategoryCacheItem(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
+        }
         ModifyRelationsUserEntityCache.DeleteFromAllParents(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
