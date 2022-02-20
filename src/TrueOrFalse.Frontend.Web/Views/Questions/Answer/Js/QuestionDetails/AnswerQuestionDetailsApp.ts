@@ -7,6 +7,6 @@ if (eventBus == null)
 var qApp = new Vue({
     el: '#QuestionDetailsApp',
     mounted() {
-        eventBus.$on('suicide', () => this.$destroy());
+        eventBus.$on('destroy-answer-question-details', () => this.$destroy());
     },
 });

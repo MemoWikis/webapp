@@ -391,10 +391,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 "?skipStepIdx=" +
                                 skipIndex +
                                 "&index=" +
-                                self.sessionIndex); 
-
-                            if (!self.edit)
-                                eventBus.$emit('add-question-to-list', result);
+                                self.sessionIndex);
 
                             eventBus.$emit('change-active-question', self.sessionIndex);
                             eventBus.$emit('update-question-count');

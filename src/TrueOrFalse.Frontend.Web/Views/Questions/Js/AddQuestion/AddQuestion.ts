@@ -165,7 +165,6 @@
                         "&index=" +
                         lastIndex);
 
-                    eventBus.$emit('add-question-to-list', data);
                     eventBus.$emit("change-active-question", lastIndex);
                     self.highlightEmptyFields = false;
                     self.questionEditor.commands.setContent('');

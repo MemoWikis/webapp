@@ -41,12 +41,13 @@ public class EditQuestionController : BaseController
 
         _questionRepo.Create(question);
 
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        if (questionDataJson.IsLearningTab)
+            LearningSessionCache.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
-        if (questionDataJson.IsLearningTab)
-            LearningSessionCache.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -95,7 +96,6 @@ public class EditQuestionController : BaseController
             };
         var serializer = new JavaScriptSerializer();
         var question = new Question();
-        var questionRepo = Sl.QuestionRepo;
 
         question.TextHtml = flashCardJson.TextHtml;
         question.Text = safeText;
@@ -103,6 +103,7 @@ public class EditQuestionController : BaseController
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
         solutionModelFlashCard.Text = flashCardJson.Answer;
+
         if (solutionModelFlashCard.Text.Length <= 0)
             return new JsonResult
             {
@@ -112,6 +113,7 @@ public class EditQuestionController : BaseController
                     key = "missingAnswer",
                 }
             };
+
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = _sessionUser.User;
@@ -120,20 +122,15 @@ public class EditQuestionController : BaseController
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        questionRepo.Create(question);
-
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
-
         var questionController = new QuestionController(_questionRepo);
 
-        var json = questionController.LoadQuestion(question.Id);
-
-        return json;
+        return questionController.LoadQuestion(question.Id);
     }
 
     private string GetSafeText(string text)
@@ -186,13 +183,6 @@ public class EditQuestionController : BaseController
                 reference.DateModified = DateTime.Now;
                 question.References.Add(reference);
             }
-        }
-
-        if (questionDataJson.SessionIndex > 0)
-        {
-            var learningSession = LearningSessionCache.GetLearningSession();
-            var step = new LearningSessionStep(question);
-            learningSession.Steps.Insert(questionDataJson.SessionIndex, step);
         }
 
         question.License = IsInstallationAdmin

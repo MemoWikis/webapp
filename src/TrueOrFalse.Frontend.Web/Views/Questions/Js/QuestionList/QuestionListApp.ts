@@ -32,10 +32,6 @@ let questionListApp = new Vue({
         eventBus.$on('update-selected-page', (selectedPage) => {
             this.$nextTick(() => this.selectedPageFromActiveQuestion = selectedPage);
         });
-        eventBus.$on('add-question-to-list',
-            () => {
-                this.getCurrentLearningSessionData();
-            });
         eventBus.$on('init-new-session', () => {
             this.$nextTick(() => this.getCurrentLearningSessionData());
             this.$nextTick(() => this.selectedPageFromActiveQuestion = 1);

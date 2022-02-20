@@ -116,7 +116,7 @@ class AnswerBodyLoader {
             success: result => {
                 if (result !== "") {
 
-                    eventBus.$emit('suicide');
+                    eventBus.$emit('destroy-answer-question-details');
                     result = JSON.parse(result);
 
                     if (!this._isInLearningTab) {
