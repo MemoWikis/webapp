@@ -36,9 +36,9 @@ public class CategoryCachedData
 
     public int GetChild(int id)
     {
-        return _childrenIds[id];
+        return _childrenIds.First(cId => cId == id);
     }
 
     public int CountVisibleChildrenIds =>
-        EntityCache.GetCategoryCacheItems(ChildrenIds).Count(PermissionCheck.CanView);
+        EntityCache.GetCategoryCacheItems(ChildrenIds).Where(PermissionCheck.CanView).Distinct().Count();
 }

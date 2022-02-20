@@ -280,7 +280,9 @@ public class EditCategoryController : BaseController
 
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
-
+        
+        EntityCache.GetCategoryCacheItem(parentCategoryId).CachedData.AddChildId(childCategoryId);
+        
         return Json(new
         {
             success = true,
@@ -480,7 +482,7 @@ public class EditCategoryController : BaseController
         _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childCategoryId);
         _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
-
+        EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
         return Json(new
         {
             success = true,
@@ -496,15 +498,19 @@ public class EditCategoryController : BaseController
     {
         var removedChildCategoryIds = new List<int>();
         var notRemovedChildrenCategoryIds = new List<int>();
+        var parentCategoryCacheItem = EntityCache.GetCategoryCacheItem(parentCategoryId);
         foreach (int childCategoryId in childCategoryIds)
         {
             var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryId, childCategoryId);
-            if (parentHasBeenRemoved)
+            if (parentHasBeenRemoved){
+                parentCategoryCacheItem.CachedData.RemoveChildId(childCategoryId);
                 removedChildCategoryIds.Add(childCategoryId);
+            }
+
             else
                 notRemovedChildrenCategoryIds.Add(childCategoryId);
         }
-
+        
         return Json(new
         {
             removedChildCategoryIds,
