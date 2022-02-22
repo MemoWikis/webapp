@@ -48,7 +48,26 @@ let sc = Vue.component('session-config-component', {
             repetitions: true,
             categoryName: $("#hhdCategoryName").val(),
             displayMinus: false,
-            isFirstLoad: true
+            isFirstLoad: true,
+            showDropdown: false,
+            knowledgeSummary: [
+                {
+                    label: 'Nicht Gelernt',
+                    colorClass: 'not-learned'
+                },
+                {
+                    label: 'Zu Lernen',
+                    colorClass: 'needs-learning'
+                },
+                {
+                    label: 'Zu Festigen',
+                    colorClass: 'needs-consolidation'
+                },
+                {
+                    label: 'Sicheres Wissen',
+                    colorClass: 'solid'
+                }
+            ],
         };
     },
 

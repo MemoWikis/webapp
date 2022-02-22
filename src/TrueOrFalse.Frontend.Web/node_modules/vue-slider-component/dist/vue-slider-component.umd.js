@@ -1994,7 +1994,11 @@ var control_Control = /*#__PURE__*/function () {
      * @memberof Control
      */
     value: function getRecentDot(pos) {
-      var arr = this.dotsPos.map(function (dotPos) {
+      var _this4 = this;
+
+      var arr = this.dotsPos.filter(function (dotPos, index) {
+        return !(_this4.getDotOption(index) && _this4.getDotOption(index).disabled);
+      }).map(function (dotPos) {
         return Math.abs(dotPos - pos);
       });
       return arr.indexOf(Math.min.apply(Math, _toConsumableArray(arr)));
@@ -2078,13 +2082,13 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "getFixedChangePosArr",
     value: function getFixedChangePosArr(changePos, index) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.dotsPos.forEach(function (originPos, i) {
         if (i !== index) {
-          var _this4$getValidPos = _this4.getValidPos(originPos + changePos, i),
-              lastPos = _this4$getValidPos.pos,
-              inRange = _this4$getValidPos.inRange;
+          var _this5$getValidPos = _this5.getValidPos(originPos + changePos, i),
+              lastPos = _this5$getValidPos.pos,
+              inRange = _this5$getValidPos.inRange;
 
           if (!inRange) {
             changePos = Math.min(Math.abs(lastPos - originPos), Math.abs(changePos)) * (changePos < 0 ? -1 : 1);
@@ -2108,7 +2112,7 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "getLimitRangeChangePosArr",
     value: function getLimitRangeChangePosArr(pos, changePos, index) {
-      var _this5 = this;
+      var _this6 = this;
 
       var changeDots = [{
         index: index,
@@ -2133,16 +2137,16 @@ var control_Control = /*#__PURE__*/function () {
 
         var inLimitRange = function inLimitRange(pos2, pos1) {
           var diff = Math.abs(pos2 - pos1);
-          return isMinRange ? diff < _this5.minRangeDir : diff > _this5.maxRangeDir;
+          return isMinRange ? diff < _this6.minRangeDir : diff > _this6.maxRangeDir;
         };
 
         var i = index + next;
-        var nextPos = _this5.dotsPos[i];
+        var nextPos = _this6.dotsPos[i];
         var curPos = pos;
 
-        while (_this5.isPos(nextPos) && inLimitRange(nextPos, curPos)) {
-          var _this5$getValidPos = _this5.getValidPos(nextPos + newChangePos, i),
-              lastPos = _this5$getValidPos.pos;
+        while (_this6.isPos(nextPos) && inLimitRange(nextPos, curPos)) {
+          var _this6$getValidPos = _this6.getValidPos(nextPos + newChangePos, i),
+              lastPos = _this6$getValidPos.pos;
 
           changeDots.push({
             index: i,
@@ -2150,7 +2154,7 @@ var control_Control = /*#__PURE__*/function () {
           });
           i = i + next;
           curPos = lastPos;
-          nextPos = _this5.dotsPos[i];
+          nextPos = _this6.dotsPos[i];
         }
       });
       return this.dotsPos.map(function (_, i) {
@@ -2301,13 +2305,18 @@ var control_Control = /*#__PURE__*/function () {
       }
     }
   }, {
+    key: "getDotOption",
+    value: function getDotOption(index) {
+      return Array.isArray(this.dotOptions) ? this.dotOptions[index] : this.dotOptions;
+    }
+  }, {
     key: "getDotRange",
     value: function getDotRange(index, key, defaultValue) {
       if (!this.dotOptions) {
         return defaultValue;
       }
 
-      var option = Array.isArray(this.dotOptions) ? this.dotOptions[index] : this.dotOptions;
+      var option = this.getDotOption(index);
       return option && option[key] !== void 0 ? this.parseValue(option[key]) : defaultValue;
     }
     /**
@@ -2320,20 +2329,20 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "markList",
     get: function get() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (!this.marks) {
         return [];
       }
 
       var getMarkByValue = function getMarkByValue(value, mark) {
-        var pos = _this6.parseValue(value);
+        var pos = _this7.parseValue(value);
 
         return _objectSpread({
           pos: pos,
           value: value,
           label: value,
-          active: _this6.isActiveByPos(pos)
+          active: _this7.isActiveByPos(pos)
         }, mark);
       };
 
@@ -2345,7 +2354,7 @@ var control_Control = /*#__PURE__*/function () {
         return Object.keys(this.marks).sort(function (a, b) {
           return +a - +b;
         }).map(function (value) {
-          var item = _this6.marks[value];
+          var item = _this7.marks[value];
           return getMarkByValue(value, typeof item !== 'string' ? item : {
             label: item
           });
@@ -2358,7 +2367,7 @@ var control_Control = /*#__PURE__*/function () {
         return this.getValues().map(function (value) {
           return {
             value: value,
-            result: _this6.marks(value)
+            result: _this7.marks(value)
           };
         }).filter(function (_ref3) {
           var result = _ref3.result;
@@ -2438,22 +2447,22 @@ var control_Control = /*#__PURE__*/function () {
   }, {
     key: "valuePosRange",
     get: function get() {
-      var _this7 = this;
+      var _this8 = this;
 
       var dotsPos = this.dotsPos;
       var valuePosRange = [];
       dotsPos.forEach(function (pos, i) {
-        valuePosRange.push([Math.max(_this7.minRange ? _this7.minRangeDir * i : 0, !_this7.enableCross ? dotsPos[i - 1] || 0 : 0, _this7.getDotRange(i, 'min', 0)), Math.min(_this7.minRange ? 100 - _this7.minRangeDir * (dotsPos.length - 1 - i) : 100, !_this7.enableCross ? dotsPos[i + 1] || 100 : 100, _this7.getDotRange(i, 'max', 100))]);
+        valuePosRange.push([Math.max(_this8.minRange ? _this8.minRangeDir * i : 0, !_this8.enableCross ? dotsPos[i - 1] || 0 : 0, _this8.getDotRange(i, 'min', 0)), Math.min(_this8.minRange ? 100 - _this8.minRangeDir * (dotsPos.length - 1 - i) : 100, !_this8.enableCross ? dotsPos[i + 1] || 100 : 100, _this8.getDotRange(i, 'max', 100))]);
       });
       return valuePosRange;
     }
   }, {
     key: "dotsIndex",
     get: function get() {
-      var _this8 = this;
+      var _this9 = this;
 
       return this.dotsValue.map(function (val) {
-        return _this8.getIndexByValue(val);
+        return _this9.getIndexByValue(val);
       });
     }
   }]);
@@ -2642,7 +2651,9 @@ function () {
           passive: false
         });
         document.addEventListener('mousedown', this.blurHandle);
-        document.addEventListener('mousemove', this.dragMove);
+        document.addEventListener('mousemove', this.dragMove, {
+          passive: false
+        });
         document.addEventListener('mouseup', this.dragEnd);
         document.addEventListener('mouseleave', this.dragEnd);
         document.addEventListener('keydown', this.keydownHandle);
@@ -3178,13 +3189,13 @@ function () {
         if (this.isHorizontal) {
           dotPos = vue_slider_defineProperty({
             transform: "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
-            WebkitTransform: "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
+            '-WebkitTransform': "translate(".concat(this.isReverse ? '50%' : '-50%', ", -50%)"),
             top: '50%'
           }, this.direction === 'ltr' ? 'left' : 'right', '0');
         } else {
           dotPos = vue_slider_defineProperty({
             transform: "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
-            WebkitTransform: "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
+            '-WebkitTransform': "translate(-50%, ".concat(this.isReverse ? '50%' : '-50%', ")"),
             left: '50%'
           }, this.direction === 'btt' ? 'bottom' : 'top', '0');
         }

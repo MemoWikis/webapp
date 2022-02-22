@@ -2019,6 +2019,7 @@
     </Content>
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.vue.ascx" />
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
+    <Content Include="Views\Questions\QuestionList\SessionConfigComponent.vue - Copy.ascx" />
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
     <Content Include="Views\Shared\MemuchoInfoBanner.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">

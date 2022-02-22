@@ -704,3 +704,15 @@
 .vue-slider-dot-tooltip-wrapper-show {
   opacity: 1;
 }
+.not-learned {
+  background-color: #999999;
+}
+.needs-learning {
+  background-color: lightsalmon;
+}
+.needs-consolidating {
+  background-color: #fdd648;
+}
+.solid {
+  background-color: #AFD534;
+}
