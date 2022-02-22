@@ -8,7 +8,7 @@
             <div class="form-group omb_login row">
                 <div class="col-sm-12 omb_socialButtons">
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                        <a class="btn btn-block cursor-hand socialMediaBtn" id="socialMediaBtnContainer">
+                        <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin">
                             <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
                             <div class="socialMediaLabel">weiter mit Google</div>
                         </a>

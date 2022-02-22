@@ -135,9 +135,6 @@ namespace TrueOrFalse
             routes.MapRoute("NotLoggedIn", "Fehler/NichtAngemeldet", new { controller = "Error", action = "_NotLoggedIn" });
 
             routes.MapRoute("RedirectHorseCertificate1", "Pferde-Basispass", new { controller = "Redirect", action = "ToHorseCertificate" });
-            routes.MapRoute("Redirect1", "umfrage/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
-            routes.MapRoute("Redirect2", "redirect/to/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
-            routes.MapRoute("Redirect3", "f/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
 
             routes.MapRoute("Topic", "Thema/{topicName}", new { controller = "Topics", action = "Topic" });
 
