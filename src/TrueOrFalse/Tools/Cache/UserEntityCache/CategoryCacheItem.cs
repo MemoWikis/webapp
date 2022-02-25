@@ -65,7 +65,7 @@ public class CategoryCacheItem
            : new List<CategoryCacheItem>();
     }
 
-    public Dictionary<int, CategoryCacheItem> AggregatedCategories(bool includingSelf = false)
+    public Dictionary<int, CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
     {
         var visibleVisited = VisibleChildCategories(this);
 
@@ -104,7 +104,7 @@ public class CategoryCacheItem
                 {
                     if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(child)))
                     {
-                        visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child));
+                        visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child, getDataFromEntityCache: true));
                         VisibleChildCategories(EntityCache.GetCategoryCacheItem(child), visibleVisited);
                     }
                 }
