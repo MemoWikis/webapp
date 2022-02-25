@@ -46,10 +46,6 @@ public class CategoryCacheItem
     public virtual bool SkipMigration { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
 
-    private Dictionary<int, CategoryCacheItem> _visibleVisited = new Dictionary<int, CategoryCacheItem>();
-
-
-
     public virtual bool IsStartTopicModified()
     {
         if (CachedData.ChildrenIds.Count == 0)
@@ -71,25 +67,24 @@ public class CategoryCacheItem
 
     public Dictionary<int, CategoryCacheItem> AggregatedCategories(bool includingSelf = false)
     {
-        _visibleVisited = new Dictionary<int, CategoryCacheItem>();
-        VisibleChildCategories(this);
+        var visibleVisited = VisibleChildCategories(this);
 
-        if (includingSelf && !_visibleVisited.ContainsKey(Id))
+        if (includingSelf && !visibleVisited.ContainsKey(Id))
         {
-            _visibleVisited.Add(Id, this);
+            visibleVisited.Add(Id, this);
         }
-
         else
         {
-            if (_visibleVisited.ContainsKey(Id))
-                _visibleVisited.Remove(Id);
+            if (visibleVisited.ContainsKey(Id))
+                visibleVisited.Remove(Id);
         }
 
-        return _visibleVisited;
+        return visibleVisited;
     }
 
-    private void VisibleChildCategories(CategoryCacheItem parentCacheItem, Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
+    private Dictionary<int, CategoryCacheItem> VisibleChildCategories(CategoryCacheItem parentCacheItem, Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
     {
+        var visibleVisited = new Dictionary<int, CategoryCacheItem>();
         if (parentCacheItem.DirectChildren == null)
         {
             parentCacheItem.DirectChildren = EntityCache.GetChildren(parentCacheItem).Select(cci => cci.Id).ToList();
@@ -98,23 +93,25 @@ public class CategoryCacheItem
 
         if (_previousVisibleVisited != null)
         {
-            _visibleVisited = _previousVisibleVisited;
+            visibleVisited = _previousVisibleVisited;
         }
 
         if (parentCacheItem.DirectChildren != null)
         {
             foreach (var child in parentCacheItem.DirectChildren)
             {
-                if (!_visibleVisited.ContainsKey(child))
+                if (!visibleVisited.ContainsKey(child))
                 {
                     if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(child)))
                     {
-                        _visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child));
-                        VisibleChildCategories(EntityCache.GetCategoryCacheItem(child), _visibleVisited);
+                        visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child));
+                        VisibleChildCategories(EntityCache.GetCategoryCacheItem(child), visibleVisited);
                     }
                 }
             }
         }
+
+        return visibleVisited;
     }
 
     public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
