@@ -123,21 +123,27 @@ public class GraphService
             while (childrenOuter.Count > 0)
             {
                 wuwiChildrenDic.TryGetValue(childrenOuter[0], out var value);
-
-                if (!noAddChildrenIds.ContainsKey(childrenOuter[0]))
-                    categoryCacheItem.CategoryRelations.Add(new CategoryCacheRelation
-                    {
-                        CategoryRelationType = CategoryRelationType.IncludesContentOf,
-                        RelatedCategoryId = value.Id,
-                        CategoryId = categoryCacheItem.Id
-                    });
-
-                noAddChildrenIds.TryAdd(childrenOuter[0], childrenOuter[0]);
-                childrenOuter.RemoveAt(0);
-
-                foreach (var cachedDataChildrenId in value.CachedData.ChildrenIds)
+                if (value != null)
                 {
-                    childrenOuter.Add(cachedDataChildrenId);
+                    if (!noAddChildrenIds.ContainsKey(childrenOuter[0]))
+                        categoryCacheItem.CategoryRelations.Add(new CategoryCacheRelation
+                        {
+                            CategoryRelationType = CategoryRelationType.IncludesContentOf,
+                            RelatedCategoryId = value.Id,
+                            CategoryId = categoryCacheItem.Id
+                        });
+
+                    noAddChildrenIds.TryAdd(childrenOuter[0], childrenOuter[0]);
+                    childrenOuter.RemoveAt(0);
+
+                    foreach (var cachedDataChildrenId in value.CachedData.ChildrenIds)
+                    {
+                        childrenOuter.Add(cachedDataChildrenId);
+                    }
+                }
+                else
+                {
+                    childrenOuter.RemoveAt(0);
                 }
             }
         }

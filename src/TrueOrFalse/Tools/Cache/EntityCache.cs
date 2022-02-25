@@ -31,7 +31,6 @@ public class EntityCache : BaseCache
         var categories = CategoryCacheItem.ToCacheCategories(Sl.CategoryRepo.GetAllEager()).ToList();
         var questions = Sl.QuestionRepo.GetAllEager();
 
-
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
@@ -233,7 +232,6 @@ public class EntityCache : BaseCache
         getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
     public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
         getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
-
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY

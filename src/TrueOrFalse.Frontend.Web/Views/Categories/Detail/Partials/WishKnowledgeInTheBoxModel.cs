@@ -23,7 +23,7 @@ public class WishKnowledgeInTheBoxModel : BaseModel
 
         foreach (var currentCategory in aggregatedCategories)
         {
-            aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Id));
+            aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Key));
         }
 
         return aggregatedQuestions;

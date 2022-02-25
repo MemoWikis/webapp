@@ -220,6 +220,16 @@ namespace TrueOrFalse.Tests
                 CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
             }
 
+            foreach (var category in firstChildren)
+            {
+                category.Visibility = CategoryVisibility.All;
+            }
+            foreach (var category in secondChildren)
+            {
+                category.Visibility = CategoryVisibility.All;
+            }
+
+
             EntityCache.Init();
 
             Sl.SessionUser.Login(user);

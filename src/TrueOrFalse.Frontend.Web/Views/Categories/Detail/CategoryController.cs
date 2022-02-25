@@ -352,8 +352,8 @@ public class CategoryController : BaseController
                 key = "missingRights"
             });
 
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
-            .Where(c => c.Visibility == CategoryVisibility.All);
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories()
+            .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var publicAggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true).Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = categoryCacheItem.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
@@ -367,7 +367,7 @@ public class CategoryController : BaseController
 
             foreach (var c in aggregatedCategories)
             {
-                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                bool childHasPublicParent = c.Value.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
                 if (!childHasPublicParent)
                     return Json(new
                     {

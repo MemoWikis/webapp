@@ -30,6 +30,8 @@ public class CategoryCacheItem
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }
 
+    public virtual IList<int> DirectChildren { get; set; }
+
     public virtual CategoryType Type { get; set; }
 
     public virtual string TypeJson { get; set; }
@@ -43,6 +45,10 @@ public class CategoryCacheItem
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
+
+    private Dictionary<int, CategoryCacheItem> _visibleVisited = new Dictionary<int, CategoryCacheItem>();
+
+
 
     public virtual bool IsStartTopicModified()
     {
@@ -61,6 +67,54 @@ public class CategoryCacheItem
                .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                .ToList()
            : new List<CategoryCacheItem>();
+    }
+
+    public Dictionary<int, CategoryCacheItem> AggregatedCategories(bool includingSelf = false)
+    {
+        _visibleVisited = new Dictionary<int, CategoryCacheItem>();
+        VisibleChildCategories(this);
+
+        if (includingSelf && !_visibleVisited.ContainsKey(Id))
+        {
+            _visibleVisited.Add(Id, this);
+        }
+
+        else
+        {
+            if (_visibleVisited.ContainsKey(Id))
+                _visibleVisited.Remove(Id);
+        }
+
+        return _visibleVisited;
+    }
+
+    private void VisibleChildCategories(CategoryCacheItem parentCacheItem, Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
+    {
+        if (parentCacheItem.DirectChildren == null)
+        {
+            parentCacheItem.DirectChildren = EntityCache.GetChildren(parentCacheItem).Select(cci => cci.Id).ToList();
+            EntityCache.AddOrUpdate(parentCacheItem);
+        }
+
+        if (_previousVisibleVisited != null)
+        {
+            _visibleVisited = _previousVisibleVisited;
+        }
+
+        if (parentCacheItem.DirectChildren != null)
+        {
+            foreach (var child in parentCacheItem.DirectChildren)
+            {
+                if (!_visibleVisited.ContainsKey(child))
+                {
+                    if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(child)))
+                    {
+                        _visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child));
+                        VisibleChildCategories(EntityCache.GetCategoryCacheItem(child), _visibleVisited);
+                    }
+                }
+            }
+        }
     }
 
     public virtual CategoryCachedData CachedData { get; set; } = new CategoryCachedData();
@@ -96,36 +150,37 @@ public class CategoryCacheItem
     }
 
 
-    //Aggregated Categories returns all categories with CategorieRelationType "includesContentOf"
-    public virtual IList<CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
-    {
-        var includesContentOfRelations =
-            CategoryRelations.Where(c => c.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList();
-        var visibleCategoryIds = includesContentOfRelations.Select(r => r.RelatedCategoryId).Where(PermissionCheck.CanViewCategory).ToList();
-        visibleCategoryIds = visibleCategoryIds.FindAll(id =>
-            EntityCache.GetCategoryCacheItem(id).CategoryRelations.Count(cr => cr.RelatedCategoryId == Id && cr.CategoryRelationType == CategoryRelationType.IsChildOf) > 0);
-        if (visibleCategoryIds.Count > 0)
-        {
-            var i = visibleCategoryIds.Count - 1;
-            while (i >= 0)
-            {
-                visibleCategoryIds.AddRange(EntityCache.GetCategoryCacheItem(visibleCategoryIds[i]).AggregatedCategories().Select(cci => cci.Id));
-                i--;
-            }
-        }
 
-        visibleCategoryIds = visibleCategoryIds.Distinct().ToList();
+    ////Aggregated Categories returns all categories with CategorieRelationType "includesContentOf"
+    //public virtual IList<CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
+    //{
+    //    var includesContentOfRelations =
+    //        CategoryRelations.Where(c => c.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList();
+    //    var visibleCategoryIds = includesContentOfRelations.Select(r => r.RelatedCategoryId).Where(PermissionCheck.CanViewCategory).ToList();
+    //    visibleCategoryIds = visibleCategoryIds.FindAll(id =>
+    //        EntityCache.GetCategoryCacheItem(id).CategoryRelations.Count(cr => cr.RelatedCategoryId == Id && cr.CategoryRelationType == CategoryRelationType.IsChildOf) > 0);
+    //    if (visibleCategoryIds.Count > 0)
+    //    {
+    //        var i = visibleCategoryIds.Count - 1;
+    //        while (i >= 0)
+    //        {
+    //            visibleCategoryIds.AddRange(EntityCache.GetCategoryCacheItem(visibleCategoryIds[i]).AggregatedCategories().Select(cci => cci.Id));
+    //            i--;
+    //        }
+    //    }
 
-        var list = visibleCategoryIds.Select(cr => EntityCache.GetCategoryCacheItem(cr)).ToList();
+    //    visibleCategoryIds = visibleCategoryIds.Distinct().ToList();
 
-        if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
-            list = list.Where(c => c.IsInWishknowledge()).ToList();
+    //    var list = visibleCategoryIds.Select(cr => EntityCache.GetCategoryCacheItem(cr)).ToList();
 
-        if (includingSelf)
-            list.Add(this);
+    //    if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
+    //        list = list.Where(c => c.IsInWishknowledge()).ToList();
 
-        return list;
-    }
+    //    if (includingSelf)
+    //        list.Add(this);
+
+    //    return list;
+    //}
 
     public int CountQuestionsAggregated { get; set; }
 
@@ -157,7 +212,7 @@ public class CategoryCacheItem
 
         if (fullList)
             questions = AggregatedCategories()
-                .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Id))
+                .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
                 .Distinct();
         else
             questions = EntityCache.GetQuestionsForCategory(categoryId)
@@ -176,7 +231,7 @@ public class CategoryCacheItem
     public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
     {
         return AggregatedCategories()
-            .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Id))
+            .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Key))
             .Distinct()
             .ToList();
     }
@@ -224,7 +279,7 @@ public class CategoryCacheItem
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
-        return new CategoryCacheItem
+        var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
             CachedData = new CategoryCachedData(),
@@ -252,8 +307,9 @@ public class CategoryCacheItem
             Url = category.Url,
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
-            DateCreated = category.DateCreated
+            DateCreated = category.DateCreated,
         };
+        return categoryCacheItem;
     }
 
     public virtual bool HasPublicParent()

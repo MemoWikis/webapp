@@ -282,6 +282,7 @@ public class EditCategoryController : BaseController
             UserEntityCache.ReInitAllActiveCategoryCaches();
         
         EntityCache.GetCategoryCacheItem(parentCategoryId).CachedData.AddChildId(childCategoryId);
+        EntityCache.GetCategoryCacheItem(parentCategoryId).DirectChildren = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
         
         return Json(new
         {
@@ -637,7 +638,7 @@ public class EditCategoryController : BaseController
             });
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
-            .Where(c => c.Visibility == CategoryVisibility.All);
+            .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var category = _categoryRepository.GetById(categoryId);
         var pinCount = category.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
@@ -651,7 +652,7 @@ public class EditCategoryController : BaseController
 
             foreach (var c in aggregatedCategories)
             {
-                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                bool childHasPublicParent = c.Value.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
                 if (!childHasPublicParent)
                     return Json(new
                     {
