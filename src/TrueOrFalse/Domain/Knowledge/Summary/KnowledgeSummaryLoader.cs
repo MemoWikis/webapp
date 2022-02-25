@@ -43,7 +43,7 @@ public class KnowledgeSummaryLoader
 
         foreach (var currentCategory in aggregatedCategories)
         {
-            aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Id));
+            aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Key));
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();

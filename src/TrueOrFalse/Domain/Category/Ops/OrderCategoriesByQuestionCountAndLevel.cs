@@ -15,14 +15,14 @@ public class OrderCategoriesByQuestionCountAndLevel
         {
             //before inserting, iterate over all categories already inserted to check, where this one should be inserted
             var insertAfterIndex = -1;
-            foreach (var allreadySelectedCategory in output)
+            foreach (var alreadySelectedCategory in output)
             {
-                if (allreadySelectedCategory.AggregatedCategories(false).Contains(category))
+                if (alreadySelectedCategory.AggregatedCategories().ContainsKey(category.Id))
                 {
                     //check if more specific category was already added to insert this one there
-                    if (insertAfterIndex == -1 || output.ElementAt(insertAfterIndex).AggregatedCategories(false).Contains(allreadySelectedCategory))
+                    if (insertAfterIndex == -1 || output.ElementAt(insertAfterIndex).AggregatedCategories().ContainsKey(alreadySelectedCategory.Id))
                     {
-                        insertAfterIndex = output.IndexOf(allreadySelectedCategory);
+                        insertAfterIndex = output.IndexOf(alreadySelectedCategory);
                     }
 
                 }
@@ -32,7 +32,7 @@ public class OrderCategoriesByQuestionCountAndLevel
             var nextIndex = insertAfterIndex + 1;
             while (insertAfterIndex != -1
                    && output.Count > nextIndex
-                   && output.ElementAt(insertAfterIndex).AggregatedCategories(false).Contains(output.ElementAt(nextIndex)))
+                   && output.ElementAt(insertAfterIndex).AggregatedCategories().ContainsKey(output.ElementAt(nextIndex).Id))
             {
                 nextIndex++;
             }

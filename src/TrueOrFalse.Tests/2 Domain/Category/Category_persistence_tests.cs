@@ -56,7 +56,8 @@ namespace TrueOrFalse.Tests.Persistence
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
 
-                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id, parentCategories.Select(cat => cat.Id).ToList(),
+                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id,
+                        parentCategories.Select(cat => cat.Id).ToList(),
                         CategoryRelationType.IsChildOf);
                 });
 
@@ -92,17 +93,17 @@ namespace TrueOrFalse.Tests.Persistence
                             CategoryRelationType = CategoryRelationType.IncludesContentOf,
                             RelatedCategoryId = categories[i].Id
                         });
-
+                    EntityCache.AddOrUpdate(category);
                     context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
                 }
             }
+            categories = EntityCache.GetAllCategories();
+            UserCache.GetItem(user.Id).IsFiltered = true;
+            
+            Assert.That(EntityCache.GetByName("A").First().AggregatedCategories(true).Where(cci => UserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
 
-            var usercacheItem2 = UserCache.GetItem(user.Id);
-            usercacheItem2.IsFiltered = true;
-            Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(7));
-
-            usercacheItem2.IsFiltered = false;
-            Assert.That(categories.ByName("A").AggregatedCategories().Count, Is.EqualTo(13));
+            UserCache.GetItem(user.Id).IsFiltered = false;
+            Assert.That(categories.ByName("A").AggregatedCategories(true).Count, Is.EqualTo(13));
         }
     }
 }
