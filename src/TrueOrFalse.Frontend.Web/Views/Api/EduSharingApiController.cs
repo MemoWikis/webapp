@@ -30,7 +30,6 @@ public class EduSharingApiController : BaseController
     {
         var result = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page});
         var jsonResult = new JsonResult();
-        jsonResult.MaxJsonLength = Int32.MaxValue;
         jsonResult = Json(new
         {
             ResultCount = result.Count,
@@ -47,6 +46,7 @@ public class EduSharingApiController : BaseController
                     DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
                 })
         }, JsonRequestBehavior.AllowGet);
+        jsonResult.MaxJsonLength = Int32.MaxValue;
         return jsonResult;
     }
 
