@@ -426,8 +426,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<UserTinyModel> GetAuthors(int categoryId, bool filterUsersForSidebar = false)
     {
         var allAuthors = Sl.CategoryChangeRepo
-            .GetForCategory(categoryId, filterUsersForSidebar)
-            .Select(categoryChange => new UserTinyModel(categoryChange.Author));
+            .GetAuthorsFromCategory(categoryId, filterUsersForSidebar);
 
         return allAuthors.GroupBy(a => a.Id)
             .Select(groupedAuthor => groupedAuthor.First())

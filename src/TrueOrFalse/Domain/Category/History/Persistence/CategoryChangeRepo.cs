@@ -88,6 +88,26 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         return categoryChangeList;
     }
+    public IList<UserTinyModel> GetAuthorsFromCategory(int categoryId, bool filterUsersForSidebar = false)
+    {
+        User aliasUser = null;
+        Category aliasCategory = null;
+        var query = _session
+            .QueryOver<CategoryChange>()
+            .Where(c => c.Category.Id == categoryId);
+
+        if (filterUsersForSidebar)
+            query.And(c => c.ShowInSidebar);
+
+        query
+            .Left.JoinAlias(c => c.Author, () => aliasUser)
+            .Left.JoinAlias(c => c.Category, () => aliasCategory);
+
+        var categoryChangeList = query
+            .List();
+
+        return categoryChangeList.Select(categoryChange => new UserTinyModel(categoryChange.Author)).ToList();
+    }
 
     public CategoryChange GetByIdEager(int categoryChangeId)
     {
