@@ -872,9 +872,19 @@
 .needs-learning {
     background-color: @needs-learning-color
 }
-.needs-consolidating {
+.needs-consolidation {
     background-color: @needs-consolidation-color
 }
 .solid {
     background-color: @solid-knowledge-color
+}
+
+.filter-button {
+    &.open {
+        border-bottom: none !important;
+    }
+
+    &.closed {
+        border-bottom: 1px solid silver;
+    }
 }

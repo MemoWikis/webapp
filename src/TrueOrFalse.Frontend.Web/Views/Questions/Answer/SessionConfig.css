@@ -710,9 +710,15 @@
 .needs-learning {
   background-color: lightsalmon;
 }
-.needs-consolidating {
+.needs-consolidation {
   background-color: #fdd648;
 }
 .solid {
   background-color: #AFD534;
+}
+.filter-button.open {
+  border-bottom: none !important;
+}
+.filter-button.closed {
+  border-bottom: 1px solid silver;
 }
