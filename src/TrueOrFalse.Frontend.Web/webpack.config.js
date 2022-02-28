@@ -1,6 +1,16 @@
 const path = require('path');
+var config = {
+    optimization: {
+        minimize: true,
+        splitChunks: {
+            chunks: 'all',
+        },
+        runtimeChunk: 'single',
+    }
+};
 
-module.exports = {
+var tiptapBuild = Object.assign({}, config,{
+    name: 'tiptapBuild',
     entry: {
         tiptapVue2: '/Scripts/npm_builder/tiptap-build/tiptap-vue2.js',
         tiptapStarterkit: '/Scripts/npm_builder/tiptap-build/tiptap-starterkit.js',
@@ -16,11 +26,16 @@ module.exports = {
         path: path.resolve(__dirname, 'Scripts/npm/tiptap-build/'),
         filename: '[name].js',
       },
-    optimization: {
-        minimize: true,
-        splitChunks: {
-            chunks: 'all',
-        },
-        runtimeChunk: 'single',
-    }
-}
+});
+
+var pinia = Object.assign({}, config,{
+    name: 'pinia',
+    entry: {
+        pinia: '/Scripts/npm_builder/pinia/index.js',
+    },
+    output: {
+        path: path.resolve(__dirname, 'Scripts/npm/pinia/'),
+        filename: '[name].js',
+      },
+});
+module.exports = [tiptapBuild, pinia]

@@ -1,1 +1,1 @@
-(self.webpackChunktiptap_build=self.webpackChunktiptap_build||[]).push([[418],{1648:(t,i,p)=>{"use strict";var s=p(2756);window.tiptapStarterKit=s.Z}},t=>{"use strict";t.O(0,[798,756],(()=>(1648,t(t.s=1648)))),t.O()}]);
+"use strict";(self.webpackChunktiptap_build=self.webpackChunktiptap_build||[]).push([[418],{1648:(t,p,i)=>{var a=i(2756);window.tiptapStarterKit=a.Z}},t=>{t.O(0,[798,756],(()=>(1648,t(t.s=1648)))),t.O()}]);

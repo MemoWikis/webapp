@@ -3,6 +3,7 @@
   "scripts": {
     "build:webpack": "webpack",
     "build:tiptap": "parcel build Scripts/npm_builder/tiptap-build/tiptap-build.js --no-optimize",
+    "build:pinia": "parcel build Scripts/npm_builder/pinia/index.js --no-optimize",
     "build:ripple": "parcel build Scripts/npm_builder/vue-material-design-ripple-build/index.js -d Scripts/npm/vue-material-design-ripple-build --no-source-maps --no-cache --experimental-scope-hoisting -o vue-material-design-ripple-build.js"
   },
   "dependencies": {
@@ -17,12 +18,14 @@
     "@tiptap/extension-underline": "*",
     "@tiptap/starter-kit": "*",
     "@tiptap/vue-2": "*",
+    "@vue/composition-api": "^1.4.6",
     "d3": "5.7.0",
     "gulp-run": "^1.7.1",
     "hast-util-to-html": "^8.0.0",
     "jquery": "^2.2.4",
     "lowlight": "^1.20.0",
     "parcel": "^2.0.0-beta.3.1",
+    "pinia": "^2.0.11",
     "postscribe": "^2.0.8",
     "vue": "^2.6.12",
     "vue-material-design-ripple": "^1.0.0",

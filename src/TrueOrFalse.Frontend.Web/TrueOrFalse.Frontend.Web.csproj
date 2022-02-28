@@ -1939,6 +1939,10 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
     <Content Include="Scripts\npm\jquery\jquery.js" />
+    <Content Include="Scripts\npm\pinia\366.js" />
+    <Content Include="Scripts\npm\pinia\366.js.LICENSE.txt" />
+    <Content Include="Scripts\npm\pinia\pinia.js" />
+    <Content Include="Scripts\npm\pinia\runtime.js" />
     <Content Include="Scripts\npm\tiptap-build\137.js" />
     <Content Include="Scripts\npm\tiptap-build\385.js" />
     <Content Include="Scripts\npm\tiptap-build\756.js" />
