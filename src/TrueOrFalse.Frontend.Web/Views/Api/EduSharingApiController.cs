@@ -29,8 +29,9 @@ public class EduSharingApiController : BaseController
     public JsonResult Search(string term, int pageSize = 5, int page = 1)
     {
         var result = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page});
-
-        return Json(new
+        var jsonResult = new JsonResult();
+        jsonResult.MaxJsonLength = Int32.MaxValue;
+        jsonResult = Json(new
         {
             ResultCount = result.Count,
             Items = result
@@ -46,6 +47,7 @@ public class EduSharingApiController : BaseController
                     DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
                 })
         }, JsonRequestBehavior.AllowGet);
+        return jsonResult;
     }
 
     public JsonResult Info()
