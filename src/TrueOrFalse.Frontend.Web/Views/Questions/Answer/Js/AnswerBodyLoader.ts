@@ -72,8 +72,6 @@ class AnswerBodyLoader {
                 isInLearningTab: this._isInLearningTab,
                 currentUserId: $("#hddUserId").val(),
                 maxQuestionCount: questionFilter != null ? questionFilter.maxQuestionCount : -1,
-                minProbability: questionFilter != null ? questionFilter.minProbability : 0,
-                maxProbability: questionFilter != null ? questionFilter.maxProbability : 100,
                 inWishknowledge: questionFilter != null ? questionFilter.inWishknowledge : true,
                 questionOrder: questionFilter != null ? questionFilter.questionOrder : -1,
                 isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
@@ -83,7 +81,9 @@ class AnswerBodyLoader {
                 safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false,
                 answerHelp: questionFilter != null ? questionFilter.answerHelp : true,
                 repetitions: questionFilter != null ? questionFilter.repetitions : true,
-                randomQuestions: questionFilter != null ? questionFilter.randomQuestions : false
+                randomQuestions: questionFilter != null ? questionFilter.randomQuestions : false,
+                selectedQuestionFilterOptions: questionFilter != null ? questionFilter.selectedQuestionFilterOptions : [],
+                selectedKnowledgeSummary: questionFilter != null ? questionFilter.selectedKnowledgeSummary : [],
             }
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";

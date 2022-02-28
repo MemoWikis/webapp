@@ -235,9 +235,8 @@ Vue.component('question-details-component', {
                 this.personalProbabilityText = "Sicheres Wissen";
             else if (this.personalProbability < 80 && this.personalProbability >= 50)
                 this.personalProbabilityText = "Zu festigen";
-            else if (this.personalProbability < 50 && this.personalProbability >= 0)
+            else if (this.personalProbability < 50 && this.personalProbability > 0)
                 this.personalProbabilityText = "Zu lernen";
-
         },
 
         setPersonalArcData() {

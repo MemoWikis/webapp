@@ -1,4 +1,69 @@
 ﻿declare var VueSlider: any;
+declare var piniaBuild: any;
+declare var mummary: any;
+
+class SessionConfig {
+    static knowledgeSummary = {
+        notLearned: {
+            label: 'Nicht Gelernt',
+            colorClass: 'not-learned',
+            isSelected: false,
+        },
+        needsLearning: {
+            label: 'Zu Lernen',
+            colorClass: 'needs-learning',
+            isSelected: false,
+        },
+        needsConsolidation: {
+            label: 'Zu Festigen',
+            colorClass: 'needs-consolidation',
+            isSelected: false,
+        },
+        solid: {
+            label: 'Sicheres Wissen',
+            colorClass: 'solid',
+            isSelected: false,
+        }
+    };
+
+    static questionFilterOptions = { 
+        inWuwi: {
+            label: 'Im Wunschwissen',
+            icon: 'fas fa-heart',
+            isSelected: false,
+        },
+        notInWuwi: {
+            label: 'Nicht im Wunschwissen',
+            icon: 'fa fa-heart-o',
+            isSelected: false,
+        },
+        createdByCurrentUser: {
+            label: 'Von mir erstellt',
+            icon: 'fas fa-user-check',
+            isSelected: false,
+        },
+        notCreatedByCurrentUser: {
+            label: 'Nicht von mir erstellt',
+            icon: 'fas fa-user-slash',
+            isSelected: false,
+        },
+        privateQuestions: {
+            label: 'Private Fragen',
+            icon: 'fas fa-lock',
+            isSelected: false,
+        },
+        publicQuestions: {
+            label: 'Öffentliche Fragen',
+            icon: 'fas fa-unlock',
+            isSelected: false,
+        }
+    };
+
+    static mode = {
+
+    }
+}
+
 
 let sc = Vue.component('session-config-component', {
 
@@ -12,21 +77,6 @@ let sc = Vue.component('session-config-component', {
         return {
             answerBody: new AnswerBody(),
             probabilityRange: [0, 100],
-            questionFilter: {
-                minProbability: 0,
-                maxProbability: 100,
-                maxQuestionCount: 0,
-                inWishknowledge: true,
-                createdByCurrentUser: true,
-                allQuestions: true,
-                isNotQuestionInWishKnowledge: true,
-                isInTestMode: false,
-                safeLearningSessionOptions: false,
-                categoryId: $('#hhdCategoryId').val(),
-                answerHelp: true,
-                repetitions: true,
-                randomQuestions: false
-            },
             isLoggedIn: true,
             maxSelectableQuestionCount: 0,
             selectedQuestionCount: 0,
@@ -50,24 +100,32 @@ let sc = Vue.component('session-config-component', {
             displayMinus: false,
             isFirstLoad: true,
             showDropdown: false,
-            knowledgeSummary: [
-                {
-                    label: 'Nicht Gelernt',
-                    colorClass: 'not-learned'
-                },
-                {
-                    label: 'Zu Lernen',
-                    colorClass: 'needs-learning'
-                },
-                {
-                    label: 'Zu Festigen',
-                    colorClass: 'needs-consolidation'
-                },
-                {
-                    label: 'Sicheres Wissen',
-                    colorClass: 'solid'
-                }
-            ],
+            knowledgeSummary: SessionConfig.knowledgeSummary,
+            questionFilterOptions: SessionConfig.questionFilterOptions,
+            knowledgeSummaryCount: 0,
+            selectedQuestionFilterOptionsDisplay: [],
+            selectedQuestionFilterOptionsExtraCount: 0,
+            showFilterDropdown: false,
+            questionFilter: {
+                selectedQuestionFilterOptions: this.selectedQuestionFilterOptions,
+                selectedKnowledgeSummary: this.selectedKnowledgeSummary,
+                maxQuestionCount: 0,
+                inWishknowledge: true,
+                createdByCurrentUser: true,
+                allQuestions: true,
+                isNotQuestionInWishKnowledge: true,
+                isInTestMode: false,
+                safeLearningSessionOptions: false,
+                categoryId: $('#hhdCategoryId').val(),
+                answerHelp: true,
+                repetitions: true,
+                randomQuestions: false
+            },
+            orderByEasy: true,
+            orderByHard: false,
+            orderByPersonalHardest: false,
+            repetitionByLeitner: false,
+            timeLimit: null,
         };
     },
 
@@ -86,17 +144,17 @@ let sc = Vue.component('session-config-component', {
             this.randomQuestions = !this.isLoggedIn;
         };
 
-        this.$nextTick(function () {
+        this.$nextTick(() => {
             window.addEventListener('resize', this.matchSize);
             this.matchSize();
         });
 
         $('#SessionConfigModal').on('shown.bs.modal',
-            function () {
+            () => {
                 self.matchSize();
             });
         $('#SessionConfigModal').on('hidden.bs.modal',
-            function () {
+            () => {
                 if (self.openLogin)
                     Login.OpenModal();
             });
@@ -106,12 +164,12 @@ let sc = Vue.component('session-config-component', {
     },
 
     watch: {
-        probabilityRange: function () {
+        probabilityRange() {
             this.questionFilter.minProbability = this.probabilityRange[0];
             this.questionFilter.maxProbability = this.probabilityRange[1];
             this.loadQuestionCount();
         },
-        isTestMode: function (val) {
+        isTestMode(val) {
             this.questionFilter.isInTestMode = val;
             this.isTestModeOrNotLoginIn = val;
             if (val == true) {
@@ -125,10 +183,10 @@ let sc = Vue.component('session-config-component', {
             }
 
         },
-        selectedQuestionCount: function (val) {
+        selectedQuestionCount(val) {
             this.questionFilter.maxQuestionCount = parseInt(val);
         },
-        inWishknowledge: function (val) {
+        inWishknowledge(val) {
             if (val == true && this.isNotQuestionInWishKnowledge && this.createdByCurrentUser)
                 this.allQuestions = true;
             else
@@ -147,7 +205,7 @@ let sc = Vue.component('session-config-component', {
             } else
                 this.displayMinus = true;
         },
-        createdByCurrentUser: function (val) {
+        createdByCurrentUser(val) {
             if (val == true && this.isNotQuestionInWishKnowledge && this.inWishknowledge)
                 this.allQuestions = true;
             else
@@ -167,7 +225,7 @@ let sc = Vue.component('session-config-component', {
             } else
                 this.displayMinus = true;
         },
-        allQuestions: function (val) {
+        allQuestions(val) {
 
             if (val == true) {
                 this.inWishknowledge = true;
@@ -185,7 +243,7 @@ let sc = Vue.component('session-config-component', {
 
             this.loadQuestionCount();
         },
-        isNotQuestionInWishKnowledge: function (val) {
+        isNotQuestionInWishKnowledge(val) {
             if (val == true && this.inWishknowledge && this.createdByCurrentUser)
                 this.allQuestions = true;
             else
@@ -205,13 +263,13 @@ let sc = Vue.component('session-config-component', {
             } else
                 this.displayMinus = true;
         },
-        safeLearningSessionOptions: function (val) {
+        safeLearningSessionOptions(val) {
             this.questionFilter.safeLearningSessionOptions = val;
         },
-        randomQuestions: function () {
+        randomQuestions: () => {
             this.questionFilter.randomQuestions = this.randomQuestions;
         },
-        answerHelp: function (val) {
+        answerHelp(val) {
             this.questionFilter.answerHelp = this.answerHelp;
             if (this.answerHelp == true) {
                 this.isTestMode = false;
@@ -219,16 +277,16 @@ let sc = Vue.component('session-config-component', {
             }
 
         },
-        repetitions: function () {
+        repetitions: () => {
             this.questionFilter.repetitions = this.repetitions;
             if (this.repetitions == true) {
                 this.isTestMode = false;
                 this.questionFilter.isInTestMode = false;
             }
         },
-        'questionFilter.maxQuestionCount': function (val) {
+        'questionFilter.maxQuestionCount'(val) {
             this.maxQuestionCountIsZero = val === 0;
-        }
+        },
     },
 
     methods: {
@@ -279,11 +337,11 @@ let sc = Vue.component('session-config-component', {
             this.questionFilter.safeLearningSessionOptions = this.safeLearningSessionOptions = false;
             this.$nextTick(() => {
                 eventBus.$emit("send-selected-questions", this.selectedQuestionCount);
-            })
+            });
             this.isFirstLoad = firstLoad;
         },
         matchSize() {
-            this.radioHeight = this.$refs.radioSection.clientHeight;
+        //    this.radioHeight = this.$refs.radioSection.clientHeight;
         },
         openModal() {
             this.loadQuestionCount();
@@ -306,6 +364,26 @@ let sc = Vue.component('session-config-component', {
             this.questionFilter.maxQuestionCount = this.selectedQuestionCount;
             this.questionFilter.maxProbability = this.probabilityRange[1] === 100 ? 100 : this.probabilityRange[1];
             this.questionFilter.minProbability = this.probabilityRange[0] === 0 ? 0 : this.probabilityRange[0];
-        }
+        },
+
+        selectKnowledgeSummary(summary) {
+            summary.isSelected = !summary.isSelected;
+            var isSelected = [];
+            mummary = this.knowledgeSummary;
+            this.knowledgeSummary.map((el) => el.isSelected && isSelected.push[el]);
+            this.knowledgeSummaryCount = isSelected.length;
+        },
+        selectQuestionFilter(option) {
+            option.isSelected = !option.isSelected;
+            var isSelected = [];
+            this.questionFilterOptions.map((el) => el.isSelected && isSelected.push[el]);
+            this.selectedQuestionFilterOptionsExtraCount = isSelected.length - 3;
+
+            if (this.questionFilterOptions.length > 4)
+                this.selectedQuestionFilterOptionsDisplay = this.questionFilterOptions.slice(0, 3);
+            else
+                this.selectedQuestionFilterOptionsDisplay = this.questionFilterOptions;
+        },
+
     }
 });

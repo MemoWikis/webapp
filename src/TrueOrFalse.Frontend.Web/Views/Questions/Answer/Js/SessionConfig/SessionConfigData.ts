@@ -3,8 +3,6 @@
     isInLearningTab: boolean;
     currentUserId: string;
     maxQuestionCount: number;
-    minProbability: number;
-    maxProbability: number;
     inWishknowledge: boolean;
     questionOrder: number;
     isInTestMode: boolean; 
@@ -15,4 +13,6 @@
     answerHelp: true;
     repetitions: true;
     randomQuestions: false;
+    selectedQuestionFilterOptions: Array<any>;
+    selectedKnowledgeSummary: Array<any>;
  }

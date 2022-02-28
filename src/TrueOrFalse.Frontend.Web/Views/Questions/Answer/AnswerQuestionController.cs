@@ -425,8 +425,6 @@ public class AnswerQuestionController : BaseController
                 IsInTestmode = config.IsInTestMode,
                 QuestionsInWishknowledge = config.InWishknowledge,
                 IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge,
-                MaxProbability = config.MaxProbability,
-                MinProbability = config.MinProbability,
                 MaxQuestionCount = config.MaxQuestionCount,
                 Repetitions = config.Repetitions,
                 AnswerHelp = config.AnswerHelp
