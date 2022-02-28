@@ -88,7 +88,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         return categoryChangeList;
     }
-    public IList<UserTinyModel> GetAuthorsFromCategory(int categoryId, bool filterUsersForSidebar = false)
+    public IList<UserTinyModel> GetAuthorsOfCategory(int categoryId, bool filterUsersForSidebar = false)
     {
         User aliasUser = null;
         Category aliasCategory = null;
