@@ -321,7 +321,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 ? ""
                 : CategoryDetail(category.Name, category.Id);
 
-        public static string CategoryDetail(Category category, int version) =>
+        public static string CategoryDetail(CategoryCacheItem category, int version) =>
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id, version);
@@ -336,13 +336,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             GetUrlHelper().Action("Category", CategoryController,
                 new {text = UriSanitizer.Run(name), id = id, toRootCategory = true, isFromNetwork = true}); 
 
-        public static string CategoryDetailAnalyticsTab(Category category) =>
+        public static string CategoryDetailAnalyticsTab(CategoryCacheItem category) =>
             CategoryDetail(category) + "/Wissensnetz";
         public static string CategoryDetailAnalyticsTab(string name, int id) =>
             CategoryDetail(name, id) + "/Wissensnetz";
         public static string CategoryDetailLearningTab(string name, int id) =>
             CategoryDetail(name, id) + "/Lernen";
-        public static string CategoryDetailLearningTab(Category category) =>
+        public static string CategoryDetailLearningTab(CategoryCacheItem category) =>
             CategoryDetail(category) + "/Lernen";
         
 
@@ -363,8 +363,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type == null)
                 return "";
 
-            if (type is Category)
-                return CategoryDetail((Category)type);
+            if (type is CategoryCacheItem)
+                return CategoryDetail((CategoryCacheItem)type);
 
             if (type is CategoryCacheItem)
                 return CategoryDetail((CategoryCacheItem) type);
@@ -372,8 +372,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type is Set)
                 return SetDetail((Set)type);
 
-            if (type is Question)
-                return AnswerQuestion((Question)type);
+            if (type is QuestionCacheItem)
+                return AnswerQuestion((QuestionCacheItem)type);
 
             throw new Exception("unexpected type");
         }

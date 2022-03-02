@@ -197,7 +197,7 @@ public class QuestionCacheItem
             SkipMigration = question.SkipMigration,
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
-            Categories = CategoryCacheItem.ToCacheCategories(question.Categories).ToList(),
+            Categories = EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList(),
             Creator = question.Creator,
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,
@@ -208,7 +208,6 @@ public class QuestionCacheItem
             TextExtended = question.TextExtended,
             TextExtendedHtml = question.TextExtendedHtml,
             TotalRelevanceForAllEntries = question.TotalRelevanceForAllEntries,
-            References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList(),
             TotalRelevanceForAllAvg = question.TotalRelevanceForAllAvg,
             TotalRelevancePersonalAvg = question.TotalRelevancePersonalAvg,
             Text = question.Text,
@@ -223,6 +222,10 @@ public class QuestionCacheItem
             Features = question.Features,
             License = question.License
         };
+        if (!EntityCache.IsFirstStart)
+        {
+            questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
+        }
         return questionCacheItem;
     }
 }

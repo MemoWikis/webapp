@@ -11,7 +11,7 @@ public class EntityCache : BaseCache
     private const string _cacheKeyCategories = "allCategories_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
-    private static bool IsFirstStart = true;
+    public static bool IsFirstStart = true;
     private static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
 
@@ -28,15 +28,21 @@ public class EntityCache : BaseCache
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var categories = CategoryCacheItem.ToCacheCategories(Sl.CategoryRepo.GetAllEager()).ToList();
-        
-        var questions =  QuestionCacheItem.ToCacheQuestions(Sl.QuestionRepo.GetAllEager()).ToList();
+        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
+
+        var allQuestions = Sl.QuestionRepo.GetAllEager();
+        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
+        foreach (var question in allQuestions.Where(q => q.References.Any()))
+        {
+            Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
+                ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
+        }
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
         IsFirstStart = false;
     }

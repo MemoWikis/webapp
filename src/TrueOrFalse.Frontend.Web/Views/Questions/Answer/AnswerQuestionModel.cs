@@ -128,7 +128,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(Question question, bool isQuestionDetails)
+    public AnswerQuestionModel(QuestionCacheItem question, bool isQuestionDetails)
     {
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));

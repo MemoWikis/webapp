@@ -276,7 +276,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
-        var question = _questionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionCacheItem(questionId);
 
         var questionValuationForUser =
             NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, _sessionUser.UserId));

@@ -30,10 +30,19 @@ public class ReferenceCacheItem : DomainEntity
         references.Select(reference => ToReferenceCacheItem(reference));
     public static ReferenceCacheItem ToReferenceCacheItem(Reference reference)
     {
+        if (reference.Category != null)
+            return new ReferenceCacheItem()
+            {
+                Question = EntityCache.GetQuestionCacheItem(reference.Question.Id),
+                Category = EntityCache.GetCategoryCacheItem(reference.Category.Id) ?? new CategoryCacheItem("Empty"),
+                ReferenceType = reference.ReferenceType,
+                AdditionalInfo = reference.AdditionalInfo,
+                ReferenceText = reference.ReferenceText
+            };
+
         return new ReferenceCacheItem()
         {
-            Question = QuestionCacheItem.ToCacheQuestion(reference.Question),
-            Category = CategoryCacheItem.ToCacheCategory(reference.Category),
+            Question = EntityCache.GetQuestionCacheItem(reference.Question.Id),
             ReferenceType = reference.ReferenceType,
             AdditionalInfo = reference.AdditionalInfo,
             ReferenceText = reference.ReferenceText
