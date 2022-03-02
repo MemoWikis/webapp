@@ -159,7 +159,7 @@ public static class QuestionInKnowledge
     private static void CreateOrUpdateValuation(int questionId, User user, int relevancePersonal = -2)
     {
         var questionValuation = Sl.QuestionValuationRepo.GetBy(questionId, user.Id);
-        var question = EntityCache.GetQuestionCacheItem(questionId);
+        var question = EntityCache.GetQuestion(questionId);
 
         CreateOrUpdateValuation(question, questionValuation, user, relevancePersonal);
     }

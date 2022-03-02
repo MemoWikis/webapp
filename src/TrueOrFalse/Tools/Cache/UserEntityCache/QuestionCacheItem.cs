@@ -197,7 +197,7 @@ public class QuestionCacheItem
             SkipMigration = question.SkipMigration,
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
-            Categories = EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList(),
+            Categories = EntityCache.GetCategories(question.Categories.Select(c => c.Id)).ToList(),
             Creator = question.Creator,
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,

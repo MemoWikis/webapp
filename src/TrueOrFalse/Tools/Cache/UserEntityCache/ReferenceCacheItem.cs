@@ -33,8 +33,8 @@ public class ReferenceCacheItem : DomainEntity
         if (reference.Category != null)
             return new ReferenceCacheItem()
             {
-                Question = EntityCache.GetQuestionCacheItem(reference.Question.Id),
-                Category = EntityCache.GetCategoryCacheItem(reference.Category.Id) ?? new CategoryCacheItem("Empty"),
+                Question = EntityCache.GetQuestion(reference.Question.Id),
+                Category = EntityCache.GetCategory(reference.Category.Id) ?? new CategoryCacheItem("Empty"),
                 ReferenceType = reference.ReferenceType,
                 AdditionalInfo = reference.AdditionalInfo,
                 ReferenceText = reference.ReferenceText
@@ -42,7 +42,7 @@ public class ReferenceCacheItem : DomainEntity
 
         return new ReferenceCacheItem()
         {
-            Question = EntityCache.GetQuestionCacheItem(reference.Question.Id),
+            Question = EntityCache.GetQuestion(reference.Question.Id),
             ReferenceType = reference.ReferenceType,
             AdditionalInfo = reference.AdditionalInfo,
             ReferenceText = reference.ReferenceText

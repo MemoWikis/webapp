@@ -51,7 +51,7 @@ public class CategoryCacheItem
         if (CachedData.ChildrenIds.Count == 0)
             return false;
 
-        return EntityCache.GetCategoryCacheItems(CachedData.ChildrenIds)
+        return EntityCache.GetCategories(CachedData.ChildrenIds)
             .Count(cci => cci.Visibility == CategoryVisibility.All) > 0;
     }
 
@@ -60,7 +60,7 @@ public class CategoryCacheItem
         return CategoryRelations != null && CategoryRelations.Any()
            ? CategoryRelations
                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
-               .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
+               .Select(x => EntityCache.GetCategory(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                .ToList()
            : new List<CategoryCacheItem>();
     }
@@ -102,10 +102,10 @@ public class CategoryCacheItem
             {
                 if (!visibleVisited.ContainsKey(child))
                 {
-                    if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(child)))
+                    if (PermissionCheck.CanView(EntityCache.GetCategory(child)))
                     {
-                        visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child, getDataFromEntityCache: true));
-                        VisibleChildCategories(EntityCache.GetCategoryCacheItem(child), visibleVisited);
+                        visibleVisited.Add(child, EntityCache.GetCategory(child, getDataFromEntityCache: true));
+                        VisibleChildCategories(EntityCache.GetCategory(child), visibleVisited);
                     }
                 }
             }

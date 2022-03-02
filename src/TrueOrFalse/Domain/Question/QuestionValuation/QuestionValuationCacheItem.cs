@@ -27,7 +27,7 @@ public class QuestionValuationCacheItem
             Id = questionValuation.Id,
             IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
-            Question = EntityCache.GetQuestionCacheItem(questionValuation.Question.Id),
+            Question = EntityCache.GetQuestion(questionValuation.Question.Id),
             User = questionValuation.User
         };
     }

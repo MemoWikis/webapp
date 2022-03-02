@@ -5,7 +5,7 @@
     <div class="SessionHeading">
         <div class="SessionTitle">
             <div class="CollectionType TypeCategory">Thema</div>
-            <% var category = EntityCache.GetCategoryCacheItem(Model.CategoryModel.Id); 
+            <% var category = EntityCache.GetCategory(Model.CategoryModel.Id); 
                Html.RenderPartial("CategoryLabel", category); %>
         </div>
     </div>

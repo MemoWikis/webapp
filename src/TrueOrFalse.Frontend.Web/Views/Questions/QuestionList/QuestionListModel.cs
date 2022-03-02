@@ -20,7 +20,7 @@ public class QuestionListModel : BaseModel
         IsSessionNoteFadeIn = isSessionNoteFadeIn;
 
         var editQuestionModel = new EditQuestionModel();
-        editQuestionModel.Categories.Add(EntityCache.GetCategoryCacheItem((int)categoryId));
+        editQuestionModel.Categories.Add(EntityCache.GetCategory((int)categoryId));
 
         EditQuestionModel = editQuestionModel;
     }

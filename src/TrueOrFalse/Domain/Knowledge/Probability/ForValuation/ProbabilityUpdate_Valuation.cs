@@ -28,7 +28,7 @@ namespace TrueOrFalse
             if (userId == -1)
                 return;
 
-            Run(EntityCache.GetQuestionCacheItem(questionId), Sl.UserRepo.GetById(userId));
+            Run(EntityCache.GetQuestion(questionId), Sl.UserRepo.GetById(userId));
         }
 
         public static void Run(QuestionCacheItem question, User user)

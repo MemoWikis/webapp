@@ -106,7 +106,7 @@ public class AnswerQuestionController : BaseController
             return GetViewBySearchSpec(activeSearchSpec);
 
         var question = _questionRepo.GetById((int) id);
-        var questionCacheItem = EntityCache.GetQuestionCacheItem((int)id);
+        var questionCacheItem = EntityCache.GetQuestion((int)id);
 
         activeSearchSpec.PageSize = 1;
         if ((int) elementOnPage != -1)
@@ -146,7 +146,7 @@ public class AnswerQuestionController : BaseController
                 {
                     if (searchSpec.HistoryItem.Question.Id != question.Id)
                     {
-                        question = EntityCache.GetQuestionCacheItem(searchSpec.HistoryItem.Question.Id);
+                        question = EntityCache.GetQuestion(searchSpec.HistoryItem.Question.Id);
                     }
                 }
 
@@ -182,7 +182,7 @@ public class AnswerQuestionController : BaseController
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
-        var question = EntityCache.GetQuestionCacheItem(id);
+        var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
 
         return new JsonResult
@@ -225,7 +225,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView = -1, bool isNotAnswered = false)
     {
-        var question = EntityCache.GetQuestionCacheItem(id);
+        var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
         if(isNotAnswered)
             R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
@@ -276,7 +276,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
-        var question = EntityCache.GetQuestionCacheItem(questionId);
+        var question = EntityCache.GetQuestion(questionId);
 
         var questionValuationForUser =
             NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, _sessionUser.UserId));
@@ -322,7 +322,7 @@ public class AnswerQuestionController : BaseController
             );
         }
 
-        var question = EntityCache.GetQuestionCacheItem(questionId);
+        var question = EntityCache.GetQuestion(questionId);
         if (isVideo)
         {
             return ViewRenderer.RenderPartialView(
@@ -387,7 +387,7 @@ public class AnswerQuestionController : BaseController
                 {
                     if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
                     {
-                        question = EntityCache.GetQuestionCacheItem(activeSearchSpec.HistoryItem.Question.Id);
+                        question = EntityCache.GetQuestion(activeSearchSpec.HistoryItem.Question.Id);
                     }
                 }
 

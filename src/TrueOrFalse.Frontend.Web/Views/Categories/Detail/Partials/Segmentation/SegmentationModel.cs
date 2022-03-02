@@ -59,23 +59,23 @@ public class SegmentationModel : BaseContentModule
     {
         var segments = new List<Segment>();
 
-        var categoryCustomSegments = EntityCache.GetCategoryCacheItem(id).CustomSegments; 
+        var categoryCustomSegments = EntityCache.GetCategory(id).CustomSegments; 
         var segmentJson = categoryCustomSegments == "\"\"" ?  new List<SegmentJson>() :  JsonConvert.DeserializeObject<List<SegmentJson>>(categoryCustomSegments);
         foreach (var s in segmentJson)
         {
             var segment = new Segment();
-            var segmentItem = EntityCache.GetCategoryCacheItem(s.CategoryId);
+            var segmentItem = EntityCache.GetCategory(s.CategoryId);
             if (!PermissionCheck.CanView(segmentItem))
                 continue;
-            segment.Item = EntityCache.GetCategoryCacheItem(s.CategoryId);
+            segment.Item = EntityCache.GetCategory(s.CategoryId);
             segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;
 
             var childCategories = new List<CategoryCacheItem>();
                 
             if (s.ChildCategoryIds != null)
                 childCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
-                    ? EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(c => c.IsInWishknowledge() && PermissionCheck.CanView(c)).ToList()
-                    : EntityCache.GetCategoryCacheItems(s.ChildCategoryIds).Where(PermissionCheck.CanView).ToList();
+                    ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge() && PermissionCheck.CanView(c)).ToList()
+                    : EntityCache.GetCategories(s.ChildCategoryIds).Where(PermissionCheck.CanView).ToList();
             else
                 childCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
                     UserEntityCache.GetChildren(s.CategoryId, UserId).Where(PermissionCheck.CanView).ToList() : 

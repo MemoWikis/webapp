@@ -27,7 +27,7 @@ public class CategoryHistoryModel : BaseModel
         CategoryName = category == null ?  data.Name :  category.Name;
         CategoryId = categoryId;
         CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
-        Category = EntityCache.GetCategoryCacheItem(categoryId);
+        Category = EntityCache.GetCategory(categoryId);
         Days = categoryChanges
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)

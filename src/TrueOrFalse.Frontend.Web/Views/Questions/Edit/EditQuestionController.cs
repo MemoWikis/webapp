@@ -42,7 +42,7 @@ public class EditQuestionController : BaseController
 
         _questionRepo.Create(question);
 
-        var questionCacheItem = EntityCache.GetQuestionCacheItem(question.Id);
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         if (questionDataJson.IsLearningTab)
             LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex);
@@ -78,7 +78,7 @@ public class EditQuestionController : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestionCacheItem(updatedQuestion.Id), questionDataJson.SessionIndex);
+            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id), questionDataJson.SessionIndex);
 
         var questionController = new QuestionController(_questionRepo);
         return questionController.LoadQuestion(updatedQuestion.Id);
@@ -131,7 +131,7 @@ public class EditQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
-        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestionCacheItem(question.Id), flashCardJson.LastIndex);
+        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex);
         var questionController = new QuestionController(_questionRepo);
 
         return questionController.LoadQuestion(question.Id);

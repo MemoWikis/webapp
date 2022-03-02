@@ -14,13 +14,13 @@ public class SetController : BaseController
     [SetThemeMenu(true)]
     public void QuestionSet(string text, int id)
     {
-        var category = EntityCache.GetCategoryCacheItem(id);
+        var category = EntityCache.GetCategory(id);
         var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(category.Id);
         var isDeleted = categoryChanges.Any(c => c.Category.Id == category.Id && c.Type == CategoryChangeType.Delete);
         if (isDeleted)
         {
             var baseSetId = Sl.SetRepo.GetById(id).CopiedFrom.Id;
-            category = EntityCache.GetCategoryCacheItem(baseSetId);
+            category = EntityCache.GetCategory(baseSetId);
         }
         Response.Redirect(Links.CategoryDetailLearningTab(category));
     }
@@ -38,12 +38,12 @@ public class SetController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int setId)
     {
-        return Redirect(Links.CategoryDetailLearningTab(EntityCache.GetCategoryCacheItem(setId)));
+        return Redirect(Links.CategoryDetailLearningTab(EntityCache.GetCategory(setId)));
     }
 
     public ActionResult StartTestSession(int setId)
     {
-        return Redirect(Links.CategoryDetailLearningTab(EntityCache.GetCategoryCacheItem(setId)));
+        return Redirect(Links.CategoryDetailLearningTab(EntityCache.GetCategory(setId)));
     }
 
     public string KnowledgeBar(int setId) =>

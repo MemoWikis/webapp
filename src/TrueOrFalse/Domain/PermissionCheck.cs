@@ -3,8 +3,8 @@ using System.Web.Razor.Tokenizer;
 
 public class PermissionCheck
 {
-    public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategoryCacheItem(id));
-    public static bool CanView(Category category) => CanView(EntityCache.GetCategoryCacheItem(category.Id));
+    public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
+    public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
     public static bool CanView(CategoryCacheItem category) => CanView(Sl.SessionUser.User, category);
 
     public static bool CanView(User user, CategoryCacheItem category)
@@ -38,8 +38,8 @@ public class PermissionCheck
         return CanView(creator, previousVisibility) && CanView(creator, selectedVisibility);
     }
 
-    public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategoryCacheItem(id));
-    public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategoryCacheItem(category.Id));
+    public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
+    public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.SessionUser.User, category);
     public static bool CanEdit(User user, CategoryCacheItem category)
     {
@@ -55,7 +55,7 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanDelete(Category category) => CanEdit(EntityCache.GetCategoryCacheItem(category.Id));
+    public static bool CanDelete(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanDelete(CategoryCacheItem category) => CanDelete(Sl.SessionUser.User, category);
     public static bool CanDelete(User user, CategoryCacheItem category)
     {

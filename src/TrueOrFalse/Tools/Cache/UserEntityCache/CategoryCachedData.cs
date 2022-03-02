@@ -40,5 +40,5 @@ public class CategoryCachedData
     }
 
     public int CountVisibleChildrenIds =>
-        EntityCache.GetCategoryCacheItems(ChildrenIds).Where(PermissionCheck.CanView).Distinct().Count();
+        EntityCache.GetCategories(ChildrenIds).Where(PermissionCheck.CanView).Distinct().Count();
 }

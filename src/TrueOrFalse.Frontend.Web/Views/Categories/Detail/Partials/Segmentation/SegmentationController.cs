@@ -14,11 +14,11 @@ public class SegmentationController : BaseController
     {
         var categoryId = json.CategoryId;
         var segment = new Segment();
-        segment.Item = EntityCache.GetCategoryCacheItem(categoryId);
+        segment.Item = EntityCache.GetCategory(categoryId);
 
         if (json.ChildCategoryIds != null)
-            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategoryCacheItems(json.ChildCategoryIds)
-                .Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategoryCacheItems(json.ChildCategoryIds).ToList();
+            segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? EntityCache.GetCategories(json.ChildCategoryIds)
+                .Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(json.ChildCategoryIds).ToList();
         else
             segment.ChildCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) : EntityCache.GetChildren(categoryId);
 
@@ -65,7 +65,7 @@ public class SegmentationController : BaseController
 
     private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null, int? startTopicId = null)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
         var categoryTypeHtml = categoryCacheItem.Type.GetCategoryTypeIconHtml();
@@ -125,7 +125,7 @@ public class SegmentationController : BaseController
     [HttpPost]
     public JsonResult GetSegmentData(int categoryId)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;

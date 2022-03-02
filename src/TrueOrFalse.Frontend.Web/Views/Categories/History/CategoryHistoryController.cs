@@ -10,7 +10,7 @@ public class CategoryHistoryController : Controller
 
     public ActionResult List(int categoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         
         var categoryChanges = Sl.CategoryChangeRepo.GetForCategory(categoryId);
 

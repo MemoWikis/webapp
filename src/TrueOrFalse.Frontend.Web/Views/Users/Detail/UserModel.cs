@@ -65,7 +65,7 @@ public class UserModel : BaseModel
         var userWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
         if (PermissionCheck.CanView(userWiki))
         {
-            UserWiki = EntityCache.GetCategoryCacheItem(userWiki.Id);
+            UserWiki = EntityCache.GetCategory(userWiki.Id);
             ShowWiki = true;
         }
 

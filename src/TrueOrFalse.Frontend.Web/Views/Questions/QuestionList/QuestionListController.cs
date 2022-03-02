@@ -21,7 +21,7 @@ public class QuestionListController : BaseController
     public JsonResult RenderSessionHeaderWithQuestionId(int questionId, int categoryId)
     {
         var question = EntityCache.GetQuestionById(questionId);
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var categoryModel = new CategoryModel(categoryCacheItem);
         var html = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(question, null, false, categoryModel), ControllerContext);
         return Json(new {
@@ -117,7 +117,7 @@ public class QuestionListController : BaseController
                 .Distinct()
                 .Count(),
             allQuestionCount = EntityCache
-                .GetCategoryCacheItem(categoryId)
+                .GetCategory(categoryId)
                 .GetAggregatedQuestionsFromMemoryCache()
                 .Count,
         });

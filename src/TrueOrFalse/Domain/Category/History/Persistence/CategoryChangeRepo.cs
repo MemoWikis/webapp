@@ -56,7 +56,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     {
         User aliasUser = null;
         Category aliasCategory = null;
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var childIds = categoryCacheItem
             .CategoryRelations
             .Where(cci => cci.CategoryRelationType == CategoryRelationType.IncludesContentOf)

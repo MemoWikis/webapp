@@ -134,7 +134,7 @@ public class EntityCache : BaseCache
     {
         if (categories == null)
         {
-            categories = GetCategoryCacheItems(question.Categories.GetIds()).ToList();
+            categories = GetCategories(question.Categories.GetIds()).ToList();
         }
 
         foreach (var category in categories)
@@ -235,14 +235,14 @@ public class EntityCache : BaseCache
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
 
-    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IEnumerable<int> getIds) =>
-        getIds.Select(categoryId => GetCategoryCacheItem(categoryId));
-    public static IEnumerable<CategoryCacheItem> GetCategoryCacheItems(IList<int> getIds, bool getDataFromEntityCache = true) =>
-        getIds.Select(categoryId => GetCategoryCacheItem(categoryId, getDataFromEntityCache: getDataFromEntityCache));
+    public static IEnumerable<CategoryCacheItem> GetCategories(IEnumerable<int> getIds) =>
+        getIds.Select(categoryId => GetCategory(categoryId));
+    public static IEnumerable<CategoryCacheItem> GetCategories(IList<int> getIds, bool getDataFromEntityCache = true) =>
+        getIds.Select(categoryId => GetCategory(categoryId, getDataFromEntityCache: getDataFromEntityCache));
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static CategoryCacheItem GetCategoryCacheItem(int categoryId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    public static CategoryCacheItem GetCategory(int categoryId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
     {
         if (!IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(Sl.SessionUser.UserId).IsFiltered)
         {
@@ -275,7 +275,7 @@ public class EntityCache : BaseCache
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == categoryId)
-                .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
+                .Select(cr => GetCategory(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
     }
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);
@@ -312,7 +312,7 @@ public class EntityCache : BaseCache
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.CategoryId == categoryId)
-                .Select(cr => GetCategoryCacheItem(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
+                .Select(cr => GetCategory(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
     }
 
     public static IList<CategoryCacheItem>
@@ -353,7 +353,7 @@ public class EntityCache : BaseCache
         return allCategories.Where(c => c.Name == name).ToList();
     }
 
-    public static QuestionCacheItem GetQuestionCacheItem(int questionId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    public static QuestionCacheItem GetQuestion(int questionId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
     {
 
         Questions.TryGetValue(questionId, out var question);

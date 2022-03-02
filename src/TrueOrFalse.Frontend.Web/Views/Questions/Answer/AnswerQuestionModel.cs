@@ -232,7 +232,7 @@ public class AnswerQuestionModel : BaseModel
             AllCategoriesParents = GraphService.GetAllParentsFromEntityCache(PrimaryCategory.Id);
 
             var allCategoryChildrens = EntityCache.GetChildren(PrimaryCategory.Id);
-            AllCategorysWithChildrenAndParents = EntityCache.GetCategoryCacheItems(
+            AllCategorysWithChildrenAndParents = EntityCache.GetCategories(
                 question.Categories.Select(c => c.Id)
                     .Concat(allCategoryChildrens.Select(c => c.Id))
                     .Concat(AllCategoriesParents.Select(c => c.Id)))

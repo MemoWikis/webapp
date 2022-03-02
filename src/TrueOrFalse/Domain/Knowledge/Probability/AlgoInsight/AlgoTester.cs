@@ -39,7 +39,7 @@ public class AlgoTester
         AnswerTestRepo answerTestRepo, 
         AlgoInfo algo)
 	{
-	    var question = EntityCache.GetQuestionCacheItem(answer.Question.Id);
+	    var question = EntityCache.GetQuestion(answer.Question.Id);
 	    var user = answer.GetUser();
 
         var result = algo.Algorithm.Run(question, user, allPreviousItems);

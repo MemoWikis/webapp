@@ -35,7 +35,7 @@ public class RegisterController : BaseController
         Sl.CategoryRepo.Create(category);
         _sessionUser.User.StartTopicId = category.Id;
         UserCache.AddOrUpdate(user);
-        return Category(EntityCache.GetCategoryCacheItem(category.Id));
+        return Category(EntityCache.GetCategory(category.Id));
     }
 
     public ActionResult Category(CategoryCacheItem category) => Redirect(Links.CategoryDetail(category));
@@ -43,7 +43,7 @@ public class RegisterController : BaseController
     [HttpPost]
     public string GetUserTopic()
     {
-        var userCategory = EntityCache.GetCategoryCacheItem(_sessionUser.User.StartTopicId);
+        var userCategory = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
         return Links.CategoryDetail(userCategory);
     }
 
@@ -51,6 +51,6 @@ public class RegisterController : BaseController
     {
         var validator = new ValidateEmailConfirmationKey(Sl.UserRepo);
         var mailConfirmed = validator.IsValid(emailKey);
-        return Category(EntityCache.GetCategoryCacheItem(1));
+        return Category(EntityCache.GetCategory(1));
     }
 }

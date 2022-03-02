@@ -180,7 +180,7 @@ public class CategoryModel : BaseContentModule
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
 
         var editQuestionModel = new EditQuestionModel();
-        editQuestionModel.Categories.Add(EntityCache.GetCategoryCacheItem(category.Id));
+        editQuestionModel.Categories.Add(EntityCache.GetCategory(category.Id));
 
         EditQuestionModel = editQuestionModel;
     }

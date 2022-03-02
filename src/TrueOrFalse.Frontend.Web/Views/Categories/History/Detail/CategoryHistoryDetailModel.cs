@@ -139,8 +139,8 @@ public class CategoryHistoryDetailModel : BaseModel
 
         try
         {
-            category = EntityCache.GetCategoryCacheItem(categoryId);
-            relatedCategory = EntityCache.GetCategoryCacheItem(relatedCategoryId);
+            category = EntityCache.GetCategory(categoryId);
+            relatedCategory = EntityCache.GetCategory(relatedCategoryId);
         }
         catch(Exception e)
         {

@@ -10,7 +10,7 @@ public class QuestionDelete
     {
         var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
-        var questionCacheItem = EntityCache.GetQuestionCacheItem(questionId);
+        var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
         var canBeDeletedResult = CanBeDeleted(Sl.R<SessionUser>().UserId, question);

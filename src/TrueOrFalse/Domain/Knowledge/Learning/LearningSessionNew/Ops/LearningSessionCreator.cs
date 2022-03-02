@@ -107,18 +107,18 @@ public class LearningSessionCreator
     private static List<QuestionCacheItem> UserIsQuestionAuthor(int userId, int categoryId, bool isNotInWuwi = false)
     {
         if (isNotInWuwi)
-            return EntityCache.GetCategoryCacheItem(categoryId)
+            return EntityCache.GetCategory(categoryId)
                 .GetAggregatedQuestionsFromMemoryCache().Where(q =>
                     new UserTinyModel(q.Creator).Id == userId && !q.IsInWishknowledge())
                 .ToList();
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            return EntityCache.GetCategoryCacheItem(categoryId)
+            return EntityCache.GetCategory(categoryId)
                 .GetAggregatedQuestionsFromMemoryCache().Where(q =>
                     new UserTinyModel(q.Creator).Id == userId && q.IsInWishknowledge())
                 .ToList(); 
 
-        return EntityCache.GetCategoryCacheItem(categoryId)
+        return EntityCache.GetCategory(categoryId)
             .GetAggregatedQuestionsFromMemoryCache().Where(q =>
                  new UserTinyModel(q.Creator).Id  == userId)
             .ToList();
@@ -126,7 +126,7 @@ public class LearningSessionCreator
 
     public static List<QuestionCacheItem> GetCategoryQuestionsFromEntityCache(int categoryId)
     {
-        return EntityCache.GetCategoryCacheItem(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
+        return EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().ToList();
     }
 
     private static IList<QuestionCacheItem> OrderByProbability( List<QuestionCacheItem> questions)
@@ -137,7 +137,7 @@ public class LearningSessionCreator
     private static List<QuestionCacheItem> CompareDictionaryWithQuestionsFromMemoryCache(Dictionary<int, int> dic1, int categoryId, bool isNotWuwi = false)
     {
         List<QuestionCacheItem> questions = new List<QuestionCacheItem>();
-        var questionsFromEntityCache = EntityCache.GetCategoryCacheItem(categoryId)
+        var questionsFromEntityCache = EntityCache.GetCategory(categoryId)
             .GetAggregatedQuestionsFromMemoryCache().ToDictionary(q => q.Id);
 
         if (!isNotWuwi)

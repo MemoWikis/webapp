@@ -25,87 +25,87 @@ class User_entity_cache_tests : BaseTest
         //EntityCache
         Assert.That(
             entityCacheCategories.ByName("I").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("I").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "E").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "E").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("I").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "G").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "G").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("H").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("G").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("F").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("E").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "C").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("D").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "B").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "B").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("B").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("C").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("C").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X2").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X2").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("C").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X1").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X1").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("X2").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("X").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("X1").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
         Assert.That(
             entityCacheCategories.ByName("X3").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "A").Count, Is.EqualTo(1));
 
         //userEntityCache
         Assert.That(
             userEntityCacheCategories.ByName("I").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("I").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "G").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "G").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("I").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X3").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X3").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("G").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("G").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X3").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X3").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("F").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("F").CategoryRelations
-                .Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "X3").Count, Is.EqualTo(1));
+                .Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "X3").Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("X").CategoryRelations.Where(cr =>
-                EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name ==
-                EntityCache.GetCategoryCacheItem(user.StartTopicId).Name).Count, Is.EqualTo(1));
+                EntityCache.GetCategory(cr.RelatedCategoryId).Name ==
+                EntityCache.GetCategory(user.StartTopicId).Name).Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("X3").CategoryRelations.Where(cr =>
-                EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name ==
-                EntityCache.GetCategoryCacheItem(user.StartTopicId).Name).Count, Is.EqualTo(1));
+                EntityCache.GetCategory(cr.RelatedCategoryId).Name ==
+                EntityCache.GetCategory(user.StartTopicId).Name).Count, Is.EqualTo(1));
         Assert.That(
             userEntityCacheCategories.ByName("B").CategoryRelations.Where(cr =>
-                EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name ==
-                EntityCache.GetCategoryCacheItem(user.StartTopicId).Name).Count, Is.EqualTo(1));
+                EntityCache.GetCategory(cr.RelatedCategoryId).Name ==
+                EntityCache.GetCategory(user.StartTopicId).Name).Count, Is.EqualTo(1));
     }
 
     [Test]
@@ -188,7 +188,7 @@ class User_entity_cache_tests : BaseTest
         Sl.SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
 
-        var cat = EntityCache.GetCategoryCacheItem(user.StartTopicId);
+        var cat = EntityCache.GetCategory(user.StartTopicId);
         cat.Name = "Daniel";
         UserEntityCache.ReInitAllActiveCategoryCaches();
 
@@ -432,7 +432,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
-        EntityCache.GetCategoryCacheItem(user1.StartTopicId);
+        EntityCache.GetCategory(user1.StartTopicId);
         var userStartTopic2 = Sl.CategoryRepo.GetById(user2.StartTopicId);
 
         var categoryA = ContextCategory.New(false).Add("A", creator: user1).Persist().All.First();
@@ -478,7 +478,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
-        var userStartTopic1 = EntityCache.GetCategoryCacheItem(user1.StartTopicId);
+        var userStartTopic1 = EntityCache.GetCategory(user1.StartTopicId);
         var userStartTopic2 = Sl.CategoryRepo.GetById(user2.StartTopicId);
 
         var categoryA = ContextCategory.New(false).Add("A", creator: user1).Persist().All.First();
@@ -544,7 +544,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user1 = ContextUser.New().Add("user1").Persist(true).All.First();
         var user2 = ContextUser.New().Add("user2").Persist(true).All.First();
-        var userStartTopic1 = EntityCache.GetCategoryCacheItem(user1.StartTopicId);
+        var userStartTopic1 = EntityCache.GetCategory(user1.StartTopicId);
         var userStartTopic2 = Sl.CategoryRepo.GetById(user2.StartTopicId);
 
         var categoryA = ContextCategory.New(false).Add("A", creator: user1).Persist().All.First();
