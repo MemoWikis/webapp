@@ -26,12 +26,12 @@ class Automatic_inclusion_tests : BaseTest
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         EntityCache.Init();
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate( EntityCache.GetByName("Sub1").First());
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate( EntityCache.GetCategoryByName("Sub1").First());
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
         Assert.That(Sl.CategoryRepo.GetById(parentA.Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(3));
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub3").Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(1));
-        Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
+        Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
     }
 
@@ -56,9 +56,9 @@ class Automatic_inclusion_tests : BaseTest
             .Persist()
             .All;
 
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub1").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub2").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub3").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub3").First().Id, user);
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         EntityCache.Init();
@@ -69,7 +69,7 @@ class Automatic_inclusion_tests : BaseTest
         context.Add("SubSub1", parent: subCategories.ByName("Sub1"))
             .Persist();
 
-        Assert.That(ContextCategory.HasCorrectIncludetContent(EntityCache.GetByName("Category").First(), "SubSub1", user.Id), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectIncludetContent(EntityCache.GetCategoryByName("Category").First(), "SubSub1", user.Id), Is.EqualTo(true));
         Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"), "SubSub1", user.Id), Is.EqualTo(true));
     }
 
@@ -100,14 +100,14 @@ class Automatic_inclusion_tests : BaseTest
             .Add("SubSub1", parent: subCategories.ByName("Sub1"))
             .Persist();
 
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub1").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub2").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub3").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("SubSub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub3").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("SubSub1").First().Id, user);
 
         UserCache.GetItem(user.Id).IsFiltered = true;
 
-        var idFromDeleteCategory = EntityCache.GetByName("SubSub1").First().Id; 
+        var idFromDeleteCategory = EntityCache.GetCategoryByName("SubSub1").First().Id; 
 
         context.Delete(Sl.CategoryRepo.GetByName("SubSub1").First());
 
@@ -145,10 +145,10 @@ class Automatic_inclusion_tests : BaseTest
         Sl.SessionUser.Login(user);
       
 
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub1").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub2").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub3").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("SubSub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub3").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("SubSub1").First().Id, user);
 
         var subSub1 = Sl.CategoryRepo.GetByName("SubSub1").First(); 
         subSub1.CategoryRelations.RemoveAt(0);
@@ -177,13 +177,13 @@ class Automatic_inclusion_tests : BaseTest
             .All;
 
         EntityCache.Init();
-        Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
+        Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
         Sl.CategoryRepo.Delete(context.All.ByName("Sub1"));
-        Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
+        Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 
         context.Add("Sub1", parent: parentA).Persist();
-        Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
+        Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
         context.All.ByName("Sub2").CategoryRelations.Add(new CategoryRelation
         {
@@ -192,12 +192,12 @@ class Automatic_inclusion_tests : BaseTest
             RelatedCategory = context.All.ByName("Sub3")
         });
         Sl.CategoryRepo.Update(context.All.ByName("Sub2"));
-        Assert.That(EntityCache.GetByName("Sub3").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(EntityCache.GetCategoryByName("Sub3").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
 
 
         context.All.ByName("Sub3").CategoryRelations.RemoveAt(0);
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
-        Assert.That(EntityCache.GetByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
+        Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 
         context.All.ByName("Sub3").CategoryRelations.Add(new CategoryRelation
         {
@@ -207,7 +207,7 @@ class Automatic_inclusion_tests : BaseTest
         });
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
 
-        Assert.That(EntityCache.GetByName("Sub1").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(EntityCache.GetCategoryByName("Sub1").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
     }
 
     [Test]
@@ -230,9 +230,9 @@ class Automatic_inclusion_tests : BaseTest
         EntityCache.Init();
         var user = ContextUser.New().Add("Dandor").Persist().All[0]; 
         Sl.SessionUser.Login(user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub1").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub2").First().Id, user);
-        CategoryInKnowledge.Pin(EntityCache.GetByName("Sub3").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
+        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub3").First().Id, user);
 
         UserCache.GetItem(user.Id).IsFiltered = true;
 
@@ -240,11 +240,11 @@ class Automatic_inclusion_tests : BaseTest
         Assert.That(UserEntityCache.GetCategory(user.Id, parentA.Id).CachedData.ChildrenIds.Count, Is.EqualTo(2));
         context.Add("Sub1", parent: parentA).Persist();
 
-        Assert.That(UserEntityCache.GetCategory(user.Id, EntityCache.GetByName("Category").First().Id).CachedData.ChildrenIds.Count, Is.EqualTo(3));
+        Assert.That(UserEntityCache.GetCategory(user.Id, EntityCache.GetCategoryByName("Category").First().Id).CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
         context.All.ByName("Sub3").CategoryRelations.RemoveAt(0);
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
-        Assert.That(UserEntityCache.GetCategory(user.Id, EntityCache.GetByName("Category").First().Id).CachedData.ChildrenIds.Count, Is.EqualTo(2));
+        Assert.That(UserEntityCache.GetCategory(user.Id, EntityCache.GetCategoryByName("Category").First().Id).CachedData.ChildrenIds.Count, Is.EqualTo(2));
 
     }
 }

@@ -28,7 +28,7 @@ public class QuestionHistoryItem : HistoryItemBase
 
     public QuestionHistoryItem(
         Set set,
-        Question question,
+        QuestionCacheItem question,
         HistoryItemType type = HistoryItemType.Any)
     {
         Set = set;
@@ -39,7 +39,7 @@ public class QuestionHistoryItem : HistoryItemBase
     }
 
     public QuestionHistoryItem(
-        Question question, 
+        QuestionCacheItem question, 
         QuestionSearchSpec seachSpec,
         HistoryItemType type = HistoryItemType.Any)
     {
@@ -49,18 +49,18 @@ public class QuestionHistoryItem : HistoryItemBase
         SearchSpec = QuestionSearchSpecSession.AddCloneToSession(seachSpec, this);
     }
 
-    public QuestionHistoryItem(Question question, HistoryItemType type)
+    public QuestionHistoryItem(QuestionCacheItem question, HistoryItemType type)
     {
         Type = type;
             
         FillQuestionFields(question);
     }
 
-    private void FillQuestionFields(Question question)
+    private void FillQuestionFields(QuestionCacheItem question)
     {
-        Question = question;
+        Question = Sl.QuestionRepo.GetById(question.Id);
         Id = question.Id;
         Text = question.Text;
-        Solution = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml();
+        Solution = GetQuestionSolution.Run(question.Id).GetCorrectAnswerAsHtml();
     }
 }

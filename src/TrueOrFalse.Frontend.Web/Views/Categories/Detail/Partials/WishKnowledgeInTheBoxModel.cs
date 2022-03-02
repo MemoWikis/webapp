@@ -15,9 +15,9 @@ public class WishKnowledgeInTheBoxModel : BaseModel
     public string Text;
 
 
-    public List<Question> GetQuestionToCategories(CategoryCacheItem categoryCacheItem)
+    public List<QuestionCacheItem> GetQuestionToCategories(CategoryCacheItem categoryCacheItem)
     {
-        var aggregatedQuestions = new List<Question>();
+        var aggregatedQuestions = new List<QuestionCacheItem>();
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(includingSelf: true);
 
@@ -31,7 +31,7 @@ public class WishKnowledgeInTheBoxModel : BaseModel
 
     public ObjectGetQuestionKnowledge BuildObjectGetQuestionKnowledge()
     {
-        var aggregateWishKnowledge = new List<Question>();
+        var aggregateWishKnowledge = new List<QuestionCacheItem>();
         var knowledgeStatus = new List<string>();
         var getQuestionKnowledge = new ObjectGetQuestionKnowledge();
 
@@ -78,5 +78,5 @@ public class ObjectGetQuestionKnowledge
     public int Userid { get; set; }
     public int NumberKnowledgeQuestions { get; set; }
     public List<string> KnowledgeStatus { get; set; }
-    public List<Question> AggregatedWishKnowledge { get; set; }
+    public List<QuestionCacheItem> AggregatedWishKnowledge { get; set; }
 }

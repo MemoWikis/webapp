@@ -20,7 +20,7 @@ public class AnswerQuestionModel : BaseModel
     public string DescriptionForFacebook;
 
     public int QuestionId;
-    public Question Question;
+    public QuestionCacheItem Question;
     public UserTinyModel Creator;
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
@@ -69,7 +69,7 @@ public class AnswerQuestionModel : BaseModel
     public bool SourceIsCategory;
     public Category SourceCategory;
 
-    public IList<Category> Categories;
+    public IList<CategoryCacheItem> Categories;
     public CategoryCacheItem PrimaryCategory;
 
     public HistoryAndProbabilityModel HistoryAndProbability;
@@ -97,7 +97,7 @@ public class AnswerQuestionModel : BaseModel
     public AnalyticsFooterModel AnalyticsFooterModel;
     public bool QuestionHasParentCategories = false;
 
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null, bool showCategoryList = true, CategoryModel categoryModel= null)
+    public AnswerQuestionModel(QuestionCacheItem question, bool? isMobileDevice = null, bool showCategoryList = true, CategoryModel categoryModel= null)
     {
         CategoryModel = categoryModel;
         IsMobileDevice = isMobileDevice;
@@ -141,7 +141,7 @@ public class AnswerQuestionModel : BaseModel
     }
 
     //we have no widgets, this can deleted
-    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null)
+    public AnswerQuestionModel(Guid questionViewGuid, QuestionCacheItem question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null)
     {
         this.IsMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
@@ -166,7 +166,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    private void Populate(Question question)
+    private void Populate(QuestionCacheItem question)
     {
         Creator = new UserTinyModel(question.Creator);
 

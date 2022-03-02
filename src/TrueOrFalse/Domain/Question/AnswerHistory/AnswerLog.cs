@@ -69,11 +69,11 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         _answerRepo.Create(answer);
     }
 
-    public void LogAnswerView(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId = null, int LearningSessionId = -1, Guid LearningSessionStepGuid = default(Guid))
+    public void LogAnswerView(QuestionCacheItem question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId = null, int LearningSessionId = -1, Guid LearningSessionStepGuid = default(Guid))
     {
         var answer = new Answer
         {
-            Question = question,
+            Question = Sl.QuestionRepo.GetById(question.Id),
             UserId = userId,
             QuestionViewGuid = questionViewGuid,
             InteractionNumber = interactionNumber,

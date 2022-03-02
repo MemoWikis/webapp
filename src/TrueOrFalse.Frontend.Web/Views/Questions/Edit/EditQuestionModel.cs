@@ -15,11 +15,11 @@ public class EditQuestionModel : BaseModel
 
     public QuestionVisibility Visibility { get; set; }
 
-    public Question Question;
+    public QuestionCacheItem Question;
 
     //Validation serves as backup for client side validation
-    [Required(ErrorMessage="Du musst eine Frage eingeben.")]
-    [DataType(DataType.MultilineText )]
+    [Required(ErrorMessage = "Du musst eine Frage eingeben.")]
+    [DataType(DataType.MultilineText)]
     [DisplayName("Frage")]
     public string QuestionText { get; set; }
 
@@ -39,8 +39,9 @@ public class EditQuestionModel : BaseModel
 
     public IEnumerable<SelectListItem> LicenseDropdownList
     {
-        get {
-            if(_licenseDropdownList == null)
+        get
+        {
+            if (_licenseDropdownList == null)
 
                 return LicenseQuestionRepo.GetAllRegisteredLicenses()
                 .Select(l => new SelectListItem
@@ -58,9 +59,9 @@ public class EditQuestionModel : BaseModel
 
     public int Id = -1;
 
-    public IList<Category> Categories = new List<Category>();
-    public IList<Reference> References = new List<Reference>();
-    public IList<Reference> EscapedReferences => EscapeReferenceText(References);
+    public IList<CategoryCacheItem> Categories = new List<CategoryCacheItem>();
+    public IList<ReferenceCacheItem> References = new List<ReferenceCacheItem>();
+    public IList<ReferenceCacheItem> EscapedReferences => EscapeReferenceText(References);
 
     public string PageTitle;
 
@@ -71,7 +72,7 @@ public class EditQuestionModel : BaseModel
     public bool IsEditing;
     private string _pageTitle;
 
-    public IEnumerable<SelectListItem> VisibilityData =>  new List<SelectListItem>
+    public IEnumerable<SelectListItem> VisibilityData => new List<SelectListItem>
     {
         new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
         new SelectListItem {Text = "Nur Ich", Value = QuestionVisibility.Owner.ToString()},
@@ -103,7 +104,7 @@ public class EditQuestionModel : BaseModel
         SoundUrl = "";
     }
 
-    public EditQuestionModel(Question question)
+    public EditQuestionModel(QuestionCacheItem question)
     {
         Id = question.Id;
         Question = question;
@@ -119,19 +120,19 @@ public class EditQuestionModel : BaseModel
         Visibility = question.Visibility;
     }
 
-    public void FillCategoriesFromPostData(NameValueCollection postData)
-    {
-        Categories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
-    }
+    //public void FillCategoriesFromPostData(NameValueCollection postData)
+    //{
+    //    Categories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
+    //}
 
-    public IList<Reference> FillReferencesFromPostData(HttpRequestBase request, Question question)
-    {
-        var referencesJson = request["hddReferencesJson"];
-        if(String.IsNullOrEmpty(referencesJson))
-            References = new List<Reference>();
+    //public IList<Reference> FillReferencesFromPostData(HttpRequestBase request, Question question)
+    //{
+    //    var referencesJson = request["hddReferencesJson"];
+    //    if (String.IsNullOrEmpty(referencesJson))
+    //        References = new List<Reference>();
 
-        return References = ReferenceJson.LoadFromJson(referencesJson, question);
-    }
+    //    return References = ReferenceJson.LoadFromJson(referencesJson, question);
+    //}
 
     public void SetToCreateModel()
     {
@@ -142,7 +143,7 @@ public class EditQuestionModel : BaseModel
 
     public void SetToUpdateModel()
     {
-        PageTitle = "Frage bearbeiten ("+ QuestionText.Truncate(30, "...") + ")";
+        PageTitle = "Frage bearbeiten (" + QuestionText.Truncate(30, "...") + ")";
         FormTitle = string.Format("Frage '{0}' bearbeiten", QuestionText.TruncateAtWord(30));
         IsEditing = true;
         ShowSaveAndNewButton = false;
@@ -153,23 +154,23 @@ public class EditQuestionModel : BaseModel
         Id = -1;
         QuestionText = "";
         Description = "";
-        Categories = new List<Category>();
+        Categories = new List<CategoryCacheItem>();
     }
 
-    private IList<Reference> EscapeReferenceText(IList<Reference> questionReferences)
+    private IList<ReferenceCacheItem> EscapeReferenceText(IList<ReferenceCacheItem> questionReferences)
     {
         foreach (var reference in questionReferences)
         {
             switch (reference.ReferenceType)
             {
-                    case ReferenceType.FreeTextreference:
-                        var newString = EscapeChars(reference.ReferenceText);
+                case ReferenceType.FreeTextreference:
+                    var newString = EscapeChars(reference.ReferenceText);
                     reference.ReferenceText = EscapeChars(reference.ReferenceText);
-                        break;
+                    break;
 
-                    case ReferenceType.UrlReference:
-                        reference.AdditionalInfo = EscapeChars(reference.AdditionalInfo);
-                        break;
+                case ReferenceType.UrlReference:
+                    reference.AdditionalInfo = EscapeChars(reference.AdditionalInfo);
+                    break;
             }
         }
         return questionReferences;

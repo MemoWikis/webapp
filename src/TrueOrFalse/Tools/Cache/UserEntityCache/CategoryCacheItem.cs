@@ -203,9 +203,9 @@ public class CategoryCacheItem
     //    return GetAggregatedQuestionsFromMemoryCache().Count;
     //}
 
-    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
+    public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
-        IEnumerable<Question> questions;
+        IEnumerable<QuestionCacheItem> questions;
 
         if (fullList)
             questions = AggregatedCategories()
@@ -243,7 +243,7 @@ public class CategoryCacheItem
         Name = name;
     }
 
-    public virtual bool IsSpoiler(Question question) =>
+    public virtual bool IsSpoiler(QuestionCacheItem question) =>
         IsSpoilerCategory.Yes(Name, question);
 
     public ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)

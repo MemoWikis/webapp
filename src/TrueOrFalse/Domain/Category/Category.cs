@@ -140,7 +140,7 @@ public class Category : DomainEntity, ICreator, ICloneable
         Name = name;
     }
 
-    public virtual bool IsSpoiler(Question question) =>
+    public virtual bool IsSpoiler(QuestionCacheItem question) =>
         IsSpoilerCategory.Yes(Name, question);
 
     public virtual object GetTypeModel()

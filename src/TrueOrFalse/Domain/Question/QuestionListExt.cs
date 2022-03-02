@@ -7,7 +7,7 @@ public static class QuestionListExt
     public static Question ById(this IEnumerable<Question> questions, int id) => 
         questions.FirstOrDefault(question => question.Id == id);
 
-    public static IList<int> GetIds(this IEnumerable<Question> questions) => 
+    public static IList<int> GetIds(this IEnumerable<QuestionCacheItem> questions) => 
         questions.Select(q => q.Id).ToList();
 
     public static IEnumerable<CategoryCacheItem> GetAllCategories(this IEnumerable<Question> questions) => 

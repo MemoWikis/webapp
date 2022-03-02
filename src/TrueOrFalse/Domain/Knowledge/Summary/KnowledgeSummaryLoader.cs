@@ -37,7 +37,7 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
     {
-        var aggregatedQuestions = new List<Question>();
+        var aggregatedQuestions = new List<QuestionCacheItem>();
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(includingSelf: true);
 

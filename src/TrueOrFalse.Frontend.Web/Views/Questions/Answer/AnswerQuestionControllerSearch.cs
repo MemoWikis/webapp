@@ -2,9 +2,9 @@
 
 public class AnswerQuestionControllerSearch
 {
-    public static Question Run(QuestionSearchSpec searchSpec)
+    public static QuestionCacheItem Run(QuestionSearchSpec searchSpec)
     {
         var questionIds = Sl.R<SearchQuestions>().Run(searchSpec).QuestionIds.ToArray();
-        return Sl.R<QuestionRepo>().GetById(questionIds[0]);
+        return EntityCache.GetQuestionById(questionIds[0]);
     }
 }

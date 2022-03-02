@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
 
@@ -17,7 +18,7 @@ public class EditQuestionModel_to_Question
         question.TextExtended = model.QuestionExtended;
 
         question.Description = model.Description;
-        question.Categories = model.Categories;
+        question.Categories = Sl.CategoryRepo.GetByIds(model.Question.Categories.Select(c => c.Id).ToList());
 
         question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), model.SolutionType);
 

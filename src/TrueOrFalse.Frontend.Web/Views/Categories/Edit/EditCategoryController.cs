@@ -174,7 +174,7 @@ public class EditCategoryController : BaseController
         var categoryNameAllowed = new CategoryNameAllowed();
         if (categoryNameAllowed.No(dummyCategory))
         {
-            var category = EntityCache.GetByName(name).FirstOrDefault();
+            var category = EntityCache.GetCategoryByName(name).FirstOrDefault();
             var url = category.Visibility == CategoryVisibility.All ? Links.CategoryDetail(category) : "";
             return Json(new
             {

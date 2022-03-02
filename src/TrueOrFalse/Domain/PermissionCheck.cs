@@ -71,6 +71,21 @@ public class PermissionCheck
         return false;
     }
 
+    public static bool CanView(QuestionCacheItem question) => CanView(Sl.SessionUser.User, question);
+
+    public static bool CanView(User user, QuestionCacheItem question)
+    {
+        if (question == null)
+            return false;
+
+        if (question.Visibility == QuestionVisibility.All)
+            return true;
+
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator == user)
+            return true;
+
+        return false;
+    }
     public static bool CanView(Question question) => CanView(Sl.SessionUser.User, question);
 
     public static bool CanView(User user, Question question)
@@ -90,6 +105,18 @@ public class PermissionCheck
     public static bool CanEdit(Question question) => CanEdit(Sl.SessionUser.User, question);
 
     public static bool CanEdit(User user, Question question)
+    {
+        if (user == null || question == null)
+            return false;
+
+        if (Sl.SessionUser.IsLoggedIn)
+            return true;
+
+        return false;
+    }
+    public static bool CanEdit(QuestionCacheItem question) => CanEdit(Sl.SessionUser.User, question);
+
+    public static bool CanEdit(User user, QuestionCacheItem question)
     {
         if (user == null || question == null)
             return false;

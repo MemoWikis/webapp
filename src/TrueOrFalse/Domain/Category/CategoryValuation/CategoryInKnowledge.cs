@@ -29,7 +29,7 @@ public class CategoryInKnowledge
         UpdateCategoryValuation(categoryId, user);
     }
 
-    private static void UpdateProbabilityForQuestionValuation(Question question, User user, IList<Answer> answers, QuestionValuationCacheItem userQuestionValuation)
+    private static void UpdateProbabilityForQuestionValuation(QuestionCacheItem question, User user, IList<Answer> answers, QuestionValuationCacheItem userQuestionValuation)
     {
         var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
 
@@ -65,7 +65,7 @@ public class CategoryInKnowledge
     }
 
     private static void CreateOrUpdateQuestionValution(
-        Question question, 
+        QuestionCacheItem question, 
         User user,
         bool isInWishKnowledge,
         QuestionValuationCacheItem userQuestionValuation,
@@ -116,7 +116,7 @@ public class CategoryInKnowledge
                 var category =EntityCache.GetCategoryCacheItem(v.CategoryId);
 
                 return category == null ? 
-                    new List<Question>() : 
+                    new List<QuestionCacheItem>() : 
                     category.GetAggregatedQuestionsFromMemoryCache();
             })
             .GetIds()
@@ -129,7 +129,7 @@ public class CategoryInKnowledge
     public static void PinCategoryInDatabase(int categoryId, int userId)
     {
         var user = Sl.UserRepo.GetById(userId);
-        PinQuestionsInCategory(categoryId, user, SaveType.DatabaseOnly);
+        PinQuestionsInCategory(categoryId, user);
     }
 
     public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
@@ -144,18 +144,18 @@ public class CategoryInKnowledge
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
         foreach (var question in questionsToUnpin)
-            QuestionInKnowledge.Unpin(question.Id, user, SaveType.DatabaseOnly);
+            QuestionInKnowledge.Unpin(question.Id, user);
 
         QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
         QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
-    private static void PinQuestionsInCategory(int categoryId, User user, SaveType saveType = SaveType.CacheAndDatabase)
+    private static void PinQuestionsInCategory(int categoryId, User user)
     {
         var category = EntityCache.GetCategoryCacheItem(categoryId);
         if (category == null) return;
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
-        QuestionInKnowledge.Pin(questions, user, saveType);
+        QuestionInKnowledge.Pin(questions, user);
     }
 
     public static void UpdateCategoryValuationTest(int categoryId, User user, int relevance = 50)

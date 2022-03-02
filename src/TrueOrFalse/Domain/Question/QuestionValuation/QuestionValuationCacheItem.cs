@@ -7,7 +7,7 @@ public class QuestionValuationCacheItem
     public int Id;
 
     public User User;
-    public Question Question;
+    public QuestionCacheItem Question;
     public DateTime DateCreated;
 
     public int CorrectnessProbability;

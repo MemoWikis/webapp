@@ -43,7 +43,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
             KnowledgeStatus = KnowledgeStatus,
             IsInWishKnowledge = IsInWishKnowledge(),
             DateCreated = DateCreated,
-            Question = Question,
+            Question = QuestionCacheItem.ToCacheQuestion(Question),
         };
     }
 }

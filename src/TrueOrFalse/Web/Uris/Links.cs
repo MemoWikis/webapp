@@ -163,6 +163,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string AnswerQuestion(Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
+        public static string AnswerQuestion(QuestionCacheItem question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+            return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
+        }
 
         public static string AnswerQuestion(Question question) => 
             HttpContext.Current == null
@@ -211,15 +214,15 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", EditQuestionController, new { text = UriSanitizer.Run(questionText), id = questionId });
         }
 
-        public static string GetSolution(UrlHelper url, Question question){
+        public static string GetSolution(UrlHelper url, QuestionCacheItem question){
             return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string CountLastAnswerAsCorrect(UrlHelper url, Question question){
+        public static string CountLastAnswerAsCorrect(UrlHelper url, QuestionCacheItem question){
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string CountUnansweredAsCorrect(UrlHelper url, Question question){
+        public static string CountUnansweredAsCorrect(UrlHelper url, QuestionCacheItem question){
             return url.Action("CountUnansweredAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 

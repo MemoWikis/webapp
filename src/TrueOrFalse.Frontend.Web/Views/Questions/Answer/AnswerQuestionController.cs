@@ -106,17 +106,18 @@ public class AnswerQuestionController : BaseController
             return GetViewBySearchSpec(activeSearchSpec);
 
         var question = _questionRepo.GetById((int) id);
+        var questionCacheItem = EntityCache.GetQuestionCacheItem((int)id);
 
         activeSearchSpec.PageSize = 1;
         if ((int) elementOnPage != -1)
             activeSearchSpec.CurrentPage = (int) elementOnPage;
 
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(questionCacheItem, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, _sessionUser.User);
 
-        return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec));
+        return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, questionCacheItem, activeSearchSpec));
     }
 
     public ActionResult Next(string pager)
@@ -145,7 +146,7 @@ public class AnswerQuestionController : BaseController
                 {
                     if (searchSpec.HistoryItem.Question.Id != question.Id)
                     {
-                        question = Resolve<QuestionRepo>().GetById(searchSpec.HistoryItem.Question.Id);
+                        question = EntityCache.GetQuestionCacheItem(searchSpec.HistoryItem.Question.Id);
                     }
                 }
 
@@ -181,7 +182,7 @@ public class AnswerQuestionController : BaseController
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView, learningSessionId, new Guid(), inTestMode);
-        var question = _questionRepo.GetById(id);
+        var question = EntityCache.GetQuestionCacheItem(id);
         var solution = GetQuestionSolution.Run(question);
 
         return new JsonResult
@@ -224,7 +225,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView = -1, bool isNotAnswered = false)
     {
-        var question = _questionRepo.GetById(id);
+        var question = EntityCache.GetQuestionCacheItem(id);
         var solution = GetQuestionSolution.Run(question);
         if(isNotAnswered)
             R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
@@ -250,7 +251,7 @@ public class AnswerQuestionController : BaseController
         };
     }
 
-    private static void EscapeReferencesText(IList<Reference> references)
+    private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
         foreach (var reference in references)
         {
@@ -321,7 +322,7 @@ public class AnswerQuestionController : BaseController
             );
         }
 
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestionCacheItem(questionId);
         if (isVideo)
         {
             return ViewRenderer.RenderPartialView(
@@ -374,7 +375,7 @@ public class AnswerQuestionController : BaseController
 
     private string GetAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
     {
-        Question question;
+        QuestionCacheItem question;
 
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
@@ -386,7 +387,7 @@ public class AnswerQuestionController : BaseController
                 {
                     if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
                     {
-                        question = Resolve<QuestionRepo>().GetById(activeSearchSpec.HistoryItem.Question.Id);
+                        question = EntityCache.GetQuestionCacheItem(activeSearchSpec.HistoryItem.Question.Id);
                     }
                 }
 

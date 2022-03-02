@@ -107,11 +107,11 @@ public class Question : DomainEntity, ICreator
 
     public virtual bool IsPrivate() => Visibility != QuestionVisibility.All;
 
-    public virtual void UpdateReferences(IList<Reference> references)
+    public virtual void UpdateReferences(IList<ReferenceCacheItem> references)
     {
         var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
         var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
-        var existingReferenes = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
+        var existingReferences = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
 
         newReferences.ToList().ForEach(r => { 
             r.DateCreated = DateTime.Now;
@@ -121,18 +121,29 @@ public class Question : DomainEntity, ICreator
         for (var i = 0; i < newReferences.Count(); i++)
         {
             newReferences[i].Id = default(Int32);
-            References.Add(newReferences[i]);
+            var currentReference = newReferences[i];
+            References.Add(new Reference()
+            {
+                AdditionalInfo = currentReference.AdditionalInfo,
+                Category = Sl.CategoryRepo.GetByIdEager(currentReference.Category),
+                Id = currentReference.Id,
+                DateCreated = currentReference.DateCreated,
+                DateModified = currentReference.DateModified,
+                Question = Sl.QuestionRepo.GetById(currentReference.Question.Id),
+                ReferenceText = currentReference.ReferenceText,
+                ReferenceType = currentReference.ReferenceType
+            });
         }
 
         for (var i = 0; i < removedReferences.Count(); i++)
             References.Remove(removedReferences[i]);
 
-        for (var i = 0; i < existingReferenes.Count(); i++)
+        for (var i = 0; i < existingReferences.Count(); i++)
         {
-            var reference = References.First(r => r.Id == existingReferenes[i].Id);
+            var reference = References.First(r => r.Id == existingReferences[i].Id);
             reference.DateModified = DateTime.Now;
-            reference.AdditionalInfo = existingReferenes[i].AdditionalInfo;
-            reference.ReferenceText = existingReferenes[i].ReferenceText;
+            reference.AdditionalInfo = existingReferences[i].AdditionalInfo;
+            reference.ReferenceText = existingReferences[i].ReferenceText;
         }
     }
 
@@ -167,7 +178,7 @@ public class Question : DomainEntity, ICreator
     }
 
     public virtual bool IsInWishknowledge() => UserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id); 
-    public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
+    public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(Id);
 
     public virtual string ToLomXml() => LomXml.From(this);
 
