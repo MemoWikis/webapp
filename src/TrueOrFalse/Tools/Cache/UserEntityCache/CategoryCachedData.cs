@@ -11,17 +11,22 @@ public class CategoryCachedData
 
     public void AddChildId(int childId)
     {
-        _childrenIds.Add(childId);
+        if (!_childrenIds.Contains(childId))
+            _childrenIds.Add(childId);
     }
 
     public void AddChildIds(List<int> childrenIds)
     {
-        _childrenIds = childrenIds;
+        foreach (var childId in childrenIds)
+        {
+            AddChildId(childId);
+        }
     }
 
     public void RemoveChildId(int childId)
     {
-        _childrenIds.Remove(childId);
+        if (_childrenIds.Contains(childId))
+            _childrenIds.Remove(childId);
     }
 
     public void RemoveChildIds(List<int> childrenIds)

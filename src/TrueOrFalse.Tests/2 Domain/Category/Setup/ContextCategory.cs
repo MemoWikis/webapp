@@ -119,7 +119,7 @@ namespace TrueOrFalse.Tests
 
             var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
             EntityCache.AddOrUpdate(categoryCacheItem);
-            EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem, category);
+            EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
 
             All.Add(category);
             return this;

@@ -177,6 +177,19 @@ public class EntityCache : BaseCache
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
         AddOrUpdate(Categories, categoryCacheItem);
+        if (!Categories.ContainsKey(categoryCacheItem.Id)) return;
+        var parentsToAdd = categoryCacheItem.ParentCategories();
+        foreach (var parent in parentsToAdd)
+        {
+                parent.CachedData.AddChildId(categoryCacheItem.Id);
+        }
+
+        var parentsToRemove = Categories.Where(d => d.Value.CachedData.ChildrenIds.Contains(categoryCacheItem.Id)).ToList().Select(d => d.Value).ToList();
+        foreach (var parent in parentsToRemove)
+        {
+            if(!categoryCacheItem.CategoryRelations.Any(c => c.RelatedCategoryId == parent.Id && c.CategoryRelationType == CategoryRelationType.IsChildOf) && !parentsToAdd.Contains(parent))
+                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
+        }
     }
 
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem)
@@ -205,6 +218,12 @@ public class EntityCache : BaseCache
         {
             var categoryInQuestion = connectedQuestion.Categories.FirstOrDefault(c => c.Id == category.Id);
             connectedQuestion.Categories.Remove(categoryInQuestion);
+        }
+
+        var parentCategories = GetAllParents(category.Id);
+        foreach (var parent in parentCategories)
+        {
+            parent.CachedData.RemoveChildId(category.Id);
         }
         CategoryQuestionsList.TryRemove(category.Id, out var catOut);
     }
@@ -239,6 +258,8 @@ public class EntityCache : BaseCache
         getIds.Select(categoryId => GetCategory(categoryId));
     public static IEnumerable<CategoryCacheItem> GetCategories(IList<int> getIds, bool getDataFromEntityCache = true) =>
         getIds.Select(categoryId => GetCategory(categoryId, getDataFromEntityCache: getDataFromEntityCache));
+
+    public static CategoryCacheItem GetCategory(Category category) => GetCategory(category.Id);
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
@@ -352,6 +373,9 @@ public class EntityCache : BaseCache
         var allCategories = GetAllCategories();
         return allCategories.Where(c => c.Name == name).ToList();
     }
+
+    public static QuestionCacheItem GetQuestion(Question question, bool isFromUserEntityCache = false,
+        bool getDataFromEntityCache = false) => GetQuestion(question.Id, isFromUserEntityCache, getDataFromEntityCache);
 
     public static QuestionCacheItem GetQuestion(int questionId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
     {

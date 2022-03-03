@@ -290,7 +290,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         _searchIndexCategory.Delete(category);
         base.Delete(category);
-
+        EntityCache.Remove(EntityCache.GetCategory(category));
     }
 
     public override void DeleteWithoutFlush(Category category)

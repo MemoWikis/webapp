@@ -26,7 +26,7 @@ class Automatic_inclusion_tests : BaseTest
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         EntityCache.Init();
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate( EntityCache.GetCategoryByName("Sub1").First());
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(EntityCache.GetCategoryByName("Sub1").First());
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
         Assert.That(Sl.CategoryRepo.GetById(parentA.Id).CategoryRelations.Count(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf), Is.EqualTo(3));
@@ -107,12 +107,12 @@ class Automatic_inclusion_tests : BaseTest
 
         UserCache.GetItem(user.Id).IsFiltered = true;
 
-        var idFromDeleteCategory = EntityCache.GetCategoryByName("SubSub1").First().Id; 
+        var idFromDeleteCategory = EntityCache.GetCategoryByName("SubSub1").First().Id;
 
         context.Delete(Sl.CategoryRepo.GetByName("SubSub1").First());
 
         Assert.That(ContextCategory.isIdAvailableInRelations(UserEntityCache.GetAllCategories(user.Id).ByName("Category"), idFromDeleteCategory), Is.EqualTo(false));
-        Assert.That(ContextCategory.isIdAvailableInRelations(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"),idFromDeleteCategory), Is.EqualTo(false));
+        Assert.That(ContextCategory.isIdAvailableInRelations(UserEntityCache.GetAllCategories(user.Id).ByName("Sub1"), idFromDeleteCategory), Is.EqualTo(false));
     }
 
     [Test]
@@ -131,7 +131,7 @@ class Automatic_inclusion_tests : BaseTest
             .Add("Sub3", parent: parentA)
             .Persist()
             .All;
-        
+
         ContextCategory
             .New()
             .Add("SubSub1", parent: subCategories.ByName("Sub1"))
@@ -140,22 +140,22 @@ class Automatic_inclusion_tests : BaseTest
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3")).Persist();
         EntityCache.Init();
 
-      
+
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
         Sl.SessionUser.Login(user);
-      
+
 
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub3").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("SubSub1").First().Id, user);
 
-        var subSub1 = Sl.CategoryRepo.GetByName("SubSub1").First(); 
+        var subSub1 = Sl.CategoryRepo.GetByName("SubSub1").First();
         subSub1.CategoryRelations.RemoveAt(0);
-        subSub1.CategoryRelations.Add(new CategoryRelation{Category = subSub1, CategoryRelationType = CategoryRelationType.IsChildOf, RelatedCategory = Sl.CategoryRepo.GetByName("Sub2").First()});
+        subSub1.CategoryRelations.Add(new CategoryRelation { Category = subSub1, CategoryRelationType = CategoryRelationType.IsChildOf, RelatedCategory = Sl.CategoryRepo.GetByName("Sub2").First() });
         UserCache.GetItem(user.Id).IsFiltered = true;
-        context.Update(subSub1); 
-        
+        context.Update(subSub1);
+
         Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Category"), "SubSub1", user.Id), Is.EqualTo(true));
         Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Sub2"), "SubSub1", user.Id), Is.EqualTo(true));
     }
@@ -192,26 +192,33 @@ class Automatic_inclusion_tests : BaseTest
             RelatedCategory = context.All.ByName("Sub3")
         });
         Sl.CategoryRepo.Update(context.All.ByName("Sub2"));
+        EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(context.All.ByName("Sub2")));
         Assert.That(EntityCache.GetCategoryByName("Sub3").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
 
 
         context.All.ByName("Sub3").CategoryRelations.RemoveAt(0);
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
+        EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(context.All.ByName("Sub3")));
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 
-        context.All.ByName("Sub3").CategoryRelations.Add(new CategoryRelation
+        var categoryRelationToAdd = new CategoryRelation
         {
             Category = context.All.ByName("Sub3"),
             CategoryRelationType = CategoryRelationType.IsChildOf,
-            RelatedCategory = Sl.CategoryRepo.GetByName("Sub1").First() 
-        });
+            RelatedCategory = Sl.CategoryRepo.GetByName("Sub1").First()
+        };
+
+        context.All.ByName("Sub3").CategoryRelations.Add(categoryRelationToAdd);
+        var categoryCacheItem = EntityCache.GetCategoryByName("Sub3").FirstOrDefault();
+        categoryCacheItem.CategoryRelations.Add(CategoryCacheRelation.ToCategoryCacheRelation(categoryRelationToAdd));
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
+        EntityCache.AddOrUpdate(categoryCacheItem);
 
         Assert.That(EntityCache.GetCategoryByName("Sub1").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
     }
 
     [Test]
-   public void  Test_cached_date_user_entity_cache()
+    public void Test_cached_date_user_entity_cache()
     {
         var context = ContextCategory.New();
         var parentA = context
@@ -225,10 +232,10 @@ class Automatic_inclusion_tests : BaseTest
             .Add("Sub3", parent: parentA)
             .Persist()
             .All;
-        
+
 
         EntityCache.Init();
-        var user = ContextUser.New().Add("Dandor").Persist().All[0]; 
+        var user = ContextUser.New().Add("Dandor").Persist().All[0];
         Sl.SessionUser.Login(user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
