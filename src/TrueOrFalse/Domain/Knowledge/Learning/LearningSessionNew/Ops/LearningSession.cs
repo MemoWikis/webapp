@@ -4,6 +4,7 @@ using System.Linq;
 
 [Serializable]
 public class LearningSession
+
 {
     public IList<LearningSessionStep> Steps;
     public LearningSessionConfig Config;
@@ -17,6 +18,8 @@ public class LearningSession
     public User User;
     public bool IsLoggedIn;
     public Guid QuestionViewGuid;
+
+    public List<FilterDetail> FilterDetails;
 
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
@@ -100,12 +103,6 @@ public class LearningSession
 
     public int TotalPossibleQuestions()
     {
-        if (!Config.InWishknowledge)
-            return EntityCache.GetCategoryCacheItem(Config.CategoryId).CountQuestions;
-
-        if (Config.InWishknowledge)
-            return User.WishCountQuestions;
-
         throw new Exception("unknown session type");
     }
 

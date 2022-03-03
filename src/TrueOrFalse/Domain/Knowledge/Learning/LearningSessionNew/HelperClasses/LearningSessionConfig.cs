@@ -6,7 +6,7 @@ public class LearningSessionConfig
 {
     public int CategoryId { get; set; }
     public CategoryCacheItem Category { get; set; }
-    public int MaxQuestionCount { get; set; }
+    public int MaxQuestionCount { get; set; } = 0;
     /// <summary>
     /// Currently logged in user
     /// </summary>
@@ -30,16 +30,16 @@ public class LearningSessionConfig
 
     public bool IsMyWorld() => UserCache.GetItem(CurrentUserId).IsFiltered;
 
-    public bool InWuwi { get; set; }
-    public bool NotInWuwi { get; set; }
-    public bool CreatedByCurrentUser { get; set; }
-    public bool NotCreatedByCurrentUser { get; set; }
-    public bool PrivateQuestions { get; set; }
-    public bool PublicQuestions { get; set; }
+    public bool InWuwi { get; set; } = true;
+    public bool NotInWuwi { get; set; } = true;
+    public bool CreatedByCurrentUser { get; set; } = true;
+    public bool NotCreatedByCurrentUser { get; set; } = true;
+    public bool PrivateQuestions { get; set; } = true;
+    public bool PublicQuestions { get; set; } = true;
 
-    public bool NotLearned { get; set; }
-    public bool NeedsLearning { get; set; }
-    public bool NeedsConsolidation { get; set; }
-    public bool Solid { get; set; }
+    public bool NotLearned { get; set; } = true;
+    public bool NeedsLearning { get; set; } = true;
+    public bool NeedsConsolidation { get; set; } = true;
+    public bool Solid { get; set; } = true;
 }
 

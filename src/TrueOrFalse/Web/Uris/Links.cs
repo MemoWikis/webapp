@@ -233,12 +233,13 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string StartLearningSession(LearningSession learningSession)
         {
-            if(!learningSession.Config.InWishknowledge)
-                return StartCategoryLearningSession(learningSession.Config.CategoryId);
-            else
-            {
-                return StartWishLearningSession();
-            }
+            StartCategoryLearningSession(learningSession.Config.CategoryId);
+            //if(!learningSession.Config.InWishknowledge)
+            //    return StartCategoryLearningSession(learningSession.Config.CategoryId);
+            //else
+            //{
+            //    return StartWishLearningSession();
+            //}
 
             throw new Exception("unknown type");
         }

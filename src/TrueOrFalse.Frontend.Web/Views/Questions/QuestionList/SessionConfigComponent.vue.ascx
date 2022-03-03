@@ -17,38 +17,64 @@
         <div class="modal fade" id="SessionConfigModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document" style="width: 100%">
                 <div class="modal-content">
-                    <div id="SessionConfigTemplate" style="height: 800px; width: 800px; padding: 10px;">
-                        <div class="filter-button" @click="showFilterDropdown = !showFilterDropdown" style="position: relative;border: solid 1px silver; padding: 10px; z-index: 901; width: 200px; background: white" :class="showFilterDropdown ? 'open' : 'closed'">
+                    <div class="session-configurator">
+                        <div class="filter-button" @click="showFilterDropdown = !showFilterDropdown"  :class="showFilterDropdown ? 'open' : 'closed'">
                             Filter
                         </div>
-                        <div v-show="showFilterDropdown" style="position: relative;display: flex; flex-direction: row; padding: 10px; padding-top: 11px; border: 1px solid silver; margin-top: -1px; z-index: 900">
+                        <div v-show="showFilterDropdown" class="session-config-dropdown">
                             <div class="dropdown-container">
-                                <div style="width: 210px; height: 40px; border: solid 1px silver; padding: 6px; display: flex; flex-wrap: nowrap;" @click="showDropdown = !showDropdown">
-                                    <template v-for="o in questionFilterOptions">
+                                <div class="question-filter-options-button" @click="showDropdown = !showDropdown">
+                                    <template v-for="o in selectedQuestionFilterOptionsDisplay">
                                         <i v-if="o.isSelected" :class="o.icon"></i>
                                     </template>
                                     <span v-if="selectedQuestionFilterOptionsExtraCount >= 2">+ {{selectedQuestionFilterOptionsExtraCount}}</span>
                                 </div>
-                                <div v-if="showDropdown" style="border: solid 1px silver; padding: 6px;">
-                                    <div v-for="q in questionFilterOptions" @click="selectQuestionFilter(q)" style="display: flex; flex-direction:row">
+                                <div v-if="showDropdown" class="question-filter-options-dropdown">
+                                    <div @click="selectAllQuestionFilter()">
+                                        <i class="fas fa-check-square" v-if="allQuestionFilterOptionsAreSelected"></i>
+                                        <i class="far fa-square" v-else></i>
+                                        <div>Alles auswaehlen</div>
+                                    </div>
+                                    <div v-for="q in questionFilterOptions" @click="selectQuestionFilter(q)" class="dropdown-item">
                                         <i class="fas fa-check-square" v-if="q.isSelected"></i>
                                         <i class="far fa-square" v-else></i>
                                         <i :class="q.icon"></i>
-                                        <div>{{q.label}}</div>
+                                        <div>{{q.label}} ({{q.count}})</div>
                                     </div>
 
                                 </div>
                             </div>
+
                             <div id="questionCounter" style="height: 40px; border: solid 1px silver; padding: 6px; display: flex;">
                                 <input type="number" min="1" v-model="selectedQuestionCount"/>
                                 <div style="border: solid 1px silver; height: 100%; width: 20px; padding: 4px;" @click="++selectedQuestionCount"> + </div>
                                 <div style="border: solid 1px silver; height: 100%; width: 20px; padding: 4px;" @click="--selectedQuestionCount"> - </div>
                             </div>
+
                             <div class="dropdown-container">
                                 <div style="width: 210px; height: 40px; border: solid 1px silver; padding: 6px; display: flex; flex-wrap: nowrap;" @click="showDropdown = !showDropdown">
                                     <template v-for="s in knowledgeSummary" >
-                                        <div v-if="s.isSelected" :class="s.colorClass">
-                                            <template v-if="knowledgeSummaryCount == 1"> {{s.label}}</template>
+                                        <div v-if="s.isSelected" class="knowledge-summary-dot" :class="s.colorClass">
+                                            <template v-if="knowledgeSummaryCount == 1">{{s.label}}</template>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div v-if="showDropdown" style="width: 210px; border: solid 1px silver; padding: 6px;">
+                                    <div @click="selectAllKnowledgeSummary()">Alles auswaehlen</div>
+                                    <div v-for="k in knowledgeSummary" style="display: flex; flex-direction:row">
+                                        <i class="fas fa-check-square" v-if="k.isSelected"></i>
+                                        <i class="far fa-square" v-else></i>
+                                        <div :class="k.colorClass" @click="selectKnowledgeSummary(k)">{{k.label}} ({{k.count}})</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+<%--                            <div class="dropdown-container">
+                                <div style="width: 210px; height: 40px; border: solid 1px silver; padding: 6px; display: flex; flex-wrap: nowrap;" @click="showDropdown = !showDropdown">
+                                    <template v-for="s in knowledgeSummary" >
+                                        <div v-if="s.isSelected" class="knowledge-summary-dot" :class="s.colorClass">
+                                            <template v-if="knowledgeSummaryCount == 1">{{s.label}}</template>
                                         </div>
                                     </template>
                                 </div>
@@ -60,7 +86,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div>--%>
                         </div>
 
 

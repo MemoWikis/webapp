@@ -21,7 +21,7 @@ internal static class ContextLearningSession
                 CategoryId = 1,
                 MaxQuestionCount = amountQuestions,
                 CurrentUserId = -1,
-                MaxProbability = 100
+                //MaxProbability = 100
             });
         return learningSession;
     }
@@ -29,7 +29,7 @@ internal static class ContextLearningSession
     public static LearningSession GetLearningSessionWithUser(LearningSessionConfig config)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(config.MaxQuestionCount);
-        config.AllQuestions = true; 
+        //config.AllQuestions = true; 
         return new LearningSession(GetSteps(config.MaxQuestionCount), config);
     }
 

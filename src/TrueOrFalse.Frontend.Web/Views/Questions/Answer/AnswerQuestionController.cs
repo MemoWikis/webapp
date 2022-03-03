@@ -412,36 +412,37 @@ public class AnswerQuestionController : BaseController
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
         var learningSession = IsLoggedIn ? 
-            LearningSessionCreator.ForLoggedInUser(config) : 
+            LearningSessionCreator.BuildLearningSession(config.CategoryId) : 
             LearningSessionCreator.ForAnonymous(config);
 
-        if (config.SafeLearningSessionOptions)
-        {
-            var user = Sl.UserRepo.GetById(UserId);
-            var learningSessionOptionsHelper = new SafeLearningSessionOptionsHelper
-            {
-                UserIsAuthor = config.CreatedByCurrentUser,
-                AllQuestions = config.AllQuestions,
-                IsInTestmode = config.IsInTestMode,
-                QuestionsInWishknowledge = config.InWishknowledge,
-                IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge,
-                MaxQuestionCount = config.MaxQuestionCount,
-                Repetitions = config.Repetitions,
-                AnswerHelp = config.AnswerHelp
-            };
+        //if (config.SafeLearningSessionOptions)
+        //{
+        //    var user = Sl.UserRepo.GetById(UserId);
+        //    var learningSessionOptionsHelper = new SafeLearningSessionOptionsHelper
+        //    {
+        //        UserIsAuthor = config.CreatedByCurrentUser,
+        //        AllQuestions = config.AllQuestions,
+        //        IsInTestmode = config.IsInTestMode,
+        //        QuestionsInWishknowledge = config.InWishknowledge,
+        //        IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge,
+        //        MaxQuestionCount = config.MaxQuestionCount,
+        //        Repetitions = config.Repetitions,
+        //        AnswerHelp = config.AnswerHelp
+        //    };
 
-            user.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
-            Sl.UserRepo.Update(user);
-        }
+        //    user.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
+        //    Sl.UserRepo.Update(user);
+        //}
 
         LearningSessionCache.AddOrUpdate(learningSession);
 
-        var firstStep = 0; 
-        return RenderAnswerBodyByLearningSession(firstStep);
+        var firstStep = 0;
+
+        return RenderAnswerBodyByLearningSession(firstStep, filterDetails: learningSession.FilterDetails);
     }
 
     [HttpPost]
-    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1)
+    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1, List<FilterDetail> filterDetails = null)
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         if (learningSession.Steps.Count == 0)
@@ -485,7 +486,7 @@ public class AnswerQuestionController : BaseController
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx);
         var config = learningSession.Config;
         return GetQuestionPageData(answerQuestionModel, currentUrl, sessionData, isSession: true,
-            isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode);
+            isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode, filterDetails: filterDetails);
     }
 
     public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
@@ -538,7 +539,8 @@ public class AnswerQuestionController : BaseController
         int testSessionId = -1,
         bool includeTestSessionHeader = false,
         bool isInLearningTab = false,
-        bool isInTestMode = false)
+        bool isInTestMode = false,
+        List<FilterDetail> filterDetails = null)
     {
         string nextPageLink = "", previousPageLink = "";
 
@@ -559,6 +561,7 @@ public class AnswerQuestionController : BaseController
         
         var serializedPageData = serializer.Serialize(new
         {
+            filterDetails = filterDetails,
             answerBodyAsHtml = answerBody,
             navBarData = new
             {
@@ -578,7 +581,6 @@ public class AnswerQuestionController : BaseController
                 currentStepGuid = sessionData.CurrentStepGuid,
                 currentSessionHeader = sessionData.CurrentSessionHeader,
                 learningSessionId = sessionData.LearningSessionId,
-                isLearningSession = !learningSession.Config.InWishknowledge,
                 stepCount = learningSession.Steps.Count 
             } : null,
             url = currentUrl,
@@ -634,28 +636,28 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public int GetQuestionCount(LearningSessionConfig config = null, int categoryId= -1)
     {
-        if (config == null)
-        {
-            var c = new LearningSessionConfig();
-            c.AllQuestions = true;
-            c.CategoryId = categoryId;
-            c.MaxProbability = 100;
-            c.CurrentUserId = Sl.CurrentUserId;
+        //if (config == null)
+        //{
+        //    var c = new LearningSessionConfig();
+        //    c.AllQuestions = true;
+        //    c.CategoryId = categoryId;
+        //    c.MaxProbability = 100;
+        //    c.CurrentUserId = Sl.CurrentUserId;
 
-            if (c.IsMyWorld())
-            {
-                c.InWishknowledge = true;
-                c.CreatedByCurrentUser = true; 
-            }
+        //    if (c.IsMyWorld())
+        //    {
+        //        c.InWishknowledge = true;
+        //        c.CreatedByCurrentUser = true; 
+        //    }
 
-            return LearningSessionCreator.GetQuestionCount(c);
-        }
-        config.CurrentUserId = _sessionUser.UserId;
+        //    return LearningSessionCreator.GetQuestionCount(c);
+        //}
+        //config.CurrentUserId = _sessionUser.UserId;
 
-        if (config.IsMyWorld())
-        {
-            config.IsNotQuestionInWishKnowledge = false;
-        }
+        //if (config.IsMyWorld())
+        //{
+        //    config.IsNotQuestionInWishKnowledge = false;
+        //}
 
         var count = LearningSessionCreator.GetQuestionCount(config);
         return count;

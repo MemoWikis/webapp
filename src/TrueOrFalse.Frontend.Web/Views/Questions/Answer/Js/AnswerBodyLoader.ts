@@ -77,7 +77,7 @@ class AnswerBodyLoader {
                 isInTestMode: questionFilter != null ? questionFilter.isInTestMode : false,
                 isNotQuestionInWishKnowledge: questionFilter != null ? questionFilter.isNotQuestionInWishKnowledge  :  !($("#hddIsMyWorld").val() === "True"),
                 allQuestions: questionFilter != null ? questionFilter.allQuestions : true,
-                createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : true,
+                createdByCurrentUser: questionFilter != null ? questionFilter.createdByCurrentUser : false,
                 safeLearningSessionOptions: questionFilter != null ? questionFilter.safeLearningSessionOptions : false,
                 answerHelp: questionFilter != null ? questionFilter.answerHelp : true,
                 repetitions: questionFilter != null ? questionFilter.repetitions : true,
@@ -118,6 +118,8 @@ class AnswerBodyLoader {
 
                     eventBus.$emit('destroy-answer-question-details');
                     result = JSON.parse(result);
+
+                    eventBus.$emit('filter-details', result.filterDetails);
 
                     if (!this._isInLearningTab) {
                         this.updateUrl(result.url);

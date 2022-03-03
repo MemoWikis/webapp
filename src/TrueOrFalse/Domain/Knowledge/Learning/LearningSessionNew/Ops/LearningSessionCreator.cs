@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 public class LearningSessionCreator
@@ -11,33 +12,33 @@ public class LearningSessionCreator
     }
 
     public static LearningSession ForLoggedInUser(LearningSessionConfig config)
-    {  
+    {
         List<Question> questions = new List<Question>();
 
-        if (config.AllQuestions  && !UserCache.GetItem(config.CurrentUserId).IsFiltered)
-            questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
-                config)).ToList();
-        else if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser) 
-            questions = RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId), config);
-        else if(config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
-            questions = OrderByProbability(
-                    RandomLimited(NotWuwiFromCategoryOrIsAuthor(config.CurrentUserId, config.CategoryId), config))
-                .ToList();
-        else if (config.IsNotQuestionInWishKnowledge)
-            questions = OrderByProbability(
-                RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId), config)).ToList();
-        else if (config.InWishknowledge && config.CreatedByCurrentUser)
-            questions = OrderByProbability(RandomLimited(
-                WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
-        else if (config.InWishknowledge && !config.CreatedByCurrentUser)
-            questions = OrderByProbability(
-                RandomLimited(WuwiAndNotAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
-        else if (config.InWishknowledge)
-            questions = OrderByProbability(
-                RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId).ToList(), config)).ToList();
-        else if (config.CreatedByCurrentUser)
-            questions = OrderByProbability(
-                RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
+        //if (config.AllQuestions && !UserCache.GetItem(config.CurrentUserId).IsFiltered)
+        //    questions = OrderByProbability(RandomLimited(GetCategoryQuestionsFromEntityCache(config.CategoryId),
+        //        config)).ToList();
+        //else if (config.IsNotQuestionInWishKnowledge && config.InWishknowledge && !config.CreatedByCurrentUser)
+        //    questions = RandomLimited(IsInWuWiFromCategoryAndIsNotInWuwi(config.CurrentUserId, config.CategoryId), config);
+        //else if (config.IsNotQuestionInWishKnowledge && config.CreatedByCurrentUser)
+        //    questions = OrderByProbability(
+        //            RandomLimited(NotWuwiFromCategoryOrIsAuthor(config.CurrentUserId, config.CategoryId), config))
+        //        .ToList();
+        //else if (config.IsNotQuestionInWishKnowledge)
+        //    questions = OrderByProbability(
+        //        RandomLimited(NotWuwiFromCategory(config.CurrentUserId, config.CategoryId), config)).ToList();
+        //else if (config.InWishknowledge && config.CreatedByCurrentUser)
+        //    questions = OrderByProbability(RandomLimited(
+        //        WuwiQuestionsFromCategoryAndUserIsAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
+        //else if (config.InWishknowledge && !config.CreatedByCurrentUser)
+        //    questions = OrderByProbability(
+        //        RandomLimited(WuwiAndNotAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
+        //else if (config.InWishknowledge)
+        //    questions = OrderByProbability(
+        //        RandomLimited(WuwiQuestionsFromCategory(config.CurrentUserId, config.CategoryId).ToList(), config)).ToList();
+        //else if (config.CreatedByCurrentUser)
+        //    questions = OrderByProbability(
+        //        RandomLimited(UserIsQuestionAuthor(config.CurrentUserId, config.CategoryId), config)).ToList();
 
         return new LearningSession(questions.Distinct().Select(q => new LearningSessionStep(q)).ToList(), config);
     }
@@ -45,13 +46,13 @@ public class LearningSessionCreator
     public static int GetQuestionCount(LearningSessionConfig config)
     {
         config.MaxQuestionCount = 0;
-        return ForLoggedInUser(config).Steps.Count; 
+        return BuildLearningSession(config.CategoryId).Steps.Count; 
     }
 
     private static List<Question> RandomLimited(List<Question> questions, LearningSessionConfig config)
     { 
-        if(config.MinProbability != 0 || config.MaxProbability != 100)
-            questions = GetQuestionsFromMinToMaxProbability(config.MinProbability, config.MaxProbability, questions);
+        //if(config.MinProbability != 0 || config.MaxProbability != 100)
+        //    questions = GetQuestionsFromMinToMaxProbability(config.MinProbability, config.MaxProbability, questions);
 
         questions.Shuffle();
 
@@ -173,107 +174,238 @@ public class LearningSessionCreator
         return result.ToList(); 
     }
 
-    public static LearningSession BuildLearningSession(LearningSessionConfig config)
+    public static LearningSession BuildLearningSession(int categoryId)
     {
-        IList<Question> questions = new List<Question>();
+        var config = new LearningSessionConfig
+        {
+            CategoryId = categoryId
+        };
         var allQuestions = EntityCache.GetCategoryCacheItem(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(onlyVisible: true);
 
-        questions = FilterByWuwi(config, allQuestions);
-        questions = FilterByCreator(config, questions);
-        questions = FilterByVisibility(config, questions);
-        questions = FilterByKnowledgeSummary(config, questions);
+        var filterDetails = new List<FilterDetail>();
 
-        return new LearningSession(questions.Distinct().Select(q => new LearningSessionStep(q)).ToList(), config);
+        var filteredByWuwi = FilterByWuwi(config, allQuestions, filterDetails);
+        var filteredByCreator = FilterByCreator(config, allQuestions, filterDetails);
+        var filteredByVisibility = FilterByVisibility(config, allQuestions, filterDetails);
+        var filteredByKnowledgeSummary = FilterByKnowledgeSummary(config, allQuestions, filterDetails);
+
+        var listOfLists = new List<IEnumerable<int>>();
+
+        listOfLists.Add(filteredByWuwi);
+        listOfLists.Add(filteredByCreator);
+        listOfLists.Add(filteredByVisibility);
+        listOfLists.Add(filteredByKnowledgeSummary);
+
+        var intersection = listOfLists
+            .Skip(1)
+            .Aggregate(
+                new HashSet<int>(listOfLists.First()),
+                (h, e) => { h.IntersectWith(e); return h; }
+            );
+
+        var filteredQuestions = allQuestions.Where(q => intersection.Any(i => i == q.Id)).ToList();
+
+        var questions = filteredQuestions.Shuffle();
+        questions = GetQuestionsByCount(config, questions);
+
+        var learningSessionSteps = questions.Distinct().Select(q => new LearningSessionStep(q)).ToList();
+        return new LearningSession(learningSessionSteps, config)
+            {
+                FilterDetails = filterDetails
+            };
     }
 
-    private static IList<Question> FilterByWuwi(LearningSessionConfig config, IList<Question> allQuestions)
+    private static IList<Question> GetQuestionsByCount(LearningSessionConfig config, IList<Question> questions)
     {
-        if (!config.InWuwi && config.NotInWuwi)
-            return NotWuwiFromCategory(Sl.SessionUser.UserId, config.CategoryId);
-
-        if (config.InWuwi && !config.NotInWuwi)
-            return WuwiQuestionsFromCategory(Sl.SessionUser.UserId, config.CategoryId);
-
-        return allQuestions;
-    }
-
-    private static IList<Question> FilterByCreator(LearningSessionConfig config, IList<Question> questions)
-    {
-        if (config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser)
-            return questions.Where(q => q.Creator.Id == Sl.SessionUser.User.Id).ToList();
-
-        if (!config.CreatedByCurrentUser && config.NotCreatedByCurrentUser)
-            return questions.Where(q => q.Creator.Id != Sl.SessionUser.User.Id).ToList();
-
-        return questions;
-    }
-
-    private static IList<Question> FilterByVisibility(LearningSessionConfig config, IList<Question> questions)
-    {
-        if (config.PrivateQuestions && !config.PublicQuestions)
-            return questions.Where(q => q.Visibility == QuestionVisibility.Owner).ToList();
-
-        if (!config.PrivateQuestions && config.PublicQuestions)
-            return questions.Where(q => q.Visibility == QuestionVisibility.All).ToList();
-
-        return questions;
-    }
-
-    private static IList<Question> FilterByKnowledgeSummary(LearningSessionConfig config, IList<Question> questions)
-    {
-        bool notLearned = config.NotLearned;
-        bool needsLearning = config.NeedsLearning;
-        bool needsConsolidation = config.NeedsConsolidation;
-        bool solid = config.Solid;
-
-        var filteredQuestions = new List<Question>();
-
-        if (notLearned && needsLearning && needsConsolidation && solid)
+        if (config.MaxQuestionCount > questions.Count || config.MaxQuestionCount == -1 || config.MaxQuestionCount == 0)
             return questions;
 
-        var allQuestionValuation = Sl.QuestionValuationRepo.GetByUser(Sl.SessionUser.UserId);
-
-        if (notLearned)
-        {
-            var unansweredQuestions = questions.Where(q => allQuestionValuation.All(v => v.Id != q.Id));
-
-            filteredQuestions.AddRange(
-                questions.Where(q =>
-                    unansweredQuestions.Any(v => v.Id == q.Id)));
-        }
-
-        if (needsLearning)
-        {
-            var questionsNeedLearning = allQuestionValuation.Where(q =>
-                q.CorrectnessProbability > 50 &&
-                q.CorrectnessProbability < 50);
-
-            filteredQuestions.AddRange(
-                questions.Where(q =>
-                    questionsNeedLearning.Any(v => v.Id == q.Id)));
-        }
-
-        if (needsConsolidation)
-        {
-            var questionsNeedsConsolidation = allQuestionValuation.Where(q =>
-                q.CorrectnessProbability >= 50 &&
-                q.CorrectnessProbability < 80);
-
-            filteredQuestions.AddRange(
-                questions.Where(q =>
-                    questionsNeedsConsolidation.Any(v => v.Id == q.Id)));
-        }
-
-        if (solid)
-        {
-            var solidQuestions = allQuestionValuation.Where(q =>
-                q.CorrectnessProbability >= 80);
-
-            filteredQuestions.AddRange(
-                questions.Where(q =>
-                    solidQuestions.Any(v => v.Id == q.Id)));
-        }
-
-        return filteredQuestions;
+        return questions.Take(config.MaxQuestionCount).ToList();
     }
+    private static List<int> FilterByWuwi(LearningSessionConfig config, IList<Question> allQuestions, List<FilterDetail> filteredDetails)
+    {
+        var inWuwi = WuwiQuestionsFromCategory(Sl.SessionUser.UserId, config.CategoryId);
+        var inWuwiDetail = new FilterDetail
+        {
+            Ids = inWuwi.Select(q => q.Id),
+            Count = inWuwi.Count,
+            Key = "inWuwi",
+            Group = "questionFilterOptions"
+        };
+        filteredDetails.Add(inWuwiDetail);
+
+        var notInWuwi = NotWuwiFromCategory(Sl.SessionUser.UserId, config.CategoryId);
+        var notInWuwiDetail = new FilterDetail
+        {
+            Ids = notInWuwi.Select(q => q.Id),
+            Count = notInWuwi.Count,
+            Key = "notInWuwi",
+            Group = "questionFilterOptions"
+        };
+        filteredDetails.Add(notInWuwiDetail);
+
+        if (config.InWuwi && !config.NotInWuwi)
+            return inWuwiDetail.Ids.ToList();
+
+        if (!config.InWuwi && config.NotInWuwi)
+            return notInWuwiDetail.Ids.ToList();
+
+        var filteredQuestionIds = new List<int>();
+        filteredQuestionIds.AddRange(inWuwiDetail.Ids);
+        filteredQuestionIds.AddRange(notInWuwiDetail.Ids);
+        return filteredQuestionIds;
+    }
+
+    private static List<int> FilterByCreator(LearningSessionConfig config, IList<Question> questions, List<FilterDetail> filteredDetails)
+    {
+        var createdByCurrentUser = questions.Where(q => q.Creator.Id == Sl.SessionUser.User.Id);
+        var createdByCurrentUserDetail = new FilterDetail
+        {
+            Ids = createdByCurrentUser.Select(q => q.Id),
+            Count = createdByCurrentUser.Count(),
+            Key = "createdByCurrentUser",
+            Group = "questionFilterOptions"
+        };
+        filteredDetails.Add(createdByCurrentUserDetail);
+
+        var notCreatedByCurrentUser = questions.Where(q => q.Creator.Id != Sl.SessionUser.User.Id);
+        var notCreatedByCurrentUserDetail = new FilterDetail
+        {
+            Ids = notCreatedByCurrentUser.Select(q => q.Id),
+            Count = notCreatedByCurrentUser.Count(),
+            Key = "notCreatedByCurrentUser",
+            Group = "questionFilterOptions"
+        };
+        filteredDetails.Add(notCreatedByCurrentUserDetail);
+
+        if (config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser)
+            return createdByCurrentUserDetail.Ids.ToList();
+
+        if (!config.CreatedByCurrentUser && config.NotCreatedByCurrentUser)
+            return notCreatedByCurrentUserDetail.Ids.ToList();
+
+        var filteredQuestionIds = new List<int>();
+        filteredQuestionIds.AddRange(createdByCurrentUserDetail.Ids);
+        filteredQuestionIds.AddRange(notCreatedByCurrentUserDetail.Ids);
+        return filteredQuestionIds;
+    }
+
+    private static List<int> FilterByVisibility(LearningSessionConfig config, IList<Question> questions, List<FilterDetail> filteredDetails)
+    {
+        var privateQuestions = questions.Where(q => q.Visibility == QuestionVisibility.Owner);
+        var privateQuestionsDetail = new FilterDetail
+        {
+            Ids = privateQuestions.Select(q => q.Id),
+            Count = privateQuestions.Count(),
+            Key = "privateQuestions",
+            Group = "questionFilterOptions"
+        };
+        filteredDetails.Add(privateQuestionsDetail);
+
+        var publicQuestions = questions.Where(q => q.Visibility == QuestionVisibility.All);
+        var publicQuestionsDetail = new FilterDetail
+        {
+            Ids = publicQuestions.Select(q => q.Id),
+            Count = publicQuestions.Count(),
+            Key = "publicQuestions",
+            Group = "questionFilterOptions"
+        };
+        filteredDetails.Add(publicQuestionsDetail);
+
+        if (config.PrivateQuestions && !config.PublicQuestions)
+            return privateQuestionsDetail.Ids.ToList();
+
+        if (!config.CreatedByCurrentUser && config.NotCreatedByCurrentUser)
+            return publicQuestionsDetail.Ids.ToList();
+
+        var filteredQuestionIds = new List<int>();
+        filteredQuestionIds.AddRange(privateQuestionsDetail.Ids);
+        filteredQuestionIds.AddRange(publicQuestionsDetail.Ids);
+        return filteredQuestionIds;
+    }
+
+    private static List<int> FilterByKnowledgeSummary(LearningSessionConfig config, IList<Question> questions, List<FilterDetail> filteredDetails)
+    {
+        var allQuestionValuation = UserCache.GetQuestionValuations(Sl.SessionUser.UserId);
+
+        var unansweredQuestions = questions.Where(q => allQuestionValuation.All(v => v.Id != q.Id));
+        var notLearned = questions.Where(q =>
+            unansweredQuestions.Any(v => v.Id == q.Id));
+        var notLearnedDetail = new FilterDetail
+        {
+            Ids = notLearned.Select(q => q.Id),
+            Count = notLearned.Count(),
+            Key = "notLearned",
+            Group = "knowledgeSummary"
+        };
+        filteredDetails.Add(notLearnedDetail);
+
+        var needsLearningValuation = allQuestionValuation.Where(q =>
+            q.CorrectnessProbability > 50 &&
+            q.CorrectnessProbability < 50);
+        var needsLearning = questions.Where(q =>
+            needsLearningValuation.Any(v => v.Id == q.Id));
+        var needsLearningDetail = new FilterDetail
+        {
+            Ids = needsLearning.Select(q => q.Id),
+            Count = needsLearning.Count(),
+            Key = "needsLearning",
+            Group = "knowledgeSummary"
+        };
+        filteredDetails.Add(needsLearningDetail);
+
+        var needsConsolidationValuation = allQuestionValuation.Where(q =>
+            q.CorrectnessProbability >= 50 &&
+            q.CorrectnessProbability < 80);
+        var needsConsolidation = questions.Where(q =>
+            needsConsolidationValuation.Any(v => v.Id == q.Id));
+        var needsConsolidationDetail = new FilterDetail
+        {
+            Ids = needsConsolidation.Select(q => q.Id),
+            Count = needsConsolidation.Count(),
+            Key = "needsConsolidation",
+            Group = "knowledgeSummary"
+        };
+        filteredDetails.Add(needsConsolidationDetail);
+
+        var solidValuation = allQuestionValuation.Where(q =>
+            q.CorrectnessProbability >= 80);
+        var solid = questions.Where(q =>
+            solidValuation.Any(v => v.Id == q.Id));
+        var solidDetail = new FilterDetail
+        {
+            Ids = solid.Select(q => q.Id),
+            Count = solid.Count(),
+            Key = "solid",
+            Group = "knowledgeSummary"
+        };
+        filteredDetails.Add(solidDetail);
+
+        if (config.NotLearned && config.NeedsLearning && config.NeedsConsolidation && config.Solid ||
+            !config.NotLearned && !config.NeedsLearning && !config.NeedsConsolidation && !config.Solid)
+            return questions.GetIds().ToList();
+
+        var filteredQuestionIds = new List<int>();
+
+        if (config.NotLearned)
+            filteredQuestionIds.AddRange(notLearnedDetail.Ids);
+
+        if (config.NeedsLearning)
+            filteredQuestionIds.AddRange(needsLearningDetail.Ids);
+
+        if (config.NeedsConsolidation)
+            filteredQuestionIds.AddRange(needsConsolidationDetail.Ids);
+
+        if (config.Solid)
+            filteredQuestionIds.AddRange(solidDetail.Ids);
+
+        return filteredQuestionIds;
+    }
+}
+public class FilterDetail
+{
+    public IEnumerable<int> Ids;
+    public int Count;
+    public string Key;
+    public string Group;
 }

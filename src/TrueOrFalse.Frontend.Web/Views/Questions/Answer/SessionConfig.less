@@ -866,6 +866,60 @@
         opacity: 1;
     }
 
+.session-configurator {
+    height: 800px;
+    width: 800px;
+    padding: 10px;
+
+    .filter-button {
+        position: relative;
+        border: solid 1px silver;
+        padding: 10px;
+        z-index: 901;
+        width: 200px;
+        background: white
+    }
+
+    .session-config-dropdown {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        padding-top: 11px;
+        border: 1px solid silver;
+        margin-top: -1px;
+        z-index: 900;
+
+        .question-filter-options-button {
+            width: 100%;
+            height: 40px;
+            border: solid 1px silver;
+            padding: 6px;
+            display: flex;
+            flex-wrap: nowrap;
+            cursor: pointer;
+        }
+
+        .question-filter-options-dropdown {
+            border: solid 1px silver;
+            padding: 6px;
+
+            .dropdown-item {
+                display: flex;
+                flex-direction: row;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.knowledge-summary-dot {
+    height: 20px;
+    min-width: 20px;
+    border-radius: 10px;
+    margin-right: 2px;
+}
+
 .not-learned {
     background-color: @not-learned-color
 }
