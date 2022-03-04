@@ -7,7 +7,11 @@
         if (IsCrawlerRequest.Yes(userAgent))
             return;
 
-        var category = Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id); 
+        var category = new Category()
+        {
+            Id = categoryCacheItem.Id,
+            Name = categoryCacheItem.Name
+        }; 
 
         Sl.R<CategoryViewRepo>().Create(new CategoryView
         {

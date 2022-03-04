@@ -24,13 +24,6 @@ public class CategoryModel : BaseContentModule
     public IList<QuestionCacheItem> AggregatedQuestions;
     public IList<QuestionCacheItem> CategoryQuestions;
     public int AggregatedTopicCount;
-    public IList<QuestionCacheItem> TopQuestions;
-    public IList<QuestionCacheItem> TopQuestionsWithReferences;
-    public List<QuestionCacheItem> TopQuestionsInSubCats = new List<QuestionCacheItem>();
-    public IList<QuestionCacheItem> TopWishQuestions;
-    public IList<QuestionCacheItem> SingleQuestions;
-    public QuestionCacheItem EasiestQuestion;
-    public QuestionCacheItem HardestQuestion;
     public bool IsInTopicTab = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
@@ -157,25 +150,12 @@ public class CategoryModel : BaseContentModule
 
         CountReferences = ReferenceCount.Get(category.Id);
 
-        if (category.Type != CategoryType.Standard)
-            TopQuestionsWithReferences =EntityCache.GetQuestionsForCategory(category.Id);
 
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = AggregatedQuestions.Take(MaxCountQuestionsToDisplay).ToList();
-
-        if (category.Type == CategoryType.Standard)
-            TopQuestionsInSubCats = GetTopQuestionsInSubCats();
-
-
-        TopWishQuestions = EntityCache.GetQuestionsByIds(wishQuestions.Items.Select(q => q.Id).ToList());
-
-        SingleQuestions = GetQuestionsForCategory.QuestionsWithCategoryAssigned(Id);
         IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
         AggregatedTopicCount = IsMyWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
-        HardestQuestion = GetQuestion(true);
-        EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
 
@@ -201,20 +181,6 @@ public class CategoryModel : BaseContentModule
         }
 
         return parents.DistinctBy(c => c.Id).ToList();
-    } 
-    private List<QuestionCacheItem> GetTopQuestionsInSubCats()
-    {
-        var topQuestions = new List<QuestionCacheItem>();
-
-        var categoryIds = CategoriesChildren.Take(10).Select(c => c.Id);
-        topQuestions.AddRange(QuestionCacheItem.ToCacheQuestions(_questionRepo.GetForCategory(categoryIds, 15, UserId)));
-
-        if(topQuestions.Count < 7)
-            GetTopQuestionsFromChildrenOfChildren(topQuestions);
-                
-        return topQuestions
-            .Distinct(ProjectionEqualityComparer<QuestionCacheItem>.Create(x => x.Id))
-            .ToList();
     }
 
     private QuestionCacheItem GetQuestion(bool hardestQuestion)
@@ -240,14 +206,6 @@ public class CategoryModel : BaseContentModule
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData).GetImageUrl(232);
-    }
-
-    private void GetTopQuestionsFromChildrenOfChildren(List<QuestionCacheItem> topQuestions)
-    {
-        foreach (var childCat in CategoriesChildren)
-            foreach (var childOfChild in _categoryRepo.GetChildren(childCat.Id))
-                if (topQuestions.Count < 6)
-                    topQuestions.AddRange(EntityCache.GetQuestionsByIds(_questionRepo.GetForCategory(childOfChild.Id, UserId, 5).Select(q => q.Id).ToList()));
     }
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
