@@ -5,7 +5,7 @@ using TrueOrFalse;
 
 public class GetQuestionSoundUrl
 {
-    public string Run(Question question)
+    public string Run(QuestionCacheItem question)
     {
         const string relativePath = "/Sounds/Questions/";
         var serverPath = HttpContext.Current.Server.MapPath(relativePath);

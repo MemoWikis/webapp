@@ -21,7 +21,7 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
         return result[0];
     }
 
-    public IList<TotalPerUser> Run(int userId, IList<Question> questions)
+    public IList<TotalPerUser> Run(int userId, IList<QuestionCacheItem> questions)
     {
         return Run(userId, questions.GetIds());
     }

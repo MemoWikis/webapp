@@ -41,7 +41,7 @@ public class GetCategoryGraph
 
     private static KnowledgeSummary GetKnowledgeData(int categoryId, int userId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         return KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, userId);
     }
 

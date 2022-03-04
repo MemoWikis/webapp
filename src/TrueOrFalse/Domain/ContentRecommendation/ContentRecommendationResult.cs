@@ -2,6 +2,6 @@
 
 public class ContentRecommendationResult
 {
-    public IList<Category> Categories = new List<Category>(); //Categories that match the content
+    public IList<CategoryCacheItem> Categories = new List<CategoryCacheItem>(); //Categories that match the content
     public IList<Set> PopularSets = new List<Set>();
 }

@@ -8,7 +8,7 @@ public class BreadCrumbApiController : BaseController
     {
         var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
-        var category = EntityCache.GetCategoryCacheItem(currentCategoryId);
+        var category = EntityCache.GetCategory(currentCategoryId);
         var currentWiki = CrumbtrailService.GetWiki(category);
         _sessionUser.SetWikiId(currentWiki);
 

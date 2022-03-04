@@ -76,7 +76,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
 
-        EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
@@ -85,7 +85,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public void UpdateBeforeEntityCacheInit(Question question, bool withSolr = true)
     {
-        if(withSolr)
+        if (withSolr)
             _searchIndexQuestion.Update(question);
         base.Update(question);
 
@@ -114,7 +114,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             ReputationUpdate.ForUser(question.Creator);
         }
         _searchIndexQuestion.Update(question);
-        EntityCache.AddOrUpdate(question);
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         Sl.QuestionChangeRepo.AddCreateEntry(question);
     }
@@ -126,15 +126,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Sl.QuestionChangeRepo.AddDeleteEntry(question);
     }
 
-    public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
+    public IList<QuestionCacheItem> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
 
         return category.GetAggregatedQuestionsFromMemoryCache();
     }
 
-    public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount= -1) => 
-        GetForCategory(new List<int> {categoryId}, currentUser, resultCount);
+    public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount = -1) =>
+        GetForCategory(new List<int> { categoryId }, currentUser, resultCount);
 
     public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int currentUser, int resultCount = -1)
     {
@@ -184,9 +184,9 @@ public class QuestionRepo : RepositoryDbBase<Question>
         };
     }
 
-    public Question GetByIdFromMemoryCache(int questionId) => EntityCache.GetQuestionById(questionId);
+    public QuestionCacheItem GetByIdFromMemoryCache(int questionId) => EntityCache.GetQuestionById(questionId);
 
-    public IList<Question> GetByIds(List<int> questionIds) => 
+    public IList<Question> GetByIds(List<int> questionIds) =>
         GetByIds(questionIds.ToArray());
 
     public override IList<Question> GetByIds(params int[] questionIds)
@@ -206,23 +206,24 @@ public class QuestionRepo : RepositoryDbBase<Question>
     }
 
     public IList<int> GetByKnowledge(
-        int userId, 
-        bool isKnowledgeSolidFilter, 
+        int userId,
+        bool isKnowledgeSolidFilter,
         bool isKnowledgeShouldConsolidateFilter,
         bool isKnowledgeShouldLearnFilter,
         bool isKnowledgeNoneFilter)
     {
         var query = _session
             .QueryOver<QuestionValuation>()
-            .Where(q => 
+            .Where(q =>
                 q.User.Id == userId &&
                 q.RelevancePersonal != -1);
 
         AbstractCriterion knowledgeExpression = null;
-        Func<KnowledgeStatus, AbstractCriterion> fnGetCombinedExpression = knowledgeStatus => {
+        Func<KnowledgeStatus, AbstractCriterion> fnGetCombinedExpression = knowledgeStatus =>
+        {
             var knowledgeExpressionToAdd = Restrictions.Eq("KnowledgeStatus", knowledgeStatus);
-            return knowledgeExpression != null 
-                ? Restrictions.Or(knowledgeExpression, knowledgeExpressionToAdd) 
+            return knowledgeExpression != null
+                ? Restrictions.Or(knowledgeExpression, knowledgeExpressionToAdd)
                 : knowledgeExpressionToAdd;
         };
 
@@ -314,7 +315,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .QueryOver<User>()
             .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
             .List();
-        
+
         var questions = _session.QueryOver<Question>()
             .Future();
 
@@ -326,7 +327,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Fetch(SelectMode.Fetch, x => x.References)
             .Future();
 
-        
+
         var result = questions.ToList();
 
         foreach (var question in result)

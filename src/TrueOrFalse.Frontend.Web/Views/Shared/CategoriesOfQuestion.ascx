@@ -17,7 +17,7 @@
                     </a>
                 </div>
             <% }else{ %>
-            <% Html.RenderPartial("CategoryLabel", EntityCache.GetCategoryCacheItem(category.Id)); %>
+            <% Html.RenderPartial("CategoryLabel", EntityCache.GetCategory(category.Id)); %>
             <%} %>
         
         <%} %>

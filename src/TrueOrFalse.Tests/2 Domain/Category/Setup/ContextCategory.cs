@@ -119,7 +119,7 @@ namespace TrueOrFalse.Tests
 
             var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
             EntityCache.AddOrUpdate(categoryCacheItem);
-            EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem, category);
+            EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
 
             All.Add(category);
             return this;
@@ -284,13 +284,13 @@ namespace TrueOrFalse.Tests
         public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
         {
             return categoryCachedItem.CachedData.ChildrenIds.Any(child =>
-                child == EntityCache.GetByName(childName).First().Id);
+                child == EntityCache.GetCategoryByName(childName).First().Id);
         }
 
         public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
         {
             return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetByName(parentName).First().Id &&
+                cr.RelatedCategoryId == EntityCache.GetCategoryByName(parentName).First().Id &&
                 cr.CategoryRelationType == CategoryRelationType.IsChildOf);
         }
 

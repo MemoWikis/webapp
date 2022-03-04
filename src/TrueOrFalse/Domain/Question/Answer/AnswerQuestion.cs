@@ -126,7 +126,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         bool countUnansweredAsCorrect = false)
     {
         var question = _questionRepo.GetById(questionId);
-        var solution = GetQuestionSolution.Run(question);
+        var questionCacheItem = EntityCache.GetQuestion(questionId);
+        var solution = GetQuestionSolution.Run(questionCacheItem);
 
         var result = new AnswerQuestionResult
         {
@@ -161,7 +162,9 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         bool countUnansweredAsCorrect = false)
     {
         var question = _questionRepo.GetById(questionId);
-        var solution = GetQuestionSolution.Run(question);
+        var questionCacheItem = EntityCache.GetQuestion(questionId);
+
+        var solution = GetQuestionSolution.Run(questionCacheItem);
 
         var result = new AnswerQuestionResult
         {

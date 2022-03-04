@@ -21,16 +21,9 @@ public class CategoryModel : BaseContentModule
     public bool NextRevExists;   //Is set in controller because controller context is needed
     public IList<CategoryCacheItem> CategoriesParent;
     public IList<CategoryCacheItem> CategoriesChildren;
-    public IList<Question> AggregatedQuestions;
-    public IList<Question> CategoryQuestions;
+    public IList<QuestionCacheItem> AggregatedQuestions;
+    public IList<QuestionCacheItem> CategoryQuestions;
     public int AggregatedTopicCount;
-    public IList<Question> TopQuestions;
-    public IList<Question> TopQuestionsWithReferences;
-    public List<Question> TopQuestionsInSubCats = new List<Question>();
-    public IList<Question> TopWishQuestions;
-    public IList<Question> SingleQuestions;
-    public Question EasiestQuestion;
-    public Question HardestQuestion;
     public bool IsInTopicTab = false;
     public bool IsInLearningTab = false;
     public bool IsInAnalyticsTab = false; 
@@ -157,30 +150,17 @@ public class CategoryModel : BaseContentModule
 
         CountReferences = ReferenceCount.Get(category.Id);
 
-        if (category.Type != CategoryType.Standard)
-            TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = AggregatedQuestions.Take(MaxCountQuestionsToDisplay).ToList();
-
-        if (category.Type == CategoryType.Standard)
-            TopQuestionsInSubCats = GetTopQuestionsInSubCats();
-
-
-        TopWishQuestions = wishQuestions.Items;
-
-        SingleQuestions = GetQuestionsForCategory.QuestionsWithCategoryAssigned(Id);
         IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
 
         AggregatedTopicCount = IsMyWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
-        HardestQuestion = GetQuestion(true);
-        EasiestQuestion = GetQuestion(false);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
 
         var editQuestionModel = new EditQuestionModel();
-        editQuestionModel.Categories.Add(Sl.CategoryRepo.GetByIdEager((int)category.Id));
+        editQuestionModel.Categories.Add(EntityCache.GetCategory(category.Id));
 
         EditQuestionModel = editQuestionModel;
     }
@@ -201,23 +181,9 @@ public class CategoryModel : BaseContentModule
         }
 
         return parents.DistinctBy(c => c.Id).ToList();
-    } 
-    private List<Question> GetTopQuestionsInSubCats()
-    {
-        var topQuestions = new List<Question>();
-
-        var categoryIds = CategoriesChildren.Take(10).Select(c => c.Id);
-        topQuestions.AddRange(_questionRepo.GetForCategory(categoryIds, 15, UserId));
-
-        if(topQuestions.Count < 7)
-            GetTopQuestionsFromChildrenOfChildren(topQuestions);
-                
-        return topQuestions
-            .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
-            .ToList();
     }
 
-    private Question GetQuestion(bool hardestQuestion)
+    private QuestionCacheItem GetQuestion(bool hardestQuestion)
     {
         if (CountAggregatedQuestions < 1)
         {
@@ -242,17 +208,9 @@ public class CategoryModel : BaseContentModule
         return new ImageFrontendData(imageMetaData).GetImageUrl(232);
     }
 
-    private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)
-    {
-        foreach (var childCat in CategoriesChildren)
-            foreach (var childOfChild in _categoryRepo.GetChildren(childCat.Id))
-                if (topQuestions.Count < 6)
-                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, UserId, 5));
-    }
-
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 
-    public Question GetDummyQuestion()
+    public QuestionCacheItem GetDummyQuestion()
     {
         var questionId = 0; 
         if (IsMyWorld)

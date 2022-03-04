@@ -34,9 +34,9 @@ public class CategoryRelation : DomainEntity
     {
         return new CategoryRelation
         {
-            Category = Category.ToCategory(EntityCache.GetCategoryCacheItem(categoryRelation.CategoryId)),
+            Category = Category.ToCategory(EntityCache.GetCategory(categoryRelation.CategoryId)),
             CategoryRelationType = categoryRelation.CategoryRelationType,
-            RelatedCategory = Category.ToCategory(EntityCache.GetCategoryCacheItem(categoryRelation.RelatedCategoryId))
+            RelatedCategory = Category.ToCategory(EntityCache.GetCategory(categoryRelation.RelatedCategoryId))
         };
     }
 }

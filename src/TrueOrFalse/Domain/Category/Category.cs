@@ -106,7 +106,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual void UpdateCountQuestionsAggregated()
     {
-        CountQuestionsAggregated = EntityCache.GetCategoryCacheItem(Id).GetCountQuestionsAggregated();
+        CountQuestionsAggregated = EntityCache.GetCategory(Id).GetCountQuestionsAggregated();
     }
 
     public virtual int CountQuestions { get; set; }
@@ -140,7 +140,7 @@ public class Category : DomainEntity, ICreator, ICloneable
         Name = name;
     }
 
-    public virtual bool IsSpoiler(Question question) =>
+    public virtual bool IsSpoiler(QuestionCacheItem question) =>
         IsSpoilerCategory.Yes(Name, question);
 
     public virtual object GetTypeModel()

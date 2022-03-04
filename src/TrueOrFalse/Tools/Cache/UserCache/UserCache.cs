@@ -66,7 +66,7 @@ public class UserCache
                     .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
             QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                    .Select(v => new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id, v.ToCacheItem())))
+                    .Select(v => new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id, QuestionValuationCacheItem.ToCacheItem(v))))
         };
             
         Add_valuationCacheItem_to_cache(cacheItem, userId);

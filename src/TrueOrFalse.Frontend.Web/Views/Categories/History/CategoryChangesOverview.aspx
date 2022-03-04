@@ -52,10 +52,10 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading row collapsed" role="tab" id="heading<%= panelId %>" role="button" data-toggle="collapse" data-parent="#accordion<%= panelId %>" href="#collapse<%= panelId %>" aria-controls="collapse<%= panelId %>" expanded="false">
                                     <div class="col-xs-3">
-                                        <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>">
+                                        <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategory(item.CategoryId)) %>">
                                             <img class="history-category" src="<%= item.CategoryImageUrl %>" height="20"/>
                                         </a>
-                                        <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>"><%= item.CategoryName %></a>
+                                        <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategory(item.CategoryId)) %>"><%= item.CategoryName %></a>
                                     </div>
                                     <div class="col-xs-3 col-sm-2 show-tooltip history-date" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                                         <a class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
@@ -100,10 +100,10 @@
                                         %>
                                             <li class="list-group-item row">
                                                 <div class="col-xs-3">
-                                                    <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>">
+                                                    <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategory(item.CategoryId)) %>">
                                                         <img class="history-category" src="<%= item.CategoryImageUrl %>" height="20"/>
                                                     </a>
-                                                    <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>"><%= item.CategoryName %></a>
+                                                    <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategory(item.CategoryId)) %>"><%= item.CategoryName %></a>
                                                 </div>
                                                 <div class="col-xs-3 col-sm-2 show-tooltip  history-date" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                                                     <a class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>
@@ -150,10 +150,10 @@
                    { %>
                         <div class="row change-detail-model">
                             <div class="col-xs-3">
-                                <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>">
+                                <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategory(item.CategoryId)) %>">
                                     <img class="history-category" src="<%= item.CategoryImageUrl %>" height="20"/>
                                 </a>
-                                <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategoryCacheItem(item.CategoryId)) %>"><%= item.CategoryName %></a>
+                                <a class="history-link" href="<%= Links.CategoryDetail(EntityCache.GetCategory(item.CategoryId)) %>"><%= item.CategoryName %></a>
                             </div>
                             <div class="col-xs-3 col-sm-2 show-tooltip  history-date" data-toggle="tooltip" data-placement="left" title="<%= item.DateTime %>">
                                 <a class="history-link" href="<%= Links.UserDetail(item.Author) %>"><%= item.AuthorName %></a>

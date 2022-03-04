@@ -132,7 +132,7 @@ public class ModifyRelationsForCategory
         foreach (var relation in relationsToAdd)
         {
             category.CategoryRelations.Add(relation);
-            var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+            var categoryCacheItem = EntityCache.GetCategory(category.Id);
             categoryCacheItem.CategoryRelations.Add(new CategoryCacheRelation
             {
                 CategoryRelationType = relation.CategoryRelationType,
@@ -156,7 +156,7 @@ public class ModifyRelationsForCategory
                 if (relationsToRemoveList[i] == category.CategoryRelations[j])
                 {
                     category.CategoryRelations.RemoveAt(j);
-                    var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+                    var categoryCacheItem = EntityCache.GetCategory(category.Id);
                     if (categoryCacheItem.CategoryRelations.Count >= j)
                         categoryCacheItem.CategoryRelations.RemoveAt(j);
                 }
@@ -181,7 +181,7 @@ public class ModifyRelationsForCategory
 
     public static bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId)
     {
-        var childCategory = EntityCache.GetCategoryCacheItem(childCategoryId);
+        var childCategory = EntityCache.GetCategory(childCategoryId);
         var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
         var parentCategoryAsCategory = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
 
@@ -209,7 +209,7 @@ public class ModifyRelationsForCategory
             CategoryRelationType.IsChildOf);
 
         ModifyRelationsEntityCache.RemoveRelation(
-            EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove),
+            EntityCache.GetCategory(parentCategoryIdToRemove),
             childCategoryId,
             CategoryRelationType.IncludesContentOf);
 

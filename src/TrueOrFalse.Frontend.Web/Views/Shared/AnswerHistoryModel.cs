@@ -9,7 +9,7 @@
         public int TimesAnsweredWrongTotal;
         public int TimesAnsweredCorrect;
 
-        public AnswerHistoryModel(Question question, TotalPerUser valuationForUser)
+        public AnswerHistoryModel(QuestionCacheItem question, TotalPerUser valuationForUser)
         {
             TimesAnsweredTotal = question.TotalAnswers();
             TimesAnsweredCorrect = question.TotalTrueAnswers;

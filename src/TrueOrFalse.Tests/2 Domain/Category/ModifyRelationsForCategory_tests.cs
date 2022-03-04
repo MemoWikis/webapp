@@ -12,18 +12,18 @@ class ModifyRelationsForCategory_tests : BaseTest
         ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
-            EntityCache.GetByName("X3").FirstOrDefault().Id, 
-            EntityCache.GetByName("B").GetIds().ToList(), 
+            EntityCache.GetCategoryByName("X3").FirstOrDefault().Id, 
+            EntityCache.GetCategoryByName("B").GetIds().ToList(), 
             CategoryRelationType.IsChildOf);
 
-        var X3 = EntityCache.GetByName("X3").First();
-        Assert.That(EntityCache.GetCategoryCacheItem(X3.CategoryRelations.First().CategoryId).Name, Is.EqualTo("X3"));
-        Assert.That(EntityCache.GetCategoryCacheItem(X3.CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("B"));
+        var X3 = EntityCache.GetCategoryByName("X3").First();
+        Assert.That(EntityCache.GetCategory(X3.CategoryRelations.First().CategoryId).Name, Is.EqualTo("X3"));
+        Assert.That(EntityCache.GetCategory(X3.CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("B"));
         Assert.That(ContextCategory.HasCorrectChild(X3, "A"), Is.EqualTo(false));
         
         Assert.That(X3.CategoryRelations.Count,Is.EqualTo(1));
 
-        var B = EntityCache.GetByName("B").First(); 
+        var B = EntityCache.GetCategoryByName("B").First(); 
 
     }
 }

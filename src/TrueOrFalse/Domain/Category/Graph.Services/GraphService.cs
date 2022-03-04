@@ -7,7 +7,7 @@ using System.Linq;
 public class GraphService
 {
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
-        GetAllParentsFromEntityCache(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true));
+        GetAllParentsFromEntityCache(EntityCache.GetCategory(categoryId, getDataFromEntityCache: true));
 
     private static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
@@ -17,7 +17,7 @@ public class GraphService
 
         while (parentIds.Count > 0)
         {
-            var parent = EntityCache.GetCategoryCacheItem(parentIds[0], getDataFromEntityCache: true);
+            var parent = EntityCache.GetCategory(parentIds[0], getDataFromEntityCache: true);
 
             if (!deletedIds.ContainsKey(parentIds[0]))
             {
@@ -75,7 +75,7 @@ public class GraphService
     private static List<int> GetDirectParentIdsInWuwi(CategoryCacheItem userEntityCacheItem)
     {
         var directParentIds = GetDirectParentIds(userEntityCacheItem);
-        var directParentIdsInWuwi = EntityCache.GetCategoryCacheItems(directParentIds)
+        var directParentIdsInWuwi = EntityCache.GetCategories(directParentIds)
             .Where(cci => cci.IsInWishknowledge() || cci.Id == Sl.SessionUser.User.StartTopicId)
             .Select(cci => cci.Id).ToList();
         return directParentIdsInWuwi;
@@ -102,10 +102,10 @@ public class GraphService
         bool isFromUserEntityCache = false)
     {
         userId = userId == -1 ? Sl.CurrentUserId : userId;
-        var rootCategory = EntityCache.GetCategoryCacheItem(rootCategoryId, isFromUserEntityCache).DeepClone();
+        var rootCategory = EntityCache.GetCategory(rootCategoryId, isFromUserEntityCache).DeepClone();
 
         var personalHomepage = EntityCache
-            .GetCategoryCacheItem(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true).DeepClone();
+            .GetCategory(UserCache.GetUser(userId).StartTopicId, getDataFromEntityCache: true).DeepClone();
         var wuwiChildren = GetAllChildrenFromAllCategories(rootCategory, personalHomepage);
         wuwiChildren = SetNewParents(userId, isFromUserEntityCache, wuwiChildren, personalHomepage);
 
@@ -262,7 +262,7 @@ public class GraphService
                 .Select(cr => cr.RelatedCategoryId);
         }
 
-        return EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true)
+        return EntityCache.GetCategory(categoryId, getDataFromEntityCache: true)
             .CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId);
     }
@@ -283,7 +283,7 @@ public class GraphService
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(
-                EntityCache.GetCategoryCacheItem(parentCategory.Id, getDataFromEntityCache: true));
+                EntityCache.GetCategory(parentCategory.Id, getDataFromEntityCache: true));
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)

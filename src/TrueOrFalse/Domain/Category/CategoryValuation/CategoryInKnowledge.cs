@@ -17,7 +17,7 @@ public class CategoryInKnowledge
         CreateJob(JobQueueType.AddCategoryToWishKnowledge,
             new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
 
-        var questions = EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true).GetAggregatedQuestionsFromMemoryCache();
+        var questions = EntityCache.GetCategory(categoryId, getDataFromEntityCache: true).GetAggregatedQuestionsFromMemoryCache();
         var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
         var userCategoryAnswers = Sl.R<AnswerRepo>().GetByQuestion(questions.GetIds().ToList(), user.Id);
         foreach (var question in questions)
@@ -29,7 +29,7 @@ public class CategoryInKnowledge
         UpdateCategoryValuation(categoryId, user);
     }
 
-    private static void UpdateProbabilityForQuestionValuation(Question question, User user, IList<Answer> answers, QuestionValuationCacheItem userQuestionValuation)
+    private static void UpdateProbabilityForQuestionValuation(QuestionCacheItem question, User user, IList<Answer> answers, QuestionValuationCacheItem userQuestionValuation)
     {
         var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
 
@@ -47,7 +47,7 @@ public class CategoryInKnowledge
         CreateJob(JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge,
             new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
 
-        var questionsInCategory = EntityCache.GetCategoryCacheItem(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, categoryId);
@@ -65,7 +65,7 @@ public class CategoryInKnowledge
     }
 
     private static void CreateOrUpdateQuestionValution(
-        Question question, 
+        QuestionCacheItem question, 
         User user,
         bool isInWishKnowledge,
         QuestionValuationCacheItem userQuestionValuation,
@@ -113,10 +113,10 @@ public class CategoryInKnowledge
         var questionsInOtherValuatedCategories = valuatedCategories
             .SelectMany(v =>
             {
-                var category =EntityCache.GetCategoryCacheItem(v.CategoryId);
+                var category =EntityCache.GetCategory(v.CategoryId);
 
                 return category == null ? 
-                    new List<Question>() : 
+                    new List<QuestionCacheItem>() : 
                     category.GetAggregatedQuestionsFromMemoryCache();
             })
             .GetIds()
@@ -129,13 +129,13 @@ public class CategoryInKnowledge
     public static void PinCategoryInDatabase(int categoryId, int userId)
     {
         var user = Sl.UserRepo.GetById(userId);
-        PinQuestionsInCategory(categoryId, user, SaveType.DatabaseOnly);
+        PinQuestionsInCategory(categoryId, user);
     }
 
     public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
     {
         var user = Sl.UserRepo.GetByIds(userId).First();
-        var questionsInCategory = EntityCache.GetCategoryCacheItem(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId: categoryId);
@@ -144,18 +144,18 @@ public class CategoryInKnowledge
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
         foreach (var question in questionsToUnpin)
-            QuestionInKnowledge.Unpin(question.Id, user, SaveType.DatabaseOnly);
+            QuestionInKnowledge.Unpin(question.Id, user);
 
         QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
         QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
-    private static void PinQuestionsInCategory(int categoryId, User user, SaveType saveType = SaveType.CacheAndDatabase)
+    private static void PinQuestionsInCategory(int categoryId, User user)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         if (category == null) return;
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
-        QuestionInKnowledge.Pin(questions, user, saveType);
+        QuestionInKnowledge.Pin(questions, user);
     }
 
     public static void UpdateCategoryValuationTest(int categoryId, User user, int relevance = 50)

@@ -51,7 +51,7 @@ public class CategoryCacheItem
         if (CachedData.ChildrenIds.Count == 0)
             return false;
 
-        return EntityCache.GetCategoryCacheItems(CachedData.ChildrenIds)
+        return EntityCache.GetCategories(CachedData.ChildrenIds)
             .Count(cci => cci.Visibility == CategoryVisibility.All) > 0;
     }
 
@@ -60,7 +60,7 @@ public class CategoryCacheItem
         return CategoryRelations != null && CategoryRelations.Any()
            ? CategoryRelations
                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
-               .Select(x => EntityCache.GetCategoryCacheItem(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
+               .Select(x => EntityCache.GetCategory(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                .ToList()
            : new List<CategoryCacheItem>();
     }
@@ -102,10 +102,10 @@ public class CategoryCacheItem
             {
                 if (!visibleVisited.ContainsKey(child))
                 {
-                    if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(child)))
+                    if (PermissionCheck.CanView(EntityCache.GetCategory(child)))
                     {
-                        visibleVisited.Add(child, EntityCache.GetCategoryCacheItem(child, getDataFromEntityCache: true));
-                        VisibleChildCategories(EntityCache.GetCategoryCacheItem(child), visibleVisited);
+                        visibleVisited.Add(child, EntityCache.GetCategory(child, getDataFromEntityCache: true));
+                        VisibleChildCategories(EntityCache.GetCategory(child), visibleVisited);
                     }
                 }
             }
@@ -146,39 +146,6 @@ public class CategoryCacheItem
             : new List<CategoryCacheItem>();
     }
 
-
-
-    ////Aggregated Categories returns all categories with CategorieRelationType "includesContentOf"
-    //public virtual IList<CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
-    //{
-    //    var includesContentOfRelations =
-    //        CategoryRelations.Where(c => c.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList();
-    //    var visibleCategoryIds = includesContentOfRelations.Select(r => r.RelatedCategoryId).Where(PermissionCheck.CanViewCategory).ToList();
-    //    visibleCategoryIds = visibleCategoryIds.FindAll(id =>
-    //        EntityCache.GetCategoryCacheItem(id).CategoryRelations.Count(cr => cr.RelatedCategoryId == Id && cr.CategoryRelationType == CategoryRelationType.IsChildOf) > 0);
-    //    if (visibleCategoryIds.Count > 0)
-    //    {
-    //        var i = visibleCategoryIds.Count - 1;
-    //        while (i >= 0)
-    //        {
-    //            visibleCategoryIds.AddRange(EntityCache.GetCategoryCacheItem(visibleCategoryIds[i]).AggregatedCategories().Select(cci => cci.Id));
-    //            i--;
-    //        }
-    //    }
-
-    //    visibleCategoryIds = visibleCategoryIds.Distinct().ToList();
-
-    //    var list = visibleCategoryIds.Select(cr => EntityCache.GetCategoryCacheItem(cr)).ToList();
-
-    //    if (Sl.SessionUser.User != null && UserCache.GetItem(Sl.SessionUser.User.Id).IsFiltered)
-    //        list = list.Where(c => c.IsInWishknowledge()).ToList();
-
-    //    if (includingSelf)
-    //        list.Add(this);
-
-    //    return list;
-    //}
-
     public int CountQuestionsAggregated { get; set; }
 
     public void UpdateCountQuestionsAggregated()
@@ -195,17 +162,9 @@ public class CategoryCacheItem
     }
 
 
-    //public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
-    //{
-    //    if (inCategoryOnly)
-    //        return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
-
-    //    return GetAggregatedQuestionsFromMemoryCache().Count;
-    //}
-
-    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
+    public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
-        IEnumerable<Question> questions;
+        IEnumerable<QuestionCacheItem> questions;
 
         if (fullList)
             questions = AggregatedCategories()
@@ -243,7 +202,7 @@ public class CategoryCacheItem
         Name = name;
     }
 
-    public virtual bool IsSpoiler(Question question) =>
+    public virtual bool IsSpoiler(QuestionCacheItem question) =>
         IsSpoilerCategory.Yes(Name, question);
 
     public ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(ConcurrentDictionary<int, Category> concurrentDictionary)

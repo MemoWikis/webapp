@@ -29,7 +29,7 @@ public class RelationChangeItem
         relationChangeItem.RelationAdded = relationChangeResult.Count >= 1;
 
         var relationChange = relationChangeResult.Relation;
-        var relatedCategory = EntityCache.GetCategoryCacheItem(relationChange.RelatedCategoryId);
+        var relatedCategory = EntityCache.GetCategory(relationChange.RelatedCategoryId);
         
         relationChangeItem.IsVisibleToCurrentUser = IsVisibleToCurrentUser2(relationChange, relatedCategory, previousRevisionData, selectedRevisionData, item.CreatorId);
         relationChangeItem.RelatedCategory = relatedCategory;

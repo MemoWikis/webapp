@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Data;
 using NHibernate.Util;
 
 namespace TrueOrFalse
@@ -9,7 +10,7 @@ namespace TrueOrFalse
         public static void Run(int userId)
         {
             Sl.QuestionValuationRepo
-                .GetByUser(userId, onlyActiveKnowledge:false)
+                .GetByUser(userId, onlyActiveKnowledge: false)
                 .ForEach(Run);
         }
 
@@ -27,29 +28,20 @@ namespace TrueOrFalse
             if (userId == -1)
                 return;
 
-            Run(Sl.QuestionRepo.GetByIdFromMemoryCache(questionId), Sl.UserRepo.GetById(userId));
+            Run(EntityCache.GetQuestion(questionId), Sl.UserRepo.GetById(userId));
         }
 
-        public static void Run(Question question, User user, SaveType saveType = SaveType.CacheAndDatabase)
+        public static void Run(QuestionCacheItem question, User user)
         {
             var questionValuation =
                 Sl.QuestionValuationRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
-                        Question = question, 
+                        Question = Sl.QuestionRepo.GetById(question.Id),
                         User = user
                     };
 
-            Run(questionValuation, saveType);
-        }
-
-        private static void Run(QuestionValuation questionValuation, SaveType saveType)
-        {
-            UpdateValuationProbabilitys(questionValuation);
-
-            Sl.QuestionValuationRepo.CreateOrUpdateBySaveType(questionValuation, saveType);
-
-            //Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
+            Run(questionValuation);
         }
 
         private static void UpdateValuationProbabilitys(QuestionValuation questionValuation)
@@ -57,7 +49,7 @@ namespace TrueOrFalse
             var question = questionValuation.Question;
             var user = questionValuation.User;
 
-            var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user);
+            var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(EntityCache.GetQuestionById(question.Id), user);
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
             questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
             questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;

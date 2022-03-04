@@ -8,9 +8,9 @@ namespace TrueOrFalse.Search
         public static QuestionSolrMap Run(Question question, IList<QuestionValuationCacheItem> valuations)
         {
 
-            var allCategories = EntityCache.GetCategoryCacheItems(question.Categories.Select(c => c.Id)).ToList();
+            var allCategories = EntityCache.GetCategories(question.Categories.Select(c => c.Id)).ToList();
 
-            allCategories.AddRange(EntityCache.GetCategoryCacheItems(
+            allCategories.AddRange(EntityCache.GetCategories(
                 question.References
                     .Where(r => r.Category != null)
                     .Select(r => r.Category.Id)));

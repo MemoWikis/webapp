@@ -21,14 +21,14 @@ public class LearningSessionCache
         _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
         return learningSession;
     }
-    public static void InsertNewQuestionToLearningSession(Question question, int sessionIndex)
+    public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex)
     {
         var learningSession = GetLearningSession();
         var step = new LearningSessionStep(question);
         learningSession.Steps.Insert(sessionIndex, step);
     }
 
-    public static void EditQuestionInLearningSession(Question question, int sessionIndex)
+    public static void EditQuestionInLearningSession(QuestionCacheItem question, int sessionIndex)
     {
         var learningSession = GetLearningSession();
 

@@ -18,7 +18,8 @@ public class EditQuestionController : BaseController
     private readonly QuestionRepo _questionRepo;
     private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
-    public EditQuestionController(QuestionRepo questionRepo){
+    public EditQuestionController(QuestionRepo questionRepo)
+    {
         _questionRepo = questionRepo;
     }
 
@@ -41,8 +42,10 @@ public class EditQuestionController : BaseController
 
         _questionRepo.Create(question);
 
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
+
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.InsertNewQuestionToLearningSession(question, questionDataJson.SessionIndex);
+            LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex);
 
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
@@ -69,13 +72,13 @@ public class EditQuestionController : BaseController
                 }
             };
 
-        var question = EntityCache.GetQuestionById(questionDataJson.QuestionId);
+        var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(updatedQuestion, questionDataJson.SessionIndex);
+            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id), questionDataJson.SessionIndex);
 
         var questionController = new QuestionController(_questionRepo);
         return questionController.LoadQuestion(updatedQuestion.Id);
@@ -87,7 +90,8 @@ public class EditQuestionController : BaseController
     {
         var safeText = GetSafeText(flashCardJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult {
+            return new JsonResult
+            {
                 Data = new
                 {
                     error = true,
@@ -127,7 +131,7 @@ public class EditQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.User);
 
-        LearningSessionCache.InsertNewQuestionToLearningSession(question, flashCardJson.LastIndex);
+        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex);
         var questionController = new QuestionController(_questionRepo);
 
         return questionController.LoadQuestion(question.Id);
@@ -160,7 +164,7 @@ public class EditQuestionController : BaseController
             categories.Add(Sl.CategoryRepo.GetById(categoryId));
 
         question.Categories = categories;
-        question.Visibility = (QuestionVisibility) questionDataJson.Visibility;
+        question.Visibility = (QuestionVisibility)questionDataJson.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
         {
@@ -169,7 +173,8 @@ public class EditQuestionController : BaseController
             var solutionModelFlashCard = new QuestionSolutionFlashCard();
             solutionModelFlashCard.Text = questionDataJson.Solution;
             question.Solution = serializer.Serialize(solutionModelFlashCard);
-        } else
+        }
+        else
             question.Solution = questionDataJson.Solution;
 
         question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
@@ -188,6 +193,8 @@ public class EditQuestionController : BaseController
         question.License = IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
+
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         return question;
     }
@@ -257,24 +264,28 @@ public class EditQuestionController : BaseController
                 throw new SecurityException("Not allowed to edit question");
         }
 
-        if (imageSource == "wikimedia"){
+        if (imageSource == "wikimedia")
+        {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
                 wikiFileName, questionId, ImageType.Question, _sessionUser.User.Id);
         }
 
-        if (imageSource == "upload"){
+        if (imageSource == "upload")
+        {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.User.Id, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question, imageWasChanged:true);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question, imageWasChanged: true);
 
         var imageSettings = new QuestionImageSettings(questionId);
 
-        return new JsonResult{
-            Data = new{
-                PreviewUrl =    imageSettings.GetUrl_435px().UrlWithoutTime(),
+        return new JsonResult
+        {
+            Data = new
+            {
+                PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
                 NewQuestionId = newQuestionId
             }
         };
@@ -287,7 +298,7 @@ public class EditQuestionController : BaseController
         if (questionId.HasValue && questionId.Value > 0)
         {
             var question = _questionRepo.GetById(questionId.Value);
-            model = GetQuestionSolution.Run(question);
+            model = GetQuestionSolution.Run(question.Id);
         }
 
         return View(string.Format(_viewLocationBody, type), model);

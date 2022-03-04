@@ -2,10 +2,10 @@
 
 public class GetPrimaryCategory
 {
-    public static CategoryCacheItem GetForQuestion(Question question)
+    public static CategoryCacheItem GetForQuestion(QuestionCacheItem question)
     {
         if (question.Categories.Any())
-            return EntityCache.GetCategoryCacheItem(question.Categories.First().Id);
+            return question.Categories.First();
 
         return null;
     }
