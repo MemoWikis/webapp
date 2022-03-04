@@ -210,6 +210,7 @@ public class EntityCache : BaseCache
         }
     }
 
+    public static void Remove(int id) => Remove(GetCategory(id));
     public static void Remove(CategoryCacheItem category)
     {
         Remove(Categories, category);

@@ -179,29 +179,35 @@ class Automatic_inclusion_tests : BaseTest
         EntityCache.Init();
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
+        EntityCache.Remove(context.All.ByName("Sub1").Id);
         Sl.CategoryRepo.Delete(context.All.ByName("Sub1"));
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 
         context.Add("Sub1", parent: parentA).Persist();
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
-        context.All.ByName("Sub2").CategoryRelations.Add(new CategoryRelation
+        var categoryRelationToAdd = new CategoryRelation
         {
             Category = context.All.ByName("Sub2"),
             CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = context.All.ByName("Sub3")
-        });
+        };
+        context.All.ByName("Sub2").CategoryRelations.Add(categoryRelationToAdd);
+        var categoryCacheItem = EntityCache.GetCategoryByName("Sub2").FirstOrDefault();
+        categoryCacheItem.CategoryRelations.Add(CategoryCacheRelation.ToCategoryCacheRelation(categoryRelationToAdd));
         Sl.CategoryRepo.Update(context.All.ByName("Sub2"));
-        EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(context.All.ByName("Sub2")));
+        EntityCache.AddOrUpdate(categoryCacheItem);
         Assert.That(EntityCache.GetCategoryByName("Sub3").First().CachedData.ChildrenIds.Count, Is.EqualTo(1));
 
 
         context.All.ByName("Sub3").CategoryRelations.RemoveAt(0);
+        categoryCacheItem = EntityCache.GetCategoryByName("Sub3").FirstOrDefault();
+        categoryCacheItem.CategoryRelations.RemoveAt(0);
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
-        EntityCache.AddOrUpdate(CategoryCacheItem.ToCacheCategory(context.All.ByName("Sub3")));
+        EntityCache.AddOrUpdate(categoryCacheItem);
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 
-        var categoryRelationToAdd = new CategoryRelation
+        categoryRelationToAdd = new CategoryRelation
         {
             Category = context.All.ByName("Sub3"),
             CategoryRelationType = CategoryRelationType.IsChildOf,
@@ -209,7 +215,7 @@ class Automatic_inclusion_tests : BaseTest
         };
 
         context.All.ByName("Sub3").CategoryRelations.Add(categoryRelationToAdd);
-        var categoryCacheItem = EntityCache.GetCategoryByName("Sub3").FirstOrDefault();
+        categoryCacheItem = EntityCache.GetCategoryByName("Sub3").FirstOrDefault();
         categoryCacheItem.CategoryRelations.Add(CategoryCacheRelation.ToCategoryCacheRelation(categoryRelationToAdd));
         Sl.CategoryRepo.Update(context.All.ByName("Sub3"));
         EntityCache.AddOrUpdate(categoryCacheItem);
