@@ -56,7 +56,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     {
         User aliasUser = null;
         Category aliasCategory = null;
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var childIds = categoryCacheItem
             .CategoryRelations
             .Where(cci => cci.CategoryRelationType == CategoryRelationType.IncludesContentOf)
@@ -87,6 +87,26 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .ToList();
 
         return categoryChangeList;
+    }
+    public IList<UserTinyModel> GetAuthorsOfCategory(int categoryId, bool filterUsersForSidebar = false)
+    {
+        User aliasUser = null;
+        Category aliasCategory = null;
+        var query = _session
+            .QueryOver<CategoryChange>()
+            .Where(c => c.Category.Id == categoryId);
+
+        if (filterUsersForSidebar)
+            query.And(c => c.ShowInSidebar);
+
+        query
+            .Left.JoinAlias(c => c.Author, () => aliasUser)
+            .Left.JoinAlias(c => c.Category, () => aliasCategory);
+
+        var categoryChangeList = query
+            .List();
+
+        return categoryChangeList.Select(categoryChange => new UserTinyModel(categoryChange.Author)).ToList();
     }
 
     public CategoryChange GetByIdEager(int categoryChangeId)

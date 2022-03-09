@@ -72,7 +72,7 @@ public class DraftsController : BaseController
     public ActionResult CategoryPartials()
     {
        
-        var category = EntityCache.GetCategoryCacheItem(145);
+        var category = EntityCache.GetCategory(145);
         category.TopicMarkdown =
 @"[[{ ""TemplateName"":""DivStart"", ""CssClasses"":""Box""}]]
 #### Box-Inhalt

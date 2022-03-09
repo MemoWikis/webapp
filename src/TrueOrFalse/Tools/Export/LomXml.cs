@@ -23,6 +23,10 @@ public class LomXml
     {
         return From(new LomXmlParams(question));
     }
+    public static string From(QuestionCacheItem question)
+    {
+        return From(new LomXmlParams(question));
+    }
 
     public static string From(LomXmlParams objectParams)
     {
@@ -183,6 +187,18 @@ public class LomXmlParams
     }
 
     public LomXmlParams(Question question)
+    {
+        GeneralIdentifier = "frage-" + question.Id;
+        GeneralTitle = question.Text;
+        GeneralDescription = "Lernfrage \"" + question.Text + "\" mit Antwortmöglichkeit";
+        Categories = Sl.CategoryRepo.GetByIdsEager(question.Categories.Select(c => c.Id));
+        AggregationLevel = LomAggregationLevel.Level1Fragment.GetValue();
+        LifecycleDate = question.DateCreated;
+        MetaMetaCatalogEntry = "metadata.memucho-frage-" + question.Id;
+        TechnicalLocation = "https://memucho.de" + Links.AnswerQuestion(question);
+        RightsDescription = "CC BY, Autor: " + question.Creator.Name + " (Nutzer auf memucho.de)";
+    }
+    public LomXmlParams(QuestionCacheItem question)
     {
         GeneralIdentifier = "frage-" + question.Id;
         GeneralTitle = question.Text;

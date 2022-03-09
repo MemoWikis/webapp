@@ -16,7 +16,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
     public HasDeleted Run(Category category, bool isTestCase = false)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id, getDataFromEntityCache: true);
+        var categoryCacheItem = EntityCache.GetCategory(category.Id, getDataFromEntityCache: true);
         var hasDeleted = new HasDeleted();
 
         if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
@@ -48,7 +48,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         var parentIds = EntityCache.ParentCategories(category.Id).Select(cci => cci.Id).ToList();
         foreach (var parentId in parentIds)
         {
-            EntityCache.GetCategoryCacheItem(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
+            EntityCache.GetCategory(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
         }
         ModifyRelationsUserEntityCache.DeleteFromAllParents(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);

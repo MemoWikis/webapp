@@ -24,13 +24,13 @@ public class CategoryCacheRelation
         }
         foreach (var categoryRelation in listCategoryRelations)
         {
-            result.Add(ToUserEntityCacheRelation(categoryRelation));
+            result.Add(ToCategoryCacheRelation(categoryRelation));
         }
 
         return result;
     }
 
-    public CategoryCacheRelation ToUserEntityCacheRelation(CategoryRelation categoryRelation)
+    public static CategoryCacheRelation ToCategoryCacheRelation(CategoryRelation categoryRelation)
     {
         return new CategoryCacheRelation
         {

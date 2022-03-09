@@ -105,7 +105,7 @@ public class QuestionListController : BaseController
                 .Distinct()
                 .Count(),
             allQuestionCount = EntityCache
-                .GetCategoryCacheItem(categoryId)
+                .GetCategory(categoryId)
                 .GetAggregatedQuestionsFromMemoryCache()
                 .Count,
         });

@@ -1,7 +1,7 @@
 ﻿
 public class IsSpoilerCategory
 {
-    public static bool Yes(string categoryText, Question question)
+    public static bool Yes(string categoryText, QuestionCacheItem question)
     {
         var solution = GetQuestionSolution.Run(question);
         var correctAnswer = solution.CorrectAnswer();

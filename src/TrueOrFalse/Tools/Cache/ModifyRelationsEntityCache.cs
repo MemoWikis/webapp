@@ -33,7 +33,7 @@ public class ModifyRelationsEntityCache
             CategoryId = child.Id
         }); 
 
-        EntityCache.GetCategoryCacheItem(parentId).CategoryRelations.Add(
+        EntityCache.GetCategory(parentId).CategoryRelations.Add(
       new CategoryCacheRelation 
       {
           CategoryId = parentId,

@@ -48,7 +48,7 @@ public class CategoryController : BaseController
     private LoadModelResult LoadModel(int id, int? version)
     {
         var result = new LoadModelResult();
-        var category = EntityCache.GetCategoryCacheItem(id);
+        var category = EntityCache.GetCategory(id);
         if (!PermissionCheck.CanView(category))
             category = null;
         
@@ -74,7 +74,7 @@ public class CategoryController : BaseController
         }
         else
         {
-            SaveCategoryView.Run(EntityCache.GetCategoryCacheItem(result.Category.Id), User_());
+            SaveCategoryView.Run(EntityCache.GetCategory(result.Category.Id), User_());
             result.Category.IsHistoric = false;
         }
 
@@ -124,7 +124,7 @@ public class CategoryController : BaseController
 
     public ActionResult StartTestSession(int categoryId)
     {
-        var categoryName = EntityCache.GetCategoryCacheItem(categoryId).Name;
+        var categoryName = EntityCache.GetCategory(categoryId).Name;
 
         return Redirect(Links.TestSession(categoryName, categoryId));
     }
@@ -144,7 +144,7 @@ public class CategoryController : BaseController
    [HttpPost]
     public string Tab(string tabName, int categoryId)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var isCategoryNull = categoryCacheItem == null;
         categoryCacheItem = isCategoryNull ? new CategoryCacheItem() : categoryCacheItem;
 
@@ -158,20 +158,20 @@ public class CategoryController : BaseController
     public string KnowledgeBar(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
-            new CategoryKnowledgeBarModel(EntityCache.GetCategoryCacheItem(categoryId)),
+            new CategoryKnowledgeBarModel(EntityCache.GetCategory(categoryId)),
             ControllerContext
         );
     [HttpPost]
     public string WishKnowledgeInTheBox(int categoryId) =>
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
-            new WishKnowledgeInTheBoxModel(EntityCache.GetCategoryCacheItem(categoryId)),
+            new WishKnowledgeInTheBoxModel(EntityCache.GetCategory(categoryId)),
             ControllerContext
         );
 
     public string GetKnowledgeGraphDisplay(int categoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         category = category == null ? new CategoryCacheItem() : category;
 
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/Partials/KnowledgeGraph/KnowledgeGraph.ascx", new KnowledgeGraphModel(category), ControllerContext);
@@ -179,7 +179,7 @@ public class CategoryController : BaseController
 
     public string RenderNewKnowledgeSummaryBar(int categoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), ControllerContext);
     }
 
@@ -237,10 +237,10 @@ public class CategoryController : BaseController
         if (showMyWorld || _sessionUser.IsLoggedIn)
         {
             startTopicId = _sessionUser.User.StartTopicId;
-            return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: false));
+            return Links.CategoryDetail(EntityCache.GetCategory(startTopicId, getDataFromEntityCache: false));
         }
 
-        return Links.CategoryDetail(EntityCache.GetCategoryCacheItem(startTopicId, getDataFromEntityCache: true));
+        return Links.CategoryDetail(EntityCache.GetCategory(startTopicId, getDataFromEntityCache: true));
     }
 
     public  bool GetMyWorldCookie()
@@ -312,7 +312,7 @@ public class CategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult GetCategoryPublishModalData(int categoryId)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var userCacheItem = UserCache.GetItem(User_().Id);
 
         if (categoryCacheItem.Creator != userCacheItem.User)
@@ -341,7 +341,7 @@ public class CategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult GetCategoryToPrivateModalData(int categoryId)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var userCacheItem = UserCache.GetItem(User_().Id);
 
 
@@ -352,8 +352,8 @@ public class CategoryController : BaseController
                 key = "missingRights"
             });
 
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
-            .Where(c => c.Visibility == CategoryVisibility.All);
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories()
+            .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var publicAggregatedQuestions = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(true).Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = categoryCacheItem.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
@@ -367,7 +367,7 @@ public class CategoryController : BaseController
 
             foreach (var c in aggregatedCategories)
             {
-                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                bool childHasPublicParent = c.Value.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
                 if (!childHasPublicParent)
                     return Json(new
                     {
@@ -419,7 +419,7 @@ public class CategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult GetCategoryHeaderAuthors(int categoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         var html = ViewRenderer.RenderPartialView(
             "~/Views/Categories/Detail/Partials/CategoryHeaderAuthors.ascx", new CategoryModel(category),
             ControllerContext);
@@ -433,7 +433,7 @@ public class CategoryController : BaseController
     [HttpPost]
     public JsonResult GetMiniCategoryItem(int categoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
 
         var json = new JsonResult {
             Data = new
@@ -445,7 +445,7 @@ public class CategoryController : BaseController
     }
     public SearchCategoryItem FillMiniCategoryItem(Category category)
     {
-        var cacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+        var cacheItem = EntityCache.GetCategory(category.Id);
 
         return FillMiniCategoryItem(cacheItem);
     }

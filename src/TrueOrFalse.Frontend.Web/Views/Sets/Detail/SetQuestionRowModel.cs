@@ -3,7 +3,7 @@
 public class SetQuestionRowModel
 {
     public virtual Set Set { get; set; }
-    public virtual Question Question { get; set; }
+    public virtual QuestionCacheItem Question { get; set; }
     public virtual int Sort { get; set; }
 
     public string CorrectAnswer;
@@ -14,7 +14,7 @@ public class SetQuestionRowModel
     public HistoryAndProbabilityModel HistoryAndProbability;
 
     public SetQuestionRowModel(
-        Question question,
+        QuestionCacheItem question,
         Set set,
         TotalPerUser totalForUser, 
         QuestionValuationCacheItem questionValuation)

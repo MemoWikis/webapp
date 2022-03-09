@@ -11,14 +11,14 @@ public static class QuestionInKnowledge
         UpdateRelevancePersonal(questionId, user);
     }
 
-    public static void Pin(IEnumerable<Question> questions, User user, SaveType saveType = SaveType.CacheAndDatabase)
+    public static void Pin(IList<QuestionCacheItem> questions, User user)
     {
-        UpdateRelevancePersonal(questions.ToList(), user, 50, saveType);
+        UpdateRelevancePersonal(questions, user, 50);
     }
 
-    public static void Unpin(int questionId, User user, SaveType saveType = SaveType.CacheAndDatabase)
+    public static void Unpin(int questionId, User user)
     {
-        UpdateRelevancePersonal(questionId, user, -1, saveType);
+        UpdateRelevancePersonal(questionId, user, -1);
     }
 
     public static void Create(QuestionValuation questionValuation)
@@ -38,7 +38,7 @@ public static class QuestionInKnowledge
         session.Flush();
     }
 
-    private static void ChangeTotalInOthersWishknowledge( bool isIncrement, User user, Question question)
+    private static void ChangeTotalInOthersWishknowledge( bool isIncrement, User user, QuestionCacheItem question)
     {
         if (question.Creator == null || question.Creator.Id == user.Id) 
             return; 
@@ -52,50 +52,42 @@ public static class QuestionInKnowledge
                     .ExecuteUpdate();
     }
 
-    private static void UpdateRelevancePersonal(IList<Question> questions, User user, int relevance = 50, SaveType saveType = SaveType.CacheAndDatabase)
+    private static void UpdateRelevancePersonal(IList<QuestionCacheItem> questions,  User user, int relevance = 50)
     {
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);
 
         foreach (var question in questions)
         {
-            CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance, saveType);
+            CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance);
             ChangeTotalInOthersWishknowledge(relevance==50, user, question);
+            Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            if (saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
-                Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
-
-            ProbabilityUpdate_Valuation.Run(question, user, saveType);
+            ProbabilityUpdate_Valuation.Run(question, user);
         }
         UpdateTotalRelevancePersonalInCache(questions);
-
-        if (saveType != SaveType.DatabaseOnly)
-            SetUserWishCountQuestions(user);
+        SetUserWishCountQuestions(user);
 
         var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
             ReputationUpdate.ForUser(creator.First());
     }
 
-    private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50, SaveType saveType = SaveType.CacheAndDatabase)
+    private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
         var question = EntityCache.GetQuestionById(questionId);
         ChangeTotalInOthersWishknowledge(relevance == 50, user, question);
-        CreateOrUpdateValuation(questionId, user, relevance, saveType);
+        CreateOrUpdateValuation(questionId, user, relevance);
 
-        if(saveType == SaveType.CacheOnly || saveType == SaveType.CacheAndDatabase)
-            SetUserWishCountQuestions(user);
+        SetUserWishCountQuestions(user);
 
-        if (saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
-        {
-            var session = Sl.Resolve<ISession>();
-            session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
-            session.Flush();
+        var session = Sl.Resolve<ISession>();
+        session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
+        session.Flush();
 
-            ReputationUpdate.ForQuestion(questionId);
+        ReputationUpdate.ForQuestion(questionId);
 
-            if (relevance != -1)
-                ProbabilityUpdate_Valuation.Run(questionId, user.Id);
-        }
+        if (relevance != -1)
+            ProbabilityUpdate_Valuation.Run(questionId, user.Id);
     }
 
     public static void SetUserWishCountQuestions(User user)
@@ -126,12 +118,12 @@ public static class QuestionInKnowledge
             GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
     }
 
-    private static void UpdateTotalRelevancePersonalInCache(Question question)
+    private static void UpdateTotalRelevancePersonalInCache(QuestionCacheItem question)
     {
-        UpdateTotalRelevancePersonalInCache(new List<Question>{ question });
+        UpdateTotalRelevancePersonalInCache(new List<QuestionCacheItem>{ question });
     }
 
-    public static void UpdateTotalRelevancePersonalInCache(IList<Question> questions)
+    public static void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)
     {
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsFromCache(questions);
         foreach (var question in questions)
@@ -164,20 +156,19 @@ public static class QuestionInKnowledge
                 "WHERE Id = " + questionId + ";";
     }
 
-    private static void CreateOrUpdateValuation(int questionId, User user, int relevancePersonal = -2, SaveType saveType = SaveType.CacheAndDatabase)
+    private static void CreateOrUpdateValuation(int questionId, User user, int relevancePersonal = -2)
     {
         var questionValuation = Sl.QuestionValuationRepo.GetBy(questionId, user.Id);
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = EntityCache.GetQuestion(questionId);
 
-        CreateOrUpdateValuation(question, questionValuation, user, relevancePersonal, saveType);
+        CreateOrUpdateValuation(question, questionValuation, user, relevancePersonal);
     }
 
     private static void CreateOrUpdateValuation(
-        Question question, 
+        QuestionCacheItem question, 
         QuestionValuation questionValuation, 
         User user, 
-        int relevancePersonal = -2,
-        SaveType saveType = SaveType.CacheAndDatabase)
+        int relevancePersonal = -2)
     {
         var questionValuationRepo = Sl.QuestionValuationRepo;
 
@@ -185,20 +176,20 @@ public static class QuestionInKnowledge
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = question,
+                Question = Sl.QuestionRepo.GetById(question.Id),
                 User = user,
                 RelevancePersonal = relevancePersonal,
                 CorrectnessProbability = question.CorrectnessProbability
             };
 
-            questionValuationRepo.CreateBySaveType(newQuestionVal, saveType);
+            questionValuationRepo.Create(newQuestionVal); ;
         }
         else
         {
             if (relevancePersonal != -2)
                 questionValuation.RelevancePersonal = relevancePersonal;
 
-            questionValuationRepo.UpdateBySaveType(questionValuation, saveType);
+            questionValuationRepo.Update(questionValuation);
         }
         questionValuationRepo.Flush();
     }

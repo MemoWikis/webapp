@@ -7,7 +7,7 @@ public class RestoreCategory
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
         var category = Sl.CategoryRepo.GetById(historicCategory.Id);
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(category.Id);
+        var categoryCacheItem = EntityCache.GetCategory(category.Id);
 
         category.Name = historicCategory.Name;
         category.Content = historicCategory.Content;

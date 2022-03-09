@@ -19,14 +19,14 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Guid questionViewGuid, Question question, User user)
+    public void Run(Guid questionViewGuid, QuestionCacheItem question, User user)
     {
         Run(questionViewGuid, question, user == null ? -1 : user.Id);
     }
 
     public void Run(
         Guid questionViewGuid,
-        Question question,
+        QuestionCacheItem question,
         int userId,
         WidgetView widgetView = null)
     {

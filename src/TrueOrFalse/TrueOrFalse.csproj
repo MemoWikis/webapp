@@ -273,7 +273,6 @@
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuationCacheItem.cs" />
-    <Compile Include="Domain\SaveType.cs" />
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
     <Compile Include="Infrastructure\Email\MailMessageJob.cs" />
@@ -289,6 +288,8 @@
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\ModifyRelationsUserEntityCache.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\QuestionCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\ReferenceCacheItem.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelation.cs" />

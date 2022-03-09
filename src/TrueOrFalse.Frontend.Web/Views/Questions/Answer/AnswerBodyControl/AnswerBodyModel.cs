@@ -27,7 +27,7 @@ public class AnswerBodyModel : BaseModel
     public string QuestionTextMarkdown;
     public LicenseQuestion LicenseQuestion;
     public bool IsLastQuestion = false;
-    public Question Question;
+    public QuestionCacheItem Question;
 
     public bool HasSound => !string.IsNullOrEmpty(SoundUrl);
     public string SoundUrl;
@@ -51,7 +51,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsInTestMode = false;
 
     public bool HasCategories;
-    public Category PrimaryCategory;
+    public CategoryCacheItem PrimaryCategory;
 
     public bool ShowCommentLink => 
         CommentCount != -1 && 
@@ -103,7 +103,7 @@ public class AnswerBodyModel : BaseModel
         Init(answerQuestionModel.Question);
     }
 
-    private void Init(Question question)
+    private void Init(QuestionCacheItem question)
     {
         QuestionId = question.Id;
         Creator = new UserTinyModel(question.Creator);

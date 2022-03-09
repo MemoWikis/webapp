@@ -181,9 +181,8 @@ namespace TrueOrFalse.Tests
            
             var categoryIds = new List<int> { 1 };
 
-            EntityCache.AddOrUpdate(questions[0], categoryIds);
+            EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(questions[0]), categoryIds);
 
-            //put into memory cache
         }
 
         public static void PutQuestionsIntoMemoryCache(int amount = 20)
@@ -197,7 +196,7 @@ namespace TrueOrFalse.Tests
             var categoryIds = new List<int> { 1 };
 
             foreach (var question in questions)
-                EntityCache.AddOrUpdate(question, categoryIds);
+                EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoryIds);
         }
 
 
@@ -230,7 +229,7 @@ namespace TrueOrFalse.Tests
                 var questionValuation = new QuestionValuationCacheItem();
 
                 questionValuation.Id = i;
-                questionValuation.Question = questions[i];
+                questionValuation.Question = QuestionCacheItem.ToCacheQuestion(questions[i]);
 
                 if (i == 0)
                     questionValuation.IsInWishKnowledge = false;

@@ -163,6 +163,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string AnswerQuestion(Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
+        public static string AnswerQuestion(QuestionCacheItem question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+            return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
+        }
 
         public static string AnswerQuestion(Question question) => 
             HttpContext.Current == null
@@ -211,15 +214,15 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", EditQuestionController, new { text = UriSanitizer.Run(questionText), id = questionId });
         }
 
-        public static string GetSolution(UrlHelper url, Question question){
+        public static string GetSolution(UrlHelper url, QuestionCacheItem question){
             return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string CountLastAnswerAsCorrect(UrlHelper url, Question question){
+        public static string CountLastAnswerAsCorrect(UrlHelper url, QuestionCacheItem question){
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string CountUnansweredAsCorrect(UrlHelper url, Question question){
+        public static string CountUnansweredAsCorrect(UrlHelper url, QuestionCacheItem question){
             return url.Action("CountUnansweredAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
@@ -319,7 +322,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 ? ""
                 : CategoryDetail(category.Name, category.Id);
 
-        public static string CategoryDetail(Category category, int version) =>
+        public static string CategoryDetail(CategoryCacheItem category, int version) =>
             HttpContext.Current == null 
                 ? "" 
                 : CategoryDetail(category.Name, category.Id, version);
@@ -334,13 +337,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             GetUrlHelper().Action("Category", CategoryController,
                 new {text = UriSanitizer.Run(name), id = id, toRootCategory = true, isFromNetwork = true}); 
 
-        public static string CategoryDetailAnalyticsTab(Category category) =>
+        public static string CategoryDetailAnalyticsTab(CategoryCacheItem category) =>
             CategoryDetail(category) + "/Wissensnetz";
         public static string CategoryDetailAnalyticsTab(string name, int id) =>
             CategoryDetail(name, id) + "/Wissensnetz";
         public static string CategoryDetailLearningTab(string name, int id) =>
             CategoryDetail(name, id) + "/Lernen";
-        public static string CategoryDetailLearningTab(Category category) =>
+        public static string CategoryDetailLearningTab(CategoryCacheItem category) =>
             CategoryDetail(category) + "/Lernen";
         
 
@@ -361,8 +364,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type == null)
                 return "";
 
-            if (type is Category)
-                return CategoryDetail((Category)type);
+            if (type is CategoryCacheItem)
+                return CategoryDetail((CategoryCacheItem)type);
 
             if (type is CategoryCacheItem)
                 return CategoryDetail((CategoryCacheItem) type);
@@ -370,8 +373,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type is Set)
                 return SetDetail((Set)type);
 
-            if (type is Question)
-                return AnswerQuestion((Question)type);
+            if (type is QuestionCacheItem)
+                return AnswerQuestion((QuestionCacheItem)type);
 
             throw new Exception("unexpected type");
         }

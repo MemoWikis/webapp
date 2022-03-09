@@ -125,12 +125,12 @@ public class CrumbtrailService
             return categoryCacheItem;
 
         var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
-        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(currentWikiId)))
+        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !PermissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)
             {
                 var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
-                if (PermissionCheck.CanView(EntityCache.GetCategoryCacheItem(creatorWikiId)))
+                if (PermissionCheck.CanView(EntityCache.GetCategory(creatorWikiId)))
                 {
                     if (parents.Any(c => c.Id == creatorWikiId))
                     {
@@ -141,7 +141,7 @@ public class CrumbtrailService
                     if (sessionUser.IsLoggedIn)
                     {
                         var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
-                        var userWiki = EntityCache.GetCategoryCacheItem(userWikiId);
+                        var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;
                     }
@@ -151,6 +151,6 @@ public class CrumbtrailService
             return RootCategory.Get;
         }
 
-        return EntityCache.GetCategoryCacheItem(currentWikiId);
+        return EntityCache.GetCategory(currentWikiId);
     }
 }

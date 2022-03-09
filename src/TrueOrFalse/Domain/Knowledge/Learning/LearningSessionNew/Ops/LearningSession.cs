@@ -26,7 +26,7 @@ public class LearningSession
         User = userCacheItem.User;
         IsLoggedIn = config.CurrentUserId != -1;
         Config = config;
-        Config.Category = EntityCache.GetCategoryCacheItem(Config.CategoryId);
+        Config.Category = EntityCache.GetCategory(Config.CategoryId);
     }
 
     public bool AddAnswer(AnswerQuestionResult answer)
@@ -102,6 +102,7 @@ public class LearningSession
 
     public int TotalPossibleQuestions()
     {
+            return EntityCache.GetCategoryCacheItem(Config.CategoryId).CountQuestions;
         throw new Exception("unknown session type");
     }
 

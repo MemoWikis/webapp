@@ -31,16 +31,16 @@ class GraphService_tests : BaseTest
         EntityCache.Init();
         UserEntityCache.Init();
 
-        var userRootCache = EntityCache.GetCategoryCacheItem(userRoot.Id);
+        var userRootCache = EntityCache.GetCategory(userRoot.Id);
 
         var userPersonnelCategoriesWithRelations = GraphService.GetAllWuwiWithRelations_TP(userRootCache, 2);
 
         Assert.That(userPersonnelCategoriesWithRelations.ByName("SubSub1").Name, Is.EqualTo("SubSub1"));
         Assert.That(
-            EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations
+            EntityCache.GetCategory(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations
                 .First().RelatedCategoryId).Name, Is.EqualTo("Users Startseite"));
         Assert.That(
-            EntityCache.GetCategoryCacheItem(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations
+            EntityCache.GetCategory(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations
                 .First().CategoryId).Name, Is.EqualTo("SubSub1"));
         Assert.That(
             userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType,
@@ -128,7 +128,7 @@ class GraphService_tests : BaseTest
 
         var relationId = userPersonalCategoriesWithRelations
             .ByName("I")
-            .CategoryRelations.Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "E")
+            .CategoryRelations.Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "E")
             .Select(cr => cr.RelatedCategoryId).First();
 
         Assert.That(relationId,
@@ -142,7 +142,7 @@ class GraphService_tests : BaseTest
 
         relationId = userPersonalCategoriesWithRelations
             .ByName("I")
-            .CategoryRelations.Where(cr => EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == "G")
+            .CategoryRelations.Where(cr => EntityCache.GetCategory(cr.RelatedCategoryId).Name == "G")
             .Select(cr => cr.RelatedCategoryId).First();
 
         Assert.That(relationId,
@@ -544,13 +544,13 @@ class GraphService_tests : BaseTest
     private bool HasCorrectParent(CategoryCacheItem category, string nameParent)
     {
         return category.CategoryRelations.Any(cr =>
-            EntityCache.GetCategoryCacheItem(cr.RelatedCategoryId).Name == nameParent);
+            EntityCache.GetCategory(cr.RelatedCategoryId).Name == nameParent);
     }
 
     private bool IsCategoryRelationsCategoriesIdCorrect(CategoryCacheItem category)
     {
         return category.CategoryRelations
-            .Select(cr => EntityCache.GetCategoryCacheItem(cr.CategoryId).Name == category.Name).All(b => b);
+            .Select(cr => EntityCache.GetCategory(cr.CategoryId).Name == category.Name).All(b => b);
     }
 
     private static bool IsCategoryRelationEqual(CategoryCacheItem category1, CategoryCacheItem category2)
@@ -593,7 +593,7 @@ class GraphService_tests : BaseTest
         EntityCache.Clear();
         EntityCache.Init();
 
-        var userRootCache = EntityCache.GetCategoryCacheItem(user.StartTopicId);
+        var userRootCache = EntityCache.GetCategory(user.StartTopicId);
 
         Assert.That(HasCorrectParent(userRootCache, "parent"),
             Is.EqualTo(true));

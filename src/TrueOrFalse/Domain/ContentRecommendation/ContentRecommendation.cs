@@ -5,7 +5,7 @@ using TrueOrFalse.Infrastructure;
 
 public class ContentRecommendation
 {
-    public static ContentRecommendationResult GetForQuestion(Question question, int amount = 6)
+    public static ContentRecommendationResult GetForQuestion(QuestionCacheItem question, int amount = 6)
     {
         //gets recommended content for a single question. On third of "amount" is each filled with matching Sets (that the question is part of),
         //with matching Categories (with at least 10 questions), and with generally popular Sets
@@ -14,7 +14,7 @@ public class ContentRecommendation
         var amountCategories = amount <= 2 ? 0 : (int) Math.Floor((double) amount/3);
         var categories = question.Categories.Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
         categories.Shuffle();
-        ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
+        ((List<CategoryCacheItem>)result.Categories).AddRange(categories.Take(amountCategories));
 
         return result;
     }

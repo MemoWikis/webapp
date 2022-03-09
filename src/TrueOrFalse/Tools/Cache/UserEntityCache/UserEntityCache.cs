@@ -180,7 +180,7 @@ public class UserEntityCache : BaseCache
     }
     public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
     {
-        var nextParents = EntityCache.GetCategoryCacheItem(categoryId, true).ParentCategories().Distinct().ToList();
+        var nextParents = EntityCache.GetCategory(categoryId, true).ParentCategories().Distinct().ToList();
         var user = Sl.SessionUser.User; 
             
         while (nextParents.Count > 0)
@@ -208,7 +208,7 @@ public class UserEntityCache : BaseCache
 
         if (nextParents.Count == 0)
         {
-            return EntityCache.GetCategoryCacheItem(user.StartTopicId, getDataFromEntityCache: true);
+            return EntityCache.GetCategory(user.StartTopicId, getDataFromEntityCache: true);
         }
 
         Logg.r().Error("Root category Not available/ UserEntityCache/NextParentInWishknowledge");

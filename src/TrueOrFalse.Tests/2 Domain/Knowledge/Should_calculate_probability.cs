@@ -14,12 +14,12 @@ public class Should_calculate_probability_ : BaseTest
         Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
             new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
             new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
-        },question, user).Probability,Is.EqualTo(36));
+        },QuestionCacheItem.ToCacheQuestion(question), user).Probability,Is.EqualTo(36));
 
         Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
             new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
             new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
-        }, question, user).Probability, Is.EqualTo(63));            
+        }, QuestionCacheItem.ToCacheQuestion(question), user).Probability, Is.EqualTo(63));            
     }
 
     [Test]
@@ -31,7 +31,7 @@ public class Should_calculate_probability_ : BaseTest
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
             new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
             new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
-        }, question, user);
+        }, QuestionCacheItem.ToCacheQuestion(question), user);
 
         Assert.That(correctnessProbability.Probability, Is.EqualTo(100));
     }
@@ -45,7 +45,7 @@ public class Should_calculate_probability_ : BaseTest
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
             new Answer{AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1)},
             new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
-        }, question, user);
+        }, QuestionCacheItem.ToCacheQuestion(question), user);
 
         Assert.That(correctnessProbability.Probability, Is.EqualTo(0));
     }

@@ -4,7 +4,7 @@ using System.Linq;
 public class RootCategory
 {
     public const int RootCategoryId = 1;
-    public static CategoryCacheItem Get => EntityCache.GetCategoryCacheItem(RootCategoryId, getDataFromEntityCache: true);
+    public static CategoryCacheItem Get => EntityCache.GetCategory(RootCategoryId, getDataFromEntityCache: true);
     public static IReadOnlyList<int> LockedCategoryIds => GetLockedCategoryIds();
     public static bool LockedCategory(int categoryId) => LockedCategoryIds.Any(c => c == categoryId);
 

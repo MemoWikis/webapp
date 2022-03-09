@@ -7,7 +7,7 @@ public class QuestionValuationCacheItem
     public int Id;
 
     public User User;
-    public Question Question;
+    public QuestionCacheItem Question;
     public DateTime DateCreated;
 
     public int CorrectnessProbability;
@@ -16,4 +16,19 @@ public class QuestionValuationCacheItem
     public KnowledgeStatus KnowledgeStatus;
 
     public bool IsInWishKnowledge;
+
+    public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation)
+    {
+        return new QuestionValuationCacheItem()
+        {
+            CorrectnessProbability = questionValuation.CorrectnessProbability,
+            CorrectnessProbabilityAnswerCount = questionValuation.CorrectnessProbabilityAnswerCount,
+            DateCreated = questionValuation.DateCreated,
+            Id = questionValuation.Id,
+            IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
+            KnowledgeStatus = questionValuation.KnowledgeStatus,
+            Question = EntityCache.GetQuestion(questionValuation.Question.Id),
+            User = questionValuation.User
+        };
+    }
 }

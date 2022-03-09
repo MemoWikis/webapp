@@ -32,7 +32,7 @@ public class CategoryRedirectController : BaseController
     {
         var result = new LoadModelResult();
 
-        var category = EntityCache.GetCategoryCacheItem(id);
+        var category = EntityCache.GetCategory(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
         result.Category = category;
         result.CategoryModel = GetModelWithContentHtml(category);
@@ -49,7 +49,7 @@ public class CategoryRedirectController : BaseController
         if (version != null)
             ApplyCategoryChangeToModel(categoryModel, (int)version);
         else
-            SaveCategoryView.Run(EntityCache.GetCategoryCacheItem(category.Id), User_());
+            SaveCategoryView.Run(EntityCache.GetCategory(category.Id), User_());
    
         return View(_viewLocation, categoryModel);
     }
@@ -104,7 +104,7 @@ public class CategoryRedirectController : BaseController
     {
         return ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/Tabs/" + tabName + ".ascx",
-            GetModelWithContentHtml(EntityCache.GetCategoryCacheItem(categoryId)),
+            GetModelWithContentHtml(EntityCache.GetCategory(categoryId)),
             ControllerContext
         );
     }
@@ -112,7 +112,7 @@ public class CategoryRedirectController : BaseController
     public string KnowledgeBar(int categoryId) => 
         ViewRenderer.RenderPartialView(
             "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
-            new CategoryKnowledgeBarModel(EntityCache.GetCategoryCacheItem(categoryId)), 
+            new CategoryKnowledgeBarModel(EntityCache.GetCategory(categoryId)), 
             ControllerContext
         );
 
@@ -120,7 +120,7 @@ public class CategoryRedirectController : BaseController
     public string WishKnowledgeInTheBox(int categoryId) =>
         ViewRenderer.RenderPartialView( 
             "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
-            new WishKnowledgeInTheBoxModel(EntityCache.GetCategoryCacheItem(categoryId)),
+            new WishKnowledgeInTheBoxModel(EntityCache.GetCategory(categoryId)),
             ControllerContext
         );
 

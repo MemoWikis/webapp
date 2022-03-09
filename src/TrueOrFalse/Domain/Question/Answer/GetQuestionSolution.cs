@@ -12,7 +12,7 @@ public class GetQuestionSolution
         return Run(question);
     }
 
-    public static QuestionSolution Run(Question question)
+    public static QuestionSolution Run(QuestionCacheItem question)
     {
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)

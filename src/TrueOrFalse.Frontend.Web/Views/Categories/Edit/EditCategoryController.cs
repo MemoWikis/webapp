@@ -47,7 +47,7 @@ public class EditCategoryController : BaseController
     [SetThemeMenu(true)]
     public ViewResult Edit(int id, EditCategoryModel model)
     {
-        var oldcategoryCacheItem = EntityCache.GetCategoryCacheItem(id);
+        var oldcategoryCacheItem = EntityCache.GetCategory(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(oldcategoryCacheItem, HistoryItemType.Edit));
 
         if (!PermissionCheck.CanEdit(oldcategoryCacheItem))
@@ -57,7 +57,7 @@ public class EditCategoryController : BaseController
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
 
-        var newParents = EntityCache.GetCategoryCacheItems(
+        var newParents = EntityCache.GetCategories(
             model.ParentCategories.Select(c => c.Id))
             .ToList();
         var oldParents = oldcategoryCacheItem.ParentCategories();
@@ -86,7 +86,7 @@ public class EditCategoryController : BaseController
         if (isChangeParents)
         {
             Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id + " AND CategoryRelationType = 2").ExecuteUpdate();
-            GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategoryCacheItem(id),  oldParents);
+            GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategory(id),  oldParents);
 
             UserEntityCache.ReInitAllActiveCategoryCaches();
         }
@@ -174,7 +174,7 @@ public class EditCategoryController : BaseController
         var categoryNameAllowed = new CategoryNameAllowed();
         if (categoryNameAllowed.No(dummyCategory))
         {
-            var category = EntityCache.GetByName(name).FirstOrDefault();
+            var category = EntityCache.GetCategoryByName(name).FirstOrDefault();
             var url = category.Visibility == CategoryVisibility.All ? Links.CategoryDetail(category) : "";
             return Json(new
             {
@@ -273,7 +273,7 @@ public class EditCategoryController : BaseController
         if(UserCache.GetItem(_sessionUser.UserId).IsFiltered)
             CategoryInKnowledge.Pin(childCategoryId, _sessionUser.User );
 
-        var child = EntityCache.GetCategoryCacheItem(childCategoryId, true);
+        var child = EntityCache.GetCategory(childCategoryId, true);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
 
         JobScheduler.StartImmediately_ModifyCategoryRelation(childCategoryId, parentCategoryId);
@@ -281,7 +281,8 @@ public class EditCategoryController : BaseController
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, childCategoryId)) 
             UserEntityCache.ReInitAllActiveCategoryCaches();
         
-        EntityCache.GetCategoryCacheItem(parentCategoryId).CachedData.AddChildId(childCategoryId);
+        EntityCache.GetCategory(parentCategoryId).CachedData.AddChildId(childCategoryId);
+        EntityCache.GetCategory(parentCategoryId).DirectChildren = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
         
         return Json(new
         {
@@ -338,7 +339,7 @@ public class EditCategoryController : BaseController
         if (UserCache.GetItem(_sessionUser.UserId).IsFiltered)
             CategoryInKnowledge.Pin(categoryId, _sessionUser.User);
 
-        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategoryCacheItem(categoryId, getDataFromEntityCache: true), personalWikiId);
+        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategory(categoryId, getDataFromEntityCache: true), personalWikiId);
 
         if (UserCache.IsInWishknowledge(_sessionUser.UserId, categoryId))
             UserEntityCache.ReInitAllActiveCategoryCaches();
@@ -359,7 +360,7 @@ public class EditCategoryController : BaseController
         var category = new Category(name) { Creator = _sessionUser.User };
         category.Visibility = CategoryVisibility.Owner;
 
-        var parentCategory = EntityCache.GetCategoryCacheItem(parentCategoryId);
+        var parentCategory = EntityCache.GetCategory(parentCategoryId);
 
         JobExecute.RunAsTask(scope =>
         {
@@ -426,7 +427,7 @@ public class EditCategoryController : BaseController
         if (!PermissionCheck.CanEditCategory(model.CategoryId))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(model.CategoryId);
+        var categoryCacheItem = EntityCache.GetCategory(model.CategoryId);
 
         if (categoryCacheItem == null) 
             return Json(false);
@@ -482,7 +483,7 @@ public class EditCategoryController : BaseController
         _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childCategoryId);
         _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
-        EntityCache.GetCategoryCacheItem(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
+        EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
         return Json(new
         {
             success = true,
@@ -498,7 +499,7 @@ public class EditCategoryController : BaseController
     {
         var removedChildCategoryIds = new List<int>();
         var notRemovedChildrenCategoryIds = new List<int>();
-        var parentCategoryCacheItem = EntityCache.GetCategoryCacheItem(parentCategoryId);
+        var parentCategoryCacheItem = EntityCache.GetCategory(parentCategoryId);
         foreach (int childCategoryId in childCategoryIds)
         {
             var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryId, childCategoryId);
@@ -552,7 +553,7 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsAdmin]
     public void EditAggregation(int categoryId, string categoriesToExcludeIdsString, string categoriesToIncludeIdsString)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
 
         category.CategoriesToExcludeIdsString = categoriesToExcludeIdsString;
         category.CategoriesToIncludeIdsString = categoriesToIncludeIdsString;
@@ -587,7 +588,7 @@ public class EditCategoryController : BaseController
 
     public string GetCategoryGraphDisplay(int categoryId)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
     }
 
@@ -595,7 +596,7 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult PublishCategory(int categoryId)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
 
         if (categoryCacheItem.HasPublicParent() || categoryCacheItem.Creator.StartTopicId == categoryId)
         {
@@ -628,7 +629,7 @@ public class EditCategoryController : BaseController
     [AccessOnlyAsLoggedIn]
     public JsonResult SetCategoryToPrivate(int categoryId)
     {
-        var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
         if (!PermissionCheck.CanEdit(categoryCacheItem))
             return Json(new
             {
@@ -637,7 +638,7 @@ public class EditCategoryController : BaseController
             });
 
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(false)
-            .Where(c => c.Visibility == CategoryVisibility.All);
+            .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var category = _categoryRepository.GetById(categoryId);
         var pinCount = category.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
@@ -651,7 +652,7 @@ public class EditCategoryController : BaseController
 
             foreach (var c in aggregatedCategories)
             {
-                bool childHasPublicParent = c.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
+                bool childHasPublicParent = c.Value.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != categoryId);
                 if (!childHasPublicParent)
                     return Json(new
                     {
@@ -691,7 +692,7 @@ public class EditCategoryController : BaseController
         dummyCategory.Type = CategoryType.Standard;
         if (categoryNameAllowed.Yes(dummyCategory))
         {
-            var categoryCacheItem = EntityCache.GetCategoryCacheItem(categoryId);
+            var categoryCacheItem = EntityCache.GetCategory(categoryId);
             categoryCacheItem.Name = name;
             var category = _categoryRepository.GetById(categoryId);
             category.Name = name;
@@ -733,7 +734,7 @@ public class EditCategoryController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int categoryId, int categoryChangeId, ActionExecutingContext filterContext)
     {
-        var category = EntityCache.GetCategoryCacheItem(categoryId);
+        var category = EntityCache.GetCategory(categoryId);
         if (PermissionCheck.CanEdit(category))
         {
             RestoreCategory.Run(categoryChangeId, this.User_());
