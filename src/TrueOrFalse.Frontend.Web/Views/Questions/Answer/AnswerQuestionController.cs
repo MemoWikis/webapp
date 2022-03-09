@@ -411,9 +411,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
-        var learningSession = IsLoggedIn ? 
-            LearningSessionCreator.BuildLearningSession(config.CategoryId) : 
-            LearningSessionCreator.ForAnonymous(config);
+        var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
         //if (config.SafeLearningSessionOptions)
         //{
@@ -438,15 +436,21 @@ public class AnswerQuestionController : BaseController
 
         var firstStep = 0;
 
-        return RenderAnswerBodyByLearningSession(firstStep, filterDetails: learningSession.FilterDetails);
+        return RenderAnswerBodyByLearningSession(firstStep, counter: learningSession.QuestionCounter);
     }
 
     [HttpPost]
-    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1, List<FilterDetail> filterDetails = null)
+    public string RenderAnswerBodyByLearningSession(int skipStepIdx = -1, int index = -1, QuestionCounter counter = null)
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         if (learningSession.Steps.Count == 0)
-            return ""; 
+        {
+            var serializer = new JavaScriptSerializer();
+            return serializer.Serialize(new
+            {
+                counter
+            });
+        }
 
         if (index != -1)
         {
@@ -486,7 +490,7 @@ public class AnswerQuestionController : BaseController
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx);
         var config = learningSession.Config;
         return GetQuestionPageData(answerQuestionModel, currentUrl, sessionData, isSession: true,
-            isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode, filterDetails: filterDetails);
+            isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode, counter: counter);
     }
 
     public string RenderUpdatedQuestionDetails(int questionId, bool showCategoryList = true)
@@ -540,7 +544,7 @@ public class AnswerQuestionController : BaseController
         bool includeTestSessionHeader = false,
         bool isInLearningTab = false,
         bool isInTestMode = false,
-        List<FilterDetail> filterDetails = null)
+        QuestionCounter counter = null)
     {
         string nextPageLink = "", previousPageLink = "";
 
@@ -561,7 +565,7 @@ public class AnswerQuestionController : BaseController
         
         var serializedPageData = serializer.Serialize(new
         {
-            filterDetails = filterDetails,
+            counter,
             answerBodyAsHtml = answerBody,
             navBarData = new
             {
@@ -636,30 +640,9 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public int GetQuestionCount(LearningSessionConfig config = null, int categoryId= -1)
     {
-        //if (config == null)
-        //{
-        //    var c = new LearningSessionConfig();
-        //    c.AllQuestions = true;
-        //    c.CategoryId = categoryId;
-        //    c.MaxProbability = 100;
-        //    c.CurrentUserId = Sl.CurrentUserId;
+        LearningSessionCache.GetLearningSession();
 
-        //    if (c.IsMyWorld())
-        //    {
-        //        c.InWishknowledge = true;
-        //        c.CreatedByCurrentUser = true; 
-        //    }
-
-        //    return LearningSessionCreator.GetQuestionCount(c);
-        //}
-        //config.CurrentUserId = _sessionUser.UserId;
-
-        //if (config.IsMyWorld())
-        //{
-        //    config.IsNotQuestionInWishKnowledge = false;
-        //}
-
-        var count = LearningSessionCreator.GetQuestionCount(config);
+        var count = 1;
         return count;
     }
 

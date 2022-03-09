@@ -98,12 +98,6 @@ Vue.component('question-list-component', {
             if (this.questions.length <= 0) {
                 this.hasQuestions = false;
 
-                $('#SessionHeaderContainer').replaceWith(
-                    "<div id='NoQuestionsSessionBar' class='NoQuestions' style='margin-top: 40px;'>" +
-                        "Es sind leider noch keine Fragen zum Lernen in diesem Thema enthalten." +
-                    "</div>"
-                );
-
                 $("#AnswerBody").html(
                     "<input type='hidden' id='hddSolutionTypeNum' value='1'>" +
                     "<div id='QuestionDetails' data-div-type='questionDetails'></div>"
@@ -236,19 +230,7 @@ Vue.component('question-list-component', {
             });
         },
         addQuestionToList(q: QuestionListItem) {
-            if (this.questions.length <= 0)
-                this.renderNewSessionBar(q.Id);
             this.questions.push(q);
         },
-        renderNewSessionBar(id) {
-            $.ajax({
-                url: "/QuestionList/RenderSessionHeaderWithQuestionId/",
-                data: { questionId: id, categoryId: this.categoryId },
-                type: "Post",
-                success: data => {
-                    $('#NoQuestionsSessionBar').replaceWith(data.html);
-                }
-            });
-        }
     },
 });

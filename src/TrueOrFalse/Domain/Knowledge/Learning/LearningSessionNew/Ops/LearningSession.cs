@@ -18,9 +18,7 @@ public class LearningSession
     public User User;
     public bool IsLoggedIn;
     public Guid QuestionViewGuid;
-
-    public List<FilterDetail> FilterDetails;
-
+    public QuestionCounter QuestionCounter;
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
@@ -74,11 +72,12 @@ public class LearningSession
 
     private bool ReAddCurrentStepToEnd()
     {
-        if (LimitForThisQuestionHasBeenReached(CurrentStep) || LimitForNumberOfRepetitionsHasBeenReached() ||
-            Config.IsInTestMode || Config.IsAnonymous() || CurrentStep.AnswerState == AnswerState.Correct || !Config.Repetitions)
-        {
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) || 
+            LimitForNumberOfRepetitionsHasBeenReached() || 
+            Config.IsAnonymous() || 
+            CurrentStep.AnswerState == AnswerState.Correct || 
+            Config.Repetitions == RepetitionType.None)
             return false;
-        }
 
         var step = new LearningSessionStep(CurrentStep.Question);
         Steps.Add(step);
@@ -116,4 +115,19 @@ public class LearningSession
         if (!Config.IsAnonymous() && !Config.IsInTestMode)
             Steps.RemoveAt(Steps.Count - 1);
     }
+}
+
+public class QuestionCounter
+{
+    public int InWuwi;
+    public int NotInWuwi;
+    public int CreatedByCurrentUser;
+    public int NotCreatedByCurrentUser;
+    public int Private;
+    public int Public;
+    public int NotLearned;
+    public int NeedsLearning;
+    public int NeedsConsolidation;
+    public int Solid;
+    public int Max;
 }

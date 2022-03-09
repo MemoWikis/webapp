@@ -32,7 +32,7 @@ public class LearningSessionResultModel : BaseModel
         var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerState.Unanswered || s.AnswerState == AnswerState.Skipped);
         PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);
         
-        if (learningSession.Config.InWishknowledge && !learningSession.Config.AllQuestions)
+        if (learningSession.Config.InWuwi)
         {
             WishCountQuestions = learningSession.User.WishCountQuestions;
             WishCountSets = learningSession.User.WishCountSets;

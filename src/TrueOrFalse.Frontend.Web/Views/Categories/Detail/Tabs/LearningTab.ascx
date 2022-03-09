@@ -24,12 +24,17 @@
 <%= Scripts.Render("~/bundles/js/jqueryUi") %>
 <%= Scripts.Render("~/bundles/js/bootstrapTooltip") %>
 <%= Styles.Render("~/bundles/jqueryUi") %>
-<%= Scripts.Render("~/bundles/js/d3") %>
+
 <script type="text/x-template" id="question-details-component">
     <%: Html.Partial("~/Views/Questions/Answer/AnswerQuestionDetailsComponent.vue.ascx") %>
 </script>
 <%= Scripts.Render("~/bundles/js/QuestionDetailsComponent") %>
 
+<div id="SessionHeader">
+    <session-config-component :is-logged-in="'<%= Sl.SessionUser.IsLoggedIn %>' == 'True'">
+        <session-progress-bar-component/>
+    </session-config-component>
+</div>
 <%
     var dummyQuestion = Model.GetDummyQuestion(); 
     if(dummyQuestion.Id != 0)
@@ -45,8 +50,8 @@
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
+<%: Html.Partial("~/Views/Questions/SessionConfig/SessionConfigComponentLoader.ascx") %>
+    
 <% Html.RenderPartial("~/Views/Questions/Modals/DeleteQuestionModalTemplateLoader.ascx"); %>
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id, Model.ShowLearningSessionConfigurationMessageForQuestionList)); %>
 <%= Scripts.Render("~/bundles/js/d3") %>
-
-

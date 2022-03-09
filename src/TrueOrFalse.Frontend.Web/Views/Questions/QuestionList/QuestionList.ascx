@@ -9,7 +9,6 @@
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
-
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
     <div class="col-xs-12 drop-down-question-sort" v-show="stepCount > 0">
         <h4 class="header"><span class="hidden-xs">Du lernst</span> 
@@ -17,8 +16,6 @@
             <template v-else><b>{{currentQuestionCount}}</b></template>
             Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionCount}})</h4>
         <div id="ButtonAndDropdown">
-            <%: Html.Partial("~/Views/Questions/QuestionList/SessionConfigComponent.vue.ascx", Model) %>
-
             <div id="QuestionListHeaderDropDown" class="Button dropdown">
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-ellipsis-v"></i>
@@ -43,6 +40,9 @@
             </div>
         </div>
     </div>
+    <session-config-component :is-logged-in="'<%= Sl.SessionUser.IsLoggedIn %>' == 'True'">
+    </session-config-component>
+
     <%: Html.Partial("~/Views/Questions/QuestionList/QuestionListComponent.vue.ascx", Model) %>
     <div>
         <template>    

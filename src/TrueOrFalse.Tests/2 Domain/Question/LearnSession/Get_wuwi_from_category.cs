@@ -20,8 +20,8 @@ namespace TrueOrFalse.Tests
                 .Where(qv=> qv.IsInWishKnowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
                 .ToList();
 
-            var wuwisFromLearningSession = LearningSessionCreator.ForLoggedInUser(new LearningSessionConfig
-                {InWishknowledge = true, CategoryId = categoryId, CurrentUserId = userCacheItem.UserId});
+            var wuwisFromLearningSession = LearningSessionCreator.BuildLearningSession(new LearningSessionConfig
+                { InWuwi = true, CategoryId = categoryId, CurrentUserId = userCacheItem.UserId});
 
             Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));
         }

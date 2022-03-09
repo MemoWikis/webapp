@@ -95,7 +95,7 @@ public class CategoryRedirectController : BaseController
         {
             CategoryId = categoryId
         };
-        var learningSession = LearningSessionCreator.ForAnonymous(config);
+        var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
         return Redirect(Links.LearningSession(learningSession));
     }

@@ -33,12 +33,10 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                     IsInTestMode = true,
                     MaxQuestionCount = 5, 
                     CategoryId = 1,
-                    AllQuestions = true
                 });
 
             learningSession.SetCurrentStepAsCorrect();
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
-
         }
 
         [Test]
@@ -50,7 +48,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                 {
                     CurrentUserId = lastUserCacheItem.UserId,
                     IsInTestMode = true,
-                    InWishknowledge = true,
+                    InWuwi = true,
                     MaxQuestionCount = 5, 
                     CategoryId = 1
                 });
@@ -67,7 +65,7 @@ namespace TrueOrFalse.Tests._2_Domain.Question.LearnSession
                 {
                     CurrentUserId = lastUserCacheItem.UserId,
                     IsInTestMode = false,
-                    InWishknowledge = true,
+                    InWuwi = true,
                     MaxQuestionCount = 5,
                     CategoryId = 1
                 });

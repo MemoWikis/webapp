@@ -237,48 +237,8 @@
 /* Session bar/Progress bar
 ------------------------------------------------------*/
 
-.SessionBar {
-    font-size: @font-size-base;
-    line-height: @line-height-base;
-    background-color: @memo-grey-light;
-    margin-bottom: 50px;
-    display: flex;
-    .clearfix;
-
-    .media-below-sm ( {
-        margin-bottom: 40px;
-
-        & + #AnswerBody, & + .row #AnswerBody {
-            border-top: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-    }
-
-    );
-}
-
 .ProgressBarContainer, .SessionType, .QuestionCount, .ProgressBarSegment {
     height: 30px;
-}
-
-.QuestionCount {
-    background-color: @BackgroundColorProgressBar;
-    display: flex;
-    padding-left: 12px;
-    padding-right: 15px;
-    display: flex;
-    align-items: center;
-    .fontProgressBar();
-
-    #CurrentStepNumber {
-        padding-right: @pixel3;
-        padding-left: @pixel3;
-    }
-
-    #StepCount {
-        padding-left: @pixel3;
-    }
 }
 
 .ProgressBarContainer {

@@ -15,7 +15,7 @@ namespace TrueOrFalse.Tests
                 CurrentUserId = UserId,
                 MaxQuestionCount = 5,
                 CategoryId = 1,
-                Repetitions = true
+                Repetitions = RepetitionType.Normal
             });
 
             learningSession.AddAnswer(new AnswerQuestionResult{IsCorrect = true});
@@ -73,7 +73,7 @@ namespace TrueOrFalse.Tests
                 CurrentUserId = UserId,
                 MaxQuestionCount = 1,
                 CategoryId = 1,
-                Repetitions = true
+                Repetitions = RepetitionType.Normal
             });
 
             learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });

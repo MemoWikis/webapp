@@ -293,71 +293,11 @@
 }
 /* Session bar/Progress bar
 ------------------------------------------------------*/
-.SessionBar {
-  font-size: 14px;
-  line-height: 1.42857143;
-  background-color: #DDDDDD;
-  margin-bottom: 50px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-.SessionBar:before,
-.SessionBar:after {
-  content: " ";
-  display: table;
-}
-.SessionBar:after {
-  clear: both;
-}
-.SessionBar:before,
-.SessionBar:after {
-  content: " ";
-  display: table;
-}
-.SessionBar:after {
-  clear: both;
-}
-@media (max-width: 767px) {
-  .SessionBar {
-    margin-bottom: 40px;
-  }
-  .SessionBar + #AnswerBody,
-  .SessionBar + .row #AnswerBody {
-    border-top: none;
-    -webkit-border-top-left-radius: 0;
-            border-top-left-radius: 0;
-    -webkit-border-top-right-radius: 0;
-            border-top-right-radius: 0;
-  }
-}
 .ProgressBarContainer,
 .SessionType,
 .QuestionCount,
 .ProgressBarSegment {
   height: 30px;
-}
-.QuestionCount {
-  background-color: #EFEFEF;
-  padding-left: 12px;
-  padding-right: 15px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-weight: bold;
-}
-.QuestionCount #CurrentStepNumber {
-  padding-right: 3px;
-  padding-left: 3px;
-}
-.QuestionCount #StepCount {
-  padding-left: 3px;
 }
 .ProgressBarContainer {
   display: table;

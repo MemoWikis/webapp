@@ -116,7 +116,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js")
                 .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
-
             bundles.Add(new ScriptBundle("~/bundles/js/d3")
                 .Include("~/Scripts/npm/d3/d3.js"));
 
@@ -244,15 +243,14 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/SessionConfig")
+                .Include("~/Views/Questions/SessionConfig/*.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionDetailsApp")
                 .Include("~/Views/Questions/Answer/Js/QuestionDetails/AnswerQuestionDetailsApp.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionDetailsComponent")
                 .Include("~/Views/Questions/Answer/Js/QuestionDetails/AnswerQuestionDetailsComponent.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/js/SessionConfig")
-                .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
-                .IncludeDirectory("~/Views/Questions/Answer/Js/SessionConfig/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListApp")
                 .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
@@ -261,10 +259,13 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
                 .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
                 .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
-                .Include("~/Views/Questions/Js/QuestionList/SessionConfigComponent.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionListComponent.js")
                 .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
                 .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/SessionConfigComponent")
+                .Include("~/Views/Questions/Js/SessionConfig/SessionProgressBarComponent.js")
+                .Include("~/Views/Questions/Js/SessionConfig/SessionConfigComponent.js"));
 
             bundles.Add(new StyleBundle("~/bundles/QuestionList")
                 .Include("~/Views/Questions/QuestionList/QuestionList.css"));

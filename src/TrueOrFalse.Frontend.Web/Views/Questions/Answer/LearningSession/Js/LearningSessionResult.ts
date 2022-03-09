@@ -5,9 +5,7 @@
         $("#QuestionDetails").remove();
 
         if ($("#LearningTabWithOptions").hasClass("active")) {
-            $(".SessionBar").hide();
             $("#QuestionListApp").hide();
-            $(".SessionHeading").hide();
         }
 
         $("[data-action=showAllDetails]").click((e) => {
