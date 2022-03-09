@@ -484,6 +484,7 @@ public class EditCategoryController : BaseController
         var child = _categoryRepository.GetById(childCategoryId);
         _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
+        EntityCache.GetCategory(parentCategoryIdToRemove).DirectChildren = EntityCache.GetChildren(parentCategoryIdToRemove).Select(cci => cci.Id).ToList();
         return Json(new
         {
             success = true,
