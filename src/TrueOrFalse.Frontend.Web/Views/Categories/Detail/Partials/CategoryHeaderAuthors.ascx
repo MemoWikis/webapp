@@ -4,7 +4,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
 <div id="Authors">
     <% foreach (var author in Model.Authors.Take(7)) { %>
-        <a class="author-img-container" href="<%= Links.UserDetail(author.User) %>" data-toggle="tooltip" data-placement="top" title="<%= author.Name %>">
+        <a class="author-img-container" href="<%= Links.UserDetail(author.Name, author.Id) %>" data-toggle="tooltip" data-placement="top" title="<%= author.Name %>">
             <div class="author">
                 <img class="ItemImage JS-InitImage author-img" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
                 <span class="author-img-label"></span>
@@ -21,7 +21,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             <ul class="dropdown-menu" aria-labelledby="AuthorDropdown">
                 <% foreach (var author in Model.Authors.Skip(7)) { %>
                     <li>                                    
-                        <a href="<%= Links.UserDetail(author.User) %>">
+                        <a href="<%= Links.UserDetail(author.Name, author.Id) %>">
                             <div class="author-listitem">
                                 <img class="ItemImage JS-InitImage author-img" alt="" src="<%= author.ImageUrl %>" data-append-image-link-to="ImageContainer" />
                                 <span class="author-img-label"><%= author.Name %></span>
