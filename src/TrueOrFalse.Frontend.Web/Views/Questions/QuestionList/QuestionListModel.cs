@@ -32,7 +32,8 @@ public class QuestionListModel : BaseModel
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var learningSession = LearningSessionCache.GetLearningSession();
         var steps = learningSession.Steps;
-        var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage);
+        var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
+        stepsOfCurrentPage.RemoveAll(s => s.Question.Id == 0);
 
         var newQuestionList = new List<QuestionListJson.Question>();
 
