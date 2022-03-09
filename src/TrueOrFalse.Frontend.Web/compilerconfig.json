@@ -58,13 +58,6 @@
     }
   },
   {
-    "outputFile": "Views/Knowledge/Knowledge.css",
-    "inputFile": "Views/Knowledge/Knowledge.less",
-    "minify": {
-      "enabled": false
-    }
-  },
-  {
     "outputFile": "Views/Beta/Beta.css",
     "inputFile": "Views/Beta/Beta.less",
     "minify": {
@@ -145,10 +138,6 @@
     "inputFile": "Views/Help/FAQ.less"
   },
   {
-    "outputFile": "Views/Categories/Edit/EditCategory.css",
-    "inputFile": "Views/Categories/Edit/EditCategory.less"
-  },
-  {
     "outputFile": "Style/bootstrap/bootstrap.css",
     "inputFile": "Style/bootstrap/bootstrap.less"
   },
@@ -157,27 +146,8 @@
     "inputFile": "Views/Questions/Answer/AnswerQuestionSolution.less"
   },
   {
-    "outputFile": "Views/About/ForTeachers.css",
-    "inputFile": "Views/About/ForTeachers.less"
-  },
-  {
-    "outputFile": "Views/About/Jobs.css",
-    "inputFile": "Views/About/Jobs.less"
-  },
-  {
-    "outputFile": "Views/Questions/Edit/EditQuestion.css",
-    "inputFile": "Views/Questions/Edit/EditQuestion.less"
-  },
-  {
     "outputFile": "Views/Help/Widget.css",
     "inputFile": "Views/Help/Widget.less"
-  },
-  {
-    "outputFile": "Views/About/AboutMemucho.css",
-    "inputFile": "Views/About/AboutMemucho.less",
-    "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
-    }
   },
   {
     "outputFile": "Style/grid.css",
@@ -192,10 +162,6 @@
     "inputFile": "Style/utils.less"
   },
   {
-    "outputFile": "Views/Welcome/Contact.css",
-    "inputFile": "Views/Welcome/Contact.less"
-  },
-  {
     "outputFile": "Views/Users/Account/Membership.css",
     "inputFile": "Views/Users/Account/Membership.less"
   },
@@ -208,24 +174,8 @@
     "inputFile": "Views/Users/Account/Settings/UserSettings.less"
   },
   {
-    "outputFile": "Views/Knowledge/Css/_dashBoard.css",
-    "inputFile": "Views/Knowledge/Css/_dashBoard.less"
-  },
-  {
-    "outputFile": "Views/Knowledge/Css/KnowledgeTopics.css",
-    "inputFile": "Views/Knowledge/Css/KnowledgeTopics.less"
-  },
-  {
     "outputFile": "Views/Welcome/Promoter.css",
     "inputFile": "Views/Welcome/Promoter.less"
-  },
-  {
-    "outputFile": "Views/Welcome/Team.css",
-    "inputFile": "Views/Welcome/Team.less"
-  },
-  {
-    "outputFile": "Views/Knowledge/Css/KnowledgeQuestions.css",
-    "inputFile": "Views/Knowledge/Css/KnowledgeQuestions.less"
   },
   {
     "outputFile": "Style/tabs.css",
@@ -252,8 +202,8 @@
     "inputFile": "Views/Shared/CategoryLabel.less"
   },
   {
-    "outputFile": "Views/Questions/Answer/SessionConfig.css",
-    "inputFile": "Views/Questions/Answer/SessionConfig.less"
+    "outputFile": "Views/Questions/SessionConfig/SessionConfig.css",
+    "inputFile": "Views/Questions/SessionConfig/SessionConfig.less"
   },
   {
     "outputFile": "Views/Questions/QuestionList/QuestionList.css",
