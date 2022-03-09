@@ -41,16 +41,19 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_200px(IUserTinyModel user) { return GetUrl(user, 200); }
     public ImageUrl GetUrl_250px(IUserTinyModel user) { return GetUrl(user, 250); }
     public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
+    public ImageUrl GetUrl_20px(AuthorCacheItem user) { return GetUrl(user, 20); }
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
+        return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(AuthorCacheItem.FromUserTinyModel(user), arg));
+    }
+    private ImageUrl GetUrl(AuthorCacheItem user, int width, bool isSquare = false) {
         return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
     }
 
-    protected string GetFallbackImage(IUserTinyModel user, int width)
+    protected string GetFallbackImage(AuthorCacheItem user, int width)
     {
         if (Sl.IsUnitTest)
             return "";
-        var emailAddress = user.EmailAddress;
 
         if (user.IsFacebookUser)
         {
@@ -82,7 +85,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
             }
         }
 
-        var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
+        var sanitizedEmailAdress = user.EmailAddress.Trim().ToLowerInvariant();
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
         return "//www.gravatar.com/avatar/" +
                BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +

@@ -38,7 +38,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             DataVersion = 2
         };
 
-
+        EntityCache.GetCategory(category).AddAuthors(AuthorCacheItem.FromUser(author));
         categoryChange.SetData(category, imageWasUpdated);
 
         base.Create(categoryChange);
