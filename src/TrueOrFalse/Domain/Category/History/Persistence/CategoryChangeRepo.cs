@@ -37,7 +37,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Author = author,
             DataVersion = 2
         };
-        if (categoryChangeType != CategoryChangeType.Privatized && categoryChangeType != CategoryChangeType.Relations && categoryChangeType != CategoryChangeType.Restore)
+        if (categoryChangeType != CategoryChangeType.Privatized && categoryChangeType != CategoryChangeType.Relations && categoryChangeType != CategoryChangeType.Restore && categoryChangeType != CategoryChangeType.Update)
             EntityCache.GetCategory(category).AddAuthors(AuthorCacheItem.FromUser(author));
         categoryChange.SetData(category, imageWasUpdated);
 
