@@ -16,7 +16,7 @@ public class UserCache
     {
         var allUserIds = Sl.UserRepo.GetAllIds();
         var allUserValuations = new List<UserCacheItem>();
-        foreach (var userId in allUserIds)                                  
+        foreach (var userId in allUserIds)
         {
             allUserValuations.Add(GetItem(userId));
         }
@@ -24,8 +24,8 @@ public class UserCache
         return allUserValuations;
     }
 
-    public static User GetUser(int userId) => GetItem(userId).User; 
-    
+    public static User GetUser(int userId) => GetItem(userId).User;
+
     public static UserCacheItem GetItem(int userId)
     {
         var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
@@ -51,7 +51,7 @@ public class UserCache
         if (!hasQuestionValuation)
             return false;
 
-        return cacheItem.QuestionValuations[questionId].IsInWishKnowledge; 
+        return cacheItem.QuestionValuations[questionId].IsInWishKnowledge;
     }
 
     public static UserCacheItem CreateItemFromDatabase(int userId)
@@ -68,7 +68,7 @@ public class UserCache
                 Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
                     .Select(v => new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id, QuestionValuationCacheItem.ToCacheItem(v))))
         };
-            
+
         Add_valuationCacheItem_to_cache(cacheItem, userId);
 
         return cacheItem;
@@ -81,6 +81,11 @@ public class UserCache
 
     public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
     public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
+    public static CategoryValuation GetCategoryValuation(int userId, int categoryId)
+    {
+        var categoryValuations = GetItem(userId)?.CategoryValuations;
+        return categoryValuations != null && categoryValuations.Any() ? categoryValuations.Values.FirstOrDefault(cv => cv.CategoryId == categoryId) : null;
+    }
 
     public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
@@ -142,7 +147,7 @@ public class UserCache
             userCacheItems.Add(GetItem(userId));
         }
 
-        return userCacheItems; 
+        return userCacheItems;
     }
 
     /// <summary> Used for category delete </summary>
@@ -151,11 +156,11 @@ public class UserCache
         Sl.CategoryValuationRepo.DeleteCategoryValuation(categoryId);
         foreach (var userCache in GetAllActiveCaches())
         {
-            userCache.CategoryValuations.TryRemove(categoryId, out var result); 
+            userCache.CategoryValuations.TryRemove(categoryId, out var result);
         }
     }
 
-    public static void Remove(User user) => Remove(user.Id );
+    public static void Remove(User user) => Remove(user.Id);
 
     public static void Remove(int userId)
     {
