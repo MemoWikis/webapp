@@ -29,7 +29,7 @@ public class WishKnowledgeInTheBoxModel : BaseModel
         return aggregatedQuestions;
     }
 
-    public ObjectGetQuestionKnowledge BuildObjectGetQuestionKnowledge()
+    public ObjectGetQuestionKnowledge BuildObjectGetQuestionKnowlsedge()
     {
         var aggregateWishKnowledge = new List<QuestionCacheItem>();
         var knowledgeStatus = new List<string>();

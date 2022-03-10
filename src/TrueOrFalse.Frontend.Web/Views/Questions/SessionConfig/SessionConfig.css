@@ -12,47 +12,122 @@
   opacity: 0.5;
 }
 .session-configurator {
+  padding: 0;
   width: 100%;
-  padding: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  color: #555555;
   /* Chrome, Safari, Edge, Opera */
   /* Firefox */
 }
-.session-configurator .filter-button {
+.session-configurator .filter-button,
+.session-configurator .knowledge-summary-button,
+.session-configurator .mode-change-button,
+.session-configurator .question-counter,
+.session-configurator .question-filter-options-button {
   position: relative;
-  border: solid 1px silver;
+  border: solid 1px #DDDDDD;
   z-index: 901;
-  width: 200px;
   background: white;
-  height: 30px;
   display: flex;
-  justify-content: center;
+}
+.session-configurator .knowledge-summary-button,
+.session-configurator .mode-change-button,
+.session-configurator .question-counter,
+.session-configurator .question-filter-options-button {
+  height: 40px;
+  align-items: center;
+  padding: 0 10px;
+  justify-content: space-between;
+}
+.session-configurator .question-counter {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding-right: 5px;
+}
+.session-configurator .question-counter input:focus,
+.session-configurator .question-counter textarea:focus,
+.session-configurator .question-counter select:focus {
+  outline: none;
+}
+.session-configurator .question-counter input {
+  width: 100%;
+  border: none;
+}
+.session-configurator .question-counter.input-is-focused {
+  border: solid 1px #AFD534;
+}
+.session-configurator .question-counter .question-counter-selector-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.session-configurator .question-counter .question-counter-selector-container .question-counter-selector {
+  padding: 0 5px;
+}
+.session-configurator .filter-button {
   padding-top: 5px;
+  height: 30px;
+  width: 105px;
+  justify-content: center;
+  text-transform: uppercase;
+}
+.session-configurator .filter-button:hover {
+  color: #003264;
+}
+.session-configurator .dropdown-container,
+.session-configurator .question-counter-container {
+  margin-bottom: 10px;
+}
+.session-configurator .dropdown-container .sub-header,
+.session-configurator .question-counter-container .sub-header {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  padding: 10px 0 5px 0;
+}
+.session-configurator .dropdown-container .dropdown-item,
+.session-configurator .question-counter-container .dropdown-item {
+  height: 40px;
+  font-family: Open Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  display: flex;
+  align-items: center;
 }
 .session-configurator .session-config-dropdown {
   position: relative;
-  display: flex;
-  flex-direction: row;
   padding: 10px;
   padding-top: 11px;
-  border: 1px solid silver;
+  border: 1px solid #DDDDDD;
   margin-top: -1px;
   z-index: 900;
+  margin-left: 0px;
+  margin-right: 0px;
 }
-.session-configurator .session-config-dropdown .question-filter-options-button {
-  min-width: 210px;
-  width: 100%;
-  height: 40px;
-  border: solid 1px silver;
+.session-configurator .session-config-dropdown .question-filter-options-dropdown,
+.session-configurator .session-config-dropdown .knowledge-summary-dropdown,
+.session-configurator .session-config-dropdown .mode-change-dropdown {
+  border: solid 1px #DDDDDD;
   padding: 6px;
-  display: flex;
-  flex-wrap: nowrap;
-  cursor: pointer;
+  border-top: none;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  left: 0;
+  margin-left: 10px;
+  background: white;
 }
-.session-configurator .session-config-dropdown .question-filter-options-dropdown {
-  border: solid 1px silver;
-  padding: 6px;
-}
-.session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-item {
+.session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-item,
+.session-configurator .session-config-dropdown .knowledge-summary-dropdown .dropdown-item,
+.session-configurator .session-config-dropdown .mode-change-dropdown .dropdown-item {
   display: flex;
   flex-direction: row;
   cursor: pointer;
@@ -66,17 +141,24 @@
 .session-configurator input[type=number] {
   -moz-appearance: textfield;
 }
-.knowledge-summary-dot {
+.knowledge-summary-chip-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.knowledge-summary-chip {
   height: 20px;
   min-width: 20px;
   border-radius: 10px;
-  margin-right: 2px;
-  font-size: 10px;
+  margin-right: 4px;
   line-height: 20px;
   padding: 0 6px;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0px;
 }
 .not-learned {
-  background-color: #999999;
+  background-color: #DDDDDD;
 }
 .needs-learning {
   background-color: lightsalmon;
@@ -91,7 +173,10 @@
   border-bottom: none !important;
 }
 .filter-button.closed {
-  border-bottom: 1px solid silver;
+  border-bottom: 1px solid #DDDDDD;
+}
+#QuestionListApp .session-configurator {
+  padding: 10px;
 }
 #QuestionListApp .session-configurator .session-config-dropdown {
   margin-right: 20px;
@@ -105,15 +190,15 @@
   line-height: 1.42857143;
   display: flex;
   width: 100%;
-  margin-left: 12px;
+  margin-left: 10px;
   height: 30px;
   background: #EFEFEF;
   justify-content: space-between;
   flex-wrap: nowrap;
 }
-.session-config-header .session-progress-bar .question-count {
+.session-config-header .session-progress-bar .step-count {
   display: flex;
-  padding-left: 12px;
+  padding-left: 10px;
   padding-right: 15px;
   flex-wrap: nowrap;
   align-items: center;
@@ -121,4 +206,21 @@
 .session-config-header .session-progress-bar .progress-percentage {
   display: flex;
   align-items: center;
+  padding-right: 10px;
+  padding-left: 15px;
+}
+.selectable-item {
+  cursor: pointer;
+  user-select: none;
+}
+.selectable-item:hover {
+  color: #003264;
+}
+.session-title {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 1.25px;
+  text-align: center;
 }

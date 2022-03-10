@@ -1,6 +1,6 @@
-﻿    <div class="session-progress-bar" :style="progressBackground">
-        <div class="question-count">
-            Frage {{currentStep}} / {{steps}}
+﻿    <div class="session-progress-bar session-title" :style="progressBackground">
+        <div class="step-count">
+            {{currentStep}} / {{steps}}
         </div>
         <div class="progress-percentage">
             {{progress}}%

@@ -48,7 +48,7 @@
     static knowledgeSummary = {
         notLearned: {
             count: 0,
-            label: 'Nicht Gelernt',
+            label: 'Noch nicht Gelernt',
             colorClass: 'not-learned',
             isSelected: true,
             questionIds: [],
@@ -69,7 +69,7 @@
         },
         solid: {
             count: 0,
-            label: 'Sicheres Wissen',
+            label: 'Sicher gewußt',
             colorClass: 'solid',
             isSelected: true,
             questionIds: [],
@@ -144,7 +144,8 @@ Vue.component('session-config-component',
                     answerHelp: true,
                 },
 
-                inputTimeout: null
+                inputTimeout: null,
+                inputFocused: false,
             };
         },
 
@@ -199,8 +200,10 @@ Vue.component('session-config-component',
 
                 if (count > this.maxSelectableQuestionCount)
                     this.selectedQuestionCount = this.maxSelectableQuestionCount;
+                else if (count == 0 && this.maxSelectableQuestionCount > 0)
+                    this.selectedQuestionCount = 1;
                 else
-                    this.selectedQuestionCount = parseInt(val);
+                    this.selectedQuestionCount = count;
             },
             repetitions: () => {
                 this.questionFilter.repetitions = this.repetitions;

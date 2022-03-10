@@ -121,22 +121,8 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <b>Fragen</b> 
                         <%if (Model.CountAggregatedQuestions > 0)
                             {%>(<%=  Model.CountAggregatedQuestions%>)
-                        <%}%> </a>
-                    <div id="LearnOptionsHeaderContainer">
-                        <i id="LearnOptionsHeader" class="fa fa-cog disable" aria-hidden="true" data-toggle="tooltip" data-html="true" title="<p style='width: 200px'><b>Persönliche Filter helfen Dir</b>. Nutze die Lernoptionen und entscheide welche Fragen Du lernen möchtest.</p>">
-                        </i>
-                        <% if (!Model.ShowLearningSessionConfigurationMessageForTab)
-                            { %>
-                            <div id="SessionConfigReminderHeader" class="hide">
-                                <span>
-                                    <img src="/Images/Various/SessionConfigReminder.svg" class="session-config-reminder-header">
-                                </span>
-                                <span class="far fa-times-circle"></span>
-                            </div>
-                        <% } %>
-                    </div>
-
-
+                        <%}%>
+                    </a>
                 </div>
             </div>
         </div>

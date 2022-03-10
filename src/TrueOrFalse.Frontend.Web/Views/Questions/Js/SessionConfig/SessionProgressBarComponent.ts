@@ -1,6 +1,4 @@
-﻿
-
-Vue.component('session-progress-bar-component',
+﻿Vue.component('session-progress-bar-component',
     {
         template: '#session-progress-bar-template',
         props: [],
@@ -33,7 +31,8 @@ Vue.component('session-progress-bar-component',
         methods: {
             updateProgress() {
                 this.progress = (100 / this.steps * this.currentStep).toFixed();
-                this.progressBackground = `background: linear-gradient(90deg, #AFD534 ${this.progress}%, #EFEFEF ${this.progress}%)`;
+                var progressBarValue = (100 / this.steps * (this.currentStep - 1)).toFixed();
+                this.progressBackground = `background: linear-gradient(90deg, #AFD534 ${progressBarValue}%, #EFEFEF ${progressBarValue}%)`;
             }
         }
     });

@@ -102,7 +102,7 @@ public class LearningSession
 
     public int TotalPossibleQuestions()
     {
-            return EntityCache.GetCategoryCacheItem(Config.CategoryId).CountQuestions;
+            return EntityCache.GetQuestionsForCategory(Config.CategoryId).Count;
         throw new Exception("unknown session type");
     }
 

@@ -2312,12 +2312,6 @@
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
-    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
-      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
-      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
@@ -2933,7 +2927,6 @@
     <TypeScriptCompile Include="Scripts\Site.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
     <TypeScriptCompile Include="Scripts\Utils.ts" />
-    <TypeScriptCompile Include="Views\Categories\Edit\Js\ChangeTypeControls.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoryDelete.ts" />
