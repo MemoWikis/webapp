@@ -35,17 +35,16 @@ public class SidebarModel : UserCardBaseModel
 
     public SidebarModel()
     {
-        var userSession = Resolve<SessionUser>();
         var sessionUiData = Resolve<SessionUiData>();
 
         MainMenu = sessionUiData.MainMenu;
 
-        if (userSession.User != null)
+        if (SessionUser.User != null)
         {
-            IsInstallationAdmin = userSession.IsInstallationAdmin;
+            IsInstallationAdmin = SessionUser.IsInstallationAdmin;
 
-            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(userSession.User.Id);
-            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(userSession.User.Id);
+            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(SessionUser.User.Id);
+            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(SessionUser.User.Id);
         }
 
         var a = Authors.Any().ToString();
@@ -59,14 +58,16 @@ public class SidebarModel : UserCardBaseModel
     public bool IsActive(MainMenuEntry mainMenuEntry)
     {
         return !string.IsNullOrEmpty(MainMenu.Active(mainMenuEntry));
-        
+
     }
-    
+
     public bool Show() => Authors.Any() || SponsorModel.IsAdFree;
     public void Fill(IList<UserTinyModel> authors, int currentUserId)
     {
-        Authors = AuthorViewModel.Convert(authors);
-
-        FillUserCardBaseModel(authors, currentUserId);
+        if (authors.Any())
+        {
+            Authors = AuthorViewModel.Convert(authors);
+            FillUserCardBaseModel(authors, currentUserId);
+        }
     }
 }

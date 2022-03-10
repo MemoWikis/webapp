@@ -38,7 +38,7 @@ public class WelcomeModel : BaseModel
         {
             User = R<UserRepo>().GetById(UserId);
 
-            WishCount = _sessionUser.User.WishCountQuestions;
+            WishCount = SessionUser.User.WishCountQuestions;
             KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
             ActivityPoints = User.ActivityPoints;
             ActivityLevel = User.ActivityLevel;

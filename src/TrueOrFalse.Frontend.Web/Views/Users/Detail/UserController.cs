@@ -35,8 +35,8 @@ public class UserController : BaseController
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {
-        UserImageStore.Run(file, _sessionUser.User.Id);
-        return User(_sessionUser.User.Name, _sessionUser.User.Id);
+        UserImageStore.Run(file, SessionUser.User.Id);
+        return User(SessionUser.User.Name, SessionUser.User.Id);
     }
 
     [HttpPost]
@@ -45,7 +45,7 @@ public class UserController : BaseController
         if (!IsLoggedIn)
             return false;
 
-        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        UserCache.GetItem(SessionUser.UserId).IsFiltered = showMyWorld;
 
         return showMyWorld; 
     }
@@ -53,6 +53,6 @@ public class UserController : BaseController
     [HttpPost]
     public bool IsFiltered()
     {
-        return UserCache.GetItem(_sessionUser.UserId).IsFiltered;
+        return UserCache.GetItem(SessionUser.UserId).IsFiltered;
     }
 }

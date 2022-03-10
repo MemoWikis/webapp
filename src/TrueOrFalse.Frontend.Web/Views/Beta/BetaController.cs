@@ -15,8 +15,8 @@ public class BetaController : BaseController
     public JsonResult IsValidBetaUser(string betacode)
     {
         var isValidBetaCode = IsValidBetaCode.Yes(betacode);
-        
-        _sessionUser.HasBetaAccess = isValidBetaCode;
+
+        SessionUser.HasBetaAccess = isValidBetaCode;
 
         return new JsonResult{
             Data = new { IsValid = isValidBetaCode }

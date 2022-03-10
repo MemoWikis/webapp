@@ -78,7 +78,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         var user = GetById(id);
 
-        if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(user.Id))
+        if (SessionUser.IsLoggedInUserOrAdmin(user.Id))
             throw new InvalidAccessException();
 
         _searchIndexUser.Delete(user);
@@ -190,7 +190,7 @@ public class UserRepo : RepositoryDbBase<User>
 
         var userLevel = UserLevelCalculator.GetLevel(totalPointCount);
 
-        var user = GetById(Sl.SessionUser.UserId);
+        var user = GetById(SessionUser.UserId);
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);

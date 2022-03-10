@@ -12,12 +12,12 @@ public class BreadCrumbModel : BaseModel
     public BreadCrumbModel(TopNavMenu topNavMenu)
     {
         TopNavMenu = topNavMenu;
-        User = _sessionUser.User;
+        User = SessionUser.User;
         if (IsLoggedIn)
         {
-            UserName = _sessionUser.User.Name;
-            var imageSetttings = new UserImageSettings(_sessionUser.User.Id);
-            UserImage = imageSetttings.GetUrl_30px_square(_sessionUser.User).Url;
+            UserName = SessionUser.User.Name;
+            var imageSetttings = new UserImageSettings(SessionUser.User.Id);
+            UserImage = imageSetttings.GetUrl_30px_square(SessionUser.User).Url;
             ToolTipToHomepage = "Zu deinem Wiki";
         }
     }

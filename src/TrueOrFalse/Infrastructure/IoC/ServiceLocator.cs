@@ -13,7 +13,6 @@ public class Sl
     public static T R<T>() { return ServiceLocator.Resolve<T>(); }
 
     public static ISession Session => R<ISession>();
-    public static SessionUser SessionUser => R<SessionUser>();
     public static SessionUiData SessionUiData => R<SessionUiData>();
 
     public static UserRepo UserRepo => R<UserRepo>();
@@ -51,7 +50,7 @@ public class Sl
     
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
 
-    public static int CurrentUserId => R<SessionUser>().UserId;
+    public static int CurrentUserId => SessionUser.UserId;
 
     public static ImageStore ImageStore => R<ImageStore>();
 

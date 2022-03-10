@@ -112,7 +112,7 @@ namespace TrueOrFalse.Frontend.Web
 
         protected void Session_Start()
         {
-            if(!Sl.Resolve<SessionUser>().IsLoggedIn)
+            if(!SessionUser.IsLoggedIn)
                 LoginFromCookie.Run();
         }
 

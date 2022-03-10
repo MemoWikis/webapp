@@ -205,10 +205,10 @@ public class MaintenanceController : BaseController
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendKnowledgeReportMessage(MessagesModel model)
     {
-        KnowledgeReportMsg.SendHtmlMail(_sessionUser.User);
+        KnowledgeReportMsg.SendHtmlMail(SessionUser.User);
 
-        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + _sessionUser.User.Name +
-                                           "</em> with email address <em>" + _sessionUser.User.EmailAddress + "</em>.");
+        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + SessionUser.User.Name +
+                                           "</em> with email address <em>" + SessionUser.User.EmailAddress + "</em>.");
         return View("Messages", model);
     }
 

@@ -2,14 +2,14 @@
 
 <% if (!Model.TopNavMenu.IsWelcomePage && Model.TopNavMenu.BreadCrumbCategories != null && Model.TopNavMenu.BreadCrumbCategories.Items.Count > 0)
    {
-       if (Sl.SessionUser.IsInOwnWiki())
+       if (SessionUser.IsInOwnWiki())
        { %>
         <span id="FirstChevron">
             <i class="fa fa-chevron-right"></i>
         </span>
 <% }
        }
-   if (!Sl.SessionUser.IsInOwnWiki() || (!Model.TopNavMenu.IsCategoryBreadCrumb && Model.TopNavMenu.BreadCrumb != null ))
+   if (!SessionUser.IsInOwnWiki() || (!Model.TopNavMenu.IsCategoryBreadCrumb && Model.TopNavMenu.BreadCrumb != null ))
    { %>
     <span id="FirstChevron">
         <div id="BreadcrumbDivider"></div>

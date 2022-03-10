@@ -7,7 +7,8 @@ namespace TrueOrFalse.Search
     {
         public static CategorySolrMap Run(Category category, IEnumerable<CategoryValuation> valuations)
         {
-            var categoryCacheItem = EntityCache.GetCategory(category);
+            var categoryCacheItem = EntityCache.GetCategory(category) ?? CategoryCacheItem.ToCacheCategory(category);
+
             var result = new CategorySolrMap();
             result.Id = category.Id;
             result.Name = category.Name;
@@ -20,7 +21,7 @@ namespace TrueOrFalse.Search
 
             result.ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1).Select(x => x.UserId).ToList();
             result.ValuationsCount = categoryCacheItem.TotalRelevancePersonalEntries;
-            result.QuestionCount =  categoryCacheItem.CountQuestionsAggregated;
+            result.QuestionCount = categoryCacheItem.CountQuestionsAggregated;
             result.DateCreated = category.DateCreated;
 
             return result;

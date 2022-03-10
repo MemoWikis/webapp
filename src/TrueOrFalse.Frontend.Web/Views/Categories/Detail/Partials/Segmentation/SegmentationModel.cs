@@ -25,11 +25,11 @@ public class SegmentationModel : BaseContentModule
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         Category = category;
         
-        var categoryList = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(PermissionCheck.CanView) : EntityCache.GetChildren(category.Id).Where(PermissionCheck.CanView);
+        var categoryList = UserCache.GetItem(SessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(category.Id, UserId).Where(PermissionCheck.CanView) : EntityCache.GetChildren(category.Id).Where(PermissionCheck.CanView);
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
-        if (!String.IsNullOrEmpty(category.CustomSegments) && !UserCache.GetItem(_sessionUser.UserId).IsFiltered)
+        if (!String.IsNullOrEmpty(category.CustomSegments) && !UserCache.GetItem(SessionUser.UserId).IsFiltered)
         {
             segments = GetSegments(category.Id);
             NotInSegmentCategoryList = GetNotInSegmentCategoryList(segments, categoryList.ToList());
@@ -51,7 +51,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
 
-        ShowLinkToRootCategory = !UserCache.GetItem(_sessionUser.UserId).IsFiltered;
+        ShowLinkToRootCategory = !UserCache.GetItem(SessionUser.UserId).IsFiltered;
     }
 
 
@@ -73,11 +73,11 @@ public class SegmentationModel : BaseContentModule
             var childCategories = new List<CategoryCacheItem>();
                 
             if (s.ChildCategoryIds != null)
-                childCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered
+                childCategories = UserCache.GetItem(SessionUser.UserId).IsFiltered
                     ? EntityCache.GetCategories(s.ChildCategoryIds).Where(c => c.IsInWishknowledge() && PermissionCheck.CanView(c)).ToList()
                     : EntityCache.GetCategories(s.ChildCategoryIds).Where(PermissionCheck.CanView).ToList();
             else
-                childCategories = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
+                childCategories = UserCache.GetItem(SessionUser.UserId).IsFiltered ? 
                     UserEntityCache.GetChildren(s.CategoryId, UserId).Where(PermissionCheck.CanView).ToList() : 
                     EntityCache.GetChildren(s.CategoryId).Where(PermissionCheck.CanView).ToList();
             segment.ChildCategories = childCategories;

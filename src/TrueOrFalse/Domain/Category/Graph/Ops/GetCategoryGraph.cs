@@ -34,7 +34,7 @@ public class GetCategoryGraph
                 Id = index,
                 CategoryId = node.CategoryCacheItem.Id,
                 Title = (node.CategoryCacheItem.Name).Replace("\"", ""),
-                Knowledge = GetKnowledgeData(node.CategoryCacheItem.Id, Sl.SessionUser.UserId),
+                Knowledge = GetKnowledgeData(node.CategoryCacheItem.Id, SessionUser.UserId),
             }).ToList();
         return nodes;
     }

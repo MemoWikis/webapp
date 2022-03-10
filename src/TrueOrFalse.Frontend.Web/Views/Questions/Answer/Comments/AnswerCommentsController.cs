@@ -15,7 +15,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = saveCommentJson.questionId;
         comment.Text = saveCommentJson.text;
         comment.Title = saveCommentJson.title;
-        comment.Creator = _sessionUser.User;
+        comment.Creator = SessionUser.User;
 
 
         Resolve<CommentRepository>().Create(comment);
@@ -49,7 +49,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
         comment.Text = text;
-        comment.Creator = _sessionUser.User;
+        comment.Creator = SessionUser.User;
 
         commentRepo.Create(comment);
 
@@ -88,10 +88,10 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public String GetCurrentUserImgUrl()
     {
-        if (_sessionUser.User != null)
+        if (SessionUser.User != null)
         {
             var currentUserImageUrl =
-                new UserImageSettings(_sessionUser.User.Id).GetUrl_128px_square(_sessionUser.User).Url;
+                new UserImageSettings(SessionUser.User.Id).GetUrl_128px_square(SessionUser.User).Url;
             return currentUserImageUrl;
         }
 
@@ -101,9 +101,9 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public int GetCurrentUserId()
     {
-        if (_sessionUser.User != null)
+        if (SessionUser.User != null)
         {
-            return _sessionUser.User.Id;
+            return SessionUser.User.Id;
         }
         return -1;
     }
@@ -111,9 +111,9 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public string GetCurrentUserName()
     {
-        if (_sessionUser.User != null)
+        if (SessionUser.User != null)
         {
-            return _sessionUser.User.Name;
+            return SessionUser.User.Name;
         }
 
         return null;
@@ -122,7 +122,7 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public bool GetCurrentUserAdmin()
     {
-        if (_sessionUser.User != null)
+        if (SessionUser.User != null)
         {
             return IsInstallationAdmin;
         }
@@ -133,7 +133,7 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public String GetUserImgUrl(int userId)
     {
-        if (_sessionUser.User != null)
+        if (SessionUser.User != null)
         {
             var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
             return userImageUrl;

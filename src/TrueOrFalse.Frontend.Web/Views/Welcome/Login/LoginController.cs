@@ -24,7 +24,7 @@ public class LoginController : BaseController
                 WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id);
             }
 
-            _sessionUser.Login(credentialsAreValid.User);
+            SessionUser.Login(credentialsAreValid.User);
 
             TransferActivityPoints.FromSessionToUser();
             Sl.UserRepo.UpdateActivityPointsData();

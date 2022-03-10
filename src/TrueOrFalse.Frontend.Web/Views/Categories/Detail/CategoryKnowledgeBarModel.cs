@@ -7,6 +7,6 @@
     public CategoryKnowledgeBarModel(CategoryCacheItem category)
     {
         Category = category;
-        CategoryKnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, Sl.SessionUser.UserId);
+        CategoryKnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, SessionUser.UserId);
     }
 }

@@ -5,8 +5,7 @@ public class RedirectToErrorPage_IfNotLoggedInAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        var userSession = new SessionUser();
-        if (!userSession.IsLoggedIn)
+        if (!SessionUser.IsLoggedIn)
             filterContext.Result = new RedirectResult(Links.ErrorNotLoggedIn(filterContext.HttpContext.Request.Path));
 
         base.OnActionExecuting(filterContext);

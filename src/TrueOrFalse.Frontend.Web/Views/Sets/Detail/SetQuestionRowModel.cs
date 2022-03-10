@@ -26,7 +26,7 @@ public class SetQuestionRowModel
         questionValuation = questionValuation ?? new QuestionValuationCacheItem();
 
         IsInWishknowledge = questionValuation.IsInWishKnowledge;
-        UserIsInstallationAdmin = Sl.SessionUser.IsInstallationAdmin;
+        UserIsInstallationAdmin = SessionUser.IsInstallationAdmin;
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

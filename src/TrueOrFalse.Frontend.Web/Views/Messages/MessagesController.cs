@@ -14,13 +14,13 @@ public class MessagesController : BaseController
 
     public string RenderAllMessagesInclRead()
     {
-        if (!_sessionUser.IsLoggedIn)
+        if (!SessionUser.IsLoggedIn)
         {
             return "";
         }
 
         var messages = Resolve<MessageRepo>()
-            .GetForUser(_sessionUser.User.Id, false)
+            .GetForUser(SessionUser.User.Id, false)
             .Select(m => new MessageModelRow(m))
             .ToList();
 

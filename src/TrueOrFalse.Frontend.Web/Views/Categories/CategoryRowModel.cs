@@ -44,7 +44,7 @@ public class CategoryRowModel : BaseModel
 
         QuestionCount = category.CountQuestionsAggregated;
 
-        UserCanEdit = _sessionUser.IsInstallationAdmin;
+        UserCanEdit = SessionUser.IsInstallationAdmin;
 
         DetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id);
 

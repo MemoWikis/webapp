@@ -84,7 +84,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (parentCategories.Count != 0)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, Sl.SessionUser.User, false, type: CategoryChangeType.Relations);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, SessionUser.User, false, type: CategoryChangeType.Relations);
         }
     }
 

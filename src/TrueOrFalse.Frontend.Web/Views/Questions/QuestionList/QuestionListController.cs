@@ -53,13 +53,13 @@ public class QuestionListController : BaseController
                 .Select(c => new CommentModel(c))
                 .ToList()
                 .Count(),
-            isCreator = author.Id == _sessionUser.UserId,
+            isCreator = author.Id == SessionUser.UserId,
             editUrl = Links.EditQuestion(Url, question.Text, question.Id),
             historyUrl = Links.QuestionHistory(question.Id),
             answerCount = history.TimesAnsweredUser,
             correctAnswerCount = history.TimesAnsweredUserTrue,
             wrongAnswerCount = history.TimesAnsweredUserWrong,
-            canBeEdited = (question.Creator == _sessionUser.User) || IsInstallationAdmin,
+            canBeEdited = (question.Creator == SessionUser.User) || IsInstallationAdmin,
         });
 
         return json;
@@ -77,9 +77,9 @@ public class QuestionListController : BaseController
         var question = EntityCache.GetQuestionById(questionId);
         var hasPersonalAnswer = false;
         var model = new AnswerQuestionModel(question, true);
-        if (_sessionUser.IsLoggedIn)
+        if (SessionUser.IsLoggedIn)
         {
-            var userQuestionValuation = UserCache.GetItem(_sessionUser.UserId).QuestionValuations;
+            var userQuestionValuation = UserCache.GetItem(SessionUser.UserId).QuestionValuations;
 
             if (userQuestionValuation.ContainsKey(questionId))
                 hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;

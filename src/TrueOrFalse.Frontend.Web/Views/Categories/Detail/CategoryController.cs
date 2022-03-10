@@ -224,19 +224,19 @@ public class CategoryController : BaseController
 
         Logg.r().Warning("End Set Cookie");
 
-        if (_sessionUser.IsLoggedIn)
+        if (SessionUser.IsLoggedIn)
         {
             if (!UserEntityCache.IsCategoryCacheKeyAvailable())
                 Logg.r().Warning("Cache CacheKeyIsNotAvailable");
             UserEntityCache.Init();
         }
 
-        UserCache.GetItem(_sessionUser.UserId).IsFiltered = showMyWorld;
+        UserCache.GetItem(SessionUser.UserId).IsFiltered = showMyWorld;
         var startTopicId = RootCategory.Get.Id;
 
-        if (showMyWorld || _sessionUser.IsLoggedIn)
+        if (showMyWorld || SessionUser.IsLoggedIn)
         {
-            startTopicId = _sessionUser.User.StartTopicId;
+            startTopicId = SessionUser.User.StartTopicId;
             return Links.CategoryDetail(EntityCache.GetCategory(startTopicId, getDataFromEntityCache: false));
         }
 
@@ -251,7 +251,7 @@ public class CategoryController : BaseController
             var val = cookie.Values["showMyWorld"];
             if (val == "True")
             {
-                UserCache.GetItem(_sessionUser.UserId).IsFiltered = true;
+                UserCache.GetItem(SessionUser.UserId).IsFiltered = true;
                 return true;
             }
         }
@@ -261,7 +261,7 @@ public class CategoryController : BaseController
             SetMyWorldCookie(false);
         }
 
-        UserCache.GetItem(_sessionUser.UserId).IsFiltered = false; 
+        UserCache.GetItem(SessionUser.UserId).IsFiltered = false; 
         return false;
     }
 
@@ -276,7 +276,7 @@ public class CategoryController : BaseController
             Response.Cookies.Add(cookie);
         }
 
-        UserCache.GetItem(_sessionUser.UserId).IsFiltered = false; 
+        UserCache.GetItem(SessionUser.UserId).IsFiltered = false; 
         return true;
     }
 

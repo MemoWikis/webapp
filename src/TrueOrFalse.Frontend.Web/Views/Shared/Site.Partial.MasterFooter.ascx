@@ -4,8 +4,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%= Scripts.Render("~/bundles/js/stickySearch") %>
-<% var userSession = new SessionUser();
-   if (!userSession.IsLoggedIn)
+<% if (!SessionUser.IsLoggedIn)
    { %>
     <%= Scripts.Render("~/bundles/js/headerSearch") %>
     <%: Html.Partial("/Views/Welcome/Login/LoginModalLoader.ascx") %>

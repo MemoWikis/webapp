@@ -27,7 +27,7 @@ public class EditQuestionModel_to_Question
         question.Visibility = model.Visibility;
         question.IsWorkInProgress = false;
 
-        question.License = Sl.R<SessionUser>().IsInstallationAdmin 
+        question.License = SessionUser.IsInstallationAdmin 
             ? LicenseQuestionRepo.GetById(model.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
 

@@ -39,7 +39,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             var hasDeleted = Sl.CategoryDeleter.Run(category);
             foreach (var parent in parentCategories)
             {
-                Sl.CategoryChangeRepo.AddUpdateEntry(parent, _sessionUser.User, false);
+                Sl.CategoryChangeRepo.AddUpdateEntry(parent, SessionUser.User, false);
             }
 
             return hasDeleted;

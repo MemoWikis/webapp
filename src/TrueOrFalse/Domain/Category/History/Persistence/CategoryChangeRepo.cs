@@ -12,7 +12,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChange = new CategoryChange
         {
             Category = category,
-            Author = Sl.SessionUser.User,
+            Author = SessionUser.User,
             Type = CategoryChangeType.Delete,
             DataVersion = 2,
             Data = ""
@@ -37,8 +37,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Author = author,
             DataVersion = 2
         };
-
-
+        if (categoryChangeType != CategoryChangeType.Privatized && categoryChangeType != CategoryChangeType.Relations && categoryChangeType != CategoryChangeType.Restore && categoryChangeType != CategoryChangeType.Update)
+            EntityCache.GetCategory(category).AddAuthors(AuthorCacheItem.FromUser(author));
         categoryChange.SetData(category, imageWasUpdated);
 
         base.Create(categoryChange);

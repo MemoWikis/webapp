@@ -131,10 +131,10 @@ public class CategoryApiController : BaseController
     [HttpPost]
     public bool Unpin(string categoryId)
     {
-        if (_sessionUser.User == null)
+        if (SessionUser.User == null)
             return false;
 
-        CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
+        CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), SessionUser.User);
         UserEntityCache.DeleteCacheForUser();
         UserEntityCache.Init();
         return true;
@@ -143,10 +143,10 @@ public class CategoryApiController : BaseController
     [HttpPost]
     public bool UnpinQuestionsInCategory(string categoryId)
     {
-        if (_sessionUser.User == null)
+        if (SessionUser.User == null)
             return false;
 
-        CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), _sessionUser.User);
+        CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), SessionUser.User);
         return true;
     }
 
