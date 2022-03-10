@@ -282,7 +282,7 @@ public class EditCategoryController : BaseController
             UserEntityCache.ReInitAllActiveCategoryCaches();
         
         EntityCache.GetCategory(parentCategoryId).CachedData.AddChildId(childCategoryId);
-        EntityCache.GetCategory(parentCategoryId).DirectChildren = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
+        EntityCache.GetCategory(parentCategoryId).DirectChildrenIds = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
         
         return Json(new
         {
@@ -484,7 +484,7 @@ public class EditCategoryController : BaseController
         var child = _categoryRepository.GetById(childCategoryId);
         _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
-        EntityCache.GetCategory(parentCategoryIdToRemove).DirectChildren = EntityCache.GetChildren(parentCategoryIdToRemove).Select(cci => cci.Id).ToList();
+        EntityCache.GetCategory(parentCategoryIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentCategoryIdToRemove).Select(cci => cci.Id).ToList();
         return Json(new
         {
             success = true,
