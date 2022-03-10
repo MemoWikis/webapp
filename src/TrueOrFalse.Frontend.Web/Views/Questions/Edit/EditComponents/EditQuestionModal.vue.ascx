@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"%>
 <%
-    var userSession = new SessionUser();
-    var user = userSession.User;
+    var user = SessionUser.User;
     var isAdmin = user != null && user.IsInstallationAdmin;
 %>
     <div id="EditQuestionModal" class="modal fade">

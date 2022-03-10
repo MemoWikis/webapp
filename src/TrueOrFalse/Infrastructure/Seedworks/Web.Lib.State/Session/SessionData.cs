@@ -9,66 +9,50 @@ namespace Seedworks.Web.State
 	/// sowohl für den Web- als auch für einen allgemeinen Awendungskontext.
 	/// </summary>
 	[Serializable]
-	public class SessionData
+	public static class SessionData
 	{
-        private readonly HashSet<string> _appDomainInsertedKeys = new HashSet<string>();
+        private static readonly HashSet<string> _appDomainInsertedKeys = new HashSet<string>();
 
-		public object this[string key]
+        /// <summary>
+        /// Returns the untyped item for the given key. May be <b>null</b>.
+        /// </summary>
+		public static object Get(string key)
 		{
-			get
+            if (ContextUtil.IsWebContext)
 			{
-				if (ContextUtil.IsWebContext)
-				{
-					if (HttpContext.Current.Session == null)
-						throw new NullReferenceException("Probably you access session data too late or too early in the page life cycle.");
+				if (HttpContext.Current.Session == null)
+					throw new NullReferenceException("Probably you access session data too late or too early in the page life cycle.");
 
-					return HttpContext.Current.Session[key];
-				}
+				return HttpContext.Current.Session[key];
+			}
 
-				return AppDomain.CurrentDomain.GetData(key);
-			}
-			set
-			{
-				if (ContextUtil.IsWebContext)
-				{
-					HttpContext.Current.Session[key] = value;
-				}
-				else 
-				{
-					AppDomain.CurrentDomain.SetData(key, value);
-				}
-				_appDomainInsertedKeys.Add(key);
-			}
+            return AppDomain.CurrentDomain.GetData(key);
+        }
+
+		public static void Set(string key, object value)
+        {
+            if (ContextUtil.IsWebContext)
+                HttpContext.Current.Session[key] = value;
+            else
+                AppDomain.CurrentDomain.SetData(key, value);
+
+            _appDomainInsertedKeys.Add(key);
 		}
 
 		/// <summary>
 		/// Use only if truly necessary; else simply use <see cref="Get{T}(string,System.Func{T})"/>.
 		/// </summary>
-		public bool Exists(string key)
-		{
-			return this[key] != null;
-		}
+		public static bool Exists(string key) => Get(key) != null;
 
-		/// <summary>
-		/// Returns the untyped item for the given key. May be <b>null</b>.
-		/// </summary>
-		public object Get(string key)
-		{
-			return this[key];
-		}
-
-		/// <summary>
+        /// <summary>
 		/// Returns the typed item for the given key. May be <b>null</b>.
 		/// Cannot use this for value types because an exception would be thrown if the value does not exist.
 		/// <br/>
 		/// Consider using <see cref="Get{T}(string,T)"/> for value types, or e.g. Get(key, (int?) null) for nullables.
 		/// </summary>
-		public T Get<T>(string key) where T : class
-		{
-			return (T) this[key];
-		}
+		public static T Get<T>(string key) where T : class => (T)Get(key);
 
-		/// <summary>
+        /// <summary>
 		/// Returns the item for the given key. 
 		/// <br/>
 		/// If the key does not exist, session will be initialized 
@@ -77,12 +61,9 @@ namespace Seedworks.Web.State
 		/// <br/>
 		/// Consider using <see cref="Get{T}(string,System.Func{T})"/> for better performance.
 		/// </summary>
-		public T Get<T>(string key, T initialValue)
-		{
-			return Get(key, () => initialValue);
-		}
+		public static T Get<T>(string key, T initialValue) => Get(key, () => initialValue);
 
-		/// <summary>
+        /// <summary>
 		/// Returns the item for the given key. 
 		/// <br/>
 		/// If the key does not exist, session will be initialized with 
@@ -91,7 +72,7 @@ namespace Seedworks.Web.State
 		/// <br/>
 		/// Consider using <see cref="Get{T}(string,T)"/> for value types.
 		/// </summary>
-		public T Get<T>(string key, Func<T> initializer)
+		public static T Get<T>(string key, Func<T> initializer)
 		{
 			var val = Get(key);
 
@@ -99,11 +80,11 @@ namespace Seedworks.Web.State
 				return (T) val;
 
 			var initialValue = initializer();
-			this[key] = initialValue;
+            Set(key, initialValue);
 			return initialValue;
 		}
 
-		public void Clear()
+		public static void Clear()
 		{
 			if (ContextUtil.IsWebContext)
 				foreach (var key in _appDomainInsertedKeys)
@@ -115,7 +96,7 @@ namespace Seedworks.Web.State
 			_appDomainInsertedKeys.Clear();
 		}
 
-		public void Remove(string key)
+		public static void Remove(string key)
 		{
 			if (ContextUtil.IsWebContext)
 			{

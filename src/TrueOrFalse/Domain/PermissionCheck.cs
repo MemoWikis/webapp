@@ -5,7 +5,7 @@ public class PermissionCheck
 {
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public static bool CanView(CategoryCacheItem category) => CanView(Sl.SessionUser.User, category);
+    public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.User, category);
 
     public static bool CanView(User user, CategoryCacheItem category)
     {
@@ -26,7 +26,7 @@ public class PermissionCheck
         if (visibility == CategoryVisibility.All)
             return true;
 
-        if (visibility == CategoryVisibility.Owner && creator == Sl.SessionUser.User)
+        if (visibility == CategoryVisibility.Owner && creator == SessionUser.User)
             return true;
 
         return false;
@@ -40,7 +40,7 @@ public class PermissionCheck
 
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
     public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
-    public static bool CanEdit(CategoryCacheItem category) => CanEdit(Sl.SessionUser.User, category);
+    public static bool CanEdit(CategoryCacheItem category) => CanEdit(SessionUser.User, category);
     public static bool CanEdit(User user, CategoryCacheItem category)
     {
         if (user == null || category == null)
@@ -49,14 +49,11 @@ public class PermissionCheck
         if (RootCategory.LockedCategory(category.Id) && !user.IsInstallationAdmin)
             return false;
 
-        if (Sl.SessionUser.IsLoggedIn)
-            return true;
-
-        return false;
+        return SessionUser.IsLoggedIn;
     }
 
     public static bool CanDelete(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
-    public static bool CanDelete(CategoryCacheItem category) => CanDelete(Sl.SessionUser.User, category);
+    public static bool CanDelete(CategoryCacheItem category) => CanDelete(SessionUser.User, category);
     public static bool CanDelete(User user, CategoryCacheItem category)
     {
         if (user == null || category == null)
@@ -71,7 +68,7 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanView(QuestionCacheItem question) => CanView(Sl.SessionUser.User, question);
+    public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.User, question);
 
     public static bool CanView(User user, QuestionCacheItem question)
     {
@@ -86,7 +83,7 @@ public class PermissionCheck
 
         return false;
     }
-    public static bool CanView(Question question) => CanView(Sl.SessionUser.User, question);
+    public static bool CanView(Question question) => CanView(SessionUser.User, question);
 
     public static bool CanView(User user, Question question)
     {
@@ -102,32 +99,26 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanEdit(Question question) => CanEdit(Sl.SessionUser.User, question);
+    public static bool CanEdit(Question question) => CanEdit(SessionUser.User, question);
 
     public static bool CanEdit(User user, Question question)
     {
         if (user == null || question == null)
             return false;
 
-        if (Sl.SessionUser.IsLoggedIn)
-            return true;
-
-        return false;
+        return SessionUser.IsLoggedIn;
     }
-    public static bool CanEdit(QuestionCacheItem question) => CanEdit(Sl.SessionUser.User, question);
+    public static bool CanEdit(QuestionCacheItem question) => CanEdit(SessionUser.User, question);
 
     public static bool CanEdit(User user, QuestionCacheItem question)
     {
         if (user == null || question == null)
             return false;
 
-        if (Sl.SessionUser.IsLoggedIn)
-            return true;
-
-        return false;
+        return SessionUser.IsLoggedIn;
     }
 
-    public static bool CanDelete(Question question) => CanDelete(Sl.SessionUser.User, question);
+    public static bool CanDelete(Question question) => CanDelete(SessionUser.User, question);
 
     public static bool CanDelete(User user, Question question)
     {
@@ -147,6 +138,6 @@ public class PermissionCheck
     }
     public static bool IsAuthorOrAdmin(int? creatorId)
     {
-        return Sl.SessionUser.IsInstallationAdmin || Sl.SessionUser.UserId == creatorId;
+        return SessionUser.IsInstallationAdmin || SessionUser.UserId == creatorId;
     }
 }

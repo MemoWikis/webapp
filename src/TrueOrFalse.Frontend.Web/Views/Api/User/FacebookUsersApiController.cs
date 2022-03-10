@@ -20,7 +20,7 @@ public class FacebookUsersApiController : BaseController
         if (IsFacebookAccessToken.Valid(facebookAccessToken, facebookUserId))
             throw new Exception("invalid facebook access token");
 
-        R<SessionUser>().Login(user);
+        SessionUser.Login(user);
     }
 
     [HttpPost]
@@ -32,11 +32,11 @@ public class FacebookUsersApiController : BaseController
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            R<SessionUser>().Login(user);
+            SessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            _sessionUser.User.StartTopicId = category.Id;
+            SessionUser.User.StartTopicId = category.Id;
 
             return new JsonResult
             {

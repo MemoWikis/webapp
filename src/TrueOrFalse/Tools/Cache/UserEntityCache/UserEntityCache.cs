@@ -16,7 +16,7 @@ public class UserEntityCache : BaseCache
     public static void Init(int userId = -1)
     {
         var user = userId == -1 ?  
-            Sl.SessionUser.User : 
+            SessionUser.User : 
             UserCache.GetItem(userId).User;
 
         _Categories[user.Id] = new ConcurrentDictionary<int, CategoryCacheItem>(GraphService
@@ -109,8 +109,8 @@ public class UserEntityCache : BaseCache
 
     public static void DeleteCacheForUser()
     {
-        if (Sl.SessionUser != null) 
-            _Categories.TryRemove(Sl.SessionUser.UserId, out _);
+        if (SessionUser.UserId > 0) 
+            _Categories.TryRemove(SessionUser.UserId, out _);
     }
 
 
@@ -181,7 +181,7 @@ public class UserEntityCache : BaseCache
     public static CategoryCacheItem GetNextParentInWishknowledge(int categoryId)
     {
         var nextParents = EntityCache.GetCategory(categoryId, true).ParentCategories().Distinct().ToList();
-        var user = Sl.SessionUser.User; 
+        var user = SessionUser.User; 
             
         while (nextParents.Count > 0)
         {
@@ -253,7 +253,7 @@ public class UserEntityCache : BaseCache
 
     public static bool IsCategoryCacheKeyAvailable(int userId = -1)
     {
-        userId = userId == -1 ? Sl.SessionUser.UserId : userId;
+        userId = userId == -1 ? SessionUser.UserId : userId;
         return _Categories.ContainsKey(userId); 
     }
 

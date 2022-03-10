@@ -18,13 +18,13 @@ public class AccountController : BaseController
         var membership = model.ToMembership();
         Sl.MembershipRepo.Create(membership);
 
-        _sessionUser.User.MembershipPeriods.Add(membership);
+        SessionUser.User.MembershipPeriods.Add(membership);
 
         SendEmail.Run(new MailMessage(
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "We have a new member",
-            $"New member: {_sessionUser.User.Name} {_sessionUser.User.Id}"), MailMessagePriority.High);
+            $"New member: {SessionUser.User.Name} {SessionUser.User.Id}"), MailMessagePriority.High);
 
         return View("~/Views/Users/Account/Membership.aspx", new MembershipModel
         {
@@ -40,7 +40,7 @@ public class AccountController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult RemoveAdminRights()
     {
-        _sessionUser.IsInstallationAdmin = false;
+        SessionUser.IsInstallationAdmin = false;
 
         if (Request.UrlReferrer == null)
             Redirect("/");

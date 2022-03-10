@@ -12,7 +12,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChange = new CategoryChange
         {
             Category = category,
-            Author = Sl.SessionUser.User,
+            Author = SessionUser.User,
             Type = CategoryChangeType.Delete,
             DataVersion = 2,
             Data = ""

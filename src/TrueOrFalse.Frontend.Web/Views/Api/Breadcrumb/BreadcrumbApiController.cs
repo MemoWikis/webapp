@@ -6,11 +6,11 @@ public class BreadCrumbApiController : BaseController
     [HttpPost]
     public JsonResult SetWiki(int wikiId, int currentCategoryId)
     {
-        var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
-        _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
+        var defaultWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1;
+        SessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
         var currentWiki = CrumbtrailService.GetWiki(category);
-        _sessionUser.SetWikiId(currentWiki);
+        SessionUser.SetWikiId(currentWiki);
 
         var model = new BaseModel();
         model.TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentWiki);

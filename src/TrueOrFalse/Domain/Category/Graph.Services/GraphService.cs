@@ -76,13 +76,18 @@ public class GraphService
     {
         var directParentIds = GetDirectParentIds(userEntityCacheItem);
         var directParentIdsInWuwi = EntityCache.GetCategories(directParentIds)
-            .Where(cci => cci.IsInWishknowledge() || cci.Id == Sl.SessionUser.User.StartTopicId)
+            .Where(cci => cci.IsInWishknowledge() || cci.Id == SessionUser.User.StartTopicId)
             .Select(cci => cci.Id).ToList();
         return directParentIdsInWuwi;
     }
 
     public static List<int> GetDirectParentIds(CategoryCacheItem category)
     {
+        if (category == null)
+        {
+            return new List<int>();
+        }
+
         var relations = new List<int>();
         foreach (var relation in category.CategoryRelations)
         {

@@ -2,14 +2,14 @@
 {
     public static void FromSessionToUser()
     {
-        if (Sl.SessionUser.ActivityPoints.Count > 0)
+        if (SessionUser.ActivityPoints.Count > 0)
         {
-            foreach (var activityPoints in Sl.SessionUser.ActivityPoints)
+            foreach (var activityPoints in SessionUser.ActivityPoints)
             {
-                activityPoints.User = Sl.SessionUser.User;
+                activityPoints.User = SessionUser.User;
                 Sl.ActivityPointsRepo.Create(activityPoints);
             }
-            Sl.SessionUser.ActivityPoints.Clear();
+            SessionUser.ActivityPoints.Clear();
         }
     }
 }

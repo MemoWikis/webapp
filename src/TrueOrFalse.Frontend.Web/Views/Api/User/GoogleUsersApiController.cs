@@ -14,7 +14,7 @@ public class GoogleUsersApiController : BaseController
         if (!IsGoogleAccessToken.Valid(googleToken))
             throw new Exception("invalid google access token");
 
-        R<SessionUser>().Login(user);
+        SessionUser.Login(user);
     }
 
     [HttpPost]
@@ -33,11 +33,11 @@ public class GoogleUsersApiController : BaseController
             var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            R<SessionUser>().Login(user);
+            SessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            _sessionUser.User.StartTopicId = category.Id;
+            SessionUser.User.StartTopicId = category.Id;
         }
 
         return new JsonResult { Data = registerResult };

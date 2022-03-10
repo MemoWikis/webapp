@@ -26,8 +26,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             ModifyRelationsForCategory.AddParentCategory(childCategory, parentCategoryId);
             ModifyRelationsForCategory.AddCategoryRelationOfType(parentCategory, childCategoryId, CategoryRelationType.IncludesContentOf);
 
-            catRepo.Update(childCategory, Sl.SessionUser.User, type: CategoryChangeType.Relations);
-            catRepo.Update(parentCategory, Sl.SessionUser.User, type: CategoryChangeType.Relations);
+            catRepo.Update(childCategory, SessionUser.User, type: CategoryChangeType.Relations);
+            catRepo.Update(parentCategory, SessionUser.User, type: CategoryChangeType.Relations);
             Logg.r().Information("Job ended - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
         }
     }

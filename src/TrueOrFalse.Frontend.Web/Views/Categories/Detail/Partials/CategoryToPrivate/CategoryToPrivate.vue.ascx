@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<% var sessionUser = new SessionUser();
-   var admin = sessionUser.IsInstallationAdmin; %>
+<% var admin = SessionUser.IsInstallationAdmin; %>
 
 <div class="modal fade" id="CategoryToPrivateModal" tabindex="-1" role="dialog" aria-labelledby="modal-content-module-settings" aria-hidden="true">
     <div v-if="setToPrivateConfirmation" class="modal-dialog modal-xs">

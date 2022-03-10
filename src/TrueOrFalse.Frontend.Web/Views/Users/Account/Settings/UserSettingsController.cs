@@ -19,16 +19,16 @@ public class UserSettingsController : BaseController
     [SetMainMenu(MainMenuEntry.None)]
     public ViewResult UserSettings()
     {
-        var userSettingsModel = new UserSettingsModel(_sessionUser.User);
+        var userSettingsModel = new UserSettingsModel(SessionUser.User);
         if ((Request["update"] != null) && (Request["token"] != null))
         {
             if (Request["update"] == UpdateKnowledgeReportInterval.CommandName)
             {
                 var result = UpdateKnowledgeReportInterval.Run(Request["userId"].ToInt(), Request["val"].ToInt(), Request["expires"], Request["token"]);
                 userSettingsModel.Message = result.ResultMessage;
-                if (result.Success && (_sessionUser.User == result.AffectedUser))
+                if (result.Success && (SessionUser.User == result.AffectedUser))
                 {
-                    _sessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
+                    SessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
                     userSettingsModel.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
                 }
             }
@@ -47,16 +47,16 @@ public class UserSettingsController : BaseController
             return View(_viewLocation, model);
         }
 
-        _sessionUser.User.EmailAddress = model.Email.Trim();
-        _sessionUser.User.Name = model.Name.Trim();
-        _sessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
-        _sessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
-        _sessionUser.User.KnowledgeReportInterval = model.KnowledgeReportInterval;
+        SessionUser.User.EmailAddress = model.Email.Trim();
+        SessionUser.User.Name = model.Name.Trim();
+        SessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
+        SessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
+        SessionUser.User.KnowledgeReportInterval = model.KnowledgeReportInterval;
 
-        _userRepo.Update(_sessionUser.User);
-        ReputationUpdate.ForUser(_sessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
+        _userRepo.Update(SessionUser.User);
+        ReputationUpdate.ForUser(SessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
-        var newUserSettingsModel = new UserSettingsModel(_sessionUser.User);
+        var newUserSettingsModel = new UserSettingsModel(SessionUser.User);
         newUserSettingsModel.Message = new SuccessMessage("Deine Änderungen wurden gespeichert");
 
         return View(_viewLocation, newUserSettingsModel);
@@ -65,7 +65,7 @@ public class UserSettingsController : BaseController
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {
-        UserImageStore.Run(file, _sessionUser.User.Id);
+        UserImageStore.Run(file, SessionUser.User.Id);
         return UserSettings();
     }
 }

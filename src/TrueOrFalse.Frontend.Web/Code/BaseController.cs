@@ -2,15 +2,14 @@
 
 public class BaseController : Controller
 {
-    protected SessionUser _sessionUser => Sl.SessionUser;
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
-    public int UserId => _sessionUser.UserId;
+    public int UserId => SessionUser.UserId;
 
-    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
-    public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
+    public bool IsLoggedIn => SessionUser.IsLoggedIn;
+    public bool IsInstallationAdmin => SessionUser.IsInstallationAdmin;
     public bool IsMemuchoUser => IsLoggedIn && Settings.MemuchoUserId == UserId;
-    public bool IsFacebookUser => IsLoggedIn && _sessionUser.User.IsFacebookUser;
+    public bool IsFacebookUser => IsLoggedIn && SessionUser.User.IsFacebookUser;
 
     /// <summary>The user fresh from the db</summary>
     public User User_() => R<UserRepo>().GetById(UserId);

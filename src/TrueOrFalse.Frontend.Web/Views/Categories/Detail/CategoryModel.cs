@@ -81,7 +81,7 @@ public class CategoryModel : BaseContentModule
         IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         IsWiki = category.IsStartPage();
         var currentRootWiki = CrumbtrailService.GetWiki(category);
-        _sessionUser.SetWikiId(currentRootWiki);
+        SessionUser.SetWikiId(currentRootWiki);
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
@@ -122,7 +122,7 @@ public class CategoryModel : BaseContentModule
         //var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
         Authors = AuthorViewModel.Convert(category.Authors);
 
-        IsOwnerOrAdmin = Creator != null ? _sessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
+        IsOwnerOrAdmin = Creator != null ? SessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
 
         var parentCategories = category.ParentCategories();
         if (parentCategories.All(c => !PermissionCheck.CanView(c)))
@@ -131,7 +131,7 @@ public class CategoryModel : BaseContentModule
             CategoriesParent = parents;
         } else CategoriesParent = parentCategories.Where(PermissionCheck.CanView).ToList();
 
-        CategoriesChildren = UserCache.GetItem(_sessionUser.UserId).IsFiltered ? 
+        CategoriesChildren = UserCache.GetItem(SessionUser.UserId).IsFiltered ? 
             UserEntityCache.GetChildren(category.Id, UserId) :
            EntityCache.GetChildren(category.Id, true);
 
@@ -153,7 +153,7 @@ public class CategoryModel : BaseContentModule
 
         CountWishQuestions = wishQuestions.Total;
 
-        IsFilteredUserWorld = UserCache.GetItem(_sessionUser.UserId).IsFiltered;
+        IsFilteredUserWorld = UserCache.GetItem(SessionUser.UserId).IsFiltered;
 
         AggregatedTopicCount = IsMyWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
 
@@ -230,15 +230,15 @@ public class CategoryModel : BaseContentModule
     }
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
-        var user = Sl.SessionUser.User; 
+        var user = SessionUser.User; 
         return EntityCache.GetChildren(category.Id).Count(PermissionCheck.CanView);
     }
 
     public bool ShowPinButton()
     {
-        if (_sessionUser.UserId != -1)
+        if (SessionUser.UserId != -1)
             return !Category.IsHistoric &&
-                   !UserCache.GetItem(_sessionUser.UserId).User.IsStartTopicTopicId(Category.Id);
+                   !UserCache.GetItem(SessionUser.UserId).User.IsStartTopicTopicId(Category.Id);
 
         return !Category.IsHistoric; 
     } 

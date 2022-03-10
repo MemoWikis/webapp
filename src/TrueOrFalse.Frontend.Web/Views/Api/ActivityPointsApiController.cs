@@ -15,32 +15,32 @@ public class ActivityPointsApiController : BaseController
 
         if (IsLoggedIn)
         {
-            var oldUserLevel = _sessionUser.User.ActivityLevel;
-            activityPoints.User = _sessionUser.User;
+            var oldUserLevel = SessionUser.User.ActivityLevel;
+            activityPoints.User = SessionUser.User;
             Sl.ActivityPointsRepo.Create(activityPoints);
             Sl.UserRepo.UpdateActivityPointsData();
-            _sessionUser.UpdateUser();
+            SessionUser.UpdateUser();
 
             var levelPopupAsHtml = "";
-            if (oldUserLevel < _sessionUser.User.ActivityLevel)
+            if (oldUserLevel < SessionUser.User.ActivityLevel)
             {
                 levelPopupAsHtml = ViewRenderer.RenderPartialView(
                     "~/Views/Api/ActivityPoints/LevelPopup.aspx",
-                    new LevelPopupModel(_sessionUser.User.ActivityLevel, _sessionUser.User.ActivityPoints, true),
+                    new LevelPopupModel(SessionUser.User.ActivityLevel, SessionUser.User.ActivityPoints, true),
                     ControllerContext
                 );
             }
 
-            var activityLevel = _sessionUser.User.ActivityLevel;
+            var activityLevel = SessionUser.User.ActivityLevel;
             var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);
-            var activityPointsTillNextLevel = activityPointsAtNextLevel - _sessionUser.User.ActivityPoints;
-            var activityPointsPercentageOfNextLevel = _sessionUser.User.ActivityPoints == 0 ? 0 : 100 * _sessionUser.User.ActivityPoints / activityPointsAtNextLevel;
+            var activityPointsTillNextLevel = activityPointsAtNextLevel - SessionUser.User.ActivityPoints;
+            var activityPointsPercentageOfNextLevel = SessionUser.User.ActivityPoints == 0 ? 0 : 100 * SessionUser.User.ActivityPoints / activityPointsAtNextLevel;
 
             return new JsonResult
             {
                 Data = new
                 {
-                    totalPoints = _sessionUser.User.ActivityPoints,
+                    totalPoints = SessionUser.User.ActivityPoints,
                     userLevel = activityLevel,
                     levelPopup = levelPopupAsHtml,
                     activityPointsTillNextLevel,
@@ -50,22 +50,22 @@ public class ActivityPointsApiController : BaseController
         } 
         else 
         {
-            var oldUserLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
-            _sessionUser.AddPointActivity(activityPoints);
-            var newUserLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
+            var oldUserLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
+            SessionUser.AddPointActivity(activityPoints);
+            var newUserLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
 
             var levelPopupAsHtml = "";
             if (oldUserLevel < newUserLevel)
                 levelPopupAsHtml = ViewRenderer.RenderPartialView(
                     "~/Views/Api/ActivityPoints/LevelPopup.aspx", 
-                    new LevelPopupModel(newUserLevel, _sessionUser.GetTotalActivityPoints(), false), 
+                    new LevelPopupModel(newUserLevel, SessionUser.GetTotalActivityPoints(), false), 
                     ControllerContext);
 
             return new JsonResult
             {
                 Data = new
                 {
-                    totalPoints = _sessionUser.GetTotalActivityPoints(), 
+                    totalPoints = SessionUser.GetTotalActivityPoints(), 
                     levelPopup = levelPopupAsHtml
                 }
             };

@@ -29,9 +29,8 @@
         showStageOverlay = true;
     }
 
-    var userSession = new SessionUser();
-    var searchClasses = userSession.IsLoggedIn ? "col-sm-9 col-md-8 col-lg-7" : "col-sm-3 col-md-5 col-lg-6";
-    var loginClasses = userSession.IsLoggedIn ? "col-sm-3 col-md-4 col-lg-5" : "col-sm-9 col-md-7 col-lg-6";
+    var searchClasses = SessionUser.IsLoggedIn ? "col-sm-9 col-md-8 col-lg-7" : "col-sm-3 col-md-5 col-lg-6";
+    var loginClasses = SessionUser.IsLoggedIn ? "col-sm-3 col-md-4 col-lg-5" : "col-sm-9 col-md-7 col-lg-6";
 %>
 
 
@@ -53,7 +52,7 @@
        } %>
 <% } %>
 
-<% if (!userSession.IsLoggedIn)
+<% if (!SessionUser.IsLoggedIn)
     {%>
     <header id="MasterHeader">
         <div id="MasterHeaderContainer"class="container">

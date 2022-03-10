@@ -13,8 +13,7 @@ public class AccessBetaAttribute : ActionFilterAttribute
             controllerName != "ForwardController" &&
             actionName != "RemoteLogin";
 
-        var userSession = new SessionUser();
-        if (checkAccess && !userSession.HasBetaAccess)
+        if (checkAccess && !SessionUser.HasBetaAccess)
             filterContext.Result = new RedirectResult("/beta");
         
         base.OnActionExecuting(filterContext);

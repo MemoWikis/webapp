@@ -6,31 +6,31 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
-    public bool HasBetaAccess
+    public static bool HasBetaAccess
     {
-        get => Data.Get("isBetaLogin", false);
-        set => Data["isBetaLogin"] = value;
+        get => SessionData.Get("isBetaLogin", false);
+        set => SessionData.Set("isBetaLogin", value);
     }
 
-    public bool IsLoggedIn
+    public static bool IsLoggedIn
     {
-        get => Data.Get("isLoggedIn", false);
-        private set => Data["isLoggedIn"] = value;
+        get => SessionData.Get("isLoggedIn", false);
+        private set => SessionData.Set("isLoggedIn", value);
     }
 
-    public bool IsInstallationAdmin
+    public static bool IsInstallationAdmin
     {
-        get => Data.Get("isAdministrativeLogin", false);
-        set => Data["isAdministrativeLogin"] = value;
+        get => SessionData.Get("isAdministrativeLogin", false);
+        set => SessionData.Set("isAdministrativeLogin", value);
     }
 
-    public User User
+    public static User User
     {
-        get => Data.Get<User>("user");
-        private set => Data["user"] = value;
+        get => SessionData.Get<User>("user");
+        private set => SessionData.Set("user", value);
     }
 
-    public bool IsLoggedInUser(int userId)
+    public static bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
             return false;
@@ -38,12 +38,12 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         return userId == User.Id;
     }
 
-    public bool IsLoggedInUserOrAdmin(int userId)
+    public static bool IsLoggedInUserOrAdmin(int userId)
     {
         return IsLoggedInUser(userId) || IsInstallationAdmin;
     }
 
-    public void Login(User user)
+    public static void Login(User user)
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
@@ -53,13 +53,13 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
 
-        if(HttpContext.Current != null)
+        if (HttpContext.Current != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
         JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
     }
 
-    public void Logout()
+    public static void Logout()
     {
         UserEntityCache.DeleteCacheForUser();
         IsLoggedIn = false;
@@ -71,12 +71,12 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             FormsAuthentication.SignOut();
     }
 
-    public void UpdateUser()
+    public static void UpdateUser()
     {
-        User = Sl.UserRepo.GetById(Sl.SessionUser.UserId);
+        User = Sl.UserRepo.GetById(UserId);
     }
 
-    public int UserId
+    public static int UserId
     {
         get
         {
@@ -87,31 +87,31 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         }
     }
 
-    public List<ActivityPoints> ActivityPoints => Data.Get("pointActivities", new List<ActivityPoints>());
+    public static List<ActivityPoints> ActivityPoints => SessionData.Get("pointActivities", new List<ActivityPoints>());
 
-    public void AddPointActivity(ActivityPoints activityPoints)
+    public static void AddPointActivity(ActivityPoints activityPoints)
     {
         ActivityPoints.Add(activityPoints);
     }
 
-    public int GetTotalActivityPoints()
+    public static int GetTotalActivityPoints()
     {
         int totalPoints = 0;
-        
-        foreach (var activity in ActivityPoints) 
+
+        foreach (var activity in ActivityPoints)
             totalPoints += activity.Amount;
 
         return totalPoints;
     }
 
-    public int CurrentWikiId
+    public static int CurrentWikiId
     {
-        get => Data.Get("currentWikiId", 1);
-        private set => Data["currentWikiId"] = value;
+        get => SessionData.Get("currentWikiId", 1);
+        private set => SessionData.Set("currentWikiId", value);
     }
 
-    public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    public void SetWikiId(int id) => CurrentWikiId = id;
+    public static void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public static void SetWikiId(int id) => CurrentWikiId = id;
 
-    public bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
+    public static bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
 }

@@ -27,8 +27,8 @@ public class QuestionListModel : BaseModel
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
-        var userQuestionValuation = Sl.SessionUser.IsLoggedIn 
-            ? UserCache.GetItem(Sl.SessionUser.UserId).QuestionValuations 
+        var userQuestionValuation = SessionUser.IsLoggedIn 
+            ? UserCache.GetItem(SessionUser.UserId).QuestionValuations 
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var learningSession = LearningSessionCache.GetLearningSession();
         var steps = learningSession.Steps;
@@ -55,7 +55,7 @@ public class QuestionListModel : BaseModel
                 SessionIndex = steps.IndexOf(step),
             };
 
-            if (userQuestionValuation.ContainsKey(q.Id) && Sl.SessionUser.IsLoggedIn)
+            if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
                 question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;

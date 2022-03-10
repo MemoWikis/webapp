@@ -6,18 +6,18 @@ public class QuestionsApiController : BaseController
     [HttpPost]
     public bool Pin(string questionId)
     {
-        if (_sessionUser.User == null)
+        if (SessionUser.User == null)
             return false;
-        QuestionInKnowledge.Pin(Convert.ToInt32(questionId), _sessionUser.User);
+        QuestionInKnowledge.Pin(Convert.ToInt32(questionId), SessionUser.User);
         return true;
     }
 
     [HttpPost]
     public bool Unpin(string questionId)
     {
-        if (_sessionUser.User == null)
+        if (SessionUser.User == null)
             return false;
-        QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), _sessionUser.User);
+        QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), SessionUser.User);
         return true;
     }
 }

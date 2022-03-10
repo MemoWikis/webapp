@@ -27,13 +27,13 @@ public class RegisterController : BaseController
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 
-        _sessionUser.Login(user);
+        SessionUser.Login(user);
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
         user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
-        _sessionUser.User.StartTopicId = category.Id;
+        SessionUser.User.StartTopicId = category.Id;
         UserCache.AddOrUpdate(user);
         return Category(EntityCache.GetCategory(category.Id));
     }
@@ -43,7 +43,7 @@ public class RegisterController : BaseController
     [HttpPost]
     public string GetUserTopic()
     {
-        var userCategory = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+        var userCategory = EntityCache.GetCategory(SessionUser.User.StartTopicId);
         return Links.CategoryDetail(userCategory);
     }
 

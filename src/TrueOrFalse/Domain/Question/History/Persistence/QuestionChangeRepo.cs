@@ -10,7 +10,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         var QuestionChange = new QuestionChange
         {
             Question = question,
-            Author = Sl.SessionUser.User,
+            Author = SessionUser.User,
             Type = QuestionChangeType.Delete,
             DataVersion = 1
         };
@@ -23,7 +23,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
     private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
     {
         if (author == null)
-            author = Sl.SessionUser.User;
+            author = SessionUser.User;
 
         var questionChange = new QuestionChange
         {

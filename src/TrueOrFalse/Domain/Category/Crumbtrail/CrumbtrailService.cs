@@ -119,8 +119,7 @@ public class CrumbtrailService
 
     public static CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem)
     {
-        var sessionUser = Sl.SessionUser;
-        var currentWikiId = sessionUser.CurrentWikiId;
+        var currentWikiId = SessionUser.CurrentWikiId;
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
@@ -138,9 +137,9 @@ public class CrumbtrailService
                         return newWiki;
                     }
 
-                    if (sessionUser.IsLoggedIn)
+                    if (SessionUser.IsLoggedIn)
                     {
-                        var userWikiId = UserCache.GetUser(sessionUser.UserId).StartTopicId;
+                        var userWikiId = UserCache.GetUser(SessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

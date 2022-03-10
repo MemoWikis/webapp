@@ -29,11 +29,12 @@ public class PersonaController : BaseController
     private ActionResult LoginUser(string emailAddress)
     {
         var robertM = _userRepo.GetByEmail(emailAddress);
-        _sessionUser.Login(robertM);
+        SessionUser.Login(robertM);
 
         if (Request["target-url"] != null)
             return Redirect(Request["target-url"]);
 
-        return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
+        return Redirect(Request["target-url"]);
+        //return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
     }
 }

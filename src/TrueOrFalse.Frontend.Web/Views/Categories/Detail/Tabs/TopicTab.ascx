@@ -42,7 +42,7 @@
         <% if (Model.CategoryIsDeleted)
                Html.RenderPartial("~/Views/Shared/Delete.ascx");
         %>
-        <% if (new SessionUser().IsLoggedIn && Model.NextRevExists)
+        <% if (SessionUser.IsLoggedIn && Model.NextRevExists)
            { %>
             <div id="alertConfirmRestore" class="row" style="display: none">
                 <br/>

@@ -44,8 +44,8 @@ public class UserRowModel : BaseModel
         WishCountSets = user.WishCountSets;
         CreatedQuestions = Sl.R<UserSummary>().AmountCreatedQuestions(user.Id, false);
         CreatedSets = Sl.R<UserSummary>().AmountCreatedSets(user.Id);
-        IsCurrentUser = Id == _sessionUser.UserId;
-        IsInstallationLogin = _sessionUser.IsInstallationAdmin;
+        IsCurrentUser = Id == SessionUser.UserId;
+        IsInstallationLogin = SessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowlede = user.ShowWishKnowledge;
         IsMember = user.IsMember();

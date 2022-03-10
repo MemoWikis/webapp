@@ -13,14 +13,14 @@ public class QuestionDelete
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
-        var canBeDeletedResult = CanBeDeleted(Sl.R<SessionUser>().UserId, question);
+        var canBeDeletedResult = CanBeDeleted(SessionUser.UserId, question);
         if (!canBeDeletedResult.Yes)
         {
             throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
 
         EntityCache.Remove(questionCacheItem);
-        UserCache.RemoveQuestionForUser(Sl.SessionUser.UserId, questionId);
+        UserCache.RemoveQuestionForUser(SessionUser.UserId, questionId);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 

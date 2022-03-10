@@ -42,7 +42,7 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = LearningSessionCache.GetLearningSession();
 
-        if (learningSession.User != _sessionUser.User)
+        if (learningSession.User != SessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
         if (skipStepIdx != -1 && learningSession.CurrentStep != null)
@@ -61,7 +61,7 @@ public class AnswerQuestionController : BaseController
         Sl.SaveQuestionView.Run(
             questionViewGuid,
             learningSession.Steps[currentLearningStepIndex].Question,
-            _sessionUser.User
+            SessionUser.User
           );
 
         return View(_viewLocation,
@@ -115,7 +115,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(questionCacheItem, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, _sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, SessionUser.User);
 
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, questionCacheItem, activeSearchSpec));
     }
@@ -268,19 +268,19 @@ public class AnswerQuestionController : BaseController
 
     [HttpPost]
     public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId, int? learningSessionId, string learningSessionStepGuid) => 
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
+        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
 
     [HttpPost]
     public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId, int? learningSessionId) => 
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
+        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
         var question = EntityCache.GetQuestion(questionId);
 
         var questionValuationForUser =
-            NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, _sessionUser.UserId));
-        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, question.Id);
+            NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, SessionUser.UserId));
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(SessionUser.UserId, question.Id);
 
         return View("HistoryAndProbability",
             new HistoryAndProbabilityModel
@@ -402,7 +402,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, SessionUser.User);
         var answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
@@ -469,7 +469,7 @@ public class AnswerQuestionController : BaseController
         learningSession.QuestionViewGuid = Guid.NewGuid(); 
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
-        var sessionUserId = _sessionUser == null ? -1 : _sessionUser.UserId;
+        var sessionUserId = SessionUser.UserId;
 
         Sl.SaveQuestionView.Run(
             learningSession.QuestionViewGuid,
@@ -653,7 +653,7 @@ public class AnswerQuestionController : BaseController
 
             return LearningSessionCreator.GetQuestionCount(c);
         }
-        config.CurrentUserId = _sessionUser.UserId;
+        config.CurrentUserId = SessionUser.UserId;
 
         if (config.IsMyWorld())
         {
@@ -671,7 +671,7 @@ public class AnswerQuestionController : BaseController
             return null;
 
         var question = _questionRepo.GetById(id);
-        var isAuthor = question.Creator == _sessionUser.User;
+        var isAuthor = question.Creator == SessionUser.User;
         if (IsInstallationAdmin  || isAuthor)
             return Links.EditQuestion(question.Text, id);
 

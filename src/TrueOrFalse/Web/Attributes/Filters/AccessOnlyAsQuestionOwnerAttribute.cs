@@ -12,7 +12,7 @@ public class AccessOnlyAsQuestionOwnerAttribute : ActionFilterAttribute
         var questionId = (int)filterContext.ActionParameters["questionId"];
         var question = Sl.QuestionRepo.GetById(questionId);
         if (question.Visibility != QuestionVisibility.All)
-            if (question.Creator.Id != Sl.SessionUser.UserId)
+            if (question.Creator.Id != SessionUser.UserId)
                 throw new Exception("AccessOnlyAsQuestionOwner: Invalid access to question with id " + question.Id);
         
         base.OnActionExecuting(filterContext);
