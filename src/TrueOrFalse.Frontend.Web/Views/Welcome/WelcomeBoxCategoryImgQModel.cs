@@ -21,7 +21,7 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
 
         Questions = R<QuestionRepo>().GetByIds(questionIds); //not checked if questionIds are part of category!
         QuestionImageFrontendDatas = Questions.Select(x => new Tuple<int, ImageFrontendData>(
-            x.Id, GetQuestionImageFrontendData.Run(Questions.ById(x.Id)))
+            x.Id, GetQuestionImageFrontendData.Run(EntityCache.GetQuestion(x.Id)))
         ).ToList();
     }
 
