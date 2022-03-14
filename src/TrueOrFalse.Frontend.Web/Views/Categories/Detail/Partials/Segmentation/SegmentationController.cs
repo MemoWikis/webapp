@@ -48,8 +48,8 @@ public class SegmentationController : BaseController
             CategoryCardData categoryCardData;
 
             categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId) : GetCategoryCardData(categoryId);
-
-            categoryDataList.Add(categoryCardData);
+            if (categoryCardData != null)
+                categoryDataList.Add(categoryCardData);
         }
 
         return Json(categoryDataList);
@@ -59,13 +59,16 @@ public class SegmentationController : BaseController
     public JsonResult GetCategoryData(int categoryId)
     {
         var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations, UserCache.GetUser(UserId).StartTopicId) : GetCategoryCardData(categoryId);
-        return Json(categoryCardData);
+        if (categoryCardData != null)
+            return Json(categoryCardData);
+        return Json("");
     }
 
 
     private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null, int? startTopicId = null)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
+        if (!PermissionCheck.CanView(categoryCacheItem)) return null;
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
         var categoryTypeHtml = categoryCacheItem.Type.GetCategoryTypeIconHtml();
