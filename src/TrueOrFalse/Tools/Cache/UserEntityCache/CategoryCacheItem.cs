@@ -173,23 +173,26 @@ public class CategoryCacheItem
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true, bool fullList = true, int categoryId = 0)
     {
-        IEnumerable<QuestionCacheItem> questions;
+        IList<QuestionCacheItem> questions;
 
         if (fullList)
             questions = AggregatedCategories()
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
-                .Distinct();
+                .Distinct().ToList();
         else
             questions = EntityCache.GetQuestionsForCategory(categoryId)
-                .Distinct();
+                .Distinct().ToList();
 
         if (onlyVisible)
-            questions = questions.Where(PermissionCheck.CanView);
+            questions = questions.Where(PermissionCheck.CanView).ToList();
 
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            questions = questions.Where(q => q.IsInWishknowledge());
-
-        questions = questions.Distinct();
+            questions = questions.Where(q => q.IsInWishknowledge()).ToList();
+        if (questions.Any(q => q.Id == 0))
+        {
+            var questionsToDelete = questions.Where(qc => qc.Id == 0);
+            questions.Remove(questionsToDelete.FirstOrDefault());
+        }
         return questions.ToList();
     }
 
