@@ -71,7 +71,8 @@ public class EntityCache : BaseCache
             Init();
         }
 
-        return CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
+        var questionIds = CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
+        return questionIds;
     }
 
     public static IList<QuestionCacheItem> GetQuestionsByIds(IList<int> questionIds)
@@ -162,10 +163,10 @@ public class EntityCache : BaseCache
         }
     }
 
-    public static void AddOrUpdate(QuestionCacheItem question, List<int> affectedCategoriesIds = null)
+    public static void AddOrUpdate(QuestionCacheItem question, List<int> categoriesIdsToRemove = null)
     {
         AddOrUpdate(Questions, question);
-        UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoriesIds);
+        UpdateCategoryQuestionList(CategoryQuestionsList, question, categoriesIdsToRemove);
     }
 
     public static void Remove(QuestionCacheItem question)

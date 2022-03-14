@@ -189,6 +189,7 @@ public class CategoryCacheItem
         if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
             questions = questions.Where(q => q.IsInWishknowledge());
 
+        questions = questions.Distinct();
         return questions.ToList();
     }
 
