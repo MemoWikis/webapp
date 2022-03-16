@@ -121,6 +121,14 @@
                 },
             });
         },
+        openMoveCategoryModal() {
+            var self = this;
+            var data = {
+                parentCategoryIdToRemove: self.$parent.categoryId,
+                childCategoryId: self.categoryId,
+            };
+            eventBus.$emit('open-move-category-modal', data);
+        },
         hideCategory() {
             this.$parent.filterChildren([this.categoryId]);
         },

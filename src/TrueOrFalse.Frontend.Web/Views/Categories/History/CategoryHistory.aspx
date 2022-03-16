@@ -45,6 +45,8 @@
 
                    if (item.Type == CategoryChangeType.Relations)
                        item.SetLabelAndVisibility(relationChangeItem);
+                   else if(item.Type == CategoryChangeType.Moved)
+                       item.SetLabelAndVisibility(relationChangeItem, true);
 
                    if (item.IsVisibleToCurrentUser() && item.RelationIsVisibleToCurrentUser)
                    {
@@ -94,7 +96,7 @@
                                                     vor <%= ai.ElapsedTime %> um <%= ai.Time %>
                                                 </div>
                                                 <div class="col-xs-6 col-sm-7 pull-right change-detail">
-                                                    <div class="change-detail-label"><%= item.Label %> aaa</div>
+                                                    <div class="change-detail-label"><%= item.Label %></div>
 
                                                     <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link" href="<%= Links.CategoryHistoryDetail(Model.CategoryId, ai.CategoryChangeId) %>">
                                                         Ansehen

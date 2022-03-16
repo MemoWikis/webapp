@@ -207,6 +207,14 @@
         },
         openPublishModal() {
             eventBus.$emit('open-publish-category-modal', this.categoryId);
+        },
+        openMoveCategoryModal() {
+            var self = this;
+            var data = {
+                parentCategoryIdToRemove: self.$parent.categoryId,
+                childCategoryId: self.categoryId,
+            };
+            eventBus.$emit('open-move-category-modal', data);
         }
     },
 });

@@ -62,7 +62,7 @@ public class EditCategoryController : BaseController
             .ToList();
         var oldParents = oldcategoryCacheItem.ParentCategories();
 
-        var isChangeParents = !GraphService.IsCategoryParentEqual(newParents,oldParents);
+        var isChangeParents = !GraphService.IsCategoryParentEqual(newParents, oldParents);
 
 
         model.UpdateCategory(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id));
@@ -86,7 +86,7 @@ public class EditCategoryController : BaseController
         if (isChangeParents)
         {
             Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id + " AND CategoryRelationType = 2").ExecuteUpdate();
-            GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategory(id),  oldParents);
+            GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategory(id), oldParents);
 
             UserEntityCache.ReInitAllActiveCategoryCaches();
         }
@@ -226,7 +226,27 @@ public class EditCategoryController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddChild(int childCategoryId, int parentCategoryId)
+    public JsonResult MoveChild(int childCategoryId, int parentCategoryIdToRemove, int parentCategoryIdToAdd)
+    {
+        if (childCategoryId == parentCategoryIdToRemove || childCategoryId == parentCategoryIdToAdd)
+            return Json(new
+            {
+                success = false,
+                key = "loopLink"
+            });
+        if (parentCategoryIdToRemove == RootCategory.RootCategoryId && !IsInstallationAdmin || parentCategoryIdToAdd == RootCategory.RootCategoryId && !IsInstallationAdmin)
+            return Json(new
+            {
+                success = false,
+                key = "parentIsRoot"
+            });
+
+        RemoveParent(parentCategoryIdToRemove, childCategoryId, true);
+        return AddChild(childCategoryId, parentCategoryIdToAdd, true);
+    }
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult AddChild(int childCategoryId, int parentCategoryId, bool categoryIsMoved = false)
     {
         if (childCategoryId == parentCategoryId)
             return Json(new
@@ -237,13 +257,13 @@ public class EditCategoryController : BaseController
         if (parentCategoryId == RootCategory.RootCategoryId && !IsInstallationAdmin)
             return Json(new
             {
-                success = false, 
+                success = false,
                 key = "parentIsRoot"
             });
         var children = EntityCache.GetAllChildren(parentCategoryId, true);
         var isChildrenLinked = children.Any(c => c.Id == childCategoryId);
-        
-        if(isChildrenLinked && UserCache.GetItem(SessionUser.UserId).IsFiltered)
+
+        if (isChildrenLinked && UserCache.GetItem(SessionUser.UserId).IsFiltered)
             return Json(new
             {
                 success = false,
@@ -262,7 +282,7 @@ public class EditCategoryController : BaseController
 
         if (selectedCategoryIsParent)
         {
-            Logg.r().Error( "Child is Parent " );
+            Logg.r().Error("Child is Parent ");
             return Json(new
             {
                 success = false,
@@ -270,20 +290,20 @@ public class EditCategoryController : BaseController
             });
         }
 
-        if(UserCache.GetItem(SessionUser.UserId).IsFiltered)
-            CategoryInKnowledge.Pin(childCategoryId, SessionUser.User );
+        if (UserCache.GetItem(SessionUser.UserId).IsFiltered)
+            CategoryInKnowledge.Pin(childCategoryId, SessionUser.User);
 
         var child = EntityCache.GetCategory(childCategoryId, true);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
 
         JobScheduler.StartImmediately_ModifyCategoryRelation(childCategoryId, parentCategoryId);
 
-        if (UserCache.IsInWishknowledge(SessionUser.UserId, childCategoryId)) 
+        if (UserCache.IsInWishknowledge(SessionUser.UserId, childCategoryId))
             UserEntityCache.ReInitAllActiveCategoryCaches();
-        
+
         EntityCache.GetCategory(parentCategoryId).CachedData.AddChildId(childCategoryId);
         EntityCache.GetCategory(parentCategoryId).DirectChildrenIds = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
-        
+
         return Json(new
         {
             success = true,
@@ -384,14 +404,14 @@ public class EditCategoryController : BaseController
                 .GetByIdsEager(childCategory.ParentCategories()
                 .Where(c => c.Id != parentCategoryId)
                 .Select(c => c.Id).ToList())
-                .ToList(); 
-                
+                .ToList();
+
             related.Add(category);
 
             var childCategoryAsCategory = _categoryRepository.GetByIdEager(childCategory.Id);
             ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
-                childCategory.Id, 
-                related.Select(c => c.Id).ToList(), 
+                childCategory.Id,
+                related.Select(c => c.Id).ToList(),
                 CategoryRelationType.IsChildOf
             );
 
@@ -429,7 +449,7 @@ public class EditCategoryController : BaseController
 
         var categoryCacheItem = EntityCache.GetCategory(model.CategoryId);
 
-        if (categoryCacheItem == null) 
+        if (categoryCacheItem == null)
             return Json(false);
 
         categoryCacheItem.Content = model.Content;
@@ -451,11 +471,11 @@ public class EditCategoryController : BaseController
 
         var category = _categoryRepository.GetById(categoryId);
 
-        if (category == null) 
+        if (category == null)
             return Json(false);
 
-        category.CustomSegments = segmentation != null ? 
-            JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) : 
+        category.CustomSegments = segmentation != null ?
+            JsonConvert.SerializeObject(segmentation, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }) :
             null;
 
         var cacheItem = CategoryCacheItem.ToCacheCategory(category);
@@ -469,7 +489,7 @@ public class EditCategoryController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId)
+    public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId, bool createMoveCategoryChange = false)
     {
         var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryIdToRemove, childCategoryId);
         if (!parentHasBeenRemoved)
@@ -482,7 +502,10 @@ public class EditCategoryController : BaseController
         var parent = _categoryRepository.GetById(parentCategoryIdToRemove);
         _categoryRepository.Update(parent, SessionUser.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childCategoryId);
-        _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
+        if (createMoveCategoryChange)
+            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved);
+        else
+            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
         EntityCache.GetCategory(parentCategoryIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentCategoryIdToRemove).Select(cci => cci.Id).ToList();
         return Json(new
@@ -504,7 +527,8 @@ public class EditCategoryController : BaseController
         foreach (int childCategoryId in childCategoryIds)
         {
             var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryId, childCategoryId);
-            if (parentHasBeenRemoved){
+            if (parentHasBeenRemoved)
+            {
                 parentCategoryCacheItem.CachedData.RemoveChildId(childCategoryId);
                 removedChildCategoryIds.Add(childCategoryId);
             }
@@ -512,7 +536,7 @@ public class EditCategoryController : BaseController
             else
                 notRemovedChildrenCategoryIds.Add(childCategoryId);
         }
-        
+
         return Json(new
         {
             removedChildCategoryIds,
@@ -704,7 +728,7 @@ public class EditCategoryController : BaseController
             {
                 nameHasChanged = true,
                 newUrl,
-                categoryName= category.Name
+                categoryName = category.Name
             });
         }
 

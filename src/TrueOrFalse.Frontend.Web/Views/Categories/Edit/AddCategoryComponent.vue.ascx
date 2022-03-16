@@ -9,10 +9,11 @@
                     <div class="modal-content">
                         <div class="cardModalContent">
                             <div class="modalHeader">
-                                <h4 v-if="createCategory" class="modal-title">Neues Thema erstellen</h4>
+                                <h4 v-if="createCategory && !moveCategory" class="modal-title">Neues Thema erstellen</h4>
+                                <h4 v-else-if="!createCategory && moveCategory" class="modal-title">Thema verschieben nach</h4>
                                 <h4 v-else class="modal-title">Bestehendes Thema verknüpfen</h4>
                             </div>
-                            <div class="modalBody" v-if="createCategory">
+                            <div class="modalBody" v-if="createCategory && !moveCategory">
                                 <form v-on:submit.prevent="addCategory">
                                     <div class="form-group">
                                         <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
@@ -59,8 +60,12 @@
                                 </div>
                             </div>
                             <div class="modalFooter">
-                                <template v-if="createCategory">
-                                    <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema Erstellen</div>       
+                                <template v-if="createCategory && !moveCategory">
+                                    <div class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
+                                    <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
+                                </template>
+                                <template v-if="!createCategory && moveCategory">
+                                    <div class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
                                     <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
                                 </template>
                                 <template v-else>

@@ -43,6 +43,8 @@
 
                    if (item.Type == CategoryChangeType.Relations)
                        item.SetLabelAndVisibility(relationChangeItem);
+                   else if(item.Type == CategoryChangeType.Moved)
+                       item.SetLabelAndVisibility(relationChangeItem, true);
 
                    if (item.IsVisibleToCurrentUser() && item.RelationIsVisibleToCurrentUser)
                    {

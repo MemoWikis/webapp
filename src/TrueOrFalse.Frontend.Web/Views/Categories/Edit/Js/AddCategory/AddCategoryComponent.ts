@@ -4,6 +4,8 @@
             name: "",
             errorMsg: "",
             parentId: null,
+            parentCategoryIdToRemove: null,
+            childId: null,
             forbiddenCategoryName: "",
             existingCategoryUrl: "",
             showErrorMsg: false,
@@ -11,7 +13,7 @@
             addCategoryBtnId: null,
             disableAddCategory: true,
             selectedCategories: [],
-            moveCategories: false,
+            moveCategory: false,
             createCategory: true,
             categories: [],
             searchTerm: "",
@@ -61,7 +63,7 @@
                 var parent = {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                    moveCategories: false,
+                    moveCategory: false,
                     redirect: true,
                     create: true,
                 }
@@ -74,7 +76,7 @@
                 var parent = {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                    moveCategories: false,
+                    moveCategory: false,
                     redirect: true,
                     create: false,
                 }
@@ -107,14 +109,13 @@
                     },
                 });
             });
+        eventBus.$on('open-move-category-modal', this.fillMoveModal);
+
         $('#AddCategoryModal').on('show.bs.modal',
             event => {
                 this.createCategory = !!$('#AddCategoryModal').data('parent').create;
                 this.parentId = $('#AddCategoryModal').data('parent').id;
                 this.addCategoryBtnId = $('#AddCategoryModal').data('parent').addCategoryBtnId;
-                this.moveCategories = $('#AddCategoryModal').data('parent').moveCategories;
-                if (this.moveCategories)
-                    this.selectedCategories = $('#AddCategoryModal').data('parent').selectedCategories;
                 if ($('#AddCategoryModal').data('parent').redirect != null &&
                     $('#AddCategoryModal').data('parent').redirect)
                     this.redirect = true;
@@ -133,10 +134,12 @@
             this.errorMsg = "";
             this.showErrorMsg = false;
             this.parentId = null;
+            this.parentCategoryIdToRemove = null;
+            this.childId = null;
             this.forbiddenCategoryName = "";
             this.existingCategoryUrl = "";
             this.selectedCategories = [];
-            this.moveCategories = false;
+            this.moveCategory = false;
             this.redirect = false;
             this.showDropdown = false;
             this.selectedCategoryId = 0;
@@ -146,161 +149,203 @@
             $('#AddCategoryModal').modal('hide');
         },
 
-        addCategory() {
-            if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg("CreateCategory");
-                return;
-            }
-            Utils.ShowSpinner();
-            var self = this;
-            var url;
-            var categoryData;
-            if (this.moveCategories) {
-                categoryData = {
-                    name: self.name,
-                    parentCategoryId: self.parentId,
-                    childCategoryIds: self.selectedCategories
-                }
-                url = '/EditCategory/QuickCreateWithCategories';
+        fillMoveModal(data) {
+            this.moveCategory = true;
+            this.parentCategoryIdToRemove = data.parentCategoryIdToRemove;
+            this.childId = data.childCategoryId;
+            this.createCategory = false;
 
-            } else {
-                categoryData = {
-                    name: self.name,
-                    parentCategoryId: self.parentId,
-                }
-                url = '/EditCategory/QuickCreate';
+            var parent = {
+                id: this.childId,
+                addCategoryBtnId: null,
+                moveCategory: false,
+                redirect: true,
+                create: false,
             }
 
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/EditCategory/ValidateName',
-                data: JSON.stringify({ name: self.name }),
-                success: function (data) {
-                    if (data.categoryNameAllowed) {
-                        $.ajax({
-                            type: 'Post',
-                            contentType: "application/json",
-                            url: url,
-                            data: JSON.stringify(categoryData),
-                            success: function (data) {
-                                if (data.success) {
-                                    if (self.redirect)
-                                        window.open(data.url, '_self');
-                                    if (self.addCategoryBtnId != null)
-                                        self.loadCategoryCard(data.id);
-                                    if (self.moveCategories)
-                                        eventBus.$emit('remove-category-cards', data.movedCategories);
-                                    else
-                                        $('#AddCategoryModal').modal('hide');
-                                    self.addCategoryCount();
-                                    Utils.HideSpinner();
-                                }
-                            },
-                        });
-                    } else {
-                        self.errorMsg = messages.error.category[data.key];
-                        self.forbiddenCategoryName = data.name;
-                        self.existingCategoryUrl = data.url;
-                        self.showErrorMsg = true;
-                        Utils.HideSpinner();
-                    };
-                },
-            });
+            $('#AddCategoryModal').data('parent', parent).modal('show');
         },
-        loadCategoryCard(id) {
-            var data = {
-                parentId: this.parentId,
-                newCategoryId: id
-            };
-            eventBus.$emit('add-category-card', data);
-        },
-        selectCategory(category) {
-            this.showDropdown = false;
-            this.lockDropdown = true;
-            this.searchTerm = category.Name;
-            this.selectedCategory = category;
-            this.selectedCategoryId = category.Id;
-            this.showSelectedCategory = true;
-        },
-        toggleShowSelectedCategory() {
-            this.showSelectedCategory = false;
-            this.$nextTick(() => {
-                this.$refs.searchInput.focus();
-            });
-        },
-        searchCategory() {
-            this.showDropdown = true;
-            var self = this;
-            var data = {
-                term: self.searchTerm,
-                type: 'Categories',
-                categoriesToFilter: self.categoriesToFilter,
-            };
 
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Api/Search/Category',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    self.categories = result.categories.filter(c => c.Id != self.parentId);
-                    self.totalCount = result.totalCount;
-                    self.$nextTick(() => {
-                        $('[data-toggle="tooltip"]').tooltip();
-                    });
-                },
-            });
-        },
-        addExistingCategory() {
-            Utils.ShowSpinner();
-            var self = this;
-            var categoryData = {
-                childCategoryId: self.selectedCategoryId,
-                parentCategoryId: self.parentId,
-            }
-
-            if (this.selectedCategoryId == this.parentId) {
-                this.errorMsg = messages.error.category.loopLink;
-                this.showErrorMsg = true;
-                Utils.HideSpinner();
-                return;
-            }
-
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/EditCategory/AddChild',
-                data: JSON.stringify(categoryData),
-                success: function (data) {
-                    if (data.success) {
-                        if (self.redirect)
-                            window.open(data.url, '_self');
-                        if (self.addCategoryBtnId != null)
-                            self.loadCategoryCard(data.id);
-                        if (self.moveCategories) {
-                            eventBus.$emit('remove-category-cards', data.movedCategories);
-                        }
-                        else
-                            $('#AddCategoryModal').modal('hide');
-                        self.addCategoryCount();
-                        Utils.HideSpinner();
-                    } else {
-                        self.errorMsg = messages.error.category[data.key];
-                        self.showErrorMsg = true;
-                        Utils.HideSpinner();
-                    };
-                },
-            });
-        },
-        addCategoryCount() {
-            let headerCount = parseInt($('#CategoryHeaderTopicCount').text());
-            $('#CategoryHeaderTopicCount').text(++headerCount);
-            headerCount != 1
-                ? $('#CategoryHeaderTopicCountLabel').text('Unterthemen')
-                : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
+    addCategory() {
+        if (NotLoggedIn.Yes()) {
+            NotLoggedIn.ShowErrorMsg("CreateCategory");
+            return;
         }
+        Utils.ShowSpinner();
+        var self = this;
+        var url;
+        var categoryData;
+
+        categoryData = {
+            name: self.name,
+            parentCategoryId: self.parentId,
+        }
+        url = '/EditCategory/QuickCreate';
+
+        $.ajax({
+            type: 'Post',
+            contentType: "application/json",
+            url: '/EditCategory/ValidateName',
+            data: JSON.stringify({ name: self.name }),
+            success: function (data) {
+                if (data.categoryNameAllowed) {
+                    $.ajax({
+                        type: 'Post',
+                        contentType: "application/json",
+                        url: url,
+                        data: JSON.stringify(categoryData),
+                        success: function (data) {
+                            if (data.success) {
+                                if (self.redirect)
+                                    window.open(data.url, '_self');
+                                if (self.addCategoryBtnId != null)
+                                    self.loadCategoryCard(data.id);
+                                else
+                                    $('#AddCategoryModal').modal('hide');
+                                self.addCategoryCount();
+                                Utils.HideSpinner();
+                            }
+                        },
+                    });
+                } else {
+                    self.errorMsg = messages.error.category[data.key];
+                    self.forbiddenCategoryName = data.name;
+                    self.existingCategoryUrl = data.url;
+                    self.showErrorMsg = true;
+                    Utils.HideSpinner();
+                };
+            },
+        });
+    },
+    loadCategoryCard(id) {
+        var data = {
+            parentId: this.parentId,
+            newCategoryId: id
+        };
+        eventBus.$emit('add-category-card', data);
+    },
+    selectCategory(category) {
+        this.showDropdown = false;
+        this.lockDropdown = true;
+        this.searchTerm = category.Name;
+        this.selectedCategory = category;
+        this.selectedCategoryId = category.Id;
+        this.showSelectedCategory = true;
+    },
+    toggleShowSelectedCategory() {
+        this.showSelectedCategory = false;
+        this.$nextTick(() => {
+            this.$refs.searchInput.focus();
+        });
+    },
+    searchCategory() {
+        this.showDropdown = true;
+        var self = this;
+        var data = {
+            term: self.searchTerm,
+            type: 'Categories',
+            categoriesToFilter: self.categoriesToFilter,
+        };
+
+        $.ajax({
+            type: 'Post',
+            contentType: "application/json",
+            url: '/Api/Search/Category',
+            data: JSON.stringify(data),
+            success: function (result) {
+                self.categories = result.categories.filter(c => c.Id != self.parentId);
+                self.totalCount = result.totalCount;
+                self.$nextTick(() => {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+            },
+        });
+    },
+    addExistingCategory() {
+        Utils.ShowSpinner();
+        var self = this;
+        var categoryData = {
+            childCategoryId: self.selectedCategoryId,
+            parentCategoryId: self.parentId,
+        }
+
+        if (this.selectedCategoryId == this.parentId) {
+            this.errorMsg = messages.error.category.loopLink;
+            this.showErrorMsg = true;
+            Utils.HideSpinner();
+            return;
+        }
+
+        $.ajax({
+            type: 'Post',
+            contentType: "application/json",
+            url: '/EditCategory/AddChild',
+            data: JSON.stringify(categoryData),
+            success: function (data) {
+                if (data.success) {
+                    if (self.redirect)
+                        window.open(data.url, '_self');
+                    if (self.addCategoryBtnId != null)
+                        self.loadCategoryCard(data.id);
+                    else
+                        $('#AddCategoryModal').modal('hide');
+                    self.addCategoryCount();
+                    Utils.HideSpinner();
+                } else {
+                    self.errorMsg = messages.error.category[data.key];
+                    self.showErrorMsg = true;
+                    Utils.HideSpinner();
+                };
+            },
+        });
+    },
+    moveCategoryToNewParent() {
+        Utils.ShowSpinner();
+        var self = this;
+        var categoryData = {
+            childCategoryId: self.childId,
+            parentCategoryIdToRemove: self.parentCategoryIdToRemove,
+            parentCategoryIdToAdd: this.selectedCategory.Id
+        }
+
+        if (this.selectedCategoryId == this.parentId) {
+            this.errorMsg = messages.error.category.loopLink;
+            this.showErrorMsg = true;
+            Utils.HideSpinner();
+            return;
+        }
+
+        $.ajax({
+            type: 'Post',
+            contentType: "application/json",
+            url: '/EditCategory/MoveChild',
+            data: JSON.stringify(categoryData),
+            success: function (data) {
+                if (data.success) {
+                    if (self.redirect)
+                        window.open(data.url, '_self');
+                    if (self.addCategoryBtnId != null)
+                        self.loadCategoryCard(data.id);
+                    else
+                        $('#AddCategoryModal').modal('hide');
+                    self.addCategoryCount();
+                    Utils.HideSpinner();
+                } else {
+                    self.errorMsg = messages.error.category[data.key];
+                    self.showErrorMsg = true;
+                    Utils.HideSpinner();
+                };
+            },
+        });
+    },
+    addCategoryCount() {
+        let headerCount = parseInt($('#CategoryHeaderTopicCount').text());
+        $('#CategoryHeaderTopicCount').text(++headerCount);
+        headerCount != 1
+            ? $('#CategoryHeaderTopicCountLabel').text('Unterthemen')
+            : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
     }
+}
 });
 
 
