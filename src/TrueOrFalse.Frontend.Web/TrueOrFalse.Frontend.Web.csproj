@@ -2182,12 +2182,6 @@
     <Content Include="Views\Categories\Detail\Js\Category.js.map">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Js\CategoryHeader.js">
-      <DependentUpon>CategoryHeader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
-      <DependentUpon>CategoryHeader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
       <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
@@ -2636,7 +2630,6 @@
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionList\QuestionListApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />

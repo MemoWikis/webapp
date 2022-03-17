@@ -32,45 +32,6 @@
   color: #003264;
   transition: all 0.1s ease-in-out;
 }
-#QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
-  position: absolute;
-  margin-top: -64px;
-  margin-left: -101px;
-  cursor: pointer;
-}
-@media (max-width: 768px) {
-  #QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
-    font-size: 14px;
-  }
-}
-@media (max-width: 479px) {
-  #QuestionListApp .rootElement #LearningSessionReminderQuestionList span {
-    display: none;
-  }
-}
-#QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderLeft {
-  margin-top: -67px;
-  position: absolute;
-  margin-left: -85px;
-  z-index: 100;
-  display: block;
-}
-#QuestionListApp .rootElement #LearningSessionReminderQuestionList #SessionConfigReminderRight {
-  margin-top: -67px;
-  position: absolute;
-  margin-left: 10px;
-  z-index: 100;
-  display: none;
-}
-#QuestionListApp .rootElement #CustomSessionConfigBtn.btn {
-  font-size: 18px;
-  color: #767676;
-  transition: all 0.1s ease-in-out;
-}
-#QuestionListApp .rootElement #CustomSessionConfigBtn.btn:hover {
-  color: #003264;
-  transition: all 0.1s ease-in-out;
-}
 @media (max-width: 479px) {
   #QuestionListApp {
     padding-left: 0;

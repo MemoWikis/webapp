@@ -47,13 +47,6 @@ let questionListApp = new Vue({
     },
 
     mounted() {
-        $('#CustomSessionConfigBtn').tooltip();
-
-        $("#LearningSessionReminderQuestionList>.fa-times-circle").on('click',
-            () => {
-                $.post("/Category/SetSettingsCookie?name=SessionConfigurationMessageList");
-                $("#LearningSessionReminderQuestionList").hide(200);
-            });
         this.setActiveQuestionId();
 
         this.$nextTick(() => {

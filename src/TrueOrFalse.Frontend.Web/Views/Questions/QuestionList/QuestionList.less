@@ -34,58 +34,6 @@
         }
     }
 
-    .rootElement {
-        #LearningSessionReminderQuestionList {
-            span {
-                position: absolute;
-                margin-top: -64px;
-                margin-left: -101px;
-                cursor: pointer;
-
-                @media(max-width: @screen-sm-min) {
-                    font-size: 14px;
-                }
-
-                @media(max-width: @screen-xxs-max) {
-                    display: none;
-                }
-            }
-
-            #SessionConfigReminderLeft {
-                margin-top: -67px;
-                position: absolute;
-                margin-left: -85px;
-                z-index: 100;
-                display: block;
-            }
-
-            #SessionConfigReminderRight {
-                margin-top: -67px;
-                position: absolute;
-                margin-left: 10px;
-                display: none;
-                z-index: 100;
-                display: none;
-
-                @media(min-width: @screen-sm-min) {
-                }
-            }
-        }
-
-        #CustomSessionConfigBtn {
-            &.btn {
-                font-size: 18px;
-                color: @memo-grey-dark;
-                transition: all .1s ease-in-out;
-
-                &:hover {
-                    color: @memo-blue;
-                    transition: all .1s ease-in-out;
-                }
-            }
-        }
-    }
-
     @media(max-width: @screen-xxs-max) {
         padding-left: 0;
         padding-right: 0;

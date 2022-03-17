@@ -11,19 +11,12 @@
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
             Utils.ShowSpinner();
-            $("#LearnOptionsHeader").removeClass("disable");
-            $("#SessionConfigReminderHeader").removeClass("hide");
             $('#hddLearningSessionStarted').val("True");
 
             $(() => {
                 $("#TabContent .show-tooltip").tooltip();
             });
         }
-
-        $("#LearnOptionsHeader").on("click", () => {
-            if (window.location.pathname.indexOf("/Lernen") >= 0) 
-                eventBus.$emit('openLearnOptions');
-        }); 
 
         $('#TabsBar .Tab').each((index, item) => {
 
@@ -35,14 +28,6 @@
 
             tab.click((e) => {
                 eventBus.$emit('tab-change', tabName);
-
-                if (window.location.pathname.indexOf("/Lernen") >= 0) {
-                    $("#LearnOptionsHeader").removeClass("disable");
-                    $("#SessionConfigReminderHeader").removeClass("hide");
-                } else {
-                    $("#LearnOptionsHeader").addClass("disable");
-                    $("#SessionConfigReminderHeader").addClass("hide");
-                }
 
                 e.preventDefault();
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
