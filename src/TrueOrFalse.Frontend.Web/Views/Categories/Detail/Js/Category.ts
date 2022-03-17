@@ -119,6 +119,5 @@ $(() => {
 
     new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
     new Pin(PinType.Set, KnowledgeBar.ReloadCategory);
-    new CategoryHeader(page);
     new SquareWishKnowledge(page);
 });
