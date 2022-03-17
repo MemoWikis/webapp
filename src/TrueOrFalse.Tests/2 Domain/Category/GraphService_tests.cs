@@ -27,7 +27,7 @@ class GraphService_tests : BaseTest
 
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("SubSub1").Id, user);
 
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         EntityCache.Init();
         UserEntityCache.Init();
 
@@ -92,7 +92,7 @@ class GraphService_tests : BaseTest
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("E").Id, user);
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("I").Id, user);
 
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
 
         EntityCache.Init();
 
@@ -204,7 +204,7 @@ class GraphService_tests : BaseTest
 
         var userPersonalCategoriesWithRelations = GraphService.GetAllWuwiWithRelations_TP(rootElement, 2);
 
-        var userWikiName = Sl.SessionUser.User.Name + "s Startseite";
+        var userWikiName = SessionUser.User.Name + "s Startseite";
 
         //Test I
         Assert.That(IsAllRelationsAChildOf(userPersonalCategoriesWithRelations.ByName("I").CategoryRelations)
@@ -260,8 +260,8 @@ class GraphService_tests : BaseTest
         EntityCache.Init();
 
         var rootElement = EntityCache.GetAllCategories().ByName("A");
-        Sl.SessionUser.Login(user);
-        var userWikiName = Sl.SessionUser.User.Name + "s Startseite";
+        SessionUser.Login(user);
+        var userWikiName = SessionUser.User.Name + "s Startseite";
 
         var allPersonalCategoriesWithRelations = GraphService.GetAllWuwiWithRelations_TP(rootElement, 2);
 
@@ -420,7 +420,7 @@ class GraphService_tests : BaseTest
         // Add in WUWI
         CategoryInKnowledge.Pin(firstChildrenIds.ByName("F").Id, user);
 
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         EntityCache.Init();
         UserEntityCache.Init();
 
@@ -589,7 +589,7 @@ class GraphService_tests : BaseTest
 
         var userRoot = context.Add("Users Startseite", parent: parent).Persist().All.ByName("Users Startseite");
 
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         EntityCache.Clear();
         EntityCache.Init();
 

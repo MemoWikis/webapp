@@ -179,14 +179,13 @@ public class Crumbtrail_test : BaseTest
 
         EntityCache.Init();
 
-        var sessionUser = Sl.SessionUser;
-        var beforeSettingId = sessionUser.CurrentWikiId;
+        var beforeSettingId = SessionUser.CurrentWikiId;
 
         var filler3Cache = EntityCache.GetCategory(filler3.Id);
         var childOf5Cache = EntityCache.GetCategory(childOf5.Id);
-        sessionUser.SetWikiId(filler3Cache);
+        SessionUser.SetWikiId(filler3Cache);
 
-        var wikiIdShouldBe3 = sessionUser.CurrentWikiId;
+        var wikiIdShouldBe3 = SessionUser.CurrentWikiId;
 
         Assert.That(beforeSettingId, Is.EqualTo(1));
         Assert.That(wikiIdShouldBe3, Is.EqualTo(3));

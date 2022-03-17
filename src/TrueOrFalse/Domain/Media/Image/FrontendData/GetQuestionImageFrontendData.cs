@@ -1,6 +1,6 @@
 ﻿public class GetQuestionImageFrontendData
 {
-    public static ImageFrontendData Run(Question question)
+    public static ImageFrontendData Run(QuestionCacheItem question)
     {
         var imageMetaDataRepo = Sl.Resolve<ImageMetaDataRepo>();
         var imageMetaData = imageMetaDataRepo.GetBy(question.Id, ImageType.Question);

@@ -9,7 +9,6 @@ class AnswerQuestion {
     private _onWrongAnswer: () => void = () => { };
 
     private _inputFeedback: AnswerQuestionUserFeedback;
-    public _isLastLearningStep = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -45,9 +44,6 @@ class AnswerQuestion {
         if (this.IsLearningSession) {
             this.LearningSessionStepGuid = $('#hddIsLearningSession').attr('data-current-step-guid');
         }
-
-        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true")
-            this._isLastLearningStep = true;
 
         this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
         this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
@@ -105,7 +101,6 @@ class AnswerQuestion {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
                     ActivityPoints.addPointsFromCountAsCorrect();
-
                 });
 
         $("#CountWrongAnswers")
@@ -150,14 +145,11 @@ class AnswerQuestion {
             });
 
         $("#aSkipStep").click(e => {
-            this.UpdateProgressBar(this.GetCurrentSteps());
+            eventBus.$emit('update-progress-bar');
         });
 
         this.FlashCardCheck();
         this.HideChipsOnLandingPageAndDisplayCards();
-        eventBus.$on('update-progress-bar', (numberOfSteps, index) => {
-            this.UpdateProgressBar(numberOfSteps, null, index);
-        });
     }
 
     public OnCorrectAnswer(func: () => void) {
@@ -222,7 +214,7 @@ class AnswerQuestion {
                     $('div#answerFeedbackTry, a#CountWrongAnswers').show();
                     var answerResult = result;
                     self.IncrementInteractionNumber();
-                    self.UpdateProgressBar(-1, answerResult);
+                    eventBus.$emit('update-progress-bar');
 
                     if (result.correct) {
                         self.HandleCorrectAnswer();
@@ -294,7 +286,7 @@ class AnswerQuestion {
             this._inputFeedback.ShowSuccess();
         }
         this._inputFeedback.ShowSolution();
-        if (this._isLastLearningStep) {
+        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() == "true") {
             $('#btnNext').html('Zum Ergebnis');
         }
 
@@ -304,7 +296,7 @@ class AnswerQuestion {
     private HandleWrongAnswer(result: any, answerText: string) {
         ActivityPoints.addPointsFromWrongAnswer();
 
-        if (this._isLastLearningStep && !result.newStepAdded) {
+        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() == "true" && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
         }
 
@@ -396,9 +388,9 @@ class AnswerQuestion {
                         $("#answerHistory").html(data);
                     });
 
-                self.UpdateProgressBar(self.GetCurrentSteps() -1 );
+                eventBus.$emit('update-progress-bar');
 
-                if (self._isLastLearningStep) {
+                if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() == "true") {
                     $('#btnNext').html('Zum Ergebnis');
                 }
                 self.updateQuestionDetails();
@@ -447,46 +439,6 @@ class AnswerQuestion {
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
             }
         });
-    }
-
-    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null, numberStepsDone = -1, isCountAnswerAsCorrect = false) {
-        if (this.IsLearningSession) {
-            var raiseTo: number;
-            var percentage: number = parseInt($("#spanPercentageDone").html());
-            var stepNumberChanged: boolean;
-            numberStepsDone = numberStepsDone == -1 ? parseInt($('#CurrentStepNumber').html()) : numberStepsDone;
-            var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
-
-            raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
-            stepNumberChanged = this.GetCurrentSteps() != numberStepsUpdated;
-            if (stepNumberChanged) {
-                $("#StepCount").fadeOut(100);
-            }
-            $("#spanPercentageDone").fadeOut(100);
-
-            var intervalId = window.setInterval(() => {
-
-                if (percentage === raiseTo) {
-                    window.clearInterval(intervalId);
-
-                    $("#spanPercentageDone").html(raiseTo + "%");
-                    $("#spanPercentageDone").fadeIn();
-                    if (stepNumberChanged) {
-                        $("#StepCount").html(numberStepsUpdated);
-                        $("#StepCount").fadeIn();
-                    }
-
-                } else {
-
-                    if (percentage < raiseTo)
-                        percentage++;
-                    else
-                        percentage--;
-
-                    $("#progressPercentageDone").width(percentage + "%");
-                }
-            }, 10);
-        }
     }
 
     GetCurrentSteps(): number {

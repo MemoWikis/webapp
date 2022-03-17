@@ -39,7 +39,7 @@ class Automatic_inclusion_tests : BaseTest
     public void Test_automatic_inclusion_user_entity_cache()
     {
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserCache.GetItem(user.Id).IsFiltered = true;
 
         var context = ContextCategory.New();
@@ -94,7 +94,7 @@ class Automatic_inclusion_tests : BaseTest
 
 
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
 
         context
             .Add("SubSub1", parent: subCategories.ByName("Sub1"))
@@ -142,7 +142,7 @@ class Automatic_inclusion_tests : BaseTest
 
 
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
 
 
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
@@ -242,7 +242,7 @@ class Automatic_inclusion_tests : BaseTest
 
         EntityCache.Init();
         var user = ContextUser.New().Add("Dandor").Persist().All[0];
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub1").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub2").First().Id, user);
         CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("Sub3").First().Id, user);

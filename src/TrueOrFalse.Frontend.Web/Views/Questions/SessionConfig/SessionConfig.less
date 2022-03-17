@@ -10,7 +10,6 @@
 }
 
 .session-configurator {
-    padding: 0;
     width: 100%;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -19,16 +18,19 @@
     .filter-button, .knowledge-summary-button, .mode-change-button, .question-counter, .question-filter-options-button {
         position: relative;
         border: solid 1px @memo-grey-light;
-        z-index: 901;
         background: white;
         display: flex;
     }
 
     .knowledge-summary-button, .mode-change-button, .question-counter, .question-filter-options-button {
+        z-index: 2;
         height: 40px;
         align-items: center;
         padding: 0 10px;
         justify-content: space-between;
+    }
+
+    .knowledge-summary-button, .mode-change-button, .question-filter-options-button {
     }
 
     .question-counter {
@@ -43,7 +45,7 @@
 
         input {
             width: 100%;
-            border: none;
+            border: none !important;
         }
 
         &.input-is-focused {
@@ -67,6 +69,7 @@
         width: 105px;
         justify-content: center;
         text-transform: uppercase;
+        z-index: 5;
 
         &:hover {
             color: @memo-blue;
@@ -87,7 +90,7 @@
         }
 
         .dropdown-item {
-            height: 40px;
+            min-height: 40px;
             font-family: Open Sans;
             font-size: 14px;
             font-style: normal;
@@ -105,13 +108,13 @@
         padding-top: 11px;
         border: 1px solid @memo-grey-light;
         margin-top: -1px;
-        z-index: 900;
+        z-index: 3;
         margin-left: 0px;
         margin-right: 0px;
+        background: white;
 
         .question-filter-options-dropdown, .knowledge-summary-dropdown, .mode-change-dropdown {
             border: solid 1px @memo-grey-light;
-            padding: 6px;
             border-top: none;
             position: absolute;
             right: 0;
@@ -119,12 +122,53 @@
             left: 0;
             margin-left: 10px;
             background: white;
+            z-index: 3;
 
             .dropdown-item {
                 display: flex;
                 flex-direction: row;
                 cursor: pointer;
                 user-select: none;
+                padding: 0 6px;
+                flex-wrap: wrap;
+
+                .dropdown-item-label {
+                    padding-left: 4px;
+                }
+            }
+
+            .dropdown-divider {
+                border-bottom: solid 1px @memo-grey-light;
+                width: 100%;
+            }
+
+            .dropdown-spacer {
+                height: 5px;
+                width: 100%;
+            }
+        }
+
+        .session-select {
+            font-size: 18px;
+            margin-right: 15px;
+            margin-left: 10px;
+
+            &.active {
+                color: @memo-blue-link;
+            }
+        }
+
+        .item-disabled {
+            .session-select {
+                &.active {
+                    color: @memo-grey-dark;
+                }
+            }
+        }
+
+        .session-mini-select {
+            &.active {
+                color: @memo-blue-link;
             }
         }
     }
@@ -137,6 +181,7 @@
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
+        border: none;
     }
 }
 .knowledge-summary-chip-container {
@@ -183,7 +228,7 @@
 
 #QuestionListApp {
     .session-configurator {
-        padding: 10px;
+        margin-bottom: 10px;
 
         .session-config-dropdown {
             margin-right: 20px;
@@ -194,6 +239,7 @@
 .session-config-header {
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
 
     .session-progress-bar {
         font-size: @font-size-base;
@@ -205,6 +251,7 @@
         background: @memo-grey-lighter;
         justify-content: space-between;
         flex-wrap: nowrap;
+        position: relative;
 
         .step-count {
             display: flex;
@@ -212,6 +259,7 @@
             padding-right: 15px;
             flex-wrap: nowrap;
             align-items: center;
+            z-index: 2;
         }
 
         .progress-percentage {
@@ -219,6 +267,15 @@
             align-items: center;
             padding-right: 10px;
             padding-left: 15px;
+            z-index: 2;
+        }
+
+        .progress-bar {
+            position: absolute;
+            background: @memo-green;
+            height: 100%;
+            left: 0;
+            right: 0;
         }
     }
 }
@@ -226,9 +283,18 @@
 .selectable-item {
     cursor: pointer;
     user-select: none;
+    color: @memo-grey-dark;
+
+    i {
+        color: @memo-grey-dark;
+    }
 
     &:hover {
         color: @memo-blue;
+
+        i {
+            color: @memo-blue;
+        }
     }
 }
 
@@ -239,4 +305,101 @@
     line-height: 20px;
     letter-spacing: 1.25px;
     text-align: center;
+}
+
+.reset-session-button-container {
+    display: flex;
+    justify-content: flex-end;
+
+    .reset-session-button {
+        text-align: right;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-items: center;
+        color: @memo-grey-dark;
+
+        i {
+            padding-right: 4px;
+        }
+
+        &:hover {
+            color: @memo-blue;
+        }
+    }
+}
+
+.question-filter-options-icon-container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    i {
+        padding-right: 4px;
+    }
+
+    .icon-counter {
+        border-radius: 50px;
+        border: solid 1px @memo-grey-dark;
+        width: 25px;
+        height: 25px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        font-size: 12px;
+        line-height: 25px;
+        font-weight: 600;
+    }
+}
+.dropdown-filter-icon {
+    width: 18px;
+}
+
+.mode-change-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap !important;
+    padding-right: 10px !important;
+}
+
+.mode-group-container {
+    padding: 4px 0 10px;
+
+    .mode-item-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px 0 54px;
+        cursor: pointer;
+
+        &:hover {
+            color: @memo-blue;
+        }
+
+        .mode-sub-label {
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 600;
+            letter-spacing: 0px;
+            text-align: left;
+        }
+
+        input[type=number] {
+            text-align: right;
+            width: 100px;
+        }
+    }
+}
+
+.item-disabled {
+    color: @memo-grey-dark !important;
+
+    &:hover {
+        color: @memo-grey-dark !important;
+    }
 }

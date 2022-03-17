@@ -76,7 +76,7 @@ public class LearningSession
             LimitForNumberOfRepetitionsHasBeenReached() || 
             Config.IsAnonymous() || 
             CurrentStep.AnswerState == AnswerState.Correct || 
-            Config.Repetitions == RepetitionType.None)
+            Config.Repetition == RepetitionType.None)
             return false;
 
         var step = new LearningSessionStep(CurrentStep.Question);

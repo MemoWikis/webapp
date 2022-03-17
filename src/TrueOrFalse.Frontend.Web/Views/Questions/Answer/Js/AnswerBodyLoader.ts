@@ -113,67 +113,75 @@ class AnswerBodyLoader {
             headers: { "cache-control": "no-cache" },
             success: result => {
                 if (result !== "") {
-
-                    eventBus.$emit('destroy-answer-question-details');
                     result = JSON.parse(result);
-                    eventBus.$emit('set-session-progress', result.sessionData);
-                    eventBus.$emit('session-config-question-counter', result.counter);
-
-                    if (!this._isInLearningTab) {
-                        this.updateUrl(result.url);
-                    }
 
                     if (result.LearningSessionResult) {
                         this.showLearningSessionResult(result);
                         $(".ProgressBarSegment .ProgressBarLegend").hide();
+                        eventBus.$emit('set-session-progress', { isResult: true });
                         return;
                     }
-                    $(".FooterQuestionDetails").remove();
-                    $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
-                    if (this._isInLearningTab && !this._getCustomSession) {
-                        $("#QuestionDetails").empty();
+
+                    if (result.counter.Max > 0) {
+                        eventBus.$emit('destroy-answer-question-details');
+
+                        if (!this._isInLearningTab)
+                            this.updateUrl(result.url);
+
+                        $(".FooterQuestionDetails").remove();
+                        $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
+
+                        if (this._isInLearningTab && !this._getCustomSession)
+                            $("#QuestionDetails").empty();
+
+                        if ($("#hddIsLearningSession").val() !== "True")
+                            this.updateNavigationBar(result.navBarData);
+
+                        this.updateMenu(result.menuHtml);
+                        document.title = $("#QuestionTitle").html();
+                        $("div#comments").replaceWith(result.commentsAsHtml);
+
+                        new AnswerBody();
+                        initTooltips();
+                        Images.Init();
+                        initClickLog("div#LicenseQuestion");
+                        initClickLog("div#AnswerBody");
+                        initClickLog("div#AnswerQuestionPager");
+                        initClickLog("div#answerQuestionDetails");
+                        initClickLog("div#comments");
+                        preventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+                        if (this._getCustomSession)
+                            this._getCustomSession = false;
+                        if ($("div[data-div-type='questionDetails']").length > 1)
+                            $("div[data-div-type='questionDetails']").last().remove();
+                        if ($("div[data-div-type='testSessionHeader']").length > 1)
+                            $("div[data-div-type='testSessionHeader']").slice(1).remove();
+
+                        if (continueWithNewSession) {
+                            $("#QuestionListApp").fadeIn();
+                        }
+                        if (loadedFromVue) {
+                            $("#AnswerBody").fadeIn();
+                            $("#QuestionDetails").fadeIn();
+                            $(".FooterQuestionDetails").fadeIn();
+                            //$("#QuestionListApp").show(); 
+                        }
+
+                        if (isNewSession)
+                            eventBus.$emit('init-new-session');
+
+                        eventBus.$emit('set-session-progress', result.sessionData);
+
+                        //$("#QuestionListApp").hide();
+                        eventBus.$emit('change-active-question');
+                        eventBus.$emit('update-question-list');
+                    } else {
+                        eventBus.$emit('set-session-progress', null);
                     }
+                    eventBus.$emit('session-config-question-counter', result.counter);
 
-                    if ($("#hddIsLearningSession").val() !== "True")
-                        this.updateNavigationBar(result.navBarData);
-
-                    this.updateMenu(result.menuHtml);
-                    document.title = $("#QuestionTitle").html();
-                    $("div#comments").replaceWith(result.commentsAsHtml);
-
-                    new AnswerBody();
-                    initTooltips();
-                    Images.Init();
-                    initClickLog("div#LicenseQuestion");
-                    initClickLog("div#AnswerBody");
-                    initClickLog("div#AnswerQuestionPager");
-                    initClickLog("div#answerQuestionDetails");
-                    initClickLog("div#comments");
-                    preventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
-                    if (this._getCustomSession)
-                        this._getCustomSession = false;
-                    if ($("div[data-div-type='questionDetails']").length > 1)
-                        $("div[data-div-type='questionDetails']").last().remove();
-                    if ($("div[data-div-type='testSessionHeader']").length > 1)
-                        $("div[data-div-type='testSessionHeader']").slice(1).remove();
-
-                    if (continueWithNewSession) {
-                        $("#QuestionListApp").fadeIn();
-                    }
-                    if (loadedFromVue) {
-                        $("#AnswerBody").fadeIn();
-                        $("#QuestionDetails").fadeIn();
-                        $(".FooterQuestionDetails").fadeIn();
-                        //$("#QuestionListApp").show(); 
-                    }
-
-                    if (isNewSession)
-                        eventBus.$emit('init-new-session');
-
-                    //$("#QuestionListApp").hide();
-                    eventBus.$emit('change-active-question');
-                    eventBus.$emit('update-question-list');
                 }
+                    
                 Utils.HideSpinner();
             },
             error: () => {

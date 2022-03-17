@@ -19,7 +19,6 @@ public class LearningSessionResultModel : BaseModel
     public IEnumerable<IGrouping<int, LearningSessionStep>> AnsweredStepsGrouped;
 
     public int WishCountQuestions;
-    public int WishCountSets;
     public bool ShowSummaryText;
     public int PercentageAverageRightAnswers;
     public int CounterSteps { get; set; }
@@ -31,17 +30,10 @@ public class LearningSessionResultModel : BaseModel
         NumberSteps = LearningSession.Steps.Count();
         var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerState.Unanswered || s.AnswerState == AnswerState.Skipped);
         PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);
-        
-        if (learningSession.Config.InWuwi)
-        {
-            WishCountQuestions = learningSession.User.WishCountQuestions;
-            WishCountSets = learningSession.User.WishCountSets;
-        }
 
         if (NumberSteps > 0)
         {
             AnsweredStepsGrouped = LearningSession.Steps.GroupBy(d => d.Question.Id);
-           
 
             NumberUniqueQuestions = AnsweredStepsGrouped.Count();
 

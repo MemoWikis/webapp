@@ -24,6 +24,12 @@ public class LearningSessionCache
     public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex)
     {
         var learningSession = GetLearningSession();
+        var allQuestionValuation = UserCache.GetQuestionValuations(SessionUser.UserId);
+        var questionDetail =
+            LearningSessionCreator.BuildQuestionDetail(new LearningSessionConfig(), question, allQuestionValuation);
+        learningSession.QuestionCounter =
+            LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
+
         var step = new LearningSessionStep(question);
         learningSession.Steps.Insert(sessionIndex, step);
     }

@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%--    <% if (Model.IsLoggedIn)
-        Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User)); %>--%>
+        Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(SessionUser.User)); %>--%>
 
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
@@ -85,12 +85,12 @@
 
         
         <div class="buttonRow">
-            <% if (!Model.LearningSession.Config.InWishknowledge || Model.LearningSession.Config.IsAnonymous()) { %>
+            <% if (!Model.LearningSession.Config.InWuwi || Model.LearningSession.Config.IsAnonymous()) { %>
                 <a href="<%= Links.CategoryDetail(Model.LearningSession.Config.Category.Name, Model.LearningSession.Config.CategoryId) %>" class="btn btn-link " style="padding-right: 10px">Zum Thema</a>
                 <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px">
                     Weiterlernen
                 </a>   
-            <% } else if (Model.LearningSession.Config.InWishknowledge) { %>
+            <% } else if (Model.LearningSession.Config.InWuwi) { %>
                 <a href="<%=Links.StartLearningSession(Model.LearningSession)  %>" class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px">
                     Neue Lernsitzung
                 </a>
@@ -214,7 +214,7 @@
 
     <div id="ResultSideColumn" class="col-sm-3 xxs-stack">
 
-        <% if(Model.LearningSession.Config.InWishknowledge) { %>
+        <% if(Model.LearningSession.Config.InWuwi) { %>
             <div class="boxInfo">
                 <div class="boxInfoHeader">
                     Wunschwissen
@@ -230,7 +230,7 @@
             </div>
         <% } %>
             
-        <% if(!Model.LearningSession.Config.InWishknowledge) { %>
+        <% if(Model.LearningSession.Config.NotInWuwi) { %>
             <div class="boxInfo">
                 <div class="boxInfoHeader">
                     Thema

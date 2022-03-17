@@ -36,7 +36,7 @@ public class BaseTest
     {
         EntityCache.Clear();
         UserEntityCache.Clear();
-        Sl.SessionUser.Clear();
+        SessionUser.Clear();
         R<ISession>().Flush();
         _container.Dispose();
         BuildContainer();

@@ -2333,6 +2333,7 @@
     <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
+    <TypeScriptCompile Include="Scripts\VueExtensions\VueDirectives.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.ts" />
@@ -3001,7 +3002,6 @@
     <Content Include="Views\Maintenance\Images\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css">
       <DependentUpon>LearningSessionResult.less</DependentUpon>
     </Content>

@@ -15,16 +15,16 @@ namespace TrueOrFalse.Tests
                 CurrentUserId = UserId,
                 MaxQuestionCount = 5,
                 CategoryId = 1,
-                Repetitions = RepetitionType.Normal
+                Repetition = RepetitionType.Normal
             });
 
-            learningSession.AddAnswer(new AnswerQuestionResult{IsCorrect = true});
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
-            learningSession.NextStep(); 
+            learningSession.NextStep();
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(1));
 
-            learningSession.AddAnswer(new AnswerQuestionResult{IsCorrect =  false});
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
             Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
             Assert.That(learningSession.Steps.Last().AnswerState, Is.EqualTo(AnswerState.Unanswered));
 
@@ -32,7 +32,7 @@ namespace TrueOrFalse.Tests
             Assert.That(learningSession.CurrentIndex, Is.EqualTo(2));
 
             learningSession.SkipStep();
-            var currentStep = learningSession.CurrentIndex - 1; 
+            var currentStep = learningSession.CurrentIndex - 1;
             Assert.That(learningSession.Steps.Count, Is.EqualTo(6));
             Assert.That(learningSession.Steps[currentStep].AnswerState, Is.EqualTo(AnswerState.Skipped));
         }
@@ -42,7 +42,7 @@ namespace TrueOrFalse.Tests
         {
             var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5);
 
-            learningSession.AddAnswer(new AnswerQuestionResult {IsCorrect = true });
+            learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
             Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
 
             learningSession.NextStep();
@@ -58,7 +58,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Test_is_last_step()
         {
-            var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser( 1);
+            var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1);
             learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
             learningSession.NextStep();
             Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
@@ -73,7 +73,7 @@ namespace TrueOrFalse.Tests
                 CurrentUserId = UserId,
                 MaxQuestionCount = 1,
                 CategoryId = 1,
-                Repetitions = RepetitionType.Normal
+                Repetition = RepetitionType.None
             });
 
             learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });

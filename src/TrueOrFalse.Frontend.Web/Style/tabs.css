@@ -104,33 +104,6 @@
   justify-content: center;
   height: 45px;
 }
-#CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-  top: -69px;
-  position: absolute;
-  display: flex;
-  margin-left: -2.5px;
-  z-index: 90;
-}
-#CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader .session-config-reminder-header {
-  border-radius: 0%;
-  width: 122px;
-  max-width: 122px;
-}
-#CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader .fa-times-circle {
-  margin-top: 8px;
-  margin-left: -8px;
-  cursor: pointer;
-}
-@media only screen and (max-width: 992px) {
-  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-    margin-left: -8px;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #CategoryHeader #LearningTabWithOptions #SessionConfigReminderHeader {
-    display: none;
-  }
-}
 #CategoryHeader #LearningTabWithOptions .disable::before {
   color: #DDDDDD;
 }
@@ -279,13 +252,6 @@
 #MyWorldToggleApp .toggle-container #mwcbx:checked + .toggle span {
   transform: translateX(18px);
   background: #FF001F;
-}
-#LearnOptionsHeaderContainer {
-  line-height: 38px;
-}
-.active #LearnOptionsHeaderContainer {
-  line-height: 38px;
-  cursor: pointer;
 }
 #TopicTab {
   display: flex;

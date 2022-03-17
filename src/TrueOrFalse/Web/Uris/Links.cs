@@ -237,18 +237,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string StartLearningSession(LearningSession learningSession)
         {
             StartCategoryLearningSession(learningSession.Config.CategoryId);
-            //if(!learningSession.Config.InWishknowledge)
-            //    return StartCategoryLearningSession(learningSession.Config.CategoryId);
-            //else
-            //{
-            //    return StartWishLearningSession();
-            //}
-
-            throw new Exception("unknown type");
+            return StartCategoryLearningSession(learningSession.Config.CategoryId);
         }
-
-        public static string StartWishLearningSession() =>
-            GetUrlHelper().Action("StartLearningSession", KnowledgeController );
 
         public static string StartCategoryLearningSession(int categoryId) =>
            GetUrlHelper().Action("StartLearningSession", CategoryController, new { categoryId = categoryId });

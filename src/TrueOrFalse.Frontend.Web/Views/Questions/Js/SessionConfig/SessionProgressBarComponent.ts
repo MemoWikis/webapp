@@ -7,32 +7,54 @@
                 currentStep: 0,
                 steps: 0,
                 progress: 0,
-                progressBackground: ''
+                progressBarWidth: '',
+                showProgressBar: false,
             };
         },
 
         mounted() {
             eventBus.$on('set-session-progress',
                 (e) => {
-                    this.currentStep = e.currentStepIdx + 1;
-                    this.steps = e.stepCount;
+                    if (e == null)
+                        this.showProgressBar = false;
+                    else if (e.isResult ){
+                        this.showProgressBar = false;
+                    }
+                    else {
+                        this.currentStep = e.currentStepIdx + 1;
+                        this.steps = e.stepCount;
+                        this.showProgressBar = true;
+                    }
                 });
+            eventBus.$on('update-progress-bar',
+                () => {
+                    this.progress = (100 / this.steps * this.currentStep).toFixed();
+                    this.progressBarWidth = `width: ${this.progress}%`;
+                });
+            eventBus.$on('init-new-session',
+                () => {
+                    this.progressBarWidth = `width: 0%`;
+                    this.showProgressBar = true;
+                });
+
+            this.showProgressBar = true;
         },
 
         watch: {
             steps() {
-                this.updateProgress();
+                this.updateSteps();
             },
             currentStep() {
-                this.updateProgress();
-            }
+                this.updateSteps();
+            },
         },
 
         methods: {
-            updateProgress() {
-                this.progress = (100 / this.steps * this.currentStep).toFixed();
-                var progressBarValue = (100 / this.steps * (this.currentStep - 1)).toFixed();
-                this.progressBackground = `background: linear-gradient(90deg, #AFD534 ${progressBarValue}%, #EFEFEF ${progressBarValue}%)`;
+            updateSteps() {
+                if (this.currentStep == this.steps)
+                    $('#hddIsLearningSession').attr('data-is-last-step', 'true');
+                else
+                    $('#hddIsLearningSession').attr('data-is-last-step', 'false');
             }
         }
     });

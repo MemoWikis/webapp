@@ -10,13 +10,13 @@
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 <div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
-    <session-config-component :is-logged-in="'<%= Sl.SessionUser.IsLoggedIn %>' == 'True'">
+    <session-config-component :is-logged-in="'<%= SessionUser.IsLoggedIn %>' == 'True'">
             <div class="col-xs-12 drop-down-question-sort" v-show="stepCount > 0">
-        <h4 class="header"><span class="hidden-xs">Du lernst</span> 
-            <template v-if="currentQuestionCount == allQuestionCount"><b>alle</b> </template>
-            <template v-else><b>{{currentQuestionCount}}</b></template>
-            Fragen <span class="hidden-xs">aus diesem Thema</span> ({{allQuestionCount}})
-        </h4>
+        <div class="session-config-header"><span class="hidden-xs">Du lernst</span> 
+            <template v-if="currentQuestionCount == allQuestionCount"><b>&nbsp;alle&nbsp;</b> </template>
+            <template v-else><b>&nbsp;{{currentQuestionCount}}&nbsp;</b></template>
+            Fragen&nbsp;<span class="hidden-xs">aus diesem Thema</span>&nbsp;({{allQuestionCount}})
+        </div>
         <div id="ButtonAndDropdown">
             <div id="QuestionListHeaderDropDown" class="Button dropdown">
             <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

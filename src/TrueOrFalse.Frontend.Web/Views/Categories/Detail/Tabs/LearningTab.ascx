@@ -30,21 +30,19 @@
 </script>
 <%= Scripts.Render("~/bundles/js/QuestionDetailsComponent") %>
 
-<div id="SessionHeader">
-    <session-config-component :is-logged-in="'<%= Sl.SessionUser.IsLoggedIn %>' == 'True'">
-        <session-progress-bar-component/>
-    </session-config-component>
+<div id="SessionHeader" class="row">
+    <div v-show="showFilter">
+        <input id="SessionConfigQuestionChecker" type="hidden" data-category-has-no-questions="<%= Model.HasQuestions %>">
+        <session-config-component :is-logged-in="'<%= SessionUser.IsLoggedIn %>' == 'True'">
+            <session-progress-bar-component/>
+        </session-config-component>
+    </div>
+    <template v-if="showError">
+        <div v-if="categoryHasNoQuestions" class="col-xs-12">Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.</div>
+        <div v-else-if="filterError" class="col-xs-12">Es gibt keine Fragen mit diesen Einstellungen, bitte ändere deine Auswahl.</div>
+    </template>
+
 </div>
-<%
-    var dummyQuestion = Model.GetDummyQuestion(); 
-    if(dummyQuestion.Id != 0)
-       Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion, null, true, Model)); 
-    else
-    { %>
-        <div id="NoQuestionsSessionBar" class="NoQuestions" style="margin-top: 40px;">
-            Es sind leider noch keine Fragen zum Lernen in diesem Thema enthalten.
-        </div>
-  <% } %>
 
 <div id="AnswerBody">
     <input type="hidden" id="hddSolutionTypeNum" value="1" />

@@ -4,7 +4,7 @@ using System.Linq;
 
 public class LearningSessionCreator
 {
-    struct QuestionDetail
+    public struct QuestionDetail
     {
         public bool NotLearned;
         public bool NeedsLearning;
@@ -34,20 +34,16 @@ public class LearningSessionCreator
         var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache();
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = UserCache.GetQuestionValuations(Sl.SessionUser.UserId);
+        var allQuestionValuation = UserCache.GetQuestionValuations(SessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
 
-        if (Sl.SessionUser.IsLoggedIn)
+        if (SessionUser.IsLoggedIn)
         {
             foreach (var q in allQuestions)
             {
-                var questionDetail = new QuestionDetail();
-
-                questionDetail = FilterByCreator(config, q, questionDetail);
-                questionDetail = FilterByVisibility(config, q, questionDetail);
-                questionDetail = FilterByKnowledgeSummary(config, q, questionDetail, allQuestionValuation);
+                var questionDetail = BuildQuestionDetail(config, q, allQuestionValuation);
 
                 if (questionDetail.AddByWuwi &&
                     questionDetail.AddByCreator &&
@@ -62,6 +58,10 @@ public class LearningSessionCreator
         {
             filteredQuestions = allQuestions;
             questionCounter.Max = filteredQuestions.Count;
+            questionCounter.NotInWuwi = filteredQuestions.Count;
+            questionCounter.NotCreatedByCurrentUser = filteredQuestions.Count;
+            questionCounter.NotLearned = filteredQuestions.Count;
+            questionCounter.Public = filteredQuestions.Count;
         }
 
         filteredQuestions = filteredQuestions.Shuffle();
@@ -79,12 +79,23 @@ public class LearningSessionCreator
         };
     }
 
+    public static QuestionDetail BuildQuestionDetail(LearningSessionConfig config, QuestionCacheItem q,
+        IList<QuestionValuationCacheItem> allQuestionValuation)
+    {
+        var questionDetail = new QuestionDetail();
+
+        questionDetail = FilterByCreator(config, q, questionDetail);
+        questionDetail = FilterByVisibility(config, q, questionDetail);
+        questionDetail = FilterByKnowledgeSummary(config, q, questionDetail, allQuestionValuation);
+        return questionDetail;
+    }
+
     private static void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail,
         QuestionCounter questionCounter, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
         questionCounter = CountQuestionsForSessionConfig(questionDetail, questionCounter);
 
-        if (Sl.SessionUser.IsLoggedIn)
+        if (SessionUser.IsLoggedIn)
             knowledgeSummaryDetails.Add(new KnowledgeSummaryDetail
             {
                 PersonalCorrectnessProbability = questionDetail.PersonalCorrectnessProbability,
@@ -102,7 +113,7 @@ public class LearningSessionCreator
         if (config.QuestionOrder == QuestionOrder.SortByHardest)
             return questions.OrderBy(q => q.CorrectnessProbability).ToList();
 
-        if (Sl.SessionUser.IsLoggedIn && config.QuestionOrder == QuestionOrder.SortByPersonalHardest)
+        if (SessionUser.IsLoggedIn && config.QuestionOrder == QuestionOrder.SortByPersonalHardest)
         {
             var orderedKnowledgeSummaryDetails = knowledgeSummaryDetails.OrderBy(k => k.PersonalCorrectnessProbability).ToList();
             return questions.OrderBy(q => orderedKnowledgeSummaryDetails.IndexOf(o => q.Id == o.QuestionId)).ToList();
@@ -111,7 +122,7 @@ public class LearningSessionCreator
         return questions;
     }
 
-    private static QuestionCounter CountQuestionsForSessionConfig(QuestionDetail questionDetail, QuestionCounter counter)
+    public static QuestionCounter CountQuestionsForSessionConfig(QuestionDetail questionDetail, QuestionCounter counter)
     {
         if (questionDetail.NotLearned)
             counter.NotLearned++;
@@ -158,7 +169,7 @@ public class LearningSessionCreator
 
     private static QuestionDetail FilterByCreator(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail)
     {
-        if (q.Creator == Sl.SessionUser.User)
+        if (q.Creator == SessionUser.User)
         {
             if (config.CreatedByCurrentUser || !config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser)
                 questionDetail.AddByCreator = true;
@@ -198,7 +209,7 @@ public class LearningSessionCreator
 
     private static QuestionDetail FilterByKnowledgeSummary(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail, IList<QuestionValuationCacheItem> allQuestionValuation)
     {
-        if (Sl.SessionUser.IsLoggedIn)
+        if (SessionUser.IsLoggedIn)
         {
             var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == q.Id);
 

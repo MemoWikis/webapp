@@ -8,11 +8,11 @@ public static class AnswerFeatureGroups
     public const string Time = "Time";
 
     /// <summary>
-    /// Repetitions before answer
+    /// Repetition before answer
     /// 
     /// 1x times, 2x times, 3x times,...
     /// </summary>
-    public const string Repetitions = "Repetitions";
+    public const string Repetitions = "Repetition";
 
 
     /// <summary>

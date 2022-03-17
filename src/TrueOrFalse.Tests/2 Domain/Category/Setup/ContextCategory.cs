@@ -232,9 +232,9 @@ namespace TrueOrFalse.Tests
 
             EntityCache.Init();
 
-            Sl.SessionUser.Login(user);
+            SessionUser.Login(user);
             UserEntityCache.Init(user.Id);
-            Sl.SessionUser.Logout();
+            SessionUser.Logout();
             return user;
         }
 
@@ -272,7 +272,7 @@ namespace TrueOrFalse.Tests
                 .ByName(user.Name + "s Startseite").Id;
 
             user.StartTopicId = personalStartTopicId;
-            Sl.SessionUser.Login(user);
+            SessionUser.Login(user);
 
             // Add in WUWI
             CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);

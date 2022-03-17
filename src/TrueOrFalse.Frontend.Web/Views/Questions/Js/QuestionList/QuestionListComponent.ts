@@ -95,14 +95,8 @@ Vue.component('question-list-component', {
             if (this.questions.length == 1)
                 this.questionText = "Frage";
 
-            if (this.questions.length <= 0) {
+            if (this.questions.length <= 0)
                 this.hasQuestions = false;
-
-                $("#AnswerBody").html(
-                    "<input type='hidden' id='hddSolutionTypeNum' value='1'>" +
-                    "<div id='QuestionDetails' data-div-type='questionDetails'></div>"
-                );
-            }
 
         },
         selectedPage(val) {

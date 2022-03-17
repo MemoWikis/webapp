@@ -26,7 +26,7 @@ let questionListApp = new Vue({
     created() {
         eventBus.$on("change-active-question", () => this.setActiveQuestionId());
         eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
-        eventBus.$on("send-selected-questions", () => {
+        eventBus.$on("sync-session-config", () => {
             this.getCurrentLearningSessionData();
         });
         eventBus.$on('update-selected-page', (selectedPage) => {
@@ -74,6 +74,8 @@ let questionListApp = new Vue({
         },
         stepCount(val) {
             this.hasNoQuestions = val < 1;
+            if (!this.hasNoQuestions)
+                eventBus.$emit('category-has-question');
         }
     },
 

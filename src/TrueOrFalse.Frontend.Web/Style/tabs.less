@@ -110,34 +110,6 @@
         justify-content: center;
         height: 45px;
 
-        #SessionConfigReminderHeader {
-            top: -69px;
-            position: absolute;
-            display: flex;
-            margin-left: -2.5px;
-            z-index: 90;
-
-            .session-config-reminder-header {
-                border-radius: 0%;
-                width: 122px;
-                max-width: 122px;
-            }
-
-            .fa-times-circle {
-                margin-top: 8px;
-                margin-left: -8px;
-                cursor: pointer;
-            }
-
-            @media only screen and (max-width: 992px) {
-                margin-left: -8px;
-            }
-
-            @media only screen and (max-width: 768px) {
-                display: none;
-            }
-        }
-
         .disable::before {
             color: @memo-grey-light;
         }
@@ -317,18 +289,6 @@
         }
     }
 }
-
-#LearnOptionsHeaderContainer {
-    line-height: 38px;
-}
-
-.active {
-    #LearnOptionsHeaderContainer {
-        line-height: 38px;
-        cursor: pointer;
-    }
-}
-
 
 #TopicTab {
     display: flex;

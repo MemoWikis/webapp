@@ -15,7 +15,7 @@ class User_entity_cache_tests : BaseTest
         var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
 
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
         var userEntityCacheCategories = UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList();
         var entityCacheCategories = EntityCache.GetAllCategories().ToList();
@@ -113,7 +113,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
         Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(7));
         Assert.That(EntityCache.GetAllCategories().Count, Is.EqualTo(14));
@@ -124,7 +124,7 @@ class User_entity_cache_tests : BaseTest
     {
         ContextCategory.New().AddCaseTwoToCache();
         EntityCache.Init();
-        var user = Sl.SessionUser.User;
+        var user = SessionUser.User;
         UserEntityCache.Init(user.Id);
         Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(user.Id).Values.ToList().Count, Is.EqualTo(5));
         Assert.That(EntityCache.GetAllCategories().Count, Is.EqualTo(10));
@@ -135,7 +135,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
         var children = UserEntityCache.GetChildren(user.StartTopicId, user.Id);
 
@@ -150,7 +150,7 @@ class User_entity_cache_tests : BaseTest
     public void Test_next_parent_in_wishknowledge()
     {
         var user = ContextCategory.New().AddCaseThreeToCache();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
         ContextCategory.New().Add("noParent").Persist();
         var noParent = EntityCache.GetAllCategories().ByName("noParent");
@@ -185,7 +185,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
 
         var cat = EntityCache.GetCategory(user.StartTopicId);
@@ -201,7 +201,7 @@ class User_entity_cache_tests : BaseTest
     {
         var user = ContextCategory.New().AddCaseThreeToCache();
         EntityCache.Init();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserEntityCache.Init(user.Id);
         var cat = EntityCache.GetAllCategories().ByName("X3");
         cat.Name = "Daniel";
@@ -210,7 +210,7 @@ class User_entity_cache_tests : BaseTest
         Assert.That(UserEntityCache.GetAllCategoriesAsDictionary(2).Count, Is.EqualTo(7));
 
         user = ContextUser.New().Add("Daniel").Persist(true).All.First();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         CategoryInKnowledge.Pin(cat.Id, user);
         UserEntityCache.Init();
 
@@ -229,7 +229,7 @@ class User_entity_cache_tests : BaseTest
         var allCategories = EntityCache.GetAllCategories();
 
         var user = ContextUser.New().Add("Daniel").Persist(true).All.First();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
 
         foreach (var VARIABLE in allCategories)
         {
@@ -280,7 +280,7 @@ class User_entity_cache_tests : BaseTest
         var cateContext = ContextCategory.New();
         var user = cateContext.AddCaseThreeToCache();
         EntityCache.Init();
-        Sl.SessionUser.Login(user);
+        SessionUser.Login(user);
         UserCache.GetItem(user.Id).IsFiltered = true;
         UserEntityCache.Init();
         cateContext.Add("New", parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
@@ -464,7 +464,7 @@ class User_entity_cache_tests : BaseTest
         CategoryInKnowledge.Pin(categoryC.Id, user1);
         EntityCache.Init();
         UserCache.GetItem(user1.Id).IsFiltered = true;
-        Sl.SessionUser.Login(user1);
+        SessionUser.Login(user1);
 
         Assert.That(UserEntityCache.GetCategory(user1.Id, categoryB.Id).CategoryRelations.First().RelatedCategoryId,
             Is.EqualTo(user1.StartTopicId));
@@ -512,7 +512,7 @@ class User_entity_cache_tests : BaseTest
 
         EntityCache.Init();
         UserCache.GetItem(user1.Id).IsFiltered = true;
-        Sl.SessionUser.Login(user1);
+        SessionUser.Login(user1);
 
         var categoryBParentFromUserEntityCache = UserEntityCache.GetCategory(user1.Id, categoryB.Id).CategoryRelations
             .First().RelatedCategoryId;
@@ -585,7 +585,7 @@ class User_entity_cache_tests : BaseTest
 
         EntityCache.Init();
         UserCache.GetItem(user1.Id).IsFiltered = true;
-        Sl.SessionUser.Login(user1);
+        SessionUser.Login(user1);
 
         var relationsC = UserEntityCache.GetCategory(user1.Id, categoryC.Id).CategoryRelations;
         Assert.That(relationsC.First().RelatedCategoryId, Is.EqualTo(categoryB.Id));

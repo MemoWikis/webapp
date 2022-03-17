@@ -12,7 +12,6 @@
   opacity: 0.5;
 }
 .session-configurator {
-  padding: 0;
   width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -27,7 +26,6 @@
 .session-configurator .question-filter-options-button {
   position: relative;
   border: solid 1px #DDDDDD;
-  z-index: 901;
   background: white;
   display: flex;
 }
@@ -35,6 +33,7 @@
 .session-configurator .mode-change-button,
 .session-configurator .question-counter,
 .session-configurator .question-filter-options-button {
+  z-index: 2;
   height: 40px;
   align-items: center;
   padding: 0 10px;
@@ -53,7 +52,7 @@
 }
 .session-configurator .question-counter input {
   width: 100%;
-  border: none;
+  border: none !important;
 }
 .session-configurator .question-counter.input-is-focused {
   border: solid 1px #AFD534;
@@ -72,6 +71,7 @@
   width: 105px;
   justify-content: center;
   text-transform: uppercase;
+  z-index: 5;
 }
 .session-configurator .filter-button:hover {
   color: #003264;
@@ -92,7 +92,7 @@
 }
 .session-configurator .dropdown-container .dropdown-item,
 .session-configurator .question-counter-container .dropdown-item {
-  height: 40px;
+  min-height: 40px;
   font-family: Open Sans;
   font-size: 14px;
   font-style: normal;
@@ -108,15 +108,15 @@
   padding-top: 11px;
   border: 1px solid #DDDDDD;
   margin-top: -1px;
-  z-index: 900;
+  z-index: 3;
   margin-left: 0px;
   margin-right: 0px;
+  background: white;
 }
 .session-configurator .session-config-dropdown .question-filter-options-dropdown,
 .session-configurator .session-config-dropdown .knowledge-summary-dropdown,
 .session-configurator .session-config-dropdown .mode-change-dropdown {
   border: solid 1px #DDDDDD;
-  padding: 6px;
   border-top: none;
   position: absolute;
   right: 0;
@@ -124,6 +124,7 @@
   left: 0;
   margin-left: 10px;
   background: white;
+  z-index: 3;
 }
 .session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-item,
 .session-configurator .session-config-dropdown .knowledge-summary-dropdown .dropdown-item,
@@ -132,6 +133,39 @@
   flex-direction: row;
   cursor: pointer;
   user-select: none;
+  padding: 0 6px;
+  flex-wrap: wrap;
+}
+.session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-item .dropdown-item-label,
+.session-configurator .session-config-dropdown .knowledge-summary-dropdown .dropdown-item .dropdown-item-label,
+.session-configurator .session-config-dropdown .mode-change-dropdown .dropdown-item .dropdown-item-label {
+  padding-left: 4px;
+}
+.session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-divider,
+.session-configurator .session-config-dropdown .knowledge-summary-dropdown .dropdown-divider,
+.session-configurator .session-config-dropdown .mode-change-dropdown .dropdown-divider {
+  border-bottom: solid 1px #DDDDDD;
+  width: 100%;
+}
+.session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-spacer,
+.session-configurator .session-config-dropdown .knowledge-summary-dropdown .dropdown-spacer,
+.session-configurator .session-config-dropdown .mode-change-dropdown .dropdown-spacer {
+  height: 5px;
+  width: 100%;
+}
+.session-configurator .session-config-dropdown .session-select {
+  font-size: 18px;
+  margin-right: 15px;
+  margin-left: 10px;
+}
+.session-configurator .session-config-dropdown .session-select.active {
+  color: #0065CA;
+}
+.session-configurator .session-config-dropdown .item-disabled .session-select.active {
+  color: #767676;
+}
+.session-configurator .session-config-dropdown .session-mini-select.active {
+  color: #0065CA;
 }
 .session-configurator input::-webkit-outer-spin-button,
 .session-configurator input::-webkit-inner-spin-button {
@@ -140,6 +174,7 @@
 }
 .session-configurator input[type=number] {
   -moz-appearance: textfield;
+  border: none;
 }
 .knowledge-summary-chip-container {
   display: flex;
@@ -176,7 +211,7 @@
   border-bottom: 1px solid #DDDDDD;
 }
 #QuestionListApp .session-configurator {
-  padding: 10px;
+  margin-bottom: 10px;
 }
 #QuestionListApp .session-configurator .session-config-dropdown {
   margin-right: 20px;
@@ -184,6 +219,7 @@
 .session-config-header {
   display: flex;
   flex-wrap: nowrap;
+  align-items: center;
 }
 .session-config-header .session-progress-bar {
   font-size: 14px;
@@ -195,6 +231,7 @@
   background: #EFEFEF;
   justify-content: space-between;
   flex-wrap: nowrap;
+  position: relative;
 }
 .session-config-header .session-progress-bar .step-count {
   display: flex;
@@ -202,18 +239,34 @@
   padding-right: 15px;
   flex-wrap: nowrap;
   align-items: center;
+  z-index: 2;
 }
 .session-config-header .session-progress-bar .progress-percentage {
   display: flex;
   align-items: center;
   padding-right: 10px;
   padding-left: 15px;
+  z-index: 2;
+}
+.session-config-header .session-progress-bar .progress-bar {
+  position: absolute;
+  background: #AFD534;
+  height: 100%;
+  left: 0;
+  right: 0;
 }
 .selectable-item {
   cursor: pointer;
   user-select: none;
+  color: #767676;
+}
+.selectable-item i {
+  color: #767676;
 }
 .selectable-item:hover {
+  color: #003264;
+}
+.selectable-item:hover i {
   color: #003264;
 }
 .session-title {
@@ -223,4 +276,86 @@
   line-height: 20px;
   letter-spacing: 1.25px;
   text-align: center;
+}
+.reset-session-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.reset-session-button-container .reset-session-button {
+  text-align: right;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  color: #767676;
+}
+.reset-session-button-container .reset-session-button i {
+  padding-right: 4px;
+}
+.reset-session-button-container .reset-session-button:hover {
+  color: #003264;
+}
+.question-filter-options-icon-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.question-filter-options-icon-container i {
+  padding-right: 4px;
+}
+.question-filter-options-icon-container .icon-counter {
+  border-radius: 50px;
+  border: solid 1px #767676;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-size: 12px;
+  line-height: 25px;
+  font-weight: 600;
+}
+.dropdown-filter-icon {
+  width: 18px;
+}
+.mode-change-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap !important;
+  padding-right: 10px !important;
+}
+.mode-group-container {
+  padding: 4px 0 10px;
+}
+.mode-group-container .mode-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px 0 54px;
+  cursor: pointer;
+}
+.mode-group-container .mode-item-container:hover {
+  color: #003264;
+}
+.mode-group-container .mode-item-container .mode-sub-label {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.mode-group-container .mode-item-container input[type=number] {
+  text-align: right;
+  width: 100px;
+}
+.item-disabled {
+  color: #767676 !important;
+}
+.item-disabled:hover {
+  color: #767676 !important;
 }

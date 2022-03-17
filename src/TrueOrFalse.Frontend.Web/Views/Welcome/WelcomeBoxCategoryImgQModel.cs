@@ -8,7 +8,7 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
     public string CategoryName;
     public string CategoryDescription;
     public int QuestionCount;
-    public IList<Question> Questions;
+    public IList<QuestionCacheItem> Questions;
     public IList<Tuple<int, ImageFrontendData>> QuestionImageFrontendDatas;
 
     public WelcomeBoxCategoryImgQModel(int categoryId, int[] questionIds, string categoryDescription = null) 
@@ -19,9 +19,9 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
         CategoryDescription = categoryDescription ?? category.Description;
         QuestionCount = category.CountQuestionsAggregated;
 
-        Questions = R<QuestionRepo>().GetByIds(questionIds); //not checked if questionIds are part of category!
+        Questions = EntityCache.GetQuestionsByIds(questionIds); //not checked if questionIds are part of category!
         QuestionImageFrontendDatas = Questions.Select(x => new Tuple<int, ImageFrontendData>(
-            x.Id, GetQuestionImageFrontendData.Run(Questions.ById(x.Id)))
+            x.Id, GetQuestionImageFrontendData.Run(EntityCache.GetQuestionById(x.Id)))
         ).ToList();
     }
 

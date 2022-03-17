@@ -414,25 +414,6 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
-        //if (config.SafeLearningSessionOptions)
-        //{
-        //    var user = Sl.UserRepo.GetById(UserId);
-        //    var learningSessionOptionsHelper = new SafeLearningSessionOptionsHelper
-        //    {
-        //        UserIsAuthor = config.CreatedByCurrentUser,
-        //        AllQuestions = config.AllQuestions,
-        //        IsInTestmode = config.IsInTestMode,
-        //        QuestionsInWishknowledge = config.InWishknowledge,
-        //        IsNotQuestionInWishKnowledge = config.IsNotQuestionInWishKnowledge,
-        //        MaxQuestionCount = config.MaxQuestionCount,
-        //        Repetitions = config.Repetitions,
-        //        AnswerHelp = config.AnswerHelp
-        //    };
-
-        //    user.LearningSessionOptions = JsonConvert.SerializeObject(learningSessionOptionsHelper);
-        //    Sl.UserRepo.Update(user);
-        //}
-
         LearningSessionCache.AddOrUpdate(learningSession);
 
         var firstStep = 0;
@@ -469,7 +450,11 @@ public class AnswerQuestionController : BaseController
             return RenderLearningSessionResult(learningSession);
 
        
-        learningSession.QuestionViewGuid = Guid.NewGuid(); 
+        learningSession.QuestionViewGuid = Guid.NewGuid();
+
+        if (counter == null || counter.Max == 0)
+            counter = learningSession.QuestionCounter;
+
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
         var sessionUserId = SessionUser.UserId;

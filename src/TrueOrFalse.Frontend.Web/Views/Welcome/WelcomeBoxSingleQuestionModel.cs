@@ -12,7 +12,7 @@
 
     public WelcomeBoxSingleQuestionModel(int questionId, int contextCategoryId = 0) 
     {
-        var question = R<QuestionRepo>().GetById(questionId) ?? new Question();
+        var question = EntityCache.GetQuestionById(questionId) ?? new QuestionCacheItem();
 
         ImageFrontendData = GetQuestionImageFrontendData.Run(question);
 

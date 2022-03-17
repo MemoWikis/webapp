@@ -20,7 +20,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             var parent = all.ByName("B");
 
             var user = ContextUser.New().Add("User").Persist().All[0];
-            Sl.SessionUser.Login(user);
+            SessionUser.Login(user);
 
             editCategoryController.AddChild(child.Id, parent.Id);
 
@@ -73,7 +73,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
 
 
             admin.IsInstallationAdmin = true;
-            Sl.SessionUser.Login(admin);
+            SessionUser.Login(admin);
 
             editCategoryController.AddChild(childC.Id, parent.Id);
 
@@ -103,11 +103,11 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             Assert.That(parentHasRelationToC, Is.EqualTo(true));
             Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
 
-            Sl.SessionUser.Logout();
+            SessionUser.Logout();
 
             var childD = all.ByName("D");
 
-            Sl.SessionUser.Login(user);
+            SessionUser.Login(user);
 
             editCategoryController.AddChild(childD.Id, parent.Id);
 
@@ -161,7 +161,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
 
             var question = contextQuestion.AddQuestion(creator: questionInWuwiUser).Persist().All[0];
             question.Categories.Add(questionInWuwiWiki);
-            Sl.SessionUser.Login(admin);
+            SessionUser.Login(admin);
 
             var wuwiUsers = new List<User>();
             var i = 0;

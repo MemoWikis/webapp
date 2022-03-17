@@ -14,11 +14,8 @@ public class LearningSessionConfig
     public bool IsInTestMode { get; set; }
     public bool IsInLearningTab { get; set; }
     public QuestionOrder QuestionOrder { get; set; } = QuestionOrder.SortByEasiest;
-    public bool IsNotQuestionInWishKnowledge { get; set; }
-    public bool SafeLearningSessionOptions { get; set; }
     public bool AnswerHelp { get; set; }
-    public RepetitionType Repetitions { get; set; } = RepetitionType.None;
-    public bool RandomQuestions { get; set; }
+    public RepetitionType Repetition { get; set; } = RepetitionType.None;
     /// <summary>
     /// User is not logged in
     /// </summary>

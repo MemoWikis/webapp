@@ -121,11 +121,11 @@
                     },
                     cache: false,
                     success(result) {
-                        if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
+                        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() == "true" && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
-                        result.currentStep = isNotAnswered ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached 
-                        self._answerQuestion.UpdateProgressBar(result.numberSteps, null, result.currentStep);
+                        result.currentStep = isNotAnswered ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached
+                        eventBus.$emit('update-progress-bar');
                     }
                 });
             }

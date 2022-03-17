@@ -27,7 +27,8 @@ namespace TrueOrFalse.View
                     .IncludeDirectory("~/Scripts/header", "*.js")
                     .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                     .IncludeDirectory("~/Views/Images", "*.js")
-                    .Include("~/Scripts/npm/vue/vue.js"));
+                    .Include("~/Scripts/npm/vue/vue.js")
+                    .IncludeDirectory("~/Scripts/VueExtensions/", "*.js"));
             } else {
                 bundles.Add(new ScriptBundle("~/bundles/shared")
                     .Include("~/Scripts/npm/jquery/jquery.js")
@@ -36,7 +37,8 @@ namespace TrueOrFalse.View
                     .IncludeDirectory("~/Scripts/header", "*.js")
                     .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                     .IncludeDirectory("~/Views/Images", "*.js")
-                    .Include("~/Scripts/npm/vue/vue.min.js"));
+                    .Include("~/Scripts/npm/vue/vue.min.js")
+                    .IncludeDirectory("~/Scripts/VueExtensions/", "*.js"));
             }
 
             bundles.Add	(new ScriptBundle	("~/bundles/js/stageOverlay")

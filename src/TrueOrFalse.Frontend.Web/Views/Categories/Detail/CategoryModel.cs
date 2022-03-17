@@ -65,6 +65,7 @@ public class CategoryModel : BaseContentModule
     public string ImageLicenseOwner { get; set; }
     public bool IsMyWorld { get; set; }
     public bool IsWiki { get; set; }
+    public bool HasQuestions = false;
 
     
     public EditQuestionModel EditQuestionModel;
@@ -163,6 +164,9 @@ public class CategoryModel : BaseContentModule
         editQuestionModel.Categories.Add(EntityCache.GetCategory(category.Id));
 
         EditQuestionModel = editQuestionModel;
+
+        if (CountAggregatedQuestions > 0)
+            HasQuestions = true;
     }
 
 
