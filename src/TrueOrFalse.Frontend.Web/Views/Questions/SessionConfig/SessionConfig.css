@@ -150,7 +150,7 @@
 .session-configurator .session-config-dropdown .question-filter-options-dropdown .dropdown-spacer,
 .session-configurator .session-config-dropdown .knowledge-summary-dropdown .dropdown-spacer,
 .session-configurator .session-config-dropdown .mode-change-dropdown .dropdown-spacer {
-  height: 5px;
+  height: 14px;
   width: 100%;
 }
 .session-configurator .session-config-dropdown .session-select {
@@ -343,9 +343,9 @@
   color: #003264;
 }
 .mode-group-container .mode-item-container .mode-sub-label {
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0px;
   text-align: left;
 }
