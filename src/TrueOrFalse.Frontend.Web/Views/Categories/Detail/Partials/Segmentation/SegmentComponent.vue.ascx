@@ -36,6 +36,13 @@
                                 </div>Thema veröffentlichen
                             </a>
                         </li>
+                        <li>
+                            <a @click="openMoveCategoryModal()" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <i class="fa fa-arrow-circle-right"></i>
+                                </div>Thema verschieben
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -67,4 +67,5 @@ public enum CategoryChangeType
     Relations = 7,
     Image = 8,
     Restore = 9,
+    Moved = 10,
 }

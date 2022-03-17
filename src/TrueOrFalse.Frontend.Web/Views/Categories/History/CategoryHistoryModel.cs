@@ -17,14 +17,14 @@ public class CategoryHistoryModel : BaseModel
     public CategoryCacheItem Category;
     private readonly IOrderedEnumerable<CategoryChange> _listWithAllVersions;
 
-    public CategoryHistoryModel(CategoryCacheItem category, IList<CategoryChange> categoryChanges, int categoryId )
+    public CategoryHistoryModel(CategoryCacheItem category, IList<CategoryChange> categoryChanges, int categoryId)
     {
         Data data = new Data();
 
         if (category == null)
-            data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data); 
+            data = JsonConvert.DeserializeObject<Data>(categoryChanges.First().Data);
 
-        CategoryName = category == null ?  data.Name :  category.Name;
+        CategoryName = category == null ? data.Name : category.Name;
         CategoryId = categoryId;
         CategoryUrl = Links.CategoryDetail(CategoryName, CategoryId);
         Category = EntityCache.GetCategory(categoryId);
@@ -32,7 +32,7 @@ public class CategoryHistoryModel : BaseModel
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => group.Key)
             .Select(group => new CategoryChangeDayModel(
-                group.Key, 
+                group.Key,
                 (IList<CategoryChange>)group.OrderByDescending(g => g.DateCreated).ToList()
             ))
             .ToList();
@@ -190,8 +190,13 @@ public class CategoryChangeDetailModel
     public bool RelationIsVisibleToCurrentUser = true;
     public List<CategoryChangeDetailModel> AggregatedCategoryChangeDetailModel;
 
-    public void SetLabelAndVisibility(RelationChangeItem relationChangeItem)
+    public void SetLabelAndVisibility(RelationChangeItem relationChangeItem, bool moved = false)
     {
+        if (moved)
+        {
+            Label = "Verschoben";
+            return;
+        }
         if (relationChangeItem == null)
         {
             Type = CategoryChangeType.Update;
@@ -211,5 +216,5 @@ public class CategoryChangeDetailModel
 public class Data
 {
     public string Name;
-    public string Description; 
+    public string Description;
 }

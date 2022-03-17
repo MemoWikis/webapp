@@ -34,7 +34,7 @@ public class SegmentationController : BaseController
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
-        int startTopicId = 0;
+        var startTopicId = 0;
 
         if (IsLoggedIn)
         {
@@ -42,15 +42,10 @@ public class SegmentationController : BaseController
             startTopicId = UserCache.GetUser(UserId).StartTopicId;
         }
 
-        var categoryDataList = new List<CategoryCardData>();
-        foreach (int categoryId in categoryIds)
-        {
-            CategoryCardData categoryCardData;
-
-            categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId) : GetCategoryCardData(categoryId);
-
-            categoryDataList.Add(categoryCardData);
-        }
+        var categoryDataList = categoryIds.Select(
+            categoryId => IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
+                : GetCategoryCardData(categoryId)).Where(categoryCardData => categoryCardData != null)
+            .ToList();
 
         return Json(categoryDataList);
     }
@@ -59,13 +54,14 @@ public class SegmentationController : BaseController
     public JsonResult GetCategoryData(int categoryId)
     {
         var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations, UserCache.GetUser(UserId).StartTopicId) : GetCategoryCardData(categoryId);
-        return Json(categoryCardData);
+        return categoryCardData != null ? Json(categoryCardData) : Json("");
     }
 
 
     private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null, int? startTopicId = null)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
+        if (!PermissionCheck.CanView(categoryCacheItem)) return null;
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
         var categoryTypeHtml = categoryCacheItem.Type.GetCategoryTypeIconHtml();
@@ -85,7 +81,7 @@ public class SegmentationController : BaseController
         var isPersonalHomepage = false;
         if (IsLoggedIn)
         {
-            if (userValuation.ContainsKey(categoryId))
+            if (userValuation != null && userValuation.ContainsKey(categoryId))
                 isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
             isPersonalHomepage = categoryCacheItem.Id == startTopicId;
         }

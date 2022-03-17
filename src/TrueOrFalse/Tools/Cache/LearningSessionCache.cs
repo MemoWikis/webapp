@@ -19,6 +19,7 @@ public class LearningSessionCache
     public static LearningSession GetLearningSession()
     {
         _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
+        AddOrUpdate(learningSession);
         return learningSession;
     }
     public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex)
