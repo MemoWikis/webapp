@@ -120,12 +120,12 @@ Vue.component('session-config-component',
                 showQuestionFilterOptionsDropdown: false,
                 showKnowledgeSummaryDropdown: false,
                 showModeSelectionDropdown: false,
-                isTestMode: false,
+                isTestMode: this.isLoggedIn ? false : true,
                 testOptions: {
                     questionOrder: 3,
                     timeLimit: 0
                 },
-                isPracticeMode: true,
+                isPracticeMode: this.isLoggedIn ? true : false,
                 practiceOptions: {
                     questionOrder: 0,
                     repetition: 1,

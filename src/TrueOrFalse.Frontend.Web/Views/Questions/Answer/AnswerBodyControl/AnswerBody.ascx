@@ -202,7 +202,7 @@
                                             </div>
                                             <div>
                                     <% } %>
-                                    <% if (Model.IsLearningSession && Model.IsLoggedIn && Model.NextUrl != null && !Model.IsInTestMode) { %>
+                                    <% if (Model.IsLearningSession && Model.NextUrl != null && !Model.IsInTestMode) { %>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link memo-button"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
                                 </div>

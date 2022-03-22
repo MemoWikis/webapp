@@ -159,7 +159,7 @@ Vue.component('question-details-component', {
         },
     },
 
-    mounted: function () {
+    mounted() {
         this.$nextTick(() => {
             if (!this.arcLoaded) {
                 this.loadData();
