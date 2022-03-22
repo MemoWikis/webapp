@@ -452,6 +452,7 @@ public class CategoryController : BaseController
     }
     public SearchCategoryItem FillMiniCategoryItem(CategoryCacheItem category)
     {
+        var isVisible = PermissionCheck.CanView(category);
         var miniCategoryItem = new SearchCategoryItem
         {
             Id = category.Id,

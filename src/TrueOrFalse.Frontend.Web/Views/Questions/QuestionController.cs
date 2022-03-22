@@ -54,6 +54,9 @@ public class QuestionController : BaseController
         var question = EntityCache.GetQuestionById(id);
         var categoryController = new CategoryController();
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
+        var categoriesVisibleToCurrentUser =
+            question.Categories.Where(PermissionCheck.CanView).Distinct();
+
         var json = new JsonResult
         {
             Data = new
@@ -63,11 +66,11 @@ public class QuestionController : BaseController
                 SolutionMetadataJson = question.SolutionMetadataJson,
                 Text = question.TextHtml,
                 TextExtended = question.TextExtendedHtml,
-                CategoryIds = question.Categories.Select(c => c.Id).ToList(),
+                CategoryIds = categoriesVisibleToCurrentUser.Select(c => c.Id).ToList(),
                 DescriptionHtml = question.DescriptionHtml,
-                Categories = question.Categories.Select(c => categoryController.FillMiniCategoryItem(c)),
+                Categories = categoriesVisibleToCurrentUser.Select(c => categoryController.FillMiniCategoryItem(c)),
                 LicenseId = question.LicenseId,
-                Visibility = question.Visibility
+                Visibility = question.Visibility,
             }
         };
 

@@ -158,12 +158,21 @@ public class EditQuestionController : BaseController
         question.DescriptionHtml = questionDataJson.DescriptionHtml;
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
 
+        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
+        var newCategoryIds = questionDataJson.CategoryIds.ToList();
+
+        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+
+        foreach (var categoryId in categoriesToRemove)
+            if (!PermissionCheck.CanViewCategory(categoryId))
+                newCategoryIds.Add(categoryId);
+
         var categories = new List<Category>();
 
-        foreach (var categoryId in questionDataJson.CategoryIds)
+        foreach (var categoryId in newCategoryIds)
             categories.Add(Sl.CategoryRepo.GetById(categoryId));
 
-        question.Categories = categories;
+        question.Categories = categories.Distinct().ToList();
         question.Visibility = (QuestionVisibility)questionDataJson.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
