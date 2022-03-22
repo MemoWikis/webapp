@@ -27,11 +27,18 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = CategoryCacheItem.ToCacheCategories(Sl.CategoryRepo.GetAllEager()).ToList();
+        var allCategories = Sl.CategoryRepo.GetAllEager();
+        Logg.r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
+        Logg.r().Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
         IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
 
         var allQuestions = Sl.QuestionRepo.GetAllEager();
+        Logg.r().Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();
+        Logg.r().Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
