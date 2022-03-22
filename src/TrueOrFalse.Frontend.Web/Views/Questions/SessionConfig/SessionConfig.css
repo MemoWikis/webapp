@@ -192,16 +192,16 @@
   font-weight: 600;
   letter-spacing: 0px;
 }
-.not-learned {
+.session-configurator .not-learned {
   background-color: #DDDDDD;
 }
-.needs-learning {
+.session-configurator .needs-learning {
   background-color: lightsalmon;
 }
-.needs-consolidation {
+.session-configurator .needs-consolidation {
   background-color: #fdd648;
 }
-.solid {
+.session-configurator .solid {
   background-color: #AFD534;
 }
 .filter-button.open {

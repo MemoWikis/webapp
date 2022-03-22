@@ -92,7 +92,7 @@
         </div>
 
         <div class="dropdown-container col-xs-12 col-sm-6">
-            <div class="sub-header">Modus</div>
+            <div class="sub-header">Modus <i class="fas fa-info-circle show-tooltip mode-info-icon" data-original-title="Mehr über Lernmodi erfährst Du in der Dokumentation."></i></div>
 
             <div class="mode-change-button selectable-item" @click="showModeSelectionDropdown = !showModeSelectionDropdown" :class="{ 'is-open': showModeSelectionDropdown }">
                 <div v-if="isTestMode"><i class="fas fa-graduation-cap dropdown-filter-icon"></i> Testen</div>

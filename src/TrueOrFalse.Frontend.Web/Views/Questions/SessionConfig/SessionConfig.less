@@ -203,18 +203,24 @@
     letter-spacing: 0px;
    
 }
-.not-learned {
-    background-color: @not-learned-color;
+.session-configurator {
+    .not-learned {
+        background-color: @not-learned-color;
+    }
+
+    .needs-learning {
+        background-color: @needs-learning-color;
+    }
+
+    .needs-consolidation {
+        background-color: @needs-consolidation-color;
+    }
+
+    .solid {
+        background-color: @solid-knowledge-color;
+    }
 }
-.needs-learning {
-    background-color: @needs-learning-color;
-}
-.needs-consolidation {
-    background-color: @needs-consolidation-color;
-}
-.solid {
-    background-color: @solid-knowledge-color;
-}
+
 
 .filter-button {
     &.open {
