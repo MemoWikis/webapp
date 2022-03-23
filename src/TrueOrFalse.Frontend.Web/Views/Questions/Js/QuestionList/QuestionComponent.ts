@@ -78,7 +78,6 @@
     mounted() {
         this.correctnessProbability = this.knowledgeState + "%";
         this.setKnowledgebarData(this.knowledgeState);
-        this.getWishknowledgePinButton();
         if (this.isLastItem)
             this.$parent.lastQuestionInListIndex = this.questionIndex;
     },
@@ -212,19 +211,6 @@
                     this.wrongAnswers = this.abbreviateNumber(data.wrongAnswerCount);
                     this.canBeEdited = data.canBeEdited;
                 },
-            });
-        },
-        getWishknowledgePinButton() {
-            var pinId = "#" + this.pinId;
-            $.ajax({
-                url: "/QuestionList/RenderWishknowledgePinButton/",
-                data: {
-                    isInWishknowledge: this.isInWishknowledge
-                },
-                type: "POST",
-                success: partialView => {
-                    $(pinId).html(partialView);
-                }
             });
         },
         getEditUrl() {
