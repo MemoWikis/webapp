@@ -121,7 +121,7 @@ public class CategoryModel : BaseContentModule
         ImageUrl_250 = imageResult.Url;
     
         //var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
-        Authors = AuthorViewModel.Convert(EntityCache.GetAuthors(category.AuthorIds));
+        Authors = AuthorViewModel.Convert(category.Authors);
 
         IsOwnerOrAdmin = Creator != null ? SessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
 

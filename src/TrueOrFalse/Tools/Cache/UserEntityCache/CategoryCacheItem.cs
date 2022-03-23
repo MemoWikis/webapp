@@ -23,7 +23,7 @@ public class CategoryCacheItem
     public virtual bool DisableLearningFunctions { get; set; }
 
     public virtual User Creator { get; set; }
-    public virtual IList<int> AuthorIds { get; set; }
+    public virtual IList<AuthorCacheItem> Authors { get; set; }
     public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
@@ -147,11 +147,11 @@ public class CategoryCacheItem
             : new List<CategoryCacheItem>();
     }
 
-    public void AddAuthors(int userId)
+    public void AddAuthors(AuthorCacheItem author)
     {
-        if (!AuthorIds.Contains(userId))
+        if (!Authors.Any(a => a.Id == author.Id))
         {
-            AuthorIds.Add(userId);
+            Authors.Add(author);
         }
     }
 
@@ -277,7 +277,7 @@ public class CategoryCacheItem
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            AuthorIds = Sl.CategoryRepo.GetAuthors(category.Id).Select(u => u.Id).ToList()
+            Authors = AuthorCacheItem.FromUserTinyModels(Sl.CategoryRepo.GetAuthors(category.Id))
         };
         return categoryCacheItem;
     }

@@ -34,6 +34,7 @@ public class AuthorCacheItem
             GoogleId = user.GoogleId
         };
     }
+
     internal static AuthorCacheItem FromUserTinyModel(IUserTinyModel user)
     {
         return new AuthorCacheItem()
@@ -46,9 +47,6 @@ public class AuthorCacheItem
             GoogleId = user.GoogleId
         };
     }
-
-    public static IList<AuthorCacheItem> FromUsers(IList<User> users) =>
-        users.Select(FromUser).ToList();
     internal static AuthorCacheItem FromUser(User user)
     {
         return new AuthorCacheItem()
