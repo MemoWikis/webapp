@@ -65,6 +65,7 @@ public class UserRepo : RepositoryDbBase<User>
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
         UserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(user);
     }
 
     public override void Create(User user)
@@ -72,6 +73,7 @@ public class UserRepo : RepositoryDbBase<User>
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
         UserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(user);
     }
 
     public override void Delete(int id)
@@ -84,6 +86,7 @@ public class UserRepo : RepositoryDbBase<User>
         _searchIndexUser.Delete(user);
         base.Delete(id);
         UserCache.Remove(user);
+        EntityCache.Remove(user);
     }
 
     public void DeleteFromAllTables(int userId)
@@ -143,6 +146,7 @@ public class UserRepo : RepositoryDbBase<User>
             .SetParameter("userId", userId).ExecuteUpdate();
 
         Session.CreateSQLQuery("Delete From user Where id =  :userId;").SetParameter("userId", userId).ExecuteUpdate();
+        EntityCache.Remove(EntityCache.GetAuthor(userId));
     }
 
     public User GetMemuchoUser() => GetById(Settings.MemuchoUserId);

@@ -10,10 +10,12 @@ public class EntityCache : BaseCache
     private const string _cacheKeyQuestions = "allQuestions _EntityCache";
     private const string _cacheKeyCategories = "allCategories_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
+    private const string _cacheKeyAuthors = "authorsList_EntityCache";
 
     public static bool IsFirstStart = true;
     private static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
+    private static ConcurrentDictionary<int, AuthorCacheItem> Authors => (ConcurrentDictionary<int, AuthorCacheItem>)HttpRuntime.Cache[_cacheKeyAuthors];
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
@@ -39,11 +41,14 @@ public class EntityCache : BaseCache
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();
         Logg.r().Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
+        var allUsers = Sl.UserRepo.GetAll();
+        Logg.r().Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
+        IntoForeverCache(_cacheKeyAuthors, AuthorCacheItem.FromUsers(allUsers).ToConcurrentDictionary());
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {
@@ -182,6 +187,17 @@ public class EntityCache : BaseCache
         RemoveQuestionFrom(CategoryQuestionsList, question);
     }
 
+    public static void Remove(User user) => Remove(GetAuthor(user.Id));
+
+    public static void Remove(AuthorCacheItem author)
+    {
+        Remove(Authors, author);
+    }
+
+    public static void AddOrUpdate(User user)
+    {
+        AddOrUpdate(Authors, AuthorCacheItem.FromUser(user));
+    }
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
         AddOrUpdate(Categories, categoryCacheItem);
@@ -247,8 +263,11 @@ public class EntityCache : BaseCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
-
     private static void AddOrUpdate(ConcurrentDictionary<int, QuestionCacheItem> objectToCache, QuestionCacheItem obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
+    }
+    private static void AddOrUpdate(ConcurrentDictionary<int, AuthorCacheItem> objectToCache, AuthorCacheItem obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
@@ -259,6 +278,10 @@ public class EntityCache : BaseCache
     }
 
     private static void Remove(ConcurrentDictionary<int, QuestionCacheItem> objectToCache, QuestionCacheItem obj)
+    {
+        objectToCache.TryRemove(obj.Id, out var outObj);
+    }
+    private static void Remove(ConcurrentDictionary<int, AuthorCacheItem> objectToCache, AuthorCacheItem obj)
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
@@ -283,6 +306,7 @@ public class EntityCache : BaseCache
         Categories.TryGetValue(categoryId, out var category);
         return category;
     }
+
 
     public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
     {
@@ -391,6 +415,20 @@ public class EntityCache : BaseCache
 
         Questions.TryGetValue(questionId, out var question);
         return question;
+    }
+
+    public static IList<AuthorCacheItem> GetAuthors(IList<int> userIds, bool isFromUserEntityCache = false,
+        bool getDataFromEntityCache = false) =>
+        userIds.Select(id => GetAuthor(id, isFromUserEntityCache, getDataFromEntityCache)).ToList();
+    public static AuthorCacheItem GetAuthor(int userId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    {
+        if (!IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(SessionUser.UserId).IsFiltered)
+        {
+            return null;
+        }
+
+        Authors.TryGetValue(userId, out var author);
+        return author;
     }
 
     public static void Clear()

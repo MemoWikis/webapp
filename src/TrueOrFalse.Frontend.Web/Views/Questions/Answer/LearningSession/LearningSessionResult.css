@@ -86,7 +86,7 @@
   color: #fff;
 }
 .chartNotAnswered {
-  background-color: #999999;
+  background-color: #DDDDDD;
 }
 .SummaryText {
   font-size: 16px;
@@ -127,7 +127,7 @@
   background-color: lightsalmon;
 }
 .sumPctNotAnswered {
-  background-color: #999999;
+  background-color: #DDDDDD;
 }
 .sumExpl {
   text-align: left;
@@ -176,7 +176,7 @@
   color: lightsalmon;
 }
 .QuestionLearned.Unanswered .AnswerResultIcon {
-  color: #999999;
+  color: #DDDDDD;
 }
 .answerDetails {
   padding-left: 30px;
