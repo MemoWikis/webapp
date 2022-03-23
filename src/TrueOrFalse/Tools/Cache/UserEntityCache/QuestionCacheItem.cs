@@ -222,14 +222,6 @@ public class QuestionCacheItem
             Features = question.Features,
             License = question.License
         };
-            var parentCategories = questionCacheItem.Categories.SelectMany(c => EntityCache.GetAllParents(c.Id)).ToList();
-        if (parentCategories.Any())
-        {
-            foreach (var category in parentCategories)
-            {
-                questionCacheItem.Categories.Add(category);
-            }
-        }
         if (!EntityCache.IsFirstStart)
         {
             questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();

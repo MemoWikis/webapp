@@ -202,8 +202,8 @@ public class EditQuestionController : BaseController
         question.License = IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
-
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
+        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
+        EntityCache.AddOrUpdate(questionCacheItem);
 
         return question;
     }
