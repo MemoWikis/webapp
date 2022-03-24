@@ -544,18 +544,6 @@ public class EditCategoryController : BaseController
         });
     }
 
-    public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)
-    {
-        Category category = null;
-
-        if (categoryId.HasValue && categoryId.Value > 0)
-        {
-            category = _categoryRepository.GetById(categoryId.Value);
-        }
-
-        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, type));
-    }
-
     [AccessOnlyAsLoggedIn]
     private void StoreImage(int categoryId)
     {
