@@ -23,7 +23,8 @@ public class UserCache
 
         return allUserValuations;
     }
-
+    
+    public static List<User> GetUsers(int[] userIds) => userIds.Select(userId => GetItem(userId).User).ToList();
     public static User GetUser(int userId) => GetItem(userId).User;
 
     public static UserCacheItem GetItem(int userId)

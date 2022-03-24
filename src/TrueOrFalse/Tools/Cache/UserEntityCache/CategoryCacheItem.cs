@@ -277,7 +277,7 @@ public class CategoryCacheItem
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            Authors = AuthorCacheItem.FromUserTinyModels(Sl.CategoryRepo.GetAuthors(category.Id))
+            Authors = UserCache.GetUsers(category.AuthorIdsInts).Select(AuthorCacheItem.FromUser).ToList()
         };
         return categoryCacheItem;
     }

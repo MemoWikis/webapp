@@ -218,6 +218,7 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\AuthorCacheItem.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
@@ -820,6 +821,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs233.cs" />
     <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
     <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
