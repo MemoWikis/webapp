@@ -60,18 +60,10 @@
                                 </div>
                             </div>
                             <div class="modalFooter">
-                                <template v-if="createCategory && !moveCategory">
-                                    <div id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
+                                    <div v-if="createCategory && !moveCategory" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
+                                    <div v-else-if="!createCategory && moveCategory" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
+                                    <div v-else id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
                                     <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
-                                </template>
-                                <template v-else-if="!createCategory && moveCategory">
-                                    <div id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
-                                    <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
-                                </template>
-                                <template v-else>
-                                    <div id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
-                                    <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
-                                </template>
                             </div>   
                         </div>
                     </div>
