@@ -80,10 +80,10 @@
                     <div class="selectable-item">Alles auswählen</div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <div v-for="k in knowledgeSummary" class="dropdown-item" :class="{'item-disabled' : !isLoggedIn }">
+                <div v-for="k in knowledgeSummary" class="dropdown-item" :class="{'item-disabled' : !isLoggedIn }" @click="selectKnowledgeSummary(k)">
                     <i class="fas fa-check-square session-select active" v-if="k.isSelected"></i>
                     <i class="far fa-square session-select" v-else></i>
-                    <div :class="k.colorClass" class="knowledge-summary-chip" @click="selectKnowledgeSummary(k)">
+                    <div :class="k.colorClass" class="knowledge-summary-chip">
                         {{k.label}} ({{k.count}})
                     </div>
                 </div>
