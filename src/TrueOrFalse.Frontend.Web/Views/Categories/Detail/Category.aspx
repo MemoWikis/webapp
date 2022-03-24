@@ -52,6 +52,7 @@
     <input type="hidden" id="hddVisibility" value="<%= Model.Category.Visibility %>"/>
     <input type="hidden" id="hddIsMyWorld" value="<%= Model.IsMyWorld %>"/>
     <input type="hidden" id="hddIsWiki" value="<%= Model.IsWiki %>"/>
+    <input type="hidden" id="tiptapUrl" value="<%= Scripts.Url("~/bundles/js/tiptap") %>"/>
 
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>

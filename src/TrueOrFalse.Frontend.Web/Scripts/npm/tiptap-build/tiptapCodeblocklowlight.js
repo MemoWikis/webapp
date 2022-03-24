@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktiptap_build=self.webpackChunktiptap_build||[]).push([[241],{6611:(p,t,i)=>{var a=i(137);window.tiptapCodeBlockLowlight=a.Z}},p=>{p.O(0,[798,137],(()=>(6611,p(p.s=6611)))),p.O()}]);

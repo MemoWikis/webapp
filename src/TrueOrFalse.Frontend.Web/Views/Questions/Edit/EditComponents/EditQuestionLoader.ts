@@ -39,7 +39,7 @@ var EditQuestionLoader = new Vue({
             $.ajax({
                 type: 'get',
                 url: '/EditQuestion/GetEditQuestionModal/',
-                success: function (html) {
+                success(html) {
                     $(html).insertBefore('#EditQuestionLoaderApp');
                     if (question != null)
                         self.$nextTick(() => {
@@ -58,7 +58,7 @@ var EditQuestionLoader = new Vue({
             $.ajax({
                 type: 'get',
                 url: '/EditCategory/GetTiptap/',
-                success: function (html) {
+                success(html) {
                     $(html).insertAfter('script#pin-category-template');
                     if (!self.modalIsReady)
                         self.loadEditor(question);

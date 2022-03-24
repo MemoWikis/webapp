@@ -189,5 +189,25 @@ class Utils
 
         return newHtml;
     }
+
+    static LoadTiptap() {
+        var tiptapUrl = $('#tiptapUrl').val();
+        $.ajax({
+            cache: true,
+            url: tiptapUrl,
+            dataType: 'script',
+            success() {
+
+                $.ajax({
+                    type: 'get',
+                    url: '/EditCategory/GetTiptap/',
+                    cache: true,
+                    success(html) {
+                        $(html).insertAfter('script#pin-category-template');
+                    },
+                });
+            }
+        });
+    }
 }
 
