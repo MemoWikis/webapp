@@ -1939,22 +1939,8 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </Content>
     <Content Include="Scripts\npm\jquery\jquery.js" />
-    <Content Include="Scripts\npm\tiptap-build\137.js" />
-    <Content Include="Scripts\npm\tiptap-build\385.js" />
-    <Content Include="Scripts\npm\tiptap-build\756.js" />
-    <Content Include="Scripts\npm\tiptap-build\798.js" />
-    <Content Include="Scripts\npm\tiptap-build\912.js" />
-    <Content Include="Scripts\npm\tiptap-build\956.js" />
-    <Content Include="Scripts\npm\tiptap-build\hastUtilToHtml.js" />
-    <Content Include="Scripts\npm\tiptap-build\lowlight.js" />
     <Content Include="Scripts\npm\tiptap-build\runtime.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapCodeblocklowlight.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapImage.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapLink.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapPlaceholder.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapStarterkit.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapUnderline.js" />
-    <Content Include="Scripts\npm\tiptap-build\tiptapVue2.js" />
+    <Content Include="Scripts\npm\tiptap-build\tiptapBundle.js" />
     <Content Include="Scripts\npm\vue\vue.min.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\lowlight.js" />
     <Content Include="Scripts\npm_builder\tiptap-build\tiptap-codeblocklowlight.js" />

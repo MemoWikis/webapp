@@ -74,7 +74,7 @@ new Vue({
                 this.errorMsg = data.msg;
         });
 
-        this.$nextTick(() => this.loadTiptap());
+        this.$nextTick(() => Utils.LoadTiptap());
     },
 
     updated() {
@@ -82,15 +82,6 @@ new Vue({
     },
 
     methods: {
-        loadTiptap() {
-            $.ajax({
-                type: 'get',
-                url: '/EditCategory/GetTiptap/',
-                success: function (html) {
-                    $(html).insertAfter('script#pin-category-template');
-                },
-            });
-        },
 
         updateAuthors() {
             var self = this;

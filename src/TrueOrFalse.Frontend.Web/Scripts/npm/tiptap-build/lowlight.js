@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktiptap_build=self.webpackChunktiptap_build||[]).push([[139],{3943:(i,p,t)=>{var l=t(6912),s=t.n(l);window.lowlight=s()}},i=>{i.O(0,[912],(()=>(3943,i(i.s=3943)))),i.O()}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktiptap_build=self.webpackChunktiptap_build||[]).push([[418],{1648:(t,p,i)=>{var a=i(2756);window.tiptapStarterKit=a.Z}},t=>{t.O(0,[798,756],(()=>(1648,t(t.s=1648)))),t.O()}]);

@@ -32,8 +32,6 @@ function copyScripts(cb) {
     for (var prop in deps) {
         console.log("Prepping Scripts for: " + prop);
 
-        //console.log(gulp.dest("scripts/npm/"));
-
         for (var itemProp in deps[prop]) {
             streams.push(gulp.src("node_modules/" + prop + "/" + itemProp)
                 .pipe(gulp.dest("scripts/npm/" + prop + "/" + deps[prop][itemProp])));

@@ -2,11 +2,11 @@
 
 namespace TrueOrFalse.View
 {
-    public class 
-        BundleConfig
+    public class BundleConfig
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            BundleTable.EnableOptimizations = true;
             /* CSS */
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                   "~/Style/bootstrap/bootstrap.css",

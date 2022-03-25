@@ -42,7 +42,7 @@
             this.tiptapIsReady = true;
             this.initEditor();
         } else {
-            this.loadTiptap();
+            Utils.LoadTiptap();
         }
         eventBus.$on('tiptap-is-ready', () => {
             this.initEditor();
@@ -121,15 +121,6 @@
                     },
                 });
             }
-        },
-        loadTiptap() {
-            $.ajax({
-                type: 'get',
-                url: '/EditCategory/GetTiptap/',
-                success: function (html) {
-                    $(html).insertAfter('script#pin-category-template');
-                },
-            });
         },
         addFlashcard() {
             if (NotLoggedIn.Yes()) {
