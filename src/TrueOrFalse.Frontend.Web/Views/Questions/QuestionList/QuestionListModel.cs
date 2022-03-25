@@ -16,7 +16,7 @@ public class QuestionListModel : BaseModel
     public QuestionListModel(int categoryId, bool isSessionNoteFadeIn = true)
     {
         CategoryId = categoryId;
-        AllQuestionsInCategory = Sl.CategoryRepo.CountAggregatedQuestions(categoryId);
+        AllQuestionsInCategory = EntityCache.GetCategory(categoryId).GetCountQuestionsAggregated();
         IsSessionNoteFadeIn = isSessionNoteFadeIn;
 
         var editQuestionModel = new EditQuestionModel();

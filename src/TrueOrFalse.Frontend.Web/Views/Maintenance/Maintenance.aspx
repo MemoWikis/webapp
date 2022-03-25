@@ -64,6 +64,10 @@
             <a href="<%= Url.Action("CreateAggregationsForAll", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
                 Aggregat-Relationen akualisieren / anlegen
+            </a><br/>
+            <a href="<%= Url.Action("UpdateCategoryAuthors", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i>
+                Themenautoren aktualisieren
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">

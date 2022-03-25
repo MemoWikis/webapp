@@ -407,4 +407,10 @@ public class MaintenanceController : BaseController
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Der Cache wurde geleert.") });
     }
+    public ActionResult UpdateCategoryAuthors()
+    {
+        CategoryAuthorUpdater.UpdateAll();
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Autoren von Kategorien wurden aktualisiert.") });
+    }
 }

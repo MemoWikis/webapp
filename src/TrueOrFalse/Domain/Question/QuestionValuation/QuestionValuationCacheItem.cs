@@ -19,6 +19,7 @@ public class QuestionValuationCacheItem
 
     public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation)
     {
+        var val = questionValuation.IsInWishKnowledge();
         return new QuestionValuationCacheItem()
         {
             CorrectnessProbability = questionValuation.CorrectnessProbability,
@@ -27,7 +28,7 @@ public class QuestionValuationCacheItem
             Id = questionValuation.Id,
             IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
-            Question = EntityCache.GetQuestion(questionValuation.Question.Id),
+            Question = QuestionCacheItem.ToCacheQuestion(questionValuation.Question),
             User = questionValuation.User
         };
     }

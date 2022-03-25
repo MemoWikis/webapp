@@ -195,8 +195,6 @@ public class CategoryCacheItem
         }
         return questions.ToList();
     }
-
-
     public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
     {
         return AggregatedCategories()
@@ -242,9 +240,41 @@ public class CategoryCacheItem
         return categories;
     }
 
+    public virtual bool HasPublicParent()
+    {
+        return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
+    }
+
+    public virtual bool HasRelation(CategoryCacheRelation newRelation)
+    {
+        foreach (var categoryRelation in this.CategoryRelations)
+            if (CategoryCacheRelation.IsCategorRelationEqual(categoryRelation, newRelation))
+                return true;
+
+        return false;
+    }
+
+    public bool Contains(CategoryCacheRelation categoryRelation)
+    {
+        return CategoryRelations.Any(
+            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId &&
+            cr.CategoryRelationType == categoryRelation.CategoryRelationType
+        );
+    }
+
+    public bool IsStartPage()
+    {
+        if (Id == RootCategory.RootCategoryId)
+            return true;
+
+        if (Creator != null)
+            return Id == Creator.StartTopicId;
+
+        return false;
+    }
+
     public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories) => categories.Select(c => ToCacheCategory(c));
     public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories) => categories.Select(c => ToCacheCategory(c));
-
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
@@ -277,41 +307,8 @@ public class CategoryCacheItem
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            Authors = UserCache.GetUsers(category.AuthorIdsInts).Select(AuthorCacheItem.FromUser).ToList()
+            Authors = AuthorCacheItem.FromUsers(Sl.UserRepo.GetByIds(category.AuthorIdsInts.ToList()))
         };
         return categoryCacheItem;
-    }
-
-    public virtual bool HasPublicParent()
-    {
-        return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
-    }
-
-    public virtual bool HasRelation(CategoryCacheRelation newRelation)
-    {
-        foreach (var categoryRelation in this.CategoryRelations)
-            if (CategoryCacheRelation.IsCategorRelationEqual(categoryRelation, newRelation))
-                return true;
-
-        return false;
-    }
-
-    public bool Contains(CategoryCacheRelation categoryRelation)
-    {
-        return CategoryRelations.Any(
-            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId &&
-            cr.CategoryRelationType == categoryRelation.CategoryRelationType
-        );
-    }
-
-    public bool IsStartPage()
-    {
-        if (Id == RootCategory.RootCategoryId)
-            return true;
-
-        if (Creator != null)
-            return Id == Creator.StartTopicId;
-
-        return false;
     }
 }

@@ -105,8 +105,17 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         var categoryChangeList = query
             .List();
-
+        categoryChangeList = categoryChangeList.Where(cc => AuthorWorthyChangeCheck(cc.Type)).ToList();
         return categoryChangeList.Select(categoryChange => new UserTinyModel(categoryChange.Author)).ToList();
+    }
+
+    public bool AuthorWorthyChangeCheck(CategoryChangeType type)
+    {
+        if (type == CategoryChangeType.Create || type == CategoryChangeType.Renamed ||
+            type == CategoryChangeType.Text || type == CategoryChangeType.Image)
+            return true;
+        else
+            return false;
     }
 
     public CategoryChange GetByIdEager(int categoryChangeId)

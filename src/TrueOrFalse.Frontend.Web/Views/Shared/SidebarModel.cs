@@ -64,10 +64,8 @@ public class SidebarModel : UserCardBaseModel
     public bool Show() => Authors.Any() || SponsorModel.IsAdFree;
     public void Fill(IList<UserTinyModel> authors, int currentUserId)
     {
-        if (authors.Any())
-        {
-            Authors = AuthorViewModel.Convert(authors);
-            FillUserCardBaseModel(authors, currentUserId);
-        }
+        if (!authors.Any()) return;
+        Authors = AuthorViewModel.Convert(authors);
+        FillUserCardBaseModel(authors, currentUserId);
     }
 }

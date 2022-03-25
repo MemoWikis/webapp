@@ -47,6 +47,8 @@ public class AuthorCacheItem
             GoogleId = user.GoogleId
         };
     }
+
+    internal static IList<AuthorCacheItem> FromUsers(IList<User> users) => users.Select(FromUser).ToList();
     internal static AuthorCacheItem FromUser(User user)
     {
         return new AuthorCacheItem()
