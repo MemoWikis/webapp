@@ -10,6 +10,7 @@ namespace TrueOrFalse.Updates
                 .CreateSQLQuery(
                     @"ALTER TABLE category ADD COLUMN `AuthorIds` Text;"
                 ).ExecuteUpdate();
+            CategoryAuthorUpdater.UpdateAll();
         }
     }
 }

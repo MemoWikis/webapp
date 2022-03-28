@@ -2310,6 +2310,7 @@
     <Content Include="Views\Categories\History\CategoryChangesOverview.aspx" />
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
+    <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />

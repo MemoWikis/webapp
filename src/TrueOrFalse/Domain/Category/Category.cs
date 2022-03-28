@@ -113,7 +113,9 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual void UpdateCountQuestionsAggregated()
     {
-        CountQuestionsAggregated = EntityCache.GetCategory(Id).GetCountQuestionsAggregated();
+        var categoryCacheItem = EntityCache.GetCategory(Id);
+        if (categoryCacheItem != null)
+            CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated();
     }
 
     public virtual int CountQuestions { get; set; }

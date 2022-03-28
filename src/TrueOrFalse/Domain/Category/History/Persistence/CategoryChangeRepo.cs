@@ -39,7 +39,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         };
         if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
         {
-            
+
             category.AuthorIds += ", " + author.Id;
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
@@ -117,11 +117,10 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
     public bool AuthorWorthyChangeCheck(CategoryChangeType type)
     {
-        if (type == CategoryChangeType.Create || type == CategoryChangeType.Renamed ||
-            type == CategoryChangeType.Text || type == CategoryChangeType.Image)
+        if (type != CategoryChangeType.Privatized && type != CategoryChangeType.Relations && type != CategoryChangeType.Restore && type != CategoryChangeType.Moved)
             return true;
-        else
-            return false;
+        
+        return false;
     }
 
     public CategoryChange GetByIdEager(int categoryChangeId)
