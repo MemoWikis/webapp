@@ -10,6 +10,8 @@ public class AuthorViewModel
     public int ReputationPos;
     public int Id;
 
+    public static List<AuthorViewModel> Convert(IList<User> authors) =>
+        Convert(authors.Select(author => new UserTinyModel(author)).ToList());
     public static List<AuthorViewModel> Convert(IList<UserTinyModel> authors)
     {
         return authors.Select(author => new AuthorViewModel
@@ -22,16 +24,4 @@ public class AuthorViewModel
             ReputationPos = author.ReputationPos
         }).ToList();
     }
-    public static List<AuthorViewModel> Convert(IList<AuthorCacheItem> authors)
-    {
-        return authors.Select(author => new AuthorViewModel
-        {
-            ImageUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
-            Reputation = author.Reputation,
-            ReputationPos = author.ReputationPos,
-            Name = author.Name,
-            Id = author.Id
-        }).ToList();
-    }
-
 }

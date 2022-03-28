@@ -30,7 +30,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual int[] AuthorIdsInts => AuthorIds
         .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-        .Select(x => Convert.ToInt32(x))
+        .Select(x => Convert.ToInt32(x)).Distinct()
         .ToArray();
 
     public virtual IList<Category> ParentCategories()

@@ -37,9 +37,15 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Author = author,
             DataVersion = 2
         };
-        if (categoryChangeType != CategoryChangeType.Privatized && categoryChangeType != CategoryChangeType.Relations && categoryChangeType != CategoryChangeType.Restore && categoryChangeType != CategoryChangeType.Update && categoryChangeType != CategoryChangeType.Moved)
-            EntityCache.GetCategory(category).AddAuthors(AuthorCacheItem.FromUser(author));
-        
+        if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
+        {
+            
+            category.AuthorIds += ", " + author.Id;
+            var categoryCacheItem = EntityCache.GetCategory(category);
+            categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
+            EntityCache.AddOrUpdate(categoryCacheItem);
+            Sl.CategoryRepo.Update(category);
+        }
         categoryChange.SetData(category, imageWasUpdated);
         base.Create(categoryChange);
     }

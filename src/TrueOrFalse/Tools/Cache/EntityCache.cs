@@ -189,13 +189,13 @@ public class EntityCache : BaseCache
         var parentsToAdd = categoryCacheItem.ParentCategories();
         foreach (var parent in parentsToAdd)
         {
-                parent.CachedData.AddChildId(categoryCacheItem.Id);
+            parent.CachedData.AddChildId(categoryCacheItem.Id);
         }
 
         var parentsToRemove = Categories.Where(d => d.Value.CachedData.ChildrenIds.Contains(categoryCacheItem.Id)).ToList().Select(d => d.Value).ToList();
         foreach (var parent in parentsToRemove)
         {
-            if(!categoryCacheItem.CategoryRelations.Any(c => c.RelatedCategoryId == parent.Id && c.CategoryRelationType == CategoryRelationType.IsChildOf) && !parentsToAdd.Contains(parent))
+            if (!categoryCacheItem.CategoryRelations.Any(c => c.RelatedCategoryId == parent.Id && c.CategoryRelationType == CategoryRelationType.IsChildOf) && !parentsToAdd.Contains(parent))
                 parent.CachedData.RemoveChildId(categoryCacheItem.Id);
         }
     }
@@ -280,8 +280,10 @@ public class EntityCache : BaseCache
             return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, user.Id);
         }
 
+        if (Categories == null) return null;
         Categories.TryGetValue(categoryId, out var category);
         return category;
+
     }
 
     public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)

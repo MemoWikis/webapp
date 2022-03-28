@@ -23,7 +23,7 @@ public class CategoryCacheItem
     public virtual bool DisableLearningFunctions { get; set; }
 
     public virtual User Creator { get; set; }
-    public virtual IList<AuthorCacheItem> Authors { get; set; }
+    public virtual int[] AuthorIds { get; set; }
     public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
@@ -145,14 +145,6 @@ public class CategoryCacheItem
         return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
             ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)).ToList()
             : new List<CategoryCacheItem>();
-    }
-
-    public void AddAuthors(AuthorCacheItem author)
-    {
-        if (!Authors.Any(a => a.Id == author.Id))
-        {
-            Authors.Add(author);
-        }
     }
 
     public int CountQuestionsAggregated { get; set; }
@@ -278,6 +270,7 @@ public class CategoryCacheItem
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
+
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
@@ -307,7 +300,7 @@ public class CategoryCacheItem
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            Authors = AuthorCacheItem.FromUsers(Sl.UserRepo.GetByIds(category.AuthorIdsInts.ToList()))
+            AuthorIds = category.AuthorIdsInts,
         };
         return categoryCacheItem;
     }

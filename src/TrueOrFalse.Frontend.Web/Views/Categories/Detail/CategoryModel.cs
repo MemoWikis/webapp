@@ -120,10 +120,11 @@ public class CategoryModel : BaseContentModule
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
 
-        if (category.Authors != null)
-            Authors = AuthorViewModel.Convert(category.Authors);
-
-        IsOwnerOrAdmin = Creator != null ? SessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
+        if (category.AuthorIds.Length > 0)
+        {
+            Authors = AuthorViewModel.Convert(UserCache.GetUsers(category.AuthorIds.Distinct().ToArray()));
+        }
+        IsOwnerOrAdmin = Creator != null && SessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         var parentCategories = category.ParentCategories();
         if (parentCategories.All(c => !PermissionCheck.CanView(c)))
