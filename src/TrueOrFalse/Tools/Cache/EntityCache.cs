@@ -26,7 +26,6 @@ public class EntityCache : BaseCache
         var stopWatch = Stopwatch.StartNew();
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
         var allCategories = Sl.CategoryRepo.GetAllEager();
         Logg.r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();

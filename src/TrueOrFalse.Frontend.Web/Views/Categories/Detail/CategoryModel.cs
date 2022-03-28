@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Ajax.Utilities;
+using Seedworks.Web.State;
 using TrueOrFalse.Web;
 
 public class CategoryModel : BaseContentModule
@@ -122,7 +123,7 @@ public class CategoryModel : BaseContentModule
 
         if (category.AuthorIds.Length > 0)
         {
-            Authors = AuthorViewModel.Convert(UserCache.GetUsers(category.AuthorIds.Distinct().ToArray()));
+            Authors = AuthorViewModel.Convert(Sl.UserRepo.GetByIds(category.AuthorIds.Distinct().ToList()));
         }
         IsOwnerOrAdmin = Creator != null && SessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
