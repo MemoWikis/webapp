@@ -229,15 +229,10 @@ Vue.component('session-config-component',
 
                 eventBus.$emit('update-selected-page', 1);
                 AnswerQuestion.LogTimeForQuestionView();
-
                 var json = this.buildSessionConfigJson();
-
-                this.answerBody.Loader.loadNewSession(json, true);
-
+                this.answerBody.Loader.loadNewSession(json, true, false, false);
                 $('#SessionConfigModal').modal('hide');
-
                 this.sendSessionConfig();
-
                 this.isFirstLoad = firstLoad;
             },
 
