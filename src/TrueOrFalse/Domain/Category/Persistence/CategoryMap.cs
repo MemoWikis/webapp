@@ -41,7 +41,9 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.FormerSetId);
         Map(x => x.SkipMigration);
         Map(x => x.Visibility);
-        Map(x => x.IsUserStartTopic); 
+        Map(x => x.IsUserStartTopic);
+
+        Map(x => x.AuthorIds);
 
         HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories")
             .Cascade.AllDeleteOrphan()

@@ -41,60 +41,12 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_200px(IUserTinyModel user) { return GetUrl(user, 200); }
     public ImageUrl GetUrl_250px(IUserTinyModel user) { return GetUrl(user, 250); }
     public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
-    public ImageUrl GetUrl_20px(AuthorCacheItem user) { return GetUrl(user, 20); }
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
-        return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(AuthorCacheItem.FromUserTinyModel(user), arg));
-    }
-    private ImageUrl GetUrl(AuthorCacheItem user, int width, bool isSquare = false) {
         return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
     }
 
-    protected string GetFallbackImage(AuthorCacheItem user, int width)
-    {
-        if (Sl.IsUnitTest)
-            return "";
-
-        if (user.IsFacebookUser)
-        {
-            var url = $"//graph.facebook.com/{user.FacebookId}/picture";
-
-            if (width > 50)
-                url += "?type=large";
-
-            return url;
-        }
-
-        if (user.IsGoogleUser && !IsNullOrEmpty(Settings.GoogleApiKey))
-        {
-            var url = $"https://admin.googleapis.com/admin/directory/v1/users/{user.GoogleId}/photos/thumbnail&key={Settings.GoogleApiKey}";
-
-            try
-            {
-                var result = new WebClient().DownloadString(url);
-
-                if (!IsNullOrEmpty(result) && result.Contains("url"))
-                {
-                    dynamic json = JsonConvert.DeserializeObject(result);
-                    return ((string)json.image.url).Replace("sz=50", "sz=120");
-                }
-            }
-            catch(WebException webException)
-            {
-                Logg.r().Error("GoogleUser not available" + webException);
-            }
-        }
-
-        var sanitizedEmailAdress = user.EmailAddress.Trim().ToLowerInvariant();
-        var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
-        return "//www.gravatar.com/avatar/" +
-               BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
-               Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
-                                    HttpContext.Current.Request.Url.Host +
-                                    HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
-    }
-
-    protected string GetFallbackImage(UserTinyModel user, int width)
+    protected string GetFallbackImage(IUserTinyModel user, int width)
     {
         var emailAddress = user.EmailAddress;
 

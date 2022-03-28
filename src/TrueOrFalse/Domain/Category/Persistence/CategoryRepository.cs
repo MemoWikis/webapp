@@ -423,16 +423,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return descendants;
     }
 
-    public IList<UserTinyModel> GetAuthors(int categoryId, bool filterUsersForSidebar = false)
-    {
-        var allAuthors = Sl.CategoryChangeRepo
-            .GetAuthorsOfCategory(categoryId, filterUsersForSidebar);
-
-        return allAuthors.GroupBy(a => a.Id)
-            .Select(groupedAuthor => groupedAuthor.First())
-            .ToList();
-    }
-
     public int CountAggregatedQuestions(int categoryId)
     {
         var count = _session.CreateSQLQuery($@"
