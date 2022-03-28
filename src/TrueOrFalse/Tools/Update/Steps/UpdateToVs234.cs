@@ -2,7 +2,7 @@
 
 namespace TrueOrFalse.Updates
 {
-    class UpdateToVs233
+    class UpdateToVs234
     {
         public static void Run()
         {
