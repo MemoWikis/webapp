@@ -93,6 +93,7 @@ class AnswerBodyLoader {
         continueWithNewSession: boolean = false,
         isNewSession: boolean = false) {
         this._isInLearningTab = $('#LearningTab').length > 0;
+
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
 
@@ -149,17 +150,21 @@ class AnswerBodyLoader {
                         initClickLog("div#AnswerQuestionPager");
                         initClickLog("div#answerQuestionDetails");
                         initClickLog("div#comments");
-                        preventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+                        preventDropdownsFromBeingHorizontallyOffscreen("div#AnswerBody");
+
                         if (this._getCustomSession)
                             this._getCustomSession = false;
+
                         if ($("div[data-div-type='questionDetails']").length > 1)
                             $("div[data-div-type='questionDetails']").last().remove();
+
                         if ($("div[data-div-type='testSessionHeader']").length > 1)
                             $("div[data-div-type='testSessionHeader']").slice(1).remove();
 
                         if (continueWithNewSession) {
                             $("#QuestionListApp").fadeIn();
                         }
+
                         if (loadedFromVue) {
                             $("#AnswerBody").fadeIn();
                             $("#QuestionDetails").fadeIn();
