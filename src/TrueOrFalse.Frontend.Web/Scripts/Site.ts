@@ -62,7 +62,7 @@ function initTooltips() {
     $('.show-tooltip').tooltip();
 }
 
-function preventDropdonwnsFromBeingHorizontallyOffscreen(limitingSlector: string = null) {
+function preventDropdownsFromBeingHorizontallyOffscreen(limitingSlector: string = null) {
     $(limitingSlector + '.dropdown')
         .on('shown.bs.dropdown',
             function (e) {
@@ -285,7 +285,7 @@ $(() => {
     Images.Init();
     allowedOnlyForActiveUsers();
     initClickLog();
-    preventDropdonwnsFromBeingHorizontallyOffscreen();
+    preventDropdownsFromBeingHorizontallyOffscreen();
     loadInfoBanner();
     loadBetaBanner();
     if (window.location.host.startsWith("stage.memucho.de"))

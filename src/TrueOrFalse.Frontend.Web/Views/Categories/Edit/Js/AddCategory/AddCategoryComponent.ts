@@ -181,27 +181,28 @@
             parentCategoryId: self.parentId,
         }
         url = '/EditCategory/QuickCreate';
-
         $.ajax({
             type: 'Post',
             contentType: "application/json",
             url: '/EditCategory/ValidateName',
             data: JSON.stringify({ name: self.name }),
-            success: function (data) {
+            success(data) {
                 if (data.categoryNameAllowed) {
                     $.ajax({
                         type: 'Post',
                         contentType: "application/json",
                         url: url,
                         data: JSON.stringify(categoryData),
-                        success: function (data) {
+                        success(data) {
+
                             if (data.success) {
                                 if (self.redirect)
                                     window.open(data.url, '_self');
+
                                 if (self.addCategoryBtnId != null)
                                     self.loadCategoryCard(data.id);
-                                else
-                                    $('#AddCategoryModal').modal('hide');
+
+                                $('#AddCategoryModal').modal('hide');
                                 self.addCategoryCount();
                                 Utils.HideSpinner();
                             }
@@ -281,14 +282,15 @@
             contentType: "application/json",
             url: '/EditCategory/AddChild',
             data: JSON.stringify(categoryData),
-            success: function (data) {
+            success(data) {
                 if (data.success) {
                     if (self.redirect)
                         window.open(data.url, '_self');
+
                     if (self.addCategoryBtnId != null)
                         self.loadCategoryCard(data.id);
-                    else
-                        $('#AddCategoryModal').modal('hide');
+
+                    $('#AddCategoryModal').modal('hide');
                     self.addCategoryCount();
                     Utils.HideSpinner();
                 } else {

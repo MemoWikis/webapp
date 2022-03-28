@@ -191,14 +191,14 @@ public class LearningSessionCreator
     {
         if (q.Visibility == QuestionVisibility.All)
         {
-            if (config.PublicQuestions)
+            if (config.PublicQuestions || !config.PrivateQuestions && !config.PublicQuestions)
                 questionDetail.AddByVisibility = true;
 
             questionDetail.Public = true;
         }
         else
         {
-            if (config.PrivateQuestions)
+            if (config.PrivateQuestions || !config.PrivateQuestions && !config.PublicQuestions)
                 questionDetail.AddByVisibility = true;
 
             questionDetail.Private = true;

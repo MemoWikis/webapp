@@ -6,7 +6,8 @@ namespace TrueOrFalse.View
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = Settings.Environment() != "develop";
+
             /* CSS */
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                   "~/Style/bootstrap/bootstrap.css",
