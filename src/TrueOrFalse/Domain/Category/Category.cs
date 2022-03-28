@@ -26,6 +26,13 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual bool IsUserStartTopic { get; set; }
 
+    public virtual string AuthorIds { get; set; }
+
+    public virtual int[] AuthorIdsInts => AuthorIds
+        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => Convert.ToInt32(x)).Distinct()
+        .ToArray();
+
     public virtual IList<Category> ParentCategories()
     {
         return CategoryRelations.Any()
@@ -207,5 +214,10 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual object Clone()
     {
         return this.MemberwiseClone();
+    }
+
+    public virtual void AddAuthor(int userId)
+    {
+        throw new NotImplementedException();
     }
 }

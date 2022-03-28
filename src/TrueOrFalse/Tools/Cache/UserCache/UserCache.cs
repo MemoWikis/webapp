@@ -1,10 +1,8 @@
 ﻿using Seedworks.Web.State;
 using System;
-using System.CodeDom;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 public class UserCache
 {
@@ -15,15 +13,10 @@ public class UserCache
     public static List<UserCacheItem> GetAllCacheItems()
     {
         var allUserIds = Sl.UserRepo.GetAllIds();
-        var allUserValuations = new List<UserCacheItem>();
-        foreach (var userId in allUserIds)
-        {
-            allUserValuations.Add(GetItem(userId));
-        }
-
-        return allUserValuations;
+        return allUserIds.Select(GetItem).ToList();
     }
-
+    
+    public static List<User> GetUsers(int[] userIds) => userIds.Where(id => id > 0).Select(userId => GetItem(userId).User).ToList();
     public static User GetUser(int userId) => GetItem(userId).User;
 
     public static UserCacheItem GetItem(int userId)

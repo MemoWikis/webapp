@@ -23,7 +23,7 @@ public class CategoryCacheItem
     public virtual bool DisableLearningFunctions { get; set; }
 
     public virtual User Creator { get; set; }
-    public virtual IList<AuthorCacheItem> Authors { get; set; }
+    public virtual int[] AuthorIds { get; set; }
     public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
     public virtual string TopicMarkdown { get; set; }
@@ -147,14 +147,6 @@ public class CategoryCacheItem
             : new List<CategoryCacheItem>();
     }
 
-    public void AddAuthors(AuthorCacheItem author)
-    {
-        if (!Authors.Any(a => a.Id == author.Id))
-        {
-            Authors.Add(author);
-        }
-    }
-
     public int CountQuestionsAggregated { get; set; }
 
     public void UpdateCountQuestionsAggregated()
@@ -195,8 +187,6 @@ public class CategoryCacheItem
         }
         return questions.ToList();
     }
-
-
     public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
     {
         return AggregatedCategories()
@@ -242,46 +232,6 @@ public class CategoryCacheItem
         return categories;
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories) => categories.Select(c => ToCacheCategory(c));
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories) => categories.Select(c => ToCacheCategory(c));
-
-    public static CategoryCacheItem ToCacheCategory(Category category)
-    {
-        var userEntityCacheCategoryRelations = new CategoryCacheRelation();
-        var categoryCacheItem = new CategoryCacheItem
-        {
-            Id = category.Id,
-            CachedData = new CategoryCachedData(),
-            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
-            CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
-            CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
-            Content = category.Content,
-            CorrectnessProbability = category.CorrectnessProbability,
-            CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
-            CountQuestions = category.CountQuestions,
-            CountQuestionsAggregated = category.CountQuestionsAggregated,
-            Creator = category.Creator,
-            CustomSegments = category.CustomSegments,
-            Description = category.Description,
-            DisableLearningFunctions = category.DisableLearningFunctions,
-            FormerSetId = category.FormerSetId,
-            IsHistoric = category.IsHistoric,
-            Name = category.Name,
-            SkipMigration = category.SkipMigration,
-            Visibility = category.Visibility,
-            TopicMarkdown = category.TopicMarkdown,
-            TotalRelevancePersonalEntries = category.TotalRelevancePersonalEntries,
-            Type = category.Type,
-            TypeJson = category.TypeJson,
-            Url = category.Url,
-            UrlLinkText = category.UrlLinkText,
-            WikipediaURL = category.WikipediaURL,
-            DateCreated = category.DateCreated,
-            Authors = AuthorCacheItem.FromUserTinyModels(Sl.CategoryRepo.GetAuthors(category.Id))
-        };
-        return categoryCacheItem;
-    }
-
     public virtual bool HasPublicParent()
     {
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
@@ -313,5 +263,45 @@ public class CategoryCacheItem
             return Id == Creator.StartTopicId;
 
         return false;
+    }
+
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories) => categories.Select(c => ToCacheCategory(c));
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories) => categories.Select(c => ToCacheCategory(c));
+    public static CategoryCacheItem ToCacheCategory(Category category)
+    {
+        var userEntityCacheCategoryRelations = new CategoryCacheRelation();
+
+        var categoryCacheItem = new CategoryCacheItem
+        {
+            Id = category.Id,
+            CachedData = new CategoryCachedData(),
+            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
+            CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
+            CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
+            Content = category.Content,
+            CorrectnessProbability = category.CorrectnessProbability,
+            CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
+            CountQuestions = category.CountQuestions,
+            CountQuestionsAggregated = category.CountQuestionsAggregated,
+            Creator = category.Creator,
+            CustomSegments = category.CustomSegments,
+            Description = category.Description,
+            DisableLearningFunctions = category.DisableLearningFunctions,
+            FormerSetId = category.FormerSetId,
+            IsHistoric = category.IsHistoric,
+            Name = category.Name,
+            SkipMigration = category.SkipMigration,
+            Visibility = category.Visibility,
+            TopicMarkdown = category.TopicMarkdown,
+            TotalRelevancePersonalEntries = category.TotalRelevancePersonalEntries,
+            Type = category.Type,
+            TypeJson = category.TypeJson,
+            Url = category.Url,
+            UrlLinkText = category.UrlLinkText,
+            WikipediaURL = category.WikipediaURL,
+            DateCreated = category.DateCreated,
+            AuthorIds = category.AuthorIdsInts,
+        };
+        return categoryCacheItem;
     }
 }

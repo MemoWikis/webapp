@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Ajax.Utilities;
+using Seedworks.Web.State;
 using TrueOrFalse.Web;
 
-public class CategoryModel : BaseContentModule 
+public class CategoryModel : BaseContentModule
 {
     public string MetaTitle;
     public string MetaDescription;
@@ -26,7 +27,7 @@ public class CategoryModel : BaseContentModule
     public int AggregatedTopicCount;
     public bool IsInTopicTab = false;
     public bool IsInLearningTab = false;
-    public bool IsInAnalyticsTab = false; 
+    public bool IsInAnalyticsTab = false;
     public UserTinyModel Creator;
     public string CreatorName;
     public string CreationDate;
@@ -67,7 +68,7 @@ public class CategoryModel : BaseContentModule
     public bool IsWiki { get; set; }
     public bool HasQuestions = false;
 
-    
+
     public EditQuestionModel EditQuestionModel;
 
     public CategoryModel()
@@ -87,15 +88,15 @@ public class CategoryModel : BaseContentModule
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
         MetaTitle = category.Name;
-        var safeText =  category.Content == null ? null : Regex.Replace(category.Content, "<.*?>", ""); ; 
-        
+        var safeText = category.Content == null ? null : Regex.Replace(category.Content, "<.*?>", ""); ;
+
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(safeText).Truncate(250, true);
 
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
 
-        if(loadKnowledgeSummary)
-            KnowledgeSummary = isCategoryNull ? null :  KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
+        if (loadKnowledgeSummary)
+            KnowledgeSummary = isCategoryNull ? null : KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
 
         var userValuationCategory = UserCache.GetCategoryValuation(UserId, category.Id);
         IsInWishknowledge = userValuationCategory != null && userValuationCategory.IsInWishKnowledge();
@@ -109,9 +110,9 @@ public class CategoryModel : BaseContentModule
         Id = category.Id;
         Name = category.Name;
         Description = string.IsNullOrEmpty(category.Description?.Trim())
-                        ? null 
+                        ? null
                         : MarkdownMarkdig.ToHtml(category.Description);
-       
+
         Type = category.Type.GetShortName();
 
         Creator = new UserTinyModel(category.Creator);
@@ -119,20 +120,22 @@ public class CategoryModel : BaseContentModule
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
         ImageUrl_250 = imageResult.Url;
-    
-        //var authors = _categoryRepo.GetAuthors(Id, filterUsersForSidebar: true);
-        Authors = AuthorViewModel.Convert(category.Authors);
 
-        IsOwnerOrAdmin = Creator != null ? SessionUser.IsLoggedInUserOrAdmin(Creator.Id) : false;
+        if (category.AuthorIds.Length > 0)
+        {
+            Authors = AuthorViewModel.Convert(Sl.UserRepo.GetByIds(category.AuthorIds.Distinct().ToList()));
+        }
+        IsOwnerOrAdmin = Creator != null && SessionUser.IsLoggedInUserOrAdmin(Creator.Id);
 
         var parentCategories = category.ParentCategories();
         if (parentCategories.All(c => !PermissionCheck.CanView(c)))
         {
             var parents = SearchForParent(parentCategories);
             CategoriesParent = parents;
-        } else CategoriesParent = parentCategories.Where(PermissionCheck.CanView).ToList();
+        }
+        else CategoriesParent = parentCategories.Where(PermissionCheck.CanView).ToList();
 
-        CategoriesChildren = UserCache.GetItem(SessionUser.UserId).IsFiltered ? 
+        CategoriesChildren = UserCache.GetItem(SessionUser.UserId).IsFiltered ?
             UserEntityCache.GetChildren(category.Id, UserId) :
            EntityCache.GetChildren(category.Id, true);
 
@@ -216,25 +219,25 @@ public class CategoryModel : BaseContentModule
 
     public QuestionCacheItem GetDummyQuestion()
     {
-        var questionId = 0; 
+        var questionId = 0;
         if (IsMyWorld)
-             questionId = Category
-                .GetAggregatedQuestionsFromMemoryCache()
-                .Where(q => PermissionCheck.CanView(q) && q.IsInWishknowledge())
-                .Select(q => q.Id)
-                .FirstOrDefault();
+            questionId = Category
+               .GetAggregatedQuestionsFromMemoryCache()
+               .Where(q => PermissionCheck.CanView(q) && q.IsInWishknowledge())
+               .Select(q => q.Id)
+               .FirstOrDefault();
         else
-         questionId = Category
-                .GetAggregatedQuestionsFromMemoryCache()
-                .Where(q => PermissionCheck.CanView(q))
-                .Select(q => q.Id)
-                .FirstOrDefault();
+            questionId = Category
+                   .GetAggregatedQuestionsFromMemoryCache()
+                   .Where(q => PermissionCheck.CanView(q))
+                   .Select(q => q.Id)
+                   .FirstOrDefault();
 
         return EntityCache.GetQuestionById(questionId);
     }
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
-        var user = SessionUser.User; 
+        var user = SessionUser.User;
         return EntityCache.GetChildren(category.Id).Count(PermissionCheck.CanView);
     }
 
@@ -244,6 +247,6 @@ public class CategoryModel : BaseContentModule
             return !Category.IsHistoric &&
                    !UserCache.GetItem(SessionUser.UserId).User.IsStartTopicTopicId(Category.Id);
 
-        return !Category.IsHistoric; 
-    } 
+        return !Category.IsHistoric;
+    }
 }
