@@ -39,22 +39,4 @@
 
             this.showProgressBar = true;
         },
-
-        watch: {
-            steps() {
-                this.updateSteps();
-            },
-            currentStep() {
-                this.updateSteps();
-            },
-        },
-
-        methods: {
-            updateSteps() {
-                if (this.currentStep == this.steps)
-                    $('#hddIsLearningSession').attr('data-is-last-step', 'true');
-                else
-                    $('#hddIsLearningSession').attr('data-is-last-step', 'false');
-            }
-        }
     });

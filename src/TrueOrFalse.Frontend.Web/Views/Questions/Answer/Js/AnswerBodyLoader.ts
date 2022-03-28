@@ -177,6 +177,10 @@ class AnswerBodyLoader {
                         if (isNewSession)
                             eventBus.$emit('init-new-session');
 
+                        $("#hddIsLearningSession").attr("data-current-step-idx", result.sessionData.currentStepIdx);
+                        $("#hddIsLearningSession").attr("data-skip-step-index", result.sessionData.skipStepIdx);
+                        $("#hddIsLearningSession").attr("data-is-last-step", result.sessionData.isLastStep);
+
                         eventBus.$emit('set-session-progress', result.sessionData);
 
                         //$("#QuestionListApp").hide();
