@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Criterion;
+using NHibernate.Transform;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
@@ -94,32 +95,25 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         return categoryChangeList;
     }
-    public IList<UserTinyModel> GetAuthorsOfCategory(int categoryId, bool filterUsersForSidebar = false)
+    public IList<int> GetAuthorsOfCategory(int categoryId)
     {
-        User aliasUser = null;
-        Category aliasCategory = null;
-        var query = _session
-            .QueryOver<CategoryChange>()
-            .Where(c => c.Category.Id == categoryId);
+        var sb = "SELECT Author_id FROM categorychange " +
+                 "where category_id = " + categoryId +
+                 " and (Type = 0 or Type = 1 or Type = 6) " +
+                 "and Author_id > 0 " +
+                 "Group By Author_id";
 
-        if (filterUsersForSidebar)
-            query.And(c => c.ShowInSidebar);
+        var authorIds = _session.CreateSQLQuery(sb)
+            .List<int>();
 
-        query
-            .Left.JoinAlias(c => c.Author, () => aliasUser)
-            .Left.JoinAlias(c => c.Category, () => aliasCategory);
-
-        var categoryChangeList = query
-            .List();
-        categoryChangeList = categoryChangeList.Where(cc => AuthorWorthyChangeCheck(cc.Type)).ToList();
-        return categoryChangeList.Select(categoryChange => new UserTinyModel(categoryChange.Author)).ToList();
+        return authorIds;
     }
 
     public bool AuthorWorthyChangeCheck(CategoryChangeType type)
     {
         if (type != CategoryChangeType.Privatized && type != CategoryChangeType.Relations && type != CategoryChangeType.Restore && type != CategoryChangeType.Moved)
             return true;
-        
+
         return false;
     }
 

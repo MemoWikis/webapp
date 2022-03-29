@@ -15,14 +15,13 @@ public class CategoryAuthorUpdater
     public static void Update(Category category)
     {
         var authors = Sl.CategoryChangeRepo.GetAuthorsOfCategory(category.Id);
-        authors = authors.GroupBy(p => p.Id).Select(grp => grp.FirstOrDefault()).ToList();
-        var authorsToRemove = authors.Where(a => a.Id < 0).ToList();
-        foreach (var authorToRemove in authorsToRemove)
-        {
-            authors.Remove(authorToRemove);
-        }
-        category.AuthorIds = String.Join(",", authors.Select(a => a.Id).ToArray());
+        category.AuthorIds = String.Join(",", authors.Select(a => a));
+        var sql = "UPDATE category " +
+        "SET AuthorIds = " + category.AuthorIds +
+        " WHERE Id = " + category.Id + ";";
+
+        Sl.CategoryRepo.UpdateAuthors(sql);
+
         Sl.CategoryRepo.Update(category);
     }
 }
-

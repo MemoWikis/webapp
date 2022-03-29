@@ -239,6 +239,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Update = 3
     }
 
+    public void UpdateAuthors(Category category)
+    {
+        var sql = "UPDATE category " +
+                  "SET AuthorIds = " + category.AuthorIds +
+                  " WHERE Id = " + category.Id + ";";
+        _session.CreateSQLQuery(sql);
+    }
+
     /// <summary>
     /// Update method for internal purpose, takes care that no change sets are created.
     /// </summary>
