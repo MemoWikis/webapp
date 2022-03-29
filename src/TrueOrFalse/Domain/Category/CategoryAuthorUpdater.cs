@@ -16,10 +16,6 @@ public class CategoryAuthorUpdater
     {
         var authors = Sl.CategoryChangeRepo.GetAuthorsOfCategory(category.Id);
         category.AuthorIds = String.Join(",", authors.Select(a => a));
-
-
         Sl.CategoryRepo.UpdateAuthors(category);
-
-        Sl.CategoryRepo.Update(category);
     }
 }

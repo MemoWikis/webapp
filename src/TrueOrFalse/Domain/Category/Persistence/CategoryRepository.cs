@@ -242,9 +242,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public void UpdateAuthors(Category category)
     {
         var sql = "UPDATE category " +
-                  "SET AuthorIds = " + category.AuthorIds +
-                  " WHERE Id = " + category.Id + ";";
-        _session.CreateSQLQuery(sql);
+                  "SET AuthorIds = " +"'" + category.AuthorIds + "'" +
+                  " WHERE Id = " + category.Id;
+        _session.CreateSQLQuery(sql).ExecuteUpdate();
     }
 
     /// <summary>
