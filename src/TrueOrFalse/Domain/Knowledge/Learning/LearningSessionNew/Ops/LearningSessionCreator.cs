@@ -50,8 +50,10 @@ public class LearningSessionCreator
                     questionDetail.AddByVisibility &&
                     questionDetail.FilterByKnowledgeSummary)
                 {
-                    AddQuestionToFilteredList(filteredQuestions, questionDetail, questionCounter, q, knowledgeSummaryDetails);
+                    AddQuestionToFilteredList(filteredQuestions, questionDetail, q, knowledgeSummaryDetails);
+                    questionCounter.Max++;
                 }
+                questionCounter = CountQuestionsForSessionConfig(questionDetail, questionCounter);
             }
         }
         else
@@ -90,10 +92,8 @@ public class LearningSessionCreator
         return questionDetail;
     }
 
-    private static void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail,
-        QuestionCounter questionCounter, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
+    private static void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
-        questionCounter = CountQuestionsForSessionConfig(questionDetail, questionCounter);
 
         if (SessionUser.IsLoggedIn)
             knowledgeSummaryDetails.Add(new KnowledgeSummaryDetail
@@ -154,8 +154,6 @@ public class LearningSessionCreator
         if (questionDetail.Private)
             counter.Private++;
 
-        counter.Max++;
-        
         return counter;
     }
 
