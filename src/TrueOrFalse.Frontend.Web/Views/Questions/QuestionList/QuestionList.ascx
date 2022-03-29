@@ -9,7 +9,7 @@
 <%= Styles.Render("~/bundles/switch") %>
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
-<div id="QuestionListApp" class="row" v-cloak :class="{'no-questions': hasNoQuestions }">
+<div id="QuestionListApp" class="row" v-cloak>
     <session-config-component :is-logged-in="'<%= SessionUser.IsLoggedIn %>' == 'True'">
             <div class="col-xs-12 drop-down-question-sort" v-show="stepCount > 0">
         <div class="session-config-header"><span class="hidden-xs">Du lernst</span> 

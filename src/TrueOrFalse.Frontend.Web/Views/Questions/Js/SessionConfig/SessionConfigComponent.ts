@@ -500,7 +500,6 @@ var SessionHeader = new Vue({
     el: '#SessionHeader',
     data() {
         return {
-            showError: false,
             categoryHasNoQuestions: false,
             filterError: false,
             showFilter: true,
@@ -510,19 +509,15 @@ var SessionHeader = new Vue({
         this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') != 'True';
         if (this.categoryHasNoQuestions)
             this.showFilter = false;
+
         eventBus.$on('set-session-progress',
             (e) => {
-                if (e == null) {
+                if (e == null) 
                     this.filterError = true;
-                    this.showError = true;
-                } else if (e.isResult) {
-                    this.showError = false;
+                else if (e.isResult)
                     this.showFilter = false;
-                }
-                else {
+                else
                     this.filterError = false;
-                    this.showError = false;
-                }
             });
 
         eventBus.$on('init-new-session',

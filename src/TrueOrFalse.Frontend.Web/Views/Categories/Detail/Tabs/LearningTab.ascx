@@ -37,10 +37,6 @@
             <session-progress-bar-component/>
         </session-config-component>
     </div>
-    <template v-if="showError">
-        <div v-if="categoryHasNoQuestions" class="col-xs-12">Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.</div>
-        <div v-else-if="filterError" class="col-xs-12">Es gibt keine Fragen mit diesen Einstellungen, bitte ändere deine Auswahl.</div>
-    </template>
 
 </div>
 
