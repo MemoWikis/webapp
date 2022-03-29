@@ -16,7 +16,7 @@ public class CategoryAuthorUpdater
     {
         var authors = Sl.CategoryChangeRepo.GetAuthorsOfCategory(category.Id);
         authors = authors.GroupBy(p => p.Id).Select(grp => grp.FirstOrDefault()).ToList();
-        var authorsToRemove = authors.Where(a => a.Id < 0);
+        var authorsToRemove = authors.Where(a => a.Id < 0).ToList();
         foreach (var authorToRemove in authorsToRemove)
         {
             authors.Remove(authorToRemove);
