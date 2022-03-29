@@ -45,17 +45,16 @@
   justify-content: space-between;
   padding-right: 5px;
 }
+.session-configurator .question-counter input {
+  width: 100%;
+  border: none !important;
+  color: #767676;
+}
 .session-configurator .question-counter input:focus,
 .session-configurator .question-counter textarea:focus,
 .session-configurator .question-counter select:focus {
   outline: none;
-}
-.session-configurator .question-counter input {
-  width: 100%;
-  border: none !important;
-}
-.session-configurator .question-counter.input-is-focused {
-  border: solid 1px #AFD534;
+  color: #003264;
 }
 .session-configurator .question-counter .question-counter-selector-container {
   display: flex;
@@ -68,10 +67,13 @@
 .session-configurator .filter-button {
   padding-top: 5px;
   height: 30px;
-  width: 105px;
+  min-width: 105px;
   justify-content: center;
   text-transform: uppercase;
   z-index: 5;
+}
+.session-configurator .filter-button i {
+  padding-left: 5px;
 }
 .session-configurator .filter-button:hover {
   color: #003264;
@@ -101,6 +103,12 @@
   letter-spacing: 0em;
   display: flex;
   align-items: center;
+}
+.session-configurator .dropdown-container .button-placeholder,
+.session-configurator .question-counter-container .button-placeholder {
+  float: left;
+  color: #aaa;
+  font-style: italic;
 }
 .session-configurator .session-config-dropdown {
   position: relative;
@@ -204,6 +212,18 @@
 .session-configurator .solid {
   background-color: #AFD534;
 }
+.session-configurator .input-is-active,
+.session-configurator .is-open {
+  border: solid 1px #003264;
+}
+.session-configurator .input-error {
+  border: solid 1px #FFA07A;
+}
+.session-configurator .input-error-label {
+  position: absolute;
+  font-size: 12px;
+  color: #FFA07A;
+}
 .filter-button.open {
   border-bottom: none !important;
 }
@@ -259,15 +279,24 @@
   cursor: pointer;
   user-select: none;
   color: #767676;
+  transition: background ease-in-out 0.1s;
 }
 .selectable-item i {
   color: #767676;
 }
 .selectable-item:hover {
   color: #003264;
+  background: #EFEFEF;
 }
 .selectable-item:hover i {
   color: #003264;
+}
+.selectable-item.item-disabled {
+  cursor: not-allowed;
+  color: #767676;
+}
+.selectable-item.item-disabled i {
+  color: #767676;
 }
 .session-title {
   font-size: 14px;
@@ -292,13 +321,18 @@
   flex-wrap: nowrap;
   justify-content: flex-end;
   align-items: center;
-  color: #767676;
+  color: #003264;
 }
 .reset-session-button-container .reset-session-button i {
   padding-right: 4px;
 }
 .reset-session-button-container .reset-session-button:hover {
-  color: #003264;
+  color: #0065CA;
+  cursor: pointer;
+}
+.reset-session-button-container .reset-session-button.disabled {
+  cursor: not-allowed;
+  color: #767676;
 }
 .question-filter-options-icon-container {
   display: flex;
@@ -330,14 +364,13 @@
   padding-right: 10px !important;
 }
 .mode-group-container {
-  padding: 4px 0 10px;
+  padding-bottom: 10px;
 }
 .mode-group-container .mode-item-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px 0 54px;
-  cursor: pointer;
 }
 .mode-group-container .mode-item-container:hover {
   color: #003264;
@@ -358,4 +391,7 @@
 }
 .item-disabled:hover {
   color: #767676 !important;
+}
+.no-pointer {
+  cursor: default !important;
 }

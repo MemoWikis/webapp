@@ -47,9 +47,6 @@ Vue.component('question-list-component', {
             pageIsLoading: false,
             lastQuestionInListIndex: null,
             answerBodyHasLoaded: false,
-            categoryHasNoQuestions: false,
-            showFilter: true,
-            filterError: false, 
         };
     },
     created() {
@@ -80,31 +77,6 @@ Vue.component('question-list-component', {
             eventBus.$emit('change-active-question');
         });
         eventBus.$on('update-question-list', () => this.initQuestionList());
-
-        this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') != 'True';
-        if (this.categoryHasNoQuestions)
-            this.showFilter = false;
-
-        eventBus.$on('set-session-progress',
-            (e) => {
-                if (e == null)
-                    this.filterError = true;
-                else if (e.isResult)
-                    this.showFilter = false;
-                else
-                    this.filterError = false;
-            });
-
-        eventBus.$on('init-new-session',
-            () => {
-                this.showFilter = true;
-            });
-
-        eventBus.$on('category-has-question',
-            () => {
-                this.categoryHasNoQuestions = false;
-                this.showFilter = true;
-            });
     },
     watch: {
         questionCount() {

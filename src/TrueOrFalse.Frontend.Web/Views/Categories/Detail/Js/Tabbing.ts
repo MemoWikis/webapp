@@ -10,7 +10,6 @@
 
 
         if (window.location.pathname.indexOf("/Lernen") >= 0) {
-            Utils.ShowSpinner();
             $('#hddLearningSessionStarted').val("True");
 
             $(() => {

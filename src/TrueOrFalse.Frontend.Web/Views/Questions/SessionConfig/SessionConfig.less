@@ -39,17 +39,16 @@
         justify-content: space-between;
         padding-right: 5px;
 
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-        }
 
         input {
             width: 100%;
             border: none !important;
+            color: @memo-grey-dark;
         }
 
-        &.input-is-focused {
-            border: solid 1px @memo-green;
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            color: @memo-blue;
         }
 
         .question-counter-selector-container {
@@ -66,10 +65,14 @@
     .filter-button {
         padding-top: 5px;
         height: 30px;
-        width: 105px;
+        min-width: 105px;
         justify-content: center;
         text-transform: uppercase;
         z-index: 5;
+
+        i {
+            padding-left:5px;
+        }
 
         &:hover {
             color: @memo-blue;
@@ -99,6 +102,12 @@
             letter-spacing: 0em;
             display: flex;
             align-items: center;
+        }
+
+        .button-placeholder {
+            float: left;
+            color: #aaa;
+            font-style: italic;
         }
     }
 
@@ -219,6 +228,20 @@
     .solid {
         background-color: @solid-knowledge-color;
     }
+
+    .input-is-active, .is-open {
+        border: solid 1px @memo-blue;
+    }
+
+    .input-error {
+        border: solid 1px @memo-salmon;
+    }
+
+    .input-error-label {
+        position: absolute;
+        font-size: 12px;
+        color: @memo-salmon;
+    }
 }
 
 
@@ -290,6 +313,7 @@
     cursor: pointer;
     user-select: none;
     color: @memo-grey-dark;
+    transition: background ease-in-out 0.1s;
 
     i {
         color: @memo-grey-dark;
@@ -297,9 +321,19 @@
 
     &:hover {
         color: @memo-blue;
+        background: @memo-grey-lighter;
 
         i {
             color: @memo-blue;
+        }
+    }
+
+    &.item-disabled {
+        cursor: not-allowed;
+        color: @memo-grey-dark;
+
+        i {
+            color: @memo-grey-dark;
         }
     }
 }
@@ -328,14 +362,20 @@
         flex-wrap: nowrap;
         justify-content: flex-end;
         align-items: center;
-        color: @memo-grey-dark;
+        color: @memo-blue;
 
         i {
             padding-right: 4px;
         }
 
         &:hover {
-            color: @memo-blue;
+            color: @memo-blue-link;
+            cursor: pointer;
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            color: @memo-grey-dark;
         }
     }
 }
@@ -374,14 +414,13 @@
 }
 
 .mode-group-container {
-    padding: 4px 0 10px;
+    padding-bottom: 10px;
 
     .mode-item-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 10px 0 54px;
-        cursor: pointer;
 
         &:hover {
             color: @memo-blue;
@@ -408,4 +447,8 @@
     &:hover {
         color: @memo-grey-dark !important;
     }
+}
+
+.no-pointer {
+    cursor: default !important;
 }

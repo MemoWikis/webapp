@@ -14,7 +14,6 @@ class AnswerBodyLoader {
 
                 if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1") {
                     $("#hddIsLearningSession").attr("data-learning-session-id", "-2");
-                    this.loadNewLearningSession();
                 }
 
                 var self = this;

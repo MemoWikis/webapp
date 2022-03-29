@@ -21,6 +21,9 @@ let questionListApp = new Vue({
         currentQuestionCount: 0,
         repetitionCount: 0,
         allQuestionCount: 0,
+        categoryHasNoQuestions: false,
+        showFilter: true,
+        filterError: false,
     },
 
     created() {
@@ -54,6 +57,31 @@ let questionListApp = new Vue({
         });
         eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
         eventBus.$on('update-question-count', () => { this.getCurrentLearningSessionData() });
+
+        this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') != 'True';
+        if (this.categoryHasNoQuestions)
+            this.showFilter = false;
+
+        eventBus.$on('set-session-progress',
+            (e) => {
+                if (e == null)
+                    this.filterError = true;
+                else if (e.isResult)
+                    this.showFilter = false;
+                else
+                    this.filterError = false;
+            });
+
+        eventBus.$on('init-new-session',
+            () => {
+                this.showFilter = true;
+            });
+
+        eventBus.$on('category-has-question',
+            () => {
+                this.categoryHasNoQuestions = false;
+                this.showFilter = true;
+            });
     },
 
     watch: {
