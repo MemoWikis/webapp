@@ -300,7 +300,7 @@ public class CategoryCacheItem
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            AuthorIds = category.AuthorIdsInts,
+            AuthorIds = category.AuthorIdsInts ?? Array.Empty<int>()
         };
         return categoryCacheItem;
     }
