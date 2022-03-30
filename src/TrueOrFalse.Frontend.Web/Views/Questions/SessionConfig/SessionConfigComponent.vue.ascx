@@ -252,12 +252,13 @@
                 </div>
 
             </div>
-    <div v-if="showSelectionError" class="session-config-error alert alert-warning fade in col-xs-12">
+    <div v-if="showSelectionError" class="session-config-error fade in col-xs-12">
         <div>
-            Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.
+            Für diese Einstellungen sind keine Fragen verfügbar. 
+            Bitte ändere den Wissensstand oder wähle alle Fragen aus.
         </div>
-        <div class="selectable-item" @click="showSelectionError = false">
-            <i class="fas fa-times"></i>
+        <div class="selectable-item close-selection-error-button" @click="showSelectionError = false">
+            <img src="/img/close_black.svg" alt="close-selection-error Button">
         </div>
     </div>
 

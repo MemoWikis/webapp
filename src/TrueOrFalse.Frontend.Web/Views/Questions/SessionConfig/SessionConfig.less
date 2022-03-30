@@ -454,18 +454,23 @@
 }
 
 .session-config-error {
-    min-height: 54px;
     width: 100%;
     font-size: 14px;
-
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: #fff7cc;
+    padding: 20px;
 
     .selectable-item {
         &:hover {
             background: none;
         }
+    }
+
+    .close-selection-error-button {
+        padding-left: 12px;
+        text-align: right;
     }
 }
