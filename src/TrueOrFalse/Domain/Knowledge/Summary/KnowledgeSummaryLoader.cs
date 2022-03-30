@@ -47,7 +47,7 @@ public class KnowledgeSummaryLoader
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-
+        Logg.r().Information("KnowledgeSummary RunFromMemoryCache cId: {0}, uId: {1}", categoryCacheItem.Id, userId);
         var userValuations = UserCache.GetItem(userId).QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
