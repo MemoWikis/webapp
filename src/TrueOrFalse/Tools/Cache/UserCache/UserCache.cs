@@ -57,14 +57,19 @@ public class UserCache
             CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
                 Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                     .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
-            QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
-                Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                    .Select(v => new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id, QuestionValuationCacheItem.ToCacheItem(v))))
         };
 
         Add_valuationCacheItem_to_cache(cacheItem, userId);
 
-        return cacheItem;
+        var addedCacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
+        addedCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
+            Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
+                .Select(v =>
+                    new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
+                        QuestionValuationCacheItem.ToCacheItem(v))));
+        Add_valuationCacheItem_to_cache(addedCacheItem, userId);
+
+        return addedCacheItem;
     }
 
     private static void Add_valuationCacheItem_to_cache(UserCacheItem cacheItem, int userId)
