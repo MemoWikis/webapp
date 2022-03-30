@@ -23,8 +23,7 @@ public class ModifyRelationsEntityCache
         }
     }
 
-    public static void AddParent(
-        CategoryCacheItem child, int parentId)
+    public static void AddParent(CategoryCacheItem child, int parentId)
     {
         child.CategoryRelations.Add(new CategoryCacheRelation
         {

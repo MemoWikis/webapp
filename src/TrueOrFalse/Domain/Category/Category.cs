@@ -147,6 +147,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public Category(string name) : this()
     {
         Name = name;
+        AuthorIds = Sl.CurrentUserId + ",";
     }
 
     public virtual bool IsSpoiler(QuestionCacheItem question) =>
