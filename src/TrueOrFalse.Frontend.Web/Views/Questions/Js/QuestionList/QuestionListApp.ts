@@ -24,12 +24,19 @@ let questionListApp = new Vue({
         categoryHasNoQuestions: false,
         showFilter: true,
         filterError: false,
+        isTestMode: false,
+        showError: false,
     },
 
     created() {
+        this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') == 'False';
+        if (this.categoryHasNoQuestions)
+            this.showFilter = false;
+
         eventBus.$on("change-active-question", () => this.setActiveQuestionId());
         eventBus.$on("change-active-page", (index) => { this.selectedPageFromActiveQuestion = index });
-        eventBus.$on("sync-session-config", () => {
+        eventBus.$on("sync-session-config", (isTestMode) => {
+            this.isTestMode = isTestMode;
             this.getCurrentLearningSessionData();
         });
         eventBus.$on('update-selected-page', (selectedPage) => {
@@ -58,14 +65,12 @@ let questionListApp = new Vue({
         eventBus.$on('unload-comment', () => { this.commentIsLoaded = false });
         eventBus.$on('update-question-count', () => { this.getCurrentLearningSessionData() });
 
-        this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') != 'True';
-        if (this.categoryHasNoQuestions)
-            this.showFilter = false;
-
         eventBus.$on('set-session-progress',
             (e) => {
-                if (e == null)
+                if (e == null) {
                     this.filterError = true;
+                    this.currentQuestionCount = 0;
+                }
                 else if (e.isResult)
                     this.showFilter = false;
                 else

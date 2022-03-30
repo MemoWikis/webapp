@@ -329,7 +329,7 @@
     }
 
     &.item-disabled {
-        cursor: not-allowed;
+        cursor: not-allowed !important;
         color: @memo-grey-dark;
 
         i {
@@ -450,5 +450,22 @@
 }
 
 .no-pointer {
-    cursor: default !important;
+    cursor: auto !important;
+}
+
+.session-config-error {
+    min-height: 54px;
+    width: 100%;
+    font-size: 14px;
+
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .selectable-item {
+        &:hover {
+            background: none;
+        }
+    }
 }

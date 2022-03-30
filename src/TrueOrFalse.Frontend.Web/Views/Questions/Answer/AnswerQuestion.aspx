@@ -86,13 +86,10 @@
     <%
         if (Model.IsLearningSession)
         {
-            if (!Model.LearningSession.Config.InWishknowledge)
-            {
-                if (Model.LearningSession.Config.Category != null)
+            if (Model.LearningSession.Config.Category != null)
                 {
                     Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem { Text = Model.LearningSession.Config.Category.Name, Url = Links.CategoryDetail(Model.LearningSession.Config.Category) });
                 }
-            }
         }
 
         Model.TopNavMenu.IsCategoryBreadCrumb = false;

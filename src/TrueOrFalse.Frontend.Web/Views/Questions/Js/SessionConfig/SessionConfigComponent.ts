@@ -134,15 +134,36 @@ Vue.component('session-config-component',
                 timeLimit: 0,
                 questionCountIsInvalid: false,
                 disableResetButton: true,
+                sessionConfigKey: 'sessionConfig',
+                userIdString: '',
+                showSelectionError: false,
             };
         },
 
         created() {
+            if (this.isLoggedIn)
+                this.userIdString = '-u' + $('#hddUserId').val();
+
+            this.sessionConfigKey = 'sessionConfig' + this.userIdString;
+            var key = this.isInQuestionList ? 'showBottomSessionConfigDropdown' + this.userIdString : 'showBottomConfigDropdown' + this.userIdString;
+            var savedDropdownState = localStorage.getItem(key);
+
+            if (savedDropdownState != null)
+                this.showFilterDropdown = JSON.parse(savedDropdownState);
+
             eventBus.$on('openLearnOptions', () => { this.openModal() });
             eventBus.$on("start-learning-session", () => { this.loadCustomSession() });
         },
 
         mounted() {
+            eventBus.$on('set-session-progress',
+                (e) => {
+                    if (e == null)
+                        this.showSelectionError = true;
+                    else
+                        this.showSelectionError = false;
+                });
+
             this.loadSessionFromLocalStorage(true);
             eventBus.$on('sync-session-config',
                 () => {
@@ -168,14 +189,23 @@ Vue.component('session-config-component',
                         if (!this.userHasChangedMaxCount)
                             this.selectedQuestionCount = e.Max;
                     }
-
                 });
 
-            this.setQuestionFilterDisplay();
+            this.checkQuestionFilterSelection();
             this.checkKnowledgeSummarySelection();
         },
 
         watch: {
+            maxSelectableSelectionCount(val) {
+                if (val == 0)
+                    this.showSelectionError = true;
+                else
+                    this.showSelectionError = false;
+            },
+            showFilterDropdown(val) {
+                var key = this.isInQuestionList ? 'showBottomSessionConfigDropdown' + this.userIdString : 'showBottomConfigDropdown' + this.userIdString;
+                localStorage.setItem(key, JSON.stringify(val));
+            },
             isTestMode(val) {
                 this.isPracticeMode = !val;
             },
@@ -183,7 +213,9 @@ Vue.component('session-config-component',
                 this.isTestMode = !val;
             },
             selectedQuestionCount(val) {
-                this.questionCountIsInvalid = val == 0 || val == null;
+                this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null;
+                if (this.questionIsInvalid)
+                    return;
                 this.selectedQuestionCount = parseInt(val);
             },
             'questionFilter.maxQuestionCount'(val) {
@@ -211,7 +243,7 @@ Vue.component('session-config-component',
 
         methods: {
             loadSessionFromLocalStorage(firstLoad = false) {
-                var storedSession = localStorage.getItem('sessionConfig');
+                var storedSession = localStorage.getItem(this.sessionConfigKey);
                 if (storedSession != null) {
                     var sessionConfig = JSON.parse(storedSession);
                     this.knowledgeSummary = sessionConfig.knowledgeSummary;
@@ -252,8 +284,8 @@ Vue.component('session-config-component',
                         practiceOptions: this.practiceOptions,
                     }
 
-                    localStorage.setItem('sessionConfig', JSON.stringify(sessionConfig));
-                    eventBus.$emit('sync-session-config');
+                    localStorage.setItem(this.sessionConfigKey, JSON.stringify(sessionConfig));
+                    eventBus.$emit('sync-session-config', (this.isTestMode));
                 });
             },
 
@@ -276,7 +308,7 @@ Vue.component('session-config-component',
                 for (var key in this.knowledgeSummary) {
                     this.selectKnowledgeSummary(this.knowledgeSummary[key], false, force);
                 }
-                this.loadCustomSession();
+                this.lazyLoadCustomSession();
             },
 
             selectKnowledgeSummary(summary, loadCustomSession = true, force = null) {
@@ -295,7 +327,7 @@ Vue.component('session-config-component',
                 this.checkKnowledgeSummarySelection();
 
                 if (loadCustomSession)
-                    this.loadCustomSession();
+                    this.lazyLoadCustomSession();
             },
 
             checkKnowledgeSummarySelection() {
@@ -329,7 +361,7 @@ Vue.component('session-config-component',
                 }
 
                 this.checkQuestionFilterSelection();
-                this.loadCustomSession();
+                this.lazyLoadCustomSession();
 
             },
 
@@ -349,7 +381,7 @@ Vue.component('session-config-component',
                 this.checkQuestionFilterSelection();
 
                 if (loadCustomSession)
-                    this.loadCustomSession();
+                    this.lazyLoadCustomSession();
             },
 
             checkQuestionFilterSelection() {
@@ -429,8 +461,7 @@ Vue.component('session-config-component',
             },
 
             selectQuestionCount(val: Number) {
-                if (this.selectedQuestionCount + val > this.maxSelectableQuestionCount ||
-                    this.selectedQuestionCount + val == 0)
+                if (this.selectedQuestionCount + val <= 0)
                     return;
 
                 this.userHasChangedMaxCount = true;
@@ -439,15 +470,21 @@ Vue.component('session-config-component',
                 this.lazyLoadCustomSession();
             },
             setSelectedQuestionCount(e) {
+                var val = parseInt(e.target.value);
+                this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null;
                 this.userHasChangedMaxCount = true;
+                    
+                if (this.questionCountIsInvalid)
+                    return;
+
                 this.lazyLoadCustomSession();
             },
             lazyLoadCustomSession() {
                 clearTimeout(this.inputTimeout);
                 this.inputTimeout = setTimeout(() => {
-                        this.loadCustomSession();
+                    this.loadCustomSession();
                     },
-                    1000);
+                    400);
             },
             closeQuestionFilterDropdown() {
                 this.showQuestionFilterOptionsDropdown = false;
@@ -489,13 +526,13 @@ Vue.component('session-config-component',
                 if (this.isPracticeMode)
                     return;
                 this.isPracticeMode = true;
-                this.loadCustomSession();
+                this.lazyLoadCustomSession();
             },
             selectTestMode() {
                 if (this.isTestMode)
                     return;
                 this.isTestMode = true;
-                this.loadCustomSession();
+                this.lazyLoadCustomSession();
             },
             selectPracticeOption(key, val) {
                 if (!this.isLoggedIn && val == 2 && key == 'questionOrder') {
@@ -503,12 +540,12 @@ Vue.component('session-config-component',
                     return;
                 }
                 this.practiceOptions[key] = val;
-                this.loadCustomSession();
+                this.lazyLoadCustomSession();
             },
             selectTestOption(key, val) {
                 console.log(key)
                 this.testOptions[key] = val;
-                this.loadCustomSession();
+                this.lazyLoadCustomSession();
             }
         }
     });
@@ -522,11 +559,12 @@ var SessionHeader = new Vue({
             showFilter: true,
         }
     },
-    mounted() {
-        this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') != 'True';
+    created() {
+        this.categoryHasNoQuestions = $('#SessionConfigQuestionChecker').data('category-has-no-questions') == 'False';
         if (this.categoryHasNoQuestions)
             this.showFilter = false;
-
+    },
+    mounted() {
         eventBus.$on('set-session-progress',
             (e) => {
                 if (e == null) 

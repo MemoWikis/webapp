@@ -292,7 +292,7 @@
   color: #003264;
 }
 .selectable-item.item-disabled {
-  cursor: not-allowed;
+  cursor: not-allowed !important;
   color: #767676;
 }
 .selectable-item.item-disabled i {
@@ -393,5 +393,17 @@
   color: #767676 !important;
 }
 .no-pointer {
-  cursor: default !important;
+  cursor: auto !important;
+}
+.session-config-error {
+  min-height: 54px;
+  width: 100%;
+  font-size: 14px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.session-config-error .selectable-item:hover {
+  background: none;
 }

@@ -205,7 +205,10 @@ Vue.component('question-details-component', {
                     }
 
                     this.personalColor = data.personalColor;
-                    this.categories = data.categories;
+
+                    if ($('#hdnIsTestMode').val() != 'true')
+                        this.categories = data.categories;
+
                     await this.setPersonalProbability();
                     await this.setPersonalArcData();
                     await this.setAvgArcData();

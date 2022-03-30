@@ -77,6 +77,11 @@ Vue.component('question-list-component', {
             eventBus.$emit('change-active-question');
         });
         eventBus.$on('update-question-list', () => this.initQuestionList());
+        eventBus.$on('set-session-progress',
+            (e) => {
+                if (e == null)
+                    this.initQuestionList();
+            });
     },
     watch: {
         questionCount() {

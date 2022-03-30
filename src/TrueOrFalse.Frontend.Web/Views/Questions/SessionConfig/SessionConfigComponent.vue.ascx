@@ -11,8 +11,8 @@
     </div>
 
     <div v-show="showFilterDropdown" class="session-config-dropdown row">
-        <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeQuestionFilterDropdown">
-            <div class="sub-header">Fragen</div>
+        <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeQuestionFilterDropdown" @click.self="closeQuestionFilterDropdown">
+            <div class="sub-header" @click="closeQuestionFilterDropdown">Fragen</div>
             <div class="question-filter-options-button selectable-item" @click="showQuestionFilterOptionsDropdown = !showQuestionFilterOptionsDropdown" :class="{  'is-open': showQuestionFilterOptionsDropdown }">
                 <div v-if="allQuestionFilterOptionsAreSelected">Alle Fragen</div>
                 <div v-else-if="selectedQuestionFilterOptionsDisplay.length == 0" class="button-placeholder">Wähle deine Fragen aus</div>
@@ -66,8 +66,8 @@
 
         </div>
 
-        <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeKnowledgeSummaryDropdown">
-            <div class="sub-header">Wissenstand</div>
+        <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeKnowledgeSummaryDropdown" @click.self="closeKnowledgeSummaryDropdown">
+            <div class="sub-header" @click="closeKnowledgeSummaryDropdown">Wissenstand</div>
 
             <div class="knowledge-summary-button selectable-item" @click="showKnowledgeSummaryDropdown = !showKnowledgeSummaryDropdown" :class="{ 'is-open': showKnowledgeSummaryDropdown }">
                 <div v-if="knowledgeSummaryCount == 0" class="button-placeholder">Wähle einen Wissensstand</div>
@@ -99,11 +99,11 @@
             </div>
         </div>
 
-        <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeModeSelectionDropdown">
-            <div class="sub-header">Modus</div>
+        <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeModeSelectionDropdown" @click.self="closeModeSelectionDropdown">
+            <div class="sub-header" @click="closeModeSelectionDropdown">Modus</div>
 
             <div class="mode-change-button selectable-item" @click="showModeSelectionDropdown = !showModeSelectionDropdown" :class="{ 'is-open': showModeSelectionDropdown }">
-                <div v-if="isTestMode"><i class="fas fa-graduation-cap dropdown-filter-icon"></i> Testen</div>
+                <div v-if="isTestMode"><i class="fas fa-graduation-cap dropdown-filter-icon"></i> Prüfung</div>
                 <div v-if="isPracticeMode"><i class="fas fa-lightbulb dropdown-filter-icon"></i> Lernen</div>
                 
                 <i v-if="showModeSelectionDropdown" class="fa fa-chevron-up" aria-hidden="true"></i>
@@ -111,22 +111,23 @@
             </div>
             <div v-if="showModeSelectionDropdown" class="mode-change-dropdown">
                 <div>
-                    <div class="dropdown-item mode-change-header" @click="selectPracticeMode" :class="{'selectable-item' : !isPracticeMode, 'no-pointer' : isPracticeMode }">
-                        <div class="dropdown-item" :class="{'no-pointer' : isPracticeMode }">
-                            <i class="fas fa-dot-circle session-select active" v-if="isPracticeMode"></i>
-                            <i class="far fa fa-circle-o session-select" v-else></i>
-                            <div><i class="fas fa-lightbulb dropdown-filter-icon"></i> Lernen</div>
+                    <div class="mode-group-container" @click="selectPracticeMode" :class="{'selectable-item' : !isPracticeMode, 'no-pointer' : isPracticeMode }">
+                        <div class="dropdown-item mode-change-header" :class="{'no-pointer' : isPracticeMode }">
+                            <div class="dropdown-item" :class="{'no-pointer' : isPracticeMode }">
+                                <i class="fas fa-dot-circle session-select active" v-if="isPracticeMode"></i>
+                                <i class="far fa fa-circle-o session-select" v-else></i>
+                                <div><i class="fas fa-lightbulb dropdown-filter-icon"></i> Lernen</div>
+                            </div>
+                            <i v-if="isPracticeMode" class="fa fa-chevron-up" aria-hidden="true"></i>
+                            <i v-else class="fa fa-chevron-down" aria-hidden="true"></i>
                         </div>
-                        <i v-if="isPracticeMode" class="fa fa-chevron-up" aria-hidden="true"></i>
-                        <i v-else class="fa fa-chevron-down" aria-hidden="true"></i>
-                    </div>
-                    <div v-if="isPracticeMode" class="mode-group-container">
                         <div class="mode-item-container">
                             <div class="mode-sub-label">
-                                Lass dir falsch oder nicht beantwortete Fragen wiedervorlegen.
+                                Lerne schwere Fragen zuerst und lass dir falsch oder nicht beantwortete Fragen wiedervorlegen.
                             </div>
                         </div>
-                        <div class="dropdown-spacer"></div>
+                    </div>
+                     <div v-if="isPracticeMode" class="mode-group-container">
 
                         <div class="mode-item-container selectable-item" @click="selectPracticeOption('questionOrder', 0)">
                             <div class="mode-sub-label">
@@ -188,23 +189,31 @@
                 <div class="dropdown-divider"></div>
                 
                 <div>
-                    <div class="dropdown-item mode-change-header" @click="selectTestMode" :class="{'selectable-item' : !isTestMode, 'no-pointer' : isTestMode }">
-                        <div class="dropdown-item">
-                            <i class="fas fa-dot-circle session-select active" v-if="isTestMode"></i>
-                            <i class="far fa fa-circle-o session-select" v-else></i>
-                            <div><i class="fas fa-graduation-cap dropdown-filter-icon"></i> Testen</div>
-                        </div>
-                        <i v-if="isTestMode" class="fa fa-chevron-up" aria-hidden="true"></i>
-                        <i v-else class="fa fa-chevron-down" aria-hidden="true"></i>
-                    </div>
-                    <div v-if="isTestMode" class="mode-group-container">
+                    <div class="mode-group-container" @click="selectTestMode" :class="{'selectable-item' : !isTestMode,  'no-pointer' : isTestMode }">
+                        <div class="dropdown-item mode-change-header" :class="{'no-pointer' : isTestMode }">
+                            <div class="dropdown-item" :class="{ 'no-pointer' : isTestMode }">
+                                <i class="fas fa-dot-circle session-select active" v-if="isTestMode"></i>
+                                <i class="far fa fa-circle-o session-select" v-else></i>
+                                <div><i class="fas fa-graduation-cap dropdown-filter-icon"></i> Prüfung</div>
+                            </div>
+                            <i v-if="isTestMode" class="fa fa-chevron-up" aria-hidden="true"></i>
+                            <i v-else class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </div> 
                         <div class="mode-item-container">
                             <div class="mode-sub-label">
-                                Wissen realistisch testen: Ohne Antworthilfe und Wiederholungen. Viel Erfolg!
+                                Wissen realistisch testen: Zufällige Fragen ohne Antworthilfe und Wiederholungen. Viel Erfolg!
                             </div>
                         </div>
-                        <div class="dropdown-spacer"></div>
+                    </div>
 
+                    <div v-if="isTestMode" class="mode-group-container">
+                        <div class="mode-item-container  selectable-item" @click="selectTestOption('questionOrder', 3)">
+                            <div class="mode-sub-label">
+                                Zufällige Fragen
+                            </div>
+                            <i class="fas fa-dot-circle session-mini-select active" v-if="testOptions.questionOrder == 3"></i>
+                            <i class="far fa fa-circle-o session-mini-select" v-else></i>
+                        </div>
                         <div class="mode-item-container  selectable-item" @click="selectTestOption('questionOrder', 0)">
                             <div class="mode-sub-label">
                                 Einfache Fragen zuerst
@@ -226,14 +235,6 @@
                             <i class="fas fa-dot-circle session-mini-select active" v-if="testOptions.questionOrder == 2"></i>
                             <i class="far fa fa-circle-o session-mini-select" v-else></i>
                         </div>
-                        <div class="mode-item-container  selectable-item" @click="selectTestOption('questionOrder', 3)">
-                            <div class="mode-sub-label">
-                                Zufällige Fragen
-                            </div>
-                            <i class="fas fa-dot-circle session-mini-select active" v-if="testOptions.questionOrder == 3"></i>
-                            <i class="far fa fa-circle-o session-mini-select" v-else></i>
-                        </div>
-
                         <div class="dropdown-spacer"></div>
                     </div>
 
@@ -251,7 +252,14 @@
                 </div>
 
             </div>
-
+    <div v-if="showSelectionError" class="session-config-error alert alert-warning fade in col-xs-12">
+        <div>
+            Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.
+        </div>
+        <div class="selectable-item" @click="showSelectionError = false">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
 
     </div>
 
