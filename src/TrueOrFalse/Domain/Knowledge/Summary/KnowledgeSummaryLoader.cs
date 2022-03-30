@@ -54,7 +54,8 @@ public class KnowledgeSummaryLoader
 
         foreach (var question in aggregatedQuestions)
         {
-            Logg.r().Information("KnowledgeSummary RunFromMemoryCache qId: {0}", question.Id);
+            var questionValuationContainsKey = userValuations.ContainsKey(question.Id);
+            Logg.r().Information("KnowledgeSummary RunFromMemoryCache qId: {0} containsKey: {1}", question.Id, questionValuationContainsKey);
             if (userValuations.ContainsKey(question.Id))
             {
                 var valuation = userValuations[question.Id];
