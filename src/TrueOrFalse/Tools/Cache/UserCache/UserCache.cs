@@ -62,12 +62,12 @@ public class UserCache
         Add_valuationCacheItem_to_cache(cacheItem, userId);
 
         var addedCacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
+
         addedCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
                 .Select(v =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
                         QuestionValuationCacheItem.ToCacheItem(v))));
-        Add_valuationCacheItem_to_cache(addedCacheItem, userId);
 
         return addedCacheItem;
     }
