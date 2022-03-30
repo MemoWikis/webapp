@@ -28,7 +28,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual string AuthorIds { get; set; }
 
-    public virtual int[] AuthorIdsInts => AuthorIds
+    public virtual int[] AuthorIdsInts => AuthorIds?
         .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()
         .ToArray();
@@ -147,6 +147,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public Category(string name) : this()
     {
         Name = name;
+        AuthorIds = Sl.CurrentUserId + ",";
     }
 
     public virtual bool IsSpoiler(QuestionCacheItem question) =>

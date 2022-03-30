@@ -244,6 +244,7 @@ public class EditCategoryController : BaseController
         RemoveParent(parentCategoryIdToRemove, childCategoryId, true);
         return AddChild(childCategoryId, parentCategoryIdToAdd, true);
     }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult AddChild(int childCategoryId, int parentCategoryId, bool categoryIsMoved = false)
