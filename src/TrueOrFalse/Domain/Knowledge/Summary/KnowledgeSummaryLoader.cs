@@ -47,15 +47,12 @@ public class KnowledgeSummaryLoader
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        Logg.r().Information("KnowledgeSummary RunFromMemoryCache cId: {0}, uId: {1}", categoryCacheItem.Id, userId);
         var userValuations = UserCache.GetItem(userId).QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 
         foreach (var question in aggregatedQuestions)
         {
-            var questionValuationContainsKey = userValuations.ContainsKey(question.Id);
-            Logg.r().Information("KnowledgeSummary RunFromMemoryCache qId: {0} containsKey: {1}", question.Id, questionValuationContainsKey);
             if (userValuations.ContainsKey(question.Id))
             {
                 var valuation = userValuations[question.Id];

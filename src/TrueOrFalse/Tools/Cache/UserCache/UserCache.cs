@@ -15,8 +15,10 @@ public class UserCache
         var allUserIds = Sl.UserRepo.GetAllIds();
         return allUserIds.Select(GetItem).ToList();
     }
-    
-    public static List<User> GetUsers(int[] userIds) => userIds.Where(id => id > 0).Select(userId => GetItem(userId).User).ToList();
+
+    public static List<User> GetUsers(int[] userIds) =>
+        userIds.Where(id => id > 0).Select(userId => GetItem(userId).User).ToList();
+
     public static User GetUser(int userId) => GetItem(userId).User;
 
     public static UserCacheItem GetItem(int userId)
@@ -74,15 +76,22 @@ public class UserCache
 
     private static void Add_valuationCacheItem_to_cache(UserCacheItem cacheItem, int userId)
     {
-        Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes), slidingExpiration: true);
+        Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+            slidingExpiration: true);
     }
 
-    public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
-    public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
+    public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
+        GetItem(userId).QuestionValuations.Values.ToList();
+
+    public static IList<CategoryValuation> GetCategoryValuations(int userId) =>
+        GetItem(userId).CategoryValuations.Values.ToList();
+
     public static CategoryValuation GetCategoryValuation(int userId, int categoryId)
     {
         var categoryValuations = GetItem(userId)?.CategoryValuations;
-        return categoryValuations != null && categoryValuations.Any() ? categoryValuations.Values.FirstOrDefault(cv => cv.CategoryId == categoryId) : null;
+        return categoryValuations != null && categoryValuations.Any()
+            ? categoryValuations.Values.FirstOrDefault(cv => cv.CategoryId == categoryId)
+            : null;
     }
 
     public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
@@ -91,7 +100,8 @@ public class UserCache
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {
-            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation, (k, v) => questionValuation);
+            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation,
+                (k, v) => questionValuation);
         }
     }
 
@@ -101,7 +111,8 @@ public class UserCache
 
         lock ("82f573db-40a7-43d9-9e68-6cd78b626e8d")
         {
-            cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation, (k, v) => categoryValuation);
+            cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation,
+                (k, v) => categoryValuation);
         }
     }
 
