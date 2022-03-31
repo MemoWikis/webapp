@@ -38,9 +38,12 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             Author = author,
             DataVersion = 2
         };
+        if (category.AuthorIds == null)
+        {
+            category.AuthorIds = "";
+        }
         if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
         {
-
             category.AuthorIds += ", " + author.Id;
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
