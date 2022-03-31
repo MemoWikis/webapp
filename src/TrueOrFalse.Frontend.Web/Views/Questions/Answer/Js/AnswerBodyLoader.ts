@@ -187,6 +187,7 @@ class AnswerBodyLoader {
                         eventBus.$emit('update-question-list');
                     } else {
                         eventBus.$emit('set-session-progress', null);
+                        eventBus.$emit('init-question-list');
                     }
                     eventBus.$emit('session-config-question-counter', result.counter);
 

@@ -45,7 +45,7 @@
             Utils.LoadTiptap();
         }
         eventBus.$on('tiptap-is-ready', () => {
-            this.initEditor();
+            this.$nextTick(() => this.initEditor());
         });
         eventBus.$on('edit-question-is-ready', () => {
             this.editQuestionIsReady = true;

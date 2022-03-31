@@ -26,6 +26,7 @@ let questionListApp = new Vue({
         filterError: false,
         isTestMode: false,
         showError: false,
+        tiptapIsReady: false,
     },
 
     created() {
@@ -57,6 +58,9 @@ let questionListApp = new Vue({
     },
 
     mounted() {
+        eventBus.$on('tiptap-is-ready', () => {
+            this.tiptapIsReady = true;
+        });
         this.setActiveQuestionId();
 
         this.$nextTick(() => {
@@ -67,10 +71,8 @@ let questionListApp = new Vue({
 
         eventBus.$on('set-session-progress',
             (e) => {
-                if (e == null) {
+                if (e == null)
                     this.filterError = true;
-                    this.currentQuestionCount = 0;
-                }
                 else if (e.isResult)
                     this.showFilter = false;
                 else

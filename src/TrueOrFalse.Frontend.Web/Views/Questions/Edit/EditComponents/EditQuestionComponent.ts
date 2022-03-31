@@ -394,6 +394,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 self.sessionIndex);
 
                             eventBus.$emit('change-active-question', self.sessionIndex);
+                            debugger;
                             eventBus.$emit('update-question-count');
                         }
 
@@ -449,7 +450,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     SolutionMetadataJson: this.solutionMetadataJson,
                     LicenseId: licenseId,
                     SessionIndex: this.sessionIndex,
-                    IsLearningTab: this.isLearningTab
+                    IsLearningTab: this.isLearningTab,
                 }
                 var json = this.edit ? editJson : createJson;
 

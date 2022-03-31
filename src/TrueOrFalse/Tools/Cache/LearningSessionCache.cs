@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
@@ -22,17 +23,21 @@ public class LearningSessionCache
         AddOrUpdate(learningSession);
         return learningSession;
     }
+
     public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex)
     {
         var learningSession = GetLearningSession();
-        var allQuestionValuation = UserCache.GetQuestionValuations(SessionUser.UserId);
-        var questionDetail =
-            LearningSessionCreator.BuildQuestionDetail(new LearningSessionConfig(), question, allQuestionValuation);
-        learningSession.QuestionCounter =
-            LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
-
         var step = new LearningSessionStep(question);
-        learningSession.Steps.Insert(sessionIndex, step);
+        if (learningSession != null)
+        {
+            var allQuestionValuation = UserCache.GetQuestionValuations(SessionUser.UserId);
+
+            var questionDetail =
+                LearningSessionCreator.BuildQuestionDetail(new LearningSessionConfig(), question, allQuestionValuation);
+            learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
+            learningSession.Steps.Insert(sessionIndex, step);
+            AddOrUpdate(learningSession);
+        }
     }
 
     public static void EditQuestionInLearningSession(QuestionCacheItem question, int sessionIndex)
@@ -43,6 +48,7 @@ public class LearningSessionCache
             if (step.Question.Id == question.Id)
                 step.Question = question;
     }
+
     public static int RemoveQuestionFromLearningSession(int sessionIndex, int questionId)
     {
         var learningSession = GetLearningSession();

@@ -410,7 +410,7 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
+    public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config) 
     {
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
