@@ -133,6 +133,11 @@
                                    { %>
                                     <div>Unterkategorie: <a href="/<%=item.CategoryName %>/<%=item.CategoryId %>"> <%= item.CategoryName %></a></div>
                                 <% } %>
+                                <% if (item.AffectedParents.Any())
+                                   { %>
+                                    <div>Von <a href="/<%=item.AffectedParents[1].Name %>/<%=item.AffectedParents[1].Id %>"> <%= item.AffectedParents[1].Name %></a> nach <a href="/<%=item.AffectedParents[0].Name %>/<%=item.AffectedParents[0].Id %>"> <%= item.AffectedParents[0].Name %></a></div>
+                                <% } %>
+
                                 <%
                                     if (item.Type == CategoryChangeType.Relations)
                                     { %>

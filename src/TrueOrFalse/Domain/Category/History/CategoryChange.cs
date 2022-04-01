@@ -17,7 +17,7 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual void SetData(Category category, bool imageWasUpdated)
+    public virtual void SetData(Category category, bool imageWasUpdated, int[] affectedParentIds)
     {
         switch (DataVersion)
         {
@@ -26,7 +26,7 @@ public class CategoryChange : Entity, WithDateCreated
                 break;
 
             case 2:
-                Data = new CategoryEditData_V2(category, imageWasUpdated).ToJson();
+                Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds).ToJson();
                 break;
 
             default:

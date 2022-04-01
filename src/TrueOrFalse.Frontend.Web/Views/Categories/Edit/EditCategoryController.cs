@@ -240,14 +240,14 @@ public class EditCategoryController : BaseController
                 success = false,
                 key = "parentIsRoot"
             });
-
-        RemoveParent(parentCategoryIdToRemove, childCategoryId, true);
-        return AddChild(childCategoryId, parentCategoryIdToAdd, true);
+        var json = AddChild(childCategoryId, parentCategoryIdToAdd, parentCategoryIdToRemove);
+        RemoveParent(parentCategoryIdToRemove, childCategoryId, new int[]{parentCategoryIdToAdd, parentCategoryIdToRemove});
+        return json;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddChild(int childCategoryId, int parentCategoryId, bool categoryIsMoved = false)
+    public JsonResult AddChild(int childCategoryId, int parentCategoryId, int parentCategoryIdToRemove = -1)
     {
         if (childCategoryId == parentCategoryId)
             return Json(new
@@ -262,7 +262,7 @@ public class EditCategoryController : BaseController
                 key = "parentIsRoot"
             });
         var children = EntityCache.GetAllChildren(parentCategoryId, true);
-        var isChildrenLinked = children.Any(c => c.Id == childCategoryId);
+        var isChildrenLinked = children.Any(c => c.Id == childCategoryId) && children.All(c => c.Id != parentCategoryIdToRemove);
 
         if (isChildrenLinked && UserCache.GetItem(SessionUser.UserId).IsFiltered)
             return Json(new
@@ -490,7 +490,7 @@ public class EditCategoryController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId, bool createMoveCategoryChange = false)
+    public JsonResult RemoveParent(int parentCategoryIdToRemove, int childCategoryId, int[] affectedParentIdsByMove = null)
     {
         var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentCategoryIdToRemove, childCategoryId);
         if (!parentHasBeenRemoved)
@@ -503,8 +503,8 @@ public class EditCategoryController : BaseController
         var parent = _categoryRepository.GetById(parentCategoryIdToRemove);
         _categoryRepository.Update(parent, SessionUser.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childCategoryId);
-        if (createMoveCategoryChange)
-            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved);
+        if (affectedParentIdsByMove != null)
+            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved,affectedParentIdsByMove: affectedParentIdsByMove);
         else
             _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);

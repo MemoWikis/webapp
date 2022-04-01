@@ -9,7 +9,7 @@ public class CategoryEditData_V2 : CategoryEditData
 
     public CategoryEditData_V2(){}
 
-    public CategoryEditData_V2(Category category, bool imageWasUpdated)
+    public CategoryEditData_V2(Category category, bool imageWasUpdated, int[] affectedParentIdsByMove)
     {
         Name = category.Name;
         Description = category.Description;
@@ -23,6 +23,7 @@ public class CategoryEditData_V2 : CategoryEditData
             .ToList();
         ImageWasUpdated = imageWasUpdated;
         Visibility = category.Visibility;
+        AffectedParentIds = affectedParentIdsByMove ?? new int[]{};
     }
 
     public override string ToJson()

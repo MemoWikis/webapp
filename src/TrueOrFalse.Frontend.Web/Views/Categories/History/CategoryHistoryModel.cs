@@ -117,6 +117,10 @@ public class CategoryChangeDayModel
 
         var userTinyModel = new UserTinyModel(change.Author);
 
+        var affectedParents = new CategoryCacheItem[] {};
+        if (change.GetCategoryChangeData().AffectedParentIds != null)
+            affectedParents = EntityCache.GetCategories(change.GetCategoryChangeData().AffectedParentIds).ToArray();
+
         return new CategoryChangeDetailModel
         {
             Author = userTinyModel,
@@ -135,7 +139,8 @@ public class CategoryChangeDayModel
             Type = change.Type,
             CreatorId = new UserTinyModel(change.Category.Creator).Id,
             Visibility = change.GetCategoryChangeData().Visibility,
-            CurrentVisibility = change.Category.Visibility
+            CurrentVisibility = change.Category.Visibility,
+            AffectedParents = affectedParents
         };
     }
     public void AppendItems(List<CategoryChangeDetailModel> items, CategoryChange change)
@@ -181,6 +186,7 @@ public class CategoryChangeDetailModel
     public CategoryChangeType Type;
     public CategoryVisibility Visibility;
     public CategoryVisibility CurrentVisibility;
+    public CategoryCacheItem[] AffectedParents;
     public bool IsPrivate => Visibility == CategoryVisibility.Owner || Visibility == CategoryVisibility.OwnerAndFriends;
     public int CreatorId;
     public bool IsVisibleToCurrentUser()
