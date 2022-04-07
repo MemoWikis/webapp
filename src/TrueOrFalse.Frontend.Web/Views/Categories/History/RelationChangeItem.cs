@@ -10,6 +10,7 @@ public class RelationChangeItem
     public bool IsVisibleToCurrentUser;
     public CategoryRelationType Type;
     public CategoryCacheItem RelatedCategory;
+    public CategoryCacheItem[] AffectedParents;
 
     public static RelationChangeItem GetRelationChangeItem(CategoryChangeDetailModel item, IEnumerable<CategoryChange> changes)
     {
@@ -34,6 +35,7 @@ public class RelationChangeItem
         relationChangeItem.IsVisibleToCurrentUser = IsVisibleToCurrentUser2(relationChange, relatedCategory, previousRevisionData, selectedRevisionData, item.CreatorId);
         relationChangeItem.RelatedCategory = relatedCategory;
         relationChangeItem.Type = relationChange.RelationType;
+        relationChangeItem.AffectedParents = item.AffectedParents;
 
         return relationChangeItem;
     }

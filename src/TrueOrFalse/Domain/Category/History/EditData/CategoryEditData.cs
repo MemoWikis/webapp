@@ -11,6 +11,7 @@ public abstract class CategoryEditData
     public string WikipediaURL;
     public bool DisableLearningFunctions;
     public CategoryVisibility Visibility;
+    public int[] AffectedParentIds;
 
     public abstract string ToJson();
 
