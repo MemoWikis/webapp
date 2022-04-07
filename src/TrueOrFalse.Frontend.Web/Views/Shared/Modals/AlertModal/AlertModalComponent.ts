@@ -128,6 +128,8 @@ Vue.component('alert-modal-component',
                 this.message = '';
                 this.error = true;
                 this.reload = false;
+                this.customHtml = '';
+                this.customBtn = '';
             }
         }
     });
