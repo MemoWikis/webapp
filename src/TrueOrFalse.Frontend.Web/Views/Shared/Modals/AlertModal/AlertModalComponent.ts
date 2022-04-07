@@ -51,12 +51,20 @@ const messages = {
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
         }
+    },
+    info: {
+        category: {},
+        question: {
+            newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.'
+        },
     }
 }
 
 type AlertMsg = {
     text: string,
     reload?: boolean,
+    customHtml?: string,
+    customBtn?: string,
 }
 
 class Alerts {
@@ -75,6 +83,8 @@ Vue.component('alert-modal-component',
                 error: true,
                 message: '',
                 reload: false,
+                customHtml: '',
+                customBtn: '',
             }
         },
         mounted() {
@@ -84,6 +94,12 @@ Vue.component('alert-modal-component',
                     this.message = data.text;
                     if (data.reload)
                         this.reload = data.reload;
+                    if (data.customHtml != null && data.customHtml.length > 0)
+                        this.customHtml = data.customHtml;
+
+                    if (data.customBtn != null && data.customBtn.length > 0)
+                        this.customBtn = data.customBtn;
+                    
                     $('#SuccessModal').modal('show');
 
                 });

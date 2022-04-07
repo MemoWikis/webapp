@@ -1,5 +1,5 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
-<%= Scripts.Render("~/bundles/js/EditQuestion") %>
+    <%= Scripts.Render("~/bundles/js/EditQuestion") %>
 
 <script type="x-template" id="textsolution-template">
     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/Text/TextSolutionComponent.vue.ascx") %>

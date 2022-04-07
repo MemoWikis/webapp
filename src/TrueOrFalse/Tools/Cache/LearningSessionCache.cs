@@ -24,18 +24,27 @@ public class LearningSessionCache
         return learningSession;
     }
 
-    public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex)
+    public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex, LearningSessionConfig config)
     {
         var learningSession = GetLearningSession();
         var step = new LearningSessionStep(question);
+
         if (learningSession != null)
         {
             var allQuestionValuation = UserCache.GetQuestionValuations(SessionUser.UserId);
+            var questionDetail = LearningSessionCreator.BuildQuestionDetail(config, question, allQuestionValuation);
 
-            var questionDetail =
-                LearningSessionCreator.BuildQuestionDetail(new LearningSessionConfig(), question, allQuestionValuation);
             learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
-            learningSession.Steps.Insert(sessionIndex, step);
+
+            if (questionDetail.AddByWuwi &&
+                questionDetail.AddByCreator &&  
+                questionDetail.AddByVisibility &&
+                questionDetail.FilterByKnowledgeSummary)
+            {
+                learningSession.Steps.Insert(sessionIndex, step);
+            }
+
+            learningSession.QuestionCounter.Max += 1;
             AddOrUpdate(learningSession);
         }
     }

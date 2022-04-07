@@ -165,6 +165,7 @@ Vue.component('session-config-component',
                 });
 
             this.loadSessionFromLocalStorage(true);
+            eventBus.$on('reset-session-config', () => this.reset());
             eventBus.$on('sync-session-config',
                 () => {
                     this.loadSessionFromLocalStorage();
@@ -258,6 +259,9 @@ Vue.component('session-config-component',
 
                 if (firstLoad && this.isInQuestionList)
                     this.$nextTick(() => this.loadCustomSession());
+
+                var json = this.buildSessionConfigJson();
+                localStorage.setItem('sessionConfigJson', JSON.stringify(json));
             },
             loadCustomSession() {
                 if (this.maxQuestionCountIsZero)

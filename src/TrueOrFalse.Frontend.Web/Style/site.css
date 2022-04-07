@@ -2282,10 +2282,10 @@ input::placeholder {
 #SuccessModal .modal-body {
   flex-direction: column;
 }
-#ErrorModal h3 {
+#ErrorModal i {
   color: #FFA07A;
 }
-#SuccessModal h3 {
+#SuccessModal i {
   color: #AFD534;
 }
 .ProseMirror li p {

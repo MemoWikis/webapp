@@ -464,7 +464,7 @@ public class AnswerQuestionController : BaseController
             question,
             sessionUserId);
 
-        var answerQuestionModel = new AnswerQuestionModel(learningSession, false);
+        var answerQuestionModel = new AnswerQuestionModel(learningSession, false);  
 
         string currentSessionHeader = "Frage <span id = \"CurrentStepNumber\">" + (answerQuestionModel.CurrentLearningStepIdx + 1) +
                                       "</span> von <span id=\"StepCount\">" + answerQuestionModel.LearningSession.Steps.Count +

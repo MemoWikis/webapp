@@ -92,7 +92,7 @@ let questionListApp = new Vue({
     },
 
     watch: {
-        activeQuestion: function (indexQuestion) {
+        activeQuestion(indexQuestion) {
             let questionsPerPage = 25 - 1; // question 25 is page 2 question 0  then 0 -24 = 25 questions
             let selectedPage = Math.floor(indexQuestion / (questionsPerPage));
             if (indexQuestion > questionsPerPage) {
@@ -111,10 +111,10 @@ let questionListApp = new Vue({
         toggleQuestionsList() {
             this.isQuestionListToShow = !this.isQuestionListToShow;
         },
-        startNewLearningSession: () => {
+        startNewLearningSession() {
             eventBus.$emit("start-learning-session");
         },
-        changeActiveQuestion: function (index) {
+        changeActiveQuestion(index) {
             this.activeQuestion = index;
         },
         getCurrentLearningSessionData() {
@@ -132,7 +132,7 @@ let questionListApp = new Vue({
                 }
             });
         },
-        setActiveQuestionId: function () {
+        setActiveQuestionId() {
             this.activeQuestionId = parseInt($('input#hddQuestionId').attr('value'));
         },
         showCommentModal(questionId) {

@@ -48,9 +48,8 @@
                 var tabName = currentTarget.attr('data-tab-id');
 
                 if (tabName === "AnalyticsTab")
-                   
+                    Utils.ShowSpinner();
 
-                Utils.ShowSpinner();
                 this.RenderTabContent(tabName);
 
                 if (tabName === "LearningTab" && $('#hddLearningSessionStarted').val() === "False" && $('#hddQuestionCount').val() !== "0") {

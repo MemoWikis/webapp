@@ -44,13 +44,11 @@ public class EditQuestionController : BaseController
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
-        if (questionDataJson.IsLearningTab)
-            LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex);
+        if (questionDataJson.IsLearningTab){}
+            LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.User);
-
-
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -131,7 +129,7 @@ public class EditQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.User);
 
-        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex);
+        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_questionRepo);
 
         return questionController.LoadQuestion(question.Id);
@@ -150,6 +148,7 @@ public class EditQuestionController : BaseController
         public int Visibility { get; set; }
         public bool AddToWishknowledge { get; set; }
         public int LastIndex { get; set; }
+        public LearningSessionConfig SessionConfig { get; set; }
     }
     private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson, string safeText)
     {
@@ -223,6 +222,7 @@ public class EditQuestionController : BaseController
         public int LicenseId { get; set; }
         public string ReferencesJson { get; set; }
         public bool IsLearningTab { get; set; }
+        public LearningSessionConfig SessionConfig { get; set; }
     }
 
     private bool Validate(EditQuestionModel model)

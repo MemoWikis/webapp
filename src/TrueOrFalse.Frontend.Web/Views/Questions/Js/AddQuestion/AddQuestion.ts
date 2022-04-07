@@ -20,6 +20,7 @@
             isPrivate: true,
             tiptapIsReady: false,
             editQuestionIsReady: false,
+            sessionConfigJson: null
         }
     },
 
@@ -38,18 +39,19 @@
     mounted() {
         if (this.isPrivate)
             this.licenseIsValid = true;
-        if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null) {
-            this.tiptapIsReady = true;
-            this.initEditor();
-        } else {
-            Utils.LoadTiptap();
-        }
+
         eventBus.$on('tiptap-is-ready', () => {
             this.$nextTick(() => this.initEditor());
         });
         eventBus.$on('edit-question-is-ready', () => {
             this.editQuestionIsReady = true;
         });
+        if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null) {
+            this.tiptapIsReady = true;
+            this.initEditor();
+        } else {
+            Utils.LoadTiptap();
+        }
     },
 
     methods: {
@@ -133,6 +135,11 @@
             }
             var self = this;
             var lastIndex = $('.singleQuestionRow ').length > 0 ? parseInt($('#QuestionListComponent').attr("data-last-index")) + 1 : null;
+
+            var sessionConfigJsonString = localStorage.getItem('sessionConfigJson');
+            if (sessionConfigJsonString != null)
+                this.sessionConfigJson = JSON.parse(sessionConfigJsonString);
+
             var json = {
                 CategoryId: this.currentCategoryId,
                 TextHtml: this.questionHtml,
@@ -140,6 +147,7 @@
                 Visibility: this.isPrivate ? 1 : 0,
                 AddToWishknowledge: this.addToWishknowledge,
                 LastIndex: lastIndex,
+                SessionConfig: this.sessionConfigJson
             }
             $.ajax({
                 type: 'post',

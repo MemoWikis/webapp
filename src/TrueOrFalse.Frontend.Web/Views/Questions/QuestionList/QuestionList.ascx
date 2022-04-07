@@ -10,7 +10,7 @@
 <%= Scripts.Render("~/bundles/js/QuestionListComponents") %>
 
 <div id="QuestionListApp" class="row" v-cloak>
-    <session-config-component :is-logged-in="'<%= SessionUser.IsLoggedIn %>' == 'True'" :is-in-question-list="true" v-if="showFilter">
+    <session-config-component :is-logged-in="'<%= SessionUser.IsLoggedIn %>' == 'True'" :is-in-question-list="true" v-show="showFilter">
         <input id="hdnIsTestMode" hidden :value="isTestMode"/>
         <div class="col-xs-12 drop-down-question-sort">
             <div class="session-config-header">
@@ -67,7 +67,7 @@
         </div>
 
     </session-config-component>
-    <div class="session-configurator col-xs-12" v-else>
+    <div class="session-configurator col-xs-12" v-if="!showFilter">
         <div class="session-config-header">
             <div class="col-xs-12 drop-down-question-sort">
                 <div class="session-config-header">

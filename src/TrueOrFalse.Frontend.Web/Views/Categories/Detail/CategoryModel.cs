@@ -66,7 +66,7 @@ public class CategoryModel : BaseContentModule
     public string ImageLicenseOwner { get; set; }
     public bool IsMyWorld { get; set; }
     public bool IsWiki { get; set; }
-    public bool HasQuestions = false;
+    public bool HasQuestions;
 
 
     public EditQuestionModel EditQuestionModel;

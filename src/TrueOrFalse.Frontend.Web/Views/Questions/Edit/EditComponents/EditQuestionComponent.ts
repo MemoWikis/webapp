@@ -58,11 +58,13 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 showPrivacyContainer: false,
                 lockSaveButton: false,
                 currentCategoryId: 0,
+                sessionConfigJson: null,
             }
         },
         mounted() {
             if (this.isMyWorld == 'True')
                 this.addToWuwi = true;
+
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
                     this.currentCategoryId = $('#hhdCategoryId').val();
@@ -148,6 +150,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
             },
         },
         methods: {
+
             loadEditors() {
                 this.questionEditor = new tiptapEditor({
                         extensions: [
@@ -178,10 +181,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
                                     let src = eventContent[0].attrs.src;
                                     if (src.length > 1048576 && src.startsWith('data:image')) {
-                                        let data = {
-                                            msg: messages.error.image.tooBig
-                                        }
-                                        eventBus.$emit('show-error', data);
+                                        Alerts.showError({text: messages.error.image.tooBig});
                                         return true;
                                     }
                                 }
@@ -225,10 +225,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                             if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
                                 let src = eventContent[0].attrs.src;
                                 if (src.length > 1048576 && src.startsWith('data:image')) {
-                                    let data = {
-                                        msg: messages.error.image.tooBig
-                                    }
-                                    eventBus.$emit('show-error', data);
+                                    Alerts.showError({ text: messages.error.image.tooBig });
                                     return true;
                                 }
                             }
@@ -274,10 +271,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                             if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
                                 let src = eventContent[0].attrs.src;
                                 if (src.length > 1048576 && src.startsWith('data:image')) {
-                                    let data = {
-                                        msg: messages.error.image.tooBig
-                                    }
-                                    eventBus.$emit('show-error', data);
+                                    Alerts.showError({ text: messages.error.image.tooBig });
                                     return true;
                                 }
                             }
@@ -394,7 +388,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 self.sessionIndex);
 
                             eventBus.$emit('change-active-question', self.sessionIndex);
-                            debugger;
                             eventBus.$emit('update-question-count');
                         }
 
@@ -405,9 +398,16 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 text: messages.error.question[result.key]
                             });
                         } else {
-                            Alerts.showSuccess({
-                                text: self.edit ? messages.success.question.saved : messages.success.question.created
-                            });
+                            if (result.SessionIndex > 0)
+                                Alerts.showSuccess({
+                                    text: self.edit ? messages.success.question.saved : messages.success.question.created
+                                });
+                            else
+                                Alerts.showSuccess({
+                                    text: self.edit ? messages.success.question.saved : messages.success.question.created,
+                                    customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Achtung: Die Frage wird nicht angezeigt.</b> Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
+                                    customBtn: '<div class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zuruecksetzen</div>',
+                                });
                         }
                         $('#EditQuestionModal').modal('hide');
     
@@ -415,11 +415,9 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
 
                     },
                     error:() => {
-                        let data = {
-                            msg: self.edit ? messages.error.question.save : messages.error.question.creation
-                        }
+
                         Utils.HideSpinner();
-                        eventBus.$emit('show-error', data);
+                        Alerts.showError({ text: self.edit ? messages.error.question.save : messages.error.question.creation });
                         self.lockSaveButton = false;
                     }
                 });
@@ -440,6 +438,11 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     AddToWishknowledge: this.addToWuwi,
                 }
                 var visibility = this.isPrivate ? 1 : 0;
+
+                var sessionConfigJsonString = localStorage.getItem('sessionConfigJson');
+                if (sessionConfigJsonString != null)
+                    this.sessionConfigJson = JSON.parse(sessionConfigJsonString);
+
                 var jsonExtension = {
                     CategoryIds: this.categoryIds,
                     TextHtml: this.questionHtml,
@@ -451,6 +454,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                     LicenseId: licenseId,
                     SessionIndex: this.sessionIndex,
                     IsLearningTab: this.isLearningTab,
+                    SessionConfig: this.sessionConfigJson
                 }
                 var json = this.edit ? editJson : createJson;
 

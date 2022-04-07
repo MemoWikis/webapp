@@ -197,7 +197,6 @@ class Utils
             url: tiptapUrl,
             dataType: 'script',
             success() {
-
                 $.ajax({
                     type: 'get',
                     url: '/EditCategory/GetTiptap/',
@@ -208,6 +207,7 @@ class Utils
                 });
             }
         });
+        return true;
     }
 }
 

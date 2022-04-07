@@ -45,7 +45,6 @@
     <div id="QuestionDetails" data-div-type="questionDetails"></div>
 </div>
 <%: Html.Partial("~/Views/Questions/SessionConfig/SessionConfigComponentLoader.ascx") %>
-    
 <% Html.RenderPartial("~/Views/Questions/Modals/DeleteQuestionModalTemplateLoader.ascx"); %>
 <% Html.RenderPartial("~/Views/Questions/QuestionList/QuestionList.ascx", new QuestionListModel(Model.Category.Id, Model.ShowLearningSessionConfigurationMessageForQuestionList)); %>
 <%= Scripts.Render("~/bundles/js/d3") %>
