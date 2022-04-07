@@ -31,7 +31,7 @@
                 <div @click="selectAllQuestionFilter()" class="selectable-item dropdown-item" :class="{'item-disabled' : !isLoggedIn }">
                     <i class="fas fa-check-square session-select active" v-if="allQuestionFilterOptionsAreSelected"></i>
                     <i class="far fa-square session-select" v-else></i>
-                    <div class="selectable-item">Alles auswählen</div>
+                    <div class="selectable-item" :class="{'item-disabled' : !isLoggedIn }">Alles auswählen</div>
                 </div>
                 <div class="dropdown-divider"></div>
 
@@ -40,7 +40,7 @@
                     <i class="far fa-square session-select" v-else></i>
                     <i class="dropdown-filter-icon" :class="q.icon"></i>
 
-                    <div class="selectable-item dropdown-item-label">                    
+                    <div class="selectable-item dropdown-item-label" :class="{'item-disabled' : !isLoggedIn }">                    
                         {{q.label}} ({{q.count}})
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="selectable-item dropdown-item" @click="selectAllKnowledgeSummary()" :class="{'item-disabled' : !isLoggedIn }">
                     <i class="fas fa-check-square session-select active" v-if="allKnowledgeSummaryOptionsAreSelected"></i>
                     <i class="far fa-square session-select" v-else></i>
-                    <div class="selectable-item">Alles auswählen</div>
+                    <div class="selectable-item"  :class="{'item-disabled' : !isLoggedIn }">Alles auswählen</div>
                 </div>
                 <div class="dropdown-divider"></div>
                 <div v-for="k in knowledgeSummary" class="dropdown-item selectable-item" :class="{'item-disabled' : !isLoggedIn }" @click="selectKnowledgeSummary(k)">
