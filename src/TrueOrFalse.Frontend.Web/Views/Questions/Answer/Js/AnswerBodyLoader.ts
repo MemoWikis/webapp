@@ -1,11 +1,17 @@
 ﻿
+type loadNewQuestionOptions = {
+    loadedFromVue?: boolean;
+    continueWithNewSession?: boolean;
+    isNewSession?: boolean;
+    scrollToTop: boolean;
+}
+
 class AnswerBodyLoader {
 
     private _isInLearningTab: boolean;
     private _sessionConfigDataJson: any;
     private _getCustomSession: boolean = false;
     private _isSkipStep: boolean = false;
-
 
     constructor(answerBody: AnswerBody) {
         this._isInLearningTab = $('#LearningTab').length > 0;
@@ -84,20 +90,30 @@ class AnswerBodyLoader {
 
         var url = "/AnswerQuestion/RenderNewAnswerBodySessionForCategory";
         this._getCustomSession = true;
-        this.loadNewQuestion(url, loadedFromVue, continueWithNewSession, true, scrollToTop);
+        this.loadNewQuestion(url, {
+            loadedFromVue: loadedFromVue,
+            continueWithNewSession: continueWithNewSession,
+            isNewSession: true,
+            scrollToTop: scrollToTop
+        });
     }
 
-    public loadNewQuestion(url: string,
-        loadedFromVue: boolean = false,
-        continueWithNewSession: boolean = false,
-        isNewSession: boolean = false,
-        scrollToTop: boolean = true) {
+    public loadNewQuestion(
+        url: string,
+        options: loadNewQuestionOptions = {
+            loadedFromVue: false,
+            continueWithNewSession: false,
+            isNewSession: false,
+            scrollToTop: false
+        }
+    )
+    {
         this._isInLearningTab = $('#LearningTab').length > 0;
 
         if (this._getCustomSession)
             $("#TestSessionHeader").remove();
 
-        if (this._isInLearningTab && this._getCustomSession && loadedFromVue) {
+        if (this._isInLearningTab && this._getCustomSession && options.loadedFromVue) {
             $("#AnswerBody").fadeOut();
             $("#QuestionDetails").fadeOut();
             $(".FooterQuestionDetails").fadeOut();
@@ -160,20 +176,20 @@ class AnswerBodyLoader {
                         if ($("div[data-div-type='testSessionHeader']").length > 1)
                             $("div[data-div-type='testSessionHeader']").slice(1).remove();
 
-                        if (continueWithNewSession) {
+                        if (options.continueWithNewSession) {
                             $("#QuestionListApp").fadeIn();
                         }
 
-                        if (loadedFromVue) {
+                        if (options.loadedFromVue) {
                             $("#AnswerBody").fadeIn();
                             $("#QuestionDetails").fadeIn();
                             $(".FooterQuestionDetails").fadeIn();
                             //$("#QuestionListApp").show(); 
                         }
-                        if (scrollToTop)
+                        if (options.scrollToTop)
                             this.scrollToTop();
 
-                        if (isNewSession)
+                        if (options.isNewSession)
                             eventBus.$emit('init-new-session');
 
                         $("#hddIsLearningSession").attr("data-current-step-idx", result.sessionData.currentStepIdx);

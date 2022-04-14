@@ -229,7 +229,7 @@
             var answerBody = new AnswerBody();
             answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                 "?skipStepIdx=-5" +
-                "&index=" + this.sessionIndex);
+                "&index=" + this.sessionIndex, {scrollToTop: true});
 
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);
