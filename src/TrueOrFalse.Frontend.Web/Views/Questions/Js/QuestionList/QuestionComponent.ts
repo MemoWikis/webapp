@@ -189,10 +189,12 @@
                         if (data.extendedAnswer != null)
                             this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";
                     };
+
                     if (data.categories) {
                         this.categories = data.categories;
                         this.linkToFirstCategory = data.categories[0].linkToCategory;
                     };
+
                     this.references = data.references;
                     this.author = data.author;
                     this.authorImage = data.authorImage;
