@@ -297,7 +297,6 @@
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
-    <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -2540,19 +2539,9 @@
     <Content Include="Views\Help\Js\WidgetPricing.js.map">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Help\WidgetMenu.ascx" />
-    <Content Include="Views\Help\WidgetInMoodle.aspx" />
-    <Content Include="Views\Help\WidgetInBlackboard.aspx" />
-    <Content Include="Views\Help\WidgetInWordpress.aspx" />
-    <Content Include="Views\Help\WidgetExamples.aspx" />
-    <Content Include="Views\Help\WidgetPricing.aspx" />
-    <Content Include="Views\Help\Widget.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />
     <Content Include="Views\Drafts\WidgetSet.html" />
     <Content Include="Views\Drafts\WidgetVideo.html" />
-    <Content Include="Views\Help\Widget.css">
-      <DependentUpon>Widget.less</DependentUpon>
-    </Content>
     <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
     <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js">
       <DependentUpon>ActivityPoints.ts</DependentUpon>
@@ -3899,7 +3888,6 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
-    <Content Include="Views\Shared\Site.Widget.Master" />
     <Content Include="Views\Welcome\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -3930,7 +3918,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />

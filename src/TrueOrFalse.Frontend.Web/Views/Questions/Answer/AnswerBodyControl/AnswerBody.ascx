@@ -266,8 +266,6 @@
                                         <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
                                     </div>
                                     <div id="SolutionDetails" style="display: none; background-color: white;">
-
-
                                         <div id="Description" class="Detail">
                                             <div class="Label">Ergänzungen zur Antwort:</div>
                                             <div class="Content body-m"><%= Model.QuestionDescription %></div>

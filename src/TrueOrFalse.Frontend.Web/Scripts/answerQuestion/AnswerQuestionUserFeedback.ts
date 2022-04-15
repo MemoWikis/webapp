@@ -68,7 +68,6 @@
     }
 
     ShowSolution(isNotAnswered = false) {
-
         this.ShowNextQuestionLink();
         if (this._answerQuestion.SolutionType !== SolutionType.MatchList &&
             this._answerQuestion.SolutionType !== SolutionType.MultipleChoice &&
@@ -124,12 +123,11 @@
                         if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() == "true" && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
-                        result.currentStep = isNotAnswered ? result.currentStep + 1 : result.currentStep;   //the quest has not yet been attached
+                        result.currentStep = isNotAnswered ? result.currentStep + 1 : result.currentStep;
                         eventBus.$emit('update-progress-bar');
                     }
                 });
             }
-
 
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && !result.correctAnswer) {
                 $("#Solution").show().find('.Label').html("Keine der Antworten ist richtig!");
@@ -137,8 +135,10 @@
                 var shownCorrectAnswer = result.correctAnswerAsHTML;
                 $("#Solution").show().find('.Content').html("</br>" + shownCorrectAnswer);
             }
+
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
                 this.HighlightMultipleChoiceSolution(result.correctAnswer);
+
             if (this._answerQuestion.SolutionType === SolutionType.MatchList)
                 this.HighlightMatchlistSoluion(result.correctAnswer);
             
@@ -153,9 +153,6 @@
                     if (indexSuccessfulReferences === result.correctAnswerReferences.length) {
                         this.ShowAnswerDetails();
                     }
-                    if (Utils.IsInWidget()) {
-                        this.AddTargetBlankToReferenceLinks();
-                    } 
                 });
                 for (var i = 0; i < result.correctAnswerReferences.length; i++) {
                     var reference = result.correctAnswerReferences[i];
@@ -319,9 +316,5 @@
 
         $("#buttons-first-try").hide();
         $("#buttons-answer-again").hide();
-    }
-
-    private AddTargetBlankToReferenceLinks() {
-        $("#References").find("a").attr("target", "_blank");
     }
 } 

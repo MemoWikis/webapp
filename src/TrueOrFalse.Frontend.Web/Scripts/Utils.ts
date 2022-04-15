@@ -105,10 +105,6 @@ class Utils
         return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
 
-    static IsInWidget() {
-        return $("#IsWidget").length > 0;
-    }
-
     //http://stackoverflow.com/questions/979975/how-to-get-the-value-from-the-get-parameters
     static GetQueryString(): any {
         return (() => {

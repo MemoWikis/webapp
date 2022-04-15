@@ -220,15 +220,12 @@ class AnswerBodyLoader {
     private scrollToTop() {
         $('html, body').animate({ scrollTop: 0 }, 'fast');
 
-        if (!Utils.IsInWidget()) {
-            //set focus to first possible answer element
-            if (document.getElementsByName("answer").length > 0)
-                $("[name=answer]")[0].focus();
+        //set focus to first possible answer element
+        if (document.getElementsByName("answer").length > 0)
+            $("[name=answer]")[0].focus();
 
-            $("#txtAnswer:visible").focus();
-
-            $("#row-1:visible").focus();
-        }
+        $("#txtAnswer:visible").focus();
+        $("#row-1:visible").focus();
     }
 
     private showLearningSessionResult(result) {
