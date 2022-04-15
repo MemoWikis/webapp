@@ -2502,10 +2502,6 @@
     <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
     <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxSingleQuestionModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxTopQuestionsModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2785,7 +2781,6 @@
     <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
@@ -2844,14 +2839,6 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Welcome.css">
-      <DependentUpon>Welcome.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\WelcomeBoxCategoryImgQ.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxCategoryTxtQ.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -3447,13 +3434,6 @@
     <Compile Include="Views\Welcome\Registration\RegisterModelToUser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Welcome\WelcomeBoxTopCategoriesModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\Welcome\WelcomeModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <TypeScriptCompile Include="Views\Questions\ActivityPoints\ActivityPoints.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ts" />
@@ -3684,7 +3664,6 @@
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\QUnit.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
     <Content Include="Views\Shared\Site.Partial.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -3842,10 +3821,6 @@
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.less" />
-    <Content Include="Views\Welcome\Welcome.less" />
-    <Content Include="Views\Welcome\Welcome.css.map">
-      <DependentUpon>Welcome.css</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Detail\User.less" />
     <Content Include="Views\Users\Detail\User.css.map">
       <DependentUpon>User.css</DependentUpon>
@@ -4053,12 +4028,10 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />
-    <Content Include="Views\Welcome\Welcome.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
