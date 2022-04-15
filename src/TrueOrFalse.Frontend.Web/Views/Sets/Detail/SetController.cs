@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Web.Mvc;
-using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class SetController : BaseController
@@ -29,7 +25,6 @@ public class SetController : BaseController
     {
         Response.Redirect(Links.SetDetail(Sl.SetRepo.GetById(id)));
     }
-
     private void QuestionSet(Set set)
     {
         Response.Redirect(Links.CategoryDetail(Sl.CategoryRepo.GetBySetId(set.Id)));
@@ -45,11 +40,4 @@ public class SetController : BaseController
     {
         return Redirect(Links.CategoryDetailLearningTab(EntityCache.GetCategory(setId)));
     }
-
-    public string KnowledgeBar(int setId) =>
-        ViewRenderer.RenderPartialView(
-            "/Views/Sets/Detail/SetKnowledgeBar.ascx",
-            new SetKnowledgeBarModel(Sl.SetRepo.GetById(setId)),
-            ControllerContext
-        );
 }

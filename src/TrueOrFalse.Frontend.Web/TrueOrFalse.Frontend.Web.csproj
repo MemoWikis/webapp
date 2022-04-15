@@ -2459,7 +2459,6 @@
     <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
-    <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
     <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
@@ -2572,7 +2571,6 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
@@ -2817,7 +2815,6 @@
     <Content Include="Views\Beta\Video1.aspx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
-    <Content Include="Views\Sets\Detail\SetQuestionRowResult.ascx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
     <Content Include="Views\Users\Detail\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3407,7 +3404,6 @@
     <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
-    <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
@@ -3612,10 +3608,6 @@
     <Content Include="Views\Questions\Edit\Js\References.js">
       <DependentUpon>References.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Set.aspx" />
-    <Content Include="Views\Sets\Detail\Set.css">
-      <DependentUpon>Set.less</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Images\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
@@ -3740,10 +3732,6 @@
     </Content>
     <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
       <DependentUpon>ImageUpload.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Sets\Detail\Set.less" />
-    <Content Include="Views\Sets\Detail\Set.css.map">
-      <DependentUpon>Set.css</DependentUpon>
     </Content>
     <Content Include="Views\Users\Users.css.map">
       <DependentUpon>Users.css</DependentUpon>
