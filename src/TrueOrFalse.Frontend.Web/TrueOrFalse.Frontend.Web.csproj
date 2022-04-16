@@ -296,6 +296,7 @@
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
+    <Compile Include="Views\Welcome\WelcomeController.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
