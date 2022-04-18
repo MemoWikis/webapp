@@ -61,7 +61,7 @@
                                 <div class="answer body-m" :id="answerId">
                                     Richtige Antwort: <component :is="answer && {template:answer}" @hook:mounted="highlightCode(answerId)"></component>
                                 </div>
-                                <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 3" :id="extendedAnswerId">
+                                <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 11" :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br/>
                                     <component :is="extendedAnswer && {template:extendedAnswer}" @hook:mounted="highlightCode(extendedAnswerId)"></component>
                                 </div>
