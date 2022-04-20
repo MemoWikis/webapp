@@ -1,0 +1,9 @@
+{
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "defaultCommandTimeout": 1500,
+  "videoCompression": false,
+  "waitForAnimations": true,
+  "animationDistanceThreshold": 50,
+  "experimentalStudio": true
+}
