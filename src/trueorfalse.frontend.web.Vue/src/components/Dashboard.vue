@@ -1,35 +1,29 @@
 <template>
   <div
     id="dashboard"
-    style="display:flex; flex-wrap: wrap; justify-content:space-evenly;"
+    style="display: flex; flex-wrap: wrap; justify-content: space-evenly"
   >
-    <h1 style="width:100%;">Dashboard</h1>
-    <div style="flex-basis:40%;">
+    <h1 style="width: 100%">Dashboard</h1>
+    <div style="flex-basis: 40%">
       <chartOverTime
         headerText="Neue Fragen"
-        :chartURL="
-          'http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?'
-        "
+        :chartURL="'http://localhost:26590/StatisticsDashboard/GetCreatedQuestionsInTimeWindow?'"
         chartId="questions"
         lineLabel="erstellte Fragen"
       ></chartOverTime>
     </div>
-    <div style="flex-basis:40%;">
+    <div style="flex-basis: 40%">
       <chartOverTime
         headerText="Neue Nutzer"
-        :chartURL="
-          'http://localhost:26590/api/StatisticsDashboard/GetCreatedUsersInTimeWindow?'
-        "
+        :chartURL="'http://localhost:26590/api/StatisticsDashboard/GetCreatedUsersInTimeWindow?'"
         chartId="user"
         lineLabel="neu registrierte Nutzer"
       ></chartOverTime>
     </div>
-    <div style="flex-basis:40%;">
+    <div style="flex-basis: 40%">
       <chartOverTime
         headerText="Neue Themen"
-        :chartURL="
-          'http://localhost:26590/api/StatisticsDashboard/GetCreatedCategoriesInTimeWindow?'
-        "
+        :chartURL="'http://localhost:26590/api/StatisticsDashboard/GetCreatedCategoriesInTimeWindow?'"
         chartId="themes"
         lineLabel="erstellte Themen"
       ></chartOverTime>
@@ -47,7 +41,7 @@ export default {
     chartOverTime,
   },
 
-  data: function() {
+  data: function () {
     return {
       cookie: Boolean,
       themeData: [19, 12, 14, 16, 18, 21, 11, 19, 22, 17],

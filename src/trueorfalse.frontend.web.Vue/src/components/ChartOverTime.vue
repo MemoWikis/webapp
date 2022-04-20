@@ -2,7 +2,7 @@
   <h2>{{ headerText }}</h2>
   <div>
     <label>Der letzten </label>
-    <input style="width:56px" v-model="amount" placeholder="8" type="number" />
+    <input style="width: 56px" v-model="amount" placeholder="8" type="number" />
     <select v-model="selectedInterval">
       <option
         v-for="option in optionsLabel"
@@ -19,7 +19,7 @@
     </button>
   </div>
   <div>
-    <canvas :id="chartId" style="border: 4px solid;"></canvas>
+    <canvas :id="chartId" style="border: 4px solid"></canvas>
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
     lineLabel: String,
   },
 
-  data: function() {
+  data: function () {
     return {
       selectedInterval: "day",
       optionsLabel: [
