@@ -2926,3 +2926,6 @@ input::placeholder {
 .category-change-day.hide-row .row {
   display: none;
 }
+a {
+  cursor: pointer;
+}

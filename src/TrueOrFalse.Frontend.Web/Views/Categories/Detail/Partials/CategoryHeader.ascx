@@ -69,7 +69,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
         <div>
             <div class="greyed category-sub-header">
                 <div class="category-stats">
-                    <a class="smooth-scroll" href="#Segmentation">
+                    <a role="button" id="JumpToSegmentationBtn">
                         <% if (Model.AggregatedTopicCount == 1)
                             { %> <span id="CategoryHeaderTopicCount">1</span> <span id="CategoryHeaderTopicCountLabel">Unterthema</span> <% }
                                                                                                                                              else if (Model.AggregatedTopicCount > 1)

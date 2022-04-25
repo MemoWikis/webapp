@@ -24,6 +24,23 @@
             });
 
         this.renderOrDisplayTab(this._url);
+
+        let jumpToSegmentationBtn = document.getElementById("JumpToSegmentationBtn");
+        jumpToSegmentationBtn.addEventListener("click", (e: Event) => this.jumpToSegmentation());
+    }
+
+    private jumpToSegmentation() {
+        if (document.getElementById('LearningTabWithOptions').classList.contains('active')) {
+            document.getElementById('TopicTab').click();
+            setTimeout(() => {
+                    document.getElementById('SegmentationTop')
+                        .scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+                },
+                500);
+        } else {
+            document.getElementById('SegmentationTop')
+                .scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+        }
     }
 
     private pushUrlAndSetActiveByClick(_categoryName: string) {

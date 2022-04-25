@@ -72,6 +72,7 @@
         <%= Model.CustomPageHtml %>
 
     </div>
+    <div id="SegmentationTop"></div>
     <div id="TopicTabFABApp">
         <%: Html.Partial("~/Views/Categories/Detail/Partials/FloatingActionButton/FloatingActionButton.ascx", new FloatingActionButtonModel(Model.Category, true)) %>
     </div>
