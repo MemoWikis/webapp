@@ -251,7 +251,6 @@
     <Compile Include="Views\Api\Search\PrepareSearch.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
-    <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
@@ -297,7 +296,7 @@
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
-    <Compile Include="Views\Help\WidgetMenuModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeController.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -2460,7 +2459,6 @@
     <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
     <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
-    <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
     <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
@@ -2504,10 +2502,6 @@
     <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
     <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxSingleQuestionModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxTopQuestionsModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2539,19 +2533,6 @@
     </Content>
     <Content Include="Views\Help\Js\WidgetPricing.js.map">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Help\WidgetMenu.ascx" />
-    <Content Include="Views\Help\WidgetInMoodle.aspx" />
-    <Content Include="Views\Help\WidgetInBlackboard.aspx" />
-    <Content Include="Views\Help\WidgetInWordpress.aspx" />
-    <Content Include="Views\Help\WidgetExamples.aspx" />
-    <Content Include="Views\Help\WidgetPricing.aspx" />
-    <Content Include="Views\Help\Widget.aspx" />
-    <Content Include="Views\Drafts\Widget-Debug.html" />
-    <Content Include="Views\Drafts\WidgetSet.html" />
-    <Content Include="Views\Drafts\WidgetVideo.html" />
-    <Content Include="Views\Help\Widget.css">
-      <DependentUpon>Widget.less</DependentUpon>
     </Content>
     <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
     <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js">
@@ -2586,7 +2567,6 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
     <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
@@ -2772,7 +2752,6 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Drafts\CategoryPartials.aspx" />
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
@@ -2802,10 +2781,6 @@
     <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
-    <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
-      <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Login\Login.ascx" />
     <Content Include="Views\Welcome\Login\Login.js">
       <DependentUpon>Login.ts</DependentUpon>
@@ -2829,11 +2804,8 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
-    <Content Include="Views\Beta\Video1.aspx" />
-    <Content Include="Views\Drafts\Widget.html" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
-    <Content Include="Views\Sets\Detail\SetQuestionRowResult.ascx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
     <Content Include="Views\Users\Detail\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -2845,12 +2817,6 @@
     </Content>
     <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
     <Content Include="Views\VariousPublic\TermsAndConditions.aspx" />
-    <Content Include="Views\Welcome\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -2863,14 +2829,6 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Welcome.css">
-      <DependentUpon>Welcome.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\WelcomeBoxCategoryImgQ.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxCategoryTxtQ.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -2890,7 +2848,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
-    <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
@@ -2899,8 +2856,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
-    <TypeScriptCompile Include="Views\Beta\Js\BetaLogin.ts" />
-    <TypeScriptCompile Include="Views\Beta\Js\BetaRequest.ts" />
     <TypeScriptCompile Include="Views\Images\Images.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
@@ -2963,19 +2918,6 @@
       <DependentUpon>pages.less</DependentUpon>
     </Content>
     <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
-    <Content Include="Views\Beta\Beta.css">
-      <DependentUpon>Beta.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Beta\Js\BetaLogin.js">
-      <DependentUpon>BetaLogin.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Beta\Js\BetaRequest.js">
-      <DependentUpon>BetaRequest.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Beta\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Drafts\FontAwesome.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
@@ -3377,12 +3319,6 @@
     <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
-    <Content Include="Views\Drafts\Icons.aspx" />
-    <Content Include="Views\Drafts\bootstrap.aspx" />
-    <Content Include="Views\Drafts\Forms.aspx" />
-    <Content Include="Views\Drafts\Reference.aspx" />
-    <Content Include="Views\Drafts\Templates.aspx" />
-    <Content Include="Views\Drafts\temp.aspx" />
     <Content Include="Views\Error\Test.aspx" />
     <Content Include="Views\Help\FAQ.aspx" />
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
@@ -3417,13 +3353,11 @@
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\vendor\underscore-1.4.3.js" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
-    <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Users\Account\AccountController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
-    <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
@@ -3431,7 +3365,6 @@
     <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
-    <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
@@ -3461,7 +3394,6 @@
     <Compile Include="Views\Users\UsersModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
-    <Compile Include="Views\Shared\ShowLeftMenu.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3473,13 +3405,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\Welcome\Registration\RegisterModelToUser.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\Welcome\WelcomeBoxTopCategoriesModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <TypeScriptCompile Include="Views\Questions\ActivityPoints\ActivityPoints.ts" />
@@ -3512,8 +3437,6 @@
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
     <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
     <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponent.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
@@ -3576,13 +3499,6 @@
     <Content Include="Views\Categories\Js\Categories.js">
       <DependentUpon>Categories.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Drafts\Boxes.aspx" />
-    <Content Include="Views\Drafts\Boxes.css" />
-    <Content Include="Views\Drafts\ContentUnits.aspx" />
-    <Content Include="Views\Drafts\ContentUnits.css" />
-    <Content Include="Views\Drafts\RangeSlider.aspx" />
-    <Content Include="Views\Drafts\Grid.aspx" />
-    <Content Include="Views\Drafts\RangeSlider.css" />
     <Content Include="Views\Images\ImageDetail.js">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
@@ -3643,10 +3559,6 @@
     <Content Include="Views\Questions\Edit\Js\References.js">
       <DependentUpon>References.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Set.aspx" />
-    <Content Include="Views\Sets\Detail\Set.css">
-      <DependentUpon>Set.less</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Images\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
@@ -3686,7 +3598,6 @@
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Shared\AnswerHistory.ascx" />
-    <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\CorrectnessProbability.ascx" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
@@ -3723,7 +3634,6 @@
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\QUnit.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
     <Content Include="Views\Shared\Site.Partial.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -3772,10 +3682,6 @@
     <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Set.less" />
-    <Content Include="Views\Sets\Detail\Set.css.map">
-      <DependentUpon>Set.css</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Users.css.map">
       <DependentUpon>Users.css</DependentUpon>
     </Content>
@@ -3807,7 +3713,6 @@
     <Content Include="Views\Categories\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Beta\Beta.aspx" />
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
       <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
     </Content>
@@ -3843,25 +3748,12 @@
       <DependentUpon>Membership.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
-    <Content Include="Views\Beta\Js\BetaLogin.js.map">
-      <DependentUpon>BetaLogin.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Beta\Js\BetaRequest.js.map">
-      <DependentUpon>BetaRequest.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.less" />
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css.map">
       <DependentUpon>AnswerQuestionSolution.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Beta\Beta.less" />
-    <Content Include="Views\Beta\Beta.css.map">
-      <DependentUpon>Beta.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Beta\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3885,10 +3777,6 @@
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.less" />
-    <Content Include="Views\Welcome\Welcome.less" />
-    <Content Include="Views\Welcome\Welcome.css.map">
-      <DependentUpon>Welcome.css</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Detail\User.less" />
     <Content Include="Views\Users\Detail\User.css.map">
       <DependentUpon>User.css</DependentUpon>
@@ -3899,15 +3787,11 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
-    <Content Include="Views\Shared\Site.Widget.Master" />
     <Content Include="Views\Welcome\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
-      <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Registration\Register.less" />
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
@@ -3930,7 +3814,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
@@ -4098,12 +3981,10 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />
-    <Content Include="Views\Welcome\Welcome.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
@@ -4126,7 +4007,6 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="DynamicData\FieldTemplates\" />
-    <Folder Include="Views\Categories\Detail\JsLearningTab\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

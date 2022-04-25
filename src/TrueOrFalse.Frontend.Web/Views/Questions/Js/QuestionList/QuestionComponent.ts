@@ -189,10 +189,12 @@
                         if (data.extendedAnswer != null)
                             this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";
                     };
+
                     if (data.categories) {
                         this.categories = data.categories;
                         this.linkToFirstCategory = data.categories[0].linkToCategory;
                     };
+
                     this.references = data.references;
                     this.author = data.author;
                     this.authorImage = data.authorImage;
@@ -229,7 +231,7 @@
             var answerBody = new AnswerBody();
             answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                 "?skipStepIdx=-5" +
-                "&index=" + this.sessionIndex);
+                "&index=" + this.sessionIndex, {scrollToTop: true});
 
             eventBus.$emit('change-active-page', this.selectedPage);
             eventBus.$emit('change-active-question', this.questionIndex);

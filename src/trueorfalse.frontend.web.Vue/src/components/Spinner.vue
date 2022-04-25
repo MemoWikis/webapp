@@ -23,14 +23,14 @@
 
 <script>
 export default {
-  name: 'Spinner',
+  name: "Spinner",
   props: {
     show: {
       type: Boolean,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -46,11 +46,13 @@ $duration: 1.4s;
     animation-play-state: running;
   }
 
-  &.v-enter, &.v-leave-active {
+  &.v-enter,
+  &.v-leave-active {
     opacity: 0;
   }
 
-  &.v-enter-active, &.v-leave {
+  &.v-enter-active,
+  &.v-leave {
     opacity: 1;
   }
 }

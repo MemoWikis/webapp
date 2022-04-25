@@ -201,9 +201,6 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Beta")
-                .IncludeDirectory("~/Views/Beta/Js/", "*.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 

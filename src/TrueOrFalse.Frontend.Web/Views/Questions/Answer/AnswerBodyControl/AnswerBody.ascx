@@ -261,25 +261,20 @@
                                     </div>
                                 </div>
                                 <% } %>
-                                <% if (Model.AnswerHelp){ %>
-                                    <div id="SolutionDetailsSpinner" style="display: none;">
-                                        <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
-                                    </div>
+
+                                <div id="SolutionDetailsSpinner" style="display: none;">
+                                    <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
+                                </div>
+                                    
+                                <% if(!string.IsNullOrEmpty(Model.QuestionDescription) && Model.QuestionDescription.Trim() != ""){ %>
                                     <div id="SolutionDetails" style="display: none; background-color: white;">
-
-
                                         <div id="Description" class="Detail">
                                             <div class="Label">Ergänzungen zur Antwort:</div>
                                             <div class="Content body-m"><%= Model.QuestionDescription %></div>
                                         </div>
-                                        <div id="References" class="Detail" style="display: none;">
-                                            <div class="Label">Quellen:</div>
-                                            <div class="Content body-s"></div>
-                                        </div>
                                     </div>
                                 <% } %>
                             </div>
-
                         </div>
                     </div>
                 </div>

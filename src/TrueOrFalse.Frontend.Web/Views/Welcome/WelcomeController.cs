@@ -16,17 +16,7 @@ public class WelcomeController : BaseController
         return Redirect(Links.CategoryDetail(category)); ;
     }
 
-    public ActionResult Team()
-    {
-        return View(new BaseModel());
-    }
-
     public ActionResult Promoter()
-    {
-        return View(new BaseModel());
-    }
-
-    public ActionResult Contact()
     {
         return View(new BaseModel());
     }
@@ -39,7 +29,6 @@ public class WelcomeController : BaseController
         SessionUser.Logout();
         return View(new BaseModel());
     }
-
 
     public ActionResult PasswordRecovery()
     {
@@ -100,17 +89,5 @@ public class WelcomeController : BaseController
         SessionUser.Login(user);
 
         return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController, new {passwordSet = "true"});
-    }
-
-    public void SendNewsletterRequest(string requesterEmail)
-    {
-        if (String.IsNullOrEmpty(requesterEmail))
-            return;
-
-        SendEmail.Run(new MailMessage(
-            Settings.EmailFrom,
-            Settings.EmailToMemucho,
-            "Newsletter sign up request",
-            requesterEmail + " asked to sign up for newsletter."), MailMessagePriority.Medium);
     }
 }
