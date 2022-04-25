@@ -46,7 +46,7 @@
                             </a>
                         </li>
                         <li>
-                            <a @click="openMoveCategoryModal()" data-allowed="logged-in">
+                            <a @click="openMoveCategoryModal()">
                                 <div class="dropdown-icon">
                                     <i class="fa fa-arrow-circle-right"></i>
                                 </div>Thema verschieben

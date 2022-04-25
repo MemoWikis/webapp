@@ -122,6 +122,11 @@
             });
         },
         openMoveCategoryModal() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("MoveCategory");
+                return;
+            }
+
             var self = this;
             var data = {
                 parentCategoryIdToRemove: self.$parent.categoryId,
