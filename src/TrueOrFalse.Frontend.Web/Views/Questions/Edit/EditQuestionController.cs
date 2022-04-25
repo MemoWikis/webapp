@@ -119,7 +119,7 @@ public class EditQuestionController : BaseController
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = SessionUser.User;
-        question.Categories.Add(Sl.CategoryRepo.GetById(flashCardJson.CategoryId));
+        question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
@@ -166,12 +166,7 @@ public class EditQuestionController : BaseController
             if (!PermissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
-        var categories = new List<Category>();
-
-        foreach (var categoryId in newCategoryIds)
-            categories.Add(Sl.CategoryRepo.GetById(categoryId));
-
-        question.Categories = categories.Distinct().ToList();
+        question.Categories = GetAllParentsForQuestion(newCategoryIds);
         question.Visibility = (QuestionVisibility)questionDataJson.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
@@ -225,23 +220,22 @@ public class EditQuestionController : BaseController
         public LearningSessionConfig SessionConfig { get; set; }
     }
 
-    private bool Validate(EditQuestionModel model)
+    private List<Category> GetAllParentsForQuestion(int newCategoryId) => GetAllParentsForQuestion(new List<int> { newCategoryId });
+    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds)
     {
-        if (!ModelState.IsValid)
-        {
-            model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
-            return false;
-        }
+        var allParentIds = newCategoryIds.ToList();
 
-        if (HttpContext.Request["ConfirmContentRights"] == null && !IsInstallationAdmin)
-        {
-            Logg.r().Error("Client side validation for Content Rights is not working.");
-            model.Message = new ErrorMessage("Bitte bestätige die Hinweise zur Lizensierung und zu den Urheberrechten.");
+        foreach (var categoryId in newCategoryIds)
+            allParentIds.AddRange(EntityCache.GetAllParents(categoryId).Select(p => p.Id));
 
-            return false;
-        }
+        allParentIds = allParentIds.Distinct().ToList();
 
-        return true;
+        var categories = new List<Category>();
+
+        foreach (var categoryId in allParentIds)
+            categories.Add(Sl.CategoryRepo.GetById(categoryId));
+
+        return categories;
     }
 
     [HttpPost]
