@@ -398,7 +398,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 text: messages.error.question[result.key]
                             });
                         } else {
-                            if (result.SessionIndex > 0)
+                            if (result.SessionIndex > 0 || !self.isLearningTab)
                                 Alerts.showSuccess({
                                     text: self.edit ? messages.success.question.saved : messages.success.question.created
                                 });
@@ -413,6 +413,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
     
                         self.lockSaveButton = false;
 
+                        self.updateQuestionCount();
                     },
                     error:() => {
 
@@ -421,6 +422,19 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                         self.lockSaveButton = false;
                     }
                 });
+            },
+
+            updateQuestionCount() {
+                var url = '/Category/GetCurrentQuestionCount/' + this.currentCategoryId;
+
+                $.get(url,
+                    (count) => {
+                        var span = document.getElementById('TabQuestionCounter');
+                        if (count > 0)
+                            span.textContent = '(' + count + ')';
+                        else span.textContent = '';
+                    });
+
             },
 
             getSaveJson() {

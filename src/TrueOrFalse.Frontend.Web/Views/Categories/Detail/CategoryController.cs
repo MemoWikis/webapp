@@ -170,6 +170,9 @@ public class CategoryController : BaseController
             ControllerContext
         );
 
+    [HttpGet]
+    public int GetCurrentQuestionCount(int categoryId) => EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().Count;
+
     public string GetKnowledgeGraphDisplay(int categoryId)
     {
         var category = EntityCache.GetCategory(categoryId);

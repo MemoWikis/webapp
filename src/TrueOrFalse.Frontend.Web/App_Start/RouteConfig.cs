@@ -92,6 +92,8 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("TopicTabAsync", "Category/GetTopicTabAsync", new { controller = "Category", action = "GetTopicTabAsync" });
             /* API */ routes.MapRoute("DeleteCookie", "Category/DeleteCookie", new { controller = "Category", action = "DeleteCookie" });
             /* API */ routes.MapRoute("Category_Get_Delete_Data", "Categories/GetDeleteData", new { controller = "Categories", action = "GetDeleteData" });
+            routes.MapRoute("Category_GetCurrentQuestionCount", "Category/GetCurrentQuestionCount/{categoryId}", new { controller = "Category", action = "GetCurrentQuestionCount" });
+
 
             routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
             routes.MapRoute("KnowledgeUeberblick", "Wissenszentrale/Ueberblick", new { controller = "Knowledge", action = "Knowledge" });
