@@ -171,7 +171,10 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 placeholder: 'Gib den Fragetext ein',
                                 showOnlyCurrent: true,
                             }),
-                            tiptapImage
+                            tiptapImage.configure({
+                                inline: true,
+                                allowBase64: true,
+                            })
                         ],
                         editorProps: {
                             handleClick: (view, pos, event) => {
@@ -260,7 +263,10 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 'Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.',
                             showOnlyCurrent: true,
                         }),
-                        tiptapImage
+                        tiptapImage.configure({
+                            inline: true,
+                            allowBase64: true,
+                        })
                     ],
                     onUpdate: ({ editor }) => {
                         this.descriptionHtml = editor.getHTML();
