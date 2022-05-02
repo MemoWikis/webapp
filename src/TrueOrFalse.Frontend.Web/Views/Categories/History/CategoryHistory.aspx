@@ -127,16 +127,20 @@
                                 vor <%= item.ElapsedTime %> um <%= item.Time %>
                             </div>
                             <div class="col-xs-6 col-sm-7 pull-right change-detail <%= item.Type == CategoryChangeType.Relations ? "relation-detail" : "" %>">
-                                <div class="change-detail-label"><%= item.Label %></div>
                                 
-                                <% if (item.CategoryId != Model.CategoryId)
-                                   { %>
-                                    <div>Unterkategorie: <a href="/<%=item.CategoryName %>/<%=item.CategoryId %>"> <%= item.CategoryName %></a></div>
-                                <% } %>
-                                <% if (item.AffectedParents.Any())
-                                   { %>
-                                    <div>Von <a href="/<%=item.AffectedParents[1].Name %>/<%=item.AffectedParents[1].Id %>"> <%= item.AffectedParents[1].Name %></a> nach <a href="/<%=item.AffectedParents[0].Name %>/<%=item.AffectedParents[0].Id %>"> <%= item.AffectedParents[0].Name %></a></div>
-                                <% } %>
+                                <div class="change-detail-sub">
+                                    <div class="change-detail-label"><%= item.Label %></div>
+                                
+                                    <% if (item.CategoryId != Model.CategoryId)
+                                       { %>
+                                        <div class="change-detail-additional-info">Unterkategorie: <a href="/<%=item.CategoryName %>/<%=item.CategoryId %>"> <%= item.CategoryName %></a></div>
+                                    <% } %>
+                                    <% if (item.AffectedParents.Any())
+                                       { %>
+                                        <div class="change-detail-additional-info">Von <a href="/<%=item.AffectedParents[1].Name %>/<%=item.AffectedParents[1].Id %>"> <%= item.AffectedParents[1].Name %></a> nach <a href="/<%=item.AffectedParents[0].Name %>/<%=item.AffectedParents[0].Id %>"> <%= item.AffectedParents[0].Name %></a></div>
+                                    <% } %>
+                                </div>
+
 
                                 <%
                                     if (item.Type == CategoryChangeType.Relations)

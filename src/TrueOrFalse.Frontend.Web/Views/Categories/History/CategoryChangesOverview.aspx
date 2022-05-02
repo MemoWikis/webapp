@@ -167,7 +167,7 @@
                                     if (item.Type == CategoryChangeType.Relations)
                                     {
                                 %>
-                                    <div class="related-category-name">
+                                    <div class="related-category-name change-detail-additional-info">
                                         <a class="history-link" href="<%= Links.CategoryDetail(relationChangeItem.RelatedCategory) %>">
                                             <%= relationChangeItem.RelatedCategory.Name %>
                                         </a>

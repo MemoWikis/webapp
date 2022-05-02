@@ -102,6 +102,13 @@
         align-items: center;
         justify-content: flex-start;
 
+        .change-detail-sub {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-right: 10px;
+        }
+        
         .change-detail-label {
             background: @memo-grey-lighter;
             font-size: 12px;
@@ -113,8 +120,14 @@
             margin-right: 8px;
         }
 
+        .change-detail-additional-info {
+            min-width: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
         .change-detail-spacer {
-            width: 22px;
+            min-width: 22px;
         }
 
         &.relation-detail {

@@ -95,6 +95,12 @@
   align-items: center;
   justify-content: flex-start;
 }
+.change-detail-model .change-detail .change-detail-sub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-right: 10px;
+}
 .change-detail-model .change-detail .change-detail-label {
   background: #EFEFEF;
   font-size: 12px;
@@ -105,8 +111,13 @@
   white-space: nowrap;
   margin-right: 8px;
 }
+.change-detail-model .change-detail .change-detail-additional-info {
+  min-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .change-detail-model .change-detail .change-detail-spacer {
-  width: 22px;
+  min-width: 22px;
 }
 .change-detail-model .change-detail.relation-detail {
   flex-wrap: wrap-reverse;
