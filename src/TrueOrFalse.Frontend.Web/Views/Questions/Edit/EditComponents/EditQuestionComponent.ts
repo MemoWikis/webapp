@@ -404,7 +404,7 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                                 text: messages.error.question[result.key]
                             });
                         } else {
-                            if (result.SessionIndex > 0 || !self.isLearningTab)
+                            if (result.SessionIndex > 0 || !self.isLearningTab || self.edit)
                                 Alerts.showSuccess({
                                     text: self.edit ? messages.success.question.saved : messages.success.question.created
                                 });
