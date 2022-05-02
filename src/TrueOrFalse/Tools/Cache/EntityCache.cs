@@ -381,7 +381,7 @@ public class EntityCache : BaseCache
     public static List<CategoryCacheItem> GetCategoryByName(string name, CategoryType type = CategoryType.Standard)
     {
         var allCategories = GetAllCategories();
-        return allCategories.Where(c => c.Name == name).ToList();
+        return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 
     public static QuestionCacheItem GetQuestion(Question question, bool isFromUserEntityCache = false,
