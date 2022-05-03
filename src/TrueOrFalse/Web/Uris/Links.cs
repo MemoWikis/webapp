@@ -354,8 +354,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type == null)
                 return "";
 
-            if (type is CategoryCacheItem)
-                return CategoryDetail((CategoryCacheItem)type);
+            if (type is Category)
+                return CategoryDetail((Category)type);
 
             if (type is CategoryCacheItem)
                 return CategoryDetail((CategoryCacheItem) type);
