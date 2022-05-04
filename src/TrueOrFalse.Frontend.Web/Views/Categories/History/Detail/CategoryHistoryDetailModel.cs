@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using AngleSharp.Html;
+using AngleSharp.Html.Parser;
 using FluentNHibernate.Conventions;
 using NHibernate.Id;
 using NHibernate.Transform;
@@ -116,19 +119,17 @@ public class CategoryHistoryDetailModel : BaseModel
     {
         if (String.IsNullOrEmpty(unformatted))
             return "";
-        var secureString = unformatted
-            .Replace("&amp;", "&amp;amp;")
-            .Replace("<br>", "<br/>");
 
-        var imgTagCloser = "</img>" + Guid.NewGuid();
-        var closedImgTags = Regex.Replace(secureString, "<img.*?\">", "$&" + imgTagCloser);
-        var decoded = HttpUtility.HtmlDecode(closedImgTags);
-        var placeHolderAdded = "<xmlRootPlaceholder>" + decoded + "</xmlRootPlaceholder>";
-        var formatted = System.Xml.Linq.XElement.Parse(placeHolderAdded).ToString()
-            .Replace("<xmlRootPlaceholder>", "")
-            .Replace("</xmlRootPlaceholder>", "")
-            .Replace("&amp;", "&")
-            .Replace(imgTagCloser, "\r\n ");
+        var parser = new HtmlParser(); 
+        var document = parser.ParseDocument("<asplaceholder>" + unformatted + "</asplaceholder>");
+        var body = document.QuerySelector("asplaceholder");
+        var sw = new StringWriter();
+        body.ToHtml(sw, new PrettyMarkupFormatter());
+
+        var formatted = sw.ToString()
+            .Replace("<asplaceholder>", "")
+            .Replace("</asplaceholder>", "");
+
         return formatted;
     }
 
