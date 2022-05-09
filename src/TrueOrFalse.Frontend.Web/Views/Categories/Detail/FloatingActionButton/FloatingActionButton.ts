@@ -137,7 +137,7 @@ var FAB = Vue.component('floating-action-button',
                 var parent = {
                     id: self.categoryId,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                    moveCategories: false,
+                    categoryChange: CategoryChangeType.Create,
                     redirect: true,
                 }
                 if (self.isLearningTab)

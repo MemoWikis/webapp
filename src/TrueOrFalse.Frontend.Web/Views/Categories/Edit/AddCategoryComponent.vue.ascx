@@ -9,11 +9,12 @@
                     <div class="modal-content">
                         <div class="cardModalContent">
                             <div class="modalHeader">
-                                <h4 v-if="createCategory && !moveCategory" class="modal-title">Neues Thema erstellen</h4>
-                                <h4 v-else-if="!createCategory && moveCategory" class="modal-title">Thema verschieben nach</h4>
-                                <h4 v-else class="modal-title">Bestehendes Thema verknüpfen</h4>
+                                <h4 v-if="categoryChange === categoryChangeType.Create" class="modal-title">Neues Thema erstellen</h4>
+                                <h4 v-else-if="categoryChange === categoryChangeType.Move" class="modal-title">Thema verschieben nach</h4>
+                                <h4 v-else-if="categoryChange === categoryChangeType.AddChild" class="modal-title">Bestehendes Thema verknüpfen</h4>
+                                <h4 v-else-if="categoryChange === categoryChangeType.AddParent" class="modal-title">Neues Oberthema verknüpfen</h4>
                             </div>
-                            <div class="modalBody" v-if="createCategory && !moveCategory">
+                            <div class="modalBody" v-if="categoryChange == categoryChangeType.Create">
                                 <form v-on:submit.prevent="addCategory">
                                     <div class="form-group">
                                         <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
@@ -49,7 +50,7 @@
                                             </li>
                                             <li class="dropdownFooter body-m">
                                                 <b>{{totalCount}}</b> Treffer. <br/>
-                                                Deins ist nicht dabei? <span class="dropdownLink" @click="createCategory = true">Erstelle hier dein Thema</span>
+                                                Deins ist nicht dabei? <span class="dropdownLink" @click="categoryChange = CategoryChangeType.Create">Erstelle hier dein Thema</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -60,9 +61,10 @@
                                 </div>
                             </div>
                             <div class="modalFooter">
-                                    <div v-if="createCategory && !moveCategory" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
-                                    <div v-else-if="!createCategory && moveCategory" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
-                                    <div v-else id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
+                                    <div v-if="categoryChange === categoryChangeType.Create" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
+                                    <div v-else-if="categoryChange === categoryChangeType.Move" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
+                                    <div v-else-if="categoryChange === categoryChangeType.AddChild" id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
+                                    <div v-else-if="categoryChange === categoryChangeType.AddParent" id="AddNewParentBtn" class="btn btn-primary memo-button" @click="AddNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
                                     <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
                             </div>   
                         </div>

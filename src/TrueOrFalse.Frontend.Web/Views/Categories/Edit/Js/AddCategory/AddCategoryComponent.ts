@@ -1,4 +1,13 @@
-﻿var addCategoryComponent = Vue.component('add-category-component', {
+﻿const CategoryChangeType = {
+    Create: "Create",
+    Move: "Move",
+    AddParent: "AddParent",
+    AddChild: "AddChild",
+    None: "None"
+};
+
+var addCategoryComponent = Vue.component('add-category-component', {
+
     data() {
         return {
             name: "",
@@ -13,8 +22,8 @@
             addCategoryBtnId: null,
             disableAddCategory: true,
             selectedCategories: [],
-            moveCategory: false,
-            createCategory: true,
+            categoryChange: CategoryChangeType.None,
+            categoryChangeType: CategoryChangeType,
             categories: [],
             searchTerm: "",
             totalCount: 0,
@@ -63,22 +72,33 @@
                 var parent = {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                    moveCategory: false,
                     redirect: true,
-                    create: true,
+                    categoryChange: CategoryChangeType.Create
                 }
                 if ($('#LearningTabWithOptions').hasClass("active"))
                     parent.addCategoryBtnId = null;
                 $('#AddCategoryModal').data('parent', parent).modal('show');
             });
-        eventBus.$on('add-category',
+        eventBus.$on('add-parent-category',
             id => {
                 var parent = {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                    moveCategory: false,
                     redirect: true,
-                    create: false,
+                    categoryChange: CategoryChangeType.AddParent
+                }
+                this.childId = id;
+                if ($('#LearningTabWithOptions').hasClass("active"))
+                    parent.addCategoryBtnId = null;
+                $('#AddCategoryModal').data('parent', parent).modal('show');
+            });
+        eventBus.$on('add-child-category',
+            id => {
+                var parent = {
+                    id: id,
+                    addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                    redirect: true,
+                    categoryChange: CategoryChangeType.AddChild
                 }
                 if ($('#LearningTabWithOptions').hasClass("active"))
                     parent.addCategoryBtnId = null;
@@ -113,7 +133,7 @@
 
         $('#AddCategoryModal').on('show.bs.modal',
             event => {
-                this.createCategory = !!$('#AddCategoryModal').data('parent').create;
+                this.categoryChange = $('#AddCategoryModal').data('parent').categoryChange;
                 this.parentId = $('#AddCategoryModal').data('parent').id;
                 this.addCategoryBtnId = $('#AddCategoryModal').data('parent').addCategoryBtnId;
                 if ($('#AddCategoryModal').data('parent').redirect != null &&
@@ -150,204 +170,240 @@
         },
 
         fillMoveModal(data) {
-            this.moveCategory = true;
             this.parentCategoryIdToRemove = data.parentCategoryIdToRemove;
             this.childId = data.childCategoryId;
-            this.createCategory = false;
 
             var parent = {
                 id: this.childId,
                 addCategoryBtnId: null,
-                moveCategory: false,
                 redirect: true,
-                create: false,
+                categoryChange: CategoryChangeType.Move
             }
 
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
 
-    addCategory() {
-        if (NotLoggedIn.Yes()) {
-            NotLoggedIn.ShowErrorMsg("CreateCategory");
-            return;
-        }
-        Utils.ShowSpinner();
-        var self = this;
-        var url;
-        var categoryData;
+        addCategory() {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg("CreateCategory");
+                return;
+            }
+            Utils.ShowSpinner();
+            var self = this;
+            var url;
+            var categoryData;
 
-        categoryData = {
-            name: self.name,
-            parentCategoryId: self.parentId,
-        }
-        url = '/EditCategory/QuickCreate';
-        $.ajax({
-            type: 'Post',
-            contentType: "application/json",
-            url: '/EditCategory/ValidateName',
-            data: JSON.stringify({ name: self.name }),
-            success(data) {
-                if (data.categoryNameAllowed) {
-                    $.ajax({
-                        type: 'Post',
-                        contentType: "application/json",
-                        url: url,
-                        data: JSON.stringify(categoryData),
-                        success(data) {
+            categoryData = {
+                name: self.name,
+                parentCategoryId: self.parentId,
+            }
+            url = '/EditCategory/QuickCreate';
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/ValidateName',
+                data: JSON.stringify({ name: self.name }),
+                success(data) {
+                    if (data.categoryNameAllowed) {
+                        $.ajax({
+                            type: 'Post',
+                            contentType: "application/json",
+                            url: url,
+                            data: JSON.stringify(categoryData),
+                            success(data) {
 
-                            if (data.success) {
-                                if (self.redirect)
-                                    window.open(data.url, '_self');
+                                if (data.success) {
+                                    if (self.redirect)
+                                        window.open(data.url, '_self');
 
-                                if (self.addCategoryBtnId != null)
-                                    self.loadCategoryCard(data.id);
+                                    if (self.addCategoryBtnId != null)
+                                        self.loadCategoryCard(data.id);
 
-                                $('#AddCategoryModal').modal('hide');
-                                self.addCategoryCount();
-                                Utils.HideSpinner();
-                            }
-                        },
+                                    $('#AddCategoryModal').modal('hide');
+                                    self.addCategoryCount();
+                                    Utils.HideSpinner();
+                                }
+                            },
+                        });
+                    } else {
+                        self.errorMsg = messages.error.category[data.key];
+                        self.forbiddenCategoryName = data.name;
+                        self.existingCategoryUrl = data.url;
+                        self.showErrorMsg = true;
+                        Utils.HideSpinner();
+                    };
+                },
+            });
+        },
+        loadCategoryCard(id) {
+            var data = {
+                parentId: this.parentId,
+                newCategoryId: id
+            };
+            eventBus.$emit('add-category-card', data);
+        },
+        selectCategory(category) {
+            this.showDropdown = false;
+            this.lockDropdown = true;
+            this.searchTerm = category.Name;
+            this.selectedCategory = category;
+            this.selectedCategoryId = category.Id;
+            this.showSelectedCategory = true;
+        },
+        toggleShowSelectedCategory() {
+            this.showSelectedCategory = false;
+            this.$nextTick(() => {
+                this.$refs.searchInput.focus();
+            });
+        },
+        searchCategory() {
+            this.showDropdown = true;
+            var self = this;
+            var data = {
+                term: self.searchTerm,
+                type: 'Categories',
+                categoriesToFilter: self.categoriesToFilter,
+            };
+
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/Api/Search/Category',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    self.categories = result.categories.filter(c => c.Id != self.parentId);
+                    self.totalCount = result.totalCount;
+                    self.$nextTick(() => {
+                        $('[data-toggle="tooltip"]').tooltip();
                     });
-                } else {
-                    self.errorMsg = messages.error.category[data.key];
-                    self.forbiddenCategoryName = data.name;
-                    self.existingCategoryUrl = data.url;
-                    self.showErrorMsg = true;
-                    Utils.HideSpinner();
-                };
-            },
-        });
-    },
-    loadCategoryCard(id) {
-        var data = {
-            parentId: this.parentId,
-            newCategoryId: id
-        };
-        eventBus.$emit('add-category-card', data);
-    },
-    selectCategory(category) {
-        this.showDropdown = false;
-        this.lockDropdown = true;
-        this.searchTerm = category.Name;
-        this.selectedCategory = category;
-        this.selectedCategoryId = category.Id;
-        this.showSelectedCategory = true;
-    },
-    toggleShowSelectedCategory() {
-        this.showSelectedCategory = false;
-        this.$nextTick(() => {
-            this.$refs.searchInput.focus();
-        });
-    },
-    searchCategory() {
-        this.showDropdown = true;
-        var self = this;
-        var data = {
-            term: self.searchTerm,
-            type: 'Categories',
-            categoriesToFilter: self.categoriesToFilter,
-        };
+                },
+            });
+        },
+        addExistingCategory() {
+            Utils.ShowSpinner();
+            var self = this;
+            var categoryData = {
+                childCategoryId: self.selectedCategoryId,
+                parentCategoryId: self.parentId,
+            }
 
-        $.ajax({
-            type: 'Post',
-            contentType: "application/json",
-            url: '/Api/Search/Category',
-            data: JSON.stringify(data),
-            success: function (result) {
-                self.categories = result.categories.filter(c => c.Id != self.parentId);
-                self.totalCount = result.totalCount;
-                self.$nextTick(() => {
-                    $('[data-toggle="tooltip"]').tooltip();
-                });
-            },
-        });
-    },
-    addExistingCategory() {
-        Utils.ShowSpinner();
-        var self = this;
-        var categoryData = {
-            childCategoryId: self.selectedCategoryId,
-            parentCategoryId: self.parentId,
-        }
+            if (this.selectedCategoryId == this.parentId) {
+                this.errorMsg = messages.error.category.loopLink;
+                this.showErrorMsg = true;
+                Utils.HideSpinner();
+                return;
+            }
 
-        if (this.selectedCategoryId == this.parentId) {
-            this.errorMsg = messages.error.category.loopLink;
-            this.showErrorMsg = true;
-            Utils.HideSpinner();
-            return;
-        }
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/AddChild',
+                data: JSON.stringify(categoryData),
+                success(data) {
+                    if (data.success) {
+                        if (self.redirect)
+                            window.open(data.url, '_self');
 
-        $.ajax({
-            type: 'Post',
-            contentType: "application/json",
-            url: '/EditCategory/AddChild',
-            data: JSON.stringify(categoryData),
-            success(data) {
-                if (data.success) {
-                    if (self.redirect)
-                        window.open(data.url, '_self');
+                        if (self.addCategoryBtnId != null)
+                            self.loadCategoryCard(data.id);
 
-                    if (self.addCategoryBtnId != null)
-                        self.loadCategoryCard(data.id);
-
-                    $('#AddCategoryModal').modal('hide');
-                    self.addCategoryCount();
-                    Utils.HideSpinner();
-                } else {
-                    self.errorMsg = messages.error.category[data.key];
-                    self.showErrorMsg = true;
-                    Utils.HideSpinner();
-                };
-            },
-        });
-    },
-    moveCategoryToNewParent() {
-        Utils.ShowSpinner();
-        var self = this;
-        var categoryData = {
-            childCategoryId: self.childId,
-            parentCategoryIdToRemove: self.parentCategoryIdToRemove,
-            parentCategoryIdToAdd: this.selectedCategory.Id
-        }
-
-        if (this.selectedCategoryId == this.parentId) {
-            this.errorMsg = messages.error.category.loopLink;
-            this.showErrorMsg = true;
-            Utils.HideSpinner();
-            return;
-        }
-
-        $.ajax({
-            type: 'Post',
-            contentType: "application/json",
-            url: '/EditCategory/MoveChild',
-            data: JSON.stringify(categoryData),
-            success: function (data) {
-                if (data.success) {
-                    if (self.redirect)
-                        window.open(data.url, '_self');
-                    if (self.addCategoryBtnId != null)
-                        self.loadCategoryCard(data.id);
-                    else
                         $('#AddCategoryModal').modal('hide');
-                    self.addCategoryCount();
-                    Utils.HideSpinner();
-                } else {
-                    self.errorMsg = messages.error.category[data.key];
-                    self.showErrorMsg = true;
-                    Utils.HideSpinner();
-                };
-            },
-        });
-    },
-    addCategoryCount() {
-        let headerCount = parseInt($('#CategoryHeaderTopicCount').text());
-        $('#CategoryHeaderTopicCount').text(++headerCount);
-        headerCount != 1
-            ? $('#CategoryHeaderTopicCountLabel').text('Unterthemen')
-            : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
+                        self.addCategoryCount();
+                        Utils.HideSpinner();
+                    } else {
+                        self.errorMsg = messages.error.category[data.key];
+                        self.showErrorMsg = true;
+                        Utils.HideSpinner();
+                    };
+                },
+            });
+        },
+        moveCategoryToNewParent() {
+            Utils.ShowSpinner();
+            var self = this;
+            var categoryData = {
+                childCategoryId: self.childId,
+                parentCategoryIdToRemove: self.parentCategoryIdToRemove,
+                parentCategoryIdToAdd: this.selectedCategory.Id
+            }
+
+            if (this.selectedCategoryId == this.parentId) {
+                this.errorMsg = messages.error.category.loopLink;
+                this.showErrorMsg = true;
+                Utils.HideSpinner();
+                return;
+            }
+
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/MoveChild',
+                data: JSON.stringify(categoryData),
+                success: function (data) {
+                    if (data.success) {
+                        if (self.redirect)
+                            window.open(data.url, '_self');
+                        if (self.addCategoryBtnId != null)
+                            self.loadCategoryCard(data.id);
+                        else
+                            $('#AddCategoryModal').modal('hide');
+                        self.addCategoryCount();
+                        Utils.HideSpinner();
+                    } else {
+                        self.errorMsg = messages.error.category[data.key];
+                        self.showErrorMsg = true;
+                        Utils.HideSpinner();
+                    };
+                },
+            });
+        },
+        AddNewParentToCategory() {
+            Utils.ShowSpinner();
+            var self = this;
+            var categoryData = {
+                childCategoryId: self.childId,
+                parentCategoryId: this.selectedCategory.Id,
+                redirectToParent: true
+        }
+
+            if (this.selectedCategoryId == this.parentId) {
+                this.errorMsg = messages.error.category.loopLink;
+                this.showErrorMsg = true;
+                Utils.HideSpinner();
+                return;
+            }
+
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                url: '/EditCategory/AddChild',
+                data: JSON.stringify(categoryData),
+                success: function (data) {
+                    if (data.success) {
+                        if (self.redirect)
+                            window.open(data.url, '_self');
+                        if (self.addCategoryBtnId != null)
+                            self.loadCategoryCard(data.id);
+                        else
+                            $('#AddCategoryModal').modal('hide');
+                        self.addCategoryCount();
+                        Utils.HideSpinner();
+                    } else {
+                        self.errorMsg = messages.error.category[data.key];
+                        self.showErrorMsg = true;
+                        Utils.HideSpinner();
+                    };
+                },
+            });
+        },
+        addCategoryCount() {
+            let headerCount = parseInt($('#CategoryHeaderTopicCount').text());
+            $('#CategoryHeaderTopicCount').text(++headerCount);
+            headerCount != 1
+                ? $('#CategoryHeaderTopicCountLabel').text('Unterthemen')
+                : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
+        }
     }
-}
 });
 
 

@@ -241,13 +241,13 @@ public class EditCategoryController : BaseController
                 key = "parentIsRoot"
             });
         var json = AddChild(childCategoryId, parentCategoryIdToAdd, parentCategoryIdToRemove);
-        RemoveParent(parentCategoryIdToRemove, childCategoryId, new int[]{parentCategoryIdToAdd, parentCategoryIdToRemove});
+        RemoveParent(parentCategoryIdToRemove, childCategoryId, new int[] { parentCategoryIdToAdd, parentCategoryIdToRemove });
         return json;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddChild(int childCategoryId, int parentCategoryId, int parentCategoryIdToRemove = -1)
+    public JsonResult AddChild(int childCategoryId, int parentCategoryId, int parentCategoryIdToRemove = -1, bool redirectToParent = false)
     {
         if (childCategoryId == parentCategoryId)
             return Json(new
@@ -304,6 +304,14 @@ public class EditCategoryController : BaseController
 
         EntityCache.GetCategory(parentCategoryId).CachedData.AddChildId(childCategoryId);
         EntityCache.GetCategory(parentCategoryId).DirectChildrenIds = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
+
+        if (redirectToParent)
+            return Json(new
+            {
+                success = true,
+                url = Links.CategoryDetail(EntityCache.GetCategory(parentCategoryId)),
+                id = parentCategoryId
+            });
 
         return Json(new
         {
@@ -504,7 +512,7 @@ public class EditCategoryController : BaseController
         _categoryRepository.Update(parent, SessionUser.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childCategoryId);
         if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved,affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
             _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
