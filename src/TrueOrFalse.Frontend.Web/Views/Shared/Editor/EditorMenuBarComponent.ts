@@ -71,6 +71,10 @@ Vue.component('editor-menu-bar-component',
                     case 'setLink':
                         const linkUrl = window.prompt('Link URL');
                         self.editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run();
+                        if (self.editor.view.state.selection.empty) {
+                            var transaction = this.editor.state.tr.insertText(linkUrl);
+                            self.editor.view.dispatch(transaction);
+                        }
                         break;
                     case 'unsetLink':
                         self.editor.chain().focus().unsetLink().run();
