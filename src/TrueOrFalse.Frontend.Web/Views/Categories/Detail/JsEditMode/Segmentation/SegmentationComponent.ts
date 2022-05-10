@@ -170,7 +170,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
                 contentType: "application/json",
                 url: '/Segmentation/GetSegment',
                 data: JSON.stringify(data),
-                success: function(segment) {
+                success: function (segment) {
                     if (segment) {
                         self.hasCustomSegment = true;
                         var index = self.segments.indexOf(segment);
@@ -203,11 +203,13 @@ var segmentationComponent = Vue.component('segmentation-component', {
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                moveCategories: false,
+                categoryChange: CategoryChangeType.AddChild,
                 categoriesToFilter,
-                create: val,
             }
-            $('#AddCategoryModal').data('parent', parent).modal('show');
+            if (val)
+                parent.categoryChange = CategoryChangeType.Create;
+
+                $('#AddCategoryModal').data('parent', parent).modal('show');
         },
         removeChildren() {
             if (NotLoggedIn.Yes()) {
@@ -240,12 +242,12 @@ var segmentationComponent = Vue.component('segmentation-component', {
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                moveCategories: true,
+                categoryChange: CategoryChangeType.Move,
                 selectedCategories: self.selectedCategories,
             }
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
-        showComponents: _.debounce(function() {
+        showComponents: _.debounce(function () {
             this.loaded = true;
         }, 1000),
         filterChildren(selectedCategoryIds) {

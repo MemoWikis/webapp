@@ -196,11 +196,19 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             </a>
                         </li>
                         <li>
-                            <a onclick="eventBus.$emit('add-category', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                            <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                 <div class="dropdown-icon">
-                                    <i class="fa fa-plus-circle"></i>
+                                    <i class="fa fa-link"></i>
                                 </div>
-                                Bestehendes Thema hinzufügen
+                                Oberthema verknüpfen
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="eventBus.$emit('add-child-category', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <i class="fa fa-link"></i>
+                                </div>
+                                Unterthema verknüpfen
                             </a>
                         </li>
                         <% if (SessionUser.IsLoggedIn && Model.Category.Id != SessionUser.User.StartTopicId)
