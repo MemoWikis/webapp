@@ -12,12 +12,14 @@ var loginModal = Vue.component('login-modal-component',
                 persistentLogin: false,
                 errorMessage: '',
                 passwordInputType: 'password',
+                isWiki: false,
             }
         },
         beforeCreate() {
 
         },
         mounted() {
+            this.isWiki = $('#hddIsWiki').val() == 'True';
             eventBus.$on('login-clicked',
                 () => {
                     var self = this;
@@ -54,8 +56,10 @@ var loginModal = Vue.component('login-modal-component',
                         }
 
                         var backToLocation = Utils.GetQueryString().backTo;
-                        if (backToLocation != undefined)
+                        if (backToLocation != undefined && !this.isWiki)
                             location.href = backToLocation;
+                        else if (this.isWiki)
+                            location.href = "/";
                         else
                             Site.LoadValidPage(result.localHref);
                     });
