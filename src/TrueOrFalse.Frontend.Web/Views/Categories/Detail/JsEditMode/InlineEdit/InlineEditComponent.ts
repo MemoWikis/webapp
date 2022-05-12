@@ -98,14 +98,8 @@ Vue.component('text-component',
                 onUpdate: ({ editor }) => {
                     this.json = editor.getJSON();
                     this.html = editor.getHTML();
-                    this.handleImage(editor)
+                    this.handleImage(editor);
                 },
-                onFocus({ editor, event }) {
-                },
-                onBlur({ editor, event }) {
-                },
-                nativeExtensions: [
-                ]
             });
             eventBus.$on('save-success',
                 () => {
@@ -171,10 +165,8 @@ Vue.component('text-component',
                             onUpdate: ({editor}) => {
                                 this.json = this.editor.getJSON();
                                 this.html = this.editor.getHTML();
-                                this.handleImage(editor)
+                                this.handleImage(editor);
                             },
-                            nativeExtensions: [
-                            ]
                         });
                     this.menuBarComponentKey = !this.menuBarComponentKey;
                 });
@@ -199,31 +191,11 @@ Vue.component('text-component',
                 let images = [];
                 editor.state.doc.descendants((node, pos) => {
                     if (node.type.name === 'image') {
-                        images.push(node.attrs.src)
+                        images.push(node.attrs.src);
                     }
-                })
+                });
 
                 this.images = images;
-            },
-            updateHeading(headings) {
-
-                headings.map((heading, index) => {
-                    $('.inline-text-heading')[index].attr('id', heading.id);
-                })
-            },
-            showLinkMenu(attrs) {
-                this.linkUrl = attrs.href;
-                this.$nextTick(() => {
-                    this.$refs.linkInput.focus();
-                });
-            },
-            hideLinkMenu() {
-                this.linkUrl = null;
-                $('#inlineEditLinkModal').modal('hide');
-            },
-            setLinkUrl(command, url) {
-                command({ href: url });
-                this.hideLinkMenu();
             },
         },
     });
