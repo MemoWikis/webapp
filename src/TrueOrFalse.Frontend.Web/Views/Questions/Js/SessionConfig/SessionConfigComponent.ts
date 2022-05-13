@@ -133,7 +133,7 @@ Vue.component('session-config-component',
                 questionCountInputFocused: false,
                 timeLimit: 0,
                 questionCountIsInvalid: false,
-                disableResetButton: true,
+                activeCustomSettings: false,
                 sessionConfigKey: 'sessionConfig',
                 userIdString: '',
                 showSelectionError: false,
@@ -153,6 +153,7 @@ Vue.component('session-config-component',
 
             eventBus.$on('openLearnOptions', () => { this.openModal() });
             eventBus.$on("start-learning-session", () => { this.loadCustomSession() });
+            this.loadSessionFromLocalStorage(true);
         },
 
         mounted() {
@@ -164,7 +165,6 @@ Vue.component('session-config-component',
                         this.showSelectionError = false;
                 });
 
-            this.loadSessionFromLocalStorage(true);
             eventBus.$on('reset-session-config', () => this.reset());
             eventBus.$on('sync-session-config',
                 () => {
@@ -191,6 +191,7 @@ Vue.component('session-config-component',
                             this.selectedQuestionCount = e.Max;
                     }
                 });
+            eventBus.$on('set-custom-session-settings', (val) => this.activeCustomSettings = val);
 
             this.checkQuestionFilterSelection();
             this.checkKnowledgeSummarySelection();
@@ -239,7 +240,7 @@ Vue.component('session-config-component',
                     this.showQuestionFilterOptionsDropdown = false;
                     this.showKnowledgeSummaryDropdown = false;
                 }
-            }
+            },
         },
 
         methods: {
@@ -264,15 +265,17 @@ Vue.component('session-config-component',
                 localStorage.setItem('sessionConfigJson', JSON.stringify(json));
             },
             loadCustomSession() {
+
                 if (this.maxQuestionCountIsZero)
                     return;
+
                 eventBus.$emit('update-selected-page', 1);
                 AnswerQuestion.LogTimeForQuestionView();
                 var json = this.buildSessionConfigJson();
                 this.answerBody.Loader.loadNewSession(json, true, false, false);
                 $('#SessionConfigModal').modal('hide');
                 this.saveSessionConfig();
-                this.disableResetButton = false;
+                eventBus.$emit('set-custom-session-settings', true);
             },
 
             saveSessionConfig() {
@@ -500,7 +503,7 @@ Vue.component('session-config-component',
                 this.showModeSelectionDropdown = false;
             },
             reset() {
-                if (this.disableResetButton)
+                if (!this.activeCustomSettings)
                     return;
 
                 this.knowledgeSummary = new SessionConfig().knowledgeSummary;
@@ -524,7 +527,7 @@ Vue.component('session-config-component',
                 this.showModeSelectionDropdown = false;
 
                 this.loadCustomSession();
-                this.disableResetButton = true;
+                eventBus.$emit('set-custom-session-settings', true);
             },
             selectPracticeMode() {
                 if (this.isPracticeMode)

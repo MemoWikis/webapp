@@ -230,6 +230,12 @@
 .filter-button.closed {
   border-bottom: 1px solid #DDDDDD;
 }
+.filter-button.activeCustomSettings {
+  color: #0065CA;
+}
+.filter-button.activeCustomSettings i {
+  color: #0065CA;
+}
 #QuestionListApp .session-configurator {
   margin-bottom: 10px;
 }

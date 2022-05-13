@@ -1,6 +1,6 @@
 ﻿<div class="session-configurator col-xs-12 ">
     <div class="session-config-header">
-        <div class="filter-button selectable-item session-title" @click="showFilterDropdown = !showFilterDropdown" :class="showFilterDropdown ? 'open' : 'closed'">
+        <div class="filter-button selectable-item session-title" @click="showFilterDropdown = !showFilterDropdown" :class="[showFilterDropdown ? 'open' : 'closed', activeCustomSettings ? 'activeCustomSettings' : '']">
             Filter
             <div>
                 <i v-if="showFilterDropdown" class="fa fa-chevron-up" aria-hidden="true"></i>
@@ -244,7 +244,7 @@
         </div>
         
             <div class="col-xs-12 reset-session-button-container" >
-                <div class="reset-session-button" @click="reset" :class="{'disabled' : disableResetButton }">
+                <div class="reset-session-button" @click="reset" :class="{'disabled' : !activeCustomSettings }">
                     <i class="fa fa-times" aria-hidden="true"></i>
                     <div>
                         Alle Filter zurücksetzen
