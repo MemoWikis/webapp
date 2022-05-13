@@ -137,10 +137,18 @@ Vue.component('session-config-component',
                 sessionConfigKey: 'sessionConfig',
                 userIdString: '',
                 showSelectionError: false,
+                defaultMode: null,
             };
         },
 
         created() {
+            this.defaultMode = JSON.parse(JSON.stringify({
+                testMode: this.isTestMode,
+                testOptions: this.testOptions,
+                isPracticeMode: this.isPracticeMode,
+                practiceOptions: this.practiceOptions
+            }));
+
             if (this.isLoggedIn)
                 this.userIdString = '-u' + $('#hddUserId').val();
 
@@ -246,6 +254,7 @@ Vue.component('session-config-component',
         methods: {
             loadSessionFromLocalStorage(firstLoad = false) {
                 var storedSession = localStorage.getItem(this.sessionConfigKey);
+
                 if (storedSession != null) {
                     var sessionConfig = JSON.parse(storedSession);
                     this.knowledgeSummary = sessionConfig.knowledgeSummary;
@@ -265,7 +274,6 @@ Vue.component('session-config-component',
                 localStorage.setItem('sessionConfigJson', JSON.stringify(json));
             },
             loadCustomSession() {
-
                 if (this.maxQuestionCountIsZero)
                     return;
 
@@ -275,7 +283,6 @@ Vue.component('session-config-component',
                 this.answerBody.Loader.loadNewSession(json, true, false, false);
                 $('#SessionConfigModal').modal('hide');
                 this.saveSessionConfig();
-                eventBus.$emit('set-custom-session-settings', true);
             },
 
             saveSessionConfig() {
@@ -290,10 +297,31 @@ Vue.component('session-config-component',
                         testOptions: this.testOptions,
                         practiceOptions: this.practiceOptions,
                     }
-
+                    
                     localStorage.setItem(this.sessionConfigKey, JSON.stringify(sessionConfig));
                     eventBus.$emit('sync-session-config', (this.isTestMode));
+                    this.checkSettingChanges();
                 });
+            },
+
+            checkSettingChanges() {
+                var hasCustomSettings = false;
+                var currentMode = JSON.parse(JSON.stringify({
+                    testMode: this.isTestMode,
+                    testOptions: this.testOptions,
+                    isPracticeMode: this.isPracticeMode,
+                    practiceOptions: this.practiceOptions
+                }));
+
+                var changedMode = !_.isEqual(JSON.stringify(this.defaultMode), JSON.stringify(currentMode));
+
+                if (!this.allQuestionFilterOptionsAreSelected ||
+                    !this.allKnowledgeSummaryOptionsAreSelected ||
+                    this.userHasChangedMaxCount ||
+                    changedMode)
+                    hasCustomSettings = true;
+
+                eventBus.$emit('set-custom-session-settings', (hasCustomSettings));
             },
 
             goToLogin() {
@@ -511,13 +539,13 @@ Vue.component('session-config-component',
                 this.checkQuestionFilterSelection();
                 this.checkKnowledgeSummarySelection();
                 this.userHasChangedMaxCount = false;
-                this.isTestMode = false;
-                    this.testOptions = {
+                this.isTestMode = this.isLoggedIn ? false : true;
+                this.testOptions = {
                         questionOrder: 3,
                         timeLimit: 0
                     };
-                this.isPracticeMode = true;
-                    this.practiceOptions = {
+                this.isPracticeMode = this.isLoggedIn ? true : false;
+                this.practiceOptions = {
                         questionOrder: 0,
                         repetition: 1,
                         answerHelp: true,
@@ -527,7 +555,6 @@ Vue.component('session-config-component',
                 this.showModeSelectionDropdown = false;
 
                 this.loadCustomSession();
-                eventBus.$emit('set-custom-session-settings', true);
             },
             selectPracticeMode() {
                 if (this.isPracticeMode)
@@ -550,7 +577,6 @@ Vue.component('session-config-component',
                 this.lazyLoadCustomSession();
             },
             selectTestOption(key, val) {
-                console.log(key)
                 this.testOptions[key] = val;
                 this.lazyLoadCustomSession();
             }
