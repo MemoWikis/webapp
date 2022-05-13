@@ -1361,3 +1361,8 @@ commentAnswersCount {
 h3.QuestionText {
   padding-left: 12px;
 }
+#QuestionTitle p,
+#AnswerAndSolution p,
+h3.QuestionText p {
+  margin: 0;
+}
