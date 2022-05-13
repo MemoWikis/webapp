@@ -6,6 +6,7 @@ if (eventBus == null)
     var eventBus = new Vue();
 
 let questionListApp = new Vue({
+    name: 'QuestionList',
     el: '#QuestionListApp',
     data: {
         isQuestionListToShow: false,
@@ -58,8 +59,8 @@ let questionListApp = new Vue({
     },
 
     mounted() {
-        eventBus.$on('tiptap-is-ready', () => {
-            this.tiptapIsReady = true;
+        eventBus.$on('tiptap-is-ready', (val) => {
+            this.tiptapIsReady = val;
         });
         this.setActiveQuestionId();
 

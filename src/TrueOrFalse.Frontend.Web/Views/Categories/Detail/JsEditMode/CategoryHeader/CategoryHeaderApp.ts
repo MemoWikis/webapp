@@ -1,4 +1,5 @@
 ﻿new Vue({
+    name: 'CategoryHeader',
     el: '#CategoryHeader',
     data() {
         return {

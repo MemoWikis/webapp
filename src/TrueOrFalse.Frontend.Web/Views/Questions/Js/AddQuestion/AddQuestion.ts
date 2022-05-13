@@ -40,11 +40,12 @@
         if (this.isPrivate)
             this.licenseIsValid = true;
 
-        eventBus.$on('tiptap-is-ready', () => {
-            this.$nextTick(() => this.initEditor());
+        eventBus.$on('tiptap-is-ready', (val) => {
+            if (val)
+                this.$nextTick(() => this.initEditor());
         });
-        eventBus.$on('edit-question-is-ready', () => {
-            this.editQuestionIsReady = true;
+        eventBus.$on('edit-question-is-ready', (val) => {
+            this.$nextTick(() => this.editQuestionIsReady = val);
         });
         if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null) {
             this.tiptapIsReady = true;

@@ -3,18 +3,21 @@ if (eventBus == null)
     var eventBus = new Vue();
 
 var EditQuestionLoader = new Vue({
+    name: 'EditQuestionLoader',
     el: '#EditQuestionLoaderApp',
     data() {
         return {
             tiptapIsReady: false,
             modalIsReady: false,
+            editQuestionComponentLoaded: false,
         }
     },
     mounted() {
         if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
             this.tiptapIsReady = true;
-        eventBus.$on('tiptap-is-ready', () => this.$nextTick(() => this.tiptapIsReady = true));
-        eventBus.$on('edit-question-is-ready', () => this.$nextTick(() => this.modalIsReady = true));
+        eventBus.$on('tiptap-is-ready', (val) => this.$nextTick(() => this.tiptapIsReady = val));
+        eventBus.$on('edit-question-is-ready', (val) => this.$nextTick(() => this.modalIsReady = val));
+        eventBus.$on('edit-question-component-loaded', (val) => this.$nextTick(() => this.editQuestionComponentLoaded = val));
         eventBus.$on('open-edit-question-modal',
             e => {
                 var question = {

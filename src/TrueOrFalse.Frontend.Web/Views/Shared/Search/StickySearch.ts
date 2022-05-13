@@ -1,4 +1,5 @@
 ﻿new Vue({
+    name: 'StickySearch',
     el: '#StickySearch',
     data() {
         return {

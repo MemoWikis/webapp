@@ -408,5 +408,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
 
 
 var AddCategoryApp = new Vue({
+    name: 'AddCategory',
     el: '#AddCategoryApp',
 });

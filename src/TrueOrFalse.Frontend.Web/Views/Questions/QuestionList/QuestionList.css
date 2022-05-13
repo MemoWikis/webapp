@@ -59,16 +59,6 @@
     padding-left: 10px;
   }
 }
-@media (max-width: 768px) {
-  #QuestionListApp .drop-down-question-sort {
-    font-size: 3vw;
-  }
-}
-@media (max-width: 479px) {
-  #QuestionListApp .drop-down-question-sort {
-    font-size: 4vw;
-  }
-}
 #QuestionListApp .notShow {
   display: none !important;
 }

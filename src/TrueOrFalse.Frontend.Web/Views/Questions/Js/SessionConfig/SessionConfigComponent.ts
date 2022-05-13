@@ -558,6 +558,7 @@ Vue.component('session-config-component',
     });
 
 var SessionHeader = new Vue({
+    name: 'SessionHeader',
     el: '#SessionHeader',
     data() {
         return {

@@ -6,8 +6,6 @@
     var isMyWorld = user != null && UserCache.GetItem(user.Id).IsFiltered;
 %>
 <div id="EditQuestionLoaderApp">
-    <template v-if="tiptapIsReady && modalIsReady">
-        <edit-question-modal-component is-admin="<%= isAdmin %>" is-my-world="<%= isMyWorld %>" />
-    </template>
+    <edit-question-modal-component v-if="tiptapIsReady && modalIsReady && editQuestionComponentLoaded" is-admin="<%= isAdmin %>" is-my-world="<%= isMyWorld %>" />
 </div>
 <%= Scripts.Render("~/bundles/js/EditQuestionLoader") %>

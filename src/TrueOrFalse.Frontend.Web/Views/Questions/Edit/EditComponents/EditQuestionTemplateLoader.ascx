@@ -20,5 +20,5 @@
     <%: Html.Partial("~/Views/Questions/Edit/EditComponents/EditQuestionModal.vue.ascx") %>
 </script>
 <script type="text/javascript">
-    eventBus.$emit('edit-question-is-ready')
+    eventBus.$emit('edit-question-is-ready', true);
 </script>

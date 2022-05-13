@@ -7,6 +7,7 @@ if (eventBus == null)
     var eventBus = new Vue();
 
 new Vue({
+    name: 'CategoryContent',
     el: '#ContentModuleApp',
     data() {
         return {
@@ -62,7 +63,7 @@ new Vue({
     mounted() {
         if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
             this.tiptapIsReady = true;
-        eventBus.$on('tiptap-is-ready', () => this.tiptapIsReady = true);
+        eventBus.$on('tiptap-is-ready', (val) => this.tiptapIsReady = val);
         this.decodedHtml = this.$refs.rawHtml.innerHTML;
         this.changedContent = false;
         if ((this.$el.clientHeight + 450) < window.innerHeight)

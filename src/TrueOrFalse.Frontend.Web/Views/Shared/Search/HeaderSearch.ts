@@ -1,4 +1,5 @@
 ﻿new Vue({
+    name: 'HeaderSearch',
     el: '#HeaderSearch',
     data() {
         return {

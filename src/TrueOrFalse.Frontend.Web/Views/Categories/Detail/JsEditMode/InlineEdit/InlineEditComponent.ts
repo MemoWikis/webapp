@@ -166,6 +166,7 @@ Vue.component('text-component',
                                 this.json = this.editor.getJSON();
                                 this.html = this.editor.getHTML();
                                 this.handleImage(editor);
+                                $("#InlineEdit > :header").attr('id', 'iii')
                             },
                         });
                     this.menuBarComponentKey = !this.menuBarComponentKey;

@@ -2,5 +2,5 @@
     <%: Html.Partial("~/Views/Shared/Editor/EditorMenuBarComponent.vue.ascx") %>
 </script>
 <script type="text/javascript">
-    eventBus.$emit('tiptap-is-ready')
+    eventBus.$emit('tiptap-is-ready', true);
 </script>
