@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using NHibernate;
+using NHibernate.Mapping;
 using NHibernate.Transform;
+using NHibernate.Util;
 using RollbarSharp;
 using Seedworks.Lib.Persistence;
 
@@ -73,11 +76,15 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 FROM
                     memucho.jobqueue)
                 LIMIT 1;"
-                ).SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue))).List();
-        if (result.Count == 0)
+                );
+
+        var mailJobs = result?.SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue))).List();
+
+        if (mailJobs?.Any() == true)
         {
-            return null;
+            return (JobQueue)mailJobs[0];
         }
-        return (JobQueue)result[0];
+
+        return null;
     }
 }
