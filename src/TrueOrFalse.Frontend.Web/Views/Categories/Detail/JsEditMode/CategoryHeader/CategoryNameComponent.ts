@@ -22,7 +22,7 @@ Vue.component('category-name-component',
             categoryName(name) {
                 if (name == this.oldCategoryName || name.length <= 0)
                     return;
-                this.validateName(name);
+                this.nameHasChanged = true;
                 eventBus.$emit('content-change', 'categoryName');
             }
         },
@@ -88,6 +88,7 @@ Vue.component('category-name-component',
                 var self = this;
                 var id = parseInt(this.categoryId);
                 var name = this.categoryName;
+                this.validateName(name);
                 $.ajax({
                     type: 'Post',
                     contentType: "application/json",
