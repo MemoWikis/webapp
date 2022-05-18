@@ -10,7 +10,6 @@ using TrueOrFalse.Frontend.Web.Code;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class QuestionListController : BaseController
 {
- 
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber)
     {
@@ -68,7 +67,8 @@ public class QuestionListController : BaseController
     [HttpPost]
     public string RenderWishknowledgePinButton(bool isInWishknowledge)
     {
-        return ViewRenderer.RenderPartialView("~/Views/Shared/AddToWishknowledgeButtonQuestionDetail.ascx", new AddToWishknowledge(isInWishknowledge, true), ControllerContext);
+        return ViewRenderer.RenderPartialView("~/Views/Shared/AddToWishknowledgeButtonQuestionDetail.ascx",
+            new AddToWishknowledge(isInWishknowledge, true), ControllerContext);
     }
 
     [HttpPost]
@@ -99,11 +99,13 @@ public class QuestionListController : BaseController
     {
         return Json(new
         {
-            stepCount = _learningSession.Steps.Count,
-            currentQuestionCount = _learningSession.Steps
-                .Select(s => s.Question)
-                .Distinct()
-                .Count(),
+            stepCount = _learningSession.Config.CategoryId == categoryId ? _learningSession.Steps.Count : 0,
+            currentQuestionCount = _learningSession.Config.CategoryId == categoryId
+                ? _learningSession.Steps
+                    .Select(s => s.Question)
+                    .Distinct()
+                    .Count()
+                : 0,
             allQuestionCount = EntityCache
                 .GetCategory(categoryId)
                 .GetAggregatedQuestionsFromMemoryCache()

@@ -103,7 +103,7 @@ let questionListApp = new Vue({
         },
         stepCount(val) {
             this.hasNoQuestions = val < 1;
-            if (!this.hasNoQuestions)
+            if (!this.hasNoQuestions && !isNaN(val))
                 eventBus.$emit('category-has-question');
         }
     },
