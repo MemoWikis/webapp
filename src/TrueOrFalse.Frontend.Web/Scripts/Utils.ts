@@ -198,7 +198,7 @@ class Utils
                     url: '/EditCategory/GetTiptap/',
                     cache: true,
                     success(html) {
-                        $(html).insertAfter('script#pin-category-template');
+                        $(html).insertBefore('script#GoogleJSApi');
                     },
                 });
             }

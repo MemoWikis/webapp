@@ -57,14 +57,12 @@ public class CategoryModel : BaseContentModule
     public IList<AuthorViewModel> Authors = new List<AuthorViewModel>();
     public bool ShowLearningSessionConfigurationMessageForTab { get; set; }
     public bool ShowLearningSessionConfigurationMessageForQuestionList { get; set; }
-    public bool IsFilteredUserWorld;
     public string ImageIsNew { get; set; }
     public string ImageSource { get; set; }
     public string ImageWikiFileName { get; set; }
 
     public string ImageGuid { get; set; }
     public string ImageLicenseOwner { get; set; }
-    public bool IsMyWorld { get; set; }
     public bool IsWiki { get; set; }
     public bool HasQuestions;
 
@@ -80,7 +78,6 @@ public class CategoryModel : BaseContentModule
         if (category == null)
             throw new Exception("category doesn't exist");
         ShowSidebar = true;
-        IsMyWorld = UserCache.GetItem(Sl.CurrentUserId).IsFiltered;
         IsWiki = category.IsStartPage();
         var currentRootWiki = CrumbtrailService.GetWiki(category);
         SessionUser.SetWikiId(currentRootWiki);
@@ -135,9 +132,7 @@ public class CategoryModel : BaseContentModule
         }
         else CategoriesParent = parentCategories.Where(PermissionCheck.CanView).ToList();
 
-        CategoriesChildren = UserCache.GetItem(SessionUser.UserId).IsFiltered ?
-            UserEntityCache.GetChildren(category.Id, UserId) :
-           EntityCache.GetChildren(category.Id, true);
+        CategoriesChildren = EntityCache.GetChildren(category.Id, true);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
@@ -157,9 +152,7 @@ public class CategoryModel : BaseContentModule
 
         CountWishQuestions = wishQuestions.Total;
 
-        IsFilteredUserWorld = UserCache.GetItem(SessionUser.UserId).IsFiltered;
-
-        AggregatedTopicCount = IsMyWorld ? CategoriesChildren.Count : GetTotalTopicCount(category);
+        AggregatedTopicCount =  GetTotalTopicCount(category);
 
         TotalPins = category.TotalRelevancePersonalEntries.ToString();
 
@@ -219,15 +212,7 @@ public class CategoryModel : BaseContentModule
 
     public QuestionCacheItem GetDummyQuestion()
     {
-        var questionId = 0;
-        if (IsMyWorld)
-            questionId = Category
-               .GetAggregatedQuestionsFromMemoryCache()
-               .Where(q => PermissionCheck.CanView(q) && q.IsInWishknowledge())
-               .Select(q => q.Id)
-               .FirstOrDefault();
-        else
-            questionId = Category
+        var questionId = Category
                    .GetAggregatedQuestionsFromMemoryCache()
                    .Where(q => PermissionCheck.CanView(q))
                    .Select(q => q.Id)

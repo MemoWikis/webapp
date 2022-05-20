@@ -49,13 +49,6 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
             _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory).List();
     }
 
-    public IList<JobQueue> GetAddCategoryToWishKnowledge()
-    {
-        return
-            _session.QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.AddCategoryToWishKnowledge).List();
-    }
-
     public IList<JobQueue> GetRemoveQuestionsInCategoryFromWishKnowledge()
     {
         return

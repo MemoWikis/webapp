@@ -160,8 +160,6 @@ public class EditCategoryController : BaseController
                 Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
-        new CategoryApiModel().Pin(category.Id);
-
         return Redirect(Links.CategoryDetail(category));
     }
 
@@ -212,8 +210,6 @@ public class EditCategoryController : BaseController
         category.Type = CategoryType.Standard;
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
-
-        CategoryInKnowledge.Pin(category.Id, SessionUser.User);
         StoreImage(category.Id);
 
         return Json(new
@@ -264,13 +260,6 @@ public class EditCategoryController : BaseController
         var children = EntityCache.GetAllChildren(parentCategoryId, true);
         var isChildrenLinked = children.Any(c => c.Id == childCategoryId) && children.All(c => c.Id != parentCategoryIdToRemove);
 
-        if (isChildrenLinked && UserCache.GetItem(SessionUser.UserId).IsFiltered)
-            return Json(new
-            {
-                success = false,
-                key = "isLinkedInNonWuwi"
-            });
-
         if (isChildrenLinked)
             return Json(new
             {
@@ -290,9 +279,6 @@ public class EditCategoryController : BaseController
                 key = "childIsParent"
             });
         }
-
-        if (UserCache.GetItem(SessionUser.UserId).IsFiltered)
-            CategoryInKnowledge.Pin(childCategoryId, SessionUser.User);
 
         var child = EntityCache.GetCategory(childCategoryId, true);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
@@ -338,13 +324,6 @@ public class EditCategoryController : BaseController
         var children = EntityCache.GetAllChildren(personalWikiId, true);
         var isChildrenLinked = children.Any(c => c.Id == categoryId);
 
-        if (isChildrenLinked && UserCache.GetItem(SessionUser.UserId).IsFiltered)
-            return Json(new
-            {
-                success = false,
-                key = "isLinkedInNonWuwi"
-            });
-
         if (isChildrenLinked)
             return Json(new
             {
@@ -364,9 +343,6 @@ public class EditCategoryController : BaseController
                 key = "childIsParent"
             });
         }
-
-        if (UserCache.GetItem(SessionUser.UserId).IsFiltered)
-            CategoryInKnowledge.Pin(categoryId, SessionUser.User);
 
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategory(categoryId, getDataFromEntityCache: true), personalWikiId);
 

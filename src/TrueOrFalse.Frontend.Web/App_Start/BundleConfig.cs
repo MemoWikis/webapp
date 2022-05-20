@@ -161,9 +161,6 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryToPrivate")
                 .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/CategoryToPrivate/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/MyWorldToggle")
-                .IncludeDirectory("~/Views/Shared/MyWorldToggle/", "*.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
                 .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
                 .Include("~/Views/Categories/Detail/FloatingActionButton/FloatingActionButton.js"));

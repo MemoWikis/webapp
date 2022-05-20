@@ -273,11 +273,6 @@ public class EntityCache : BaseCache
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static CategoryCacheItem GetCategory(int categoryId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
     {
-        if (!IsFirstStart && !isFromUserEntityCache && !getDataFromEntityCache && UserCache.GetItem(SessionUser.UserId).IsFiltered)
-        {
-            var user = SessionUser.User;
-            return UserEntityCache.GetCategoryWhenNotAvalaibleThenGetNextParent(categoryId, user.Id);
-        }
 
         if (Categories == null) return null;
         Categories.TryGetValue(categoryId, out var category);

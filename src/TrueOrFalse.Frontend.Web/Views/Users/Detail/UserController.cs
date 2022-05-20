@@ -38,21 +38,4 @@ public class UserController : BaseController
         UserImageStore.Run(file, SessionUser.User.Id);
         return User(SessionUser.User.Name, SessionUser.User.Id);
     }
-
-    [HttpPost]
-    public bool SetUserWorldInUserCache(bool showMyWorld)
-    {
-        if (!IsLoggedIn)
-            return false;
-
-        UserCache.GetItem(SessionUser.UserId).IsFiltered = showMyWorld;
-
-        return showMyWorld; 
-    }
-
-    [HttpPost]
-    public bool IsFiltered()
-    {
-        return UserCache.GetItem(SessionUser.UserId).IsFiltered;
-    }
 }

@@ -810,7 +810,7 @@ Vue.component('question-details-component', {
             var interpolateRadiusStart = d3.interpolate(d.innerRadius, newInnerRadius);
             var interpolateEnd = d3.interpolate(d.endAngle, newEndAngle);
             var interpolateRadiusEnd = d3.interpolate(d.outerRadius, newOuterRadius);
-            return function (t) {
+            return (t) => {
                 d.innerRadius = interpolateRadiusStart(t);
                 d.outerRadius = interpolateRadiusEnd(t);
                 d.startAngle = interpolateStart(t);

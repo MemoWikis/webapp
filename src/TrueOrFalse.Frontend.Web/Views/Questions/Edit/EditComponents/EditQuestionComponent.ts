@@ -2,7 +2,7 @@
 
 var editQuestionComponent = Vue.component('edit-question-modal-component',
     {
-        props: ['isAdmin','isMyWorld'],
+        props: ['isAdmin'],
         template: '#edit-question-modal-template',
         data() {
             return {
@@ -62,9 +62,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
             }
         },
         mounted() {
-            if (this.isMyWorld == 'True')
-                this.addToWuwi = true;
-
             $('#EditQuestionModal').on('show.bs.modal',
                 event => {
                     this.currentCategoryId = $('#hhdCategoryId').val();

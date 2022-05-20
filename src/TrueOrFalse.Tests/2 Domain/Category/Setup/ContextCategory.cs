@@ -172,7 +172,7 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
+        public User AddCaseThreeToCache(ContextUser contextUser = null)
         {
             //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
             var rootElement = Add("A").Persist().All.First();
@@ -208,17 +208,6 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("C")).Persist();
             Add("I", parent: secondChildren.ByName("E")).Persist();
             Add("I", parent: secondChildren.ByName("G")).Persist();
-
-            if (withWuwi)
-            {
-                // Add in WUWI
-                CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
-            }
 
             foreach (var category in firstChildren)
             {
@@ -273,12 +262,6 @@ namespace TrueOrFalse.Tests
 
             user.StartTopicId = personalStartTopicId;
             SessionUser.Login(user);
-
-            // Add in WUWI
-            CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
         }
 
         public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)

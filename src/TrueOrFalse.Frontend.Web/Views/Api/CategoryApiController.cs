@@ -121,26 +121,6 @@ public class CategoryApiController : BaseController
     }
 
     [HttpPost]
-    public bool Pin(string categoryId)
-    {
-       return new CategoryApiModel().Pin(categoryId);
-    }
-
-    public bool Pin(int categoryId) => Pin(categoryId.ToString()); 
-
-    [HttpPost]
-    public bool Unpin(string categoryId)
-    {
-        if (SessionUser.User == null)
-            return false;
-
-        CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), SessionUser.User);
-        UserEntityCache.DeleteCacheForUser();
-        UserEntityCache.Init();
-        return true;
-    }
-
-    [HttpPost]
     public bool UnpinQuestionsInCategory(string categoryId)
     {
         if (SessionUser.User == null)

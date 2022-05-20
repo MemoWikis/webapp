@@ -153,18 +153,6 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                     </div>
                 <% } %>
 
-
-                <div id="MyWorldToggleApp" :class="{'active': showMyWorld}" <% if (Model.IsMyWorld)
-                                                                               { %> class="active"<% } %> v-cloak>
-                    <div class="toggle-label hidden-xs">
-                        <div>
-                            Zeige nur mein
-                            <br/>
-                            <b>Wunschwissen</b>
-                        </div>
-                    </div>
-                    <% Html.RenderPartial("~/Views/Shared/MyWorldToggle/MyWorldToggleComponent.vue.ascx", Model); %>
-                </div>
                 <div class="Button dropdown DropdownButton">
                     <% buttonId = Guid.NewGuid(); %>
                     <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -279,4 +267,3 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
 <%= Scripts.Render("~/bundles/fileUploader") %>
 <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
-<%= Scripts.Render("~/bundles/js/MyWorldToggle") %>

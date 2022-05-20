@@ -5,7 +5,6 @@
         selectedCategories: Array,
         segmentId: [String, Number],
         hide: String,
-        isMyWorld: Boolean,
         category: Object,
         isHistoric: Boolean,
     },

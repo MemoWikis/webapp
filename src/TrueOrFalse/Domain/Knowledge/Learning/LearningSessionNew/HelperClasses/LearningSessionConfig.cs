@@ -21,8 +21,6 @@ public class LearningSessionConfig
     /// </summary>
     public bool IsAnonymous() => CurrentUserId == -1;
 
-    public bool IsMyWorld() => UserCache.GetItem(CurrentUserId).IsFiltered;
-
     public bool InWuwi { get; set; } = true;
     public bool NotInWuwi { get; set; } = true;
     public bool CreatedByCurrentUser { get; set; } = true;

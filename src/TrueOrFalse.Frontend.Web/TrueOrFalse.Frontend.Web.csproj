@@ -249,7 +249,6 @@
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Api\Breadcrumb\BreadcrumbApiController.cs" />
     <Compile Include="Views\Api\CategoriesController.cs" />
-    <Compile Include="Views\Api\CategoryApiModel.cs" />
     <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
     <Compile Include="Views\Api\EduSharingApiController.cs" />
     <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
@@ -2256,10 +2255,6 @@
     <Content Include="Views\Shared\Editor\EditorMenuBarComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
-    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js">
-      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetailsComponent.vue.ascx" />
     <Content Include="Views\Categories\History\CategoryHistory.css">
       <DependentUpon>CategoryHistory.less</DependentUpon>
@@ -2480,7 +2475,6 @@
     <Content Include="Views\Shared\Delete.css">
       <DependentUpon>Delete.less</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\PinComponentVue\PinCategoryComponent.vue.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
@@ -3436,7 +3430,6 @@
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
-    <TypeScriptCompile Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
@@ -3871,9 +3864,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
       <DependentUpon>ContentModulesApp.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\MyWorldToggle\MyWorldToggleComponent.js.map">
-      <DependentUpon>MyWorldToggleComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js.map">
       <DependentUpon>CategoryHeaderApp.ts</DependentUpon>

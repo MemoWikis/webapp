@@ -3,7 +3,6 @@
     el: '#CategoryHeader',
     data() {
         return {
-            showMyWorld: false,
             isMounted: false,
         }
     },

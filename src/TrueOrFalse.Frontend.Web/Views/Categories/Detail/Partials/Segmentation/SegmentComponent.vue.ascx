@@ -14,7 +14,6 @@
                         <i class="fas fa-lock"></i>
                         <i class="fas fa-unlock"></i>
                     </div>
-                    <pin-category-component :category-id="categoryId"/>
 
                 </div>
                 <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown" :class="{ hover : showHover && !isHistoric }">

@@ -12,19 +12,6 @@ public class SearchBoxElementsGet
         var pageSize = 5;
         result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
 
-        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-        {
-            var userEntityCache = UserEntityCache.GetAllCategoriesAsDictionary(Sl.CurrentUserId);
-           var categories = result.Categories.Where(c => !userEntityCache.ContainsKey(c.Id)).ToList();
-            foreach (var category in categories)
-            {
-                result.Categories.Remove(category);
-            }
-
-            result.CategoriesResult.Count = result.Categories.Count; 
-
-        }
-
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
@@ -43,7 +30,7 @@ public class SearchBoxElementsGet
         return result;
     }
 
-    public static SearchBoxElements GoAllCategories(string term, bool isMyWorld = false)
+    public static SearchBoxElements GoAllCategories(string term)
     {
         var pager = new Pager {QueryAll = true};
 

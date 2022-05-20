@@ -86,19 +86,10 @@ class Site {
 
         var redirect = () => { location.href = $(this).attr("data-url"); }
 
-        if ($(this).attr("data-is-facebook") == "true") {
-            $.post("/Category/DeleteCookie").done(
-                (data) => {
-                    FacebookMemuchoUser.Logout(redirect);
-                }
-            );
-            
-        } else {
-            $.post("/Category/DeleteCookie").done(
-                () => {
-                    redirect();
-                });
-        }
+        if ($(this).attr("data-is-facebook") == "true") 
+            FacebookMemuchoUser.Logout(redirect);
+        else 
+            redirect();
     }
 
     static RedirectToPersonalHomepage(link: string) { location.href = link; }
@@ -277,6 +268,11 @@ function smoothAnchor() {
     });
 }
 
+// Delete MyWorldCookie, should be removed in 1 year since cookie has a duration of 1 year,
+function deleteMyWorldCookie() {
+    document.cookie = 'memucho_myworld=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 $(() => {
     new Site();
     setBrowserClass();
@@ -292,4 +288,5 @@ $(() => {
         checkStageOverlay();
     disableCloseOnActivityPoints();
     smoothAnchor();
+    deleteMyWorldCookie();
 });

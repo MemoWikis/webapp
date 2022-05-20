@@ -169,7 +169,6 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             {
                 var name = "PinUser" + (i + 1);
                 var wuwiUser = contextUser.Add(name).Persist(false).All.First(u => u.Name == name);
-                CategoryInKnowledge.UpdateCategoryValuationTest(publicWiki.Id, wuwiUser);
                 wuwiUsers.Add(wuwiUser);
                 i++;
             }

@@ -24,12 +24,10 @@ public class CategoryController : BaseController
     }
 
     private bool IsRedirectToPersonalHomepage(int id, int? version, bool? toRootCategory, int personalStartSiteId) =>
-        GetMyWorldCookie() && version == null && toRootCategory == false && personalStartSiteId == id; 
+        version == null && toRootCategory == false && personalStartSiteId == id; 
 
     public ActionResult CategoryLearningTab(int id, int? version)
     {
-        GetMyWorldCookie();
-
         var modelAndCategoryResult = LoadModel(id, version);
         modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForTab = GetSettingsCookie("ShowSessionConfigurationMessageTab");
         modelAndCategoryResult.CategoryModel.ShowLearningSessionConfigurationMessageForQuestionList = !GetSettingsCookie("SessionConfigurationMessageList");
@@ -217,71 +215,6 @@ public class CategoryController : BaseController
             return true;
 
         return false;
-    }
-
-    public string SetMyWorldCookie(bool showMyWorld)
-    {
-        HttpCookie cookie = new HttpCookie("memucho_myworld");
-            cookie.Expires = DateTime.Now.AddYears(1);
-            cookie.Values.Add("showMyWorld", showMyWorld.ToString());
-            Response.Cookies.Add(cookie);
-
-        Logg.r().Warning("End Set Cookie");
-
-        if (SessionUser.IsLoggedIn)
-        {
-            if (!UserEntityCache.IsCategoryCacheKeyAvailable())
-                Logg.r().Warning("Cache CacheKeyIsNotAvailable");
-            UserEntityCache.Init();
-        }
-
-        UserCache.GetItem(SessionUser.UserId).IsFiltered = showMyWorld;
-        var startTopicId = RootCategory.Get.Id;
-
-        if (showMyWorld || SessionUser.IsLoggedIn)
-        {
-            startTopicId = SessionUser.User.StartTopicId;
-            return Links.CategoryDetail(EntityCache.GetCategory(startTopicId, getDataFromEntityCache: false));
-        }
-
-        return Links.CategoryDetail(EntityCache.GetCategory(startTopicId, getDataFromEntityCache: true));
-    }
-
-    public  bool GetMyWorldCookie()
-    {
-        HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
-        if (cookie != null && IsLoggedIn)
-        {
-            var val = cookie.Values["showMyWorld"];
-            if (val == "True")
-            {
-                UserCache.GetItem(SessionUser.UserId).IsFiltered = true;
-                return true;
-            }
-        }
-
-        if (!IsLoggedIn)
-        {
-            SetMyWorldCookie(false);
-        }
-
-        UserCache.GetItem(SessionUser.UserId).IsFiltered = false; 
-        return false;
-    }
-
-    public bool DeleteCookie()
-    {
-        var myWorldCookieName = "memucho_myworld";
-        HttpCookie cookie = Request.Cookies.Get(myWorldCookieName);
-
-        if (cookie != null)
-        {
-            cookie.Expires = DateTime.Now.AddDays(-1);
-            Response.Cookies.Add(cookie);
-        }
-
-        UserCache.GetItem(SessionUser.UserId).IsFiltered = false; 
-        return true;
     }
 
     [HttpPost]

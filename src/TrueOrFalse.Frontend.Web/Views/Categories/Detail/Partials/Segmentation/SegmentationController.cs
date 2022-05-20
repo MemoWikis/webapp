@@ -17,10 +17,9 @@ public class SegmentationController : BaseController
         segment.Item = EntityCache.GetCategory(categoryId);
 
         if (json.ChildCategoryIds != null)
-            segment.ChildCategories = UserCache.GetItem(SessionUser.UserId).IsFiltered ? EntityCache.GetCategories(json.ChildCategoryIds)
-                .Where(c => c.IsInWishknowledge()).ToList() : EntityCache.GetCategories(json.ChildCategoryIds).ToList();
+            segment.ChildCategories = EntityCache.GetCategories(json.ChildCategoryIds).ToList();
         else
-            segment.ChildCategories = UserCache.GetItem(SessionUser.UserId).IsFiltered ? UserEntityCache.GetChildren(categoryId, UserId) : EntityCache.GetChildren(categoryId);
+            segment.ChildCategories = EntityCache.GetChildren(categoryId);
 
         return Json(new
         {

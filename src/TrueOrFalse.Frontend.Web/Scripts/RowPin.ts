@@ -163,27 +163,13 @@ class Pin {
     }
 
     Pin(id: number, onPinChanged: () => void = null, elemPin = null) {
-        if (this.IsQuestionRow()) {
-            QuestionsApi.Pin(id, onPinChanged);
-            this.UpdateWishknowledgeCount(1 , false, id, elemPin);
-        } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
-            CategoryApi.Pin(id, onPinChanged);
-            if (this._isInLearningTab)
-                this.UpdateWishknowledgeCount(1, true);
-        }
+        QuestionsApi.Pin(id, onPinChanged);
+        this.UpdateWishknowledgeCount(1, false, id, elemPin);
     }
 
     UnPin(id: number, onPinChanged: () => void = null, elemPin = null) {
-        if (this.IsQuestionRow()) {
-            QuestionsApi.Unpin(id, onPinChanged);
-            this.UpdateWishknowledgeCount(-1, false, id, elemPin);
-        } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
-
-            CategoryApi.Unpin(id);
-
-            $("#JS-RemoveQuestionsCat").attr("data-category-id", id);
-            $("#UnpinCategoryModal").modal('show');
-        }
+        QuestionsApi.Unpin(id, onPinChanged);
+        this.UpdateWishknowledgeCount(-1, false, id, elemPin);
     }
 
     IsQuestionRow(): boolean {

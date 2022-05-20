@@ -154,8 +154,6 @@ class User_entity_cache_tests : BaseTest
         UserEntityCache.Init(user.Id);
         ContextCategory.New().Add("noParent").Persist();
         var noParent = EntityCache.GetAllCategories().ByName("noParent");
-        CategoryInKnowledge.Pin(noParent.Id, user);
-
         EntityCache.Init();
 
         var e = EntityCache.GetAllCategories().ByName("E");
@@ -211,7 +209,6 @@ class User_entity_cache_tests : BaseTest
 
         user = ContextUser.New().Add("Daniel").Persist(true).All.First();
         SessionUser.Login(user);
-        CategoryInKnowledge.Pin(cat.Id, user);
         UserEntityCache.Init();
 
         cat = UserEntityCache.GetCategory(user.Id, cat.Id);
@@ -230,11 +227,6 @@ class User_entity_cache_tests : BaseTest
 
         var user = ContextUser.New().Add("Daniel").Persist(true).All.First();
         SessionUser.Login(user);
-
-        foreach (var VARIABLE in allCategories)
-        {
-            CategoryInKnowledge.Pin(VARIABLE.Id, user);
-        }
 
         UserEntityCache.Init();
         var BCache = allCategories.ByName("B");
@@ -281,7 +273,6 @@ class User_entity_cache_tests : BaseTest
         var user = cateContext.AddCaseThreeToCache();
         EntityCache.Init();
         SessionUser.Login(user);
-        UserCache.GetItem(user.Id).IsFiltered = true;
         UserEntityCache.Init();
         cateContext.Add("New", parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
 
@@ -300,7 +291,6 @@ class User_entity_cache_tests : BaseTest
             Is.EqualTo(CategoryRelationType.IsChildOf));
         Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.Count, Is.EqualTo(1));
 
-        UserCache.GetItem(user.Id).IsFiltered = false;
         cateContext.Add("New1", parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
 
         newCat = UserEntityCache.GetByName(user.Id, "New1").First();
@@ -369,9 +359,6 @@ class User_entity_cache_tests : BaseTest
 
         context.Add("New", creator: user, parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
         context.Add("New1", creator: user, parent: Sl.CategoryRepo.GetByName("X2").First()).Persist();
-
-        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("New").First().Id, user1);
-        CategoryInKnowledge.Pin(EntityCache.GetCategoryByName("New1").First().Id, user1);
 
         var categoryNew = Sl.CategoryRepo.GetByName("New").First();
 
@@ -460,10 +447,7 @@ class User_entity_cache_tests : BaseTest
             RelatedCategory = userStartTopic2
         });
 
-        CategoryInKnowledge.Pin(categoryB.Id, user1);
-        CategoryInKnowledge.Pin(categoryC.Id, user1);
         EntityCache.Init();
-        UserCache.GetItem(user1.Id).IsFiltered = true;
         SessionUser.Login(user1);
 
         Assert.That(UserEntityCache.GetCategory(user1.Id, categoryB.Id).CategoryRelations.First().RelatedCategoryId,
@@ -506,12 +490,7 @@ class User_entity_cache_tests : BaseTest
             RelatedCategory = userStartTopic2
         });
 
-        CategoryInKnowledge.Pin(categoryB.Id, user1);
-        CategoryInKnowledge.Pin(categoryC.Id, user1);
-        CategoryInKnowledge.Pin(userStartTopic2.Id, user1);
-
         EntityCache.Init();
-        UserCache.GetItem(user1.Id).IsFiltered = true;
         SessionUser.Login(user1);
 
         var categoryBParentFromUserEntityCache = UserEntityCache.GetCategory(user1.Id, categoryB.Id).CategoryRelations
@@ -579,12 +558,7 @@ class User_entity_cache_tests : BaseTest
             RelatedCategory = userStartTopic2
         });
 
-        CategoryInKnowledge.Pin(categoryB.Id, user1);
-        CategoryInKnowledge.Pin(categoryC.Id, user1);
-        CategoryInKnowledge.Pin(userStartTopic2.Id, user1);
-
         EntityCache.Init();
-        UserCache.GetItem(user1.Id).IsFiltered = true;
         SessionUser.Login(user1);
 
         var relationsC = UserEntityCache.GetCategory(user1.Id, categoryC.Id).CategoryRelations;

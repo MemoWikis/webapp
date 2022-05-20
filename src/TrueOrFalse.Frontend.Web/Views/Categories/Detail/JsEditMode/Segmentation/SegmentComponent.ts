@@ -5,7 +5,6 @@
         childCategoryIds: String,
         categoryId: [String, Number],
         editMode: Boolean,
-        isMyWorld: Boolean,
         isHistoric: Boolean,
         parentId: Number
     },

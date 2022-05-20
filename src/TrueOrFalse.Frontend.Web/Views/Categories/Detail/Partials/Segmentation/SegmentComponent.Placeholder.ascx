@@ -13,8 +13,6 @@
                             <%}%>
                         </h2>
                     </a>
-                    <pin-category-component category-id="<%= Model.Category.Id %>"/>
-
                 </div>
             </div>
             

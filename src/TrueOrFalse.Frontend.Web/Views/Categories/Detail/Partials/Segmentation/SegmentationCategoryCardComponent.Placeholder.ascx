@@ -19,11 +19,8 @@
                 </a>
 
                 <div class="set-question-count">
-                    <span>
-                        <pin-category-component :category-id="<%= Model.Category.Id %>"/>
-                    </span>
 
-                        <% if (Model.Category.CachedData.CountVisibleChildrenIds == 1)
+                    <% if (Model.Category.CachedData.CountVisibleChildrenIds == 1)
                        { %>1 Unterthema <% } %>
                         <% if(Model.Category.CachedData.CountVisibleChildrenIds > 1)
                            { %><%= Model.Category.CachedData.CountVisibleChildrenIds  %> Unterthemen <% } 

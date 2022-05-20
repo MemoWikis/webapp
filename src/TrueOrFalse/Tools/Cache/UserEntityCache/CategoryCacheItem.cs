@@ -178,8 +178,6 @@ public class CategoryCacheItem
         if (onlyVisible)
             questions = questions.Where(PermissionCheck.CanView).ToList();
 
-        if (UserCache.GetItem(Sl.CurrentUserId).IsFiltered)
-            questions = questions.Where(q => q.IsInWishknowledge()).ToList();
         if (questions.Any(q => q.Id == 0))
         {
             var questionsToDelete = questions.Where(qc => qc.Id == 0);

@@ -17,7 +17,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 var allJobs = new List<JobQueue>();
-                allJobs.AddRange(scope.R<JobQueueRepo>().GetAddCategoryToWishKnowledge());
                 allJobs.AddRange(scope.R<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge());
                 allJobs = allJobs.OrderBy(j => j.Id).ToList();
 
@@ -25,9 +24,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     switch (job.JobQueueType)
                     {
-                        case JobQueueType.AddCategoryToWishKnowledge:
-                            AddCategoryToWishKnowledge(job, scope);
-                            break;
 
                         case JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge:
                             RemoveQuestionsInCategoryFromWishKnowledge(job, scope);
@@ -35,24 +31,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
                 }
             }, "EditCategoryInWishKnowledge");
-        }
-
-        private static void AddCategoryToWishKnowledge(JobQueue job, ILifetimeScope scope)
-        {
-            var categoryUserPair = new CategoryUserPair();
-            try
-            {
-                categoryUserPair = GetCategoryUserPair(job);
-                CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
-
-                scope.R<JobQueueRepo>().Delete(job.Id);
-                Logg.r().Information($"Job EditCategoryInWishKnowledge added QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "AddCategoryToWishKnowledge" ,categoryUserPair.CategoryId);
-                new RollbarClient().SendException(e);
-            }
         }
 
         private static void RemoveQuestionsInCategoryFromWishKnowledge(JobQueue job, ILifetimeScope scope)

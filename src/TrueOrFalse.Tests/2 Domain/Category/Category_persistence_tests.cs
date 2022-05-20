@@ -98,11 +98,9 @@ namespace TrueOrFalse.Tests.Persistence
                 }
             }
             categories = EntityCache.GetAllCategories();
-            UserCache.GetItem(user.Id).IsFiltered = true;
             
             Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories(true).Where(cci => UserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
 
-            UserCache.GetItem(user.Id).IsFiltered = false;
             Assert.That(categories.ByName("A").AggregatedCategories(true).Count, Is.EqualTo(13));
         }
     }

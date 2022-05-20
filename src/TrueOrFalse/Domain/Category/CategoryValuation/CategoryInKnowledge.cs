@@ -10,25 +10,6 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class CategoryInKnowledge
 {
-    public static void Pin(int categoryId, User user)
-    {
-        if(user.Id == -1) { throw new Exception("user not existent");}
-
-        CreateJob(JobQueueType.AddCategoryToWishKnowledge,
-            new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
-
-        var questions = EntityCache.GetCategory(categoryId, getDataFromEntityCache: true).GetAggregatedQuestionsFromMemoryCache();
-        var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
-        var userCategoryAnswers = Sl.R<AnswerRepo>().GetByQuestion(questions.GetIds().ToList(), user.Id);
-        foreach (var question in questions)
-        {
-            var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
-            CreateOrUpdateQuestionValution(question, user, isInWishKnowledge:true, questionValuation, userCategoryAnswers);
-        }
-        QuestionInKnowledge.SetUserWishCountQuestions(user);
-        UpdateCategoryValuation(categoryId, user);
-    }
-
     private static void UpdateProbabilityForQuestionValuation(QuestionCacheItem question, User user, IList<Answer> answers, QuestionValuationCacheItem userQuestionValuation)
     {
         var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
@@ -37,8 +18,6 @@ public class CategoryInKnowledge
         userQuestionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
         userQuestionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
     }
-
-    public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
 
     public static void UnpinQuestionsInCategory(int categoryId, User user)
     {
@@ -126,12 +105,6 @@ public class CategoryInKnowledge
         return questionsInOtherValuatedCategories;
     }
 
-    public static void PinCategoryInDatabase(int categoryId, int userId)
-    {
-        var user = Sl.UserRepo.GetById(userId);
-        PinQuestionsInCategory(categoryId, user);
-    }
-
     public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
     {
         var user = Sl.UserRepo.GetByIds(userId).First();
@@ -156,28 +129,5 @@ public class CategoryInKnowledge
         if (category == null) return;
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
         QuestionInKnowledge.Pin(questions, user);
-    }
-
-    public static void UpdateCategoryValuationTest(int categoryId, User user, int relevance = 50)
-    {
-        UpdateCategoryValuation(categoryId, user, relevance);
-    }
-    private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
-    {
-        CreateOrUpdateCategoryValuation.Run(categoryId, user.Id, relevancePeronal: relevance);
-
-        var session = Sl.R<ISession>();
-        session.CreateSQLQuery(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", categoryId)).ExecuteUpdate();
-        session.Flush();
-
-        ReputationUpdate.ForCategory(categoryId);
-    }
-
-    private static string GenerateEntriesQuery(string fieldToSet, string fieldSource, int categoryId)
-    {
-        return "UPDATE Category SET " + fieldToSet + "Entries = " +
-                    "(SELECT COUNT(Id) FROM CategoryValuation " +
-                    "WHERE CategoryId = " + categoryId + " AND " + fieldSource + " != -1) " +
-                    "WHERE Id = " + categoryId + ";";
     }
 }

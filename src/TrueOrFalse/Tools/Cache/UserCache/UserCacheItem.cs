@@ -18,5 +18,4 @@ public class UserCacheItem
 
     public ConcurrentDictionary<int, CategoryValuation> CategoryValuations;
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations;
-    public bool IsFiltered;
 }

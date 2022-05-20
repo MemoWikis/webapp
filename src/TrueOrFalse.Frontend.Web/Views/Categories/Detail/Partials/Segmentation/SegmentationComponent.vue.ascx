@@ -3,14 +3,18 @@
 
 <%= Styles.Render("~/bundles/Segmentation") %>
 
-<segmentation-component inline-template :edit-mode="editMode" :category-id="<%= Model.Category.Id %>" child-category-ids="<%= Model.NotInSegmentCategoryIds %>" segment-json="<%= Model.SegmentJson %>" is-my-world-string="<%= Model.IsMyWorld %>" is-historic-string="<%= Model.Category.IsHistoric %>">
+<segmentation-component 
+    inline-template 
+    :edit-mode="editMode" 
+    :category-id="<%= Model.Category.Id %>" 
+    child-category-ids="<%= Model.NotInSegmentCategoryIds %>" 
+    segment-json="<%= Model.SegmentJson %>" 
+    is-historic-string="<%= Model.Category.IsHistoric %>">
     <div :key="componentKey" id="Segmentation" v-cloak>
 
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen <template v-if="categories.length >0">({{categories.length}})</template>
-            <%if (Model.ShowLinkToRootCategory) {%>
-                <div v-if="!isMyWorld" class="toRoot" id="SegmentationLinkToGlobalWiki" style="display:none"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
-            <%} %>
+            <div class="toRoot" id="SegmentationLinkToGlobalWiki" style="display:none"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
         </div>
 
         <div id="CustomSegmentSection" v-if="loadComponents" v-cloak>

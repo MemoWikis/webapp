@@ -27,11 +27,6 @@ namespace TrueOrFalse.Tests
 
             var user = ContextUser.GetUser();
 
-            foreach (var category in categoryContext.All)
-            {
-                CategoryInKnowledge.Pin(category.Id, user);
-            }
-
             RecycleContainer();
 
             Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));

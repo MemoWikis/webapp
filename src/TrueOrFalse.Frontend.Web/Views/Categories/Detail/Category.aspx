@@ -20,11 +20,7 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/Editor") %>
 
-    <script type="text/x-template" id="pin-category-template">
-        <%: Html.Partial("~/Views/Shared/PinComponentVue/PinCategoryComponent.vue.ascx") %>
-    </script>
-
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script id="GoogleJSApi" type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%  
         if (Model.CategoriesChildren.Count != 0)
         {
@@ -50,7 +46,6 @@
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
     <input type="hidden" id="hddQuestionCount" value="<%=Model.CountAggregatedQuestions %>"/> 
     <input type="hidden" id="hddVisibility" value="<%= Model.Category.Visibility %>"/>
-    <input type="hidden" id="hddIsMyWorld" value="<%= Model.IsMyWorld %>"/>
     <input type="hidden" id="hddIsWiki" value="<%= Model.IsWiki %>"/>
     <input type="hidden" id="tiptapUrl" value="<%= Scripts.Url("~/bundles/js/tiptap") %>"/>
 

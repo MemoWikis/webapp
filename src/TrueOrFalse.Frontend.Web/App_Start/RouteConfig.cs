@@ -90,7 +90,6 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
             /* API */ routes.MapRoute("Category_StartLearningSession", "Category/StartLearningSession", new { controller = "Category", action = "StartLearningSession" });
             /* API */ routes.MapRoute("TopicTabAsync", "Category/GetTopicTabAsync", new { controller = "Category", action = "GetTopicTabAsync" });
-            /* API */ routes.MapRoute("DeleteCookie", "Category/DeleteCookie", new { controller = "Category", action = "DeleteCookie" });
             /* API */ routes.MapRoute("Category_Get_Delete_Data", "Categories/GetDeleteData", new { controller = "Categories", action = "GetDeleteData" });
             routes.MapRoute("Category_GetCurrentQuestionCount", "Category/GetCurrentQuestionCount/{categoryId}", new { controller = "Category", action = "GetCurrentQuestionCount" });
 
@@ -172,8 +171,6 @@ namespace TrueOrFalse
             routes.MapRoute("Category_KnowledgeBar", "Category/KnowledgeBar", new { controller = "Category", action = "KnowledgeBar" });
             /*Api*/routes.MapRoute("AnalyticsTabApi", "Category/Tab", new { controller = "Category", action = "Tab" });
             /*Api*/routes.MapRoute("SetSetSettingsCookie", "Category/SetSettingsCookie/{text}", new { controller = "Category", action = "SetSettingsCookie", text = UrlParameter.Optional });
-            /*Api*/routes.MapRoute("SetMyWorldCookie", "Category/SetMyWorldCookie/{text}", new { controller = "Category", action = "SetMyWorldCookie", text = UrlParameter.Optional });
-            /*Api*/routes.MapRoute("GetMyWorldCookie", "Category/GetMyWorldCookie/", new { controller = "Category", action = "GetMyWorldCookie" });
 
             routes.MapRoute("AnalyticsGetKnowledgeDisplay", "Category/GetKnowledgeGraphDisplay", new { controller = "Category", action = "GetKnowledgeGraphDisplay" });
             routes.MapRoute("RenderNewKnowledgeSummaryBar", "Category/RenderNewKnowledgeSummaryBar", new { controller = "Category", action = "RenderNewKnowledgeSummaryBar" });

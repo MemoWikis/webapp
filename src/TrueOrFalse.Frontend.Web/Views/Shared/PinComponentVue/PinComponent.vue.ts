@@ -3,8 +3,6 @@
         props: {
             isInWishknowledge: Boolean,
             questionId: [Number, String],
-            categoryId: [Number, String],
-            isCategory: Boolean,
         },
         template: '#pin-wuwi-template',
 
@@ -63,57 +61,5 @@
                             }
                         }
             },
-
-            animatePin() {
-            }
         }
     });
-
-//enum PinState {
-//    NotInWuwi,
-//    Loading,
-//    InWuwi
-//}
-
-//Vue.component('pin-component',
-//    {
-//        props: {
-//            isInWishknowledge: Boolean,
-//            questionId: [Number, String],
-//            categoryId: [Number, String],
-//            size: {
-//                default: 14,
-//                type: Number
-//            }
-//        },
-//        template: '#pin-template',
-
-//        data() {
-//            return {
-//                currentState: PinState.NotInWuwi,
-//            }
-//        },
-//        mounted() {
-//            eventBus.$on('set-pin',
-//                (e) => {
-//                    if (this.questionId= e.questionId || this.categoryId == e.categoryId)
-//                        e.currState.InWuwi.state;
-//                });
-
-//            if (this.isInWishknowledge)
-//                this.currentState = PinState.InWuwi;
-//            else
-//                this.currentState = PinState.NotInWuwi;
-//        },
-//        methods: {
-//            addWuwi() {
-
-//            },
-//            removeWuwi() {
-
-//            },
-
-//            animatePin() {
-//            }
-//        }
-//    });
