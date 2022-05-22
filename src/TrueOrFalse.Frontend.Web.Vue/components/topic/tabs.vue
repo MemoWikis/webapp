@@ -2,10 +2,7 @@
 
 <template>
   <div>
-    Topic {{ $route.params.id }}
-
-    <Topic/>
-
+    Component: topic/tab
   </div>
 </template>
 

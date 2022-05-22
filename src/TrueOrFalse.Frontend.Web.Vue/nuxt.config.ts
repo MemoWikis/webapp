@@ -1,8 +1,13 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from "nuxt";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     typescript: {
-        shim: false
-      }
-})
+        shim: false,
+    },
+    runtimeConfig: {
+        public: {
+            apiBase: "https://localhost:7211",
+        },
+    },
+});
