@@ -10,10 +10,6 @@ const { data: topic, pending, refresh, error } =
 <template>
     <div>
         <Tabs />
-
-        {{error}}
-        {{pending}}
-        {{topic}}
         {{topic}}
     </div>
 </template>
