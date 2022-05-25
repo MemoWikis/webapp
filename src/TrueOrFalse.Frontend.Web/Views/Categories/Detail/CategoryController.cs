@@ -247,7 +247,7 @@ public class CategoryController : BaseController
         return Links.CategoryDetail(EntityCache.GetCategory(startTopicId, getDataFromEntityCache: true));
     }
 
-    public  bool GetMyWorldCookie()
+    public bool GetMyWorldCookie()
     {
         HttpCookie cookie = Request.Cookies.Get("memucho_myworld");
         if (cookie != null && IsLoggedIn)
