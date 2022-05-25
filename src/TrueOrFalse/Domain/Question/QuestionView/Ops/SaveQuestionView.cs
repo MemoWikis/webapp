@@ -27,8 +27,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
     public void Run(
         Guid questionViewGuid,
         QuestionCacheItem question,
-        int userId,
-        WidgetView widgetView = null)
+        int userId)
     {
         if (HttpContext.Current == null)
             return;
@@ -44,8 +43,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             QuestionId = question.Id,
             UserId = userId,
             Milliseconds = -1,
-            UserAgent = userAgent,
-            WidgetView = widgetView
+            UserAgent = userAgent
         });
 
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).

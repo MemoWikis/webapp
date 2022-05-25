@@ -27,8 +27,6 @@ public class QuestionView : IPersistable, WithDateCreated
 
     public virtual string UserAgent { get; set; }
 
-    public virtual WidgetView WidgetView { get; set; }
-
     public virtual bool Migrated { get; set; }
 
     public virtual DateTime DateCreated { get; set; }

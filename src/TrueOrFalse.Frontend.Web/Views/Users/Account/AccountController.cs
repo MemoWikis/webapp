@@ -47,21 +47,4 @@ public class AccountController : BaseController
 
         return Redirect(Request.UrlReferrer.AbsolutePath);
     }
-
-    [SetMainMenu(MainMenuEntry.None)]
-    [AccessOnlyAsLoggedIn]
-    public ActionResult WidgetStats()
-    {
-        return View("~/Views/Users/Account/WidgetStats/WidgetStats.aspx", new WidgetStatsModel());
-    }
-
-    public string RenderWidgetStatsDetail(string host, string widgetKey)
-    {
-        return ViewRenderer.RenderPartialView(
-            "~/Views/Users/Account/WidgetStats/Partials/WidgetStatsDetailViews.ascx",
-            new WidgetStatsDetailViewsModel(host, widgetKey), 
-            ControllerContext
-        );
-
-    }
 }

@@ -13,8 +13,6 @@ public class QuestionViewMap : ClassMap<QuestionView>
         Map(x => x.Milliseconds);
         Map(x => x.UserAgent);
 
-        References(x => x.WidgetView).Cascade.None();
-
         Map(x => x.Migrated);
 
         Map(x => x.DateCreated);
