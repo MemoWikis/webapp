@@ -1,6 +1,4 @@
 ﻿
-
-
 class Login {
 
     private static IsClicked = false;

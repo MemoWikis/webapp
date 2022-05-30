@@ -291,10 +291,8 @@
     <Compile Include="Tools\Cache\CacheUpdater.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\ModifyRelationsUserEntityCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\QuestionCacheItem.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\ReferenceCacheItem.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCache.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelation.cs" />
     <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
@@ -823,9 +821,11 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
     <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
     <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
+    <Compile Include="Tools\Update\WuwiMigration\WuwiMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />

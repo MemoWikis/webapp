@@ -55,5 +55,7 @@ public class UserMap : ClassMap<User>
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
+        Map(x => x.SkipWuwiMigration);
+
     }
 }

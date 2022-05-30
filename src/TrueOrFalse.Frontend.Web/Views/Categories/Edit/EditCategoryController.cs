@@ -87,12 +87,7 @@ public class EditCategoryController : BaseController
         {
             Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id + " AND CategoryRelationType = 2").ExecuteUpdate();
             GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategory(id), oldParents);
-
-            UserEntityCache.ReInitAllActiveCategoryCaches();
         }
-
-        else
-            UserEntityCache.ChangeCategoryInUserEntityCaches(oldcategoryCacheItem);
 
         model.Init(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id));
         model.IsEditing = true;
@@ -285,9 +280,6 @@ public class EditCategoryController : BaseController
 
         JobScheduler.StartImmediately_ModifyCategoryRelation(childCategoryId, parentCategoryId);
 
-        if (UserCache.IsInWishknowledge(SessionUser.UserId, childCategoryId))
-            UserEntityCache.ReInitAllActiveCategoryCaches();
-
         EntityCache.GetCategory(parentCategoryId).CachedData.AddChildId(childCategoryId);
         EntityCache.GetCategory(parentCategoryId).DirectChildrenIds = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
 
@@ -346,9 +338,6 @@ public class EditCategoryController : BaseController
 
         ModifyRelationsEntityCache.AddParent(EntityCache.GetCategory(categoryId, getDataFromEntityCache: true), personalWikiId);
 
-        if (UserCache.IsInWishknowledge(SessionUser.UserId, categoryId))
-            UserEntityCache.ReInitAllActiveCategoryCaches();
-
         JobScheduler.StartImmediately_ModifyCategoryRelation(categoryId, personalWikiId);
 
         return Json(new
@@ -402,8 +391,6 @@ public class EditCategoryController : BaseController
 
             _categoryRepository.Update(childCategoryAsCategory, SessionUser.User, type: CategoryChangeType.Relations);
         }
-
-        UserEntityCache.ReInitAllActiveCategoryCaches();
 
         return Json(new
         {
@@ -465,7 +452,6 @@ public class EditCategoryController : BaseController
 
         var cacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(cacheItem);
-        UserEntityCache.ReInitAllActiveCategoryCaches();
         _categoryRepository.Update(category, SessionUser.User, type: CategoryChangeType.Relations);
 
         return Json(true);

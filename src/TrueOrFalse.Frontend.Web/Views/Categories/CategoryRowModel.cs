@@ -26,8 +26,6 @@ public class CategoryRowModel : BaseModel
     public int CorrectnesProbability;
     public int AnswersTotal;
 
-    public bool IsInWishknowledge;
-
     public CategoryRowModel(CategoryCacheItem category, CategoryValuation valution)
     {
         Category = category;
@@ -39,9 +37,6 @@ public class CategoryRowModel : BaseModel
         IsEducationCategory = catTypeGroup == CategoryTypeGroup.Education;
         CategoryTypeName = Category.Type.GetName();
         HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
-
-        IsInWishknowledge = valution.IsInWishKnowledge();
-
         QuestionCount = category.CountQuestionsAggregated;
 
         UserCanEdit = SessionUser.IsInstallationAdmin;

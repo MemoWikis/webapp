@@ -35,7 +35,6 @@ public class BaseTest
     public void RecycleContainer()
     {
         EntityCache.Clear();
-        UserEntityCache.Clear();
         SessionUser.Clear();
         R<ISession>().Flush();
         _container.Dispose();

@@ -31,7 +31,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
         }
-        if(!isTestCase){
+        if (!isTestCase){
             _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
             _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
             _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
@@ -50,10 +50,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         {
             EntityCache.GetCategory(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
         }
-        ModifyRelationsUserEntityCache.DeleteFromAllParents(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem);
         UserCache.RemoveAllForCategory(category.Id);
-        UserEntityCache.DeleteCategory(category.Id);
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted; 
     }

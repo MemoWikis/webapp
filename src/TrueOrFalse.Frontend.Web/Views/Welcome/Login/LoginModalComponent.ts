@@ -13,6 +13,7 @@ var loginModal = Vue.component('login-modal-component',
                 errorMessage: '',
                 passwordInputType: 'password',
                 isWiki: false,
+                tryLogin: false,
             }
         },
         beforeCreate() {
@@ -38,9 +39,11 @@ var loginModal = Vue.component('login-modal-component',
             },
 
             SubmitForm() {
+                if (this.tryLogin)
+                    return;
+                this.tryLogin = true;
 
                 var self = this;
-
                 var data = {
                     EmailAddress: self.eMail,
                     Password: self.password,
@@ -50,6 +53,7 @@ var loginModal = Vue.component('login-modal-component',
                 $.post("/Login/Login",
                     data,
                     (result) => {
+                        self.tryLogin = false;
                         if (!result.Success) {
                             self.errorMessage = result.Message;
                             return;

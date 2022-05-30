@@ -142,17 +142,6 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                 <div class="Border"></div>
             <% } %>
             <div class="Buttons">
-                <% if (Model.ShowPinButton())
-                   { %>
-                    <div class="PinContainer">
-                        <div class="Button Pin pinHeader" data-category-id="<%= Model.Id %>">
-                            <a href="#" class="noTextdecoration" style="font-size: 22px;">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge, isHeader: true)) %>
-                            </a>
-                        </div>
-                    </div>
-                <% } %>
-
                 <div class="Button dropdown DropdownButton">
                     <% buttonId = Guid.NewGuid(); %>
                     <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

@@ -222,7 +222,6 @@ namespace TrueOrFalse.Tests
             EntityCache.Init();
 
             SessionUser.Login(user);
-            UserEntityCache.Init(user.Id);
             SessionUser.Logout();
             return user;
         }
@@ -268,26 +267,6 @@ namespace TrueOrFalse.Tests
         {
             return categoryCachedItem.CachedData.ChildrenIds.Any(child =>
                 child == EntityCache.GetCategoryByName(childName).First().Id);
-        }
-
-        public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
-        {
-            return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetCategoryByName(parentName).First().Id &&
-                cr.CategoryRelationType == CategoryRelationType.IsChildOf);
-        }
-
-        public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)
-        {
-            return categoryCacheItem.CategoryRelations
-                .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id &&
-                           cr.CategoryRelationType == CategoryRelationType.IncludesContentOf);
-        }
-
-        public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
-        {
-            return categoryCacheItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == deletedId || cr.CategoryId == deletedId);
         }
     }
 }

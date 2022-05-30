@@ -49,7 +49,6 @@ public class CategoryModel : BaseContentModule
     public int AnswersTotal;
     private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepo;
-    public bool IsInWishknowledge;
     public bool IsLearningTab;
     public string TotalPins;
     public AnalyticsFooterModel AnalyticsFooterModel;
@@ -94,9 +93,6 @@ public class CategoryModel : BaseContentModule
 
         if (loadKnowledgeSummary)
             KnowledgeSummary = isCategoryNull ? null : KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
-
-        var userValuationCategory = UserCache.GetCategoryValuation(UserId, category.Id);
-        IsInWishknowledge = userValuationCategory != null && userValuationCategory.IsInWishKnowledge();
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
@@ -224,14 +220,5 @@ public class CategoryModel : BaseContentModule
     {
         var user = SessionUser.User;
         return EntityCache.GetChildren(category.Id).Count(PermissionCheck.CanView);
-    }
-
-    public bool ShowPinButton()
-    {
-        if (SessionUser.UserId != -1)
-            return !Category.IsHistoric &&
-                   !UserCache.GetItem(SessionUser.UserId).User.IsStartTopicTopicId(Category.Id);
-
-        return !Category.IsHistoric;
     }
 }

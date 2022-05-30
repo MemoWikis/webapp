@@ -36,44 +36,6 @@ class Automatic_inclusion_tests : BaseTest
     }
 
     [Test]
-    public void Test_automatic_inclusion_user_entity_cache_by_update()
-    {
-        var context = ContextCategory.New();
-        var parentA = context
-            .Add("Category")
-            .Persist()
-            .All.First();
-
-        var subCategories = ContextCategory
-            .New()
-            .Add("Sub1", parent: parentA)
-            .Add("Sub2", parent: parentA)
-            .Add("Sub3", parent: parentA)
-            .Persist()
-            .All;
-
-        ContextCategory
-            .New()
-            .Add("SubSub1", parent: subCategories.ByName("Sub1"))
-            .Persist();
-
-        context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3")).Persist();
-        EntityCache.Init();
-
-
-        var user = ContextUser.New().Add("Dandor").Persist().All.First();
-        SessionUser.Login(user);
-
-        var subSub1 = Sl.CategoryRepo.GetByName("SubSub1").First();
-        subSub1.CategoryRelations.RemoveAt(0);
-        subSub1.CategoryRelations.Add(new CategoryRelation { Category = subSub1, CategoryRelationType = CategoryRelationType.IsChildOf, RelatedCategory = Sl.CategoryRepo.GetByName("Sub2").First() });
-        context.Update(subSub1);
-
-        Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Category"), "SubSub1", user.Id), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectIncludetContent(UserEntityCache.GetAllCategories(user.Id).ByName("Sub2"), "SubSub1", user.Id), Is.EqualTo(true));
-    }
-
-    [Test]
     public void Test_Cached_Data()
     {
         var context = ContextCategory.New();

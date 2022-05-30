@@ -92,13 +92,6 @@
                         </div>                        
                             
                     </div>
-                   
-                    <div style="float: right">
-                        <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-category-id="<%= Model.Id %>">
-                            <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                        </span>
-                    </div>
-
                 </div>
             </div>
         </div>

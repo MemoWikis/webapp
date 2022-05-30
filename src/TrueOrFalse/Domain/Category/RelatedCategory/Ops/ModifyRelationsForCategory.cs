@@ -213,8 +213,6 @@ public class ModifyRelationsForCategory
             childCategoryId,
             CategoryRelationType.IncludesContentOf);
 
-        UserEntityCache.ReInitAllActiveCategoryCaches();
-
         return true;
     }
 

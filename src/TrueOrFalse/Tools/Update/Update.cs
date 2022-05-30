@@ -164,6 +164,7 @@
                 .Add(UpdateToVs231.Run)
                 .Add(UpdateToVs232.Run)
                 .Add(UpdateToVs234.Run)
+                .Add(UpdateToVs235.Run)
                 .Run();
         }
     }

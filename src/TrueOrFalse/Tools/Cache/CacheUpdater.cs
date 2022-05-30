@@ -8,9 +8,6 @@
             CategoryRepository.UpdateCachedData(categoryCacheItemOld, CategoryRepository.CreateDeleteUpdate.Update);
             EntityCache.AddOrUpdate(categoryCacheItemOld);
             EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItemOld);
-            UserEntityCache.ChangeCategoryInUserEntityCaches(categoryCacheItemOld);
-            ModifyRelationsUserEntityCache.UpdateParents	(categoryCacheItemOld);
-    }
-
+        }
     }
 

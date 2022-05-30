@@ -21,12 +21,6 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                 .Where(q => q.UserId == userId && q.CategoryId == categoryId)
                 .SingleOrDefault();
 
-    public IList<CategoryValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
-    {
-        var cacheItem = UserCache.GetItem(userId);
-        return cacheItem.CategoryValuations.Values.ToList();
-    }
-
     public IList<CategoryValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
         var query = _session.QueryOver<CategoryValuation>()
@@ -74,43 +68,11 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         Update(categoryValuation);
     }
 
-    public override void Create(IList<CategoryValuation> valuations)
-    {
-        foreach (var categoryValuation in valuations)
-        {
-            KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
-        }
-        base.Create(valuations);
-        foreach (var categoryValuation in valuations)
-        {
-            UserCache.AddOrUpdate(categoryValuation);
-        }
-        var categories = Sl.CategoryRepo.GetByIds(valuations.GetCategoryIds().ToArray());
-        Sl.SearchIndexCategory.Update(categories);
-    }
-
-    public override void Create(CategoryValuation categoryValuation)
-    {
-        KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
-        base.Create(categoryValuation);
-        UserCache.AddOrUpdate(categoryValuation);
-        Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
-    }
-
-    public override void CreateOrUpdate(CategoryValuation categoryValuation)
-    {
-        KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
-        base.CreateOrUpdate(categoryValuation);
-        UserCache.AddOrUpdate(categoryValuation);
-        Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
-    }
-
     public override void Update(CategoryValuation categoryValuation)
     {
         categoryValuation.UpdateKnowledgeSummary();
 
         base.Update(categoryValuation);
-        UserCache.AddOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 

@@ -413,4 +413,13 @@ public class MaintenanceController : BaseController
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Autoren von Kategorien wurden aktualisiert.") });
     }
+
+    [HttpPost]
+    public ActionResult MigrateWuwi()
+    {
+        TemplateMigration.DescriptionMigration.Start();
+
+        return View("Maintenance",
+            new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
+    }
 }

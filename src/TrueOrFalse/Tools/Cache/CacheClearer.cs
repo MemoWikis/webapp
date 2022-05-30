@@ -6,7 +6,6 @@
         {
             UserCache.Clear();
             EntityCache.Clear();
-            UserEntityCache.Clear();
 
             EntityCache.Init();
         }
