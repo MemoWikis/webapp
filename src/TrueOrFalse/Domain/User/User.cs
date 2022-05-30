@@ -104,8 +104,6 @@ public class User : DomainEntity, IUserTinyModel
     }
 
     public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
-
-    public virtual bool SkipWuwiMigration { get; set; }
 }
 
 public class FacebookUserCreateParameter
