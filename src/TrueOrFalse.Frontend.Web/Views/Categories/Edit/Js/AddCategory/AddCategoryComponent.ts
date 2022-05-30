@@ -3,7 +3,8 @@
     Move: "Move",
     AddParent: "AddParent",
     AddChild: "AddChild",
-    None: "None"
+    None: "None",
+    AddToWiki: "AddToWiki"
 };
 
 var addCategoryComponent = Vue.component('add-category-component', {
@@ -129,6 +130,19 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     },
                 });
             });
+        eventBus.$on('add-to-wiki',
+            id => {
+                var parent = {
+                    id: id,
+                    addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                    redirect: true,
+                    categoryChange: CategoryChangeType.AddToWiki
+                }
+                this.childId = id;
+                if ($('#LearningTabWithOptions').hasClass("active"))
+                    parent.addCategoryBtnId = null;
+                $('#AddCategoryModal').data('parent', parent).modal('show');
+            });
         eventBus.$on('open-move-category-modal', this.fillMoveModal);
 
         $('#AddCategoryModal').on('show.bs.modal',
@@ -149,22 +163,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
             });
     },
     methods: {
-        clearData() {
-            this.name = "";
-            this.errorMsg = "";
-            this.showErrorMsg = false;
-            this.parentId = null;
-            this.parentCategoryIdToRemove = null;
-            this.childId = null;
-            this.forbiddenCategoryName = "";
-            this.existingCategoryUrl = "";
-            this.selectedCategories = [];
-            this.moveCategory = false;
-            this.redirect = false;
-            this.showDropdown = false;
-            this.selectedCategoryId = 0;
-            this.categoriesToFilter = [];
-        },
         closeModal() {
             $('#AddCategoryModal').modal('hide');
         },
@@ -264,13 +262,15 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 type: 'Categories',
                 categoriesToFilter: self.categoriesToFilter,
             };
-
+            var url = this.categoryChange == this.categoryChangeType.AddToWiki
+                ? '/Api/Search/CategoryInWiki'
+                : '/Api/Search/Category';
             $.ajax({
                 type: 'Post',
                 contentType: "application/json",
-                url: '/Api/Search/Category',
+                url: url,
                 data: JSON.stringify(data),
-                success: function (result) {
+                success(result) {
                     self.categories = result.categories.filter(c => c.Id != self.parentId);
                     self.totalCount = result.totalCount;
                     self.$nextTick(() => {
@@ -357,7 +357,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 },
             });
         },
-        AddNewParentToCategory() {
+        addNewParentToCategory() {
             Utils.ShowSpinner();
             var self = this;
             var categoryData = {
@@ -405,7 +405,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
         }
     }
 });
-
 
 var AddCategoryApp = new Vue({
     name: 'AddCategory',

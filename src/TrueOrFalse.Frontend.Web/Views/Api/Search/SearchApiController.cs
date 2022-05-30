@@ -57,6 +57,27 @@ public class SearchApiController : BaseController
         }, JsonRequestBehavior.AllowGet);
     }
 
+    [HttpPost]
+    public JsonResult CategoryInWiki(string term, int[] categoriesToFilter, int personalWikiId)
+    {
+        var items = new List<SearchCategoryItem>();
+        var elements = SearchBoxElementsGet.GoAllCategories(term);
+
+        if (elements.Categories.Any())
+            AddCategoryItems(items, elements);
+        if (categoriesToFilter != null)
+            items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
+
+        var wikiChildren = EntityCache.GetAllChildren(personalWikiId);
+        items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
+
+        return Json(new
+        {
+            totalCount = elements.CategoriesResultCount,
+            categories = items,
+        }, JsonRequestBehavior.AllowGet);
+    }
+
     public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
     {
         items.AddRange(
