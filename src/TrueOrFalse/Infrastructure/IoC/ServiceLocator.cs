@@ -44,8 +44,6 @@ public class Sl
 
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
 
-    public static WidgetViewRepo WidgetViewRepo => R<WidgetViewRepo>();
-
     public static UserActivityRepo UserActivityRepo => R<UserActivityRepo>();
     
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();

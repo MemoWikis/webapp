@@ -34,6 +34,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -284,8 +285,6 @@
     <Compile Include="Infrastructure\Logging\LoggController.cs" />
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
-    <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
-    <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
     <Compile Include="Tools\Cache\CacheClearer.cs" />
     <Compile Include="Tools\Cache\CacheUpdater.cs" />
@@ -788,10 +787,6 @@
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
     <Compile Include="Tools\Cache\EntityCache.cs" />
-    <Compile Include="Tools\Analytics\Widget\Ops\SaveWidgetView.cs" />
-    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
-    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
-    <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
     <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
     <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />

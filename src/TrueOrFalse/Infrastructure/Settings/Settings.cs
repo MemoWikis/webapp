@@ -64,10 +64,6 @@ public class Settings
     public static string LogglyKey() => OverwrittenConfig.ValueString("logglyKey");
     public static string BetaCode() => OverwrittenConfig.ValueString("betaCode");
 
-    public static string SignalrUrl() => OverwrittenConfig.ValueString("signalrUrl");
-    public static string SignalrUser() => OverwrittenConfig.ValueString("signalrUser");
-    public static string SignalrPassword() => OverwrittenConfig.ValueString("signalrPassword");
-
     public static string UpdateUserSettingsKey() => OverwrittenConfig.ValueString("updateUserSettingsKey");
 
     public static string InvoiceFolder() => OverwrittenConfig.ValueString("invoiceFolderPath");

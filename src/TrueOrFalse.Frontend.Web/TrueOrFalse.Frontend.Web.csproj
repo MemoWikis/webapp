@@ -243,6 +243,7 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\ApiVueApp\TopicController.cs" />
     <Compile Include="Views\Api\ActivityPointsApiController.cs" />
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
     <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
@@ -2483,9 +2484,6 @@
     <Compile Include="Views\StatisticsDashboard\StatisticsDashboardController.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
-    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />
-    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHostModel.cs" />
-    <Compile Include="Views\Users\Account\WidgetStats\WidgetStatsModel.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -2625,15 +2623,6 @@
     </Content>
     <Content Include="Views\Shared\Switch\Switch.css">
       <DependentUpon>Switch.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\WidgetStats\Js\WidgetStats.js">
-      <DependentUpon>WidgetStats.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
-    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
-    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
-    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.css">
-      <DependentUpon>WidgetStats.less</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Partials\TeamPics.ascx" />
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
@@ -3431,7 +3420,6 @@
     <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
-    <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
@@ -3815,7 +3803,6 @@
     </Content>
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
-    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
     <Content Include="Views\Maintenance\Js\ContentStats.js.map">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
@@ -3900,9 +3887,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionList\QuestionComponent.js.map">
       <DependentUpon>QuestionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\WidgetStats\Js\WidgetStats.js.map">
-      <DependentUpon>WidgetStats.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.js.map">
       <DependentUpon>FlashCardComponent.ts</DependentUpon>
@@ -4010,6 +3994,7 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
