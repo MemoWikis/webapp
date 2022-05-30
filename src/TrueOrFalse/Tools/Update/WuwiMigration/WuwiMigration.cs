@@ -7,23 +7,21 @@ public class WuwiMigrator
 
     public static void CreateWuwiCategoryForAllUsers()
     {
-        var userIds = Sl.UserRepo.GetAllIds();
+        var users = Sl.UserRepo.GetAll();
 
-        foreach (var userId in userIds)
+        foreach (var user in users)
         {
-            var user = Sl.UserRepo.GetById(userId);
-            
-            var wuwiCategories = Sl.CategoryValuationRepo.GetByUser(userId).Where(cv => cv.IsInWishKnowledge()).ToList();
+            var wuwiCategories = Sl.CategoryValuationRepo.GetByUser(user.Id).Where(cv => cv.IsInWishKnowledge()).ToList();
             if (wuwiCategories.Any())
             {
-                Logg.r().Information("WuwiMigration - Start Migration for User: {userId}", userId);
+                Logg.r().Information("WuwiMigration - Start Migration for User: {userId}", user.Id);
 
                 var wuwiCategory = CreateWuwiCategory(user);
 
                 foreach (var cv in wuwiCategories)
                     AddCategoryToWuwiCategory(wuwiCategory, cv, user);
 
-                Logg.r().Information("WuwiMigration - End Migration for User: {userId}", userId);
+                Logg.r().Information("WuwiMigration - End Migration for User: {userId}", user.Id);
             }
         }
     }
@@ -43,9 +41,6 @@ public class WuwiMigrator
         Sl.CategoryRepo.CreateOnlyDb(category);
 
         ModifyRelationsForCategory.AddParentCategory(category, user.StartTopicId);
-        var personalWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
-        ModifyRelationsForCategory.AddCategoryRelationOfType(personalWiki, category.Id,
-            CategoryRelationType.IncludesContentOf);
 
         return category;
     }
@@ -55,15 +50,8 @@ public class WuwiMigrator
         var childCategory = _categoryRepo.GetById(categoryValuation.CategoryId);
 
         ModifyRelationsForCategory.AddParentCategory(childCategory, wuwiCategory.Id);
-        ModifyRelationsForCategory.AddCategoryRelationOfType(wuwiCategory, categoryValuation.Id,
-            CategoryRelationType.IncludesContentOf);
 
-        _categoryRepo.Update(childCategory, user, type: CategoryChangeType.Relations);
-        _categoryRepo.Update(wuwiCategory, user, type: CategoryChangeType.Relations);
-
-        categoryValuation.RelevancePersonal = -1;
-
-        _categoryValuationRepo.Update(categoryValuation);
+        _categoryValuationRepo.Delete(categoryValuation);
 
         Logg.r().Information("WuwiMigration - Migrated Child: {childId}, to WuwiCategory: {parentId}", 
             categoryValuation.CategoryId,
