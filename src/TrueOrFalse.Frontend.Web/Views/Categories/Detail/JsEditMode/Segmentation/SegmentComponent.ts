@@ -164,10 +164,10 @@
                 addCategoryBtnId: $("#" + self.addCategoryId),
                 moveCategories: false,
                 categoriesToFilter,
-                categoryChange: CategoryChangeType.AddChild
+                categoryChange: EditCategoryRelationType.AddChild
             }
             if (val)
-                parent.categoryChange = CategoryChangeType.Create;
+                parent.categoryChange = EditCategoryRelationType.Create;
             $('#AddCategoryModal').data('parent', parent).modal('show');
         },
         removeChildren() {

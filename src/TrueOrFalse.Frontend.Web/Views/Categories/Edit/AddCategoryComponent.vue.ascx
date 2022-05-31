@@ -7,14 +7,14 @@
                     <div class="modal-content">
                         <div class="cardModalContent">
                             <div class="modalHeader">
-                                <h4 v-if="categoryChange === categoryChangeType.Create" class="modal-title">Neues Thema erstellen</h4>
-                                <h4 v-else-if="categoryChange === categoryChangeType.Move" class="modal-title">Thema verschieben nach</h4>
-                                <h4 v-else-if="categoryChange === categoryChangeType.AddChild" class="modal-title">Bestehendes Thema verknüpfen</h4>
-                                <h4 v-else-if="categoryChange === categoryChangeType.AddParent" class="modal-title">Neues Oberthema verknüpfen</h4>
-                                <h4 v-else-if="categoryChange === categoryChangeType.AddToWiki" class="modal-title">Zum Wiki hinzufügen</h4>
+                                <h4 v-if="editCategoryRelation === editCategoryRelationType.Create" class="modal-title">Neues Thema erstellen</h4>
+                                <h4 v-else-if="editCategoryRelation === editCategoryRelationType.Move" class="modal-title">Thema verschieben nach</h4>
+                                <h4 v-else-if="editCategoryRelation === editCategoryRelationType.AddChild" class="modal-title">Bestehendes Thema verknüpfen</h4>
+                                <h4 v-else-if="editCategoryRelation === editCategoryRelationType.AddParent" class="modal-title">Neues Oberthema verknüpfen</h4>
+                                <h4 v-else-if="editCategoryRelation === editCategoryRelationType.AddToWiki" class="modal-title">Zum Wiki hinzufügen</h4>
                             </div>
 
-                            <div class="modalBody" v-if="categoryChange == categoryChangeType.Create">
+                            <div class="modalBody" v-if="editCategoryRelation == editCategoryRelationType.Create">
                                 <form v-on:submit.prevent="addCategory">
                                     <div class="form-group">
                                         <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
@@ -30,9 +30,9 @@
                                 </div>
                             </div>
 
-                            <div class="modalBody" v-else-if="categoryChange = CategoryChangeType.AddToWiki">
+                            <div class="modalBody" v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki">
                                 <form v-on:submit.prevent="selectCategory">
-                                    <div class="searchResultItem" @click="set">
+                                    <div class="searchResultItem">
                                         <img :src="personalWiki.ImageUrl"/>
                                         <div>
                                             <div class="searchResultLabel body-m">{{personalWiki.Name}}</div>
@@ -43,7 +43,7 @@
 
                                     </div>
                                     <div v-if="showAdditionalCategoriesInPersonalWiki">
-                                        <div class="searchResultItem" v-for="previousCategory in previousCategories">
+                                        <div class="searchResultItem" v-for="previousCategory in addToWikiHistory">
                                             <img :src="previousCategory.ImageUrl"/>
                                             <div>
                                                 <div class="searchResultLabel body-m">{{previousCategory.Name}}</div>
@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
+                                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }" @click="showAdditionalCategoriesInPersonalWiki = true">
                                         <div v-if="showSelectedCategory" class="searchResultItem" @click="toggleShowSelectedCategory()" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
                                             <img :src="selectedCategory.ImageUrl"/>
                                             <div>
@@ -70,7 +70,7 @@
                                             </li>
                                             <li class="dropdownFooter body-m">
                                                 <b>{{totalCount}}</b> Treffer. <br/>
-                                                Deins ist nicht dabei? <span class="dropdownLink" @click="categoryChange = CategoryChangeType.Create">Erstelle hier dein Thema</span>
+                                                Deins ist nicht dabei? <span class="dropdownLink" @click="editCategoryRelation = editCategoryRelationType.Create">Erstelle hier dein Thema</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -102,7 +102,7 @@
                                             </li>
                                             <li class="dropdownFooter body-m">
                                                 <b>{{totalCount}}</b> Treffer. <br/>
-                                                Deins ist nicht dabei? <span class="dropdownLink" @click="categoryChange = CategoryChangeType.Create">Erstelle hier dein Thema</span>
+                                                Deins ist nicht dabei? <span class="dropdownLink" @click="editCategoryRelation = editCategoryRelationType.Create">Erstelle hier dein Thema</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -114,11 +114,11 @@
                             </div>
 
                             <div class="modalFooter">
-                                    <div v-if="categoryChange === categoryChangeType.Create" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
-                                    <div v-else-if="categoryChange === categoryChangeType.Move" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
-                                    <div v-else-if="categoryChange === categoryChangeType.AddChild" id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
-                                    <div v-else-if="categoryChange === categoryChangeType.AddParent" id="AddNewParentBtn" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
-                                    <div v-else-if="categoryChange === categoryChangeType.AddToWiki" id="AddToWiki" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
+                                    <div v-if="editCategoryRelation === editCategoryRelationType.Create" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>       
+                                    <div v-else-if="editCategoryRelation === editCategoryRelationType.Move" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>       
+                                    <div v-else-if="editCategoryRelation === editCategoryRelationType.AddChild" id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
+                                    <div v-else-if="editCategoryRelation === editCategoryRelationType.AddParent" id="AddNewParentBtn" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
+                                    <div v-else-if="editCategoryRelation === editCategoryRelationType.AddToWiki" id="AddToWiki" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>       
                                     <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
                             </div>   
                         </div>

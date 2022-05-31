@@ -52,6 +52,8 @@
     <% Html.RenderPartial("~/Views/Shared/Spinner/Spinner.ascx"); %>
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
     <%: Html.Partial("~/Views/Categories/Detail/Partials/InlineText/InlineTextComponentLoader.ascx") %>
+    <%: Html.Partial("~/Views/Categories/Edit/AddToWikiComponentLoader.ascx") %>
+
 
     <div id="TopicTabContent" class="TabContent">
             <% if (Model.IsInTopicTab) { %>

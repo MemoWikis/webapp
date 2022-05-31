@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentNHibernate.Utils;
 using Seedworks.Lib.Persistence;
 using static System.String;
 
@@ -66,6 +67,24 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
     public virtual bool IsBeltz => 356 == Id;
+
+    public virtual string AddToWikiHistory { get; set; }    
+    public virtual List<int> AddToWikiHistoryIds => AddToWikiHistory?
+        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => Convert.ToInt32(x)).Distinct()
+        .ToList();
+
+    public virtual void AddNewIdToWikiHistory(int id)
+    {
+        var newWikiHistoryIds = new List<int>(AddToWikiHistoryIds);
+
+        if (AddToWikiHistoryIds.Count >= 3)
+            newWikiHistoryIds.RemoveAt(0);
+
+        newWikiHistoryIds.Add(id);
+        AddToWikiHistory = String.Join(",", newWikiHistoryIds);
+        Sl.UserRepo.Update(this);
+    }
 
     public virtual void AddFollower(User follower)
     {

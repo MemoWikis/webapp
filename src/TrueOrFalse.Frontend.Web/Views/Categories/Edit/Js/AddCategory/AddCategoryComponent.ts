@@ -1,4 +1,4 @@
-﻿const CategoryChangeType = {
+﻿const EditCategoryRelationType = {
     Create: "Create",
     Move: "Move",
     AddParent: "AddParent",
@@ -23,8 +23,8 @@ var addCategoryComponent = Vue.component('add-category-component', {
             addCategoryBtnId: null,
             disableAddCategory: true,
             selectedCategories: [],
-            categoryChange: CategoryChangeType.None,
-            categoryChangeType: CategoryChangeType,
+            editCategoryRelation: EditCategoryRelationType.None,
+            editCategoryRelationType: EditCategoryRelationType,
             categories: [],
             searchTerm: "",
             totalCount: 0,
@@ -34,7 +34,10 @@ var addCategoryComponent = Vue.component('add-category-component', {
             lockDropdown: true,
             selectedCategory: null,
             showSelectedCategory: false,
-            categoriesToFilter: []
+            categoriesToFilter: [],
+            personalWiki: {},
+            addToWikiHistory: [],
+            showAdditionalCategoriesInPersonalWiki: false
         };
     },
     watch: {
@@ -74,7 +77,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                     redirect: true,
-                    categoryChange: CategoryChangeType.Create
+                    editCategoryRelation: EditCategoryRelationType.Create
                 }
                 if ($('#LearningTabWithOptions').hasClass("active"))
                     parent.addCategoryBtnId = null;
@@ -86,7 +89,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                     redirect: true,
-                    categoryChange: CategoryChangeType.AddParent
+                    editCategoryRelation: EditCategoryRelationType.AddParent
                 }
                 this.childId = id;
                 if ($('#LearningTabWithOptions').hasClass("active"))
@@ -99,7 +102,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                     redirect: true,
-                    categoryChange: CategoryChangeType.AddChild
+                    editCategoryRelation: EditCategoryRelationType.AddChild
                 }
                 if ($('#LearningTabWithOptions').hasClass("active"))
                     parent.addCategoryBtnId = null;
@@ -136,7 +139,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                     redirect: true,
-                    categoryChange: CategoryChangeType.AddToWiki
+                    editCategoryRelation: EditCategoryRelationType.AddToWiki
                 }
                 this.childId = id;
                 if ($('#LearningTabWithOptions').hasClass("active"))
@@ -147,7 +150,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
 
         $('#AddCategoryModal').on('show.bs.modal',
             event => {
-                this.categoryChange = $('#AddCategoryModal').data('parent').categoryChange;
+                this.editCategoryRelation = $('#AddCategoryModal').data('parent').editCategoryRelation;
                 this.parentId = $('#AddCategoryModal').data('parent').id;
                 this.addCategoryBtnId = $('#AddCategoryModal').data('parent').addCategoryBtnId;
                 if ($('#AddCategoryModal').data('parent').redirect != null &&
@@ -175,7 +178,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 id: this.childId,
                 addCategoryBtnId: null,
                 redirect: true,
-                categoryChange: CategoryChangeType.Move
+                editCategoryRelation: EditCategoryRelationType.Move
             }
 
             $('#AddCategoryModal').data('parent', parent).modal('show');
@@ -262,7 +265,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 type: 'Categories',
                 categoriesToFilter: self.categoriesToFilter,
             };
-            var url = this.categoryChange == this.categoryChangeType.AddToWiki
+            var url = this.editCategoryRelation == this.editCategoryRelationType.AddToWiki
                 ? '/Api/Search/CategoryInWiki'
                 : '/Api/Search/Category';
             $.ajax({
@@ -363,8 +366,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
             var categoryData = {
                 childCategoryId: self.childId,
                 parentCategoryId: this.selectedCategory.Id,
-                redirectToParent: true
-        }
+                redirectToParent: true,
+                addIdToWikiHistory: this.editCategoryRelation == EditCategoryRelationType.AddToWiki
+            }
 
             if (this.selectedCategoryId == this.parentId) {
                 this.errorMsg = messages.error.category.loopLink;
@@ -402,6 +406,17 @@ var addCategoryComponent = Vue.component('add-category-component', {
             headerCount != 1
                 ? $('#CategoryHeaderTopicCountLabel').text('Unterthemen')
                 : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
+        },
+        initWikiData() {
+            $.ajax({
+                type: 'Get',
+                contentType: "application/json",
+                dataType: "application/json",
+                url: '/EditCategory/GetPersonalWikiData',
+                success() {
+
+                },
+            });
         }
     }
 });

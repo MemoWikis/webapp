@@ -191,7 +191,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                         <% if (SessionUser.IsLoggedIn && Model.Category.Id != SessionUser.User.StartTopicId)
                            { %>
                             <li>
-                                <a onclick="eventBus.$emit('add-to-personal-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                                <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-plus-circle"></i>
                                     </div>

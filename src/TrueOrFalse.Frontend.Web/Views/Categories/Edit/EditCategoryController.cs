@@ -238,7 +238,7 @@ public class EditCategoryController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddChild(int childCategoryId, int parentCategoryId, int parentCategoryIdToRemove = -1, bool redirectToParent = false)
+    public JsonResult AddChild(int childCategoryId, int parentCategoryId, int parentCategoryIdToRemove = -1, bool redirectToParent = false, bool addIdToWikiHistory = false)
     {
         if (childCategoryId == parentCategoryId)
             return Json(new
@@ -344,6 +344,17 @@ public class EditCategoryController : BaseController
         {
             success = true,
             key = "addedToPersonalWiki"
+        });
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpGet]
+    public JsonResult GetPersonalWikiData()
+    {
+
+        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+        return Json(new
+        {
         });
     }
 

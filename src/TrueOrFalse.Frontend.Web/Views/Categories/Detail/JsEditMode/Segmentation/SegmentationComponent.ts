@@ -201,11 +201,11 @@ var segmentationComponent = Vue.component('segmentation-component', {
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                categoryChange: CategoryChangeType.AddChild,
+                categoryChange: EditCategoryRelationType.AddChild,
                 categoriesToFilter,
             }
             if (val)
-                parent.categoryChange = CategoryChangeType.Create;
+                parent.categoryChange = EditCategoryRelationType.Create;
 
                 $('#AddCategoryModal').data('parent', parent).modal('show');
         },
@@ -240,7 +240,7 @@ var segmentationComponent = Vue.component('segmentation-component', {
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                categoryChange: CategoryChangeType.Move,
+                categoryChange: EditCategoryRelationType.Move,
                 selectedCategories: self.selectedCategories,
             }
             $('#AddCategoryModal').data('parent', parent).modal('show');

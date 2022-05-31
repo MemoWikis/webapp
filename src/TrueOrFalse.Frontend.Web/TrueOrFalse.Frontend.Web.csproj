@@ -1976,6 +1976,8 @@
     <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryToPrivate\CategoryToPrivate.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategoryLoader.ascx" />
+    <Content Include="Views\Categories\Edit\AddToWikiComponentLoader.ascx" />
+    <Content Include="Views\Categories\Edit\AddToWikiComponent.vue.ascx" />
     <Content Include="Views\Questions\AnswerQuestionComponent.js" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
