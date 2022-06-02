@@ -76,9 +76,12 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual void AddNewIdToWikiHistory(int id)
     {
-        var newWikiHistoryIds = new List<int>(AddToWikiHistoryIds);
+        if (StartTopicId == id)
+            return;
 
-        if (AddToWikiHistoryIds.Count >= 3)
+        var newWikiHistoryIds = AddToWikiHistoryIds == null ? new List<int>() : new List<int>(AddToWikiHistoryIds);
+
+        if (newWikiHistoryIds.Count >= 3)
             newWikiHistoryIds.RemoveAt(0);
 
         newWikiHistoryIds.Add(id);

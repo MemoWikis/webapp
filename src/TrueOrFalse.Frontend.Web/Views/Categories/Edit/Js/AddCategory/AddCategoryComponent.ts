@@ -35,9 +35,10 @@ var addCategoryComponent = Vue.component('add-category-component', {
             selectedCategory: null,
             showSelectedCategory: false,
             categoriesToFilter: [],
-            personalWiki: {},
-            addToWikiHistory: [],
-            showAdditionalCategoriesInPersonalWiki: false
+            personalWiki: null,
+            addToWikiHistory: null,
+            hideSearch: true,
+            selectedParentInWikiId: null,
         };
     },
     watch: {
@@ -157,6 +158,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     $('#AddCategoryModal').data('parent').redirect)
                     this.redirect = true;
 
+                if (this.editCategoryRelation == EditCategoryRelationType.AddToWiki)
+                    this.initWikiData();
+
                 this.categoriesToFilter = $('#AddCategoryModal').data('parent').categoriesToFilter;
             });
 
@@ -250,6 +254,8 @@ var addCategoryComponent = Vue.component('add-category-component', {
             this.selectedCategory = category;
             this.selectedCategoryId = category.Id;
             this.showSelectedCategory = true;
+
+            this.selectedParentInWikiId = category.Id;
         },
         toggleShowSelectedCategory() {
             this.showSelectedCategory = false;
@@ -342,7 +348,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 contentType: "application/json",
                 url: '/EditCategory/MoveChild',
                 data: JSON.stringify(categoryData),
-                success: function (data) {
+                success(data) {
                     if (data.success) {
                         if (self.redirect)
                             window.open(data.url, '_self');
@@ -363,11 +369,13 @@ var addCategoryComponent = Vue.component('add-category-component', {
         addNewParentToCategory() {
             Utils.ShowSpinner();
             var self = this;
+            var isAddToWiki = self.editCategoryRelation == EditCategoryRelationType.AddToWiki;
+            var parentCategoryId = isAddToWiki ? self.selectedParentInWikiId : self.selectedCategory.Id;
             var categoryData = {
                 childCategoryId: self.childId,
-                parentCategoryId: this.selectedCategory.Id,
+                parentCategoryId: parentCategoryId,
                 redirectToParent: true,
-                addIdToWikiHistory: this.editCategoryRelation == EditCategoryRelationType.AddToWiki
+                addIdToWikiHistory: isAddToWiki
             }
 
             if (this.selectedCategoryId == this.parentId) {
@@ -382,7 +390,7 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 contentType: "application/json",
                 url: '/EditCategory/AddChild',
                 data: JSON.stringify(categoryData),
-                success: function (data) {
+                success(data) {
                     if (data.success) {
                         if (self.redirect)
                             window.open(data.url, '_self');
@@ -408,13 +416,18 @@ var addCategoryComponent = Vue.component('add-category-component', {
                 : $('#CategoryHeaderTopicCountLabel').text('Unterthema');
         },
         initWikiData() {
-            $.ajax({
-                type: 'Get',
-                contentType: "application/json",
-                dataType: "application/json",
-                url: '/EditCategory/GetPersonalWikiData',
-                success() {
+            var self = this;
 
+            $.ajax({
+                type: 'Post',
+                contentType: "application/json",
+                data: JSON.stringify({ id: self.parentId }),
+                url: '/Api/Search/GetPersonalWikiData',
+                success(result) {
+                    if (result.success) {
+                        self.personalWiki = result.personalWiki;
+                        self.addToWikiHistory = result.addToWikiHistory.reverse();
+                    }
                 },
             });
         }

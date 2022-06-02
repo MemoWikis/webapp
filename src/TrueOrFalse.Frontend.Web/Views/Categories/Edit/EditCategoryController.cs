@@ -275,6 +275,9 @@ public class EditCategoryController : BaseController
             });
         }
 
+        if (addIdToWikiHistory)
+            SessionUser.User.AddNewIdToWikiHistory(parentCategoryId);
+
         var child = EntityCache.GetCategory(childCategoryId, true);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
 
@@ -344,17 +347,6 @@ public class EditCategoryController : BaseController
         {
             success = true,
             key = "addedToPersonalWiki"
-        });
-    }
-
-    [AccessOnlyAsLoggedIn]
-    [HttpGet]
-    public JsonResult GetPersonalWikiData()
-    {
-
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
-        return Json(new
-        {
         });
     }
 

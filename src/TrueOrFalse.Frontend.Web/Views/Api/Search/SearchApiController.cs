@@ -57,8 +57,9 @@ public class SearchApiController : BaseController
         }, JsonRequestBehavior.AllowGet);
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult CategoryInWiki(string term, int[] categoriesToFilter, int personalWikiId)
+    public JsonResult CategoryInWiki(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
         var elements = SearchBoxElementsGet.GoAllCategories(term);
@@ -68,7 +69,7 @@ public class SearchApiController : BaseController
         if (categoriesToFilter != null)
             items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
 
-        var wikiChildren = EntityCache.GetAllChildren(personalWikiId);
+        var wikiChildren = EntityCache.GetAllChildren(SessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return Json(new
@@ -78,20 +79,74 @@ public class SearchApiController : BaseController
         }, JsonRequestBehavior.AllowGet);
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult GetPersonalWikiData(int id)
+    {
+        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+
+        if (EntityCache.GetAllChildren(personalWiki.Id).Any(c => c.Id == id))
+            return Json(new
+            {
+                success = false,
+            });
+
+        var personalWikiItem = FillSearchCategoryItem(personalWiki);
+        var previouslySelectedCategoriesInWiki = new List<SearchCategoryItem>();
+        
+        if (SessionUser.User.AddToWikiHistoryIds != null && SessionUser.User.AddToWikiHistoryIds.Count > 0)
+        {
+            foreach (var categoryId in SessionUser.User.AddToWikiHistoryIds)
+            {
+                var c = EntityCache.GetCategory(categoryId);
+                previouslySelectedCategoriesInWiki.Add(FillSearchCategoryItem(c));
+            }
+        }
+
+        return Json(new
+        {
+            success = true,
+            personalWiki = personalWikiItem,
+            addToWikiHistory = previouslySelectedCategoriesInWiki.ToArray()
+        });
+    }
+
     public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Categories.Where(PermissionCheck.CanView).Select(c => new SearchCategoryItem
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Url = Links.CategoryDetail(c.Name, c.Id),
-                QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(),
-                ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
-                IconHtml = GetIconHtml(c),
-                MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category)).GetImageUrl(30, true, false, ImageType.Category).Url,
-                Visibility = (int)c.Visibility
-            }));
+            elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
+    }
+
+    public static SearchCategoryItem FillSearchCategoryItem(Category c)
+    {
+        return new SearchCategoryItem
+        {
+            Id = c.Id,
+            Name = c.Name,
+            Url = Links.CategoryDetail(c.Name, c.Id),
+            QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(),
+            ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
+            IconHtml = GetIconHtml(c),
+            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category))
+                .GetImageUrl(30, true, false, ImageType.Category).Url,
+            Visibility = (int)c.Visibility
+        };
+    }
+
+    public static SearchCategoryItem FillSearchCategoryItem(CategoryCacheItem c)
+    {
+        return new SearchCategoryItem
+        {
+            Id = c.Id,
+            Name = c.Name,
+            Url = Links.CategoryDetail(c.Name, c.Id),
+            QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(),
+            ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
+            IconHtml = GetIconHtml(c),
+            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category))
+                .GetImageUrl(30, true, false, ImageType.Category).Url,
+            Visibility = (int)c.Visibility
+        };
     }
 
     public static void AddQuestionItems(List<SearchQuestionItem> items, SearchBoxElements elements)
