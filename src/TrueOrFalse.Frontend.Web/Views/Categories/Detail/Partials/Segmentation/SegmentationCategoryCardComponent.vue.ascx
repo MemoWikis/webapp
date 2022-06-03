@@ -64,6 +64,14 @@
                                 </div>Thema verschieben
                             </a>
                         </li>
+                        <li>
+                            <a @click="openAddToWikiModal()" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <i class="fa fa-plus-circle"></i>
+                                </div>
+                                Zu meinem Wiki hinzufügen
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="set-question-count">

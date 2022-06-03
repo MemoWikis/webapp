@@ -66,7 +66,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
         }
     },
     mounted() {
-        var self = this;
         eventBus.$on('set-categories-to-filter', (ids) => {
             this.$nextTick(() => {
                 this.categoriesToFilter = ids;
@@ -427,6 +426,11 @@ var addCategoryComponent = Vue.component('add-category-component', {
                     if (result.success) {
                         self.personalWiki = result.personalWiki;
                         self.addToWikiHistory = result.addToWikiHistory.reverse();
+                        self.categoriesToFilter = [];
+                        self.categoriesToFilter.push(self.personalWiki.Id);
+                        self.addToWikiHistory.forEach((el) => {
+                            self.categoriesToFilter.push(el.Id);
+                        });
                     }
                 },
             });

@@ -2984,15 +2984,15 @@ p:empty {
         transition: .2s ease-in-out;
         cursor: pointer;
 
-        &:hover {
-            background: @memo-grey-lighter;
-            color: @memo-blue;
+        .searchResultBody {
+            width: 100%;
         }
 
         .searchResultLabelContainer {
             width: 100%;
             height: 100%;
         }
+
         .searchResultLabel {
             height: 40px;
             line-height: normal;
@@ -3002,6 +3002,16 @@ p:empty {
             overflow: hidden;
             max-width: 408px;
         }
+
+        &:hover {
+            background: @memo-grey-lighter;
+            color: @memo-blue;
+
+            .searchResultLabel {
+                color: @memo-blue;
+            }
+        }
+
 
         .searchResultQuestionCount {
             color: @memo-grey-light;
@@ -3022,6 +3032,29 @@ p:empty {
             }
         }
 
+        &.selectedSearchResultItem {
+            color: @memo-blue;
+
+            .searchResultLabel {
+                color: @memo-blue;
+            }
+        }
+
+        .selectedSearchResultItemContainer {
+            position: relative;
+            .selectedSearchResultItem {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                flex-wrap:nowrap;
+
+                i {
+                    padding-left: 4px;
+                }
+            }
+        }
     }
 }
 

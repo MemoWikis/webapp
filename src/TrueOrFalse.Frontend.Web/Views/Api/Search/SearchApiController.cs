@@ -43,12 +43,10 @@ public class SearchApiController : BaseController
     public JsonResult Category(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = SearchBoxElementsGet.GoAllCategories(term);
+        var elements = SearchBoxElementsGet.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
-        if (categoriesToFilter != null)
-            items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
 
         return Json(new
         {
@@ -62,12 +60,10 @@ public class SearchApiController : BaseController
     public JsonResult CategoryInWiki(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = SearchBoxElementsGet.GoAllCategories(term);
+        var elements = SearchBoxElementsGet.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
-        if (categoriesToFilter != null)
-            items.RemoveAll(i => categoriesToFilter.Contains(i.Id));
 
         var wikiChildren = EntityCache.GetAllChildren(SessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
@@ -83,14 +79,14 @@ public class SearchApiController : BaseController
     [HttpPost]
     public JsonResult GetPersonalWikiData(int id)
     {
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
 
-        if (EntityCache.GetAllChildren(personalWiki.Id).Any(c => c.Id == id))
+        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUser.User.StartTopicId))
             return Json(new
             {
                 success = false,
             });
 
+        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
         var personalWikiItem = FillSearchCategoryItem(personalWiki);
         var previouslySelectedCategoriesInWiki = new List<SearchCategoryItem>();
         

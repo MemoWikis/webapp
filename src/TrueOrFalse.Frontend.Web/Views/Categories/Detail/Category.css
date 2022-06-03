@@ -3936,9 +3936,8 @@ p:empty {
   transition: 0.2s ease-in-out;
   cursor: pointer;
 }
-.categorySearchAutocomplete .searchResultItem:hover {
-  background: #EFEFEF;
-  color: #003264;
+.categorySearchAutocomplete .searchResultItem .searchResultBody {
+  width: 100%;
 }
 .categorySearchAutocomplete .searchResultItem .searchResultLabelContainer {
   width: 100%;
@@ -3952,6 +3951,13 @@ p:empty {
   margin: 0;
   overflow: hidden;
   max-width: 408px;
+}
+.categorySearchAutocomplete .searchResultItem:hover {
+  background: #EFEFEF;
+  color: #003264;
+}
+.categorySearchAutocomplete .searchResultItem:hover .searchResultLabel {
+  color: #003264;
 }
 .categorySearchAutocomplete .searchResultItem .searchResultQuestionCount {
   color: #DDDDDD;
@@ -3968,6 +3974,34 @@ p:empty {
 .categorySearchAutocomplete .searchResultItem img.authorImg {
   -webkit-border-radius: 50%;
           border-radius: 50%;
+}
+.categorySearchAutocomplete .searchResultItem.selectedSearchResultItem {
+  color: #003264;
+}
+.categorySearchAutocomplete .searchResultItem.selectedSearchResultItem .searchResultLabel {
+  color: #003264;
+}
+.categorySearchAutocomplete .searchResultItem .selectedSearchResultItemContainer {
+  position: relative;
+}
+.categorySearchAutocomplete .searchResultItem .selectedSearchResultItemContainer .selectedSearchResultItem {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-flex-wrap: nowrap;
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+}
+.categorySearchAutocomplete .searchResultItem .selectedSearchResultItemContainer .selectedSearchResultItem i {
+  padding-left: 4px;
 }
 @media (max-width: 600px) {
   #TopicTabContent #ContentModuleApp #MarkdownContent .ProseMirror {

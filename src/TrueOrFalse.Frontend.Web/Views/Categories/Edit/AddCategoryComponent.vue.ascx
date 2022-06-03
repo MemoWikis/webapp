@@ -34,23 +34,37 @@
 
                         <div class="modalBody" v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki">
                             <form v-on:submit.prevent="selectCategory">
-                                <div class="categorySearchAutocomplete" v-if="personalWiki != null" @click="selectedParentInWikiId = personalWiki.Id">
-                                    <div class="searchResultItem">
+                                <div class="categorySearchAutocomplete mb-250" v-if="personalWiki != null" @click="selectedParentInWikiId = personalWiki.Id">
+                                    <div class="overline-s mb-125">Dein Wiki</div>
+                                    <div class="searchResultItem" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == personalWiki.Id }" >
                                         <img :src="personalWiki.ImageUrl"/>
-                                        <div>
+                                        <div class="searchResultBody">
                                             <div class="searchResultLabel body-m">{{personalWiki.Name}}</div>
                                             <div class="searchResultQuestionCount body-s">{{personalWiki.QuestionCount}} Frage<template v-if="personalWiki.QuestionCount != 1">n</template></div>
+                                        </div>
+                                        <div v-show="selectedParentInWikiId == personalWiki.Id" class="selectedSearchResultItemContainer">
+                                            <div class="selectedSearchResultItem">
+                                                Ausgewählt
+                                                <i class="fas fa-check"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="categorySearchAutocomplete">
+                                <div class="categorySearchAutocomplete mb-250" v-if="addToWikiHistory != null">
+                                    <div class="overline-s mb-125">Zuletzt ausgewählte Themen</div>
                                     <template v-for="previousCategory in addToWikiHistory">
-                                        <div class="searchResultItem" @click="selectedParentInWikiId = previousCategory.Id">
+                                        <div class="searchResultItem" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == previousCategory.Id }" @click="selectedParentInWikiId = previousCategory.Id" >
                                             <img :src="previousCategory.ImageUrl"/>
-                                            <div>
+                                            <div class="searchResultBody">
                                                 <div class="searchResultLabel body-m">{{previousCategory.Name}}</div>
                                                 <div class="searchResultQuestionCount body-s">{{previousCategory.QuestionCount}} Frage<template v-if="previousCategory.QuestionCount != 1">n</template></div>
+                                            </div>
+                                            <div v-show="selectedParentInWikiId == previousCategory.Id" class="selectedSearchResultItemContainer">
+                                                <div class="selectedSearchResultItem">
+                                                    Ausgewählt
+                                                    <i class="fas fa-check"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </template>
@@ -59,14 +73,20 @@
                                     <a> Zu anderem Thema hinzufügen</a>
                                 </div>
                                 <div v-else class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
-                                    <div v-if="showSelectedCategory" class="searchResultItem" @click="toggleShowSelectedCategory()" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
+                                    <div class="overline-s mb-125">Zu anderem Thema hinzufügen</div>
+                                    <div v-if="showSelectedCategory" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == selectedCategory.Id }" @click="selectedParentInWikiId = selectedCategory.Id" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
                                         <img :src="selectedCategory.ImageUrl"/>
-                                        <div>
+                                        <div class="searchResultBody">
                                             <div class="searchResultLabel body-m">{{selectedCategory.Name}}</div>
                                             <div class="searchResultQuestionCount body-s">{{selectedCategory.QuestionCount}} Frage<template v-if="selectedCategory.QuestionCount != 1">n</template></div>
                                         </div>
-                                    </div>
-                                    <input v-show="!showSelectedCategory" ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="searchInWikiList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
+                                        <div v-show="selectedParentInWikiId == selectedCategory.Id" class="selectedSearchResultItemContainer">
+                                            <div class="selectedSearchResultItem">
+                                                Ausgewählt
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                        </div>                                    </div>
+                                    <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="searchInWikiList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
                                     <ul class="dropdown-menu" aria-labelledby="searchList">
                                         <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)" data-toggle="tooltip" data-placement="top" :title="c.Name" :data-original-title="c.Name">
                                             <img :src="c.ImageUrl"/>
@@ -91,14 +111,14 @@
                         <div class="modalBody" v-else>
                             <form v-on:submit.prevent="selectCategory">
                                 <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
-                                    <div v-if="showSelectedCategory" class="searchResultItem" @click="toggleShowSelectedCategory()" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
+                                    <div v-if="showSelectedCategory" class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
                                         <img :src="selectedCategory.ImageUrl"/>
                                         <div>
                                             <div class="searchResultLabel body-m">{{selectedCategory.Name}}</div>
                                             <div class="searchResultQuestionCount body-s">{{selectedCategory.QuestionCount}} Frage<template v-if="selectedCategory.QuestionCount != 1">n</template></div>
                                         </div>
                                     </div>
-                                    <input v-show="!showSelectedCategory" ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="searchList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
+                                    <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm" id="searchList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true" placeholder="Bitte gib den Namen des Themas ein"/>
                                     <ul class="dropdown-menu" aria-labelledby="searchList">
                                         <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)" data-toggle="tooltip" data-placement="top" :title="c.Name" :data-original-title="c.Name">
                                             <img :src="c.ImageUrl"/>

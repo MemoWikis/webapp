@@ -30,13 +30,13 @@ public class SearchBoxElementsGet
         return result;
     }
 
-    public static SearchBoxElements GoAllCategories(string term)
+    public static SearchBoxElements GoAllCategories(string term, int[] categoriesToFilter = null)
     {
         var pager = new Pager {QueryAll = true};
 
         var result = new SearchBoxElements
         {
-            CategoriesResult = Sl.SearchCategories.Run(term, pager)
+            CategoriesResult = Sl.SearchCategories.Run(term, pager, categoriesToFilter: categoriesToFilter)
         };
         return result;
     }

@@ -138,6 +138,9 @@
         },
         openPublishModal() {
             eventBus.$emit('open-publish-category-modal', this.categoryId);
+        },
+        openAddToWikiModal() {
+            eventBus.$emit('add-to-wiki', this.categoryId);
         }
 
     }

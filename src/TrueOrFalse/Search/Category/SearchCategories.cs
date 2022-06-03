@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
+using NHibernate.Mapping;
+using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
@@ -41,14 +45,16 @@ namespace TrueOrFalse.Search
             int valuatorId = -1,
             bool searchOnlyWithStartingWith = false,
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None,
-            int pageSize = 10)
+            int pageSize = 10,
+            int[] categoriesToFilter = null)
         {
             return Run(
                 searchTerm, 
                 new Pager { PageSize = pageSize },
                 valuatorId,
                 searchOnlyWithStartingWith,
-                orderBy
+                orderBy,
+                categoriesToFilter
             );
         }
 
@@ -57,7 +63,8 @@ namespace TrueOrFalse.Search
             Pager pager,
             int valuatorId = -1,
             bool searchOnlyWithStartingWith = false,
-            SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None)
+            SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None,
+            int[] categoriesToFilter = null)
         {
             var sqb = new SearchQueryBuilder();
 
@@ -103,14 +110,19 @@ namespace TrueOrFalse.Search
 
             var result = new SearchCategoriesResult();
             result.QueryTime = queryResult.Header.QTime;
-            result.Count = queryResult.NumFound;
             result.SpellChecking = queryResult.SpellChecking;
             result.Pager = pager;
 
-            pager.TotalItems = result.Count;
 
             foreach (var resultItem in queryResult)
-                result.CategoryIds.Add(resultItem.Id);
+            {
+                if (categoriesToFilter != null && categoriesToFilter.Any(id => id == resultItem.Id))
+                    continue;
+                if (PermissionCheck.CanViewCategory(resultItem.Id))
+                    result.CategoryIds.Add(resultItem.Id);
+            }
+            result.Count = result.CategoryIds.Count;
+            pager.TotalItems = result.Count;
 
             return result;
         }       
