@@ -431,6 +431,9 @@ var addCategoryComponent = Vue.component('add-category-component', {
                         self.addToWikiHistory.forEach((el) => {
                             self.categoriesToFilter.push(el.Id);
                         });
+
+                        self.selectedParentInWikiId = self.personalWiki.Id;
+                        self.disableAddCategory = false;
                     }
                 },
             });
