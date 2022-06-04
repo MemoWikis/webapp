@@ -69,7 +69,7 @@
                                         </div>
                                     </template>
                                 </div>
-                                <div @click="hideSearch = false" v-if="hideSearch">
+                                <div @click="hideSearch = false" v-if="hideSearch" class="overline-s no-line">
                                     <a> Zu anderem Thema hinzufügen</a>
                                 </div>
                                 <div v-else class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
