@@ -201,13 +201,11 @@ var segmentationComponent = Vue.component('segmentation-component', {
             var parent = {
                 id: self.categoryId,
                 addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
-                categoryChange: EditCategoryRelationType.AddChild,
+                editCategoryRelation: val ? EditCategoryRelationType.Create : EditCategoryRelationType.AddChild,
                 categoriesToFilter,
             }
-            if (val)
-                parent.categoryChange = EditCategoryRelationType.Create;
 
-                $('#AddCategoryModal').data('parent', parent).modal('show');
+            $('#AddCategoryModal').data('parent', parent).modal('show');
         },
         removeChildren() {
             if (NotLoggedIn.Yes()) {

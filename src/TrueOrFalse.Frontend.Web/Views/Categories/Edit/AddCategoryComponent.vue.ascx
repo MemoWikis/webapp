@@ -9,11 +9,11 @@
                 <div class="modal-content">
                     <div class="cardModalContent">
                         <div class="modalHeader">
-                            <h4 v-if="editCategoryRelation === editCategoryRelationType.Create" class="modal-title">Neues Thema erstellen</h4>
-                            <h4 v-else-if="editCategoryRelation === editCategoryRelationType.Move" class="modal-title">Thema verschieben nach</h4>
-                            <h4 v-else-if="editCategoryRelation === editCategoryRelationType.AddChild" class="modal-title">Bestehendes Thema verknüpfen</h4>
-                            <h4 v-else-if="editCategoryRelation === editCategoryRelationType.AddParent" class="modal-title">Neues Oberthema verknüpfen</h4>
-                            <h4 v-else-if="editCategoryRelation === editCategoryRelationType.AddToWiki" class="modal-title">Zum Wiki hinzufügen</h4>
+                            <h4 v-if="editCategoryRelation == editCategoryRelationType.Create" class="modal-title">Neues Thema erstellen</h4>
+                            <h4 v-else-if="editCategoryRelation == editCategoryRelationType.Move" class="modal-title">Thema verschieben nach</h4>
+                            <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddChild" class="modal-title">Bestehendes Thema verknüpfen</h4>
+                            <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddParent" class="modal-title">Neues Oberthema verknüpfen</h4>
+                            <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki" class="modal-title">Zum Wiki hinzufügen</h4>
                         </div>
 
                         <div class="modalBody" v-if="editCategoryRelation == editCategoryRelationType.Create">
@@ -141,11 +141,11 @@
                         </div>
 
                         <div class="modalFooter">
-                            <div v-if="editCategoryRelation === editCategoryRelationType.Create" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>
-                            <div v-else-if="editCategoryRelation === editCategoryRelationType.Move" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>
-                            <div v-else-if="editCategoryRelation === editCategoryRelationType.AddChild" id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>
-                            <div v-else-if="editCategoryRelation === editCategoryRelationType.AddParent" id="AddNewParentBtn" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>
-                            <div v-else-if="editCategoryRelation === editCategoryRelationType.AddToWiki" id="AddToWiki" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>
+                            <div v-if="editCategoryRelation == editCategoryRelationType.Create" id="AddNewCategoryBtn" class="btn btn-primary memo-button" @click="addCategory" :disabled="disableAddCategory">Thema erstellen</div>
+                            <div v-else-if="editCategoryRelation == editCategoryRelationType.Move" id="MoveCategoryToNewParentBtn" class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">Thema verschieben</div>
+                            <div v-else-if="editCategoryRelation == editCategoryRelationType.AddChild" id="AddExistingCategoryBtn" class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema verknüpfen</div>
+                            <div v-else-if="editCategoryRelation == editCategoryRelationType.AddParent" id="AddNewParentBtn" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>
+                            <div v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki" id="AddToWiki" class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema verknüpfen</div>
                             <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
                         </div>
                     </div>
