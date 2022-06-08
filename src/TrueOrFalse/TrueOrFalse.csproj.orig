@@ -62,24 +62,14 @@
       <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Autofac, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Autofac.Integration.SignalR, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Autofac.Integration.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.6.0.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="AutofacContrib.SolrNet">
       <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
-    </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
@@ -89,17 +79,8 @@
       <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EasyNetQ.Management.Client, Version=0.47.12.38, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EasyNetQ.Management.Client.0.47.12.38\lib\net40\EasyNetQ.Management.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FluentNHibernate, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentNHibernate.2.1.2\lib\net461\FluentNHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="FluentNHibernate, Version=3.1.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.3.1.0\lib\net461\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
@@ -109,31 +90,10 @@
       <HintPath>..\packages\Markdig.0.10.4\lib\net40\Markdig.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -142,32 +102,14 @@
     <Reference Include="MiniProfiler">
       <HintPath>..\packages\MiniProfiler.3.1.1.140\lib\net40\MiniProfiler.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.8.0.18\lib\net452\MySql.Data.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NHibernate, Version=5.2.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.5.2.6\lib\net461\NHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ObjectDumper, Version=1.0.0.12, Culture=neutral, PublicKeyToken=9e2fabf3af85dba9, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectDumper.1.0.0.12\lib\net35-Client\ObjectDumper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NHibernate, Version=5.3.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.5.3.9\lib\net461\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Quartz, Version=2.3.2.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.3.2\lib\net40\Quartz.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RabbitMQ.Client, Version=3.5.2.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\packages\RabbitMQ.Client.3.5.2\lib\net40\RabbitMQ.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RazorEngine, Version=3.7.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
@@ -182,61 +124,66 @@
       <HintPath>..\packages\Remotion.Linq.EagerFetching.2.2.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="RollbarSharp, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.2.1\lib\net46\Serilog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Formatting.Compact, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Formatting.Compact.1.0.0\lib\net45\Serilog.Formatting.Compact.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Serilog.Formatting.Compact, Version=1.1.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Formatting.Compact.1.1.0\lib\net452\Serilog.Formatting.Compact.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.File.3.0.1\lib\net45\Serilog.Sinks.File.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.PeriodicBatching, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.0.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.3.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.RollingFile.3.0.1\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Serilog.Sinks.Seq, Version=3.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.Seq.3.0.1\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Serilog.Sinks.Seq, Version=5.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Seq.5.0.1\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
     </Reference>
     <Reference Include="SolrNet, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SolrNet.Core.1.0.19\lib\net46\SolrNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -265,7 +212,6 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -275,6 +221,11 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCachedData.cs" />
+    <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
+    <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />
+    <Compile Include="Domain\Category\Crumbtrail\CrumbtrailService.cs" />
     <Compile Include="Domain\Category\Graph.Services\GraphService.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData_V2.cs" />
@@ -282,6 +233,9 @@
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V2.cs" />
     <Compile Include="Domain\Category\History\Ops\InitializeCategoryChanges.cs" />
     <Compile Include="Domain\Category\History\Ops\RestoreCategory.cs" />
+    <Compile Include="Domain\Category\SearchUserItem.cs" />
+    <Compile Include="Domain\Category\SearchQuestionItem.cs" />
+    <Compile Include="Domain\Category\SearchCategoryItem.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />
@@ -304,22 +258,17 @@
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V1.cs" />
     <Compile Include="Domain\Category\History\Persistence\CategoryChangeMap.cs" />
     <Compile Include="Domain\Category\History\Persistence\CategoryChangeRepo.cs" />
+    <Compile Include="Domain\Category\CategoryVisibility.cs" />
+    <Compile Include="Domain\Category\ReleaseDate.cs" />
     <Compile Include="Domain\Category\Type\Impl\CategoryTypeCourse.cs" />
     <Compile Include="Domain\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishTopicCount.cs" />
     <Compile Include="Domain\Category\Views\ViewsPerDay.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\AnswerStateNew.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\AnswerState.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionConfig.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNew.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionNewCreator.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStepNew.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\CreateLearningSession.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\SessionConfigData.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\QuestionFilter.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\CopySet.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetAllSetsWithDifferentlyCategorizedQuestions.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSession.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\Ops\LearningSessionCreator.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSessionNew\HelperClasses\LearningSessionStep.cs" />
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData_V1.cs" />
@@ -327,15 +276,24 @@
     <Compile Include="Domain\Question\History\Ops\RestoreQuestion.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
-    <Compile Include="Domain\SaveType.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuationCacheItem.cs" />
     <Compile Include="Domain\User\UserTinyModel.cs" />
     <Compile Include="Infrastructure\BooleanExtensions.cs" />
+    <Compile Include="Infrastructure\Email\MailMessageJob.cs" />
+    <Compile Include="Infrastructure\Email\MailMessageJson.cs" />
     <Compile Include="Infrastructure\Logging\LoggController.cs" />
-    <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
-    <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
+    <Compile Include="Infrastructure\ObjectExtensions.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserWorld\UserEntityCacheItem.cs" />
+    <Compile Include="Tools\Cache\CacheClearer.cs" />
+    <Compile Include="Tools\Cache\CacheUpdater.cs" />
+    <Compile Include="Tools\Cache\LearningSessionCache.cs" />
+    <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\QuestionCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\ReferenceCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelation.cs" />
+    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
@@ -344,11 +302,10 @@
     <Compile Include="Domain\Category\Ops\GetBreadCrumb.cs" />
     <Compile Include="Domain\Category\Ops\GetQuestionsForCategory.cs" />
     <Compile Include="Domain\Category\Ops\IsSpoilerCategory.cs" />
-    <Compile Include="Domain\Category\Ops\UpdateSetCountForCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelationType.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
-    <Compile Include="Domain\Category\RelatedCategory\Ops\GetCategoriesDescendants.cs" />
+    <Compile Include="Domain\Category\RelatedCategory\Ops\GetCategoryChildren.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />
@@ -384,50 +341,16 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\ContentRecommendation\ContentRecommendation.cs" />
     <Compile Include="Domain\ContentRecommendation\ContentRecommendationResult.cs" />
-    <Compile Include="Domain\Date\Date.cs" />
-    <Compile Include="Domain\Date\DateVisibility.cs" />
-    <Compile Include="Domain\Date\Ops.Stats\GetTrainingPlanStats.cs" />
-    <Compile Include="Domain\Date\Ops.Stats\TrainingPlanStatsPerDayResult.cs" />
-    <Compile Include="Domain\Date\Ops.Stats\TrainingPlanStatsResult.cs" />
-    <Compile Include="Domain\Date\Ops\CopyDate.cs" />
-    <Compile Include="Domain\Date\Ops\DeleteDate.cs" />
-    <Compile Include="Domain\Date\Ops\GetDatesInNetwork.cs" />
-    <Compile Include="Domain\Date\Ops\GetSampleDates.cs" />
-    <Compile Include="Domain\Date\Persistence\DateMap.cs" />
-    <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
-    <Compile Include="Domain\Game\Game.cs" />
-    <Compile Include="Domain\Game\Round.cs" />
-    <Compile Include="Domain\Game\GameStatus.cs" />
-    <Compile Include="Domain\Game\Persistence\GameMap.cs" />
-    <Compile Include="Domain\Game\Persistence\RoundMap.cs" />
-    <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
-    <Compile Include="Domain\Game\Player.cs" />
     <Compile Include="Domain\ICreator.cs" />
-    <Compile Include="Domain\IsAllowedTo.cs" />
+    <Compile Include="Domain\PermissionCheck.cs" />
     <Compile Include="Domain\Knowledge\GetKnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Configuration\TrainingPlanSettings.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AddFinalBoost.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AnswerProbability.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanUpdater.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\NotificationStatus.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanJsonRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\GetRandomQuestions.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\GetTestSession.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataCache.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Author\ParseAuthor.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Description\ParseDescription.cs" />
@@ -561,24 +484,17 @@
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
-    <Compile Include="Tools\Analytics\SetViewStats.cs" />
-    <Compile Include="Tools\Analytics\SetViewStatsResult.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />
     <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
-    <Compile Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsgModel.cs" />
-    <Compile Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\AsyncExe.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
     <Compile Include="Infrastructure\Time\DateTimeX.cs" />
     <Compile Include="Infrastructure\Time\Period.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingDate.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingPlan.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanCreator.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.FollowingAnswer\FollowingAnswer.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\IAnswerPattern.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\Info\AnswerPatternInfoLoader.cs" />
@@ -593,8 +509,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveLoader.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\IntervalizerResultItem.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\AnswerPairFromHistoryRows.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\StepAnswerState.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfoRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTester.cs" />
@@ -627,18 +541,12 @@
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityCalc_User.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityUpdate_User.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\AddValuationEntries_ForQuestionsInSetsAndDates.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalcResult.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple3.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple2.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Abstract.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSession.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\GetLearningSessionSteps.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSessionStep.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageSettings.cs" />
@@ -735,34 +643,16 @@
     <Compile Include="Domain\Knowledge\History\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\AddToSetResult.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\AddToSet.cs" />
     <Compile Include="Domain\Category\Ops\GetCategoriesCount.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\SetDeleter.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\UpdateQuestionOrder\NewQuestionIndex.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\UpdateQuestionOrder\UpdateQuestionsOrder.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetRepo.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetMap.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSetListExts.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
-    <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
-    <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValuation.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\DeleteValuationsForNonExisitingSets.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
     <Compile Include="Domain\QuestionSet\SetListExt.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\SetValuationExt.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\SetInKnowledge.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepo.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\SetValuation.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
@@ -782,11 +672,9 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />
-    <Compile Include="Domain\Question\Question.Ops\UpdateSetDataForQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDelete.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionGetCount.cs" />
-    <Compile Include="Domain\QuestionSet\SetMini.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpecSession.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
@@ -879,13 +767,6 @@
     <Compile Include="Search\Category\SearchCategories.cs" />
     <Compile Include="Search\Category\SearchCategoriesOrderBy.cs" />
     <Compile Include="Search\Category\SearchCategoriesResult.cs" />
-    <Compile Include="Search\QuestionSet\IndexOperations\ReIndexAllSets.cs" />
-    <Compile Include="Search\QuestionSet\IndexOperations\SearchIndexSet.cs" />
-    <Compile Include="Search\QuestionSet\Model\SetSolrMap.cs" />
-    <Compile Include="Search\QuestionSet\Model\ToSetSolrMap.cs" />
-    <Compile Include="Search\QuestionSet\SearchSetsOrderBy.cs" />
-    <Compile Include="Search\QuestionSet\SearchSets.cs" />
-    <Compile Include="Search\QuestionSet\SearchSetsResult.cs" />
     <Compile Include="Search\Question\IndexOperations\SearchIndexQuestion.cs" />
     <Compile Include="Search\Question\Model\QuestionSolrMap.cs" />
     <Compile Include="Search\Question\IndexOperations\ReIndexAllQuestions.cs" />
@@ -905,25 +786,44 @@
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
     <Compile Include="Tools\Cache\EntityCache.cs" />
-    <Compile Include="Tools\Analytics\Widget\Ops\SaveWidgetView.cs" />
-    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
-    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
-    <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
-    <Compile Include="Tools\Cache\UserCache.cs" />
-    <Compile Include="Tools\Cache\UserCacheItem.cs" />
-    <Compile Include="Tools\HelperTools.cs" />
-<<<<<<< HEAD
-    <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
-=======
+    <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
+    <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
+    <Compile Include="Domain\Category\RootCategory.cs" />
+    <Compile Include="Tools\PersonalTopic.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\ModifyCategoryRelation.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\DeleteQuestion.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
->>>>>>> origin/feature/automatic-integration-of-sub-topics
+    <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs227.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs226.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs225.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs224.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs223.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs221.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs217.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs216.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs215.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs213.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs212.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs229.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
+<<<<<<< HEAD
+    <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
+=======
+>>>>>>> master
+    <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
+    <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
+    <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
+    <Compile Include="Tools\Update\WuwiMigration\WuwiMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
@@ -953,7 +853,7 @@
     <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
     <Compile Include="Domain\User\Registration\Password\HashPassword.cs" />
     <Compile Include="Domain\User\Registration\Password\SetUserPassword.cs" />
-    <Compile Include="Domain\User\Registration\Password\IsValdidPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\IsValidPassword.cs" />
     <Compile Include="Infrastructure\Email\SendEmail.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1022,15 +922,12 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\KnowledgeReportCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputationForAll.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TestJob.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Infrastructure\MutexX.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobMap.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJob.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
-    <Compile Include="Tools\Update\SetMigration\SetMigrator.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs193.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs192.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs191.cs" />
@@ -1175,7 +1072,6 @@
     <Compile Include="Web\Attributes\Filters\SetUserMenuAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetThemeMenu.cs" />
     <Compile Include="Web\Attributes\Validation\MustBeTrueAttribute.cs" />
-    <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HelpHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HistoryBase.cs" />
@@ -1186,7 +1082,6 @@
     <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
     <Compile Include="Web\Context\Menu\UserMenu.cs" />
-    <Compile Include="Web\Context\Menu\TopicMenu.cs" />
     <Compile Include="Web\Context\Menu\MainMenu.cs" />
     <Compile Include="Web\Context\Menu\TopNavMenu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
@@ -1237,12 +1132,6 @@
     <None Include="Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsgStylesInlined.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1254,18 +1143,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.hbm.xml" />
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
