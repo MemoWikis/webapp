@@ -92,15 +92,7 @@ public class RelationChangeItem
     {
         var removalString = item.RelationAdded ? "" : " nicht mehr";
 
-        //switch (item.Type)
-        //{
-        //    case CategoryRelationType.IsChildOf:
-        //        return $" ist{removalString} übergeordnet";
-        //    case CategoryRelationType.IncludesContentOf:
-        //        return $" ist{removalString} untergeordnet";
-        //    default:
-        //        return "";
-        //}
+
         return $" ist{removalString} verknüpft";
     }
 }

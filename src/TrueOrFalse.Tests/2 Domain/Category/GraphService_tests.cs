@@ -42,9 +42,6 @@ class GraphService_tests : BaseTest
         Assert.That(
             EntityCache.GetCategory(userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations
                 .First().CategoryId).Name, Is.EqualTo("SubSub1"));
-        Assert.That(
-            userPersonnelCategoriesWithRelations.ByName("SubSub1").CategoryRelations.First().CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
     }
 
     [Test]
@@ -155,11 +152,6 @@ class GraphService_tests : BaseTest
             Is.EqualTo(secondChildrenIds.ByName("I").Id));
 
         // Test G 
-        Assert.That(userPersonalCategoriesWithRelations
-                .ByName("G").CategoryRelations
-                .First()
-                .CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
 
         Assert.That(userPersonalCategoriesWithRelations
                 .ByName("G")
@@ -175,11 +167,6 @@ class GraphService_tests : BaseTest
             Is.EqualTo(secondChildrenIds.ByName("G").Id));
 
         // Test E
-        Assert.That(userPersonalCategoriesWithRelations
-                .ByName("E").CategoryRelations
-                .First()
-                .CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
 
         Assert.That(userPersonalCategoriesWithRelations
                 .ByName("E")
@@ -473,7 +460,6 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 111
             }
         };
@@ -483,7 +469,6 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 111
             }
         };
@@ -497,7 +482,6 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 113
             }
         };
@@ -510,7 +494,6 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 111
             }
         };
@@ -520,7 +503,6 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryRelationType = CategoryRelationType.IsChildOf,
                 CategoryId = 112
             }
         };
@@ -534,7 +516,6 @@ class GraphService_tests : BaseTest
         var result = true;
         foreach (var cr in categoryCacheRelations)
         {
-            if (cr.CategoryRelationType != CategoryRelationType.IsChildOf)
                 result = false;
         }
 
@@ -570,8 +551,7 @@ class GraphService_tests : BaseTest
             var count = 0;
 
             var countVariousRelations = relations1.Count(r => !relations2.Any(r2 =>
-                r2.RelatedCategoryId == r.RelatedCategoryId && r2.CategoryId == r.CategoryId &&
-                r2.CategoryRelationType.ToString().Equals(r.CategoryRelationType.ToString())));
+                r2.RelatedCategoryId == r.RelatedCategoryId && r2.CategoryId == r.CategoryId)); 
             return countVariousRelations == 0;
         }
 

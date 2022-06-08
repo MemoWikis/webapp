@@ -288,16 +288,14 @@ class User_entity_cache_tests : BaseTest
         var newCat = UserEntityCache.GetByName(user.Id, "New").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(user.StartTopicId));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetCategoryByName("New").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.First().CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
+
         Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.Count, Is.EqualTo(1));
 
         newCat = EntityCache.GetCategoryByName("New").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId,
             Is.EqualTo(EntityCache.GetCategoryByName("X2").First().Id));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetCategoryByName("New").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.First().CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
+
         Assert.That(UserEntityCache.GetByName(user.Id, "New").First().CategoryRelations.Count, Is.EqualTo(1));
 
         UserCache.GetItem(user.Id).IsFiltered = false;
@@ -306,8 +304,7 @@ class User_entity_cache_tests : BaseTest
         newCat = UserEntityCache.GetByName(user.Id, "New1").First();
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId, Is.EqualTo(user.StartTopicId));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetCategoryByName("New1").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
+
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
 
         var hasChildrenInUserCachedData = UserEntityCache.GetCategory(user.Id, user.StartTopicId)
@@ -324,8 +321,7 @@ class User_entity_cache_tests : BaseTest
         Assert.That(newCat.CategoryRelations.First().RelatedCategoryId,
             Is.EqualTo(EntityCache.GetCategoryByName("X2").First().Id));
         Assert.That(newCat.CategoryRelations.First().CategoryId, Is.EqualTo(EntityCache.GetCategoryByName("New1").First().Id));
-        Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.First().CategoryRelationType,
-            Is.EqualTo(CategoryRelationType.IsChildOf));
+
         Assert.That(UserEntityCache.GetByName(user.Id, "New1").First().CategoryRelations.Count, Is.EqualTo(1));
 
         hasChildrenInUserCachedData = UserEntityCache.GetCategory(user.Id, user.StartTopicId)
@@ -416,7 +412,6 @@ class User_entity_cache_tests : BaseTest
         category.CategoryRelations.Add(new CategoryRelation
         {
             RelatedCategory = Sl.CategoryRepo.GetByName("X3").First(),
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             Category = category
         });
         new CacheUpdater(category);
@@ -442,21 +437,18 @@ class User_entity_cache_tests : BaseTest
         categoryC.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryC,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryA
         });
 
         categoryB.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryB,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryA
         });
 
         categoryB.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryB,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = userStartTopic2
         });
 
@@ -488,21 +480,18 @@ class User_entity_cache_tests : BaseTest
         categoryC.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryC,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryA
         });
 
         categoryB.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryB,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryA
         });
 
         categoryB.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryB,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = userStartTopic2
         });
 
@@ -523,7 +512,6 @@ class User_entity_cache_tests : BaseTest
 
         var relatedChildrenIdsInUser2StartTopic = UserEntityCache.GetCategory(user1.Id, userStartTopic2.Id)
             .CategoryRelations
-            .Where(cci => cci.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId);
         var allRelationsInUser2StartTopic = UserEntityCache.GetCategory(user1.Id, userStartTopic2.Id)
             .CategoryRelations;
@@ -554,28 +542,24 @@ class User_entity_cache_tests : BaseTest
         categoryC.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryC,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryA
         });
 
         categoryC.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryC,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryB
         });
 
         categoryB.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryB,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = categoryA
         });
 
         categoryB.CategoryRelations.Add(new CategoryRelation
         {
             Category = categoryB,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategory = userStartTopic2
         });
 

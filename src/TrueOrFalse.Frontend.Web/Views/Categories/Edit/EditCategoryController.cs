@@ -85,7 +85,7 @@ public class EditCategoryController : BaseController
 
         if (isChangeParents)
         {
-            Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id + " AND CategoryRelationType = 2").ExecuteUpdate();
+            Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id).ExecuteUpdate();
             GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategory(id), oldParents);
 
             UserEntityCache.ReInitAllActiveCategoryCaches();

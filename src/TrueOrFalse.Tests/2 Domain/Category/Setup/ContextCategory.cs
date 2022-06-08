@@ -70,7 +70,6 @@ namespace TrueOrFalse.Tests
                 {
                     Category = category,
                     RelatedCategory = parent,
-                    CategoryRelationType = CategoryRelationType.IsChildOf
                 });
 
                 category.CategoryRelations = categoryRelations;
@@ -84,7 +83,6 @@ namespace TrueOrFalse.Tests
                     {
                         Category = category,
                         RelatedCategory = p,
-                        CategoryRelationType = CategoryRelationType.IsChildOf
                     });
                 }
 
@@ -290,15 +288,13 @@ namespace TrueOrFalse.Tests
         public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
         {
             return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetCategoryByName(parentName).First().Id &&
-                cr.CategoryRelationType == CategoryRelationType.IsChildOf);
+                cr.RelatedCategoryId == EntityCache.GetCategoryByName(parentName).First().Id);
         }
 
         public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)
         {
             return categoryCacheItem.CategoryRelations
-                .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id &&
-                           cr.CategoryRelationType == CategoryRelationType.IncludesContentOf);
+                .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id);
         }
 
         public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)

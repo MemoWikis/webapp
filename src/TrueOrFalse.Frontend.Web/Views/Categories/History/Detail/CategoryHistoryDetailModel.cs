@@ -171,18 +171,7 @@ public class CategoryHistoryDetailModel : BaseModel
             name = relatedCategory.Name; 
         }
         string res;
-        //switch (relation.RelationType)
-        //{
-        //    case CategoryRelationType.IsChildOf:
-        //        res = $"\"{name}\" (ist übergeordnet)";
-        //        break;
-        //    case CategoryRelationType.IncludesContentOf:
-        //        res = $"\"{name}\" (ist untergeordnet)";
-        //        break;
-        //    default:
-        //        res = $"\"{name}\" (hat undefinierte Beziehung)";
-        //        break;
-        //}
+
         res = $"\"{name}\" (hat undefinierte Beziehung)";
         return res;
     }
