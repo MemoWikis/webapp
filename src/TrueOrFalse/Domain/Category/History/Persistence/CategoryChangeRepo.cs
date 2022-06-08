@@ -92,7 +92,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var childIds = categoryCacheItem
             .CategoryRelations
-            .Where(cci => cci.CategoryRelationType == CategoryRelationType.IncludesContentOf)
             .Select(cr => cr.RelatedCategoryId)
             .ToList();
 

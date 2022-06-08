@@ -6,6 +6,12 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
+            Sl.Resolve<ISession>()
+                .CreateSQLQuery(
+                    @"DELETE FROM relatedcategoriestorelatedcategories WHERE CategoryRelationType = 2;
+                    ALTER TABLE relatedcategoriestorelatedcategories DROP CategoryRelationType;"
+                ).ExecuteUpdate();
+            CategoryAuthorUpdater.UpdateAll();
             WuwiMigrator.CreateWuwiCategoryForAllUsers();
         }
     }

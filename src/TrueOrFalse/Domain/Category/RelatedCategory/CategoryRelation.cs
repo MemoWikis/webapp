@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
-[DebuggerDisplay("{Category.Name}({CategoryId.Id}) [{CategoryRelationType.ToString()}] {RelatedCategoryId.Name}({RelatedCategory.Id})")]
+[DebuggerDisplay("{Category.Name}({CategoryId.Id}) {RelatedCategoryId.Name}({RelatedCategory.Id})")]
 [Serializable]
 public class CategoryRelation : DomainEntity
 {
@@ -11,7 +11,6 @@ public class CategoryRelation : DomainEntity
 
     public virtual Category RelatedCategory { get; set; }
 
-    public virtual CategoryRelationType CategoryRelationType { get; set; }
 
 
     public virtual IList<CategoryRelation> ToListCategoryRelations(
@@ -35,7 +34,6 @@ public class CategoryRelation : DomainEntity
         return new CategoryRelation
         {
             Category = Category.ToCategory(EntityCache.GetCategory(categoryRelation.CategoryId)),
-            CategoryRelationType = categoryRelation.CategoryRelationType,
             RelatedCategory = Category.ToCategory(EntityCache.GetCategory(categoryRelation.RelatedCategoryId))
         };
     }

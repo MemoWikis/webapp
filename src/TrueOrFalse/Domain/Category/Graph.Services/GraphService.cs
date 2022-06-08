@@ -53,15 +53,7 @@ public class GraphService
             return new List<int>();
         }
 
-        var relations = new List<int>();
-        foreach (var relation in category.CategoryRelations)
-        {
-            if (relation.CategoryRelationType == CategoryRelationType.IsChildOf)
-                relations.Add(relation.RelatedCategoryId);
-        }
-
         return category.CategoryRelations
-            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId).ToList();
     }
 
@@ -71,7 +63,6 @@ public class GraphService
         rootCategory.CategoryRelations.Add(new CategoryCacheRelation
         {
             CategoryId = rootCategory.Id,
-            CategoryRelationType = CategoryRelationType.IsChildOf,
             RelatedCategoryId = personalHomepage.Id
         });
 
@@ -96,8 +87,7 @@ public class GraphService
         {
             foreach (var categoryRelation in category.CategoryRelations)
             {
-                if (categoryRelation.CategoryRelationType == CategoryRelationType.IsChildOf &&
-                    categories.ContainsKey(categoryRelation.RelatedCategoryId))
+                if (categories.ContainsKey(categoryRelation.RelatedCategoryId))
                 {
                     categories[categoryRelation.RelatedCategoryId].CachedData
                         .AddChildId(categories[categoryRelation.CategoryId].Id);
@@ -106,6 +96,19 @@ public class GraphService
         }
 
         return categories;
+    }
+
+    private static IEnumerable<int> GetParentsFromCategory(int categoryId, bool isFromUserEntityCache = false)
+    {
+        if (!isFromUserEntityCache)
+        {
+            var userCacheCategory = UserEntityCache.GetCategory(Sl.CurrentUserId, categoryId);
+            return userCacheCategory.CategoryRelations
+                .Select(cr => cr.RelatedCategoryId);
+        }
+
+        return EntityCache.GetCategory(categoryId, getDataFromEntityCache: true)
+            .CategoryRelations.Select(cr => cr.RelatedCategoryId);
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category,
@@ -139,12 +142,10 @@ public class GraphService
             var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
 
             var existingRelations =
-                ModifyRelationsForCategory.GetExistingRelations(parentAsCategory,
-                    CategoryRelationType.IncludesContentOf).ToList();
+                ModifyRelationsForCategory.GetExistingRelations(parentAsCategory).ToList();
 
             var relationsToAdd = ModifyRelationsForCategory.GetRelationsToAdd(parentAsCategory,
                 descendantsAsCategory,
-                CategoryRelationType.IncludesContentOf,
                 existingRelations);
 
             ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);

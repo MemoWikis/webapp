@@ -94,8 +94,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 	                    ON c.Id = cs.Category_id
 	                    INNER JOIN questioninset qs
 	                    ON cs.Set_id = qs.Set_id
-	                    WHERE rc.Category_id = {categoryId}
-	                    AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf} 
+	                    WHERE rc.Category_id = {categoryId} 
 	
 	                    UNION
 	
@@ -108,7 +107,6 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 	                    INNER JOIN categories_to_questions cq
 	                    ON c.Id = cq.Category_id
 	                    WHERE rc.Category_id = {categoryId}
-	                    AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
                     ) c
                 ) WHERE c.Id = {categoryId}";
 

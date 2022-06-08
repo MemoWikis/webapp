@@ -135,8 +135,7 @@ public class EditCategoryModel : BaseModel
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
             category.Id, 
-            ParentCategories.Select(c => c.Id).ToList(), 
-            CategoryRelationType.IsChildOf
+            ParentCategories.Select(c => c.Id).ToList()
         );
 
         UpdatedCategory =  FillFromRequest(category).Category;
