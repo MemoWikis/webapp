@@ -98,19 +98,6 @@ public class GraphService
         return categories;
     }
 
-    private static IEnumerable<int> GetParentsFromCategory(int categoryId, bool isFromUserEntityCache = false)
-    {
-        if (!isFromUserEntityCache)
-        {
-            var userCacheCategory = UserEntityCache.GetCategory(Sl.CurrentUserId, categoryId);
-            return userCacheCategory.CategoryRelations
-                .Select(cr => cr.RelatedCategoryId);
-        }
-
-        return EntityCache.GetCategory(categoryId, getDataFromEntityCache: true)
-            .CategoryRelations.Select(cr => cr.RelatedCategoryId);
-    }
-
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category,
         IList<CategoryCacheItem> oldParents)
     {

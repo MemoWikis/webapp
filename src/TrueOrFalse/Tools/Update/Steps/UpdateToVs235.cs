@@ -12,7 +12,6 @@ namespace TrueOrFalse.Updates
                     ALTER TABLE relatedcategoriestorelatedcategories DROP CategoryRelationType;"
                 ).ExecuteUpdate();
             CategoryAuthorUpdater.UpdateAll();
-            WuwiMigrator.CreateWuwiCategoryForAllUsers();
         }
     }
 }
