@@ -57,8 +57,7 @@ namespace TrueOrFalse.Tests.Persistence
                     parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
 
                     ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id,
-                        parentCategories.Select(cat => cat.Id).ToList(),
-                        CategoryRelationType.IsChildOf);
+                        parentCategories.Select(cat => cat.Id).ToList());
                 });
 
             context.Update();
@@ -90,7 +89,6 @@ namespace TrueOrFalse.Tests.Persistence
                         new CategoryCacheRelation()
                         {
                             CategoryId = category.Id,
-                            CategoryRelationType = CategoryRelationType.IncludesContentOf,
                             RelatedCategoryId = categories[i].Id
                         });
                     EntityCache.AddOrUpdate(category);

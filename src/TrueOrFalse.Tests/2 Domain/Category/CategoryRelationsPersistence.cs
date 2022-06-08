@@ -45,15 +45,15 @@ class CategoryRelationsPersistence : BaseTest
 
         QuestionsRelationsCheck(editCategoryController, user);
 
-        Assert.That(firstLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).Count, Is.EqualTo(3));
-        Assert.That(secondLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).Count, Is.EqualTo(2));
-        Assert.That(thirdLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).Count, Is.EqualTo(1));
-        Assert.That(fourthLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IncludesContentOf).Count, Is.EqualTo(0));
+        Assert.That(firstLevelCategory.CategoryRelations.Count, Is.EqualTo(3));
+        Assert.That(secondLevelCategory.CategoryRelations.Count, Is.EqualTo(2));
+        Assert.That(thirdLevelCategory.CategoryRelations.Count, Is.EqualTo(1));
+        Assert.That(fourthLevelCategory.CategoryRelations.Count, Is.EqualTo(0));
 
-        Assert.That(firstLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf).Count, Is.EqualTo(0));
-        Assert.That(secondLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf).Count, Is.EqualTo(1));
-        Assert.That(thirdLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf).Count, Is.EqualTo(1));
-        Assert.That(fourthLevelCategory.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf).Count, Is.EqualTo(1));
+        Assert.That(firstLevelCategory.CategoryRelations.Count, Is.EqualTo(0));
+        Assert.That(secondLevelCategory.CategoryRelations.Count, Is.EqualTo(1));
+        Assert.That(thirdLevelCategory.CategoryRelations.Count, Is.EqualTo(1));
+        Assert.That(fourthLevelCategory.CategoryRelations.Count, Is.EqualTo(1));
     }
 
     public void QuestionsRelationsCheck(EditCategoryController editCategoryController, User user)

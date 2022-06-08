@@ -70,7 +70,6 @@ namespace TrueOrFalse.Tests
                 {
                     Category = category,
                     RelatedCategory = parent,
-                    CategoryRelationType = CategoryRelationType.IsChildOf
                 });
 
                 category.CategoryRelations = categoryRelations;
@@ -84,7 +83,6 @@ namespace TrueOrFalse.Tests
                     {
                         Category = category,
                         RelatedCategory = p,
-                        CategoryRelationType = CategoryRelationType.IsChildOf
                     });
                 }
 
@@ -172,7 +170,7 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public User AddCaseThreeToCache(ContextUser contextUser = null)
+        public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
         {
             //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
             var rootElement = Add("A").Persist().All.First();
@@ -209,6 +207,17 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("E")).Persist();
             Add("I", parent: secondChildren.ByName("G")).Persist();
 
+            if (withWuwi)
+            {
+                // Add in WUWI
+                CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
+                CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
+            }
+
             foreach (var category in firstChildren)
             {
                 category.Visibility = CategoryVisibility.All;
@@ -222,6 +231,7 @@ namespace TrueOrFalse.Tests
             EntityCache.Init();
 
             SessionUser.Login(user);
+            UserEntityCache.Init(user.Id);
             SessionUser.Logout();
             return user;
         }
@@ -261,12 +271,36 @@ namespace TrueOrFalse.Tests
 
             user.StartTopicId = personalStartTopicId;
             SessionUser.Login(user);
+
+            // Add in WUWI
+            CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
+            CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
         }
 
         public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
         {
             return categoryCachedItem.CachedData.ChildrenIds.Any(child =>
                 child == EntityCache.GetCategoryByName(childName).First().Id);
+        }
+
+        public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
+        {
+            return categoryCachedItem.CategoryRelations.Any(cr =>
+                cr.RelatedCategoryId == EntityCache.GetCategoryByName(parentName).First().Id);
+        }
+
+        public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)
+        {
+            return categoryCacheItem.CategoryRelations
+                .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id);
+        }
+
+        public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
+        {
+            return categoryCacheItem.CategoryRelations.Any(cr =>
+                cr.RelatedCategoryId == deletedId || cr.CategoryId == deletedId);
         }
     }
 }
