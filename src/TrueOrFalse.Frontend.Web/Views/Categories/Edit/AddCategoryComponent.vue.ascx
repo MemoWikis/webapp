@@ -33,9 +33,11 @@
                         </div>
 
                         <div class="modalBody" v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki">
+                            <div class="mb-250">
+                                <p>Wo soll das Thema hinzugefügt werden?</p>
+                            </div>
                             <form v-on:submit.prevent="selectCategory">
                                 <div class="categorySearchAutocomplete mb-250" v-if="personalWiki != null" @click="selectedParentInWikiId = personalWiki.Id">
-                                    <div class="overline-s mb-125">Dein Wiki</div>
                                     <div class="searchResultItem" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == personalWiki.Id }" >
                                         <img :src="personalWiki.ImageUrl"/>
                                         <div class="searchResultBody">
@@ -51,8 +53,8 @@
                                     </div>
                                 </div>
 
-                                <div class="categorySearchAutocomplete mb-250" v-if="addToWikiHistory != null">
-                                    <div class="overline-s mb-125">Zuletzt ausgewählte Themen</div>
+                                <div class="categorySearchAutocomplete mb-250" v-if="addToWikiHistory != null && addToWikiHistory.length > 0">
+                                    <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Themen</div>
                                     <template v-for="previousCategory in addToWikiHistory">
                                         <div class="searchResultItem" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == previousCategory.Id }" @click="selectedParentInWikiId = previousCategory.Id" >
                                             <img :src="previousCategory.ImageUrl"/>
@@ -69,11 +71,11 @@
                                         </div>
                                     </template>
                                 </div>
-                                <div @click="hideSearch = false" v-if="hideSearch" class="overline-s no-line">
-                                    <a>Thema suchen</a>
+                                <div class="mb-125">
+                                    <a v-if="hideSearch" @click="hideSearch = false">Anderes Thema auswählen</a>
+                                    <span v-else>Anderes Thema auswählen</span>
                                 </div>
-                                <div v-else class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
-                                    <div class="overline-s mb-125">Zu einem anderem Thema hinzufügen</div>
+                                <div v-if="!hideSearch" class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
                                     <div v-if="showSelectedCategory" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == selectedCategory.Id }" @click="selectedParentInWikiId = selectedCategory.Id" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
                                         <img :src="selectedCategory.ImageUrl"/>
                                         <div class="searchResultBody">

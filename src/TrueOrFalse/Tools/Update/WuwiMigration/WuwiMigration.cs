@@ -61,8 +61,6 @@ public class WuwiMigrator
             wuwiCategory.Id);
     }
 
-    public static string PersonalWuwiContent = "<h2></h2>" +
-                                               "<p><strong>dies ist deine persönliche Startseite!</strong> Du kannst diesen Text leicht ändern, indem du einfach hier anfängst zu tippen. Probier mal!</p>" +
-                                               "<p>Wenn du Fragen hast, melde dich. Wir helfen dir gerne! :-)</p> " +
-                                               "<p><strong>Liebe Grüße, dein memucho-Team.</strong></p>";
+    public static string PersonalWuwiContent = "<p><strong>Dein Wunschwissen ab jetzt hier:</strong></p>" +
+                                               "<p>Unsere Wunschwissen-Funktion ist ab sofort nur noch für Fragen verfügbar. Deine bisherigen Wunschwissen-Themen haben wir hier gesichert.</p> ";
 }

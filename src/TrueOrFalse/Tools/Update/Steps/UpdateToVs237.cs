@@ -6,10 +6,7 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            Sl.Resolve<ISession>()
-                .CreateSQLQuery(
-                    @"ALTER TABLE user ADD COLUMN `AddToWikiHistory` Text;"
-                ).ExecuteUpdate();
+            WuwiMigrator.CreateWuwiCategoryForAllUsers();
         }
     }
 }

@@ -1779,10 +1779,10 @@ h3 {
 
 }
 .mb-250 {
-    margin-bottom: 25px;
+    margin-bottom: 25px !important;
 }
 .mb-125 {
-    margin-bottom: 12.5px;
+    margin-bottom: 12.5px !important;
 }
 .overline-m {
     font-size: 14px;
@@ -2476,12 +2476,13 @@ textarea, input {
                 }
 
                 a {
-                    color: @memo-blue;
+                    color: @memo-blue-link;
                     transition: 0.2s;
 
                     &:hover {
                         text-decoration: none;
                         color: @memo-blue-link;
+                        cursor: pointer;
                     }
                 }
 

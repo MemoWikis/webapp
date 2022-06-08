@@ -22,7 +22,8 @@ public class LearningSession
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        var userCacheItem = UserCache.GetItem(config.CurrentUserId);
+        var userId = config.CurrentUserId == 0 ? SessionUser.UserId : config.CurrentUserId;
+        var userCacheItem = UserCache.GetItem(userId);
         User = userCacheItem.User;
         IsLoggedIn = config.CurrentUserId != -1;
         Config = config;

@@ -431,14 +431,14 @@ class AnswerQuestion {
     }
 
     static LogTimeForQuestionView() {
-        $.ajax({
-            type: 'POST',
-            url: "/AnswerQuestion/LogTimeForQuestionView/",
-            data: {
-                questionViewGuid: $('#hddQuestionViewGuid').val(),
-                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
-            }
-        });
+        //$.ajax({
+        //    type: 'POST',
+        //    url: "/AnswerQuestion/LogTimeForQuestionView/",
+        //    data: {
+        //        questionViewGuid: $('#hddQuestionViewGuid').val(),
+        //        millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+        //    }
+        //});
     }
 
     GetCurrentSteps(): number {

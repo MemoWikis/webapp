@@ -3925,7 +3925,7 @@ p:empty {
   text-decoration: underline;
 }
 .categorySearchAutocomplete .searchResultItem {
-  padding: 4px 8px;
+  padding: 4px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -3935,6 +3935,8 @@ p:empty {
   -webkit-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
   cursor: pointer;
+  margin-left: -4px;
+  margin-right: -4px;
 }
 .categorySearchAutocomplete .searchResultItem .searchResultBody {
   width: 100%;
@@ -3960,7 +3962,7 @@ p:empty {
   color: #003264;
 }
 .categorySearchAutocomplete .searchResultItem .searchResultQuestionCount {
-  color: #DDDDDD;
+  color: #767676;
   font-style: italic;
   height: 20px;
   line-height: normal;
@@ -3977,6 +3979,7 @@ p:empty {
 }
 .categorySearchAutocomplete .searchResultItem.selectedSearchResultItem {
   color: #003264;
+  background-color: #0065ca1A;
 }
 .categorySearchAutocomplete .searchResultItem.selectedSearchResultItem .searchResultLabel {
   color: #003264;
