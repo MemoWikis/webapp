@@ -13,7 +13,7 @@
                             <h4 v-else-if="editCategoryRelation == editCategoryRelationType.Move" class="modal-title">Thema verschieben nach</h4>
                             <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddChild" class="modal-title">Bestehendes Thema verknüpfen</h4>
                             <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddParent" class="modal-title">Neues Oberthema verknüpfen</h4>
-                            <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki" class="modal-title">Zum Wiki hinzufügen</h4>
+                            <h4 v-else-if="editCategoryRelation == editCategoryRelationType.AddToWiki" class="modal-title">Thema zu meinem Wiki hinzufügen</h4>
                         </div>
 
                         <div class="modalBody" v-if="editCategoryRelation == editCategoryRelationType.Create">
@@ -70,10 +70,10 @@
                                     </template>
                                 </div>
                                 <div @click="hideSearch = false" v-if="hideSearch" class="overline-s no-line">
-                                    <a> Zu anderem Thema hinzufügen</a>
+                                    <a>Thema suchen</a>
                                 </div>
                                 <div v-else class="form-group dropdown categorySearchAutocomplete" :class="{ 'open' : showDropdown }">
-                                    <div class="overline-s mb-125">Zu anderem Thema hinzufügen</div>
+                                    <div class="overline-s mb-125">Zu einem anderem Thema hinzufügen</div>
                                     <div v-if="showSelectedCategory" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem' : selectedParentInWikiId == selectedCategory.Id }" @click="selectedParentInWikiId = selectedCategory.Id" data-toggle="tooltip" data-placement="top" :title="selectedCategory.Name">
                                         <img :src="selectedCategory.ImageUrl"/>
                                         <div class="searchResultBody">

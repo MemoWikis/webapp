@@ -178,7 +178,6 @@ namespace TrueOrFalse.Tests
             if (contextUser == null)
                 contextUser = ContextUser.New();
             var user = contextUser.Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
-            var userRootElement = Add(user.Name + "s Startseite").Persist().All.ByName(user.Name + "s Startseite");
 
             var firstChildren =
                 Add("X", parent: rootElement)
@@ -207,17 +206,6 @@ namespace TrueOrFalse.Tests
             Add("I", parent: secondChildren.ByName("E")).Persist();
             Add("I", parent: secondChildren.ByName("G")).Persist();
 
-            if (withWuwi)
-            {
-                // Add in WUWI
-                CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("F").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("X").Id, user);
-                CategoryInKnowledge.Pin(firstChildren.ByName("X3").Id, user);
-            }
-
             foreach (var category in firstChildren)
             {
                 category.Visibility = CategoryVisibility.All;
@@ -231,70 +219,14 @@ namespace TrueOrFalse.Tests
             EntityCache.Init();
 
             SessionUser.Login(user);
-            UserEntityCache.Init(user.Id);
             SessionUser.Logout();
             return user;
-        }
-
-        public void AddCaseTwoToCache()
-        {
-            //  this method display this case https://docs.google.com/drawings/d/1yoBx4OAUT3W2is9WpWczZ7Qb-lwvZeAGqDZYnP89wNk/
-            var rootElement = Add("A").Persist().All.First();
-
-            var firstChildren =
-                Add("B", parent: rootElement)
-                    .Add("C", parent: rootElement)
-                    .Persist()
-                    .All;
-
-            var secondChildren =
-                Add("H", parent: firstChildren.ByName("C"))
-                    .Add("G", parent: firstChildren.ByName("C"))
-                    .Add("F", parent: firstChildren.ByName("C"))
-                    .Add("E", parent: firstChildren.ByName("C"))
-                    .Add("D", parent: firstChildren.ByName("B"))
-                    .Persist()
-                    .All;
-
-            Add("I", parent: secondChildren.ByName("C"))
-                .Persist();
-
-            Add("I", parent: secondChildren.ByName("E"))
-                .Persist();
-
-            Add("I", parent: secondChildren.ByName("G"))
-                .Persist();
-
-            var user = ContextUser.New().Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
-            var personalStartTopicId = Add(user.Name + "s Startseite").Persist().All
-                .ByName(user.Name + "s Startseite").Id;
-
-            user.StartTopicId = personalStartTopicId;
-            SessionUser.Login(user);
-
-            // Add in WUWI
-            CategoryInKnowledge.Pin(firstChildren.ByName("B").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("G").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("E").Id, user);
-            CategoryInKnowledge.Pin(firstChildren.ByName("I").Id, user);
         }
 
         public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
         {
             return categoryCachedItem.CachedData.ChildrenIds.Any(child =>
                 child == EntityCache.GetCategoryByName(childName).First().Id);
-        }
-
-        public static bool HasCorrectParent(CategoryCacheItem categoryCachedItem, string parentName)
-        {
-            return categoryCachedItem.CategoryRelations.Any(cr =>
-                cr.RelatedCategoryId == EntityCache.GetCategoryByName(parentName).First().Id);
-        }
-
-        public static bool HasCorrectIncludetContent(CategoryCacheItem categoryCacheItem, string name, int userId)
-        {
-            return categoryCacheItem.CategoryRelations
-                .Any(cr => cr.RelatedCategoryId == UserEntityCache.GetAllCategories(userId).ByName(name).Id);
         }
 
         public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
