@@ -1,22 +1,24 @@
 ﻿using System.Web.Mvc;
 
-namespace VueApp;
-
-public class TopicController : BaseController
+namespace VueApp
 {
-    [HttpGet]
-    public JsonResult GetTopic(int id)
+    public class TopicController : BaseController
     {
-        return Json(new TopicModel
+        [HttpGet]
+        public JsonResult GetTopic(int id)
         {
-            Id = id,
-            Name = $"Name {id}"
-        }, JsonRequestBehavior.AllowGet);
+            return Json(new TopicModel
+            {
+                Id = id,
+                Name = $"Name {id}"
+            }, JsonRequestBehavior.AllowGet);
+        }
+    }
+
+    public class TopicModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
 
-public class TopicModel
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}

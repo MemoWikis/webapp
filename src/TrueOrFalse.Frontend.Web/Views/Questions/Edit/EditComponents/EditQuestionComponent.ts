@@ -121,8 +121,6 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
                 this.destroyEditors();
                 Object.assign(this.$data, this.$options.data.apply(this));
             });
-
-            eventBus.$emit('edit-question-component-loaded', true);
         },
         watch: {
             searchTerm(term) {
@@ -544,3 +542,5 @@ var editQuestionComponent = Vue.component('edit-question-modal-component',
             }
         }
     });
+
+eventBus.$emit('edit-question-component-loaded', true);

@@ -12,12 +12,15 @@ var EditQuestionLoader = new Vue({
             editQuestionComponentLoaded: false,
         }
     },
-    mounted() {
+    created() {
         if (typeof (tiptapEditor) !== 'undefined' && tiptapEditor != null)
             this.tiptapIsReady = true;
         eventBus.$on('tiptap-is-ready', (val) => this.$nextTick(() => this.tiptapIsReady = val));
         eventBus.$on('edit-question-is-ready', (val) => this.$nextTick(() => this.modalIsReady = val));
         eventBus.$on('edit-question-component-loaded', (val) => this.$nextTick(() => this.editQuestionComponentLoaded = val));
+    },
+    mounted() {
+
         eventBus.$on('open-edit-question-modal',
             e => {
                 var question = {
