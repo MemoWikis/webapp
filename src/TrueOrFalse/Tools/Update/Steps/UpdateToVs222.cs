@@ -24,7 +24,7 @@ namespace TrueOrFalse.Updates
             {
                 var formerlyRootCategoryRelation = new CategoryRelation
                 {
-                    CategoryRelationType = CategoryRelationType.IsChildOf,
+                    //CategoryRelationType = CategoryRelationType.IsChildOf,
                     Category = Sl.CategoryRepo.GetById(id),
                     RelatedCategory = rootCategory
                 };
@@ -36,7 +36,7 @@ namespace TrueOrFalse.Updates
                 var cr = new CategoryRelation
                 {
                     Category = rootCategory,
-                    CategoryRelationType = CategoryRelationType.IncludesContentOf,
+                    //CategoryRelationType = CategoryRelationType.IncludesContentOf,
                     RelatedCategory = category
                 };
                 categoryRelationsList.Add(cr);

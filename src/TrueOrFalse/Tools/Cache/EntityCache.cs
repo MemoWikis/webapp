@@ -194,7 +194,7 @@ public class EntityCache : BaseCache
         var parentsToRemove = Categories.Where(d => d.Value.CachedData.ChildrenIds.Contains(categoryCacheItem.Id)).ToList().Select(d => d.Value).ToList();
         foreach (var parent in parentsToRemove)
         {
-            if (!categoryCacheItem.CategoryRelations.Any(c => c.RelatedCategoryId == parent.Id && c.CategoryRelationType == CategoryRelationType.IsChildOf) && !parentsToAdd.Contains(parent))
+            if (categoryCacheItem.CategoryRelations.All(c => c.RelatedCategoryId != parent.Id) && !parentsToAdd.Contains(parent))
                 parent.CachedData.RemoveChildId(categoryCacheItem.Id);
         }
     }
@@ -305,7 +305,7 @@ public class EntityCache : BaseCache
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.RelatedCategoryId == categoryId)
+            c.CategoryRelations.Where(cr => cr.RelatedCategoryId == categoryId)
                 .Select(cr => GetCategory(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
     }
 
@@ -342,7 +342,7 @@ public class EntityCache : BaseCache
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf && cr.CategoryId == categoryId)
+            c.CategoryRelations.Where(cr => cr.CategoryId == categoryId)
                 .Select(cr => GetCategory(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
     }
 

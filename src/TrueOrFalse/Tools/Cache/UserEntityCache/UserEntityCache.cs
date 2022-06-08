@@ -36,10 +36,9 @@ public class UserEntityCache : BaseCache
         var newItem = item.DeepClone(); 
 
         var obj = _Categories[userId];
-    
+
         var childRelations = newItem
-            .CategoryRelations
-            .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf);
+            .CategoryRelations;
 
         var childRelationsInWuWi =
             childRelations.Where(cr => _Categories[Sl.CurrentUserId].ContainsKey(cr.RelatedCategoryId)).ToList(); 
@@ -51,7 +50,6 @@ public class UserEntityCache : BaseCache
                 new CategoryCacheRelation
                 {
                     CategoryId = newItem.Id,
-                    CategoryRelationType = CategoryRelationType.IsChildOf,
                     RelatedCategoryId = GetNextParentInWishknowledge(relation.RelatedCategoryId).Id
                 }); 
         }
@@ -154,7 +152,6 @@ public class UserEntityCache : BaseCache
                        newRelation = new CategoryCacheRelation
                         {
                             CategoryId = entityCacheItem.Id,
-                            CategoryRelationType = CategoryRelationType.IsChildOf,
                             RelatedCategoryId = categoryCacheRelation.RelatedCategoryId
                         }; 
                     }
@@ -164,7 +161,6 @@ public class UserEntityCache : BaseCache
                        newRelation = new CategoryCacheRelation
                         {
                             CategoryId = entityCacheItem.Id,
-                            CategoryRelationType = CategoryRelationType.IsChildOf,
                             RelatedCategoryId = nextParentInUserCache.Id
                         };
                     }
@@ -239,9 +235,7 @@ public class UserEntityCache : BaseCache
         var allCategories = GetAllCategoriesAsDictionary(userId).Values.ToList();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => 
-                    cr.CategoryRelationType == CategoryRelationType.IsChildOf
-                    && cr.RelatedCategoryId == category.Id)
+            c.CategoryRelations.Where(cr => cr.RelatedCategoryId == category.Id)
                 .Select(cr => GetCategory( userId,cr.CategoryId)))
             .ToList();
     }
@@ -260,7 +254,7 @@ public class UserEntityCache : BaseCache
     public static IEnumerable<int> GetParentsIds(int userId, int topicId)
     {
         _Categories[userId].TryGetValue(topicId, out var topic);
-        return topic.CategoryRelations.Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf).Select(cr => cr.RelatedCategoryId);
+        return topic.CategoryRelations.Select(cr => cr.RelatedCategoryId);
     }
 }
 

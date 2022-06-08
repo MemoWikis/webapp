@@ -134,11 +134,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     userEntityCache.TryGetValue(categoryCacheItem.Id, out var oldCategoryCacheItem);
 
                     var parentIdsCacheItem = categoryCacheItem.CategoryRelations
-                        .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                         .Select(cr => cr.RelatedCategoryId).ToList();
 
                     var parentIdsOldCategoryCacheItem = oldCategoryCacheItem.CategoryRelations
-                        .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                         .Select(cr => cr.RelatedCategoryId).ToList();
 
                     var exceptIdsToDelete = parentIdsOldCategoryCacheItem.Except(parentIdsCacheItem).ToList();
@@ -176,11 +174,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
             var oldCategoryCacheItem1 = EntityCache.GetCategory(categoryCacheItem.Id, getDataFromEntityCache: true);
 
             var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
-                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(cr => cr.RelatedCategoryId).ToList();
 
             var parentIdsOldCategoryCacheItem1 = oldCategoryCacheItem1.CategoryRelations
-                .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
                 .Select(cr => cr.RelatedCategoryId).ToList();
 
             var exceptIdsToDelete1 = parentIdsOldCategoryCacheItem1.Except(parentIdsCacheItem1).ToList();
@@ -228,7 +224,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private static IEnumerable<int> GetIdsToRemove(CategoryCacheItem oldCategoryCacheItem)
     {
         return oldCategoryCacheItem.CategoryRelations
-            .Where(cr => cr.CategoryRelationType == CategoryRelationType.IsChildOf)
             .Select(cr => cr.RelatedCategoryId);
     }
 
@@ -335,7 +330,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
     {
-        var includingCategories = GetCategoriesIdsForRelatedCategory(category, CategoryRelationType.IncludesContentOf);
+        var includingCategories = GetCategoriesIdsForRelatedCategory(category);
 
         if (includingSelf)
             includingCategories = includingCategories.Union(new List<Category> { category }).ToList();
@@ -343,16 +338,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return includingCategories;
     }
 
-    public IList<Category> GetCategoriesIdsForRelatedCategory(Category relatedCategory, CategoryRelationType relationType = CategoryRelationType.None)
+    public IList<Category> GetCategoriesIdsForRelatedCategory(Category relatedCategory)
     {
         var query = _session.QueryOver<CategoryRelation>()
-            .Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf
-                        && r.RelatedCategory == relatedCategory);
-
-        if (relationType != CategoryRelationType.None)
-        {
-            query.Where(r => r.CategoryRelationType == relationType);
-        }
+            .Where(r => r.RelatedCategory == relatedCategory);
 
         return query.List()
             .Select(r => r.Category)
@@ -364,8 +353,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
             FROM relatedcategoriestorelatedcategories
-            WHERE  Related_id = {categoryId} 
-            AND CategoryRelationType = {(int)CategoryRelationType.IsChildOf}").List<int>();
+            WHERE  Related_id = {categoryId}").List<int>();
         return GetByIds(categoryIds.ToArray());
     }
 
@@ -382,11 +370,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .QueryOver<CategoryRelation>()
             .JoinAlias(c => c.RelatedCategory, () => relatedCategoryAlias)
             .JoinAlias(c => c.Category, () => categoryAlias)
-            .Where(r =>
-                r.CategoryRelationType == CategoryRelationType.IsChildOf
-                && relatedCategoryAlias.Type == parentType
-                && relatedCategoryAlias.Id == parentId
-                && categoryAlias.Type == childrenType);
+            .Where(r => relatedCategoryAlias.Type == parentType
+                        && relatedCategoryAlias.Id == parentId
+                        && categoryAlias.Type == childrenType);
 
         if (!String.IsNullOrEmpty(searchTerm))
             query.WhereRestrictionOn(r => categoryAlias.Name)
@@ -449,7 +435,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 	        INNER JOIN categories_to_questions cq
 	        ON c.Id = cq.Category_id
 	        WHERE rc.Category_id = {categoryId}
-	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
         ) c
         ").UniqueResult<long>();//Union is distinct by default
         return (int)count;

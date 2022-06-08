@@ -6,7 +6,6 @@
 /// </summary>
 public abstract class CategoryRelation_EditData
 {
-    public CategoryRelationType RelationType;
     public int CategoryId;
     public int RelatedCategoryId;
 }

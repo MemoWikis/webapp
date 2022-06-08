@@ -11,7 +11,6 @@ public class ModifyRelationsUserEntityCache
             var newRelation = new CategoryCacheRelation
             {
                 RelatedCategoryId = child.Id,
-                CategoryRelationType = CategoryRelationType.IncludesContentOf,
                 CategoryId = parent.Id
             };
 
@@ -34,8 +33,7 @@ public class ModifyRelationsUserEntityCache
                 {
                     for (var i = 0; i < categoryCacheItem.CategoryRelations.Count; i++)
                     {
-                        if (categoryCacheItem.CategoryRelations[i].CategoryRelationType == CategoryRelationType.IncludesContentOf &&
-                            categoryCacheItem.CategoryRelations[i].RelatedCategoryId == child.Id)
+                        if (categoryCacheItem.CategoryRelations[i].RelatedCategoryId == child.Id)
                             categoryCacheItem.CategoryRelations.Remove(categoryCacheItem.CategoryRelations[i]);
                     }
                 }
@@ -65,7 +63,6 @@ public class ModifyRelationsUserEntityCache
                     parentToRelationAdd?.CategoryRelations.Add(
                         new CategoryCacheRelation
                         {
-                            CategoryRelationType = CategoryRelationType.IncludesContentOf, 
                             RelatedCategoryId = child.Id, 
                             CategoryId = parent.Key
                         });

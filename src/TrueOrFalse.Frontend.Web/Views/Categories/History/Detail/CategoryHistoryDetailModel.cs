@@ -171,19 +171,19 @@ public class CategoryHistoryDetailModel : BaseModel
             name = relatedCategory.Name; 
         }
         string res;
-        switch (relation.RelationType)
-        {
-            case CategoryRelationType.IsChildOf:
-                res = $"\"{name}\" (ist übergeordnet)";
-                break;
-            case CategoryRelationType.IncludesContentOf:
-                res = $"\"{name}\" (ist untergeordnet)";
-                break;
-            default:
-                res = $"\"{name}\" (hat undefinierte Beziehung)";
-                break;
-        }
-
+        //switch (relation.RelationType)
+        //{
+        //    case CategoryRelationType.IsChildOf:
+        //        res = $"\"{name}\" (ist übergeordnet)";
+        //        break;
+        //    case CategoryRelationType.IncludesContentOf:
+        //        res = $"\"{name}\" (ist untergeordnet)";
+        //        break;
+        //    default:
+        //        res = $"\"{name}\" (hat undefinierte Beziehung)";
+        //        break;
+        //}
+        res = $"\"{name}\" (hat undefinierte Beziehung)";
         return res;
     }
 
@@ -193,7 +193,6 @@ public class CategoryHistoryDetailModel : BaseModel
         if (relations != null && relations.IsNotEmpty())
         {
             var parents = relations
-                .Where(r => r.RelationType == CategoryRelationType.IsChildOf)
                 .ToList();
 
             res += "Übergeordnete Themen\n";
@@ -202,7 +201,6 @@ public class CategoryHistoryDetailModel : BaseModel
                 : string.Join("\n", parents.Select(Relation2String));
 
             var children = relations
-                .Where(r => r.RelationType == CategoryRelationType.IncludesContentOf)
                 .ToList();
 
             res += "\n\nUntergeordnete Themen\n";
@@ -210,7 +208,7 @@ public class CategoryHistoryDetailModel : BaseModel
                 ? "<keine>"
                 : string.Join("\n", children.Select(Relation2String));
 
-            var otherRelations = relations.Where(r => r.RelationType != CategoryRelationType.IsChildOf && r.RelationType != CategoryRelationType.IncludesContentOf);
+            var otherRelations = relations;
             res += "\n\nAndere Beziehungsdaten\n";
             res += otherRelations.IsEmpty()
                 ? "<keine>"

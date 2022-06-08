@@ -420,9 +420,7 @@ public class EditCategoryController : BaseController
             var childCategoryAsCategory = _categoryRepository.GetByIdEager(childCategory.Id);
             ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
                 childCategory.Id,
-                related.Select(c => c.Id).ToList(),
-                CategoryRelationType.IsChildOf
-            );
+                related.Select(c => c.Id).ToList());
 
             _categoryRepository.Update(childCategoryAsCategory, SessionUser.User, type: CategoryChangeType.Relations);
         }
@@ -592,7 +590,7 @@ public class EditCategoryController : BaseController
         var category = catRepo.GetById(categoryId);
 
         var relationsToRemove =
-            category.CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList();
+            category.CategoryRelations;
 
         foreach (var relation in relationsToRemove)
         {

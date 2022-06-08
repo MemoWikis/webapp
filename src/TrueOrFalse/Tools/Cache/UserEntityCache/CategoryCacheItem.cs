@@ -59,7 +59,6 @@ public class CategoryCacheItem
     {
         return CategoryRelations != null && CategoryRelations.Any()
            ? CategoryRelations
-               .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildOf)
                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
                .ToList()
            : new List<CategoryCacheItem>();
@@ -249,8 +248,7 @@ public class CategoryCacheItem
     public bool Contains(CategoryCacheRelation categoryRelation)
     {
         return CategoryRelations.Any(
-            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId &&
-            cr.CategoryRelationType == categoryRelation.CategoryRelationType
+            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId
         );
     }
 
