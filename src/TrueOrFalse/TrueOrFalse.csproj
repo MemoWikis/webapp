@@ -814,9 +814,9 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
     <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
     <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />

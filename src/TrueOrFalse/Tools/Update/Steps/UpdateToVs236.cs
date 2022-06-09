@@ -8,8 +8,10 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"ALTER TABLE user ADD COLUMN `AddToWikiHistory` Text;"
+                    @"DELETE FROM relatedcategoriestorelatedcategories WHERE CategoryRelationType = 2;
+                    ALTER TABLE relatedcategoriestorelatedcategories DROP CategoryRelationType;"
                 ).ExecuteUpdate();
+            CategoryAuthorUpdater.UpdateAll();
         }
     }
 }
