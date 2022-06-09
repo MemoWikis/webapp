@@ -193,7 +193,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                             <li>
                                 <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
                                     <div class="dropdown-icon">
-                                        <i class="fa fa-plus-circle"></i>
+                                        <img class="fas" src="/Images/Icons/wiki-add.svg"/>
                                     </div>
                                     Zu meinem Wiki hinzufügen
                                 </a>

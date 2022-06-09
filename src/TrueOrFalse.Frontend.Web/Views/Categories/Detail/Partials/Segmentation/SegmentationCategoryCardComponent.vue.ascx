@@ -67,7 +67,7 @@
                         <li>
                             <a @click="openAddToWikiModal()" data-allowed="logged-in">
                                 <div class="dropdown-icon">
-                                    <i class="fa fa-plus-circle"></i>
+                                    <img class="fas" src="/Images/Icons/wiki-add.svg"/>
                                 </div>
                                 Zu meinem Wiki hinzufügen
                             </a>

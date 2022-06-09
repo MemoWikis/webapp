@@ -1885,6 +1885,7 @@
     <Content Include="Images\DocumentationHelp\VideoWidget.png" />
     <Content Include="Images\GoogleMapsPreview\Wildau.png" />
     <Content Include="Images\Icons\sitemap-disable.svg" />
+    <Content Include="Images\Icons\wiki-add.svg" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
     <Content Include="Images\LogosPartners\badge_nominiert_2017.png" />
     <Content Include="Images\LogosPartners\badge_nominiert_2017_250real.png" />

@@ -216,6 +216,9 @@
                 childCategoryId: self.categoryId,
             };
             eventBus.$emit('open-move-category-modal', data);
+        },
+        openAddToWikiModal() {
+            eventBus.$emit('add-to-wiki', this.categoryId);
         }
     },
 });

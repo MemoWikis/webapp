@@ -42,6 +42,14 @@
                                 </div>Thema verschieben
                             </a>
                         </li>
+                        <li>
+                            <a @click="openAddToWikiModal()" data-allowed="logged-in">
+                                <div class="dropdown-icon">
+                                    <img class="fas" src="/Images/Icons/wiki-add.svg"/>
+                                </div>
+                                Zu meinem Wiki hinzufügen
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
