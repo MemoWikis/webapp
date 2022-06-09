@@ -84,7 +84,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public void CreateOnlyDb(Category category)
     {
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
-            related.DateModified = related.DateCreated = DateTime.Now;
+            related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
         base.Create(category);
         Flush();
         _searchIndexCategory.Update(category);

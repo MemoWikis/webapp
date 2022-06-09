@@ -27,6 +27,7 @@ public class WuwiMigrator
                 Logg.r().Information("WuwiMigration - End Migration for User: {userId}", user.Id);
             }
         }
+        _categoryValuationRepo.Flush();
     }
 
     public static Category CreateWuwiCategory(User user)
