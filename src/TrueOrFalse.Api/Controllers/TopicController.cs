@@ -5,18 +5,58 @@ using Microsoft.AspNetCore.Mvc;
 public class TopicController : ControllerBase
 {
     [HttpGet("{id}")]
-    public TopicModel GetTopic(int id)
+    public HeadModel GetHead(int id)
     {
-        return new TopicModel
+        var category = GetCategory(id);
+
+        return new HeadModel
         {
             Id = id,
             Name = $"Name {id}"
         };
     }
+
+    private static void GetCategory(int id)
+    {
+        var category = EntityCache.GetCategory(id);
+        if (!PermissionCheck.CanView(category))
+            category = null;
+    }
+
+    [HttpGet("{id}")]
+    public FirstTabModel GetMainTab(int id)
+    {
+        return new FirstTabModel
+        {
+        };
+    }
+
+    [HttpGet("{id}")]
+    public QuestionTabModel GetQuestionTab(int id)
+    {
+        return new QuestionTabModel
+        {
+        };
+    }
 }
 
-public class TopicModel
+public class HeadModel
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public int Id;
+
+    public string? MetaTitle;
+    public string? MetaDescription;
+
+    public string? Name;
+    public string? Description;
+}
+
+public class FirstTabModel
+{
+    public string Text;
+}
+
+public class QuestionTabModel
+{
+
 }
