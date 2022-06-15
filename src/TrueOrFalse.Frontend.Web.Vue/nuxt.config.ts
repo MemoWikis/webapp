@@ -10,4 +10,8 @@ export default defineNuxtConfig({
             apiBase: "http://localhost:5211",
         },
     },
+    components: {
+        global: true,
+        dirs: ['~/components'],
+      },
 });
