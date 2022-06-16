@@ -1,22 +1,15 @@
 <script lang="ts" setup>
-import {ref, watch} from 'vue'
-import {Tab} from '../../../enum/TabsEnum'
-
-const emit = defineEmits(['selectTab'])
-const selectedTab = ref(null)
-
-watch(selectedTab, async(val: typeof Tab) => {
-  emit('selectTab', val)
-})
-
+import {Tab} from './TabsEnum'
+import {useTabsStore} from './tabsStore'
+const tabsStore = useTabsStore()
 </script>
 
 <template>
   <div>
     Component: topic/tab
-    <div @click="selectedTab = Tab.Topic">Thema</div>
-    <div @click="selectedTab = Tab.Learning">Lernen</div>
-    <div @click="selectedTab = Tab.Analytics">Analytics</div>
+    <div @click="tabsStore.activeTab = Tab.Topic">Thema</div>
+    <div @click="tabsStore.activeTab = Tab.Learning">Lernen</div>
+    <div @click="tabsStore.activeTab = Tab.Analytics">Analytics</div>
   </div>
 </template>
 
