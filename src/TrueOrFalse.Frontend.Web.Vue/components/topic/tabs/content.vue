@@ -1,11 +1,12 @@
 <script setup>
 const props = defineProps({
-  category: Object
+  categoryId: Number
 })
 </script>
 
 <template>
     <div>
-        {{props.category.text}}
+      {{props.categoryId}}
+        <!-- {{props.category.text}} -->
     </div>
 </template>

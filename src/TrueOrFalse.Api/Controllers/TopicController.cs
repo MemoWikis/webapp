@@ -16,11 +16,12 @@ public class TopicController : ControllerBase
         };
     }
 
-    private static void GetCategory(int id)
+    private static CategoryCacheItem GetCategory(int id)
     {
         var category = EntityCache.GetCategory(id);
         if (!PermissionCheck.CanView(category))
             category = null;
+        return category;
     }
 
     [HttpGet("{id}")]
