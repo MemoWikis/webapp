@@ -10,12 +10,11 @@ const currentTitle = ref(tabsStore.getTopicName)
     <div>
         <div>{{currentTitle}}</div>
         <div></div>
-        <!-- <textarea-autosize
+        <!-- <TextareaAutosize
             placeholder="Type something here..."
-            ref="myTextarea"
-            :v-model="currentTitle"
+            ref="topicTitle"
+            :v-model="tabsStore.getTopicName"
             :min-height="30"
-            :max-height="350"
             /> -->
     </div>
 </template>

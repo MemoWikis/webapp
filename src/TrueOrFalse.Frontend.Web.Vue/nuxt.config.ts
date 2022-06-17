@@ -5,13 +5,13 @@ export default defineNuxtConfig({
     buildModules: [
         '@pinia/nuxt',
       ],
-    plugins: ['~/plugins/vueTextareaAutosize.js'],
     typescript: {
         shim: false,
     },
     runtimeConfig: {
         public: {
             apiBase: "http://localhost:5211/apiVue/",
+            base: "http://localhost:5211"
         },
     },
     components: {

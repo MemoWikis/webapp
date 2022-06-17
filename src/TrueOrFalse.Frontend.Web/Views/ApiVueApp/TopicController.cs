@@ -12,7 +12,8 @@ namespace VueApp
             return Json(new TopicModel
             {
                 Id = id,
-                Name = category.Name,   
+                Name = category.Name,
+                ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
             }, JsonRequestBehavior.AllowGet);
         }
     }
@@ -21,6 +22,7 @@ namespace VueApp
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ImgUrl { get; set; }
     }
 }
 
