@@ -1407,6 +1407,7 @@ p:empty {
     TopicTab
 -------------------------------------------------------*/
 #TopicTabContent {
+  margin-top: 40px;
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
 }
