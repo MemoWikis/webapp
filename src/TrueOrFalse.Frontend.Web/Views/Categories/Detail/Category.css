@@ -821,7 +821,7 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 60px;
+  margin-bottom: -8px;
 }
 #CategoryHeader #HeadingContainer {
   -webkit-box-flex: 1;
@@ -858,7 +858,7 @@ p:empty {
   letter-spacing: normal;
 }
 #CategoryHeader .ImageContainer {
-  width: 120px;
+  width: 80px;
   padding-top: clamp(7px, 1.8vw, 12px);
   -webkit-box-flex: 0;
   -webkit-flex-grow: 0;
@@ -886,7 +886,7 @@ p:empty {
 #CategoryHeader #CategoryHeaderImg {
   -webkit-border-radius: 0;
           border-radius: 0;
-  width: 120px;
+  width: 80px;
   height: auto;
 }
 #CategoryHeader .LicenseInfo {
@@ -1215,9 +1215,6 @@ p:empty {
   }
   #CategoryHeader #ManagementMobile {
     margin-bottom: 10px;
-  }
-  #CategoryHeader #HeadingSection {
-    margin-bottom: 15px;
   }
 }
 @media (min-width: 767px) {

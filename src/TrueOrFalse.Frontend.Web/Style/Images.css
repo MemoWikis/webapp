@@ -146,7 +146,7 @@
     line-height: 18px;
   }
   .LicenseInfo:after {
-    content: "Bild- & Lizenzinfos";
+    content: "Lizenzinfos";
   }
 }
 .rowBase .LicenseInfo {
