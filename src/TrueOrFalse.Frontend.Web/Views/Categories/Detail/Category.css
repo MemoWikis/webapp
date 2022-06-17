@@ -826,7 +826,6 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 10px;
 }
 #CategoryHeader #HeadingContainer {
   -webkit-box-flex: 1;
