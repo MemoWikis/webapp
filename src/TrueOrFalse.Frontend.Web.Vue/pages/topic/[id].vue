@@ -3,6 +3,7 @@ import { ref, watch, nextTick, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
+import { useTopicStore } from '~~/components/topic/topicStore';
 
 const category = ref({
   id: 1,
@@ -11,12 +12,13 @@ const category = ref({
 
 const route = useRoute()  
 const categoryId = ref(parseInt(route.params.id.toString()))
-// const { data } = await useFetch('http://memucho.local/Api/GetTopic', { params: { id: route.params.id }  } )
 
 const config = useRuntimeConfig();
 
 const { data: topic, pending, refresh, error } =
      await useFetch(() => `/Topic/GetTopic/21`, { baseURL: config.apiBase });
+
+const topicStore = useTopicStore()
 
 const tabsStore = useTabsStore()
 
@@ -28,7 +30,8 @@ const tabsStore = useTabsStore()
     {{error}}
     {{topic}}
     <br/>
-    <TopicTabs/>
+    <TopicHeader />
+    <br/>
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId"/>
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning"/>
 

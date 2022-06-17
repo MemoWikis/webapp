@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     buildModules: [
         '@pinia/nuxt',
       ],
+    plugins: ['~/plugins/vueTextareaAutosize.js'],
     typescript: {
         shim: false,
     },
@@ -17,4 +18,7 @@ export default defineNuxtConfig({
         global: true,
         dirs: ['~/components'],
       },
+      css: [
+        '@fortawesome/fontawesome-svg-core/styles.css'
+      ]
 });
