@@ -19,7 +19,7 @@ const { data: topic, pending, refresh, error } =
      await useFetch(() => `/Topic/GetTopic/` + route.params.id, { baseURL: config.apiBase });
 
 const topicStore = useTopicStore()
-topicStore.setTopic(topic)
+topicStore.setTopic(topic.value)
 
 const tabsStore = useTabsStore()
 
