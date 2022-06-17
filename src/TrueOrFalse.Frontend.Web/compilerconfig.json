@@ -7,16 +7,6 @@
     }
   },
   {
-    "outputFile": "Views/Welcome/Welcome.css",
-    "inputFile": "Views/Welcome/Welcome.less",
-    "minify": {
-      "enabled": false
-    },
-    "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
-    }
-  },
-  {
     "outputFile": "Style/site.css",
     "inputFile": "Style/site.less",
     "minify": {
@@ -55,13 +45,6 @@
     },
     "options": {
       "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
-    }
-  },
-  {
-    "outputFile": "Views/Beta/Beta.css",
-    "inputFile": "Views/Beta/Beta.less",
-    "minify": {
-      "enabled": false
     }
   },
   {
@@ -146,10 +129,6 @@
     "inputFile": "Views/Questions/Answer/AnswerQuestionSolution.less"
   },
   {
-    "outputFile": "Views/Help/Widget.css",
-    "inputFile": "Views/Help/Widget.less"
-  },
-  {
     "outputFile": "Style/grid.css",
     "inputFile": "Style/grid.less"
   },
@@ -164,10 +143,6 @@
   {
     "outputFile": "Views/Users/Account/Membership.css",
     "inputFile": "Views/Users/Account/Membership.less"
-  },
-  {
-    "outputFile": "Views/Users/Account/WidgetStats/WidgetStats.css",
-    "inputFile": "Views/Users/Account/WidgetStats/WidgetStats.less"
   },
   {
     "outputFile": "Views/Users/Account/Settings/UserSettings.css",

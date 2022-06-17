@@ -597,7 +597,6 @@ p:empty {
 
 #CategoryHeader, #TopicTabContent {
     line-height: 1.5;
-    margin-top: 10px;
     .new-font-style();
     color: @global-text-color;
 
@@ -651,7 +650,7 @@ p:empty {
 #MasterMainWrapper {
     background-color: white;
     padding: 20px;
-    width:100%;
+    width: 100%;
     padding-top: 0;
     margin-top: -10px;
 
@@ -659,6 +658,12 @@ p:empty {
         padding: 0;
         border: none;
         box-shadow: none;
+    }
+}
+@media (min-width: 768px) {
+    #MasterMainWrapper {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
@@ -762,7 +767,7 @@ p:empty {
 
     #HeadingSection {
         display: flex;
-        margin-bottom: -8px;
+        margin-bottom: 10px;
     }
 
     #HeadingContainer {
@@ -791,7 +796,6 @@ p:empty {
         padding-top: clamp(7px, 1.8vw, 12px);
 
         .media-below-sm( {
-            width: 15%;
             min-width: 65px;
         }
 
@@ -1163,7 +1167,7 @@ p:empty {
         }
 
         #HeadingContainer {
-            min-height: 150px;
+            min-height: 130px;
 
             h1 {
                 width: 100%;
@@ -1219,12 +1223,6 @@ p:empty {
         border-top: solid 1px @memo-grey-light
     }
 }
-
-.media-below-md( {
-    #MasterMainWrapper {
-        padding-top: 10px;
-    }
-}); 
 
 .DescriptionSection {
     margin-bottom: 50px;

@@ -654,7 +654,6 @@ p:empty {
 #CategoryHeader,
 #TopicTabContent {
   line-height: 1.5;
-  margin-top: 10px;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 18px;
   line-height: 30px;
@@ -736,6 +735,12 @@ p:empty {
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+@media (min-width: 768px) {
+  #MasterMainWrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 .BoxButtonBar {
   margin-top: 50px;
@@ -821,7 +826,7 @@ p:empty {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: -8px;
+  margin-bottom: 10px;
 }
 #CategoryHeader #HeadingContainer {
   -webkit-box-flex: 1;
@@ -873,7 +878,6 @@ p:empty {
 }
 @media (max-width: 767px) {
   #CategoryHeader .ImageContainer {
-    width: 15%;
     min-width: 65px;
   }
 }
@@ -1292,7 +1296,7 @@ p:empty {
   opacity: 1;
 }
 #CategoryHeader #HeadingSection #HeadingContainer {
-  min-height: 150px;
+  min-height: 130px;
 }
 #CategoryHeader #HeadingSection #HeadingContainer h1 {
   width: 100%;
@@ -1346,11 +1350,6 @@ p:empty {
 #CategoryFooter #Footer-CategoryNetwork {
   padding: 30px 0;
   border-top: solid 1px #DDDDDD;
-}
-@media (max-width: 991px) {
-  #MasterMainWrapper {
-    padding-top: 10px;
-  }
 }
 .DescriptionSection {
   margin-bottom: 50px;
