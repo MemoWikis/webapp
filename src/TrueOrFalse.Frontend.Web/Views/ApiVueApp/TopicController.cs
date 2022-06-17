@@ -7,10 +7,12 @@ namespace VueApp
         [HttpGet]
         public JsonResult GetTopic(int id)
         {
+            var category = EntityCache.GetCategory(id);
+
             return Json(new TopicModel
             {
                 Id = id,
-                Name = $"Name {id}"
+                Name = category.Name,   
             }, JsonRequestBehavior.AllowGet);
         }
     }

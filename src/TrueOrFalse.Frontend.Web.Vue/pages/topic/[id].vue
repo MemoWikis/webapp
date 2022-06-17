@@ -11,13 +11,12 @@ const category = ref({
 
 const route = useRoute()  
 const categoryId = ref(parseInt(route.params.id.toString()))
-const { data } = await useFetch('/api/GetTopic', { params: { id: route.params.id }, server: false,  } )
-onMounted(() => {
-  console.log(data)
-})
-watch(data, (e) => {
-  console.log(e);
-})
+// const { data } = await useFetch('http://memucho.local/Api/GetTopic', { params: { id: route.params.id }  } )
+
+const config = useRuntimeConfig();
+
+const { data: topic, pending, refresh, error } =
+     await useFetch(() => `/Topic/GetTopic/21`, { baseURL: config.apiBase });
 
 const tabsStore = useTabsStore()
 
@@ -26,6 +25,8 @@ const tabsStore = useTabsStore()
 <template>
   <div>
     Topic {{ $route.params.id }}
+    {{error}}
+    {{topic}}
     <br/>
     <TopicTabs/>
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId"/>

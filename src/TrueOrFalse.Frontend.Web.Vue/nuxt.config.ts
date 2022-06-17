@@ -10,22 +10,11 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            apiBase: "http://localhost:5211",
+            apiBase: "http://localhost:5211/apiVue/",
         },
     },
     components: {
         global: true,
         dirs: ['~/components'],
       },
-    ssr: true,
-    axios: {
-        proxy: true
-      },
-      
-    proxy: {
-        '/api/': {
-          target: 'http://memucho.local/Api/',
-          pathRewrite: { '^/api/': '' }
-        }
-    }
 });
