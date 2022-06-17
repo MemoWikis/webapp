@@ -1296,6 +1296,7 @@ p:empty {
   opacity: 1;
 }
 #CategoryHeader #HeadingSection #HeadingContainer {
+  padding-top: 4px;
   min-height: 130px;
 }
 #CategoryHeader #HeadingSection #HeadingContainer h1 {
