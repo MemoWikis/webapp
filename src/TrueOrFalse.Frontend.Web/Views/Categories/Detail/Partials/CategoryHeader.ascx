@@ -135,12 +135,8 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
             <div class="KnowledgeBarWrapper col-md-3 hide-sm">
                 <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
             </div>
+            <div class="Border hide-sm"></div>
 
-
-            <% if (user != null && !user.IsStartTopicTopicId(Model.Category.Id))
-               { %>
-                <div class="Border"></div>
-            <% } %>
             <div class="Buttons">
                 <div class="Button dropdown DropdownButton">
                     <% buttonId = Guid.NewGuid(); %>
