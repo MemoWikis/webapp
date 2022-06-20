@@ -2,7 +2,8 @@
 
 <template>
   <div>
-    Component: header
+    <NavBarSubNavBar/>
+    <NavBar/>
   </div>
 </template>
 

@@ -21,10 +21,6 @@
         this._breadCrumbFirstElementWidth = parseInt($('#BreadCrumbTrail > div:eq(0)').css("width"));
         this.firstLoad();
 
-        $("#UserWorldButton").on("click", () => {
-            $.post("/User/SetUserWorldInUserCache"); 
-        }); 
-
         $(window).scroll(() => {
             this.stickyHeader();
         });

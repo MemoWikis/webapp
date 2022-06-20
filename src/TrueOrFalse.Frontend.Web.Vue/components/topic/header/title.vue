@@ -8,15 +8,16 @@ const currentTitle = ref(tabsStore.getTopicName)
 
 <template>
     <div>
-        <div>{{currentTitle}}</div>
-        <div></div>
-        <resize-textarea
-            placeholder="Type something here..."
-            ref="topicTitle"
-            :modelValue="currentTitle"
-            :minHeight="30"
-            >
-        </resize-textarea>
+        <h1>
+            <resize-textarea
+                placeholder="Type something here..."
+                ref="topicTitle"
+                :modelValue="currentTitle"
+                :minHeight="30"
+                >
+            </resize-textarea>
+        </h1>
+
     </div>
 </template>
 

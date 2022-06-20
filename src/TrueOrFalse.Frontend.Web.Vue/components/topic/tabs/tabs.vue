@@ -5,11 +5,10 @@ const tabsStore = useTabsStore()
 </script>
 
 <template>
-  <div>
-    Component: topic/tab
-    <div @click="tabsStore.activeTab = Tab.Topic">Thema</div>
-    <div @click="tabsStore.activeTab = Tab.Learning">Lernen</div>
-    <div @click="tabsStore.activeTab = Tab.Analytics">Analytics</div>
+  <div class="row">
+    <div class="col-sm-4" @click="tabsStore.activeTab = Tab.Topic">Thema</div>
+    <div class="col-sm-4" @click="tabsStore.activeTab = Tab.Learning">Lernen</div>
+    <div class="col-sm-4" @click="tabsStore.activeTab = Tab.Analytics">Analytics</div>
   </div>
 </template>
 
