@@ -178,7 +178,7 @@ namespace TrueOrFalse
             routes.MapRoute("GetSegmentHtml", "Segmentation/GetSegmentHtml", new { controller = "Segmentation", action = "GetSegmentHtml" });
             routes.MapRoute("GetCategoryCard", "Segmentation/GetCategoryCard", new { controller = "Segmentation", action = "GetCategoryCard" });
 
-            /*ApiVueApp*/routes.MapRoute("VueTopic", "apiVue/{controller}/{action}/{id}", new { controller = "TopicController", id = UrlParameter.Optional });
+            /*ApiVueApp*/routes.MapRoute("NuxtApi", "apiVue/{controller}/{action}/{id}", new { id = UrlParameter.Optional });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic"});

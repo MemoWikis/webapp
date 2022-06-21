@@ -24,6 +24,7 @@ export default defineNuxtConfig(
         '~/assets/bootstrap/bootstrap.css',
         '~/assets/bootstrap/memucho_overrides.css',
         '~/assets/bootstrap/variables_custom.css',
+        '~/assets/site.css'
       ],
     less: [
         // '~/assets/bootstrap/bootstrap.less',

@@ -16,7 +16,7 @@ const categoryId = ref(parseInt(route.params.id.toString()))
 const config = useRuntimeConfig();
 
 const { data: topic, pending, refresh, error } =
-     await useFetch(() => `/Topic/GetTopic/` + route.params.id, { baseURL: config.apiBase });
+     await useFetch(() => '/Topic/GetTopic/' + route.params.id, { baseURL: config.apiBase });
 
 const topicStore = useTopicStore()
 topicStore.setTopic(topic.value)
@@ -32,6 +32,8 @@ const tabsStore = useTabsStore()
     {{topic}}
     <br/>
     <TopicHeader />
+    <br/>
+    <Login />
     <br/>
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId"/>
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning"/>

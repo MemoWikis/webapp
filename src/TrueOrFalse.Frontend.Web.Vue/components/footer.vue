@@ -14,7 +14,7 @@
     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
         <div id="MasterFooterLogoContainer">
             <a href="/" id="MasterFooterLogo">
-                <img src="/Images/Logo/LogoIconText.svg">
+                <Image url="/Images/Logo/LogoIconText.svg"/>
             </a>
 
             <div class="overline-s no-line">
@@ -26,30 +26,34 @@
         <div class="footer-group">
             <a href="<%= Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
             <a href="<%= Links.Imprint %>">Impressum & Datenschutz</a><br/>
+            <!-- <a href="<%= Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
+            <a href="<%= Links.Imprint %>">Impressum & Datenschutz</a><br/> -->
         </div>
     </div>
 
     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
         <div class="footer-group">
             <div class="overline-m no-line">
-                <a href="<%= Links.CategoryDetail("memucho-Wiki", RootCategory.MemuchoWikiId) %>">Memucho Wiki</a>
+                <!-- <a href="<%= Links.CategoryDetail("memucho-Wiki", RootCategory.MemuchoWikiId) %>">Memucho Wiki</a> -->
+                <a href="">Memucho Wiki</a>
+
             </div>
-            <% foreach (var id in RootCategory.MemuchoCategoryIds)
+            <!-- <% foreach (var id in RootCategory.MemuchoCategoryIds)
                {
                    var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
-            <% } %>
+            <% } %> -->
         </div>
         <div class="footer-group">
             <div class="overline-m no-line">Software</div>
             <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a>
             <br/>
             <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank">
-                <i class="fa fa-cogs">&nbsp;</i>Teamcity
+                <font-awesome-icon icon="fa fa-cogs"></font-awesome-icon> Teamcity
             </a>
             <br/>
-            <% if (Request.IsLocal)
+            <!-- <% if (Request.IsLocal)
                { %>
                 <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight") %><br/>
             <% } %>
@@ -57,7 +61,7 @@
             <span style="color: darkgray">
                 (Build: <%= assembly.GetName().Version.Major %> am
                 <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
-            </span>
+            </span> -->
         </div>
 
     </div>
@@ -66,12 +70,12 @@
     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
         <div class="footer-group">
             <div class="overline-m no-line">Hilfe & Kontakt</div>
-            <% foreach (var id in RootCategory.MemuchoHelpIds)
+            <!-- <% foreach (var id in RootCategory.MemuchoHelpIds)
                {
                    var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
-            <% } %>
+            <% } %> -->
             <br/>
 
             <a href="https://discord.com/invite/nXKwGrN" target="_blank"><i class="fab fa-discord" aria-hidden="true">&nbsp;</i>Discord</a><br/>
@@ -82,23 +86,25 @@
     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
         <div class="footer-group">
             <div class="overline-m no-line">
-                <a href="<%= Links.CategoryDetail("globales-wiki", RootCategory.RootCategoryId) %>">Globales Wiki</a>
+                <!-- <a href="<%= Links.CategoryDetail("globales-wiki", RootCategory.RootCategoryId) %>">Globales Wiki</a> -->
+                <a href="">Globales Wiki</a>
+
             </div>
-            <% foreach (var id in RootCategory.MainCategoryIds)
+            <!-- <% foreach (var id in RootCategory.MainCategoryIds)
                {
                    var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
-            <% } %>
+            <% } %> -->
         </div>
         <div class="footer-group">
             <div class="overline-m no-line">Beliebte Themen</div>
-            <% foreach (var id in RootCategory.PopularCategoryIds)
+            <!-- <% foreach (var id in RootCategory.PopularCategoryIds)
                {
                    var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
-            <% } %>
+            <% } %> -->
         </div>
     </div>
 
@@ -108,7 +114,7 @@
                 Entwickelt von:
             </div>
             <a href="https://bitwerke.de/">
-                <img src="/Images/Logo/BitwerkeLogo.svg"/>
+                <Image url="/Images/Logo/BitwerkeLogo.svg" />
             </a>
             <a href="https://bitwerke.de/">
                 <div>
