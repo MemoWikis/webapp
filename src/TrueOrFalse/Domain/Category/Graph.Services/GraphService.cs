@@ -123,20 +123,20 @@ public class GraphService
 
         foreach (var parent in parentsFromParentCategories)
         {
-            var descendants = GetCategoryChildren.WithAppliedRules(parent, true);
-            var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
+            //var descendants = GetCategoryChildren.WithAppliedRules(parent, true);
+            //var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
 
-            var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
+            //var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
 
-            var existingRelations =
-                ModifyRelationsForCategory.GetExistingRelations(parentAsCategory).ToList();
+            //var existingRelations =
+            //    ModifyRelationsForCategory.GetExistingRelations(parentAsCategory).ToList();
 
-            var relationsToAdd = ModifyRelationsForCategory.GetRelationsToAdd(parentAsCategory,
-                descendantsAsCategory,
-                existingRelations);
+            //var relationsToAdd = ModifyRelationsForCategory.GetRelationsToAdd(parentAsCategory,
+            //    descendantsAsCategory,
+            //    existingRelations);
 
-            ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
-            Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
+            //ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
+            //Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
 
             parent.UpdateCountQuestionsAggregated();
         }
