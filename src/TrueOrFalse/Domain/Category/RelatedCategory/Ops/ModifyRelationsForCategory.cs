@@ -19,8 +19,8 @@ public class ModifyRelationsForCategory
         var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategorieIds);
         var existingRelationsOfType = GetExistingRelations(category).ToList();
 
-        CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, existingRelationsOfType));
-        RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType));
+        //CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, existingRelationsOfType));
+        //RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType));
     }
 
     public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, bool isRelatedParent = false)
