@@ -15,7 +15,7 @@ const categoryId = ref(parseInt(route.params.id.toString()))
 
 const config = useRuntimeConfig();
 
-const { data: topic, pending, refresh, error } =
+const { data: topic } =
      await useFetch(() => '/Topic/GetTopic/' + route.params.id, { baseURL: config.apiBase });
 
 const topicStore = useTopicStore()
@@ -28,7 +28,6 @@ const tabsStore = useTabsStore()
 <template>
   <div>
     Topic {{ $route.params.id }}
-    {{error}}
     {{topic}}
     <br/>
     <TopicHeader />

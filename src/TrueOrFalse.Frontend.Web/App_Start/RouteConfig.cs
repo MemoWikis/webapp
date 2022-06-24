@@ -25,7 +25,7 @@ namespace TrueOrFalse
             routes.MapRoute("Team", "Team", new {controller = "Welcome", action = "Team"});
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
-            routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
+            routes.MapRoute("Login", "Login/{action}", new { controller = "MVCLogin" });
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
@@ -178,7 +178,7 @@ namespace TrueOrFalse
             routes.MapRoute("GetSegmentHtml", "Segmentation/GetSegmentHtml", new { controller = "Segmentation", action = "GetSegmentHtml" });
             routes.MapRoute("GetCategoryCard", "Segmentation/GetCategoryCard", new { controller = "Segmentation", action = "GetCategoryCard" });
 
-            /*ApiVueApp*/routes.MapRoute("NuxtApi", "apiVue/{controller}/{action}/{id}", new { id = UrlParameter.Optional });
+            /*ApiVueApp*/routes.MapRoute("NuxtApi", "apiVue/{controller}/{action}/{id}", new { id = UrlParameter.Optional}, namespaces: new[] {"VueApp"});
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic"});

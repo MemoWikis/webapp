@@ -10,21 +10,32 @@ function login() {
     var data = {
         EmailAddress: email.value,
         Password: pw.value,
-        PersistentLogin: ""
+        PersistentLogin: true
         }
 
-    fetch(config.apiBase + '/VueLogin/Login', { method: 'POST', body: JSON.stringify(data) })
+    fetch(config.apiBase + '/Login/Login', { method: 'POST', body: JSON.stringify(data) })
+}
+
+function getLoginState() {
+    var result = fetch(config.apiBase + '/SessionUser/GetLoginState')
+    console.log(result)
 }
 
 </script>
 
 <template>
-    <div>
+    <div>   
         <input v-model="email" placeholder="email">
         <input v-model="pw" placeholder="pw" type="password">
 
         <div id="lbtn" @click="login()">
             Login
+        </div>
+
+        <br/>
+
+        <div id="lbtn" @click="getLoginState()">
+            getLoginState
         </div>
     </div>
 

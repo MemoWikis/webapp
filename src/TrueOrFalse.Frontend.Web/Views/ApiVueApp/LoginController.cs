@@ -1,12 +1,20 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace VueApp;
 
-public class VueLoginController : BaseController
+public class LoginController : BaseController
 {
     [HttpPost]
-    public JsonResult Login(LoginJson loginJson)
+    public JsonResult Login()
     {
+        Stream req = Request.InputStream;
+        req.Seek(0, System.IO.SeekOrigin.Begin);
+        string json = new StreamReader(req).ReadToEnd();
+
+        var loginJson = JsonConvert.DeserializeObject<LoginJson>(json);
+
         var credentialsAreValid = R<CredentialsAreValid>();
 
         if (credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))
