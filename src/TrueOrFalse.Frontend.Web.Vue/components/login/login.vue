@@ -5,7 +5,7 @@ const email = ref('')
 const pw = ref('')
 const config = useRuntimeConfig()
 
-function login() {
+async function login() {
 
     var data = {
         EmailAddress: email.value,
@@ -13,7 +13,17 @@ function login() {
         PersistentLogin: true
         }
 
-    fetch(config.apiBase + '/Login/Login', { method: 'POST', body: JSON.stringify(data) })
+    await $fetch('/api/Login/Login', { method: 'POST', body: data, mode: 'cors',
+        headers: {
+            'Access-Control-Allow-Origin':'*'
+        }
+    //   async onResponse({ request, response, options }) {
+    //     // Log response
+    //     console.log('[fetch response]', request, response.status, response.body, response.headers)
+    // } 
+  }).catch((error) => console.log(error.data))
+
+//   fetch(config.apiBase + 'Login/Login', { method: 'POST', body: JSON.stringify(data) })        
 }
 
 function getLoginState() {

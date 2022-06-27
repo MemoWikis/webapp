@@ -15,8 +15,7 @@ const categoryId = ref(parseInt(route.params.id.toString()))
 
 const config = useRuntimeConfig();
 
-const { data: topic } =
-     await useFetch(() => '/Topic/GetTopic/' + route.params.id, { baseURL: config.apiBase });
+const { data: topic } = await useFetch(() => `/Topic/GetTopic/${route.params.id}`, { baseURL: config.apiBase });
 
 const topicStore = useTopicStore()
 topicStore.setTopic(topic.value)
