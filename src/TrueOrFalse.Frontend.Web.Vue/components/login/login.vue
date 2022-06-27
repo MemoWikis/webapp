@@ -13,24 +13,24 @@ async function login() {
         PersistentLogin: true
         }
 
-    await $fetch('/api/Login/Login', { method: 'POST', body: data, mode: 'cors',
-        headers: {
-            'Access-Control-Allow-Origin':'*'
+    await $fetch('/api/Login/Login', { method: 'POST', body: data, mode: 'cors', credentials: 'include'
+  }).catch((error) => console.log(error.data))
+}
+
+async function getLoginState() {
+
+    var data = {
+        EmailAddress: email.value,
+        Password: pw.value,
+        PersistentLogin: true
         }
-    //   async onResponse({ request, response, options }) {
-    //     // Log response
-    //     console.log('[fetch response]', request, response.status, response.body, response.headers)
-    // } 
+
+    var result = await $fetch('/api/SessionUser/GetLoginState', { mode: 'cors', credentials: 'include'
   }).catch((error) => console.log(error.data))
 
-//   fetch(config.apiBase + 'Login/Login', { method: 'POST', body: JSON.stringify(data) })        
-}
+  console.log(result)
 
-function getLoginState() {
-    var result = fetch(config.apiBase + '/SessionUser/GetLoginState')
-    console.log(result)
 }
-
 </script>
 
 <template>

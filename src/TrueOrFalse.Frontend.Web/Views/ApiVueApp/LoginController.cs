@@ -7,14 +7,8 @@ namespace VueApp;
 public class LoginController : BaseController
 {
     [HttpPost]
-    public JsonResult Login()
+    public JsonResult Login(LoginJson loginJson)
     {
-        Stream req = Request.InputStream;
-        req.Seek(0, System.IO.SeekOrigin.Begin);
-        string json = new StreamReader(req).ReadToEnd();
-
-        var loginJson = JsonConvert.DeserializeObject<LoginJson>(json);
-
         var credentialsAreValid = R<CredentialsAreValid>();
 
         if (credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))
