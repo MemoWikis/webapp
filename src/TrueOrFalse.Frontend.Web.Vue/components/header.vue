@@ -1,8 +1,12 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useUserStore } from './user/userStore'
+
+const userStore = useUserStore()
+</script>
 
 <template>
   <div>
-    <NavBarSubNavBar/>
+    <NavBarSubNavBar v-if="!userStore.isLoggedIn"/>
     <NavBar/>
   </div>
 </template>

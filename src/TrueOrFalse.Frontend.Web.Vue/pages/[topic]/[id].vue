@@ -31,8 +31,6 @@ const tabsStore = useTabsStore()
     <br/>
     <TopicHeader />
     <br/>
-    <Login />
-    <br/>
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId"/>
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning"/>
 
