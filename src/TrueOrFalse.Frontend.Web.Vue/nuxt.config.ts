@@ -36,11 +36,6 @@ export default defineNuxtConfig(
         '~/assets/bootstrap/memucho_overrides.css',
         '~/assets/bootstrap/variables_custom.css',
         '~/assets/site.css'
-      ],
-    less: [
-        // '~/assets/bootstrap/bootstrap.less',
-        // '~/assets/bootstrap/memucho_overrides.less',
-        // '~/assets/bootstrap/variables_custom.less',
       ]
   }
 );

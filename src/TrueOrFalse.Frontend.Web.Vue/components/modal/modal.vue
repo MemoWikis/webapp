@@ -35,10 +35,6 @@ function closeModal() {
                         <font-awesome-icon v-else-if="isSuccess" icon="fa-solid fa-circle-check iconHeaderModal" />
                         <slot name="headerIcon"></slot>
                     </div>
-
-
-                    <i v-if="iconClasses != null && iconClasses.length > 0" v-bind:class="iconClasses" class="iconHeaderModal"></i>
-
                     <slot name="header">
                     </slot>
                     

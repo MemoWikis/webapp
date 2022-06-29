@@ -1,4 +1,5 @@
-﻿import { GoogleMemuchoUser } from './GoogleMemuchoUser'
+﻿import { Site } from '../utils/site';
+import { GoogleMemuchoUser } from './GoogleMemuchoUser'
 
 class Google {
 
@@ -37,12 +38,12 @@ class Google {
 
         if (GoogleMemuchoUser.Exists(googleId)) {
             GoogleMemuchoUser.Login(googleId, googleIdToken);
-            Site.LoadValidPage();
+            Site.loadValidPage();
             return;
         }
 
        GoogleMemuchoUser.CreateAndLogin(googleUser);
-       Site.LoadValidPage();
+       Site.loadValidPage();
    }
 
     private static OnLoginError(error) {

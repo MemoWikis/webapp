@@ -1,6 +1,8 @@
-﻿import { UserCreateResult } from './UserCreateResult';
-import { useUtilsStore } from '../utils/utilsStore'
-const utilsStore = useUtilsStore()
+﻿import { UserCreateResult } from './UserCreateResult'
+import { Utils } from '../utils/utils'
+import { Site } from '../utils/site'
+import { Alerts } from '../alert/alertCollection'
+import { messages } from '../alert/messages'
 
 export class FacebookMemuchoUser {
 
@@ -21,7 +23,7 @@ export class FacebookMemuchoUser {
     }
 
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
-        utilsStore.showSpinner();
+        Utils.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/api/FacebookUsers/UserExists', { 
             method: 'POST', 
@@ -29,15 +31,15 @@ export class FacebookMemuchoUser {
             credentials: 'include', 
             cache: 'no-cache'})
             .catch((error) => {
-                utilsStore.hideSpinner()
+                Utils.hideSpinner()
                 Rollbar.error("Something went wrong", error.data)
             })
 
         if (!!result) {
-            utilsStore.hideSpinner();
+            Utils.hideSpinner();
 
             if (result.Success)
-                Site.LoadValidPage();
+                Site.loadValidPage();
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                 if (result.EmailAlreadyInUse) {
@@ -53,7 +55,7 @@ export class FacebookMemuchoUser {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
-        utilsStore.showSpinner();
+        Utils.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/api/FacebookUsers/Login', { 
             method: 'POST', 
@@ -61,12 +63,12 @@ export class FacebookMemuchoUser {
             credentials: 'include', 
             cache: 'no-cache' })
             .catch((error) => {
-                utilsStore.hideSpinner()
+                Utils.hideSpinner()
                 Rollbar.error("Something went wrong", error.data)
             })
 
         if (!!result && result.Success)                    
-            Site.LoadValidPage();
+            Site.loadValidPage();
 
     }
 
@@ -84,7 +86,7 @@ export class FacebookMemuchoUser {
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
-            Site.LoadValidPage();
+            Site.loadValidPage();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
@@ -103,7 +105,7 @@ export class FacebookMemuchoUser {
                     }
 
                     if (disallowRegistration) {
-                        Site.RedirectToRegistration();
+                        Site.redirectToRegistration();
                         return;
                     }
 

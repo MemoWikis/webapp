@@ -5,17 +5,10 @@ import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
 import { useTopicStore } from '~~/components/topic/topicStore';
 
-const category = ref({
-  id: 1,
-  text: 'foo'
-})
-
 const route = useRoute()  
 const categoryId = ref(parseInt(route.params.id.toString()))
 
-const config = useRuntimeConfig();
-
-const { data: topic } = await useFetch(() => `/Topic/GetTopic/${route.params.id}`, { baseURL: config.apiBase });
+const { data: topic } = await useFetch(() => `/api/Topic/GetTopic/${route.params.id}`);
 
 const topicStore = useTopicStore()
 topicStore.setTopic(topic.value)
