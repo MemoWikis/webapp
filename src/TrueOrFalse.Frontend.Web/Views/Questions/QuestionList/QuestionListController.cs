@@ -30,7 +30,7 @@ public class QuestionListController : BaseController
         {
             answer = solution.GetCorrectAnswerAsHtml(),
             extendedAnswer = question.DescriptionHtml != null ? question.DescriptionHtml : "",
-            categories = question.Categories.Select(c => new
+            categories = question.Categories.Where(c => PermissionCheck.CanViewCategory(c.Id)).Select(c => new
             {
                 name = c.Name,
                 categoryType = c.Type,
