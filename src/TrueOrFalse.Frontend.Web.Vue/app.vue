@@ -1,16 +1,16 @@
-<!-- <script lang="ts" setup>
+<script lang="ts" setup>
   import {useUtilsStore} from '~~/components/utils/utilsStore'
   const utilsStore = useUtilsStore()
-</script> -->
+</script>
 
 <template>
   <div>
     <Header/>
-    <!-- <div class="spinner" v-show="utilsStore.showSpinner">
+    <div class="spinner" v-show="utilsStore.showSpinner">
       <div class="double-bounce1"></div>
       <div class="double-bounce2"></div>
-    </div> -->
-    <UserLogin />
+    </div>
+    <!-- <UserLogin /> -->
     <NuxtPage />
     <Footer/>
   </div>
