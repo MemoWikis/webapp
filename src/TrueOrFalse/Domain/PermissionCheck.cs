@@ -49,6 +49,9 @@ public class PermissionCheck
         if (RootCategory.LockedCategory(category.Id) && !user.IsInstallationAdmin)
             return false;
 
+        if (!CanView(category))
+            return false;
+
         return SessionUser.IsLoggedIn;
     }
 

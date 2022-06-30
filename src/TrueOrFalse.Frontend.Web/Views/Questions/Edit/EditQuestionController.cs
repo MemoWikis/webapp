@@ -119,7 +119,7 @@ public class EditQuestionController : BaseController
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = SessionUser.User;
-        question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId);
+        question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
@@ -166,7 +166,7 @@ public class EditQuestionController : BaseController
             if (!PermissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
-        question.Categories = GetAllParentsForQuestion(newCategoryIds);
+        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
         question.Visibility = (QuestionVisibility)questionDataJson.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
@@ -220,19 +220,14 @@ public class EditQuestionController : BaseController
         public LearningSessionConfig SessionConfig { get; set; }
     }
 
-    private List<Category> GetAllParentsForQuestion(int newCategoryId) => GetAllParentsForQuestion(new List<int> { newCategoryId });
-    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds)
+    private List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) => GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
+    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var allParentIds = newCategoryIds.ToList();
+        var categories = new List<Category>();
+        var privateCategories = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
+        categories.AddRange(privateCategories);
 
         foreach (var categoryId in newCategoryIds)
-            allParentIds.AddRange(EntityCache.GetAllParents(categoryId).Select(p => p.Id));
-
-        allParentIds = allParentIds.Distinct().ToList();
-
-        var categories = new List<Category>();
-
-        foreach (var categoryId in allParentIds)
             categories.Add(Sl.CategoryRepo.GetById(categoryId));
 
         return categories;
