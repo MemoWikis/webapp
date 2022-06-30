@@ -67,15 +67,12 @@ public class KnowledgeSummaryLoader
                 countNoValuation++;
         }
 
-        var aggregatedQuestionValuationsInWishKnowledge =
-            aggregatedQuestionValuations.Where(v => v.IsInWishKnowledge).ToList();
-
         var knowledgeSummary = new KnowledgeSummary(
-            notInWishKnowledge: countNoValuation + aggregatedQuestionValuations.Count(v => !v.IsInWishKnowledge),
-            notLearned: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned),
-            needsLearning: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
-            needsConsolidation: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
-            solid: aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid)
+            notInWishKnowledge: countNoValuation,
+            notLearned: aggregatedQuestionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned),
+            needsLearning: aggregatedQuestionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
+            needsConsolidation: aggregatedQuestionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
+            solid: aggregatedQuestionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid)
             );
         
         return knowledgeSummary;

@@ -64,7 +64,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        var parentCategoryIds = categoryCacheItem.ParentCategories().Select(cci => cci.Id).ToList();
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator);
 
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
