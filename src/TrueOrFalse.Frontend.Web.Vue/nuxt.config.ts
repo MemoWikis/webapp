@@ -35,7 +35,9 @@ export default defineNuxtConfig(
         '~/assets/bootstrap/bootstrap.css',
         '~/assets/bootstrap/memucho_overrides.css',
         '~/assets/bootstrap/variables_custom.css',
-        '~/assets/site.css'
+        '~/assets/site.css',
+        '~/assets/top-header.css'
+
       ]
   }
 );

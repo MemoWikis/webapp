@@ -12,9 +12,9 @@ export const useTopicStore = defineStore('topicStore', {
   },
   actions: {
     setTopic(topic) {
-      this.id = topic.Id;
-      this.name = topic.Name;
-      this.imgUrl = topic.ImgUrl;
+      this.id = topic.Id
+      this.name = topic.Name
+      this.imgUrl = topic.ImgUrl
     },
   },
   getters: {

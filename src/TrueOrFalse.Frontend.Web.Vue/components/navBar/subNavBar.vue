@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { SearchType } from '~~/components/search/searchTypeEnum';
 import {ref, watch, onMounted} from 'vue'
+import { useUserStore } from '../user/userStore'
+
+const userStore = useUserStore()
 
 const showSearch = ref(false)
 
@@ -34,6 +37,16 @@ function openUrl(val) {
                         </div>
                     </div>
                     <div id="loginAndHelp" class="">
+                        <div class="login-register-container">
+                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
+                                <i class="fa fa-sign-in"></i>
+                                Anmelden
+                            </div>
+                            <NuxtLink to="/user/register">
+                                <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
+                            </NuxtLink>
+                        </div>
+
                     </div>
                 </div>
             </div>

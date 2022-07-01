@@ -3,7 +3,15 @@ import { defineStore } from 'pinia'
 export const useModalStore = defineStore('modalStore', {
   state: () => {
     return {
-      isOpen: false,
+      open: false,
     }
   },
+  actions: {
+    openModal() {
+      this.open = true;
+    },
+    closeModal() {
+      this.open = false;
+    }
+  }
 })

@@ -1,5 +1,6 @@
 export enum UserType {
   Normal,
   Google,
-  Facebook
+  Facebook,
+  Anonymous
 }
