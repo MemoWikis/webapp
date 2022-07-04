@@ -21,7 +21,7 @@
     margin-top: 300px;
     left: calc(50% - 37.5px);
     text-align: center;
-    z-index: 10;
+    z-index: 99999;
 }
 
 .double-bounce1, .double-bounce2 {

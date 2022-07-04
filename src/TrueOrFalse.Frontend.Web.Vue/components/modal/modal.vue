@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {ref, reactive } from 'vue'
-import { useModalStore } from './modalStore'
+
 const props = defineProps([
             'id', 
             'showCloseButton', 
@@ -22,9 +22,10 @@ const modalWidthData = ref(props.modalWidth + 'px')
 
 
 <template>
-<Teleport to="body">
-<div class="modal-bd" @click.self="$emit('close')" v-if="props.show">
-    <div class="modal-c">
+
+    <vue-final-modal v-model="props.show"
+        classes="modal-container"
+        content-class="modal-content">
         <div id="defaultModal" class="modal-default">
             <div class="modal-default-mask" @click="$emit('close')">
                 <div class="modal-default-wrapper">
@@ -74,32 +75,13 @@ const modalWidthData = ref(props.modalWidth + 'px')
                 </div>
             </div>
         </div>
-    </div>
         
-  </div>
 
-</Teleport>
+    </vue-final-modal>
+
+
   
 </template>
 
 <style scoped>
-.modal-bd {
-    height: 100vw;
-    width: 100vw;
-    position: fixed;
-    z-index: 998;
-    background: rgba(0,0,0,0.5)
-}
-.modal-c {
-    position: fixed;
-    min-height: 300px;
-    z-index: 999;
-    width: 300px;
-    left: 50%;
-    top: 20%;
-    background: white;
-    margin-left: -150px;
-    box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.4)
-
-}
 </style>

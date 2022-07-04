@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { FacebookMemuchoUser } from './FacebookMemuchoUser'
 import { useUserStore } from '../user/userStore'
-import { useModalStore } from '../modal/modalStore';
 
 const eMail = ref('')
 const password = ref('')
@@ -30,8 +29,10 @@ const errorMessage = ref('')
 
 <template>
     <button @click="userStore.showLoginModal = true">open login modal</button>
+    <button @click="userStore.logout()">logout</button>
+
         <div id="LoginModalComponent">
-        <Modal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked" :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()" :show="userStore.showLoginModal" >
+        <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked" :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()" :show="userStore.showLoginModal" >
             <template v-slot:header>
                 <span>Anmelden</span>
             </template>
@@ -117,7 +118,7 @@ const errorMessage = ref('')
                     </p>
                 </div>
             </template>
-        </Modal>
+        </LazyModal>
         </div>
 
     

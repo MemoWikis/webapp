@@ -5,6 +5,11 @@ import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
 import { useTopicStore } from '~~/components/topic/topicStore';
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
+import { useUserStore } from '~~/components/user/userStore'
+
+const userStore = useUserStore()
+userStore.getCurrentState()
+
 const spinnerStore = useSpinnerStore()
 
 const route = useRoute()  
@@ -13,25 +18,11 @@ const config = useRuntimeConfig()
 const { data: topic } = await useFetch(`/Topic/GetTopic/${route.params.id}`, 
 { baseURL: config.apiBase }
 );
-// console.log('withoutProxy:')
-// console.log(topic)
-// console.log('------------')
-
-// const { data: topicByProxy } = await useFetch(`api/Topic/GetTopic/${route.params.id}`);
-// console.log('withProxy:')
-// console.log(topicByProxy)
-// async function getTopicData() {
-//   var topic = await useFetch(`/api/Topic/GetTopic/${route.params.id}`)
-//   console.log('withProxy but loaded in clientside/ loaded with a button click')
-//   console.log(topic)
-//   }
 
 const topicStore = useTopicStore()
 topicStore.setTopic(topic.value)
-// topicStore.loadTopic(categoryId.value)
 
 const tabsStore = useTabsStore()
-
 
 </script>
 

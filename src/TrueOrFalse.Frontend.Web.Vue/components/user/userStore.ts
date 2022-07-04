@@ -1,9 +1,15 @@
 import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
+import { useSpinnerStore } from '../spinner/spinnerStore'
 
 type UserLoginResult = {
   Success: boolean;
   Message: string;
+}
+
+type LoginState = {
+  IsLoggedIn: boolean;
+  UserId: number;
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -17,13 +23,36 @@ export const useUserStore = defineStore('userStore', {
   },
   actions: {
     async login(loginData) {
+      const spinnerStore = useSpinnerStore()
+      spinnerStore.showSpinner()
       var result = await $fetch<UserLoginResult>('/api/Login/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' 
       })
+
       if (!!result && result.Success)
         this.isLoggedIn = true
+      spinnerStore.hideSpinner()
+      this.showLoginModal = false
     },
     openLoginModal() {
       this.showLoginModal = true
-    }
+    },
+    async getCurrentState() {
+      const result = await $fetch<LoginState>(`/api/Login/GetLoginState/`, 
+        {  
+        credentials: 'include' ,
+        mode: 'cors',
+        headers: useRequestHeaders(['cookie'])
+        });
+  
+      if (!!result && result.IsLoggedIn)    
+        this.isLoggedIn = true
+
+    },
+    async logout() {
+      var result = await $fetch<UserLoginResult>('/api/Login/Logout', { method: 'POST', mode: 'cors', credentials: 'include' 
+        })
+      if (!!result && result.Success)
+        this.isLoggedIn = false
+      }
   }
 })

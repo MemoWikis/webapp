@@ -6,6 +6,7 @@ const alertStore = useAlertStore()
 </script>
 
 <template>
+    <vue-final-modal>
         <div id="AlertModal" class="modal fade">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -33,4 +34,6 @@ const alertStore = useAlertStore()
                 </div>
             </div>
         </div>
+    </vue-final-modal>
+        
 </template>
