@@ -1,0 +1,1682 @@
+﻿/*--------------------------------------------------------
+[Description]
+
+
+[Contents]
+
+    Helper Classes
+    General Styles
+    Page Styles
+    Layout Elements
+    NavLinks
+    Buttons
+    Boxes
+    Cards
+    Images
+    Markdown
+    Color scheme
+    Media query mixins
+    Own responsive utilities
+    Special styles
+        Modified styles from bootstrap website (not part of framework) / .bs-callout
+        Form grid/columns conditional mixin
+        Reference styles
+        Reduce opacity and color on non-hover
+
+[Imports:]
+--------------------------------------------------------*/
+
+@import 'variables.less';
+@import 'colors.less';
+@import 'extends.less';
+@import (reference) '../bootstrap/bootstrap.less';
+@import '../../Fonts/font-awesome-5.7.2/less/fontawesome.less';
+@import '../../Fonts/font-awesome-5.7.2/less/v4-shims.less'; 
+/*  Helper classes
+----------------------------------------------------------*/
+.block {
+    display: block;
+}
+
+#Clearfix, .Clearfix {
+    &:before,
+    &:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+#Clear {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: visible;
+}
+
+.Wrap {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+/*  General styles
+----------------------------------------------------------*/
+
+.old-font-style() {
+    font-family: @font-family-text;
+    font-size: @font-size-normal;
+    color: @global-text-color;
+}
+
+.new-font-style() {
+    font-family: @font-family-text;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 400;
+    color: @global-text-color;
+    .media-below-sm({
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: normal;
+    })
+}
+
+.link {
+    color: @link-blue;
+
+    &:hover {
+        color: @link-color-hover;
+    }
+}
+
+.bold  {
+    font-weight: bold;
+.fontSizeNormal {
+}
+
+    font-size: @font-size-normal;
+}
+
+.fontSizeSmall {
+    font-size: @font-size-small;
+}
+
+.greyed {
+    color: @global-text-color-grey;
+}
+
+/*  Page Styles
+----------------------------------------------------------*/
+
+.no-white-background() {
+    #MasterMainWrapper {
+        background-color: transparent;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-sm-up( {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+        });
+    }
+}
+
+/*  Layout elements
+----------------------------------------------------------*/
+
+//Drop shadow
+
+.drop-shadow1 {
+    .drop-shadow(0px, 0px, 1px, 1px, 0.16);
+}
+
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+    -webkit-box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
+    -moz-box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
+    box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
+}
+
+/*  Material design elements
+----------------------------------------------------------*/
+
+.Divider {
+    height: 1px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.BottomBar {
+    /*margin-left: @margin-card;
+    margin-right: @margin-card;*/
+    .clearfix;
+
+    a.btn {
+        display: block;
+        float: right;
+    }
+
+    .dropdown {
+        float: right;
+    }
+}
+
+
+
+/*  Buttons
+----------------------------------------------------------*/
+
+/*Button bar on detail pages*/
+
+.BoxButtonBar {
+    margin-bottom: 20px;
+}
+
+.BoxButtonColumn {
+    .make-xs-column(6);
+
+    .make-sm-column(3);
+    /*.media-below-sm({
+        width: 50%;
+    });*/
+}
+
+.BoxButton {
+    .Box;
+    .btn;
+    .btn-default;
+    display: block;
+    white-space: normal;
+    height: 100px;
+    position: relative;
+    margin-bottom: 20px;
+    color: @memo-blue;
+    
+    &.LookDisabled {
+        color: darkgray;
+        box-shadow: none;
+        &:hover {
+            background-color: white;
+        }
+    }
+
+    &.LookNotClickable {
+        color: darkgray;
+        box-shadow: none;
+        &:hover {
+            background-color: white;
+        }
+        cursor: default;
+    }
+
+    a {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.BoxButtonIcon {
+    font-size: 26px;
+    padding-top: 5px;
+}
+
+.BoxButtonText {
+    padding-top: 8px;
+    height: 50px;
+    font-size: 14px;
+    text-transform: uppercase;
+    width: 100%;
+    position: relative;
+}
+
+/*Heart Button*/
+.HeartToAddButton {
+
+    .iAdded, .iAddedNot, .iAddSpinner {
+        .btn;
+        height: 34px;
+
+        &, & i {
+            line-height: 20px;
+        }
+
+        i {
+            font-size: 22px;
+            height: 20px;
+        }
+
+        &.hide2 {
+            display: none;
+        }
+    }
+
+    .iAddedNot {
+        .btn-danger;
+        background-color: @memo-wuwi-red;
+
+        i {
+            color: white;
+        }
+
+        span {
+            padding-left: 2px;
+            position: relative;
+            bottom: 3px;
+        }
+
+        span.plus {
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 2px;
+            margin-left: -7px;
+            position: relative;
+            top: -2px;
+            left: 1px;
+        }
+
+        &, &:focus, &:active, &:hover {
+            box-shadow: none !important;
+        }
+    }
+
+    .iAdded {
+
+        &, &:focus, &:active, &:hover {
+            box-shadow: none !important;
+        }
+
+        i {
+            color: @memo-wuwi-red;
+            font-size: 22px;
+        }
+    }
+
+    &.questionBodyPin {
+
+        .iAdded, .iAddedNot {
+            align-items: center;
+            display: inline-flex;
+            padding-right: 0;
+
+            .pinLabel {
+                padding: 0 0 0 8px;
+                font-size: 8px;
+                line-height: 14px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: @memo-wuwi-red;
+
+                &.showOnHover {
+                    display: none;
+                    color: @memo-grey-dark;
+                }
+            }
+
+            &:hover {
+                .showOnHover {
+                    display: unset !important;
+                }
+
+                .hideOnHover {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.RoundHeartButton {
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    display: inline-block;
+    border: solid 1px silver;
+    margin-bottom: 10px;
+    text-align: center;
+    vertical-align: bottom;
+
+    &:focus {
+        outline: 0;
+    }
+
+    .hide2 {
+        display: none;
+    }
+
+    @keyframes expandIcon {
+        0% {
+            transform: scale( 0 );
+        }
+
+        90% {
+            transform: scale( 1.1 );
+        }
+
+        100% {
+            transform: scale( 1 );
+        }
+    }
+
+    @keyframes shrinkIcon {
+        0% {
+            transform: scale( 1 );
+        }
+
+        100% {
+            transform: scale( 0 );
+        }
+    }
+
+
+    &.iAdded {
+        border-color: @memo-wuwi-red;
+        background-color: @memo-wuwi-red;
+        animation: resetBGColor 0.3s forwards;
+
+        &:hover {
+            @keyframes changeBGColor {
+                0% {
+                    background-color: @memo-wuwi-red;
+                }
+
+                100% {
+                    background-color: transparent;
+                }
+            }
+
+            @keyframes resetBGColor {
+                0% {
+                    background-color: transparent;
+                }
+
+                100% {
+                    background-color: @memo-wuwi-red;
+                }
+            }
+
+            box-sizing: border-box;
+            border: 1px solid @memo-wuwi-red;
+            cursor: pointer;
+            animation: changeBGColor 0.4s forwards;
+        }
+
+        .HeartInCircle {
+
+            .fa-heart {
+                font-weight: 100 !important;
+                animation: expandIcon 0.2s forwards;
+
+                &.onHover {
+                    font-weight: 100 !important;
+                    animation: shrinkIcon 0.2s forwards;
+                }
+            }
+
+            .fa-times {
+                animation: shrinkIcon 0.2s forwards;
+
+                &.onHover {
+                    animation: expandIcon 0.2s forwards;
+                }
+            }
+        }
+    }
+
+    &.iAddedNot {
+
+        &:hover {
+            box-sizing: border-box;
+            border: 1px solid @memo-wuwi-red;
+            cursor: pointer;
+            animation: heartbeatPulse 2s infinite;
+
+            @keyframes heartbeatPulse {
+                0% {
+                    box-shadow: 0 0 4px 2px rgba(255, 0, 31, 0);
+                }
+
+                10% {
+                    box-shadow: 0 0 2px 1px rgba(255, 0, 31, 0.8), 0 0 6px 2px rgba(255, 0, 31, 0.2);
+                }
+
+                20% {
+                    box-shadow: 0 0 4px 2px rgba(255, 0, 31, 0);
+                }
+
+                30% {
+                    box-shadow: 0 0 2px 1px rgba(255, 0, 31, 0.8), 0 0 6px 2px rgba(255, 0, 31, 0.2);
+                }
+
+                60% {
+                    box-shadow: 0 0 4px 2px rgba(255, 0, 31, 0.1);
+                }
+
+                100% {
+                    box-shadow: 0 0 4px 2px rgba(255, 0, 31, 0);
+                }
+            }
+
+            .HeartInCircle {
+
+                @keyframes heartbeat {
+                    0% {
+                        transform: scale( 1 );
+                    }
+
+                    10% {
+                        transform: scale( 1.1 );
+                    }
+
+                    20% {
+                        transform: scale( 1 );
+                    }
+
+                    30% {
+                        transform: scale( 1.1 );
+                    }
+
+                    60% {
+                        transform: scale( 1 );
+                    }
+
+                    100% {
+                        transform: scale( 1 );
+                    }
+                }
+
+                .fa-heart-o {
+                    animation: heartbeat 2s infinite;
+                }
+            }
+        }
+    }
+
+    .HeartInCircle {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: 44px;
+    }
+
+}
+
+
+/*  Boxes
+----------------------------------------------------------*/
+
+.Box {
+    .ShadowBox;
+    border-radius: @border-radius-box;
+    border: 1px solid @well-border;
+    border-radius: @border-radius-box;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.ShadowBox {
+    box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);   
+}
+
+/*  Cards
+----------------------------------------------------------*/
+.Card {
+    .Box;
+    padding: 0;
+
+    &.Set {
+        .ItemTitle {
+            border-bottom-color: @color-set !important;
+        }
+
+        .ImageContainer {
+            border-bottom-color: @color-set !important;
+            border-right-color: @color-set !important;
+        }
+    }
+
+    &.Category {
+        .ItemTitle {
+            border-bottom-color: @color-category !important;
+        }
+
+        .ImageContainer {
+            border-bottom-color: @color-category !important;
+            border-bottom-style: hidden !important;
+            border-right-color: @color-category !important;
+        }
+    }
+
+    .ItemInfo {
+        font-size: @font-size-small;
+
+        .Pin {
+            padding-left: 1px;
+            display: inline-block;
+        }
+    }
+
+    .BottomBar {
+        padding: 5px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .MakeYoutubeImagesSquare;
+}
+
+.Card .CardContent {
+    h4 {
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+
+    .ItemText {
+        line-height: normal;
+        font-size: 14px;
+    }
+}
+
+
+.CardsLandscape { // Apply to row
+
+    .CardColumn {
+
+        .make-xs-column(12);
+
+        .MakeSingleItemCardLandscape;
+
+        @media (max-width: (@extra-breakpoint-cards - 1)){
+            .StackCards;
+        };
+
+        @media (min-width: @extra-breakpoint-cards){
+            width: 50%;
+        }
+    
+        .xxs-stack;
+    }
+}
+
+.CardsLandscapeNarrow { // Apply to row
+
+    .CardColumn {
+
+        .MakeSingleItemCardLandscape;
+        
+        .make-xs-column(6);
+        .make-sm-column(12);
+        .make-md-column(6);
+        .xxs-stack;
+
+        @media (max-width: (@extra-breakpoint-cards - 1)){
+            .StackCards;
+        };
+
+        @media (min-width: @extra-breakpoint-cards) and (max-width: (@screen-sm-min - 1)){
+            width: 50%;
+        }
+
+        .media-sm({
+            width: 100%; 
+            .StackCards;
+        });
+    }
+}
+
+.CardsPortrait{ // Apply to row
+    
+    .CardColumn {
+        .make-xs-column(4);
+        .make-sm-column(4);
+        @media (max-width: (@extra-breakpoint-cards - 1)){
+            .MakeSingleItemCardLandscape;
+            .StackCards;
+        };
+        @media (min-width: @extra-breakpoint-cards){
+            .MakeSingleItemCardPortrait;
+        }
+        .xxs-stack;
+    }
+}
+
+.Card.ItemList {
+    .ImageContainer{
+
+        .ImageLicenseOnImage;
+        .ShortLicenseLinkText;
+        .LicenseWholeWidth;
+    }
+
+}
+
+.CardContent {
+    margin-left: @margin-card;
+    margin-right: @margin-card;
+    overflow: hidden;
+
+    .SingleItem & {
+        .media-below-md({
+        height: 180px;
+    });
+    .media-md-up({
+        height: 157px;
+    });
+    }
+
+    .ItemTitle {
+         margin-top: 5px;
+    }
+    
+    .ItemInfo {
+        margin-bottom: 8px;
+    }
+
+    .ItemText {
+    }
+}
+
+.Card .ItemInfo a {
+    &, &:hover, &:focus{
+        color: @global-text-color-grey !important;
+        text-decoration: none !important;
+    }
+}
+
+.Card .ImageLicenseCaption {
+
+    line-height: 15px;
+
+    a {
+        margin-left: @margin-card;
+        margin-right: @margin-card;
+    }
+}
+
+.Card .BottomBar {
+    border-top: 1px solid @ruler-grey;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.ButtonEllipsis {
+    margin-left: 0px !important;
+    font-size: 18px;
+    color: @memo-grey-dark;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        color: @memo-blue;
+        transition: all .1s ease-in-out;
+    }
+}
+
+.ButtonOnHover {
+    font-weight: bold;
+
+     &:hover{
+        background-color: lightgray !important;
+        border-radius: 4px;
+        text-decoration: none !important;
+        color: @global-text-color !important;
+    }
+
+    &.disabled{
+        background-color: white !important;
+        color: @global-text-color-grey !important;
+    }
+}
+
+.CardBig {
+    padding-top: 15px;
+
+    header {
+        margin-left: @margin-card;
+        margin-right: @margin-card;
+        //padding-bottom: 5px;
+        border-bottom: @colored-line-width solid @memo-blue;
+        margin-bottom: 15px;
+
+        .Category& {
+            border-bottom-color: @color-category;
+        }
+        
+        .Set& {
+            border-bottom-color: @color-set;
+        }
+    }
+}
+
+.MakeSingleItemCardPortrait() {  //Apply to .CardColumn
+    .Card {
+        
+        margin-left: auto;
+        margin-right: auto;
+
+        &.SingleItem{
+            max-width: 300px;
+            .ImageContainer{
+
+                float: none;
+                border-bottom-width: 5px;
+                border-bottom-style: solid;
+
+                .ImageLicenseOnImage;
+                .FullLicenseLinkText;
+
+                .LicenseInfo {
+                     border-bottom-left-radius: 0;
+                }
+
+                img {
+                    border-top-left-radius: @border-radius-box;
+                    border-top-right-radius: @border-radius-box;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+
+                    //http://stackoverflow.com/questions/11552380/how-to-automatically-crop-and-center-an-image/11552460#11552460
+                    //object-fit: none; /* Do not scale the image */
+                    //object-position: center; /* Center the image within the element */
+                    //height: 70%;
+                    //width: 100%;
+                }
+            }
+            .CardContent {
+                height: 180px;
+            }
+        }
+    }
+}
+
+.MakeSingleItemCardPortrait2(){ //Apply to .CardColumn
+    .Card {
+
+        &.SingleItem{
+            .ImageContainer{
+                width: 100px;
+                margin: 10px;
+                float: left;
+            }
+        }
+    }
+}
+
+.MakeSingleItemCardLandscape() { //Apply to .CardColumn
+    .Card.SingleItem {
+        max-width: none;
+
+        .ImageContainer {
+            width: 100px;
+            float: left;
+            margin: 10px;
+            margin-bottom: 5px;
+            margin-right: 10px;
+            border-bottom: none;
+            .ImageLicenseOnImage;
+            .FullLicenseLinkText;
+
+            .LicenseInfo {
+                right: 0;
+            }
+
+            img {
+                border-radius: @border-radius-box;
+            }
+        }
+
+        .ContentContainer {
+            margin-left: 110px;
+            min-width: 0; //Prevent overflowing of container in case of long links (flexbox behaviour)
+        }
+
+        .CardContent {
+            //border-bottom: 1px solid @ruler-grey;
+            padding-bottom: 10px;
+        }
+
+        .ItemTitle {
+            padding-bottom: 10px;
+            border-bottom-width: 5px;
+            border-bottom-style: solid;
+        }
+
+
+        .BottomBar {
+            padding: 5px 0;
+        }
+    }
+}
+
+.MakeSingleItemCardLandscape2(){ //Apply to .CardColumn
+    .Card.SingleItem {
+        height: 165px;
+        position: relative;
+        max-width: none;
+
+        .ImageContainer {
+            float: left;
+            margin-right: 10px;
+            border-right-width: 5px;
+            border-right-style: solid;
+            border-bottom: none;
+
+
+            img {
+                border-radius: @border-radius-box 0 0 @border-radius-box;
+                width: 165px;
+            }
+        }
+
+        .ContentContainer {
+            position: relative;
+            height: 100%;
+        }
+
+        .CardContent {
+            border-bottom: none !important;
+        }
+
+        .BottomBar {
+            border-top: 1px solid @ruler-grey;
+            padding: 5px 0;
+            margin: 0 10px;
+            margin-left: 180px;
+            position: absolute;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+    }
+}
+
+.StackCards() {
+    & {
+        width: 100%;
+    }
+
+    .Card {
+        margin-bottom: 10px;
+    }
+
+    .CardContent {
+        height: auto !important;
+    }
+}
+
+.SingleCardFullWidth() {
+
+    .singleSetFullWidth, .singleCatFullWidth {
+        margin: 50px 0 30px;
+        padding: 40px 0;
+
+
+        .highlightSet {
+            background-color: #ffda7f;
+        }
+
+
+        .ImageContainer {
+            text-align: center;
+
+            img {
+                border-radius: 50%;
+                box-shadow: 5px 5px 10px @gray-lighter;
+            }
+
+            .LicenseInfo {
+                text-align: center;
+                color: @gray-light;
+
+                &:after {
+                    content: "Lizenz";
+                }
+            }
+        }
+
+        .setTitle, .categoryTitle {
+            margin-bottom: 20px;
+
+            h3 {
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .setTitle {
+            border-bottom: 5px solid @color-set;
+        }
+
+        .categoryTitle {
+            border-bottom: 5px solid @color-category;
+        }
+
+        .setQuestionCount, .categoryQuestionCount {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 15px;
+            color: @gray-light;
+            font-size: 14px;
+        }
+
+        .KnowledgeBarWrapper {
+            display: inline-block;
+
+            .KnowledgeBarLegend {
+                .greyed;
+                margin-top: -10px;
+                font-size: 12px;
+                line-height: 1.5em;
+                //text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 0.2s linear;
+
+                .media-below-sm ( {
+                    opacity: 1;
+                }
+
+                );
+            }
+
+            &:hover { //show on hover over navigation tile
+                .KnowledgeBarLegend {
+                    opacity: 1;
+                }
+            }
+
+            .set-knowledge-bar, .category-knowledge-bar {
+                display: inline-block;
+                //margin-top: 15px;
+                height: 10px;
+                width: 180px;
+
+                .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+                    height: inherit;
+                    float: left;
+                }
+
+                .needs-learning {
+                    background-color: @needs-learning-color;
+                }
+
+                .needs-consolidation {
+                    background-color: @needs-consolidation-color;
+                }
+
+                .solid-knowledge {
+                    background-color: @solid-knowledge-color;
+                }
+
+                .not-learned {
+                    background-color: @not-learned-color;
+                }
+
+                .not-in-wish-knowledge {
+                    background-color: @not-in-wish-knowledge-color;
+                }
+            }
+        }
+
+        .buttons {
+            margin-top: 20px;
+
+            .btn {
+                margin-top: 10px;
+            }
+
+            .btn-primary {
+                //text-transform: uppercase;
+                font-size: 18px;
+                min-width: 220px;
+            }
+
+            .dropdown {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+
+/*  Images
+----------------------------------------------------------*/
+
+.ShowImageWithCheckbox () {
+
+    .SelectAreaCheckbox {
+        display: block;
+    }
+
+    .SelectAreaImageInfo {
+        height: 60%;
+        top: auto;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.ShowImageWithCheckbox-media-below-sm () {
+
+    .SelectAreaCheckbox {
+        height: 100%;
+        border-bottom-left-radius: @border-radius-item-image;
+        border-bottom-right-radius: @border-radius-item-image;
+    }
+
+    .SelectAreaImageInfo {
+        display: none;
+    }
+}
+
+.ImageLicenseOnImage {
+
+    .LicenseInfo {
+        position: absolute;
+        padding-left: 5px;
+        padding-right: 5px;
+        /*line-height: 18px;*/
+        left: 0;
+        //right: 0;
+        bottom: 0;
+        color: white;
+        background-color: black; //Fallback color
+        background-color: rgba(0, 0, 0, 0.35);
+        //text-shadow: 1px 1px 2px #666, -1px 1px 2px #666, 1px -1px 2px #666, -1px -1px 2px #666;
+        border-bottom-left-radius: @border-radius-item-image;
+    }
+}
+
+.FullLicenseLinkText{
+    .LicenseInfo {
+        &:after {
+          content: "Lizenzinfos";
+        }
+
+        line-height: 18px;
+    }
+}
+
+.ShortLicenseLinkText{
+    .LicenseInfo {
+        &:after {
+          content: "Lizenz";
+        }
+
+        line-height: 13px;
+
+    }
+}
+
+.LicenseWholeWidth {
+
+    .LicenseInfo{
+        right: 0;
+        border-bottom-left-radius: @border-radius-item-image;
+        border-bottom-right-radius: @border-radius-item-image;
+        text-align: center;
+    }
+}
+
+.MakeYoutubeImagesSquare() {
+    img[src*="img.youtube"] {
+        background-color: black;
+        padding-top: 12.5%;
+        padding-bottom: 12.5%;
+    }
+}
+
+/*  Markdown
+----------------------------------------------------------*/
+.MarkdownVideo {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    p {
+        text-align: center;
+    }
+
+    iframe {
+        display: inline-block;
+        max-width: 100%;
+    }
+}
+
+
+/*  Color scheme
+----------------------------------------------------------*/
+
+.ColoredBottomBorder (@color: @memo-green; @border-width: 2px) {
+    border-bottom: solid @border-width @color;
+    line-height: 130%;
+}
+
+.color-category {
+    color: @color-category;
+}
+
+.color-wuwi {
+    color: @color-knowledge;
+}
+
+
+/*  Media query mixins
+----------------------------------------------------------*/
+
+.media-below-xs(@rules)   {@media(max-width: @screen-xxs-max){ @rules(); }}
+.media-xs(@rules)         {@media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) { @rules(); }}
+.media-xs-sm(@rules)      {@media (min-width: @screen-xs-min) and (max-width: @screen-sm-max) { @rules(); }}
+.media-xs-md(@rules)      {@media (min-width: @screen-xs-min) and (max-width: @screen-md-max) { @rules(); }}
+.media-xs-up(@rules)      {@media(min-width: @screen-xs-min){ @rules(); }}
+.media-below-sm(@rules)   {@media(max-width: @screen-xs-max){ @rules(); }}
+.media-sm(@rules)         {@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) { @rules(); }}
+.media-sm-md(@rules)      {@media (min-width: @screen-sm-min) and (max-width: @screen-md-max) { @rules(); }}
+.media-sm-up(@rules)      {@media(min-width: @screen-sm-min){ @rules(); }}
+.media-below-md(@rules)   {@media(max-width: @screen-sm-max){ @rules(); }}
+.media-md(@rules)         {@media (min-width: @screen-md-min) and (max-width: @screen-md-max) { @rules(); }}
+.media-md-up(@rules)      {@media(min-width: @screen-md-min){ @rules(); }}
+.media-below-lg(@rules)   {@media(max-width: @screen-md-max){ @rules(); }}
+.media-lg(@rules)         {@media (min-width: @screen-lg-min) { @rules(); }}
+
+
+
+/*  Own responsive utilities
+----------------------------------------------------------*/
+
+.xxs-stack {
+    @media (max-width: (@screen-xs-min - 1px))  {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.stack-below(@breakpoint) {
+    @media (max-width: (@breakpoint - 1px)) {
+        float: none;
+        width: 100%;
+        height: inherit;
+        margin-left: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.float-none-xxs {
+    @media (max-width: (@screen-xs-min - 1px)) {
+        float: none !important;
+    }
+}
+
+.float-none-xs {
+    @media (min-width: @screen-xs-min) {
+        float: none !important;
+    }
+}
+
+.float-none-sm {
+    @media (min-width: @screen-sm-min) {
+        float: none !important;
+    }
+}
+
+.float-none-md {
+    @media (min-width: @screen-md-min) {
+        float: none !important;
+    }
+}
+
+.float-none-lg {
+    @media (min-width: @screen-lg-min) {
+        float: none !important;
+    }
+}
+
+.DesktopHide {
+    @media (min-width: @screen-md-min) {
+        display: none;
+    }
+}
+
+.MobileHide {
+    @media (max-width: @screen-sm-max) {
+        display: none;
+    }
+}
+
+/*  Mixins
+----------------------------------------------------------*/
+
+
+#tab-color(@outline-color: @light-blue, @font-color: @global-text-color) { 
+
+    .box-with-tabs,
+    .boxtainer-outlined-tabs {
+
+        ul.nav-tabs {
+            border-bottom-color: @outline-color;
+
+            li {
+                a:hover, a:focus {
+                    background-color: @outline-color;
+                    color: @font-color;
+                }
+
+                &.active {
+                    a {
+                        border-color: @outline-color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.make-footer-stick-to-bottom() {
+    body {
+        display: flex;//http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+        min-height: 100%;
+        -ms-flex-direction: column;
+        flex-direction: column;
+
+        //height: 100%; //Solve IE issue, should for IE only, produces bug in other browsers (http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/):
+    }
+
+    #MasterSection {
+        -ms-flex: 1;
+        flex: 1;
+
+    //Solve IE isssue, http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/
+        -webkit-box-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+    }
+}
+
+
+/*Modified styles from bootstrap website (not part of framework)*/
+
+
+.bs-callout-info {
+    background-color: white;
+    /*border-color: #5bc0de !important;*/
+}
+
+.bs-callout-danger {
+    background-color: white;
+    /*border-color: #ce4844 !important;*/
+}
+
+.bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    /*border-left: 3px solid #eee;*/
+    border: 1px solid @memo-grey-light;
+    box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);
+}
+
+.bs-callout h4, .bs-callout h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.bs-callout-info h4, .bs-callout-info h3 {
+    color: #5bc0de !important;
+}
+
+.bs-callout-danger h4, .bs-callout-danger h3 {
+    color: #ce4844 !important;
+}
+
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+
+/*Form grid/columns conditional mixin:*/
+
+
+//Conditional mixin
+/*Example for calling:
+    
+    @labels-stacked: true; //TRUE for having labels stacked
+
+    .FormColumnGrid (@labels-stacked);
+    
+*/
+
+
+
+//Form grid styles with labels stacked
+
+.FormColumnGrid (@labels-stacked: false; @label-width-variable: false; @grid-width-label-xs: 3; @grid-width-controls-full-xs: @grid-columns - @grid-width-label-xs) {
+
+    .columnControlsFull {
+        font-size: 90%;
+
+        .radio, .form-control-static, .added-cat {
+            font-size: percentage(100/90);
+        }
+    }
+
+    .FormColumnGridConditional (@labels-stacked) when (@labels-stacked) {
+
+        .columnLabel {
+            .make-xs-column(12);
+            text-align: left !important;
+        }
+
+        .columnControlsFull, .noControls {
+            .make-xs-column(12);
+
+            .radio, .form-control-static {
+                margin-left: 20px;
+            }
+
+            .form-control-static {
+                padding-top: 0;
+            }
+        }
+
+        .noLabel .form-control-static {
+            margin-left: 0;
+        }
+
+        .aside .columnControlsFull { 
+            .radio, .form-control-static {
+                margin-left: 0;
+            }
+        } 
+        /*.columnControlsFull {
+
+            .radio, .form-control-static {
+                margin-left: 20px;
+                aside {
+                    margin-left: 0;
+                }
+            }
+        }*/
+
+        .columnControlsSmall {
+            .make-xs-column(6);
+            .xxs-stack;
+        }
+
+        .noLabel {
+            margin-left: 0;
+        }
+
+        .radio {
+            margin-left: 20px;
+        }
+
+        .added-cat.SingleSelect {
+            margin-left: 20px;
+        }
+
+        input.form-control, textarea.form-control, select.form-control {
+            max-width: 400px;
+
+            .input-group & {
+                max-width: none;
+            }
+        }
+    }
+    //Form grid styles with labels as seperate column
+    .FormColumnGridConditional(@labels-stacked) when (default()) {
+
+        .columnLabel {
+            .make-xs-column(@grid-width-label-xs);
+            .xxs-stack;
+        }
+
+        .columnControlsFull, .noControls {
+            .xxs-stack;
+            .make-xs-column(@grid-width-controls-full-xs);
+
+            .aside & {
+                .make-md-column(@grid-columns);
+            }
+        }
+        //Label-width-variable: true can be used together with labels-stacked: false, makes controls break to a new line, if label text is longer than the width reserved for labels
+        .LabelWidth (@label-width-variable) when (@label-width-variable) {
+
+            @media (min-width: @screen-xs-min) {
+                .columnLabel {
+                    width: auto;
+                    padding-right: 0;
+                }
+
+                .columnControlsFull {
+                    padding-left: 3px;
+                    float: right;
+                }
+            }
+        }
+
+        .LabelWidth (@label-width-variable) when (default()) {
+            .columnLabel {
+                -ms-word-break: break-all;
+                word-break: break-all;
+
+                .tooltip {
+                    -ms-word-break: normal;
+                    word-break: normal;
+                }
+            }
+        }
+
+        .LabelWidth (@label-width-variable);
+
+
+        .columnControlsSmall {
+            .make-xs-column(1);
+            width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
+            .xxs-stack;
+        }
+
+        @media (min-width: @screen-xs-min) { //replaces offset-column-mixin
+            .noLabel {
+                margin-left: percentage(@grid-width-label-xs/@grid-columns);
+            }
+        }
+    }
+
+    .FormColumnGridConditional(@labels-stacked);
+}
+
+/*Reference styles*/
+
+.ReferenceDefault{
+    .Reference {
+
+        &.DailyIssue {
+            .PublicationDate {
+                display: none;
+            }
+        }
+
+        .Pages {
+            //display: inline-block !important;//To avoid line break inside
+        }
+    }
+}
+
+.ReferenceAllInlineButAuthorStyle{
+
+    .ReferenceDefault;
+
+    .Reference {
+        div:not(.Name):not(.Author) {
+            display: inline;
+        }
+        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+            content: ",\0000a0";
+        }
+    }
+}
+
+.ReferenceAllInlineStyle {
+    .ReferenceDefault;
+
+    .Reference {
+        div:not(.Name):not(.Icon) {
+            display: inline;
+        }
+
+        .Icon {
+            float: left;
+            margin-right: 5px;
+        }
+
+        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+            content: ",\0000a0";
+        }
+
+        div.Author:after {
+            content: ".\0000a0";
+        }
+
+        .Url, .WikiUrl {
+            display: inline-block !important;
+            max-width: 100%;
+            overflow-x: hidden;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            vertical-align: bottom; //http://stackoverflow.com/questions/20566710/overflowhidden-displayinline-block-moves-text-upwards#answer-20566810
+        }
+    }
+}
+
+/*Have user inputs/existing data in forms bold when in editing mode*/
+
+.MakeContentsBoldInEditingForm() {
+     
+    [data-is-editing="True"] {
+        .RequiredField {
+            font-weight: normal;
+        }
+
+        .JS-RelatedCategories {
+            font-weight: bold;
+        }
+
+         .JS-RelatedCategories div.tooltip {
+            font-weight: normal;
+        }
+
+        .ParentCategories .form-control-static {
+            font-weight: bold;
+
+            div.tooltip {
+                font-weight: normal;
+            }
+        }
+
+        input[type="text"], textarea[type="text"] { //Code redundancy because of rules with &-selector not being output when inside called mixin (https://github.com/less/less.js/issues/1979)
+            font-weight: bold;
+        }
+
+        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { /* WebKit browsers */
+            font-weight: normal;
+        }
+
+        input:-moz-placeholder, textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            font-weight: normal;  
+        }
+
+        input::-moz-placeholder, textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+            font-weight: normal;
+        }
+
+        input:-ms-input-placeholder, textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
+            font-weight: normal;
+        }
+    }
+}
+
+/*Reduce opacity and color on non-hover*/
+
+.ReduceVisibilityOnNonHover, .TestStyle {
+
+    & .Card {
+         filter: grayscale(80%);
+        opacity: 0.8;
+        &:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+    }
+}
+
+
+.pinHeader {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 18px;
+    max-height: 43px;
+    min-width: 78px;
+    width: 78px;
+
+    a {
+        .pinButton {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            &.hide2 {
+                display: none !important;
+            }
+
+            i {
+                font-size: 20px !important;
+                line-height: 23px;
+                color: @memo-wuwi-red !important;
+            }
+
+            .Text {
+                padding: 0 3px !important;
+                font-size: 8px !important;
+                line-height: 14px !important;
+                font-weight: 600 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.1em;
+                color: @memo-wuwi-red !important;
+            }
+        }
+    }
+}
+
+input, .dropdown-menu {
+    border-radius: 0px !important;
+}
+
+.dropdown-menu {
+    border: none;
+}
+
+[v-cloak] {
+    display: none
+}
+
+.Button {
+    word-break: normal;
+}

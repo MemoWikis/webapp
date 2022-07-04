@@ -3,27 +3,24 @@ import { ref, watch, nextTick, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
-import { useTopicStore } from '~~/components/topic/topicStore';
+import { Topic, useTopicStore } from '~~/components/topic/topicStore';
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
+import { useUserStore } from '~~/components/user/userStore';
 
 definePageMeta({
-  middleware: ["auth"]
+  middleware: ["topic-auth"]
 })
 
 const spinnerStore = useSpinnerStore()
 
 const route = useRoute()  
 const categoryId = ref(parseInt(route.params.id.toString()))
-const config = useRuntimeConfig()
-const { data: topic } = await useFetch(`/Topic/GetTopic/${route.params.id}`, 
-{ baseURL: config.apiBase }
-);
 
 const topicStore = useTopicStore()
+const topic = useState<Topic>('topic')
 topicStore.setTopic(topic.value)
-
 const tabsStore = useTabsStore()
-
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -41,6 +38,7 @@ const tabsStore = useTabsStore()
             <br/> -->
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId"/>
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning"/>
+    <button @click="userStore.logout()">logout</button>
 
   </div>
 </template>

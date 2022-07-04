@@ -1,0 +1,189 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}#CategoryHeader {
+  font-size: 18px;
+}
+#CategoryHeader #TabsBar {
+  height: 45px;
+  border-bottom: solid 1px #d6d6d6;
+  display: flex;
+}
+#CategoryHeader #TabsBar .Border {
+  width: 1px;
+  background-color: #d6d6d6;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  min-width: 1px;
+}
+#CategoryHeader .Tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#CategoryHeader .Tabs .Tab {
+  position: relative;
+  top: 3px;
+  border-bottom: solid 5px transparent;
+  text-align: center;
+  flex-grow: 1;
+  color: #555555;
+  line-height: 18px !important;
+}
+#CategoryHeader .Tabs .Tab a {
+  display: block;
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #767676;
+}
+@media (min-width: 389px) {
+  #CategoryHeader .Tabs .Tab a {
+    margin: auto 0;
+  }
+}
+@media (max-width: 991px) {
+  #CategoryHeader .Tabs .Tab a {
+    font-size: 14px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  #CategoryHeader .Tabs .Tab a {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media (max-width: 479px) {
+  #CategoryHeader .Tabs .Tab a {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+#CategoryHeader .Tabs .Tab a:hover,
+#CategoryHeader .Tabs .Tab a:focus {
+  text-decoration: none;
+  color: #003264;
+}
+#CategoryHeader .Tabs .Tab b {
+  font-weight: 700;
+}
+#CategoryHeader .Tabs .Tab.active {
+  border-bottom-color: #003264;
+  top: 3px;
+  padding-top: 2px;
+  margin-bottom: 2px;
+}
+#CategoryHeader .Tabs .Tab.active a {
+  color: #003264;
+  font-weight: bold;
+  cursor: default;
+}
+#CategoryHeader .Tabs .Tab.active a:active,
+#CategoryHeader .Tabs .Tab.active a:focus {
+  outline: none;
+}
+#CategoryHeader .Tabs .Tab.active #LearnOptionsHeader {
+  color: #767676;
+  transition: all 0.1s ease-in-out;
+}
+#CategoryHeader .Tabs .Tab.active #LearnOptionsHeader:hover {
+  color: #003264;
+  transition: all 0.1s ease-in-out;
+}
+#CategoryHeader #LearningTabWithOptions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+}
+#CategoryHeader #LearningTabWithOptions .disable::before {
+  color: #DDDDDD;
+}
+#CategoryHeader #LearningTabWithOptions #LearningTab {
+  width: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+#CategoryHeader #LearningTabWithOptions #LearningTab a {
+  padding-right: 5px;
+}
+#CategoryHeader #ManagementMobile {
+  display: none;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #CategoryHeader #ManagementMobile {
+    display: flex;
+  }
+  #CategoryHeader #Management {
+    display: none;
+  }
+  #CategoryHeader .Tabs {
+    width: 100%;
+    padding-right: 0;
+    justify-content: space-between;
+  }
+  #CategoryHeader .Tab {
+    width: 30%;
+    text-align: center;
+  }
+}
+@media (max-width: 767px) {
+  #CategoryHeader {
+    margin-bottom: 30px;
+  }
+  #CategoryHeader .BreadcrumbsMobile {
+    padding-bottom: 0;
+  }
+  #CategoryHeader #ManagementMobile {
+    margin-bottom: 10px;
+  }
+  #CategoryHeader #HeadingSection {
+    margin-bottom: 30px;
+  }
+}
+#CategoryTabsApp {
+  flex-grow: 1;
+}
+#Management .KnowledgeBarWrapper {
+  min-width: 160px;
+  padding: 0 15px;
+}
+#Management .PinContainer {
+  display: flex;
+  justify-content: center;
+  width: 90px;
+}
+#Management .PinContainer .Pin {
+  padding: 0 15px;
+}
+@media (max-width: 767px) {
+  #Management .PinContainer {
+    width: 57px;
+  }
+}
+#Management .DropdownButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#TopicTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+}
+#TopicTab .center-tab {
+  width: auto;
+  display: inline-flex;
+  justify-content: center;
+}

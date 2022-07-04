@@ -51,13 +51,9 @@ public class LoginController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetLoginState()
+    public bool GetLoginState()
     {
-        return Json(new
-        {
-            IsLoggedIn = SessionUser.IsLoggedIn,
-            UserId = SessionUser.IsLoggedIn ? SessionUser.UserId : null as int?,
-        }, JsonRequestBehavior.AllowGet);
+        return SessionUser.IsLoggedIn;
     }
 }
 

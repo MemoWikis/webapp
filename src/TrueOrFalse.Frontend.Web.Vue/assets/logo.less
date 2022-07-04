@@ -1,0 +1,242 @@
+﻿@import (reference) 'includes/imports.less';
+
+.title-mixed-colors {
+    span#uch {
+        color: @light-blue;
+    }
+}
+
+.title-uch-candy {
+    span#uch {
+        font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+        //font-weight: 700;
+    }
+}
+
+.title-uch-bended {
+    #uch span {
+        &:first-child {
+            -moz-transform: rotate(-10deg); 
+            -ms-transform: rotate(-10deg);
+            -o-transform: rotate(-10deg);
+            -webkit-transform: rotate(-10deg);
+            transform: rotate(-10deg);
+            vertical-align: -3px;
+        }
+
+        &:nth-child(3) {
+            -moz-transform: rotate(10deg);
+            -ms-transform: rotate(10deg);
+            -o-transform: rotate(10deg);
+            -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+            vertical-align: -3px;
+        }
+    }
+}
+
+.title-old {
+    font-weight: 800;
+    font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+    font-size: 28px;
+    text-transform: uppercase;
+
+    @media (min-width: @screen-xs-min) {
+        font-size: 32px;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        font-size: 40px; padding-top: 2px;
+    }
+
+    span#m {
+        padding-right: 3px;
+    }
+
+    span#uch {
+        font-size: 20px;
+        text-transform: lowercase;
+
+        @media (min-width: @screen-xs-min) {
+            font-size: 24px;
+        }
+
+        @media (min-width: @screen-sm-min) {
+            font-size: 30px;
+        }
+    }
+}
+
+.title-new-candy-pure {
+    .title-new;
+    font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+    line-height: 30px !important;
+}
+
+.title-new-roboto-slab {
+    .title-new;
+    font-family: 'Roboto slab', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive !important;
+    line-height: 32px !important;
+    #m {
+        margin-right: -1px;
+    }
+}
+
+.title-new-roboto {
+    .title-new;
+    font-family: 'Roboto', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive !important;
+    line-height: 32px !important;
+    font-weight: normal;
+    #uch {font-weight: bold;}
+    #m {
+        margin-right: -1px;
+    }
+}
+
+.title-new {
+    font-size: 40px;
+    font-weight: 800;
+    padding-top: 0;
+
+    #uch {
+
+        vertical-align: 3px;
+        display: inline-block;
+        margin-right: -2px;
+
+        span {
+            //letter-spacing: -0.1pc;
+            display: inline-block;
+            font-size: 35px !important;
+        }
+    }
+}
+
+.fixed-height-header {
+    .HeaderMainRow {
+        height: 37px !important;
+        margin-bottom: 6px;
+        margin-top: 6px;
+    }
+}
+
+
+.Logo1 {
+    .block.title h1 {
+        .title-old;
+        .title-mixed-colors;
+    }
+}
+
+.Logo2 {
+    .block.title h1 {
+        .title-new-roboto-slab;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo3 {
+    .block.title h1 {
+        .title-new-roboto-slab;
+        .title-uch-candy;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo4 {
+    .block.title h1 {
+        .title-new-roboto-slab;
+        .title-uch-bended;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo5 {
+    .block.title h1 {
+        .title-new-roboto-slab;
+        .title-mixed-colors;
+        .title-uch-bended;
+        .title-uch-candy;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo6 {
+    .block.title h1 {
+        .title-new-roboto;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo7 {
+    .block.title h1 {
+        .title-new-roboto;
+        .title-uch-candy;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo8 {
+    .block.title h1 {
+        .title-new-roboto;
+        .title-uch-bended;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo9 {
+    .block.title h1 {
+        .title-new-roboto;
+        .title-uch-candy;
+        .title-mixed-colors;
+        .title-uch-bended;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo10 {
+    .block.title h1 {
+        .title-new-candy-pure;
+        .title-mixed-colors;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo11 {
+    .block.title h1 {
+        .title-new-candy-pure;
+        .title-mixed-colors;
+        .title-uch-bended;
+    }
+
+    .fixed-height-header;
+}
+
+.Logo12 {
+    .block.title h1 {
+        .title-new-roboto-slab;
+        .title-uch-bended;
+    }
+
+    .fixed-height-header;
+
+    #uch {
+        color: darken(@memo-green, 5);
+    }
+}
+

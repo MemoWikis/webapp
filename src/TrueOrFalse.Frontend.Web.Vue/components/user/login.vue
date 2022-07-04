@@ -29,7 +29,6 @@ const errorMessage = ref('')
 
 <template>
     <button @click="userStore.showLoginModal = true">open login modal</button>
-    <button @click="userStore.logout()">logout</button>
 
         <div id="LoginModalComponent">
         <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked" :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()" :show="userStore.showLoginModal" >
@@ -42,13 +41,13 @@ const errorMessage = ref('')
                     <div class="col-sm-12 omb_socialButtons">
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                             <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin">
-                                <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
+                                <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Google</div>
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                             <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin" @click="facebookLogin()">
-                                <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
+                                <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Facebook</div>
                             </a>
                         </div>
