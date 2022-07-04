@@ -5,10 +5,10 @@ import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
 import { useTopicStore } from '~~/components/topic/topicStore';
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
-import { useUserStore } from '~~/components/user/userStore'
 
-const userStore = useUserStore()
-userStore.getCurrentState()
+definePageMeta({
+  middleware: ["auth"]
+})
 
 const spinnerStore = useSpinnerStore()
 

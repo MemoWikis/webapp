@@ -37,7 +37,6 @@ export default defineNuxtConfig(
         '~/assets/bootstrap/variables_custom.css',
         '~/assets/site.css',
         '~/assets/top-header.css'
-
       ]
   }
 );

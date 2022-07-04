@@ -7,7 +7,7 @@ type UserLoginResult = {
   Message: string;
 }
 
-type LoginState = {
+export type LoginState = {
   IsLoggedIn: boolean;
   UserId: number;
 }

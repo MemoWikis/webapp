@@ -16,6 +16,17 @@ public class TopicController : BaseController
             ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
         }, JsonRequestBehavior.AllowGet);
     }
+
+    [HttpGet]
+    public bool CanAccess(int id)
+    {
+        var c = EntityCache.GetCategory(id);
+
+        if (PermissionCheck.CanView(c))
+            return true;
+
+        return false;
+    }
 }
 
 public class TopicModel
