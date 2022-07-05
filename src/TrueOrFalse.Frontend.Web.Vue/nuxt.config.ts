@@ -4,16 +4,16 @@ import { defineNuxtConfig } from "nuxt";
 export default defineNuxtConfig(
   {
     vite: {
-    server: {
-      proxy: {
-        "/api": {
-          target: "http://localhost:5211/apiVue",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
+      server: {
+        proxy: {
+          "/api": {
+            target: "http://localhost:5211/apiVue",
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ""),
+          },
         },
       },
     },
-  },
     buildModules: [
         '@pinia/nuxt',
       ],

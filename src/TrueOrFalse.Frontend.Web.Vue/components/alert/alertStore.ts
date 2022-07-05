@@ -1,10 +1,22 @@
 import { defineStore } from 'pinia'
-import { AlertType, AlertMsg } from './alertCollection'
+
+export type AlertMsg = {
+  text: string,
+  reload?: boolean,
+  customHtml?: string,
+  customBtn?: string,
+}
+
+export enum AlertType {
+  Default,
+  Success,
+  Error
+}
 
 export const useAlertStore = defineStore('alertStore', {
     state: () => {
         return {
-          isOpen: false,
+          show: false,
           type: AlertType.Default,
           msg: null as AlertMsg
         }
@@ -21,4 +33,15 @@ export const useAlertStore = defineStore('alertStore', {
             this.msg = null
         }
       },
+      getters: {
+        text(): string {
+          return !!this.msg ? this.msg.text : ''
+        },
+        html() {
+          return !!this.msg && !!this.msg.customHtml ? this.msg.customHtml : null
+        },
+        btn(){
+          return !!this.msg && !!this.msg.customBtn ? this.msg.customBtn : null
+        }
+      }
 })

@@ -1,10 +1,15 @@
 ﻿import { UserCreateResult } from './UserCreateResult'
-import { Utils } from '../utils/utils'
 import { Site } from '../utils/site'
-import { Alerts } from '../alert/alertCollection'
+// import { Alerts } from '../alert/alertCollection'
 import { messages } from '../alert/messages'
+import { useSpinnerStore } from '../spinner/spinnerStore'
+import { useAlertStore, AlertType } from '../alert/alertStore'
+
+const spinnerStore = useSpinnerStore()
+const alertStore = useAlertStore()
 
 export class FacebookMemuchoUser {
+
 
     static async Exists(facebookId: string): Promise<boolean> {
 
@@ -23,7 +28,7 @@ export class FacebookMemuchoUser {
     }
 
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
-        Utils.showSpinner();
+        spinnerStore.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/api/FacebookUsers/UserExists', { 
             method: 'POST', 
@@ -31,21 +36,21 @@ export class FacebookMemuchoUser {
             credentials: 'include', 
             cache: 'no-cache'})
             .catch((error) => {
-                Utils.hideSpinner()
+                spinnerStore.hideSpinner()
                 Rollbar.error("Something went wrong", error.data)
             })
 
         if (!!result) {
-            Utils.hideSpinner();
+            spinnerStore.hideSpinner();
 
             if (result.Success)
                 Site.loadValidPage();
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                 if (result.EmailAlreadyInUse) {
-                    Alerts.showError({
+                    alertStore.openAlert(AlertType.Error, {
                         text: messages.error.user.emailInUse
-                    });
+                    })
                 }
             }
         }
@@ -55,7 +60,7 @@ export class FacebookMemuchoUser {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
-        Utils.showSpinner();
+        spinnerStore.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/api/FacebookUsers/Login', { 
             method: 'POST', 
@@ -63,7 +68,7 @@ export class FacebookMemuchoUser {
             credentials: 'include', 
             cache: 'no-cache' })
             .catch((error) => {
-                Utils.hideSpinner()
+                spinnerStore.hideSpinner()
                 Rollbar.error("Something went wrong", error.data)
             })
 
@@ -74,11 +79,11 @@ export class FacebookMemuchoUser {
 
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus(response => {
-            this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
+            this._LoginOrRegister(response, stayOnPage, disallowRegistration);
         });
     }
 
-    private static LoginOrRegister_(
+    private static _LoginOrRegister(
         response: FB.LoginStatusResponse,
         stayOnPage = false,
         disallowRegistration = false) {

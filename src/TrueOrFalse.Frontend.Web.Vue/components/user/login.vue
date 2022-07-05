@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { FacebookMemuchoUser } from './FacebookMemuchoUser'
 import { useUserStore } from '../user/userStore'
 
 const eMail = ref('')
@@ -14,14 +13,20 @@ async function login() {
         EmailAddress: eMail.value,
         Password: password.value,
         PersistentLogin: persistentLogin.value
-        }
+    }
 
     userStore.login(data)
 }
 const passwordInputType = ref('password')
 
+const facebookLoginMounted = ref(false)
+const facebookLoginComponent = ref(null);
+
 function facebookLogin() {
-    // FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
+    if (facebookLoginMounted.value)
+        facebookLoginComponent.login
+    else
+        facebookLoginMounted.value = true
 }
 
 const errorMessage = ref('')
@@ -30,8 +35,10 @@ const errorMessage = ref('')
 <template>
     <button @click="userStore.showLoginModal = true">open login modal</button>
 
-        <div id="LoginModalComponent">
-        <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked" :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()" :show="userStore.showLoginModal" >
+    <div id="LoginModalComponent">
+        <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked"
+            :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()"
+            :show="userStore.showLoginModal">
             <template v-slot:header>
                 <span>Anmelden</span>
             </template>
@@ -41,22 +48,27 @@ const errorMessage = ref('')
                     <div class="col-sm-12 omb_socialButtons">
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                             <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin">
-                                <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
+                                <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
+                                    alt="socialMediaBtnContainer" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Google</div>
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin" @click="facebookLogin()">
-                                <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
+                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
+                                @click="facebookLogin()">
+                                <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
+                                    class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Facebook</div>
                             </a>
                         </div>
                     </div>
                 </div>
-                
-                <p class="consentInfoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren 
-                    <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum"> Datenschutzerklärung</NuxtLink>
-                    einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr Infos!</NuxtLink>
+
+                <p class="consentInfoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
+                    <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum">
+                        Datenschutzerklärung</NuxtLink>
+                    einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr Infos!
+                    </NuxtLink>
                 </p>
 
                 <div class="row" style="margin-bottom: 10px;">
@@ -78,7 +90,8 @@ const errorMessage = ref('')
                     <form class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <input name="login" placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail" @keydown.enter="login()" @click="errorMessage = ''"/>
+                                <input name="login" placeholder="" type="email" width="100%" class="loginInputs"
+                                    v-model="eMail" @keydown.enter="login()" @click="errorMessage = ''" />
                             </div>
                         </div>
                     </form>
@@ -88,16 +101,20 @@ const errorMessage = ref('')
                     <form class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <input name="password" placeholder="" :type="passwordInputType" width="100%" class="loginInputs" v-model="password" @keydown.enter="login()" @click="errorMessage = ''"/>
-                                <i class="fas fa-eye eyeIcon" v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'"></i>
-                                <i v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" class="fas fa-eye-slash eyeIcon"></i>
+                                <input name="password" placeholder="" :type="passwordInputType" width="100%"
+                                    class="loginInputs" v-model="password" @keydown.enter="login()"
+                                    @click="errorMessage = ''" />
+                                <i class="fas fa-eye eyeIcon" v-if="passwordInputType == 'password'"
+                                    @click="passwordInputType = 'text'"></i>
+                                <i v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'"
+                                    class="fas fa-eye-slash eyeIcon"></i>
                             </div>
                         </div>
                     </form>
                     <div class="infoContainer col-sm-12 noPadding">
                         <div class="col-sm-4 noPadding">
                             <label class="cursor-hand">
-                                <input type="checkbox" class="cursor-hand" v-model="persistentLogin"/>
+                                <input type="checkbox" class="cursor-hand" v-model="persistentLogin" />
                                 <span class="checkboxText">Angemeldet bleiben</span>
                             </label>
                         </div>
@@ -105,26 +122,25 @@ const errorMessage = ref('')
                             <a href="/Login/PasswortZuruecksetzen">Passwort vergessen?</a>
                         </div>
                     </div>
-                    <div class="errorMessage" v-if="errorMessage.length > 0">{{errorMessage}}</div>
+                    <div class="errorMessage" v-if="errorMessage.length > 0">{{ errorMessage }}</div>
                 </div>
 
             </template>
             <template v-slot:footer-text>
                 <div class="footerText">
                     <p>
-                        <strong style="font-weight: 700;">Noch kein Benutzer?</strong> <br/>
+                        <strong style="font-weight: 700;">Noch kein Benutzer?</strong> <br />
                         <a href="/Registrieren">Jetzt Registrieren!</a>
                     </p>
                 </div>
             </template>
         </LazyModal>
-        </div>
+    </div>
+    <LazyUserFacebookLogin v-if="facebookLoginMounted" ref="facebookLoginComponent" />
 
-    
 
 
 </template>
 
 <style scoped>
-
 </style>
