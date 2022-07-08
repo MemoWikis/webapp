@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+export { messages } from './messages'
 
 export type AlertMsg = {
   text: string,

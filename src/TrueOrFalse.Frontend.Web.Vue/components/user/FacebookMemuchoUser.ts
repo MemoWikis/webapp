@@ -1,15 +1,13 @@
 ﻿import { UserCreateResult } from './UserCreateResult'
 import { Site } from '../utils/site'
-// import { Alerts } from '../alert/alertCollection'
-import { messages } from '../alert/messages'
 import { useSpinnerStore } from '../spinner/spinnerStore'
-import { useAlertStore, AlertType } from '../alert/alertStore'
+import { useAlertStore, AlertType, messages } from '../alert/alertStore'
+import { Facebook, FacebookUserFields } from './Facebook'
 
 const spinnerStore = useSpinnerStore()
 const alertStore = useAlertStore()
 
 export class FacebookMemuchoUser {
-
 
     static async Exists(facebookId: string): Promise<boolean> {
 
@@ -37,7 +35,7 @@ export class FacebookMemuchoUser {
             cache: 'no-cache'})
             .catch((error) => {
                 spinnerStore.hideSpinner()
-                Rollbar.error("Something went wrong", error.data)
+                // Rollbar.error("Something went wrong", error.data)
             })
 
         if (!!result) {
@@ -69,7 +67,7 @@ export class FacebookMemuchoUser {
             cache: 'no-cache' })
             .catch((error) => {
                 spinnerStore.hideSpinner()
-                Rollbar.error("Something went wrong", error.data)
+                // Rollbar.error("Something went wrong", error.data)
             })
 
         if (!!result && result.Success)                    

@@ -18,10 +18,10 @@ const { data: topic } = await useFetch<Topic>(`/api/Topic/GetTopic/${categoryId}
 }
 );
 console.log(topic)
-// useState('topic', () => topic.value)
-// topicStore.setTopic(topic.value)
+useState('topic', () => topic.value)
+topicStore.setTopic(topic.value)
 
-// const tabsStore = useTabsStore()
+const tabsStore = useTabsStore()
 const userStore = useUserStore()
 
 const { data: result } = await useFetch<string>(`/api/Login/GetLoginState/`, {
@@ -48,8 +48,8 @@ useState<boolean>('isLoggedIn', () => val)
     <br />
     <!-- <button @click="getTopicData()">loadTopic</button>
             <br/> -->
-    <!-- <LazyTopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
-    <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning" /> -->
+    <LazyTopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
+    <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning" />
     <button @click="userStore.logout()">logout</button>
 
   </div>

@@ -6,7 +6,7 @@ const alertStore = useAlertStore()
 </script>
 
 <template>
-    <vue-final-modal v-model="alertStore.show">
+    <vue-final-modal v-model="alertStore.show" :esc-to-close="true">
         <div id="AlertModal" class="modal fade" v-if="alertStore.show">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

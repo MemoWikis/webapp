@@ -5,9 +5,10 @@ const isLoggedIn = useState('isLoggedIn')
 
 <template>
   <div>
-    <NavBarSubNavBar v-if="!isLoggedIn"/>
-    <NavBar/>
+    <LazyNavigationGuest v-if="!isLoggedIn" />
+    <NavigationMain />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
