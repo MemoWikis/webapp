@@ -16,6 +16,7 @@ export default defineNuxtConfig(
     },
     buildModules: [
         '@pinia/nuxt',
+        'floating-vue/nuxt',
       ],
     typescript: {
         shim: false,

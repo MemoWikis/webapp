@@ -7,8 +7,8 @@ const isLoggedIn = useState('isLoggedIn')
   <div>
     <Header />
     <NuxtPage />
-    <UserLogin v-if="!isLoggedIn" />
-    <Spinner />
+    <LazyUserLogin v-if="!isLoggedIn" />
+    <LazySpinner />
     <LazyAlert />
     <Footer />
   </div>

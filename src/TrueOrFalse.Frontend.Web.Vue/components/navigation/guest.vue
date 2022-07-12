@@ -5,7 +5,7 @@ import { useUserStore } from '../user/userStore'
 
 const userStore = useUserStore()
 
-const showSearch = ref(false)
+const showSearch = ref(true)
 
 function openUrl(val) {
     location.href = val.Url
@@ -33,7 +33,8 @@ function openUrl(val) {
                         <i :class="[showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
                     </div>
                     <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
-                        <!-- <search-component v-on:select-item="openUrl" :search-type="SearchType.All" id="SmallHeaderSearchComponent" :show-search="showSearch"/> -->
+                        <LazySearch :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
+                            id="SmallHeaderSearchComponent" />
                     </div>
                 </div>
                 <div id="loginAndHelp" class="">

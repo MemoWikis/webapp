@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
+import { Google } from './Google';
 
 const eMail = ref('')
 const password = ref('')
@@ -22,13 +23,32 @@ const passwordInputType = ref('password')
 const facebookLoginMounted = ref(false)
 const facebookLoginComponent = ref(null);
 
-const facebookLogin = () => {
+function facebookLogin() {
     if (facebookLoginMounted.value)
         facebookLoginComponent.value.login()
     else
         facebookLoginMounted.value = true
 }
 
+// const googleLoginMounted = ref(false)
+// const googleLoginComponent = ref(null);
+
+// function googleLogin() {
+//     if (googleLoginMounted.value)
+//         googleLoginComponent.value.login()
+//     else
+//         googleLoginMounted.value = true
+// }
+onMounted(() => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://apis.google.com/js/platform.js";
+    document.body.appendChild(script);
+    setTimeout(() => {
+        Google.AttachClickHandler('GoogleLogin');
+    },
+        5000)
+})
 const errorMessage = ref('')
 </script>
 
@@ -45,23 +65,27 @@ const errorMessage = ref('')
             <template v-slot:body>
 
                 <div class="form-group omb_login row">
-                    <div class="col-sm-12 omb_socialButtons">
-                        <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin">
-                                <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
-                                    alt="socialMediaBtnContainer" class="socialMediaLogo">
-                                <div class="socialMediaLabel">weiter mit Google</div>
-                            </a>
+                    <LazyClientOnly>
+                        <div class="col-sm-12 omb_socialButtons">
+                            <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
+                                <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin">
+                                    <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
+                                        alt="socialMediaBtnContainer" class="socialMediaLogo">
+                                    <div class="socialMediaLabel">weiter mit Google</div>
+                                </a>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 socialMediaBtnContainer" @click="facebookLogin()">
+                                <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
+                                    @click="facebookLogin()">
+                                    <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
+                                        class="socialMediaLogo">
+                                    <div class="socialMediaLabel">weiter mit Facebook</div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
-                                @click="facebookLogin()">
-                                <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
-                                    class="socialMediaLogo">
-                                <div class="socialMediaLabel">weiter mit Facebook</div>
-                            </a>
-                        </div>
-                    </div>
+
+                    </LazyClientOnly>
+
                 </div>
 
                 <p class="consentInfoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
@@ -104,10 +128,10 @@ const errorMessage = ref('')
                                 <input name="password" placeholder="" :type="passwordInputType" width="100%"
                                     class="loginInputs" v-model="password" @keydown.enter="login()"
                                     @click="errorMessage = ''" />
-                                <i class="fas fa-eye eyeIcon" v-if="passwordInputType == 'password'"
-                                    @click="passwordInputType = 'text'"></i>
-                                <i v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'"
-                                    class="fas fa-eye-slash eyeIcon"></i>
+                                <font-awesome-icon icon="fa-solid fa-eye" v-if="passwordInputType == 'password'"
+                                    @click="passwordInputType = 'text'" />
+                                <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="passwordInputType == 'text'"
+                                    @click="passwordInputType = 'password'" />
                             </div>
                         </div>
                     </form>
@@ -136,7 +160,11 @@ const errorMessage = ref('')
             </template>
         </LazyModal>
     </div>
-    <LazyUserFacebookLogin v-if="facebookLoginMounted" ref="facebookLoginComponent" />
+    <LazyClientOnly>
+        <LazyUserFacebookLogin v-if="facebookLoginMounted" ref="facebookLoginComponent" />
+
+    </LazyClientOnly>
+    <!-- <LazyUserGoogleLogin v-if="googleLoginMounted" ref="googleLoginComponent" /> -->
 
 
 

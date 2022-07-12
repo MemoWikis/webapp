@@ -3,9 +3,11 @@ import { Site } from '../utils/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
+import { useUserStore } from '../user/userStore'
 
 const spinnerStore = useSpinnerStore()
 const alertStore = useAlertStore()
+const userStore = useUserStore()
 
 export class FacebookMemuchoUser {
 
@@ -41,8 +43,10 @@ export class FacebookMemuchoUser {
         if (!!result) {
             spinnerStore.hideSpinner();
 
-            if (result.Success)
+            if (result.Success){
+                userStore.isLoggedIn = true
                 Site.loadValidPage();
+            }
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                 if (result.EmailAlreadyInUse) {
@@ -70,8 +74,10 @@ export class FacebookMemuchoUser {
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        if (!!result && result.Success)                    
+        if (!!result && result.Success){
+            userStore.isLoggedIn = true
             Site.loadValidPage();
+        }
 
     }
 
@@ -133,6 +139,7 @@ export class FacebookMemuchoUser {
             } else {
                 onLogout();
             }
+            userStore.isLoggedIn = false
         });
     }
 }

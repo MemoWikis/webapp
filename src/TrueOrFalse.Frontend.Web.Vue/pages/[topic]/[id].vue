@@ -17,22 +17,11 @@ const { data: topic } = await useFetch<Topic>(`/api/Topic/GetTopic/${categoryId}
   headers: useRequestHeaders(['cookie'])
 }
 );
-console.log(topic)
 useState('topic', () => topic.value)
 topicStore.setTopic(topic.value)
 
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
-
-const { data: result } = await useFetch<string>(`/api/Login/GetLoginState/`, {
-  credentials: 'include',
-  headers: useRequestHeaders(['cookie']),
-  mode: 'no-cors'
-}
-);
-
-var val = result.value == 'True'
-useState<boolean>('isLoggedIn', () => val)
 </script>
 
 <template>
