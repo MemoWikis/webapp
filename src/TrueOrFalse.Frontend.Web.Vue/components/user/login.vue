@@ -30,25 +30,6 @@ function facebookLogin() {
         facebookLoginMounted.value = true
 }
 
-// const googleLoginMounted = ref(false)
-// const googleLoginComponent = ref(null);
-
-// function googleLogin() {
-//     if (googleLoginMounted.value)
-//         googleLoginComponent.value.login()
-//     else
-//         googleLoginMounted.value = true
-// }
-onMounted(() => {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://apis.google.com/js/platform.js";
-    document.body.appendChild(script);
-    setTimeout(() => {
-        Google.AttachClickHandler('GoogleLogin');
-    },
-        5000)
-})
 const errorMessage = ref('')
 </script>
 
@@ -162,9 +143,8 @@ const errorMessage = ref('')
     </div>
     <LazyClientOnly>
         <LazyUserFacebookLogin v-if="facebookLoginMounted" ref="facebookLoginComponent" />
-
+        <LazyUserGoogleLogin />
     </LazyClientOnly>
-    <!-- <LazyUserGoogleLogin v-if="googleLoginMounted" ref="googleLoginComponent" /> -->
 
 
 

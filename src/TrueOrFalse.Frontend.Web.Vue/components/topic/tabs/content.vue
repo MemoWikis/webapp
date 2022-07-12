@@ -5,8 +5,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <div>
-      {{props.categoryId}}
-        <!-- {{props.category.text}} -->
-    </div>
+  <div>
+    {{ props.categoryId }}
+    <TopicContentEditor />
+  </div>
 </template>

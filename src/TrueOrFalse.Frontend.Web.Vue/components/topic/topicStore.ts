@@ -4,6 +4,7 @@ export class Topic {
   Id: number
   Name: string
   ImgUrl: string
+  Content: string
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -13,7 +14,8 @@ export const useTopicStore = defineStore('topicStore', {
       name: '',
       imgUrl:'',
       questionCount: 0,
-      authorIds: []
+      authorIds: [],
+      content: ''
       }
   },
   actions: {
@@ -21,6 +23,7 @@ export const useTopicStore = defineStore('topicStore', {
       this.id = topic.Id
       this.name = topic.Name
       this.imgUrl = topic.ImgUrl
+      this.content = topic.Content
     },
   },
   getters: {

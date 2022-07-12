@@ -16,6 +16,7 @@ public class TopicController : BaseController
             Id = id,
             Name = category.Name,
             ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
+            Content = category.Content,
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -36,4 +37,5 @@ public class TopicModel
     public int Id { get; set; }
     public string Name { get; set; }
     public string ImgUrl { get; set; }
+    public string Content { get; set; }
 }

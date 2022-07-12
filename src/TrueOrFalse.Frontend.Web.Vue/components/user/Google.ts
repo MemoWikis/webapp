@@ -1,5 +1,6 @@
 ﻿import { Site } from '../utils/site';
 import { GoogleMemuchoUser } from './GoogleMemuchoUser'
+import { nextTick } from 'vue'
 
 export class Google {
 
@@ -9,10 +10,13 @@ export class Google {
         gapi.load('auth2', () => {
             Google._auth2 = this.InitApi();
         });
+        
+
     }
 
-    static AttachClickHandler(selector : string) {
-
+    static async AttachClickHandler(selector : string) {
+        
+        await nextTick()
         var element = document.getElementById(selector);
 
         if (element == null)
