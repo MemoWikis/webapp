@@ -4,21 +4,23 @@ import { defineNuxtConfig } from "nuxt";
 export default defineNuxtConfig(
   {
     vite: {
-    server: {
-      proxy: {
-        "/api": {
-          target: "http://localhost:5211/apiVue",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
+      server: {
+        proxy: {
+          "/api": {
+            target: "http://localhost:5211/apiVue",
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ""),
+          },
         },
       },
     },
-  },
     buildModules: [
         '@pinia/nuxt',
+        'floating-vue/nuxt',
       ],
     typescript: {
         shim: false,
+        typeCheck: true
     },
     runtimeConfig: {
         public: {
@@ -32,10 +34,11 @@ export default defineNuxtConfig(
       },
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
-        '~/assets/bootstrap/bootstrap.css',
+        '~/assets/bootstrap/bootstrap.less',
         '~/assets/bootstrap/memucho_overrides.css',
-        '~/assets/bootstrap/variables_custom.css',
-        '~/assets/site.css'
+        '~/assets/bootstrap/variables_custom.less',
+        '~/assets/site.less',
+        '~/assets/top-header.less'   
       ]
   }
 );

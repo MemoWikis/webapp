@@ -1,9 +1,6 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import {useTopicStore} from '../topicStore'
-const tabsStore = useTopicStore()
-
-const currentTitle = ref(tabsStore.getTopicName)
+const topicStore = useTopicStore()
 </script>
 
 <template>
@@ -12,7 +9,7 @@ const currentTitle = ref(tabsStore.getTopicName)
             <resize-textarea
                 placeholder="Type something here..."
                 ref="topicTitle"
-                :modelValue="currentTitle"
+                :modelValue="topicStore.name"
                 :minHeight="30"
                 >
             </resize-textarea>

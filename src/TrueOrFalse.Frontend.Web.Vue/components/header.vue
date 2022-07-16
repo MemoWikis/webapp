@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-// import { useUserStore } from './user/userStore'
+const isLoggedIn = useState('isLoggedIn')
 
-// const userStore = useUserStore()
 </script>
 
 <template>
   <div>
-    <!-- <NavBarSubNavBar v-if="!userStore.isLoggedIn"/> -->
-    <NavBar/>
+    <LazyNavigationGuest v-if="!isLoggedIn" />
+    <NavigationMain />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

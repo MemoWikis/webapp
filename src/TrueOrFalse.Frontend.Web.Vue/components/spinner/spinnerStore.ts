@@ -1,17 +1,17 @@
 import { defineStore } from 'pinia'
 
-export const useUtilsStore = defineStore('utilsStore', {
+export const useSpinnerStore = defineStore('spinnerStore', {
   state: () => {
     return {
-      showSpinner: false,
+      active: false,
     }
   },
   actions: {
     showSpinner() {
-      this.showSpinner = true;
+      this.active = true;
     },
     hideSpinner() {
-      this.hideSpinner = false;
+      this.active = false;
     },
   },
 })

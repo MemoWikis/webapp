@@ -1,8 +1,13 @@
 ﻿import { UserCreateResult } from './UserCreateResult'
-import { Utils } from '../utils/utils'
 import { Site } from '../utils/site'
-import { Alerts } from '../alert/alertCollection'
-import { messages } from '../alert/messages'
+import { useSpinnerStore } from '../spinner/spinnerStore'
+import { useAlertStore, AlertType, messages } from '../alert/alertStore'
+import { Facebook, FacebookUserFields } from './Facebook'
+import { useUserStore } from '../user/userStore'
+
+const spinnerStore = useSpinnerStore()
+const alertStore = useAlertStore()
+const userStore = useUserStore()
 
 export class FacebookMemuchoUser {
 
@@ -23,7 +28,7 @@ export class FacebookMemuchoUser {
     }
 
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
-        Utils.showSpinner();
+        spinnerStore.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/api/FacebookUsers/UserExists', { 
             method: 'POST', 
@@ -31,21 +36,23 @@ export class FacebookMemuchoUser {
             credentials: 'include', 
             cache: 'no-cache'})
             .catch((error) => {
-                Utils.hideSpinner()
-                Rollbar.error("Something went wrong", error.data)
+                spinnerStore.hideSpinner()
+                // Rollbar.error("Something went wrong", error.data)
             })
 
         if (!!result) {
-            Utils.hideSpinner();
+            spinnerStore.hideSpinner();
 
-            if (result.Success)
+            if (result.Success){
+                userStore.isLoggedIn = true
                 Site.loadValidPage();
+            }
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                 if (result.EmailAlreadyInUse) {
-                    Alerts.showError({
+                    alertStore.openAlert(AlertType.Error, {
                         text: messages.error.user.emailInUse
-                    });
+                    })
                 }
             }
         }
@@ -55,7 +62,7 @@ export class FacebookMemuchoUser {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
-        Utils.showSpinner();
+        spinnerStore.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/api/FacebookUsers/Login', { 
             method: 'POST', 
@@ -63,22 +70,24 @@ export class FacebookMemuchoUser {
             credentials: 'include', 
             cache: 'no-cache' })
             .catch((error) => {
-                Utils.hideSpinner()
-                Rollbar.error("Something went wrong", error.data)
+                spinnerStore.hideSpinner()
+                // Rollbar.error("Something went wrong", error.data)
             })
 
-        if (!!result && result.Success)                    
+        if (!!result && result.Success){
+            userStore.isLoggedIn = true
             Site.loadValidPage();
+        }
 
     }
 
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus(response => {
-            this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
+            this._LoginOrRegister(response, stayOnPage, disallowRegistration);
         });
     }
 
-    private static LoginOrRegister_(
+    private static _LoginOrRegister(
         response: FB.LoginStatusResponse,
         stayOnPage = false,
         disallowRegistration = false) {
@@ -130,6 +139,7 @@ export class FacebookMemuchoUser {
             } else {
                 onLogout();
             }
+            userStore.isLoggedIn = false
         });
     }
 }

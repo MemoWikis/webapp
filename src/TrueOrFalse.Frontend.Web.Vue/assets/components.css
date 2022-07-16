@@ -1,0 +1,515 @@
+﻿/* LESS INCLUDES
+----------------------------------------------------------*/
+@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}/* CATEGORIES
+----------------------------------------------------------*/
+.JS-CatInputContainer {
+  width: 250px;
+}
+@media (max-width: 479px) {
+  .JS-CatInputContainer {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media (max-width: 479px) {
+  .JS-CatInputContainer {
+    padding-right: 0;
+  }
+}
+#JS-ReferenceSearch .JS-CatInputContainer {
+  padding-right: 10px;
+}
+#JS-ReferenceSearch {
+  padding-bottom: 0;
+}
+#JS-ReferenceSearch .ReferenceSearchControl {
+  width: 100%;
+}
+@media (min-width: 480px) {
+  #JS-ReferenceSearch .ReferenceSearchControl {
+    min-width: 250px;
+    width: 50%;
+  }
+}
+ul.ui-autocomplete {
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+}
+ul.ui-autocomplete li.ui-menu-item {
+  float: left;
+  width: 100%;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0;
+}
+ul.ui-autocomplete li.ui-menu-item.ui-state-focus,
+ul.ui-autocomplete li.ui-menu-item.ui-state-hover {
+  background: #f5f8ff !important;
+}
+ul.ui-autocomplete .CatListItem,
+ul.ui-autocomplete .SetListItem,
+ul.ui-autocomplete .SearchResultItem {
+  border: 1px transparent solid;
+  padding: 5px !important;
+  margin: 2px;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  display: block;
+  overflow: hidden;
+  z-index: 100;
+}
+ul.ui-autocomplete .CatListItem img,
+ul.ui-autocomplete .SetListItem img,
+ul.ui-autocomplete .SearchResultItem img {
+  float: left;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  margin-right: 7px;
+}
+ul.ui-autocomplete .CatListItem .CatDescription,
+ul.ui-autocomplete .SetListItem .CatDescription,
+ul.ui-autocomplete .SearchResultItem .CatDescription {
+  margin-left: 55px;
+}
+ul.ui-autocomplete .CatListItem .SetDescription,
+ul.ui-autocomplete .SetListItem .SetDescription,
+ul.ui-autocomplete .SearchResultItem .SetDescription {
+  margin-left: 55px;
+}
+ul.ui-autocomplete .CatListItem span,
+ul.ui-autocomplete .SetListItem span,
+ul.ui-autocomplete .SearchResultItem span {
+  display: block;
+}
+ul.ui-autocomplete .CatListItem span.NumberQuestions,
+ul.ui-autocomplete .SetListItem span.NumberQuestions,
+ul.ui-autocomplete .SearchResultItem span.NumberQuestions {
+  font-style: italic;
+  font-size: 80%;
+}
+ul.ui-autocomplete .CatListItem a.TextLink,
+ul.ui-autocomplete .SetListItem a.TextLink,
+ul.ui-autocomplete .SearchResultItem a.TextLink {
+  color: #2C5FB2;
+  padding: 0;
+  display: inline;
+}
+ul.ui-autocomplete .CatListItem a.TextLink:hover,
+ul.ui-autocomplete .SetListItem a.TextLink:hover,
+ul.ui-autocomplete .SearchResultItem a.TextLink:hover {
+  color: #2C5FB2;
+}
+ul.ui-autocomplete a.CatListItem:hover,
+ul.ui-autocomplete a.CatListItem:focus {
+  background-color: #EFEFEF;
+}
+ul.ui-autocomplete .Reference.DailyIssue .PublicationDate {
+  display: none;
+}
+ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
+  display: inline;
+}
+ul.ui-autocomplete .Reference .Icon {
+  float: left;
+  margin-right: 5px;
+}
+ul.ui-autocomplete .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+  content: ",\0000a0";
+}
+ul.ui-autocomplete .Reference div.Author:after {
+  content: ".\0000a0";
+}
+ul.ui-autocomplete .Reference .Url,
+ul.ui-autocomplete .Reference .WikiUrl {
+  display: inline-block !important;
+  max-width: 100%;
+  overflow-x: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+ul.ui-autocomplete .CatListItem .Reference span {
+  display: inline;
+}
+ul.ui-autocomplete .Reference {
+  max-width: 300px;
+}
+ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
+  font-size: 80%;
+}
+ul.ui-autocomplete .Reference .Url {
+  display: inline-block !important;
+}
+ul.ui-autocomplete .SearchResultItem {
+  padding: 3px !important;
+}
+ul.ui-autocomplete .SearchResultItem img {
+  height: 40px;
+  width: 40px;
+}
+ul.ui-autocomplete .SearchResultItem a {
+  width: 100%;
+  display: block;
+  height: 40px;
+}
+ul.ui-autocomplete div.SearchResultHeader {
+  cursor: default;
+  background-color: #003264;
+  color: white;
+  padding: 3px !important;
+  padding-left: 8px !important;
+  font-weight: bold;
+}
+ul.ui-autocomplete div.SearchResultHeader div.ResultCount {
+  float: right;
+  font-weight: normal;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-right: 6px;
+}
+ul.ui-autocomplete div.SearchResultHeader div.ResultCount a {
+  color: white;
+}
+#JS-References .Reference.DailyIssue .PublicationDate {
+  display: none;
+}
+#JS-References .Reference div:not(.Name):not(.Icon) {
+  display: inline;
+}
+#JS-References .Reference .Icon {
+  float: left;
+  margin-right: 5px;
+}
+#JS-References .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+  content: ",\0000a0";
+}
+#JS-References .Reference div.Author:after {
+  content: ".\0000a0";
+}
+#JS-References .Reference .Url,
+#JS-References .Reference .WikiUrl {
+  display: inline-block !important;
+  max-width: 100%;
+  overflow-x: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+#JS-References .Reference .Icon,
+#JS-References .Reference .Name {
+  font-size: 111.11111111%;
+}
+#JS-References .Reference .Name {
+  font-weight: bold;
+}
+/* MainItemInfo for Categories + Sets
+----------------------------------------------------------*/
+#ItemMainInfo {
+  padding-bottom: 5px;
+}
+#ItemMainInfo header {
+  margin-bottom: 10px;
+}
+#ItemMainInfo.Set header {
+  border-bottom: 5px solid #FFD700;
+}
+#ItemMainInfo.Category header {
+  border-bottom: 5px solid #45aece;
+}
+#ItemMainInfo .ImageContainer {
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  #ItemMainInfo .ImageContainer img {
+    max-height: 300px;
+    width: auto;
+  }
+}
+#ItemMainInfo .BottomBar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+/* MESSAGES + COMMENTS
+----------------------------------------------------------*/
+.ReasonList:before,
+.ReasonList:after {
+  content: " ";
+  display: table;
+}
+.ReasonList:after {
+  clear: both;
+}
+.ReasonList:before,
+.ReasonList:after {
+  content: " ";
+  display: table;
+}
+.ReasonList:after {
+  clear: both;
+}
+/* ItemLists/Rows (Categories, Questions, Sets etc.)
+----------------------------------------------------------*/
+.question-row:hover,
+.category-row:hover,
+.set-row:hover,
+.user-row:hover,
+.date-row:hover,
+.game-row:hover {
+  background-color: #f3f5f8;
+}
+div.selected-row {
+  background-color: #E7ECF6;
+}
+div.selected-row:hover {
+  background-color: #d6e0f4;
+}
+.modal.fade {
+  -webkit-transition: none;
+  transition: none;
+}
+.tqsRow:hover {
+  background-color: #f3f5f8;
+  cursor: pointer;
+}
+.column {
+  display: inline-block;
+}
+.rowBase {
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  border: 1px solid #DDDDDD;
+  margin-bottom: 10px;
+}
+@media (min-width: 768px) {
+  .rowBase.question-row,
+  .rowBase.category-row,
+  .rowBase.set-row,
+  .rowBase.user-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+            flex-direction: row;
+  }
+}
+.column-Image {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  min-width: 72px;
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .column-Image {
+    position: absolute !important;
+    z-index: 1;
+  }
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  .column-Image {
+    padding-right: 0;
+  }
+}
+@media (min-width: 768px) {
+  .column-Image {
+    width: 125px;
+  }
+}
+.column-Image .ImageContainer {
+  position: relative;
+}
+.column-Image img {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  max-width: 100%;
+}
+.column-Image img[src*="img.youtube"] {
+  background-color: black;
+  padding-top: 12.5%;
+  padding-bottom: 12.5%;
+}
+.column-MainContent {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+  float: left;
+  width: 83.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+@media (max-width: 767px) {
+  .column-MainContent {
+    padding-right: 10px;
+  }
+}
+@media (max-width: 479px) {
+  .column-MainContent {
+    width: 100%;
+    padding-left: 74px;
+  }
+}
+@media (min-width: 768px) {
+  .column-MainContent {
+    width: 442px;
+  }
+}
+@media (min-width: 992px) {
+  .column-MainContent {
+    width: 422px;
+    width: 662px;
+  }
+}
+@media (min-width: 1200px) {
+  .column-MainContent {
+    width: 630px;
+  }
+}
+.column-MainContent .Pin {
+  height: 25px;
+  margin-top: -1px;
+  padding-left: 10px;
+  float: right;
+}
+.column-MainContent .TitleText {
+  font-size: large;
+}
+@media (max-width: 767px) {
+  .MainContentUpper {
+    min-height: 60px;
+  }
+}
+.column-Additional {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 15px;
+  font-size: 90%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+@media (max-width: 479px) {
+  .column-Additional {
+    padding-left: 76.15625px;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  .column-Additional {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .column-Additional {
+    -ms-flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+            flex-direction: row;
+  }
+}
+@media (min-width: 768px) {
+  .column-Additional {
+    width: 155px;
+  }
+}
+@media (min-width: 768px) {
+  .StatsGroup:first-child {
+    margin-top: 7px;
+  }
+}
+@media (max-width: 767px) {
+  .StatsGroup {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+  .StatsRow {
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 20px;
+  }
+  .StatsRow:first-child {
+    margin-left: 0;
+  }
+  .StatsRow:last-child {
+    margin-right: 0;
+  }
+}
+.LinkArea {
+  position: relative;
+}
+.LinkArea a.Link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

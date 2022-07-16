@@ -4,14 +4,13 @@
 
 
 <template>
-    <div id="NavBar" class="container">
+    <div id="Navigation" class="container">
 
     </div>
 </template>
 
-<style lang="css" scoped>
-
-#NavBar {
+<style lang="less" scoped>
+#Navigation {
     width: 100%;
     height: 45px;
     font-size: 14px;
@@ -23,5 +22,4 @@
     white-space: nowrap;
     top: 0;
 }
-
 </style>

@@ -1,17 +1,15 @@
-<!-- <script lang="ts" setup>
-  import {useUtilsStore} from '~~/components/utils/utilsStore'
-  const utilsStore = useUtilsStore()
-</script> -->
+<script lang="ts" setup>
+const isLoggedIn = useState('isLoggedIn')
+</script>
+
 
 <template>
   <div>
-    <Header/>
-    <!-- <div class="spinner" v-show="utilsStore.showSpinner">
-      <div class="double-bounce1"></div>
-      <div class="double-bounce2"></div>
-    </div> -->
-    <UserLogin />
+    <Header />
     <NuxtPage />
-    <Footer/>
+    <LazyUserLogin v-if="!isLoggedIn" />
+    <LazySpinner />
+    <LazyAlert />
+    <Footer />
   </div>
 </template>

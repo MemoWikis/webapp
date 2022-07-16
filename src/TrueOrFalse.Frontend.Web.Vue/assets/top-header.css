@@ -1,0 +1,823 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}/*  [Local variables:]
+----------------------------------------------------------*/
+/* MASTER HEADER  
+----------------------------------------------------------*/
+#MasterHeader {
+  position: sticky;
+  margin: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: #003264;
+  min-height: 60px;
+}
+#MasterHeader .HeaderMainRow {
+  min-height: 60px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp {
+  color: #E7ECF6;
+  float: right;
+  height: 100%;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+  margin-right: 15px;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
+  display: inline-block;
+  font-size: 14px;
+}
+@media (max-width: 991.5px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .TextSpan,
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item span:not(.level-display):not(#NextLevelProgressSpanPercentageDone) {
+    display: none;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .KnowledgeLink {
+  color: #FFD700 !important;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv {
+  width: 43px;
+  -webkit-transition: width 0.3s;
+  display: none;
+  margin-top: 2px;
+}
+@media (max-width: 991.5px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv {
+    display: table;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox {
+  border: none;
+  padding: 0px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .btn-default {
+  display: none;
+  background-color: transparent;
+  border: none;
+}
+@media (max-width: 991.5px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item .btn-default {
+    display: block;
+  }
+}
+@media (max-width: 992px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item {
+    margin-right: 0px;
+  }
+}
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp .header-item:not(#MenuButtonContainer) {
+    margin-top: -5px;
+  }
+}
+@media (max-width: 992px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #MenuButtonContainer {
+    padding-left: 15px;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .dropdown {
+  height: 100%;
+  line-height: 34px;
+}
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .dropdown {
+    padding-top: 5px;
+  }
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .dropdown .userName {
+  max-width: 145px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#MasterHeader .HeaderMainRow .col-LoginAndHelp #loginAndHelp #Login .badge-header {
+  background-color: #FF001F;
+  width: 19px;
+  margin-top: 3px;
+  left: 11px;
+  top: -11px;
+  border: 1.5px solid #003264;
+  position: relative;
+  margin-right: 0px;
+}
+@media (max-width: 580px) {
+  #MasterHeader .HeaderMainRow .fa-dot-circle-o {
+    margin-top: 4px;
+  }
+}
+#MasterHeader .col-Logo {
+  height: 100%;
+}
+/*Stage Overlay & Banner*/
+.stageOverlayContainer {
+  background-color: white;
+  z-index: 10000;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+.stageOverlayText {
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+  padding: 0 10%;
+}
+.stageOverlayCloseButton {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  cursor: pointer;
+}
+.closedContainer {
+  display: none !important;
+}
+.stageBanner {
+  z-index: 10000;
+  position: fixed;
+  top: 11px;
+  right: -57px;
+  width: 127px;
+  text-align: center;
+  font-size: 11px;
+  padding: 2px;
+  padding-left: 40px;
+  transform: rotate(90deg);
+  color: white;
+}
+/* BreadCrumb and Masterheader*/
+/** Default button **/
+.btn-breadcrumb {
+  /** Breadcrumb **/
+  /** The Spacing **/
+}
+.btn-breadcrumb a {
+  text-decoration: underline;
+}
+.btn-breadcrumb a.current {
+  text-decoration: none;
+}
+.btn-breadcrumb .btn:not(:last-child):after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  left: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn:not(:last-child):before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid #adadad;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn {
+  padding: 6px 12px 6px 24px;
+}
+.btn-breadcrumb .btn:first-child {
+  padding: 6px 6px 6px 10px;
+}
+.btn-breadcrumb .btn:last-child {
+  padding: 6px 18px 6px 24px;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):after {
+  border-left: 10px solid #fff;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):before {
+  border-left: 10px solid #ccc;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
+  border-left: 10px solid #ebebeb;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
+  border-left: 10px solid #adadad;
+}
+#Breadcrumb {
+  width: 100%;
+  height: 45px;
+  font-size: 14px;
+  background-color: white;
+  line-height: 21px;
+  display: block;
+  font-family: sans;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  position: absolute;
+  z-index: 99;
+  white-space: nowrap;
+  color: #767676;
+}
+#Breadcrumb #BreadCrumbContainer {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  height: 100%;
+}
+#Breadcrumb #BreadCrumbContainer .fa-home {
+  font-size: 15px;
+}
+#Breadcrumb #BreadCrumbContainer #BreadCrumbTrail {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+#Breadcrumb #BreadCrumbContainer #BreadCrumbTrail #Path {
+  position: absolute;
+  z-index: 1;
+  list-style-type: none;
+  background-color: white;
+  display: none;
+  padding-right: 15px;
+  padding-left: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+}
+#Breadcrumb div {
+  font-family: 'Open Sans';
+}
+#Breadcrumb img {
+  margin-top: -8px;
+}
+#Breadcrumb i.fa-chevron-right {
+  font-size: 10px;
+  width: auto;
+  margin-left: 10px;
+  color: #767676;
+  margin-right: 0;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
+}
+#Breadcrumb .category-icon:hover,
+#Breadcrumb .category-icon:focus {
+  text-decoration: none;
+}
+#Breadcrumb .fa-dot-circle-o {
+  color: #AED71B;
+}
+@media (min-width: 768px) {
+  #Breadcrumb .house-align {
+    padding-left: 0 !important;
+  }
+}
+#Breadcrumb a {
+  color: #767676;
+  text-decoration: none;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: 600;
+  padding-left: 10px;
+  transition: all 0.1s ease-in-out;
+}
+#Breadcrumb a.current {
+  cursor: default;
+}
+#Breadcrumb a:hover {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer {
+  margin-left: auto;
+  justify-content: space-between;
+  display: none;
+  height: 100%;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage a.TextLinkWithIcon {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0px;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage a.TextLinkWithIcon .userImage {
+  margin: auto;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in {
+  color: #767676;
+  font-size: 20px;
+  transition: color 0.3s;
+  padding: 0 6px;
+}
+#Breadcrumb #StickyHeaderContainer #BreadcrumbUserDropdownImage .fa-sign-in:hover {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 100%;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .badge-counter {
+  position: absolute;
+  border: solid 2px white;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #FF001F;
+  top: 6px;
+  margin-left: 20px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .userImage {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  min-width: 32px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .arrow-down {
+  padding-left: 6px;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer .breadCrumb-userName {
+  color: #767676;
+  padding-left: 4px;
+  max-width: 64px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer:hover {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer #dLabelBreadCrumb #dLabelContainer:hover .breadCrumb-userName {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn {
+  height: 100%;
+  margin-right: 31px;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn .register-btn {
+  height: 100% !important;
+  color: white;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container #StickyRegisterBtn:hover .register-btn {
+  color: #003264;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button {
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn .fa-sign-in {
+  padding: 0 6px;
+  font-size: 20px;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.login-btn:hover {
+  color: #AFD534;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.register-btn {
+  background: #AFD534;
+  color: #003264;
+  height: 100%;
+}
+#Breadcrumb #StickyHeaderContainer .breadcrumb-login-register-container .memo-button.register-btn:hover {
+  filter: brightness(0.85);
+}
+#Breadcrumb #StickyHeaderContainer #UserProgressItemContainer {
+  cursor: default;
+}
+#Breadcrumb #StickyHeaderContainer #UserProgressContainer {
+  white-space: unset;
+  padding: 0px;
+  display: block;
+}
+#Breadcrumb #StickyHeaderContainer #UserProgressContainer #activity-popover-container {
+  padding: 0px 20px 0px 20px;
+}
+#Breadcrumb #StickyHeaderContainer #StickySearchButton {
+  border: none;
+}
+#Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: width 0.3s;
+}
+#Breadcrumb #EditCategoryBreadcrumbChip {
+  margin: 0 20px;
+  font-weight: 600;
+  border: 2px solid #AFD534;
+  border-radius: 36px;
+  height: 30px;
+  padding: 0 20px;
+  margin-top: -4px;
+  line-height: 25px;
+  color: #AFD534;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  visibility: hidden;
+}
+#Breadcrumb #EditCategoryBreadcrumbChip.show {
+  opacity: 1;
+  visibility: visible;
+}
+.ShowBreadcrumb {
+  display: block !important;
+}
+#loginAndHelp .SearchBoxDivMaxWidth,
+#StickyHeaderContainer .SearchBoxDivMaxWidth {
+  /*@media(max-width:420px) {
+            width: 110px !important;
+        }
+
+        @media(max-width:360px) {
+            width: 96px !important;
+        }*/
+  width: 259px !important;
+}
+@media (max-width: 520px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 220px !important;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 492px) {
+  #loginAndHelp .SearchBoxDivMaxWidth,
+  #StickyHeaderContainer .SearchBoxDivMaxWidth {
+    width: 170px !important;
+  }
+}
+#loginAndHelp .badge,
+#StickyHeaderContainer .badge {
+  height: 19px;
+  padding: 0;
+  line-height: 14px;
+  font-size: 10px !important;
+  width: 27px;
+  display: flex !important;
+  flex-direction: column;
+  text-align: center;
+  background-color: transparent;
+}
+#loginAndHelp span,
+#StickyHeaderContainer span {
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#loginAndHelp a.TextLinkWithIcon,
+#StickyHeaderContainer a.TextLinkWithIcon {
+  color: #E7ECF6;
+}
+#loginAndHelp a.TextLinkWithIcon:hover,
+#StickyHeaderContainer a.TextLinkWithIcon:hover,
+#loginAndHelp a.TextLinkWithIcon:active,
+#StickyHeaderContainer a.TextLinkWithIcon:active,
+#loginAndHelp a.TextLinkWithIcon:focus,
+#StickyHeaderContainer a.TextLinkWithIcon:focus {
+  color: #AFD534;
+}
+#loginAndHelp a.TextLinkWithIcon:hover *,
+#StickyHeaderContainer a.TextLinkWithIcon:hover *,
+#loginAndHelp a.TextLinkWithIcon:active *,
+#StickyHeaderContainer a.TextLinkWithIcon:active *,
+#loginAndHelp a.TextLinkWithIcon:focus *,
+#StickyHeaderContainer a.TextLinkWithIcon:focus * {
+  text-decoration: none;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn:hover,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn:hover {
+  color: #AFD534;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .badge-counter,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .badge-counter {
+  color: white !important;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 10px;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container img,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container img {
+  height: 46px;
+  width: 46px;
+  border-radius: 50%;
+  min-width: 46px;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .main-user-icon-container .badge-counter,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .main-user-icon-container .badge-counter {
+  position: absolute;
+  border-radius: 10px;
+  border: solid 2px #003264;
+  background: #FF001F;
+  font-size: 10px;
+  padding: 0 4px;
+  height: 20px;
+  min-width: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .user-name,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .user-name {
+  font-family: Open Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-right: 6px;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  overflow: hidden;
+}
+#loginAndHelp a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down,
+#StickyHeaderContainer a.TextLinkWithIcon #UserBtn .arrow-down i.fa-chevron-down {
+  font-size: 14px;
+}
+@media (max-width: 580px) {
+  #loginAndHelp .fa-bars,
+  #StickyHeaderContainer .fa-bars {
+    margin-top: -3px;
+  }
+}
+#loginAndHelp .dropdown-menu,
+#StickyHeaderContainer .dropdown-menu {
+  text-align: left;
+  border-radius: 0px;
+  padding-top: 0px;
+  top: 44px;
+}
+#loginAndHelp .dropdown-menu span,
+#StickyHeaderContainer .dropdown-menu span {
+  font-size: 12px;
+  line-height: normal;
+  font-weight: normal;
+}
+#loginAndHelp .dropdown-menu a,
+#StickyHeaderContainer .dropdown-menu a {
+  font-weight: normal;
+  color: black;
+  font-size: 16px;
+  padding: 15px 0 15px 23px;
+}
+#loginAndHelp .dropdown-menu a.active,
+#StickyHeaderContainer .dropdown-menu a.active {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+#loginAndHelp .dropdown-menu i,
+#StickyHeaderContainer .dropdown-menu i {
+  margin: 0px;
+}
+@media (max-width: 767px) {
+  #loginAndHelp {
+    padding-left: 0;
+  }
+}
+#loginAndHelp .dropdown.open .arrow-down i.fa-chevron-down {
+  transform: rotate(180deg);
+}
+#loginAndHelp .login-register-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#loginAndHelp .login-register-container .memo-button {
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+}
+#loginAndHelp .login-register-container .memo-button.login-btn .fa-sign-in {
+  padding: 0 6px;
+  font-size: 20px;
+}
+#loginAndHelp .login-register-container .memo-button.login-btn:hover {
+  color: #AFD534;
+}
+#loginAndHelp .login-register-container .memo-button.register-btn {
+  background: #AFD534;
+  color: #003264;
+  margin-right: 11px;
+}
+@media (max-width: 530px) {
+  #loginAndHelp .login-register-container .memo-button.register-btn {
+    display: none !important;
+  }
+}
+#loginAndHelp .login-register-container .memo-button.register-btn:hover {
+  filter: brightness(0.85);
+}
+/*Breadcrumb*/
+#Breadcrumb {
+  z-index: 99;
+  color: #767676;
+}
+#Breadcrumb #BreadCrumbTrail,
+#Breadcrumb .breadcrumb-item {
+  height: 100%;
+}
+#Breadcrumb .messages {
+  padding-right: 5px;
+}
+#Breadcrumb .breadcrumb-item span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+#Breadcrumb #PathMobileBreadCrumb {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+#Breadcrumb #PathMobileBreadCrumb:hover {
+  color: #003264;
+}
+#Breadcrumb #Path {
+  top: 24px;
+}
+#Breadcrumb .last-in-breadcrumb {
+  color: #555555;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage .arrow-down i.fa-chevron-down {
+  color: #767676;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage:hover i.fa-chevron-down {
+  color: #003264;
+}
+#Breadcrumb #BreadcrumbUserDropdownImage.open .arrow-down i.fa-chevron-down {
+  transform: rotate(180deg);
+}
+#HeaderBodyContainer {
+  padding-right: 0;
+}
+#HeaderBodyContainer #loginAndHelp {
+  padding-right: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+#BreadCrumbContainer.search-is-open #BreadCrumbTrail,
+#BreadCrumbContainer.search-is-open #FirstChevron {
+  display: none !important;
+}
+#BreadCrumbContainer.search-is-open #StickyHeaderContainer {
+  width: 100%;
+  margin-left: 30px;
+  justify-self: flex-end;
+}
+#BreadCrumbContainer.search-is-open #StickyHeaderContainer input {
+  max-width: 400px;
+}
+#BreadCrumbContainer #BreadcrumbDivider {
+  width: 1px;
+  background-color: #DDDDDD;
+  height: 29px;
+  min-width: 1px;
+  margin-left: 10px;
+}
+#BreadCrumbTrailContainer {
+  display: contents;
+}
+#activity-popover-title {
+  font-size: 16px;
+  color: black;
+  height: 48px;
+  padding: 23px 0 7px 23px;
+  display: flex;
+  line-height: 26px;
+  cursor: default;
+}
+#activity-popover-content-inner {
+  line-height: normal;
+  color: black;
+  font-size: 12px;
+  text-align: center;
+  white-space: normal;
+  padding-top: 10px;
+  cursor: default;
+}
+#activity-popover-content-inner span {
+  vertical-align: baseline !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+#activity-popover-content-inner .ProgressBarContainer,
+#activity-popover-content-inner .ProgressBarSegment {
+  height: 25px;
+  border: transparent;
+  background-color: transparent;
+  cursor: default;
+}
+#activity-popover-content-inner .ProgressBarContainer {
+  display: table;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-top: 5px;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+  left: 5px;
+  border-radius: 0px 16px 16px 0px;
+}
+#activity-popover-content-inner .ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+#activity-popover-content-inner .ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+  border-radius: 0px 16px 16px 0px;
+  border-right: white 2px solid;
+}
+#activity-popover-content-inner .ProgressBarLeft {
+  background-color: #DDDDDD;
+}
+#activity-popover-content-inner .ProgressInfoText {
+  text-align: center;
+  color: #767676;
+  font-weight: normal !important;
+  cursor: default;
+  line-height: 16px;
+  padding-bottom: 8px;
+}
+#activity-popover-content-inner #NextLevelProgressSpanPercentageDone {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  height: 100% !important;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}

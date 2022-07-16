@@ -1,5 +1,12 @@
 import { defineStore } from 'pinia'
 
+export class Topic {
+  Id: number
+  Name: string
+  ImgUrl: string
+  Content: string
+}
+
 export const useTopicStore = defineStore('topicStore', {
   state: () => {
     return {
@@ -7,14 +14,16 @@ export const useTopicStore = defineStore('topicStore', {
       name: '',
       imgUrl:'',
       questionCount: 0,
-      authorIds: []
+      authorIds: [],
+      content: ''
       }
   },
   actions: {
-    setTopic(topic) {
-      this.id = topic.Id;
-      this.name = topic.Name;
-      this.imgUrl = topic.ImgUrl;
+    setTopic(topic: Topic) {
+      this.id = topic.Id
+      this.name = topic.Name
+      this.imgUrl = topic.ImgUrl
+      this.content = topic.Content
     },
   },
   getters: {

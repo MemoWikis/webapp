@@ -8,6 +8,6 @@ export const useTabsStore = defineStore('tabsStore', {
     }
   },
   getters:{
-    getActiveTab:(state)=> state.activeTab,
+    getActiveTab() { return this.activeTab },
   },
 })

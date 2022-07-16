@@ -1,0 +1,384 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}.columnControlsFull {
+  font-size: 90%;
+}
+.columnControlsFull .radio,
+.columnControlsFull .form-control-static,
+.columnControlsFull .added-cat {
+  font-size: 111.11111111%;
+}
+.columnLabel {
+  position: relative;
+  float: left;
+  width: 25%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .columnLabel {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.columnControlsFull,
+.noControls {
+  position: relative;
+  float: left;
+  width: 75%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .columnControlsFull,
+  .noControls {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.aside .columnControlsFull,
+.aside .noControls {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .aside .columnControlsFull,
+  .aside .noControls {
+    float: left;
+    width: 100%;
+  }
+}
+.columnLabel {
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+.columnLabel .tooltip {
+  -ms-word-break: normal;
+  word-break: normal;
+}
+.columnControlsSmall {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 37.5%;
+}
+@media (max-width: 479px) {
+  .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media (min-width: 480px) {
+  .noLabel {
+    margin-left: 25%;
+  }
+}
+.FormSection h3 {
+  padding-top: 20px;
+  margin-top: 0;
+}
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+textarea,
+textarea.form-control,
+select.form-control {
+  color: #003264;
+}
+optgroup:disabled {
+  color: GrayText;
+}
+label {
+  font-weight: normal;
+  -ms-line-break: normal;
+  -webkit-line-break: normal;
+  line-break: normal;
+}
+.checkbox .CheckboxTitle {
+  display: inline-block;
+  font-size: 111.11111111%;
+  margin-bottom: 4px;
+}
+.dropdownSelect .dropdownTitle {
+  display: inline-block;
+  font-size: 111.11111111%;
+  margin-bottom: 15px;
+}
+.dropdownSelect .additionalInfo {
+  padding-left: 20px;
+}
+.RequiredField {
+  font-weight: bold;
+}
+.RequiredField:after {
+  content: '*';
+}
+.InputYear {
+  width: 80px;
+}
+.InputPrice {
+  width: 65px;
+}
+.InputDayOrMonth,
+.InputVolume,
+.InputIssueNo,
+.InputPageNo {
+  width: 54px;
+}
+.InputIssuePeriod,
+.InputIsxn {
+  width: 240px;
+}
+@media (max-width: 479px) {
+  .InputIssuePeriod,
+  .InputIsxn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.InputRefAddition {
+  max-width: none !important;
+  width: 100%;
+}
+.ControlInline {
+  padding-right: 10px;
+  float: left;
+  margin-bottom: 15px;
+}
+.ControlInline:before,
+.ControlInline:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.ControlInline:after {
+  clear: both;
+}
+.ControlInline.xxs-stack {
+  padding-right: 0;
+}
+.LabelInline {
+  float: left;
+  padding-right: 10px;
+  height: 34px;
+  margin-bottom: 15px !important;
+}
+.ControlGroupInline {
+  float: left;
+}
+.form-group.FormGroupInline {
+  margin-bottom: 0;
+}
+h1.PageHeader,
+.PageHeader > h1 {
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+  h1.PageHeader,
+  .PageHeader > h1 {
+    margin-bottom: 35px;
+  }
+}
+h2.PageHeader,
+.PageHeader > h2 {
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+@media (min-width: 768px) {
+  h2.PageHeader,
+  .PageHeader > h2 {
+    margin-bottom: 30px;
+  }
+}
+h3.PageHeader,
+.PageHeader > h3 {
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+@media (min-width: 768px) {
+  h3.PageHeader,
+  .PageHeader > h3 {
+    margin-bottom: 20px;
+  }
+}
+.headerControls {
+  margin-bottom: 15px;
+}
+h3.form-sub-title {
+  padding: 30px 0 0 100px;
+  font-size: 1.3em;
+}
+.JS-CatInputContainer {
+  padding-right: 0;
+}
+.added-cat {
+  float: left;
+  margin-right: 1em;
+  line-height: 28px;
+  font-weight: bold;
+}
+.added-cat a img {
+  padding-left: 4px;
+  margin-top: -4px;
+}
+.added-usr {
+  display: inline-block;
+  margin-right: 1em;
+}
+.help-text {
+  padding-left: 180px;
+  padding-bottom: 7px;
+}
+textarea {
+  width: 400px;
+  height: 80px;
+}
+/*label{ font-size: 13px;
+    display:block;
+    float:left;
+    padding-right:10px;
+    line-height:20px;       
+}*/
+div.control-group.markdown label {
+  margin-top: 5px;
+}
+.control-group span > i.fa-info-circle {
+  color: lightblue;
+}
+@media (min-width: 480px) {
+  .form-group .control-label {
+    text-align: right;
+  }
+}
+@media (max-width: 479px) {
+  .wmd-panel li {
+    position: relative;
+    display: block;
+    float: left;
+    left: auto !important;
+  }
+}
+.wmd-prompt-background {
+  display: none;
+}
+/*Form Section style (conditional mixins)*/
+.FormSection {
+  margin: 20px 0;
+  padding: 20px;
+  /*border-left: 3px solid #eee;*/
+  border: 1px solid #DDDDDD;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  background-color: white;
+  /*border-color: #5bc0de !important;*/
+  border: none;
+  margin-top: 0;
+  margin-bottom: -1px;
+  padding-bottom: 1px;
+}
+.FormSection + .FormSection {
+  padding-top: 0;
+}
+.aside .columnControlsFull {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .aside .columnControlsFull {
+    float: left;
+    width: 100%;
+  }
+}
+label.ValidationError:not(#PriceSelection) {
+  display: block;
+  clear: left;
+  color: #B13A48;
+  font-family: Arial, sans-serif;
+  font-style: italic;
+  font-size: 13px;
+}
+.form-group > label.ValidationError:not(#PriceSelection) {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.ValidationError:not(#PriceSelection) .help-block,
+.ValidationError:not(#PriceSelection) .control-label,
+.ValidationError:not(#PriceSelection) .radio,
+.ValidationError:not(#PriceSelection) .checkbox,
+.ValidationError:not(#PriceSelection) .radio-inline,
+.ValidationError:not(#PriceSelection) .checkbox-inline {
+  color: #B13A48;
+}
+.ValidationError:not(#PriceSelection) .form-control {
+  border-color: #B13A48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.ValidationError:not(#PriceSelection) .form-control:focus {
+  border-color: #8b2d38;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
+}
+.ValidationError:not(#PriceSelection) .input-group-addon {
+  color: #B13A48;
+  border-color: #B13A48;
+  background-color: #f4dbe0;
+}
+.ValidationError:not(#PriceSelection) .form-control-feedback {
+  color: #B13A48;
+}
+.ValidationError:not(#PriceSelection) .checkbox label {
+  color: #203256;
+}
+.ValidationError:not(#PriceSelection) .checkbox label.ValidationError {
+  color: #B13A48;
+}
