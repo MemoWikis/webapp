@@ -21,10 +21,20 @@ public class UserCache
 
     public static User GetUser(int userId) => GetItem(userId).User;
 
+    private static string _createItemLockKey = "2FB5BC59-9E90-4511-809A-BC67A6D35F7F";
     public static UserCacheItem GetItem(int userId)
     {
         var cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
-        return cacheItem ?? CreateItemFromDatabase(userId);
+        if (cacheItem != null)
+            return cacheItem;
+
+        lock (_createItemLockKey)
+        {
+            //recheck if the cache item exists
+            cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
+            return cacheItem ?? CreateItemFromDatabase(userId);
+        }
+
     }
 
     public static bool IsInWishknowledge(int userId, int categoryId)
@@ -61,7 +71,7 @@ public class UserCache
                     .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
         };
 
-        Add_valuationCacheItem_to_cache(cacheItem, userId);
+        Add_UserCacheItem_to_cache(cacheItem, userId);
 
         var addedCacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
 
@@ -74,7 +84,7 @@ public class UserCache
         return addedCacheItem;
     }
 
-    private static void Add_valuationCacheItem_to_cache(UserCacheItem cacheItem, int userId)
+    private static void Add_UserCacheItem_to_cache(UserCacheItem cacheItem, int userId)
     {
         Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
