@@ -55,7 +55,7 @@ public class CategoryInKnowledge
             userQuestionValuation = new QuestionValuationCacheItem()
             {
                 Question = question,
-                User = user,
+                User = UserCache.GetItem(user.Id),
                 IsInWishKnowledge = isInWishKnowledge
             };
         }

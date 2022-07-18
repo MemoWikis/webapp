@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Serilog;
 
 public class UserCache
 {
@@ -31,6 +32,7 @@ public class UserCache
         lock (_createItemLockKey)
         {
             //recheck if the cache item exists
+            Log.Information("GetUserCacheItem: {userId}", userId);
             cacheItem = Cache.Get<UserCacheItem>(GetCacheKey(userId));
             return cacheItem ?? CreateItemFromDatabase(userId);
         }
@@ -106,7 +108,7 @@ public class UserCache
 
     public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
-        var cacheItem = GetItem(questionValuation.User.Id);
+        var cacheItem = GetItem(questionValuation.User.UserId);
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {

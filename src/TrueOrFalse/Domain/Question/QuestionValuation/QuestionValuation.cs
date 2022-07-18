@@ -37,7 +37,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
         return new QuestionValuationCacheItem
         {
             Id = Id,
-            User = User,
+            User = UserCache.GetItem(User.Id),
             CorrectnessProbability = CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = CorrectnessProbabilityAnswerCount,
             KnowledgeStatus = KnowledgeStatus,
