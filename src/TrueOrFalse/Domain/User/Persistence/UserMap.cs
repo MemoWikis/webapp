@@ -25,7 +25,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.CorrectnessProbabilityAnswerCount);
 
         HasMany(x => x.MembershipPeriods)
-            .Cascade.All().Not.LazyLoad();
+            .Cascade.All().LazyLoad();
 
         Map(x => x.WidgetHostsSpaceSeparated);
 

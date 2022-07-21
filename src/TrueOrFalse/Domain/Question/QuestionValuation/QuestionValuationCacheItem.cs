@@ -6,7 +6,7 @@ public class QuestionValuationCacheItem
 {
     public int Id;
 
-    public User User;
+    public UserCacheItem User;
     public QuestionCacheItem Question;
     public DateTime DateCreated;
 
@@ -28,8 +28,8 @@ public class QuestionValuationCacheItem
             Id = questionValuation.Id,
             IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
-            Question = QuestionCacheItem.ToCacheQuestion(questionValuation.Question),
-            User = questionValuation.User
+            Question = EntityCache.GetQuestionById(questionValuation.Question.Id),
+            User = UserCache.GetItem(questionValuation.User.Id)
         };
     }
 }

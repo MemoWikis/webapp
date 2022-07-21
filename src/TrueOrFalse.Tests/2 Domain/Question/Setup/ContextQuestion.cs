@@ -236,7 +236,7 @@ namespace TrueOrFalse.Tests
                 else
                     questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
 
-                questionValuation.User = users.FirstOrDefault();
+                questionValuation.User = UserCache.CreateItemFromDatabase(users.FirstOrDefault().Id) ;
                 UserCache.AddOrUpdate(questionValuation);
             }
         }

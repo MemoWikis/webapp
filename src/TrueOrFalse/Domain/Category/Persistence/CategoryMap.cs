@@ -17,7 +17,7 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.DisableLearningFunctions);
 
-        References(x => x.Creator).Not.LazyLoad();
+        References(x => x.Creator).LazyLoad();
 
         Map(x => x.TopicMarkdown);
         Map(x => x.Content);
