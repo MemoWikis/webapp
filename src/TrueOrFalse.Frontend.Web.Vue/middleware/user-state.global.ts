@@ -1,9 +1,9 @@
-import { Topic } from "~~/components/topic/topicStore";
+import { LoginState } from "~~/components/user/userStore";
 
 export default defineNuxtRouteMiddleware(async (to) => {
 
     const { $config } = useNuxtApp()
-    const { data: result } = await useFetch<string>(`/Login/GetLoginState/`, { 
+    const { data: result } = await useFetch<LoginState>(`/SessionUser/GetCurrentUser/`, { 
             baseURL: $config.apiBase,
             credentials: 'include',
             headers: useRequestHeaders(['cookie']),
@@ -11,6 +11,5 @@ export default defineNuxtRouteMiddleware(async (to) => {
          }
     );
 
-    var val = result.value == 'True'
-    useState<boolean>('isLoggedIn', () => val)
+    useState<LoginState>('loginState', () => result.value)
   })

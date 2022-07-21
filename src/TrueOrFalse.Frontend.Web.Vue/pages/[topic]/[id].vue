@@ -20,8 +20,6 @@ const t = useState<Topic>('topic', () => topic.value)
 const topicStore = useTopicStore()
 topicStore.setTopic(t.value)
 
-
-const spinnerStore = useSpinnerStore()
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
 </script>
@@ -32,12 +30,8 @@ const userStore = useUserStore()
     <br />
     <TopicHeader />
     <br />
-    <button @click="spinnerStore.showSpinner()">showSpinner</button>
-    <br />
-
-    <button @click="spinnerStore.hideSpinner()">hideSpinner</button>
-    <br />
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
+    <LazyEditBar />
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning" />
     <button @click="userStore.logout()">logout</button>
 

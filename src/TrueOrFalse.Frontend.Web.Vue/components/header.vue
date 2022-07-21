@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-const isLoggedIn = useState('isLoggedIn')
-
+import { useUserStore } from './user/userStore'
+const userStore = useUserStore()
 </script>
 
 <template>
   <div>
-    <LazyNavigationGuest v-if="!isLoggedIn" />
+    <LazyNavigationGuest v-if="!userStore.isLoggedIn" />
     <NavigationMain />
   </div>
 </template>

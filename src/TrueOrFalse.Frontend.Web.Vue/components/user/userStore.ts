@@ -23,10 +23,14 @@ export const useUserStore = defineStore('userStore', {
     }
   },
   actions: {
+    initUserStore(loginState: LoginState) {
+      this.isLoggedIn = loginState.IsLoggedIn
+      this.id = loginState.UserId
+    },
     async login(loginData) {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
-      var result = await $fetch<UserLoginResult>('/api/Login/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' 
+      var result = await $fetch<UserLoginResult>('/api/SessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' 
       })
 
       if (!!result && result.Success){
@@ -43,7 +47,7 @@ export const useUserStore = defineStore('userStore', {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
 
-      var result = await $fetch<UserLoginResult>('/api/Login/Logout', { method: 'POST', mode: 'cors', credentials: 'include' 
+      var result = await $fetch<UserLoginResult>('/api/SessionUser/Logout', { method: 'POST', mode: 'cors', credentials: 'include' 
         })
         
       if (!!result && result.Success) {

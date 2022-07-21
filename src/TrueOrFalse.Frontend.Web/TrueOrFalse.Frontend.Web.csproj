@@ -269,7 +269,6 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
-    <Compile Include="Views\ApiVueApp\LoginController.cs" />
     <Compile Include="Views\ApiVueApp\SessionUserController.cs" />
     <Compile Include="Views\ApiVueApp\FooterController.cs" />
     <Compile Include="Views\ApiVueApp\SearchController.cs" />

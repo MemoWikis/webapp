@@ -12,7 +12,7 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 const topic = useState<Topic>('topic')
 const topicStore = useTopicStore()
 const editor = useEditor({
-    content: topic.value.Content,
+    content: topicStore.content,
     extensions: [
         StarterKit.configure({
             heading: {
@@ -44,7 +44,18 @@ const editor = useEditor({
             lowlight,
         }),
     ],
+    onUpdate({ editor }) {
+        topicStore.contentHasChanged = true
+        topicStore.content = editor.getHTML()
+    },
 
+})
+
+topicStore.$onAction(({ name, after }) => {
+    after(() => {
+        if (name == 'reset')
+            editor.value?.commands.setContent(topicStore.content)
+    })
 })
 </script>
 

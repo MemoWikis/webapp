@@ -23,7 +23,7 @@ function openUrl(val) {
                         <Image url="/Images/Logo/Logo.svg" />
                     </div>
                     <div id="MobileLogo" class="hidden-sm hidden-md hidden-lg">
-                        <Image url="/Images/Logo/LogoSmall.png" />
+                        <Image url="/Images/Logo/LogoMemoWiki.svg" />
                     </div>
                 </a>
             </div>
