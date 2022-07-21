@@ -15,7 +15,9 @@ export const useTopicStore = defineStore('topicStore', {
       imgUrl:'',
       questionCount: 0,
       authorIds: [],
-      content: ''
+      content: '',
+      baseContent: '',
+      contentHasChanged: false,
       }
   },
   actions: {
@@ -24,11 +26,15 @@ export const useTopicStore = defineStore('topicStore', {
       this.name = topic.Name
       this.imgUrl = topic.ImgUrl
       this.content = topic.Content
+      this.baseContent = topic.Content
     },
+    saveContent(e) {
+      
+    }
   },
   getters: {
     getTopicName(): string {
       return this.name
     },
-  }
+  },
 })

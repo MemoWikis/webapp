@@ -5,6 +5,7 @@ export const useFabStore = defineStore('fabStore', {
     state: () => {
       return {
         open: false,
+        contentHasChanged: false
       }
     },
     getters:{
