@@ -60,5 +60,6 @@ topicStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
+    <LazyEditorMenuBar :editor="editor" :heading="true" />
     <editor-content :editor="editor" />
 </template>

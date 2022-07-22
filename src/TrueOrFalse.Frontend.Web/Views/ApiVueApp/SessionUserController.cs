@@ -60,7 +60,7 @@ public class SessionUserController : BaseController
         }, JsonRequestBehavior.AllowGet);
     }
 }
-
+    
 public class StateModel
 {
     public bool IsLoggedIn { get; set; }

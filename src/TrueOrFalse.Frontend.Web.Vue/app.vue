@@ -2,8 +2,8 @@
 import { useUserStore, LoginState } from './components/user/userStore';
 const loginState = useState<LoginState>('loginState')
 const userStore = useUserStore()
-userStore.initUserStore(loginState.value)
-
+if (loginState.value != null && loginState.value != undefined)
+  userStore.initUserStore(loginState.value)
 
 useHead({
   link: [
