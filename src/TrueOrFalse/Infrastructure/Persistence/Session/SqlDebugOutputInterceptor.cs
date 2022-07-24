@@ -20,7 +20,9 @@ public class SqlDebugOutputInterceptor : EmptyInterceptor
         _session = session;
         Log.Information("NHibernate SetSession");
 
-        _watches.Add(((SessionImpl)_session).SessionId.ToString(), Stopwatch.StartNew());
+        var sessionKey = ((SessionImpl)_session).SessionId.ToString();
+        if (!_watches.ContainsKey(sessionKey))
+            _watches.Add(sessionKey, Stopwatch.StartNew());
     }
 
     public override SqlString OnPrepareStatement(SqlString sql)
