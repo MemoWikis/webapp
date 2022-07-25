@@ -2,66 +2,75 @@
 import { ref } from 'vue'
 const props = defineProps(['editor', 'heading'])
 const focused = ref(false)
-const clicked = ref(false)
-function command(fn) {
+
+async function command(fn, e) {
+    e.preventDefault();
     switch (fn) {
         case 'bold':
-            props.editor.commands.bold();
-            break;
+            props.editor.commands.toggleBold()
+            break
         case 'italic':
-            props.editor.value?.chain().toggleItalic().focus().run();
-            break;
+            props.editor.commands.toggleItalic()
+            break
         case 'strike':
-            props.editor.value?.chain().toggleStrike().focus().run();
-            break;
+            props.editor.commands.toggleStrike()
+            break
         case 'underline':
-            props.editor.value?.chain().toggleUnderline().focus().run();
-            break;
+            props.editor.commands.toggleUnderline()
+            break
         case 'h2':
-            props.editor.value?.chain().toggleHeading({ level: 2 }).focus().run();
-            break;
+            props.editor.commands.toggleHeading({ level: 2 })
+            break
         case 'h3':
-            props.editor.value?.chain().toggleHeading({ level: 3 }).focus().run();
-            break;
+            props.editor.commands.toggleHeading({ level: 3 })
+            break
         case 'bulletList':
-            props.editor.value?.chain().toggleBulletList().focus().run();
-            break;
+            props.editor.commands.toggleBulletList()
+            break
         case 'orderedList':
-            props.editor.value?.chain().toggleOrderedList().focus().run();
-            break;
+            props.editor.commands.toggleOrderedList()
+            break
         case 'blockquote':
-            props.editor.value?.chain().toggleBlockquote().focus().run();
-            break;
+            props.editor.commands.toggleBlockquote()
+            break
         case 'codeBlock':
-            props.editor.value?.chain().toggleCodeBlock().focus().run();
-            break;
+            props.editor.commands.toggleCodeBlock()
+            break
         case 'setLink':
-            const linkUrl = window.prompt('Link URL');
-            props.editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run();
-            if (props.editor.value?.view.state.selection.empty) {
+            const linkUrl = window.prompt('Link URL')
+            props.editor.commands.extendMarkRange('link').setLink({ href: linkUrl })
+            if (props.editor.view.state.selection.empty) {
                 var transaction = this.editor.state.tr.insertText(linkUrl);
-                props.editor.value?.view.dispatch(transaction);
+                props.editor.view.dispatch(transaction)
             }
             break;
         case 'unsetLink':
-            props.editor.value?.chain().focus().unsetLink().run();
-            break;
+            props.editor.commands.unsetLink().focus()
+            break
         case 'addImage':
-            const imgUrl = window.prompt('Bild URL');
-            props.editor.value?.chain().focus().setImage({ src: imgUrl }).run();
-            break;
+            const imgUrl = window.prompt('Bild URL')
+            props.editor.commands.setImage({ src: imgUrl })
+            break
         case 'horizontalRule':
-            props.editor.value?.chain().setHorizontalRule().focus().run();;
-            break;
+            props.editor.commands.setHorizontalRule()
+            break
         case 'undo':
-            props.editor.value?.chain().undo().focus().run();
-            break;
+            props.editor.commands.undo()
+            break
         case 'redo':
-            props.editor.value?.chain().redo().focus().run();
-            break;
+            props.editor.commands.redo()
+            break
     }
-    clicked.value = true;
+    await nextTick()
+    props.editor.commands.focus()
 }
+
+props.editor.on('focus', () => {
+    focused.value = true
+})
+props.editor.on('blur', () => {
+    focused.value = false
+})
 </script>
 <template>
 
@@ -69,79 +78,82 @@ function command(fn) {
         <div class="menubar is-hidden" :class="{ 'is-focused': focused }">
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
-                @mousedown="command('bold')">
+                @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
                 <font-awesome-icon icon="fa-solid fa-bold" />
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('italic') }"
-                @mousedown="command('italic')">
+                @mousedown="command('italic', $event)">
                 <font-awesome-icon icon="fa-solid fa-italic" />
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('strike') }"
-                @mousedown="command('strike')">
+                @mousedown="command('strike', $event)">
                 <font-awesome-icon icon="fa-solid fa-strikethrough" />
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('underline') }"
-                @mousedown="command('underline')">
+                @mousedown="command('underline', $event)">
                 <font-awesome-icon icon="fa-solid fa-underline" />
             </button>
 
             <button v-if="heading" class="menubar__button"
-                :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }" @mousedown="command('h2')">
+                :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
+                @mousedown="command('h2', $event)">
                 <b>H1</b>
             </button>
 
             <button v-if="heading" class="menubar__button"
-                :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }" @mousedown="command('h3')">
+                :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
+                @mousedown="command('h3', $event)">
                 <b>H2</b>
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
-                @mousedown="command('bulletList')">
+                @mousedown="command('bulletList', $event)">
                 <font-awesome-icon icon="fa-solid fa-list-ul" />
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }"
-                @mousedown="command('orderedList')">
+                @mousedown="command('orderedList', $event)">
                 <font-awesome-icon icon="fa-solid fa-list-ol" />
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
-                @mousedown="command('blockquote')">
+                @mousedown="command('blockquote', $event)">
                 <font-awesome-icon icon="fa-solid fa-quote-right" />
             </button>
 
             <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('codeBlock') }"
-                @mousedown="command('codeBlock')">
+                @mousedown="command('codeBlock', $event)">
                 <font-awesome-icon icon="fa-solid fa-code" />
             </button>
 
-            <button class="menubar__button" @mousedown="command('setLink')"
+            <button class="menubar__button" @mousedown="command('setLink', $event)"
                 :class="{ 'is-active': props.editor.isActive('link') }">
                 <font-awesome-icon icon="fa-solid fa-link" />
             </button>
 
-            <button v-if="props.editor.isActive('link')" class="menubar__button" @mousedown="command('unsetLink')">
+            <button v-if="props.editor.isActive('link')" class="menubar__button"
+                @mousedown="command('unsetLink', $event)">
                 <font-awesome-icon icon="fa-solid fa-link-slash" />
             </button>
 
-            <button class="menubar__button" @mousedown="command('addImage')">
+            <button class="menubar__button" @mousedown="command('addImage', $event)">
                 <font-awesome-icon icon="fa-solid fa-image" />
             </button>
 
-            <button class="menubar__button" @mousedown="command('horizontalRule')">
+            <button class="menubar__button" @mousedown="command('horizontalRule', $event)">
                 <b>
                     —
                 </b>
             </button>
 
-            <button class="menubar__button" @mousedown="command('undo')">
+            <button class="menubar__button" @mousedown="command('undo', $event)">
                 <font-awesome-icon icon="fa-solid fa-rotate-left" />
             </button>
 
-            <button class="menubar__button" @mousedown="command('redo')">
+            <button class="menubar__button" @mousedown="command('redo', $event)">
                 <font-awesome-icon icon="fa-solid fa-rotate-right" />
             </button>
 
@@ -149,3 +161,30 @@ function command(fn) {
     </floating-menu>
 
 </template>
+
+<style lang="less" scoped>
+.menubar {
+    top: 60px;
+    position: sticky;
+    background: white;
+    margin-top: -36px;
+    z-index: 10;
+    box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
+    border-radius: 2px;
+    font-size: 0;
+    height: 36px;
+
+    &.is-hidden {
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    &.is-focused {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility .2s, opacity .2s;
+        pointer-events: auto !important;
+    }
+}
+</style>

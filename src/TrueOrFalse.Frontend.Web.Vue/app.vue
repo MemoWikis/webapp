@@ -15,7 +15,8 @@ useHead({
 
 <template>
   <div>
-    <Header />
+    <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
+    <HeaderMain />
     <NuxtPage />
     <LazyUserLogin v-if="!userStore.isLoggedIn" />
     <LazySpinner />

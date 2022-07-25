@@ -6,10 +6,10 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
-const topic = useState<Topic>('topic')
 const topicStore = useTopicStore()
 const editor = useEditor({
     content: topicStore.content,
@@ -43,6 +43,7 @@ const editor = useEditor({
         CodeBlockLowlight.configure({
             lowlight,
         }),
+        Blockquote
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
@@ -57,9 +58,10 @@ topicStore.$onAction(({ name, after }) => {
             editor.value?.commands.setContent(topicStore.content)
     })
 })
+
 </script>
 
 <template>
-    <LazyEditorMenuBar :editor="editor" :heading="true" />
+    <LazyEditorMenuBar :editor="editor" :heading="true" v-if="editor" />
     <editor-content :editor="editor" />
 </template>
