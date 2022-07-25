@@ -106,7 +106,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         //Update
         if (createDeleteUpdate == CreateDeleteUpdate.Update)
         {
-            var oldCategoryCacheItem1 = EntityCache.GetCategory(categoryCacheItem.Id, getDataFromEntityCache: true);
+            var oldCategoryCacheItem1 = EntityCache.GetCategory(categoryCacheItem.Id);
 
             var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
                 .Select(cr => cr.RelatedCategoryId).ToList();
@@ -120,11 +120,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
             if (exceptIdsToAdd1.Any() || exceptIdsToDelete1.Any())
             {
                 foreach (var id in exceptIdsToAdd1)
-                    EntityCache.GetCategory(id, getDataFromEntityCache: true).CachedData
+                    EntityCache.GetCategory(id).CachedData
                         .AddChildId(categoryCacheItem.Id);
 
                 foreach (var id in exceptIdsToDelete1)
-                    EntityCache.GetCategory(id, getDataFromEntityCache: true).CachedData.RemoveChildId(categoryCacheItem.Id);
+                    EntityCache.GetCategory(id).CachedData.RemoveChildId(categoryCacheItem.Id);
             }
         }
 
@@ -218,7 +218,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         _searchIndexCategory.Delete(category);
         base.DeleteWithoutFlush(category);
-        EntityCache.Remove(EntityCache.GetCategory(category.Id, getDataFromEntityCache: true));
+        EntityCache.Remove(EntityCache.GetCategory(category.Id));
         UserCache.RemoveAllForCategory(category.Id);
     }
 

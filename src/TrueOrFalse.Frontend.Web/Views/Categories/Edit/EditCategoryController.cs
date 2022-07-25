@@ -278,7 +278,7 @@ public class EditCategoryController : BaseController
         if (addIdToWikiHistory)
             SessionUser.User.AddNewIdToWikiHistory(parentCategoryId);
 
-        var child = EntityCache.GetCategory(childCategoryId, true);
+        var child = EntityCache.GetCategory(childCategoryId);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
 
         JobScheduler.StartImmediately_ModifyCategoryRelation(childCategoryId, parentCategoryId);
@@ -339,7 +339,7 @@ public class EditCategoryController : BaseController
             });
         }
 
-        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategory(categoryId, getDataFromEntityCache: true), personalWikiId);
+        ModifyRelationsEntityCache.AddParent(EntityCache.GetCategory(categoryId), personalWikiId);
 
         JobScheduler.StartImmediately_ModifyCategoryRelation(categoryId, personalWikiId);
 

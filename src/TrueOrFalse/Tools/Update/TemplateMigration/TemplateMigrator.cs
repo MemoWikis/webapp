@@ -138,21 +138,10 @@ namespace TemplateMigration
             Sl.QuestionRepo.Flush();
         }
 
-
-        private class TopicNavigationJson
-        {
-            public string Title;
-            public string Text;
-            public string Load;
-            public string Order;
-        }
-
         private class InlineTextJson
         {
             public string TemplateName;
             public string Content;
         }
-
-
     }
 }
