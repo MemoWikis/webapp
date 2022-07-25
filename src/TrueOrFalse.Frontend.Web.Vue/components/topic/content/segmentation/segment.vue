@@ -226,8 +226,7 @@ export default {
 </script>
 
 <template>
-    <div class="segment" :data-category-id="categoryId" :data-child-category-ids="currentChildCategoryIdsString"
-        @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover: showHover }">
+    <div class="segment" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover: showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
