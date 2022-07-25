@@ -24,12 +24,4 @@ public class GetCategoryChildren
             .Union(categoriesToInclude)
             .ToList();
     }
-
-    public static List<CategoryCacheItem> WithAppliedRulesFromMemory(CategoryCacheItem category)
-    {
-        throw new Exception("not done yet");
-
-        //consider wishknowlede, visibilty and exclude and included categories
-        return EntityCache.GetChildren(category);
-    }
 }

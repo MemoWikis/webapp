@@ -33,12 +33,12 @@ namespace System.Web.Mvc
                     var categoryId = (string)httpContextData["id"];
 
                     if (int.TryParse(categoryId, out var categoryIdNumber))
-                        activeCategories.Add(EntityCache.GetCategory(categoryIdNumber, true));
+                        activeCategories.Add(EntityCache.GetCategory(categoryIdNumber));
                 }
                 
                 if (_isQuestionPage)
                 {
-                    activeCategories.AddRange( ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
+                    activeCategories.AddRange(ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
                 }
 
                 if (_isLearningSessionPage)

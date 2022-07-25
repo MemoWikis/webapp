@@ -59,7 +59,7 @@ public class CategoryCacheItem
     {
         return CategoryRelations != null && CategoryRelations.Any()
            ? CategoryRelations
-               .Select(x => EntityCache.GetCategory(x.RelatedCategoryId, getDataFromEntityCache: getFromEntityCache))
+               .Select(x => EntityCache.GetCategory(x.RelatedCategoryId))
                .ToList()
            : new List<CategoryCacheItem>();
     }

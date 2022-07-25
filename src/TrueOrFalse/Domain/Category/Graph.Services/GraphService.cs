@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 public class GraphService
 {
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
-        GetAllParentsFromEntityCache(EntityCache.GetCategory(categoryId, getDataFromEntityCache: true));
+        GetAllParentsFromEntityCache(EntityCache.GetCategory(categoryId));
 
     private static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
@@ -17,7 +15,7 @@ public class GraphService
 
         while (parentIds.Count > 0)
         {
-            var parent = EntityCache.GetCategory(parentIds[0], getDataFromEntityCache: true);
+            var parent = EntityCache.GetCategory(parentIds[0]);
 
             if (!deletedIds.ContainsKey(parentIds[0]))
             {
@@ -114,7 +112,7 @@ public class GraphService
 
         foreach (var parentCategory in parentsFromParentCategories)
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(
-                EntityCache.GetCategory(parentCategory.Id, getDataFromEntityCache: true));
+                EntityCache.GetCategory(parentCategory.Id));
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)

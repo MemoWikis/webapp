@@ -43,7 +43,7 @@
             </div>
             <% foreach (var id in RootCategory.MemuchoCategoryIds)
                {
-                   var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
+                   var category = EntityCache.GetCategory(id);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
             <% } %>
@@ -75,7 +75,7 @@
             <div class="overline-m no-line">Hilfe & Kontakt</div>
             <% foreach (var id in RootCategory.MemuchoHelpIds)
                {
-                   var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
+                   var category = EntityCache.GetCategory(id);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
             <% } %>
@@ -93,7 +93,7 @@
             </div>
             <% foreach (var id in RootCategory.MainCategoryIds)
                {
-                   var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
+                   var category = EntityCache.GetCategory(id);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
             <% } %>
@@ -102,7 +102,7 @@
             <div class="overline-m no-line">Beliebte Themen</div>
             <% foreach (var id in RootCategory.PopularCategoryIds)
                {
-                   var category = EntityCache.GetCategory(id, getDataFromEntityCache: true);
+                   var category = EntityCache.GetCategory(id);
             %>
                 <a class="" href="<%= Links.CategoryDetail(category) %>"><%= category.Name %></a><br/>
             <% } %>

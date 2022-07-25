@@ -259,39 +259,23 @@ public class EntityCache : BaseCache
 
     private static void Remove(ConcurrentDictionary<int, QuestionCacheItem> objectToCache, QuestionCacheItem obj)
     {
-        objectToCache.TryRemove(obj.Id, out var outObj);
+        objectToCache.TryRemove(obj.Id, out _);
     }
 
     public static IEnumerable<CategoryCacheItem> GetCategories(IEnumerable<int> getIds) =>
         getIds.Select(categoryId => GetCategory(categoryId));
-    public static IEnumerable<CategoryCacheItem> GetCategories(IList<int> getIds, bool getDataFromEntityCache = true) =>
-        getIds.Select(categoryId => GetCategory(categoryId, getDataFromEntityCache: getDataFromEntityCache));
 
     public static CategoryCacheItem GetCategory(Category category) => GetCategory(category.Id);
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static CategoryCacheItem GetCategory(int categoryId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    public static CategoryCacheItem GetCategory(int categoryId)
     {
-
         if (Categories == null) return null;
         Categories.TryGetValue(categoryId, out var category);
         return category;
-
     }
 
-    public static List<CategoryCacheItem> CategoryCacheItemsForSearch(IEnumerable<int> categoryIds)
-    {
-        var categories = new List<CategoryCacheItem>();
-        foreach (var categoryId in categoryIds)
-        {
-            Categories.TryGetValue(categoryId, out var category);
-            if (category != null)
-                categories.Add(category);
-        }
-
-        return categories.Where(PermissionCheck.CanView).ToList();
-    }
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 
@@ -301,7 +285,7 @@ public class EntityCache : BaseCache
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.RelatedCategoryId == categoryId)
-                .Select(cr => GetCategory(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
+                .Select(cr => GetCategory(cr.CategoryId))).ToList();
     }
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);
@@ -332,13 +316,13 @@ public class EntityCache : BaseCache
         return descendants;
     }
 
-    public static List<CategoryCacheItem> ParentCategories(int categoryId, bool isFromEntityCache = false, bool getFromEntityCache = false)
+    public static List<CategoryCacheItem> ParentCategories(int categoryId)
     {
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryId == categoryId)
-                .Select(cr => GetCategory(cr.CategoryId, isFromEntityCache, getFromEntityCache))).ToList();
+                .Select(cr => GetCategory(cr.CategoryId))).ToList();
     }
 
     public static IList<CategoryCacheItem>
@@ -378,13 +362,9 @@ public class EntityCache : BaseCache
         var allCategories = GetAllCategories();
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
-
-    public static QuestionCacheItem GetQuestion(Question question, bool isFromUserEntityCache = false,
-        bool getDataFromEntityCache = false) => GetQuestion(question.Id, isFromUserEntityCache, getDataFromEntityCache);
-
-    public static QuestionCacheItem GetQuestion(int questionId, bool isFromUserEntityCache = false, bool getDataFromEntityCache = false)
+    
+    public static QuestionCacheItem GetQuestion(int questionId)
     {
-
         Questions.TryGetValue(questionId, out var question);
         return question;
     }

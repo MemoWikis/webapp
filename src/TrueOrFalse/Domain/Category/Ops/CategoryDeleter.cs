@@ -16,7 +16,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
     public HasDeleted Run(Category category, bool isTestCase = false)
     {
-        var categoryCacheItem = EntityCache.GetCategory(category.Id, getDataFromEntityCache: true);
+        var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
 
         if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
