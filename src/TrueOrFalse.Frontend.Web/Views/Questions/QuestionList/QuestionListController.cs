@@ -92,16 +92,19 @@ public class QuestionListController : BaseController
         });
     }
 
-    private readonly LearningSession _learningSession = LearningSessionCache.GetLearningSession();
-
     [HttpPost]
     public JsonResult GetCurrentLearningSessionData(int categoryId)
     {
+        var learningSession = LearningSessionCache.GetLearningSession();
+
+        if (learningSession == null)
+            return null;
+
         return Json(new
         {
-            stepCount = _learningSession.Config.CategoryId == categoryId ? _learningSession.Steps.Count : 0,
-            currentQuestionCount = _learningSession.Config.CategoryId == categoryId
-                ? _learningSession.Steps
+            stepCount = learningSession.Config.CategoryId == categoryId ? learningSession.Steps.Count : 0,
+            currentQuestionCount = learningSession.Config.CategoryId == categoryId
+                ? learningSession.Steps
                     .Select(s => s.Question)
                     .Distinct()
                     .Count()
