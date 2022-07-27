@@ -75,7 +75,7 @@ props.editor.on('blur', () => {
 <template>
     <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
+        <button class="menubar__button first-btn" :class="{ 'is-active': props.editor.isActive('bold') }"
             @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
             <font-awesome-icon icon="fa-solid fa-bold" />
         </button>
@@ -148,7 +148,7 @@ props.editor.on('blur', () => {
             <font-awesome-icon icon="fa-solid fa-rotate-left" />
         </button>
 
-        <button class="menubar__button" @mousedown="command('redo', $event)">
+        <button class="menubar__button last-btn" @mousedown="command('redo', $event)">
             <font-awesome-icon icon="fa-solid fa-rotate-right" />
         </button>
 
@@ -157,16 +157,15 @@ props.editor.on('blur', () => {
 </template>
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 .menubar {
     top: 60px;
     position: sticky;
-    background: white;
-    margin-top: -36px;
     z-index: 10;
-    box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
-    border-radius: 2px;
     font-size: 0;
     height: 36px;
+    display: flex;
 
     &.is-hidden {
         visibility: hidden;
@@ -179,6 +178,39 @@ props.editor.on('blur', () => {
         opacity: 1;
         transition: visibility .2s, opacity .2s;
         pointer-events: auto !important;
+    }
+}
+
+.menubar__button {
+    background: @memo-grey-lighter;
+    border: hidden;
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    margin: 0px;
+    color: @memo-grey-darker;
+    text-align: center;
+    padding: 0px 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.first-btn {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    &.last-btn {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+
+    &:hover {
+        filter: brightness(0.85);
+    }
+
+    &.is-active {
+        background: @memo-green;
     }
 }
 </style>

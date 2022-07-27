@@ -3,14 +3,19 @@
 </script>
 
 <template>
-    <div>
-        <div>
+    <div class="row">
+        <div id="TopicHeader" class="col-xs-12">
             <TopicHeaderImage />
             <TopicHeaderTitle />
         </div>
 
-        <TopicTabs/>
+        <TopicTabs />
     </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="less">
+#TopicHeader {
+    margin-top: 20px;
+    display: flex;
+}
+</style>

@@ -25,15 +25,11 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <div>
-    Topic {{ $route.params.id }}
-    <br />
+  <div class="container">
     <TopicHeader />
-    <br />
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning" />
     <button @click="userStore.logout()">logout</button>
-
   </div>
 </template>
 

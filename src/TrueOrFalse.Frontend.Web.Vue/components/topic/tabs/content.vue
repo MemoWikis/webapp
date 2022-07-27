@@ -1,15 +1,10 @@
 <script setup>
-const props = defineProps({
-  categoryId: Number
-})
 </script>
 
 <template>
-  <div id="TopicContent">
-    {{ props.categoryId }}
+  <div id="TopicContent" class="row">
     <TopicContentEditor />
+    <LazyTopicContentEditBar />
     <TopicContentSegmentation />
-    <LazyEditorEditBar />
-
   </div>
 </template>

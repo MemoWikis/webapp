@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Tab } from '~~/components/topic/tabs/tabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
-import { useUserStore } from '../user/userStore'
+import { useUserStore } from '~~/components/user/userStore'
 
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
@@ -14,7 +14,7 @@ const footerIsVisible = ref(false)
 function footerCheck() {
     var contentModuleAppWidth = document.getElementById('TopicContent').clientWidth;
     var windowWidth = window.innerWidth;
-    const elFooter = document.getElementById('MasterFooter');
+    const elFooter = document.getElementById('Segmentation');
 
     if (elFooter) {
         var rect = elFooter.getBoundingClientRect();
@@ -57,6 +57,8 @@ const showSaveMsg = ref(false)
 const saveMsg = ref('')
 
 const userStore = useUserStore()
+
+
 </script>
 
 <template>
@@ -65,7 +67,7 @@ const userStore = useUserStore()
             <template v-if="tabsStore.activeTab == Tab.Topic">
                 <div class="edit-mode-bar-container" v-show="topicStore.contentHasChanged">
                     <div class="toolbar"
-                        :class="{ 'pseudo-sticky': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand }"
+                        :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand }"
                         z>
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
@@ -111,7 +113,6 @@ const userStore = useUserStore()
             </template>
         </div>
     </div>
-
 </template>
 
 <style scoped lang="less">
@@ -124,8 +125,7 @@ const userStore = useUserStore()
     @scale10: scale3d(1, 1, 1);
 
     position: sticky;
-    bottom: 20px;
-    right: 20px;
+    bottom: 0;
     z-index: 16;
     height: 56px;
 
@@ -340,7 +340,6 @@ const userStore = useUserStore()
             height: 56px;
             overflow: hidden;
             background-color: @memo-green;
-            position: fixed;
             bottom: 0;
             left: 0;
             display: flex;
@@ -351,16 +350,16 @@ const userStore = useUserStore()
             transition: box-shadow .3s;
             min-width: 1px;
             width: 100%;
+            position: fixed;
 
             @media (min-width: 1200px) {
                 transform-origin: 65% 25%;
             }
 
-            &.pseudo-sticky {
-                position: absolute;
+            &.stuck {
+                position: relative;
                 border-radius: 4px;
                 transform-origin: right;
-                bottom: -22px;
 
                 &:hover {
                     box-shadow: 0 0 3px rgba(0, 0, 0, 0.12), 0 3px 3px rgba(0, 0, 0, 0.24);
