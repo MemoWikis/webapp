@@ -194,6 +194,7 @@ props.editor.on('blur', () => {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: filter 0.1s;
 
     &.first-btn {
         border-top-left-radius: 4px;
@@ -211,6 +212,10 @@ props.editor.on('blur', () => {
 
     &.is-active {
         background: @memo-green;
+    }
+
+    &:active {
+        filter: brightness(0.7);
     }
 }
 </style>

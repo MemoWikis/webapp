@@ -36,6 +36,10 @@ function footerCheck() {
         }
     };
 }
+topicStore.$subscribe((mutation, state) => {
+    if (state.contentHasChanged)
+        footerCheck()
+})
 const isExtended = ref(false)
 function handleScroll() {
     if (window.scrollY == 0)
@@ -46,7 +50,6 @@ function handleScroll() {
         footerCheck();
 }
 onMounted(() => {
-    footerCheck()
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', footerCheck);
 })
@@ -59,13 +62,14 @@ const saveMsg = ref('')
 const userStore = useUserStore()
 
 
+
 </script>
 
 <template>
     <div id="EditBar">
         <div class="fab-container">
             <template v-if="tabsStore.activeTab == Tab.Topic">
-                <div class="edit-mode-bar-container" v-show="topicStore.contentHasChanged">
+                <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged">
                     <div class="toolbar"
                         :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand }"
                         z>
