@@ -279,7 +279,7 @@ public class EntityCache : BaseCache
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 
-    public static List<CategoryCacheItem> GetChildren(int categoryId, bool isFromEntityCache = false, bool getFromEntityCache = false)
+    public static List<CategoryCacheItem> GetChildren(int categoryId)
     {
         var allCategories = GetAllCategories();
 
@@ -288,11 +288,11 @@ public class EntityCache : BaseCache
                 .Select(cr => GetCategory(cr.CategoryId))).ToList();
     }
 
-    public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id, isFromEntityCache);
+    public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id);
 
     public static IList<CategoryCacheItem> GetAllChildren(int parentId, bool getFromEntityCache = false)
     {
-        var currentGeneration = GetChildren(parentId, getFromEntityCache).ToList();
+        var currentGeneration = GetChildren(parentId).ToList();
         var nextGeneration = new List<CategoryCacheItem>();
         var descendants = new List<CategoryCacheItem>();
 
@@ -302,7 +302,7 @@ public class EntityCache : BaseCache
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(category.Id, getFromEntityCache).ToList();
+                var children = GetChildren(category.Id).ToList();
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
