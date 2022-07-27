@@ -20,7 +20,7 @@ export const useTopicStore = defineStore('topicStore', {
       content: '',
       initialContent: '',
       contentHasChanged: false,
-      }
+    }
   },
   actions: {
     setTopic(topic: Topic) {
@@ -44,8 +44,7 @@ export const useTopicStore = defineStore('topicStore', {
         content: this.content,
         saveContent: this.content != this.initialContent
       }
-      var result = await $fetch('/api/Topic/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' 
-      })
+      var result = await $fetch('/api/Topic/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
       if (result == true)
         this.contentHasChanged = false
     },

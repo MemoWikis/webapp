@@ -1,22 +1,18 @@
 <script lang="ts">
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
-import { EditTopicRelationType } from '../../relation/editTopicRelationEnum'
-const userStore = useUserStore()
-const topicStore = useTopicStore()
+import { useEditTopicRelationStore, EditTopicRelationType } from '../../relation/editTopicRelationStore'
+import { $fetch } from 'ohmyfetch'
+import _ from 'underscore'
+
 interface Segment {
     CategoryId: Number,
     Title: String,
     ChildCategoryIds: Array<Number>,
 };
 
-
 export default {
     props: {
-        categoryId: [String, Number],
-        editMode: Boolean,
-        childCategoryIds: String,
-        segmentJson: String,
         isHistoricString: String,
     },
 
@@ -39,111 +35,120 @@ export default {
             segments: [] as Segment[],
             categories: [],
             isHistoric: this.isHistoricString == 'True',
+            userStore: useUserStore(),
+            topicStore: useTopicStore(),
+            editTopicRelationStore: useEditTopicRelationStore(),
+            childCategoryIds: '',
+            segmentJson: '',
         };
     },
     mounted() {
-        if (this.childCategoryIds != null)
-            this.currentChildCategoryIds = JSON.parse(this.childCategoryIds);
-        if (this.segmentJson.length > 0)
-            this.segments = JSON.parse(this.segmentJson);
-        this.hasCustomSegment = this.segments.length > 0;
-        if (this.currentChildCategoryIds.length > 0)
-            this.getCategoriesData();
-        eventBus.$on('add-category-card',
-            (e) => {
-                if (e.parentId == this.categoryId)
-                    this.addNewCategoryCard(e.newCategoryId);
-            });
+        this.initSegments()
+        // eventBus.$on('add-category-card',
+        //     (e) => {
+        //         if (e.parentId == this.categoryId)
+        //             this.addNewCategoryCard(e.newCategoryId);
+        //     });
 
-        eventBus.$on('category-data-is-loading', () => {
-            this.loaded = false;
-        });
-        eventBus.$on('category-data-finished-loading', () => this.showComponents());
-        eventBus.$on('add-category',
-            () => {
-                this.$nextTick(() => {
-                    var categoriesToFilter = this.setCategoriesToFilter();
-                    eventBus.$emit('set-categories-to-filter', categoriesToFilter);
-                });
-            });
+        // eventBus.$on('category-data-is-loading', () => {
+        //     this.loaded = false;
+        // });
+        // eventBus.$on('category-data-finished-loading', () => this.showComponents());
+        // eventBus.$on('add-category',
+        //     () => {
+        //         this.$nextTick(() => {
+        //             var categoriesToFilter = this.setCategoriesToFilter();
+        //             eventBus.$emit('set-categories-to-filter', categoriesToFilter);
+        //         });
+        //     });
 
     },
 
     watch: {
         hover(val) {
-            this.showHover = !!(val && this.editMode);
+            this.showHover = !!(val);
         },
-        currentChildCategoryIds() {
-            var categoriesToFilter = this.setCategoriesToFilter();
-            eventBus.$emit('set-categories-to-filter', categoriesToFilter);
-        },
-        segments() {
-            var categoriesToFilter = this.setCategoriesToFilter();
-            eventBus.$emit('set-categories-to-filter', categoriesToFilter);
-        }
+        // currentChildCategoryIds() {
+        //     var categoriesToFilter = this.setCategoriesToFilter();
+        //     eventBus.$emit('set-categories-to-filter', categoriesToFilter);
+        // },
+        // segments() {
+        //     var categoriesToFilter = this.setCategoriesToFilter();
+        //     eventBus.$emit('set-categories-to-filter', categoriesToFilter);
+        // }
     },
     methods: {
+        async initSegments() {
+            var data = {
+                id: this.topicStore.id,
+            };
+            var result = await $fetch<any>('/api/NuxtSegmentation/GetSegmentation', {
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+            })
+
+            if (result.childCategoryIds != null && result.childCategoryIds.length > 0) {
+                this.currentChildCategoryIds = JSON.parse(result.childCategoryIds);
+                this.getCategoriesData()
+            }
+            if (result.segmentJson != null && result.segmentJson.length > 0) {
+                this.segments = JSON.parse(result.segmentJson);
+                this.hasCustomSegment = true
+            }
+        },
         setCategoriesToFilter() {
             var categoriesToFilter = Array.from(this.currentChildCategoryIds);
-            categoriesToFilter.push(parseInt(this.categoryId));
+            categoriesToFilter.push(this.topicStore.id);
             this.segments.forEach(s => {
                 categoriesToFilter.push(s.CategoryId);
             });
 
             return categoriesToFilter;
         },
-        addNewCategoryCard(id) {
+        async addNewCategoryCard(id) {
             var self = this;
             var data = {
                 categoryId: id,
             };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoryData',
-                data: JSON.stringify(data),
-                success: function (c) {
-                    self.categories.push(c);
-                    self.currentChildCategoryIds.push(c.Id);
 
-                },
-            });
+            var category = await $fetch<any>('/api/NuxtSegmentation/GetCategoryData', {
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+            })
+            if (category) {
+                self.categories.push(category);
+                self.currentChildCategoryIds.push(category.Id);
+            }
         },
-        getCategoriesData() {
+        async getCategoriesData() {
             var self = this;
             var data = {
                 categoryIds: self.currentChildCategoryIds,
             };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoriesData',
-                data: JSON.stringify(data),
-                success: function (data) {
-                    data.forEach(c => self.categories.push(c));
-                    self.$nextTick(() => Images.ReplaceDummyImages());
-                },
-            });
+
+            var categories = await $fetch<any>('/api/NuxtSegmentation/GetCategoriesData', {
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+            })
+            if (categories) {
+                categories.forEach(c => self.categories.push(c));
+                // self.$nextTick(() => Images.ReplaceDummyImages());
+            }
         },
-        getCategory(id) {
+        async getCategory(id) {
             var self = this;
             var data = {
                 id: id,
             };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoryData',
-                data: JSON.stringify(data),
-                success(c) {
-                    self.categories.push(c);
-                    self.$nextTick(() => Images.ReplaceDummyImages());
-                },
-            });
+
+            var category = await $fetch<any>('/api/NuxtSegmentation/GetCategoryData', {
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+            })
+            if (category) {
+                self.categories.push(category);
+                // self.$nextTick(() => Images.ReplaceDummyImages());
+            }
         },
-        loadSegment(id) {
-            if (!userStore.isLoggedIn) {
-                userStore.showLoginModal = true
+        async loadSegment(id) {
+            if (!this.userStore.isLoggedIn) {
+                this.userStore.showLoginModal = true
                 return;
             }
             var idExists = (segment) => segment.CategoryId === id;
@@ -156,25 +161,20 @@ export default {
             var self = this;
             var data = { CategoryId: id }
 
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetSegment',
-                data: JSON.stringify(data),
-                success: function (segment) {
-                    if (segment) {
-                        self.hasCustomSegment = true;
-                        var index = self.segments.indexOf(segment);
-                        if (index == -1)
-                            self.segments.push(segment);
-                        this.saveSegments();
-                    }
-                },
-            });
+            var segment = await $fetch<any>('/api/NuxtSegmentation/GetSegment', {
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+            })
+            if (segment) {
+                self.hasCustomSegment = true;
+                var index = self.segments.indexOf(segment);
+                if (index == -1)
+                    self.segments.push(segment);
+                this.saveSegments();
+            }
         },
         addCategory(val) {
-            if (!userStore.isLoggedIn) {
-                userStore.showLoginModal = true
+            if (!this.userStore.isLoggedIn) {
+                this.userStore.showLoginModal = true
                 return;
             }
 
@@ -182,16 +182,15 @@ export default {
             var categoriesToFilter = this.setCategoriesToFilter();
             var parent = {
                 id: self.categoryId,
-                addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                addCategoryBtnId: 'AddToCurrentCategoryBtn',
                 editCategoryRelation: val ? EditTopicRelationType.Create : EditTopicRelationType.AddChild,
                 categoriesToFilter,
             }
-
-            $('#AddCategoryModal').data('parent', parent).modal('show');
+            this.editTopicRelationStore.openModal(parent)
         },
-        removeChildren() {
-            if (!userStore.isLoggedIn) {
-                userStore.showLoginModal = true
+        async removeChildren() {
+            if (!this.userStore.isLoggedIn) {
+                this.userStore.showLoginModal = true
                 return;
             }
             var self = this;
@@ -199,38 +198,35 @@ export default {
                 parentCategoryId: self.categoryId,
                 childCategoryIds: self.selectedCategories,
             };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/EditCategory/RemoveChildren',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    eventBus.$emit('content-change');
-                    var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
-                    self.filterChildren(removedChildCategoryIds);
-                },
-            });
+
+            var result = await $fetch<any>('/api/Topic/RemoveChildren', {
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+            })
+            if (result == true) {
+                var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
+                self.filterChildren(removedChildCategoryIds);
+            }
         },
         moveToNewCategory() {
-            if (!userStore.isLoggedIn) {
-                userStore.showLoginModal = true
+            if (!this.userStore.isLoggedIn) {
+                this.userStore.showLoginModal = true
                 return;
             }
             var self = this;
             var parent = {
                 id: self.categoryId,
-                addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
+                addCategoryBtnId: 'AddToCurrentCategoryBtn',
                 categoryChange: EditTopicRelationType.Move,
                 selectedCategories: self.selectedCategories,
             }
-            $('#AddCategoryModal').data('parent', parent).modal('show');
+            this.editTopicRelationStore.openModal(parent)
         },
-        showComponents: _.debounce(function () {
-            this.loaded = true;
+        showComponents: _.debounce((self = this as any) => {
+            self.loaded = true;
         }, 1000),
         filterChildren(selectedCategoryIds) {
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
-                function (e) {
+                (e) => {
                     return this.indexOf(e) < 0;
                 },
                 selectedCategoryIds
@@ -245,13 +241,13 @@ export default {
             this.saveSegments();
         },
         async saveSegments() {
-            if (!userStore.isLoggedIn) {
-                userStore.showLoginModal = true
+            if (!this.userStore.isLoggedIn) {
+                this.userStore.showLoginModal = true
                 return;
             }
             var self = this;
             var segmentation = [];
-            this.segment.map(function (s) {
+            this.segment.map((s) => {
                 var childCategoryIds = this.$refs['segment' + s.CategoryId].currentChildCategoryIdsString
                 var segment = childCategoryIds != null ? {
                     CategoryId: s.CategoryId,
@@ -337,3 +333,258 @@ export default {
         </div>
     </div>
 </template>
+
+<style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+@memo-blue-link: #18A0FB;
+@memo-blue: #203256;
+
+#Segmentation {
+    margin-top: 80px;
+    margin-bottom: 40px;
+
+    .toRoot {
+        align-items: center;
+        color: @memo-grey-darker;
+
+        .category-chip-container {
+            margin-top: -10px;
+            margin-left: 4px;
+            text-transform: initial;
+            font-weight: initial;
+            letter-spacing: normal;
+        }
+    }
+
+    .overline-m {
+        margin-bottom: 15px;
+    }
+
+    .segmentationHeader {
+        font-family: 'Open Sans';
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #GeneratedSegmentSection,
+    .segment,
+    .segmentCategoryCard {
+        transition: 0.2s;
+
+        &.hover {
+            cursor: pointer;
+        }
+    }
+
+    #CustomSegmentSection,
+    #GeneratedSegmentSection {
+        .topicNavigation {
+            margin-top: 20px;
+
+            .segmentCategoryCard {
+
+                .topic-name {
+                    padding: 0;
+                }
+
+                .checkBox {
+                    position: absolute;
+                    z-index: 3;
+                    line-height: 0;
+                    background: white;
+                    color: @memo-green;
+                    opacity: 0;
+                    transition: opacity .1s ease-in-out;
+                    transition: color .1s ease-in-out;
+
+
+                    &.show {
+                        opacity: 1;
+                        transition: opacity .1s ease-in-out;
+                        transition: color .1s ease-in-out;
+                    }
+
+
+                    &.selected {
+                        color: @memo-green;
+                        opacity: 1;
+                        transition: opacity .1s ease-in-out;
+                    }
+                }
+            }
+
+            .addCategoryCard {
+                display: flex;
+                border: solid 1px @memo-grey-light;
+                transition: 0.2s;
+                align-items: center;
+                min-height: 150px;
+                color: @memo-grey-dark;
+                cursor: pointer;
+                margin-left: 0;
+                margin-right: 0;
+
+                @media (max-width: 649px) {
+                    width: 100%;
+                }
+
+                .addCategoryLabelContainer {
+                    padding: 0;
+                }
+
+                &:hover {
+                    border-color: @memo-green;
+                }
+
+                .addCategoryCardLabel {
+                    transition: 0.2s;
+
+                    &:hover {
+                        color: @memo-green;
+                    }
+                }
+            }
+        }
+    }
+
+    #CustomSegmentSection {
+        .segment {
+            .segmentSubHeader {
+                .segmentKnowledgeBar {
+                    max-width: 420px;
+                }
+            }
+        }
+    }
+
+    .segmentHeader {
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        .segmentTitle {
+            display: inline-flex;
+            align-items: center;
+
+            a {
+                color: @memo-blue;
+                transition: 0.2s;
+                padding-right: 10px;
+
+                &:hover {
+                    text-decoration: none;
+                    color: @memo-blue-link;
+                }
+            }
+
+            h2 {
+                margin: 0;
+            }
+
+            span.Button {
+                padding-top: 10px;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .segmentDropdown,
+    .dropdown {
+        font-size: 35px;
+        opacity: 0;
+        transition: all .1s ease-in-out;
+    }
+
+    .segmentDropdown,
+    .dropdown {
+        &.hover {
+            opacity: 1;
+            transition: all .1s ease-in-out;
+        }
+    }
+
+    .DropdownButton {
+        position: absolute;
+        right: 10px;
+        top: -10px;
+
+        &.segmentDropdown {
+            position: relative;
+        }
+
+        a.dropdown-toggle {
+            background: #FFFFFFE6;
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            padding: 6px;
+            transition: all .3s ease-in-out;
+
+            i.fa-ellipsis-v {
+                color: @memo-grey-dark;
+                transition: all .3s ease-in-out;
+            }
+        }
+    }
+
+    .hover {
+        .DropdownButton {
+            a.dropdown-toggle {
+                &:hover {
+                    background: #EFEFEFE6;
+
+                    i.fa-ellipsis-v {
+                        color: @memo-blue;
+                    }
+                }
+            }
+        }
+    }
+
+    .set-question-count {
+        a.sub-label {
+            color: @memo-grey-dark;
+        }
+    }
+
+    .segmentCardLock,
+    .segmentLock {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 10px;
+
+        i.fa-unlock {
+            display: none !important;
+        }
+
+        i.fa-lock {
+            display: unset !important;
+        }
+
+        &:hover {
+
+            i.fa-lock {
+                display: none !important;
+                color: @memo-blue;
+            }
+
+            i.fa-unlock {
+                display: unset !important;
+                color: @memo-blue;
+            }
+        }
+    }
+
+    .segmentLock {
+        height: 20px;
+
+        i {
+            font-size: 18px;
+        }
+    }
+}
+</style>

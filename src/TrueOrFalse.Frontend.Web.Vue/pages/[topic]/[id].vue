@@ -31,7 +31,6 @@ const userStore = useUserStore()
     <TopicHeader />
     <br />
     <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
-    <LazyEditorEditBar />
     <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning" />
     <button @click="userStore.logout()">logout</button>
 

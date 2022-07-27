@@ -8,5 +8,8 @@ const props = defineProps({
   <div id="TopicContent">
     {{ props.categoryId }}
     <TopicContentEditor />
+    <TopicContentSegmentation />
+    <LazyEditorEditBar />
+
   </div>
 </template>

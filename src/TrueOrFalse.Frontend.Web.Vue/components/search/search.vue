@@ -23,6 +23,7 @@ watch(selectedItem, (item) => {
 const debounceSearch = _.debounce(() => {
     search()
 }, 500)
+
 const showDropdown = ref(false)
 const searchTerm = ref('')
 watch(searchTerm, (term) => {

@@ -10,7 +10,6 @@ public class TopicController : BaseController
     public JsonResult GetTopic(int id)
     {
         var category = EntityCache.GetCategory(id);
-
         return Json(new TopicModel
         {
             Id = id,
@@ -68,4 +67,6 @@ public class TopicModel
     public string Name { get; set; }
     public string ImgUrl { get; set; }
     public string Content { get; set; }
+    public string ChildCategoryIds { get; set; }
+    public string SegmentJson { get; set; }
 }
