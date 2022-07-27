@@ -128,7 +128,7 @@ public class CategoryModel : BaseContentModule
         }
         else CategoriesParent = parentCategories.Where(PermissionCheck.CanView).ToList();
 
-        CategoriesChildren = EntityCache.GetChildren(category.Id, true);
+        CategoriesChildren = EntityCache.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
