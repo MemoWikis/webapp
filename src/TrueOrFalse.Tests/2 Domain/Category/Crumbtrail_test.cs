@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Conventions.Inspections;
-using FluentNHibernate.Diagnostics;
-using GraphJsonDtos;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 

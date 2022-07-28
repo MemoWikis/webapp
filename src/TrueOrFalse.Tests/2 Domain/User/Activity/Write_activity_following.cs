@@ -1,6 +1,4 @@
-using FluentNHibernate.Conventions;
 using NUnit.Framework;
-using TrueOrFalse.Tests;
 
 public class Write_activity_following : BaseTest
 {

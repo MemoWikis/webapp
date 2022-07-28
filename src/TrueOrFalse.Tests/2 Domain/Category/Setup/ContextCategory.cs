@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SolrNet;
 
 namespace TrueOrFalse.Tests
 {
@@ -11,7 +10,7 @@ namespace TrueOrFalse.Tests
         private readonly ContextUser _contextUser = ContextUser.New();
         private int NamesCounter = 0;
 
-        public List<Category> All = new List<Category>();
+        public List<Category> All = new();
 
         public static ContextCategory New(bool addContextUser = true)
         {

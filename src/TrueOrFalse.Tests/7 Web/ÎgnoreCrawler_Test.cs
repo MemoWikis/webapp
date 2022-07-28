@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NUnit.Framework;
 using TrueOrFalse.Tools;
 
-namespace TrueOrFalse.Tests._7_Web
+class ÎgnoreCrawler_Test
 {
-    class ÎgnoreCrawler_Test
+    [Test]
+    public void Should_load_all_cralwers()
     {
-        [Test]
-        public void Should_load_all_cralwers()
-        {
-            var allCrawlers = IgnoreLog.GetCrawlers();
+        var allCrawlers = IgnoreLog.GetCrawlers();
 
-            Assert.That(allCrawlers.Count, Is.GreaterThanOrEqualTo(1));
-        }
+        Assert.That(allCrawlers.Count, Is.GreaterThanOrEqualTo(1));
     }
 }

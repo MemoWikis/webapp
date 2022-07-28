@@ -2,7 +2,6 @@
 using System.Reflection;
 using NHibernate;
 using NHibernate.Collection.Generic;
-using NHibernate.Dialect.Schema;
 using NHibernate.Engine;
 using NUnit.Framework;
 using TrueOrFalse.Tests;

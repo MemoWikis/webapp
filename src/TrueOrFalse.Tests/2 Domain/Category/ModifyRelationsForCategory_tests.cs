@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate.Util;
+﻿using System.Linq;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -23,6 +21,5 @@ class ModifyRelationsForCategory_tests : BaseTest
         Assert.That(X3.CategoryRelations.Count,Is.EqualTo(1));
 
         var B = EntityCache.GetCategoryByName("B").First(); 
-
     }
 }
