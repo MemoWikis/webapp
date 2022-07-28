@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
-class CategoryVisibility : BaseTest
+class CategoryVisibilityTests : BaseTest
 {
     [Test]
     public void ImpenetrablePrivateCategories()
