@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using NUnit.Framework;
 
 public class AddToWiki_tests : BaseTest
 {
-
     [Test]
     public void Add_Category_To_Wiki_Should_Set_Correct_HistoryField_In_User()
     {

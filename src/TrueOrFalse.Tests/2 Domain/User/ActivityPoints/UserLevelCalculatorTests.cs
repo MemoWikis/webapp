@@ -3,10 +3,6 @@
 [TestFixture]
 public class UserLevelCalculatorTests
 {
-
-    //[Datapoint]
-    //public double[] ArrayDouble1 = { 1.2, 3.4 };
-
     [Test]
     public void Should_calculate_level()
     {
@@ -28,6 +24,5 @@ public class UserLevelCalculatorTests
         Assert.That(UserLevelCalculator.GetLevel(11447346), Is.EqualTo(99));
         Assert.That(UserLevelCalculator.GetLevel(11447347), Is.EqualTo(100));
         Assert.That(UserLevelCalculator.GetLevel(12859989), Is.EqualTo(100));
-
     }
 }

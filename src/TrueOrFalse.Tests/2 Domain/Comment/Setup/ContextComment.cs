@@ -1,52 +1,50 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TrueOrFalse.Tests
+namespace TrueOrFalse.Tests;
+
+public class ContextComment
 {
-    public class ContextComment
-    {
-        private readonly CommentRepository _commentRepo;
-        private readonly ContextUser _contextUser = ContextUser.New();
-        private readonly ContextQuestion _contextQuestion = ContextQuestion.New();
+    private readonly CommentRepository _commentRepo;
+    private readonly ContextUser _contextUser = ContextUser.New();
+    private readonly ContextQuestion _contextQuestion = ContextQuestion.New();
 
-        private readonly User _user1;
-        public readonly Question Question;
+    private readonly User _user1;
+    public readonly Question Question;
         
-        public List<Comment> All = new List<Comment>();
+    public List<Comment> All = new();
 
-        private ContextComment(){
-            _commentRepo = Sl.R<CommentRepository>() ;
+    private ContextComment(){
+        _commentRepo = Sl.R<CommentRepository>() ;
 
-            _user1 = _contextUser.Add("Test").Persist().All.First();
+        _user1 = _contextUser.Add("Test").Persist().All.First();
 
-            Question = _contextQuestion.AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
-        }
+        Question = _contextQuestion.AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
+    }
 
-        public static ContextComment New()
+    public static ContextComment New()
+    {
+        return new ContextComment();
+    }
+
+    public ContextComment Add(string text = "My comment", Comment commentTo = null)
+    {
+        All.Add(new Comment
         {
-            return new ContextComment();
-        }
+            TypeId = 1,
+            Creator = _user1,
+            AnswerTo = commentTo,
+            Text = text
+        });
 
-        public ContextComment Add(string text = "My comment", Comment commentTo = null)
-        {
-            All.Add(new Comment
-            {
-                TypeId = 1,
-                Creator = _user1,
-                AnswerTo = commentTo,
-                Text = text
-            });
+        return this;
+    }
 
-            return this;
-        }
+    public ContextComment Persist()
+    {
+        foreach (var comment in All)
+            _commentRepo.Create(comment);
 
-        public ContextComment Persist()
-        {
-            foreach (var comment in All)
-                _commentRepo.Create(comment);
-
-            return this;
-        }
-
+        return this;
     }
 }

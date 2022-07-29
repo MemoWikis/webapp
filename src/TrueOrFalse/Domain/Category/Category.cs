@@ -26,10 +26,10 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual bool IsUserStartTopic { get; set; }
 
-    public virtual string AuthorIds { get; set; }
+    public virtual string AuthorIds { get; set; } = "";
 
     public virtual int[] AuthorIdsInts => AuthorIds?
-        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()
         .ToArray();
 
@@ -46,17 +46,17 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     private IEnumerable<int> _categoriesToExcludeIds;
     public virtual IEnumerable<int> CategoriesToExcludeIds() =>
-        _categoriesToExcludeIds ?? (_categoriesToExcludeIds = CategoriesToExcludeIdsString
+        _categoriesToExcludeIds ??= CategoriesToExcludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)));
+            .Select(x => Convert.ToInt32(x));
 
 
     private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }
     public virtual IEnumerable<int> CategoriesToIncludeIds() =>
-        _categoriesToIncludeIds ?? (_categoriesToIncludeIds = CategoriesToIncludeIdsString
+        _categoriesToIncludeIds ??= CategoriesToIncludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)));
+            .Select(x => Convert.ToInt32(x));
 
     public virtual IList<Category> CategoriesToInclude()
     {
@@ -72,8 +72,8 @@ public class Category : DomainEntity, ICreator, ICloneable
             : new List<Category>();
     }
 
-    public static IEnumerable<Category> ToCategories(List<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(c => ToCategory(c));
-    public static IEnumerable<Category> ToCategories(IEnumerable<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(c => ToCategory(c));
+    public static IEnumerable<Category> ToCategories(List<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(ToCategory);
+    public static IEnumerable<Category> ToCategories(IEnumerable<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(ToCategory);
 
     public static Category ToCategory(CategoryCacheItem categoryCacheItem)
     {
@@ -135,7 +135,6 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual CategoryVisibility Visibility { get; set; }
     public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
-
 
     public Category()
     {
@@ -216,10 +215,5 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual object Clone()
     {
         return this.MemberwiseClone();
-    }
-
-    public virtual void AddAuthor(int userId)
-    {
-        throw new NotImplementedException();
     }
 }

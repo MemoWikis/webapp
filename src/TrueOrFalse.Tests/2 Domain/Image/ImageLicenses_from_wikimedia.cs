@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using SolrNet.Utils;
 using static System.String;
 
 internal class ImageLicenses_from_wikimedia : BaseTest

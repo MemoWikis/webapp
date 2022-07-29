@@ -72,8 +72,8 @@
     <Reference Include="AutofacContrib.SolrNet">
       <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
     </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
@@ -118,8 +118,8 @@
     <Reference Include="MiniProfiler">
       <HintPath>..\packages\MiniProfiler.3.1.1.140\lib\net40\MiniProfiler.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=8.0.29.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.8.0.29\lib\net48\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=8.0.30.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.30\lib\net48\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -239,10 +239,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.8.0.29\lib\net48\Ubiety.Dns.Core.dll</HintPath>
+      <HintPath>..\packages\MySql.Data.8.0.30\lib\net48\Ubiety.Dns.Core.dll</HintPath>
     </Reference>
     <Reference Include="ZstdNet, Version=1.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.8.0.29\lib\net48\ZstdNet.dll</HintPath>
+      <HintPath>..\packages\MySql.Data.8.0.30\lib\net48\ZstdNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -820,23 +820,9 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\DeleteQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs218.cs" />
+    <Compile Include="Tools\Update\PathTo.cs" />
+    <Compile Include="Tools\Update\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs227.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs226.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs225.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs220.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs224.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs223.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs221.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs217.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs219.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs222.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs216.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs215.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs214.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs213.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs212.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs229.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
@@ -845,8 +831,6 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\QuestionSolutionType3To7Migration.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\TopicNavigationMigration.cs" />
     <Compile Include="Tools\Update\WuwiMigration\WuwiMigration.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
@@ -950,147 +934,8 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobMap.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJob.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
-    <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
-    <Compile Include="Tools\Update\Scripts\PathTo.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs193.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs192.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs191.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs190.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs189.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs188.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs187.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs186.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs185.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs184.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs183.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs182.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs181.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs180.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs179.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs178.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs177.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs176.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs175.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs174.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs173.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs172.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs124.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs123.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs122.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs121.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs120.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs119.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs118.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs117.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs116.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs115.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs114.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs113.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs112.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs111.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs110.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs109.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs108.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs107.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs106.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs105.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs104.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs103.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs102.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs101.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs100.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs099.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs098.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs097.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs096.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs095.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs094.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs093.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs092.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs091.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs090.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs088.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs087.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs086.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs085.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs084.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs083.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs082.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs081.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs080.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs125.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs145.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs144.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs143.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs142.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs141.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs140.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs139.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs138.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs137.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs133.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs132.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs131.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs130.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs128.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs127.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs126.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs136.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs135.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs134.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs129.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs147.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs146.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs155.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs154.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs153.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs152.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs151.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
-    <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs171.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs167.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs170.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs169.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs168.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs166.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs163.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs161.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs160.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs159.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs158.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs157.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs156.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs162.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs165.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs194.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs195.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs207.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs206.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs205.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs204.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs203.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs202.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs201.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs200.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs199.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs198.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs197.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs196.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs211.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs210.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs209.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\MarkdownConverter.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\Part.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\MarkdownConverter\PartType.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\DescriptionMigration.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\DefaultTemplateMigration.cs" />
-    <Compile Include="Tools\Update\TemplateMigration\TemplateMigrator.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs208.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyAsQuestionOwnerAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\SetUserMenuAttribute.cs" />
@@ -1167,21 +1012,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.hbm.xml" />
-    <Content Include="Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\Update\Scripts\015-new-tbl-questionSet.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\Update\Scripts\017-new-tbl-imageMetaData.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\Update\Scripts\025-new-tbl-categories_to_sets.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tools\Update\Scripts\027-new-tbl-setValuations.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Infrastructure\SolrSchemas\schemaCategory.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

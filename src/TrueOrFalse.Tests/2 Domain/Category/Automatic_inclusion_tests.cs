@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Linq;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
-
 
 class Automatic_inclusion_tests : BaseTest
 {

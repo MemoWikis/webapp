@@ -3,103 +3,101 @@ using System.Linq;
 using NHibernate.Util;
 using NUnit.Framework;
 
-namespace TrueOrFalse.Tests.Persistence
+namespace TrueOrFalse.Tests.Persistence;
+
+[Category(TestCategories.Programmer)]
+public class Category_persistence_tests : BaseTest
 {
-    [Category(TestCategories.Programmer)]
-    public class Category_persistence_tests : BaseTest
+    [Test]
+    public void Category_should_be_persisted()
     {
-        [Test]
-        public void Category_should_be_persisted()
+        var categoryRepo = Resolve<CategoryRepository>();
+
+        var user = new User { Name = "Some user" };
+        Resolve<UserRepo>().Create(user);
+
+        var category = new Category("Sports")
         {
-            var categoryRepo = Resolve<CategoryRepository>();
+            Creator = user,
+            Type = CategoryType.Standard
+        };
+        categoryRepo.Create(category);
 
-            var user = new User { Name = "Some user" };
-            Resolve<UserRepo>().Create(user);
 
-            var category = new Category("Sports")
+        var categoryFromDb = categoryRepo.GetAll().First();
+        Assert.That(categoryFromDb.Name, Is.EqualTo("Sports"));
+        Assert.That(categoryFromDb.Type, Is.EqualTo(CategoryType.Standard));
+
+        RecycleContainer();
+
+        categoryRepo = Resolve<CategoryRepository>();
+        categoryFromDb = categoryRepo.GetAll().First();
+        var categoryFromDb2 = categoryRepo.GetById(categoryFromDb.Id);
+        Assert.That(categoryFromDb2.Type, Is.EqualTo(CategoryType.Standard));
+    }
+
+    [Test]
+    public void Category_should_load_children_of_type()
+    {
+        var context = ContextCategory.New()
+            .Add("Daily-A", CategoryType.Daily)
+            .Add("Daily-B", CategoryType.Daily)
+            .Add("DailyIssue-1", CategoryType.DailyIssue)
+            .Add("DailyIssue-2", CategoryType.DailyIssue)
+            .Add("DailyIssue-3", CategoryType.DailyIssue)
+            .Add("Standard-1", CategoryType.Standard)
+            .Persist();
+
+        context.All
+            .Where(c => c.Name.StartsWith("DailyIssue"))
+            .ForEach(c =>
             {
-                Creator = user,
-                Type = CategoryType.Standard
-            };
-            categoryRepo.Create(category);
+                var parentCategories = new List<Category>();
+                parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
+                parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
 
+                ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id,
+                    parentCategories.Select(cat => cat.Id).ToList());
+            });
 
-            var categoryFromDb = categoryRepo.GetAll().First();
-            Assert.That(categoryFromDb.Name, Is.EqualTo("Sports"));
-            Assert.That(categoryFromDb.Type, Is.EqualTo(CategoryType.Standard));
+        context.Update();
 
-            RecycleContainer();
+        var children = R<CategoryRepository>().GetChildren(
+            CategoryType.Daily, CategoryType.DailyIssue, context.All.First(x => x.Name == "Daily-A").Id);
 
-            categoryRepo = Resolve<CategoryRepository>();
-            categoryFromDb = categoryRepo.GetAll().First();
-            var categoryFromDb2 = categoryRepo.GetById(categoryFromDb.Id);
-            Assert.That(categoryFromDb2.Type, Is.EqualTo(CategoryType.Standard));
-        }
+        Assert.That(children.Count, Is.EqualTo(3));
+        Assert.That(children.Any(c => c.Name == "DailyIssue-1"), Is.True);
+        Assert.That(children.Any(c => c.Name == "DailyIssue-2"), Is.True);
+        Assert.That(children.Any(c => c.Name == "DailyIssue-3"), Is.True);
+    }
 
-        [Test]
-        public void Category_should_load_children_of_type()
+    [Test]
+    public void Get_correct_aggregated_categories()
+    {
+        var context = ContextCategory.New();
+        var user = context.AddCaseThreeToCache();
+
+        var categories = EntityCache.GetAllCategories();
+
+        for (int i = 0; i < categories.Count; i++)
         {
-            var context = ContextCategory.New()
-                .Add("Daily-A", CategoryType.Daily)
-                .Add("Daily-B", CategoryType.Daily)
-                .Add("DailyIssue-1", CategoryType.DailyIssue)
-                .Add("DailyIssue-2", CategoryType.DailyIssue)
-                .Add("DailyIssue-3", CategoryType.DailyIssue)
-                .Add("Standard-1", CategoryType.Standard)
-                .Persist();
-
-            context.All
-                .Where(c => c.Name.StartsWith("DailyIssue"))
-                .ForEach(c =>
-                {
-                    var parentCategories = new List<Category>();
-                    parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
-                    parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
-
-                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id,
-                        parentCategories.Select(cat => cat.Id).ToList());
-                });
-
-            context.Update();
-
-            var children = R<CategoryRepository>().GetChildren(
-                CategoryType.Daily, CategoryType.DailyIssue, context.All.First(x => x.Name == "Daily-A").Id);
-
-            Assert.That(children.Count, Is.EqualTo(3));
-            Assert.That(children.Any(c => c.Name == "DailyIssue-1"), Is.True);
-            Assert.That(children.Any(c => c.Name == "DailyIssue-2"), Is.True);
-            Assert.That(children.Any(c => c.Name == "DailyIssue-3"), Is.True);
-        }
-
-        [Test]
-        public void Get_correct_aggregated_categories()
-        {
-            var context = ContextCategory.New();
-            var user = context.AddCaseThreeToCache();
-
-            var categories = EntityCache.GetAllCategories();
-
-            for (int i = 0; i < categories.Count; i++)
+            if (categories[i].Name != "A")
             {
-                if (categories[i].Name != "A")
-                {
-                    var category = categories.ByName("A");
+                var category = categories.ByName("A");
 
-                    category.CategoryRelations.Add(
-                        new CategoryCacheRelation()
-                        {
-                            CategoryId = category.Id,
-                            RelatedCategoryId = categories[i].Id
-                        });
-                    EntityCache.AddOrUpdate(category);
-                    context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
-                }
+                category.CategoryRelations.Add(
+                    new CategoryCacheRelation()
+                    {
+                        CategoryId = category.Id,
+                        RelatedCategoryId = categories[i].Id
+                    });
+                EntityCache.AddOrUpdate(category);
+                context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
             }
-            categories = EntityCache.GetAllCategories();
-            
-            Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories(true).Where(cci => UserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
-
-            Assert.That(categories.ByName("A").AggregatedCategories(true).Count, Is.EqualTo(13));
         }
+        categories = EntityCache.GetAllCategories();
+            
+        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories(true).Where(cci => UserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
+        Assert.That(categories.ByName("A").AggregatedCategories(true).Count, Is.EqualTo(13));
     }
 }

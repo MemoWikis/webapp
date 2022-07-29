@@ -367,15 +367,6 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public ActionResult MigrateDescriptionToTemplates()
-    {
-        TemplateMigration.DescriptionMigration.Start();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
-    }
-
-    [HttpPost]
     public ActionResult UserDelete(ToolsModel toolsModel)
     {
         Sl.UserRepo.DeleteFromAllTables(toolsModel.UserId);
@@ -412,14 +403,5 @@ public class MaintenanceController : BaseController
         CategoryAuthorUpdater.UpdateAll();
         return View("Maintenance",
             new MaintenanceModel { Message = new SuccessMessage("Autoren von Kategorien wurden aktualisiert.") });
-    }
-
-    [HttpPost]
-    public ActionResult MigrateWuwi()
-    {
-        TemplateMigration.DescriptionMigration.Start();
-
-        return View("Maintenance",
-            new MaintenanceModel { Message = new SuccessMessage("Die Category Description wurden migriert") });
     }
 }

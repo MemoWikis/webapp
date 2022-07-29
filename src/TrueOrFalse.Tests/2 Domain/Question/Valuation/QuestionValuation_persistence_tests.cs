@@ -1,59 +1,57 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using TrueOrFalse;
 
-namespace TrueOrFalse.Tests
+namespace TrueOrFalse.Tests;
+
+[Category(TestCategories.Programmer)]
+public class QestionValuation_persistence_tests : BaseTest
 {
-    [Category(TestCategories.Programmer)]
-    public class QestionValuation_persistence_tests : BaseTest
+    [Test]
+    public void QuestionValuation_should_be_persisted()
     {
-        [Test]
-        public void QuestionValuation_should_be_persisted()
-        {
-            var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "a", solutionText: "b").Persist();
-            var questionValuation = 
-                new QuestionValuation  
-                {
-                    Question = contextQuestion.All[0],
-                    User = contextQuestion.Creator,
-                    Quality = 91,
-                    RelevanceForAll = 40,
-                    RelevancePersonal = 7
-                };
+        var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "a", solutionText: "b").Persist();
+        var questionValuation = 
+            new QuestionValuation  
+            {
+                Question = contextQuestion.All[0],
+                User = contextQuestion.Creator,
+                Quality = 91,
+                RelevanceForAll = 40,
+                RelevancePersonal = 7
+            };
 
-            Resolve<QuestionValuationRepo>().Create(questionValuation);
-        }
+        Resolve<QuestionValuationRepo>().Create(questionValuation);
+    }
 
-        [Test]
-        public void Should_select_by_question_ids()
-        {
-            var context = ContextQuestion.New()
-                .AddQuestion(questionText: "1", solutionText: "a")
-                .AddQuestion(questionText: "2", solutionText: "a")
-                .AddQuestion(questionText: "3", solutionText: "a")
-                .AddQuestion(questionText: "4", solutionText: "a")
-                .AddQuestion(questionText: "5", solutionText: "a")
-                .Persist();
+    [Test]
+    public void Should_select_by_question_ids()
+    {
+        var context = ContextQuestion.New()
+            .AddQuestion(questionText: "1", solutionText: "a")
+            .AddQuestion(questionText: "2", solutionText: "a")
+            .AddQuestion(questionText: "3", solutionText: "a")
+            .AddQuestion(questionText: "4", solutionText: "a")
+            .AddQuestion(questionText: "5", solutionText: "a")
+            .Persist();
 
-            var contextUsers = ContextUser.New()
-                .Add("User1")
-                .Add("User2")
-                .Persist();
+        var contextUsers = ContextUser.New()
+            .Add("User1")
+            .Add("User2")
+            .Persist();
 
-            var user1 = contextUsers.All[0];
-            var user2 = contextUsers.All[1];
+        var user1 = contextUsers.All[0];
+        var user2 = contextUsers.All[1];
 
-            var questionValuation1 = new QuestionValuation { Question = context.All[0], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
-            var questionValuation2 = new QuestionValuation { Question = context.All[1], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
-            var questionValuation3 = new QuestionValuation { Question = context.All[2], User = user2, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
-            var questionValuation4 = new QuestionValuation { Question = context.All[3], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
-            var questionValuation5 = new QuestionValuation { Question = context.All[4], User = user2, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
+        var questionValuation1 = new QuestionValuation { Question = context.All[0], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
+        var questionValuation2 = new QuestionValuation { Question = context.All[1], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
+        var questionValuation3 = new QuestionValuation { Question = context.All[2], User = user2, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
+        var questionValuation4 = new QuestionValuation { Question = context.All[3], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
+        var questionValuation5 = new QuestionValuation { Question = context.All[4], User = user2, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
 
-            Resolve<QuestionValuationRepo>().Create(
-                new List<QuestionValuation> { questionValuation1, questionValuation2, questionValuation3, questionValuation4, questionValuation5});
+        Resolve<QuestionValuationRepo>().Create(
+            new List<QuestionValuation> { questionValuation1, questionValuation2, questionValuation3, questionValuation4, questionValuation5});
 
-            Assert.That(Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(
-                new[] { context.All[0].Id, context.All[1].Id, context.All[2].Id }, user1.Id).Count, Is.EqualTo(2));
-        }
+        Assert.That(Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(
+            new[] { context.All[0].Id, context.All[1].Id, context.All[2].Id }, user1.Id).Count, Is.EqualTo(2));
     }
 }

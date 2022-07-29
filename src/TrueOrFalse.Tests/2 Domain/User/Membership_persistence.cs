@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using NUnit.Framework;
 
 public class Membership_persistence : BaseTest
