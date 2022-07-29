@@ -1,4 +1,4 @@
-﻿import { Site } from '../utils/site';
+﻿import { Site } from '../shared/site';
 import { GoogleMemuchoUser } from './GoogleMemuchoUser'
 import { nextTick } from 'vue'
 

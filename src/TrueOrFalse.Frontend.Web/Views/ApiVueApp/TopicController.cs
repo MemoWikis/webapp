@@ -16,6 +16,11 @@ public class TopicController : BaseController
             Name = category.Name,
             ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
             Content = category.Content,
+            ParentTopicCount = category.ParentCategories().Count,
+            ChildTopicCount = category.AggregatedCategories().Count,
+            Views = Sl.CategoryViewRepo.GetViewCount(id),
+            Visibility = category.Visibility,
+            AuthorIds = category.AuthorIds
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -67,6 +72,12 @@ public class TopicModel
     public string Name { get; set; }
     public string ImgUrl { get; set; }
     public string Content { get; set; }
-    public string ChildCategoryIds { get; set; }
-    public string SegmentJson { get; set; }
+    public int ParentTopicCount { get; set; }
+    public int ChildTopicCount { get; set; }
+    public int Views { get; set; }
+    public CategoryVisibility Visibility { get; set; }
+
+    //Comments not implemented yet
+    public int CommentCount { get; set; }
+    public int[] AuthorIds { get; set; }
 }

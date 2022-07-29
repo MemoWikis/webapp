@@ -150,7 +150,7 @@ function openUsers() {
                     </li>
                     <li class="searchResultItem" v-for="c in categories" @click="selectItem(c)" data-toggle="tooltip"
                         v-tooltip="c.Name">
-                        <img :src="c.ImageUrl" />
+                        <Image :src="c.ImageUrl" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ c.Name }}</div>
                             <div class="searchResultSubLabel body-s">{{ c.QuestionCount }} Frage<template
@@ -163,7 +163,7 @@ function openUsers() {
                     </li>
                     <li class="searchResultItem" v-for="q in questions" @click="selectItem(q)" data-toggle="tooltip"
                         data-placement="top" :title="q.Name">
-                        <img :src="q.ImageUrl" />
+                        <Image :src="q.ImageUrl" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ q.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>
@@ -175,7 +175,7 @@ function openUsers() {
                     </li>
                     <li class="searchResultItem" v-for="u in users" @click="selectItem(u)" data-toggle="tooltip"
                         data-placement="top" :title="u.Name">
-                        <img class="authorImg" :src="u.ImageUrl" />
+                        <Image class="authorImg" :src="u.ImageUrl" style="author" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ u.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>

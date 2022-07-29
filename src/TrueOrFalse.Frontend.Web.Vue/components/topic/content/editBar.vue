@@ -66,7 +66,7 @@ const userStore = useUserStore()
 </script>
 
 <template>
-    <div id="EditBar">
+    <div id="EditBar" class="col-xs-12">
         <div class="fab-container">
             <template v-if="tabsStore.activeTab == Tab.Topic">
                 <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged">

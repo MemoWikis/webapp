@@ -19,11 +19,10 @@ function openUrl(val) {
         <div class="HeaderMainRow row">
             <div id="LogoContainer" class="col-sm-3 col-Logo col-xs-2">
                 <a id="LogoLink" href="/">
-                    <div id="FullLogo" class="hidden-xs">
-                        <Image url="/Images/Logo/Logo.svg" />
-                    </div>
-                    <div id="MobileLogo" class="hidden-sm hidden-md hidden-lg">
+                    <div id="MobileLogo">
                         <Image url="/Images/Logo/LogoMemoWiki.svg" />
+                        <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
+
                     </div>
                 </a>
             </div>

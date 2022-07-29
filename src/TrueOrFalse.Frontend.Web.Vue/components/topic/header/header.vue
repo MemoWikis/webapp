@@ -7,6 +7,7 @@
         <div id="TopicHeader" class="col-xs-12">
             <TopicHeaderImage />
             <TopicHeaderTitle />
+            <TopicHeaderOptions />
         </div>
 
         <TopicTabs />

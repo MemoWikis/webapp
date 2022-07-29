@@ -283,7 +283,7 @@ export default {
 
 
 <template>
-    <div id="Segmentation">
+    <div id="Segmentation" class="col-xs-12">
         <div class="segmentationHeader overline-m">
             Untergeordnete Themen <template v-if="categories.length > 0">({{ categories.length }})</template>
             <div class="toRoot" id="SegmentationLinkToGlobalWiki" style="display:none">

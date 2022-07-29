@@ -8,8 +8,8 @@ import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
+import { useTopicStore } from '~~/components/topic/topicStore'
 
-import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 const topicStore = useTopicStore()
 const editor = useEditor({
     content: topicStore.content,
@@ -63,5 +63,5 @@ topicStore.$onAction(({ name, after }) => {
 
 <template>
     <LazyEditorMenuBar :editor="editor" :heading="true" v-if="editor" />
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor" class="col-xs-12" />
 </template>

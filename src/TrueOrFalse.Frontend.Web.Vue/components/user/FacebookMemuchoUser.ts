@@ -1,5 +1,5 @@
 ﻿import { UserCreateResult } from './UserCreateResult'
-import { Site } from '../utils/site'
+import { Site } from '../shared/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'

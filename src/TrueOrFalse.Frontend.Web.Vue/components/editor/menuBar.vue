@@ -73,7 +73,7 @@ props.editor.on('blur', () => {
 })
 </script>
 <template>
-    <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
+    <div class="menubar is-hidden col-xs-12" :class="{ 'is-focused': focused }" v-if="props.editor">
 
         <button class="menubar__button first-btn" :class="{ 'is-active': props.editor.isActive('bold') }"
             @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">

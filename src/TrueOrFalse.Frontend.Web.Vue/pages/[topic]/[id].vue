@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
 import { Topic, useTopicStore } from '~~/components/topic/topicStore';
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
 import { useUserStore } from '~~/components/user/userStore';
 
 const route = useRoute()
@@ -27,8 +26,8 @@ const userStore = useUserStore()
 <template>
   <div class="container">
     <TopicHeader />
-    <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
-    <LazyTopicTabsLearning v-show="tabsStore.activeTab == Tab.Learning" />
+    <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
+    <LazyTopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
     <button @click="userStore.logout()">logout</button>
   </div>
 </template>

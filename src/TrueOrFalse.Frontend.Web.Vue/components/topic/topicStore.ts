@@ -1,11 +1,18 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '~~/components/user/userStore'
+import { Visibility } from '../shared/visibilityEnum'
 
 export class Topic {
   Id: number
   Name: string
   ImgUrl: string
   Content: string
+  ParentTopicCount: number
+  ChildTopicCount: number
+  Views: number
+  CommentCount: number
+  Visibility: Visibility
+  AuthorIds: number[]
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -16,21 +23,37 @@ export const useTopicStore = defineStore('topicStore', {
       initialName: '',
       imgUrl:'',
       questionCount: 0,
-      authorIds: [],
       content: '',
       initialContent: '',
       contentHasChanged: false,
+      parentTopicCount: 0,
+      childTopicCount: 0,
+      views: 0,
+      commentCount: 0,
+      visibility: null as Visibility,
+      authorIds: []
     }
   },
   actions: {
     setTopic(topic: Topic) {
-      this.id = topic.Id
-      this.name = topic.Name
-      this.initialName = topic.Name
+      if (topic != null) {
+        this.id = topic.Id
+        this.name = topic.Name
+        this.initialName = topic.Name
+  
+        this.imgUrl = topic.ImgUrl
+        this.content = topic.Content
+        this.initialContent = topic.Content
 
-      this.imgUrl = topic.ImgUrl
-      this.content = topic.Content
-      this.initialContent = topic.Content
+        this.parentTopicCount = topic.ParentTopicCount
+        this.childTopicCount = topic.ChildTopicCount
+
+        this.views = topic.Views
+        this.commentCount = topic.CommentCount
+        this.visibility = topic.Visibility
+
+        this.authorIds = topic.AuthorIds
+      }
     },
     async saveTopic() {
       const userStore = useUserStore()
