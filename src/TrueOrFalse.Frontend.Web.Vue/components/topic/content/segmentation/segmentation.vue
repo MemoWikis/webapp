@@ -10,7 +10,6 @@ interface Segment {
     Title: String,
     ChildCategoryIds: Array<Number>,
 };
-
 export default {
     props: {
         isHistoricString: String,
@@ -119,12 +118,13 @@ export default {
             }
         },
         async getCategoriesData() {
+
             var self = this;
             var data = {
                 categoryIds: self.currentChildCategoryIds,
             };
-
-            var categories = await $fetch<any>('/api/NuxtSegmentation/GetCategoriesData', {
+            var categories
+            categories = await $fetch<any>('/api/NuxtSegmentation/GetCategoriesData', {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (categories) {
@@ -336,8 +336,8 @@ export default {
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-@memo-blue-link: #18A0FB;
-@memo-blue: #203256;
+// @memo-blue-link: #18A0FB;
+// @memo-blue: #203256;
 
 #Segmentation {
     margin-top: 80px;

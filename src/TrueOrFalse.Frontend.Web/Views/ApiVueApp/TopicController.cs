@@ -20,7 +20,8 @@ public class TopicController : BaseController
             ChildTopicCount = category.AggregatedCategories().Count,
             Views = Sl.CategoryViewRepo.GetViewCount(id),
             Visibility = category.Visibility,
-            AuthorIds = category.AuthorIds
+            AuthorIds = category.AuthorIds,
+            IsWiki = category.IsStartPage()
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -80,4 +81,5 @@ public class TopicModel
     //Comments not implemented yet
     public int CommentCount { get; set; }
     public int[] AuthorIds { get; set; }
+    public bool IsWiki { get; set; }
 }

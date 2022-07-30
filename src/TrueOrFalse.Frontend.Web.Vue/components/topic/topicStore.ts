@@ -13,6 +13,7 @@ export class Topic {
   CommentCount: number
   Visibility: Visibility
   AuthorIds: number[]
+  IsWiki: boolean
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -31,7 +32,8 @@ export const useTopicStore = defineStore('topicStore', {
       views: 0,
       commentCount: 0,
       visibility: null as Visibility,
-      authorIds: []
+      authorIds: [],
+      isWiki: false
     }
   },
   actions: {
@@ -40,7 +42,6 @@ export const useTopicStore = defineStore('topicStore', {
         this.id = topic.Id
         this.name = topic.Name
         this.initialName = topic.Name
-  
         this.imgUrl = topic.ImgUrl
         this.content = topic.Content
         this.initialContent = topic.Content
@@ -53,6 +54,7 @@ export const useTopicStore = defineStore('topicStore', {
         this.visibility = topic.Visibility
 
         this.authorIds = topic.AuthorIds
+        this.isWiki = topic.IsWiki
       }
     },
     async saveTopic() {

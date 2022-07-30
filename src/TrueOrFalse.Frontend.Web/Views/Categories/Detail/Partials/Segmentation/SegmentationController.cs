@@ -36,7 +36,7 @@ public class NuxtSegmentationController : BaseController
         return Json(new
         {
             CategoryId = segment.Item.Id,
-            Title = json.Title,
+            Title = json.Title, 
             ChildCategoryIds = "[" + String.Join(", ", segment.ChildCategories.Select(c => c.Id).ToList()) + "]",
         });
     }

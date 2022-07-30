@@ -193,7 +193,6 @@ export default {
             });
         },
         filterChildren(selectedCategoryIds) {
-            console.log(selectedCategoryIds);
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
                 function (e) {
                     return this.indexOf(e) < 0;

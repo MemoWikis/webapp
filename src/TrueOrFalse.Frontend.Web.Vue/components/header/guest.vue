@@ -15,40 +15,44 @@ function openUrl(val) {
 
 
 <template>
-    <div id="GuestNavigation" class="container">
-        <div class="HeaderMainRow row">
-            <div id="LogoContainer" class="col-sm-3 col-Logo col-xs-2">
-                <a id="LogoLink" href="/">
-                    <div id="MobileLogo">
-                        <Image url="/Images/Logo/LogoMemoWiki.svg" />
-                        <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
+    <div id="GuestNavigation">
+        <div class="HeaderMainRow container">
+            <div class="row">
+                <div id="LogoContainer" class="col-sm-3 col-Logo col-xs-2">
+                    <a id="LogoLink" href="/">
+                        <div id="Logo">
+                            <Image url="/Images/Logo/LogoMemoWiki.svg" />
+                            <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
 
-                    </div>
-                </a>
-            </div>
-            <div id="HeaderBodyContainer" class="col-sm-9 col-LoginAndHelp col-xs-10 row">
-                <div id="HeaderSearch" class="">
-                    <div class="searchButton" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
-                        <i :class="[showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
-                    </div>
-                    <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
-                        <LazySearch :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
-                            id="SmallHeaderSearchComponent" />
-                    </div>
-                </div>
-                <div id="loginAndHelp" class="">
-                    <div class="login-register-container">
-                        <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
-                            <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
-                            Anmelden
                         </div>
-                        <NuxtLink to="/user/register">
-                            <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
-                        </NuxtLink>
+                    </a>
+                </div>
+                <div id="HeaderBodyContainer" class="col-sm-9 col-LoginAndHelp col-xs-10 row">
+                    <div id="HeaderSearch" class="">
+                        <div class="searchButton" :class="{ 'showSearch': showSearch }"
+                            @click="showSearch = !showSearch">
+                            <i :class="[showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
+                        </div>
+                        <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
+                            <LazySearch :search-type="SearchType.All" :show-search="showSearch"
+                                v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
+                        </div>
                     </div>
+                    <div id="loginAndHelp" class="">
+                        <div class="login-register-container">
+                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
+                                <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
+                                Anmelden
+                            </div>
+                            <NuxtLink to="/user/register">
+                                <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
+                            </NuxtLink>
+                        </div>
 
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -67,9 +71,11 @@ function openUrl(val) {
     .HeaderMainRow {
         min-height: 60px;
         height: 100%;
-        display: flex;
-        align-items: center;
-        width: 100%;
+
+        .row {
+            height: 60px;
+
+        }
 
         .col-LoginAndHelp {
             display: flex;
@@ -191,6 +197,17 @@ function openUrl(val) {
 
     .col-Logo {
         height: 100%;
+    }
+
+    #Logo {
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        img {
+            height: 24px;
+            margin-right: 6px;
+        }
     }
 }
 </style>

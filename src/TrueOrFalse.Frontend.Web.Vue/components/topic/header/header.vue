@@ -15,6 +15,8 @@
 </template>
 
 <style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 #TopicHeader {
     margin-top: 20px;
     display: flex;

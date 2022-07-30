@@ -1,33 +1,30 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Tab } from '~~/components/topic/tabs/TabsEnum'
 import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
 import { Topic, useTopicStore } from '~~/components/topic/topicStore';
 import { useUserStore } from '~~/components/user/userStore';
 
-const route = useRoute()
-const categoryId = ref(parseInt(route.params.id.toString()))
-const config = useRuntimeConfig()
-
-const { data: topic } = await useFetch<Topic>(`/Topic/GetTopic/${categoryId.value}`, {
-  baseURL: config.apiBase,
-  headers: useRequestHeaders(['cookie'])
-});
-
-const t = useState<Topic>('topic', () => topic.value)
-const topicStore = useTopicStore()
-topicStore.setTopic(t.value)
+definePageMeta({
+  middleware: ["topic"]
+})
 
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
+
+const topic = useState<Topic>('topic')
+const topicStore = useTopicStore()
+topicStore.setTopic(topic.value)
+
+const route = useRoute()
+
 </script>
 
 <template>
   <div class="container">
     <TopicHeader />
-    <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" :category-id="categoryId" />
-    <LazyTopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
+    <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" :category-id="route.params.id" />
+    <TopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
     <button @click="userStore.logout()">logout</button>
   </div>
 </template>

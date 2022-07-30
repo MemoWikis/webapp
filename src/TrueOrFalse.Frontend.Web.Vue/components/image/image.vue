@@ -19,7 +19,6 @@ switch (props.style) {
     type = ' author'
     break;
 }
-console.log(props.style)
 styleClass.value = props.class + type
 </script>
 

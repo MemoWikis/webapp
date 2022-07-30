@@ -4,7 +4,7 @@
 <template>
   <div id="TopicContent" class="row">
     <TopicContentEditor />
-    <LazyTopicContentEditBar />
+    <TopicContentEditBar />
     <TopicContentSegmentation />
   </div>
 </template>

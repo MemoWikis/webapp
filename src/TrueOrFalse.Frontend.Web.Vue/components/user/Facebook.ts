@@ -6,7 +6,6 @@
             { access_token: accessToken, fields: 'name, email' },
             response => {
                 if (response && !response.error) {
-                    console.log(response);
                     continuation(response);
                 } else {    
                     throw (response);

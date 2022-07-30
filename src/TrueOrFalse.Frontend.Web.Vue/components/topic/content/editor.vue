@@ -8,11 +8,12 @@ import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
-import { useTopicStore } from '~~/components/topic/topicStore'
+import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 
+const topic = useState<Topic>('topic')
 const topicStore = useTopicStore()
 const editor = useEditor({
-    content: topicStore.content,
+    content: topicStore.initialContent,
     extensions: [
         StarterKit.configure({
             heading: {
@@ -62,6 +63,15 @@ topicStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <LazyEditorMenuBar :editor="editor" :heading="true" v-if="editor" />
-    <editor-content :editor="editor" class="col-xs-12" />
+    <template v-if="editor">
+        <EditorMenuBar :editor="editor" :heading="true" />
+        <editor-content :editor="editor" class="col-xs-12" />
+    </template>
+    <div class="col-xs-12" v-else-if="topic != null">
+        <div style="height:36px"></div>
+        <div class="ProseMirror" v-html="topic.Content">
+
+        </div>
+    </div>
+
 </template>
