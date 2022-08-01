@@ -26,6 +26,11 @@ public class SessionUserController : BaseController
             return Json(new
             {
                 Success = true,
+                Message = "",
+                Id = SessionUser.UserId,
+                WikiId = SessionUser.User.StartTopicId,
+                IsAdmin = SessionUser.IsInstallationAdmin,
+                Name = SessionUser.User.Name
             });
         }
 

@@ -6,20 +6,24 @@ const textArea = ref(null);
 
 function resize() {
     let element = textArea.value;
-
-    element.style.height = "1px";
     element.style.height = element.scrollHeight + "px";
 }
 
 onMounted(() => {
-    resize()
     window.addEventListener('resize', resize);
+    topicStore.$subscribe((mutation, state) => {
+        if (state.name) {
+            if (topicStore.initialName != topicStore.name) {
+                topicStore.contentHasChanged = true
+            }
+        }
+    })
 })
 
-onUpdated(() => {
-    resize()
+onUnmounted(() => {
+    window.removeEventListener('resize', resize);
 })
-const loadAuthor = ref(false)
+
 </script>
 
 <template>

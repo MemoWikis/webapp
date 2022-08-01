@@ -9,6 +9,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 
 const topic = useState<Topic>('topic')
 const topicStore = useTopicStore()
@@ -60,6 +61,10 @@ topicStore.$onAction(({ name, after }) => {
     })
 })
 
+const spinnerStore = useSpinnerStore()
+onMounted(() => {
+    spinnerStore.hideSpinner()
+})
 </script>
 
 <template>

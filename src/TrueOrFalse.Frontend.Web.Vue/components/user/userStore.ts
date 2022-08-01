@@ -4,13 +4,17 @@ import { useSpinnerStore } from '../spinner/spinnerStore'
 const isLoggedIn = (e) => useState<boolean>('isLoggedIn', e)
 
 type UserLoginResult = {
-  Success: boolean;
-  Message: string;
+  Success: boolean
+  Message: string
+  Id: number
+  WikiId: number
+  IsAdmin: boolean
+  Name: string
 }
 
 export type LoginState = {
-  IsLoggedIn: boolean;
-  UserId: number;
+  IsLoggedIn: boolean
+  UserId: number
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -19,7 +23,10 @@ export const useUserStore = defineStore('userStore', {
       isLoggedIn: false,
       id: 0,
       type: UserType.Anonymous,
-      showLoginModal: false
+      showLoginModal: false,
+      wikiId: 0,
+      isAdmin: false,
+      name: ''
     }
   },
   actions: {
@@ -35,6 +42,10 @@ export const useUserStore = defineStore('userStore', {
 
       if (!!result && result.Success){
         this.isLoggedIn = true
+        this.id = result.Id
+        this.wikiId = result.WikiId
+        this.isAdmin = result.IsAdmin
+        this.name = result.Name
         window.location.reload()
       }
       spinnerStore.hideSpinner()

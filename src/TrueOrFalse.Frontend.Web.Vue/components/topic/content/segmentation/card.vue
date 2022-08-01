@@ -161,9 +161,11 @@ export default {
             </div>
             <div class="col-xs-9">
                 <div class="topic-name">
-                    <a :href="category.LinkToCategory">
+
+                    <NuxtLink :href="category.LinkToCategory">
                         <template v-html="category.CategoryTypeHtml"></template> {{ category.Name }}
-                    </a>
+                    </NuxtLink>
+
                     <div v-if="visibility == 1" class="segmentCardLock" @click="openPublishModal" data-toggle="tooltip"
                         title="Thema ist privat. Zum Veröffentlichen klicken.">
                         <i class="fas fa-lock"></i>

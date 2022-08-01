@@ -33,7 +33,7 @@ export const useTopicStore = defineStore('topicStore', {
       commentCount: 0,
       visibility: null as Visibility,
       authorIds: [],
-      isWiki: false
+      isWiki: false,
     }
   },
   actions: {
@@ -77,7 +77,11 @@ export const useTopicStore = defineStore('topicStore', {
       this.name = this.initialName
       this.content = this.initialContent
       this.contentHasChanged = false
-    }
+    },
+    isOwnerOrAdmin(){
+      const userStore = useUserStore()
+      return userStore.isAdmin
+    },
   },
   getters: {
     getTopicName(): string {

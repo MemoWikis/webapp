@@ -39,6 +39,10 @@ function footerCheck() {
 topicStore.$subscribe((mutation, state) => {
     if (state.contentHasChanged)
         footerCheck()
+
+    if (state.id) {
+        topicStore.contentHasChanged = false
+    }
 })
 const isExtended = ref(false)
 function handleScroll() {
