@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useTopicStore } from '../topicStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -15,13 +16,21 @@ export const useEditTopicRelationStore = defineStore('topicStore', {
       return {
         showModal: false,
         type: null as EditTopicRelationType,
-        parent: null as any
+        parentId: 0,
+        redirect: false,
       }
     },
     actions: {
-        openModal(parent) {
-            this.parent = parent
+        openModal(parentId) {
+            this.parentId = parentId
             this.showModal = true
+        },
+        createTopic() {
+          const topicStore = useTopicStore()
+          this.parentId = topicStore.id
+          this.type = EditTopicRelationType.Create
+          this.redirect = true
+          this.showModal = true
         }
     },
   })

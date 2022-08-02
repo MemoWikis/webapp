@@ -14,6 +14,8 @@ export class Topic {
   Visibility: Visibility
   AuthorIds: number[]
   IsWiki: boolean
+  CurrentUserIsCreator: boolean
+  CanBeDeleted: boolean
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -34,6 +36,8 @@ export const useTopicStore = defineStore('topicStore', {
       visibility: null as Visibility,
       authorIds: [],
       isWiki: false,
+      currentUserIsCreator: false,
+      canBeDeleted: false,
     }
   },
   actions: {
@@ -55,6 +59,8 @@ export const useTopicStore = defineStore('topicStore', {
 
         this.authorIds = topic.AuthorIds
         this.isWiki = topic.IsWiki
+        this.currentUserIsCreator = topic.CurrentUserIsCreator
+        this.canBeDeleted = topic.CanBeDeleted
       }
     },
     async saveTopic() {
@@ -80,7 +86,7 @@ export const useTopicStore = defineStore('topicStore', {
     },
     isOwnerOrAdmin(){
       const userStore = useUserStore()
-      return userStore.isAdmin
+      return userStore.isAdmin || this.currentUserIsCreator
     },
   },
   getters: {

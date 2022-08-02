@@ -21,7 +21,9 @@ public class TopicController : BaseController
             Views = Sl.CategoryViewRepo.GetViewCount(id),
             Visibility = category.Visibility,
             AuthorIds = category.AuthorIds,
-            IsWiki = category.IsStartPage()
+            IsWiki = category.IsStartPage(),
+            CurrentUserIsCreator = SessionUser.User.Id == category.Creator.Id,
+            CanBeDeleted = PermissionCheck.CanDelete(category)
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -82,4 +84,6 @@ public class TopicModel
     public int CommentCount { get; set; }
     public int[] AuthorIds { get; set; }
     public bool IsWiki { get; set; }
+    public bool CurrentUserIsCreator { get; set; }
+    public bool CanBeDeleted { get; set; }
 }

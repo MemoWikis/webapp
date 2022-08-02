@@ -8,7 +8,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
 
 const tabsStore = useTabsStore()
 const route = useRoute()
-
+console.log(route.query)
 const config = useRuntimeConfig()
 const { data: topic } = await useFetch<Topic>(`/Topic/GetTopic/${route.params.id}`, {
   baseURL: config.apiBase,
@@ -25,7 +25,7 @@ topicStore.$subscribe((mutation, state) => {
   }
 })
 onMounted(() => {
-  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name)}/${topic.value.Id}`);
+  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`);
 })
 
 </script>

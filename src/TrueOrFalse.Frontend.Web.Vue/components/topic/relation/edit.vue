@@ -3,68 +3,88 @@ import { ref } from 'vue'
 import { useEditTopicRelationStore, EditTopicRelationType } from './editTopicRelationStore';
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
 import { useUserStore } from '~~/components/user/userStore'
+import { messages } from '~~/components/alert/messages';
+import { useTopicStore } from '../topicStore';
+
+
 const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
 const editTopicRelationStore = useEditTopicRelationStore()
-function addTopic() {
+const topicStore = useTopicStore()
+
+const name = ref('')
+const showErrorMsg = ref(false)
+const errorMsg = ref('')
+const forbbidenTopicName = ref('')
+const existingTopicUrl = ref('')
+
+async function addTopic() {
 
     if (!userStore.isLoggedIn) {
         userStore.showLoginModal = true
-        return;
+        return
     }
-    spinnerStore.showSpinner();
-    var self = this;
-    var url;
-    var categoryData;
+    spinnerStore.showSpinner()
 
-    categoryData = {
-        name: self.name,
-        parentCategoryId: self.parentId,
+    type TopicNameValidationResult = {
+        categoryNameAllowed: boolean,
+        name: string,
+        url: string,
+        key: string
     }
-    url = '/EditCategory/QuickCreate';
-    // $.ajax({
-    //     type: 'Post',
-    //     contentType: "application/json",
-    //     url: '/EditCategory/ValidateName',
-    //     data: JSON.stringify({ name: self.name }),
-    //     success(data) {
-    //         if (data.categoryNameAllowed) {
-    //             $.ajax({
-    //                 type: 'Post',
-    //                 contentType: "application/json",
-    //                 url: url,
-    //                 data: JSON.stringify(categoryData),
-    //                 success(data) {
 
-    //                     if (data.success) {
-    //                         if (self.redirect)
-    //                             window.open(data.url, '_self');
+    const nameValidationResult = await $fetch<TopicNameValidationResult>('/api/SessionUser/Login', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
 
-    //                         if (self.addCategoryBtnId != null)
-    //                             self.loadCategoryCard(data.id);
+    if (nameValidationResult.categoryNameAllowed) {
+        type QuickCreateResult = {
+            success: boolean,
+            url: string,
+            id: number
+        }
 
-    //                         $('#AddCategoryModal').modal('hide');
-    //                         self.addCategoryCount();
-    //                         Utils.HideSpinner();
-    //                     }
-    //                 },
-    //             });
-    //         } else {
-    //             self.errorMsg = messages.error.category[data.key];
-    //             self.forbiddenCategoryName = data.name;
-    //             self.existingCategoryUrl = data.url;
-    //             self.showErrorMsg = true;
-    //             Utils.HideSpinner();
-    //         };
-    //     },
-    // });
+
+        const topicData = {
+            name: name.value,
+            parentCategoryId: editTopicRelationStore.parentId,
+        }
+        const result = await $fetch<QuickCreateResult>('/EditCategory/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
+        if (result.success) {
+            if (editTopicRelationStore.redirect)
+                navigateTo(result.url)
+
+            topicStore.childTopicCount++
+            editTopicRelationStore.showModal = false
+            spinnerStore.hideSpinner()
+        }
+    } else {
+        showErrorMsg.value = messages.error.category[nameValidationResult.key]
+        forbbidenTopicName.value = nameValidationResult.name
+        existingTopicUrl.value = nameValidationResult.url
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+    }
+
 }
+
+const disableAddButton = ref(true)
+
+watch(name, (val) => {
+    if (val.length <= 0)
+        disableAddButton.value = true;
+    else
+        disableAddButton.value = false;
+})
+
+const selectedCategoryId = ref(0)
+watch(selectedCategoryId, (id) => {
+    if (id > 0 && editTopicRelationStore.type != EditTopicRelationType.Create)
+        disableAddButton.value = false;
+})
 </script>
 
 <template>
-    <LazyModal @close="editTopicRelationStore.showModal = false" :show="userStore.showLoginModal">
-
-        <!-- <template v-slot:header>
+    <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal">
+        <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
                 erstellen
             </h4>
@@ -88,7 +108,7 @@ function addTopic() {
                     </div>
                 </form>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
+                    <NuxtLink :href="existingTopicUrl" class="alert-link">{{ forbbidenTopicName }}</NuxtLink>
                     {{ errorMsg }}
                 </div>
                 <div class="categoryPrivate">
@@ -98,7 +118,7 @@ function addTopic() {
             </template>
 
 
-            <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
+            <!-- <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
                 <div class="mb-250">
                     <p>Wo soll das Thema hinzugefügt werden?</p>
                 </div>
@@ -198,8 +218,8 @@ function addTopic() {
                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
                     {{ errorMsg }}
                 </div>
-            </template>
-            <template v-else>
+            </template> -->
+            <!-- <template v-else>
                 <form v-on:submit.prevent="selectCategory">
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedCategory" class="searchResultItem mb-125" data-toggle="tooltip"
@@ -239,28 +259,28 @@ function addTopic() {
                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
                     {{ errorMsg }}
                 </div>
-            </template>
+            </template> -->
 
 
         </template>
         <template v-slot:footer>
             <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewCategoryBtn"
-                class="btn btn-primary memo-button" @click="addTopic" :disabled="disableAddCategory">Thema erstellen
+                class="btn btn-primary memo-button" @click="addTopic" :disabled="disableAddButton">Thema erstellen
             </div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
-                class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddCategory">
+            <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
+                class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddButton">
                 Thema verschieben</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingCategoryBtn"
-                class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddCategory">Thema
+                class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddButton">Thema
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" id="AddNewParentBtn"
-                class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema
+                class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddButton">Thema
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
-                class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddCategory">Thema
-                verknüpfen</div>
+                class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddButton">Thema
+                verknüpfen</div> -->
             <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
-        </template> -->
+        </template>
 
     </LazyModal>
 </template>

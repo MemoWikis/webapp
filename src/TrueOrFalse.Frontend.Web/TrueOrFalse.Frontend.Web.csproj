@@ -268,6 +268,7 @@
     <Compile Include="Views\ApiVueApp\SessionUserController.cs" />
     <Compile Include="Views\ApiVueApp\FooterController.cs" />
     <Compile Include="Views\ApiVueApp\SearchController.cs" />
+    <Compile Include="Views\ApiVueApp\EditTopicRelationController.cs" />
     <Compile Include="Views\ApiVueApp\TopicController.cs" />
     <Compile Include="Views\Api\ActivityPointsApiController.cs" />
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
