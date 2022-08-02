@@ -6,6 +6,5 @@
         <TopicContentEditor />
         <TopicContentEditBar />
     </div>
-    <TopicContentSegmentation />
 
 </template>

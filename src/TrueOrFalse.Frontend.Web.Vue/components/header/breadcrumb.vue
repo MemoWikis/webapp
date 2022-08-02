@@ -26,9 +26,6 @@ const stackedBreadcrumb = ref([])
 const breadcrumbWidth = ref(0)
 
 function updateBreadcrumb() {
-    console.log(props.headerContainer.clientWidth)
-
-    console.log(props.headerExtras.clientWidth)
     breadcrumbWidth.value = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
 }
 onMounted(() => {
@@ -54,13 +51,16 @@ async function getBreadcrumb() {
     }
     const isTopic = props.route.params != null && props.route.params.topic != null && props.route.params.id > 0
 
-    if (process.client && isTopic) {
-        breadcrumb.value = await $fetch<Breadcrumb>('/api/Breadcrumb/GetBreadcrumb/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-    } else if (process.server && isTopic) {
-        const config = useRuntimeConfig()
-        breadcrumb.value = await $fetch<Breadcrumb>('/Breadcrumb/GetBreadcrumb/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
+    if (isTopic) {
+        if (process.client) {
+            breadcrumb.value = await $fetch<Breadcrumb>('/api/Breadcrumb/GetBreadcrumb/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+        } else if (process.server) {
+            const config = useRuntimeConfig()
+            breadcrumb.value = await $fetch<Breadcrumb>('/Breadcrumb/GetBreadcrumb/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
+        }
+        sessionStorage.setItem('currentWikiId', breadcrumb.value.newWikiId)
     }
-    sessionStorage.setItem('currentWikiId', breadcrumb.value.newWikiId);
+
 }
 
 watch(() => topicStore.id, () => {

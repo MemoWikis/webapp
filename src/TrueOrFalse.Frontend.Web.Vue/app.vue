@@ -15,13 +15,11 @@ useHead({
 
 
 <template>
-  <div>
-    <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
-    <HeaderMain :route="route" />
-    <NuxtPage />
-    <LazyUserLogin v-if="!userStore.isLoggedIn" />
-    <LazySpinner />
-    <LazyAlert />
-    <Footer />
-  </div>
+  <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
+  <HeaderMain :route="route" />
+  <NuxtPage />
+  <LazyUserLogin v-if="!userStore.isLoggedIn" />
+  <LazySpinner />
+  <LazyAlert />
+  <Footer />
 </template>

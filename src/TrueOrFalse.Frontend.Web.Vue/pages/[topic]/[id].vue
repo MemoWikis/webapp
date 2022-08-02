@@ -28,15 +28,15 @@ tabsStore.activeTab = Tab.Topic
 onMounted(() => {
   var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
 
-  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}${versionQuery}`);
+  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}${versionQuery}`)
 })
 
 watch(() => tabsStore.activeTab, (t) => {
   if (t == Tab.Topic) {
-    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`);
+    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`)
   }
   else if (t == Tab.Learning)
-    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}/Lernen`);
+    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`)
 })
 
 </script>
@@ -46,7 +46,8 @@ watch(() => tabsStore.activeTab, (t) => {
     <div class="row">
       <div class="col-lg-9 col-md-12 container">
         <TopicHeader />
-        <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
+        <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
+        <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
         <TopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
       </div>
       <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">

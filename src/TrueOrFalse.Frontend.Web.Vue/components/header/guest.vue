@@ -19,13 +19,14 @@ function openUrl(val) {
         <div class="HeaderMainRow container">
             <div class="row">
                 <div id="LogoContainer" class="col-sm-3 col-Logo col-xs-2">
-                    <a id="LogoLink" href="/">
+                    <NuxtLink id="LogoLink" href="/">
                         <div id="Logo">
                             <Image url="/Images/Logo/LogoMemoWiki.svg" />
                             <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
 
                         </div>
-                    </a>
+
+                    </NuxtLink>
                 </div>
                 <div id="HeaderBodyContainer" class="col-sm-9 col-LoginAndHelp col-xs-10 row">
                     <div id="HeaderSearch" class="">
@@ -42,7 +43,10 @@ function openUrl(val) {
                         <div class="login-register-container">
                             <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
-                                Anmelden
+                                <div class="login-btn-label">
+                                    Anmelden
+
+                                </div>
                             </div>
                             <NuxtLink to="/user/register">
                                 <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
@@ -207,6 +211,12 @@ function openUrl(val) {
         img {
             height: 24px;
             margin-right: 6px;
+        }
+    }
+
+    .login-btn {
+        .login-btn-label {
+            padding-left: 6px;
         }
     }
 }

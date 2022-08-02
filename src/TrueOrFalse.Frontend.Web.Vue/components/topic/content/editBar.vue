@@ -12,29 +12,31 @@ const width = ref(0)
 const editMode = ref(false)
 const footerIsVisible = ref(false)
 function footerCheck() {
-    var contentModuleAppWidth = document.getElementById('TopicContent').clientWidth;
-    var windowWidth = window.innerWidth;
-    const elFooter = document.getElementById('Segmentation');
+    if (document.getElementById('TopicContent') != null) {
+        var contentWidth = document.getElementById('TopicContent').clientWidth
+        var windowWidth = window.innerWidth;
+        const elFooter = document.getElementById('Segmentation')
 
-    if (elFooter) {
-        var rect = elFooter.getBoundingClientRect();
-        var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-        if (rect.top - viewHeight >= 0) {
-            if (footerIsVisible.value && editMode.value) {
-                shrink.value = false;
-                expand.value = true;
+        if (elFooter) {
+            var rect = elFooter.getBoundingClientRect();
+            var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
+            if (rect.top - viewHeight >= 0) {
+                if (footerIsVisible.value && editMode.value) {
+                    shrink.value = false
+                    expand.value = true
+                }
+                footerIsVisible.value = false
+                width.value = windowWidth
+            } else {
+                if (!footerIsVisible.value && editMode.value) {
+                    expand.value = false
+                    shrink.value = true
+                }
+                footerIsVisible.value = true
+                width.value = contentWidth
             }
-            footerIsVisible.value = false;
-            width.value = windowWidth;
-        } else {
-            if (!footerIsVisible.value && editMode.value) {
-                expand.value = false;
-                shrink.value = true;
-            }
-            footerIsVisible.value = true;
-            width.value = contentModuleAppWidth;
         }
-    };
+    }
 }
 
 watch(() => topicStore.contentHasChanged, () => {
@@ -48,18 +50,18 @@ watch(() => topicStore.id, () => {
 const isExtended = ref(false)
 function handleScroll() {
     if (window.scrollY == 0)
-        isExtended.value = true;
-    else isExtended.value = false;
+        isExtended.value = true
+    else isExtended.value = false
 
     if (tabsStore.activeTab == Tab.Topic)
-        footerCheck();
+        footerCheck()
 }
-onBeforeMount(() => {
-    footerCheck();
-})
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', footerCheck);
+
+onMounted(async () => {
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', footerCheck)
+    await nextTick()
+    footerCheck()
 })
 
 const shrink = ref(false)
@@ -68,8 +70,6 @@ const showSaveMsg = ref(false)
 const saveMsg = ref('')
 
 const userStore = useUserStore()
-
-
 
 </script>
 

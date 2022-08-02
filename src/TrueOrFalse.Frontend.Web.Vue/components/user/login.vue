@@ -135,7 +135,7 @@ const errorMessage = ref('')
                 <div class="footerText">
                     <p>
                         <strong style="font-weight: 700;">Noch kein Benutzer?</strong> <br />
-                        <a href="/Registrieren">Jetzt Registrieren!</a>
+                        <NuxtLink href="/Registrieren">Jetzt Registrieren!</NuxtLink>
                     </p>
                 </div>
             </template>
@@ -150,5 +150,6 @@ const errorMessage = ref('')
 
 </template>
 
-<style scoped>
+<style scoped lang="less">
+@import '~~/assets/register/Register.less';
 </style>
