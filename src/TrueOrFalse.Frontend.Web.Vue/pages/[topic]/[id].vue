@@ -8,24 +8,35 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
 
 const tabsStore = useTabsStore()
 const route = useRoute()
-console.log(route.query)
 const config = useRuntimeConfig()
 const { data: topic } = await useFetch<Topic>(`/Topic/GetTopic/${route.params.id}`, {
   baseURL: config.apiBase,
   headers: useRequestHeaders(['cookie'])
-});
+})
 useState<Topic>('topic', () => topic.value)
+
 const topicStore = useTopicStore()
 topicStore.setTopic(topic.value)
 
 const spinnerStore = useSpinnerStore()
-topicStore.$subscribe((mutation, state) => {
-  if (state.id) {
-    spinnerStore.showSpinner()
-  }
+
+watch(() => topicStore.id, () => {
+  spinnerStore.showSpinner()
 })
+tabsStore.activeTab = Tab.Topic
+
 onMounted(() => {
-  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`);
+  var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
+
+  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}${versionQuery}`);
+})
+
+watch(() => tabsStore.activeTab, (t) => {
+  if (t == Tab.Topic) {
+    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`);
+  }
+  else if (t == Tab.Learning)
+    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}/Lernen`);
 })
 
 </script>
@@ -35,15 +46,10 @@ onMounted(() => {
     <div class="row">
       <div class="col-lg-9 col-md-12 container">
         <TopicHeader />
-        <div id="TopicContent" class="row" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic"
-          :category-id="route.params.id">
-          <TopicContentEditor />
-          <TopicContentEditBar />
-          <TopicContentSegmentation />
-        </div>
+        <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
         <TopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
       </div>
-      <div id="Sidebar" class="col-lg-3 col-md-hidden container">
+      <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">
         <div id="SidebarDivider"></div>
       </div>
     </div>

@@ -36,14 +36,15 @@ function footerCheck() {
         }
     };
 }
-topicStore.$subscribe((mutation, state) => {
-    if (state.contentHasChanged)
-        footerCheck()
 
-    if (state.id) {
-        topicStore.contentHasChanged = false
-    }
+watch(() => topicStore.contentHasChanged, () => {
+    footerCheck
 })
+
+watch(() => topicStore.id, () => {
+    topicStore.contentHasChanged = false
+})
+
 const isExtended = ref(false)
 function handleScroll() {
     if (window.scrollY == 0)
@@ -53,6 +54,9 @@ function handleScroll() {
     if (tabsStore.activeTab == Tab.Topic)
         footerCheck();
 }
+onBeforeMount(() => {
+    footerCheck();
+})
 onMounted(() => {
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', footerCheck);

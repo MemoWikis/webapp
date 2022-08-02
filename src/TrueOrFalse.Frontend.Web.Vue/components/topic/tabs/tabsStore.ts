@@ -4,7 +4,7 @@ import { Tab } from './tabsEnum'
 export const useTabsStore = defineStore('tabsStore', {
   state: () => {
     return {
-      activeTab: Tab.Topic,
+      activeTab: null as Tab,
     }
   },
   getters:{

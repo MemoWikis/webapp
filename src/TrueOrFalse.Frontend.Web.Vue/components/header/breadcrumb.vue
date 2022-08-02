@@ -32,7 +32,9 @@ function updateBreadcrumb() {
     breadcrumbWidth.value = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
 }
 onMounted(() => {
-    window.addEventListener('resize', updateBreadcrumb);
+    if (typeof window !== 'undefined') {
+        window.addEventListener('resize', updateBreadcrumb);
+    }
 })
 
 async function getBreadcrumb() {
@@ -61,15 +63,15 @@ async function getBreadcrumb() {
     sessionStorage.setItem('currentWikiId', breadcrumb.value.newWikiId);
 }
 
-topicStore.$subscribe((mutation, state) => {
-    if (state.id)
-        getBreadcrumb()
+watch(() => topicStore.id, () => {
+    getBreadcrumb()
+
 })
 </script>
 
 <template>
     <div id="BreadCrumb" v-if="breadcrumb != null" ref="breadcrumbEl" :style="`width: ${breadcrumbWidth}px`">
-        <NuxtLink :to="`/${encodeURIComponent(breadcrumb.personalWiki.Name)}/${breadcrumb.personalWiki.Id}`"
+        <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replace(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
             class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name">
             <font-awesome-icon icon="fa-solid fa-house" />
         </NuxtLink>
@@ -79,7 +81,7 @@ topicStore.$subscribe((mutation, state) => {
         <template v-else-if="breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
             <div class="breadcrumb-divider"></div>
             <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
-                <NuxtLink :to="`/${encodeURIComponent(breadcrumb.rootTopic.Name)}/${breadcrumb.rootTopic.Id}`"
+                <NuxtLink :to="`/${encodeURI(breadcrumb.rootTopic.Name.replace(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
                     class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
                     {{ breadcrumb.rootTopic.Name }}
                 </NuxtLink>
@@ -88,7 +90,8 @@ topicStore.$subscribe((mutation, state) => {
         </template>
 
         <template v-for="b in breadcrumb.items">
-            <NuxtLink :to="`/${encodeURIComponent(b.Name)}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name">
+            <NuxtLink :to="`/${encodeURI(b.Name.replace(' ', '-'))}/${b.Id}`" class="breadcrumb-item"
+                v-tooltip="b.Name">
                 {{ b.Name }}
             </NuxtLink>
             <font-awesome-icon icon="fa-solid fa-chevron-right" />

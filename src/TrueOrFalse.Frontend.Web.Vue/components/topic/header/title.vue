@@ -11,13 +11,14 @@ function resize() {
 
 onMounted(() => {
     window.addEventListener('resize', resize);
-    topicStore.$subscribe((mutation, state) => {
-        if (state.name) {
-            if (topicStore.initialName != topicStore.name) {
-                topicStore.contentHasChanged = true
-            }
+
+    watch(() => topicStore.name, (newName) => {
+        if (topicStore.initialName != newName) {
+            topicStore.contentHasChanged = true
         }
     })
+
+
 })
 
 onUnmounted(() => {

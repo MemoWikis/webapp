@@ -2,5 +2,10 @@
 </script>
 
 <template>
+    <div id="TopicContent" class="row">
+        <TopicContentEditor />
+        <TopicContentEditBar />
+    </div>
+    <TopicContentSegmentation />
 
 </template>
