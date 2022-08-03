@@ -32,7 +32,8 @@ function openUrl(val) {
                     <div id="HeaderSearch" class="">
                         <div class="searchButton" :class="{ 'showSearch': showSearch }"
                             @click="showSearch = !showSearch">
-                            <i :class="[showSearch ? 'fas fa-times' : 'fa fa-search']" aria-hidden="true"></i>
+                            <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                            <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                         </div>
                         <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
                             <LazySearch :search-type="SearchType.All" :show-search="showSearch"
@@ -62,6 +63,7 @@ function openUrl(val) {
 </template>
 
 <style lang="less" scoped>
+@import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
 
 #GuestNavigation {

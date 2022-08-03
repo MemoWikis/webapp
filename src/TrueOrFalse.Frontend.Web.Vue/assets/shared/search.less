@@ -1,4 +1,4 @@
-﻿@import (reference) '../../../Style/includes/imports.less';
+@import (reference) '~~/assets/includes/imports.less';
 
 .searchAutocomplete {
     z-index: 105;
@@ -161,34 +161,34 @@
         width: 34px;
         transform: translateZ(0);
 
-        .fa-search, .fa-times {
-            transition: all 0.3s;
+        svg.fa-magnifying-glass {
+            color: white;
+        }
+
+        svg.fa-xmark, svg.fa-magnifying-glass {
+            transition: all 0.1s;
         }
 
         &:hover {
             cursor: pointer;
 
-            .fa-search, .fa-times {
+            svg.fa-xmark, svg.fa-magnifying-glass {
                 color: @memo-green;
             }
         }
     }
-
-    .fa-times {
-        padding-right: 6px;
-    }
 }
 
 #StickySearch {
-    .searchButton {     
+    .searchButton {
 
-        .fa-search, .fa-times {
+        svg.fa-xmark, svg.fa-magnifying-glass {
             color: @memo-grey-dark;
         }
 
         &:hover {
 
-            .fa-search, .fa-times {
+            svg.fa-xmark, svg.fa-magnifying-glass {
                 color: @memo-blue;
             }
         }

@@ -28,15 +28,15 @@ tabsStore.activeTab = Tab.Topic
 onMounted(() => {
   var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
 
-  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}${versionQuery}`)
+  history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}${versionQuery}`)
 })
 
 watch(() => tabsStore.activeTab, (t) => {
   if (t == Tab.Topic) {
-    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`)
+    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}`)
   }
   else if (t == Tab.Learning)
-    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replace(" ", "-"))}/${topic.value.Id}`)
+    history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}`)
 })
 
 </script>

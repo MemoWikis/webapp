@@ -97,7 +97,7 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
                             <template v-for="(t, i) in helpTopics">
-                                <LazyNuxtLink :to="`/${t.Name.replace(' ', '-')}/${t.Id}`">
+                                <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>
                                 <br v-if="i < helpTopics.length - 1" />
@@ -116,13 +116,13 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
                     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <LazyNuxtLink :to="`/${rootTopic.Name.replace(' ', '-')}/${rootTopic.Id}`">
+                                <LazyNuxtLink :to="`/${rootTopic.Name.replaceAll(' ', '-')}/${rootTopic.Id}`">
                                     {{ rootTopic.Name }}
                                 </LazyNuxtLink>
 
                             </div>
                             <template v-for="(t, i) in mainTopics">
-                                <LazyNuxtLink :to="`/${t.Name.replace(' ', '-')}/${t.Id}`">
+                                <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>
                                 <br v-if="i < mainTopics.length - 1" />
@@ -131,7 +131,7 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
                         <div class="footer-group">
                             <div class="overline-m no-line">Beliebte Themen</div>
                             <template v-for="(t, i) in popularTopics">
-                                <LazyNuxtLink :to="`/${t.Name.replace(' ', '-')}/${t.Id}`">
+                                <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>
                                 <br v-if="i < popularTopics.length - 1" />

@@ -126,5 +126,5 @@ onBeforeMount(() => {
 </template>
 
 <style lang="less" scoped>
-@import '~~/assets/register/Register.less';
+@import '~~/assets/shared/register.less';
 </style>

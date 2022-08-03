@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
-import { Google } from './Google';
 
 const eMail = ref('')
 const password = ref('')
@@ -109,10 +108,10 @@ const errorMessage = ref('')
                                 <input name="password" placeholder="" :type="passwordInputType" width="100%"
                                     class="loginInputs" v-model="password" @keydown.enter="login()"
                                     @click="errorMessage = ''" />
-                                <font-awesome-icon icon="fa-solid fa-eye" v-if="passwordInputType == 'password'"
-                                    @click="passwordInputType = 'text'" />
-                                <font-awesome-icon icon="fa-solid fa-eye-slash" v-if="passwordInputType == 'text'"
-                                    @click="passwordInputType = 'password'" />
+                                <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
+                                    v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'" />
+                                <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
+                                    v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" />
                             </div>
                         </div>
                     </form>
@@ -151,5 +150,5 @@ const errorMessage = ref('')
 </template>
 
 <style scoped lang="less">
-@import '~~/assets/register/Register.less';
+@import '~~/assets/shared/register.less';
 </style>

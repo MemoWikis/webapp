@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useTopicStore } from '../topic/topicStore';
 import { ref } from 'vue'
-import { isTopicReference } from '@babel/types';
+import _ from 'underscore'
+
 const props = defineProps(['headerContainer', 'headerExtras', 'route'])
 const topicStore = useTopicStore()
 class BreadcrumbItem {
@@ -21,16 +22,70 @@ const breadcrumb = ref(null)
 onBeforeMount(async () => {
     getBreadcrumb()
 })
-const breadcrumbEl = ref(null)
-const stackedBreadcrumb = ref([])
-const breadcrumbWidth = ref(0)
+const breadcrumbItems = ref([])
+const stackedBreadcrumbItems = ref([])
 
-function updateBreadcrumb() {
-    breadcrumbWidth.value = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
+const breadcrumbEl = ref(null)
+const breadcrumbWidth = ref('')
+
+const hide = ref(true)
+function startUpdateBreadcrumb() {
+    hide.value = true
+    updateBreadcrumb()
 }
-onMounted(() => {
+const updateBreadcrumb = _.throttle(async () => {
+    if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null) {
+        const width = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
+
+        if (width > 0)
+            breadcrumbWidth.value = `width: ${width}px`
+
+        await nextTick()
+
+        if (breadcrumbEl.value.clientHeight > 21) {
+            shiftToStackedBreadcrumbItems()
+        } else if (breadcrumbEl.value.clientHeight < 22) {
+            insertToBreadcrumbItems()
+            setTimeout(() => {
+                if (breadcrumbEl.value.clientHeight > 21) {
+                    shiftToStackedBreadcrumbItems()
+                }
+            }, 200)
+        }
+        await nextTick()
+
+        setTimeout(() => {
+            if (breadcrumbEl.value.clientHeight < 22)
+                hide.value = false
+        }, 200)
+    }
+}, 10)
+
+function shiftToStackedBreadcrumbItems() {
+    if (breadcrumbItems.value.length > 0)
+        stackedBreadcrumbItems.value.push(breadcrumbItems.value.shift())
+
+}
+function insertToBreadcrumbItems() {
+    if (stackedBreadcrumbItems.value.length > 0)
+        breadcrumbItems.value.unshift(stackedBreadcrumbItems.value.pop())
+}
+
+
+onMounted(async () => {
     if (typeof window !== 'undefined') {
-        window.addEventListener('resize', updateBreadcrumb);
+        window.addEventListener('resize', startUpdateBreadcrumb)
+        window.addEventListener('scroll', startUpdateBreadcrumb)
+    }
+    await nextTick()
+    startUpdateBreadcrumb()
+
+})
+
+onBeforeUnmount(() => {
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', startUpdateBreadcrumb)
+        window.removeEventListener('scroll', startUpdateBreadcrumb)
     }
 })
 
@@ -38,12 +93,12 @@ async function getBreadcrumb() {
     var sessionStorage = window.sessionStorage;
 
     if (topicStore.isWiki)
-        sessionStorage.setItem('currentWikiId', topicStore.id.toString());
-    var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId'));
+        sessionStorage.setItem('currentWikiId', topicStore.id.toString())
+    var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId'))
 
     var currentWikiId = 0;
     if (!isNaN(sessionWikiId))
-        currentWikiId = sessionWikiId;
+        currentWikiId = sessionWikiId
 
     var data = {
         wikiId: currentWikiId,
@@ -58,20 +113,21 @@ async function getBreadcrumb() {
             const config = useRuntimeConfig()
             breadcrumb.value = await $fetch<Breadcrumb>('/Breadcrumb/GetBreadcrumb/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
         }
+        breadcrumbItems.value = breadcrumb.value.items
         sessionStorage.setItem('currentWikiId', breadcrumb.value.newWikiId)
+        updateBreadcrumb()
     }
-
 }
 
 watch(() => topicStore.id, () => {
     getBreadcrumb()
-
 })
 </script>
 
 <template>
-    <div id="BreadCrumb" v-if="breadcrumb != null" ref="breadcrumbEl" :style="`width: ${breadcrumbWidth}px`">
-        <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replace(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
+    <div id="BreadCrumb" v-if="breadcrumb != null" ref="breadcrumbEl" :style="breadcrumbWidth"
+        :class="{ 'hide-breadcrumb': hide }">
+        <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
             class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name">
             <font-awesome-icon icon="fa-solid fa-house" />
         </NuxtLink>
@@ -81,7 +137,8 @@ watch(() => topicStore.id, () => {
         <template v-else-if="breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
             <div class="breadcrumb-divider"></div>
             <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
-                <NuxtLink :to="`/${encodeURI(breadcrumb.rootTopic.Name.replace(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
+                <NuxtLink
+                    :to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
                     class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
                     {{ breadcrumb.rootTopic.Name }}
                 </NuxtLink>
@@ -89,8 +146,19 @@ watch(() => topicStore.id, () => {
             </template>
         </template>
 
-        <template v-for="b in breadcrumb.items">
-            <NuxtLink :to="`/${encodeURI(b.Name.replace(' ', '-'))}/${b.Id}`" class="breadcrumb-item"
+        <V-Dropdown v-if="stackedBreadcrumbItems.length > 0" :distance="0">
+            <font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
+            <font-awesome-icon icon="fa-solid fa-chevron-right" />
+            <template #popper>
+                <NuxtLink v-for="s in stackedBreadcrumbItems" :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`"
+                    v-tooltip="s.Name">
+                    {{ s.Name }}
+                </NuxtLink>
+            </template>
+
+        </V-Dropdown>
+        <template v-for="b in breadcrumbItems">
+            <NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item"
                 v-tooltip="b.Name">
                 {{ b.Name }}
             </NuxtLink>
@@ -112,12 +180,23 @@ watch(() => topicStore.id, () => {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 100%;
     font-size: 14px;
     color: @memo-grey-dark;
+    flex-wrap: wrap;
+    opacity: 1;
+    transition: opacity 0.5s;
+
+    &.hide-breadcrumb {
+        transition: opacity 0s;
+        opacity: 0;
+    }
 
     .breadcrumb-item {
         padding: 0 12px;
+        max-width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
     }
 
     .breadcrumb-divider {
