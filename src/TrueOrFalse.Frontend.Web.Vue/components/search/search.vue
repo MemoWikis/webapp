@@ -12,12 +12,12 @@ const props = defineProps({
 })
 
 
-const emit = defineEmits(['select-item'])
+const emit = defineEmits(['selectItem'])
 const open = ref(false)
 
 const selectedItem = ref('')
 watch(selectedItem, (item) => {
-    emit('select-item', item);
+    emit('selectItem', item);
 })
 
 const debounceSearch = _.debounce(() => {
@@ -44,6 +44,9 @@ onBeforeMount(() => {
     switch (props.searchType) {
         case SearchType.Category:
             searchUrl.value = '/api/Search/Category';
+            break;
+        case SearchType.CategoryInWiki:
+            searchUrl.value = '/api/Search/CategoryInWiki'
             break;
         default:
             searchUrl.value = '/api/Search/All';

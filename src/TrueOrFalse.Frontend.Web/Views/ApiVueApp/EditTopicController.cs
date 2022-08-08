@@ -5,9 +5,9 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class EditTopicRelationController : BaseController
+public class EditTopicController : BaseController
 {
-    private readonly CategoryRepository _categoryRepository;
+    private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
 
     [HttpPost]
     public JsonResult ValidateName(string name)
@@ -29,7 +29,7 @@ public class EditTopicRelationController : BaseController
             });
         }
 
-        if (categoryNameAllowed.ForbiddenWords(name))
+        if (categoryNameAllowed.ForbiddenWords(name))   
         {
             return Json(new
             {
@@ -47,10 +47,10 @@ public class EditTopicRelationController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult QuickCreate(string name, int parentCategoryId)
+    public JsonResult QuickCreate(string name, int parentTopicId)
     {
         var category = new Category(name);
-        ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
+        ModifyRelationsForCategory.AddParentCategory(category, parentTopicId);
 
         category.Creator = SessionUser.User;
         category.Type = CategoryType.Standard;

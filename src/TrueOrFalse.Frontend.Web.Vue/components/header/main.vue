@@ -1,8 +1,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useUserStore } from '../user/userStore';
-import { Author } from '../author/author';
-import { ImageStyle } from '../image/imageStyleEnum';
+import { useUserStore } from '../user/userStore'
+import { Author } from '../author/author'
+import { ImageStyle } from '../image/imageStyleEnum'
+import { SearchType } from '~~/components/search/searchTypeEnum'
+
+const showSearch = ref(true)
+
+function openUrl(val) {
+    location.href = val.Url
+}
 const props = defineProps(['route'])
 const userStore = useUserStore()
 const currentUser = ref(null as Author)
@@ -100,7 +107,15 @@ onMounted(() => {
 
                         <template v-else-if="showRegisterButton">
                             <div>
-                                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                                <div class="searchButton" :class="{ 'showSearch': showSearch }"
+                                    @click="showSearch = !showSearch">
+                                    <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                    <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                                </div>
+                                <div class="StickySearch" :class="{ 'showSearch': showSearch }">
+                                    <LazySearch :search-type="SearchType.All" :show-search="showSearch"
+                                        v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
+                                </div>
                             </div>
                             <div>
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />

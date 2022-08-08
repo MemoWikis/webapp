@@ -33,7 +33,7 @@ async function addTopic() {
         key: string
     }
 
-    const nameValidationResult = await $fetch<TopicNameValidationResult>('/api/SessionUser/Login', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
+    const nameValidationResult = await $fetch<TopicNameValidationResult>('/api/EditTopic/ValidateName', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
 
     if (nameValidationResult.categoryNameAllowed) {
         type QuickCreateResult = {
@@ -42,12 +42,15 @@ async function addTopic() {
             id: number
         }
 
-
         const topicData = {
             name: name.value,
-            parentCategoryId: editTopicRelationStore.parentId,
+            parentTopicId: editTopicRelationStore.parentId,
         }
-        const result = await $fetch<QuickCreateResult>('/EditCategory/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
+        console.log(topicData)
+        console.log(editTopicRelationStore)
+        console.log(editTopicRelationStore.parentId)
+
+        const result = await $fetch<QuickCreateResult>('/api/EditTopic/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
         if (result.success) {
             if (editTopicRelationStore.redirect)
                 navigateTo(result.url)
@@ -77,7 +80,7 @@ watch(name, (val) => {
 
 const selectedCategoryId = ref(0)
 watch(selectedCategoryId, (id) => {
-    if (id > 0 && editTopicRelationStore.type != EditTopicRelationType.Create)
+    if (id > 0 && editTopicRelationStore.type != EditTopicRelationType.Create || editTopicRelationStore.type == EditTopicRelationType.Create)
         disableAddButton.value = false;
 })
 </script>
@@ -118,22 +121,22 @@ watch(selectedCategoryId, (id) => {
             </template>
 
 
-            <!-- <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
+            <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
                 <div class="mb-250">
                     <p>Wo soll das Thema hinzugefügt werden?</p>
                 </div>
                 <form v-on:submit.prevent="selectCategory">
-                    <div class="categorySearchAutocomplete mb-250" v-if="personalWiki != null"
-                        @click="selectedParentInWikiId = personalWiki.Id">
+                    <div class="categorySearchAutocomplete mb-250" v-if="userStore.personalWiki != null"
+                        @click="selectedParentInWikiId = userStore.personalWiki.Id">
                         <div class="searchResultItem"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == personalWiki.Id }">
-                            <img :src="personalWiki.ImageUrl" />
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == userStore.personalWiki.Id }">
+                            <img :src="userStore.personalWiki.ImageUrl" />
                             <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ personalWiki.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ personalWiki.QuestionCount }}
-                                    Frage<template v-if="personalWiki.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ userStore.personalWiki.Name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ userStore.personalWiki.QuestionCount }}
+                                    Frage<template v-if="userStore.personalWiki.QuestionCount != 1">n</template></div>
                             </div>
-                            <div v-show="selectedParentInWikiId == personalWiki.Id"
+                            <div v-show="selectedParentInWikiId == userStore.personalWiki.Id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
@@ -218,8 +221,8 @@ watch(selectedCategoryId, (id) => {
                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
                     {{ errorMsg }}
                 </div>
-            </template> -->
-            <!-- <template v-else>
+            </template>
+            <template v-else>
                 <form v-on:submit.prevent="selectCategory">
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedCategory" class="searchResultItem mb-125" data-toggle="tooltip"
@@ -259,7 +262,7 @@ watch(selectedCategoryId, (id) => {
                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
                     {{ errorMsg }}
                 </div>
-            </template> -->
+            </template>
 
 
         </template>
@@ -267,7 +270,7 @@ watch(selectedCategoryId, (id) => {
             <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewCategoryBtn"
                 class="btn btn-primary memo-button" @click="addTopic" :disabled="disableAddButton">Thema erstellen
             </div>
-            <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
+            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
                 class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddButton">
                 Thema verschieben</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingCategoryBtn"
@@ -278,8 +281,8 @@ watch(selectedCategoryId, (id) => {
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
                 class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddButton">Thema
-                verknüpfen</div> -->
-            <div class="btn btn-link memo-button" data-dismiss="modal" aria-label="Close">Abbrechen</div>
+                verknüpfen</div>
+            <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>
 
     </LazyModal>

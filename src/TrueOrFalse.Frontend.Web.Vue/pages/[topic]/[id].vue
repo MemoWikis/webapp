@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
 import { Tab } from '~~/components/topic/tabs/TabsEnum'
-import { useTabsStore } from '~~/components/topic/tabs/tabsStore';
-import { Topic, useTopicStore } from '~~/components/topic/topicStore';
-import { useUserStore } from '~~/components/user/userStore';
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
+import { useTabsStore } from '~~/components/topic/tabs/tabsStore'
+import { Topic, useTopicStore } from '~~/components/topic/topicStore'
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { PageType } from '~~/components/shared/pageTypeEnum'
 
 const tabsStore = useTabsStore()
 const route = useRoute()
@@ -29,6 +29,10 @@ onMounted(() => {
   var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
 
   history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}${versionQuery}`)
+  useHead({
+    title: topic.value.Name,
+  })
+  useState<PageType>('page', () => PageType.Topic)
 })
 
 watch(() => tabsStore.activeTab, (t) => {
@@ -39,16 +43,22 @@ watch(() => tabsStore.activeTab, (t) => {
     history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}`)
 })
 
+watch(() => topicStore.name, () => {
+  useHead({
+    title: topicStore.name,
+  })
+})
 </script>
 
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row topic-container">
       <div class="col-lg-9 col-md-12 container">
         <TopicHeader />
         <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
         <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
         <TopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
+        <TopicRelationEdit />
       </div>
       <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">
         <div id="SidebarDivider"></div>
@@ -61,17 +71,21 @@ watch(() => tabsStore.activeTab, (t) => {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
+.topic-container {
+  display: flex;
+}
 
 #Sidebar {
-  height: 100%;
   display: flex;
   align-items: stretch;
+  flex-grow: 1;
 
   #SidebarDivider {
-    position: fixed;
-    height: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border-left: 1px solid @memo-grey-light;
     top: 0;
+    flex-grow: 1;
   }
 }
 

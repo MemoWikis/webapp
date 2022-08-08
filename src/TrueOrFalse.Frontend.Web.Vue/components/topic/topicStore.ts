@@ -16,6 +16,7 @@ export class Topic {
   IsWiki: boolean
   CurrentUserIsCreator: boolean
   CanBeDeleted: boolean
+  QuestionCount: number
 }
 
 export const useTopicStore = defineStore('topicStore', {

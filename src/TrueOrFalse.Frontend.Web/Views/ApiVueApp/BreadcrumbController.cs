@@ -64,6 +64,18 @@ public class BreadcrumbController : BaseController
         });
     }
 
+
+    [HttpPost]
+    public JsonResult GetPersonalWiki()
+    {
+        var topic = SessionUser.IsLoggedIn ? EntityCache.GetCategory(SessionUser.User.StartTopicId) : RootCategory.Get;
+        return Json(new BreadcrumbItem
+        {
+            Name = topic.Name,
+            Id = topic.Id
+        });
+    }
+
     public class Breadcrumb
     {
         public int newWikiId { get; set; }

@@ -10,19 +10,31 @@ export enum EditTopicRelationType {
     AddToWiki
 };
 
+export type EditRelationParentData = {
+  id: number, 
+  addCategoryBtnId: string,
+  editCategoryRelation: EditTopicRelationType,
+  categoriesToFilter: number[]
+}
 
-export const useEditTopicRelationStore = defineStore('topicStore', {
+export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     state: () => {
       return {
         showModal: false,
         type: null as EditTopicRelationType,
         parentId: 0,
         redirect: false,
+        addTopicBtnId: '',
+        categoriesToFilter: [] as number[]
       }
     },
     actions: {
-        openModal(parentId) {
-            this.parentId = parentId
+        openModal(parent: EditRelationParentData) {
+
+            this.parentId = parent.id
+            this.addTopicBtnId = parent.addCategoryBtnId
+            this.type = parent.editCategoryRelation
+            this.categoriesToFilter = parent.categoriesToFilter
             this.showModal = true
         },
         createTopic() {

@@ -22,6 +22,21 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
 </script>
 
 <template>
+    <section id="GlobalLicense">
+        <div class="license-container">
+            <div class="license-text-container">
+                <a class="CCLogo" rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+                    <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="" />
+                </a>
+                <div class="Text">
+                    Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <a
+                        rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Namensnennung
+                        4.0 (CC-BY-4.0)</a>. Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder, Videos,
+                    Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet.
+                </div>
+            </div>
+        </div>
+    </section>
     <div id="MasterFooter">
         <div class="row">
             <div class="container">
@@ -161,5 +176,13 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
+#FooterBack {
+    background: grey;
+    z-index: 3000;
+    position: relative;
+    bottom: 0;
+    display: flex;
+    flex-grow: 1;
+}
 </style>

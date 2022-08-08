@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
-import { useEditTopicRelationStore, EditTopicRelationType } from '../../relation/editTopicRelationStore'
+import { useEditTopicRelationStore, EditTopicRelationType, EditRelationParentData } from '../../relation/editTopicRelationStore'
 import { $fetch } from 'ohmyfetch'
 import _ from 'underscore'
 
@@ -119,7 +119,9 @@ export default {
         },
         async getCategoriesData() {
 
-            var self = this;
+            var self = this
+            if (self.currentChildCategoryIds.length <= 0)
+                return
             var data = {
                 categoryIds: self.currentChildCategoryIds,
             };
@@ -128,7 +130,7 @@ export default {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (categories) {
-                categories.forEach(c => self.categories.push(c));
+                categories.forEach(c => self.categories.push(c))
                 // self.$nextTick(() => Images.ReplaceDummyImages());
             }
         },
@@ -181,7 +183,7 @@ export default {
             var self = this;
             var categoriesToFilter = this.setCategoriesToFilter();
             var parent = {
-                id: self.categoryId,
+                id: self.topicStore.id,
                 addCategoryBtnId: 'AddToCurrentCategoryBtn',
                 editCategoryRelation: val ? EditTopicRelationType.Create : EditTopicRelationType.AddChild,
                 categoriesToFilter,
@@ -214,7 +216,7 @@ export default {
             }
             var self = this;
             var parent = {
-                id: self.categoryId,
+                id: self.topicStore.id,
                 addCategoryBtnId: 'AddToCurrentCategoryBtn',
                 categoryChange: EditTopicRelationType.Move,
                 selectedCategories: self.selectedCategories,

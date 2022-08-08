@@ -30,7 +30,8 @@ public class SessionUserController : BaseController
                 Id = SessionUser.UserId,
                 WikiId = SessionUser.User.StartTopicId,
                 IsAdmin = SessionUser.IsInstallationAdmin,
-                Name = SessionUser.User.Name
+                Name = SessionUser.User.Name,
+                PersonalWikiId = SessionUser.User.StartTopicId
             });
         }
 

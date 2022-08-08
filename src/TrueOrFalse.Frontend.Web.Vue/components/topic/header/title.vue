@@ -5,8 +5,9 @@ const topicStore = useTopicStore()
 const textArea = ref(null);
 
 function resize() {
-    let element = textArea.value;
-    element.style.height = element.scrollHeight + "px";
+    let element = textArea.value
+    element.style.height = "54px"
+    element.style.height = element.scrollHeight + "px"
 }
 
 onMounted(() => {

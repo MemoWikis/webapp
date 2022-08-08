@@ -2,5 +2,6 @@ export enum SearchType {
     All = 0,
     Category = 1,
     Questions = 2,
-    Users = 3
+    Users = 3,
+    CategoryInWiki = 4
 }

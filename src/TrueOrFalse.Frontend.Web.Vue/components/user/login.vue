@@ -33,8 +33,6 @@ const errorMessage = ref('')
 </script>
 
 <template>
-    <button @click="userStore.showLoginModal = true">open login modal</button>
-
     <div id="LoginModalComponent">
         <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked"
             :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()"

@@ -155,7 +155,8 @@ export default {
         <div class="row" v-on:click.self="goToCategory()">
             <div class="col-xs-3">
                 <a :href="category.LinkToCategory">
-                    <div class="ImageContainer" v-html="category.ImgHtml">
+                    <div class="ImageContainer">
+                        <Image />
                     </div>
                 </a>
             </div>

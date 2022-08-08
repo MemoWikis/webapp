@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
 import { useSpinnerStore } from '../spinner/spinnerStore'
+import { Topic } from '../topic/topicStore'
 const isLoggedIn = (e) => useState<boolean>('isLoggedIn', e)
 
 type UserLoginResult = {
@@ -10,6 +11,7 @@ type UserLoginResult = {
   WikiId: number
   IsAdmin: boolean
   Name: string
+  PersonalWikiId
 }
 
 export type LoginState = {
@@ -26,7 +28,8 @@ export const useUserStore = defineStore('userStore', {
       showLoginModal: false,
       wikiId: 0,
       isAdmin: false,
-      name: ''
+      name: '',
+      personalWiki: null as Topic
     }
   },
   actions: {
@@ -46,10 +49,14 @@ export const useUserStore = defineStore('userStore', {
         this.wikiId = result.WikiId
         this.isAdmin = result.IsAdmin
         this.name = result.Name
-        window.location.reload()
+
+        this.showLoginModal = false
+
+        if (result.PersonalWikiId ? result.PersonalWikiId : 0)
+          this.personalWiki = await $fetch<Topic>(`/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
+
       }
       spinnerStore.hideSpinner()
-      this.showLoginModal = false
     },
     openLoginModal() {
       this.showLoginModal = true

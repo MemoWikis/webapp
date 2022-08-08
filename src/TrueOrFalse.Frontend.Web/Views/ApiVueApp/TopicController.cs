@@ -22,8 +22,9 @@ public class TopicController : BaseController
             Visibility = category.Visibility,
             AuthorIds = category.AuthorIds,
             IsWiki = category.IsStartPage(),
-            CurrentUserIsCreator = SessionUser.User.Id == category.Creator.Id,
-            CanBeDeleted = PermissionCheck.CanDelete(category)
+            CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
+            CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
+            QuestionCount = category.CountQuestionsAggregated
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -86,4 +87,5 @@ public class TopicModel
     public bool IsWiki { get; set; }
     public bool CurrentUserIsCreator { get; set; }
     public bool CanBeDeleted { get; set; }
+    public int QuestionCount { get; set; }
 }
