@@ -5,7 +5,7 @@
         category-id="<%= Model.CategoryId %>" 
         :all-question-count="allQuestionCount" 
         is-admin="<%= Model.IsInstallationAdmin %>"  
-        :is-question-list-to-show="isQuestionListToShow"
+        :expand-question="expandQuestion"
         :active-question-id="activeQuestionId"
         :selected-page-from-active-question="selectedPageFromActiveQuestion"
         :question-count="currentQuestionCount">

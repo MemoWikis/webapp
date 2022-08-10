@@ -10,6 +10,11 @@ import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
+import _ from 'underscore'
+import { messages } from '~~/components/alert/alertStore'
+
+const alertStore = useAlertStore()
 
 const topic = useState<Topic>('topic')
 const topicStore = useTopicStore()
@@ -51,6 +56,39 @@ const editor = useEditor({
         topicStore.contentHasChanged = true
         topicStore.content = editor.getHTML()
     },
+    editorProps: {
+        // handleKeyDown: (e, k) => {
+        //     this.contentIsChanged = true;
+        // },
+        handleClick: (view, pos, event) => {
+            // var _a;
+            // var attrs = this.editor.getAttributes('link');
+            // var href = Site.IsMobile ? event.target.href : attrs.href;
+            // var link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
+            // if (link && href) {
+            //     window.open(href, event.ctrlKey ? '_blank' : '_self');
+            //     return true;
+            // }
+            // return false;
+        },
+        handlePaste: (view, pos, event) => {
+            const firstNode = event.content.firstChild
+            if (firstNode != null && firstNode.type.name == 'image') {
+                if (!_.isEmpty(firstNode.attrs)) {
+                    let src = firstNode.attrs.src;
+                    if (src.length > 1048576 && src.startsWith('data:image')) {
+                        alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                        return true
+                    }
+                }
+            }
+
+        },
+        attributes: {
+            id: 'InlineEdit',
+        }
+    },
+
 
 })
 

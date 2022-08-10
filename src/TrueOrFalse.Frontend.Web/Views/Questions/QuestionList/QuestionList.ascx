@@ -40,14 +40,14 @@
                                 </div><span>Frage hinzufügen</span>
                             </a>
                         </li>
-                        <li v-if="isQuestionListToShow" @click="toggleQuestionsList()" style="cursor: pointer">
+                        <li v-if="expandQuestion" @click="expandAllQuestions()" style="cursor: pointer">
                             <a>
                                 <div class="dropdown-icon">
                                     <i class="fa fa-angle-double-up"></i>
                                 </div><span>Alle Fragen zuklappen</span>
                             </a>
                         </li>
-                        <li v-else @click="toggleQuestionsList()" style="cursor: pointer">
+                        <li v-else @click="expandAllQuestions()" style="cursor: pointer">
                             <a>
                                 <div class="dropdown-icon">
                                     <i class="fa fa-angle-double-down"></i>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SearchType } from '~~/components/search/searchTypeEnum';
+import { SearchType } from '~~/components/search/searchHelper';
 import { ref, watch, onMounted } from 'vue'
 import { useUserStore } from '../user/userStore'
 

@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useAlertStore, AlertType } from './alertStore';
+import { ref } from 'vue'
+import { useAlertStore, AlertType } from './alertStore'
 const alertStore = useAlertStore()
 
 </script>
 
 <template>
-    <vue-final-modal v-model="alertStore.show" :esc-to-close="true">
-        <div id="AlertModal" class="modal fade" v-if="alertStore.show">
+    <div id="AlertModal">
+
+        <vue-final-modal v-model="alertStore.show" @keydown.esc="alertStore.show = false" classes="modal-container"
+            content-class="modal-content">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 
@@ -20,7 +22,7 @@ const alertStore = useAlertStore()
                         </h3>
 
                         <div class="">{{ alertStore.text }}</div>
-                        <div v-html="alertStore.msg.customHtml"></div>
+                        <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
                     </div>
 
                     <div class="modal-footer">
@@ -29,12 +31,12 @@ const alertStore = useAlertStore()
                             'btn-error': alertStore.type == AlertType.Error,
                             'btn-primary': alertStore.type == AlertType.Default
                         }" data-dismiss="modal">Ok</div>
-                        <div v-html="alertStore.msg.customBtn"></div>
+                        <div v-if="alertStore.msg != null" v-html="alertStore.msg.customBtn"></div>
                     </div>
 
                 </div>
             </div>
-        </div>
-    </vue-final-modal>
+        </vue-final-modal>
+    </div>
 
 </template>

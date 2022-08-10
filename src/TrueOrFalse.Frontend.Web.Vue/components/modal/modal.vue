@@ -12,7 +12,8 @@ const props = defineProps([
     'modalWidth',
     'isFullSizeButtons',
     'show',
-    'escToClose'
+    'escToClose',
+    'disabled'
 ])
 
 const isError = ref(false)
@@ -24,7 +25,7 @@ const modalWidthData = ref(props.modalWidth + 'px')
 
 <template>
 
-    <vue-final-modal v-model="props.show" classes="modal-container" content-class="modal-content" :esc-to-close="true">
+    <vue-final-modal v-model="props.show" classes="modal-container" content-class="modal-content">
         <div id="defaultModal" class="modal-default">
             <div class="modal-default-mask" @click="$emit('close')">
                 <div class="modal-default-wrapper">
@@ -58,7 +59,7 @@ const modalWidthData = ref(props.modalWidth + 'px')
                                                 'errorButton1Modal': isError,
                                                 'successButton1Modal': isSuccess,
                                                 'fullSizeButtons': props.isFullSizeButtons
-                                            }" @click="$emit('main-btn')">
+                                            }" @click="$emit('main-btn')" :disabled="disabled">
                                             {{ props.button1Text }}
                                         </a>
                                         <a v-if="button2Text != null"

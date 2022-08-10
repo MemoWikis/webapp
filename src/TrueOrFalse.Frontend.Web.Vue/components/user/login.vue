@@ -34,9 +34,9 @@ const errorMessage = ref('')
 
 <template>
     <div id="LoginModalComponent">
-        <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" action1Emit="login-clicked"
-            :isFullSizeButtons="true" @close="userStore.showLoginModal = false" @mainBtn="login()"
-            :show="userStore.showLoginModal" :escToClose="true">
+        <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Anmelden" :isFullSizeButtons="true"
+            @close="userStore.showLoginModal = false" @mainBtn="login()" :show="userStore.showLoginModal"
+            @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span>Anmelden</span>
             </template>

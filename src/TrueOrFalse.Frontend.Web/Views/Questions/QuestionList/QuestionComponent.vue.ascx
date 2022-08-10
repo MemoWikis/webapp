@@ -8,7 +8,7 @@
                     :url="q.LinkToQuestion" 
                     :has-personal-answer="q.HasPersonalAnswer" 
                     :is-admin="isAdmin"
-                    :is-question-list-to-show ="isQuestionListToShow"
+                    :expand-question="expandQuestion"
                     :question-index="index"
                     :active-question-id="activeQuestionId"
                     :selected-page ="selectedPage"

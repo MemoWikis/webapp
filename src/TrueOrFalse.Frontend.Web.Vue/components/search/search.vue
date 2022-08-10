@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, PropType } from 'vue';
 import _ from 'underscore'
-import { SearchType } from './searchTypeEnum';
+import { SearchType } from './searchHelper';
 
 
 const props = defineProps({

@@ -9,7 +9,7 @@ let questionListApp = new Vue({
     name: 'QuestionList',
     el: '#QuestionListApp',
     data: {
-        isQuestionListToShow: false,
+        expandQuestions: false,
         answerBody: new AnswerBody(),
         activeQuestion: 0, // which question is active
         learningSessionData: "",
@@ -109,8 +109,8 @@ let questionListApp = new Vue({
     },
 
     methods: {
-        toggleQuestionsList() {
-            this.isQuestionListToShow = !this.isQuestionListToShow;
+        expandAllQuestions() {
+                this.expandQuestions = !this.expandQuestions;
         },
         startNewLearningSession() {
             eventBus.$emit("start-learning-session");

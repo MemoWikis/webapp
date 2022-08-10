@@ -24,12 +24,12 @@ export const useAlertStore = defineStore('alertStore', {
       },
       actions: {
         openAlert(type: AlertType, msg: AlertMsg) {
-            this.isOpen = true,
+            this.show = true,
             this.type = type,
             this.msg = msg
         },
         closeAlert() {
-            this.isOpen = false,
+            this.show = false,
             this.type = AlertType.Default,
             this.msg = null
         }

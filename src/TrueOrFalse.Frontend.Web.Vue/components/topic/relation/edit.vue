@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useEditTopicRelationStore, EditTopicRelationType } from './editTopicRelationStore';
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore';
+import { useEditTopicRelationStore, EditTopicRelationType } from './editTopicRelationStore'
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useUserStore } from '~~/components/user/userStore'
-import { messages } from '~~/components/alert/messages';
-import { useTopicStore } from '../topicStore';
+import { messages } from '~~/components/alert/messages'
+import { useTopicStore } from '../topicStore'
 
 
 const spinnerStore = useSpinnerStore()
@@ -27,9 +27,9 @@ async function addTopic() {
     spinnerStore.showSpinner()
 
     type TopicNameValidationResult = {
-        categoryNameAllowed: boolean,
-        name: string,
-        url: string,
+        categoryNameAllowed: boolean
+        name: string
+        url: string
         key: string
     }
 
@@ -37,8 +37,8 @@ async function addTopic() {
 
     if (nameValidationResult.categoryNameAllowed) {
         type QuickCreateResult = {
-            success: boolean,
-            url: string,
+            success: boolean
+            url: string
             id: number
         }
 
@@ -120,7 +120,7 @@ watch(selectedCategoryId, (id) => {
                 </div>
             </template>
 
-
+            <!-- 
             <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
                 <div class="mb-250">
                     <p>Wo soll das Thema hinzugefügt werden?</p>
@@ -130,7 +130,7 @@ watch(selectedCategoryId, (id) => {
                         @click="selectedParentInWikiId = userStore.personalWiki.Id">
                         <div class="searchResultItem"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == userStore.personalWiki.Id }">
-                            <img :src="userStore.personalWiki.ImageUrl" />
+                            <img :src="userStore.personalWiki.ImgUrl" />
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ userStore.personalWiki.Name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ userStore.personalWiki.QuestionCount }}
@@ -262,7 +262,7 @@ watch(selectedCategoryId, (id) => {
                     <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
                     {{ errorMsg }}
                 </div>
-            </template>
+            </template> -->
 
 
         </template>
@@ -270,7 +270,7 @@ watch(selectedCategoryId, (id) => {
             <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewCategoryBtn"
                 class="btn btn-primary memo-button" @click="addTopic" :disabled="disableAddButton">Thema erstellen
             </div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
+            <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
                 class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddButton">
                 Thema verschieben</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingCategoryBtn"
@@ -281,7 +281,7 @@ watch(selectedCategoryId, (id) => {
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
                 class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddButton">Thema
-                verknüpfen</div>
+                verknüpfen</div> -->
             <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>
 

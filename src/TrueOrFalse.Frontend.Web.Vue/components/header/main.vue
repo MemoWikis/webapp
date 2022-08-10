@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { Author } from '../author/author'
 import { ImageStyle } from '../image/imageStyleEnum'
-import { SearchType } from '~~/components/search/searchTypeEnum'
+import { SearchType } from '~~/components/search/searchHelper'
 
 const showSearch = ref(true)
 
