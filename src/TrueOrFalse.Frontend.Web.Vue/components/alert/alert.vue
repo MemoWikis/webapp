@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useAlertStore, AlertType } from './alertStore'
 const alertStore = useAlertStore()
 
@@ -8,17 +7,16 @@ const alertStore = useAlertStore()
 <template>
     <div id="AlertModal">
 
-        <vue-final-modal v-model="alertStore.show" @keydown.esc="alertStore.show = false" classes="modal-container"
-            content-class="modal-content">
+        <vue-final-modal v-model="alertStore.show" @keydown.esc="alertStore.show = false">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 
                     <div class="modal-body">
                         <h3>
                             <font-awesome-icon v-if="alertStore.type == AlertType.Success"
-                                icon="fa-solid fa-circle-check" />
+                                icon="fa-solid fa-circle-check" class="success"/>
                             <font-awesome-icon v-else-if="alertStore.type == AlertType.Error"
-                                icon="fa-solid fa-circle-xmark" />
+                                icon="fa-solid fa-circle-xmark" class="error" />
                         </h3>
 
                         <div class="">{{ alertStore.text }}</div>
@@ -40,3 +38,16 @@ const alertStore = useAlertStore()
     </div>
 
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+#AlertModal {
+ .success {
+    color: @memo-green;
+ }
+ .error {
+    color: @memo-salmon;
+ }
+}
+</style>
