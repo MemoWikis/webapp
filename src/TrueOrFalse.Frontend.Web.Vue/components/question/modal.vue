@@ -3,6 +3,8 @@ import { Visibility } from '../shared/visibilityEnum'
 import { useUserStore } from '../user/userStore'
 import { useEditQuestionStore, SolutionType } from './editQuestionStore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../alert/alertStore'
+import { TopicResult } from '../search/searchHelper'
+import _ from 'underscore'
 
 const userStore = useUserStore()
 const editQuestionStore = useEditQuestionStore()
@@ -21,7 +23,6 @@ function setQuestionData(editor) {
     questionHtml.value = editor.getHTML()
 }
 
-const showQuestionExtension = ref(false)
 const questionExtensionJson = ref({})
 const questionExtensionHtml = ref('')
 function setQuestionExtensionData(editor) {
@@ -29,7 +30,6 @@ function setQuestionExtensionData(editor) {
     questionExtensionHtml.value = editor.getHTML()
 }
 
-const showDescription = ref(false)
 const descriptionJson = ref({})
 const descriptionHtml = ref('')
 function setDescriptionData(editor) {
@@ -42,7 +42,6 @@ const multipleChoiceJson = ref(null)
 const matchListJson = ref(null)
 const flashCardJson = ref(null)
 
-const showDropdown = ref(false)
 
 const topicIds = ref([])
 const selectedTopics = ref([])
@@ -54,8 +53,43 @@ function removeTopic(t) {
     }
 }
 
+
+async function search() {
+    showDropdown.value = true;
+    var data = {
+        term: searchTerm.value,
+    };
+
+    var result = await $fetch<TopicResult>('/api/Search/Category', {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result != null) {
+        topics.value = result.topics;
+        totalCount.value = result.totalCount;
+    }
+}
+
+const debounceSearch = _.debounce(() => {
+    search()
+}, 500)
+
+const showDropdown = ref(false)
 const searchTerm = ref('')
-const lockDropdown = ref(true)
+const lockDropdown = ref(false)
+
+watch(searchTerm, (term) => {
+    if (term.length > 0 && lockDropdown.value == false) {
+        showDropdown.value = true;
+        debounceSearch();
+    }
+    else
+        showDropdown.value = false;
+})
+
 const topics = ref([])
 
 function selectTopic(t) {
@@ -77,6 +111,7 @@ const isPrivate = ref(true)
 const licenseConfirmation = ref(false)
 const showMore = ref(false)
 const licenseId = ref(0)
+
 
 function save() {
 

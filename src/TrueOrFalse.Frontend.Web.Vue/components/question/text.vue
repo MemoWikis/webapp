@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { emit } from 'process';
 import { ref } from 'vue'
 const props = defineProps(['solution', 'highlightEmptyFields'])
 const text = ref('')
@@ -7,7 +6,17 @@ const exactSpelling = ref(false)
 const matchCase = ref(false)
 const isEmpty = ref('')
 
-const emit = defineEmits(['setSolutionIsValid'])
+const emit = defineEmits(['setSolutionIsValid', 'setSolution'])
+const textArea = ref(null)
+
+function resize() {
+    if (textArea.value != null) {
+        let element = textArea.value
+        element.style.height = "43px"
+        element.style.height = element.scrollHeight + "px"
+    }
+
+}
 onMounted(() => {
     if (props.solution)
         text.value = props.solution;
@@ -18,12 +27,16 @@ onMounted(() => {
 
 })
 
-const textArea = ref(null)
-function resize() {
-    let element = textArea.value
-    element.style.height = "43px"
-    element.style.height = element.scrollHeight + "px"
-}
+watch(text, (e) => {
+    if (e.length > 0)
+        emit('setSolutionIsValid')
+
+    let metadataJson = { IsText: true }
+    emit('setSolution', { textSolution: text.value, solutionMetadataJson: metadataJson })
+
+    isEmpty.value = e.length == 0 ? 'is-empty' : ''
+})
+
 
 </script>
 

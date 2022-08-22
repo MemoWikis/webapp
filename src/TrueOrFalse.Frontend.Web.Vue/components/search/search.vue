@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { ref, PropType } from 'vue';
+import { ref, PropType } from 'vue'
 import _ from 'underscore'
-import { SearchType } from './searchHelper';
-
+import { FullSearch, SearchType } from './searchHelper'
 
 const props = defineProps({
     searchType: Number as PropType<SearchType>,
@@ -65,43 +64,6 @@ const userSearchUrl = ref('')
 const categories = ref([])
 const questions = ref([])
 const users = ref([])
-
-class CategoryItem {
-    Id: number
-    Name: string
-    Url: string
-    QuestionCount: number
-    ImageUrl: string
-    MiniImageUrl: string
-    IconHtml: string
-    Visibility: number
-}
-
-type QuestionItem = {
-    Id: number
-    Name: string
-    Url: string
-    ImageUrl: string
-    Visibility: number
-}
-
-type UserItem = {
-    Id: number
-    Name: string
-    Url: string
-    ImageUrl: string
-    Visibility: number
-}
-
-type FullSearch = {
-    categories: CategoryItem[]
-    categoryCount: number
-    questions: QuestionItem[]
-    questionCount: number
-    users: UserItem[]
-    userCount: number
-    userSearchUrl: string
-}
 
 async function search() {
     showDropdown.value = true;
