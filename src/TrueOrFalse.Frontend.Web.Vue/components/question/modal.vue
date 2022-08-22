@@ -1,18 +1,8 @@
-<!-- <script lang="ts" setup>
+<script lang="ts" setup>
 import { Visibility } from '../shared/visibilityEnum'
 import { useUserStore } from '../user/userStore'
 import { useEditQuestionStore, SolutionType } from './editQuestionStore'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
-import Link from '@tiptap/extension-link'
-import Placeholder from '@tiptap/extension-placeholder'
-import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import Blockquote from '@tiptap/extension-blockquote'
-import { lowlight } from 'lowlight/lib/core'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../alert/alertStore'
-import _ from 'underscore'
 
 const userStore = useUserStore()
 const editQuestionStore = useEditQuestionStore()
@@ -26,55 +16,67 @@ const highlightEmptyFields = ref(false)
 
 const questionJson = ref({})
 const questionHtml = ref('')
-
-const questionEditor = useEditor({
-    extensions: [
-        StarterKit,
-        Link.configure({
-            HTMLAttributes: {
-                target: '_self',
-                rel: 'noopener noreferrer nofollow'
-            }
-        }),
-        CodeBlockLowlight.configure({
-            lowlight,
-        }),
-        Underline,
-        Placeholder.configure({
-            emptyEditorClass: 'is-editor-empty',
-            emptyNodeClass: 'is-empty',
-            placeholder: 'Gib den Fragetext ein',
-            showOnlyCurrent: true,
-        }),
-        Image.configure({
-            inline: true,
-            allowBase64: true,
-        })
-    ],
-    editorProps: {
-        handleClick: (view, pos, event) => {
-        },
-        handlePaste: (view, pos, event) => {
-            let eventContent = event.content.content;
-            if (eventContent.length >= 1 && !_.isEmpty(eventContent[0].attrs)) {
-                let src = eventContent[0].attrs.src;
-                if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
-                    return true;
-                }
-            }
-        },
-        attributes: {
-            id: 'QuestionInputField',
-        }
-    },
-    onUpdate: ({ editor }) => {
-        questionJson.value = editor.getJSON()
-        questionHtml.value = editor.getHTML()
-    },
-})
+function setQuestionData(editor) {
+    questionJson.value = editor.getJSON()
+    questionHtml.value = editor.getHTML()
+}
 
 const showQuestionExtension = ref(false)
+const questionExtensionJson = ref({})
+const questionExtensionHtml = ref('')
+function setQuestionExtensionData(editor) {
+    questionExtensionJson.value = editor.getJSON()
+    questionExtensionHtml.value = editor.getHTML()
+}
+
+const showDescription = ref(false)
+const descriptionJson = ref({})
+const descriptionHtml = ref('')
+function setDescriptionData(editor) {
+    descriptionJson.value = editor.getJSON()
+    descriptionHtml.value = editor.getHTML()
+}
+
+const textSolution = ref(null)
+const multipleChoiceJson = ref(null)
+const matchListJson = ref(null)
+const flashCardJson = ref(null)
+
+const showDropdown = ref(false)
+
+const topicIds = ref([])
+const selectedTopics = ref([])
+function removeTopic(t) {
+    if (selectedTopics.value.length > 1) {
+        selectedTopics.value.splice(t.index, 1)
+        var topicIdIndex = topicIds.value.indexOf(t.topicId)
+        topicIds.value.splice(topicIdIndex, 1)
+    }
+}
+
+const searchTerm = ref('')
+const lockDropdown = ref(true)
+const topics = ref([])
+
+function selectTopic(t) {
+    showDropdown.value = false
+    lockDropdown.value = true
+    searchTerm.value = ''
+
+    var index = topicIds.value.indexOf(t.Id)
+    if (index < 0) {
+        topicIds.value.push(t.Id)
+        selectedTopics.value.push(t)
+    }
+}
+
+const totalCount = ref(0)
+
+const licenseIsValid = ref(false)
+const isPrivate = ref(true)
+const licenseConfirmation = ref(false)
+const showMore = ref(false)
+const licenseId = ref(0)
 
 function save() {
 
@@ -117,63 +119,27 @@ function save() {
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-
-                        <div v-if="questionEditor">
-                            <EditorMenuBar :editor="questionEditor" />
-                            <editor-content :editor="questionEditor"
-                                :class="{ 'is-empty': highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0 }" />
-                            <div v-if="highlightEmptyFields && questionEditor.state.doc.textContent.length <= 0"
-                                class="field-error">Bitte formuliere eine Frage.</div>
-                        </div>
+                        <QuestionEditor :highlightEmptyFields="highlightEmptyFields"
+                            @setQuestionData="setQuestionData" />
                     </div>
 
-                    <div class="input-container" v-if="solutionType != 9">
-                        <div class="overline-s no-line">Ergänzungen zur Frage</div>
-                        <div v-if="showQuestionExtension && questionExtensionEditor">
-                            <EditorMenuBar :editor="questionExtensionEditor" />
-                            <editor-content :editor="questionExtensionEditor" />
-
-                        </div>
-                        <template v-else>
-                            <div class="d-flex">
-                                <div class="btn grey-bg form-control col-md-6" @click="showQuestionExtension = true">
-                                    Ergänzungen hinzufügen</div>
-                                <div class="col-sm-12 hidden-xs"></div>
-                            </div>
-                        </template>
+                    <div class="input-container" v-if="solutionType != SolutionType.FlashCard">
+                        <QuestionExtensionEditor :highlightEmptyFields="highlightEmptyFields"
+                            @setQuestionExtensionData="setQuestionExtensionData" />
                     </div>
-                    <template v-if="solutionType == 1">
-                        <textsolution-component :solution="textSolution"
-                            :highlight-empty-fields="highlightEmptyFields" />
-                    </template>
-                    <template v-if="solutionType == 7">
-                        <multiplechoice-component :solution="multipleChoiceJson"
-                            :highlight-empty-fields="highlightEmptyFields" />
-                    </template>
-                    <template v-if="solutionType == 8">
-                        <matchlist-component :solution="matchListJson" :highlight-empty-fields="highlightEmptyFields" />
-                    </template>
-                    <template v-if="solutionType == 9">
-                        <flashcard-component :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields" />
-                    </template>
+                    <QuestionText v-if="solutionType == SolutionType.Text" :solution="textSolution"
+                        :highlightEmptyFields="highlightEmptyFields" />
+                    <QuestionMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
+                        :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields" />
+                    <QuestionMatchtList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
+                        :highlightEmptyFields="highlightEmptyFields" />
+                    <QuestionFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardJson"
+                        :highlightEmptyFields="highlightEmptyFields" />
 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
-                        <div v-if="showDescription && descriptionEditor">
-                            <template>
-                                <editor-menu-bar-component :editor="descriptionEditor" />
-                            </template>
-                            <template>
-                                <editor-content :editor="descriptionEditor" />
-                            </template>
-                        </div>
-                        <template v-else>
-                            <div class="d-flex">
-                                <div class="btn grey-bg form-control col-md-6" @click="showDescription = true">
-                                    Ergänzungen hinzufügen</div>
-                                <div class="col-sm-12 hidden-xs"></div>
-                            </div>
-                        </template>
+                        <QuestionExtensionEditor :highlightEmptyFields="highlightEmptyFields"
+                            @setDescriptionData="setDescriptionData" />
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>
@@ -181,28 +147,28 @@ function save() {
                             <div class="form-group dropdown categorySearchAutocomplete"
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
-                                    <categorychip-component v-for="(category, index) in selectedCategories" :key="index"
-                                        :category="category" :index="index"
-                                        v-on:remove-category-chip="removeCategory" />
+                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :category="t"
+                                        :index="index" @removeTopic="removeTopic" />
+
                                 </div>
                                 <input ref="searchInput" class="form-control dropdown-toggle" type="text"
                                     v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
                                     @click="lockDropdown = false" aria-haspopup="true"
                                     placeholder="Bitte gib den Namen des Themas ein" />
                                 <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
-                                    <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)"
-                                        data-toggle="tooltip" data-placement="top" :title="c.Name">
-                                        <img :src="c.ImageUrl" />
+                                    <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
+                                        data-toggle="tooltip" data-placement="top" :title="t.Name">
+                                        <img :src="t.ImageUrl" />
                                         <div>
-                                            <div class="searchResultLabel body-m">{{ c.Name }}</div>
-                                            <div class="searchResultQuestionCount body-s">{{ c.QuestionCount }}
-                                                Frage<template v-if="c.QuestionCount != 1">n</template></div>
+                                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                            <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
+                                                Frage<template v-if="t.QuestionCount != 1">n</template></div>
                                         </div>
                                     </li>
                                     <li class="dropdownFooter body-m">
                                         <b>{{ totalCount }}</b> Treffer. <br />
-                                        Deins ist nicht dabei? <span class="dropdownLink"
-                                            @click="createCategory = true">Erstelle hier dein Thema</span>
+                                        <!-- Deins ist nicht dabei? <span class="dropdownLink"
+                                            @click="createCategory = true">Erstelle hier dein Thema</span> -->
                                     </li>
                                 </ul>
                             </div>
@@ -270,4 +236,4 @@ function save() {
         </LazyModal>
     </div>
 
-</template> -->
+</template>
