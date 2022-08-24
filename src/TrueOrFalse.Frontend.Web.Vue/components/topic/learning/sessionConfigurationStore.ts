@@ -99,16 +99,55 @@ export const useSessionConfigurationStore = defineStore('sessionConfigurationSto
         allQuestionCount: 0,
         currentQuestionCount: 0,
         knowledgeSummary: new KnowledgeSummary,
+        knowledgeSummaryCount: 0,
         questionFilterOptions: new QuestionFilterOptions,
         isTestMode: true,
         isPracticeMode: false,
         categoryHasNoQuestions: true,
         showError: false,
+        activeCustomSettings: false,
       }
     },
     actions: {
         startNewSession(){
             
+        },
+        loadSessionFromLocalStorage(firstLoad = false) {
+            var storedSession = localStorage.getItem(this.sessionConfigKey)
+
+            if (storedSession != null) {
+                var sessionConfig = JSON.parse(storedSession)
+                this.knowledgeSummary = sessionConfig.knowledgeSummary
+                this.questionFilterOptions = sessionConfig.questionFilterOptions
+                this.userHasChangedMaxCount = sessionConfig.userHasChangedMaxCount
+                this.selectedQuestionCount = sessionConfig.selectedQuestionCount
+                this.isTestMode = sessionConfig.isTestMode
+                this.isPracticeMode = sessionConfig.isPracticeMode
+                this.testOptions = sessionConfig.testOptions
+                this.practiceOptions = sessionConfig.practiceOptions
+            }
+
+            if (firstLoad && this.isInQuestionList)
+                this.$nextTick(() => this.loadCustomSession())
+
+            var json = this.buildSessionConfigJson();
+            localStorage.setItem('sessionConfigJson', JSON.stringify(json))
+        },
+        selectAllQuestionFilter() {
+                if (!this.isLoggedIn) {
+                    NotLoggedIn.ShowErrorMsg('set-session-filter-options');
+                    return;
+                }
+            var force = {
+                true: !this.allQuestionFilterOptionsAreSelected,
+                false: this.allQuestionFilterOptionsAreSelected,
+            }
+            for (var key in this.questionFilterOptions) {
+                this.selectQuestionFilter(this.questionFilterOptions[key], false, force);
+            }
+
+            this.checkQuestionFilterSelection();
+            this.lazyLoadCustomSession();
         }
     },
   })

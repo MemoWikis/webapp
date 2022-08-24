@@ -14,12 +14,14 @@ export enum SolutionType
 export const useEditQuestionStore = defineStore('editQuestionStore', {
     state: () => {
       return {
-        showModal: false
+        showModal: false,
+        id: 0
       }
     },
     actions: {
-        openModal(){
-            
+        openModal(id: number){
+            this.id = id
+            this.showModal = true
         }
     },
   })

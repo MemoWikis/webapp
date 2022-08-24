@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 const props = defineProps(['solution', 'highlightEmptyFields'])
 const text = ref('')
-const exactSpelling = ref(false)
-const matchCase = ref(false)
 const isEmpty = ref('')
 
 const emit = defineEmits(['setSolutionIsValid', 'setSolution'])

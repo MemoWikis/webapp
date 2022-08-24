@@ -11,7 +11,7 @@ import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../alert/alertStore'
 
-const props = defineProps(['highlightEmptyFields'])
+const props = defineProps(['highlightEmptyFields', 'content'])
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionDescriptionData'])
@@ -63,7 +63,12 @@ const editor = useEditor({
         emit('setQuestionDescriptionData', editor)
     },
 })
-
+watch(props.content, (o, n) => {
+    if (n.value != null && n.value.length > 0)
+        showDescription.value = true
+    if (o.value != n.value)
+        editor.value?.commands.setContent(n.value)
+})
 
 </script>
 
