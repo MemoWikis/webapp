@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import { Visibility } from '../shared/visibilityEnum'
-import { useUserStore } from '../user/userStore'
+import { Visibility } from '../../shared/visibilityEnum'
+import { useUserStore } from '../../user/userStore'
 import { useEditQuestionStore, SolutionType } from './editQuestionStore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../alert/alertStore'
-import { SearchTopicItem, TopicResult } from '../search/searchHelper'
+import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { SearchTopicItem, TopicResult } from '../../search/searchHelper'
 import _ from 'underscore'
-import { useSpinnerStore } from '../spinner/spinnerStore'
-import { useSessionConfigurationStore } from '../topic/learning/sessionConfigurationStore'
-import { useTabsStore } from '../topic/tabs/tabsStore'
-import { Tab } from '../topic/tabs/tabsEnum'
-import { useTopicStore } from '../topic/topicStore'
+import { useSpinnerStore } from '../../spinner/spinnerStore'
+import { useLearningSessionConfigurationStore } from '../../topic/learning/learningSessionConfigurationStore'
+import { useTabsStore } from '../../topic/tabs/tabsStore'
+import { Tab } from '../../topic/tabs/tabsEnum'
+import { useTopicStore } from '../../topic/topicStore'
 
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
 const editQuestionStore = useEditQuestionStore()
-const sessionConfigStore = useSessionConfigurationStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const topicStore = useTopicStore()
 const edit = ref(false)
 const visibility = ref(Visibility.All)
@@ -167,7 +167,7 @@ function getSaveJson() {
         Visibility: visibility,
         SolutionMetadataJson: solutionMetadataJson,
         LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
-        SessionIndex: sessionIndex,
+        // SessionIndex: sessionIndex,
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
         SessionConfig: sessionConfigJson
     }
@@ -202,8 +202,9 @@ async function save() {
     var url = edit.value ? '/Question/Edit' : '/Question/Create'
     var json = getSaveJson()
 
-    let result = await $fetch<any>(`/Question/GetData/${id}`, {
-        method: 'GET',
+    let result = await $fetch<any>(url, {
+        body: json,
+        method: 'POST',
         mode: 'cors',
         credentials: 'include'
     }).catch(error => {
@@ -213,19 +214,19 @@ async function save() {
     })
 
     if (result != null) {
-        if (isLearningSession) {
-            var answerBody = new AnswerBody()
-            var skipIndex = 0
+        // if (isLearningSession) {
+        //     var answerBody = new AnswerBody()
+        //     var skipIndex = 0
 
-            answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
-                "?skipStepIdx=" +
-                skipIndex +
-                "&index=" +
-                sessionIndex)
+        //     answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
+        //         "?skipStepIdx=" +
+        //         skipIndex +
+        //         "&index=" +
+        //         sessionIndex)
 
-            eventBus.$emit('change-active-question', sessionIndex)
-            eventBus.$emit('update-question-count')
-        }
+        //     eventBus.$emit('change-active-question', sessionIndex)
+        //     eventBus.$emit('update-question-count')
+        // }
 
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
@@ -354,27 +355,27 @@ watch(() => editQuestionStore.showModal, () => {
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-                        <QuestionEditor :highlightEmptyFields="highlightEmptyFields" @setQuestionData="setQuestionData"
-                            ref="questionEditor" :content="questionHtml" />
+                        <QuestionEditEditor :highlightEmptyFields="highlightEmptyFields"
+                            @setQuestionData="setQuestionData" ref="questionEditor" :content="questionHtml" />
                     </div>
 
                     <div class="input-container" v-if="solutionType != SolutionType.FlashCard">
-                        <QuestionExtensionEditor :highlightEmptyFields="highlightEmptyFields"
+                        <QuestionEditExtensionEditor :highlightEmptyFields="highlightEmptyFields"
                             @setQuestionExtensionData="setQuestionExtensionData" ref="questionExtensionEditor"
                             :content="questionExtensionHtml" />
                     </div>
-                    <QuestionText v-if="solutionType == SolutionType.Text" :solution="textSolution"
+                    <QuestionEditText v-if="solutionType == SolutionType.Text" :solution="textSolution"
                         :highlightEmptyFields="highlightEmptyFields" />
-                    <QuestionMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
+                    <QuestionEditMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
                         :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields" />
-                    <QuestionMatchtList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
+                    <QuestionEditMatchtList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" />
-                    <QuestionFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
+                    <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
                         :highlightEmptyFields="highlightEmptyFields" />
 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
-                        <QuestionDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
+                        <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
                             @setDescriptionData="setDescriptionData" />
                     </div>
                     <div class="input-container">

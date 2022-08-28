@@ -1,33 +1,33 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useSessionConfigurationStore } from './sessionConfigurationStore'
+import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 
-const sessionConfigurationStore = useSessionConfigurationStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const expandAllQuestions = ref(false)
-const showFilter = ref(false)
+const showFilter = ref(true)
 </script>
 
 <template>
 
     <TopicLearningSessionConfiguration v-show="showFilter">
         <slot>
-            <input id="hdnIsTestMode" hidden :value="sessionConfigurationStore.isTestMode" />
+            <input id="hdnIsTestMode" hidden :value="learningSessionConfigurationStore.isTestMode" />
             <div class="col-xs-12 drop-down-question-sort">
                 <div class="session-config-header">
                     <span class="hidden-xs">Du lernst</span>
                     <template
-                        v-if="sessionConfigurationStore.currentQuestionCount == sessionConfigurationStore.allQuestionCount">
+                        v-if="learningSessionConfigurationStore.currentQuestionCount == learningSessionConfigurationStore.allQuestionCount">
                         <b>&nbsp;alle&nbsp;</b>
                     </template>
                     <template v-else>
-                        <b>&nbsp;{{ sessionConfigurationStore.currentQuestionCount }}&nbsp;</b>
+                        <b>&nbsp;{{ learningSessionConfigurationStore.currentQuestionCount }}&nbsp;</b>
                     </template>
                     Fragen&nbsp;
                     <span class="hidden-xs">aus diesem Thema</span>
-                    &nbsp;({{ sessionConfigurationStore.allQuestionCount }})
+                    &nbsp;({{ learningSessionConfigurationStore.allQuestionCount }})
                 </div>
                 <div class="session-config-header"
-                    v-if="sessionConfigurationStore.categoryHasNoQuestions && sessionConfigurationStore.showError">
+                    v-if="learningSessionConfigurationStore.categoryHasNoQuestions && learningSessionConfigurationStore.showError">
                     Leider
                     hat dieses Thema noch keine
                     Fragen, erstelle oder füge eine Frage hinzu.</div>
@@ -58,7 +58,8 @@ const showFilter = ref(false)
                                 </a>
                             </li>
                             <li style="cursor: pointer">
-                                <a data-allowed="logged-in" @click="sessionConfigurationStore.startNewSession()">
+                                <a data-allowed="logged-in"
+                                    @click="learningSessionConfigurationStore.startNewSession()">
                                     <div class="dropdown-icon">
                                         <i class="fa fa-play"></i>
                                     </div><span>Fragen jetzt lernen</span>

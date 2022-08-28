@@ -26,6 +26,7 @@
     "@tiptap/extension-underline": "^2.0.0-beta.25",
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@tiptap/vue-3": "^2.0.0-beta.96",
+    "click-outside-vue3": "^4.0.1",
     "floating-vue": "^2.0.0-beta.17",
     "lowlight": "^2.7.0",
     "underscore": "^1.13.4",

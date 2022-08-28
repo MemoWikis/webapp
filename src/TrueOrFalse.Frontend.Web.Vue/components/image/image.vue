@@ -28,7 +28,7 @@ styleClass.value = props.class + type
 
 <style scoped lang="less">
 .topic {
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 .author {

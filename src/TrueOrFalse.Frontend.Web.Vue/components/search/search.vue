@@ -169,4 +169,8 @@ function openUsers() {
         }
     }
 }
+
+input {
+    border-radius: 24px;
+}
 </style>
