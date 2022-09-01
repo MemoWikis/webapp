@@ -144,12 +144,10 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         sessionConfigKey: 'sessionConfig',
         userIdString: '',
         defaultMode: null,
+        showSelectionError: false,
       }
     },
     getters: {
-        showSelectionError() {
-            return this.maxSelectableSelectionCount == 0
-        },
         maxQuestionCountIsZero() {
             return this.questionFilter.maxQuestionCount == 0
         }

@@ -4,6 +4,7 @@ import { useLearningSessionConfigurationStore } from './learningSessionConfigura
 export const useLearningSessionStore = defineStore('learningSessionStore', {
     state: () => {
         return{
+            isLearningSession: true,
             isTestMode: false
     }}
 })

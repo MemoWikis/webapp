@@ -16,6 +16,10 @@ function closeModeSelectionDropdown() {
 
 const showKnowledgeSummaryDropdown = ref(false)
 
+function closeKnowledgeSummaryDropdown() {
+    showKnowledgeSummaryDropdown.value = false
+}
+
 </script>
 
 <template>
@@ -49,7 +53,7 @@ const showKnowledgeSummaryDropdown = ref(false)
                         </template>
                         <div class="icon-counter"
                             v-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount >= 2">
-                            +{{ learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount }}</div>
+                            +{{  learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount  }}</div>
                     </div>
 
                     <font-awesome-icon v-if="showQuestionFilterOptionsDropdown" icon="fa-solid fa-chevron-up" />
@@ -76,7 +80,7 @@ const showKnowledgeSummaryDropdown = ref(false)
                         <font-awesome-icon class="dropdown-filter-icon" :icon="q.icon" />
 
                         <div class="selectable-item dropdown-item-label" :class="{ 'item-disabled': !isLoggedIn }">
-                            {{ q.label }} ({{ q.count }})
+                            {{  q.label  }} ({{  q.count  }})
                         </div>
                     </div>
 
@@ -109,10 +113,9 @@ const showKnowledgeSummaryDropdown = ref(false)
 
             </div>
 
-            <div class="dropdown-container col-xs-12 col-sm-6"
-                v-click-outside="learningSessionConfigurationStore.closeKnowledgeSummaryDropdown"
-                @click.self="learningSessionConfigurationStore.closeKnowledgeSummaryDropdown">
-                <div class="sub-header" @click="learningSessionConfigurationStore.closeKnowledgeSummaryDropdown">
+            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeKnowledgeSummaryDropdown"
+                @click.self="closeKnowledgeSummaryDropdown">
+                <div class="sub-header" @click="closeKnowledgeSummaryDropdown">
                     Wissenstand</div>
 
                 <div class="knowledge-summary-button selectable-item"
@@ -123,8 +126,8 @@ const showKnowledgeSummaryDropdown = ref(false)
                     <div class="knowledge-summary-chip-container">
                         <template v-for="s in learningSessionConfigurationStore.knowledgeSummary">
                             <div v-if="s.isSelected" class="knowledge-summary-chip" :class="s.colorClass">
-                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{ s.label
-                                }}</template>
+                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{  s.label 
+                                    }}</template>
                             </div>
                         </template>
                     </div>
@@ -149,7 +152,7 @@ const showKnowledgeSummaryDropdown = ref(false)
                             v-if="k.isSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <div :class="k.colorClass" class="knowledge-summary-chip">
-                            {{ k.label }} ({{ k.count }})
+                            {{  k.label  }} ({{  k.count  }})
                         </div>
                     </div>
 
