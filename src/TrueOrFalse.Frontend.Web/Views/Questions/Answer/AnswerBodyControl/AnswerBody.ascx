@@ -191,7 +191,8 @@
                                         <a href="#" id="btnCheck" class="btn btn-primary memo-button" rel="nofollow">Antworten</a>
                                         <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
                                             <a href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
-                                        <% }%>        
+                                        <% }%>
+                                        </div>
                                     <% } else { %>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning memo-button" rel="nofollow">Wusste ich!</a>
@@ -200,12 +201,14 @@
                                                 <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link memo-button">Nicht werten!</a>
                                             <% } %>
                                             </div>
-                                            <div>
                                     <% } %>
+                                    <div>
+
                                     <% if (Model.IsLearningSession && Model.NextUrl != null && !Model.IsInTestMode) { %>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link memo-button"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
-                                </div>
+
+                                    </div>
 
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
