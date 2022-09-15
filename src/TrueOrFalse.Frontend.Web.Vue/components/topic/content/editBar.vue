@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Tab } from '~~/components/topic/tabs/tabsEnum'
-import { useTabsStore } from '~~/components/topic/tabs/tabsStore'
+import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useUserStore } from '~~/components/user/userStore'
 

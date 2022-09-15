@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
-import { Tab } from '~~/components/topic/tabs/TabsEnum'
-import { useTabsStore } from '~~/components/topic/tabs/tabsStore'
+import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { PageType } from '~~/components/shared/pageTypeEnum'
@@ -48,6 +47,7 @@ watch(() => topicStore.name, () => {
     title: topicStore.name,
   })
 })
+
 </script>
 
 <template>
@@ -1129,7 +1129,7 @@ img {
         }
 
         &.showOnHover {
-          color: @memo-grey-dark  !important;
+          color: @memo-grey-dark !important;
           display: unset;
         }
       }

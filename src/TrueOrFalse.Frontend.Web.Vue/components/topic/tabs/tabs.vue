@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { Tab } from './TabsEnum'
-import { useTabsStore } from './tabsStore'
+import { useTabsStore, Tab } from './tabsStore'
 const tabsStore = useTabsStore()
 </script>
 

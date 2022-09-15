@@ -1,5 +1,11 @@
 import { defineStore } from 'pinia'
-import { Tab } from './tabsEnum'
+
+export enum Tab {
+  Topic,
+  Learning,
+  Feed,
+  Analytics
+}
 
 export const useTabsStore = defineStore('tabsStore', {
   state: () => {
