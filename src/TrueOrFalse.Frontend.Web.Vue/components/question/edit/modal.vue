@@ -317,6 +317,13 @@ async function getQuestionData(id) {
 watch(() => editQuestionStore.showModal, () => {
 
 })
+
+const solutionIsValid = ref(true)
+
+function setFlashCardContent(editor) {
+    flashCardAnswer.value = editor.getHTML()
+    solutionIsValid.value = editor.state.doc.textContent.length > 0
+}
 </script>
 
 <template>
@@ -371,7 +378,8 @@ watch(() => editQuestionStore.showModal, () => {
                     <QuestionEditMatchtList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" />
                     <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
-                        :highlightEmptyFields="highlightEmptyFields" />
+                        :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashCardContent"
+                        ref="flashCardComponent" />
 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
