@@ -7,7 +7,7 @@ export default defineNuxtConfig(
       server: {
         proxy: {
           "/api": {
-            target: "http://localhost:5211/apiVue",
+            target: "http://memucho.local/apiVue",
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ""),
           },
@@ -24,8 +24,8 @@ export default defineNuxtConfig(
     },
     runtimeConfig: {
         public: {
-            apiBase: "http://localhost:5211/apiVue/",
-            base: "http://localhost:5211"
+            apiBase: "http://memucho.local/apiVue/",
+            base: "http://memucho.local"
         },
     },
     components: {

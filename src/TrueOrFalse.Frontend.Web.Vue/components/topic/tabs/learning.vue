@@ -1,12 +1,9 @@
 <script setup>
-const props = defineProps({
-  category: Object
-})
+const props = defineProps(['topic', 'answerBodyModel'])
 </script>
 
 <template>
   <div>
-    Lernseite
     <TopicLearning />
   </div>
 </template>

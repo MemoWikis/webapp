@@ -52,7 +52,7 @@ public class QuestionController : BaseController
     public JsonResult GetData(int id)
     {
         var question = EntityCache.GetQuestionById(id);
-        var topicController = new TopicController();
+        var categoryController = new CategoryController();
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
         var topicsVisibleToCurrentUser =
             question.Categories.Where(PermissionCheck.CanView).Distinct();
@@ -68,7 +68,7 @@ public class QuestionController : BaseController
                 TextExtended = question.TextExtendedHtml,
                 TopicIds = topicsVisibleToCurrentUser.Select(c => c.Id).ToList(),
                 DescriptionHtml = question.DescriptionHtml,
-                Topics = topicsVisibleToCurrentUser.Select(c => topicController.FillMiniCategoryItem(c)),
+                Topics = topicsVisibleToCurrentUser.Select(c => categoryController.FillMiniCategoryItem(c)),
                 LicenseId = question.LicenseId,
                 Visibility = question.Visibility,
             }

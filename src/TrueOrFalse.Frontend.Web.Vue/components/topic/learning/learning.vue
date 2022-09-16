@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useTopicStore } from '../topicStore'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const expandAllQuestions = ref(false)
@@ -17,6 +18,39 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
         learningSessionConfigurationStore.selectedQuestionCount = parseInt(val)
     }
 })
+
+const topicStore = useTopicStore()
+const answerBodyModel = ref()
+onMounted(async () => {
+    if (process.client) {
+        answerBodyModel.value = await $fetch<any>(`/api/Learning/GetNewAnswerBodyForTopic/`, {
+            body: {
+                categoryId: topicStore.id,
+                isInLearningTab: true
+            },
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: useRequestHeaders(['cookie'])
+        })
+    } else if (process.server) {
+        const config = useRuntimeConfig()
+        answerBodyModel.value = await $fetch<any>(`/Learning/GetNewAnswerBodyForTopic/`, {
+            body: {
+                categoryId: topicStore.id,
+                isInLearningTab: true
+            },
+            baseURL: config.apiBase,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: useRequestHeaders(['cookie'])
+        })
+    }
+})
+
+
+
 </script>
 
 <template>
@@ -32,11 +66,11 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
                         <b>&nbsp;alle&nbsp;</b>
                     </template>
                     <template v-else>
-                        <b>&nbsp;{{  learningSessionConfigurationStore.currentQuestionCount  }}&nbsp;</b>
+                        <b>&nbsp;{{ learningSessionConfigurationStore.currentQuestionCount }}&nbsp;</b>
                     </template>
                     Fragen&nbsp;
                     <span class="hidden-xs">aus diesem Thema</span>
-                    &nbsp;({{  learningSessionConfigurationStore.allQuestionCount  }})
+                    &nbsp;({{ learningSessionConfigurationStore.allQuestionCount }})
                 </div>
                 <div class="session-config-header"
                     v-if="learningSessionConfigurationStore.categoryHasNoQuestions && learningSessionConfigurationStore.showError">
@@ -69,8 +103,8 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
                                             <font-awesome-icon v-if="expandAllQuestions" icon="fa-solid fa-angles-up" />
                                             <font-awesome-icon v-else icon="fa-solid fa-angles-down" />
                                         </div>
-                                        <span>{{  expandAllQuestions ? 'Alle Fragen zuklappen' : 'Alle Fragen erweitern' 
-                                            }}</span>
+                                        <span>{{ expandAllQuestions ? 'Alle Fragen zuklappen' : 'Alle Fragen erweitern'
+                                        }}</span>
                                     </a>
                                 </li>
                                 <li style="cursor: pointer">
@@ -89,6 +123,7 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
             </div>
         </slot>
 
+
     </TopicLearningSessionConfiguration>
     <div class="session-configurator col-xs-12" v-if="!showFilter">
         <div class="session-config-header">
@@ -99,6 +134,10 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
             </div>
         </div>
     </div>
+
+    <QuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" />
+
+    <TopicLearningSessionConfiguration />
 
 </template>
 

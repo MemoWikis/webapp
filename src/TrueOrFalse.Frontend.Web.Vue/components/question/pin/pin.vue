@@ -95,6 +95,6 @@ async function unpin() {
 @import (reference) '~~/assets/includes/imports.less';
 
 .pinIcon {
-    color: @memo-red;
+    color: @memo-wuwi-red;
 }
 </style>

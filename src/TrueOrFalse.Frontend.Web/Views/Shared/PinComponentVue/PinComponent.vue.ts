@@ -54,7 +54,7 @@
                                 if (this.isInWishknowledge) {
                                     $.post("/Api/Questions/UnPin/", { questionId: this.questionId });
                                     eventBus.$emit("reload-wishknowledge-state-per-question",helper);
-                                } else {
+                                } else {        
                                     $.post("/Api/Questions/Pin/", { questionId: this.questionId });
                                     eventBus.$emit("reload-wishknowledge-state-per-question", helper);
                                 }

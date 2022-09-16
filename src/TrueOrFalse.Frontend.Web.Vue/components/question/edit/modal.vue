@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { Visibility } from '../../shared/visibilityEnum'
 import { useUserStore } from '../../user/userStore'
-import { useEditQuestionStore, SolutionType } from './editQuestionStore'
+import { SolutionType } from '../solutionTypeEnum'
+import { useEditQuestionStore } from './editQuestionStore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { SearchTopicItem, TopicResult } from '../../search/searchHelper'
 import _ from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useLearningSessionConfigurationStore } from '../../topic/learning/learningSessionConfigurationStore'
-import { useTabsStore } from '../../topic/tabs/tabsStore'
-import { Tab } from '../../topic/tabs/tabsEnum'
+import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
 import { useTopicStore } from '../../topic/topicStore'
 
 const userStore = useUserStore()
