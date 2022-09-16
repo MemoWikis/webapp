@@ -24,6 +24,7 @@ function validateSolution() {
     })
     emit('setSolutionIsValid', !hasEmptyAnswer && !leftElementHasNoAnswer && !rightElementHasNoAnswer)
 }
+
 function solutionBuilder() {
     validateSolution()
     let solution = {
@@ -33,7 +34,6 @@ function solutionBuilder() {
     }
     emit('setMatchListJson', solution)
 }
-
 
 function initiateSolution() {
     var json = JSON.parse(props.solution)
@@ -54,13 +54,33 @@ function deletePair(index) {
     solutionBuilder()
 }
 
+function addPair() {
+    let placeHolder = {
+        ElementRight: { Text: "" },
+        ElementLeft: { Text: "" }
+    }
+    pairs.value.push(placeHolder)
+    solutionBuilder()
+}
+
+function deleteRightElement(index) {
+    rightElements.value.splice(index, 1)
+    solutionBuilder()
+}
+
+function addRightElement() {
+    let rightElement = { Text: "" }
+    rightElements.value.push(rightElement)
+    solutionBuilder()
+}
+
 </script>
 
 <template>
     <div class="input-container matchlist-container">
         <div class="overline-s no-line">Antworten</div>
 
-        <form class="form-inline matchlist-pairs" v-for="(pair, index) in pairs" :key="'pair' + index">
+        <form class="form-inline matchlist-pairs" v-for="(pair, index) in pairs.value" :key="'pair' + index">
             <div class="matchlist-left form-group">
                 <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields"
                     class="field-error-container">
@@ -80,10 +100,13 @@ function deletePair(index) {
                     v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementRight.Text.length <= 0 && props.highlightEmptyFields }">
                     <option disabled selected value="" hidden>Rechtes Element</option>
-                    <option v-for="el in rightElements" v-if="el.Text != null && el.Text.length > 0" :value="el.Text">
-                        {{el.Text}}</option>
+                    <template v-for="el in rightElements.value">
+                        <option v-if="el.Text != null && el.Text.length > 0" :value="el.Text">
+                            {{el.Text}}</option>
+                    </template>
+
                 </select>
-                <div @click="deletePair(index)" class="btn grey-bg col-sm-2 col-spacer" v-if="pairs.length > 1">
+                <div @click="deletePair(index)" class="btn grey-bg col-sm-2 col-spacer" v-if="pairs.value.length > 1">
                     <i class="fas fa-trash"></i>
                 </div>
                 <div class="col-sm-2 col-spacer" v-else></div>
@@ -95,10 +118,10 @@ function deletePair(index) {
                 <div class="col-sm-2 col-spacer xs-hide"></div>
             </div>
             <div class="matchlist-right">
-                <div v-for="(element, i) in rightElements" :key="i" class="form-group">
+                <div v-for="(element, i) in rightElements.value" :key="i" class="form-group">
                     <div class="d-flex">
-                        <input type="text" class="form-control col-sm-10" :id="i" v-model="element.Text" placeholder=""
-                            v-on:change="solutionBuilder()"
+                        <input type="text" class="form-control col-sm-10" :id="i.toString()" v-model="element.Text"
+                            placeholder="" v-on:change="solutionBuilder()"
                             :class="{ 'is-empty': i == 0 && element.Text.length <= 0 && props.highlightEmptyFields }">
                         <div @click="deleteRightElement(i)" class="btn grey-bg col-sm-2 col-spacer">
                             <i class="fas fa-trash"></i>
@@ -107,11 +130,13 @@ function deletePair(index) {
                 </div>
                 <div class="d-flex">
                     <div @click="addRightElement()" class="btn col-sm-10 form-control grey-bg"
-                        :class="{ 'is-empty': rightElements.length <= 0 && props.highlightEmptyFields }">Rechtes Element
+                        :class="{ 'is-empty': rightElements.value.length <= 0 && props.highlightEmptyFields }">Rechtes
+                        Element
                         erstellen</div>
                     <div class="col-sm-2 col-spacer xs-hide"></div>
                 </div>
-                <div v-if="rightElements.length <= 0 && props.highlightEmptyFields" class="field-error">Bitte erstelle
+                <div v-if="rightElements.value.length <= 0 && props.highlightEmptyFields" class="field-error">Bitte
+                    erstelle
                     ein
                     rechtes Element.</div>
             </div>
