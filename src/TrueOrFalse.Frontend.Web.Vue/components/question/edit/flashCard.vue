@@ -15,7 +15,7 @@ const props = defineProps(['solution', 'highlightEmptyFields'])
 const emit = defineEmits(['setFlashCardContent'])
 const alertStore = useAlertStore()
 const content = ref(null)
-const answerEditor = useEditor({
+const editor = useEditor({
     editable: true,
     extensions: [
         StarterKit,
@@ -57,20 +57,30 @@ const answerEditor = useEditor({
     }
 })
 
-const answerJson = ref(null)
-const answerHtml = ref(null)
-
 onMounted(() => {
     if (props.solution.value) {
-        answerEditor.value?.commands.setContent(props.solution.value)
-        emit('setFlashCardContent', answerEditor.value)
+        editor.value?.commands.setContent(props.solution.value)
+        emit('setFlashCardContent', editor.value)
     }
 })
 
 function clearFlashCard() {
-    answerEditor.value?.commands.setContent('')
+    editor.value?.commands.setContent('')
 }
 </script>
 
 <template>
+    <div class="input-container">
+        <div class="overline-s no-line">Antwort</div>
+        <template v-if="editor">
+            <EditorMenuBar :editor="editor" />
+        </template>
+        <template>
+            <editor-content :editor="editor"
+                :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
+        </template>
+        <div v-if="highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
+            Bitte gib eine Antwort an.
+        </div>
+    </div>
 </template>
