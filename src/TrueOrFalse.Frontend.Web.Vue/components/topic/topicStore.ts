@@ -62,6 +62,8 @@ export const useTopicStore = defineStore('topicStore', {
         this.isWiki = topic.IsWiki
         this.currentUserIsCreator = topic.CurrentUserIsCreator
         this.canBeDeleted = topic.CanBeDeleted
+
+        this.questionCount = topic.QuestionCount
       }
     },
     async saveTopic() {

@@ -19,7 +19,6 @@ onMounted(() => {
         }
     })
 
-
 })
 
 onUnmounted(() => {
@@ -36,17 +35,17 @@ onUnmounted(() => {
         </h1>
         <div id="TopicHeaderDetails">
 
-            <div v-if="topicStore.parentTopicCount > 0" class="topic-detail">
-                <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
-                <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
+            <div v-if="topicStore.childTopicCount > 0" class="topic-detail">
+                <font-awesome-icon icon="fa-solid fa-sitemap" />
+                <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
 
             <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
             </div>
 
-            <div v-if="topicStore.childTopicCount > 0" class="topic-detail">
-                <font-awesome-icon icon="fa-solid fa-sitemap" />
-                <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
+            <div v-if="topicStore.parentTopicCount > 0" class="topic-detail">
+                <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
+                <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
             </div>
 
             <div class="topic-detail-spacer"

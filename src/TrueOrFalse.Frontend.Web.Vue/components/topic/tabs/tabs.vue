@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from './tabsStore'
+import { useTopicStore } from '../topicStore'
+
 const tabsStore = useTabsStore()
+const topicStore = useTopicStore()
 </script>
 
 <template>
@@ -15,7 +18,9 @@ const tabsStore = useTabsStore()
     </div>
 
     <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
-      <div class="tab-label">Lernen</div>
+      <div class="tab-label">Fragen <template
+          v-if="topicStore.questionCount > 0">({{topicStore.questionCount}})</template>
+      </div>
       <div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
       <div class="inactive-tab" v-else>
         <div class="tab-border"></div>
@@ -71,6 +76,7 @@ const tabsStore = useTabsStore()
     .tab-filler {
       padding: 4px 20px;
       height: 34px;
+      white-space: nowrap;
     }
 
     .tab-filler {
