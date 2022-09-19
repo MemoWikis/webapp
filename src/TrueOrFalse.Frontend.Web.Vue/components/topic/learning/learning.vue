@@ -137,8 +137,7 @@ onMounted(async () => {
 
     <QuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" />
 
-    <TopicLearningSessionConfiguration />
-
+    <TopicLearningQuestionsSection />
 </template>
 
 <style lang="less" scoped>

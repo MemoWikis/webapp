@@ -53,7 +53,7 @@ function closeKnowledgeSummaryDropdown() {
                         </template>
                         <div class="icon-counter"
                             v-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount >= 2">
-                            +{{  learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount  }}</div>
+                            +{{ learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount }}</div>
                     </div>
 
                     <font-awesome-icon v-if="showQuestionFilterOptionsDropdown" icon="fa-solid fa-chevron-up" />
@@ -80,7 +80,7 @@ function closeKnowledgeSummaryDropdown() {
                         <font-awesome-icon class="dropdown-filter-icon" :icon="q.icon" />
 
                         <div class="selectable-item dropdown-item-label" :class="{ 'item-disabled': !isLoggedIn }">
-                            {{  q.label  }} ({{  q.count  }})
+                            {{ q.label }} ({{ q.count }})
                         </div>
                     </div>
 
@@ -126,8 +126,8 @@ function closeKnowledgeSummaryDropdown() {
                     <div class="knowledge-summary-chip-container">
                         <template v-for="s in learningSessionConfigurationStore.knowledgeSummary">
                             <div v-if="s.isSelected" class="knowledge-summary-chip" :class="s.colorClass">
-                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{  s.label 
-                                    }}</template>
+                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{ s.label
+                                }}</template>
                             </div>
                         </template>
                     </div>
@@ -152,7 +152,7 @@ function closeKnowledgeSummaryDropdown() {
                             v-if="k.isSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <div :class="k.colorClass" class="knowledge-summary-chip">
-                            {{  k.label  }} ({{  k.count  }})
+                            {{ k.label }} ({{ k.count }})
                         </div>
                     </div>
 
@@ -412,7 +412,7 @@ function closeKnowledgeSummaryDropdown() {
     .mode-change-button,
     .question-counter,
     .question-filter-options-button {
-        z-index: 2;
+        z-index: 6;
         height: 40px;
         align-items: center;
         padding: 0 10px;
@@ -526,7 +526,7 @@ function closeKnowledgeSummaryDropdown() {
             left: 0;
             margin-left: 10px;
             background: white;
-            z-index: 3;
+            z-index: 10;
 
             .dropdown-item {
                 display: flex;
@@ -851,10 +851,10 @@ function closeKnowledgeSummaryDropdown() {
 }
 
 .item-disabled {
-    color: @memo-grey-dark  !important;
+    color: @memo-grey-dark !important;
 
     &:hover {
-        color: @memo-grey-dark  !important;
+        color: @memo-grey-dark !important;
     }
 }
 

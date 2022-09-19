@@ -57,7 +57,7 @@ watch(() => topicStore.name, () => {
         <TopicHeader />
         <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
         <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
-        <TopicTabsLearning v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
+        <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
         <TopicRelationEdit />
       </div>
       <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">
