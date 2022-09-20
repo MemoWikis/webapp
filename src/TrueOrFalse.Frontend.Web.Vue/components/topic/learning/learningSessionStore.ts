@@ -5,6 +5,11 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
     state: () => {
         return{
             isLearningSession: true,
-            isTestMode: false
-    }}
+            isTestMode: false,
+            lastIndex: 0,
+    }},
+    actions: {
+        loadQuestion(skipIndex, lastIndex) {
+        },
+      },
 })

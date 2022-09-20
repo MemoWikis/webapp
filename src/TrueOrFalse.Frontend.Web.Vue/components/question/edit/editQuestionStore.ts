@@ -13,12 +13,20 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
       }
     },
     actions: {
-        openModal(id: number){
-            this.id = id
-            this.showModal = true
-        },
-        edit(id: number) {
-          this.openModal(id)
+      createQuestion(q) {
+        var question = {
+          topicId: q.topicId,
+          edit: q.edit,
+          questionHtml: q.questionHtml,
+          solution: q.solution,
         }
+      },
+      openModal(id: number){
+          this.id = id
+          this.showModal = true
+      },
+      edit(id: number) {
+        this.openModal(id)
+      }
     },
   })

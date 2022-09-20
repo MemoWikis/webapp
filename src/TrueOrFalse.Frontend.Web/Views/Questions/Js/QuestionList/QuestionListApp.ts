@@ -119,7 +119,7 @@ let questionListApp = new Vue({
             this.activeQuestion = index;
         },
         getCurrentLearningSessionData() {
-            $.ajax({
+            $.ajax({    
                 url: "/QuestionList/GetCurrentLearningSessionData/",
                 data: {
                     categoryId: $("#hhdCategoryId").val()

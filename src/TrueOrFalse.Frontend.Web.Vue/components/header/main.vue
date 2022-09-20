@@ -106,7 +106,7 @@ onMounted(() => {
                         </template>
 
                         <template v-else-if="showRegisterButton">
-                            <div>
+                            <div class="StickySearchContainer">
                                 <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                     @click="showSearch = !showSearch">
                                     <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
@@ -137,6 +137,25 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.stickySearchContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+
+    .searchButton {
+        align-items: center;
+        display: flex;
+        font-size: 20px;
+        height: 100%;
+        justify-content: center;
+        position: absolute;
+        transform: translateZ(0);
+        transition: all .3s;
+        width: 34px;
+        z-index: 1050;
+    }
+}
 
 #Navigation {
     width: 100%;
@@ -234,6 +253,69 @@ onMounted(() => {
 .user-dropdown {
     .user-dropdown-label {
         padding: 10px 25px;
+    }
+}
+
+#StickySearch,
+#HeaderSearch {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+    align-items: center;
+
+    .StickySearchContainer,
+    .SearchContainer {
+        width: 100%;
+
+        input {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        &.showSearch {
+            input {
+                border: 1px solid #ccc;
+                width: 100%;
+                padding: 6px 40px 6px 12px;
+                background: white;
+            }
+        }
+    }
+
+    .searchButton {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+        font-size: 20px;
+        position: absolute;
+        z-index: 1050;
+        width: 34px;
+        transform: translateZ(0);
+
+        svg.fa-magnifying-glass {
+            color: white;
+        }
+
+        svg.fa-xmark,
+        svg.fa-magnifying-glass {
+            transition: all 0.1s;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            svg.fa-xmark,
+            svg.fa-magnifying-glass {
+                color: @memo-green;
+            }
+        }
     }
 }
 </style>
