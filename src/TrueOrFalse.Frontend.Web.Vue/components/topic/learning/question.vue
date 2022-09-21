@@ -1,4 +1,79 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { QuestionListItem } from './questionListItem'
+const showFullQuestion = ref(false)
+const backgroundColor = ref('')
+
+const props = defineProps({
+    question: Object as () => QuestionListItem,
+    isLastItem: Boolean,
+    expandQuestion: Boolean,
+})
+
+const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
+
+const questionTitleHtml = ref('')
+onBeforeMount(() => {
+    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>";
+})
+const allDataLoaded = ref(false)
+function loadQuestionBody() {
+    $.ajax({
+        url: "/QuestionList/LoadQuestionBody/",
+        data: { questionId: this.questionId },
+        type: "POST",
+        success: data => {
+            if (data.answer == null || data.answer.length <= 0) {
+                if (data.extendedAnswer && data.extendedAnswer > 0)
+                    this.answer = "<div>" + data.extendedAnswer + "</div>";
+                else
+                    this.answer = "<div> Fehler: Keine Antwort! </div>";
+            } else {
+                this.answer = "<div>" + data.answer + "</div>";;
+                if (data.extendedAnswer != null)
+                    this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";
+            };
+
+            if (data.categories) {
+                this.categories = data.categories;
+                this.linkToFirstCategory = data.categories[0].linkToCategory;
+            };
+
+            this.references = data.references;
+            this.author = data.author;
+            this.authorImage = data.authorImage;
+            this.extendedQuestion = "<div>" + data.extendedQuestion + "</div>";
+            this.commentCount = data.commentCount;
+            this.isCreator = data.isCreator && this.isLoggedIn;
+            this.editUrl = data.editUrl;
+            this.historyUrl = data.historyUrl;
+            this.authorUrl = data.authorUrl;
+            this.$nextTick(function () {
+                Images.Init();
+            });
+            this.allDataLoaded = true;
+            this.answerCount = this.abbreviateNumber(data.answerCount);
+            this.correctAnswers = this.abbreviateNumber(data.correctAnswerCount);
+            this.wrongAnswers = this.abbreviateNumber(data.wrongAnswerCount);
+            this.canBeEdited = data.canBeEdited;
+        },
+    });
+}
+
+function expandQuestion() {
+    showFullQuestion.value = !showFullQuestion.value
+    if (allDataLoaded.value == false) {
+        loadQuestionBody();
+    }
+}
+
+watch(() => props.expandQuestion, (val) => {
+    if (val != showFullQuestion.value)
+        expandQuestion()
+})
+
+
+
+</script>
 
 <template>
     <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
@@ -6,7 +81,7 @@
             <div class="questionContainer">
                 <div class="questionBodyTop">
                     <div class="questionImg col-xs-1" @click="expandQuestion()">
-                        <img :src="questionImage"></img>
+                        <Image :src="question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader row">

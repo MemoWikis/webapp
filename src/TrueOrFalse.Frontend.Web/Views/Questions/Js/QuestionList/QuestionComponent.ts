@@ -227,7 +227,7 @@
                 }
             });
         },
-        loadSpecificQuestion: function () {
+        loadSpecificQuestion() {
             var answerBody = new AnswerBody();
             answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
                 "?skipStepIdx=-5" +

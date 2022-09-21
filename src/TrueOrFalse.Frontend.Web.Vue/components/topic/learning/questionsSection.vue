@@ -1,15 +1,29 @@
 <script lang="ts" setup>
 
-const props = defineProps([''])
+import { useLearningSessionStore } from './learningSessionStore'
 
-const showFilter = ref(false)       
+const props = defineProps([''])
+const showFilter = ref(false)
+
+const currentQuestionCount = ref(0)
+const allQuestionCount = ref(0)
+
+const topicHasNoQuestions = ref(true)
+const showError = ref(false)
+
+const questionsExpanded = ref(false)
+function expandAllQuestions() {
+    questionsExpanded.value = true
+}
+
+const learningSessionStore = useLearningSessionStore()
+
 </script>
 
 <template>
     <div>
         <TopicLearningSessionConfiguration v-if="showFilter">
             <slot>
-                <input id="hdnIsTestMode" hidden :value="isTestMode" />
                 <div class="col-xs-12 drop-down-question-sort">
                     <div class="session-config-header">
                         <span class="hidden-xs">Du lernst</span>
@@ -23,7 +37,7 @@ const showFilter = ref(false)
                         <span class="hidden-xs">aus diesem Thema</span>
                         &nbsp;({{allQuestionCount}})
                     </div>
-                    <div class="session-config-header" v-if="categoryHasNoQuestions && showError">Leider hat dieses
+                    <div class="session-config-header" v-if="topicHasNoQuestions && showError">Leider hat dieses
                         Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.</div>
 
                     <div id="ButtonAndDropdown">
@@ -41,7 +55,7 @@ const showFilter = ref(false)
                                         </div><span>Frage hinzufügen</span>
                                     </a>
                                 </li>
-                                <li v-if="expandQuestion" @click="expandAllQuestions()" style="cursor: pointer">
+                                <li v-if="questionsExpanded" @click="expandAllQuestions()" style="cursor: pointer">
                                     <a>
                                         <div class="dropdown-icon">
                                             <i class="fa fa-angle-double-up"></i>
@@ -56,7 +70,7 @@ const showFilter = ref(false)
                                     </a>
                                 </li>
                                 <li style="cursor: pointer">
-                                    <a data-allowed="logged-in" @click="startNewLearningSession()">
+                                    <a data-allowed="logged-in" @click="learningSessionStore.startNewSession()">
                                         <div class="dropdown-icon">
                                             <i class="fa fa-play"></i>
                                         </div><span>Fragen jetzt lernen</span>

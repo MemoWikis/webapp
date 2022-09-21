@@ -11,5 +11,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
     actions: {
         loadQuestion(skipIndex, lastIndex) {
         },
+        startNewSession() {
+            
+        }
       },
 })

@@ -6,14 +6,15 @@ const props = defineProps([
     'activeQuestionId',
     'selectedPageFromActiveQuestion',
     'questionCount'])
+
+const questions = ref(null)
 </script>
 
 <template>
     <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
-        <template v-for="(q, index) in questions">
-            <%: Html.Partial("~/Views/Questions/QuestionList/QuestionComponent.vue.ascx")%>
-        </template>
 
+        <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
+            :is-last-item="index == (questions.length-1)" :index="index" />
 
         <div id="QuestionListPagination" v-show="hasQuestions">
             <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
