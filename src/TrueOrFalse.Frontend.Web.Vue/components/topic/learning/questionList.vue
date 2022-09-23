@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { QuestionListItem } from './questionListItem'
+import _ from 'underscore'
 const props = defineProps([
     'categoryId',
     'isAdmin',
@@ -7,17 +9,102 @@ const props = defineProps([
     'selectedPageFromActiveQuestion',
     'questionCount'])
 
-const questions = ref(null)
+const questions = reactive({ value: [] as QuestionListItem[] })
+
+const pages = ref(0)
+const pageArray = reactive({ value: [] as Number[] })
+const selectedPage = ref(1)
+
+const pageIsLoading = ref(false)
+const itemCountPerPage = ref(25)
+
+
+const emit = defineEmits(['updateQuestionCount'])
+const showLeftSelectionDropUp = ref(false)
+const showRightSelectionDropUp = ref(false)
+const questionCount = ref(0)
+
+const hideLeftPageSelector = ref(false)
+const hideRightPageSelector = ref(false)
+
+const centerArray = reactive({ value: [] })
+const leftSelectorArray = reactive({ value: [] })
+const rightSelectorArray = reactive({ value: [] })
+
+function setPaginationRanges(sP) {
+    if ((sP - 2) <= 2) {
+        hideLeftPageSelector.value = true
+    };
+    if ((sP + 2) >= pageArray.value.length) {
+        hideRightPageSelector.value = true
+    };
+
+    let leftArray = [];
+    let cA = [];
+    let rightArray = [];
+
+    if (pageArray.value.length >= 8) {
+
+        cA = _.range(sP - 2, sP + 3);
+        cA = cA.filter(e => e >= 2 && e <= pageArray.value.length - 1)
+
+        leftArray = _.range(2, cA[0]);
+        rightArray = _.range(cA[cA.length - 1] + 1, this.pageArray.length)
+
+        centerArray.value = cA
+        leftSelectorArray.value = leftArray
+        rightSelectorArray.value = rightArray
+
+    } else {
+        centerArray.value = pageArray.value
+    }
+}
+async function updatePageCount(sP) {
+    selectedPage.value = sP
+    showLeftSelectionDropUp.value = false
+    showRightSelectionDropUp.value = false
+
+    if (typeof questions.value[0] != "undefined")
+        pages.value = Math.ceil(questionCount.value / itemCountPerPage.value)
+    else
+        pages.value = 1
+
+    await nextTick()
+    setPaginationRanges(sP)
+    // new Pin(PinType.Question);
+
+    pageIsLoading.value = false
+}
+
+async function loadQuestions(page: Number) {
+    pageIsLoading.value = true
+
+    var result = await $fetch<any>('/api/QuestionList/LoadQuestions/', {
+        method: 'POST', body: {
+            itemCountPerPage: itemCountPerPage.value,
+            pageNumber: selectedPage.value,
+        }, mode: 'cors', credentials: 'include'
+    })
+    if (result != null) {
+        questions.value = result
+        updatePageCount(selectedPage.value)
+        emit('updateQuestionCount')
+    }
+}
+function loadPreviousQuestions() {
+    if (selectedPage.value != 1)
+        loadQuestions(selectedPage.value - 1);
+}
 </script>
 
 <template>
-    <div class="col-xs-12 questionListComponent" id="QuestionListComponent" :data-last-index="lastQuestionInListIndex">
+    <div class="col-xs-12 questionListComponent" id="QuestionListComponent">
 
-        <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
-            :is-last-item="index == (questions.length-1)" :index="index" />
+        <TopicLearningQuestion v-for="(q, index) in questions.value" :question="q"
+            :is-last-item="index == (questions.value.length-1)" :index="index" />
 
-        <div id="QuestionListPagination" v-show="hasQuestions">
-            <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
+        <div id="QuestionListPagination" v-show="questions.value.length > 0">
+            <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.value.length <= 8">
                 <li class="page-item page-btn" :class="{ disabled : selectedPage == 1 }">
                     <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
                 </li>

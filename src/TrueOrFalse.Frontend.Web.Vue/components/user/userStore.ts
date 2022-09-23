@@ -40,8 +40,7 @@ export const useUserStore = defineStore('userStore', {
     async login(loginData) {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
-      var result = await $fetch<UserLoginResult>('/api/SessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' 
-      })
+      var result = await $fetch<UserLoginResult>('/api/SessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success){
         this.isLoggedIn = true

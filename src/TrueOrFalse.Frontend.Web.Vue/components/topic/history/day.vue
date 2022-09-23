@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const props = defineProps(['day'])
+const props = defineProps(['day', 'model'])
 </script>
 
 <template>
@@ -11,10 +11,7 @@ const props = defineProps(['day'])
                 </h3>
             </div>
         </div>
-        <TopicHistoryItem v-for="props.day.Items" />
-
+        <TopicHistoryItem v-for="i in props.day.Items" :item="i" :model="props.model" />
     </div>
 
-    <% } } i++; } %>
-        </div>
 </template>
