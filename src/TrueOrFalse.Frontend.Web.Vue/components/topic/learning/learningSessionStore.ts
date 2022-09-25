@@ -9,7 +9,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             lastIndex: 0,
     }},
     actions: {
-        loadQuestion(skipIndex, lastIndex) {
+        loadQuestion(skipIndex, sessionIndex) {
         },
         startNewSession() {
             

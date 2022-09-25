@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import { QuestionListItem } from './questionListItem'
+import { useUserStore } from '~~/components/user/userStore'
+import { getHighlightedCode } from '~~/components/shared/utils'
+import { useLearningSessionStore } from './learningSessionStore'
+import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
+
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
 
@@ -7,62 +12,96 @@ const props = defineProps({
     question: Object as () => QuestionListItem,
     isLastItem: Boolean,
     expandQuestion: Boolean,
+    sessionIndex: Number
 })
 
 const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
 
 const questionTitleHtml = ref('')
 onBeforeMount(() => {
-    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>";
+    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
 })
 const allDataLoaded = ref(false)
-function loadQuestionBody() {
-    $.ajax({
-        url: "/QuestionList/LoadQuestionBody/",
-        data: { questionId: this.questionId },
-        type: "POST",
-        success: data => {
-            if (data.answer == null || data.answer.length <= 0) {
-                if (data.extendedAnswer && data.extendedAnswer > 0)
-                    this.answer = "<div>" + data.extendedAnswer + "</div>";
-                else
-                    this.answer = "<div> Fehler: Keine Antwort! </div>";
-            } else {
-                this.answer = "<div>" + data.answer + "</div>";;
-                if (data.extendedAnswer != null)
-                    this.extendedAnswer = "<div>" + data.extendedAnswer + "</div>";
-            };
 
-            if (data.categories) {
-                this.categories = data.categories;
-                this.linkToFirstCategory = data.categories[0].linkToCategory;
-            };
+const answer = ref('')
+const extendedAnswer = ref('')
 
-            this.references = data.references;
-            this.author = data.author;
-            this.authorImage = data.authorImage;
-            this.extendedQuestion = "<div>" + data.extendedQuestion + "</div>";
-            this.commentCount = data.commentCount;
-            this.isCreator = data.isCreator && this.isLoggedIn;
-            this.editUrl = data.editUrl;
-            this.historyUrl = data.historyUrl;
-            this.authorUrl = data.authorUrl;
-            this.$nextTick(function () {
-                Images.Init();
-            });
-            this.allDataLoaded = true;
-            this.answerCount = this.abbreviateNumber(data.answerCount);
-            this.correctAnswers = this.abbreviateNumber(data.correctAnswerCount);
-            this.wrongAnswers = this.abbreviateNumber(data.wrongAnswerCount);
-            this.canBeEdited = data.canBeEdited;
-        },
-    });
+const topics = ref({})
+const userStore = useUserStore()
+
+function abbreviateNumber(val) {
+    var newVal;
+    if (val < 1000000) {
+        return val.toLocaleString("de-DE");
+    }
+    else if (val >= 1000000 && val < 1000000000) {
+        newVal = val / 1000000;
+        return newVal.toFixed(2).toLocaleString("de-DE") + " Mio."
+    }
+}
+
+const references = reactive({ value: [] })
+const author = ref('')
+const authorImage = ref('')
+
+const extendedQuestion = ref('')
+const commentCount = ref(0)
+const isCreator = ref(false)
+
+const editUrl = ref('')
+const historyUrl = ref('')
+const authorUrl = ref('')
+
+const answerCount = ref('')
+const correctAnswers = ref('')
+const wrongAnswers = ref('')
+
+const canBeEdited = ref(false)
+
+async function loadQuestionBody() {
+
+    var data = await $fetch<any>('api/QuestionList/LoadQuestionBody/', {
+        body: { questionId: props.question.Id },
+        method: 'post',
+    })
+
+    if (data != null) {
+        if (data.answer == null || data.answer.length <= 0) {
+            if (data.extendedAnswer && data.extendedAnswer.length > 0)
+                answer.value = "<div>" + data.extendedAnswer + "</div>"
+            else
+                answer.value = "<div> Fehler: Keine Antwort! </div>"
+        } else {
+            answer.value = "<div>" + data.answer + "</div>"
+            if (data.extendedAnswer != null)
+                extendedAnswer.value = "<div>" + data.extendedAnswer + "</div>"
+        }
+
+        if (data.categories)
+            topics.value = data.categories
+
+        references.value = data.references
+        author.value = data.author
+        authorImage.value = data.authorImage
+        extendedQuestion.value = "<div>" + data.extendedQuestion + "</div>"
+        commentCount.value = data.commentCount
+        isCreator.value = data.isCreator && userStore.isLoggedIn
+        editUrl.value = data.editUrl
+        historyUrl.value = data.historyUrl
+        authorUrl.value = data.authorUrl
+        allDataLoaded.value = true
+        answerCount.value = abbreviateNumber(data.answerCount)
+        correctAnswers.value = abbreviateNumber(data.correctAnswerCount)
+        wrongAnswers.value = abbreviateNumber(data.wrongAnswerCount)
+        canBeEdited.value = data.canBeEdited
+    }
+
 }
 
 function expandQuestion() {
     showFullQuestion.value = !showFullQuestion.value
     if (allDataLoaded.value == false) {
-        loadQuestionBody();
+        loadQuestionBody()
     }
 }
 
@@ -71,8 +110,35 @@ watch(() => props.expandQuestion, (val) => {
         expandQuestion()
 })
 
+function highlightCode(elementId) {
+    document.getElementById(elementId).querySelectorAll('code').forEach(block => {
+        block.innerHTML = getHighlightedCode(block.textContent)
+    })
+}
+const learningSessionStore = useLearningSessionStore()
 
+function loadSpecificQuestion() {
+    learningSessionStore.loadQuestion(-5, props.sessionIndex)
+}
+const activeQuestionId = ref(0)
+const extendedQuestionId = ref('#eqId-' + props.question.Id)
+const answerId = ref('#aId' + props.question.Id)
+const extendedAnswerId = ref('#eaId' + props.question.Id)
+const correctnessProbability = ref('')
+const correctnessProbabilityLabel = ref('')
 
+function showCommentModal() {
+    // needs comment modal
+}
+
+const editQuestionStore = useEditQuestionStore()
+function editQuestion() {
+    editQuestionStore.edit(props.question.Id, props.question.SessionIndex)
+}
+
+function deleteQuestion() {
+
+}
 </script>
 
 <template>
@@ -89,7 +155,7 @@ watch(() => props.expandQuestion, (val) => {
                                 @click="expandQuestion()">
                                 <component :is="questionTitleHtml && { template:questionTitleHtml }"
                                     @hook:mounted="highlightCode(questionTitleId)"></component>
-                                <div v-if="visibility == 1" class="privateQuestionIcon">
+                                <div v-if="props.question.Visibility == 1" class="privateQuestionIcon">
                                     <p>
                                         <i class="fas fa-lock"></i>
                                     </p>
@@ -100,12 +166,13 @@ watch(() => props.expandQuestion, (val) => {
                                     <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                 </div>
                                 <div>
-                                    <pin-wuwi-component :is-in-wishknowledge="isInWishknowledge"
-                                        :question-id="questionId" />
+                                    <pin-wuwi-component :is-in-wishknowledge="props.question.IsInWishknowledge"
+                                        :question-id="props.question.Id" />
                                 </div>
                                 <div class="go-to-question iconContainer">
-                                    <span class="fas fa-play" :class="{ 'activeQ': activeQuestionId == questionId }"
-                                        :data-question-id="questionId" @click="loadSpecificQuestion()">
+                                    <span class="fas fa-play"
+                                        :class="{ 'activeQ': activeQuestionId == props.question.Id }"
+                                        :data-question-id="props.question.Id" @click="loadSpecificQuestion()">
                                     </span>
                                 </div>
                             </div>
@@ -134,18 +201,17 @@ watch(() => props.expandQuestion, (val) => {
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
                             <span class="percentageLabel"
-                                :class="backgroundColor">{{correctnessProbability}}&nbsp;</span>
+                                :class="backgroundColor">{{correctnessProbability}}&nbsp</span>
                             <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
                         </div>
                         <div class="answerCountFooter">
-                            {{answerCount}}&nbsp;mal&nbsp;beantwortet&nbsp;|&nbsp;{{correctAnswers}}&nbsp;richtig&nbsp;/&nbsp;{{wrongAnswers}}&nbsp;falsch
+                            {{answerCount}}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{correctAnswers}}&nbsprichtig&nbsp/&nbsp{{wrongAnswers}}&nbspfalsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
-                            <a class="commentIcon" @click.stop="showModal()">
-                                <i class="fa fa-comment"><span
-                                        style="font-weight: 400;">&nbsp;{{commentCount}}</span></i>
+                            <a class="commentIcon" @click.stop="showCommentModal()">
+                                <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{commentCount}}</span></i>
                             </a>
                         </div>
                         <div class="Button dropdown">
@@ -154,21 +220,21 @@ watch(() => props.expandQuestion, (val) => {
                                 <i class="fa fa-ellipsis-v"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                <li v-if="isAdmin == 'True' || isCreator">
+                                <li v-if="userStore.isAdmin || isCreator">
                                     <a @click="editQuestion()">
                                         <div class="dropdown-icon"><i class="fa fa-pen"></i></div><span>Frage
                                             bearbeiten</span>
                                     </a>
                                 </li>
-                                <li v-if="isAdmin == 'True'"><a :href="linkToQuestion">
+                                <li v-if="userStore.isAdmin"><a :href="props.question.LinkToQuestion">
                                         <div class="dropdown-icon"><i class="fas fa-file"></i></div><span>Frageseite
                                             anzeigen</span>
                                     </a></li>
-                                <li><a :href="linkToQuestionVersions" data-allowed="logged-in">
+                                <li><a :href="props.question.LinkToQuestionVersions" data-allowed="logged-in">
                                         <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>
                                         <span>Bearbeitungshistorie der Frage</span>
                                     </a></li>
-                                <li><a @click="showModal()">
+                                <li><a @click="showCommentModal()">
                                         <div class="dropdown-icon"><i class="fas fa-comment"></i></div><span>Frage
                                             kommentieren</span>
                                     </a></li>
