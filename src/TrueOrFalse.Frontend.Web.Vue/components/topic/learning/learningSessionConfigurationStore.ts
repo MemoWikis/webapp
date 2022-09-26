@@ -97,6 +97,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
     state: () => {
     const userStore = useUserStore()
       return {
+        topicId: 0,
         order: QuestionOrder.Random,
         repetition: RepetitionType.Normal,
         questionsCount: 0,
@@ -355,9 +356,13 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 this.selectedQuestionFilterOptionsDisplay = selectedOptions
         },
 
-        buildSessionConfigJson() {
+        buildSessionConfigJson(id, isInLearningTab = true) {
+            if (id != 0)
+                this.id = id
+
             var json = {}
             var base = {
+                CategoryId: this.id,
                 maxQuestionCount: this.selectedQuestionCount,
 
                 InWuwi: this.questionFilterOptions.inWuwi.isSelected,
@@ -370,7 +375,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 NotLearned: this.knowledgeSummary.notLearned.isSelected,
                 NeedsLearning: this.knowledgeSummary.needsLearning.isSelected,
                 NeedsConsolidation: this.knowledgeSummary.needsConsolidation.isSelected,
-                Solid: this.knowledgeSummary.solid.isSelected
+                Solid: this.knowledgeSummary.solid.isSelected,
+                isInLearningTab: isInLearningTab
             }
 
             Object.keys(base)

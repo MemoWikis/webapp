@@ -59,6 +59,7 @@ watch(() => topicStore.name, () => {
         <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
         <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
         <TopicRelationEdit />
+        <LazyQuestionEditModal />
       </div>
       <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">
         <div id="SidebarDivider"></div>

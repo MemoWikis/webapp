@@ -121,10 +121,10 @@ async function addFlashcard() {
         return
     }
 
-    sessionConfigJson.value = learningSessionConfigStore.buildSessionConfigJson()
+    sessionConfigJson.value = learningSessionConfigStore.buildSessionConfigJson(topicStore.id)
 
     var json = {
-        CategoryId: topicStore.id,
+        CategoryId: sessionConfigJson.id,
         TextHtml: questionHtml.value,
         Answer: flashCardAnswer.value,
         Visibility: isPrivate.value ? 1 : 0,

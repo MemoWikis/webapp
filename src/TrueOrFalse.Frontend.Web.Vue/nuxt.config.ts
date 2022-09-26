@@ -25,7 +25,7 @@ export default defineNuxtConfig(
     runtimeConfig: {
         public: {
             apiBase: "http://memucho.local/apiVue/",
-            base: "http://memucho.local"
+            base: "http://memucho.local/"
         },
     },
     components: {

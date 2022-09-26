@@ -111,7 +111,7 @@ function openUrl(val) {
                     }
 
                     .KnowledgeLink {
-                        color: @memo-yellow  !important;
+                        color: @memo-yellow !important;
                     }
 
                     #SmallHeaderSearchBoxDiv {

@@ -16,7 +16,6 @@ const spinnerStore = useSpinnerStore()
 const editQuestionStore = useEditQuestionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const topicStore = useTopicStore()
-const edit = ref(false)
 const visibility = ref(Visibility.All)
 const solutionType = ref(SolutionType.Text)
 const addToWuwi = ref(true)
@@ -171,7 +170,7 @@ function getSaveJson() {
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
         SessionConfig: sessionConfigJson
     }
-    var json = edit ? editJson : createJson
+    var json = editQuestionStore.edit ? editJson : createJson
 
     return _.merge(json, jsonExtension)
 }
@@ -199,7 +198,7 @@ async function save() {
     }
     lockSaveButton.value = true
     spinnerStore.showSpinner()
-    var url = edit.value ? '/Question/Edit' : '/Question/Create'
+    var url = editQuestionStore.edit ? '/Question/Edit' : '/Question/Create'
     var json = getSaveJson()
 
     let result = await $fetch<any>(url, {
@@ -209,7 +208,7 @@ async function save() {
         credentials: 'include'
     }).catch(error => {
         spinnerStore.hideSpinner()
-        alertStore.openAlert(AlertType.Error, { text: edit.value ? messages.error.question.save : messages.error.question.creation })
+        alertStore.openAlert(AlertType.Error, { text: editQuestionStore.edit ? messages.error.question.save : messages.error.question.creation })
         lockSaveButton.value = false
     })
 
@@ -235,13 +234,13 @@ async function save() {
                 text: messages.error.question[result.key]
             })
         } else {
-            if (result.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || edit.value)
+            if (result.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
                 alertStore.openAlert(AlertType.Success, {
-                    text: edit ? messages.success.question.saved : messages.success.question.created
+                    text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
                 })
             else
                 alertStore.openAlert(AlertType.Success, {
-                    text: edit ? messages.success.question.saved : messages.success.question.created,
+                    text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created,
                     customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
                     customBtn: '<div class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</div>',
                 })
@@ -315,8 +314,10 @@ async function getQuestionData(id) {
 }
 
 watch(() => editQuestionStore.showModal, () => {
-
+    if (editQuestionStore.edit)
+        getQuestionData(editQuestionStore.id)
 })
+
 
 const solutionIsValid = ref(true)
 
@@ -336,13 +337,13 @@ function setFlashCardContent(editor) {
 
                     <div class="main-header">
                         <div class="add-inline-question-label main-label">
-                            <template v-if="edit">Frage bearbeiten</template>
+                            <template v-if="editQuestionStore.edit">Frage bearbeiten</template>
                             <template v-else>Frage erstellen</template>
                             <font-awesome-icon v-if="visibility == Visibility.All" icon="fa-solid fa-lock" />
                         </div>
 
                         <div class="solutionType-selector">
-                            <select v-if="!edit" v-model="solutionType">
+                            <select v-if="!editQuestionStore.edit" v-model="solutionType">
                                 <option :value="SolutionType.Text">Text</option>
                                 <option :value="SolutionType.MultipleChoice">MultipleChoice</option>
                                 <option :value="SolutionType.MatchList">Zuordnung (Liste)</option>
@@ -351,7 +352,8 @@ function setFlashCardContent(editor) {
                         </div>
                     </div>
 
-                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!edit">
+                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi"
+                        v-if="!editQuestionStore.edit">
                         <div>
                             <font-awesome-icon v-if="addToWuwi" icon="fa-solid fa-heart" />
                             <font-awesome-icon v-else icon="fa-regular fa-heart" />

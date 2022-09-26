@@ -3,7 +3,7 @@
 import { useLearningSessionStore } from './learningSessionStore'
 
 const props = defineProps([''])
-const showFilter = ref(false)
+const showFilter = ref(true)
 
 const currentQuestionCount = ref(0)
 const allQuestionCount = ref(0)

@@ -21,13 +21,12 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
 
 const topicStore = useTopicStore()
 const answerBodyModel = ref()
+
 onMounted(async () => {
+    var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
     if (process.client) {
         answerBodyModel.value = await $fetch<any>(`/api/Learning/GetNewAnswerBodyForTopic/`, {
-            body: {
-                categoryId: topicStore.id,
-                isInLearningTab: true
-            },
+            body: sessionJson,
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -35,7 +34,7 @@ onMounted(async () => {
         })
     } else if (process.server) {
         const config = useRuntimeConfig()
-        answerBodyModel.value = await $fetch<any>(`/Learning/GetNewAnswerBodyForTopic/`, {
+        answerBodyModel.value = await useFetch<any>(`/Learning/GetNewAnswerBodyForTopic/`, {
             body: {
                 categoryId: topicStore.id,
                 isInLearningTab: true
@@ -54,7 +53,6 @@ onMounted(async () => {
 </script>
 
 <template>
-
     <TopicLearningSessionConfiguration v-show="showFilter">
         <slot>
             <input id="hdnIsTestMode" hidden :value="learningSessionConfigurationStore.isTestMode" />
@@ -135,7 +133,7 @@ onMounted(async () => {
         </div>
     </div>
 
-    <QuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" />
+    <LazyQuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" />
 
     <TopicLearningQuestionsSection />
 </template>

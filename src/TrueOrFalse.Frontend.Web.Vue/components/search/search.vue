@@ -2,6 +2,7 @@
 import { ref, PropType } from 'vue'
 import _ from 'underscore'
 import { FullSearch, SearchType } from './searchHelper'
+import { ImageStyle } from '../image/imageStyleEnum'
 
 const props = defineProps({
     searchType: Number as PropType<SearchType>,
@@ -53,7 +54,6 @@ onBeforeMount(() => {
 })
 
 const searchUrl = ref('')
-const isMounted = ref(false)
 const lockDropdown = ref(false)
 const noResults = ref(false)
 const categoryCount = ref(0)
@@ -108,7 +108,8 @@ function openUsers() {
                         @input="event => inputValue(event)" :id="props.id.toString" autocomplete="off"
                         @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche" />
                 </div>
-                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'">
+                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'"
+                    v-show="props.showSearch">
                     <li v-if="categories.length > 0" class="searchBanner">
                         <div>Themen </div>
                         <div>{{ categoryCount }} Treffer</div>
@@ -140,7 +141,7 @@ function openUsers() {
                     </li>
                     <li class="searchResultItem" v-for="u in users" @click="selectItem(u)" data-toggle="tooltip"
                         data-placement="top" :title="u.Name">
-                        <Image class="authorImg" :src="u.ImageUrl" style="author" />
+                        <Image class="authorImg" :src="u.ImageUrl" :style="ImageStyle.Author" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ u.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>

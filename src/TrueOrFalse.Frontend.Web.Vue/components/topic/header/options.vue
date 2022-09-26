@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { useUserStore } from '~~/components/user/userStore';
-import { useTopicStore } from '../topicStore';
-import { Visibility } from '~~/components/shared/visibilityEnum';
+import { useUserStore } from '~~/components/user/userStore'
+import { useTopicStore } from '../topicStore'
+import { Visibility } from '~~/components/shared/visibilityEnum'
+import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
+const editQuestionStore = useEditQuestionStore()
 </script>
 
 <template>
@@ -26,8 +28,7 @@ const topicStore = useTopicStore()
                             </a>
                         </li>
                         <li>
-                            <a
-                                onclick="eventBus.$emit('open-edit-question-modal', { categoryId: <%= Model.Category.Id %>, edit: false })">
+                            <a @click="editQuestionStore.create()">
                                 <div class="dropdown-icon">
                                     <i class="fa fa-plus-circle"></i>
                                 </div>

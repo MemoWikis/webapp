@@ -583,7 +583,7 @@ public class AnswerQuestionController : BaseController
         return serializedPageData;
     }
 
-    private class SessionData
+    public class SessionData
     {
         public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, int learningSessionId = -1)
         {

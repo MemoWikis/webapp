@@ -22,14 +22,18 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
           solution: q.solution,
         }
       },
-      openModal(id: Number){
-          this.id = id
+      openModal(){
+          this.showModal = true
       },
       edit(id: Number, sessionIndex: Number = null) {
         this.edit = true
         if (sessionIndex != null)
           this.sessionIndex = sessionIndex
-        this.openModal(id)
+        this.openModal()
+      },
+      create() {
+        this.edit = false
+        this.openModal()
       }
     },
   })
