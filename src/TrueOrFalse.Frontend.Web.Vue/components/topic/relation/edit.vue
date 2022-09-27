@@ -78,11 +78,139 @@ watch(name, (val) => {
         disableAddButton.value = false;
 })
 
-const selectedCategoryId = ref(0)
-watch(selectedCategoryId, (id) => {
+const selectedTopicId = ref(0)
+watch(selectedTopicId, (id) => {
     if (id > 0 && editTopicRelationStore.type != EditTopicRelationType.Create || editTopicRelationStore.type == EditTopicRelationType.Create)
         disableAddButton.value = false;
 })
+
+const showDropdown = ref(false)
+const lockDropdown = ref(false)
+const searchTerm = ref('')
+const selectedTopic = ref(null)
+const showSelectedTopic = ref(false)
+
+function selectTopic(t) {
+    showDropdown.value = false
+    lockDropdown.value = true
+    searchTerm.value = t.Name
+    selectedTopic.value = t
+    selectedTopicId.value = t.Id
+    showSelectedTopic.value = true
+    selectedParentInWikiId.value = t.Id;
+}
+
+const selectedParentInWikiId = ref(0)
+
+const addToWikiHistory = ref(null)
+
+const hideSearch = ref(true)
+const topics = reactive({ value: [] })
+const totalCount = ref(0)
+
+const forbiddenTopicName = ref('')
+
+const childId = ref(null)
+const parentTopicIdToRemove = ref(null)
+const parentId = ref(null)
+const redirect = ref(true)
+
+const addTopicBtnId = ref(null)
+
+function loadTopicCard(id) {
+    var data = {
+        parentId: this.parentId,
+        newCategoryId: id
+    };
+    eventBus.$emit('add-category-card', data);
+}
+
+async function moveTopicToNewParent() {
+    spinnerStore.showSpinner()
+
+    if (selectedTopicId.value == parentId.value) {
+        errorMsg.value = messages.error.category.loopLink
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+        return
+    }
+
+    var topicData = {
+        childCategoryId: childId.value,
+        parentCategoryIdToRemove: parentTopicIdToRemove.value,
+        parentCategoryIdToAdd: selectedTopic.value.Id
+    }
+
+    var data = await $fetch<any>('/api/EditCategory/MoveChild', {
+        body: topicData,
+        method: 'POST',
+    })
+
+    if (data.success) {
+        if (redirect.value)
+            window.open(data.url, '_self')
+
+        if (addTopicBtnId.value != null)
+            loadTopicCard(data.id)
+        else
+            editTopicRelationStore.showModal = false
+
+        topicStore.childTopicCount++
+        spinnerStore.hideSpinner()
+    } else {
+        errorMsg.value = messages.error.category[data.key]
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+    }
+
+}
+
+async function addExistingTopic() {
+    spinnerStore.showSpinner()
+
+    if (this.selectedCategoryId == this.parentId) {
+        this.errorMsg = messages.error.category.loopLink;
+        this.showErrorMsg = true;
+        Utils.HideSpinner();
+        return;
+    }
+
+    var self = this;
+    var categoryData = {
+        childCategoryId: self.selectedCategoryId,
+        parentCategoryId: self.parentId,
+    }
+
+
+
+    $.ajax({
+        type: 'Post',
+        contentType: "application/json",
+        url: '/EditCategory/AddChild',
+        data: JSON.stringify(categoryData),
+        success(data) {
+            if (data.success) {
+                if (self.redirect)
+                    window.open(data.url, '_self');
+
+                if (self.addCategoryBtnId != null)
+                    self.loadCategoryCard(data.id);
+
+                $('#AddCategoryModal').modal('hide');
+                self.addCategoryCount();
+                Utils.HideSpinner();
+            } else {
+                self.errorMsg = messages.error.category[data.key];
+                self.showErrorMsg = true;
+                Utils.HideSpinner();
+            };
+        },
+    });
+}
+
+async function addNewParentToTopic() {
+
+}
 </script>
 
 <template>
@@ -120,12 +248,12 @@ watch(selectedCategoryId, (id) => {
                 </div>
             </template>
 
-            <!-- 
+
             <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
                 <div class="mb-250">
                     <p>Wo soll das Thema hinzugefügt werden?</p>
                 </div>
-                <form v-on:submit.prevent="selectCategory">
+                <form v-on:submit.prevent="selectTopic">
                     <div class="categorySearchAutocomplete mb-250" v-if="userStore.personalWiki != null"
                         @click="selectedParentInWikiId = userStore.personalWiki.Id">
                         <div class="searchResultItem"
@@ -149,17 +277,17 @@ watch(selectedCategoryId, (id) => {
                     <div class="categorySearchAutocomplete mb-250"
                         v-if="addToWikiHistory != null && addToWikiHistory.length > 0">
                         <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Themen</div>
-                        <template v-for="previousCategory in addToWikiHistory">
+                        <template v-for="previousTopic in addToWikiHistory">
                             <div class="searchResultItem"
-                                :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousCategory.Id }"
-                                @click="selectedParentInWikiId = previousCategory.Id">
-                                <img :src="previousCategory.ImageUrl" />
+                                :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousTopic.Id }"
+                                @click="selectedParentInWikiId = previousTopic.Id">
+                                <img :src="previousTopic.ImageUrl" />
                                 <div class="searchResultBody">
-                                    <div class="searchResultLabel body-m">{{ previousCategory.Name }}</div>
-                                    <div class="searchResultQuestionCount body-s">{{ previousCategory.QuestionCount }}
-                                        Frage<template v-if="previousCategory.QuestionCount != 1">n</template></div>
+                                    <div class="searchResultLabel body-m">{{ previousTopic.Name }}</div>
+                                    <div class="searchResultQuestionCount body-s">{{ previousTopic.QuestionCount }}
+                                        Frage<template v-if="previousTopic.QuestionCount != 1">n</template></div>
                                 </div>
-                                <div v-show="selectedParentInWikiId == previousCategory.Id"
+                                <div v-show="selectedParentInWikiId == previousTopic.Id"
                                     class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
                                         Ausgewählt
@@ -175,17 +303,17 @@ watch(selectedCategoryId, (id) => {
                     </div>
                     <div v-if="!hideSearch" class="form-group dropdown categorySearchAutocomplete"
                         :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedCategory" class="searchResultItem mb-125"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedCategory.Id }"
-                            @click="selectedParentInWikiId = selectedCategory.Id" data-toggle="tooltip"
-                            data-placement="top" :title="selectedCategory.Name">
-                            <img :src="selectedCategory.ImageUrl" />
+                        <div v-if="showSelectedTopic" class="searchResultItem mb-125"
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.Id }"
+                            @click="selectedParentInWikiId = selectedTopic.Id" data-toggle="tooltip"
+                            data-placement="top" :title="selectedTopic.Name">
+                            <img :src="selectedTopic.ImageUrl" />
                             <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ selectedCategory.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ selectedCategory.QuestionCount }}
-                                    Frage<template v-if="selectedCategory.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
+                                    Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
                             </div>
-                            <div v-show="selectedParentInWikiId == selectedCategory.Id"
+                            <div v-show="selectedParentInWikiId == selectedTopic.Id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
@@ -197,14 +325,14 @@ watch(selectedCategoryId, (id) => {
                             id="searchInWikiList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true"
                             placeholder="Bitte gib den Namen des Themas ein" />
                         <ul class="dropdown-menu" aria-labelledby="searchList">
-                            <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)"
-                                data-toggle="tooltip" data-placement="top" :title="c.Name"
-                                :data-original-title="c.Name">
-                                <img :src="c.ImageUrl" />
+                            <li class="searchResultItem" v-for="t in topics.value" @click="selectTopic(t)"
+                                data-toggle="tooltip" data-placement="top" :title="t.Name"
+                                :data-original-title="t.Name">
+                                <img :src="t.ImageUrl" />
                                 <div>
-                                    <div class="searchResultLabel body-m">{{ c.Name }}</div>
-                                    <div class="searchResultQuestionCount body-s">{{ c.QuestionCount }} Frage<template
-                                            v-if="c.QuestionCount != 1">n</template></div>
+                                    <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                    <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }} Frage<template
+                                            v-if="t.QuestionCount != 1">n</template></div>
                                 </div>
                             </li>
                             <li class="dropdownFooter body-m">
@@ -218,34 +346,34 @@ watch(selectedCategoryId, (id) => {
                     </div>
                 </form>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
+                    <a :href="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</a>
                     {{ errorMsg }}
                 </div>
             </template>
             <template v-else>
-                <form v-on:submit.prevent="selectCategory">
+                <form v-on:submit.prevent="selectTopic">
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedCategory" class="searchResultItem mb-125" data-toggle="tooltip"
-                            data-placement="top" :title="selectedCategory.Name">
-                            <img :src="selectedCategory.ImageUrl" />
+                        <div v-if="showSelectedTopic" class="searchResultItem mb-125" data-toggle="tooltip"
+                            data-placement="top" :title="selectedTopic.Name">
+                            <img :src="selectedTopic.ImageUrl" />
                             <div>
-                                <div class="searchResultLabel body-m">{{ selectedCategory.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ selectedCategory.QuestionCount }}
-                                    Frage<template v-if="selectedCategory.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
+                                    Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
                             </div>
                         </div>
                         <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm"
                             id="searchList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true"
                             placeholder="Bitte gib den Namen des Themas ein" />
                         <ul class="dropdown-menu" aria-labelledby="searchList">
-                            <li class="searchResultItem" v-for="c in categories" @click="selectCategory(c)"
-                                data-toggle="tooltip" data-placement="top" :title="c.Name"
-                                :data-original-title="c.Name">
-                                <img :src="c.ImageUrl" />
+                            <li class="searchResultItem" v-for="t in topics.value" @click="selectTopic(t)"
+                                data-toggle="tooltip" data-placement="top" :title="t.Name"
+                                :data-original-title="t.Name">
+                                <img :src="t.ImageUrl" />
                                 <div>
-                                    <div class="searchResultLabel body-m">{{ c.Name }}</div>
-                                    <div class="searchResultQuestionCount body-s">{{ c.QuestionCount }} Frage<template
-                                            v-if="c.QuestionCount != 1">n</template></div>
+                                    <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                    <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }} Frage<template
+                                            v-if="t.QuestionCount != 1">n</template></div>
                                 </div>
                             </li>
                             <li class="dropdownFooter body-m">
@@ -259,29 +387,29 @@ watch(selectedCategoryId, (id) => {
                     </div>
                 </form>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <a :href="existingCategoryUrl" target="_blank" class="alert-link">{{ forbiddenCategoryName }}</a>
+                    <a :href="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</a>
                     {{ errorMsg }}
                 </div>
-            </template> -->
+            </template>
 
 
         </template>
         <template v-slot:footer>
-            <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewCategoryBtn"
+            <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewTopicBtn"
                 class="btn btn-primary memo-button" @click="addTopic" :disabled="disableAddButton">Thema erstellen
             </div>
-            <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveCategoryToNewParentBtn"
-                class="btn btn-primary memo-button" @click="moveCategoryToNewParent" :disabled="disableAddButton">
+            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveTopicToNewParentBtn"
+                class="btn btn-primary memo-button" @click="moveTopicToNewParent" :disabled="disableAddButton">
                 Thema verschieben</div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingCategoryBtn"
-                class="btn btn-primary memo-button" @click="addExistingCategory" :disabled="disableAddButton">Thema
+            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
+                class="btn btn-primary memo-button" @click="addExistingTopic" :disabled="disableAddButton">Thema
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" id="AddNewParentBtn"
-                class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddButton">Thema
+                class="btn btn-primary memo-button" @click="addNewParentToTopic" :disabled="disableAddButton">Thema
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
-                class="btn btn-primary memo-button" @click="addNewParentToCategory" :disabled="disableAddButton">Thema
-                verknüpfen</div> -->
+                class="btn btn-primary memo-button" @click="addNewParentToTopic" :disabled="disableAddButton">Thema
+                verknüpfen</div>
             <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>
 

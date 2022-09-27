@@ -20,29 +20,29 @@ const editQuestionStore = useEditQuestionStore()
                 <template #popper>
                     <ul>
                         <li>
-                            <a href="<%= Links.CategoryHistory(Model.Id) %>">
+                            <NuxtLink :to="`/history/topic/${topicStore.id}`">
                                 <div class="dropdown-icon">
-                                    <i class="fas fa-history"></i>
+                                    <font-awesome-icon icon="fa-solid fa-history" />
                                 </div>
                                 Bearbeitungshistorie
-                            </a>
+                            </NuxtLink>
                         </li>
                         <li>
-                            <a @click="editQuestionStore.create()">
+                            <div @click="editQuestionStore.create()">
                                 <div class="dropdown-icon">
-                                    <i class="fa fa-plus-circle"></i>
+                                    <font-awesome-icon icon="fa-regular fa-circle-plus" />
                                 </div>
                                 Frage hinzufügen
-                            </a>
+                            </div>
                         </li>
                         <li>
-                            <a onclick="eventBus.$emit('create-category', <%= Model.Category.Id %>)"
+                            <div onclick="eventBus.$emit('create-category', <%= Model.Category.Id %>)"
                                 data-allowed="logged-in">
                                 <div class="dropdown-icon">
-                                    <i class="fa fa-plus-circle"></i>
+                                    <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                 </div>
                                 Thema Erstellen
-                            </a>
+                            </div>
                         </li>
                         <li>
                             <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)"

@@ -192,5 +192,11 @@ function loadNextQuestions() {
 </template>
 
 <style lang="less" scoped>
-
+.drop-down-question-sort {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 18px;
+    justify-content: space-between;
+    padding-right: 0;
+}
 </style>

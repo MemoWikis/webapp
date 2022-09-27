@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 
 const model = ref(null)
+onMounted(() => {
+})
 </script>
 
 <template>
@@ -11,9 +13,19 @@ const model = ref(null)
             <h3 class="hidden-md hidden-lg">Bearbeitungshistorie '{{model.categoryName}}'</h3>
         </div>
     </div>
-    <a class="btn btn-sm btn-default" href="<%= Links.CategoryChangesOverview(1) %>">
+    <LazyNuxtLink class="btn btn-sm btn-default" href="Links.CategoryChangesOverview(1)">
         Zur Bearbeitungshistorie aller Themen
-    </a>
-    <TopicHistoryDay :day="model.day" />
+    </LazyNuxtLink>
+
+    <div v-for="day in model.day" class="category-change-day">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>
+                    {{day.Date}}
+                </h3>
+            </div>
+        </div>
+        <TopicHistoryItem v-for="i in day.Items" :item="i" :model="model" />
+    </div>
 
 </template>

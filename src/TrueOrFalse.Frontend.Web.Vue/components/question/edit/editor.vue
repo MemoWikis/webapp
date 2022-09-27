@@ -9,7 +9,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
 const props = defineProps(['highlightEmptyFields', 'content'])
 const alertStore = useAlertStore()

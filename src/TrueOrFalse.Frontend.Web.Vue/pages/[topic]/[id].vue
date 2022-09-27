@@ -74,6 +74,7 @@ watch(() => topicStore.name, () => {
 
 .topic-container {
   display: flex;
+  min-height: 400px;
 }
 
 #Sidebar {

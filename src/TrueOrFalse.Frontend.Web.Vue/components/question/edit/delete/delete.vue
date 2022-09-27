@@ -12,8 +12,6 @@ const showErrorMsg = ref(false)
 const showDeleteBtn = ref(false)
 
 const name = ref('')
-
-const showDeleteModal = ref(false)
 const alertStore = useAlertStore()
 
 async function getDeleteDetails(id) {
@@ -80,6 +78,13 @@ async function deleteQuestion() {
         errorMsg.value = messages.error.question.errorOnDelete
     }
 }
+
+
+watch(() => deleteQuestionStore.showModal, (val) => {
+    if (val) {
+        getDeleteDetails(deleteQuestionStore.id)
+    }
+})
 </script>
 
 <template>

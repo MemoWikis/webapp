@@ -7,14 +7,12 @@ import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertS
 import { SearchTopicItem, TopicResult } from '../../search/searchHelper'
 import _ from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
-import { useLearningSessionConfigurationStore } from '../../topic/learning/learningSessionConfigurationStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
 import { useTopicStore } from '../../topic/topicStore'
 
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
 const editQuestionStore = useEditQuestionStore()
-const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const topicStore = useTopicStore()
 const visibility = ref(Visibility.All)
 const solutionType = ref(SolutionType.Text)
@@ -337,8 +335,7 @@ function setFlashCardContent(editor) {
 
                     <div class="main-header">
                         <div class="add-inline-question-label main-label">
-                            <template v-if="editQuestionStore.edit">Frage bearbeiten</template>
-                            <template v-else>Frage erstellen</template>
+                            {{ editQuestionStore.edit ? 'Frage bearbeiten' : 'Frage erstellen' }}
                             <font-awesome-icon v-if="visibility == Visibility.All" icon="fa-solid fa-lock" />
                         </div>
 
