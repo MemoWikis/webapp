@@ -41,6 +41,7 @@ export const useUserStore = defineStore('userStore', {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
       var result = await $fetch<UserLoginResult>('/api/SessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
+      spinnerStore.hideSpinner()
 
       if (!!result && result.Success){
         this.isLoggedIn = true
@@ -68,6 +69,7 @@ export const useUserStore = defineStore('userStore', {
         })
         
       if (!!result && result.Success) {
+        spinnerStore.hideSpinner()
         this.isLoggedIn = false
         isLoggedIn(false)
         window.location.reload()

@@ -3,19 +3,20 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
+import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
+const editTopicRelationStore = useEditTopicRelationStore()
 </script>
 
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <V-Dropdown :distance="0">
+            <V-Dropdown :distance="0" :popperHideTriggers="triggers => [...triggers, 'click']">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-
                 </div>
                 <template #popper>
                     <ul>
@@ -28,16 +29,15 @@ const editQuestionStore = useEditQuestionStore()
                             </NuxtLink>
                         </li>
                         <li>
-                            <div @click="editQuestionStore.create()">
+                            <div @click="editQuestionStore.create()" class="dropdown-item">
                                 <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-regular fa-circle-plus" />
+                                    <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                 </div>
                                 Frage hinzufügen
                             </div>
                         </li>
                         <li>
-                            <div onclick="eventBus.$emit('create-category', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
+                            <div @click="editTopicRelationStore.createTopic()" class="dropdown-item">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                 </div>
@@ -113,6 +113,8 @@ const editQuestionStore = useEditQuestionStore()
 </template>
 
 <style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 #TopicHeaderOptions {
     min-width: 30px;
     display: flex;
@@ -137,6 +139,16 @@ const editQuestionStore = useEditQuestionStore()
         &:active {
             filter: brightness(0.85)
         }
+    }
+}
+
+li {
+    color: @memo-blue-link;
+
+    .dropdown-item {
+        cursor: pointer;
+        display: flex;
+        flex-wrap: nowrap;
     }
 }
 </style>

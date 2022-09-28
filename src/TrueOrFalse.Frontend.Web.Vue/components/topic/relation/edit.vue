@@ -73,15 +73,15 @@ const disableAddButton = ref(true)
 
 watch(name, (val) => {
     if (val.length <= 0)
-        disableAddButton.value = true;
+        disableAddButton.value = true
     else
-        disableAddButton.value = false;
+        disableAddButton.value = false
 })
 
 const selectedTopicId = ref(0)
 watch(selectedTopicId, (id) => {
     if (id > 0 && editTopicRelationStore.type != EditTopicRelationType.Create || editTopicRelationStore.type == EditTopicRelationType.Create)
-        disableAddButton.value = false;
+        disableAddButton.value = false
 })
 
 const showDropdown = ref(false)
@@ -122,7 +122,7 @@ function loadTopicCard(id) {
         parentId: this.parentId,
         newCategoryId: id
     };
-    eventBus.$emit('add-category-card', data);
+    // eventBus.$emit('add-category-card', data);
 }
 
 async function moveTopicToNewParent() {
@@ -165,48 +165,48 @@ async function moveTopicToNewParent() {
 
 }
 
-async function addExistingTopic() {
-    spinnerStore.showSpinner()
+// async function addExistingTopic() {
+//     spinnerStore.showSpinner()
 
-    if (this.selectedCategoryId == this.parentId) {
-        this.errorMsg = messages.error.category.loopLink;
-        this.showErrorMsg = true;
-        Utils.HideSpinner();
-        return;
-    }
+//     if (this.selectedCategoryId == this.parentId) {
+//         this.errorMsg = messages.error.category.loopLink;
+//         this.showErrorMsg = true;
+//         Utils.HideSpinner();
+//         return;
+//     }
 
-    var self = this;
-    var categoryData = {
-        childCategoryId: self.selectedCategoryId,
-        parentCategoryId: self.parentId,
-    }
+//     var self = this;
+//     var categoryData = {
+//         childCategoryId: self.selectedCategoryId,
+//         parentCategoryId: self.parentId,
+//     }
 
 
 
-    $.ajax({
-        type: 'Post',
-        contentType: "application/json",
-        url: '/EditCategory/AddChild',
-        data: JSON.stringify(categoryData),
-        success(data) {
-            if (data.success) {
-                if (self.redirect)
-                    window.open(data.url, '_self');
+//     $.ajax({
+//         type: 'Post',
+//         contentType: "application/json",
+//         url: '/EditCategory/AddChild',
+//         data: JSON.stringify(categoryData),
+//         success(data) {
+//             if (data.success) {
+//                 if (self.redirect)
+//                     window.open(data.url, '_self');
 
-                if (self.addCategoryBtnId != null)
-                    self.loadCategoryCard(data.id);
+//                 if (self.addCategoryBtnId != null)
+//                     self.loadCategoryCard(data.id);
 
-                $('#AddCategoryModal').modal('hide');
-                self.addCategoryCount();
-                Utils.HideSpinner();
-            } else {
-                self.errorMsg = messages.error.category[data.key];
-                self.showErrorMsg = true;
-                Utils.HideSpinner();
-            };
-        },
-    });
-}
+//                 $('#AddCategoryModal').modal('hide');
+//                 self.addCategoryCount();
+//                 Utils.HideSpinner();
+//             } else {
+//                 self.errorMsg = messages.error.category[data.key];
+//                 self.showErrorMsg = true;
+//                 Utils.HideSpinner();
+//             };
+//         },
+//     });
+// }
 
 async function addNewParentToTopic() {
 
@@ -396,19 +396,23 @@ async function addNewParentToTopic() {
         </template>
         <template v-slot:footer>
             <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewTopicBtn"
-                class="btn btn-primary memo-button" @click="addTopic" :disabled="disableAddButton">Thema erstellen
+                class="btn btn-primary memo-button" @click="addTopic" :class="{'disabled' : disableAddButton}">Thema
+                erstellen
             </div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveTopicToNewParentBtn"
-                class="btn btn-primary memo-button" @click="moveTopicToNewParent" :disabled="disableAddButton">
+                class="btn btn-primary memo-button" @click="moveTopicToNewParent"
+                :class="{'disabled' : disableAddButton}">
                 Thema verschieben</div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
-                class="btn btn-primary memo-button" @click="addExistingTopic" :disabled="disableAddButton">Thema
-                verknüpfen</div>
+            <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
+                class="btn btn-primary memo-button" @click="addExistingTopic" :class="{'disabled' : disableAddButton}">Thema
+                verknüpfen</div> -->
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" id="AddNewParentBtn"
-                class="btn btn-primary memo-button" @click="addNewParentToTopic" :disabled="disableAddButton">Thema
+                class="btn btn-primary memo-button" @click="addNewParentToTopic"
+                :class="{'disabled' : disableAddButton}">Thema
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
-                class="btn btn-primary memo-button" @click="addNewParentToTopic" :disabled="disableAddButton">Thema
+                class="btn btn-primary memo-button" @click="addNewParentToTopic"
+                :class="{'disabled' : disableAddButton}">Thema
                 verknüpfen</div>
             <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>

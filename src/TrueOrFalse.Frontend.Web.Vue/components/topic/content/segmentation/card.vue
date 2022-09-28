@@ -1,4 +1,8 @@
 <script lang="ts">
+import { useUserStore } from '~~/components/user/userStore'
+import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
+import { useEditTopicRelationStore } from '../../relation/editTopicRelationStore'
+
 export default {
     props: {
         categoryId: [String, Number],
@@ -31,9 +35,6 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(() => {
-            // Images.ReplaceDummyImages();
-        });
         // eventBus.$on('publish-category',
         //     id => {
         //         if (this.id == id)
@@ -77,61 +78,66 @@ export default {
         },
 
         thisToSegment() {
-            // if (NotLoggedIn.Yes()) {
-            //     NotLoggedIn.ShowErrorMsg("MoveToSegment");
-            //     return;
-            // }
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
             if (!this.isCustomSegment) {
                 this.$parent.loadSegment(this.id);
             }
         },
-        removeParent() {
-            // if (NotLoggedIn.Yes()) {
-            //     NotLoggedIn.ShowErrorMsg("RemoveParent");
-            //     return;
-            // }
+        async removeParent() {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
             var self = this;
             var data = {
                 parentCategoryIdToRemove: self.$parent.categoryId,
                 childCategoryId: self.categoryId,
             };
-            // $.ajax({
-            //     type: 'Post',
-            //     contentType: "application/json",
-            //     url: '/EditCategory/RemoveParent',
-            //     data: JSON.stringify(data),
-            //     success: function (data) {
-            //         if (data.success == true) {
-            //             self.$parent.currentChildCategoryIds = self.$parent.currentChildCategoryIds.filter((id) => {
-            //                 return id != self.categoryId;
-            //             });
-            //             self.$parent.categories = self.$parent.categories.filter((c) => {
-            //                 return c.Id != self.categoryId;
-            //             });
 
-            //             Alerts.showSuccess({
-            //                 text: messages.success.category[data.key]
-            //             });
-            //         }
-            //         else {
-            //             Alerts.showError({
-            //                 text: messages.error.category[data.key]
-            //             });
-            //         }
-            //     },
-            // });
+            var result = await $fetch<any>('/api/EditCategory/RemoveParent', {
+                method: 'POST',
+                body: data,
+            })
+            if (result) {
+                const alertStore = useAlertStore()
+                if (result.success == true) {
+                    self.$parent.currentChildCategoryIds = self.$parent.currentChildCategoryIds.filter((id) => {
+                        return id != self.categoryId;
+                    });
+                    self.$parent.categories = self.$parent.categories.filter((c) => {
+                        return c.Id != self.categoryId;
+                    });
+                    alertStore.openAlert(AlertType.Success, {
+                        text: messages.success.category[result.key]
+                    })
+                }
+                else {
+                    alertStore.openAlert(AlertType.Error, {
+                        text: messages.error.category[result.key]
+                    })
+                }
+            }
         },
         openMoveCategoryModal() {
-            // if (NotLoggedIn.Yes()) {
-            //     NotLoggedIn.ShowErrorMsg("MoveCategory");
-            //     return;
-            // }
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
 
             var self = this;
             var data = {
                 parentCategoryIdToRemove: self.$parent.categoryId,
                 childCategoryId: self.categoryId,
             };
+
+            const editTopicRelationStore = useEditTopicRelationStore()
+            // editTopicRelationStore.
             // eventBus.$emit('open-move-category-modal', data);
         },
         hideCategory() {
@@ -154,11 +160,11 @@ export default {
         :class="{ hover: showHover }">
         <div class="row" v-on:click.self="goToCategory()">
             <div class="col-xs-3">
-                <a :href="category.LinkToCategory">
+                <NuxtLink :to="category.LinkToCategory">
                     <div class="ImageContainer">
-                        <Image />
+                        <Image :url="category.ImgUrl" :square="true" />
                     </div>
-                </a>
+                </NuxtLink>
             </div>
             <div class="col-xs-9">
                 <div class="topic-name">
@@ -169,54 +175,62 @@ export default {
 
                     <div v-if="visibility == 1" class="segmentCardLock" @click="openPublishModal" data-toggle="tooltip"
                         title="Thema ist privat. Zum Veröffentlichen klicken.">
-                        <i class="fas fa-lock"></i>
-                        <i class="fas fa-unlock"></i>
+                        <font-awesome-icon icon="fa-solid fa-lock" />
+                        <font-awesome-icon icon="fa-solid fa-unlock" />
                     </div>
                 </div>
+
                 <div v-if="!isHistoric" class="Button dropdown DropdownButton"
                     :class="{ hover: showHover && !isHistoric }">
-                    <a href="#" :id="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis"
-                        type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
-                        <li v-if="!isCustomSegment">
-                            <a @click="thisToSegment">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-sitemap"></i>
-                                </div>Unterthemen einblenden
-                            </a>
-                        </li>
-                        <li>
-                            <a @click="removeParent">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-unlink"></i>
-                                </div>Verknüpfung entfernen
-                            </a>
-                        </li>
-                        <li v-if="visibility == 1">
-                            <a @click="openPublishModal">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-unlock"></i>
-                                </div>Thema veröffentlichen
-                            </a>
-                        </li>
-                        <li>
-                            <a @click="openMoveCategoryModal()">
-                                <div class="dropdown-icon">
-                                    <i class="fa fa-arrow-circle-right"></i>
-                                </div>Thema verschieben
-                            </a>
-                        </li>
-                        <li>
-                            <a @click="openAddToWikiModal()" data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fa fa-plus-square"></i>
-                                </div>
-                                Zu meinem Wiki hinzufügen
-                            </a>
-                        </li>
-                    </ul>
+                    <VDropdown :distance="6">
+                        <div :id="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <font-awesome-icon icon="fa-regular fa-ellipsis-vertical" />
+                        </div>
+                        <template #popper>
+                            <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                                <li v-if="!isCustomSegment">
+                                    <div @click="thisToSegment" class="dropdown-item">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-sitemap" />
+                                        </div>
+                                        Unterthemen einblenden
+                                    </div>
+                                </li>
+                                <li>
+                                    <div @click="removeParent" class="dropdown-item">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-link-slash" />
+                                        </div>Verknüpfung entfernen
+                                    </div>
+                                </li>
+                                <li v-if="visibility == 1">
+                                    <div @click="openPublishModal" class="dropdown-item">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-unlock" />
+                                        </div>Thema veröffentlichen
+                                    </div>
+                                </li>
+                                <li>
+                                    <div @click="openMoveCategoryModal()" class="dropdown-item">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-circle-right" />
+                                        </div>Thema verschieben
+                                    </div>
+                                </li>
+                                <li>
+                                    <div @click="openAddToWikiModal()" data-allowed="logged-in" class="dropdown-item">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-square-plus" />
+                                        </div>
+                                        Zu meinem Wiki hinzufügen
+                                    </div>
+                                </li>
+                            </ul>
+                        </template>
+                    </VDropdown>
+
+
                 </div>
                 <div class="set-question-count">
                     <a :href="category.LinkToCategory" class="sub-label">
@@ -237,3 +251,14 @@ export default {
         </div>
     </div>
 </template>
+
+
+<style lang="less" scoped>
+li {
+    .dropdown-item {
+        cursor: pointer;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+}
+</style>

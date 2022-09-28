@@ -68,6 +68,7 @@ public class SegmentationController : BaseController
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(categoryId, ImageType.Category);
         var imageFrontendData = new ImageFrontendData(imageMetaData);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
+        var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
         var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds;
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
@@ -92,6 +93,7 @@ public class SegmentationController : BaseController
             Visibility = (int)categoryCacheItem.Visibility,
             LinkToCategory = linkToCategory,
             CategoryTypeHtml = categoryTypeHtml,
+            ImgUrl = imgUrl,
             ImgHtml = imgHtml,
             KnowledgeBarHtml = knowledgeBarHtml,
             ChildCategoryCount = childCategoryCount,
@@ -115,6 +117,7 @@ public class SegmentationController : BaseController
         public int QuestionCount;
         public bool IsInWishknowledge = false;
         public bool IsPersonalHomepage = false;
+        public string ImgUrl;
     }
 
     [HttpPost]

@@ -80,6 +80,7 @@ public class NuxtSegmentationController : BaseController
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(categoryId, ImageType.Category);
         var imageFrontendData = new ImageFrontendData(imageMetaData);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
+        var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
         var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds;
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
@@ -109,7 +110,8 @@ public class NuxtSegmentationController : BaseController
             ChildCategoryCount = childCategoryCount,
             QuestionCount = questionCount,
             IsInWishknowledge = isInWishknowledge,
-            IsPersonalHomepage = isPersonalHomepage
+            IsPersonalHomepage = isPersonalHomepage,
+            ImgUrl = imgUrl
         };
 
     }
@@ -127,6 +129,7 @@ public class NuxtSegmentationController : BaseController
         public int QuestionCount;
         public bool IsInWishknowledge = false;
         public bool IsPersonalHomepage = false;
+        public string ImgUrl;
     }
 
     [HttpPost]

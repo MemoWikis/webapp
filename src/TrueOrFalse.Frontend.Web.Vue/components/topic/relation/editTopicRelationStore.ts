@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { SearchTopicItem } from '~~/components/search/searchHelper'
 import { useTopicStore } from '../topicStore'
+import { useUserStore } from '~~/components/user/userStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -42,11 +43,16 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
               this.initWikiData()
         },
         createTopic() {
-          const topicStore = useTopicStore()
-          this.parentId = topicStore.id
-          this.type = EditTopicRelationType.Create
-          this.redirect = true
-          this.showModal = true
+          const userStore = useUserStore()
+          if (userStore.isLoggedIn) {
+            const topicStore = useTopicStore()
+            this.parentId = topicStore.id
+            this.type = EditTopicRelationType.Create
+            this.redirect = true
+            this.showModal = true
+          } else {
+            userStore.openLoginModal()
+          }
         },
         async initWikiData() {
           type personalWikiDataResult =  {
