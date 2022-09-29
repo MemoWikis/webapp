@@ -6,6 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningController : BaseController
 {
     private class SessionData

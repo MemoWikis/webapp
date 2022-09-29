@@ -254,11 +254,265 @@ export default {
 
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 li {
     .dropdown-item {
         cursor: pointer;
         display: flex;
         flex-wrap: nowrap;
+    }
+}
+
+@memo-blue-link: #18A0FB;
+@memo-blue: #203256;
+
+#Segmentation {
+    margin-top: 80px;
+    margin-bottom: 40px;
+
+    .toRoot {
+        align-items: center;
+        color: @memo-grey-darker;
+
+        .category-chip-container {
+            margin-top: -10px;
+            margin-left: 4px;
+            text-transform: initial;
+            font-weight: initial;
+            letter-spacing: normal;
+        }
+    }
+
+    .overline-m {
+        margin-bottom: 15px;
+    }
+
+    .segmentationHeader {
+        font-family: 'Open Sans';
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #GeneratedSegmentSection,
+    .segment,
+    .segmentCategoryCard {
+        transition: 0.2s;
+
+        &.hover {
+            cursor: pointer;
+        }
+    }
+
+    #CustomSegmentSection,
+    #GeneratedSegmentSection {
+        .topicNavigation {
+            margin-top: 20px;
+
+            .segmentCategoryCard {
+
+                .topic-name {
+                    padding: 0;
+                }
+
+                .checkBox {
+                    position: absolute;
+                    z-index: 3;
+                    line-height: 0;
+                    background: white;
+                    color: @memo-green;
+                    opacity: 0;
+                    transition: opacity .1s ease-in-out;
+                    transition: color .1s ease-in-out;
+
+
+                    &.show {
+                        opacity: 1;
+                        transition: opacity .1s ease-in-out;
+                        transition: color .1s ease-in-out;
+                    }
+
+
+                    &.selected {
+                        color: @memo-green;
+                        opacity: 1;
+                        transition: opacity .1s ease-in-out;
+                    }
+                }
+            }
+
+            .addCategoryCard {
+                display: flex;
+                border: solid 1px @memo-grey-light;
+                transition: 0.2s;
+                align-items: center;
+                min-height: 150px;
+                color: @memo-grey-dark;
+                cursor: pointer;
+                margin-left: 0;
+                margin-right: 0;
+
+                @media (max-width: 649px) {
+                    width: 100%;
+                }
+
+                .addCategoryLabelContainer {
+                    padding: 0;
+                }
+
+                &:hover {
+                    border-color: @memo-green;
+                }
+
+                .addCategoryCardLabel {
+                    transition: 0.2s;
+
+                    &:hover {
+                        color: @memo-green;
+                    }
+                }
+            }
+        }
+    }
+
+    #CustomSegmentSection {
+        .segment {
+            .segmentSubHeader {
+                .segmentKnowledgeBar {
+                    max-width: 420px;
+                }
+            }
+        }
+    }
+
+    .segmentHeader {
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        .segmentTitle {
+            display: inline-flex;
+            align-items: center;
+
+            a {
+                color: @memo-blue;
+                transition: 0.2s;
+                padding-right: 10px;
+
+                &:hover {
+                    text-decoration: none;
+                    color: @memo-blue-link;
+                }
+            }
+
+            h2 {
+                margin: 0;
+            }
+
+            span.Button {
+                padding-top: 10px;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .segmentDropdown,
+    .dropdown {
+        font-size: 35px;
+        opacity: 0;
+        transition: all .1s ease-in-out;
+    }
+
+    .segmentDropdown,
+    .dropdown {
+        &.hover {
+            opacity: 1;
+            transition: all .1s ease-in-out;
+        }
+    }
+
+    .DropdownButton {
+        position: absolute;
+        right: 10px;
+        top: -10px;
+
+        &.segmentDropdown {
+            position: relative;
+        }
+
+        a.dropdown-toggle {
+            background: #FFFFFFE6;
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            padding: 6px;
+            transition: all .3s ease-in-out;
+
+            .fa-ellipsis-vertical {
+                color: @memo-grey-dark;
+                transition: all .3s ease-in-out;
+            }
+        }
+    }
+
+    .hover {
+        .DropdownButton {
+            a.dropdown-toggle {
+                &:hover {
+                    background: #EFEFEFE6;
+
+                    .fa-ellipsis-v {
+                        color: @memo-blue;
+                    }
+                }
+            }
+        }
+    }
+
+    .set-question-count {
+        .sub-label {
+            color: @memo-grey-dark;
+        }
+    }
+
+    .segmentCardLock,
+    .segmentLock {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 10px;
+
+        .fa-unlock {
+            display: none !important;
+        }
+
+        .fa-lock {
+            display: unset !important;
+        }
+
+        &:hover {
+
+            .fa-lock {
+                display: none !important;
+                color: @memo-blue;
+            }
+
+            .fa-unlock {
+                display: unset !important;
+                color: @memo-blue;
+            }
+        }
+    }
+
+    .segmentLock {
+        height: 20px;
+
+        i {
+            font-size: 18px;
+        }
     }
 }
 </style>

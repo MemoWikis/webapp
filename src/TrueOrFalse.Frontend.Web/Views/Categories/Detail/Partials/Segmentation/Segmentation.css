@@ -192,8 +192,8 @@
 #Segmentation .segmentLock i.fa-lock {
   display: unset !important;
 }
-#Segmentation .segmentCardLock:hover i.fa-lock,
-#Segmentation .segmentLock:hover i.fa-lock {
+#Segmentation .segmentCardLock:hover .fa-lock,
+#Segmentation .segmentLock:hover .fa-lock {
   display: none !important;
   color: #203256;
 }
