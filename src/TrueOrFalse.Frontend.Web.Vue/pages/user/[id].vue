@@ -1,16 +1,28 @@
 <script lang="ts" setup>
-import { UserModel } from '~~/components/user/userModel'
+import { UserModel } from '~~/components/user/shared/userModel'
+import { ImageStyle } from '~~/components/image/imageStyleEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.id}`, {
+const { data: model } = await useFetch<UserModel>(`/User/GetUser/${route.params.id}`, {
   baseURL: config.apiBase,
   headers: useRequestHeaders(['cookie'])
 })
 
+function follow() {
 
+}
+function unfollow() {
 
+}
+
+const { data: allBadgeCount } = await useFetch<number>(`/User/GetUser/${route.params.id}`, {
+  baseURL: config.apiBase,
+  headers: useRequestHeaders(['cookie'])
+})
+
+const showTab = ref('wuwi')
 </script>
 
 <template>
@@ -23,12 +35,12 @@ const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.i
               <font-awesome-icon icon="fa-solid fa-star" />
 
               <template #popper>
-                {{user.Name}} unterstützt memucho als Fördermitglied. Danke!
+                {{model.Name}} unterstützt memucho als Fördermitglied. Danke!
               </template>
             </VTooltip>
-            {{user.Name}}
+            {{model.Name}}
             <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-              &nbsp;(Reputation: {{user.ReputationTotal}} - Rang {{user.ReputationRank}})
+              &nbsp;(Reputation: {{model.ReputationTotal}} - Rang {{model.ReputationRank}})
             </span>
           </h1>
         </div>
@@ -42,7 +54,7 @@ const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.i
               <font-awesome-icon icon="fa-solid fa-list" />
               &nbsp;zur Übersicht
             </a> -->
-            <NuxtLink v-if="user.IsCurrentUser">
+            <NuxtLink v-if="model.IsCurrentUser">
               <font-awesome-icon icon="fa-solid fa-pencil" /> bearbeiten
             </NuxtLink>
             <!-- <% if (Model.IsCurrentUser) { %>
@@ -59,30 +71,31 @@ const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.i
 
         <div class="column">
           <h4 style="margin-top: 0;">Reputation</h4>
-          <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstellte Fragen</div>
-          <div>- <%= Model.User.Id !=-1 ? Model.Reputation.ForQuestionsInOtherWishknowledge : 0 %> für eigene Fragen im
-              Wunschwissen anderer </div>
-          <div>- <%= Model.User.Id !=-1 ? Model.Reputation.ForPublicWishknowledge : 0 %> für die Veröffentlichung des
-              eigenen Wunschwissens</div>
-          <div>- <%= Model.Reputation.ForUsersFollowingMe %> für folgende Nutzer</div>
+          <div>- {{model.Reputation.ForQuestionsCreated}} für erstellte Fragen</div>
+          <div>- {{model.User.Id != 1 ? model.Reputation.ForQuestionsInOtherWishKnowledge: 0 }} für eigene Fragen im
+            Wunschwissen anderer </div>
+          <div>- {{model.User.Id != 1 ? model.Reputation.ForPublicWishknowledge: 0 }} für die Veröffentlichung des
+            eigenen Wunschwissens</div>
+          <div>- {{model.Reputation.ForUsersFollowingMe}} für folgende Nutzer</div>
         </div>
         <div class="column">
           <h4 style="margin-top: 0;">Erstellte Inhalte</h4>
           <div>
-            <%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt
+            {{model.AmountCreatedQuestions}} öffentliche Fragen erstellt
           </div>
           <div>
-            <%= Model.AmountCreatedCategories %> Themen erstellt
+            {{model.AmountCreatedCategories}} Themen erstellt
           </div>
-          <%if (Model.ShowWiki) {%>
-            <a href="<%= Links.CategoryDetail(Model.UserWiki) %>">Zu <%= Model.User.Name %>s Wiki</a>
-            <%} %>
+
+          <NuxtLink v-if="model.ShowWiki" :to="`${model.UserWikiName}/${model.UserWikiId}`">
+            Zu {{model.Name}}s Wiki
+          </NuxtLink>
         </div>
 
         <div class="column">
           <h4 style="margin-top: 0;">Wunschwissen</h4>
-          <div>
-            <%= Model.AmountWishCountQuestions %> Fragen gemerkt
+          <div>7
+            {{model.AmountWishCountQuestions}} Fragen gemerkt
           </div>
         </div>
 
@@ -90,23 +103,17 @@ const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.i
     </div>
 
     <div class="col-lg-2 col-xs-3 xxs-stack">
-      <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" /><br />
-      <div style="text-align: center; margin-top: 10px;" data-userid="<%=Model.UserIdProfile %>">
-        <% if(!Model.IsCurrentUser && Model.IsMember){ %>
-          <button class="btn btn-default btn-sm" type="button" data-type="btn-follow"
-            style="<%= Html.CssHide(Model.DoIFollow) %> ">
-            <i class="fa fa-user-plus"></i>
-            Folgen
-          </button>
+      <Image :style="ImageStyle.Author" :url="model.ImageUrl_250" />
+      <div style="text-align: center; margin-top: 10px;">
 
-          <i class='fa fa-spinner fa-pulse' data-type="btnFollowSpinner" style="display:none"></i>
-
-          <button class="btn btn-warning btn-sm " type="button" data-type="btn-unfollow"
-            style="<%= Html.CssHide(!Model.DoIFollow) %>">
-            <i class="fa fa-user-times"></i>
+        <template v-if="!model.IsCurrentUser && model.IsMember">
+          <button v-if="model.DoIFollow" class="btn btn-warning btn-sm">
             Entfolgen
           </button>
-          <% } %>
+          <button v-else class="btn btn-default btn-sm">
+            Folgen
+          </button>
+        </template>
       </div>
     </div>
   </div>
@@ -123,16 +130,16 @@ const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.i
         <div class="container">
           <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
 
-            <div class="btn-group <%= Model.IsActiveTabKnowledge? " active" : "" %>">
-              <a href="<%= Links.UserDetail(Model.User) %>" type="button" class="btn btn-default">
+            <div class="btn-group" :class="{'active': showTab == 'wuwi' }">
+              <div type="button" class="btn btn-default" @click="showTab = 'wuwi'">
                 Wunsch<span class="hidden-xxs">wissen</span>
-              </a>
+              </div>
             </div>
 
-            <div class="btn-group  <%= Model.IsActiveTabBadges  ? " active" : "" %>">
-              <a href="<%= Links.UserDetailBadges(Model.User.User) %>" type="button" class="btn btn-default">
+            <div class="btn-group" :class="{'active': showTab == 'badges' }">
+              <div type="button" class="btn btn-default" @click="showTab = 'badges'">
                 Badges
-              </a>
+              </div>
             </div>
           </div>
         </div>
@@ -143,25 +150,21 @@ const { data: user } = await useFetch<UserModel>(`/User/GetUser/${route.params.i
       <div class="boxtainer-outlined-tabs" style="margin-top: 20px;">
         <div class="boxtainer-header MobileHide">
           <ul class="nav nav-tabs">
-            <li class="<%= Html.IfTrue(Model.IsActiveTabKnowledge, " active") %>">
-              <a href="<%= Links.UserDetail(Model.User) %>">
+            <li :class="{'active' : showTab == 'wuwi'}">
+              <div class="btn-link" @click="showTab == 'wuwi'">
                 Wunschwissen
-              </a>
+              </div>
             </li>
-            <li class="<%= Html.IfTrue(Model.IsActiveTabBadges, " active") %>">
-              <a href="<%= Links.UserDetailBadges(Model.User.User) %>">
-                Badges (0 von <%= BadgeTypes.All().Count %>)
-              </a>
+            <li :class="{'active' : showTab == 'badges'}">
+              <div class="btn-link" @click="showTab == 'badges'">
+                Badges (0 von {{allBadgeCount}})
+              </div>
             </li>
           </ul>
         </div>
         <div class="boxtainer-content">
-          <% if(Model.IsActiveTabKnowledge) { %>
-            <% Html.RenderPartial("~/Views/Users/Detail/TabKnowledge.ascx", new TabKnowledgeModel(Model)); %>
-              <% } %>
-                <% if(Model.IsActiveTabBadges) { %>
-                  <% Html.RenderPartial("~/Views/Users/Detail/TabBadges.ascx", new TabBadgesModel(Model)); %>
-                    <% } %>
+          <UserUserProfileTabsTabKnowledge v-if="showTab == 'wuwi'" :user-model="model" :tab-knowledge-model="''" />
+          <UserUserProfileTabsTabBadges v-else-if="showTab == 'badges'" />
         </div>
       </div>
     </div>
