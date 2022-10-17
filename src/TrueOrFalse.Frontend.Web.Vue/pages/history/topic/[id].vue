@@ -5,7 +5,7 @@
 
 <template>
     <div class="container">
-
+        <TopicHistory />
     </div>
 
 </template>

@@ -17,7 +17,12 @@ function unfollow() {
 
 }
 
-const { data: allBadgeCount } = await useFetch<number>(`/User/GetUser/${route.params.id}`, {
+const { data: tabBadgesModel } = await useFetch<any>(`/User/GetUser/${route.params.id}`, {
+  baseURL: config.apiBase,
+  headers: useRequestHeaders(['cookie'])
+})
+
+const { data: tabKnowledgeModel } = await useFetch<any>(`/User/GetUser/${route.params.id}`, {
   baseURL: config.apiBase,
   headers: useRequestHeaders(['cookie'])
 })
@@ -157,7 +162,7 @@ const showTab = ref('wuwi')
             </li>
             <li :class="{'active' : showTab == 'badges'}">
               <div class="btn-link" @click="showTab == 'badges'">
-                Badges (0 von {{allBadgeCount}})
+                Badges (0 von {{tabBadgesModel.Count}})
               </div>
             </li>
           </ul>

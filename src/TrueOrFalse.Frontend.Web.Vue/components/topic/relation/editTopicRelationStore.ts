@@ -12,11 +12,12 @@ export enum EditTopicRelationType {
     AddToWiki
 }
 
-export type EditRelationParentData = {
-  id: number, 
+export type EditRelationData = {
+  parentId: number,
+  childId: number, 
   addCategoryBtnId: string,
   editCategoryRelation: EditTopicRelationType,
-  categoriesToFilter: number[]
+  categoriesToFilter: number[],
 }
 
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
@@ -25,21 +26,23 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         showModal: false,
         type: null as EditTopicRelationType,
         parentId: 0,
+        childId: 0,
         redirect: false,
         addTopicBtnId: '',
-        categoriesToFilter: [] as number[]
+        categoriesToFilter: [] as number[],
       }
     },
     actions: {
-        openModal(parent: EditRelationParentData) {
+        openModal(data: EditRelationData) {
 
-            this.parentId = parent.id
-            this.addTopicBtnId = parent.addCategoryBtnId
-            this.type = parent.editCategoryRelation
-            this.categoriesToFilter = parent.categoriesToFilter
+            this.parentId = data.parentId
+            this.addTopicBtnId = data.addCategoryBtnId
+            this.type = data.editCategoryRelation
+            this.categoriesToFilter = data.categoriesToFilter
+            this.childId = data.childId
             this.showModal = true
 
-            if (parent.editCategoryRelation == EditTopicRelationType.AddToWiki)
+            if (data.editCategoryRelation == EditTopicRelationType.AddToWiki)
               this.initWikiData()
         },
         createTopic() {

@@ -6,7 +6,7 @@ const props = defineProps(['tabKnowledgeModel', 'userModel'])
 <template>
 
 
-    <div v-if="!props.userModel.User.ShowWishKnowledge && !props.userModel.IsCurrentUser"
+    <!-- <div v-if="!props.userModel.User.ShowWishKnowledge && !props.userModel.IsCurrentUser"
         class="bs-callout bs-callout-info" style="margin-top: 15px;">
         <h4>Nicht öffentlich</h4>
         <p>
@@ -49,5 +49,5 @@ const props = defineProps(['tabKnowledgeModel', 'userModel'])
             </template>
         </div>
 
-    </div>
+    </div> -->
 </template>

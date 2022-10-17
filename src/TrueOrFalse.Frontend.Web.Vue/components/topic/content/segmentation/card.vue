@@ -1,7 +1,16 @@
 <script lang="ts">
 import { useUserStore } from '~~/components/user/userStore'
 import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
-import { useEditTopicRelationStore } from '../../relation/editTopicRelationStore'
+import { useEditTopicRelationStore, EditRelationData, EditTopicRelationType } from '../../relation/editTopicRelationStore'
+import {
+    // Directives
+    VTooltip,
+    VClosePopper,
+    // Components
+    Dropdown,
+    Tooltip,
+    Menu
+} from 'floating-vue'
 
 export default {
     props: {
@@ -19,7 +28,7 @@ export default {
             visible: true,
             hover: false,
             dropdownId: null,
-            id: parseInt(this.categoryId),
+            id: parseInt(this.$props.categoryId.toString()),
             isSelected: false,
             checkboxId: '',
             showHover: false,
@@ -132,11 +141,13 @@ export default {
 
             var self = this;
             var data = {
-                parentCategoryIdToRemove: self.$parent.categoryId,
-                childCategoryId: self.categoryId,
-            };
+                parentId: self.$parent.categoryId,
+                childId: self.categoryId,
+                editCategoryRelation: EditTopicRelationType.Move,
+            } as EditRelationData
 
             const editTopicRelationStore = useEditTopicRelationStore()
+            editTopicRelationStore.openModal(data)
             // editTopicRelationStore.
             // eventBus.$emit('open-move-category-modal', data);
         },
@@ -147,7 +158,12 @@ export default {
             // eventBus.$emit('open-publish-category-modal', this.categoryId);
         },
         openAddToWikiModal() {
-            // eventBus.$emit('add-to-wiki', this.categoryId);
+            var data = {
+                childId: this.categoryId
+            } as EditRelationData
+
+            const editTopicRelationStore = useEditTopicRelationStore()
+            editTopicRelationStore.openModal(data)
         }
 
     }
