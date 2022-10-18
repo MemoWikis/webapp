@@ -38,10 +38,7 @@ export const useUserStore = defineStore('userStore', {
       this.id = loginState.UserId
     },
     async login(loginData) {
-      const spinnerStore = useSpinnerStore()
-      spinnerStore.showSpinner()
       var result = await $fetch<UserLoginResult>('/api/SessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
-      spinnerStore.hideSpinner()
 
       if (!!result && result.Success){
         this.isLoggedIn = true
@@ -54,9 +51,7 @@ export const useUserStore = defineStore('userStore', {
 
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
           this.personalWiki = await $fetch<Topic>(`/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
-
       }
-      spinnerStore.hideSpinner()
     },
     openLoginModal() {
       this.showLoginModal = true

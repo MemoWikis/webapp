@@ -5,7 +5,7 @@
 
 <template>
     <div class="container">
-        <TopicHistory />
+        <LazyTopicHistory />
     </div>
 
 </template>

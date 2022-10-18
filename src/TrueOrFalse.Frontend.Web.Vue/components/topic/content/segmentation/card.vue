@@ -2,15 +2,6 @@
 import { useUserStore } from '~~/components/user/userStore'
 import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
 import { useEditTopicRelationStore, EditRelationData, EditTopicRelationType } from '../../relation/editTopicRelationStore'
-import {
-    // Directives
-    VTooltip,
-    VClosePopper,
-    // Components
-    Dropdown,
-    Tooltip,
-    Menu
-} from 'floating-vue'
 
 export default {
     props: {
@@ -172,7 +163,7 @@ export default {
 </script>
 
 <template>
-    <div class="col-xs-6 topic segmentCategoryCard" v-if="visible" @mouseover="mouseOver" @mouseleave="mouseLeave"
+    <div class="col-xs-6 topic segmentCategoryCard" v-show="visible" @mouseover="mouseOver" @mouseleave="mouseLeave"
         :class="{ hover: showHover }">
         <div class="row" v-on:click.self="goToCategory()">
             <div class="col-xs-3">
@@ -195,16 +186,13 @@ export default {
                         <font-awesome-icon icon="fa-solid fa-unlock" />
                     </div>
                 </div>
-
-                <div v-if="!isHistoric" class="Button dropdown DropdownButton"
-                    :class="{ hover: showHover && !isHistoric }">
-                    <VDropdown :distance="6">
-                        <div :id="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <div class="Button dropdown DropdownButton" :class="{ hover: showHover && !isHistoric }">
+                    <VDropdown :distance="1">
+                        <div class="btn btn-link btn-sm ButtonEllipsis">
                             <font-awesome-icon icon="fa-regular fa-ellipsis-vertical" />
                         </div>
                         <template #popper>
-                            <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                            <ul>
                                 <li v-if="!isCustomSegment">
                                     <div @click="thisToSegment" class="dropdown-item">
                                         <div class="dropdown-icon">

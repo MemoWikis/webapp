@@ -211,6 +211,30 @@ async function moveTopicToNewParent() {
 async function addNewParentToTopic() {
 
 }
+
+async function searchTopic() {
+    showDropdown.value = true
+
+    var data = {
+        term: searchTerm.value,
+        type: 'Categories',
+        categoriesToFilter: editTopicRelationStore.categoriesToFilter,
+    };
+    var url = editTopicRelationStore.type == EditTopicRelationType.AddToWiki
+        ? '/Api/Search/CategoryInWiki'
+        : '/Api/Search/Category';
+
+    var result = await $fetch<any>(url, {
+        body: data,
+        method: 'POST',
+    })
+
+    if (result.success) {
+        topics.value = result.topics.filter(t => t.Id != parentId.value)
+        totalCount.value = result.totalCount
+    }
+}
+
 </script>
 
 <template>
