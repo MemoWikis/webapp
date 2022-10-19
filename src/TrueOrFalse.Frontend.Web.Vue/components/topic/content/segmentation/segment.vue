@@ -3,8 +3,8 @@ export default {
     props: {
         title: String,
         description: String,
-        childCategoryIds: String,
-        categoryId: [String, Number],
+        childCategoryIds: Array,
+        categoryId: Number,
         editMode: Boolean,
         isHistoric: Boolean,
         parentId: Number

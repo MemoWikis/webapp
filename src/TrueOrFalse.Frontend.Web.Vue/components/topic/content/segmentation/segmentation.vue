@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
-import { useEditTopicRelationStore, EditTopicRelationType, EditRelationParentData } from '../../relation/editTopicRelationStore'
+import { useEditTopicRelationStore, EditTopicRelationType, EditRelationData } from '../../relation/editTopicRelationStore'
 import { $fetch } from 'ohmyfetch'
 import _ from 'underscore'
 
@@ -39,9 +39,12 @@ export default {
             editTopicRelationStore: useEditTopicRelationStore(),
             childCategoryIds: '',
             segmentJson: '',
+            categoryId: 0
         };
     },
     mounted() {
+        const topicStore = useTopicStore()
+        this.categoryId = topicStore.id;
         this.initSegments()
         // eventBus.$on('add-category-card',
         //     (e) => {
@@ -183,7 +186,7 @@ export default {
             var self = this;
             var categoriesToFilter = this.setCategoriesToFilter();
             var parent = {
-                id: self.topicStore.id,
+                parentId: self.topicStore.id,
                 addCategoryBtnId: 'AddToCurrentCategoryBtn',
                 editCategoryRelation: val ? EditTopicRelationType.Create : EditTopicRelationType.AddChild,
                 categoriesToFilter,
@@ -294,9 +297,10 @@ export default {
         </div>
 
         <div id="CustomSegmentSection">
-            <TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId" :title="s.Title"
-                :child-category-ids="s.ChildCategoryIds" :category-id="s.CategoryId" :is-historic="isHistoric"
-                :parent-id="categoryId" @remove-segment="removeSegment(s.CategoryId)" />
+            <TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId"
+                :title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds"
+                :category-id="parseInt(s.CategoryId)" :is-historic="isHistoric" :parent-id="categoryId"
+                @remove-segment="removeSegment(s.CategoryId)" />
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"
             :class="{ hover: showHover && !isHistoric }">
@@ -309,8 +313,7 @@ export default {
             </div>
 
             <div class="topicNavigation row">
-                <TopicContentSegmentationCard v-for="(category, index) in categories" @select-category="selectCategory"
-                    @unselect-category="unselectCategory" :ref="'card' + category.Id"
+                <TopicContentSegmentationCard v-for="(category, index) in categories" :ref="'card' + category.Id"
                     :is-custom-segment="isCustomSegment" :category-id="category.Id"
                     :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index"
                     :category="category" :is-historic="isHistoric" @remove-card="removeCard(category.Id)" />

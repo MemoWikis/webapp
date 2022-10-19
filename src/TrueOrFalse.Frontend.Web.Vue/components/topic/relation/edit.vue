@@ -5,7 +5,8 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { messages } from '~~/components/alert/messages'
 import { useTopicStore } from '../topicStore'
-
+import _ from 'underscore'
+import { FullSearch } from '~~/components/search/searchHelper'
 
 const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
@@ -46,9 +47,6 @@ async function addTopic() {
             name: name.value,
             parentTopicId: editTopicRelationStore.parentId,
         }
-        console.log(topicData)
-        console.log(editTopicRelationStore)
-        console.log(editTopicRelationStore.parentId)
 
         const result = await $fetch<QuickCreateResult>('/api/EditTopic/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
         if (result.success) {
@@ -212,28 +210,50 @@ async function addNewParentToTopic() {
 
 }
 
-async function searchTopic() {
-    showDropdown.value = true
+watch(searchTerm, (term) => {
+    if (term.length > 0 && lockDropdown.value == false) {
+        showDropdown.value = true
+        debounceSearch()
+    }
+    else
+        showDropdown.value = false
+})
 
+const debounceSearch = _.debounce(() => {
+    search()
+}, 500)
+
+async function search() {
+    showDropdown.value = true;
     var data = {
         term: searchTerm.value,
-        type: 'Categories',
-        categoriesToFilter: editTopicRelationStore.categoriesToFilter,
-    };
-    var url = editTopicRelationStore.type == EditTopicRelationType.AddToWiki
-        ? '/Api/Search/CategoryInWiki'
-        : '/Api/Search/Category';
+    }
 
-    var result = await $fetch<any>(url, {
+    var url = editTopicRelationStore.type == EditTopicRelationType.AddToWiki
+        ? '/api/Search/CategoryInWiki'
+        : '/api/Search/Category';
+
+    var result = await $fetch<FullSearch>(url, {
         body: data,
         method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
     })
 
-    if (result.success) {
-        topics.value = result.topics.filter(t => t.Id != parentId.value)
-        totalCount.value = result.totalCount
+    if (result != null) {
+        topics.value = result.categories.filter(t => t.Id != parentId.value)
+        totalCount.value = result.categoryCount
     }
 }
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    after(() => {
+        if (name == 'initWikiData') {
+            console.log(editTopicRelationStore.personalWiki)
+            selectedParentInWikiId.value = editTopicRelationStore.personalWiki.Id
+        }
+    })
+})
 
 </script>
 
@@ -278,17 +298,20 @@ async function searchTopic() {
                     <p>Wo soll das Thema hinzugefügt werden?</p>
                 </div>
                 <form v-on:submit.prevent="selectTopic">
-                    <div class="categorySearchAutocomplete mb-250" v-if="userStore.personalWiki != null"
-                        @click="selectedParentInWikiId = userStore.personalWiki.Id">
+                    <div class="categorySearchAutocomplete mb-250" v-if="editTopicRelationStore.personalWiki != null"
+                        @click="selectedParentInWikiId = editTopicRelationStore.personalWiki.Id">
                         <div class="searchResultItem"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == userStore.personalWiki.Id }">
-                            <img :src="userStore.personalWiki.ImgUrl" />
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editTopicRelationStore.personalWiki.Id }">
+                            <img :src="editTopicRelationStore.personalWiki.ImgUrl" />
                             <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ userStore.personalWiki.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ userStore.personalWiki.QuestionCount }}
-                                    Frage<template v-if="userStore.personalWiki.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.Name }}
+                                </div>
+                                <div class="searchResultQuestionCount body-s">{{
+                                editTopicRelationStore.personalWiki.QuestionCount }}
+                                    Frage<template
+                                        v-if="editTopicRelationStore.personalWiki.QuestionCount != 1">n</template></div>
                             </div>
-                            <div v-show="selectedParentInWikiId == userStore.personalWiki.Id"
+                            <div v-show="selectedParentInWikiId == editTopicRelationStore.personalWiki.Id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt

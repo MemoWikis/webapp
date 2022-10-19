@@ -30,10 +30,15 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         redirect: false,
         addTopicBtnId: '',
         categoriesToFilter: [] as number[],
+        personalWiki: null,
+        addToWikiHistory: null,
       }
     },
     actions: {
         openModal(data: EditRelationData) {
+          console.log('openmodal')
+
+            console.log(data)
 
             this.parentId = data.parentId
             this.addTopicBtnId = data.addCategoryBtnId

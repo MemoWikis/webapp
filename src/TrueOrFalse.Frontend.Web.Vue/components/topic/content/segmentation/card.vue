@@ -150,7 +150,8 @@ export default {
         },
         openAddToWikiModal() {
             var data = {
-                childId: this.categoryId
+                parentId: this.categoryId,
+                editCategoryRelation: EditTopicRelationType.AddToWiki
             } as EditRelationData
 
             const editTopicRelationStore = useEditTopicRelationStore()
