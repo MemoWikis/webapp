@@ -211,5 +211,9 @@
   {
     "outputFile": "Views/Welcome/Registration/Register.css",
     "inputFile": "Views/Welcome/Registration/Register.less"
+  },
+  {
+    "outputFile": "Fonts/googlefonts.css",
+    "inputFile": "Fonts/googlefonts.less"
   }
 ]

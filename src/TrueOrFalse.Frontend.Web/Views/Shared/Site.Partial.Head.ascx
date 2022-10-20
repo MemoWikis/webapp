@@ -4,14 +4,6 @@
 <%= Styles.Render("~/bundles/css") %>
 <%= Scripts.Render("~/bundles/shared") %>
 
-<% if (!Settings.DevelopOffline()){ %>
-    <link href='//fonts.googleapis.com/css?family=Emilys+Candy:&display=swap' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Lato:&display=swap' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Roboto:500&display=swap' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Roboto+Slab:&display=swap' rel='stylesheet' type='text/css'>
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700,800&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic&display=swap" rel="stylesheet" type="text/css" />
-<% } %>
-
 <!-- links to different favicons, created with website http://realfavicongenerator.net -->
 <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">

@@ -13,6 +13,7 @@ namespace TrueOrFalse.View
                   "~/Style/bootstrap/bootstrap.css",
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
+                  "~/Fonts/googleFonts.css",
                   "~/Fonts/font-awesome-5.7.2/css/all.css",
                   "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
                   "~/Views/Shared/CategoryLabel.css"));
