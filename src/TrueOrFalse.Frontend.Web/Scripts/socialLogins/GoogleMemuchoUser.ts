@@ -21,7 +21,10 @@
             type: 'POST', async: false, cache: false,
             data: { googleId: googleId, googleToken: googleIdToken},
             url: "/Api/GoogleUsers/Login",
-            error(error) { throw error }
+            error(error) { throw error },
+            success() {
+                document.cookie = "allowGooglePlugin=true";
+            }
         });
     }
         
@@ -46,6 +49,7 @@
             success(result)
             {
                 success = true;    
+                document.cookie = "allowGooglePlugin=true";
 
                 if (result.Success == false) {
 

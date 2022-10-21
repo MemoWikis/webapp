@@ -8,18 +8,38 @@
             <div class="form-group omb_login row">
                 <div class="col-sm-12 omb_socialButtons">
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                        <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin">
+                        <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin" v-if="allowGooglePlugin">
+                            <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
+                            <div class="socialMediaLabel">weiter mit Google</div>
+                        </a>
+                        <a class="btn btn-block cursor-hand socialMediaBtn" v-else @click="showGooglePluginInfo = true">
                             <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
                             <div class="socialMediaLabel">weiter mit Google</div>
                         </a>
                     </div>
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                        <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"  @click="FacebookLogin()">
+                        <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin" @click="FacebookLogin()">
                             <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
                             <div class="socialMediaLabel">weiter mit Facebook</div>
                         </a>
                     </div>
                 </div>
+            </div>
+            
+            <div v-if="showGooglePluginInfo && !allowGooglePlugin" class="alert-info">
+                <p>
+                    Beim Login mit Google / Facebook werden Daten mit den  Servern von Facebook/Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden besuche.
+                </p>
+                <p>
+                    <button type="button" class="btn btn-primary" @click="loadGooglePlugin()">
+                        Einverstanden
+                    </button>
+                    <button type="button" class="btn btn-default" @click="showGooglePluginInfo = false">
+                        Abbrechen
+                    </button>
+                </p>
+
+
             </div>
             
             <p class="consentInfoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="/AGB">Nutzungsbedingungen</a> und unserer <a href="/Impressum">Datenschutzerklärung</a> einverstanden. Du musst mind. 16 Jahre alt sein, <a href="/Impressum#under16">hier mehr Infos!</a></p>

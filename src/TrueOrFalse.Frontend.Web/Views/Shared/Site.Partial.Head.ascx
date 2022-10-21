@@ -27,9 +27,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<%if(!Settings.DevelopOffline()) { %>
+<%--<%if(!Settings.DevelopOffline()) { %>
     <script src="https://apis.google.com/js/api:client.js"></script>
-<% } %>
+<% } %>--%>
 
 <!-- Matomo -->
 <script type="text/javascript">

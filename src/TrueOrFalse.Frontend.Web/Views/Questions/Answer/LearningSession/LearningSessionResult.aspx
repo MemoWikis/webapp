@@ -6,7 +6,7 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<%--    <script type="text/javascript" src="https://www.google.com/jsapi"></script>--%>
 
     <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
 </asp:Content>

@@ -42,7 +42,7 @@
     <% if (Model.IsLearningSession)
         { %>
     <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<%--    <script type="text/javascript" src="https://www.google.com/jsapi"></script>--%>
     <% } %>
 
     <style type="text/css">
