@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -57,7 +59,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
             if (width > 50)
                 url += "?type=large";
 
-            return url;
+            return GetImage("http:" + url);
         }
 
         if (user.IsGoogleUser)
@@ -82,12 +84,43 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
         var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
-        return "//www.gravatar.com/avatar/" +
-               BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
-               Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
-                                    HttpContext.Current.Request.Url.Host +
-                                    HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
+
+        var gravatarURL = "//www.gravatar.com/avatar/" +
+                          BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
+                          Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
+                                               HttpContext.Current.Request.Url.Host +
+                                               HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
+        
+
+        return GetImage(gravatarURL);
     }
 
+
+    public string GetImage(string url)
+    {
+        var results = "";
+        var contentType = "";
+
+        try
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+
+            var reader = new BinaryReader(resp.GetResponseStream());
+            Byte[] byteArray = reader.ReadBytes(1 * 1024 * 1024 * 10);
+
+
+            contentType = resp.ContentType;
+            var base64 = Convert.ToBase64String(byteArray);
+            var imgSrc = String.Format("data:" + contentType + ";base64,{0}", base64);
+            return imgSrc;
+        }
+        catch (Exception ex)
+        {
+            results = ex.Message;
+        }
+
+        return "";
+    }
 }
 
