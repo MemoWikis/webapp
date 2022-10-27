@@ -26,20 +26,27 @@
                 <div class="form-group omb_login row">
                     <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister">
-                                <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleRegister" class="socialMediaLogo">
+                            <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister" style="display:none">
+                                <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
+                                <div class="socialMediaLabel">weiter mit Google</div>
+                            </a>
+                            <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegisterPlaceholder" onclick="eventBus.$emit('load-google-plugin-info')">
+                                <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Google</div>
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister" onclick="eventBus.$emit('login-Facebook')">
+                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister" onclick="eventBus.$emit('login-Facebook')" style="display:none">
+                                <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
+                                <div class="socialMediaLabel">weiter mit Facebook</div>
+                            </a>
+                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegisterPlaceholder" onclick="eventBus.$emit('load-facebook-plugin-info')">
                                 <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Facebook</div>
                             </a>
                         </div>
                     </div>
                 </div>
-
 
                 <fieldset>
                     <div class="col-sm-offset-2">

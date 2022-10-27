@@ -2275,16 +2275,20 @@ input::placeholder {
 }
 #ErrorModal .modal-body,
 #SuccessModal .modal-body,
+#InfoModal .modal-body,
 #ErrorModal .modal-footer,
 #SuccessModal .modal-footer,
+#InfoModal .modal-footer,
 #ErrorModal .modal-header,
-#SuccessModal .modal-header {
+#SuccessModal .modal-header,
+#InfoModal .modal-header {
   display: flex;
   justify-content: center;
   text-align: center;
 }
 #ErrorModal .modal-body,
-#SuccessModal .modal-body {
+#SuccessModal .modal-body,
+#InfoModal .modal-body {
   flex-direction: column;
 }
 #ErrorModal i {
@@ -2292,6 +2296,9 @@ input::placeholder {
 }
 #SuccessModal i {
   color: #AFD534;
+}
+#InfoModal i {
+  color: #003264;
 }
 .ProseMirror li p {
   margin: 0;

@@ -57,6 +57,8 @@ const messages = {
         question: {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.'
         },
+        google: "Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer",
+        facebook: "Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer",
     }
 }
 
@@ -65,6 +67,7 @@ type AlertMsg = {
     reload?: boolean,
     customHtml?: string,
     customBtn?: string,
+    title?: string,
 }
 
 class Alerts {
@@ -74,23 +77,48 @@ class Alerts {
     static showSuccess(msg: AlertMsg): void {
         eventBus.$emit('show-success', msg);
     }
+    static showInfo(msg: AlertMsg): void {
+        eventBus.$emit('show-info', msg);
+    }
 }
 
 Vue.component('alert-modal-component',
     {
         data() {
             return {
-                error: true,
+                isError: true,
+                isSuccess: false,
+                isInfo: false,
                 message: '',
                 reload: false,
                 customHtml: '',
                 customBtn: '',
             }
         },
+        watch: {
+            isError(val) {
+                if (val) {
+                    this.isSuccess = false;
+                    this.isInfo = false;
+                }
+            },
+            isSuccess(val) {
+                if (val) {
+                    this.isError = false;
+                    this.isInfo = false;
+                }
+            },
+            isInfo(val) {
+                if (val) {
+                    this.isSuccess = false;
+                    this.isError = false;
+                }
+            }
+        },
         mounted() {
             eventBus.$on('show-success',
                 (data: AlertMsg) => {
-                    this.error = false;
+                    this.isSuccess = true;
                     this.message = data.text;
                     if (data.reload)
                         this.reload = data.reload;
@@ -108,6 +136,7 @@ Vue.component('alert-modal-component',
 
             eventBus.$on('show-error',
                 (data: AlertMsg) => {
+                    this.isError = true;
                     if (data != null) {
                         this.message = data.text;
                         if (data.reload)
@@ -119,6 +148,26 @@ Vue.component('alert-modal-component',
                 });
 
             $('#ErrorModal').on('hidden.bs.modal', () => this.clearData());
+
+            eventBus.$on('show-info',
+                (data: AlertMsg) => {
+                    this.isInfo = true;
+
+                    if (data != null) {
+                        this.message = data.text;
+
+                        if (data.title)
+                            this.title = data.title;
+
+                        if (data.customHtml != null && data.customHtml.length > 0)
+                            this.customHtml = data.customHtml;
+
+                        if (data.customBtn != null && data.customBtn.length > 0)
+                            this.customBtn = data.customBtn;
+                    }
+
+                    $('#InfoModal').modal('show');
+                });
         },
 
         methods: {
