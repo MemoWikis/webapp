@@ -96,7 +96,7 @@
 
     var developOffline = "True" === "<%= Settings.DevelopOffline().ToString() %>";
 </script>
-<%if(!Settings.DevelopOffline()) { %>
+<%--<%if(!Settings.DevelopOffline()) { %>
     <script>
         window.fbAsyncInit = function() {
             FB.init({
@@ -114,4 +114,4 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
-<% } %>
+<% } %>--%>
