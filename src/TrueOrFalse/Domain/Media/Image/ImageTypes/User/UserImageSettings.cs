@@ -59,7 +59,8 @@ public class UserImageSettings : ImageSettings, IImageSettings
             if (width > 50)
                 url += "?type=large";
 
-            return GetImage("http:" + url);
+            //return GetImage("http:" + url);
+            return url;
         }
 
         if (user.IsGoogleUser)
@@ -90,9 +91,9 @@ public class UserImageSettings : ImageSettings, IImageSettings
                           Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
                                                HttpContext.Current.Request.Url.Host +
                                                HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
-        
 
-        return GetImage(gravatarURL);
+        //return GetImage(gravatarURL);
+        return gravatarURL;
     }
 
 
@@ -109,10 +110,9 @@ public class UserImageSettings : ImageSettings, IImageSettings
             var reader = new BinaryReader(resp.GetResponseStream());
             Byte[] byteArray = reader.ReadBytes(1 * 1024 * 1024 * 10);
 
-
             contentType = resp.ContentType;
             var base64 = Convert.ToBase64String(byteArray);
-            var imgSrc = String.Format("data:" + contentType + ";base64,{0}", base64);
+            var imgSrc = Format("data:" + contentType + ";base64,{0}", base64);
             return imgSrc;
         }
         catch (Exception ex)
