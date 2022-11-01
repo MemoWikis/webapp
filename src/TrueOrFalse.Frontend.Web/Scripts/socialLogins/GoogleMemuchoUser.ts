@@ -23,7 +23,7 @@
             url: "/Api/GoogleUsers/Login",
             error(error) { throw error },
             success() {
-                document.cookie = "allowGooglePlugin=true";
+                document.cookie = "allowGooglePlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
             }
         });
     }
@@ -49,7 +49,7 @@
             success(result)
             {
                 success = true;    
-                document.cookie = "allowGooglePlugin=true";
+                document.cookie = "allowGooglePlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
 
                 if (result.Success == false) {
 

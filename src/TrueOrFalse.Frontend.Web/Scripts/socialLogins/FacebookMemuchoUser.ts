@@ -42,8 +42,10 @@
             success(result) {
                 Utils.HideSpinner();
 
-                if (result.Success)
+                if (result.Success) {
+                    document.cookie = "allowFacebookPlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
                     Site.LoadValidPage();
+                }
                 else {
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                     if (result.EmailAlreadyInUse) {
@@ -68,6 +70,7 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success() {
+                document.cookie = "allowFacebookPlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
                 Site.LoadValidPage();
             }
         });
@@ -132,6 +135,7 @@
             } else {
                 onLogout();
             }
+            document.cookie = "allowFacebookPlugin=true; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
         });
     }
 }
