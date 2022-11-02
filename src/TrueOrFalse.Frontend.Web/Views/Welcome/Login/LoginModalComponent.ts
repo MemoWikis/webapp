@@ -166,29 +166,41 @@ var loginApp = new Vue({
     },
 
     methods: {
-        loadGooglePlugin(login: true, isRegister: false) {
+        loadGooglePlugin(login = true, isRegister = false) {
+
             var gapiScript = document.createElement('script');
             gapiScript.src = 'https://apis.google.com/js/api:client.js';
             gapiScript.onload = () => {
-                var jsapi = document.createElement('script');
-                jsapi.onload = () => {
-                    var g = new Google();
+                console.log('gapiload');
 
-                    setTimeout(() => {
-                        Google.AttachClickHandler('GoogleRegister');
-                        Google.AttachClickHandler('GoogleLogin');
+                setTimeout(() => {
 
-                        if (login)
+                        var jsapi = document.createElement('script');
+                    jsapi.onload = () => {
+                        console.log('jsapiload');
+                        console.log(login);
+                            var g = new Google();
+
                             setTimeout(() => {
-                                var clickEvent = new MouseEvent("click");
-                                var element = isRegister ? document.getElementById("GoogleRegister") : document.getElementById("GoogleLogin");
-                                element.dispatchEvent(clickEvent);
-                            }, 1000);
-                        },
-                        500);
-                };
-                jsapi.src = 'https://www.google.com/jsapi';
-                document.head.appendChild(jsapi);
+                                    Google.AttachClickHandler('GoogleRegister');
+                                    Google.AttachClickHandler('GoogleLogin');
+
+                                    if (login)
+                                        setTimeout(() => {
+                                            var clickEvent = new MouseEvent("click");
+                                            var element = isRegister ? document.getElementById("GoogleRegister") : document.getElementById("GoogleLogin");
+                                            element.dispatchEvent(clickEvent);
+                                        }, 1000);
+                                },
+                                500);
+                        };
+                        jsapi.src = 'https://www.google.com/jsapi';
+                        document.head.appendChild(jsapi);
+
+                    }, 
+                    500);
+
+
             }
             document.head.appendChild(gapiScript);
             this.allowGooglePlugin = true;
@@ -198,7 +210,7 @@ var loginApp = new Vue({
             FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
         },
 
-        loadFacebookPlugin(login: true) {
+        loadFacebookPlugin(login = true) {
             this.allowFacebookPlugin = true;
             window.fbAsyncInit = function () {
                 FB.init({

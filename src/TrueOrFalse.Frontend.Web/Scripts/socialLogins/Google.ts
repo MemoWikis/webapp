@@ -22,10 +22,10 @@
     }
 
    private InitApi() {
-        return gapi.auth2.init(({
+        return gapi.auth2.init({
             client_id: '290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com',
-            cookiepolicy: 'single_host_origin',
-        }) as any);
+            cookie_policy: 'single_host_origin',
+        });
     }
 
    private static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
