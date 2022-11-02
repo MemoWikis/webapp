@@ -118,6 +118,17 @@ var loginApp = new Vue({
             showFacebookPluginInfo: false,
         }
     },
+
+    watch: {
+        allowGooglePlugin() {
+            document.getElementById("GoogleRegister").classList.remove("hidden");
+            document.getElementById("GoogleRegisterPlaceholder").classList.add("hidden");
+        },
+        allowFacebookPlugin() {
+            document.getElementById("FacebookRegister").classList.remove("hidden");
+            document.getElementById("FacebookRegisterPlaceholder").classList.add("hidden");
+        }
+    },
     created() {
         var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || '';
         if (googleCookie == "true")
@@ -125,7 +136,6 @@ var loginApp = new Vue({
         var facebookCookie = document.cookie.match('(^|;)\\s*' + "allowFacebookPlugin" + '\\s*=\\s*([^;]+)')?.pop() || '';
         if (facebookCookie == "true")
             this.loadFacebookPlugin(false);
-
     },
     mounted() {
 
@@ -161,7 +171,7 @@ var loginApp = new Vue({
 
         eventBus.$on('load-facebook-plugin',
             () => {
-                this.loadFacebookPlugin(true);
+                this.loadFacebookPlugin();
             });
     },
 
@@ -171,14 +181,9 @@ var loginApp = new Vue({
             var gapiScript = document.createElement('script');
             gapiScript.src = 'https://apis.google.com/js/api:client.js';
             gapiScript.onload = () => {
-                console.log('gapiload');
-
                 setTimeout(() => {
-
                         var jsapi = document.createElement('script');
-                    jsapi.onload = () => {
-                        console.log('jsapiload');
-                        console.log(login);
+                        jsapi.onload = () => {
                             var g = new Google();
 
                             setTimeout(() => {
@@ -190,17 +195,14 @@ var loginApp = new Vue({
                                             var clickEvent = new MouseEvent("click");
                                             var element = isRegister ? document.getElementById("GoogleRegister") : document.getElementById("GoogleLogin");
                                             element.dispatchEvent(clickEvent);
-                                        }, 1000);
+                                        }, 500);
                                 },
                                 500);
                         };
                         jsapi.src = 'https://www.google.com/jsapi';
                         document.head.appendChild(jsapi);
-
                     }, 
                     500);
-
-
             }
             document.head.appendChild(gapiScript);
             this.allowGooglePlugin = true;
@@ -226,11 +228,12 @@ var loginApp = new Vue({
                 js = d.createElement(s); js.id = id;
                 js.src = "//connect.facebook.net/de_DE/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
-                if (login)
-                    setTimeout(() => {
-                        FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
-                    }, 500);
             }(document, 'script', 'facebook-jssdk'));
+
+            if (login)
+                setTimeout(() => {
+                    FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
+                }, 500);
         },
 
         loadGooglePluginInfo() {

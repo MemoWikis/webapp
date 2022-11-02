@@ -26,7 +26,7 @@
                 <div class="form-group omb_login row">
                     <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister" style="display:none">
+                            <a class="btn btn-block cursor-hand socialMediaBtn hidden" id="GoogleRegister">
                                 <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Google</div>
                             </a>
@@ -36,7 +36,7 @@
                             </a>
                         </div>
                         <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                            <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister" onclick="eventBus.$emit('login-Facebook')" style="display:none">
+                            <a class="btn btn-block cursor-hand socialMediaBtn hidden" id="FacebookRegister" onclick="eventBus.$emit('login-Facebook')">
                                 <img src="/Images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
                                 <div class="socialMediaLabel">weiter mit Facebook</div>
                             </a>
