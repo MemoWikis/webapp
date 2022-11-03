@@ -121,12 +121,22 @@ var loginApp = new Vue({
 
     watch: {
         allowGooglePlugin() {
-            document.getElementById("GoogleRegister").classList.remove("hidden");
-            document.getElementById("GoogleRegisterPlaceholder").classList.add("hidden");
+            var googleRegister = document.getElementById("GoogleRegister");
+            if (googleRegister != null)
+                googleRegister.classList.remove("hidden");
+
+            var googleRegisterPlaceholder = document.getElementById("GoogleRegisterPlaceholder");
+            if (googleRegisterPlaceholder != null)
+                googleRegisterPlaceholder.classList.remove("hidden");
         },
         allowFacebookPlugin() {
-            document.getElementById("FacebookRegister").classList.remove("hidden");
-            document.getElementById("FacebookRegisterPlaceholder").classList.add("hidden");
+            var facebookRegister = document.getElementById("FacebookRegister");
+            if (facebookRegister != null)
+                facebookRegister.classList.remove("hidden");
+
+            var facebookRegisterPlaceholder = document.getElementById("FacebookRegisterPlaceholder");
+            if (facebookRegisterPlaceholder != null)
+                facebookRegisterPlaceholder.classList.remove("hidden");
         }
     },
     created() {
