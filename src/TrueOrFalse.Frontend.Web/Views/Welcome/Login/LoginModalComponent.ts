@@ -127,7 +127,7 @@ var loginApp = new Vue({
 
             var googleRegisterPlaceholder = document.getElementById("GoogleRegisterPlaceholder");
             if (googleRegisterPlaceholder != null)
-                googleRegisterPlaceholder.classList.remove("hidden");
+                googleRegisterPlaceholder.classList.add("hidden");
         },
         allowFacebookPlugin() {
             var facebookRegister = document.getElementById("FacebookRegister");
@@ -136,7 +136,7 @@ var loginApp = new Vue({
 
             var facebookRegisterPlaceholder = document.getElementById("FacebookRegisterPlaceholder");
             if (facebookRegisterPlaceholder != null)
-                facebookRegisterPlaceholder.classList.remove("hidden");
+                facebookRegisterPlaceholder.classList.add("hidden");
         }
     },
     created() {
