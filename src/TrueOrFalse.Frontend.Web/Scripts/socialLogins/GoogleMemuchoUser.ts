@@ -22,9 +22,6 @@
             data: { googleId: googleId, googleToken: googleIdToken},
             url: "/Api/GoogleUsers/Login",
             error(error) { throw error },
-            success() {
-                document.cookie = "allowGooglePlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
-            }
         });
     }
         
@@ -48,9 +45,7 @@
             url: "/Api/GoogleUsers/CreateAndLogin",
             success(result)
             {
-                success = true;    
-                document.cookie = "allowGooglePlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
-
+                success = true;
                 if (result.Success == false) {
 
                     //ToDo: Revoke authorization

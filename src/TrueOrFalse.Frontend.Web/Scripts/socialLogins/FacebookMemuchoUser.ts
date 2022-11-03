@@ -43,7 +43,6 @@
                 Utils.HideSpinner();
 
                 if (result.Success) {
-                    document.cookie = "allowFacebookPlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
                     Site.LoadValidPage();
                 }
                 else {
@@ -70,7 +69,6 @@
             url: "/Api/FacebookUsers/Login/",
             error(error) { throw error },
             success() {
-                document.cookie = "allowFacebookPlugin=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/";
                 Site.LoadValidPage();
             }
         });

@@ -17,7 +17,7 @@ var loginModal = Vue.component('login-modal-component',
                 tryLogin: false,
                 showGooglePluginInfo: false,
                 showFacebookPluginInfo: false,
-                button1Text: 'Anmelden'
+                button1Text: 'Anmelden',
             }
         },
         beforeCreate() {
@@ -121,6 +121,8 @@ var loginApp = new Vue({
 
     watch: {
         allowGooglePlugin() {
+            document.cookie = "allowGooglePlugin=true";
+
             var googleRegister = document.getElementById("GoogleRegister");
             if (googleRegister != null)
                 googleRegister.classList.remove("hidden");
@@ -130,6 +132,8 @@ var loginApp = new Vue({
                 googleRegisterPlaceholder.classList.add("hidden");
         },
         allowFacebookPlugin() {
+            document.cookie = "allowFacebookPlugin=true";
+
             var facebookRegister = document.getElementById("FacebookRegister");
             if (facebookRegister != null)
                 facebookRegister.classList.remove("hidden");
@@ -187,6 +191,7 @@ var loginApp = new Vue({
 
     methods: {
         loadGooglePlugin(login = true, isRegister = false) {
+            this.allowGooglePlugin = true;
 
             var gapiScript = document.createElement('script');
             gapiScript.src = 'https://apis.google.com/js/api:client.js';
@@ -215,7 +220,6 @@ var loginApp = new Vue({
                     500);
             }
             document.head.appendChild(gapiScript);
-            this.allowGooglePlugin = true;
         },
 
         FacebookLogin() {
