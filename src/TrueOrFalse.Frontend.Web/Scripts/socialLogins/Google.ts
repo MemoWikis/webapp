@@ -28,8 +28,14 @@
         });
     }
 
-    public static SignIn() {
-        Google._auth2.signIn();
+   public static SignIn() {
+       Google._auth2.signIn().then(
+           (googleUser) => {
+               Google.OnLoginSuccess(googleUser);
+           },
+           (error) => {
+               Google.OnLoginError(error);
+           });
     }
 
    private static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
