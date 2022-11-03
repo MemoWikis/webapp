@@ -174,12 +174,22 @@ var loginApp = new Vue({
 
         eventBus.$on('load-google-plugin-info',
             () => {
-                this.loadGooglePluginInfo();
+                if (this.allowGooglePlugin) {
+                    this.showLoginIsInProgress = true;
+                    Google.SignIn();
+                }
+                else 
+                    this.loadGooglePluginInfo();
             });
 
         eventBus.$on('load-facebook-plugin-info',
             () => {
-                this.loadFacebookPluginInfo();
+                if (this.allowFacebookPlugin) {
+                    this.showLoginIsInProgress = true;
+                    FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
+                }
+                else
+                    this.loadFacebookPluginInfo();
             });
 
         eventBus.$on('load-google-plugin',
