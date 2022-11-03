@@ -7,7 +7,11 @@
         </template>
         <template v-slot:body>
             
-            <div v-if="(showGooglePluginInfo && !allowGooglePlugin) || (showFacebookPluginInfo && !allowFacebookPlugin)" class="row">  
+            <div v-if="showLoginIsInProgress">
+                Die Anmeldung bzw Registrierung wird in einem neuem Fenster fortgesetzt.
+            </div>
+
+            <div v-else-if="(showGooglePluginInfo && !allowGooglePlugin) || (showFacebookPluginInfo && !allowFacebookPlugin)" class="row">  
                 <div v-if="showGooglePluginInfo && !allowGooglePlugin" class="col-xs-12">
                     <p>
                         Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum">Datenschutzerklärung</a> .
@@ -25,7 +29,7 @@
                 <div class="form-group omb_login row">
                 <div class="col-sm-12 omb_socialButtons">
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                        <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin" v-if="allowGooglePlugin">
+                        <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin" v-if="allowGooglePlugin" @click="GoogleLogin()">
                             <img src="/Images/SocialMediaIcons/Google__G__Logo.svg" alt="socialMediaBtnContainer" class="socialMediaLogo">
                             <div class="socialMediaLabel">weiter mit Google</div>
                         </a>
@@ -104,7 +108,14 @@
 
         </template>
         <template v-slot:footer-text>
-            <div class="footerText" v-if="!showGooglePluginInfo && !showFacebookPluginInfo">
+            <div class="row" v-if="showLoginIsInProgress">
+                <p>
+                    <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px" @click="showLoginIsInProgress = false">
+                        Zurück
+                    </button>
+                </p>
+            </div>
+            <div class="footerText" v-else-if="!showGooglePluginInfo && !showFacebookPluginInfo">
                 <p>
                     <strong style="font-weight: 700;">Noch kein Benutzer?</strong> <br/>
                     <a href="/Registrieren">Jetzt Registrieren!</a>
@@ -112,7 +123,7 @@
             </div>
             <div class="row" v-else-if="showGooglePluginInfo">
                 <p>
-                    <button type="button" class="btn btn-primary pull-right memo-button" @click="$emit('load-google-plugin')">
+                    <button type="button" class="btn btn-primary pull-right memo-button" @click="loadGooglePlugin()">
                         Einverstanden
                     </button>
                     <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px" @click="showGooglePluginInfo = false">
@@ -123,7 +134,7 @@
             
             <div class="row" v-else-if="showFacebookPluginInfo">
                 <p>
-                    <button type="button" class="btn btn-primary pull-right memo-button" @click="$emit('load-facebook-plugin')">
+                    <button type="button" class="btn btn-primary pull-right memo-button" @click="loadFacebookPlugin()">
                         Einverstanden
                     </button>
                     <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px" @click="showFacebookPluginInfo = false">

@@ -18,6 +18,7 @@ var loginModal = Vue.component('login-modal-component',
                 showGooglePluginInfo: false,
                 showFacebookPluginInfo: false,
                 button1Text: 'Anmelden',
+                showLoginIsInProgress: false,
             }
         },
         beforeCreate() {
@@ -29,13 +30,7 @@ var loginModal = Vue.component('login-modal-component',
                 () => {
                     var self = this;
                     self.SubmitForm();
-                }); 
-            if (this.allowGooglePlugin) {
-                setTimeout(() => {
-                        Google.AttachClickHandler('GoogleLogin');
-                    },
-                    500);
-            }
+                });
         },
 
         watch: {
@@ -48,26 +43,37 @@ var loginModal = Vue.component('login-modal-component',
                     this.showFacebookPlugin = false;
             },
             showGooglePluginInfo(val) {
-                if (val)
+                if (val || this.showLoginIsInProgress || this.showFacebookPluginInfo)
                     this.button1Text = null;
                 else
                     this.button1Text = 'Anmelden';
             },
             showFacebookPluginInfo(val) {
-                if (val)
+                if (val || this.showLoginIsInProgress || this.showGooglePluginInfo)
                     this.button1Text = null;
                 else
                     this.button1Text = 'Anmelden';
             },
+            showLoginIsInProgress(val) {
+                if (val || this.showFacebookPluginInfo || this.showGooglePluginInfo)
+                    this.button1Text = null;
+                else
+                    this.button1Text = 'Anmelden';
+            }
         },
 
         methods: {
+            loadGooglePlugin() {
+                this.showLoginIsInProgress = true;
+                this.$emit('load-google-plugin');
+            },
             loadFacebookPlugin() {
-                this.allowFacebookPlugin = true;
-                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
+                this.showLoginIsInProgress = true;
+                this.$emit('load-facebook-plugin');
             },
 
             FacebookLogin() {
+                this.showLoginIsInProgress = true;
                 FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);
             },
 
@@ -100,6 +106,10 @@ var loginModal = Vue.component('login-modal-component',
                         else
                             Site.LoadValidPage(result.localHref);
                     });
+            },
+            GoogleLogin() {
+                this.showLoginIsInProgress = true;
+                Google.SignIn();
             }
         }
     });
@@ -116,6 +126,7 @@ var loginApp = new Vue({
             allowFacebookPlugin: false,
             showGooglePluginInfo: false,
             showFacebookPluginInfo: false,
+            showLoginIsInprogress: false,
         }
     },
 
@@ -152,13 +163,6 @@ var loginApp = new Vue({
             this.loadFacebookPlugin(false);
     },
     mounted() {
-
-        $("#FacebookLogin").click(() => {
-            this.FacebookLogin();
-        });
-        $("#FacebookRegister").click(() => {
-            this.FacebookLogin();
-        });
         eventBus.$on('show-login-modal',
             () => {
                 this.loaded = true;
@@ -187,6 +191,18 @@ var loginApp = new Vue({
             () => {
                 this.loadFacebookPlugin();
             });
+
+        eventBus.$on('google-login',
+            () => {
+                this.showLoginIsInProgress = true;
+                Google.SignIn();
+            });
+
+        eventBus.$on('facebook-login',
+            () => {
+                this.showLoginIsInProgress = true;
+                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
+            });
     },
 
     methods: {
@@ -196,34 +212,21 @@ var loginApp = new Vue({
             var gapiScript = document.createElement('script');
             gapiScript.src = 'https://apis.google.com/js/api:client.js';
             gapiScript.onload = () => {
-                setTimeout(() => {
-                        var jsapi = document.createElement('script');
-                        jsapi.onload = () => {
-                            var g = new Google();
+                var jsapi = document.createElement('script');
+                jsapi.onload = () => {
+                    var g = new Google();
 
-                            setTimeout(() => {
-                                    Google.AttachClickHandler('GoogleRegister');
-                                    Google.AttachClickHandler('GoogleLogin');
-
-                                    if (login)
-                                        setTimeout(() => {
-                                            var clickEvent = new MouseEvent("click");
-                                            var element = isRegister ? document.getElementById("GoogleRegister") : document.getElementById("GoogleLogin");
-                                            element.dispatchEvent(clickEvent);
-                                        }, 500);
-                                },
-                                500);
-                        };
-                        jsapi.src = 'https://www.google.com/jsapi';
-                        document.head.appendChild(jsapi);
-                    }, 
-                    500);
+                    setTimeout(() => {
+                        if (login) {
+                            this.showLoginIsInProgress = true;
+                            Google.SignIn();
+                        }
+                    }, 500);
+                };
+                jsapi.src = 'https://www.google.com/jsapi';
+                document.head.appendChild(jsapi);
             }
             document.head.appendChild(gapiScript);
-        },
-
-        FacebookLogin() {
-            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
         },
 
         loadFacebookPlugin(login = true) {
@@ -244,10 +247,12 @@ var loginApp = new Vue({
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
-            if (login)
+            if (login) {
+                this.showLoginIsInProgress = true;
                 setTimeout(() => {
                     FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false);
                 }, 500);
+            }
         },
 
         loadGooglePluginInfo() {

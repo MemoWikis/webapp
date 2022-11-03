@@ -28,6 +28,10 @@
         });
     }
 
+    public static SignIn() {
+        Google._auth2.signIn();
+    }
+
    private static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
 
         var googleId = googleUser.getBasicProfile().getId();
