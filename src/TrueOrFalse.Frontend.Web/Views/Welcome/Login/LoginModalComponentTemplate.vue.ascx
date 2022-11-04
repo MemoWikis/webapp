@@ -8,7 +8,7 @@
         <template v-slot:body>
             
             <div v-if="showLoginIsInProgress">
-                Die Anmeldung / Registrierung wird in einem neuem Fenster fortgesetzt.
+                Die Anmeldung / Registrierung wird in einem neuen Fenster fortgesetzt.
             </div>
 
             <div v-else-if="(showGooglePluginInfo && !allowGooglePlugin) || (showFacebookPluginInfo && !allowFacebookPlugin)" class="row">  
