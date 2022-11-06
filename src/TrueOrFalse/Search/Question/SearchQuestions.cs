@@ -135,7 +135,7 @@ namespace TrueOrFalse.Search
 
             var result = new SearchQuestionsResult();
             result.QueryTime = queryResult.Header.QTime;
-            result.Count = queryResult.NumFound;
+            result.Count = (int)queryResult.NumFound;
             result.SpellChecking = queryResult.SpellChecking;
             result.Pager = pager;
             
