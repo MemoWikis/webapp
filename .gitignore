@@ -38,4 +38,5 @@ docs/Mockups/Fragensätze/Wissen.Fragen.3 Fragensätze.bmml
 /src/TrueOrFalse.Frontend.Web.Vue/trueorfalse.frontend.web.vue3/rendered.html
 !webpack.config.js
 !**/npm/tiptap-build/*.js
+solrdata/
 src/NDependOut/
