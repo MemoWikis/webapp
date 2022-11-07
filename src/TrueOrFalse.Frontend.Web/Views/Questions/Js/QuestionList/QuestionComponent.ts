@@ -9,7 +9,7 @@
         'hasPersonalAnswer',
         'isAdmin',
         'selectedPage',
-        'expandQuestion',
+        'expandQuestions',
         'questionIndex',
         'activeQuestionId',
         'selectedPageFromActiveQuestion',
@@ -89,7 +89,7 @@
         questionTitle(title) {
             this.questionTitleHtml = "<div class='body-m bold margin-bottom-0'>" + title + "</div>";
         },
-        expandQuestion(val) {
+        expandQuestions(val) {
             if (val != this.showFullQuestion)
                 this.expandQuestion();
         },

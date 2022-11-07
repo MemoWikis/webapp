@@ -40,7 +40,7 @@
                                 </div><span>Frage hinzufügen</span>
                             </a>
                         </li>
-                        <li v-if="expandQuestion" @click="expandAllQuestions()" style="cursor: pointer">
+                        <li v-if="expandQuestions" @click="expandAllQuestions()" style="cursor: pointer">
                             <a>
                                 <div class="dropdown-icon">
                                     <i class="fa fa-angle-double-up"></i>
