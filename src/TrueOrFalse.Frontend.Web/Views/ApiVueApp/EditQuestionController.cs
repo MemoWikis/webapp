@@ -15,12 +15,11 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class EditQuestionController : BaseController
+public class VueEditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
-    private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
-    public EditQuestionController(QuestionRepo questionRepo)
+    public VueEditQuestionController(QuestionRepo questionRepo)
     {
         _questionRepo = questionRepo;
     }
@@ -289,19 +288,6 @@ public class EditQuestionController : BaseController
                 NewQuestionId = newQuestionId
             }
         };
-    }
-
-    public ActionResult SolutionEditBody(int? questionId, SolutionType type)
-    {
-        object model = null;
-
-        if (questionId.HasValue && questionId.Value > 0)
-        {
-            var question = _questionRepo.GetById(questionId.Value);
-            model = GetQuestionSolution.Run(question.Id);
-        }
-
-        return View(string.Format(_viewLocationBody, type), model);
     }
 
     public ActionResult ReferencePartial(int catId)
