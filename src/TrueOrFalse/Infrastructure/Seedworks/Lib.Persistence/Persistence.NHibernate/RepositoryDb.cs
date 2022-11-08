@@ -103,7 +103,10 @@ namespace Seedworks.Lib.Persistence
                 criteria.SetFirstResult(pager.FirstResult);
             }
         }
-
+        /// <summary>
+        /// Add Object in  Database, set Dates Date(Created, Modified) and deleted Cache
+        /// </summary>
+        /// <param name="domainObject"></param>
         public virtual void Create(TDomainObject domainObject)
         {
             if (domainObject is WithDateCreated)
