@@ -307,7 +307,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                                 <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.Name }}
                                 </div>
                                 <div class="searchResultQuestionCount body-s">{{
-                                editTopicRelationStore.personalWiki.QuestionCount }}
+                                        editTopicRelationStore.personalWiki.QuestionCount
+                                }}
                                     Frage<template
                                         v-if="editTopicRelationStore.personalWiki.QuestionCount != 1">n</template></div>
                             </div>
@@ -443,23 +444,23 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         </template>
         <template v-slot:footer>
             <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewTopicBtn"
-                class="btn btn-primary memo-button" @click="addTopic" :class="{'disabled' : disableAddButton}">Thema
+                class="btn btn-primary memo-button" @click="addTopic" :class="{ 'disabled': disableAddButton }">Thema
                 erstellen
             </div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveTopicToNewParentBtn"
                 class="btn btn-primary memo-button" @click="moveTopicToNewParent"
-                :class="{'disabled' : disableAddButton}">
+                :class="{ 'disabled': disableAddButton }">
                 Thema verschieben</div>
             <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
                 class="btn btn-primary memo-button" @click="addExistingTopic" :class="{'disabled' : disableAddButton}">Thema
                 verknüpfen</div> -->
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" id="AddNewParentBtn"
                 class="btn btn-primary memo-button" @click="addNewParentToTopic"
-                :class="{'disabled' : disableAddButton}">Thema
+                :class="{ 'disabled': disableAddButton }">Thema
                 verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
                 class="btn btn-primary memo-button" @click="addNewParentToTopic"
-                :class="{'disabled' : disableAddButton}">Thema
+                :class="{ 'disabled': disableAddButton }">Thema
                 verknüpfen</div>
             <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>

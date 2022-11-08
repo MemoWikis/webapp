@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import { Google } from './Google'
 
-const gapiLoaded = ref(false)
-onMounted(async () => {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://apis.google.com/js/platform.js";
-    document.body.appendChild(script);
-})
-onUpdated(async () => {
-    if (!gapiLoaded.value) {
+function loadGooglePlugin(loadLogin = false) {
+    console.log(window.gapi)
+    const gapiScript = document.createElement('script')
+    gapiScript.src = 'https://apis.google.com/js/api:client.js'
+    gapiScript.onload = () => {
+        const jsApi = document.createElement('script')
+        jsApi.onload = () => {
+            var g = new Google()
 
-        new Google()
-        await nextTick()
-        await nextTick()
-        Google.AttachClickHandler('GoogleLogin')
-        gapiLoaded.value = true
+            setTimeout(() => {
+                if (loadLogin)
+                    login()
+            }, 500)
+        }
+        jsApi.src = 'https://www.google.com/jsapi'
+        document.head.appendChild(jsApi)
     }
+    document.head.appendChild(gapiScript)
+}
 
-})
+function login() {
+    Google.SignIn()
+    console.log(window.gapi)
+}
+
 </script>
 
 <template>
