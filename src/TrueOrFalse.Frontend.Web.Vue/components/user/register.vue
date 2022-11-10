@@ -183,7 +183,7 @@ async function register() {
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                         <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister"
                             @click="facebookRegister()">
-                            <img src="~/assets/images/SocialMediaIcons/Facebook__F__Logo.svgg" alt="FacebookLogin"
+                            <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
                                 class="socialMediaLogo">
                             <div class="socialMediaLabel">weiter mit Facebook</div>
                         </div>
