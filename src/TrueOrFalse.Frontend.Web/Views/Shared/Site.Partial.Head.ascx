@@ -123,3 +123,5 @@
     <script src="https://www.google.com/jsapi" type="text/javascript"></script>
 
 <% } %>
+
+<div id="tiptapLoader"></div>

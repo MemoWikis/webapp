@@ -198,7 +198,7 @@ class Utils
                     url: '/EditCategory/GetTiptap/',
                     cache: true,
                     success(html) {
-                        $(html).insertBefore('script#GoogleJSApi');
+                        $(html).insertBefore('div#tiptapLoader');
                     },
                 });
             }
