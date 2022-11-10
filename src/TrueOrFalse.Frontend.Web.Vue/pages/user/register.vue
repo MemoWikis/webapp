@@ -1,162 +1,162 @@
-<!-- <script lang="ts" setup>
-import { Google } from '~~/components/user/Google'
-import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
-import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
-import { useUserStore } from '~~/components/user/userStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+<script lang="ts" setup>
+// import { Google } from '~~/components/user/Google'
+// import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
+// import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
+// import { useUserStore } from '~~/components/user/userStore'
+// import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 
-const alertStore = useAlertStore()
-const userStore = useUserStore()
-const spinnerStore = useSpinnerStore()
+// const alertStore = useAlertStore()
+// const userStore = useUserStore()
+// const spinnerStore = useSpinnerStore()
 
-const awaitingConsent = ref(null)
+// const awaitingConsent = ref(null)
 
-const allowGooglePlugin = ref(false)
+// const allowGooglePlugin = ref(false)
 
-function googleRegister() {
-    if (allowGooglePlugin.value)
-        FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
-    else {
-        awaitingConsent.value = 'google'
-        alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.googleLogin }, 'Einverstanden', true, 'Registrierung mit Google')
-    }
-}
+// function googleRegister() {
+//     if (allowGooglePlugin.value)
+//         FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
+//     else {
+//         awaitingConsent.value = 'google'
+//         alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.googleLogin }, 'Einverstanden', true, 'Registrierung mit Google')
+//     }
+// }
 
-function loadGooglePlugin(toRegister = false) {
-    allowGooglePlugin.value = true
-    awaitingConsent.value = null
+// function loadGooglePlugin(toRegister = false) {
+//     allowGooglePlugin.value = true
+//     awaitingConsent.value = null
 
-    const gapiClientElement = document.getElementById('gapiClient')
+//     const gapiClientElement = document.getElementById('gapiClient')
 
-    if (gapiClientElement == null) {
-        const gapiScript = document.createElement('script')
-        gapiScript.setAttribute('id', 'gapiClient')
-        gapiScript.src = 'https://apis.google.com/js/api:client.js'
-        gapiScript.onload = () => {
-            loadGapiLoader(toRegister)
-        }
-        document.head.appendChild(gapiScript)
-    } else if (toRegister)
-        loadGapiLoader(toRegister)
-}
+//     if (gapiClientElement == null) {
+//         const gapiScript = document.createElement('script')
+//         gapiScript.setAttribute('id', 'gapiClient')
+//         gapiScript.src = 'https://apis.google.com/js/api:client.js'
+//         gapiScript.onload = () => {
+//             loadGapiLoader(toRegister)
+//         }
+//         document.head.appendChild(gapiScript)
+//     } else if (toRegister)
+//         loadGapiLoader(toRegister)
+// }
 
-function loadGapiLoader(toRegister) {
-    const gapiLoaderElement = document.getElementById('gapiLoader')
+// function loadGapiLoader(toRegister) {
+//     const gapiLoaderElement = document.getElementById('gapiLoader')
 
-    if (gapiLoaderElement == null) {
-        const jsApi = document.createElement('script')
-        jsApi.setAttribute('id', 'gapiLoader')
-        jsApi.onload = () => {
-            var g = new Google()
+//     if (gapiLoaderElement == null) {
+//         const jsApi = document.createElement('script')
+//         jsApi.setAttribute('id', 'gapiLoader')
+//         jsApi.onload = () => {
+//             var g = new Google()
 
-            setTimeout(() => {
-                if (toRegister)
-                    Google.SignIn()
-            }, 500)
-        }
-        jsApi.src = 'https://www.google.com/jsapi'
-        document.head.appendChild(jsApi)
-    } else if (toRegister)
-        Google.SignIn()
-}
+//             setTimeout(() => {
+//                 if (toRegister)
+//                     Google.SignIn()
+//             }, 500)
+//         }
+//         jsApi.src = 'https://www.google.com/jsapi'
+//         document.head.appendChild(jsApi)
+//     } else if (toRegister)
+//         Google.SignIn()
+// }
 
-const allowFacebookPlugin = ref(false)
-function facebookRegister() {
-    if (allowFacebookPlugin.value)
-        FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
-    else {
-        awaitingConsent.value = 'facebook'
-        alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.facebookLogin }, 'Einverstanden', true, 'Registrierung mit Facebook')
-    }
-}
+// const allowFacebookPlugin = ref(false)
+// function facebookRegister() {
+//     if (allowFacebookPlugin.value)
+//         FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
+//     else {
+//         awaitingConsent.value = 'facebook'
+//         alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.facebookLogin }, 'Einverstanden', true, 'Registrierung mit Facebook')
+//     }
+// }
 
-function loadFacebookPlugin(toRegister = false) {
-    allowFacebookPlugin.value = true
-    awaitingConsent.value = null
+// function loadFacebookPlugin(toRegister = false) {
+//     allowFacebookPlugin.value = true
+//     awaitingConsent.value = null
 
-    const fbScriptElement = document.getElementById('facebook-jssdk')
-    if (fbScriptElement == null) {
+//     const fbScriptElement = document.getElementById('facebook-jssdk')
+//     if (fbScriptElement == null) {
 
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '1789061994647406',
-                xfbml: true,
-                version: 'v2.8'
-            })
-        };
+//         window.fbAsyncInit = function () {
+//             FB.init({
+//                 appId: '1789061994647406',
+//                 xfbml: true,
+//                 version: 'v2.8'
+//             })
+//         };
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0]
-            if (d.getElementById(id)) { return }
-            js = d.createElement(s)
-            js.id = id
-            js.src = "//connect.facebook.net/de_DE/sdk.js"
-            fjs.parentNode.insertBefore(js, fjs)
-        }(document, 'script', 'facebook-jssdk'))
+//         (function (d, s, id) {
+//             var js, fjs = d.getElementsByTagName(s)[0]
+//             if (d.getElementById(id)) { return }
+//             js = d.createElement(s)
+//             js.id = id
+//             js.src = "//connect.facebook.net/de_DE/sdk.js"
+//             fjs.parentNode.insertBefore(js, fjs)
+//         }(document, 'script', 'facebook-jssdk'))
 
-        if (toRegister) {
-            setTimeout(() => {
-                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
-            }, 500);
-        }
-    }
-}
+//         if (toRegister) {
+//             setTimeout(() => {
+//                 FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
+//             }, 500);
+//         }
+//     }
+// }
 
-alertStore.$onAction(({ name, after }) => {
-    if (name == 'closeAlert')
-        after(() => {
-            handleAlertClosing()
-        })
-})
+// alertStore.$onAction(({ name, after }) => {
+//     if (name == 'closeAlert')
+//         after(() => {
+//             handleAlertClosing()
+//         })
+// })
 
-function handleAlertClosing() {
-    if (!alertStore.cancelled) {
-        if (awaitingConsent.value == 'google')
-            loadGooglePlugin()
-        else if (awaitingConsent.value == 'facebook')
-            loadFacebookPlugin()
-    }
-}
+// function handleAlertClosing() {
+//     if (!alertStore.cancelled) {
+//         if (awaitingConsent.value == 'google')
+//             loadGooglePlugin()
+//         else if (awaitingConsent.value == 'facebook')
+//             loadFacebookPlugin()
+//     }
+// }
 
-onBeforeMount(() => {
-    history.pushState(null, 'Registrieren', `/Registrieren`)
+// onBeforeMount(() => {
+//     history.pushState(null, 'Registrieren', `/Registrieren`)
 
-    var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
-    if (googleCookie == "true")
-        loadGooglePlugin()
+//     var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
+//     if (googleCookie == "true")
+//         loadGooglePlugin()
 
-    var facebookCookie = document.cookie.match('(^|;)\\s*' + "allowFacebookPlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
-    if (facebookCookie == "true")
-        loadFacebookPlugin()
-})
-const errorMessage = ref('')
-const userName = ref('')
-const eMail = ref('')
-const password = ref('')
-const passwordInputType = ref('password')
+//     var facebookCookie = document.cookie.match('(^|;)\\s*' + "allowFacebookPlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
+//     if (facebookCookie == "true")
+//         loadFacebookPlugin()
+// })
+// const errorMessage = ref('')
+// const userName = ref('')
+// const eMail = ref('')
+// const password = ref('')
+// const passwordInputType = ref('password')
 
-async function register() {
-    spinnerStore.showSpinner()
+// async function register() {
+//     spinnerStore.showSpinner()
 
-    let registerData = {
-        Name: userName.value,
-        Email: eMail.value,
-        Password: password.value
-    }
-    let result = await userStore.register(registerData)
+//     let registerData = {
+//         Name: userName.value,
+//         Email: eMail.value,
+//         Password: password.value
+//     }
+//     let result = await userStore.register(registerData)
 
-    spinnerStore.hideSpinner()
+//     spinnerStore.hideSpinner()
 
-    if (result == 'success')
-        navigateTo(`/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`)
-    else
-        errorMessage.value = messages.error.user[result]
-} -->
+//     if (result == 'success')
+//         navigateTo(`/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`)
+//     else
+//         errorMessage.value = messages.error.user[result]
+// }
 
 </script>
 
 <template>
-    {/* <div class="row login-register">
+    <!-- <div class="row login-register">
         <div class="form-horizontal col-md-12">
             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                 <h1 class="col-sm-offset-2 col-sm-8 register-title">
@@ -278,7 +278,7 @@ async function register() {
 
             </fieldset>
         </div>
-    </div> */}
+    </div> -->
 
 </template>
 
