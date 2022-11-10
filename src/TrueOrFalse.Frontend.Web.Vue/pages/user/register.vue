@@ -1,8 +1,8 @@
-<script lang="ts" setup>
+<!-- <script lang="ts" setup>
 import { Google } from '~~/components/user/Google'
 import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
-import { useUserStore, UserLoginResult } from '~~/components/user/userStore'
+import { useUserStore } from '~~/components/user/userStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 
 const alertStore = useAlertStore()
@@ -151,12 +151,12 @@ async function register() {
         navigateTo(`/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`)
     else
         errorMessage.value = messages.error.user[result]
-}
+} -->
 
 </script>
 
 <template>
-    <div class="row login-register">
+    {/* <div class="row login-register">
         <div class="form-horizontal col-md-12">
             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                 <h1 class="col-sm-offset-2 col-sm-8 register-title">
@@ -278,7 +278,7 @@ async function register() {
 
             </fieldset>
         </div>
-    </div>
+    </div> */}
 
 </template>
 
