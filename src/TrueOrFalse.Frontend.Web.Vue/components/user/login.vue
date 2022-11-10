@@ -97,8 +97,8 @@ onMounted(() => {
                     <div v-if="showGooglePluginInfo && !allowGooglePlugin" class="col-xs-12">
                         <p>
                             Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht
-                            nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a
-                                href="/Impressum">Datenschutzerklärung</a> .
+                            nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer
+                            <NuxtLink href="/Impressum">Datenschutzerklärung</NuxtLink> .
                         </p>
                     </div>
 
@@ -106,7 +106,7 @@ onMounted(() => {
                         <p>
                             Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies
                             geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in
-                            unserer <a href="/Impressum">Datenschutzerklärung</a>.
+                            unserer <NuxtLink href="/Impressum">Datenschutzerklärung</NuxtLink>.
                         </p>
                     </div>
                 </div>
