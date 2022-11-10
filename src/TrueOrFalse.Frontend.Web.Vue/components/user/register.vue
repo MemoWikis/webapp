@@ -114,9 +114,9 @@ onMounted(() => {
 function handleAlertClosing() {
     if (!alertStore.cancelled) {
         if (awaitingConsent.value == 'google')
-            loadGooglePlugin()
+            loadGooglePlugin(true)
         else if (awaitingConsent.value == 'facebook')
-            loadFacebookPlugin()
+            loadFacebookPlugin(true)
     }
 }
 
