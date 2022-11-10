@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { nullLiteral } from '@babel/types';
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
 
@@ -20,49 +19,61 @@ async function login() {
 }
 const passwordInputType = ref('password')
 
-const facebookLoginMounted = ref(false)
-const facebookLoginComponent = ref(null)
+const googleLoginComponent = ref()
 
-function facebookLogin() {
-    if (facebookLoginMounted.value)
-        facebookLoginComponent.value.login()
-    else
-        facebookLoginMounted.value = true
-}
-
-const googleLoginMounted = ref(false)
-const googleLoginComponent = ref(null)
 function googleLogin() {
-    if (googleLoginMounted.value)
-        googleLoginComponent.value.login()
-    else {
-        googleLoginMounted.value = true
-        showLoginIsInProgress.value = true
-        googleLoginComponent.value.loadGooglePlugin(true)
-    }
+    showLoginIsInProgress.value = true
+    googleLoginComponent.value.login()
 }
 const errorMessage = ref('')
 const showLoginIsInProgress = ref(false)
+
 const showGooglePluginInfo = ref(false)
 const allowGooglePlugin = ref(false)
+
+function loadGooglePlugin(login = false) {
+    document.cookie = "allowGooglePlugin=true";
+    allowGooglePlugin.value = true
+    showLoginIsInProgress.value = true
+    googleLoginComponent.value.loadPlugin(login)
+}
+
+const facebookLoginComponent = ref()
+
+function facebookLogin() {
+    showLoginIsInProgress.value = true
+    facebookLoginComponent.value.login()
+}
 
 const showFacebookPluginInfo = ref(false)
 const allowFacebookPlugin = ref(false)
 
-function loadGooglePlugin() {
-    showLoginIsInProgress.value = true
-    allowGooglePlugin.value = true
-}
-
-function loadFacebookPlugin() {
-    showLoginIsInProgress.value = true
+function loadFacebookPlugin(login = false) {
+    document.cookie = "allowFacebookPlugin=true";
     allowFacebookPlugin.value = true
+    showLoginIsInProgress.value = true
+    facebookLoginComponent.value.loadPlugin(login)
 }
 const button1Text = ref('Anmelden')
+
 watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([inProgress, googleInfo, fbInfo]) => {
     if (inProgress || googleInfo || fbInfo)
         button1Text.value = null
     else button1Text.value = 'Anmelden'
+})
+
+watch(() => userStore.showLoginModal, () => {
+    showLoginIsInProgress.value = false
+})
+
+onMounted(() => {
+    var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
+    if (googleCookie == "true")
+        loadGooglePlugin()
+
+    var facebookCookie = document.cookie.match('(^|;)\\s*' + "allowFacebookPlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
+    if (facebookCookie == "true")
+        loadFacebookPlugin()
 })
 </script>
 
@@ -105,32 +116,32 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([i
                             <div class="col-sm-12 omb_socialButtons">
 
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                                    <a class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin"
+                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleLogin"
                                         v-if="allowGooglePlugin" @click="googleLogin()">
                                         <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
                                             alt="socialMediaBtnContainer" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Google</div>
-                                    </a>
-                                    <a class="btn btn-block cursor-hand socialMediaBtn" v-else
+                                    </div>
+                                    <div class="btn btn-block cursor-hand socialMediaBtn" v-else
                                         @click="showGooglePluginInfo = true">
                                         <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
                                             alt="socialMediaBtnContainer" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Google</div>
-                                    </a>
+                                    </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                                    <a class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
+                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
                                         v-if="allowFacebookPlugin" @click="facebookLogin()">
                                         <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
                                             alt="FacebookLogin" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
-                                    </a>
-                                    <a class="btn btn-block cursor-hand socialMediaBtn" v-else
+                                    </div>
+                                    <div class="btn btn-block cursor-hand socialMediaBtn" v-else
                                         @click="showFacebookPluginInfo = true">
                                         <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
                                             alt="FacebookLogin" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -138,8 +149,8 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([i
 
                     </div>
 
-                    <p class="consentInfoText">Durch die Registrierung mit Google oder Facebook erklärst du dich mit
-                        unseren
+                    <p class="consentInfoText">
+                        Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
                         <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum">
                             Datenschutzerklärung</NuxtLink>
                         einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr
@@ -222,7 +233,7 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([i
                 <div class="row" v-else-if="showGooglePluginInfo">
                     <p>
                         <button type="button" class="btn btn-primary pull-right memo-button"
-                            @click="loadGooglePlugin()">
+                            @click="loadGooglePlugin(true)">
                             Einverstanden
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"
@@ -247,12 +258,8 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([i
             </template>
         </LazyModal>
     </div>
-    <LazyClientOnly>
-        <LazyUserFacebookLogin v-if="facebookLoginMounted" ref="facebookLoginComponent" />
-        <LazyUserGoogleLogin v-if="googleLoginMounted" ref="googleLoginComponent" />
-    </LazyClientOnly>
-
-
+    <UserFacebookLogin ref="facebookLoginComponent" />
+    <UserGoogleLogin ref="googleLoginComponent" />
 
 </template>
 

@@ -264,6 +264,7 @@
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\ApiVueApp\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\BreadcrumbController.cs" />
+    <Compile Include="Views\ApiVueApp\RegisterController.cs" />
     <Compile Include="Views\ApiVueApp\SegmentationController.cs" />
     <Compile Include="Views\ApiVueApp\AuthorController.cs" />
     <Compile Include="Views\ApiVueApp\SessionUserController.cs" />

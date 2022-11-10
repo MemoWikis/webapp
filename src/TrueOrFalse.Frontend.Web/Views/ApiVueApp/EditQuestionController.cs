@@ -296,16 +296,6 @@ public class VueEditQuestionController : BaseController
         return View("Reference", category);
     }
 
-    private void UpdateSound(HttpPostedFileBase soundfile, int questionId)
-    {
-        if (soundfile == null) return;
-
-        if (!PermissionCheck.CanEdit(_questionRepo.GetById(questionId)))
-            throw new SecurityException("Not allowed to edit question");
-
-        new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));
-    }
-
     public void PublishQuestions(List<int> questionIds)
     {
         foreach (var questionId in questionIds)
