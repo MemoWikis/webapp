@@ -1,16 +1,5 @@
 ﻿@import (reference) '~~/assets/includes/imports.less';
 
-.omb_login .omb_socialButtons a {
-    color: @memo-grey-darker;
-    border: 1px solid @memo-grey-light;
-    font-weight: 600;
-}
-
-.omb_login .omb_socialButtons a:hover {
-    color: black;
-    border: 1px solid black;
-}
-
 .socialMediaLogo {
     height: 20px;
 }
@@ -26,6 +15,14 @@
 
     .socialMediaBtn {
         display: flex;
+        color: @memo-grey-darker;
+        border: 1px solid @memo-grey-light;
+        font-weight: 600;
+
+        &:hover {
+            color: black;
+            border: 1px solid black;
+        }
 
         .socialMediaLogo {
             padding: 0 0px 0 16px;

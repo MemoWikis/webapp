@@ -55,7 +55,6 @@ let questionListApp = new Vue({
         eventBus.$on('closeModal', () => {
             this.hideCommentModal();
         });
-
     },
 
     mounted() {

@@ -48,8 +48,6 @@ onMounted(async () => {
     }
 })
 
-
-
 </script>
 
 <template>

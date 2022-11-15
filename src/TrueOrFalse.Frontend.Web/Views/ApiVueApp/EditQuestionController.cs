@@ -15,12 +15,11 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class EditQuestionController : BaseController
+public class VueEditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
-    private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
-    public EditQuestionController(QuestionRepo questionRepo)
+    public VueEditQuestionController(QuestionRepo questionRepo)
     {
         _questionRepo = questionRepo;
     }
@@ -291,33 +290,10 @@ public class EditQuestionController : BaseController
         };
     }
 
-    public ActionResult SolutionEditBody(int? questionId, SolutionType type)
-    {
-        object model = null;
-
-        if (questionId.HasValue && questionId.Value > 0)
-        {
-            var question = _questionRepo.GetById(questionId.Value);
-            model = GetQuestionSolution.Run(question.Id);
-        }
-
-        return View(string.Format(_viewLocationBody, type), model);
-    }
-
     public ActionResult ReferencePartial(int catId)
     {
         var category = R<CategoryRepository>().GetById(catId);
         return View("Reference", category);
-    }
-
-    private void UpdateSound(HttpPostedFileBase soundfile, int questionId)
-    {
-        if (soundfile == null) return;
-
-        if (!PermissionCheck.CanEdit(_questionRepo.GetById(questionId)))
-            throw new SecurityException("Not allowed to edit question");
-
-        new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));
     }
 
     public void PublishQuestions(List<int> questionIds)

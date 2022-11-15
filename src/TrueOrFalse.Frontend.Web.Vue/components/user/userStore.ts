@@ -4,7 +4,7 @@ import { useSpinnerStore } from '../spinner/spinnerStore'
 import { Topic } from '../topic/topicStore'
 const isLoggedIn = (e) => useState<boolean>('isLoggedIn', e)
 
-type UserLoginResult = {
+export type UserLoginResult = {
   Success: boolean
   Message: string
   Id: number
@@ -49,9 +49,37 @@ export const useUserStore = defineStore('userStore', {
 
         this.showLoginModal = false
 
+        // setTimeout(async () => {
+        //   if (result.PersonalWikiId ? result.PersonalWikiId : 0)
+        //     this.personalWiki = await $fetch<Topic>(`/api/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
+        // }, 500)
+
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
-          this.personalWiki = await $fetch<Topic>(`/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
+          this.personalWiki = await $fetch<Topic>(`/api/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
       }
+    },
+
+    async register(registerData) {
+      var result = await $fetch<UserLoginResult>('/api/VueRegister/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
+
+      if (!!result && result.Success) {
+        this.isLoggedIn = true
+        this.id = result.Id
+        this.wikiId = result.WikiId
+        this.isAdmin = result.IsAdmin
+        this.name = result.Name
+
+        // setTimeout(async () => {
+        //   if (result.PersonalWikiId ? result.PersonalWikiId : 0)
+        //   this.personalWiki = await $fetch<Topic>(`/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
+        // }, 500)
+
+        if (result.PersonalWikiId ? result.PersonalWikiId : 0)
+          this.personalWiki = await $fetch<Topic>(`/api/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
+
+        return 'success'
+      } else if (!!result && !result.Success)
+        return result.Message
     },
     openLoginModal() {
       this.showLoginModal = true

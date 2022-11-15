@@ -23,7 +23,7 @@ Vue.component('question-list-component', {
     props: [
         'categoryId',
         'isAdmin',
-        'expandQuestion',
+        'expandQuestions',
         'activeQuestionId',
         'selectedPageFromActiveQuestion',
         'questionCount'],

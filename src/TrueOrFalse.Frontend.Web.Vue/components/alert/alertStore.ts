@@ -19,20 +19,28 @@ export const useAlertStore = defineStore('alertStore', {
         return {
           show: false,
           type: AlertType.Default,
-          msg: null as AlertMsg
+          msg: null as AlertMsg,
+          showCancelButton: false,
+          label: 'Ok',
+          cancelled: false,
+          title: null
         }
       },
       actions: {
-        openAlert(type: AlertType, msg: AlertMsg) {
-            this.show = true,
-            this.type = type,
+        openAlert(type: AlertType, msg: AlertMsg, label: string = 'Ok', showCancelButton: boolean = false, title: string = null) {
+            this.show = true
+            this.type = type
             this.msg = msg
+            this.showCancelButton = showCancelButton
+            this.label = label
+            this.title = title
         },
-        closeAlert() {
-            this.show = false,
-            this.type = AlertType.Default,
+        closeAlert(cancel = false) {
+            this.show = false
+            this.type = AlertType.Default
             this.msg = null
-        }
+            this.cancelled = cancel
+        },
       },
       getters: {
         text(): string {

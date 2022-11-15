@@ -88,8 +88,6 @@ const editor = useEditor({
             id: 'InlineEdit',
         }
     },
-
-
 })
 
 topicStore.$onAction(({ name, after }) => {
@@ -119,4 +117,5 @@ onMounted(() => {
 </template>
 
 <style lang="less" scoped>
+
 </style>

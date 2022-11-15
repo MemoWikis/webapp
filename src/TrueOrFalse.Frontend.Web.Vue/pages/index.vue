@@ -6,7 +6,6 @@ useHead({
 })
 
 onMounted(() => {
-  console.log('log')
   useState<PageType>('page', () => PageType.Welcome)
 })
 </script>
@@ -18,4 +17,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 </style>

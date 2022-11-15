@@ -16,6 +16,6 @@ public class AuthorController : BaseController
                 Name = author.Name,
                 ReputationPos = author.ReputationPos
             });
-        else return Json(new { });
+        return Json(new { });
     }
 }
