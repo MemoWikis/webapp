@@ -8,7 +8,7 @@ export const usePinStore = defineStore('pinStore', {
     state: () => {
             return {
                 id: 0,
-            action: null as PinAction
+            action: null as unknown as PinAction
         }
       },
       actions: {

@@ -11,22 +11,29 @@ public class TopicController : BaseController
     public JsonResult GetTopic(int id)
     {
         var category = EntityCache.GetCategory(id);
-        return Json(new TopicModel
+        if (PermissionCheck.CanView(category))
+            return Json(new TopicModel
+            {
+                CanAccess = true,
+                Id = id,
+                Name = category.Name,
+                ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
+                Content = category.Content,
+                ParentTopicCount = category.ParentCategories().Count,
+                ChildTopicCount = category.AggregatedCategories().Count,
+                Views = Sl.CategoryViewRepo.GetViewCount(id),
+                Visibility = category.Visibility,
+                AuthorIds = category.AuthorIds,
+                IsWiki = category.IsStartPage(),
+                CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
+                CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
+                QuestionCount = category.CountQuestionsAggregated
+            }, JsonRequestBehavior.AllowGet);
+        else
         {
-            Id = id,
-            Name = category.Name,
-            ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
-            Content = category.Content,
-            ParentTopicCount = category.ParentCategories().Count,
-            ChildTopicCount = category.AggregatedCategories().Count,
-            Views = Sl.CategoryViewRepo.GetViewCount(id),
-            Visibility = category.Visibility,
-            AuthorIds = category.AuthorIds,
-            IsWiki = category.IsStartPage(),
-            CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
-            CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
-            QuestionCount = category.CountQuestionsAggregated
-        }, JsonRequestBehavior.AllowGet);
+            var json = Json(new TopicModel(), JsonRequestBehavior.AllowGet);
+            return json;
+        }
     }
 
     [HttpGet]
@@ -113,6 +120,7 @@ public class TopicController : BaseController
 
 public class TopicModel
 {
+    public bool CanAccess { get; set; } = false;
     public int Id { get; set; }
     public string Name { get; set; }
     public string ImgUrl { get; set; }

@@ -63,6 +63,7 @@ async function loadQuestionBody() {
     var data = await $fetch<any>('api/QuestionList/LoadQuestionBody/', {
         body: { questionId: props.question.Id },
         method: 'post',
+        credentials: 'include',
     })
 
     if (data != null) {
@@ -142,7 +143,7 @@ function deleteQuestion() {
 </script>
 
 <template>
-    <div class="singleQuestionRow" :class="[{ open: showFullQuestion}, backgroundColor]">
+    <div class="singleQuestionRow" :class="[{ open: showFullQuestion }, backgroundColor]">
         <div class="questionSectionFlex">
             <div class="questionContainer">
                 <div class="questionBodyTop">
@@ -153,7 +154,7 @@ function deleteQuestion() {
                         <div class="questionHeader row">
                             <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId"
                                 @click="expandQuestion()">
-                                <component :is="questionTitleHtml && { template:questionTitleHtml }"
+                                <component :is="questionTitleHtml && { template: questionTitleHtml }"
                                     @hook:mounted="highlightCode(questionTitleId)"></component>
                                 <div v-if="props.question.Visibility == 1" class="privateQuestionIcon">
                                     <p>
@@ -163,7 +164,7 @@ function deleteQuestion() {
                             </div>
                             <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestion()">
                                 <div class="iconContainer float-right" @click="expandQuestion()">
-                                    <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
+                                    <i class="fas fa-angle-down rotateIcon" :class="{ open: showFullQuestion }"></i>
                                 </div>
                                 <div>
                                     <pin-wuwi-component :is-in-wishknowledge="props.question.IsInWishknowledge"
@@ -180,17 +181,17 @@ function deleteQuestion() {
                         <div class="extendedQuestionContainer" v-show="showFullQuestion">
                             <div class="questionBody">
                                 <div class="RenderedMarkdown extendedQuestion" :id="extendedQuestionId">
-                                    <component :is="extendedQuestion && {template:extendedQuestion}"
+                                    <component :is="extendedQuestion && { template: extendedQuestion }"
                                         @hook:mounted="highlightCode(extendedQuestionId)"></component>
                                 </div>
                                 <div class="answer body-m" :id="answerId">
-                                    Richtige Antwort: <component :is="answer && {template:answer}"
+                                    Richtige Antwort: <component :is="answer && { template: answer }"
                                         @hook:mounted="highlightCode(answerId)"></component>
                                 </div>
                                 <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 11"
                                     :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
-                                    <component :is="extendedAnswer && {template:extendedAnswer}"
+                                    <component :is="extendedAnswer && { template: extendedAnswer }"
                                         @hook:mounted="highlightCode(extendedAnswerId)"></component>
                                 </div>
                             </div>
@@ -201,17 +202,17 @@ function deleteQuestion() {
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
                             <span class="percentageLabel"
-                                :class="backgroundColor">{{correctnessProbability}}&nbsp</span>
-                            <span class="chip" :class="backgroundColor">{{correctnessProbabilityLabel}}</span>
+                                :class="backgroundColor">{{ correctnessProbability }}&nbsp</span>
+                            <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
-                            {{answerCount}}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{correctAnswers}}&nbsprichtig&nbsp/&nbsp{{wrongAnswers}}&nbspfalsch
+                            {{ answerCount }}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{ correctAnswers }}&nbsprichtig&nbsp/&nbsp{{ wrongAnswers }}&nbspfalsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
                             <a class="commentIcon" @click.stop="showCommentModal()">
-                                <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{commentCount}}</span></i>
+                                <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{ commentCount }}</span></i>
                             </a>
                         </div>
                         <div class="Button dropdown">

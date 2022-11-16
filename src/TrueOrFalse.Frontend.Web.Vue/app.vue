@@ -1,14 +1,26 @@
 <script lang="ts" setup>
-import { useUserStore, LoginState } from './components/user/userStore';
+import { useUserStore, LoginState } from './components/user/userStore'
+
 const loginState = useState<LoginState>('loginState')
 const route = useRoute()
 const userStore = useUserStore()
 if (loginState.value != null && loginState.value != undefined)
   userStore.initUserStore(loginState.value)
+const config = useRuntimeConfig()
 
+
+// onMounted(async () => {
+//   const result = await $fetch<LoginState>(`/SessionUser/GetCurrentUser/`, {
+//     baseURL: config.apiBase,
+//     credentials: 'include',
+//     headers: useRequestHeaders(['cookie']),
+//     mode: 'no-cors'
+//   })
+//   console.log(result)
+// })
 useHead({
   link: [
-    { rel: 'icon', type: 'image/x-icon', href: 'http://localhost:5211/Images/Logo/LogoMemoWiki.svg' }
+    { rel: 'icon', type: 'image/x-icon', href: 'http://memucho.local/Images/Logo/LogoMemoWiki.svg' }
   ]
 })
 </script>
@@ -18,8 +30,10 @@ useHead({
   <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
   <HeaderMain :route="route" />
   <NuxtPage />
-  <LazyUserLogin v-if="!userStore.isLoggedIn" />
-  <LazySpinner />
-  <LazyAlert />
+  <LazyClientOnly>
+    <LazyUserLogin v-if="!userStore.isLoggedIn" />
+    <LazySpinner />
+    <LazyAlert />
+  </LazyClientOnly>
   <Footer />
 </template>

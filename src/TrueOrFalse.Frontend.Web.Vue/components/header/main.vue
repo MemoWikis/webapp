@@ -8,7 +8,7 @@ import { SearchType } from '~~/components/search/searchHelper'
 const showSearch = ref(true)
 
 function openUrl(val) {
-    location.href = val.Url
+    navigateTo(val.Url)
 }
 const props = defineProps(['route'])
 const userStore = useUserStore()
@@ -61,51 +61,49 @@ onMounted(() => {
 
                     <div class="partial">
                         <HeaderBreadcrumb :headerContainer="headerContainer" :headerExtras="headerExtras"
-                            :route="route" />
+                            :route="props.route" />
                     </div>
 
                     <div class="partial" ref="headerExtras">
-                        <template v-if="userStore.isLoggedIn">
-                            <div>
-                                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                        <div v-show="userStore.isLoggedIn">
+                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                        </div>
+                        <VDropdown :distance="6" v-show="userStore.isLoggedIn">
+                            <div class="header-btn">
+                                <Image v-if="currentUser" :src="currentUser.ImageUrl" :style="ImageStyle.Author"
+                                    class="header-author-icon" />
+                                <div class="header-user-name">
+                                    {{ userStore.name }}
+                                </div>
+                                <div class="user-dropdown-chevron">
+                                    <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                                </div>
                             </div>
-                            <VDropdown :distance="6">
-                                <div class="header-btn">
-                                    <Image :src="currentUser.ImageUrl" :style="ImageStyle.Author"
-                                        class="header-author-icon" />
-                                    <div class="header-user-name">
-                                        {{ currentUser.Name }}
+                            <template #popper>
+                                <div class="user-dropdown">
+                                    <div class="user-dropdown-info">
+                                        <div class="user-dropdown-label">Deine Lernpunkte</div>
                                     </div>
-                                    <div class="user-dropdown-chevron">
-                                        <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                                    <div class="user-dropdown-social">
+                                        <LazyNuxtLink to="/user/messages/">
+                                            <div class="user-dropdown-label">Deine Nachrichten</div>
+                                        </LazyNuxtLink>
+
+                                        <div class="user-dropdown-label">Dein Netzwerk</div>
+                                        <NuxtLink :to="`${encodeURI(userStore.name)}/${userStore.id}`"></NuxtLink>
+                                        <div class="user-dropdown-label">Deine Profilseite</div>
+                                    </div>
+                                    <div class="user-dropdown-managment">
+                                        <div class="user-dropdown-label">Konto-Einstellungen</div>
+                                        <div class="user-dropdown-label">Administrativ</div>
+                                        <div class="user-dropdown-label">Adminrechte abgeben</div>
+                                        <div class="user-dropdown-label" @click="userStore.logout()">Ausloggen</div>
                                     </div>
                                 </div>
-                                <template #popper>
-                                    <div class="user-dropdown">
-                                        <div class="user-dropdown-info">
-                                            <div class="user-dropdown-label">Deine Lernpunkte</div>
-                                        </div>
-                                        <div class="user-dropdown-social">
-                                            <NuxtLink href="#">
-                                                <div class="user-dropdown-label">Deine Nachrichten</div>
-                                            </NuxtLink>
+                            </template>
+                        </VDropdown>
 
-                                            <div class="user-dropdown-label">Dein Netzwerk</div>
-                                            <NuxtLink :href="`${encodeURI(userStore.name)}/${userStore.id}`"></NuxtLink>
-                                            <div class="user-dropdown-label">Deine Profilseite</div>
-                                        </div>
-                                        <div class="user-dropdown-managment">
-                                            <div class="user-dropdown-label">Konto-Einstellungen</div>
-                                            <div class="user-dropdown-label">Administrativ</div>
-                                            <div class="user-dropdown-label">Adminrechte abgeben</div>
-                                            <div class="user-dropdown-label" @click="userStore.logout()">Ausloggen</div>
-                                        </div>
-                                    </div>
-                                </template>
-                            </VDropdown>
-                        </template>
-
-                        <template v-else-if="showRegisterButton">
+                        <template v-if="showRegisterButton && !userStore.isLoggedIn">
                             <div class="StickySearchContainer">
                                 <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                     @click="showSearch = !showSearch">

@@ -59,7 +59,7 @@ public class VueRegisterController : BaseController
         SessionUser.User.StartTopicId = category.Id;
         UserCache.AddOrUpdate(user);
 
-        return Json(new
+            return Json(new
         {
             Success = true,
             Message = "",

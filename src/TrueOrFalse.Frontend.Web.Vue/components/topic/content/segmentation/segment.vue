@@ -1,4 +1,5 @@
 <script>
+import { useUserStore } from '~~/components/user/userStore'
 export default {
     props: {
         title: String,
@@ -72,58 +73,63 @@ export default {
     },
 
     methods: {
-        addNewCategoryCard(id) {
+        async addNewCategoryCard(id) {
             var self = this;
             var data = {
                 categoryId: id,
             };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoryData',
-                data: JSON.stringify(data),
-                success: function (c) {
-                    self.categories.push(c);
-                    self.currentChildCategoryIds.push(c.Id);
-                    self.$nextTick(() => Images.ReplaceDummyImages());
-                },
-            });
+
+            let c = await $fetch('/Segmentation/GetCategoryData', {
+                body: data,
+                method: 'Post',
+                credentials: 'include',
+                mode: 'no-cors',
+                headers: useRequestHeaders(['cookie']),
+            })
+            if (c) {
+                self.categories.push(c)
+                self.currentChildCategoryIds.push(c.Id)
+                // self.$nextTick(() => Images.ReplaceDummyImages());
+            }
+
         },
-        getCategoriesData() {
+        async getCategoriesData() {
             var self = this;
             var data = {
                 categoryIds: self.currentChildCategoryIds,
             };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetCategoriesData',
-                data: JSON.stringify(data),
-                success: function (data) {
-                    data.forEach(c => self.categories.push(c));
-                },
-            });
+
+            let result = await $fetch('/api/Segmentation/GetCategoriesData', {
+                body: data,
+                method: 'Post',
+                credentials: 'include',
+                mode: 'no-cors',
+                headers: useRequestHeaders(['cookie']),
+            })
+            if (result)
+                result.forEach(c => self.categories.push(c))
         },
-        getSegmentData() {
+        async getSegmentData() {
             var self = this;
             var data = {
                 categoryId: parseInt(self.categoryId),
-            };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/Segmentation/GetSegmentData',
-                data: JSON.stringify(data),
-                success: function (data) {
-                    self.linkToCategory = data.linkToCategory;
-                    self.visibility = data.visibility;
-                    self.knowledgeBarHtml = data.knowledgeBarHtml;
-                    self.knowledgeBarData = data.knowledgeBarData;
-                    if (self.title)
-                        self.segmentTitle = self.title;
-                    else self.segmentTitle = data.categoryName;
-                },
-            });
+            }
+
+            let result = await $fetch < any > ('/api/Segmentation/GetSegmentData', {
+                body: data,
+                method: 'Post',
+                credentials: 'include',
+            })
+            if (result) {
+                self.linkToCategory = result.linkToCategory;
+                self.visibility = result.visibility;
+                self.knowledgeBarHtml = result.knowledgeBarHtml;
+                self.knowledgeBarData = result.knowledgeBarData;
+                if (self.title)
+                    self.segmentTitle = self.title;
+                else self.segmentTitle = result.categoryName;
+            }
+
         },
         selectCategory(id) {
             if (this.selectedCategories.includes(id))
@@ -152,9 +158,13 @@ export default {
             eventBus.$emit('add-category-card', data);
         },
         addCategory(val) {
-            if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg("CreateCategory");
-                return;
+            // if (NotLoggedIn.Yes()) {
+            //     NotLoggedIn.ShowErrorMsg("CreateCategory");
+            //     return;
+            // }
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                return
             }
             var self = this;
             var categoriesToFilter = Array.from(self.currentChildCategoryIds);
@@ -165,32 +175,40 @@ export default {
                 addCategoryBtnId: $("#" + self.addCategoryId),
                 moveCategories: false,
                 categoriesToFilter,
-                categoryChange: EditCategoryRelationType.AddChild
+                editCategoryRelation: val ? EditTopicRelationType.Create : EditTopicRelationType.AddChild,
+
             }
-            if (val)
-                parent.categoryChange = EditCategoryRelationType.Create;
-            $('#AddCategoryModal').data('parent', parent).modal('show');
+
+            this.editTopicRelationStore.openModal(parent)
         },
-        removeChildren() {
-            if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg("RemoveChildren");
-                return;
+
+        async removeChildren() {
+            // if (NotLoggedIn.Yes()) {
+            //     NotLoggedIn.ShowErrorMsg("RemoveChildren");
+            //     return;
+            // }
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                return
             }
-            var self = this;
+            var self = this
             var data = {
                 parentCategoryId: self.categoryId,
                 childCategoryIds: self.selectedCategories,
-            };
-            $.ajax({
-                type: 'Post',
-                contentType: "application/json",
-                url: '/EditCategory/RemoveChildren',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
-                    self.filterChildren(removedChildCategoryIds);
-                },
-            });
+            }
+
+            let result = await $fetch < any > ('/api/EditCategory/RemoveChildren', {
+                body: data,
+                method: 'Post',
+                credentials: 'include',
+                mode: 'no-cors',
+                headers: useRequestHeaders(['cookie']),
+            })
+
+            if (result) {
+                var removedChildCategoryIds = JSON.parse(result.removedChildCategoryIds);
+                self.filterChildren(removedChildCategoryIds);
+            }
         },
         filterChildren(selectedCategoryIds) {
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
@@ -236,8 +254,8 @@ export default {
                     </a>
                     <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip"
                         title="Thema ist privat. Zum Veröffentlichen klicken.">
-                        <i class="fas fa-lock"></i>
-                        <i class="fas fa-unlock"></i>
+                        <font-awesome-icon icon="fa-solid fa-lock" />
+                        <font-awesome-icon icon="fa-solid fa-lock-open" />
                     </div>
 
                 </div>
@@ -299,10 +317,10 @@ export default {
                     </div>
                     <div class="col-xs-9 addCategoryLabelContainer">
                         <div class="addCategoryCardLabel" @click="addCategory(true)">
-                            <i class="fas fa-plus"></i> Neues Thema
+                            <font-awesome-icon icon="fa-solid fa-plus" /> Neues Thema
                         </div>
                         <div class="addCategoryCardLabel" @click="addCategory(false)">
-                            <i class="fas fa-plus"></i> Bestehendes Thema
+                            <font-awesome-icon icon="fa-solid fa-plus" /> Bestehendes Thema
                         </div>
                     </div>
 

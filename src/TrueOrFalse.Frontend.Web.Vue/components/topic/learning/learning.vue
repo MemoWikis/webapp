@@ -24,28 +24,13 @@ const answerBodyModel = ref()
 
 onMounted(async () => {
     var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
-    if (process.client) {
-        answerBodyModel.value = await $fetch<any>(`/api/Learning/GetNewAnswerBodyForTopic/`, {
-            body: sessionJson,
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: useRequestHeaders(['cookie'])
-        })
-    } else if (process.server) {
-        const config = useRuntimeConfig()
-        answerBodyModel.value = await useFetch<any>(`/Learning/GetNewAnswerBodyForTopic/`, {
-            body: {
-                categoryId: topicStore.id,
-                isInLearningTab: true
-            },
-            baseURL: config.apiBase,
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: useRequestHeaders(['cookie'])
-        })
-    }
+    answerBodyModel.value = await $fetch<any>(`/api/Learning/GetNewAnswerBodyForTopic/`, {
+        body: sessionJson,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: useRequestHeaders(['cookie'])
+    })
 })
 
 </script>

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useUserStore } from '~~/components/user/userStore'
+import { useUserStore } from '../../user/userStore'
 enum Type {
   Create,
   Edit
@@ -10,7 +10,7 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
       return {
         showModal: false,
         id: 0,
-        type: null as Type,
+        type: null as unknown as Type,
         edit: false
       }
     },
@@ -26,7 +26,7 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
       openModal(){
           this.showModal = true
       },
-      edit(id: Number, sessionIndex: Number = null) {
+      edit(id: number, sessionIndex: number | null = null) {
         this.edit = true
         if (sessionIndex != null)
           this.sessionIndex = sessionIndex

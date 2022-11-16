@@ -44,7 +44,7 @@ export default {
     },
     mounted() {
         const topicStore = useTopicStore()
-        this.categoryId = topicStore.id;
+        this.categoryId = topicStore.id
         this.initSegments()
         // eventBus.$on('add-category-card',
         //     (e) => {
@@ -83,7 +83,7 @@ export default {
         async initSegments() {
             var data = {
                 id: this.topicStore.id,
-            };
+            }
             var result = await $fetch<any>('/api/NuxtSegmentation/GetSegmentation', {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
@@ -93,7 +93,9 @@ export default {
                 this.getCategoriesData()
             }
             if (result.segmentJson != null && result.segmentJson.length > 0) {
-                this.segments = JSON.parse(result.segmentJson);
+                let textArea = document.createElement('textarea');
+                textArea.innerHTML = result.segmentJson
+                this.segments = JSON.parse(textArea.value)
                 this.hasCustomSegment = true
             }
         },
@@ -299,7 +301,7 @@ export default {
         <div id="CustomSegmentSection">
             <TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId"
                 :title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds"
-                :category-id="parseInt(s.CategoryId)" :is-historic="isHistoric" :parent-id="categoryId"
+                :category-id="parseInt(s.CategoryId.toString())" :is-historic="isHistoric" :parent-id="categoryId"
                 @remove-segment="removeSegment(s.CategoryId)" />
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"
@@ -323,15 +325,16 @@ export default {
                         </div>
                         <div class="col-xs-9 addCategoryLabelContainer">
                             <div class="addCategoryCardLabel" @click="addCategory(true)">
-                                <i class="fas fa-plus"></i> Neues Thema
+                                <font-awesome-icon :icon="['fa-solid', 'plus']" /> Neues Thema
                             </div>
                             <div class="addCategoryCardLabel" @click="addCategory(false)">
-                                <i class="fas fa-plus"></i> Bestehendes Thema
+                                <font-awesome-icon :icon="['fa-solid', 'plus']" /> Bestehendes Thema
                             </div>
                         </div>
 
                     </div>
                 </div>
+
 
             </div>
 

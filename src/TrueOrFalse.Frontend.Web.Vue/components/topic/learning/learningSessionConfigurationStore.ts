@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useUserStore } from '~~/components/user/userStore'
+import { useUserStore } from '../../user/userStore'
 import { useTopicStore } from '../topicStore'
 import _ from 'underscore'
 
@@ -252,7 +252,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.lazyLoadCustomSession()
         },
 
-        selectKnowledgeSummary(summary, loadCustomSession = true, force = null) {
+        selectKnowledgeSummary(summary, loadCustomSession = true, force: any = null) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
@@ -308,7 +308,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
         },
 
-        selectQuestionFilter(option, loadCustomSession = true, force = null) {
+        selectQuestionFilter(option, loadCustomSession = true, force: any = null) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
@@ -340,7 +340,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
         setQuestionFilterDisplay() {
             var count = 0
-            var selectedOptions = []
+            var selectedOptions: any = []
 
             for (var key in this.questionFilterOptions)
                 if (this.questionFilterOptions[key].isSelected) {

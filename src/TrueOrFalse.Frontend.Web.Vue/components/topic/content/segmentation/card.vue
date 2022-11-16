@@ -183,21 +183,21 @@ export default {
 
                     <div v-if="visibility == 1" class="segmentCardLock" @click="openPublishModal" data-toggle="tooltip"
                         title="Thema ist privat. Zum Veröffentlichen klicken.">
-                        <font-awesome-icon icon="fa-solid fa-lock" />
-                        <font-awesome-icon icon="fa-solid fa-unlock" />
+                        <font-awesome-icon :icon="['fa-solid', 'lock']" />
+                        <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                     </div>
                 </div>
                 <div class="Button dropdown DropdownButton" :class="{ hover: showHover && !isHistoric }">
                     <VDropdown :distance="1">
                         <div class="btn btn-link btn-sm ButtonEllipsis">
-                            <font-awesome-icon icon="fa-regular fa-ellipsis-vertical" />
+                            <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                         </div>
                         <template #popper>
                             <ul>
                                 <li v-if="!isCustomSegment">
                                     <div @click="thisToSegment" class="dropdown-item">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-sitemap" />
+                                            <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
                                         </div>
                                         Unterthemen einblenden
                                     </div>
@@ -205,28 +205,28 @@ export default {
                                 <li>
                                     <div @click="removeParent" class="dropdown-item">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-link-slash" />
+                                            <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
                                         </div>Verknüpfung entfernen
                                     </div>
                                 </li>
                                 <li v-if="visibility == 1">
                                     <div @click="openPublishModal" class="dropdown-item">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-unlock" />
+                                            <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                         </div>Thema veröffentlichen
                                     </div>
                                 </li>
                                 <li>
                                     <div @click="openMoveCategoryModal()" class="dropdown-item">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-circle-right" />
+                                            <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
                                         </div>Thema verschieben
                                     </div>
                                 </li>
                                 <li>
                                     <div @click="openAddToWikiModal()" data-allowed="logged-in" class="dropdown-item">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-square-plus" />
+                                            <font-awesome-icon :icon="['fa-solid', 'plus']" />
                                         </div>
                                         Zu meinem Wiki hinzufügen
                                     </div>

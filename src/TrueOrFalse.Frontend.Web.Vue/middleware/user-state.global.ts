@@ -8,6 +8,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
       credentials: 'include',
       headers: useRequestHeaders(['cookie']),
       mode: 'no-cors'
-    });
+    })
     useState<LoginState>('loginState', () => result.value)
   })

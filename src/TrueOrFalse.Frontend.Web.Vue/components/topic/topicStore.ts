@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
-import { useUserStore } from '~~/components/user/userStore'
+import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 
 export class Topic {
+  CanAccess: boolean
   Id: number
   Name: string
   ImgUrl: string
@@ -34,7 +35,7 @@ export const useTopicStore = defineStore('topicStore', {
       childTopicCount: 0,
       views: 0,
       commentCount: 0,
-      visibility: null as Visibility,
+      visibility: null as unknown as Visibility,
       authorIds: [],
       isWiki: false,
       currentUserIsCreator: false,

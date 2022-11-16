@@ -85,12 +85,12 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
                         <div class="footer-group">
                             <div class="overline-m no-line">Software</div>
                             <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank">
-                                <font-awesome-icon icon="fa-brands fa-github" />&nbsp;Github
+                                <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </a>
                             <br />
                             <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
                                 target="_blank">
-                                <font-awesome-icon icon="fa fa-cogs"></font-awesome-icon> Teamcity
+                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
                             </a>
                             <br />
                             <!-- <% if (Request.IsLocal)
@@ -120,10 +120,10 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/Footer/GetPopularTopic
                             <br />
 
                             <a href="https://discord.com/invite/nXKwGrN" target="_blank">
-                                <font-awesome-icon icon="fa-brands fa-discord" />&nbsp;Discord
+                                <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                             </a><br />
                             <a href="https://twitter.com/memuchoWissen" target="_blank">
-                                <font-awesome-icon icon="fa-brands fa-twitter" />&nbsp;auf Twitter
+                                <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
                             </a><br />
                         </div>
                     </div>

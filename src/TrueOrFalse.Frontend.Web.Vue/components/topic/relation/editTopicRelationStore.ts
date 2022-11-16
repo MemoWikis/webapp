@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { SearchTopicItem } from '~~/components/search/searchHelper'
+import { SearchTopicItem } from '../../search/searchHelper'
 import { useTopicStore } from '../topicStore'
-import { useUserStore } from '~~/components/user/userStore'
+import { useUserStore } from '../../user/userStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -24,7 +24,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     state: () => {
       return {
         showModal: false,
-        type: null as EditTopicRelationType,
+        type: null as unknown as EditTopicRelationType,
         parentId: 0,
         childId: 0,
         redirect: false,

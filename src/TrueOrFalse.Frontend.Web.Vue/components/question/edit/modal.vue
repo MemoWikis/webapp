@@ -144,7 +144,6 @@ function getSaveJson() {
     if (solutionType.value == SolutionType.Numeric || solutionType.value == SolutionType.Date)
         solutionType.value = SolutionType.Text
 
-
     var editJson = {
         QuestionId: id.value,
     }
@@ -170,7 +169,7 @@ function getSaveJson() {
     }
     var json = editQuestionStore.edit ? editJson : createJson
 
-    return _.merge(json, jsonExtension)
+    return { ...json, ...jsonExtension }
 }
 async function updateQuestionCount() {
     let count = await $fetch<number>(`/Category/GetCurrentQuestionCount/${id}`, {

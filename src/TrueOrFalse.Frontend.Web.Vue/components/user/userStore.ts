@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { Topic } from '../topic/topicStore'
-const isLoggedIn = (e) => useState<boolean>('isLoggedIn', e)
 
 export type UserLoginResult = {
   Success: boolean
@@ -29,7 +28,7 @@ export const useUserStore = defineStore('userStore', {
       wikiId: 0,
       isAdmin: false,
       name: '',
-      personalWiki: null as Topic
+      personalWiki: null as unknown as Topic
     }
   },
   actions: {
@@ -41,21 +40,16 @@ export const useUserStore = defineStore('userStore', {
       var result = await $fetch<UserLoginResult>('/api/SessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success){
-        this.isLoggedIn = true
         this.id = result.Id
         this.wikiId = result.WikiId
         this.isAdmin = result.IsAdmin
         this.name = result.Name
-
         this.showLoginModal = false
-
-        // setTimeout(async () => {
-        //   if (result.PersonalWikiId ? result.PersonalWikiId : 0)
-        //     this.personalWiki = await $fetch<Topic>(`/api/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
-        // }, 500)
-
+        this.isLoggedIn = true
+        
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
           this.personalWiki = await $fetch<Topic>(`/api/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
+    
       }
     },
 
@@ -63,16 +57,11 @@ export const useUserStore = defineStore('userStore', {
       var result = await $fetch<UserLoginResult>('/api/VueRegister/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success) {
-        this.isLoggedIn = true
         this.id = result.Id
         this.wikiId = result.WikiId
         this.isAdmin = result.IsAdmin
         this.name = result.Name
-
-        // setTimeout(async () => {
-        //   if (result.PersonalWikiId ? result.PersonalWikiId : 0)
-        //   this.personalWiki = await $fetch<Topic>(`/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
-        // }, 500)
+        this.isLoggedIn = true
 
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
           this.personalWiki = await $fetch<Topic>(`/api/Topic/GetTopic/${result.PersonalWikiId}`, { credentials: 'include' })
@@ -94,11 +83,9 @@ export const useUserStore = defineStore('userStore', {
       if (!!result && result.Success) {
         spinnerStore.hideSpinner()
         this.isLoggedIn = false
-        isLoggedIn(false)
         window.location.reload()
         }
       spinnerStore.hideSpinner()
-
       }
   }
 })

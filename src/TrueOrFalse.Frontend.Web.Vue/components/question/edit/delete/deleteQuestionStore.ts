@@ -14,7 +14,7 @@ export const useDeleteQuestionStore = defineStore('deleteQuestionStore', {
           this.showModal = true
           this.id = id
       },
-      questionDeleted(id: number, index:number = null) {
+      questionDeleted(id: number, index: number | null = null) {
         this.deletedQuestionId = id
         this.deletedQuestionIndex = index
       }

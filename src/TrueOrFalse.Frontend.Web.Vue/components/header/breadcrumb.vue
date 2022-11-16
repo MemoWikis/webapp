@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { useTopicStore } from '../topic/topicStore';
+import { useTopicStore } from '../topic/topicStore'
 import { ref } from 'vue'
 import _ from 'underscore'
-import { PageType } from '../shared/pageTypeEnum';
+import { PageType } from '../shared/pageTypeEnum'
+import { useUserStore } from '../user/userStore'
 
 const props = defineProps(['headerContainer', 'headerExtras', 'route'])
 const topicStore = useTopicStore()
@@ -130,9 +131,12 @@ async function getBreadcrumb() {
         }
     }
 }
-watch(() => topicStore.id, () => {
+
+const userStore = useUserStore()
+watch([() => topicStore.id, () => userStore.id], () => {
     getBreadcrumb()
 })
+
 
 </script>
 

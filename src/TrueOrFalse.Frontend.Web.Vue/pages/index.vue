@@ -12,7 +12,7 @@ onMounted(() => {
 
 <template>
   <div>
-    Erklärseite
+
   </div>
 </template>
 

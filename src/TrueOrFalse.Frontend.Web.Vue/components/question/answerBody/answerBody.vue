@@ -21,7 +21,7 @@ const flashcard = ref(null)
 </script>
 
 <template>
-
+    <!-- 
 
     <div id="AnswerBody">
 
@@ -95,22 +95,22 @@ const flashcard = ref(null)
                                     </LazyNuxtLink>
                                 </li>
                                 <li>
-                                    <!-- <a onclick="eventBus.$emit('show-comment-section-modal', <%=Model.QuestionId%>)">
+                                    <a onclick="eventBus.$emit('show-comment-section-modal', <%=Model.QuestionId%>)">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-comment" />
                                         </div>
                                         <span>Frage kommentieren</span>
-                                    </a> -->
+                                    </a>
                                 </li>
 
                                 <li
                                     v-if="(tabsStore.activeTab == Tab.Learning && props.answerBodyModel.IsCreator) || userStore.isAdmin">
-                                    <!-- <a href="#" onclick="eventBus.$emit('delete-question',<%=Model.QuestionId %>)">
+                                    <a href="#" onclick="eventBus.$emit('delete-question',<%=Model.QuestionId %>)">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>
                                         <span>Frage löschen</span>
-                                    </a> -->
+                                    </a>
                                 </li>
                             </ul>
                         </template>
@@ -328,6 +328,6 @@ const flashcard = ref(null)
             </span>
         </div>
         <QuestionAnswerQuestionDetails :answer-body-model="props.answerBodyModel" />
-    </div>
+    </div> -->
 
 </template>

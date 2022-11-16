@@ -153,7 +153,6 @@ public class LearningController : BaseController
             } : null,
             url = currentUrl,
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSectionComponent.vue.ascx", answerQuestionModel, ControllerContext),
-            offlineDevelopment = Settings.DevelopOffline(),
             isInTestMode
         });
 

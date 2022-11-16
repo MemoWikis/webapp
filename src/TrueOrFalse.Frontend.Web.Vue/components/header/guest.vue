@@ -8,7 +8,7 @@ const userStore = useUserStore()
 const showSearch = ref(true)
 
 function openUrl(val) {
-    location.href = val.Url
+    navigateTo({ path: val.Url }, { replace: true })
 }
 
 </script>
@@ -32,21 +32,20 @@ function openUrl(val) {
                     <div id="HeaderSearch" class="">
                         <div class="searchButton" :class="{ 'showSearch': showSearch }"
                             @click="showSearch = !showSearch">
-                            <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
-                            <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                            <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
+                            <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>
                         <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
                             <LazySearch :search-type="SearchType.All" :show-search="showSearch"
                                 v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
                         </div>
                     </div>
-                    <div id="loginAndHelp" class="">
+                    <div id="loginAndHelp">
                         <div class="login-register-container">
                             <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
-                                <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
+                                <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" />
                                 <div class="login-btn-label">
                                     Anmelden
-
                                 </div>
                             </div>
                             <NuxtLink to="/user/register">
