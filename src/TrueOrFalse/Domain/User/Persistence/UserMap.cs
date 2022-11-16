@@ -25,19 +25,19 @@ public class UserMap : ClassMap<User>
         Map(x => x.CorrectnessProbabilityAnswerCount);
 
         HasMany(x => x.MembershipPeriods)
-            .Cascade.All().LazyLoad();
+            .Cascade.All();
 
         Map(x => x.WidgetHostsSpaceSeparated);
 
         HasMany(x => x.Followers)
             .KeyColumn("User_id")
-            .Cascade.All()
-            .LazyLoad();
+            .Cascade.All();
+
 
         HasMany(x => x.Following)
             .KeyColumn("Follower_id")
-            .Cascade.All()
-            .LazyLoad();
+            .Cascade.All();
+          
 
         Map(x => x.Reputation);
         Map(x => x.ReputationPos);

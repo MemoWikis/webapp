@@ -30,6 +30,28 @@ public class UserRepo : RepositoryDbBase<User>
             .Where(u => u.FacebookId == facebookId)
             .SingleOrDefault();
 
+    public User GetByEmailEager(string email)
+    {
+         var user =   _session
+            .QueryOver<User>()
+            .Where(u => u.EmailAddress == email)
+            .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
+            .SingleOrDefault();
+
+        _session
+            .QueryOver<User>()
+            .Where(u => u.EmailAddress == email)
+            .Fetch(SelectMode.Fetch, u => u.Followers)
+            .SingleOrDefault();
+
+        _session
+           .QueryOver<User>()
+           .Where(u => u.EmailAddress == email)
+           .Fetch(SelectMode.Fetch, u => u.Following)
+           .SingleOrDefault();
+        return user;
+    }
+
     public User UserGetByGoogleId(string googleId) =>
         _session
             .QueryOver<User>()

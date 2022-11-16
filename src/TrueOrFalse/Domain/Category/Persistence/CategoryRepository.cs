@@ -50,6 +50,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetAllEager() => GetByIdsEager();
 
+    /// <summary>
+    /// Add Category in Database,
+    /// </summary>
+    /// <param name="category"></param>
     public override void Create(Category category)
     {
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
@@ -57,7 +61,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         base.Create(category);
         Flush();
-
+       
         UserActivityAdd.CreatedCategory(category);
         _searchIndexCategory.Update(category);
 

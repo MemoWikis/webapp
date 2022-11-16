@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
-using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {

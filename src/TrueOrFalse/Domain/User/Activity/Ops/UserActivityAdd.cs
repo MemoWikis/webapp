@@ -17,21 +17,10 @@ public class UserActivityAdd
         }
     }
 
-    public static void CreatedSet(Set set)
-    {
-        var userCreator = Sl.R<UserRepo>().GetById(set.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
-        foreach (var follower in userCreator.Followers)
-        {
-            Sl.R<UserActivityRepo>().Create(new UserActivity
-            {
-                UserConcerned = follower.Follower,
-                At = DateTime.Now,
-                Type = UserActivityType.CreatedSet,
-                UserCauser = set.Creator
-            });
-        }
-    }
-
+    /// <summary>
+    /// Add Category to UserActivityRepo
+    /// </summary>
+    /// <param name="category"></param>
     public static void CreatedCategory(Category category)
     {
         var userCreator = Sl.R<UserRepo>().GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
