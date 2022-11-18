@@ -165,7 +165,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 <div class="dropdown-icon">
                                     <i class="fa fa-plus-circle"></i>
                                 </div>
-                                Thema Erstellen
+                                Thema erstellen
                             </a>
                         </li>
                         <li>

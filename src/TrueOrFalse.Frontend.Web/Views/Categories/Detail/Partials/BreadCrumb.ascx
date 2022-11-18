@@ -63,7 +63,7 @@
 
                     </li>
                     <li>
-                        <a class="<%= Model.UserMenuActive(UserMenuEntry.Network) %>" href="<%= Links.Network() %>">Deine Netzwerk</a>
+                        <a class="<%= Model.UserMenuActive(UserMenuEntry.Network) %>" href="<%= Links.Network() %>">Dein Netzwerk</a>
                     </li>
                     <li>
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.UserDetail) %>" href="<%= Url.Action(Links.UserAction, Links.UserController, new {name = Model.UserName, id = Model.User.Id}) %>">Deine Profilseite</a>
