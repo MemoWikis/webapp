@@ -2,7 +2,6 @@
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useEditTopicRelationStore, EditTopicRelationType, EditRelationData } from '../../relation/editTopicRelationStore'
-import { $fetch } from 'ohmyfetch'
 import _ from 'underscore'
 
 interface Segment {
@@ -325,10 +324,11 @@ export default {
                         </div>
                         <div class="col-xs-9 addCategoryLabelContainer">
                             <div class="addCategoryCardLabel" @click="addCategory(true)">
-                                <font-awesome-icon :icon="['fa-solid', 'plus']" /> Neues Thema
+                                <!-- <font-awesome-icon :icon="['fa-solid', 'plus']" />  -->
+                                Neues Thema
                             </div>
                             <div class="addCategoryCardLabel" @click="addCategory(false)">
-                                <font-awesome-icon :icon="['fa-solid', 'plus']" /> Bestehendes Thema
+                                <font-awesome-icon icon="fa-solid fa-plus" /> Bestehendes Thema
                             </div>
                         </div>
 

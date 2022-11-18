@@ -1,4 +1,3 @@
-import { isNumber } from "underscore";
 
 export default defineNuxtRouteMiddleware((to) => {
 

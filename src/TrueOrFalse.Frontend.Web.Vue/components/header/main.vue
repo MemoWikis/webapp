@@ -20,12 +20,12 @@ if (userStore.isLoggedIn) {
         id: userStore.id
     }
 
-    if (process.client) {
-        currentUser.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-    } else if (process.server) {
-        const config = useRuntimeConfig()
-        currentUser.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-    }
+    // if (process.client) {
+    currentUser.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+    // } else if (process.server) {
+    //     const config = useRuntimeConfig()
+    //     currentUser.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
+    // }
 }
 const showRegisterButton = ref(false)
 function handleScroll() {
@@ -65,8 +65,16 @@ onMounted(() => {
                     </div>
 
                     <div class="partial" ref="headerExtras">
-                        <div v-show="userStore.isLoggedIn">
-                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                        <div class="stickySearchContainer" v-if="userStore.isLoggedIn">
+                            <div class="searchButton" :class="{ 'showSearch': showSearch }"
+                                @click="showSearch = !showSearch">
+                                <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                            </div>
+                            <div class="StickySearch" :class="{ 'showSearch': showSearch }">
+                                <LazySearch :search-type="SearchType.All" :show-search="showSearch"
+                                    v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
+                            </div>
                         </div>
                         <VDropdown :distance="6" v-show="userStore.isLoggedIn">
                             <div class="header-btn">
@@ -104,7 +112,7 @@ onMounted(() => {
                         </VDropdown>
 
                         <template v-if="showRegisterButton && !userStore.isLoggedIn">
-                            <div class="StickySearchContainer">
+                            <div class="stickySearchContainer">
                                 <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                     @click="showSearch = !showSearch">
                                     <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
@@ -140,6 +148,8 @@ onMounted(() => {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
+    height: 100%;
+    align-items: center;
 
     .searchButton {
         align-items: center;

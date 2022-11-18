@@ -7,13 +7,12 @@ const data = {
     id: props.id
 }
 const author = ref(null as Author)
-if (process.client) {
-    author.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-} else if (process.server) {
-    const config = useRuntimeConfig()
-    author.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-}
-
+// if (process.client) {
+author.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+// } else if (process.server) {
+//     const config = useRuntimeConfig()
+//     author.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
+// }
 </script>
 
 <template>

@@ -112,23 +112,23 @@ async function getBreadcrumb() {
         currentCategoryId: topicStore.id,
     }
     if (pageType.value == PageType.Topic) {
-        if (process.client) {
-            breadcrumb.value = await $fetch<Breadcrumb>('/api/Breadcrumb/GetBreadcrumb/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-        } else if (process.server) {
-            const config = useRuntimeConfig()
-            breadcrumb.value = await $fetch<Breadcrumb>('/Breadcrumb/GetBreadcrumb/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-        }
+        // if (process.client) {
+        breadcrumb.value = await $fetch<Breadcrumb>('/api/Breadcrumb/GetBreadcrumb/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+        // } else if (process.server) {
+        //     const config = useRuntimeConfig()
+        //     breadcrumb.value = await $fetch<Breadcrumb>('/Breadcrumb/GetBreadcrumb/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
+        // }
         personalWiki.value = breadcrumb.personalWiki
         breadcrumbItems.value = breadcrumb.value.items
         sessionStorage.setItem('currentWikiId', breadcrumb.value.newWikiId)
         updateBreadcrumb()
     } else {
-        if (process.client) {
-            personalWiki.value = await $fetch<BreadcrumbItem>('/api/Breadcrumb/GetPersonalWiki/', { method: 'POST', mode: 'cors', credentials: 'include' })
-        } else if (process.server) {
-            const config = useRuntimeConfig()
-            personalWiki.value = await $fetch<BreadcrumbItem>('/Breadcrumb/GetPersonalWiki/', { method: 'POST', baseURL: config.apiBase, mode: 'cors', credentials: 'include' })
-        }
+        // if (process.client) {
+        personalWiki.value = await $fetch<BreadcrumbItem>('/api/Breadcrumb/GetPersonalWiki/', { method: 'POST', mode: 'cors', credentials: 'include' })
+        // } else if (process.server) {
+        //     const config = useRuntimeConfig()
+        //     personalWiki.value = await $fetch<BreadcrumbItem>('/Breadcrumb/GetPersonalWiki/', { method: 'POST', baseURL: config.apiBase, mode: 'cors', credentials: 'include' })
+        // }
     }
 }
 

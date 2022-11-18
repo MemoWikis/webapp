@@ -2,7 +2,7 @@
 export default defineNuxtConfig(
   {  
     build: {
-    transpile: ['/@fontawesome/']
+    transpile: ['/@fortawesome/']
     },
     // vite: {
     //   server: {
@@ -23,13 +23,9 @@ export default defineNuxtConfig(
           }
       }
     },
-    buildModules: [
-        '@pinia/nuxt',
-        'floating-vue/nuxt',
-      ],
     modules: [
         '@pinia/nuxt',
-        'floating-vue/nuxt'
+        // 'floating-vue/nuxt'
     ],
     typescript: {
         shim: false,
@@ -56,4 +52,4 @@ export default defineNuxtConfig(
         '~/assets/top-header.less'   
       ]
   }
-);
+)

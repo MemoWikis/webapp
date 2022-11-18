@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { topicReference } from '@babel/types';
 
 const props = defineProps(['topic', 'selectedTopics', 'index'])
 const emit = defineEmits(['removeTopic'])

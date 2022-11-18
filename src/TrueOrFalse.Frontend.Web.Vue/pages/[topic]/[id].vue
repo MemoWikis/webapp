@@ -7,16 +7,13 @@ import { PageType } from '~~/components/shared/pageTypeEnum'
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
+
 const topic = await $fetch<Topic>(`/Topic/GetTopic/${route.params.id}`, {
   baseURL: config.apiBase,
   credentials: 'include',
   mode: 'no-cors',
   headers: useRequestHeaders(['cookie']),
-  onRequest() {
-    console.log('request' + route.params.id)
-  }
 })
-console.log('request' + topic.CanAccess)
 
 if (topic.CanAccess) {
   useState<Topic>('topic', () => topic)
