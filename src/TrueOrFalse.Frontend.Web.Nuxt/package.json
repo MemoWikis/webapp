@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
     "@pinia/nuxt": "^0.4.4",
+    "click-outside-vue3": "^4.0.1",
     "floating-vue": "^2.0.0-beta.20",
     "less-loader": "^11.1.0",
     "pinia": "^2.0.24",
