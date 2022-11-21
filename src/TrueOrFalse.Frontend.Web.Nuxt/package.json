@@ -9,5 +9,11 @@
   },
   "devDependencies": {
     "nuxt": "3.0.0"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.4",
+    "less-loader": "^11.1.0",
+    "pinia": "^2.0.24",
+    "vue": "^3.2.45"
   }
 }

@@ -19,5 +19,8 @@ export default defineNuxtConfig({
     //         }
     //     },
     // },
-    ssr: true
+    ssr: true,
+    modules: [
+        '@pinia/nuxt',
+    ],
 })

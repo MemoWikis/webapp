@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+const spinnerStore = useSpinnerStore()
 const route = useRoute()
-const config = useRuntimeConfig
 const { data: topic } = await useFetch<any>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
@@ -20,6 +21,8 @@ function refreshPage() {
     <div>
         <div v-if="topic">{{ topic.Id }}</div>
         <div @click="refreshPage()" class="button">NewTopic</div>
+        <button @click="spinnerStore.showSpinner()">ShowSpinner</button>
+        <button @click="spinnerStore.hideSpinner()">hideSpinner</button>
 
         <Topic />
     </div>

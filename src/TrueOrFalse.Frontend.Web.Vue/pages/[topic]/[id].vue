@@ -8,7 +8,7 @@ const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const topic = await $fetch<Topic>(`/Topic/GetTopic/${route.params.id}`, {
+const topic = await useFetch<Topic>(`/Topic/GetTopic/${route.params.id}`, {
   baseURL: config.apiBase,
   credentials: 'include',
   mode: 'no-cors',
