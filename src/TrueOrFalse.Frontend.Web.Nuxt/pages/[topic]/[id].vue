@@ -23,7 +23,6 @@ function refreshPage() {
         <div @click="refreshPage()" class="button">NewTopic</div>
         <button @click="spinnerStore.showSpinner()">ShowSpinner</button>
         <button @click="spinnerStore.hideSpinner()">hideSpinner</button>
-
         <Topic />
     </div>
 </template>

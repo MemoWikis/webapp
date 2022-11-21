@@ -23,4 +23,7 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
     ],
+    css: [
+        '@fortawesome/fontawesome-svg-core/styles.css',
+      ]
 })
