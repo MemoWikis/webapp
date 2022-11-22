@@ -1,0 +1,212 @@
+﻿@import 'includes/imports.less';
+
+/*Detail Images
+---------------------------------------------------------*/
+
+.ImageContainer {
+    position: relative;
+    -ms-word-break: break-word;
+    word-break: break-word;
+}
+
+.ItemImage {
+    max-width: 100%;
+    height: auto;
+
+    .SingleItem & {
+        min-width: 100%;
+    }
+}
+
+.ImageLicenseCaption {
+
+    a {
+        display: block;
+        font-size: 10px;
+    }
+}
+
+.CheckboxIconContainer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: transparent;
+    vertical-align: middle;
+
+    .CheckboxText {
+        padding-right: 5px;
+        padding-top: 10px;
+        font-size: 9px;
+        float: right;
+        width: 58%;
+        text-align: center;
+        .media-below-sm ({
+            display: none;
+        });
+
+        .SelectAreaCheckbox:hover &, .rowBase:not(.selected-row):hover .SelectAreaCheckbox & {
+            color: @global-text-color;
+        }
+    }
+}
+
+.Checked-Icon,
+.Unchecked-Icon {
+    font-size: 35px;
+    color: @global-text-color;
+    padding-top: 3px;
+    padding-right: 1px;
+    padding-left: 4px;
+    margin-top: 3px;
+    margin-left: 3px;
+    border-radius: 3px;
+}
+
+.CheckboxIcon {
+display: none;
+
+    font-size: 36px;
+    color: red;
+}
+
+.Checked-Icon {
+    display: none;
+    background-color: rgba(255,255,255,0.65);
+}
+
+.Unchecked-Icon {
+    visibility: hidden;
+}
+
+.SelectAreaCheckbox {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 40%;
+    border-top-left-radius: @border-radius-item-image;
+    border-top-right-radius: @border-radius-item-image;
+    cursor: pointer;
+
+    &:hover, .rowBase:not(.selected-row):hover & {
+        .Unchecked-Icon {
+            visibility: visible;
+        }
+
+        .Checked-Icon {
+            display: none;
+            background-color: transparent;
+        }
+    }
+}
+
+.selected-row .SelectAreaCheckbox {
+    .Unchecked-Icon {
+        display: none;
+    }
+
+    .Checked-Icon {
+        display: inline-block;
+    }
+}
+
+.SelectAreaImageInfo {
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border-radius: @border-radius-item-image;
+    cursor: pointer;
+}
+
+.SelectAreaCheckbox:hover,
+.rowBase:not(.selected-row):hover .SelectAreaCheckbox,
+.SelectAreaImageInfo:hover {
+    background-color: rgba(255,255,255,0.65);
+}
+
+.HoverMessage {
+    font-size: 12px;
+    position: absolute;
+    padding-top: 10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: black;
+    display: none;
+    text-align: center;
+
+    .SelectAreaImageInfo:hover & {
+        display: block;
+    }
+}
+
+.LicenseInfo {
+    font-size: 10px;
+    cursor: pointer;
+
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+.ShortLicenseLinkText;
+
+.media-xs-up ({
+    .FullLicenseLinkText;
+});
+
+.rowBase {
+
+    .ImageLicenseOnImage;
+    .LicenseWholeWidth;
+
+    .media-below-sm ({
+        .ShortLicenseLinkText;
+    });
+}
+
+.ImageLicenseOnImage {
+    .ImageLicenseOnImage;
+}
+
+.ImageLicenseOnImage-sm-up{
+    .media-sm-up({
+        .ImageLicenseOnImage;
+    });
+}
+
+
+
+/*Image detail modal
+---------------------------------------------------------*/
+
+#modalImageDetail {
+    .modal-body {
+        .clearfix;
+    }
+
+    .ImageContainer {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+
+        img {
+            margin-bottom: 15px;
+            width: 100%;//Fixes firefox bug (max-width: 100% not working inside table): http://stackoverflow.com/a/13363408
+        }
+    }
+
+    .ImageInfo {
+         display: table-caption; //Have the caption have the same width as the image without specifying it: http://stackoverflow.com/a/11652170
+         caption-side: bottom;
+    }
+
+    .InfoLabel {
+        font-weight: bold;
+    }
+}

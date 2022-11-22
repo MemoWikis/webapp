@@ -16,10 +16,22 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
     "@pinia/nuxt": "^0.4.4",
+    "@tiptap/extension-blockquote": "^2.0.0-beta.202",
+    "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.202",
+    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.202",
+    "@tiptap/extension-image": "^2.0.0-beta.202",
+    "@tiptap/extension-link": "^2.0.0-beta.202",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.202",
+    "@tiptap/extension-underline": "^2.0.0-beta.202",
+    "@tiptap/starter-kit": "^2.0.0-beta.202",
+    "@tiptap/vue-3": "^2.0.0-beta.202",
     "click-outside-vue3": "^4.0.1",
     "floating-vue": "^2.0.0-beta.20",
+    "hast-util-to-html": "^8.0.3",
     "less-loader": "^11.1.0",
+    "lowlight": "^2.7.0",
     "pinia": "^2.0.24",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-final-modal": "^3.4.11"
   }
 }

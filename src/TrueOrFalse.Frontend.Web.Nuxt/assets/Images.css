@@ -1,0 +1,261 @@
+﻿@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (min-width: 768px) {
+}@media (max-width: 767px) {
+}@media (max-width: 767px) {
+}@media (max-width: 649px) {
+}@media (min-width: 650px) {
+}/*Detail Images
+---------------------------------------------------------*/
+.ImageContainer {
+  position: relative;
+  -ms-word-break: break-word;
+  word-break: break-word;
+}
+.ItemImage {
+  max-width: 100%;
+  height: auto;
+}
+.SingleItem .ItemImage {
+  min-width: 100%;
+}
+.ImageLicenseCaption a {
+  display: block;
+  font-size: 10px;
+}
+.CheckboxIconContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: transparent;
+  vertical-align: middle;
+}
+.CheckboxIconContainer .CheckboxText {
+  padding-right: 5px;
+  padding-top: 10px;
+  font-size: 9px;
+  float: right;
+  width: 58%;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .CheckboxIconContainer .CheckboxText {
+    display: none;
+  }
+}
+.SelectAreaCheckbox:hover .CheckboxIconContainer .CheckboxText,
+.rowBase:not(.selected-row):hover .SelectAreaCheckbox .CheckboxIconContainer .CheckboxText {
+  color: #203256;
+}
+.Checked-Icon,
+.Unchecked-Icon {
+  font-size: 35px;
+  color: #203256;
+  padding-top: 3px;
+  padding-right: 1px;
+  padding-left: 4px;
+  margin-top: 3px;
+  margin-left: 3px;
+  border-radius: 3px;
+}
+.CheckboxIcon {
+  display: none;
+  font-size: 36px;
+  color: red;
+}
+.Checked-Icon {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.Unchecked-Icon {
+  visibility: hidden;
+}
+.SelectAreaCheckbox {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaCheckbox:hover .Unchecked-Icon,
+.rowBase:not(.selected-row):hover .SelectAreaCheckbox .Unchecked-Icon {
+  visibility: visible;
+}
+.SelectAreaCheckbox:hover .Checked-Icon,
+.rowBase:not(.selected-row):hover .SelectAreaCheckbox .Checked-Icon {
+  display: none;
+  background-color: transparent;
+}
+.selected-row .SelectAreaCheckbox .Unchecked-Icon {
+  display: none;
+}
+.selected-row .SelectAreaCheckbox .Checked-Icon {
+  display: inline-block;
+}
+.SelectAreaImageInfo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaCheckbox:hover,
+.rowBase:not(.selected-row):hover .SelectAreaCheckbox,
+.SelectAreaImageInfo:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.HoverMessage {
+  font-size: 12px;
+  position: absolute;
+  padding-top: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: black;
+  display: none;
+  text-align: center;
+}
+.SelectAreaImageInfo:hover .HoverMessage {
+  display: block;
+}
+.LicenseInfo {
+  font-size: 10px;
+  cursor: pointer;
+}
+.LicenseInfo:hover {
+  text-decoration: underline;
+}
+.LicenseInfo {
+  line-height: 13px;
+}
+.LicenseInfo:after {
+  content: "Lizenz";
+}
+@media (min-width: 480px) {
+  .LicenseInfo {
+    line-height: 18px;
+  }
+  .LicenseInfo:after {
+    content: "Lizenzinfos";
+  }
+}
+.rowBase .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  /*line-height: 18px;*/
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.rowBase .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  /*line-height: 18px;*/
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.rowBase .LicenseInfo {
+  right: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .rowBase .LicenseInfo {
+    line-height: 13px;
+  }
+  .rowBase .LicenseInfo:after {
+    content: "Lizenz";
+  }
+}
+.ImageLicenseOnImage .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  /*line-height: 18px;*/
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+@media (min-width: 768px) {
+  .ImageLicenseOnImage-sm-up .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    /*line-height: 18px;*/
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+  .ImageLicenseOnImage-sm-up .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    /*line-height: 18px;*/
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+}
+/*Image detail modal
+---------------------------------------------------------*/
+#modalImageDetail .modal-body:before,
+#modalImageDetail .modal-body:after {
+  content: " ";
+  display: table;
+}
+#modalImageDetail .modal-body:after {
+  clear: both;
+}
+#modalImageDetail .modal-body:before,
+#modalImageDetail .modal-body:after {
+  content: " ";
+  display: table;
+}
+#modalImageDetail .modal-body:after {
+  clear: both;
+}
+#modalImageDetail .ImageContainer {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+#modalImageDetail .ImageContainer img {
+  margin-bottom: 15px;
+  width: 100%;
+}
+#modalImageDetail .ImageInfo {
+  display: table-caption;
+  caption-side: bottom;
+}
+#modalImageDetail .InfoLabel {
+  font-weight: bold;
+}
