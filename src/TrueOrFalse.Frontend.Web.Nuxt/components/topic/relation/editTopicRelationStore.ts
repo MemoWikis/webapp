@@ -12,12 +12,13 @@ export enum EditTopicRelationType {
     AddToWiki
 }
 
-export type EditRelationData = {
-  parentId: number,
-  childId: number, 
-  addCategoryBtnId: string,
+export interface EditRelationData {
+  parentId?: number | undefined,
+  childId?: number, 
+  addCategoryBtnId?: string,
   editCategoryRelation: EditTopicRelationType,
-  categoriesToFilter: number[],
+  categoriesToFilter?: number[],
+  selectedCategories?: any[],
 }
 
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
@@ -36,19 +37,15 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     },
     actions: {
         openModal(data: EditRelationData) {
-          console.log('openmodal')
+          this.parentId = data.parentId ?? 0
+          this.addTopicBtnId = data.addCategoryBtnId ?? ''
+          this.type = data.editCategoryRelation
+          this.categoriesToFilter = data.categoriesToFilter ?? []
+          this.childId = data.childId ?? 0
+          this.showModal = true
 
-            console.log(data)
-
-            this.parentId = data.parentId
-            this.addTopicBtnId = data.addCategoryBtnId
-            this.type = data.editCategoryRelation
-            this.categoriesToFilter = data.categoriesToFilter
-            this.childId = data.childId
-            this.showModal = true
-
-            if (data.editCategoryRelation == EditTopicRelationType.AddToWiki)
-              this.initWikiData()
+          if (data.editCategoryRelation == EditTopicRelationType.AddToWiki)
+            this.initWikiData()
         },
         createTopic() {
           const userStore = useUserStore()

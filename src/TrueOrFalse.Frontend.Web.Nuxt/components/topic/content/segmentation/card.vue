@@ -19,7 +19,7 @@ export default {
             visible: true,
             hover: false,
             dropdownId: null,
-            id: parseInt(this.$props.categoryId.toString()),
+            id: parseInt(this.$props.categoryId!.toString()),
             isSelected: false,
             checkboxId: '',
             showHover: false,
@@ -44,7 +44,8 @@ export default {
     },
     watch: {
         selectedCategories() {
-            this.isSelected = this.selectedCategories.includes(this.id);
+            if (this.selectedCategories != null)
+                this.isSelected = this.selectedCategories.includes(this.id);
         },
         hover(val) {
             this.showHover = val;
@@ -57,16 +58,16 @@ export default {
         this.init();
     },
     methods: {
-        mouseOver(event) {
+        mouseOver(event: any) {
             event.stopPropagation();
             this.hover = true;
         },
-        mouseLeave(event) {
+        mouseLeave(event: any) {
             event.stopPropagation();
             this.hover = false;
         },
         goToCategory() {
-            window.location.href = this.category.LinkToCategory;
+            window.location.href = this.category!.LinkToCategory;
         },
         init() {
             this.dropdownId = this.segmentId + '-Dropdown' + this.id;
@@ -74,7 +75,7 @@ export default {
             if (this.isCustomSegment)
                 this.dropdownId += this.$parent.id;
 
-            this.visibility = this.category.Visibility;
+            this.visibility = this.category!.Visibility;
         },
 
         thisToSegment() {

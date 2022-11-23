@@ -88,7 +88,7 @@ const searchTerm = ref('')
 const selectedTopic = ref(null)
 const showSelectedTopic = ref(false)
 
-function selectTopic(t) {
+function selectTopic(t: any) {
     showDropdown.value = false
     lockDropdown.value = true
     searchTerm.value = t.Name

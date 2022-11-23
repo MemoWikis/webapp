@@ -25,5 +25,10 @@ export default defineNuxtConfig({
         '@pinia/nuxt',    ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
-      ]
+      ],
+      typescript: {
+        shim: false,
+        typeCheck: true,
+        strict: false
+    },
 })

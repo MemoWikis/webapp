@@ -5,9 +5,9 @@ import { useEditTopicRelationStore, EditTopicRelationType, EditRelationData } fr
 import _ from 'underscore'
 
 interface Segment {
-    CategoryId: Number,
-    Title: String,
-    ChildCategoryIds: Array<Number>,
+    CategoryId: number,
+    Title: string,
+    ChildCategoryIds: Array<number>,
 };
 export default {
     props: {
@@ -29,9 +29,9 @@ export default {
             dropdownId: "MainSegment-Dropdown",
             controlWishknowledge: false,
             loadComponents: true,
-            currentChildCategoryIds: [],
+            currentChildCategoryIds: [] as number[],
             segments: [] as Segment[],
-            categories: [],
+            categories: [] as any[],
             isHistoric: this.isHistoricString == 'True',
             userStore: useUserStore(),
             topicStore: useTopicStore(),
@@ -98,8 +98,8 @@ export default {
                 this.hasCustomSegment = true
             }
         },
-        setCategoriesToFilter() {
-            var categoriesToFilter = Array.from(this.currentChildCategoryIds);
+        setCategoriesToFilter(): number[] {
+            var categoriesToFilter = Array.from(this.currentChildCategoryIds) as number[];
             categoriesToFilter.push(this.topicStore.id);
             this.segments.forEach(s => {
                 categoriesToFilter.push(s.CategoryId);
@@ -107,7 +107,7 @@ export default {
 
             return categoriesToFilter;
         },
-        async addNewCategoryCard(id) {
+        async addNewCategoryCard(id: number) {
             var self = this;
             var data = {
                 categoryId: id,
@@ -134,11 +134,10 @@ export default {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (categories) {
-                categories.forEach(c => self.categories.push(c))
-                // self.$nextTick(() => Images.ReplaceDummyImages());
+                categories.forEach((c: any) => self.categories.push(c))
             }
         },
-        async getCategory(id) {
+        async getCategory(id: number) {
             var self = this;
             var data = {
                 id: id,
@@ -152,12 +151,12 @@ export default {
                 // self.$nextTick(() => Images.ReplaceDummyImages());
             }
         },
-        async loadSegment(id) {
+        async loadSegment(id: number) {
             if (!this.userStore.isLoggedIn) {
                 this.userStore.showLoginModal = true
                 return;
             }
-            var idExists = (segment) => segment.CategoryId === id;
+            var idExists = (segment: { CategoryId: any }) => segment.CategoryId === id;
             if (this.segments.some(idExists))
                 return;
 
@@ -178,7 +177,7 @@ export default {
                 this.saveSegments();
             }
         },
-        addCategory(val) {
+        addCategory(val: boolean) {
             if (!this.userStore.isLoggedIn) {
                 this.userStore.showLoginModal = true
                 return;
@@ -186,13 +185,14 @@ export default {
 
             var self = this;
             var categoriesToFilter = this.setCategoriesToFilter();
+
             var parent = {
                 parentId: self.topicStore.id,
                 addCategoryBtnId: 'AddToCurrentCategoryBtn',
                 editCategoryRelation: val ? EditTopicRelationType.Create : EditTopicRelationType.AddChild,
                 categoriesToFilter,
             }
-            this.editTopicRelationStore.openModal(parent)
+            this.editTopicRelationStore.openModal(parent as EditRelationData)
         },
         async removeChildren() {
             if (!this.userStore.isLoggedIn) {
@@ -220,27 +220,27 @@ export default {
             }
             var self = this;
             var parent = {
-                id: self.topicStore.id,
+                parentId: self.topicStore.id,
                 addCategoryBtnId: 'AddToCurrentCategoryBtn',
-                categoryChange: EditTopicRelationType.Move,
+                editCategoryRelation: EditTopicRelationType.Move,
                 selectedCategories: self.selectedCategories,
             }
-            this.editTopicRelationStore.openModal(parent)
+            this.editTopicRelationStore.openModal(parent as EditRelationData)
         },
         showComponents: _.debounce((self = this as any) => {
             self.loaded = true;
         }, 1000),
-        filterChildren(selectedCategoryIds) {
+        filterChildren(selectedCategoryIds: any) {
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
-                (e) => {
-                    return this.indexOf(e) < 0;
+                (e, index) => {
+                    return index < 0;
                 },
                 selectedCategoryIds
             );
             this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
             this.saveSegments();
         },
-        removeSegment(id) {
+        removeSegment(id: number) {
             this.segments = this.segments.filter(s => s.CategoryId != id);
             this.currentChildCategoryIds.push(id);
             this.hasCustomSegment = this.segments.length > 0;
@@ -252,8 +252,8 @@ export default {
                 return;
             }
             var self = this;
-            var segmentation = [];
-            this.segment.map((s) => {
+            var segmentation: ({ CategoryId: any; ChildCategoryIds: any } | { CategoryId: any; ChildCategoryIds?: undefined })[] = [];
+            this.segment.map((s: { CategoryId: string }) => {
                 var childCategoryIds = this.$refs['segment' + s.CategoryId].currentChildCategoryIdsString
                 var segment = childCategoryIds != null ? {
                     CategoryId: s.CategoryId,
@@ -280,7 +280,7 @@ export default {
                 this.saveMessage = "Das Speichern schlug fehl.";
             };
         },
-        removeCard(id) {
+        removeCard(id: any) {
 
         }
     },

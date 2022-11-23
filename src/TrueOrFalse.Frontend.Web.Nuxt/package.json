@@ -25,12 +25,14 @@
     "@tiptap/extension-underline": "^2.0.0-beta.202",
     "@tiptap/starter-kit": "^2.0.0-beta.202",
     "@tiptap/vue-3": "^2.0.0-beta.202",
+    "@types/underscore": "^1.11.4",
     "click-outside-vue3": "^4.0.1",
     "floating-vue": "^2.0.0-beta.20",
     "hast-util-to-html": "^8.0.3",
     "less-loader": "^11.1.0",
     "lowlight": "^2.7.0",
     "pinia": "^2.0.24",
+    "underscore": "^1.13.6",
     "vue": "^3.2.45",
     "vue-final-modal": "^3.4.11"
   }
