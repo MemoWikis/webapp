@@ -37,7 +37,7 @@ public class QuestionCacheItem
     public virtual IList<ReferenceCacheItem> References { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
-    public virtual User Creator { get; set; }
+    public virtual UserEntityCacheItem Creator { get; set; }
 
     public virtual int TotalTrueAnswers { get; set; }
     public virtual int TotalFalseAnswers { get; set; }
@@ -167,7 +167,7 @@ public class QuestionCacheItem
         return answerText;
     }
 
-    public virtual bool IsInWishknowledge() => UserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
+    public virtual bool IsInWishknowledge() => SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
 
     public virtual string ToLomXml() => LomXml.From(this);

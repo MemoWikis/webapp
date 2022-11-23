@@ -223,7 +223,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Delete(category);
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id));
-        UserCache.RemoveAllForCategory(category.Id);
+        SessionUserCache.RemoveAllForCategory(category.Id);
     }
 
     public IList<Category> GetByName(string categoryName)

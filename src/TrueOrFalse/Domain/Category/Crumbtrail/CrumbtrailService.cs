@@ -139,7 +139,7 @@ public class CrumbtrailService
 
                     if (SessionUser.IsLoggedIn)
                     {
-                        var userWikiId = UserCache.GetUser(SessionUser.UserId).StartTopicId;
+                        var userWikiId = SessionUserCache.GetUser(SessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

@@ -22,7 +22,7 @@ public class CategoryCacheItem
 
     public virtual bool DisableLearningFunctions { get; set; }
 
-    public virtual User Creator { get; set; }
+    public virtual UserEntityCacheItem Creator { get; set; }
     public virtual int[] AuthorIds { get; set; }
     public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }
@@ -192,7 +192,7 @@ public class CategoryCacheItem
             .ToList();
     }
 
-    public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
+    public virtual bool IsInWishknowledge() => SessionUserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
     public CategoryCacheItem()
     {
     }
@@ -279,7 +279,7 @@ public class CategoryCacheItem
             CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
             CountQuestions = category.CountQuestions,
             CountQuestionsAggregated = category.CountQuestionsAggregated,
-            Creator = category.Creator,
+            Creator = EntityCache.GetUserById(category.Creator.Id),
             CustomSegments = category.CustomSegments,
             Description = category.Description,
             DisableLearningFunctions = category.DisableLearningFunctions,

@@ -223,7 +223,7 @@ public class CategoryController : BaseController
         if (!IsLoggedIn)
             return false;
 
-        var userValuation = UserCache.GetItem(UserId).CategoryValuations;
+        var userValuation = SessionUserCache.GetItem(UserId).CategoryValuations;
         var isInWishknowledge = false;
         if (userValuation.ContainsKey(categoryId))
             isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
@@ -237,7 +237,7 @@ public class CategoryController : BaseController
         var user = User_();
         if (categoryId == user.StartTopicId)
             return false;
-        var userValuation = UserCache.GetItem(user.Id).CategoryValuations;
+        var userValuation = SessionUserCache.GetItem(user.Id).CategoryValuations;
         var isInWishknowledge = false;
         if (userValuation.ContainsKey(categoryId) && user != null) { }
         isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
@@ -250,7 +250,7 @@ public class CategoryController : BaseController
     public JsonResult GetCategoryPublishModalData(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
-        var userCacheItem = UserCache.GetItem(User_().Id);
+        var userCacheItem = SessionUserCache.GetItem(User_().Id);
 
         if (categoryCacheItem.Creator != userCacheItem.User)
             return Json(new
@@ -279,7 +279,7 @@ public class CategoryController : BaseController
     public JsonResult GetCategoryToPrivateModalData(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
-        var userCacheItem = UserCache.GetItem(User_().Id);
+        var userCacheItem = SessionUserCache.GetItem(User_().Id);
 
 
         if (!PermissionCheck.CanEdit(categoryCacheItem))

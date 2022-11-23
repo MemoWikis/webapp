@@ -15,7 +15,7 @@ public class LearningSession
     public LearningSessionStep CurrentStep => Steps[CurrentIndex];
     public string UrlName = "";
 
-    public User User;
+    public UserEntityCacheItem User;
     public bool IsLoggedIn;
     public Guid QuestionViewGuid;
     public QuestionCounter QuestionCounter;
@@ -23,8 +23,8 @@ public class LearningSession
     {
         Steps = learningSessionSteps;
         var userId = config.CurrentUserId == 0 ? SessionUser.UserId : config.CurrentUserId;
-        var userCacheItem = UserCache.GetItem(userId);
-        User = userCacheItem.User;
+        var userCacheItem = SessionUserCache.GetItem(userId);
+        User = userCacheItem;
         IsLoggedIn = config.CurrentUserId != -1;
         Config = config;
         Config.Category = EntityCache.GetCategory(Config.CategoryId);

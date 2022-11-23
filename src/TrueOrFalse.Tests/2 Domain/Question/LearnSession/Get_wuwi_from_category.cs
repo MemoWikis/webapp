@@ -12,7 +12,7 @@ class Get_wuwi_from_category : BaseTest
         ContextQuestion.SetWuwi(20);
             
         var categoryId = 1;
-        var userCacheItem = UserCache.GetAllCacheItems().Where(uci => uci.User.Name == "Daniel" ).First();
+        var userCacheItem = SessionUserCache.GetAllCacheItems().Where(uci => uci.User.Name == "Daniel" ).First();
 
         var wuwis = userCacheItem.QuestionValuations
             .Select(qv => qv.Value)

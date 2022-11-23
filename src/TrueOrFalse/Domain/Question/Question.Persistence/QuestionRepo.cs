@@ -27,17 +27,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Update(question);
     }
 
-    public IList<UserTinyModel> GetAuthorsQuestion(int questionId, bool filterUsersForSidebar = false)
-    {
-        var allAuthors = Sl.QuestionChangeRepo
-            .GetForQuestion(questionId, filterUsersForSidebar)
-            .Select(QuestionChange => new UserTinyModel(QuestionChange.Author));
-
-        return allAuthors.GroupBy(a => a.Id)
-            .Select(groupedAuthor => groupedAuthor.First())
-            .ToList();
-    }
-
     public new void Update(Question question)
     {
         UpdateOrMerge(question, merge: false);

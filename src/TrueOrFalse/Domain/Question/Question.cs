@@ -177,7 +177,7 @@ public class Question : DomainEntity, ICreator
         return answerText;
     }
 
-    public virtual bool IsInWishknowledge() => UserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id); 
+    public virtual bool IsInWishknowledge() => SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id); 
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(Id);
 
     public virtual string ToLomXml() => LomXml.From(this);

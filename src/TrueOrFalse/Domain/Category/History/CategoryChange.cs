@@ -1,7 +1,5 @@
 ﻿using Seedworks.Lib.Persistence;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class CategoryChange : Entity, WithDateCreated
 {
@@ -11,7 +9,11 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual bool ShowInSidebar { get; set; } = true;
 
-    public virtual User Author { get; set; }
+    private UserEntityCacheItem _author;
+    public virtual UserEntityCacheItem Author => _author ??= SessionUserCache.GetItem(AuthorId);
+    public virtual User
+
+    public virtual int AuthorId { get; set; }
 
     public virtual CategoryChangeType Type { get; set; } 
 

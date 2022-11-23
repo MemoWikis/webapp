@@ -33,7 +33,7 @@ public class CategoryInKnowledge
         var questionInOtherPinnedEntitites = questionsInPinnedCategories;
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
-        var questionValuations = UserCache.GetItem(user.Id).QuestionValuations;
+        var questionValuations = SessionUserCache.GetItem(user.Id).QuestionValuations;
         foreach (var question in questionsToUnpin)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
@@ -55,7 +55,7 @@ public class CategoryInKnowledge
             userQuestionValuation = new QuestionValuationCacheItem()
             {
                 Question = question,
-                User = UserCache.GetItem(user.Id),
+                User = SessionUserCache.GetItem(user.Id),
                 IsInWishKnowledge = isInWishKnowledge
             };
         }
@@ -83,7 +83,7 @@ public class CategoryInKnowledge
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = UserCache.GetCategoryValuations(user.Id).Where(v => v.IsInWishKnowledge());
+        var valuatedCategories = SessionUserCache.GetCategoryValuations(user.Id).Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)
             valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);

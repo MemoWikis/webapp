@@ -31,13 +31,13 @@ public class UserValuationCache_tests : BaseTest
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));
         Assert.That(Cache.Count, Is.EqualTo(0));
 
-        var cacheItem = UserCache.GetItem(user.Id);
+        var cacheItem = SessionUserCache.GetItem(user.Id);
 
         Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
 
         cacheItem.CategoryValuations.TryRemove(cacheItem.CategoryValuations.Keys.First(), out var catValout);
 
-        var cacheItem2 = UserCache.GetItem(user.Id);
+        var cacheItem2 = SessionUserCache.GetItem(user.Id);
 
         Assert.That(cacheItem2.CategoryValuations.Count, Is.EqualTo(2));
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));

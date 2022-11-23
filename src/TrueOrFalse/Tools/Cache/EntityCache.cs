@@ -7,11 +7,14 @@ using System.Web;
 
 public class EntityCache : BaseCache
 {
-    private const string _cacheKeyQuestions = "allQuestions _EntityCache";
+    private const string _cacheKeyUsers = "allUsers_EntityCache";
+    private const string _cacheKeyQuestions = "allQuestions_EntityCache";
     private const string _cacheKeyCategories = "allCategories_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
+    private static ConcurrentDictionary<int, UserEntityCacheItem> Users => (ConcurrentDictionary<int, UserEntityCacheItem>)HttpRuntime.Cache[_cacheKeyUsers];
+
     private static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
 
@@ -26,6 +29,13 @@ public class EntityCache : BaseCache
         var stopWatch = Stopwatch.StartNew();
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var allUsers = Sl.UserRepo.GetAll();
+        Logg.r().Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var users = UserEntityCacheItem.ToCacheUsers(allUsers).ToList();
+        Logg.r().Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        IntoForeverCache(_cacheKeyUsers, users.ToConcurrentDictionary());
+
         var allCategories = Sl.CategoryRepo.GetAllEager();
         Logg.r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
@@ -51,6 +61,15 @@ public class EntityCache : BaseCache
         }
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
         IsFirstStart = false;
+    }
+
+    public static UserEntityCacheItem GetUserById(int userId)
+    {
+        if (Users.TryGetValue(userId, out var user))
+            return user;
+
+        Logg.r().Warning("UserId is not available");
+        return new UserEntityCacheItem();
     }
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)

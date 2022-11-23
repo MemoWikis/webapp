@@ -34,7 +34,7 @@ public class RegisterController : BaseController
         user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
         SessionUser.User.StartTopicId = category.Id;
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
         return Category(EntityCache.GetCategory(category.Id));
     }
 

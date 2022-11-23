@@ -17,7 +17,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var questionId = dataMap.GetInt("questionId");
             Logg.r().Information("Job started - DeleteQuestion {id}", questionId);
 
-            UserCache.RemoveQuestionForAllUsers(questionId);
+            SessionUserCache.RemoveQuestionForAllUsers(questionId);
 
             //delete connected db-entries
             Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);

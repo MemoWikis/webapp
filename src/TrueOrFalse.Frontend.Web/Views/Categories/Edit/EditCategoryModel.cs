@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Security;
 using System.Web;
-using TrueOrFalse.Tools.Cache.UserWorld;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel

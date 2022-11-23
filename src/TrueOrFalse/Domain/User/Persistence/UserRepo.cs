@@ -79,21 +79,37 @@ public class UserRepo : RepositoryDbBase<User>
         ReputationUpdate.ForUser(followerInfo.User);
 
 
-        UserCache.AddOrUpdate(followerInfo.User);
+        SessionUserCache.AddOrUpdate(followerInfo.User);
     }
 
     public void Update(User user)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
+    }
+
+    public void Update(UserEntityCacheItem userCacheItem)
+    {
+        var user = GetById(userCacheItem.UserId);
+
+        user.EmailAddress = userCacheItem.EmailAddress;
+        user.Name = userCacheItem.Name;
+        user.FacebookId = userCacheItem.FacebookId;
+        user.GoogleId = userCacheItem.GoogleId;
+        user.Reputation = userCacheItem.Reputation;
+        user.ReputationPos = userCacheItem.ReputationPos;
+        user.FollowerCount = userCacheItem.FollowerCount;
+        user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
+
+        Update(user);
     }
 
     public override void Create(User user)
     {
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
     }
 
     public override void Delete(int id)
@@ -105,7 +121,7 @@ public class UserRepo : RepositoryDbBase<User>
 
         _searchIndexUser.Delete(user);
         base.Delete(id);
-        UserCache.Remove(user);
+        SessionUserCache.Remove(user);
     }
 
     public void DeleteFromAllTables(int userId)
@@ -216,7 +232,7 @@ public class UserRepo : RepositoryDbBase<User>
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
     }
 
     public void UpdateUserFollowerCount(int userid)

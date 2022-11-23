@@ -81,7 +81,7 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator == user)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.UserId == user.Id)
             return true;
 
         return false;

@@ -13,7 +13,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChange = new CategoryChange
         {
             Category = category,
-            Author = SessionUser.User,
+            AuthorId = SessionUser.User.Id,
             Type = CategoryChangeType.Delete,
             DataVersion = 2,
             Data = ""
@@ -36,7 +36,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         {
             Category = category,
             Type = categoryChangeType,
-            Author = author,
+            AuthorId = author.Id,
             DataVersion = 2
         };
         if (category.AuthorIds == null)
@@ -61,7 +61,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         {
             Category = category,
             Type = categoryChangeType,
-            Author = author,
+            AuthorId = author.Id,
             DataVersion = 2
         };
         if (category.AuthorIds == null)

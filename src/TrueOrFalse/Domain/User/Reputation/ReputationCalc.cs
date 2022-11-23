@@ -13,7 +13,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public ReputationCalcResult Run(User user)
+    public ReputationCalcResult Run(UserEntityCacheItem user)
     {
         var result = new ReputationCalcResult();
         result.User = new UserTinyModel(user);
@@ -28,7 +28,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
-        var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.Id);
+        var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.UserId);
         result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
         /* Calculate Reputation for other things */

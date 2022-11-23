@@ -34,7 +34,7 @@ public class LearningSessionCreator
         var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache();
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = UserCache.GetQuestionValuations(SessionUser.UserId);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
