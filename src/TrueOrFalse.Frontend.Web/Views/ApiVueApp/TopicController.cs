@@ -25,7 +25,7 @@ public class TopicController : BaseController
                 Visibility = category.Visibility,
                 AuthorIds = category.AuthorIds,
                 IsWiki = category.IsStartPage(),
-                CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
+                CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.UserId == category.Creator.UserId,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
                 QuestionCount = category.CountQuestionsAggregated
             }, JsonRequestBehavior.AllowGet);

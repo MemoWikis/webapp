@@ -6,7 +6,7 @@ public class QuestionValuationCacheItem
 {
     public int Id;
 
-    public UserEntityCacheItem User;
+    public UserCacheItem User;
     public QuestionCacheItem Question;
     public DateTime DateCreated;
 

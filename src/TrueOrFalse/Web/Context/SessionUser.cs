@@ -29,7 +29,16 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set => SessionData.Set("userId", value);
     }
 
-    public static SessionUserCacheItem User => SessionUserCache.GetUser(_userId);
+    public static SessionUserCacheItem User
+    {
+        get
+        {
+            if (_userId == -1) 
+                return null;
+
+            return SessionUserCache.GetUser(_userId);
+        }
+    }
 
     public static bool IsLoggedInUser(int userId)
     {
@@ -48,7 +57,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
-        User = user;
+        _userId = user.Id;
         CurrentWikiId = user.StartTopicId;
 
         if (user.IsInstallationAdmin)
@@ -64,28 +73,14 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         IsLoggedIn = false;
         IsInstallationAdmin = false;
-        User = null;
+        _userId = -1;
         CurrentWikiId = 1;
 
         if (HttpContext.Current != null)
             FormsAuthentication.SignOut();
     }
 
-    public static void UpdateUser()
-    {
-        User = Sl.UserRepo.GetById(UserId);
-    }
-
-    public static int UserId
-    {
-        get
-        {
-            if (IsLoggedIn)
-                return User.Id;
-
-            return -1;
-        }
-    }
+    public static int UserId => _userId;
 
     public static List<ActivityPoints> ActivityPoints => SessionData.Get("pointActivities", new List<ActivityPoints>());
 

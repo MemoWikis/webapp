@@ -82,7 +82,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
         }
 
-        public static string UserDetailBadges(UserEntityCacheItem user)
+        public static string UserDetailBadges(UserCacheItem user)
         {
             var userTiny = new UserTinyModel(user);
             return GetUrlHelper().Action("Badges", UserController,

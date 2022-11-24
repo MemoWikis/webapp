@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.String;
 
-public class UserEntityCacheItem
+public class UserCacheItem
 {
     public int UserId;
     public string Name;
@@ -18,6 +18,9 @@ public class UserEntityCacheItem
     public int ReputationPos;
     public int FollowerCount;
     public bool ShowWishKnowledge;
+
+    public int StartTopicId;
+
     public virtual IList<Membership> MembershipPeriods { get; set; }
     public virtual bool IsMember()
     {
@@ -27,9 +30,9 @@ public class UserEntityCacheItem
         return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
     }
 
-    public static UserEntityCacheItem ToCacheUser(User user)
+    public static UserCacheItem ToCacheUser(User user)
     {
-        return new UserEntityCacheItem
+        return new UserCacheItem
         {
             UserId = user.Id,
             Name = user.Name,
@@ -40,9 +43,11 @@ public class UserEntityCacheItem
             ReputationPos = user.ReputationPos,
             FollowerCount = user.FollowerCount,
             ShowWishKnowledge = user.ShowWishKnowledge,
+
+            StartTopicId = user.StartTopicId,
         };
     }
 
-    public static IEnumerable<UserEntityCacheItem> ToCacheUsers(IEnumerable<User> users) => users.Select(ToCacheUser);
+    public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users) => users.Select(ToCacheUser);
 
 }

@@ -19,7 +19,7 @@ public class ActivityPointsApiController : BaseController
             activityPoints.User = SessionUser.User;
             Sl.ActivityPointsRepo.Create(activityPoints);
             Sl.UserRepo.UpdateActivityPointsData();
-            SessionUser.UpdateUser();
+            //SessionUser.UpdateUser();
 
             var levelPopupAsHtml = "";
             if (oldUserLevel < SessionUser.User.ActivityLevel)

@@ -37,7 +37,7 @@ public class QuestionCacheItem
     public virtual IList<ReferenceCacheItem> References { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
-    public virtual UserEntityCacheItem Creator { get; set; }
+    public virtual UserCacheItem Creator { get; set; }
 
     public virtual int TotalTrueAnswers { get; set; }
     public virtual int TotalFalseAnswers { get; set; }

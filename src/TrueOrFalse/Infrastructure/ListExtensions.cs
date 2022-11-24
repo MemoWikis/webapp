@@ -56,9 +56,9 @@ public static class ListExtensions
     {
         return new ConcurrentDictionary<int, T>(list.Select(i => new KeyValuePair<int, T>(i.Id, i)));
     }
-    public static ConcurrentDictionary<int, UserEntityCacheItem> ToConcurrentDictionary(this IList<UserEntityCacheItem> list)
+    public static ConcurrentDictionary<int, UserCacheItem> ToConcurrentDictionary(this IList<UserCacheItem> list)
     {
-        return new ConcurrentDictionary<int, UserEntityCacheItem>(list.Select(user => new KeyValuePair<int, UserEntityCacheItem>(user.UserId, user)));
+        return new ConcurrentDictionary<int, UserCacheItem>(list.Select(user => new KeyValuePair<int, UserCacheItem>(user.UserId, user)));
     }
 
     public static ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(this IList<CategoryCacheItem> list)

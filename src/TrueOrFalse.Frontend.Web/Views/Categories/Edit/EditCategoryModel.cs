@@ -19,7 +19,7 @@ public class EditCategoryModel : BaseModel
 
     public List<Category> DescendantCategories = new List<Category>();
 
-    public IList<Category> AggregatedCategories = new List<Category>();
+    public IList<CategoryCacheItem> AggregatedCategories = new List<CategoryCacheItem>();
 
     //public IList<Category> NonAggregatedCategories = new List<Category>();
 
@@ -84,7 +84,7 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
-        AggregatedCategories = Category.ToCategories(CategoryCacheItem.ToCacheCategory(category).AggregatedCategories(includingSelf: false).Select(dic => dic.Value).OrderBy(c => c.Name)).ToList();
+        AggregatedCategories = CategoryCacheItem.ToCacheCategory(category).AggregatedCategories(includingSelf: false).Select(dic => dic.Value).OrderBy(c => c.Name).ToList();
         //NonAggregatedCategories = Category.ToCategories(CategoryCacheItem.ToCacheCategory(category).NonAggregatedCategories());
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;

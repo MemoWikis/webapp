@@ -15,7 +15,7 @@ public class LearningSession
     public LearningSessionStep CurrentStep => Steps[CurrentIndex];
     public string UrlName = "";
 
-    public UserEntityCacheItem User;
+    public UserCacheItem User;
     public bool IsLoggedIn;
     public Guid QuestionViewGuid;
     public QuestionCounter QuestionCounter;

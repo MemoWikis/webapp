@@ -89,6 +89,12 @@ public class User : DomainEntity, IUserTinyModel
         Sl.UserRepo.Update(this);
     }
 
+    public static void AddNewIdToWikiHistory(int userId, int topicId)
+    {
+        var user = Sl.UserRepo.GetById(userId);
+        user.AddNewIdToWikiHistory(topicId);
+    }
+
     public virtual void AddFollower(User follower)
     {
         Followers.Add(new FollowerInfo {Follower = follower, User = this, DateCreated = DateTime.Now, DateModified = DateTime.Now});

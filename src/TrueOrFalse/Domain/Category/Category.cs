@@ -72,9 +72,6 @@ public class Category : DomainEntity, ICreator, ICloneable
             : new List<Category>();
     }
 
-    public static IEnumerable<Category> ToCategories(List<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(ToCategory);
-    public static IEnumerable<Category> ToCategories(IEnumerable<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(ToCategory);
-
     public static Category ToCategory(CategoryCacheItem categoryCacheItem)
     {
         var userEntityCacheCategoryRelations = new CategoryRelation();

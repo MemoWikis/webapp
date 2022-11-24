@@ -22,7 +22,7 @@ public class CategoryCacheItem
 
     public virtual bool DisableLearningFunctions { get; set; }
 
-    public virtual UserEntityCacheItem Creator { get; set; }
+    public virtual UserCacheItem Creator { get; set; }
     public virtual int[] AuthorIds { get; set; }
     public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
     public virtual int CountQuestions { get; set; }

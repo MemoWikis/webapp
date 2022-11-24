@@ -266,7 +266,6 @@
     <Compile Include="Domain\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />
-    <Compile Include="Domain\Category\Ops\OrderCategoriesByQuestionCountAndLevel.cs" />
     <Compile Include="Domain\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Category\CategoryValuation\CategoryInKnowledge.cs" />

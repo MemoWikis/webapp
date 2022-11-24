@@ -38,7 +38,8 @@ public class VueEditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        question.Creator = SessionUser.User;
+        var sessionUser = Sl.UserRepo.GetById(SessionUser.User.UserId);
+        question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -49,7 +50,7 @@ public class VueEditQuestionController : BaseController
         LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.User);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser);
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -119,7 +120,8 @@ public class VueEditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = SessionUser.User;
+        var sessionUser = Sl.UserRepo.GetById(SessionUser.User.UserId);
+        question.Creator =  sessionUser;
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;
@@ -128,7 +130,7 @@ public class VueEditQuestionController : BaseController
         _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.User);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_questionRepo);
@@ -266,13 +268,13 @@ public class VueEditQuestionController : BaseController
         if (imageSource == "wikimedia")
         {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, ImageType.Question, SessionUser.User.Id);
+                wikiFileName, questionId, ImageType.Question, SessionUser.User.UserId);
         }
 
         if (imageSource == "upload")
         {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.User.Id, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.User.UserId, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);

@@ -276,7 +276,7 @@ public class EditCategoryController : BaseController
         }
 
         if (addIdToWikiHistory)
-            SessionUser.User.AddNewIdToWikiHistory(parentCategoryId);
+            global::User.AddNewIdToWikiHistory(SessionUser.UserId, parentCategoryId);
 
         var child = EntityCache.GetCategory(childCategoryId);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
@@ -524,12 +524,12 @@ public class EditCategoryController : BaseController
             if (Request["ImageSource"] == "wikimedia")
             {
                 Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
-                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.User.Id);
+                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.User.UserId);
             }
             if (Request["ImageSource"] == "upload")
             {
                 Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.User.Id, Request["ImageLicenseOwner"]);
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.User.UserId, Request["ImageLicenseOwner"]);
             }
         }
     }
@@ -703,10 +703,10 @@ public class EditCategoryController : BaseController
     public void SaveImage(int categoryId, string source, string wikiFileName = null, string guid = null, string licenseOwner = null)
     {
         if (source == "wikimedia")
-            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.User.Id);
+            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.User.UserId);
         if (source == "upload")
             Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.User.Id, licenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.User.UserId, licenseOwner);
     }
 
     [HttpGet]

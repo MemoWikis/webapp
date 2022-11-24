@@ -89,7 +89,7 @@ public class UserRepo : RepositoryDbBase<User>
         SessionUserCache.AddOrUpdate(user);
     }
 
-    public void Update(UserEntityCacheItem userCacheItem)
+    public void Update(UserCacheItem userCacheItem)
     {
         var user = GetById(userCacheItem.UserId);
 

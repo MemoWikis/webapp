@@ -13,7 +13,7 @@ public class EntityCache : BaseCache
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserEntityCacheItem> Users => (ConcurrentDictionary<int, UserEntityCacheItem>)HttpRuntime.Cache[_cacheKeyUsers];
+    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[_cacheKeyUsers];
 
     private static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[_cacheKeyQuestions];
     private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
@@ -31,7 +31,7 @@ public class EntityCache : BaseCache
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var allUsers = Sl.UserRepo.GetAll();
         Logg.r().Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var users = UserEntityCacheItem.ToCacheUsers(allUsers).ToList();
+        var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Logg.r().Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyUsers, users.ToConcurrentDictionary());
@@ -63,13 +63,13 @@ public class EntityCache : BaseCache
         IsFirstStart = false;
     }
 
-    public static UserEntityCacheItem GetUserById(int userId)
+    public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))
             return user;
 
         Logg.r().Warning("UserId is not available");
-        return new UserEntityCacheItem();
+        return new UserCacheItem();
     }
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)

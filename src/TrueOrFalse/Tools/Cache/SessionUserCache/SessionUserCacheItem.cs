@@ -9,6 +9,8 @@ public class SessionUserCacheItem
     public int UserId;
     public string Name;
     public string EmailAddress;
+    public bool IsInstallationAdmin;
+
     public string FacebookId;
     public bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
     public string GoogleId;
@@ -19,6 +21,9 @@ public class SessionUserCacheItem
     public int FollowerCount;
     public bool ShowWishKnowledge;
     public IList<Membership> MembershipPeriods { get; set; }
+    public int ActivityPoints;
+    public int ActivityLevel;
+
     public bool IsMember()
     {
         if (MembershipPeriods.Count == 0)
@@ -36,6 +41,8 @@ public class SessionUserCacheItem
             UserId = user.Id,
             Name = user.Name,
             EmailAddress = user.EmailAddress,
+            IsInstallationAdmin = user.IsInstallationAdmin,
+
             FacebookId = user.FacebookId,
             GoogleId = user.GoogleId,
             Reputation = user.Reputation,
@@ -44,6 +51,8 @@ public class SessionUserCacheItem
             ShowWishKnowledge = user.ShowWishKnowledge,
 
             StartTopicId = user.StartTopicId,
+            ActivityPoints = user.ActivityPoints,
+            ActivityLevel = user.ActivityLevel,
         };
     }
 

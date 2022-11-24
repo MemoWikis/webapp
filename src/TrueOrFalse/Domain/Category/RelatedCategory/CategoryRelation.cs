@@ -10,9 +10,7 @@ public class CategoryRelation : DomainEntity
     public virtual Category Category { get; set; }
 
     public virtual Category RelatedCategory { get; set; }
-
-
-
+    
     public virtual IList<CategoryRelation> ToListCategoryRelations(
         IList<CategoryCacheRelation> listCategoryRelations)
     {
@@ -23,13 +21,13 @@ public class CategoryRelation : DomainEntity
 
         foreach (var categoryRelation in listCategoryRelations)
         {
-            result.Add(ToUserEntityCacheRelation(categoryRelation));
+            result.Add(FromEntityCacheRelation(categoryRelation));
         }
 
         return result;
     }
 
-    public virtual CategoryRelation ToUserEntityCacheRelation(CategoryCacheRelation categoryRelation)
+    public virtual CategoryRelation FromEntityCacheRelation(CategoryCacheRelation categoryRelation)
     {
         return new CategoryRelation
         {

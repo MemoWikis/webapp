@@ -13,7 +13,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChange = new CategoryChange
         {
             Category = category,
-            AuthorId = SessionUser.User.Id,
+            AuthorId = SessionUser.User.UserId,
             Type = CategoryChangeType.Delete,
             DataVersion = 2,
             Data = ""
@@ -22,30 +22,30 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public void AddCreateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Create);
+    public void AddCreateEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Create);
     public void AddCreateEntryDbOnly(Category category, User author) => AddUpdateOrCreateEntryDbOnly(category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(Category category, User author, bool imageWasUpdated, CategoryChangeType type, int[] affectedParentIdsByMove = null) => AddUpdateOrCreateEntry(category, author, type, imageWasUpdated, affectedParentIdsByMove);
-    public void AddPublishEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Published);
-    public void AddMadePrivateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Privatized);
-    public void AddTitleIsChangedEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Renamed);
+    public void AddUpdateEntry(Category category, int authorId, bool imageWasUpdated) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Update, imageWasUpdated);
+    public void AddUpdateEntry(Category category, int authorId, bool imageWasUpdated, CategoryChangeType type, int[] affectedParentIdsByMove = null) => AddUpdateOrCreateEntry(category, authorId, type, imageWasUpdated, affectedParentIdsByMove);
+    public void AddPublishEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Published);
+    public void AddMadePrivateEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Privatized);
+    public void AddTitleIsChangedEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Renamed);
 
-    private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
+    private void AddUpdateOrCreateEntry(Category category, int authorId, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
     {
         var categoryChange = new CategoryChange
         {
             Category = category,
             Type = categoryChangeType,
-            AuthorId = author.Id,
+            AuthorId = authorId,
             DataVersion = 2
         };
         if (category.AuthorIds == null)
         {
             category.AuthorIds = "";
         }
-        if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
+        if (AuthorWorthyChangeCheck(categoryChangeType) && authorId > 0 && !category.AuthorIds.Contains("," + authorId + ","))
         {
-            category.AuthorIds += ", " + author.Id;
+            category.AuthorIds += ", " + authorId;
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
             EntityCache.AddOrUpdate(categoryCacheItem);

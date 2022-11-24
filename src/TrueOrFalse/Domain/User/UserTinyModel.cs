@@ -30,10 +30,10 @@ public class UserTinyModel : IUserTinyModel
     public bool IsMember { get; }
 
     [ScriptIgnore]
-    private readonly UserEntityCacheItem _user;
+    private readonly UserCacheItem _user;
 
     [ScriptIgnore]
-    public UserEntityCacheItem User => _user;
+    public UserCacheItem User => _user;
 
     public bool IsMemuchoUser { get; }
 
@@ -41,7 +41,7 @@ public class UserTinyModel : IUserTinyModel
     public bool IsUnknown { get; }
     public int FollowerCount { get;  }
 
-    public UserTinyModel(UserEntityCacheItem userCacheItem)
+    public UserTinyModel(UserCacheItem userCacheItem)
     {
         _user = userCacheItem;
 

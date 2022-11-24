@@ -30,6 +30,8 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     {
         var userToUpdate = SessionUserCache.GetItem(userToUpdateId);
 
+        UserCacheItem
+
         var oldReputation = userToUpdate.Reputation;
         var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
 
