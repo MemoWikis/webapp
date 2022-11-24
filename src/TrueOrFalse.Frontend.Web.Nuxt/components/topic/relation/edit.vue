@@ -325,7 +325,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                     <div class="categorySearchAutocomplete mb-250"
                         v-if="addToWikiHistory != null && addToWikiHistory.length > 0">
                         <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Themen</div>
-                        <template v-for="previousTopic in addToWikiHistory">
+                        <template v-for="previousTopic in addToWikiHistory" v-if="addToWikiHistory != null">
                             <div class="searchResultItem"
                                 :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousTopic.Id }"
                                 @click="selectedParentInWikiId = previousTopic.Id">

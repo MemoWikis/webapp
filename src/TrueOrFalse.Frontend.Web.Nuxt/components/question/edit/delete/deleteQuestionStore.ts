@@ -6,7 +6,7 @@ export const useDeleteQuestionStore = defineStore('deleteQuestionStore', {
         showModal: false,
         id: 0,
         deletedQuestionId: 0,
-        deletedQuestionIndex: 0,
+        deletedQuestionIndex: 0 as number | null,
       }
     },
     actions: {

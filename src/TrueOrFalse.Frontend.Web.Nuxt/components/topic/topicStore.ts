@@ -2,22 +2,22 @@ import { defineStore } from 'pinia'
 import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 
-export interface Topic {
-  CanAccess: boolean
-  Id: number
-  Name: string
-  ImgUrl: string
-  Content: string
-  ParentTopicCount: number
-  ChildTopicCount: number
-  Views: number
-  CommentCount: number
-  Visibility: Visibility
-  AuthorIds: number[]
-  IsWiki: boolean
-  CurrentUserIsCreator: boolean
-  CanBeDeleted: boolean
-  QuestionCount: number
+export class Topic {
+  CanAccess: boolean = false
+  Id: number = 0
+  Name: string = ''
+  ImgUrl: string = ''
+  Content: string = ''
+  ParentTopicCount: number =  0
+  ChildTopicCount: number = 0
+  Views: number =  0
+  CommentCount: number = 0
+  Visibility: Visibility = Visibility.Owner
+  AuthorIds: number[] = []
+  IsWiki: boolean = false
+  CurrentUserIsCreator: boolean = false
+  CanBeDeleted: boolean = false
+  QuestionCount: number = 0
 }
 
 export const useTopicStore = defineStore('topicStore', {

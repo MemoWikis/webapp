@@ -13,7 +13,4 @@ export const useTabsStore = defineStore('tabsStore', {
       activeTab: null as unknown as Tab,
     }
   },
-  getters:{
-    getActiveTab() { return this.activeTab },
-  },
 })

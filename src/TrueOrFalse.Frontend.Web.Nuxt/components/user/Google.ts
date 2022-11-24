@@ -37,20 +37,20 @@ export class Google {
 
     public static SignIn() {
         Google._auth2.signIn().then(
-            (googleUser) => {
+            (googleUser: gapi.auth2.GoogleUser) => {
                 Google.OnLoginSuccess(googleUser);
             },
-            (error) => {
+            (error: string) => {
                 Google.OnLoginError(error);
             });
      }
 
-    private static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
+    private static async OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
 
         var googleId = googleUser.getBasicProfile().getId();
         var googleIdToken = googleUser.getAuthResponse().id_token;
 
-        if (GoogleMemuchoUser.Exists(googleId)) {
+        if (await GoogleMemuchoUser.Exists(googleId)) {
             GoogleMemuchoUser.Login(googleId, googleIdToken);
             Site.loadValidPage();
             return;
@@ -60,7 +60,7 @@ export class Google {
        Site.loadValidPage();
     }
 
-    private static OnLoginError(error) {
+    private static OnLoginError(error: string) {
         alert(JSON.stringify(error, undefined, 2));
     }
 

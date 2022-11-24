@@ -10,7 +10,7 @@ function resize() {
     element.style.height = element.scrollHeight + "px"
 }
 
-onMounted(() => {
+onBeforeMount(() => {
     window.addEventListener('resize', resize);
 
     watch(() => topicStore.name, (newName) => {

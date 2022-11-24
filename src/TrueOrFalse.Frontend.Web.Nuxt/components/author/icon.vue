@@ -6,13 +6,15 @@ const props = defineProps(['id'])
 const data = {
     id: props.id
 }
-const author = ref(null as Author)
-// if (process.client) {
-author.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-// } else if (process.server) {
-//     const config = useRuntimeConfig()
-//     author.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-// }
+
+const { data: author } = await useFetch<Author>(`/apiVue/Author/GetAuthor/`,
+    {
+        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
+        method: 'POST', body: data,
+        credentials: 'include',
+        mode: 'no-cors',
+        server: true,
+    })
 </script>
 
 <template>

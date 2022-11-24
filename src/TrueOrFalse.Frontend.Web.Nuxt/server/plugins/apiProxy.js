@@ -5,7 +5,6 @@ const apiProxy = httpProxy.createProxyServer({
   target: "http://memucho.local/apiVue/",
 })
 apiProxy.on("proxyReq", (proxyReq, req, res, options) => {
-  console.log(proxyReq.path)
 })
 
 

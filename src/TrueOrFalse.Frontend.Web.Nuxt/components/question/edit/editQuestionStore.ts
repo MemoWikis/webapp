@@ -12,10 +12,16 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
         id: 0,
         type: null as unknown as Type,
         edit: false,
+        sessionIndex: 0
       }
     },
     actions: {
-      createQuestion(q) {
+      createQuestion(q: {
+        topicId: number
+        edit: boolean,
+        questionHtml: string,
+        solution: string,
+    }) {
         var question = {
           topicId: q.topicId,
           editQuestion: false,

@@ -8,7 +8,7 @@ export enum SearchType {
     CategoryInWiki = 4
 }
 
-export class SearchTopicItem
+export interface SearchTopicItem
 {
      Id: number
      Name: string
@@ -20,7 +20,7 @@ export class SearchTopicItem
      Visibility: Visibility
 }
 
-export class CategoryItem {
+export interface CategoryItem {
     Id: number
     Name: string
     Url: string

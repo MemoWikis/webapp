@@ -21,7 +21,7 @@
 }
 
 export interface FacebookUserFields {
-    id;
-    email;
-    name;
+    id: any;
+    email: any;
+    name: any;
 }

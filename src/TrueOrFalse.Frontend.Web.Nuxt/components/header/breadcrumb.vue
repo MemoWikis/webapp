@@ -7,7 +7,7 @@ import { useUserStore } from '../user/userStore'
 
 const props = defineProps(['headerContainer', 'headerExtras', 'route'])
 const topicStore = useTopicStore()
-class BreadcrumbItem {
+interface BreadcrumbItem {
     Name: string
     Id: number
 }
@@ -20,7 +20,7 @@ class Breadcrumb {
     breadcrumbHasGlobalWiki: boolean
     isInPersonalWiki: boolean
 }
-const breadcrumb = ref(null)
+const breadcrumb = ref(null as Breadcrumb)
 
 onBeforeMount(async () => {
     getBreadcrumb()
@@ -39,6 +39,7 @@ function startUpdateBreadcrumb() {
 }
 
 const personalWiki = ref(null as BreadcrumbItem)
+
 const updateBreadcrumb = _.throttle(async () => {
     if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null) {
         const width = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
@@ -112,23 +113,34 @@ async function getBreadcrumb() {
         currentCategoryId: topicStore.id,
     }
     if (pageType.value == PageType.Topic) {
-        // if (process.client) {
-        breadcrumb.value = await $fetch<Breadcrumb>('/api/Breadcrumb/GetBreadcrumb/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-        // } else if (process.server) {
-        //     const config = useRuntimeConfig()
-        //     breadcrumb.value = await $fetch<Breadcrumb>('/Breadcrumb/GetBreadcrumb/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-        // }
-        personalWiki.value = breadcrumb.personalWiki
-        breadcrumbItems.value = breadcrumb.value.items
-        sessionStorage.setItem('currentWikiId', breadcrumb.value.newWikiId)
+        const { data: result } = await useFetch<Breadcrumb>(`/Breadcrumb/GetBreadcrumb/`,
+            {
+                method: 'POST',
+                body: data,
+                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
+                credentials: 'include',
+                mode: 'no-cors',
+                server: true,
+            })
+
+        breadcrumb.value = result.value
+        personalWiki.value = result.value.personalWiki
+        breadcrumbItems.value = result.value.items
+        sessionStorage.setItem('currentWikiId', result.value.newWikiId.toString())
         updateBreadcrumb()
+
     } else {
-        // if (process.client) {
-        personalWiki.value = await $fetch<BreadcrumbItem>('/api/Breadcrumb/GetPersonalWiki/', { method: 'POST', mode: 'cors', credentials: 'include' })
-        // } else if (process.server) {
-        //     const config = useRuntimeConfig()
-        //     personalWiki.value = await $fetch<BreadcrumbItem>('/Breadcrumb/GetPersonalWiki/', { method: 'POST', baseURL: config.apiBase, mode: 'cors', credentials: 'include' })
-        // }
+        const { data: result } = await useFetch<BreadcrumbItem>(`/Breadcrumb/GetPersonalWiki/`,
+            {
+                method: 'POST',
+                body: data,
+                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
+                credentials: 'include',
+                mode: 'no-cors',
+                server: true,
+            })
+
+        personalWiki.value = result.value
     }
 }
 

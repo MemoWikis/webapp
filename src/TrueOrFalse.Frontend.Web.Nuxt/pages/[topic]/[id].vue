@@ -6,17 +6,15 @@ import { PageType } from '~~/components/shared/pageTypeEnum'
 
 const tabsStore = useTabsStore()
 const route = useRoute()
-const config = useRuntimeConfig()
 
-const { data: topic } = await useFetch<any>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
         credentials: 'include',
         mode: 'no-cors',
         server: true,
     })
-
-if (topic.value.CanAccess) {
+if (topic.value != null && topic.value.CanAccess) {
     useState<Topic>('topic', () => topic)
     const topicStore = useTopicStore()
     topicStore.setTopic(topic.value)

@@ -19,11 +19,11 @@ export const useAlertStore = defineStore('alertStore', {
         return {
           show: false,
           type: AlertType.Default,
-          msg: null as unknown as AlertMsg,
+          msg: null as unknown as AlertMsg | null,
           showCancelButton: false,
           label: 'Ok',
           cancelled: false,
-          title: null
+          title: null as string | null
         }
       },
       actions: {

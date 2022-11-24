@@ -24,10 +24,10 @@ export interface UserModel {
   }
 
   export class ReputationCalcResult {
-    ForQuestionsCreated: number
-    ForQuestionsInOtherWishKnowledge: number
-    ForUsersFollowingMe: number
-    ForPublicWishknowledge: number
+    ForQuestionsCreated: number = 0
+    ForQuestionsInOtherWishKnowledge: number = 0
+    ForUsersFollowingMe: number = 0
+    ForPublicWishknowledge: number = 0
     TotalReputation() {
         return this.ForQuestionsCreated + this.ForQuestionsInOtherWishKnowledge + this.ForUsersFollowingMe + this.ForPublicWishknowledge
     }

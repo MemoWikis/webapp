@@ -22,13 +22,24 @@ export default defineNuxtConfig({
     // },
     ssr: true,
     modules: [
-        '@pinia/nuxt',    ],
+        '@pinia/nuxt',  
+    ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
-      ],
+        '~/assets/bootstrap/bootstrap.less',
+        // '~/assets/bootstrap/memucho_overrides.css',
+        '~/assets/bootstrap/variables_custom.less',
+        '~/assets/site.less',
+        '~/assets/top-header.less'   
+        ],
       typescript: {
         shim: false,
         typeCheck: true,
-        strict: false
+        // strict: false
     },
+    build: {
+        transpile: [        
+            '@fortawesome'  
+        ]
+    }
 })

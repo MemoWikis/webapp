@@ -4,79 +4,79 @@ import { useTopicStore } from '../topicStore'
 import _ from 'underscore'
 
 export class SessionConfig {
-    questionFilterOptions = {
+    questionFilterOptions:{ [key: string]: any; } = {
         inWuwi: {
             count: 0,
             label: 'Im Wunschwissen',
             icon: 'fa-solid fa-heart',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         notInWuwi: {
             count: 0,
             label: 'Nicht im Wunschwissen',
             icon: 'fa-regular fa-heart',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         createdByCurrentUser: {
             count: 0,
             label: 'Von mir erstellt',
             icon: 'fa-solid fa-user-check',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         notCreatedByCurrentUser: {
             count: 0,
             label: 'Nicht von mir erstellt',
             icon: 'fa-solid fa-user-slash',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         privateQuestions: {
             count: 0,
             label: 'Private Fragen',
             icon: 'fa-solid fa-lock',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         publicQuestions: {
             count: 0,
             label: 'Öffentliche Fragen',
             icon: 'fa-solid fa-globe',
             isSelected: true,
             questionIds: [],
-        }
+        } as { [key: string]: number | string | boolean | number[]; }
     }
-    knowledgeSummary = {
+    knowledgeSummary:{ [key: string]: any; } = {
         notLearned: {
             count: 0,
             label: 'Noch nicht Gelernt',
             colorClass: 'not-learned',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         needsLearning: {
             count: 0,
             label: 'Zu Lernen',
             colorClass: 'needs-learning',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         needsConsolidation: {
             count: 0,
             label: 'Zu Festigen',
             colorClass: 'needs-consolidation',
             isSelected: true,
             questionIds: [],
-        },
+        } as { [key: string]: number | string | boolean | number[]; },
         solid: {
             count: 0,
             label: 'Sicher gewußt',
             colorClass: 'solid',
             isSelected: true,
             questionIds: [],
-        }
+        } as { [key: string]: number | string | boolean | number[]; }
     }
 }
 
@@ -96,16 +96,17 @@ export enum RepetitionType {
 export const useLearningSessionConfigurationStore = defineStore('learningSessionConfigurationStore', {
     state: () => {
     const userStore = useUserStore()
-      return {
+    let sessionConfig = new SessionConfig()
+    return {
         topicId: 0,
         order: QuestionOrder.Random,
         repetition: RepetitionType.Normal,
         questionsCount: 0,
         allQuestionCount: 0,
         currentQuestionCount: 0,
-        knowledgeSummary: new SessionConfig().knowledgeSummary,
+        knowledgeSummary: sessionConfig.knowledgeSummary,
         knowledgeSummaryCount: 0,
-        questionFilterOptions: new SessionConfig().questionFilterOptions,
+        questionFilterOptions: sessionConfig.questionFilterOptions,
         isTestMode: userStore.isLoggedIn ? false : true,
         isPracticeMode: userStore.isLoggedIn ? true : false,
         categoryHasNoQuestions: true,
@@ -131,14 +132,14 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         testOptions: {
             questionOrder: 3,
             timeLimit: 0
-        },
-        practiceOptions: {
+        } as {[key: string]: number},
+        practiceOptions:  {
             questionOrder: 0,
             repetition: 1,
             answerHelp: true,
-        },
+        } as {[key: string]: boolean | number},
 
-        inputTimeout: null,
+        inputTimeout: null as ReturnType<typeof setTimeout> | null,
         questionCountInputFocused: false,
         timeLimit: 0,
         questionCountIsInvalid: false,
@@ -149,8 +150,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
       }
     },
     getters: {
-        maxQuestionCountIsZero() {
-            return this.questionFilter.maxQuestionCount == 0
+        maxQuestionCountIsZero(): boolean {
+            return this.maxSelectableQuestionCount == 0
         }
     },
     actions: {
@@ -172,8 +173,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 this.practiceOptions = sessionConfig.practiceOptions
             }
 
-            if (firstLoad && this.isInQuestionList)
-                this.$nextTick(() => this.loadCustomSession())
+            if (firstLoad)
+                this.loadCustomSession()
 
             var json = this.buildSessionConfigJson()
             localStorage.setItem('sessionConfigJson', JSON.stringify(json))
@@ -190,24 +191,22 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
 
         saveSessionConfig() {
-            this.$nextTick(() => {
-                var sessionConfig = {
-                    knowledgeSummary: this.knowledgeSummary,
-                    questionFilterOptions: this.questionFilterOptions,
-                    userHasChangedMaxCount: this.userHasChangedMaxCount,
-                    selectedQuestionCount: this.selectedQuestionCount,
-                    isTestMode: this.isTestMode,
-                    isPracticeMode: this.isPracticeMode,
-                    testOptions: this.testOptions,
-                    practiceOptions: this.practiceOptions,
-                }
-                
-                localStorage.setItem(this.sessionConfigKey, JSON.stringify(sessionConfig))
+            var sessionConfig = {
+                knowledgeSummary: this.knowledgeSummary,
+                questionFilterOptions: this.questionFilterOptions,
+                userHasChangedMaxCount: this.userHasChangedMaxCount,
+                selectedQuestionCount: this.selectedQuestionCount,
+                isTestMode: this.isTestMode,
+                isPracticeMode: this.isPracticeMode,
+                testOptions: this.testOptions,
+                practiceOptions: this.practiceOptions,
+            }
+            
+            localStorage.setItem(this.sessionConfigKey, JSON.stringify(sessionConfig))
 
-                // needs questionliststore
-                // eventBus.$emit('sync-session-config', (this.isTestMode))
-                this.checkSettingChanges()
-            })
+            // needs questionliststore
+            // eventBus.$emit('sync-session-config', (this.isTestMode))
+            this.checkSettingChanges()
         },
 
         checkSettingChanges() {
@@ -229,7 +228,6 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
 
         goToLogin() {
-            this.openLogin = true
             const userStore = useUserStore()
             userStore.openLoginModal()
         },
@@ -241,10 +239,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
             }
 
-            var force = {
-                true: !this.allKnowledgeSummaryOptionsAreSelected,
-                false: this.allKnowledgeSummaryOptionsAreSelected,
-            }
+            const force = this.allKnowledgeSummaryOptionsAreSelected ? false : true
 
             for (var key in this.knowledgeSummary) {
                 this.selectKnowledgeSummary(this.knowledgeSummary[key], false, force)
@@ -252,19 +247,19 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.lazyLoadCustomSession()
         },
 
-        selectKnowledgeSummary(summary, loadCustomSession = true, force: any = null) {
+        selectKnowledgeSummary(summary: any, loadCustomSession = true, force: boolean | null = null) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
                 return
             }
 
-            if (force == null)
-                summary.isSelected = !summary.isSelected
-            else if (force.true)
+            if (force)
                 summary.isSelected = true
-            else if (force.false)
+            else if (!force)
                 summary.isSelected = false
+            else
+                summary.isSelected = !summary.isSelected
 
             this.checkKnowledgeSummarySelection()
 
@@ -295,10 +290,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
                 return
             }
-            var force = {
-                true: !this.allQuestionFilterOptionsAreSelected,
-                false: this.allQuestionFilterOptionsAreSelected,
-            }
+            var force = this.allQuestionFilterOptionsAreSelected ? false : true
+            
             for (var key in this.questionFilterOptions) {
                 this.selectQuestionFilter(this.questionFilterOptions[key], false, force)
             }
@@ -308,7 +301,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
         },
 
-        selectQuestionFilter(option, loadCustomSession = true, force: any = null) {
+        selectQuestionFilter(option:any, loadCustomSession = true, force: boolean | null = null) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
@@ -317,9 +310,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             if (force == null)
                 option.isSelected = !option.isSelected
-            else if (force.true)
+            else if (force)
                 option.isSelected = true
-            else if (force.false)
+            else if (!force)
                 option.isSelected = false
 
             this.checkQuestionFilterSelection()
@@ -356,13 +349,12 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 this.selectedQuestionFilterOptionsDisplay = selectedOptions
         },
 
-        buildSessionConfigJson(id, isInLearningTab = true) {
-            if (id != 0)
-                this.id = id
+        buildSessionConfigJson(id: number = 0, isInLearningTab = true) {
+            const topicStore = useTopicStore()
 
-            var json = {}
-            var base = {
-                CategoryId: this.id,
+            var json:{ [key: string]: any; } = {}
+            var base:{ [key: string]: any; } = {
+                CategoryId: topicStore.id,
                 maxQuestionCount: this.selectedQuestionCount,
 
                 InWuwi: this.questionFilterOptions.inWuwi.isSelected,
@@ -384,7 +376,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             if (this.isPracticeMode) {
 
-                var practiceJson = {
+                var practiceJson:{ [key: string]: any; } = {
                     QuestionOrder: this.practiceOptions.questionOrder,
                     Repetition: this.practiceOptions.repetition,
                     AnswerHelp: this.practiceOptions.answerHelp
@@ -395,7 +387,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             } else if (this.isTestMode) {
 
-                var testJson = {
+                var testJson:{ [key: string]: any; } = {
                     QuestionOrder: this.testOptions.questionOrder,
                     Repetition: 0,
                     AnswerHelp: false,
@@ -409,7 +401,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             return json
         },
 
-        selectQuestionCount(val: Number) {
+        selectQuestionCount(val: number) {
             if (this.selectedQuestionCount + val <= 0)
                 return
 
@@ -418,7 +410,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.selectedQuestionCount = count
             this.lazyLoadCustomSession()
         },
-        setSelectedQuestionCount(e) {
+        setSelectedQuestionCount(e: { target: { value: string } }) {
             var val = parseInt(e.target.value)
             this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null
             this.userHasChangedMaxCount = true
@@ -429,7 +421,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.lazyLoadCustomSession()
         },
         lazyLoadCustomSession() {
-            clearTimeout(this.inputTimeout)
+            if (this.inputTimeout != null)
+                clearTimeout(this.inputTimeout)
+
             this.inputTimeout = setTimeout(() => {
                 this.loadCustomSession()
                 },
@@ -448,17 +442,19 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             if (!this.activeCustomSettings)
                 return
 
+            const userStore = useUserStore()
+
             this.knowledgeSummary = new SessionConfig().knowledgeSummary
             this.questionFilterOptions = new SessionConfig().questionFilterOptions
             this.checkQuestionFilterSelection()
             this.checkKnowledgeSummarySelection()
             this.userHasChangedMaxCount = false
-            this.isTestMode = this.isLoggedIn ? false : true
+            this.isTestMode = !userStore.isLoggedIn
             this.testOptions = {
                     questionOrder: 3,
                     timeLimit: 0
                 }
-            this.isPracticeMode = this.isLoggedIn ? true : false
+            this.isPracticeMode = userStore.isLoggedIn
             this.practiceOptions = {
                     questionOrder: 0,
                     repetition: 1,
@@ -480,20 +476,20 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         selectTestMode() {
             if (this.isTestMode)
                 return
-            this.practiceMode = false
+            this.isPracticeMode = false
             this.isTestMode = true
             this.lazyLoadCustomSession()
         },
-        selectPracticeOption(key, val) {
+        selectPracticeOption(key: string, val: number) {
             const userStore = useUserStore()
-            if (!this.isLoggedIn && val == 2 && key == 'questionOrder') {
+            if (!userStore.isLoggedIn && val == 2 && key == 'questionOrder') {
                 // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
                 return
             }
             this.practiceOptions[key] = val
             this.lazyLoadCustomSession()
         },
-        selectTestOption(key, val) {
+        selectTestOption(key: string | number, val: any) {
             this.testOptions[key] = val
             this.lazyLoadCustomSession()
         }

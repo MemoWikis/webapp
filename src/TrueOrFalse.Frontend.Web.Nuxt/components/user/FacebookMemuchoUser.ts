@@ -58,7 +58,7 @@ export class FacebookMemuchoUser {
         }
     }
 
-    static async Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
+    static async Login(facebookId: string, facebookAccessToken: string, stayOnPage: boolean = true) {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
@@ -94,20 +94,20 @@ export class FacebookMemuchoUser {
 
         if (response.status === 'connected') {
 
-            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
+            FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
             Site.loadValidPage();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
-            FB.login(response => {
+            FB.login(async response => {
 
-                    var facebookId = response.authResponse.userID;
-                    var facebookAccessToken = response.authResponse.accessToken;
+                    var facebookId = response.authResponse!.userID;
+                    var facebookAccessToken = response.authResponse!.accessToken;
 
                     if (response.status !== "connected")
                         return;
 
-                    if (FacebookMemuchoUser.Exists(facebookId)) {
+                    if (await FacebookMemuchoUser.Exists(facebookId)) {
                         FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
 
                         return;

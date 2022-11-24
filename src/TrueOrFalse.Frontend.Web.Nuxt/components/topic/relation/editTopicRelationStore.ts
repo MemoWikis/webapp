@@ -31,8 +31,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         redirect: false,
         addTopicBtnId: '',
         categoriesToFilter: [] as number[],
-        personalWiki: null,
-        addToWikiHistory: null,
+        personalWiki: null as unknown as SearchTopicItem,
+        addToWikiHistory: null as unknown as SearchTopicItem[],
       }
     },
     actions: {

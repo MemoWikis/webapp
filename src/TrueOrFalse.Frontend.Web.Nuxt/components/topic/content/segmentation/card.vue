@@ -130,7 +130,6 @@ export default {
                 userStore.openLoginModal()
                 return
             }
-
             var self = this;
             var data = {
                 parentId: self.$parent.categoryId,
@@ -140,8 +139,6 @@ export default {
 
             const editTopicRelationStore = useEditTopicRelationStore()
             editTopicRelationStore.openModal(data)
-            // editTopicRelationStore.
-            // eventBus.$emit('open-move-category-modal', data);
         },
         hideCategory() {
             this.$parent.filterChildren([this.categoryId]);
