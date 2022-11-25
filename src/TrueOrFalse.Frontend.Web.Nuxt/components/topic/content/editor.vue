@@ -110,12 +110,16 @@ onMounted(() => {
     </template>
     <div class="col-xs-12" v-else-if="topic != null">
         <div style="height:36px"></div>
-        <div class="ProseMirror" v-html="topic.Content">
+        <div class="ProseMirror content-placeholder" v-html="topic.Content">
 
         </div>
     </div>
 </template>
 
 <style lang="less" scoped>
-
+.content-placeholder {
+    :deep(p:empty) {
+        min-height: 20px
+    }
+}
 </style>

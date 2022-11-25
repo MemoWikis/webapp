@@ -4,7 +4,7 @@ import { useUserStore } from '../../user/userStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from './editQuestionStore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
-import { SearchTopicItem, TopicResult } from '../../search/searchHelper'
+import { SearchTopicItem, TopicResult, TopicItem } from '../../search/searchHelper'
 import _ from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
@@ -95,7 +95,7 @@ watch(searchTerm, (term) => {
         showDropdown.value = false
 })
 
-const topics = ref([])
+const topics = ref([] as TopicItem[])
 
 function selectTopic(t) {
     showDropdown.value = false

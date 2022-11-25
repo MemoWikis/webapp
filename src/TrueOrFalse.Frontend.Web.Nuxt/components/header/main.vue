@@ -7,12 +7,12 @@ import { SearchType } from '~~/components/search/searchHelper'
 
 const showSearch = ref(true)
 
-function openUrl(val) {
+function openUrl(val: any) {
     navigateTo(val.Url)
 }
 const props = defineProps(['route'])
 const userStore = useUserStore()
-const currentUser = ref(null as Author)
+const currentUser = ref(null as unknown as Author)
 
 if (userStore.isLoggedIn) {
 
@@ -51,7 +51,6 @@ onMounted(() => {
 })
 
 </script>
-
 
 <template>
     <div id="Navigation">
@@ -213,7 +212,9 @@ onMounted(() => {
 
             .register-btn {
                 color: white;
-
+                height: 100% !important;
+                align-items: center;
+                line-height: unset !important;
             }
         }
     }

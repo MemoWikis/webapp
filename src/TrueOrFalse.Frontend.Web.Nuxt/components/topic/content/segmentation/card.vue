@@ -132,7 +132,7 @@ export default {
             }
             var self = this;
             var data = {
-                parentId: self.$parent.categoryId,
+                parentId: self.$parentz.categoryId,
                 childId: self.categoryId,
                 editCategoryRelation: EditTopicRelationType.Move,
             } as EditRelationData

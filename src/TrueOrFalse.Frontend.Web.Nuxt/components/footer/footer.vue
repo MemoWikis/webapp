@@ -89,7 +89,7 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
                     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <LazyNuxtLink :to="`/${memoWiki.Name}/${memoWiki.Id}`">
+                                <LazyNuxtLink :to="`/${memoWiki.Name}/${memoWiki.Id}`" v-if="memoWiki">
                                     {{ memoWiki.Name }}
                                 </LazyNuxtLink>
 
@@ -131,7 +131,7 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
                         <div class="footer-group">
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
-                            <template v-for="(t, i) in helpTopics">
+                            <template v-for="(t, i) in helpTopics" v-if="helpTopics">
                                 <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>
@@ -151,12 +151,13 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
                     <div class="FooterCol xxs-stack col-xs-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <LazyNuxtLink :to="`/${rootTopic.Name.replaceAll(' ', '-')}/${rootTopic.Id}`">
+                                <LazyNuxtLink :to="`/${rootTopic.Name.replaceAll(' ', '-')}/${rootTopic.Id}`"
+                                    v-if="rootTopic">
                                     {{ rootTopic.Name }}
                                 </LazyNuxtLink>
 
                             </div>
-                            <template v-for="(t, i) in mainTopics">
+                            <template v-for="(t, i) in mainTopics" v-if="mainTopics">
                                 <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>
@@ -165,7 +166,7 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
                         </div>
                         <div class="footer-group">
                             <div class="overline-m no-line">Beliebte Themen</div>
-                            <template v-for="(t, i) in popularTopics">
+                            <template v-for="(t, i) in popularTopics" v-if="popularTopics">
                                 <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>

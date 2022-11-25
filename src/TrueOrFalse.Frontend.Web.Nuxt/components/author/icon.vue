@@ -10,7 +10,8 @@ const data = {
 const { data: author } = await useFetch<Author>(`/apiVue/Author/GetAuthor/`,
     {
         baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-        method: 'POST', body: data,
+        method: 'POST',
+        body: data,
         credentials: 'include',
         mode: 'no-cors',
         server: true,
@@ -18,7 +19,7 @@ const { data: author } = await useFetch<Author>(`/apiVue/Author/GetAuthor/`,
 </script>
 
 <template>
-    <LazyNuxtLink :to="`/Nutzer/${author.Name}/${props.id}`" v-tooltip="author.Name">
+    <LazyNuxtLink :to="`http://memucho.local/Nutzer/${author.Name}/${props.id}`" v-tooltip="author.Name" v-if="author">
         <Image :src="author.ImageUrl" :style="ImageStyle.Author" class="header-author-icon" />
     </LazyNuxtLink>
 </template>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useTopicStore } from '../topicStore'
+import { useTopicStore, Topic } from '../topicStore'
 const topicStore = useTopicStore()
 const textArea = ref(null);
-
+const topic = useState<Topic>('topic')
 function resize() {
     let element = textArea.value
     element.style.height = "54px"
@@ -30,8 +30,9 @@ onUnmounted(() => {
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
-            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
+            <textarea v-if="topicStore" placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
                 v-model="topicStore.name"></textarea>
+            <textarea v-else ref="textArea" v-model="topic.Name"></textarea>
         </h1>
         <div id="TopicHeaderDetails">
 

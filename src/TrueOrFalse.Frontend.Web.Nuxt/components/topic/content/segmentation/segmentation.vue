@@ -83,7 +83,8 @@ export default {
             var data = {
                 id: this.topicStore.id,
             }
-            var result = await $fetch<any>('/api/NuxtSegmentation/GetSegmentation', {
+            var result = await $fetch<any>('/apiVue/NuxtSegmentation/GetSegmentation', {
+                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
 
@@ -113,7 +114,8 @@ export default {
                 categoryId: id,
             };
 
-            var category = await $fetch<any>('/api/NuxtSegmentation/GetCategoryData', {
+            var category = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoryData', {
+                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (category) {
@@ -130,7 +132,8 @@ export default {
                 categoryIds: self.currentChildCategoryIds,
             };
             var categories
-            categories = await $fetch<any>('/api/NuxtSegmentation/GetCategoriesData', {
+            categories = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoriesData', {
+                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (categories) {
@@ -143,7 +146,8 @@ export default {
                 id: id,
             };
 
-            var category = await $fetch<any>('/api/NuxtSegmentation/GetCategoryData', {
+            var category = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoryData', {
+                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (category) {
@@ -166,7 +170,7 @@ export default {
             var self = this;
             var data = { CategoryId: id }
 
-            var segment = await $fetch<any>('/api/NuxtSegmentation/GetSegment', {
+            var segment = await $fetch<any>('/apiVue/NuxtSegmentation/GetSegment', {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (segment) {
@@ -269,16 +273,17 @@ export default {
                 categoryId: self.categoryId,
                 segmentation: segmentation
             }
-            var result = await $fetch('/api/Topic/SaveSegments', {
+            var result = await $fetch('/apiVue/Topic/SaveSegments', {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
-            if (result == true) {
-                this.saveSuccess = true;
-                this.saveMessage = "Das Thema wurde gespeichert.";
-            } else {
-                this.saveSuccess = false;
-                this.saveMessage = "Das Speichern schlug fehl.";
-            };
+            // Needs refer msg to editbar
+            // if (result == true) {
+            //     this.saveSuccess = true;
+            //     this.saveMessage = "Das Thema wurde gespeichert.";
+            // } else {
+            //     this.saveSuccess = false;
+            //     this.saveMessage = "Das Speichern schlug fehl.";
+            // };
         },
         removeCard(id: any) {
 

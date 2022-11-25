@@ -140,7 +140,7 @@ const passwordInputType = ref('password')
 async function register() {
     spinnerStore.showSpinner()
 
-    let registerData = {
+    const registerData = {
         Name: userName.value,
         Email: eMail.value,
         Password: password.value
@@ -149,7 +149,6 @@ async function register() {
     spinnerStore.hideSpinner()
     if (result == 'success') {
         var url = `/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`
-        console.log(url)
         navigateTo(url)
     }
     else

@@ -410,8 +410,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.selectedQuestionCount = count
             this.lazyLoadCustomSession()
         },
-        setSelectedQuestionCount(e: { target: { value: string } }) {
-            var val = parseInt(e.target.value)
+        setSelectedQuestionCount(e: Event ) {
+            var val = parseInt(e.target!.toString())
             this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null
             this.userHasChangedMaxCount = true
                 

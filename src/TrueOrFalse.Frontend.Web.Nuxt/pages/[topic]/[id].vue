@@ -14,41 +14,46 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         mode: 'no-cors',
         server: true,
     })
-if (topic.value != null && topic.value.CanAccess) {
-    useState<Topic>('topic', () => topic)
-    const topicStore = useTopicStore()
-    topicStore.setTopic(topic.value)
 
-    const spinnerStore = useSpinnerStore()
+if (topic.value != null) {
+    if (topic.value.CanAccess) {
+        useState<Topic>('topic', () => topic.value)
+        const topicStore = useTopicStore()
+        topicStore.setTopic(topic.value)
 
-    watch(() => topicStore.id, () => {
-        spinnerStore.showSpinner()
-    })
-    tabsStore.activeTab = Tab.Topic
+        const spinnerStore = useSpinnerStore()
 
-    onMounted(() => {
-        var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
-        history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}${versionQuery}`)
-        useHead({
-            title: topic.value.Name,
+        watch(() => topicStore.id, () => {
+            spinnerStore.showSpinner()
         })
-        useState<PageType>('page', () => PageType.Topic)
-    })
+        tabsStore.activeTab = Tab.Topic
 
-    watch(() => tabsStore.activeTab, (t) => {
-        if (t == Tab.Topic) {
-            history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}`)
-        }
-        else if (t == Tab.Learning)
-            history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}/Lernen`)
-    })
-
-    watch(() => topicStore.name, () => {
-        useHead({
-            title: topicStore.name,
+        onMounted(() => {
+            var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
+            history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
+            useHead({
+                title: topic.value!.Name,
+            })
+            useState<PageType>('page', () => PageType.Topic)
         })
-    })
-} else navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
+
+        watch(() => tabsStore.activeTab, (t) => {
+            if (t == Tab.Topic) {
+                history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}`)
+            }
+            else if (t == Tab.Learning)
+                history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}/Lernen`)
+        })
+
+        watch(() => topicStore.name, () => {
+            useHead({
+                title: topicStore.name,
+            })
+        })
+    } else {
+        navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
+    }
+}
 
 
 </script>

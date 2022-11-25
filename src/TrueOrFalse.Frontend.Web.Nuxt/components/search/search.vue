@@ -43,13 +43,13 @@ function inputValue(e: Event) {
 onBeforeMount(() => {
     switch (props.searchType) {
         case SearchType.Category:
-            searchUrl.value = '/api/Search/Category';
+            searchUrl.value = '/apiVue/Search/Category'
             break;
         case SearchType.CategoryInWiki:
-            searchUrl.value = '/api/Search/CategoryInWiki'
-            break;
+            searchUrl.value = '/apiVue/Search/CategoryInWiki'
+            break
         default:
-            searchUrl.value = '/api/Search/All';
+            searchUrl.value = '/apiVue/Search/All'
     }
 })
 
@@ -72,12 +72,13 @@ async function search() {
     };
 
     var result = await $fetch<FullSearch>(searchUrl.value, {
+        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
         body: data,
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
         credentials: 'include'
     })
-
+    console.log(result)
     if (result != null) {
         categories.value = result.categories;
         questions.value = result.questions;

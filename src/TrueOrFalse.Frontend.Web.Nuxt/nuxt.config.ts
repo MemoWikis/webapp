@@ -30,7 +30,7 @@ export default defineNuxtConfig({
         // '~/assets/bootstrap/memucho_overrides.css',
         '~/assets/bootstrap/variables_custom.less',
         '~/assets/site.less',
-        '~/assets/top-header.less'   
+        '~/assets/top-header.less'
         ],
       typescript: {
         shim: false,
@@ -38,8 +38,8 @@ export default defineNuxtConfig({
         // strict: false
     },
     build: {
-        transpile: [        
-            '@fortawesome'  
+        transpile: [
+            '@fortawesome'
         ]
     }
 })

@@ -6,7 +6,7 @@ import { useUserStore } from '~~/components/user/userStore'
 import { messages } from '~~/components/alert/messages'
 import { useTopicStore } from '../topicStore'
 import _ from 'underscore'
-import { FullSearch } from '~~/components/search/searchHelper'
+import { FullSearch, TopicItem } from '~~/components/search/searchHelper'
 
 const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
@@ -85,7 +85,7 @@ watch(selectedTopicId, (id) => {
 const showDropdown = ref(false)
 const lockDropdown = ref(false)
 const searchTerm = ref('')
-const selectedTopic = ref(null)
+const selectedTopic = ref(null as TopicItem)
 const showSelectedTopic = ref(false)
 
 function selectTopic(t: any) {
@@ -103,7 +103,7 @@ const selectedParentInWikiId = ref(0)
 const addToWikiHistory = ref(null)
 
 const hideSearch = ref(true)
-const topics = reactive({ value: [] })
+const topics = reactive({ value: [] as TopicItem[] })
 const totalCount = ref(0)
 
 const forbiddenTopicName = ref('')
@@ -139,7 +139,7 @@ async function moveTopicToNewParent() {
         parentCategoryIdToAdd: selectedTopic.value.Id
     }
 
-    var data = await $fetch<any>('/api/EditCategory/MoveChild', {
+    var data = await $fetch<any>('/apiVue/EditCategory/MoveChild', {
         body: topicData,
         method: 'POST',
     })
@@ -230,8 +230,8 @@ async function search() {
     }
 
     var url = editTopicRelationStore.type == EditTopicRelationType.AddToWiki
-        ? '/api/Search/CategoryInWiki'
-        : '/api/Search/Category';
+        ? '/apiVue/Search/CategoryInWiki'
+        : '/apiVue/Search/Category';
 
     var result = await $fetch<FullSearch>(url, {
         body: data,
@@ -249,7 +249,6 @@ async function search() {
 editTopicRelationStore.$onAction(({ name, after }) => {
     after(() => {
         if (name == 'initWikiData') {
-            console.log(editTopicRelationStore.personalWiki)
             selectedParentInWikiId.value = editTopicRelationStore.personalWiki.Id
         }
     })
@@ -258,7 +257,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal">
+    <!-- <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal">
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
                 erstellen
@@ -302,7 +301,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                         @click="selectedParentInWikiId = editTopicRelationStore.personalWiki.Id">
                         <div class="searchResultItem"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editTopicRelationStore.personalWiki.Id }">
-                            <img :src="editTopicRelationStore.personalWiki.ImgUrl" />
+                            <img :src="editTopicRelationStore.personalWiki.MiniImageUrl" />
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.Name }}
                                 </div>
@@ -451,9 +450,10 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 class="btn btn-primary memo-button" @click="moveTopicToNewParent"
                 :class="{ 'disabled': disableAddButton }">
                 Thema verschieben</div>
-            <!-- <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
-                class="btn btn-primary memo-button" @click="addExistingTopic" :class="{'disabled' : disableAddButton}">Thema
-                verknüpfen</div> -->
+            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
+                class="btn btn-primary memo-button" @click="addExistingTopic" :class="{ 'disabled': disableAddButton }">
+                Thema
+                verknüpfen</div>
             <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" id="AddNewParentBtn"
                 class="btn btn-primary memo-button" @click="addNewParentToTopic"
                 :class="{ 'disabled': disableAddButton }">Thema
@@ -465,5 +465,5 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>
 
-    </LazyModal>
+    </LazyModal> -->
 </template>
