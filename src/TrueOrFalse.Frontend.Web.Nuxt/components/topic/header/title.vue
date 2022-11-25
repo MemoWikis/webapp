@@ -1,14 +1,29 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { VueElement } from 'vue'
 import { useTopicStore, Topic } from '../topicStore'
+import { useTabsStore, Tab } from '../tabs/tabsStore'
+import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 const topicStore = useTopicStore()
-const textArea = ref(null);
+const tabsStore = useTabsStore()
+const textArea = ref(null)
 const topic = useState<Topic>('topic')
 function resize() {
-    let element = textArea.value
-    element.style.height = "54px"
-    element.style.height = element.scrollHeight + "px"
+    let element = textArea.value as unknown as VueElement
+    if (element) {
+        element.style.height = "54px"
+        element.style.height = element.scrollHeight + "px"
+    }
+
 }
+
+const readonly = ref(false)
+watch(() => tabsStore.activeTab, (val: Tab) => {
+    if (val == Tab.Topic)
+        readonly.value = false
+    else {
+        readonly.value = true
+    }
+})
 
 onBeforeMount(() => {
     window.addEventListener('resize', resize);
@@ -31,7 +46,7 @@ onUnmounted(() => {
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
             <textarea v-if="topicStore" placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
-                v-model="topicStore.name"></textarea>
+                v-model="topicStore.name" :readonly="readonly"></textarea>
             <textarea v-else ref="textArea" v-model="topic.Name"></textarea>
         </h1>
         <div id="TopicHeaderDetails">

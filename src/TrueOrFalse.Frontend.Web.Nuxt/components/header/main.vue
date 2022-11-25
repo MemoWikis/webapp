@@ -19,13 +19,10 @@ if (userStore.isLoggedIn) {
     const data = {
         id: userStore.id
     }
-
-    // if (process.client) {
-    currentUser.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-    // } else if (process.server) {
-    //     const config = useRuntimeConfig()
-    //     currentUser.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-    // }
+    currentUser.value = await $fetch<Author>('/apiVue/Author/GetAuthor/', {
+        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
+        method: 'POST', body: data, mode: 'cors', credentials: 'include'
+    })
 }
 const showRegisterButton = ref(false)
 function handleScroll() {
