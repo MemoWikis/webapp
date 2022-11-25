@@ -2,7 +2,7 @@
 import { ref, PropType } from 'vue'
 import _ from 'underscore'
 import { FullSearch, SearchType } from './searchHelper'
- import { ImageStyle } from '../image/imageStyleEnum'
+import { ImageStyle } from '../image/imageStyleEnum'
 
 const props = defineProps({
     searchType: Number as PropType<SearchType>,
@@ -73,7 +73,7 @@ async function search() {
     };
 
     var result = await $fetch<FullSearch>(searchUrl.value, {
-        baseURL: process.client ? config.public.clientBase : config.public.serverBase,        body: data,
+        baseURL: process.client ? config.public.clientBase : config.public.serverBase, body: data,
         method: 'POST',
         mode: 'no-cors',
         credentials: 'include'
@@ -109,8 +109,8 @@ function openUsers() {
                         @input="event => inputValue(event)" :id="props.id.toString" autocomplete="off"
                         @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche" />
                 </div>
-                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="i
-                + 'Dropdown'" v-show="props.showSearch">
+                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'"
+                    v-show="props.showSearch">
                     <li v-if="categories.length > 0" class="searchBanner">
                         <div>Themen </div>
                         <div>{{ categoryCount }} Treffer</div>

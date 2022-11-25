@@ -2,7 +2,7 @@
 import { useTopicStore } from '../topic/topicStore'
 import { ref } from 'vue'
 import _ from 'underscore'
- import { PageType } from '../shared/pageTypeEnum'
+import { PageType } from '../shared/pageTypeEnum'
 import { useUserStore } from '../user/userStore'
 
 const props = defineProps(['headerContainer', 'headerExtras', 'route'])
@@ -114,11 +114,12 @@ async function getBreadcrumb() {
         currentCategoryId: topicStore.id,
     }
     if (pageType.value == PageType.Topic) {
+        const config = useRuntimeConfig()
         const { data: result } = await useFetch<Breadcrumb>(`/Breadcrumb/GetBreadcrumb/`,
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                credentials: 'include',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
                 mode: 'no-cors',
                 server: true,
             })
@@ -134,7 +135,7 @@ async function getBreadcrumb() {
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                credentials: 'include',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
                 mode: 'no-cors',
                 server: true,
             })
@@ -163,8 +164,7 @@ watch([() => topicStore.id, () => userStore.id], () => {
         </div>
         <template v-else-if="breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
             <div class="breadcrumb-divider"></div>
-            <template v-if="t
-            picStore.id != breadcrumb.rootTopic.Id">
+            <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
                 <NuxtLink
                     :to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
                     class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
