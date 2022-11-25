@@ -1,38 +1,34 @@
 <script lang="ts" setup>
-import { Topic } from '../topic/topicStore';
+import { Topic } from '../topic/topicStore'
+const config = useRuntimeConfig()
+
 const { data: rootTopic } = await useFetch<Topic>(`/apiVue/Footer/GetRootWiki`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
     mode: 'no-cors',
     server: true,
 })
 const { data: mainTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetMainTopics`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase,    credentials: 'include',
     mode: 'no-cors',
     server: true,
 })
 const { data: memoWiki } = await useFetch<Topic>(`/apiVue/Footer/GetMemoWiki`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase,    credentials: 'include',
     mode: 'no-cors',
     server: true,
 })
 const { data: memoTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetMemoTopics`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase,    credentials: 'include',
     mode: 'no-cors',
     server: true,
 })
 const { data: helpTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetHelpTopics`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase,    credentials: 'include',
     mode: 'no-cors',
     server: true,
 })
 const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopularTopics`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase,    credentials: 'include',
     mode: 'no-cors',
     server: true,
 })
@@ -94,7 +90,8 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
                                 </LazyNuxtLink>
 
                             </div>
-                            <template v-for="(t, i) in memoTopics" v-if="memoTopics">
+                            <template v-for="(t, i) in me
+                            oTopics" v-if="memoTopics">
                                 <LazyNuxtLink :to="`/${t.Name}/${t.Id}`">
                                     {{ t.Name }}
                                 </LazyNuxtLink>

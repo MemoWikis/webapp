@@ -2,15 +2,15 @@
 import { ImageStyle } from '../image/imageStyleEnum';
 import { Author } from './author'
 const props = defineProps(['id'])
-
+ 
 const data = {
     id: props.id
 }
+const config = useRuntimeConfig()
 
 const { data: author } = await useFetch<Author>(`/apiVue/Author/GetAuthor/`,
     {
-        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-        method: 'POST',
+        baseURL: process.client ? config.public.clientBase : config.public.serverBase,        method: 'POST',
         body: data,
         credentials: 'include',
         mode: 'no-cors',

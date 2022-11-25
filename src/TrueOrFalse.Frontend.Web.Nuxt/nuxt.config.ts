@@ -9,17 +9,12 @@ export default defineNuxtConfig({
     //         }
     //     }
     //   },
-    //   runtimeConfig: {
-    //     public: {
-    //         apiBase: "http://memucho.local/apiVue/",
-    //         base: "http://memucho.local/",
-    //         apiParams: {
-    //             baseURL: process.server ? "http://memucho.local/apiVue" : "http://memucho.local:3000/api",
-    //             credentials: 'include',
-    //             mode: 'no-cors',
-    //         }
-    //     },
-    // },
+      runtimeConfig: {
+        public: {
+            clientBase: "http://memucho.local:3000",
+            serverBase: "http://memucho.local",
+        },
+    },
     ssr: true,
     modules: [
         '@pinia/nuxt',  

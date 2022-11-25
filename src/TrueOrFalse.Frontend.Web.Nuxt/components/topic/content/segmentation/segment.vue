@@ -99,7 +99,7 @@ export default {
                 categoryIds: self.currentChildCategoryIds,
             };
 
-            let result = await $fetch('/api/Segmentation/GetCategoriesData', {
+            let result = await $fetch('/apiVue/Segmentation/GetCategoriesData', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
@@ -115,7 +115,7 @@ export default {
                 categoryId: parseInt(self.categoryId),
             }
 
-            let result = await $fetch < any > ('/api/Segmentation/GetSegmentData', {
+            let result = await $fetch < any > ('/apiVue/Segmentation/GetSegmentData', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
@@ -261,7 +261,8 @@ export default {
                 </div>
                 <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown"
                     :class="{ hover: showHover && !isHistoric }">
-                    <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis"
+                    <a href="#" :id="d
+                    opdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis"
                         type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>

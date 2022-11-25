@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { Author } from '../author/author'
-import { ImageStyle } from '../image/imageStyleEnum'
+ import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 
 const showSearch = ref(true)
@@ -13,6 +13,7 @@ function openUrl(val: any) {
 const props = defineProps(['route'])
 const userStore = useUserStore()
 const currentUser = ref(null as unknown as Author)
+const config = useRuntimeConfig()
 
 if (userStore.isLoggedIn) {
 
@@ -20,8 +21,7 @@ if (userStore.isLoggedIn) {
         id: userStore.id
     }
     currentUser.value = await $fetch<Author>('/apiVue/Author/GetAuthor/', {
-        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-        method: 'POST', body: data, mode: 'cors', credentials: 'include'
+        baseURL: process.client ? config.public.clientBase : config.public.serverBase,        method: 'POST', body: data, mode: 'cors', credentials: 'include'
     })
 }
 const showRegisterButton = ref(false)
@@ -67,7 +67,8 @@ onMounted(() => {
                                 <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
-                            <div class="StickySearch" :class="{ 'showSearch': showSearch }">
+                            <div class="StickySearch" :class="{
+                            'showSearch': showSearch }">
                                 <LazySearch :search-type="SearchType.All" :show-search="showSearch"
                                     v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
                             </div>

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+const config = useRuntimeConfig()
 
 const { data: model } = await useFetch<any>(`/apiVue/UserMessages/Get/`, {
-    baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-    credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
     mode: 'no-cors',
 })
 

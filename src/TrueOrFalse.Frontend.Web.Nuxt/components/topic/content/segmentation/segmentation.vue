@@ -8,7 +8,9 @@ interface Segment {
     CategoryId: number,
     Title: string,
     ChildCategoryIds: Array<number>,
-};
+}
+const config = useRuntimeConfig()
+
 export default {
     props: {
         isHistoricString: String,
@@ -84,7 +86,7 @@ export default {
                 id: this.topicStore.id,
             }
             var result = await $fetch<any>('/apiVue/NuxtSegmentation/GetSegmentation', {
-                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
 
@@ -115,8 +117,7 @@ export default {
             };
 
             var category = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoryData', {
-                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (category) {
                 self.categories.push(category);
@@ -133,8 +134,7 @@ export default {
             };
             var categories
             categories = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoriesData', {
-                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (categories) {
                 categories.forEach((c: any) => self.categories.push(c))
@@ -147,8 +147,7 @@ export default {
             };
 
             var category = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoryData', {
-                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-                method: 'POST', body: data, mode: 'cors', credentials: 'include'
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (category) {
                 self.categories.push(category);
@@ -209,7 +208,7 @@ export default {
                 childCategoryIds: self.selectedCategories,
             };
 
-            var result = await $fetch<any>('/api/Topic/RemoveChildren', {
+            var result = await $fetch<any>('/apiVue/Topic/RemoveChildren', {
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (result == true) {
@@ -304,8 +303,8 @@ export default {
 
         <div id="CustomSegmentSection">
             <TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId"
-                :title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds"
-                :category-id="parseInt(s.CategoryId.toString())" :is-historic="isHistoric" :parent-id="categoryId"
+                :title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds" :category-id="p
+                rseInt(s.CategoryId.toString())" :is-historic="isHistoric" :parent-id="categoryId"
                 @remove-segment="removeSegment(s.CategoryId)" />
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"

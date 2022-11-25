@@ -2,7 +2,7 @@
 import { useTopicStore } from '../topic/topicStore'
 import { ref } from 'vue'
 import _ from 'underscore'
-import { PageType } from '../shared/pageTypeEnum'
+ import { PageType } from '../shared/pageTypeEnum'
 import { useUserStore } from '../user/userStore'
 
 const props = defineProps(['headerContainer', 'headerExtras', 'route'])
@@ -96,6 +96,7 @@ onBeforeUnmount(() => {
     }
 })
 const pageType = useState<PageType>('page')
+const config = useRuntimeConfig()
 
 async function getBreadcrumb() {
     var sessionStorage = window.sessionStorage;
@@ -117,8 +118,7 @@ async function getBreadcrumb() {
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-                credentials: 'include',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                credentials: 'include',
                 mode: 'no-cors',
                 server: true,
             })
@@ -134,8 +134,7 @@ async function getBreadcrumb() {
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
-                credentials: 'include',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,                credentials: 'include',
                 mode: 'no-cors',
                 server: true,
             })
@@ -164,7 +163,8 @@ watch([() => topicStore.id, () => userStore.id], () => {
         </div>
         <template v-else-if="breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
             <div class="breadcrumb-divider"></div>
-            <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
+            <template v-if="t
+            picStore.id != breadcrumb.rootTopic.Id">
                 <NuxtLink
                     :to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
                     class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">

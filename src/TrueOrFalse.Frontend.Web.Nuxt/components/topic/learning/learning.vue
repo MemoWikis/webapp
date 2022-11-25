@@ -24,12 +24,11 @@ const answerBodyModel = ref()
 
 onMounted(async () => {
     var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
-    answerBodyModel.value = await $fetch<any>(`/api/Learning/GetNewAnswerBodyForTopic/`, {
+    answerBodyModel.value = await $fetch<any>(`/apiVue/Learning/GetNewAnswerBodyForTopic/`, {
         body: sessionJson,
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
-        headers: useRequestHeaders(['cookie'])
     })
 })
 
