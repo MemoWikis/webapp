@@ -9,8 +9,8 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
-        
-        credentials: 'include',baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+        baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+        credentials: 'include',
         mode: 'no-cors',
         server: true,
     })
