@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
         '~/assets/bootstrap/bootstrap.less',
-        // '~/assets/bootstrap/memucho_overrides.css',
+        // '~/assets/bootstrap/memucho_overrides.less',
         '~/assets/bootstrap/variables_custom.less',
         '~/assets/site.less',
         '~/assets/top-header.less'

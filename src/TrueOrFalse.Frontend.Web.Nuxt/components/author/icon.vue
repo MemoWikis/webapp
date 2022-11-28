@@ -1,28 +1,15 @@
 <script lang="ts" setup>
 import { ImageStyle } from '../image/imageStyleEnum';
 import { Author } from './author'
-const props = defineProps(['id'])
+const props = defineProps({
+    author: Object as () => Author,
+})
 
-const data = {
-    id: props.id
-}
-const author = ref(null as unknown as Author)
-const result = await $fetch<Author>(`/apiVue/Author/GetAuthor/`,
-    {
-        method: 'POST',
-        body: data,
-        credentials: 'include',
-        mode: 'no-cors',
-        onRequest({ request }) {
-            console.log("authorRequest---" + request)
-        }
-    })
-author.value = result
 </script>
 
 <template>
-    <LazyNuxtLink v-if="author" :to="`/Nutzer/${author.Name}/${props.id}`" v-tooltip="author.Name">
-        <Image :src="author.ImageUrl" :style="ImageStyle.Author" class="header-author-icon" />
+    <LazyNuxtLink :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name">
+        <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
     </LazyNuxtLink>
 </template>
 

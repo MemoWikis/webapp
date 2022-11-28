@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -11,8 +12,9 @@ public class TopicController : BaseController
     public JsonResult GetTopic(int id)
     {
         var category = EntityCache.GetCategory(id);
+
         if (PermissionCheck.CanView(category))
-            return Json(new TopicModel
+            return Json( new
             {
                 CanAccess = true,
                 Id = id,
@@ -24,6 +26,19 @@ public class TopicController : BaseController
                 Views = Sl.CategoryViewRepo.GetViewCount(id),
                 Visibility = category.Visibility,
                 AuthorIds = category.AuthorIds,
+                Authors = category.AuthorIds.Select(id =>
+                {
+                    var author = UserCache.GetUser(id);
+                    return new
+                    {
+                        Id = id,
+                        Name = author.Name,
+                        ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
+                        Reputation = author.Reputation,
+                        ReputationPos = author.ReputationPos
+                    };
+
+                }).ToArray(),
                 IsWiki = category.IsStartPage(),
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
@@ -92,6 +107,25 @@ public class TopicController : BaseController
 
         return json;
     }
+
+    private List<AuthorItem> GetAuthorItems(int[] ids)
+    {
+        var authorItems = new List<AuthorItem>();
+        foreach (int id in ids)
+        {
+            var author = UserCache.GetUser(id);
+            authorItems.Add(new AuthorItem
+            {
+                Name = author.Name,
+                Id = id,
+                ImageURL = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
+                Reputation = author.Reputation,
+                ReputationPos = author.ReputationPos
+            });
+        }
+
+        return authorItems;
+    }
     public SearchTopicItem FillBasicTopicItem(Category topic)
     {
         var cacheItem = EntityCache.GetCategory(topic.Id);
@@ -116,6 +150,14 @@ public class TopicController : BaseController
 
         return basicTopicItem;
     }
+}
+public class AuthorItem
+{
+    public string Name;
+    public string ImageURL;
+    public int Id;
+    public int Reputation;
+    public int ReputationPos;
 }
 
 public class TopicModel

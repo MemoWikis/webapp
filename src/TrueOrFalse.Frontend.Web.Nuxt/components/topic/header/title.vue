@@ -2,7 +2,7 @@
 import { VueElement } from 'vue'
 import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
-import { faBullseye } from '@fortawesome/free-solid-svg-icons';
+
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref(null)
@@ -75,8 +75,7 @@ onUnmounted(() => {
 
             <div class="topic-detail-spacer"></div>
 
-            <LazyAuthorIcon v-for="id in topicStore.authorIds" :id="id" />
-
+            <AuthorIcon v-for="author in topicStore.authors" :author="author" />
         </div>
     </div>
 </template>

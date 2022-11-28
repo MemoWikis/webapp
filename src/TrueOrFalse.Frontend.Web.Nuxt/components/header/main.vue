@@ -73,7 +73,7 @@ onMounted(() => {
                         </div>
                         <VDropdown :distance="6" v-show="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image v-if="currentUser" :src="currentUser.ImageUrl" :style="ImageStyle.Author"
+                                <Image v-if="currentUser" :src="currentUser.ImgUrl" :style="ImageStyle.Author"
                                     class="header-author-icon" />
                                 <div class="header-user-name">
                                     {{ userStore.name }}

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
+import { Author } from '../author/author'
 
 export class Topic {
   CanAccess: boolean = false
@@ -18,6 +19,7 @@ export class Topic {
   CurrentUserIsCreator: boolean = false
   CanBeDeleted: boolean = false
   QuestionCount: number = 0
+  Authors: Author[] = []
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -40,6 +42,7 @@ export const useTopicStore = defineStore('topicStore', {
       isWiki: false,
       currentUserIsCreator: false,
       canBeDeleted: false,
+      authors: [] as Author[]
     }
   },
   actions: {
@@ -65,6 +68,8 @@ export const useTopicStore = defineStore('topicStore', {
         this.canBeDeleted = topic.CanBeDeleted
 
         this.questionCount = topic.QuestionCount
+
+        this.authors = topic.Authors
       }
     },
     async saveTopic() {

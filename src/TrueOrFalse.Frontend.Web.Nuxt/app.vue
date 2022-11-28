@@ -5,33 +5,15 @@ import { Topic } from '~/components/topic/topicStore'
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 
-const { data: rootTopic } = await useFetch<Topic>(`/apiVue/Footer/GetRootWiki`, {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
-  mode: 'no-cors',
-  server: true,
-})
-const { data: mainTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetMainTopics`, {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
-  mode: 'no-cors',
-  server: true,
-})
-const { data: memoWiki } = await useFetch<Topic>(`/apiVue/Footer/GetMemoWiki`, {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
-  mode: 'no-cors',
-  server: true,
-})
-const { data: memoTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetMemoTopics`, {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
-  mode: 'no-cors',
-  server: true,
-})
-const { data: helpTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetHelpTopics`, {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
-  mode: 'no-cors',
-  server: true,
-})
-const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopularTopics`, {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
+interface FooterTopics {
+  RootTopic: Topic
+  MainTopics: Topic[]
+  MemoWiki: Topic
+  MemoTopics: Topic[]
+  HelpTopics: Topic[]
+  PopularTopics: Topic[]
+}
+const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
   mode: 'no-cors',
   server: true,
 })
@@ -96,16 +78,17 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
             <div class="FooterCol xxs-stack col-xs-6 col-md-3">
               <div class="footer-group">
                 <div class="overline-m no-line">
-                  <LazyNuxtLink :to="`/${memoWiki.Name}/${memoWiki.Id}`" v-if="memoWiki">
-                    {{ memoWiki.Name }}
+                  <LazyNuxtLink :to="`/${footerTopics.MemoWiki.Name}/${footerTopics.MemoWiki.Id}`"
+                    v-if="footerTopics.MemoWiki">
+                    {{ footerTopics.MemoWiki.Name }}
                   </LazyNuxtLink>
 
                 </div>
-                <template v-for="(t, i) in memoTopics" v-if="memoTopics">
+                <template v-for="(t, i) in footerTopics.MemoTopics" v-if="footerTopics.MemoTopics">
                   <LazyNuxtLink :to="`/${t.Name}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
-                  <br v-if="i < memoTopics.length - 1" />
+                  <br v-if="i < footerTopics.MemoTopics.length - 1" />
                 </template>
 
               </div>
@@ -138,11 +121,11 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
               <div class="footer-group">
                 <div class="overline-m no-line">Hilfe & Kontakt</div>
 
-                <template v-for="(t, i) in helpTopics" v-if="helpTopics">
+                <template v-for="(t, i) in footerTopics.HelpTopics" v-if="footerTopics.HelpTopics">
                   <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
-                  <br v-if="i < helpTopics.length - 1" />
+                  <br v-if="i < footerTopics.HelpTopics.length - 1" />
                 </template>
                 <br />
 
@@ -158,25 +141,27 @@ const { data: popularTopics } = await useFetch<Topic[]>(`/apiVue/Footer/GetPopul
             <div class="FooterCol xxs-stack col-xs-6 col-md-3">
               <div class="footer-group">
                 <div class="overline-m no-line">
-                  <LazyNuxtLink :to="`/${rootTopic.Name.replaceAll(' ', '-')}/${rootTopic.Id}`" v-if="rootTopic">
-                    {{ rootTopic.Name }}
+                  <LazyNuxtLink
+                    :to="`/${footerTopics.RootTopic.Name.replaceAll(' ', '-')}/${footerTopics.RootTopic.Id}`"
+                    v-if="footerTopics.RootTopic">
+                    {{ footerTopics.RootTopic.Name }}
                   </LazyNuxtLink>
 
                 </div>
-                <template v-for="(t, i) in mainTopics" v-if="mainTopics">
+                <template v-for="(t, i) in footerTopics.MainTopics" v-if="footerTopics.MainTopics">
                   <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
-                  <br v-if="i < mainTopics.length - 1" />
+                  <br v-if="i < footerTopics.MainTopics.length - 1" />
                 </template>
               </div>
               <div class="footer-group">
                 <div class="overline-m no-line">Beliebte Themen</div>
-                <template v-for="(t, i) in popularTopics" v-if="popularTopics">
+                <template v-for="(t, i) in footerTopics.PopularTopics" v-if="footerTopics.PopularTopics">
                   <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
-                  <br v-if="i < popularTopics.length - 1" />
+                  <br v-if="i < footerTopics.PopularTopics.length - 1" />
                 </template>
               </div>
             </div>
