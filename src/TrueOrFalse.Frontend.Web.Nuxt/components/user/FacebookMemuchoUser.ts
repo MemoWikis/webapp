@@ -64,7 +64,7 @@ export class FacebookMemuchoUser {
 
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/api/FacebookUsers/Login', { 
+        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/Login', { 
             method: 'POST', 
             body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken }, 
             credentials: 'include', 

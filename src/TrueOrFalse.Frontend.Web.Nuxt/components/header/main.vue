@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { Author } from '../author/author'
- import { ImageStyle } from '../image/imageStyleEnum'
+import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 
 const showSearch = ref(true)
@@ -10,10 +10,8 @@ const showSearch = ref(true)
 function openUrl(val: any) {
     navigateTo(val.Url)
 }
-const props = defineProps(['route'])
 const userStore = useUserStore()
 const currentUser = ref(null as unknown as Author)
-const config = useRuntimeConfig()
 
 if (userStore.isLoggedIn) {
 
@@ -21,7 +19,7 @@ if (userStore.isLoggedIn) {
         id: userStore.id
     }
     currentUser.value = await $fetch<Author>('/apiVue/Author/GetAuthor/', {
-        baseURL: process.client ? config.public.clientBase : config.public.serverBase,        method: 'POST', body: data, mode: 'cors', credentials: 'include'
+        method: 'POST', body: data, mode: 'cors', credentials: 'include'
     })
 }
 const showRegisterButton = ref(false)
@@ -56,8 +54,7 @@ onMounted(() => {
                 <div class="header-container col-xs-12" ref="headerContainer">
 
                     <div class="partial">
-                        <HeaderBreadcrumb :headerContainer="headerContainer" :headerExtras="headerExtras"
-                            :route="props.route" />
+                        <HeaderBreadcrumb :headerContainer="headerContainer" :headerExtras="headerExtras" />
                     </div>
 
                     <div class="partial" ref="headerExtras">
@@ -68,7 +65,8 @@ onMounted(() => {
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
                             <div class="StickySearch" :class="{
-                            'showSearch': showSearch }">
+                                'showSearch': showSearch
+                            }">
                                 <LazySearch :search-type="SearchType.All" :show-search="showSearch"
                                     v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
                             </div>

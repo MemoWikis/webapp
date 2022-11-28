@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, PropType } from 'vue'
 import _ from 'underscore'
-import { FullSearch, SearchType } from './searchHelper'
+import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageStyle } from '../image/imageStyleEnum'
 
 const props = defineProps({
@@ -15,7 +15,7 @@ const props = defineProps({
 const emit = defineEmits(['selectItem'])
 const open = ref(false)
 
-const selectedItem = ref('')
+const selectedItem = ref(null as unknown as TopicItem | QuestionItem | UserItem)
 watch(selectedItem, (item) => {
     emit('selectItem', item);
 })
@@ -61,9 +61,9 @@ const questionCount = ref(0)
 const userCount = ref(0)
 const userSearchUrl = ref('')
 
-const categories = ref([])
-const questions = ref([])
-const users = ref([])
+const categories = ref([] as TopicItem[])
+const questions = ref([] as QuestionItem[])
+const users = ref([] as UserItem[])
 const config = useRuntimeConfig()
 
 async function search() {
@@ -78,7 +78,6 @@ async function search() {
         mode: 'no-cors',
         credentials: 'include'
     })
-    console.log(result)
     if (result != null) {
         categories.value = result.categories;
         questions.value = result.questions;
@@ -91,7 +90,7 @@ async function search() {
     }
 }
 
-function selectItem(item) {
+function selectItem(item: TopicItem | QuestionItem | UserItem) {
     selectedItem.value = item;
 }
 function openUsers() {

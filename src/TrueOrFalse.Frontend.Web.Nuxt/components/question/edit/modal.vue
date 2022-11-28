@@ -65,7 +65,7 @@ async function search() {
         term: searchTerm.value,
     }
 
-    var result = await $fetch<TopicResult>('/api/Search/Category', {
+    var result = await $fetch<TopicResult>('/apiVue/Search/Category', {
         body: data,
         method: 'POST',
         mode: 'cors',

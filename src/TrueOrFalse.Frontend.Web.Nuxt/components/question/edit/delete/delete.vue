@@ -45,6 +45,7 @@ const spinnerStore = useSpinnerStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const topicStore = useTopicStore()
 
+const config = useRuntimeConfig()
 async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
@@ -56,7 +57,7 @@ async function deleteQuestion() {
         sessionIndex: learningSessionStore.currentIndex
     }
 
-    var result = await $fetch<any>('/api/Question/Delete', {
+    var result = await $fetch<any>('/apVue/Question/Delete', {
         method: 'POST',
         body: data,
         credentials: 'include'

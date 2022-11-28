@@ -133,7 +133,7 @@ async function addFlashcard() {
         SessionConfig: sessionConfigJson.value
     }
 
-    var data = await $fetch<any>('/api/Question/CreateFlashcard', {
+    var data = await $fetch<any>('/apiVue/Question/CreateFlashcard', {
         method: 'POST', body: json, mode: 'cors', credentials: 'include'
     })
 

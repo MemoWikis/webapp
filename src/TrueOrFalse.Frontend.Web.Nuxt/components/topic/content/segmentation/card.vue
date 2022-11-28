@@ -100,7 +100,7 @@ export default {
                 childCategoryId: self.categoryId,
             };
 
-            var result = await $fetch<any>('/api/EditCategory/RemoveParent', {
+            var result = await $fetch<any>('/apiVue/EditCategory/RemoveParent', {
                 method: 'POST',
                 body: data,
             })

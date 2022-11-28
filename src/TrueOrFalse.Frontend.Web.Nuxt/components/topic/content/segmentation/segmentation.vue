@@ -3,6 +3,7 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useEditTopicRelationStore, EditTopicRelationType, EditRelationData } from '../../relation/editTopicRelationStore'
 import _ from 'underscore'
+import { VueElement } from 'vue'
 
 interface Segment {
     CategoryId: number,
@@ -255,9 +256,10 @@ export default {
                 return;
             }
             var self = this;
-            var segmentation: ({ CategoryId: any; ChildCategoryIds: any } | { CategoryId: any; ChildCategoryIds?: undefined })[] = [];
-            this.segment.map((s: { CategoryId: string }) => {
-                var childCategoryIds = this.$refs['segment' + s.CategoryId].currentChildCategoryIdsString
+            var segmentation: any[] = [];
+            this.segments.map((s: any) => {
+                var sEl = this.$refs['segment' + s.CategoryId] as any
+                var childCategoryIds = sEl.currentChildCategoryIdsString
                 var segment = childCategoryIds != null ? {
                     CategoryId: s.CategoryId,
                     ChildCategoryIds: childCategoryIds
@@ -328,7 +330,7 @@ export default {
                         </div>
                         <div class="col-xs-9 addCategoryLabelContainer">
                             <div class="addCategoryCardLabel" @click="addCategory(true)">
-                                <!-- <font-awesome-icon :icon="['fa-solid', 'plus']" />  -->
+                                <font-awesome-icon icon="fa-solid fa-plus" />
                                 Neues Thema
                             </div>
                             <div class="addCategoryCardLabel" @click="addCategory(false)">

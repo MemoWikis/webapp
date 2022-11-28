@@ -65,7 +65,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             personalWiki: SearchTopicItem,
             addToWikiHistory: SearchTopicItem[]
           }
-          var result = await $fetch<personalWikiDataResult>('/api/Search/GetPersonalWikiData', { method: 'POST', body: {id: this.parentId}, mode: 'cors', credentials: 'include'})
+          var result = await $fetch<personalWikiDataResult>('/apiVue/Search/GetPersonalWikiData', { method: 'POST', body: {id: this.parentId}, mode: 'cors', credentials: 'include'})
 
           if (!!result && result.success){
             this.personalWiki = result.personalWiki

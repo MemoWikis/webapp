@@ -1,35 +1,36 @@
 <script lang="ts" setup>
+import { VueElement } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
 import { ref } from 'vue'
 import _ from 'underscore'
 import { PageType } from '../shared/pageTypeEnum'
 import { useUserStore } from '../user/userStore'
 
-const props = defineProps(['headerContainer', 'headerExtras', 'route'])
+const props = defineProps(['headerContainer', 'headerExtras'])
 const topicStore = useTopicStore()
 interface BreadcrumbItem {
     Name: string
     Id: number
 }
 class Breadcrumb {
-    newWikiId: number
-    personalWiki: BreadcrumbItem
-    items: BreadcrumbItem[]
-    rootTopic: BreadcrumbItem
-    currentTopic: BreadcrumbItem
-    breadcrumbHasGlobalWiki: boolean
-    isInPersonalWiki: boolean
+    newWikiId: number = 0
+    personalWiki: BreadcrumbItem = null as unknown as BreadcrumbItem
+    items: BreadcrumbItem[] = []
+    rootTopic: BreadcrumbItem = null as unknown as BreadcrumbItem
+    currentTopic: BreadcrumbItem = null as unknown as BreadcrumbItem
+    breadcrumbHasGlobalWiki: boolean = false
+    isInPersonalWiki: boolean = false
 }
-const breadcrumb = ref(null as Breadcrumb)
+const breadcrumb = ref(null as unknown as Breadcrumb)
 
 onBeforeMount(async () => {
     getBreadcrumb()
 })
 
-const breadcrumbItems = ref([])
-const stackedBreadcrumbItems = ref([])
+const breadcrumbItems = ref([] as BreadcrumbItem[])
+const stackedBreadcrumbItems = ref([] as BreadcrumbItem[])
 
-const breadcrumbEl = ref(null)
+const breadcrumbEl = ref(null as unknown as VueElement)
 const breadcrumbWidth = ref('')
 
 const hide = ref(true)
@@ -38,7 +39,7 @@ function startUpdateBreadcrumb() {
     updateBreadcrumb()
 }
 
-const personalWiki = ref(null as BreadcrumbItem)
+const personalWiki = ref(null as unknown as BreadcrumbItem)
 
 const updateBreadcrumb = _.throttle(async () => {
     if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null) {
@@ -70,14 +71,14 @@ const updateBreadcrumb = _.throttle(async () => {
 
 function shiftToStackedBreadcrumbItems() {
     if (breadcrumbItems.value.length > 0)
-        stackedBreadcrumbItems.value.push(breadcrumbItems.value.shift())
+        stackedBreadcrumbItems.value.push(breadcrumbItems.value.shift()!)
 
 }
 function insertToBreadcrumbItems() {
     if (stackedBreadcrumbItems.value.length > 0)
-        breadcrumbItems.value.unshift(stackedBreadcrumbItems.value.pop())
+        breadcrumbItems.value.unshift(stackedBreadcrumbItems.value.pop()!)
 }
-const documentTitle = ref(null)
+const documentTitle = ref('')
 
 onMounted(async () => {
     if (typeof window !== 'undefined') {
@@ -103,7 +104,7 @@ async function getBreadcrumb() {
 
     if (topicStore.isWiki)
         sessionStorage.setItem('currentWikiId', topicStore.id.toString())
-    var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId'))
+    var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId')!)
 
     var currentWikiId = 0;
     if (!isNaN(sessionWikiId))
@@ -114,33 +115,35 @@ async function getBreadcrumb() {
         currentCategoryId: topicStore.id,
     }
     if (pageType.value == PageType.Topic) {
-        const config = useRuntimeConfig()
-        const { data: result } = await useFetch<Breadcrumb>(`/Breadcrumb/GetBreadcrumb/`,
+        const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+                credentials: 'include',
                 mode: 'no-cors',
-                server: true,
             })
 
-        breadcrumb.value = result.value
-        personalWiki.value = result.value.personalWiki
-        breadcrumbItems.value = result.value.items
-        sessionStorage.setItem('currentWikiId', result.value.newWikiId.toString())
+        breadcrumb.value = result
+        personalWiki.value = result.personalWiki
+        breadcrumbItems.value = result.items
+        sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
         updateBreadcrumb()
 
     } else {
-        const { data: result } = await useFetch<BreadcrumbItem>(`/Breadcrumb/GetPersonalWiki/`,
+        const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
+                baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+                credentials: 'include',
                 mode: 'no-cors',
-                server: true,
+                onRequest({ request }) {
+                    console.log('getPersonalWiki---' + request)
+                }
             })
 
-        personalWiki.value = result.value
+        personalWiki.value = result
     }
 }
 
