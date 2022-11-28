@@ -99,7 +99,7 @@ export default {
                 categoryIds: self.currentChildCategoryIds,
             };
 
-            let result = await $fetch('/apiVue/Segmentation/GetCategoriesData', {
+            let result = await $fetch('/apiVue/Segm7entation/GetCategoriesData', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
@@ -243,16 +243,16 @@ export default {
 </script>
 
 <template>
-    <div class="segment" @mouseover="hover = t    rue" @mouseleave="hover = false" :class="{ hover: showHover }">
+    <div class="segment" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover: showHover }">
         <div class="segmentSubHeader">
             <div class="segmentHeader">
                 <div class="segmentTitle">
-                    <a :href="linkToCateg    ory">
+                    <a :href="linkToCategory">
                         <h2>
-                            {{ segmentTitle }}
+                            {{ segmen tTitle }}
                         </h2>
                     </a>
-                    <div v-if="visibility == 1" class="segmentLock" @click="openPublis    hModal" data-toggle="tooltip"
+                    <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip"
                         title="Thema ist privat. Zum Veröffentlichen klicken.">
                         <font-awesome-icon icon="fa-solid fa-lock" />
                         <font-awesome-icon icon="fa-solid fa-lock-open" />
@@ -260,20 +260,20 @@ export default {
 
                 </div>
                 <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown"
-                    :class="{ hover:     showHover && !isHistoric }">
+                    :class="{ hover: showHover && !isHistoric }">
                     <a href="#" :id="dropdownId" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis"
                         type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dro    pdownId">
-                        <li @click="remov    eSegment()">
+                    <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId">
+                        <li @click="removeSegment()">
                             <a>
                                 <div class="dropdown-icon">
                                     <img class="fas" src="/Images/Icons/sitemap-disable.svg" />
                                 </div>Unterthema ausblenden
                             </a>
                         </li>
-                        <li v-if="visibility == 1    ">
+                        <li v-if="visibility == 1">
                             <a @click="openPublishModal">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-unlock"></i>
@@ -281,7 +281,7 @@ export default {
                             </a>
                         </li>
                         <li>
-                            <a @click="    openMoveCategoryModal()" data-allowed="logged-in">
+                            <a @click="openMoveCategoryModal()" data-allowed="logged-in">
                                 <div class="dropdown-icon">
                                     <i class="fa fa-arrow-circle-right"></i>
                                 </div>Thema verschieben
@@ -300,26 +300,26 @@ export default {
             </div>
 
             <div class="segmentKnowledgeBar">
-                <div class="KnowledgeBarWrapper" v-html="kno    wledgeBarHtml">
+                <div class="KnowledgeBarWrapper" v-html="knowledgeBarHtml">
                 </div>
             </div>
         </div>
-        <div class="topicNavigation row" :key="cardsK    ey">
+        <div class="topicNavigation row" :key="cardsKey">
 
-            <TopicContentSegmentationCard v-for="(catego    ry, index) in categories" @select-category="selec    tCategory"
-                @unselect-category="unselectCategory" inline-template :ref="'card' + category    .Id"
+            <TopicContentSegmentationCard v-for="(category, index) in categories" @select-category="selectCategory"
+                @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
                 :is-custom-segment="isCustomSegment" :category-id="category.Id"
                 :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index"
-                :category="c    ategory" :is-historic="isHistoric" />
+                :category="category" :is-historic="isHistoric" />
             <div v-if="!isHistoric" class="col-xs-6 topic">
                 <div class="addCategoryCard memo-button row" :id="addCategoryId">
                     <div class="col-xs-3">
                     </div>
                     <div class="col-xs-9 addCategoryLabelContainer">
-                        <div class="addCategoryCardLabel" @click="addCategor    y(true)">
+                        <div class="addCategoryCardLabel" @click="addCategory(true)">
                             <font-awesome-icon icon="fa-solid fa-plus" /> Neues Thema
                         </div>
-                        <div class="addCategoryCardLabel" @click="addCategory(fals    e)">
+                        <div class="addCategoryCardLabel" @click="addCategory(false)">
                             <font-awesome-icon icon="fa-solid fa-plus" /> Bestehendes Thema
                         </div>
                     </div>
