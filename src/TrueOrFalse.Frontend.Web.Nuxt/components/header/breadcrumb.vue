@@ -131,7 +131,6 @@ async function getBreadcrumb() {
         updateBreadcrumb()
 
     } else {
-        debugger
         const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
             {
                 method: 'POST',

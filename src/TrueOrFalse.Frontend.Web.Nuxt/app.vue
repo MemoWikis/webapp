@@ -14,8 +14,9 @@ interface FooterTopics {
   PopularTopics: Topic[]
 }
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
+  method: 'Get',
+  baseURL: config.public.serverBase,
   mode: 'no-cors',
-  server: true,
 })
 </script>
 
