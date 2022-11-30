@@ -1,6 +1,6 @@
 <script>
 import { useUserStore } from '~~/components/user/userStore'
-export default {
+export default defineNuxtComponent({
     props: {
         title: String,
         description: String,
@@ -50,6 +50,7 @@ export default {
                 if (this.categoryId == e.parentId)
                     this.addNewCategoryCard(e.newCategoryId);
             });
+        console.log(this.currentChildCategoryIds)
         if (this.currentChildCategoryIds.length > 0)
             this.getCategoriesData();
     },
@@ -99,7 +100,7 @@ export default {
                 categoryIds: self.currentChildCategoryIds,
             };
 
-            let result = await $fetch('/apiVue/Segm7entation/GetCategoriesData', {
+            let result = await $fetch('/apiVue/Segmentation/GetCategoriesData', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
@@ -239,7 +240,7 @@ export default {
             eventBus.$emit('add-to-wiki', this.categoryId);
         }
     },
-}
+})
 </script>
 
 <template>
@@ -249,7 +250,7 @@ export default {
                 <div class="segmentTitle">
                     <a :href="linkToCategory">
                         <h2>
-                            {{ segmen tTitle }}
+                            {{ segmentTitle }}
                         </h2>
                     </a>
                     <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip"

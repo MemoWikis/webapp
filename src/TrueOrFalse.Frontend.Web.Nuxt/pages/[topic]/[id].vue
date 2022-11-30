@@ -7,19 +7,11 @@ import { PageType } from '~~/components/shared/pageTypeEnum'
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
-console.log(route)
-console.log("routestart---" + route.params.id)
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         baseURL: process.client ? config.public.clientBase : config.public.serverBase,
         credentials: 'include',
         mode: 'no-cors',
-        server: true,
-
-        onRequest({ request, options }) {
-            console.log("route--" + route.params.id)
-            console.log("topicRequest---" + request)
-        }
     })
 
 if (topic.value != null) {
@@ -72,7 +64,7 @@ if (topic.value != null) {
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
-                <!-- <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive /> -->
+                <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
                 <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
                 <TopicRelationEdit />
                 <!-- <LazyQuestionEditModal /> -->

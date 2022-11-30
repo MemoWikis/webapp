@@ -3,16 +3,14 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useEditTopicRelationStore, EditTopicRelationType, EditRelationData } from '../../relation/editTopicRelationStore'
 import _ from 'underscore'
-import { VueElement } from 'vue'
 
 interface Segment {
     CategoryId: number,
     Title: string,
     ChildCategoryIds: Array<number>,
 }
-const config = useRuntimeConfig()
 
-export default {
+export default defineNuxtComponent({
     props: {
         isHistoricString: String,
     },
@@ -87,7 +85,6 @@ export default {
                 id: this.topicStore.id,
             }
             var result = await $fetch<any>('/apiVue/NuxtSegmentation/GetSegmentation', {
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase,
                 method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
 
@@ -118,7 +115,7 @@ export default {
             };
 
             var category = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoryData', {
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase, method: 'POST', body: data, mode: 'cors', credentials: 'include'
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (category) {
                 self.categories.push(category);
@@ -135,7 +132,7 @@ export default {
             };
             var categories
             categories = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoriesData', {
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase, method: 'POST', body: data, mode: 'cors', credentials: 'include'
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (categories) {
                 categories.forEach((c: any) => self.categories.push(c))
@@ -148,7 +145,7 @@ export default {
             };
 
             var category = await $fetch<any>('/apiVue/NuxtSegmentation/GetCategoryData', {
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase, method: 'POST', body: data, mode: 'cors', credentials: 'include'
+                method: 'POST', body: data, mode: 'cors', credentials: 'include'
             })
             if (category) {
                 self.categories.push(category);
@@ -290,7 +287,7 @@ export default {
 
         }
     },
-}
+})
 </script>
 
 

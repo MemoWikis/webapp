@@ -9,17 +9,17 @@ const showFullQuestion = ref(false)
 const backgroundColor = ref('')
 
 const props = defineProps({
-    question: Object as () => QuestionListItem,
-    isLastItem: Boolean,
-    expandQuestion: Boolean,
-    sessionIndex: Number
+    question: { type: Object as () => QuestionListItem, required: true },
+    isLastItem: { type: Boolean, required: true },
+    expandQuestion: { type: Boolean, required: true },
+    sessionIndex: { type: Number, required: true }
 })
 
-const questionTitleId = ref("#QuestionTitle-" + props.question!.Id)
+const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
 
 const questionTitleHtml = ref('')
 onBeforeMount(() => {
-    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question!.Title + "</div>"
+    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
 })
 const allDataLoaded = ref(false)
 
@@ -29,15 +29,17 @@ const extendedAnswer = ref('')
 const topics = ref({})
 const userStore = useUserStore()
 
-function abbreviateNumber(val: number) {
+function abbreviateNumber(val: number): string {
     if (val < 1000000) {
         return val.toLocaleString("de-DE");
     }
     else if (val >= 1000000 && val < 1000000000) {
+        7
         var newVal
         newVal = val / 1000000;
         return newVal.toFixed(2).toLocaleString() + " Mio."
-    }
+    } else
+        return ''
 }
 
 const references = reactive({ value: [] })
@@ -61,7 +63,7 @@ const canBeEdited = ref(false)
 async function loadQuestionBody() {
 
     var data = await $fetch<any>('api/QuestionList/LoadQuestionBody/', {
-        body: { questionId: props.question!.Id },
+        body: { questionId: props.question.Id },
         method: 'post',
         credentials: 'include',
     })
@@ -111,10 +113,13 @@ watch(() => props.expandQuestion, (val) => {
         expandQuestion()
 })
 
-function highlightCode(elementId) {
-    document.getElementById(elementId).querySelectorAll('code').forEach(block => {
-        block.innerHTML = getHighlightedCode(block.textContent)
-    })
+function highlightCode(elementId: string) {
+    var el = document.getElementById(elementId)
+    if (el != null)
+        el.querySelectorAll('code').forEach(block => {
+            if (block.textContent != null)
+                block.innerHTML = getHighlightedCode(block.textContent)
+        })
 }
 const learningSessionStore = useLearningSessionStore()
 
@@ -148,7 +153,7 @@ function deleteQuestion() {
             <div class="questionContainer">
                 <div class="questionBodyTop">
                     <div class="questionImg col-xs-1" @click="expandQuestion()">
-                        <Image :src="question.ImageData" />
+                        <Image :src="props.question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader row">

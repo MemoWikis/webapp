@@ -3,7 +3,7 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
 import { useEditTopicRelationStore, EditRelationData, EditTopicRelationType } from '../../relation/editTopicRelationStore'
 
-export default {
+export default defineNuxtComponent({
     props: {
         categoryId: [String, Number],
         isCustomSegment: Boolean,
@@ -157,7 +157,7 @@ export default {
         }
 
     }
-}
+})
 
 </script>
 
