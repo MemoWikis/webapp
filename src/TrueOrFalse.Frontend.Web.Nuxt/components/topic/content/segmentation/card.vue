@@ -10,8 +10,9 @@ export default defineNuxtComponent({
         selectedCategories: Array,
         segmentId: [String, Number],
         hide: String,
-        category: Object,
+        category: {type: Object, required: true},
         isHistoric: Boolean,
+        
     },
 
     data() {

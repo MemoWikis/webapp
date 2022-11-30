@@ -93,7 +93,7 @@ const editor = useEditor({
 
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
-const flashCardEditor = ref(null)
+const flashCardEditor = ref()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigStore = useLearningSessionConfigurationStore()
 

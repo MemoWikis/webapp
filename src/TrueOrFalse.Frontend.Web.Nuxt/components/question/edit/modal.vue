@@ -9,6 +9,8 @@ import _ from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
 import { useTopicStore } from '../../topic/topicStore'
+import { Editor } from '@tiptap/vue-3'
+
 
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
@@ -42,13 +44,14 @@ function setDescriptionData(editor) {
     descriptionHtml.value = editor.getHTML()
 }
 
-const textSolution = ref(null)
-const multipleChoiceJson = ref(null)
-const matchListJson = ref(null)
-const flashCardAnswer = ref(null)
+const textSolution = ref(null as string | null)
+const multipleChoiceJson = ref(null as string | null)
+const matchListJson = ref(null as string | null)
+const flashCardAnswer = ref(null as string | null)
+const flashCardJson = ref(null as string | null)
 
 
-const topicIds = ref([])
+const topicIds = ref([] as number[])
 const selectedTopics = ref([])
 function removeTopic(t) {
     if (selectedTopics.value.length > 1) {
@@ -261,19 +264,19 @@ type QuestionData = {
     Visibility: Visibility,
 }
 
-function initiateSolution(solution) {
+function initiateSolution(solution: string) {
     switch (solutionType.value) {
         case SolutionType.Text:
-            this.textSolution = solution;
+            textSolution.value = solution;
             break;
         case SolutionType.MultipleChoice:
-            this.multipleChoiceJson = solution;
+            multipleChoiceJson.value = solution;
             break;
         case SolutionType.MatchList:
-            this.matchListJson = solution;
+            matchListJson.value = solution;
             break;
         case SolutionType.FlashCard:
-            this.flashCardJson = solution;
+            flashCardJson.value = solution;
     }
 
     return solution;
@@ -281,7 +284,7 @@ function initiateSolution(solution) {
 const questionEditor = ref(null)
 const questionExtensionEditor = ref(null)
 
-async function getQuestionData(id) {
+async function getQuestionData(id: number) {
 
     let result = await $fetch<QuestionData>(`/Question/GetData/${id}`, {
         method: 'GET',
@@ -318,7 +321,7 @@ watch(() => editQuestionStore.showModal, () => {
 
 const solutionIsValid = ref(true)
 
-function setFlashCardContent(editor) {
+function setFlashCardContent(editor :Editor) {
     flashCardAnswer.value = editor.getHTML()
     solutionIsValid.value = editor.state.doc.textContent.length > 0
 }

@@ -80,16 +80,16 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetF
               <div class="footer-group">
                 <div class="overline-m no-line">
                   <LazyNuxtLink :to="`/${footerTopics.MemoWiki.Name}/${footerTopics.MemoWiki.Id}`"
-                    v-if="footerTopics.MemoWiki">
+                    v-if="footerTopics?.MemoWiki">
                     {{ footerTopics.MemoWiki.Name }}
                   </LazyNuxtLink>
 
                 </div>
-                <template v-for="(t, i) in footerTopics.MemoTopics" v-if="footerTopics.MemoTopics">
+                <template v-for="(t, i) in footerTopics.MemoTopics" v-if="footerTopics?.MemoTopics">
                   <LazyNuxtLink :to="`/${t.Name}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
-                  <br v-if="i < footerTopics.MemoTopics.length - 1" />
+                  <br v-if="i < footerTopics?.MemoTopics.length - 1" />
                 </template>
 
               </div>
