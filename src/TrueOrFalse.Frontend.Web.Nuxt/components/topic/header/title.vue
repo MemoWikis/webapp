@@ -5,10 +5,10 @@ import { useTabsStore, Tab } from '../tabs/tabsStore'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
-const textArea = ref(null)
+const textArea = ref()
 const topic = useState<Topic>('topic')
 function resize() {
-    let element = textArea.value as unknown as VueElement
+    let element = textArea.value as VueElement
     if (element) {
         element.style.height = "54px"
         element.style.height = element.scrollHeight + "px"

@@ -9,7 +9,7 @@ const alertStore = useAlertStore()
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
 
-const awaitingConsent = ref(null)
+const awaitingConsent = ref(null as null | string)
 
 const allowGooglePlugin = ref(false)
 
@@ -40,7 +40,7 @@ function loadGooglePlugin(toRegister = false) {
         loadGapiLoader(toRegister)
 }
 
-function loadGapiLoader(toRegister) {
+function loadGapiLoader(toRegister: boolean) {
     const gapiLoaderElement = document.getElementById('gapiLoader')
 
     if (gapiLoaderElement == null) {
@@ -86,9 +86,9 @@ function loadFacebookPlugin(toRegister = false) {
         };
 
         (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0]
+            var js, fjs = d.getElementsByTagName(s)[0] as any
             if (d.getElementById(id)) { return }
-            js = d.createElement(s)
+            js = d.createElement(s) as HTMLScriptElement
             js.id = id
             js.src = "//connect.facebook.net/de_DE/sdk.js"
             fjs.parentNode.insertBefore(js, fjs)

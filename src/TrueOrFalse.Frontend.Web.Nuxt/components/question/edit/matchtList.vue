@@ -7,13 +7,13 @@ const pairs = reactive({
         ElementLeft: { Text: "" }
     }]
 })
-const rightElements = reactive({ value: [] })
+const rightElements = reactive({ value: [] as { [key: string]: string }[] })
 const solutionIsOrdered = ref(false)
 
 const emit = defineEmits(['setSolutionIsValid', 'setMatchListJson'])
 
 function validateSolution() {
-    var hasEmptyAnswer = rightElements.value.some((e) => {
+    var hasEmptyAnswer = rightElements.value.some((e: { [key: string]: string }) => {
         return e.Text.trim() == ''
     })
     var leftElementHasNoAnswer = pairs.value.some((p) => {
@@ -49,7 +49,7 @@ onMounted(() => {
         initiateSolution()
 })
 
-function deletePair(index) {
+function deletePair(index: number) {
     pairs.value.splice(index, 1)
     solutionBuilder()
 }
@@ -63,7 +63,7 @@ function addPair() {
     solutionBuilder()
 }
 
-function deleteRightElement(index) {
+function deleteRightElement(index: number) {
     rightElements.value.splice(index, 1)
     solutionBuilder()
 }
@@ -86,7 +86,7 @@ function addRightElement() {
                     class="field-error-container">
                     <div class="field-error">Bitte gib ein linkes Element an.</div>
                 </div>
-                <input type="text" class="form-control col-sm-10" :id="'left-'+index" v-model="pair.ElementLeft.Text"
+                <input type="text" class="form-control col-sm-10" :id="'left-' + index" v-model="pair.ElementLeft.Text"
                     placeholder="Linkes Element" v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields }">
                 <i class="fas fa-arrow-right col-sm-2 col-spacer"></i>
@@ -96,13 +96,13 @@ function addRightElement() {
                     class="field-error-container">
                     <div class="field-error">Bitte wähle ein rechtes Element aus.</div>
                 </div>
-                <select v-model="pair.ElementRight.Text" :id="'right-'+index" class="col-sm-10"
+                <select v-model="pair.ElementRight.Text" :id="'right-' + index" class="col-sm-10"
                     v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementRight.Text.length <= 0 && props.highlightEmptyFields }">
                     <option disabled selected value="" hidden>Rechtes Element</option>
                     <template v-for="el in rightElements.value">
                         <option v-if="el.Text != null && el.Text.length > 0" :value="el.Text">
-                            {{el.Text}}</option>
+                            {{ el.Text }}</option>
                     </template>
 
                 </select>

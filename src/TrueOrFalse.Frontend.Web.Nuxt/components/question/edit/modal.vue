@@ -25,21 +25,21 @@ const highlightEmptyFields = ref(false)
 
 const questionJson = ref({})
 const questionHtml = ref('')
-function setQuestionData(editor) {
+function setQuestionData(editor: Editor) {
     questionJson.value = editor.getJSON()
     questionHtml.value = editor.getHTML()
 }
 
 const questionExtensionJson = ref({})
 const questionExtensionHtml = ref('')
-function setQuestionExtensionData(editor) {
+function setQuestionExtensionData(editor: Editor) {
     questionExtensionJson.value = editor.getJSON()
     questionExtensionHtml.value = editor.getHTML()
 }
 
 const descriptionJson = ref({})
 const descriptionHtml = ref('')
-function setDescriptionData(editor) {
+function setDescriptionData(editor: Editor) {
     descriptionJson.value = editor.getJSON()
     descriptionHtml.value = editor.getHTML()
 }
@@ -52,11 +52,13 @@ const flashCardJson = ref(null as string | null)
 
 
 const topicIds = ref([] as number[])
-const selectedTopics = ref([])
-function removeTopic(t) {
+const selectedTopics = ref([] as TopicItem[])
+function removeTopic(t: TopicItem) {
     if (selectedTopics.value.length > 1) {
-        selectedTopics.value.splice(t.index, 1)
-        var topicIdIndex = topicIds.value.indexOf(t.topicId)
+        var index = selectedTopics.value.findIndex(s => s == t)
+        selectedTopics.value.splice(index, 1)
+
+        var topicIdIndex = topicIds.value.findIndex(i => i == t.Id)
         topicIds.value.splice(topicIdIndex, 1)
     }
 }
@@ -100,7 +102,7 @@ watch(searchTerm, (term) => {
 
 const topics = ref([] as TopicItem[])
 
-function selectTopic(t) {
+function selectTopic(t: TopicItem) {
     showDropdown.value = false
     lockDropdown.value = true
     searchTerm.value = ''
@@ -124,15 +126,18 @@ const disabled = ref(true)
 const lockSaveButton = ref(false)
 
 function getSolution() {
-    let solution = ""
+    let solution: string | null = ""
     switch (solutionType.value) {
         case SolutionType.Text:
             return textSolution.value
-        case SolutionType.MultipleChoice: solution = multipleChoiceJson.value
+        case SolutionType.MultipleChoice:
+            solution = multipleChoiceJson.value
             break
-        case SolutionType.MatchList: solution = matchListJson.value
+        case SolutionType.MatchList:
+            solution = matchListJson.value
             break
-        case SolutionType.FlashCard: return flashCardAnswer.value
+        case SolutionType.FlashCard:
+            return flashCardAnswer.value
     }
 
     return JSON.stringify(solution)
@@ -155,7 +160,11 @@ function getSaveJson() {
     }
     var visibility = isPrivate ? 1 : 0
 
-    let sessionConfigJson = localStorage.getItem('sessionConfigJson') != null ? JSON.parse(localStorage.getItem('sessionConfigJson')) : ''
+
+    var sessionConfigJson = ''
+    var savedConfigJson = localStorage.getItem('sessionConfigJson')
+    if (savedConfigJson != null)
+        sessionConfigJson = JSON.parse(savedConfigJson)
 
     var jsonExtension = {
         CategoryIds: topicIds.value,
@@ -321,7 +330,7 @@ watch(() => editQuestionStore.showModal, () => {
 
 const solutionIsValid = ref(true)
 
-function setFlashCardContent(editor :Editor) {
+function setFlashCardContent(editor: Editor) {
     flashCardAnswer.value = editor.getHTML()
     solutionIsValid.value = editor.state.doc.textContent.length > 0
 }

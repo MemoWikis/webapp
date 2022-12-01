@@ -22,8 +22,8 @@ const userStore = useUserStore()
 
 const addToWishknowledge = ref(true)
 const questionJson = ref(null)
-const questionHtml = ref(null)
-const flashCardAnswer = ref(null)
+const questionHtml = ref('')
+const flashCardAnswer = ref('')
 const flashCardJson = ref(null)
 const licenseConfirmation = ref(false)
 const showMore = ref(false)
@@ -31,16 +31,9 @@ const licenseIsValid = ref(false)
 const solutionIsValid = ref(false)
 const disabled = ref(true)
 const isPrivate = ref(true)
-const sessionConfigJson = ref(null)
+const sessionConfigJson = ref(null as null | { [key: string]: any; })
 
 const alertStore = useAlertStore()
-
-function validateForm() {
-    var questionIsValid = editor.value?.state.doc.textContent.length > 0
-    licenseIsValid.value = licenseConfirmation.value || isPrivate.value
-
-    disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
-}
 
 const editor = useEditor({
     extensions: [
@@ -90,6 +83,12 @@ const editor = useEditor({
         validateForm()
     },
 })
+function validateForm() {
+    licenseIsValid.value = licenseConfirmation.value || isPrivate.value
+
+    var questionIsValid = editor.value ? editor.value.state.doc.textContent.length > 0 : false
+    disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
+}
 
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
@@ -105,7 +104,7 @@ function createQuestion() {
         solution: flashCardAnswer.value,
     }
     editQuestionStore.createQuestion(question)
-    this.questionEditor.commands.setContent('')
+    editor.value?.commands.setContent('')
     flashCardEditor.value.clearFlashCard()
 }
 
@@ -124,7 +123,7 @@ async function addFlashcard() {
     sessionConfigJson.value = learningSessionConfigStore.buildSessionConfigJson(topicStore.id)
 
     var json = {
-        CategoryId: sessionConfigJson.id,
+        CategoryId: sessionConfigJson.value.id,
         TextHtml: questionHtml.value,
         Answer: flashCardAnswer.value,
         Visibility: isPrivate.value ? 1 : 0,
@@ -180,7 +179,7 @@ async function addFlashcard() {
 
         <div id="AddQuestionBody">
             <div id="AddQuestionFormContainer" class="inline-question-editor">
-                <div>
+                <div v-if="editor">
                     <div class="overline-s no-line">Frage</div>
                     <EditorMenuBar :editor="editor" />
                     <editor-content :editor="editor"
@@ -198,7 +197,7 @@ async function addFlashcard() {
                 <div class="overline-s no-line">
                     Sichtbarkeit
                 </div>
-                <div class="privacy-selector" :class="{ 'not-selected' : !licenseIsValid && highlightEmptyFields }">
+                <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
                     <div class="checkbox-container">
                         <div class="checkbox">
                             <label>

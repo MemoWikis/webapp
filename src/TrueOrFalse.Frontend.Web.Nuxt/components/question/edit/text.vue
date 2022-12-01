@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { VueElement } from 'vue'
 const props = defineProps(['solution', 'highlightEmptyFields'])
 const text = ref('')
 const isEmpty = ref('')
 
 const emit = defineEmits(['setSolutionIsValid', 'setSolution'])
-const textArea = ref(null)
+const textArea = ref()
 
 function resize() {
     if (textArea.value != null) {
-        let element = textArea.value
+        let element = textArea.value as VueElement
         element.style.height = "43px"
         element.style.height = element.scrollHeight + "px"
     }

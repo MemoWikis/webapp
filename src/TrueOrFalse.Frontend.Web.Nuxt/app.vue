@@ -122,7 +122,7 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetF
               <div class="footer-group">
                 <div class="overline-m no-line">Hilfe & Kontakt</div>
 
-                <template v-for="(t, i) in footerTopics.HelpTopics" v-if="footerTopics.HelpTopics">
+                <template v-for="(t, i) in footerTopics.HelpTopics" v-if="footerTopics?.HelpTopics">
                   <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
@@ -144,12 +144,12 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetF
                 <div class="overline-m no-line">
                   <LazyNuxtLink
                     :to="`/${footerTopics.RootTopic.Name.replaceAll(' ', '-')}/${footerTopics.RootTopic.Id}`"
-                    v-if="footerTopics.RootTopic">
+                    v-if="footerTopics?.RootTopic">
                     {{ footerTopics.RootTopic.Name }}
                   </LazyNuxtLink>
 
                 </div>
-                <template v-for="(t, i) in footerTopics.MainTopics" v-if="footerTopics.MainTopics">
+                <template v-for="(t, i) in footerTopics.MainTopics" v-if="footerTopics?.MainTopics">
                   <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>
@@ -158,7 +158,7 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetF
               </div>
               <div class="footer-group">
                 <div class="overline-m no-line">Beliebte Themen</div>
-                <template v-for="(t, i) in footerTopics.PopularTopics" v-if="footerTopics.PopularTopics">
+                <template v-for="(t, i) in footerTopics.PopularTopics" v-if="footerTopics?.PopularTopics">
                   <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                     {{ t.Name }}
                   </LazyNuxtLink>

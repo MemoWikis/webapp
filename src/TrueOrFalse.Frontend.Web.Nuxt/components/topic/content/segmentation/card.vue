@@ -10,16 +10,16 @@ export default defineNuxtComponent({
         selectedCategories: Array,
         segmentId: [String, Number],
         hide: String,
-        category: {type: Object, required: true},
+        category: { type: Object, required: true },
         isHistoric: Boolean,
-        
+        parentTopicId: Number
     },
 
     data() {
         return {
             visible: true,
             hover: false,
-            dropdownId: null,
+            dropdownId: null as null | string,
             id: parseInt(this.$props.categoryId!.toString()),
             isSelected: false,
             checkboxId: '',
@@ -74,7 +74,7 @@ export default defineNuxtComponent({
             this.dropdownId = this.segmentId + '-Dropdown' + this.id;
             this.checkboxId = this.segmentId + '-Checkbox' + this.id;
             if (this.isCustomSegment)
-                this.dropdownId += this.$parent.id;
+                this.dropdownId += this.parentTopicId;
 
             this.visibility = this.category!.Visibility;
         },
@@ -86,7 +86,7 @@ export default defineNuxtComponent({
                 return
             }
             if (!this.isCustomSegment) {
-                this.$parent.loadSegment(this.id);
+                this.$emit('load-segment', this.id)
             }
         },
         async removeParent() {
@@ -97,7 +97,7 @@ export default defineNuxtComponent({
             }
             var self = this;
             var data = {
-                parentCategoryIdToRemove: self.$parent.categoryId,
+                parentCategoryIdToRemove: self.parentTopicId,
                 childCategoryId: self.categoryId,
             };
 
@@ -142,7 +142,7 @@ export default defineNuxtComponent({
             editTopicRelationStore.openModal(data)
         },
         hideCategory() {
-            this.$parent.filterChildren([this.categoryId]);
+            this.$emit('filter-children', [this.categoryId])
         },
         openPublishModal() {
             // eventBus.$emit('open-publish-category-modal', this.categoryId);

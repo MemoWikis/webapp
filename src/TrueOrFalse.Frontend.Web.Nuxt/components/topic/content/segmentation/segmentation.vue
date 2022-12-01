@@ -304,7 +304,7 @@ export default defineNuxtComponent({
             <TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId"
                 :title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds"
                 :category-id="parseInt(s.CategoryId.toString())" :is-historic="isHistoric" :parent-id="categoryId"
-                @remove-segment="removeSegment(s.CategoryId)" />
+                @remove-segment="removeSegment(s.CategoryId)" @filter-children="filterChildren" />
         </div>
         <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"
             :class="{ hover: showHover && !isHistoric }">

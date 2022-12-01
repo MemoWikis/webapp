@@ -213,8 +213,8 @@ export default defineNuxtComponent({
         },
         filterChildren(selectedCategoryIds) {
             let filteredCurrentChildCategoryIds = this.currentChildCategoryIds.filter(
-                function (e) {
-                    return this.indexOf(e) < 0;
+                (e) => {
+                    return this.indexOf(e) < 0
                 },
                 selectedCategoryIds
             );
@@ -311,7 +311,8 @@ export default defineNuxtComponent({
                 @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
                 :is-custom-segment="isCustomSegment" :category-id="category.Id"
                 :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index"
-                :category="category" :is-historic="isHistoric" />
+                :category="category" :is-historic="isHistoric" @filter-children="filterChildren"
+                @load-segment="loadSegment" :parent-topic-id="categoryId" />
             <div v-if="!isHistoric" class="col-xs-6 topic">
                 <div class="addCategoryCard memo-button row" :id="addCategoryId">
                     <div class="col-xs-3">

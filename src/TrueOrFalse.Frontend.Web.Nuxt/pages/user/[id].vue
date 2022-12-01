@@ -7,7 +7,6 @@ const config = useRuntimeConfig()
 
 const { data: model } = await useFetch<UserModel>(`/User/GetUser/${route.params.id}`, {
   baseURL: config.apiBase,
-  headers: useRequestHeaders(['cookie'])
 })
 
 function follow() {
@@ -19,19 +18,17 @@ function unfollow() {
 
 const { data: tabBadgesModel } = await useFetch<any>(`/User/GetUser/${route.params.id}`, {
   baseURL: config.apiBase,
-  headers: useRequestHeaders(['cookie'])
 })
 
 const { data: tabKnowledgeModel } = await useFetch<any>(`/User/GetUser/${route.params.id}`, {
   baseURL: config.apiBase,
-  headers: useRequestHeaders(['cookie'])
 })
 
 const showTab = ref('wuwi')
 </script>
 
 <template>
-  <div class="row">
+  <div class="row" v-if="model">
     <div class="xxs-stack col-xs-12">
       <div class="row">
         <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
@@ -40,12 +37,12 @@ const showTab = ref('wuwi')
               <font-awesome-icon icon="fa-solid fa-star" />
 
               <template #popper>
-                {{model.Name}} unterstützt memucho als Fördermitglied. Danke!
+                {{ model.Name }} unterstützt memucho als Fördermitglied. Danke!
               </template>
             </VTooltip>
-            {{model.Name}}
+            {{ model.Name }}
             <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-              &nbsp;(Reputation: {{model.ReputationTotal}} - Rang {{model.ReputationRank}})
+              &nbsp;(Reputation: {{ model.ReputationTotal }} - Rang {{ model.ReputationRank }})
             </span>
           </h1>
         </div>
@@ -76,31 +73,31 @@ const showTab = ref('wuwi')
 
         <div class="column">
           <h4 style="margin-top: 0;">Reputation</h4>
-          <div>- {{model.Reputation.ForQuestionsCreated}} für erstellte Fragen</div>
-          <div>- {{model.User.Id != 1 ? model.Reputation.ForQuestionsInOtherWishKnowledge: 0 }} für eigene Fragen im
+          <div>- {{ model.Reputation.ForQuestionsCreated }} für erstellte Fragen</div>
+          <div>- {{ model.User.Id != 1 ? model.Reputation.ForQuestionsInOtherWishKnowledge : 0 }} für eigene Fragen im
             Wunschwissen anderer </div>
-          <div>- {{model.User.Id != 1 ? model.Reputation.ForPublicWishknowledge: 0 }} für die Veröffentlichung des
+          <div>- {{ model.User.Id != 1 ? model.Reputation.ForPublicWishknowledge : 0 }} für die Veröffentlichung des
             eigenen Wunschwissens</div>
-          <div>- {{model.Reputation.ForUsersFollowingMe}} für folgende Nutzer</div>
+          <div>- {{ model.Reputation.ForUsersFollowingMe }} für folgende Nutzer</div>
         </div>
         <div class="column">
           <h4 style="margin-top: 0;">Erstellte Inhalte</h4>
           <div>
-            {{model.AmountCreatedQuestions}} öffentliche Fragen erstellt
+            {{ model.AmountCreatedQuestions }} öffentliche Fragen erstellt
           </div>
           <div>
-            {{model.AmountCreatedCategories}} Themen erstellt
+            {{ model.AmountCreatedCategories }} Themen erstellt
           </div>
 
           <NuxtLink v-if="model.ShowWiki" :to="`${model.UserWikiName}/${model.UserWikiId}`">
-            Zu {{model.Name}}s Wiki
+            Zu {{ model.Name }}s Wiki
           </NuxtLink>
         </div>
 
         <div class="column">
           <h4 style="margin-top: 0;">Wunschwissen</h4>
           <div>7
-            {{model.AmountWishCountQuestions}} Fragen gemerkt
+            {{ model.AmountWishCountQuestions }} Fragen gemerkt
           </div>
         </div>
 
@@ -135,13 +132,13 @@ const showTab = ref('wuwi')
         <div class="container">
           <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
 
-            <div class="btn-group" :class="{'active': showTab == 'wuwi' }">
+            <div class="btn-group" :class="{ 'active': showTab == 'wuwi' }">
               <div type="button" class="btn btn-default" @click="showTab = 'wuwi'">
                 Wunsch<span class="hidden-xxs">wissen</span>
               </div>
             </div>
 
-            <div class="btn-group" :class="{'active': showTab == 'badges' }">
+            <div class="btn-group" :class="{ 'active': showTab == 'badges' }">
               <div type="button" class="btn btn-default" @click="showTab = 'badges'">
                 Badges
               </div>
@@ -155,14 +152,14 @@ const showTab = ref('wuwi')
       <div class="boxtainer-outlined-tabs" style="margin-top: 20px;">
         <div class="boxtainer-header MobileHide">
           <ul class="nav nav-tabs">
-            <li :class="{'active' : showTab == 'wuwi'}">
+            <li :class="{ 'active': showTab == 'wuwi' }">
               <div class="btn-link" @click="showTab == 'wuwi'">
                 Wunschwissen
               </div>
             </li>
-            <li :class="{'active' : showTab == 'badges'}">
+            <li :class="{ 'active': showTab == 'badges' }">
               <div class="btn-link" @click="showTab == 'badges'">
-                Badges (0 von {{tabBadgesModel.Count}})
+                Badges (0 von {{ tabBadgesModel.Count }})
               </div>
             </li>
           </ul>
