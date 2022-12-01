@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { useUserStore } from '~~/components/user/userStore'
 export default defineNuxtComponent({
     props: {
@@ -13,21 +13,21 @@ export default defineNuxtComponent({
 
     data() {
         return {
-            categories: [],
-            segmentId: null,
-            cardsKey: null,
+            categories: [] as any[],
+            segmentId: null as null | string,
+            cardsKey: null as null | string,
             isCustomSegment: true,
-            selectedCategories: [],
-            currentChildCategoryIds: [],
+            selectedCategories: [] as any[],
+            currentChildCategoryIds: [] as number[],
             currentChildCategoryIdsString: "",
             hover: false,
             showHover: false,
             addCategoryId: "",
-            dropdownId: null,
+            dropdownId: null as null | string,
             timer: null,
             linkToCategory: null,
             visibility: 0,
-            segmentTitle: null,
+            segmentTitle: null as null | string,
             knowledgeBarHtml: null,
             disabled: true,
             knowledgeBarData: null
@@ -37,14 +37,14 @@ export default defineNuxtComponent({
         this.getSegmentData();
         this.segmentId = "Segment-" + this.categoryId;
         if (this.childCategoryIds != null) {
-            var baseChildCategoryIds = JSON.parse(this.childCategoryIds);
+            var baseChildCategoryIds = JSON.parse(this.childCategoryIds.toString());
             this.currentChildCategoryIds = baseChildCategoryIds;
         }
         this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
         this.dropdownId = this.segmentId + '-Dropdown';
 
-        this.$on('select-category', (id) => this.selectCategory(id));
-        this.$on('unselect-category', (id) => this.unselectCategory(id));
+        this.$on('select-category', (id: number) => this.selectCategory(id));
+        this.$on('unselect-category', (id: number) => this.unselectCategory(id));
         eventBus.$on('add-category-card',
             (e) => {
                 if (this.categoryId == e.parentId)
@@ -74,22 +74,21 @@ export default defineNuxtComponent({
     },
 
     methods: {
-        async addNewCategoryCard(id) {
+        async addNewCategoryCard(id: number) {
             var self = this;
             var data = {
                 categoryId: id,
             };
 
-            let c = await $fetch('/Segmentation/GetCategoryData', {
+            let result = await $fetch('/Segmentation/GetCategoryData', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
                 mode: 'no-cors',
-                headers: useRequestHeaders(['cookie']),
             })
-            if (c) {
-                self.categories.push(c)
-                self.currentChildCategoryIds.push(c.Id)
+            if (result) {
+                self.categories.push(result)
+                self.currentChildCategoryIds.push(result.Id)
                 // self.$nextTick(() => Images.ReplaceDummyImages());
             }
 
@@ -105,7 +104,6 @@ export default defineNuxtComponent({
                 method: 'Post',
                 credentials: 'include',
                 mode: 'no-cors',
-                headers: useRequestHeaders(['cookie']),
             })
             if (result)
                 result.forEach(c => self.categories.push(c))
@@ -113,10 +111,10 @@ export default defineNuxtComponent({
         async getSegmentData() {
             var self = this;
             var data = {
-                categoryId: parseInt(self.categoryId),
+                categoryId: self.categoryId,
             }
 
-            let result = await $fetch < any > ('/apiVue/Segmentation/GetSegmentData', {
+            let result = await $fetch<any>('/apiVue/Segmentation/GetSegmentData', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
@@ -132,12 +130,12 @@ export default defineNuxtComponent({
             }
 
         },
-        selectCategory(id) {
+        selectCategory(id: number) {
             if (this.selectedCategories.includes(id))
                 return;
             else this.selectedCategories.push(id);
         },
-        unselectCategory(id) {
+        unselectCategory(id: number) {
             if (this.selectedCategories.includes(id)) {
                 var index = this.selectedCategories.indexOf(id);
                 this.selectedCategories.splice(index, 1);
@@ -198,7 +196,7 @@ export default defineNuxtComponent({
                 childCategoryIds: self.selectedCategories,
             }
 
-            let result = await $fetch < any > ('/apiVue/EditCategory/RemoveChildren', {
+            let result = await $fetch<any>('/apiVue/EditCategory/RemoveChildren', {
                 body: data,
                 method: 'Post',
                 credentials: 'include',
@@ -238,6 +236,14 @@ export default defineNuxtComponent({
         },
         openAddToWikiModal() {
             eventBus.$emit('add-to-wiki', this.categoryId);
+        },
+        removeCategory(id) {
+            this.currentChildCategoryIds = this.currentChildCategoryIds.filter((c) => {
+                return c != id
+            })
+            this.categories = this.categories.filter((c) => {
+                return c.Id != id
+            })
         }
     },
 })
@@ -312,7 +318,7 @@ export default defineNuxtComponent({
                 :is-custom-segment="isCustomSegment" :category-id="category.Id"
                 :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index"
                 :category="category" :is-historic="isHistoric" @filter-children="filterChildren"
-                @load-segment="loadSegment" :parent-topic-id="categoryId" />
+                :parent-topic-id="categoryId" @remove-category="removeCategory" />
             <div v-if="!isHistoric" class="col-xs-6 topic">
                 <div class="addCategoryCard memo-button row" :id="addCategoryId">
                     <div class="col-xs-3">

@@ -108,12 +108,7 @@ export default defineNuxtComponent({
             if (result) {
                 const alertStore = useAlertStore()
                 if (result.success == true) {
-                    self.$parent.currentChildCategoryIds = self.$parent.currentChildCategoryIds.filter((id) => {
-                        return id != self.categoryId;
-                    });
-                    self.$parent.categories = self.$parent.categories.filter((c) => {
-                        return c.Id != self.categoryId;
-                    });
+                    this.$emit('remove-category', self.categoryId)
                     alertStore.openAlert(AlertType.Success, {
                         text: messages.success.category[result.key]
                     })

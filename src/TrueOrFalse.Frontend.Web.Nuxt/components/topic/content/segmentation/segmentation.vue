@@ -285,6 +285,14 @@ export default defineNuxtComponent({
         },
         removeCard(id: any) {
 
+        },
+        removeCategory(id: number) {
+            this.currentChildCategoryIds = this.currentChildCategoryIds.filter((c) => {
+                return c != id
+            })
+            this.categories = this.categories.filter((c) => {
+                return c.Id != id
+            })
         }
     },
 })
@@ -320,7 +328,8 @@ export default defineNuxtComponent({
                 <TopicContentSegmentationCard v-for="(category, index) in categories" :ref="'card' + category.Id"
                     :is-custom-segment="isCustomSegment" :category-id="category.Id"
                     :selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index"
-                    :category="category" :is-historic="isHistoric" @remove-card="removeCard(category.Id)" />
+                    :category="category" :is-historic="isHistoric" @remove-card="removeCard(category.Id)"
+                    :parent-topic-id="categoryId" @remove-category="removeCategory" @load-segment="loadSegment" />
                 <div v-if="!isHistoric" class="col-xs-6 topic">
                     <div class="addCategoryCard memo-button row" :id="addCategoryId">
                         <div class="col-xs-3">
