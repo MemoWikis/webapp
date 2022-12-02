@@ -56,7 +56,7 @@ public class NuxtSegmentationController : BaseController
         var categoryDataList = categoryIds.Select(
             categoryId => IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
                 : GetCategoryCardData(categoryId)).Where(categoryCardData => categoryCardData != null)
-            .ToList();
+            .ToArray();
 
         return Json(categoryDataList);
     }

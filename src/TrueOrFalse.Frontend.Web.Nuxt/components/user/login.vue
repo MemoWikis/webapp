@@ -56,7 +56,7 @@ function loadFacebookPlugin(login = false) {
     showLoginIsInProgress.value = true
     facebookLoginComponent.value.loadPlugin(login)
 }
-const button1Text = ref('Anmelden')
+const button1Text = ref('Anmelden' as string | null) 
 
 watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([inProgress, googleInfo, fbInfo]) => {
     if (inProgress || googleInfo || fbInfo)
