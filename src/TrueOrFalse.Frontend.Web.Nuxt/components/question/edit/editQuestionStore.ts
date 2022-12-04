@@ -10,7 +10,7 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
       return {
         showModal: false,
         id: 0,
-        type: null as unknown as Type,
+        type: null as Type | null,
         edit: false,
         sessionIndex: 0
       }

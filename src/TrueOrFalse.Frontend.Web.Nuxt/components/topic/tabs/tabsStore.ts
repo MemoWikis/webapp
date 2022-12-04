@@ -10,7 +10,7 @@ export enum Tab {
 export const useTabsStore = defineStore('tabsStore', {
   state: () => {
     return {
-      activeTab: null as unknown as Tab,
+      activeTab: null as Tab | null,
     }
   },
 })

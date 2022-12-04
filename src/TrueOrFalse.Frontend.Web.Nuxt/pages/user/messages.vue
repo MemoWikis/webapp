@@ -23,13 +23,13 @@ async function loadAll() {
                 </h1>
                 <div id="messagesWrapper">
                     <UserMessagesRows v-if="model.Messages != null" v-for="msg in model.Messages" :msg="msg" />
-                    <div class="alert alert-info" v-if="model.Messages.filter(m => !m.IsRead).length == 0">
+                    <div class="alert alert-info" v-if="model.Messages.filter((m: any) => !m.IsRead).length == 0">
                         Du hast aktuell keine ungelesenen Nachrichten.
                     </div>
 
                     <p v-if="model.ReadMessagesCount > 0">
                         Du hast {{ model.ReadMessagesCount }} gelesene Nachricht{{ model.ReadMessagesCount == 0 ||
-                            model.ReadMessagesCount > 1 ? 'en' : ''
+                                model.ReadMessagesCount > 1 ? 'en' : ''
                         }}.
                     <div @click="loadAll()">Alle anzeigen</div>.
                     </p>

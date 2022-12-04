@@ -2,14 +2,14 @@
 import { ImageStyle } from '../image/imageStyleEnum';
 import { Author } from './author'
 const props = defineProps({
-    author: Object as () => Author,
+    author: { type: Object as () => Author, required: true },
 })
 
 </script>
 
 <template>
-    <LazyNuxtLink :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name">
-        <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+    <LazyNuxtLink :to="`/Nutzer/${props.author.Name}/${author.Id}`" v-tooltip="props.author.Name">
+        <Image :src="props.author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
     </LazyNuxtLink>
 </template>
 

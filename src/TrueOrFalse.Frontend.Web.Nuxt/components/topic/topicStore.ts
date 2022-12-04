@@ -37,7 +37,7 @@ export const useTopicStore = defineStore('topicStore', {
       childTopicCount: 0,
       views: 0,
       commentCount: 0,
-      visibility: null as unknown as Visibility,
+      visibility: null as Visibility | null,
       authorIds: [] as number[],
       isWiki: false,
       currentUserIsCreator: false,

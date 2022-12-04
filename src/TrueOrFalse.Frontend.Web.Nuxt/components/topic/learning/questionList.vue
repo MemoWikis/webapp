@@ -62,7 +62,7 @@ function setPaginationRanges(sP: number) {
         centerArray.value = pageArray.value
     }
 }
-async function updatePageCount(sP : number) {
+async function updatePageCount(sP: number) {
     selectedPage.value = sP
     showLeftSelectionDropUp.value = false
     showRightSelectionDropUp.value = false
@@ -107,7 +107,8 @@ function loadNextQuestions() {
     <div class="col-xs-12 questionListComponent" id="QuestionListComponent">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
-            :is-last-item="index == (questions.length - 1)" :index="index" />
+            :is-last-item="index == (questions.length - 1)" :session-index="index"
+            :expand-question="props.expandQuestion" />
 
         <div id="QuestionListPagination" v-show="questions.length > 0">
             <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">

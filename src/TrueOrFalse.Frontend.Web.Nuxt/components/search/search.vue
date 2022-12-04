@@ -6,17 +6,16 @@ import { ImageStyle } from '../image/imageStyleEnum'
 
 const props = defineProps({
     searchType: Number as PropType<SearchType>,
-    id: [String, Number],
+    id: { type: [String, Number], required: true },
     showSearchIcon: Boolean,
     showSearch: Boolean,
 })
 
 
 const emit = defineEmits(['selectItem'])
-const open = ref(false)
 
-const selectedItem = ref(null as unknown as TopicItem | QuestionItem | UserItem)
-watch(selectedItem, (item) => {
+const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
+watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {
     emit('selectItem', item);
 })
 

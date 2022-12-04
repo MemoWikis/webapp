@@ -26,14 +26,14 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
   state: () => {
     return {
       showModal: false,
-      type: null as unknown as EditTopicRelationType,
+      type: null as EditTopicRelationType  | null,
       parentId: 0,
       childId: 0,
       redirect: false,
       addTopicBtnExists: false,
       categoriesToFilter: [] as number[],
-      personalWiki: null as unknown as SearchTopicItem,
-      addToWikiHistory: null as unknown as SearchTopicItem[],
+      personalWiki: null as SearchTopicItem | null,
+      addToWikiHistory: null as SearchTopicItem[] | null,
     }
   },
   actions: {

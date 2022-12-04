@@ -17,7 +17,7 @@ function resize() {
 }
 
 const readonly = ref(false)
-watch(() => tabsStore.activeTab, (val: Tab) => {
+watch(() => tabsStore.activeTab, (val: any) => {
     if (val == Tab.Topic)
         readonly.value = false
     else {

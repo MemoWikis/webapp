@@ -14,14 +14,14 @@ interface BreadcrumbItem {
 }
 class Breadcrumb {
     newWikiId: number = 0
-    personalWiki: BreadcrumbItem = null as unknown as BreadcrumbItem
+    personalWiki: BreadcrumbItem | null = null
     items: BreadcrumbItem[] = []
-    rootTopic: BreadcrumbItem = null as unknown as BreadcrumbItem
-    currentTopic: BreadcrumbItem = null as unknown as BreadcrumbItem
+    rootTopic: BreadcrumbItem | null = null
+    currentTopic: BreadcrumbItem | null = null
     breadcrumbHasGlobalWiki: boolean = false
     isInPersonalWiki: boolean = false
 }
-const breadcrumb = ref(null as unknown as Breadcrumb)
+const breadcrumb = ref(null as Breadcrumb | null)
 
 onBeforeMount(async () => {
     getBreadcrumb()
@@ -30,7 +30,7 @@ onBeforeMount(async () => {
 const breadcrumbItems = ref([] as BreadcrumbItem[])
 const stackedBreadcrumbItems = ref([] as BreadcrumbItem[])
 
-const breadcrumbEl = ref(null as unknown as VueElement)
+const breadcrumbEl = ref(null as VueElement | null)
 const breadcrumbWidth = ref('')
 
 const hide = ref(true)
@@ -39,7 +39,7 @@ function startUpdateBreadcrumb() {
     updateBreadcrumb()
 }
 
-const personalWiki = ref(null as unknown as BreadcrumbItem)
+const personalWiki = ref(null as BreadcrumbItem | null)
 
 const updateBreadcrumb = _.throttle(async () => {
     if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null) {
@@ -55,7 +55,7 @@ const updateBreadcrumb = _.throttle(async () => {
         } else if (breadcrumbEl.value.clientHeight < 22) {
             insertToBreadcrumbItems()
             setTimeout(() => {
-                if (breadcrumbEl.value.clientHeight > 21) {
+                if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 21) {
                     shiftToStackedBreadcrumbItems()
                 }
             }, 200)
@@ -63,7 +63,7 @@ const updateBreadcrumb = _.throttle(async () => {
         await nextTick()
 
         setTimeout(() => {
-            if (breadcrumbEl.value.clientHeight < 22)
+            if (breadcrumbEl.value && breadcrumbEl.value.clientHeight < 22)
                 hide.value = false
         }, 200)
     }
@@ -159,13 +159,15 @@ watch([() => topicStore.id, () => userStore.id], () => {
     <div v-if="breadcrumb != null && pageType == PageType.Topic" id="BreadCrumb" ref="breadcrumbEl"
         :style="breadcrumbWidth" :class="{ 'hide-breadcrumb': hide }">
         <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
-            class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name">
+            class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
             <font-awesome-icon icon="fa-solid fa-house" />
         </NuxtLink>
-        <div v-if="breadcrumb.rootTopic.Id != breadcrumb.currentTopic.Id && breadcrumb.isInPersonalWiki">
+        <div
+            v-if="breadcrumb.rootTopic && breadcrumb.currentTopic && breadcrumb.rootTopic.Id != breadcrumb.currentTopic.Id && breadcrumb.isInPersonalWiki">
             <font-awesome-icon icon="fa-solid fa-chevron-right" />
         </div>
-        <template v-else-if="breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
+        <template
+            v-else-if="breadcrumb.rootTopic && breadcrumb.personalWiki && breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
             <div class="breadcrumb-divider"></div>
             <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
                 <NuxtLink

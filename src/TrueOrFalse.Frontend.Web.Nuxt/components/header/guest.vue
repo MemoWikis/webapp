@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import { SearchType } from '~~/components/search/searchHelper';
-import { ref, watch, onMounted } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { NuxtLink, LazySearch } from '~~/.nuxt/components';
+import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 
 const userStore = useUserStore()
 
 const showSearch = ref(true)
 
-function openUrl(val) {
-    navigateTo({ path: val.Url }, { replace: true })
+function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
+    if (val != null)
+        navigateTo({ path: val.Url }, { replace: true })
 }
 
 </script>

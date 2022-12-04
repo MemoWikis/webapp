@@ -28,7 +28,7 @@ export const useUserStore = defineStore('userStore', {
       wikiId: 0,
       isAdmin: false,
       name: '',
-      personalWiki: null as unknown as Topic
+      personalWiki: null as Topic | null
     }
   },
   actions: {
@@ -36,24 +36,24 @@ export const useUserStore = defineStore('userStore', {
       this.isLoggedIn = loginState.IsLoggedIn
       this.id = loginState.UserId
     },
-    async login(loginData:{
+    async login(loginData: {
       EmailAddress: string,
       Password: string,
       PersistentLogin: boolean
-  }) {
+    }) {
       var result = await $fetch<UserLoginResult>('/apiVue/SessionUser/Login', { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
 
-      if (!!result && result.Success){
+      if (!!result && result.Success) {
         this.id = result.Id
         this.wikiId = result.WikiId
         this.isAdmin = result.IsAdmin
         this.name = result.Name
         this.showLoginModal = false
         this.isLoggedIn = true
-        
+
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
           this.personalWiki = await $fetch<Topic>(`/apiVue/Topic/GetTopic/${result.PersonalWikiId}`, { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', credentials: 'include' })
-    
+
       }
     },
 
@@ -61,7 +61,7 @@ export const useUserStore = defineStore('userStore', {
       Name: string,
       Email: string,
       Password: string
-      }) {
+    }) {
       var result = await $fetch<UserLoginResult>('/apiVue/VueRegister/Register', { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success) {
@@ -85,15 +85,16 @@ export const useUserStore = defineStore('userStore', {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
 
-      var result = await $fetch<UserLoginResult>('/apiVue/SessionUser/Logout', { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', mode: 'cors', credentials: 'include' 
-        })
-        
+      var result = await $fetch<UserLoginResult>('/apiVue/SessionUser/Logout', {
+        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', mode: 'cors', credentials: 'include'
+      })
+
       if (!!result && result.Success) {
         spinnerStore.hideSpinner()
         this.isLoggedIn = false
         window.location.reload()
-        }
-      spinnerStore.hideSpinner()
       }
+      spinnerStore.hideSpinner()
+    }
   }
 })

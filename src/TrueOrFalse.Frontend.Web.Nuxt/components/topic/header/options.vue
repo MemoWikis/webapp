@@ -14,7 +14,7 @@ const editTopicRelationStore = useEditTopicRelationStore()
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <V-Dropdown :distance="0" :popperHideTriggers="triggers => [...triggers, 'click']">
+            <V-Dropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>

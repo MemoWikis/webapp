@@ -147,11 +147,11 @@ async function register() {
     }
     let result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
-    if (result == 'success') {
+    if (result == 'success' && userStore.personalWiki) {
         var url = `/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`
         navigateTo(url)
     }
-    else
+    else if (result)
         errorMessage.value = messages.error.user[result]
 }
 

@@ -2,7 +2,7 @@
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -21,7 +21,7 @@ const highlightEmptyFields = ref(false)
 const userStore = useUserStore()
 
 const addToWishknowledge = ref(true)
-const questionJson = ref(null)
+const questionJson = ref(null as null | JSONContent)
 const questionHtml = ref('')
 const flashCardAnswer = ref('')
 const flashCardJson = ref(null)

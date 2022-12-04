@@ -11,7 +11,7 @@ function openUrl(val: any) {
     navigateTo(val.Url)
 }
 const userStore = useUserStore()
-const currentUser = ref(null as unknown as Author)
+const currentUser = ref(null as Author | null)
 
 if (userStore.isLoggedIn) {
 

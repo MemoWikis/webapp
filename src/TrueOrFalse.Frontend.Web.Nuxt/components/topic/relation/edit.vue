@@ -85,7 +85,7 @@ watch(selectedTopicId, (id) => {
 const showDropdown = ref(false)
 const lockDropdown = ref(false)
 const searchTerm = ref('')
-const selectedTopic = ref(null as TopicItem)
+const selectedTopic = ref(null as TopicItem | null)
 const showSelectedTopic = ref(false)
 
 function selectTopic(t: any) {
@@ -136,7 +136,7 @@ async function moveTopicToNewParent() {
     var topicData = {
         childCategoryId: childId.value,
         parentCategoryIdToRemove: parentTopicIdToRemove.value,
-        parentCategoryIdToAdd: selectedTopic.value.Id
+        parentCategoryIdToAdd: selectedTopic.value?.Id
     }
 
     var data = await $fetch<any>('/apiVue/EditCategory/MoveChild', {
@@ -248,7 +248,7 @@ async function search() {
 
 editTopicRelationStore.$onAction(({ name, after }) => {
     after(() => {
-        if (name == 'initWikiData') {
+        if (name == 'initWikiData' && editTopicRelationStore.personalWiki) {
             selectedParentInWikiId.value = editTopicRelationStore.personalWiki.Id
         }
     })
