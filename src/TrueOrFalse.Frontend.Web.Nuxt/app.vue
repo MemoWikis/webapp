@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/components/user/userStore'
 import { Topic, useTopicStore } from '~/components/topic/topicStore'
-import { PageType } from './components/shared/pageTypeEnum';
+import { Page } from './components/shared/pageEnum';
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -19,29 +19,17 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetF
   baseURL: config.public.serverBase,
   mode: 'no-cors',
 })
-const route = useRoute()
-watch(() => route.params, (newRoute, oldRoute) => {
-  setPageType()
-})
-onBeforeMount(() => {
-  setPageType()
-})
 
-const pageType = ref(PageType.Default)
+const page = ref(Page.Default)
 
 const topicStore = useTopicStore()
 
-function setPageType() {
-
-  if (route.params.topic != null) {
-    pageType.value = PageType.Topic
-  }
-  else {
-    topicStore.setTopic(new Topic())
-
-    if (route.params.question != null)
-      pageType.value = PageType.Question
-    else pageType.value = PageType.Default
+function setPage(type: Page | null = null) {
+  if (type) {
+    page.value = type
+    if (type != Page.Topic) {
+      topicStore.setTopic(new Topic())
+    }
   }
 
 }
@@ -49,8 +37,8 @@ function setPageType() {
 
 <template>
   <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
-  <HeaderMain :page-type="pageType" />
-  <NuxtPage />
+  <HeaderMain :page="page" />
+  <NuxtPage @set-page="setPage" />
   <LazyClientOnly>
     <LazyUserLogin v-if="!userStore.isLoggedIn" />
     <LazySpinner />

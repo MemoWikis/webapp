@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-
+import { Page } from '~~/components/shared/pageEnum'
+const emit = defineEmits(['setPage'])
+onBeforeMount(() => {
+    emit('setPage', Page.Welcome)
+})
 </script>
 
 <template>

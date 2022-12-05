@@ -5,7 +5,7 @@ import { Author } from '../author/author'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 
-const props = defineProps(['pageType'])
+const props = defineProps(['page'])
 
 const showSearch = ref(true)
 
@@ -57,7 +57,7 @@ onMounted(() => {
 
                     <div class="partial">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
-                            :page-type="props.pageType" />
+                            :page="props.page" />
                     </div>
 
                     <div class="partial" ref="headerExtras">

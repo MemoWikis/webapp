@@ -2,9 +2,9 @@
 import { VueElement } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
 import _ from 'underscore'
-import { PageType } from '../shared/pageTypeEnum'
+import { Page } from '../shared/pageEnum'
 
-const props = defineProps(['headerContainer', 'headerExtras', 'pageType'])
+const props = defineProps(['headerContainer', 'headerExtras', 'page'])
 
 const topicStore = useTopicStore()
 interface BreadcrumbItem {
@@ -28,9 +28,7 @@ const stackedBreadcrumbItems = ref([] as BreadcrumbItem[])
 const breadcrumbEl = ref(null as VueElement | null)
 const breadcrumbWidth = ref('')
 
-const hide = ref(true)
 function startUpdateBreadcrumb() {
-  hide.value = true
   updateBreadcrumb()
 }
 
@@ -55,12 +53,6 @@ const updateBreadcrumb = _.throttle(async () => {
         }
       }, 200)
     }
-    await nextTick()
-
-    setTimeout(() => {
-      if (breadcrumbEl.value && breadcrumbEl.value.clientHeight < 22)
-        hide.value = false
-    }, 200)
   }
 }, 10)
 
@@ -73,11 +65,8 @@ function insertToBreadcrumbItems() {
   if (stackedBreadcrumbItems.value.length > 0)
     breadcrumbItems.value.unshift(stackedBreadcrumbItems.value.pop()!)
 }
-const documentTitle = ref('')
+const pageTitle = ref('')
 
-onBeforeMount(() => {
-  getBreadcrumb()
-})
 
 onMounted(async () => {
   if (typeof window !== 'undefined') {
@@ -86,9 +75,8 @@ onMounted(async () => {
   }
   await nextTick()
   startUpdateBreadcrumb()
-  documentTitle.value = document.title
+  getBreadcrumb()
 })
-
 onBeforeUnmount(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('resize', startUpdateBreadcrumb)
@@ -98,11 +86,11 @@ onBeforeUnmount(() => {
 
 const route = useRoute()
 watch(() => route.params, () => {
-  if (props.pageType != PageType.Topic)
+  if (props.page != Page.Topic)
     getBreadcrumb()
 })
 watch(() => topicStore.id, (newId, oldId) => {
-  if (newId != oldId && props.pageType == PageType.Topic)
+  if (newId != oldId && props.page == Page.Topic)
     getBreadcrumb()
 })
 
@@ -123,7 +111,8 @@ async function getBreadcrumb() {
     wikiId: currentWikiId,
     currentCategoryId: topicStore.id,
   }
-  if (props.pageType == PageType.Topic) {
+
+  if (props.page == Page.Topic) {
     const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
       {
         method: 'POST',
@@ -136,7 +125,6 @@ async function getBreadcrumb() {
     breadcrumbItems.value = result.items
     sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
     updateBreadcrumb()
-
   } else {
     const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
       {
@@ -147,34 +135,56 @@ async function getBreadcrumb() {
       })
 
     personalWiki.value = result
+    setPageTitle()
+
   }
 }
 
+function setPageTitle() {
+  switch (props.page) {
+    case Page.Topic:
+      pageTitle.value = topicStore.name
+      break
+    case Page.Register:
+      pageTitle.value = 'Registrieren'
+      break
+    case Page.Welcome:
+      pageTitle.value = 'Willkommen'
+      break
+  }
+}
 
 </script>
 
 <template>
-  <div v-if="breadcrumb != null && props.pageType == PageType.Topic" id="BreadCrumb" ref="breadcrumbEl"
-    :style="breadcrumbWidth" :class="{ 'hide-breadcrumb': hide }">
+  <div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl"
+    :style="breadcrumbWidth">
+
     <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
       class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
       <font-awesome-icon icon="fa-solid fa-house" />
     </NuxtLink>
-    <div
-      v-if="breadcrumb.rootTopic && breadcrumb.currentTopic && breadcrumb.rootTopic.Id != breadcrumb.currentTopic.Id && breadcrumb.isInPersonalWiki">
-      <font-awesome-icon icon="fa-solid fa-chevron-right" />
-    </div>
-    <template
-      v-else-if="breadcrumb.rootTopic && breadcrumb.personalWiki && breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
-      <div class="breadcrumb-divider"></div>
-      <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
-        <NuxtLink :to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
-          class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
-          {{ breadcrumb.rootTopic.Name }}
-        </NuxtLink>
+
+    <template v-if="breadcrumb.rootTopic">
+      <div
+        v-if="breadcrumb.currentTopic && breadcrumb.rootTopic.Id != breadcrumb.currentTopic.Id && breadcrumb.isInPersonalWiki">
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      </div>
+
+      <template
+        v-else-if="breadcrumb.personalWiki && breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
+        <div class="breadcrumb-divider"></div>
+        <template v-if="topicStore.id != breadcrumb.rootTopic.Id">
+          <NuxtLink :to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
+            class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
+            {{ breadcrumb.rootTopic.Name }}
+          </NuxtLink>
+          <font-awesome-icon icon="fa-solid fa-chevron-right" />
+        </template>
       </template>
     </template>
+
+
     <V-Dropdown v-if="stackedBreadcrumbItems.length > 0" :distance="0">
       <font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -188,6 +198,7 @@ async function getBreadcrumb() {
         </ul>
       </template>
     </V-Dropdown>
+
     <template v-for="b in breadcrumbItems">
       <NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name">
         {{ b.Name }}
@@ -206,11 +217,11 @@ async function getBreadcrumb() {
       <font-awesome-icon icon="fa-solid fa-house" />
     </NuxtLink>
     <div class="breadcrumb-divider"></div>
-    <div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="pageType == PageType.Topic">
+    <div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="props.page == Page.Topic">
       {{ topicStore.name }}
     </div>
-    <div class="breadcrumb-item last" v-tooltip="documentTitle" v-else>
-      {{ documentTitle }}
+    <div class="breadcrumb-item last" v-tooltip="pageTitle" v-else>
+      {{ pageTitle }}
     </div>
   </div>
 
@@ -230,14 +241,6 @@ async function getBreadcrumb() {
   opacity: 1;
   transition: opacity 0.5s;
 
-  &.hide-breadcrumb {
-    transition: opacity 0s;
-    opacity: 0;
-  }
-
-  a {
-    color: @memo-grey-dark;
-  }
 
   .breadcrumb-item {
     padding: 0 12px;
@@ -246,12 +249,27 @@ async function getBreadcrumb() {
     overflow: hidden;
     cursor: pointer;
 
+    color: @memo-grey-dark;
+    text-decoration: none;
+    font-family: "Open Sans";
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 10px;
+    transition: all 0.1s ease-in-out;
+
     &.last {
       max-width: 300px;
+      color: @memo-grey-darker;
     }
+
+    &:hover {
+      color: @memo-blue;
+    }
+
   }
 
   .breadcrumb-divider {
+    min-height: 30px;
     height: 60%;
     background: #ddd;
     max-width: 1px;

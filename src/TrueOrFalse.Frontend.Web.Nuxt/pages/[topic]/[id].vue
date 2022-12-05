@@ -2,7 +2,7 @@
 import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { PageType } from '~~/components/shared/pageTypeEnum'
+import { Page } from '~~/components/shared/pageEnum'
 
 const tabsStore = useTabsStore()
 const route = useRoute()
@@ -34,7 +34,7 @@ if (topic.value != null) {
             useHead({
                 title: topic.value!.Name,
             })
-            useState<PageType>('page', () => PageType.Topic)
+            useState<Page>('page', () => Page.Topic)
         })
 
         watch(() => tabsStore.activeTab, (t) => {
@@ -55,6 +55,10 @@ if (topic.value != null) {
     }
 }
 
+const emit = defineEmits(['setPage'])
+onBeforeMount(() => {
+    emit('setPage', Page.Topic)
+})
 </script>
 
 <template>

@@ -121,7 +121,8 @@ function handleAlertClosing() {
 }
 
 onBeforeMount(() => {
-    history.pushState(null, 'Registrieren', `/Registrieren`)
+    if (history)
+        history.pushState(null, 'Registrieren', `/Registrieren`)
 
     var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
     if (googleCookie == "true")
@@ -131,6 +132,7 @@ onBeforeMount(() => {
     if (facebookCookie == "true")
         loadFacebookPlugin()
 })
+
 const errorMessage = ref('')
 const userName = ref('')
 const eMail = ref('')
