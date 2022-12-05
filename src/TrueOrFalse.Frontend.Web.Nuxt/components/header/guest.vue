@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { NuxtLink, LazySearch } from '~~/.nuxt/components';
 import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 
