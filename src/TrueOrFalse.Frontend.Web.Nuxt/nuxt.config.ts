@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     //         }
     //     }
     //   },
-      runtimeConfig: {
+    runtimeConfig: {
         public: {
             clientBase: "http://memucho.local:3000",
             serverBase: "http://memucho.local",
@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     },
     ssr: true,
     modules: [
-        '@pinia/nuxt',  
+        '@pinia/nuxt',
     ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
@@ -25,9 +25,10 @@ export default defineNuxtConfig({
         // '~/assets/bootstrap/memucho_overrides.less',
         '~/assets/bootstrap/variables_custom.less',
         '~/assets/site.less',
-        '~/assets/top-header.less'
-        ],
-      typescript: {
+        '~/assets/top-header.less',
+        '~/assets/fonts/googleFonts.less'
+    ],
+    typescript: {
         shim: false,
         typeCheck: true,
         // strict: false

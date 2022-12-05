@@ -13,7 +13,6 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
 
 </script>
 
-
 <template>
     <div id="GuestNavigation">
         <div class="HeaderMainRow container">
