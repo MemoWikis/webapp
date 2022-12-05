@@ -134,7 +134,6 @@ async function getBreadcrumb() {
                 body: data,
                 // baseURL: process.client ? config.public.clientBase : config.public.serverBase,
                 credentials: 'include',
-                mode: 'no-cors',
             })
 
         breadcrumb.value = result
