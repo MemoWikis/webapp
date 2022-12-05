@@ -4,7 +4,6 @@ import { useTopicStore } from '../topic/topicStore'
 import { ref } from 'vue'
 import _ from 'underscore'
 import { PageType } from '../shared/pageTypeEnum'
-import { useUserStore } from '../user/userStore'
 
 const props = defineProps(['headerContainer', 'headerExtras'])
 const topicStore = useTopicStore()
@@ -22,10 +21,6 @@ class Breadcrumb {
     isInPersonalWiki: boolean = false
 }
 const breadcrumb = ref(null as Breadcrumb | null)
-
-onBeforeMount(async () => {
-    getBreadcrumb()
-})
 
 const breadcrumbItems = ref([] as BreadcrumbItem[])
 const stackedBreadcrumbItems = ref([] as BreadcrumbItem[])
@@ -80,6 +75,11 @@ function insertToBreadcrumbItems() {
 }
 const documentTitle = ref('')
 
+onBeforeMount(() => {
+    getBreadcrumb()
+    setPageType()
+})
+
 onMounted(async () => {
     if (typeof window !== 'undefined') {
         window.addEventListener('resize', startUpdateBreadcrumb)
@@ -96,11 +96,24 @@ onBeforeUnmount(() => {
         window.removeEventListener('scroll', startUpdateBreadcrumb)
     }
 })
-const pageType = useState<PageType>('page')
-const config = useRuntimeConfig()
+const pageType = ref(PageType.Topic as PageType)
+const route = useRoute()
+watch(() => route.path, (newRoute, oldRoute) => {
+    setPageType()
+})
 
+function setPageType() {
+    if (route.params.topic != null)
+        pageType.value = PageType.Topic
+    else if (route.params.question != null)
+        pageType.value = PageType.Question
+
+    getBreadcrumb()
+
+}
+// const config = useRuntimeConfig()
 async function getBreadcrumb() {
-    var sessionStorage = window.sessionStorage;
+    var sessionStorage = window.sessionStorage
 
     if (topicStore.isWiki)
         sessionStorage.setItem('currentWikiId', topicStore.id.toString())
@@ -110,16 +123,17 @@ async function getBreadcrumb() {
     if (!isNaN(sessionWikiId))
         currentWikiId = sessionWikiId
 
-    var data = {
+    const data = {
         wikiId: currentWikiId,
         currentCategoryId: topicStore.id,
     }
+
     if (pageType.value == PageType.Topic) {
         const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+                // baseURL: process.client ? config.public.clientBase : config.public.serverBase,
                 credentials: 'include',
                 mode: 'no-cors',
             })
@@ -135,22 +149,14 @@ async function getBreadcrumb() {
             {
                 method: 'POST',
                 body: data,
-                baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+                // baseURL: process.client ? config.public.clientBase : config.public.serverBase,
                 credentials: 'include',
                 mode: 'no-cors',
-                onRequest({ request }) {
-                    console.log('getPersonalWiki---' + request)
-                }
             })
 
         personalWiki.value = result
     }
 }
-
-const userStore = useUserStore()
-watch([() => topicStore.id, () => userStore.id], () => {
-    getBreadcrumb()
-})
 
 
 </script>

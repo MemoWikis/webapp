@@ -56,7 +56,7 @@ public class BreadcrumbController : BaseController
             },
             currentTopic = new BreadcrumbItem
             {
-                Name = breadcrumb.Current.Text,     
+                Name = breadcrumb.Current.Text,
                 Id = breadcrumb.Current.Category.Id
             },
             breadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
