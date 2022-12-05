@@ -4,7 +4,8 @@ import { useTopicStore } from '../topic/topicStore'
 import _ from 'underscore'
 import { PageType } from '../shared/pageTypeEnum'
 
-const props = defineProps(['headerContainer', 'headerExtras'])
+const props = defineProps(['headerContainer', 'headerExtras', 'pageType'])
+
 const topicStore = useTopicStore()
 interface BreadcrumbItem {
   Name: string
@@ -76,7 +77,6 @@ const documentTitle = ref('')
 
 onBeforeMount(() => {
   getBreadcrumb()
-  setPageType()
 })
 
 onMounted(async () => {
@@ -95,23 +95,20 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', startUpdateBreadcrumb)
   }
 })
-const pageType = ref(PageType.Topic as PageType)
+
 const route = useRoute()
-watch(() => route.path, (newRoute, oldRoute) => {
-  setPageType()
+watch(() => route.params, () => {
+  if (props.pageType != PageType.Topic)
+    getBreadcrumb()
+})
+watch(() => topicStore.id, (newId, oldId) => {
+  if (newId != oldId && props.pageType == PageType.Topic)
+    getBreadcrumb()
 })
 
-function setPageType() {
-  if (route.params.topic != null)
-    pageType.value = PageType.Topic
-  else if (route.params.question != null)
-    pageType.value = PageType.Question
-
-  getBreadcrumb()
-
-}
-// const config = useRuntimeConfig()
 async function getBreadcrumb() {
+  await nextTick()
+
   var sessionStorage = window.sessionStorage
 
   if (topicStore.isWiki)
@@ -126,13 +123,11 @@ async function getBreadcrumb() {
     wikiId: currentWikiId,
     currentCategoryId: topicStore.id,
   }
-
-  if (pageType.value == PageType.Topic) {
+  if (props.pageType == PageType.Topic) {
     const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
       {
         method: 'POST',
         body: data,
-        // baseURL: process.client ? config.public.clientBase : config.public.serverBase,
         credentials: 'include',
       })
 
@@ -147,7 +142,6 @@ async function getBreadcrumb() {
       {
         method: 'POST',
         body: data,
-        // baseURL: process.client ? config.public.clientBase : config.public.serverBase,
         credentials: 'include',
         mode: 'no-cors',
       })
@@ -160,7 +154,7 @@ async function getBreadcrumb() {
 </script>
 
 <template>
-  <div v-if="breadcrumb != null && pageType == PageType.Topic" id="BreadCrumb" ref="breadcrumbEl"
+  <div v-if="breadcrumb != null && props.pageType == PageType.Topic" id="BreadCrumb" ref="breadcrumbEl"
     :style="breadcrumbWidth" :class="{ 'hide-breadcrumb': hide }">
     <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
       class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
@@ -239,6 +233,10 @@ async function getBreadcrumb() {
   &.hide-breadcrumb {
     transition: opacity 0s;
     opacity: 0;
+  }
+
+  a {
+    color: @memo-grey-dark;
   }
 
   .breadcrumb-item {

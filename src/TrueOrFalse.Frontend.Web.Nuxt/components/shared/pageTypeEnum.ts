@@ -4,5 +4,6 @@ export enum PageType {
     Question,
     User,
     Imprint,
-    Terms
+    Terms,
+    Default
 }

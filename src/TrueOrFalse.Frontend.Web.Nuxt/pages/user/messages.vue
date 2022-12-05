@@ -7,7 +7,6 @@ const { data: model } = await useFetch<any>(`/apiVue/UserMessages/Get/`, {
 })
 
 async function loadAll() {
-    console.log("messageRequest---" + model)
 }
 
 </script>
@@ -29,7 +28,7 @@ async function loadAll() {
 
                     <p v-if="model.ReadMessagesCount > 0">
                         Du hast {{ model.ReadMessagesCount }} gelesene Nachricht{{ model.ReadMessagesCount == 0 ||
-                                model.ReadMessagesCount > 1 ? 'en' : ''
+                            model.ReadMessagesCount > 1 ? 'en' : ''
                         }}.
                     <div @click="loadAll()">Alle anzeigen</div>.
                     </p>

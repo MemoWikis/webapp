@@ -30,7 +30,7 @@ if (topic.value != null) {
 
         onMounted(() => {
             var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
-            history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
+            // history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
             useHead({
                 title: topic.value!.Name,
             })
@@ -54,7 +54,6 @@ if (topic.value != null) {
         navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
     }
 }
-
 
 </script>
 
