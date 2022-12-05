@@ -115,7 +115,7 @@ public class CategoryChangeDayModel
                 break;
         }
 
-        var userTinyModel = new UserTinyModel(change.Author);
+        var userTinyModel = new UserTinyModel(EntityCache.GetUserById(change.AuthorId));
 
         var affectedParents = new CategoryCacheItem[] {};
         if (change.GetCategoryChangeData().AffectedParentIds != null)

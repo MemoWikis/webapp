@@ -102,7 +102,7 @@ public class SessionUserCache
 
     public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
-        var cacheItem = GetItem(questionValuation.User.UserId);
+        var cacheItem = GetItem(questionValuation.User.Id);
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {
@@ -122,18 +122,17 @@ public class SessionUserCache
         }
     }
 
-    public static void AddOrUpdate(User user)
+    public static void AddOrUpdate(UserCacheItem user)
     {
         var cacheItem = GetItem(user.Id);
         cacheItem.User = user;
     }
 
-    public static void AddOrUpdate(SessionUserCacheItem user)
+    public static void AddOrUpdate(User user)
     {
-        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
-
+        var userCacheItem = UserCacheItem.ToCacheUser(user);
         var cacheItem = GetItem(user.Id);
-        cacheItem.User = user;
+        cacheItem.User = userCacheItem;
     }
 
     /// <summary> Used for question delete </summary>

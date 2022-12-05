@@ -59,7 +59,7 @@ public class UserTinyModel : IUserTinyModel
         EmailAddress = _user == null ? "unbekannt" : _user.EmailAddress;
         IsFacebookUser = _user != null && _user.IsFacebookUser;
         IsGoogleUser = _user != null && _user.IsGoogleUser;
-        Id = _user == null ? -1 : _user.UserId;
+        Id = _user == null ? -1 : _user.Id;
         FacebookId = _user == null ? "null" : _user.FacebookId;
         GoogleId = _user == null ? "null" : _user.GoogleId;
         IsMemuchoUser = _user != null && _user.IsMemuchoUser;

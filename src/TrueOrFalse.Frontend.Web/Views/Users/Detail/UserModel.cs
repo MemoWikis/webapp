@@ -31,7 +31,7 @@ public class UserModel : BaseModel
     public CategoryCacheItem UserWiki;
     public bool ShowWiki = false;
 
-    public UserModel(User user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
+    public UserModel(UserCacheItem user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
     {
         User = new UserTinyModel(user);
         IsActiveTabKnowledge = isActiveTabKnowledge;

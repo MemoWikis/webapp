@@ -733,7 +733,7 @@
     <Compile Include="Domain\User\Badges\Type\BadgeTypes.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeTypesExt.cs" />
     <Compile Include="Domain\User\FollowerInfo.cs" />
-    <Compile Include="Domain\User\Persistence\FolowerMap.cs" />
+    <Compile Include="Domain\User\Persistence\FollowerInfoMap.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />

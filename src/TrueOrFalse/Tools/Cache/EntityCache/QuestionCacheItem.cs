@@ -198,7 +198,7 @@ public class QuestionCacheItem
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
             Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList(),
-            Creator = question.Creator,
+            Creator = UserCacheItem.ToCacheUser(question.Creator),
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,
             DescriptionHtml = question.DescriptionHtml,

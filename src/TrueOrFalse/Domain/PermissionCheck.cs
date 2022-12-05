@@ -15,7 +15,7 @@ public class PermissionCheck
         if (category.Visibility == CategoryVisibility.All)
             return true;
 
-        if (category.Visibility == CategoryVisibility.Owner && category.Creator.UserId == userId)
+        if (category.Visibility == CategoryVisibility.Owner && category.Creator.Id == userId)
             return true;
 
         return false;
@@ -65,7 +65,7 @@ public class PermissionCheck
         if (category.IsStartPage())
             return false;
 
-        if (category.Creator.UserId == user.UserId || user.IsInstallationAdmin)
+        if (category.Creator.Id == user.UserId || user.IsInstallationAdmin)
             return true;
 
         return false;
@@ -81,7 +81,7 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator.UserId == user.UserId)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == user.UserId)
             return true;
 
         return false;

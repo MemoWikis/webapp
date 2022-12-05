@@ -116,7 +116,8 @@ public class EditCategoryController : BaseController
         }
 
         var category = convertResult.Category;
-        category.Creator = SessionUser.User;
+        var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        category.Creator = creator;
 
         var categoryNameAllowed = new CategoryNameAllowed();
 
@@ -201,7 +202,8 @@ public class EditCategoryController : BaseController
         var category = new Category(name);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
 
-        category.Creator = SessionUser.User;
+        var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        category.Creator = creator;
         category.Type = CategoryType.Standard;
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
@@ -354,7 +356,7 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
-        var category = new Category(name) { Creator = SessionUser.User };
+        var category = new Category(name) { Creator = Sl.UserRepo.GetById(SessionUser.UserId) };
         category.Visibility = CategoryVisibility.Owner;
 
         var parentCategory = EntityCache.GetCategory(parentCategoryId);

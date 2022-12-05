@@ -24,6 +24,8 @@ public class SessionUserCacheItem
     public int ActivityPoints;
     public int ActivityLevel;
 
+    public UserCacheItem User;
+
     public bool IsMember()
     {
         if (MembershipPeriods.Count == 0)

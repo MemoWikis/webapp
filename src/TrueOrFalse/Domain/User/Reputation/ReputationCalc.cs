@@ -28,7 +28,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
-        var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.UserId);
+        var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.Id);
         result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
         /* Calculate Reputation for other things */

@@ -14,10 +14,13 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     }
 
     public static void ForQuestion(int questionId) => 
-        ScheduleUpdate(EntityCache.GetQuestionById(questionId).Creator.UserId);
+        ScheduleUpdate(EntityCache.GetQuestionById(questionId).Creator.Id);
 
 
     public static void ForUser(User user) =>
+        ScheduleUpdate(user.Id);
+
+    public static void ForUser(UserCacheItem user) =>
         ScheduleUpdate(user.Id);
 
     public static void ForUser(UserTinyModel user) =>
@@ -26,14 +29,12 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     private static void ScheduleUpdate(int userId) =>
         Sl.JobQueueRepo.Add(JobQueueType.UpdateReputationForUser, userId.ToString());
 
-    public void Run(int userToUpdateId)
+    public void Run(User userToUpdate)
     {
-        var userToUpdate = SessionUserCache.GetItem(userToUpdateId);
-
-        UserCacheItem
+        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id);
 
         var oldReputation = userToUpdate.Reputation;
-        var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
+        var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;
 
         var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
         foreach (User user in users)
@@ -52,7 +53,8 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
 
     public void RunForAll()
     {
-        var allUsers = _userRepo.GetAll();
+        var allUsers = UserCacheItem.ToCacheUsers(_userRepo.GetAll());
+        
         var results = allUsers
             .Select(user => _reputationCalc.Run(user))
             .OrderByDescending(r => r.TotalReputation);
@@ -64,7 +66,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
             result.User.User.ReputationPos = i;
             result.User.User.Reputation = result.TotalReputation;
             result.User.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
-            result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
+            //result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
 
             _userRepo.Update(result.User.User);
         }

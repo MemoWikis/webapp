@@ -167,7 +167,7 @@ public class LearningSessionCreator
 
     private static QuestionDetail FilterByCreator(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail)
     {
-        if (q.Creator == SessionUser.User)
+        if (q.Creator.Id == SessionUser.UserId)
         {
             if (config.CreatedByCurrentUser || !config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser)
                 questionDetail.AddByCreator = true;

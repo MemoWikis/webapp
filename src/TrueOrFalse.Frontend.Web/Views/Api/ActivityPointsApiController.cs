@@ -16,7 +16,7 @@ public class ActivityPointsApiController : BaseController
         if (IsLoggedIn)
         {
             var oldUserLevel = SessionUser.User.ActivityLevel;
-            activityPoints.User = SessionUser.User;
+            activityPoints.UserId = SessionUser.UserId;
             Sl.ActivityPointsRepo.Create(activityPoints);
             Sl.UserRepo.UpdateActivityPointsData();
             //SessionUser.UpdateUser();

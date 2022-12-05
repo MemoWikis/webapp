@@ -253,7 +253,8 @@ public class VueEditQuestionController : BaseController
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            question.Creator = SessionUser.User;
+            var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+            question.Creator = creator;
             question.IsWorkInProgress = true;
             _questionRepo.Create(question);
 
@@ -303,7 +304,7 @@ public class VueEditQuestionController : BaseController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator == SessionUser.User)
+            if (questionCacheItem.Creator.Id == SessionUser.UserId)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
@@ -321,7 +322,7 @@ public class VueEditQuestionController : BaseController
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator == SessionUser.User && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
+            if ((questionCacheItem.Creator.Id == SessionUser.UserId && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

@@ -23,8 +23,7 @@ public class LearningSession
     {
         Steps = learningSessionSteps;
         var userId = config.CurrentUserId == 0 ? SessionUser.UserId : config.CurrentUserId;
-        var userCacheItem = SessionUserCache.GetItem(userId);
-        User = userCacheItem;
+        User = EntityCache.GetUserById(userId);
         IsLoggedIn = config.CurrentUserId != -1;
         Config = config;
         Config.Category = EntityCache.GetCategory(Config.CategoryId);

@@ -16,7 +16,7 @@ public class QuestionController : BaseController
     public JsonResult LoadQuestion(int questionId)
     {
         var user = SessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.UserId).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -81,8 +81,7 @@ public class QuestionController : BaseController
     public JsonResult DeleteDetails(int questionId)
     {
         var question = _questionRepo.GetById(questionId);
-        var userTiny = new UserTinyModel(question.Creator);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(userTiny.Id, question);
+        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator.Id, question);
 
         return new JsonResult
         {

@@ -91,7 +91,7 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void Update(UserCacheItem userCacheItem)
     {
-        var user = GetById(userCacheItem.UserId);
+        var user = GetById(userCacheItem.Id);
 
         user.EmailAddress = userCacheItem.EmailAddress;
         user.Name = userCacheItem.Name;

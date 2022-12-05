@@ -40,7 +40,7 @@ public static class QuestionInKnowledge
 
     private static void ChangeTotalInOthersWishknowledge( bool isIncrement, User user, QuestionCacheItem question)
     {
-        if (question.Creator == null || question.Creator.UserId == user.Id) 
+        if (question.Creator == null || question.Creator.Id == user.Id) 
             return; 
            
         var sign = isIncrement ? "+" : "-" ;
@@ -48,7 +48,7 @@ public static class QuestionInKnowledge
                 Sl.Resolve<ISession>()
                     .CreateSQLQuery(
                 @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign + " 1 where id = " +
-                question.Creator.UserId + ";")
+                question.Creator.Id + ";")
                     .ExecuteUpdate();
     }
 

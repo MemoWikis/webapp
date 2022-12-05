@@ -45,7 +45,7 @@ class Count_answer_as_correct : BaseTest
         var learningSession = ContextLearningSession.GetLearningSession(
             new LearningSessionConfig
             {
-                CurrentUserId = lastUserCacheItem.UserId,
+                CurrentUserId = lastUserCacheItem.Id,
                 IsInTestMode = true,
                 InWuwi = true,
                 MaxQuestionCount = 5, 
@@ -62,7 +62,7 @@ class Count_answer_as_correct : BaseTest
         var learningSession = ContextLearningSession.GetLearningSession(
             new LearningSessionConfig
             {
-                CurrentUserId = lastUserCacheItem.UserId,
+                CurrentUserId = lastUserCacheItem.Id,
                 IsInTestMode = false,
                 InWuwi = true,
                 MaxQuestionCount = 5,

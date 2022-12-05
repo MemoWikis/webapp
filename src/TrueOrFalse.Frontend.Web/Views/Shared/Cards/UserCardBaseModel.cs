@@ -7,7 +7,7 @@ public class UserCardBaseModel:BaseResolve
     public int AmountWishCountQuestions;
     public bool IsCurrentUser;
     public bool IsLoggedIn => SessionUser.IsLoggedIn;
-    public User User => SessionUser.User;
+    public SessionUserCacheItem User => SessionUser.User;
     public UserTinyModel Author;
 
 

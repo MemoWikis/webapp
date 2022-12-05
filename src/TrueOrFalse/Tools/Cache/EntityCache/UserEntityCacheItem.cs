@@ -4,22 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.String;
 
-public class UserCacheItem
+public class UserCacheItem : IUserTinyModel
 {
-    public int UserId;
-    public string Name;
-    public string EmailAddress;
-    public string FacebookId;
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string EmailAddress { get; set; }
+    public string FacebookId { get; set; }
     public bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
-    public string GoogleId;
+    public string GoogleId { get; set; }
     public bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
-    public virtual bool IsMemuchoUser => Settings.MemuchoUserId == UserId;
-    public int Reputation;
+    public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+    public int Reputation { get; set; }
     public int ReputationPos;
-    public int FollowerCount;
-    public bool ShowWishKnowledge;
+    public int FollowerCount { get; set; }
+    public bool ShowWishKnowledge { get; set; }
 
     public int StartTopicId;
+    public int WishCountQuestions;
 
     public virtual IList<Membership> MembershipPeriods { get; set; }
     public virtual bool IsMember()
@@ -34,7 +35,7 @@ public class UserCacheItem
     {
         return new UserCacheItem
         {
-            UserId = user.Id,
+            Id = user.Id,
             Name = user.Name,
             EmailAddress = user.EmailAddress,
             FacebookId = user.FacebookId,
@@ -45,6 +46,7 @@ public class UserCacheItem
             ShowWishKnowledge = user.ShowWishKnowledge,
 
             StartTopicId = user.StartTopicId,
+            WishCountQuestions = user.WishCountQuestions,
         };
     }
 

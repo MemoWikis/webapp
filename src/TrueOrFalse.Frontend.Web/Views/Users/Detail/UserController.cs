@@ -16,7 +16,7 @@ public class UserController : BaseController
     [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult User(string userName, int id)
     {
-        var user = _userRepo.GetById(id);
+        var user = EntityCache.GetUserById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
         return View(_viewLocation, new UserModel(user, isActiveTabKnowledge: true));
@@ -26,7 +26,7 @@ public class UserController : BaseController
     [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult Badges(string userName, int id)
     {
-        var user = _userRepo.GetById(id);
+        var user = EntityCache.GetUserById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
         return View(_viewLocation, new UserModel(user, isActiveTabBadges: true));

@@ -199,7 +199,7 @@ public class ContextQuestion
     }
 
 
-    public static List<UserCacheItem> SetWuwi(int amountQuestion)
+    public static List<SessionUserCacheItem> SetWuwi(int amountQuestion)
     {
         var contextUser = ContextUser.New();
         var users = contextUser.Add().All;

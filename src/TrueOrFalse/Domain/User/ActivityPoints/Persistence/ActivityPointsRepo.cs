@@ -11,7 +11,7 @@ public class ActivityPointsRepo : RepositoryDb<ActivityPoints>
     public IList<ActivityPoints> GetActivtyPointsByUser(int userId)
     {
         return Session.QueryOver<ActivityPoints>()
-            .Where(x => x.User.Id == userId)
+            .Where(x => x.UserId == userId)
             .List();
     }
 }
