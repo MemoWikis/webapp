@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
-import { ref } from 'vue'
 import _ from 'underscore'
 import { PageType } from '../shared/pageTypeEnum'
 
