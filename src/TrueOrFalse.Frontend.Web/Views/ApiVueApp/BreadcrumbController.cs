@@ -47,7 +47,7 @@ public class BreadcrumbController : BaseController
         return Json(new Breadcrumb
         {
             newWikiId = currentWiki.Id,
-            items = breadcrumbItems.ToArray(),
+            items = breadcrumbItems,
             personalWiki = personalWiki,
             rootTopic = new BreadcrumbItem
             {
@@ -80,7 +80,7 @@ public class BreadcrumbController : BaseController
     {
         public int newWikiId { get; set; }
         public BreadcrumbItem personalWiki { get; set; }
-        public BreadcrumbItem[] items { get; set; }
+        public List<BreadcrumbItem> items { get; set; }
         public BreadcrumbItem rootTopic { get; set; }
         public BreadcrumbItem currentTopic { get; set; }
         public bool breadcrumbHasGlobalWiki { get; set; }
