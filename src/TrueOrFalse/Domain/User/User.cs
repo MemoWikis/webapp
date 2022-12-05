@@ -68,32 +68,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
     public virtual bool IsBeltz => 356 == Id;
 
-    public virtual string AddToWikiHistory { get; set; }    
-    public virtual List<int> AddToWikiHistoryIds => AddToWikiHistory?
-        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-        .Select(x => Convert.ToInt32(x)).Distinct()
-        .ToList();
-
-    public virtual void AddNewIdToWikiHistory(int id)
-    {
-        if (StartTopicId == id)
-            return;
-
-        var newWikiHistoryIds = AddToWikiHistoryIds == null ? new List<int>() : new List<int>(AddToWikiHistoryIds);
-
-        if (newWikiHistoryIds.Count >= 3)
-            newWikiHistoryIds.RemoveAt(0);
-
-        newWikiHistoryIds.Add(id);
-        AddToWikiHistory = String.Join(",", newWikiHistoryIds);
-        Sl.UserRepo.Update(this);
-    }
-
-    public static void AddNewIdToWikiHistory(int userId, int topicId)
-    {
-        var user = Sl.UserRepo.GetById(userId);
-        user.AddNewIdToWikiHistory(topicId);
-    }
+    public virtual string RecentlyUsedRelationTargetTopics { get; set; }    
 
     public virtual void AddFollower(User follower)
     {

@@ -278,7 +278,7 @@ public class EditCategoryController : BaseController
         }
 
         if (addIdToWikiHistory)
-            global::User.AddNewIdToWikiHistory(SessionUser.UserId, parentCategoryId);
+            RecentlyUsedRelationTargets.Add(SessionUser.UserId, parentCategoryId);
 
         var child = EntityCache.GetCategory(childCategoryId);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);

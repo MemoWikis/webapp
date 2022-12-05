@@ -52,4 +52,9 @@ public class UserCacheItem : IUserTinyModel
 
     public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users) => users.Select(ToCacheUser);
 
+    public virtual string RecentlyUsedRelationTargetTopics { get; set; }    
+    public virtual List<int> RecentlyUsedRelationTargetTopicIds => RecentlyUsedRelationTargetTopics?
+        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => Convert.ToInt32(x)).Distinct()
+        .ToList();
 }

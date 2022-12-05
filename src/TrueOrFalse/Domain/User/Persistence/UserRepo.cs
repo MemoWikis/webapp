@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Antlr.Runtime.Misc;
 using NHibernate;
 using TrueOrFalse.Search;
 using NHibernate.Linq;
@@ -102,6 +104,13 @@ public class UserRepo : RepositoryDbBase<User>
         user.FollowerCount = userCacheItem.FollowerCount;
         user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
 
+        Update(user);
+    }
+
+    public void ApplyChangeAndUpdate(int userId, Action<User> change)
+    {
+        var user = GetById(userId);
+        change(user);
         Update(user);
     }
 

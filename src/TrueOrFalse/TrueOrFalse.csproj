@@ -249,6 +249,7 @@
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
+    <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />
@@ -827,6 +828,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs238 .cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
