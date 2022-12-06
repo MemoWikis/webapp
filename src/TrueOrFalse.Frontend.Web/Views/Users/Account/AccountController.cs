@@ -24,7 +24,7 @@ public class AccountController : BaseController
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "We have a new member",
-            $"New member: {SessionUser.User.Name} {SessionUser.User.Id}"), MailMessagePriority.High);
+            $"New member: {SessionUser.User.Name} {SessionUser.UserId}"), MailMessagePriority.High);
 
         return View("~/Views/Users/Account/Membership.aspx", new MembershipModel
         {

@@ -8,7 +8,7 @@ public class QuestionsApiController : BaseController
     {
         if (SessionUser.User == null)
             return false;
-        QuestionInKnowledge.Pin(Convert.ToInt32(questionId), SessionUser.User);
+        QuestionInKnowledge.Pin(Convert.ToInt32(questionId), SessionUser.UserId);
         return true;
     }
 
@@ -17,7 +17,7 @@ public class QuestionsApiController : BaseController
     {
         if (SessionUser.User == null)
             return false;
-        QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), SessionUser.User);
+        QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), SessionUser.UserId);
         return true;
     }
 }

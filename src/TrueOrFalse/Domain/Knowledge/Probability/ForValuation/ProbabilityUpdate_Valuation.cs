@@ -47,7 +47,7 @@ namespace TrueOrFalse
         private static void UpdateValuationProbabilitys(QuestionValuation questionValuation)
         {
             var question = questionValuation.Question;
-            var user = questionValuation.User;
+            var user = EntityCache.GetUserById(questionValuation.User.Id);
 
             var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(EntityCache.GetQuestionById(question.Id), user);
             questionValuation.CorrectnessProbability = probabilityResult.Probability;

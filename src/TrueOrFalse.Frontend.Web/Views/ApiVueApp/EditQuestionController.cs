@@ -50,7 +50,7 @@ public class VueEditQuestionController : BaseController
         LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -130,7 +130,7 @@ public class VueEditQuestionController : BaseController
         _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_questionRepo);

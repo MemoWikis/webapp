@@ -22,6 +22,12 @@ public class UserCacheItem : IUserTinyModel
     public int StartTopicId;
     public int WishCountQuestions;
 
+    public bool AllowsSupportiveLogin { get; set; }
+
+    public virtual int CorrectnessProbability { get; set; }
+
+    public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
+
     public virtual IList<Membership> MembershipPeriods { get; set; }
     public virtual bool IsMember()
     {
@@ -30,6 +36,8 @@ public class UserCacheItem : IUserTinyModel
 
         return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
     }
+
+    public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
 
     public static UserCacheItem ToCacheUser(User user)
     {
@@ -47,7 +55,25 @@ public class UserCacheItem : IUserTinyModel
 
             StartTopicId = user.StartTopicId,
             WishCountQuestions = user.WishCountQuestions,
+            AllowsSupportiveLogin = user.AllowsSupportiveLogin,
+            KnowledgeReportInterval = user.KnowledgeReportInterval,
+            MembershipPeriods = user.MembershipPeriods,
+            RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics,
+            WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated,
+            CorrectnessProbability = user.CorrectnessProbability
         };
+    }
+
+    public virtual string WidgetHostsSpaceSeparated { get; set; }
+
+    public virtual IList<string> WidgetHosts()
+    {
+        if (string.IsNullOrEmpty(WidgetHostsSpaceSeparated))
+            return new List<string>();
+
+        return WidgetHostsSpaceSeparated
+            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim()).ToList();
     }
 
     public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users) => users.Select(ToCacheUser);

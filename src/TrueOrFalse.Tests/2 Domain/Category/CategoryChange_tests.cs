@@ -29,7 +29,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 11, 0, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 7
         };
@@ -38,7 +38,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 30, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Relations,
             Id = 6
         };
@@ -47,7 +47,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 20, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 5
         };
@@ -55,7 +55,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 17, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Relations,
             Id = 4
         };
@@ -63,7 +63,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 13, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 3
         };
@@ -71,7 +71,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 0, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 2
         };
@@ -79,7 +79,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 1, 1, 0, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Create,
             Id = 1
         };
@@ -112,7 +112,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 11, 0, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 5
         };
@@ -120,7 +120,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 20, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 4
         };
@@ -128,7 +128,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 13, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 3
         };
@@ -136,7 +136,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 5, 10, 0, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Text,
             Id = 2
         };
@@ -144,7 +144,7 @@ class CategoryChange_tests : BaseTest
         {
             DateCreated = new DateTime(2021, 12, 1, 1, 0, 0),
             Category = category,
-            Author = user,
+            AuthorId = user.Id,
             Type = CategoryChangeType.Create,
             Id = 1
         };
@@ -198,7 +198,6 @@ class CategoryChange_tests : BaseTest
             new CategoryChange
             {
                 Id = 1,
-                Author = new User(),
                 Category = category,
                 Data = "{\"CategoryRelations\":[],\"ImageWasUpdated\":false,\"Name\":\"M Ts Wiki\",\"Description\":null,\"TopicMarkdown\":null,\"Content\":\"\",\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":1}",
                 DataVersion = 1,

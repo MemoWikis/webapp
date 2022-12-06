@@ -3,7 +3,7 @@ using System.Linq;
 
 public abstract class ProbabilityCalc_Abstract
 {
-    public ProbabilityCalcResult Run(QuestionCacheItem question, User user)
+    public ProbabilityCalcResult Run(QuestionCacheItem question, UserCacheItem user)
     {
         var answers = Sl.R<AnswerRepo>().GetByQuestion(question.Id, user.Id);
 
@@ -13,7 +13,7 @@ public abstract class ProbabilityCalc_Abstract
         return Run(answers, question, user);
     }
 
-    public ProbabilityCalcResult Run(QuestionCacheItem question, User user, IList<Answer> answers)
+    public ProbabilityCalcResult Run(QuestionCacheItem question, UserCacheItem user, IList<Answer> answers)
     {
         if(question == null || user == null)
             return new ProbabilityCalcResult {Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned};
@@ -27,5 +27,5 @@ public abstract class ProbabilityCalc_Abstract
         return Run(answers, question, user);
     }
 
-	public abstract ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, QuestionCacheItem question, User user);
+	public abstract ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, QuestionCacheItem question, UserCacheItem user);
 }

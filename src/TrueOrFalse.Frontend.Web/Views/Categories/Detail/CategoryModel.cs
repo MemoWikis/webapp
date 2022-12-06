@@ -107,8 +107,7 @@ public class CategoryModel : BaseContentModule
                         : MarkdownMarkdig.ToHtml(category.Description);
 
         Type = category.Type.GetShortName();
-        var creator = Sl.UserRepo.GetByEmailEager(category.Creator.EmailAddress);
-        Creator = new UserTinyModel(creator);
+        Creator = new UserTinyModel(EntityCache.GetUserById(category.Creator.Id));
         CreatorName = Creator.Name;
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);

@@ -31,7 +31,7 @@ public class UserSettingsModel : BaseModel
 
     public UserSettingsModel(){}
 
-    public UserSettingsModel(User user)
+    public UserSettingsModel(UserCacheItem user)
     {
         if (user == null) // page is called if user changes notification settings via email; user needs not to be logged in
             return;
@@ -48,6 +48,5 @@ public class UserSettingsModel : BaseModel
         var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user);
         ImageUrl_200 = imageResult.Url;
         ImageIsCustom = imageResult.HasUploadedImage;
-
     }
 }

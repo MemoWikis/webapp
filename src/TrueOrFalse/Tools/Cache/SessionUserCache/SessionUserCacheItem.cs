@@ -31,6 +31,9 @@ public class SessionUserCacheItem : UserCacheItem
             StartTopicId = user.StartTopicId,
             ActivityPoints = user.ActivityPoints,
             ActivityLevel = user.ActivityLevel,
+
+            CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(),
+            QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>()
         };
     }
 

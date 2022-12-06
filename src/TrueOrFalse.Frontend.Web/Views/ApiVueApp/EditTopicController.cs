@@ -52,7 +52,7 @@ public class EditTopicController : BaseController
         var category = new Category(name);
         ModifyRelationsForCategory.AddParentCategory(category, parentTopicId);
 
-        category.Creator = SessionUser.User;
+        category.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
         category.Type = CategoryType.Standard;
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);

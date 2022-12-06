@@ -5,7 +5,7 @@ using TrueOrFalse.Web;
 
 public class BreadCrumbModel : BaseModel
 {
-    public User User { get; set; }
+    public UserCacheItem User { get; set; }
     public string UserImage = "";
     public string UserName = "";
     public string ToolTipToHomepage = "Zur Startseite";

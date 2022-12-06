@@ -125,7 +125,7 @@ public class ContextQuestion
     {
         var lastQuestion = All.Last();
 
-        QuestionInKnowledge.Pin(lastQuestion.Id, user);
+        QuestionInKnowledge.Pin(lastQuestion.Id, user.Id);
 
         return this;
     }
@@ -205,11 +205,6 @@ public class ContextQuestion
         var users = contextUser.Add().All;
         var categoryList = ContextCategory.New().Add("Daniel").All;
         categoryList.First().Id = 1; 
-
-        var userCacheItem = new UserCacheItem();
-        userCacheItem.User = users.FirstOrDefault();
-        userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
-        userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => Sl.UserRepo.Create(u));

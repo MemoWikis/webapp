@@ -173,7 +173,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
                 i++;
             }
 
-            QuestionInKnowledge.Pin(question.Id, wuwiUsers.First());
+            QuestionInKnowledge.Pin(question.Id, wuwiUsers.First().Id);
 
 
             editCategoryController.SetCategoryToPrivate(publicWiki.Id);

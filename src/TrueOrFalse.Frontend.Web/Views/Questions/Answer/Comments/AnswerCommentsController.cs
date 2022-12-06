@@ -15,7 +15,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = saveCommentJson.questionId;
         comment.Text = saveCommentJson.text;
         comment.Title = saveCommentJson.title;
-        comment.Creator = SessionUser.User;
+        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
 
 
         Resolve<CommentRepository>().Create(comment);
@@ -49,7 +49,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
         comment.Text = text;
-        comment.Creator = SessionUser.User;
+        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
 
         commentRepo.Create(comment);
 

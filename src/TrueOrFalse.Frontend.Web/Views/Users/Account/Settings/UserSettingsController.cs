@@ -26,7 +26,7 @@ public class UserSettingsController : BaseController
             {
                 var result = UpdateKnowledgeReportInterval.Run(Request["userId"].ToInt(), Request["val"].ToInt(), Request["expires"], Request["token"]);
                 userSettingsModel.Message = result.ResultMessage;
-                if (result.Success && (SessionUser.User == result.AffectedUser))
+                if (result.Success && SessionUser.User.Id == result.AffectedUser.Id)
                 {
                     SessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
                     userSettingsModel.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;

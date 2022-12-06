@@ -279,7 +279,7 @@ public class CategoryCacheItem
             CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
             CountQuestions = category.CountQuestions,
             CountQuestionsAggregated = category.CountQuestionsAggregated,
-            Creator = EntityCache.GetUserById(category.Creator.Id),
+            Creator = category.Creator == null ? null : EntityCache.GetUserById(category.Creator.Id),
             CustomSegments = category.CustomSegments,
             Description = category.Description,
             DisableLearningFunctions = category.DisableLearningFunctions,
