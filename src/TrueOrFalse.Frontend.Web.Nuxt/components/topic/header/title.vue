@@ -2,11 +2,17 @@
 import { VueElement } from 'vue'
 import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
+import { Author } from '~~/components/author/author';
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
 const topic = useState<Topic>('topic')
+const msg = ""
+let lastAutors = setLastAuthors()
+let authorFirstFor = setFirstAuthors()
+
+
 function resize() {
     let element = textArea.value as VueElement
     if (element) {
@@ -15,6 +21,14 @@ function resize() {
     }
 
 }
+function setLastAuthors() {
+    return topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : new Array<Author>;
+}
+
+function setFirstAuthors() {
+    return topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4);
+}
+
 
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
@@ -75,9 +89,26 @@ onUnmounted(() => {
 
             <div class="topic-detail-spacer"></div>
 
-            <AuthorIcon v-for="author in topicStore.authors" :author="author" />
+            <AuthorIcon v-for="(author) in authorFirstFor" :author="author" />
+            <VDropdown :distance="6">
+                <!-- This will be the popover reference (for the events and position) -->
+                <button class="additional-authors-btn">+{{ lastAutors.length }}</button>
+
+                <!-- This will be the content of the popover -->
+                <template #popper>
+                    <AuthorIcon v-for="author in lastAutors" :author="author" />
+                    <p>
+                        {{ msg }}
+                    </p>
+
+                    <!-- You can put other components too -->
+                    <ExampleComponent char="=" />
+                </template>
+            </VDropdown>
         </div>
     </div>
+
+
 </template>
                            
 <style scoped lang="less">
@@ -100,6 +131,30 @@ onUnmounted(() => {
             padding-left: 12px;
             height: 54px;
             overflow: hidden;
+        }
+    }
+
+    .additional-authors-btn {
+        border-radius: 10px;
+        min-width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+        font-size: 11px;
+        font-weight: 600;
+        border: solid 1px @memo-grey-light;
+        padding: 0 2px;
+        cursor: pointer;
+        transition: all .1s ease-in-out;
+
+        &:hover {
+            background: @memo-blue;
+            color: white;
+            transition: all .1s ease-in-out;
+            border: solid 1px @memo-blue;
         }
     }
 
