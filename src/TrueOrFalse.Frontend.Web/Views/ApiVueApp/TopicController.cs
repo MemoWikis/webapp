@@ -14,7 +14,7 @@ public class TopicController : BaseController
         var category = EntityCache.GetCategory(id);
 
         if (PermissionCheck.CanView(category))
-            return Json( new
+            return Json(new
             {
                 CanAccess = true,
                 Id = id,
@@ -44,11 +44,10 @@ public class TopicController : BaseController
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
                 QuestionCount = category.CountQuestionsAggregated
             }, JsonRequestBehavior.AllowGet);
-        else
-        {
-            var json = Json(new TopicModel(), JsonRequestBehavior.AllowGet);
-            return json;
-        }
+
+        return Json(new TopicModel(), JsonRequestBehavior.AllowGet);
+        
+
     }
 
     [HttpGet]
