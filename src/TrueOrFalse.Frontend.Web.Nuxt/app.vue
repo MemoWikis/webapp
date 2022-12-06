@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/components/user/userStore'
-import { Topic } from '~/components/topic/topicStore'
+import { Topic, useTopicStore } from '~/components/topic/topicStore'
+import { Page } from './components/shared/pageEnum';
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -18,12 +19,26 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetF
   baseURL: config.public.serverBase,
   mode: 'no-cors',
 })
+
+const page = ref(Page.Default)
+
+const topicStore = useTopicStore()
+
+function setPage(type: Page | null = null) {
+  if (type) {
+    page.value = type
+    if (type != Page.Topic) {
+      topicStore.setTopic(new Topic())
+    }
+  }
+
+}
 </script>
 
 <template>
   <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
-  <HeaderMain />
-  <NuxtPage />
+  <HeaderMain :page="page" />
+  <NuxtPage @set-page="setPage" />
   <LazyClientOnly>
     <LazyUserLogin v-if="!userStore.isLoggedIn" />
     <LazySpinner />

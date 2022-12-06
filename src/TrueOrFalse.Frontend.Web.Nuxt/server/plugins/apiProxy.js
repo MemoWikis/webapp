@@ -5,12 +5,6 @@ const apiProxy = httpProxy.createProxyServer({
   target: "http://memucho.local/apiVue/",
 })
 
-apiProxy.on("proxyReq", (proxyReq, req, res, options) => {
-  // console.log(proxyReq)
-})
-
-
-
 export default defineNitroPlugin(nitroApp => {
   nitroApp.h3App.stack.unshift({
     route: "/apiVue/",

@@ -59,8 +59,8 @@ export default defineNuxtComponent({
       if (this.categoryId == e.parentId)
         this.addNewCategoryCard(e.newCategoryId);
     });
-    console.log(this.currentChildCategoryIds);
-    if (this.currentChildCategoryIds.length > 0) this.getCategoriesData();
+    if (this.currentChildCategoryIds.length > 0) 
+    this.getCategoriesData();
   },
 
   watch: {
@@ -275,12 +275,7 @@ export default defineNuxtComponent({
 </script>
 
 <template>
-  <div
-    class="segment"
-    @mouseover="hover = true"
-    @mouseleave="hover = false"
-    :class="{ hover: showHover }"
-  >
+  <div class="segment" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover: showHover }">
     <div class="segmentSubHeader">
       <div class="segmentHeader">
         <div class="segmentTitle">
@@ -289,37 +284,19 @@ export default defineNuxtComponent({
               {{ segmentTitle }}
             </h2>
           </a>
-          <div
-            v-if="visibility == 1"
-            class="segmentLock"
-            @click="openPublishModal"
-            data-toggle="tooltip"
-            title="Thema ist privat. Zum Veröffentlichen klicken."
-          >
+          <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip"
+            title="Thema ist privat. Zum Veröffentlichen klicken.">
             <font-awesome-icon icon="fa-solid fa-lock" />
             <font-awesome-icon icon="fa-solid fa-lock-open" />
           </div>
         </div>
-        <div
-          v-if="!isHistoric"
-          class="Button dropdown DropdownButton segmentDropdown"
-          :class="{ hover: showHover && !isHistoric }"
-        >
-          <a
-            href="#"
-            :id?="dropdownId"
-            class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis"
-            type="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="true"
-          >
+        <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown"
+          :class="{ hover: showHover && !isHistoric }">
+          <a href="#" :id?="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="fa fa-ellipsis-v"></i>
           </a>
-          <ul
-            class="dropdown-menu dropdown-menu-right"
-            :aria-labelledby?="dropdownId"
-          >
+          <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby?="dropdownId">
             <li @click="removeSegment()">
               <a>
                 <div class="dropdown-icon">
@@ -361,24 +338,11 @@ export default defineNuxtComponent({
       </div>
     </div>
     <div class="topicNavigation row" :key?="cardsKey">
-      <TopicContentSegmentationCard
-        v-for="(category, index) in categories"
-        @select-category="selectCategory"
-        @unselect-category="unselectCategory"
-        inline-template
-        :ref="'card' + category.Id"
-        :is-custom-segment="isCustomSegment"
-        :category-id="category.Id"
-        :selected-categories="selectedCategories"
-        :segment-id?="segmentId"
-        hide="false"
-        :key="index"
-        :category="category"
-        :is-historic="isHistoric"
-        @filter-children="filterChildren"
-        :parent-topic-id="categoryId"
-        @remove-category="removeCategory"
-      />
+      <TopicContentSegmentationCard v-for="(category, index) in categories" @select-category="selectCategory"
+        @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
+        :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories"
+        :segment-id?="segmentId" hide="false" :key="index" :category="category" :is-historic="isHistoric"
+        @filter-children="filterChildren" :parent-topic-id="categoryId" @remove-category="removeCategory" />
       <div v-if="!isHistoric" class="col-xs-6 topic">
         <div class="addCategoryCard memo-button row" :id="addCategoryId">
           <div class="col-xs-3"></div>

@@ -93,7 +93,7 @@ const editor = useEditor({
 
 topicStore.$onAction(({ name, after }) => {
     after(() => {
-        if (name == 'reset')
+        if (name == 'resetContent')
             editor.value?.commands.setContent(topicStore.content)
     })
 })

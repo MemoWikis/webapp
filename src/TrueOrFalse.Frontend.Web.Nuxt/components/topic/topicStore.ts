@@ -88,7 +88,7 @@ export const useTopicStore = defineStore('topicStore', {
       if (result == true)
         this.contentHasChanged = false
     },
-    reset() {
+    resetContent() {
       this.name = this.initialName
       this.content = this.initialContent
       this.contentHasChanged = false

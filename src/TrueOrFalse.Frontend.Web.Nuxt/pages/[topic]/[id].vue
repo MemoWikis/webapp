@@ -2,7 +2,7 @@
 import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { PageType } from '~~/components/shared/pageTypeEnum'
+import { Page } from '~~/components/shared/pageEnum'
 
 const tabsStore = useTabsStore()
 const route = useRoute()
@@ -30,11 +30,11 @@ if (topic.value != null) {
 
         onMounted(() => {
             var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
-            history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
+            // history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
             useHead({
                 title: topic.value!.Name,
             })
-            useState<PageType>('page', () => PageType.Topic)
+            useState<Page>('page', () => Page.Topic)
         })
 
         watch(() => tabsStore.activeTab, (t) => {
@@ -55,7 +55,10 @@ if (topic.value != null) {
     }
 }
 
-
+const emit = defineEmits(['setPage'])
+onBeforeMount(() => {
+    emit('setPage', Page.Topic)
+})
 </script>
 
 <template>

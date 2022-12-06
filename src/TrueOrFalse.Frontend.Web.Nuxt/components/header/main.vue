@@ -5,6 +5,8 @@ import { Author } from '../author/author'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 
+const props = defineProps(['page'])
+
 const showSearch = ref(true)
 
 function openUrl(val: any) {
@@ -54,7 +56,8 @@ onMounted(() => {
                 <div class="header-container col-xs-12" ref="headerContainer">
 
                     <div class="partial">
-                        <HeaderBreadcrumb :headerContainer="headerContainer" :headerExtras="headerExtras" />
+                        <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
+                            :page="props.page" />
                     </div>
 
                     <div class="partial" ref="headerExtras">

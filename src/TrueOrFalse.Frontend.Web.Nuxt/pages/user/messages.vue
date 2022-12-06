@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { Page } from '~~/components/shared/pageEnum'
+const emit = defineEmits(['setPage'])
+onBeforeMount(() => {
+    emit('setPage', Page.Messages)
+})
 const config = useRuntimeConfig()
 
 const { data: model } = await useFetch<any>(`/apiVue/UserMessages/Get/`, {
@@ -7,7 +12,6 @@ const { data: model } = await useFetch<any>(`/apiVue/UserMessages/Get/`, {
 })
 
 async function loadAll() {
-    console.log("messageRequest---" + model)
 }
 
 </script>
