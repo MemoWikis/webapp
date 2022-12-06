@@ -26,7 +26,8 @@ export default defineNuxtConfig({
         '~/assets/bootstrap/variables_custom.less',
         '~/assets/site.less',
         '~/assets/top-header.less',
-        '~/assets/fonts/googleFonts.less'
+        '~/assets/fonts/googleFonts.less',
+        '~/assets/shared/dropdown.less'
     ],
     typescript: {
         shim: false,

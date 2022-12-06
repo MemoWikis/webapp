@@ -19,89 +19,87 @@ const editTopicRelationStore = useEditTopicRelationStore()
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
                 <template #popper>
-                    <ul>
-                        <li>
-                            <NuxtLink :to="`/history/topic/${topicStore.id}`">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-solid fa-history" />
-                                </div>
-                                Bearbeitungshistorie
-                            </NuxtLink>
-                        </li>
-                        <li>
-                            <div @click="editQuestionStore.create()" class="dropdown-item">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                                </div>
-                                Frage hinzufügen
+                    <div class="dropdown-row">
+                        <NuxtLink :to="`/history/topic/${topicStore.id}`">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-history" />
                             </div>
-                        </li>
-                        <li>
-                            <div @click="editTopicRelationStore.createTopic()" class="dropdown-item">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                                </div>
-                                Thema Erstellen
+                            Bearbeitungshistorie
+                        </NuxtLink>
+                    </div>
+                    <div class="dropdown-row">
+                        <div @click="editQuestionStore.create()" class="dropdown-item">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
                             </div>
-                        </li>
-                        <li>
-                            <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fa fa-link"></i>
-                                </div>
-                                Oberthema verknüpfen
-                            </a>
-                        </li>
-                        <li>
-                            <a onclick="eventBus.$emit('add-child-category', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fa fa-link"></i>
-                                </div>
-                                Unterthema verknüpfen
-                            </a>
-                        </li>
-                        <li v-if="userStore.isLoggedIn && topicStore.id != userStore.wikiId">
-                            <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fa fa-plus-square"></i>
-                                </div>
-                                Zu meinem Wiki hinzufügen
-                            </a>
-                        </li>
+                            Frage hinzufügen
+                        </div>
+                    </div>
+                    <div class="dropdown-row">
+                        <div @click="editTopicRelationStore.createTopic()" class="dropdown-item">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
+                            </div>
+                            Thema Erstellen
+                        </div>
+                    </div>
+                    <div class="dropdown-row">
+                        <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)"
+                            data-allowed="logged-in">
+                            <div class="dropdown-icon">
+                                <i class="fa fa-link"></i>
+                            </div>
+                            Oberthema verknüpfen
+                        </a>
+                    </div>
+                    <div class="dropdown-row">
+                        <a onclick="eventBus.$emit('add-child-category', <%= Model.Category.Id %>)"
+                            data-allowed="logged-in">
+                            <div class="dropdown-icon">
+                                <i class="fa fa-link"></i>
+                            </div>
+                            Unterthema verknüpfen
+                        </a>
+                    </div>
+                    <div v-if="userStore.isLoggedIn && topicStore.id != userStore.wikiId" class="dropdown-row">
+                        <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
+                            <div class="dropdown-icon">
+                                <i class="fa fa-plus-square"></i>
+                            </div>
+                            Zu meinem Wiki hinzufügen
+                        </a>
+                    </div>
 
-                        <li v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All">
-                            <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-lock"></i>
-                                </div>
-                                Thema auf privat setzen
-                            </a>
-                        </li>
+                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
+                        class="dropdown-row">
+                        <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)"
+                            data-allowed="logged-in">
+                            <div class="dropdown-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            Thema auf privat setzen
+                        </a>
+                    </div>
 
-                        <li v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner">
-                            <a onclick="eventBus.$emit('open-publish-category-modal', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-unlock"></i>
-                                </div>
-                                Thema veröffentlichen
-                            </a>
-                        </li>
-                        <li v-if="topicStore.canBeDeleted">
-                            <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)"
-                                data-allowed="logged-in">
-                                <div class="dropdown-icon">
-                                    <i class="fas fa-trash"></i>
-                                </div>
-                                Thema löschen
-                            </a>
-                        </li>
-                    </ul>
-
+                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
+                        class="dropdown-row">
+                        <a onclick="eventBus.$emit('open-publish-category-modal', <%= Model.Category.Id %>)"
+                            data-allowed="logged-in">
+                            <span class="dropdown-icon">
+                                <i class="fas fa-unlock"></i>
+                            </span>
+                            Thema veröffentlichen
+                        </a>
+                    </div>
+                    <div v-if="topicStore.canBeDeleted" class="dropdown-row">
+                        <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)"
+                            data-allowed="logged-in">
+                            <div class="dropdown-icon">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            Thema löschen
+                        </a>
+                    </div>
                 </template>
             </V-Dropdown>
         </div>

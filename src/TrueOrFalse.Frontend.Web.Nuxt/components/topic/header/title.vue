@@ -86,9 +86,11 @@ onUnmounted(() => {
             <VDropdown :distance="6">
                 <button class="additional-authors-btn">+{{ lastAuthors.length }}</button>
                 <template #popper>
-                    <NuxtLink v-for="(author) in lastAuthors" :author="author" :to="'/user/' + author.Id">
-                        <AuthorIcon :author="author" />
-                    </NuxtLink>
+                    <div v-for="(author) in lastAuthors" class="dropdown-row">
+                        <NuxtLink :author="author" :to="'/user/' + author.Id">
+                            <AuthorIcon :author="author" />{{ author.Name }}
+                        </NuxtLink>
+                    </div>
                 </template>
             </VDropdown>
         </div>
