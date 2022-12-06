@@ -2,15 +2,16 @@
 import { VueElement } from 'vue'
 import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Author } from '~~/components/author/author';
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
 const topic = useState<Topic>('topic')
-const msg = ""
-let lastAutors = setLastAuthors()
-let authorFirstFor = setFirstAuthors()
+const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4));
+const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
+
 
 
 function resize() {
@@ -19,16 +20,7 @@ function resize() {
         element.style.height = "54px"
         element.style.height = element.scrollHeight + "px"
     }
-
 }
-function setLastAuthors() {
-    return topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : new Array<Author>;
-}
-
-function setFirstAuthors() {
-    return topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4);
-}
-
 
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
@@ -89,20 +81,14 @@ onUnmounted(() => {
 
             <div class="topic-detail-spacer"></div>
 
-            <AuthorIcon v-for="(author) in authorFirstFor" :author="author" />
+            <AuthorIcon v-for="(author) in firstAuthors" :author="author" />
+
             <VDropdown :distance="6">
-                <!-- This will be the popover reference (for the events and position) -->
-                <button class="additional-authors-btn">+{{ lastAutors.length }}</button>
-
-                <!-- This will be the content of the popover -->
+                <button class="additional-authors-btn">+{{ lastAuthors.length }}</button>
                 <template #popper>
-                    <AuthorIcon v-for="author in lastAutors" :author="author" />
-                    <p>
-                        {{ msg }}
-                    </p>
-
-                    <!-- You can put other components too -->
-                    <ExampleComponent char="=" />
+                    <NuxtLink v-for="(author) in lastAuthors" :author="author" :to="'/user/' + author.Id">
+                        <AuthorIcon :author="author" />
+                    </NuxtLink>
                 </template>
             </VDropdown>
         </div>
