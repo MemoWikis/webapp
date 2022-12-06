@@ -11,5 +11,7 @@ export default defineNuxtRouteMiddleware((to) => {
         history.pushState(null, 'Nachrichten', `/Nachrichten`);
     } else if (split[1] == 'Frage' && isNumber(parseInt(split[3]))) {
         navigateTo({ path: `/question/${split[2]}/${split[3]}` })
+    } else if (split[1] == 'Nutzer' && isNumber(parseInt(split[3]))) {
+        navigateTo({ path: `/user/${split[2]}/${split[3]}` })
     }
 })

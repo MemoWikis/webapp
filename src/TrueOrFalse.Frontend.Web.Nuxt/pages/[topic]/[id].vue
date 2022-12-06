@@ -7,6 +7,7 @@ import { Page } from '~~/components/shared/pageEnum'
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
+console.log("routeParamsId" + route.params.topic)
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         baseURL: process.client ? config.public.clientBase : config.public.serverBase,
@@ -15,7 +16,6 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
     })
 
 if (topic.value != null) {
-
     if (topic.value.CanAccess) {
         useState<Topic | null>('topic', () => topic.value)
         const topicStore = useTopicStore()
@@ -67,7 +67,7 @@ onBeforeMount(() => {
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
-                <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
+                <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
                 <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
                 <TopicRelationEdit />
                 <!-- <LazyQuestionEditModal /> -->
