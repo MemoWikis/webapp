@@ -5,8 +5,7 @@ import { ImageStyle } from '~~/components/image/imageStyleEnum'
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const { data: model } = await useFetch<UserModel>(`/User/GetUser/${route.params.id}`, {
-    baseURL: config.apiBase,
+const { data: model } = await useFetch<UserModel>(`/apiVue/User/GetUser/${route.params.id}`, {
 })
 
 function follow() {
@@ -16,12 +15,10 @@ function unfollow() {
 
 }
 
-const { data: tabBadgesModel } = await useFetch<any>(`/User/GetUser/${route.params.id}`, {
-    baseURL: config.apiBase,
+const { data: tabBadgesModel } = await useFetch<any>(`/apiVue/User/GetUser/${route.params.id}`, {
 })
 
-const { data: tabKnowledgeModel } = await useFetch<any>(`/User/GetUser/${route.params.id}`, {
-    baseURL: config.apiBase,
+const { data: tabKnowledgeModel } = await useFetch<any>(`/apiVue/User/GetUser/${route.params.id}`, {
 })
 
 const showTab = ref('wuwi')
