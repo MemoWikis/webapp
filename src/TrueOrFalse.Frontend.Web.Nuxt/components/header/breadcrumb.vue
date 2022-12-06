@@ -93,7 +93,9 @@ watch(() => topicStore.id, (newId, oldId) => {
   if (newId != oldId && props.page == Page.Topic)
     getBreadcrumb()
 })
-
+watch(() => props.page, () => {
+  getBreadcrumb()
+})
 async function getBreadcrumb() {
   await nextTick()
 
