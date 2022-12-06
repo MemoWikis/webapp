@@ -19,48 +19,38 @@ const editTopicRelationStore = useEditTopicRelationStore()
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
                 <template #popper>
-                    <div class="dropdown-row">
-                        <NuxtLink :to="`/history/topic/${topicStore.id}`">
-                            <div class="dropdown-icon">
-                                <font-awesome-icon icon="fa-solid fa-history" />
-                            </div>
-                            Bearbeitungshistorie
-                        </NuxtLink>
-                    </div>
-                    <div class="dropdown-row">
-                        <div @click="editQuestionStore.create()" class="dropdown-item">
-                            <div class="dropdown-icon">
-                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                            </div>
-                            Frage hinzufügen
+                    <NuxtLink :to="`/history/topic/${topicStore.id}`" class="dropdown-row">
+                        <div>
+                            <font-awesome-icon icon="fa-solid fa-history" />
                         </div>
-                    </div>
-                    <div class="dropdown-row">
-                        <div @click="editTopicRelationStore.createTopic()" class="dropdown-item">
-                            <div class="dropdown-icon">
-                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                            </div>
-                            Thema Erstellen
+                        <div class="dropdown-label">Bearbeitungshistorie</div>
+                    </NuxtLink>
+                    <div @click="editQuestionStore.create()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
+                        <div class="dropdown-label">Frage hinzufügen</div>
                     </div>
-                    <div class="dropdown-row">
-                        <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)"
-                            data-allowed="logged-in">
-                            <div class="dropdown-icon">
-                                <i class="fa fa-link"></i>
-                            </div>
-                            Oberthema verknüpfen
-                        </a>
+                    <div @click="editTopicRelationStore.createTopic()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-circle-plus" />
+                        </div>
+                        <div class="dropdown-label">Thema erstellen</div>
                     </div>
-                    <div class="dropdown-row">
-                        <a onclick="eventBus.$emit('add-child-category', <%= Model.Category.Id %>)"
-                            data-allowed="logged-in">
-                            <div class="dropdown-icon">
-                                <i class="fa fa-link"></i>
-                            </div>
-                            Unterthema verknüpfen
-                        </a>
-                    </div>
+                    <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)"
+                        data-allowed="logged-in" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <i class="fa fa-link"></i>
+                        </div>
+                        Oberthema verknüpfen
+                    </a>
+                    <a onclick="eventBus.$emit('add-child-category', <%= Model.Category.Id %>)" data-allowed="logged-in"
+                        class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <i class="fa fa-link"></i>
+                        </div>
+                        Unterthema verknüpfen
+                    </a>
                     <div v-if="userStore.isLoggedIn && topicStore.id != userStore.wikiId" class="dropdown-row">
                         <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
                             <div class="dropdown-icon">
@@ -80,7 +70,6 @@ const editTopicRelationStore = useEditTopicRelationStore()
                             Thema auf privat setzen
                         </a>
                     </div>
-
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
                         class="dropdown-row">
                         <a onclick="eventBus.$emit('open-publish-category-modal', <%= Model.Category.Id %>)"
@@ -107,7 +96,6 @@ const editTopicRelationStore = useEditTopicRelationStore()
             <font-awesome-icon icon="fa-solid fa-lock" />
         </div>
     </div>
-
 </template>
 
 <style scoped lang="less">
