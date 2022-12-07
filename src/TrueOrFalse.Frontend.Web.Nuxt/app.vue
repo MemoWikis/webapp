@@ -25,13 +25,12 @@ const page = ref(Page.Default)
 const topicStore = useTopicStore()
 
 function setPage(type: Page | null = null) {
-  if (type) {
+  if (type != null) {
     page.value = type
     if (type != Page.Topic) {
       topicStore.setTopic(new Topic())
     }
   }
-
 }
 </script>
 

@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { VueElement } from 'vue'
+import { VueElement, PropType } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
 import _ from 'underscore'
 import { Page } from '../shared/pageEnum'
 
-const props = defineProps(['headerContainer', 'headerExtras', 'page'])
+const props = defineProps({
+  headerContainer: null,
+  headerExtras: null,
+  page: { type: Number as PropType<Page>, required: true }
+})
 
 const topicStore = useTopicStore()
 interface BreadcrumbItem {
@@ -28,10 +32,12 @@ const stackedBreadcrumbItems = ref([] as BreadcrumbItem[])
 const breadcrumbEl = ref(null as VueElement | null)
 const breadcrumbWidth = ref('')
 
+const hide = ref(false)
+
 function startUpdateBreadcrumb() {
+  hide.value = true
   updateBreadcrumb()
 }
-
 const personalWiki = ref(null as BreadcrumbItem | null)
 
 const updateBreadcrumb = _.throttle(async () => {
@@ -69,6 +75,7 @@ const pageTitle = ref('')
 
 
 onMounted(async () => {
+
   if (typeof window !== 'undefined') {
     window.addEventListener('resize', startUpdateBreadcrumb)
     window.addEventListener('scroll', startUpdateBreadcrumb)
@@ -92,9 +99,6 @@ watch(() => route.params, () => {
 watch(() => topicStore.id, (newId, oldId) => {
   if (newId != oldId && props.page == Page.Topic)
     getBreadcrumb()
-})
-watch(() => props.page, () => {
-  getBreadcrumb()
 })
 async function getBreadcrumb() {
   await nextTick()
@@ -137,9 +141,10 @@ async function getBreadcrumb() {
       })
 
     personalWiki.value = result
-    setPageTitle()
 
   }
+  setPageTitle()
+
 }
 
 function setPageTitle() {
@@ -155,6 +160,8 @@ function setPageTitle() {
       break
   }
 }
+
+const breadcrumbRefs = ref([] as any[])
 
 </script>
 
@@ -191,18 +198,18 @@ function setPageTitle() {
       <font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
       <template #popper>
-        <ul>
-          <li v-for="s in stackedBreadcrumbItems">
-            <NuxtLink :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`" v-tooltip="s.Name">
-              {{ s.Name }}
-            </NuxtLink>
-          </li>
-        </ul>
+
+        <NuxtLink v-for="s in stackedBreadcrumbItems" :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`"
+          v-tooltip="s.Name">
+          {{ s.Name }}
+        </NuxtLink>
+
       </template>
     </V-Dropdown>
 
     <template v-for="b in breadcrumbItems">
-      <NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name">
+      <NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name"
+        :ref="el => breadcrumbRefs.push(el)">
         {{ b.Name }}
       </NuxtLink>
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -246,7 +253,6 @@ function setPageTitle() {
 
   .breadcrumb-item {
     padding: 0 12px;
-    max-width: 100px;
     text-overflow: ellipsis;
     overflow: hidden;
     cursor: pointer;
@@ -258,6 +264,8 @@ function setPageTitle() {
     font-weight: 600;
     padding-left: 10px;
     transition: all 0.1s ease-in-out;
+
+    flex-shrink: 1;
 
     &.last {
       max-width: 300px;

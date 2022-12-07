@@ -4,7 +4,6 @@ import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Author } from '~~/components/author/author';
-import { ImageStyle } from '../../image/imageStyleEnum';
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -23,6 +22,7 @@ function resize() {
 
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
+
     if (val == Tab.Topic)
         readonly.value = false
     else {
@@ -85,7 +85,8 @@ onUnmounted(() => {
             </LazyNuxtLink>
 
             <VDropdown :distance="6">
-                <button class="additional-authors-btn">+{{ lastAuthors.length }}</button>
+                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn">+{{ lastAuthors.length
+                }}</button>
                 <template #popper>
                     <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
                         <div class="dropdown-icon">
@@ -96,6 +97,7 @@ onUnmounted(() => {
 
                 </template>
             </VDropdown>
+
         </div>
     </div>
 </template>

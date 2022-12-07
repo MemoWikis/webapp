@@ -86,7 +86,6 @@ var addCategoryComponent = Vue.component('add-category-component', {
         eventBus.$on('add-parent-category',
             id => {
                 var parent = {
-                    id: id,
                     addCategoryBtnId: $("#AddToCurrentCategoryBtn"),
                     redirect: true,
                     editCategoryRelation: EditCategoryRelationType.AddParent
