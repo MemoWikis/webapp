@@ -53,6 +53,8 @@ public class UserSettingsController : BaseController
         SessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
         SessionUser.User.KnowledgeReportInterval = model.KnowledgeReportInterval;
 
+        EntityCache.AddOrUpdate(SessionUser.User);
+
         _userRepo.Update(SessionUser.User);
         ReputationUpdate.ForUser(SessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
