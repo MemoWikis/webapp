@@ -119,7 +119,7 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual bool IsMember()
     {
-        if (MembershipPeriods.Count == 0)
+        if (MembershipPeriods == null || MembershipPeriods.Count == 0)
             return false;
 
         return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));

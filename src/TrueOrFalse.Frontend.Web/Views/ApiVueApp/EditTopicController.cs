@@ -5,7 +5,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class EditTopicController : BaseController
+public class EditTopicRelationController : BaseController
 {
     private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
 
@@ -45,23 +45,4 @@ public class EditTopicController : BaseController
         });
     }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult QuickCreate(string name, int parentTopicId)
-    {
-        var category = new Category(name);
-        ModifyRelationsForCategory.AddParentCategory(category, parentTopicId);
-
-        category.Creator = SessionUser.User;
-        category.Type = CategoryType.Standard;
-        category.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Create(category);
-
-        return Json(new
-        {
-            success = true,
-            url = Links.CategoryDetail(category),
-            id = category.Id
-        });
-    }
 }

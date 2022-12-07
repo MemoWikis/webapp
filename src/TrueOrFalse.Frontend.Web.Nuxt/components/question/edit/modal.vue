@@ -184,7 +184,7 @@ function getSaveJson() {
     return { ...json, ...jsonExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/Category/GetCurrentQuestionCount/${id}`, {
+    let count = await $fetch<number>(`/apiVue/VueQuestion/GetCurrentQuestionCount/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -207,7 +207,7 @@ async function save() {
     }
     lockSaveButton.value = true
     spinnerStore.showSpinner()
-    var url = editQuestionStore.edit ? '/Question/Edit' : '/Question/Create'
+    var url = editQuestionStore.edit ? '/apiVue/VueQuestion/Edit' : '/apiVue/VueQuestion/Create'
     var json = getSaveJson()
 
     let result = await $fetch<any>(url, {
@@ -295,7 +295,7 @@ const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
 
-    let result = await $fetch<QuestionData>(`/Question/GetData/${id}`, {
+    let result = await $fetch<QuestionData>(`/apiVue/VueQuestion/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'

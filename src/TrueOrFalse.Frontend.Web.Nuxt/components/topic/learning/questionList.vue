@@ -80,7 +80,7 @@ async function updatePageCount(sP: number) {
 async function loadQuestions(page: Number) {
     pageIsLoading.value = true
 
-    var result = await $fetch<any>('/apiVue/QuestionList/LoadQuestions/', {
+    var result = await $fetch<any>('/apiVue/VueQuestionList/LoadQuestions/', {
         method: 'POST', body: {
             itemCountPerPage: itemCountPerPage.value,
             pageNumber: selectedPage.value,

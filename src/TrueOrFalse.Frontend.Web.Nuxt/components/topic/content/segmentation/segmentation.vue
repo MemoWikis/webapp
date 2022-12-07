@@ -88,7 +88,7 @@ export default defineNuxtComponent({
         id: this.topicStore.id,
       };
       var result = await $fetch<any>(
-        "/apiVue/NuxtSegmentation/GetSegmentation",
+        "/apiVue/VueSegmentation/GetSegmentation",
         {
           method: "POST",
           body: data,
@@ -129,7 +129,7 @@ export default defineNuxtComponent({
       };
 
       var category = await $fetch<any>(
-        "/apiVue/NuxtSegmentation/GetCategoryData",
+        "/apiVue/VueSegmentation/GetCategoryData",
         {
           method: "POST",
           body: data,
@@ -150,7 +150,7 @@ export default defineNuxtComponent({
       };
       var categories;
       categories = await $fetch<any>(
-        "/apiVue/NuxtSegmentation/GetCategoriesData",
+        "/apiVue/VueSegmentation/GetCategoriesData",
         {
           method: "POST",
           body: data,
@@ -169,7 +169,7 @@ export default defineNuxtComponent({
       };
 
       var category = await $fetch<any>(
-        "/apiVue/NuxtSegmentation/GetCategoryData",
+        "/apiVue/VueSegmentation/GetCategoryData",
         {
           method: "POST",
           body: data,
@@ -199,7 +199,7 @@ export default defineNuxtComponent({
       var self = this;
       var data = { CategoryId: id };
 
-      var segment = await $fetch<any>("/apiVue/NuxtSegmentation/GetSegment", {
+      var segment = await $fetch<any>("/apiVue/VueSegmentation/GetSegment", {
         method: "POST",
         body: data,
         mode: "cors",

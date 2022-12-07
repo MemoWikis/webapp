@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class SessionUserController : BaseController
+public class VueSessionUserController : BaseController
 {
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)

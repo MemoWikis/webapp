@@ -59,8 +59,8 @@ export default defineNuxtComponent({
       if (this.categoryId == e.parentId)
         this.addNewCategoryCard(e.newCategoryId);
     });
-    if (this.currentChildCategoryIds.length > 0) 
-    this.getCategoriesData();
+    if (this.currentChildCategoryIds.length > 0)
+      this.getCategoriesData();
   },
 
   watch: {
@@ -77,7 +77,7 @@ export default defineNuxtComponent({
     },
   },
 
-  updated() {},
+  updated() { },
 
   methods: {
     async addNewCategoryCard(id: number) {
@@ -87,7 +87,7 @@ export default defineNuxtComponent({
       };
 
       let result = await $fetch<CategoryCardData>(
-        "/Segmentation/GetCategoryData",
+        "/apiVue/VueSegmentation/GetCategoryData",
         {
           body: data,
           method: "Post",
@@ -108,7 +108,7 @@ export default defineNuxtComponent({
       };
 
       let result = await $fetch<CategoryCardData[]>(
-        "/apiVue/Segmentation/GetCategoriesData",
+        "/apiVue/VueSegmentation/GetCategoriesData",
         {
           body: data,
           method: "Post",
@@ -126,7 +126,7 @@ export default defineNuxtComponent({
         categoryId: self.categoryId,
       };
 
-      let result = await $fetch<any>("/apiVue/Segmentation/GetSegmentData", {
+      let result = await $fetch<any>("/apiVue/VueSegmentation/GetSegmentData", {
         body: data,
         method: "Post",
         credentials: "include",

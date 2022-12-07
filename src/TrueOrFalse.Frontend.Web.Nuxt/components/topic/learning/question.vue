@@ -62,7 +62,7 @@ const canBeEdited = ref(false)
 
 async function loadQuestionBody() {
 
-    var data = await $fetch<any>('api/QuestionList/LoadQuestionBody/', {
+    var data = await $fetch<any>('/apiVue/VueQuestionList/LoadQuestionBody/', {
         body: { questionId: props.question.Id },
         method: 'post',
         credentials: 'include',

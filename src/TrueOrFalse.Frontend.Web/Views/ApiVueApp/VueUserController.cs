@@ -2,7 +2,7 @@
 
 namespace VueApp;
 
-public class UserController : BaseController
+public class VueUserController : BaseController
 {
     [HttpPost]
     public JsonResult GetUser(int id)

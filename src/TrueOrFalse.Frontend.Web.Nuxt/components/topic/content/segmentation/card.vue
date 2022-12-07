@@ -101,7 +101,7 @@ export default defineNuxtComponent({
                 childCategoryId: self.categoryId,
             };
 
-            var result = await $fetch<any>('/apiVue/EditCategory/RemoveParent', {
+            var result = await $fetch<any>('/apiVue/Card/RemoveParent', {
                 method: 'POST',
                 body: data,
             })

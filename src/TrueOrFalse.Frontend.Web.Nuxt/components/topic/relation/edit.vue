@@ -34,7 +34,7 @@ async function addTopic() {
         key: string
     }
 
-    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/EditTopic/ValidateName', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
+    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/EditTopicRelation/ValidateName', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
 
     if (nameValidationResult.categoryNameAllowed) {
         type QuickCreateResult = {
@@ -48,7 +48,7 @@ async function addTopic() {
             parentTopicId: editTopicRelationStore.parentId,
         }
 
-        const result = await $fetch<QuickCreateResult>('/apiVue/EditTopic/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
+        const result = await $fetch<QuickCreateResult>('/apiVue/EditTopicRelation/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
         if (result.success) {
             if (editTopicRelationStore.redirect)
                 navigateTo(result.url)
@@ -139,7 +139,7 @@ async function moveTopicToNewParent() {
         parentCategoryIdToAdd: selectedTopic.value?.Id
     }
 
-    var data = await $fetch<any>('/apiVue/EditCategory/MoveChild', {
+    var data = await $fetch<any>('/apiVue/EditTopic/MoveChild', {
         body: topicData,
         method: 'POST',
     })

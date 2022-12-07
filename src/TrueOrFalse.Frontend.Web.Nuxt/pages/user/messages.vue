@@ -6,7 +6,7 @@ onBeforeMount(() => {
 })
 const config = useRuntimeConfig()
 
-const { data: model } = await useFetch<any>(`/apiVue/UserMessages/Get/`, {
+const { data: model } = await useFetch<any>(`/apiVue/VueUserMessages/Get/`, {
     baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
     mode: 'no-cors',
 })

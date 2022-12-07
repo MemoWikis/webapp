@@ -6,8 +6,9 @@ using System.Web.Mvc;
 using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 
+namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class SegmentationController : BaseController
+public class VueSegmentationController : BaseController
 {
     [HttpPost]
     public JsonResult GetSegment(SegmentJson json)
