@@ -2,8 +2,8 @@
 import { VueElement } from 'vue'
 import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { Author } from '~~/components/author/author';
+import { Author } from '~~/components/author/author'
+import { ImageStyle } from '~~/components/image/imageStyleEnum'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
