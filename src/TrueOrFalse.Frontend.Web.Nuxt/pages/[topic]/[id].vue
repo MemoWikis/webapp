@@ -7,7 +7,7 @@ import { Page } from '~~/components/shared/pageEnum'
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
-console.log("routeParamsId" + route.params.topic)
+
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         baseURL: process.client ? config.public.clientBase : config.public.serverBase,
@@ -34,7 +34,6 @@ if (topic.value != null) {
             useHead({
                 title: topic.value!.Name,
             })
-            useState<Page>('page', () => Page.Topic)
         })
 
         watch(() => tabsStore.activeTab, (t) => {

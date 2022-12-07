@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { PropType } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { Author } from '../author/author'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
+import { Page } from '../shared/pageEnum'
 
-const props = defineProps(['page'])
+const props = defineProps({
+    page: { type: Number as PropType<Page>, required: true }
+})
 
 const showSearch = ref(true)
 
