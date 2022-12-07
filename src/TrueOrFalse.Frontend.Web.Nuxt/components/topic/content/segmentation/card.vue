@@ -14,7 +14,6 @@ export default defineNuxtComponent({
         isHistoric: Boolean,
         parentTopicId: Number
     },
-
     data() {
         return {
             visible: true,
@@ -34,7 +33,6 @@ export default defineNuxtComponent({
             knowledgeBarHtml: null,
         };
     },
-
     mounted() {
         // eventBus.$on('publish-category',
         //     id => {
@@ -154,7 +152,6 @@ export default defineNuxtComponent({
 
     }
 })
-
 </script>
 
 <template>
@@ -182,54 +179,48 @@ export default defineNuxtComponent({
                     </div>
                 </div>
                 <div class="Button dropdown DropdownButton" :class="{ hover: showHover && !isHistoric }">
+
                     <VDropdown :distance="1">
                         <div class="btn btn-link btn-sm ButtonEllipsis">
                             <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                         </div>
                         <template #popper>
-                            <ul>
-                                <li v-if="!isCustomSegment">
-                                    <div @click="thisToSegment" class="dropdown-item">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                        </div>
-                                        Unterthemen einblenden
+                            <div v-if="!isCustomSegment">
+                                <div @click="thisToSegment" class="dropdown-row">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
                                     </div>
-                                </li>
-                                <li>
-                                    <div @click="removeParent" class="dropdown-item">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
-                                        </div>Verknüpfung entfernen
+                                    <div class="dropdown-label"> Unterthemen einblenden</div>
+                                </div>
+                            </div>
+                            <div @click="removeParent" class="dropdown-row">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
+                                </div>
+                                <div class="dropdown-label">Verknüpfung entfernen </div>
+                            </div>
+                            <div v-if="visibility == 1">
+                                <div @click="openPublishModal" class="dropdown-row">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                     </div>
-                                </li>
-                                <li v-if="visibility == 1">
-                                    <div @click="openPublishModal" class="dropdown-item">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fa-solid', 'unlock']" />
-                                        </div>Thema veröffentlichen
-                                    </div>
-                                </li>
-                                <li>
-                                    <div @click="openMoveCategoryModal()" class="dropdown-item">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
-                                        </div>Thema verschieben
-                                    </div>
-                                </li>
-                                <li>
-                                    <div @click="openAddToWikiModal()" data-allowed="logged-in" class="dropdown-item">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fa-solid', 'plus']" />
-                                        </div>
-                                        Zu meinem Wiki hinzufügen
-                                    </div>
-                                </li>
-                            </ul>
+                                    <div class="dropdown-label">Thema veröffentlichen</div>
+                                </div>
+                            </div>
+                            <div @click="openMoveCategoryModal()" class="dropdown-row">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
+                                </div>
+                                <div class="dropdown-label">Thema verschieben</div>
+                            </div>
+                            <div @click="openAddToWikiModal()" data-allowed="logged-in" class="dropdown-row">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon :icon="['fa-solid', 'plus']" />
+                                </div>
+                                <div class="dropdown-label">Zu meinem Wiki hinzufügen</div>
+                            </div>
                         </template>
                     </VDropdown>
-
-
                 </div>
                 <div class="set-question-count">
                     <a :href="category.LinkToCategory" class="sub-label">
@@ -250,7 +241,6 @@ export default defineNuxtComponent({
         </div>
     </div>
 </template>
-
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
