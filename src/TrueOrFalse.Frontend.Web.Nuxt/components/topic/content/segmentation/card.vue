@@ -145,7 +145,7 @@ export default defineNuxtComponent({
         openAddToWikiModal() {
             var data = {
                 parentId: this.categoryId,
-                editCategoryRelation: EditTopicRelationType.AddToWiki
+                editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
             } as EditRelationData
 
             const editTopicRelationStore = useEditTopicRelationStore()

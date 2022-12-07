@@ -2,8 +2,7 @@
 import { VueElement } from 'vue'
 import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { Author } from '~~/components/author/author';
+import { Author } from '~~/components/author/author'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -11,8 +10,6 @@ const textArea = ref()
 const topic = useState<Topic>('topic')
 const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4));
 const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
-
-
 
 function resize() {
     let element = textArea.value as VueElement
@@ -24,6 +21,7 @@ function resize() {
 
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
+
     if (val == Tab.Topic)
         readonly.value = false
     else {
@@ -82,9 +80,10 @@ onUnmounted(() => {
             <div class="topic-detail-spacer"></div>
 
             <AuthorIcon v-for="(author) in firstAuthors" :author="author" />
-
+            <AuthorIcon v-if="(lastAuthors.length == 1)" :author="lastAuthors[0]" />
             <VDropdown :distance="6">
-                <button class="additional-authors-btn">+{{ lastAuthors.length }}</button>
+                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn">+{{ lastAuthors.length
+                }}</button>
                 <template #popper>
 
                     <NuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
@@ -96,6 +95,7 @@ onUnmounted(() => {
 
                 </template>
             </VDropdown>
+
         </div>
     </div>
 

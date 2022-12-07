@@ -3,12 +3,14 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
-import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
+import { useEditTopicRelationStore, EditRelationData, EditTopicRelationType } from '../relation/editTopicRelationStore'
+import { Tab, useTabsStore } from '../tabs/tabsStore'
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
 const editTopicRelationStore = useEditTopicRelationStore()
+
 </script>
 
 <template>
@@ -19,45 +21,54 @@ const editTopicRelationStore = useEditTopicRelationStore()
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
                 <template #popper>
+
                     <NuxtLink :to="`/history/topic/${topicStore.id}`" class="dropdown-row">
-                        <div>
+                        <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-history" />
                         </div>
                         <div class="dropdown-label">Bearbeitungshistorie</div>
                     </NuxtLink>
+
                     <div @click="editQuestionStore.create()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
                         <div class="dropdown-label">Frage hinzufügen</div>
                     </div>
+
                     <div @click="editTopicRelationStore.createTopic()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
                         <div class="dropdown-label">Thema erstellen</div>
                     </div>
-                    <a onclick="eventBus.$emit('add-parent-category', <%= Model.Category.Id %>)"
-                        data-allowed="logged-in" class="dropdown-row">
+
+                    <div @click="editTopicRelationStore.addParent(topicStore.id)" class="dropdown-row">
                         <div class="dropdown-icon">
-                            <i class="fa fa-link"></i>
+                            <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
-                        Oberthema verknüpfen
-                    </a>
-                    <a onclick="eventBus.$emit('add-child-category', <%= Model.Category.Id %>)" data-allowed="logged-in"
-                        class="dropdown-row">
+                        <div class="dropdown-label">
+                            Oberthema verknüpfen
+                        </div>
+                    </div>
+
+                    <div @click="editTopicRelationStore.addChild(topicStore.id)" class="dropdown-row">
                         <div class="dropdown-icon">
-                            <i class="fa fa-link"></i>
+                            <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
-                        Unterthema verknüpfen
-                    </a>
-                    <div v-if="userStore.isLoggedIn && topicStore.id != userStore.wikiId" class="dropdown-row">
-                        <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">
-                            <div class="dropdown-icon">
-                                <i class="fa fa-plus-square"></i>
-                            </div>
+                        <div class="dropdown-label">
+                            Unterthema verknüpfen
+                        </div>
+                    </div>
+
+                    <div v-if="userStore.isLoggedIn && topicStore.id != userStore.wikiId" class="dropdown-row"
+                        @click="editTopicRelationStore.addToPersonalWiki(topicStore.id)">
+                        <div class="dropdown-icon">
+                            <i class="fa fa-plus-square"></i>
+                        </div>
+                        <div class="dropdown-label">
                             Zu meinem Wiki hinzufügen
-                        </a>
+                        </div>
                     </div>
 
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
@@ -74,9 +85,9 @@ const editTopicRelationStore = useEditTopicRelationStore()
                         class="dropdown-row">
                         <a onclick="eventBus.$emit('open-publish-category-modal', <%= Model.Category.Id %>)"
                             data-allowed="logged-in">
-                            <span class="dropdown-icon">
+                            <div class="dropdown-icon">
                                 <i class="fas fa-unlock"></i>
-                            </span>
+                            </div>
                             Thema veröffentlichen
                         </a>
                     </div>

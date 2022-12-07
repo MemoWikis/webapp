@@ -8,10 +8,10 @@ export const useSpinnerStore = defineStore('spinnerStore', {
   },
   actions: {
     showSpinner() {
-      this.active = true;
+      this.active = true
     },
     hideSpinner() {
-      this.active = false;
+      this.active = false
     },
   },
 })

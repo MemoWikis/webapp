@@ -223,7 +223,6 @@ export default defineNuxtComponent({
 
       var parent: EditRelationData = {
         parentId: self.topicStore.id,
-        addCategoryButtonExists: true,
         editCategoryRelation: val
           ? EditTopicRelationType.Create
           : EditTopicRelationType.AddChild,
@@ -263,7 +262,6 @@ export default defineNuxtComponent({
       var self = this;
       var parent: EditRelationData = {
         parentId: self.topicStore.id,
-        addCategoryButtonExists: true,
         editCategoryRelation: EditTopicRelationType.Move,
         selectedCategories: self.selectedCategories,
       };
@@ -301,12 +299,12 @@ export default defineNuxtComponent({
         var segment =
           childCategoryIds != null
             ? {
-                CategoryId: s.CategoryId,
-                ChildCategoryIds: childCategoryIds,
-              }
+              CategoryId: s.CategoryId,
+              ChildCategoryIds: childCategoryIds,
+            }
             : {
-                CategoryId: s.CategoryId,
-              };
+              CategoryId: s.CategoryId,
+            };
         segmentation.push(segment);
       });
 
@@ -329,7 +327,7 @@ export default defineNuxtComponent({
       //     this.saveMessage = "Das Speichern schlug fehl.";
       // };
     },
-    removeCard(id: any) {},
+    removeCard(id: any) { },
     removeCategory(id: number) {
       this.currentChildCategoryIds = this.currentChildCategoryIds.filter(
         (c) => {
@@ -348,37 +346,20 @@ export default defineNuxtComponent({
   <div id="Segmentation" class="col-xs-12">
     <div class="segmentationHeader overline-m">
       Untergeordnete Themen
-      <template v-if="categories.length > 0"
-        >({{ categories.length }})</template
-      >
-      <div
-        class="toRoot"
-        id="SegmentationLinkToGlobalWiki"
-        style="display: none"
-      >
+      <template v-if="categories.length > 0">({{ categories.length }})</template>
+      <div class="toRoot" id="SegmentationLinkToGlobalWiki" style="display: none">
         <!-- <% Html.RenderPartial("CategoryLabel", RootCategory.Get); %> -->
       </div>
     </div>
 
     <div id="CustomSegmentSection">
-      <TopicContentSegmentationSegment
-        v-for="s in segments"
-        :ref="'segment' + s.CategoryId"
-        :title="s.Title.toString()"
-        :child-category-ids="s.ChildCategoryIds"
-        :category-id="parseInt(s.CategoryId.toString())"
-        :is-historic="isHistoric"
-        :parent-id="categoryId"
-        @remove-segment="removeSegment(s.CategoryId)"
-        @filter-children="filterChildren"
-      />
+      <TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId" :title="s.Title.toString()"
+        :child-category-ids="s.ChildCategoryIds" :category-id="parseInt(s.CategoryId.toString())"
+        :is-historic="isHistoric" :parent-id="categoryId" @remove-segment="removeSegment(s.CategoryId)"
+        @filter-children="filterChildren" />
     </div>
-    <div
-      id="GeneratedSegmentSection"
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-      :class="{ hover: showHover && !isHistoric }"
-    >
+    <div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"
+      :class="{ hover: showHover && !isHistoric }">
       <div class="segmentHeader" v-if="hasCustomSegment">
         <div class="segmentTitle">
           <h2>Weitere untergeordnete Themen</h2>
@@ -386,22 +367,11 @@ export default defineNuxtComponent({
       </div>
 
       <div class="topicNavigation row">
-        <TopicContentSegmentationCard
-          v-for="(category, index) in categories"
-          :ref="'card' + category.Id"
-          :is-custom-segment="isCustomSegment"
-          :category-id="category.Id"
-          :selected-categories="selectedCategories"
-          :segment-id="segmentId"
-          hide="false"
-          :key="index"
-          :category="category"
-          :is-historic="isHistoric"
-          @remove-card="removeCard(category.Id)"
-          :parent-topic-id="categoryId"
-          @remove-category="removeCategory"
-          @load-segment="loadSegment"
-        />
+        <TopicContentSegmentationCard v-for="(category, index) in categories" :ref="'card' + category.Id"
+          :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories"
+          :segment-id="segmentId" hide="false" :key="index" :category="category" :is-historic="isHistoric"
+          @remove-card="removeCard(category.Id)" :parent-topic-id="categoryId" @remove-category="removeCategory"
+          @load-segment="loadSegment" />
         <div v-if="!isHistoric" class="col-xs-6 topic">
           <div class="addCategoryCard memo-button row" :id="addCategoryId">
             <div class="col-xs-3"></div>

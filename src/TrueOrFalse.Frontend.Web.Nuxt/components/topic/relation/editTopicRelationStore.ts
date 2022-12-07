@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { SearchTopicItem } from '../../search/searchHelper'
 import { useTopicStore } from '../topicStore'
 import { useUserStore } from '../../user/userStore'
-import { booleanLiteral } from '@babel/types'
+import { useTabsStore, Tab } from '../tabs/tabsStore'
 
 export enum EditTopicRelationType {
   Create,
@@ -10,23 +10,23 @@ export enum EditTopicRelationType {
   AddParent,
   AddChild,
   None,
-  AddToWiki
+  AddToPersonalWiki
 }
 
 export interface EditRelationData {
   parentId?: number | undefined,
   childId?: number,
-  addCategoryButtonExists: boolean,
   editCategoryRelation: EditTopicRelationType,
   categoriesToFilter?: number[],
   selectedCategories?: any[],
+  redirect?: boolean
 }
 
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
   state: () => {
     return {
       showModal: false,
-      type: null as EditTopicRelationType  | null,
+      type: null as EditTopicRelationType | null,
       parentId: 0,
       childId: 0,
       redirect: false,
@@ -38,15 +38,17 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
   },
   actions: {
     openModal(data: EditRelationData) {
+      const tabsStore = useTabsStore()
       this.parentId = data.parentId ?? 0
-      this.addTopicBtnExists = data.addCategoryButtonExists
+      this.addTopicBtnExists = tabsStore.activeTab == Tab.Topic
       this.type = data.editCategoryRelation
       this.categoriesToFilter = data.categoriesToFilter ?? []
       this.childId = data.childId ?? 0
-      this.showModal = true
 
-      if (data.editCategoryRelation == EditTopicRelationType.AddToWiki)
+      if (data.editCategoryRelation == EditTopicRelationType.AddToPersonalWiki)
         this.initWikiData()
+
+      this.showModal = true
     },
     createTopic() {
       const userStore = useUserStore()
@@ -77,7 +79,44 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
           this.categoriesToFilter.push(el.Id)
         })
       }
-    }
+    },
+    addParent(id: number) {
+      const userStore = useUserStore()
+      if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+      }
+      const editTopicRelationData: EditRelationData = {
+        childId: id,
+        redirect: true,
+        editCategoryRelation: EditTopicRelationType.AddParent
+      }
+
+      this.openModal(editTopicRelationData)
+    },
+    addChild(id: number) {
+      const userStore = useUserStore()
+      if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+      }
+      const editTopicRelationData: EditRelationData = {
+        parentId: id,
+        redirect: true,
+        editCategoryRelation: EditTopicRelationType.AddChild
+      }
+
+      this.openModal(editTopicRelationData)
+    },
+    addToPersonalWiki(id: number) {
+      const editTopicRelationData: EditRelationData = {
+          childId: id,
+          redirect: true,
+          editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
+      }
+  
+      this.openModal(editTopicRelationData)
+  }
   },
 })
 

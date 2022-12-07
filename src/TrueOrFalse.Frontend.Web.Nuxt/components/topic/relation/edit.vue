@@ -229,7 +229,7 @@ async function search() {
         term: searchTerm.value,
     }
 
-    var url = editTopicRelationStore.type == EditTopicRelationType.AddToWiki
+    var url = editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki
         ? '/apiVue/Search/CategoryInWiki'
         : '/apiVue/Search/Category';
 
