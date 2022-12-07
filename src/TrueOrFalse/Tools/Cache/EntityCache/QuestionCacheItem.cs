@@ -37,7 +37,9 @@ public class QuestionCacheItem
     public virtual IList<ReferenceCacheItem> References { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
-    public virtual UserCacheItem Creator { get; set; }
+    public int CreatorId { get; set; }
+
+    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
 
     public virtual int TotalTrueAnswers { get; set; }
     public virtual int TotalFalseAnswers { get; set; }
@@ -179,7 +181,6 @@ public class QuestionCacheItem
 
     public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser() => Categories.Where(PermissionCheck.CanView);
 
-
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(List<Question> questions) =>
         questions.Select(q => ToCacheQuestion(q));
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions) =>
@@ -198,7 +199,7 @@ public class QuestionCacheItem
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
             Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList(),
-            Creator = UserCacheItem.ToCacheUser(question.Creator),
+            CreatorId = question.Creator?.Id ?? -1,
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,
             DescriptionHtml = question.DescriptionHtml,

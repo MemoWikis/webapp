@@ -16,7 +16,7 @@ public class UserCardBaseModel:BaseResolve
         if (authors.Count == 1)
         {
             Author = authors[0];
-            var userCashUser = SessionUserCache.GetItem(Author.Id).User;
+            var userCashUser = SessionUserCache.GetItem(Author.Id);
             Author.ShowWishKnowledge = userCashUser.ShowWishKnowledge;
             Reputation = userCashUser.Reputation;
 

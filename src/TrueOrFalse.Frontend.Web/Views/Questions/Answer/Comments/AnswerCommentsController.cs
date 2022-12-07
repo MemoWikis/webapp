@@ -91,7 +91,7 @@ public class AnswerCommentsController : BaseController
         if (SessionUser.User != null)
         {
             var currentUserImageUrl =
-                new UserImageSettings(SessionUser.User.Id).GetUrl_128px_square(SessionUser.User).Url;
+                new UserImageSettings(SessionUser.UserId).GetUrl_128px_square(SessionUser.User).Url;
             return currentUserImageUrl;
         }
 
@@ -103,7 +103,7 @@ public class AnswerCommentsController : BaseController
     {
         if (SessionUser.User != null)
         {
-            return SessionUser.User.Id;
+            return SessionUser.UserId;
         }
         return -1;
     }

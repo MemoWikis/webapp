@@ -83,7 +83,6 @@ public class EntityCache : BaseCache
         return categoryQuestionList;
     }
 
-
     public static IList<QuestionCacheItem> GetQuestionsForCategory(int categoryId)
     {
         return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
@@ -116,7 +115,6 @@ public class EntityCache : BaseCache
 
         return questions;
     }
-
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
     public static QuestionCacheItem GetQuestionById(int questionId)
@@ -127,7 +125,6 @@ public class EntityCache : BaseCache
         Logg.r().Warning("QuestionId is not available");
         return new QuestionCacheItem();
     }
-
     private static void UpdateCategoryQuestionList(
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
         QuestionCacheItem question,
@@ -186,6 +183,10 @@ public class EntityCache : BaseCache
             var questionsInCategory = categoryQuestionList[category.Id];
             questionsInCategory.TryRemove(question.Id, out var outVar);
         }
+    }
+    public static void AddOrUpdate(UserCacheItem user)
+    {
+        AddOrUpdate(Users, user);
     }
 
     public static void AddOrUpdate(QuestionCacheItem question, List<int> categoriesIdsToRemove = null)
@@ -261,6 +262,10 @@ public class EntityCache : BaseCache
     /// <typeparam name="T"></typeparam>
     /// <param name="objectToCache"></param>
     /// <param name="obj"></param>
+    private static void AddOrUpdate(ConcurrentDictionary<int, UserCacheItem> objectToCache, UserCacheItem obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
+    }
     private static void AddOrUpdate(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
@@ -294,7 +299,6 @@ public class EntityCache : BaseCache
         Categories.TryGetValue(categoryId, out var category);
         return category;
     }
-
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
 

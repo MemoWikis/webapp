@@ -13,7 +13,7 @@ public class UserCacheItem : IUserTinyModel
     public bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
     public string GoogleId { get; set; }
     public bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
-    public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+    public bool IsMemuchoUser => Settings.MemuchoUserId == Id;
     public int Reputation { get; set; }
     public int ReputationPos;
     public int FollowerCount { get; set; }
@@ -24,44 +24,46 @@ public class UserCacheItem : IUserTinyModel
 
     public bool AllowsSupportiveLogin { get; set; }
 
-    public virtual int CorrectnessProbability { get; set; }
+    public int CorrectnessProbability { get; set; }
 
-    public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
+    public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
 
-    public virtual IList<Membership> MembershipPeriods { get; set; }
-    public virtual bool IsMember()
-    {
-        if (MembershipPeriods.Count == 0)
-            return false;
-
-        return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
-    }
-
-    public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
+    public bool IsMember { get; set; }
+    public Membership CurrentMembership { get; set; }
 
     public static UserCacheItem ToCacheUser(User user)
     {
-        return new UserCacheItem
-        {
-            Id = user.Id,
-            Name = user.Name,
-            EmailAddress = user.EmailAddress,
-            FacebookId = user.FacebookId,
-            GoogleId = user.GoogleId,
-            Reputation = user.Reputation,
-            ReputationPos = user.ReputationPos,
-            FollowerCount = user.FollowerCount,
-            ShowWishKnowledge = user.ShowWishKnowledge,
+        var userCacheItem = new UserCacheItem();
 
-            StartTopicId = user.StartTopicId,
-            WishCountQuestions = user.WishCountQuestions,
-            AllowsSupportiveLogin = user.AllowsSupportiveLogin,
-            KnowledgeReportInterval = user.KnowledgeReportInterval,
-            MembershipPeriods = user.MembershipPeriods,
-            RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics,
-            WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated,
-            CorrectnessProbability = user.CorrectnessProbability
-        };
+        if (user != null)
+        {
+            userCacheItem.AssignValues(user);
+        }
+
+        return userCacheItem;
+    }
+
+    public void AssignValues(User user)
+    {
+        Id = user.Id;
+        Name = user.Name;
+        EmailAddress = user.EmailAddress;
+        FacebookId = user.FacebookId;
+        GoogleId = user.GoogleId;
+        Reputation = user.Reputation;
+        ReputationPos = user.ReputationPos;
+        FollowerCount = user.FollowerCount;
+        ShowWishKnowledge = user.ShowWishKnowledge;
+
+        StartTopicId = user.StartTopicId;
+        WishCountQuestions = user.WishCountQuestions;
+        AllowsSupportiveLogin = user.AllowsSupportiveLogin;
+        KnowledgeReportInterval = user.KnowledgeReportInterval;
+        RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics;
+        WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
+        CorrectnessProbability = user.CorrectnessProbability;
+        IsMember = user.IsMember();
+        CurrentMembership = user.MembershipPeriods.FirstOrDefault(x => x.IsActive());
     }
 
     public virtual string WidgetHostsSpaceSeparated { get; set; }

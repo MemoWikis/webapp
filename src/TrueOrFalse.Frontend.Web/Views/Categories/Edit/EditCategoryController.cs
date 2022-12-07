@@ -526,12 +526,12 @@ public class EditCategoryController : BaseController
             if (Request["ImageSource"] == "wikimedia")
             {
                 Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
-                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.User.UserId);
+                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.User.Id);
             }
             if (Request["ImageSource"] == "upload")
             {
                 Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.User.UserId, Request["ImageLicenseOwner"]);
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.User.Id, Request["ImageLicenseOwner"]);
             }
         }
     }
@@ -705,10 +705,10 @@ public class EditCategoryController : BaseController
     public void SaveImage(int categoryId, string source, string wikiFileName = null, string guid = null, string licenseOwner = null)
     {
         if (source == "wikimedia")
-            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.User.UserId);
+            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.UserId);
         if (source == "upload")
             Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.User.UserId, licenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.UserId, licenseOwner);
     }
 
     [HttpGet]

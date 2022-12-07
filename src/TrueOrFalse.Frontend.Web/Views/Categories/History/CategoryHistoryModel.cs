@@ -137,7 +137,7 @@ public class CategoryChangeDayModel
             CategoryName = change.Category == null ? _catName : change.Category.Name,
             Label = label,
             Type = change.Type,
-            CreatorId = change.Category.Creator.Id,
+            CreatorId = change.Category.Creator == null ? -1 : change.Category.Creator.Id,
             Visibility = change.GetCategoryChangeData().Visibility,
             CurrentVisibility = change.Category.Visibility,
             AffectedParents = affectedParents
@@ -150,7 +150,7 @@ public class CategoryChangeDayModel
 
         if (_currentCategoryChangeDetailModel != null &&
             change.Category.Id == _currentCategoryChangeDetailModel.CategoryId &&
-            change.Author.UserId == _currentCategoryChangeDetailModel.Author.Id &&
+            change.Author.Id == _currentCategoryChangeDetailModel.Author.Id &&
             change.GetCategoryChangeData().Visibility == _currentCategoryChangeDetailModel.Visibility &&
             change.Type == CategoryChangeType.Text &&
             _currentCategoryChangeDetailModel.Type == change.Type &&

@@ -38,7 +38,7 @@ public class VueEditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.User.UserId);
+        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
         question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
@@ -120,7 +120,7 @@ public class VueEditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.User.UserId);
+        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
         question.Creator =  sessionUser;
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
@@ -269,13 +269,13 @@ public class VueEditQuestionController : BaseController
         if (imageSource == "wikimedia")
         {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, ImageType.Question, SessionUser.User.UserId);
+                wikiFileName, questionId, ImageType.Question, SessionUser.UserId);
         }
 
         if (imageSource == "upload")
         {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.User.UserId, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.UserId, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);

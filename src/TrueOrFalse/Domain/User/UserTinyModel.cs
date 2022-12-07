@@ -65,7 +65,7 @@ public class UserTinyModel : IUserTinyModel
         IsMemuchoUser = _user != null && _user.IsMemuchoUser;
         Reputation = _user != null ? _user.Reputation : 0;
         ReputationPos = _user != null ? _user.ReputationPos : 0;
-        IsMember = _user != null && _user.IsMember();
+        IsMember = _user != null && _user.IsMember;
         FollowerCount = _user != null ? _user.FollowerCount : 0;
         ShowWishKnowledge = _user != null && _user.ShowWishKnowledge;
     }

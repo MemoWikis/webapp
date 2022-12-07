@@ -66,7 +66,7 @@
                 1.Vor dem Löschen prüfen oder der Nutzer relevante Inhalte erstellt hat.<br/>
                 <br/>
                 2. Hat der Nutzer relevante Inhalte erstellt, muss er eine Email bekommen<br/>
-                in der er darüber informiert wird das seine Inhalte unter Lizenz CC BY 2.0 DE<br/>
+                in der er darüber informiert wird das seine Inhalte unter Lizenz CC BY 4.0 DE<br/>
                 anonymisiert weiterverwendet werden.<br/>
                 <br/>
                 3. memucho muss nach dem Löschen neu gestartet werden da es sonst Probleme mit dem EntityCache gibt.

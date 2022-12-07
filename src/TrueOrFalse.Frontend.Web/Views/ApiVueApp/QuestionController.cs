@@ -15,8 +15,7 @@ public class QuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.UserId).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -38,7 +37,7 @@ public class QuestionController : BaseController
             question.SessionIndex = index;
         }
 
-        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
+        if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.User != null)
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
             question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;

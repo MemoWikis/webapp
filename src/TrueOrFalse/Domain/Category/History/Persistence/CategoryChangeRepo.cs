@@ -13,7 +13,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChange = new CategoryChange
         {
             Category = category,
-            AuthorId = SessionUser.User.UserId,
+            AuthorId = SessionUser.UserId,
             Type = CategoryChangeType.Delete,
             DataVersion = 2,
             Data = ""
@@ -87,7 +87,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
     {
-        User aliasUser = null;
         Category aliasCategory = null;
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var childIds = categoryCacheItem
@@ -103,7 +102,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             query.And(c => c.ShowInSidebar);
 
         query
-            .Left.JoinAlias(c => c.Author, () => aliasUser)
             .Left.JoinAlias(c => c.Category, () => aliasCategory);
 
         var categoryChangeList = query

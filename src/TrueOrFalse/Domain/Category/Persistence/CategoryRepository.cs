@@ -80,7 +80,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (parentCategories.Count != 0)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, SessionUser.User.UserId, false, type: CategoryChangeType.Relations);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, SessionUser.User.Id, false, type: CategoryChangeType.Relations);
         }
     }
 
@@ -178,7 +178,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Update(category);
 
         if (author != null && createCategoryChange)
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.UserId, imageWasUpdated, type, affectedParentIdsByMove);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
 
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(category);

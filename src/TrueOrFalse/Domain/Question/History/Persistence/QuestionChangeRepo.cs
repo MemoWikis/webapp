@@ -41,7 +41,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         {
             Question = question,
             Type = QuestionChangeType.Create,
-            AuthorId = question.Creator.Id,
+            AuthorId = question.Creator == null ? -1 : question.Creator.Id,
             DataVersion = 1
         };
 
@@ -60,7 +60,6 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 
     public IList<QuestionChange> GetForQuestion(int questionId, bool filterUsersForSidebar = false)
     {
-        User aliasUser = null;
         Question aliasQuestion = null;
 
         var query = _session
@@ -70,8 +69,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
 
-        query.Left.JoinAlias(c => c.Author, () => aliasUser)
-            .Left.JoinAlias(c => c.Question, () => aliasQuestion);
+        query.Left.JoinAlias(c => c.Question, () => aliasQuestion);
 
         return query.List();
     }

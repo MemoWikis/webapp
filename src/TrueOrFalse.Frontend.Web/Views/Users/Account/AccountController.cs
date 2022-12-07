@@ -18,8 +18,11 @@ public class AccountController : BaseController
         var membership = model.ToMembership();
         Sl.MembershipRepo.Create(membership);
 
-        SessionUser.User.MembershipPeriods.Add(membership);
+        var updatedUser = Sl.UserRepo.GetById(SessionUser.UserId);
 
+        SessionUser.User.AssignValues(updatedUser);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(updatedUser));
+        
         SendEmail.Run(new MailMessage(
             Settings.EmailFrom,
             Settings.EmailToMemucho,

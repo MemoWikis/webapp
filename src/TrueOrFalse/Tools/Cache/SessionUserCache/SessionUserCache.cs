@@ -122,17 +122,10 @@ public class SessionUserCache
         }
     }
 
-    public static void AddOrUpdate(UserCacheItem user)
-    {
-        var cacheItem = GetItem(user.Id);
-        cacheItem.User = user;
-    }
-
     public static void AddOrUpdate(User user)
     {
-        var userCacheItem = UserCacheItem.ToCacheUser(user);
         var cacheItem = GetItem(user.Id);
-        cacheItem.User = userCacheItem;
+        cacheItem.AssignValues(user);
     }
 
     /// <summary> Used for question delete </summary>

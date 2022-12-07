@@ -45,7 +45,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         if (!IsLoggedIn)
             return false;
 
-        return userId == User.UserId;
+        return userId == User.Id;
     }
 
     public static bool IsLoggedInUserOrAdmin(int userId)

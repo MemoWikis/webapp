@@ -38,8 +38,8 @@ public class UserSettingsModel : BaseModel
 
         Name = user.Name;
         Email = user.EmailAddress;
-        IsMember = user.IsMember();
-        Membership = user.CurrentMembership();
+        IsMember = user.IsMember;
+        Membership = user.CurrentMembership;
         WidgetHosts = user.WidgetHosts();
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowledge = user.ShowWishKnowledge;

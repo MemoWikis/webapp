@@ -5,7 +5,7 @@ public class PermissionCheck
 {
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.User.UserId, category);
+    public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.UserId, category);
 
     public static bool CanView(int userId, CategoryCacheItem category)
     {
@@ -26,7 +26,7 @@ public class PermissionCheck
         if (visibility == CategoryVisibility.All)
             return true;
 
-        if (visibility == CategoryVisibility.Owner && creatorId == SessionUser.User.UserId)
+        if (visibility == CategoryVisibility.Owner && creatorId == SessionUser.UserId)
             return true;
 
         return false;
@@ -65,15 +65,15 @@ public class PermissionCheck
         if (category.IsStartPage())
             return false;
 
-        if (category.Creator.Id == user.UserId || user.IsInstallationAdmin)
+        if (category.Creator.Id == user.Id || user.IsInstallationAdmin)
             return true;
 
         return false;
     }
 
-    public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.User, question);
+    public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.UserId, question);
 
-    public static bool CanView(SessionUserCacheItem user, QuestionCacheItem question)
+    public static bool CanView(int userId, QuestionCacheItem question)
     {
         if (question == null)
             return false;
@@ -81,14 +81,14 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == user.UserId)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == userId)
             return true;
 
         return false;
     }
-    public static bool CanView(Question question) => CanView(SessionUser.User, question);
+    public static bool CanView(Question question) => CanView(SessionUser.UserId, question);
 
-    public static bool CanView(SessionUserCacheItem user, Question question)
+    public static bool CanView(int userId, Question question)
     {
         if (question == null)
             return false;
@@ -96,7 +96,7 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == user.UserId)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == userId)
             return true;
 
         return false;
@@ -128,7 +128,7 @@ public class PermissionCheck
         if (user == null || question == null)
             return false;
 
-        if (question.Creator.Id == user.UserId || user.IsInstallationAdmin)
+        if (question.Creator?.Id == user.Id || user.IsInstallationAdmin)
             return true;
 
         return false;

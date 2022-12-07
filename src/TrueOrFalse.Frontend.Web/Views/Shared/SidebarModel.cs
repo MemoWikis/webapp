@@ -43,8 +43,8 @@ public class SidebarModel : UserCardBaseModel
         {
             IsInstallationAdmin = SessionUser.IsInstallationAdmin;
 
-            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(SessionUser.User.UserId);
-            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(SessionUser.User.UserId);
+            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(SessionUser.UserId);
+            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId);
         }
 
         var a = Authors.Any().ToString();

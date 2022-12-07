@@ -12,7 +12,7 @@ class Get_wuwi_from_category : BaseTest
         ContextQuestion.SetWuwi(20);
             
         var categoryId = 1;
-        var userCacheItem = SessionUserCache.GetAllCacheItems().Where(uci => uci.User.Name == "Daniel" ).First();
+        var userCacheItem = SessionUserCache.GetAllCacheItems().First(uci => uci.Name == "Daniel" );
 
         var wuwis = userCacheItem.QuestionValuations
             .Select(qv => qv.Value)
@@ -20,7 +20,7 @@ class Get_wuwi_from_category : BaseTest
             .ToList();
 
         var wuwisFromLearningSession = LearningSessionCreator.BuildLearningSession(new LearningSessionConfig
-            { InWuwi = true, CategoryId = categoryId, CurrentUserId = userCacheItem.UserId});
+            { InWuwi = true, CategoryId = categoryId, CurrentUserId = userCacheItem.Id});
 
         Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));
     }

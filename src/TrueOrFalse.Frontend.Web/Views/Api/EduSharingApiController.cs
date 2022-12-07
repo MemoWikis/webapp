@@ -18,8 +18,8 @@ public class EduSharingApiController : BaseController
             DateCreated = new DateTimeOffset(category.DateCreated).ToUnixTimeSeconds(),
             DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
             Format = "",
-            Creator = new UserTinyModel(EntityCache.GetUserById(category.Creator.Id)).Name,
-            CreatorMetaData = new UserTinyModel(EntityCache.GetUserById(category.Creator.Id)).Name,
+            Creator = new UserTinyModel(EntityCache.GetUserById(category.Creator != null ? category.Creator.Id : -1)).Name,
+            CreatorMetaData = new UserTinyModel(EntityCache.GetUserById(category.Creator != null ? category.Creator.Id : -1)).Name,
             Url = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
             Thumbnail = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url
         }, JsonRequestBehavior.AllowGet);
@@ -42,7 +42,7 @@ public class EduSharingApiController : BaseController
                     ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url,
                     ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
                     Licence = "CC_BY",
-                    Author = new UserTinyModel(EntityCache.GetUserById(category.Creator.Id)).Name,
+                    Author = new UserTinyModel(EntityCache.GetUserById(category.Creator != null ? category.Creator.Id : -1)).Name,
                     DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
                 })
         }, JsonRequestBehavior.AllowGet);
