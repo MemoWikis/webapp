@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -12,9 +13,9 @@ public class TopicController : BaseController
     public JsonResult GetTopic(int id)
     {
         var category = EntityCache.GetCategory(id);
-
+     
         if (PermissionCheck.CanView(category))
-            return Json(new
+            return Json(new 
             {
                 CanAccess = true,
                 Id = id,
@@ -37,7 +38,6 @@ public class TopicController : BaseController
                         Reputation = author.Reputation,
                         ReputationPos = author.ReputationPos
                     };
-
                 }).ToArray(),
                 IsWiki = category.IsStartPage(),
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
@@ -45,9 +45,7 @@ public class TopicController : BaseController
                 QuestionCount = category.CountQuestionsAggregated
             }, JsonRequestBehavior.AllowGet);
 
-        return Json(new TopicModel(), JsonRequestBehavior.AllowGet);
-        
-
+        return Json(new{ }, JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
@@ -107,24 +105,6 @@ public class TopicController : BaseController
         return json;
     }
 
-    private List<AuthorItem> GetAuthorItems(int[] ids)
-    {
-        var authorItems = new List<AuthorItem>();
-        foreach (int id in ids)
-        {
-            var author = UserCache.GetUser(id);
-            authorItems.Add(new AuthorItem
-            {
-                Name = author.Name,
-                Id = id,
-                ImageURL = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
-                Reputation = author.Reputation,
-                ReputationPos = author.ReputationPos
-            });
-        }
-
-        return authorItems;
-    }
     public SearchTopicItem FillBasicTopicItem(Category topic)
     {
         var cacheItem = EntityCache.GetCategory(topic.Id);
@@ -150,32 +130,4 @@ public class TopicController : BaseController
         return basicTopicItem;
     }
 }
-public class AuthorItem
-{
-    public string Name;
-    public string ImageURL;
-    public int Id;
-    public int Reputation;
-    public int ReputationPos;
-}
 
-public class TopicModel
-{
-    public bool CanAccess { get; set; } = false;
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string ImgUrl { get; set; }
-    public string Content { get; set; }
-    public int ParentTopicCount { get; set; }
-    public int ChildTopicCount { get; set; }
-    public int Views { get; set; }
-    public CategoryVisibility Visibility { get; set; }
-
-    //Comments not implemented yet
-    public int CommentCount { get; set; }
-    public int[] AuthorIds { get; set; }
-    public bool IsWiki { get; set; }
-    public bool CurrentUserIsCreator { get; set; }
-    public bool CanBeDeleted { get; set; }
-    public int QuestionCount { get; set; }
-}

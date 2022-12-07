@@ -4,6 +4,7 @@ import { useTopicStore, Topic } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Author } from '~~/components/author/author';
+import { ImageStyle } from '../../image/imageStyleEnum';
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -11,8 +12,6 @@ const textArea = ref()
 const topic = useState<Topic>('topic')
 const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4));
 const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
-
-
 
 function resize() {
     let element = textArea.value as VueElement
@@ -45,7 +44,6 @@ onBeforeMount(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', resize);
 })
-
 </script>
 
 <template>
@@ -81,25 +79,25 @@ onUnmounted(() => {
 
             <div class="topic-detail-spacer"></div>
 
-            <AuthorIcon v-for="(author) in firstAuthors" :author="author" />
+            <LazyNuxtLink v-for="(author) in firstAuthors" :to="`/Nutzer/${author.Name}/${author.Id}`"
+                v-tooltip="author.Name">
+                <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+            </LazyNuxtLink>
 
             <VDropdown :distance="6">
                 <button class="additional-authors-btn">+{{ lastAuthors.length }}</button>
                 <template #popper>
-
-                    <NuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
+                    <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
                         <div class="dropdown-icon">
-                            <AuthorIcon :author="author" />
+                            <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
                         </div>
                         <div class="dropdown-label">{{ author.Name }}</div>
-                    </NuxtLink>
+                    </LazyNuxtLink>
 
                 </template>
             </VDropdown>
         </div>
     </div>
-
-
 </template>
                            
 <style scoped lang="less">
@@ -155,6 +153,14 @@ onUnmounted(() => {
         font-size: 14px;
         color: @memo-grey-dark;
         height: 20px;
+
+        .header-author-icon {
+            height: 20px;
+            width: 20px;
+            min-height: 20px;
+            min-width: 20px;
+            margin: 0 4px;
+        }
 
         .topic-detail {
             margin-right: 8px;

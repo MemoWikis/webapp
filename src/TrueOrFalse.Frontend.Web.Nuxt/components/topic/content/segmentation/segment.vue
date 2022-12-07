@@ -59,8 +59,8 @@ export default defineNuxtComponent({
       if (this.categoryId == e.parentId)
         this.addNewCategoryCard(e.newCategoryId);
     });
-    if (this.currentChildCategoryIds.length > 0) 
-    this.getCategoriesData();
+    if (this.currentChildCategoryIds.length > 0)
+      this.getCategoriesData();
   },
 
   watch: {
@@ -77,7 +77,7 @@ export default defineNuxtComponent({
     },
   },
 
-  updated() {},
+  updated() { },
 
   methods: {
     async addNewCategoryCard(id: number) {
