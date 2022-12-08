@@ -29,7 +29,7 @@ public class TopicController : BaseController
                 AuthorIds = category.AuthorIds,
                 Authors = category.AuthorIds.Select(id =>
                 {
-                    var author = UserCache.GetUser(id);
+                    var author = EntityCache.GetUserById(id);
                     return new
                     {
                         Id = id,

@@ -7,7 +7,7 @@ public class VueUserController : BaseController
     [HttpPost]
     public JsonResult GetUser(int id)
     {
-        var user = UserCache.GetUser(id);
+        var user = EntityCache.GetUserById(id);
         if (user != null)
             return Json(new
             {

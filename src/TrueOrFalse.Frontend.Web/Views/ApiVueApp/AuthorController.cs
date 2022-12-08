@@ -7,7 +7,7 @@ public class AuthorController : BaseController
     [HttpPost]
     public JsonResult GetAuthor(int id)
     {
-        var author = UserCache.GetUser(id);
+        var author = EntityCache.GetUserById(id);
         if (author != null)
             return Json(new
             {
