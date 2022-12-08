@@ -7,7 +7,7 @@ using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class NuxtSegmentationController : BaseController
+public class SegmentationController : BaseController
 {
 
     [HttpPost]
