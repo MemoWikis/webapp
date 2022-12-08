@@ -1,4 +1,4 @@
-export const messages = {
+export const messages: any = {
     success: {
         category: {
             publish: "Dein Thema wurde erfolgreich veröffentlicht.",
@@ -44,7 +44,7 @@ export const messages = {
         user: {
             emailInUse: "Die Email-Adresse ist bereits in Verwendung.",
             userNameInUse: "Dieser Benutzername ist bereits vergeben"
-        },
+        } as {[key: string]: string },
         default: "Ein Fehler ist aufgetreten.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."

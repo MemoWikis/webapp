@@ -17,7 +17,7 @@ function loadPlugin(toLogin = false) {
 
 }
 
-function loadGapiLoader(toLogin) {
+function loadGapiLoader(toLogin: boolean) {
     const gapiLoaderElement = document.getElementById('gapiLoader')
 
     if (gapiLoaderElement == null) {

@@ -1,23 +1,25 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
+import { Author } from '../author/author'
 
-export interface Topic {
-  CanAccess: boolean
-  Id: number
-  Name: string
-  ImgUrl: string
-  Content: string
-  ParentTopicCount: number
-  ChildTopicCount: number
-  Views: number
-  CommentCount: number
-  Visibility: Visibility
-  AuthorIds: number[]
-  IsWiki: boolean
-  CurrentUserIsCreator: boolean
-  CanBeDeleted: boolean
-  QuestionCount: number
+export class Topic {
+  CanAccess: boolean = false
+  Id: number = 0
+  Name: string = ''
+  ImgUrl: string = ''
+  Content: string = ''
+  ParentTopicCount: number =  0
+  ChildTopicCount: number = 0
+  Views: number =  0
+  CommentCount: number = 0
+  Visibility: Visibility = Visibility.Owner
+  AuthorIds: number[] = []
+  IsWiki: boolean = false
+  CurrentUserIsCreator: boolean = false
+  CanBeDeleted: boolean = false
+  QuestionCount: number = 0
+  Authors: Author[] = []
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -35,11 +37,12 @@ export const useTopicStore = defineStore('topicStore', {
       childTopicCount: 0,
       views: 0,
       commentCount: 0,
-      visibility: null as unknown as Visibility,
+      visibility: null as Visibility | null,
       authorIds: [] as number[],
       isWiki: false,
       currentUserIsCreator: false,
       canBeDeleted: false,
+      authors: [] as Author[]
     }
   },
   actions: {
@@ -65,6 +68,8 @@ export const useTopicStore = defineStore('topicStore', {
         this.canBeDeleted = topic.CanBeDeleted
 
         this.questionCount = topic.QuestionCount
+
+        this.authors = topic.Authors
       }
     },
     async saveTopic() {
@@ -79,11 +84,11 @@ export const useTopicStore = defineStore('topicStore', {
         content: this.content,
         saveContent: this.content != this.initialContent
       }
-      var result = await $fetch('/api/Topic/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
+      var result = await $fetch('/apiVue/Topic/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
       if (result == true)
         this.contentHasChanged = false
     },
-    reset() {
+    resetContent() {
       this.name = this.initialName
       this.content = this.initialContent
       this.contentHasChanged = false

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 const props = defineProps(['editor', 'heading'])
 const focused = ref(false)
 
-async function command(fn, e) {
-    e.preventDefault();
+async function command(fn: any, e: Event) {
+    e.preventDefault()
     switch (fn) {
         case 'bold':
             props.editor.commands.toggleBold()
@@ -40,7 +39,7 @@ async function command(fn, e) {
             const linkUrl = window.prompt('Link URL')
             props.editor.commands.extendMarkRange('link').setLink({ href: linkUrl })
             if (props.editor.view.state.selection.empty) {
-                var transaction = this.editor.state.tr.insertText(linkUrl);
+                var transaction = props.editor.state.tr.insertText(linkUrl);
                 props.editor.view.dispatch(transaction)
             }
             break;

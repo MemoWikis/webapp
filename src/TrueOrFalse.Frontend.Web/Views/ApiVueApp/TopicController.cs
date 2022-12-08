@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -11,8 +13,9 @@ public class TopicController : BaseController
     public JsonResult GetTopic(int id)
     {
         var category = EntityCache.GetCategory(id);
+     
         if (PermissionCheck.CanView(category))
-            return Json(new TopicModel
+            return Json(new 
             {
                 CanAccess = true,
                 Id = id,
@@ -24,16 +27,25 @@ public class TopicController : BaseController
                 Views = Sl.CategoryViewRepo.GetViewCount(id),
                 Visibility = category.Visibility,
                 AuthorIds = category.AuthorIds,
+                Authors = category.AuthorIds.Select(id =>
+                {
+                    var author = UserCache.GetUser(id);
+                    return new
+                    {
+                        Id = id,
+                        Name = author.Name,
+                        ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
+                        Reputation = author.Reputation,
+                        ReputationPos = author.ReputationPos
+                    };
+                }).ToArray(),
                 IsWiki = category.IsStartPage(),
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == category.Creator.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
                 QuestionCount = category.CountQuestionsAggregated
             }, JsonRequestBehavior.AllowGet);
-        else
-        {
-            var json = Json(new TopicModel(), JsonRequestBehavior.AllowGet);
-            return json;
-        }
+
+        return Json(new{ }, JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
@@ -92,6 +104,7 @@ public class TopicController : BaseController
 
         return json;
     }
+
     public SearchTopicItem FillBasicTopicItem(Category topic)
     {
         var cacheItem = EntityCache.GetCategory(topic.Id);
@@ -118,23 +131,3 @@ public class TopicController : BaseController
     }
 }
 
-public class TopicModel
-{
-    public bool CanAccess { get; set; } = false;
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string ImgUrl { get; set; }
-    public string Content { get; set; }
-    public int ParentTopicCount { get; set; }
-    public int ChildTopicCount { get; set; }
-    public int Views { get; set; }
-    public CategoryVisibility Visibility { get; set; }
-
-    //Comments not implemented yet
-    public int CommentCount { get; set; }
-    public int[] AuthorIds { get; set; }
-    public bool IsWiki { get; set; }
-    public bool CurrentUserIsCreator { get; set; }
-    public bool CanBeDeleted { get; set; }
-    public int QuestionCount { get; set; }
-}

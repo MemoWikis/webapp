@@ -14,6 +14,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import _ from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
+
 const alertStore = useAlertStore()
 
 const topic = useState<Topic>('topic')
@@ -92,7 +93,7 @@ const editor = useEditor({
 
 topicStore.$onAction(({ name, after }) => {
     after(() => {
-        if (name == 'reset')
+        if (name == 'resetContent')
             editor.value?.commands.setContent(topicStore.content)
     })
 })
@@ -110,12 +111,16 @@ onMounted(() => {
     </template>
     <div class="col-xs-12" v-else-if="topic != null">
         <div style="height:36px"></div>
-        <div class="ProseMirror" v-html="topic.Content">
+        <div class="ProseMirror content-placeholder" v-html="topic.Content">
 
         </div>
     </div>
 </template>
 
 <style lang="less" scoped>
-
+.content-placeholder {
+    :deep(p:empty) {
+        min-height: 20px
+    }
+}
 </style>

@@ -14,13 +14,12 @@ const showDeleteBtn = ref(false)
 const name = ref('')
 const alertStore = useAlertStore()
 
-async function getDeleteDetails(id) {
+async function getDeleteDetails(id: number) {
 
-    var result = await $fetch<any>(`/api/Question/DeleteDetails/${id}`, {
+    var result = await $fetch<any>(`/apiVue/Question/DeleteDetails/${id}`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
-        headers: useRequestHeaders(['cookie'])
     })
 
     if (result != null) {
@@ -46,6 +45,7 @@ const spinnerStore = useSpinnerStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const topicStore = useTopicStore()
 
+const config = useRuntimeConfig()
 async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
@@ -57,7 +57,7 @@ async function deleteQuestion() {
         sessionIndex: learningSessionStore.currentIndex
     }
 
-    var result = await $fetch<any>('/api/Question/Delete', {
+    var result = await $fetch<any>('/apVue/Question/Delete', {
         method: 'POST',
         body: data,
         credentials: 'include'
@@ -101,9 +101,9 @@ watch(() => deleteQuestionStore.showModal, (val) => {
                     <h4 class="modal-title">Frage löschen</h4>
                 </div>
                 <div class="modalBody">
-                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "{{name}}" unwiederbringlich löschen?
+                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "{{ name }}" unwiederbringlich löschen?
                         Alle damit verknüpften Daten werden entfernt!</div>
-                    <div class="alert alert-danger" v-if="showErrorMsg">{{errorMsg}}</div>
+                    <div class="alert alert-danger" v-if="showErrorMsg">{{ errorMsg }}</div>
                     <div class="alert alert-info" v-if="deletionInProgress">Die Frage wird gelöscht... Bitte
                         habe einen Moment Geduld.</div>
                 </div>

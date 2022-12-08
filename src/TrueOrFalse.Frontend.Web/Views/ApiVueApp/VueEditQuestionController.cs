@@ -205,6 +205,9 @@ public class VueEditQuestionController : BaseController
         return question;
     }
 
+    [HttpGet]
+    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache().Count;
+
     public class QuestionDataJson
     {
         public int[] CategoryIds { get; set; }

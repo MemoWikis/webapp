@@ -1,31 +1,31 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { PropType } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { Author } from '../author/author'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
+import { Page } from '../shared/pageEnum'
+
+const props = defineProps({
+    page: { type: Number as PropType<Page>, required: true }
+})
 
 const showSearch = ref(true)
 
-function openUrl(val) {
+function openUrl(val: any) {
     navigateTo(val.Url)
 }
-const props = defineProps(['route'])
 const userStore = useUserStore()
-const currentUser = ref(null as Author)
+const currentUser = ref(null as Author | null)
 
 if (userStore.isLoggedIn) {
 
     const data = {
         id: userStore.id
     }
-
-    // if (process.client) {
-    currentUser.value = await $fetch<Author>('/api/Author/GetAuthor/', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-    // } else if (process.server) {
-    //     const config = useRuntimeConfig()
-    //     currentUser.value = await $fetch<Author>('/Author/GetAuthor/', { method: 'POST', baseURL: config.apiBase, body: data, mode: 'cors', credentials: 'include' })
-    // }
+    currentUser.value = await $fetch<Author>('/apiVue/Author/GetAuthor/', {
+        method: 'POST', body: data, mode: 'cors', credentials: 'include'
+    })
 }
 const showRegisterButton = ref(false)
 function handleScroll() {
@@ -52,7 +52,6 @@ onMounted(() => {
 
 </script>
 
-
 <template>
     <div id="Navigation">
         <div class="container">
@@ -60,8 +59,8 @@ onMounted(() => {
                 <div class="header-container col-xs-12" ref="headerContainer">
 
                     <div class="partial">
-                        <HeaderBreadcrumb :headerContainer="headerContainer" :headerExtras="headerExtras"
-                            :route="props.route" />
+                        <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
+                            :page="props.page" />
                     </div>
 
                     <div class="partial" ref="headerExtras">
@@ -71,14 +70,16 @@ onMounted(() => {
                                 <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
-                            <div class="StickySearch" :class="{ 'showSearch': showSearch }">
+                            <div class="StickySearch" :class="{
+                                'showSearch': showSearch
+                            }">
                                 <LazySearch :search-type="SearchType.All" :show-search="showSearch"
                                     v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
                             </div>
                         </div>
                         <VDropdown :distance="6" v-show="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image v-if="currentUser" :src="currentUser.ImageUrl" :style="ImageStyle.Author"
+                                <Image v-if="currentUser" :src="currentUser.ImgUrl" :style="ImageStyle.Author"
                                     class="header-author-icon" />
                                 <div class="header-user-name">
                                     {{ userStore.name }}
@@ -213,7 +214,9 @@ onMounted(() => {
 
             .register-btn {
                 color: white;
-
+                height: 100% !important;
+                align-items: center;
+                line-height: unset !important;
             }
         }
     }

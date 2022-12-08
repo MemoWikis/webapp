@@ -1,16 +1,36 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useTopicStore } from '../topicStore'
+import { VueElement } from 'vue'
+import { useTopicStore, Topic } from '../topicStore'
+import { useTabsStore, Tab } from '../tabs/tabsStore'
+import { Author } from '~~/components/author/author'
+import { ImageStyle } from '~~/components/image/imageStyleEnum'
+
 const topicStore = useTopicStore()
-const textArea = ref(null);
+const tabsStore = useTabsStore()
+const textArea = ref()
+const topic = useState<Topic>('topic')
+const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4));
+const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
 
 function resize() {
-    let element = textArea.value
-    element.style.height = "54px"
-    element.style.height = element.scrollHeight + "px"
+    let element = textArea.value as VueElement
+    if (element) {
+        element.style.height = "54px"
+        element.style.height = element.scrollHeight + "px"
+    }
 }
 
-onMounted(() => {
+const readonly = ref(false)
+watch(() => tabsStore.activeTab, (val: any) => {
+
+    if (val == Tab.Topic)
+        readonly.value = false
+    else {
+        readonly.value = true
+    }
+})
+
+onBeforeMount(() => {
     window.addEventListener('resize', resize);
 
     watch(() => topicStore.name, (newName) => {
@@ -24,14 +44,14 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', resize);
 })
-
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
-            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
-                v-model="topicStore.name"></textarea>
+            <textarea v-if="topicStore" placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
+                v-model="topicStore.name" :readonly="readonly"></textarea>
+            <textarea v-else ref="textArea" v-model="topic.Name"></textarea>
         </h1>
         <div id="TopicHeaderDetails">
 
@@ -59,7 +79,24 @@ onUnmounted(() => {
 
             <div class="topic-detail-spacer"></div>
 
-            <LazyAuthorIcon v-for="id in topicStore.authorIds" :id="id" />
+            <LazyNuxtLink v-for="(author) in firstAuthors" :to="`/Nutzer/${author.Name}/${author.Id}`"
+                v-tooltip="author.Name">
+                <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+            </LazyNuxtLink>
+
+            <VDropdown :distance="6">
+                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn">+{{ lastAuthors.length
+                }}</button>
+                <template #popper>
+                    <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
+                        <div class="dropdown-icon">
+                            <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                        </div>
+                        <div class="dropdown-label">{{ author.Name }}</div>
+                    </LazyNuxtLink>
+
+                </template>
+            </VDropdown>
 
         </div>
     </div>
@@ -88,12 +125,44 @@ onUnmounted(() => {
         }
     }
 
+    .additional-authors-btn {
+        border-radius: 10px;
+        min-width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+        font-size: 11px;
+        font-weight: 600;
+        border: solid 1px @memo-grey-light;
+        padding: 0 2px;
+        cursor: pointer;
+        transition: all .1s ease-in-out;
+
+        &:hover {
+            background: @memo-blue;
+            color: white;
+            transition: all .1s ease-in-out;
+            border: solid 1px @memo-blue;
+        }
+    }
+
     #TopicHeaderDetails {
         display: flex;
         padding-left: 12px;
         font-size: 14px;
         color: @memo-grey-dark;
         height: 20px;
+
+        .header-author-icon {
+            height: 20px;
+            width: 20px;
+            min-height: 20px;
+            min-width: 20px;
+            margin: 0 4px;
+        }
 
         .topic-detail {
             margin-right: 8px;

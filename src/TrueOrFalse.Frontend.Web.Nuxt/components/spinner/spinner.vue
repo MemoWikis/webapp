@@ -12,8 +12,6 @@ const spinnerStore = useSpinnerStore()
             </div>
         </Teleport>
     </div>
-
-
 </template>
 
 <style scoped lang="less">

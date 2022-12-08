@@ -109,7 +109,8 @@ const userStore = useUserStore()
                                     </div>
                                 </div>
 
-                                <div class="button" @click.prevent="topicStore.reset()" :class="{ expanded: editMode }">
+                                <div class="button" @click.prevent="topicStore.resetContent()"
+                                    :class="{ expanded: editMode }">
                                     <div class="icon">
                                         <i class="fas fa-times"></i>
                                     </div>

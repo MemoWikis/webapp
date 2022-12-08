@@ -3,50 +3,50 @@ import { KnowledgeStatus } from "../knowledgeStatusEnum"
 import { LicenseQuestion } from "../license/licenseQuestion"
 
 export class AnswerBody {
-    QuestionViewGuid: number
-    CreationDate: string
-    CreationDateNiceText: string
-    AnswerHelp: boolean
+    QuestionViewGuid: number | undefined
+    CreationDate: string | undefined
+    CreationDateNiceText: string | undefined
+    AnswerHelp: boolean | undefined
 
-    QuestionId: number
+    QuestionId: number | undefined
 
-    Creator: UserTinyModel
-    QuestionChangeAuthor: UserTinyModel
-    IsCreator: boolean
-    IsInWishknowledge: boolean
-    KnowledgeStatus: KnowledgeStatus
+    Creator: UserTinyModel | undefined
+    QuestionChangeAuthor: UserTinyModel | undefined
+    IsCreator: boolean | undefined
+    IsInWishknowledge: boolean | undefined
+    KnowledgeStatus: KnowledgeStatus | undefined
 
     
-      QuestionLastEditedOn: string
-      QuestionText: string
-      QuestionDescription: string
-      QuestionTextMarkdown: string
-     LicenseQuestion: LicenseQuestion
+      QuestionLastEditedOn: string | undefined
+      QuestionText: string | undefined
+      QuestionDescription: string | undefined
+      QuestionTextMarkdown: string | undefined
+     LicenseQuestion: LicenseQuestion | undefined
      IsLastQuestion: boolean = false
     //  QuestionCacheItem Question
 
     //  HasSound => !.IsNullOrEmpty(SoundUrl)
-      SoundUrl: string
+      SoundUrl: string | undefined
     
-      SolutionMetaDataJson: string
+      SolutionMetaDataJson: string | undefined
     //  SolutionMetadata SolutionMetadata
-      SolutionType: string
-     SolutionTypeInt: number
+      SolutionType: string | undefined
+     SolutionTypeInt: number | undefined
     //  QuestionSolution SolutionModel
 
-    IsMobileRequest: boolean
+    IsMobileRequest: boolean | undefined
 
-     IsInWidget: boolean
-     IsForVideo: boolean
-     IsLearningSession: boolean
+     IsInWidget: boolean | undefined
+     IsForVideo: boolean | undefined
+     IsLearningSession: boolean | undefined
     //  LearningSession LearningSession
      IsLastLearningStep: boolean = false
-     IsTestSession: boolean
-     TestSessionProgessAfterAnswering: number
-     IsInLearningTab: boolean
+     IsTestSession: boolean | undefined
+     TestSessionProgessAfterAnswering: number | undefined
+     IsInLearningTab: boolean | undefined
      IsInTestMode: boolean = false
 
-     HasCategories: boolean
+     HasCategories: boolean | undefined
     //  CategoryCacheItem PrimaryCategory
 
      ShowCommentLink() {
@@ -58,17 +58,17 @@ export class AnswerBody {
      CommentCount: number = -1
      UnsettledCommentCount: number = 0
 
-     DisableCommentLink: boolean
-     DisableAddKnowledgeButton: boolean
+     DisableCommentLink: boolean | undefined
+     DisableAddKnowledgeButton: boolean | undefined
 
-     NextUrl: string
-     GetSolutionUrl: string
-     CountLastAnswerAsCorrectUrl: string
-     CounUnasweredAsCorrect: string
-     TestSessionRegisterAnsweredQuestion: string
-     LearningSessionAmendAfterShowSolution: string
+     NextUrl: string | undefined
+     GetSolutionUrl: string | undefined
+     CountLastAnswerAsCorrectUrl: string | undefined
+      CounUnasweredAsCorrect: string | undefined
+     TestSessionRegisterAnsweredQuestion: string | undefined
+     LearningSessionAmendAfterShowSolution: string | undefined
 
 
-     TotalActivityPoints: number
-      QuestionTitle: string
+     TotalActivityPoints: number | undefined
+      QuestionTitle: string | undefined
 }

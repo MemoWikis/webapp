@@ -75,11 +75,11 @@ function clearFlashCard() {
         <template v-if="editor">
             <EditorMenuBar :editor="editor" />
         </template>
-        <template>
+        <template v-if="editor">
             <editor-content :editor="editor"
                 :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         </template>
-        <div v-if="highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
+        <div v-if="highlightEmptyFields && editor && editor.state.doc.textContent.length <= 0" class="field-error">
             Bitte gib eine Antwort an.
         </div>
     </div>

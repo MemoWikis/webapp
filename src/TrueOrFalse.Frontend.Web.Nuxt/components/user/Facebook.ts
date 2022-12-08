@@ -1,13 +1,13 @@
 ﻿export class Facebook {
 
-    static GetUser(facebookId: string, accessToken: string, continuation: (user: FacebookUserFields)=> void){
+    static GetUser(facebookId: string, accessToken: string, continuation: (user: FacebookUserFields) => void) {
         FB.api(
             "/" + facebookId,
             { access_token: accessToken, fields: 'name, email' },
             response => {
                 if (response && !response.error) {
                     continuation(response);
-                } else {    
+                } else {
                     throw (response);
                 }
             });
@@ -21,7 +21,7 @@
 }
 
 export interface FacebookUserFields {
-    id;
-    email;
-    name;
+    id: any;
+    email: any;
+    name: any;
 }

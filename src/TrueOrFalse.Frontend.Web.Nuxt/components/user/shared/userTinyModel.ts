@@ -1,16 +1,16 @@
 export class UserTinyModel {
-    Id: number
-    Name: string
-    EmailAddress: string
-    IsFacebookUser: boolean
-    isGoogleUser: boolean
-    Reputation: number
-    ReputationPos: number
-    ShowWishKnowledge: boolean
-    IsMember: boolean
-    isMemuchoUser: boolean
+    Id: number = 0
+    Name: string = ''
+    EmailAddress: string = ''
+    IsFacebookUser: boolean = false
+    isGoogleUser: boolean = false
+    Reputation: number = 0
+    ReputationPos: number = 0
+    ShowWishKnowledge: boolean = false
+    IsMember: boolean = false
+    isMemuchoUser: boolean = false
 
-    IsUnknown: boolean
+    IsUnknown: boolean = false
     
-    FollowerCount: number
+    FollowerCount: number = 0
 }

@@ -1,22 +1,21 @@
 <script lang="ts" setup>
 import { ref, PropType } from 'vue'
 import _ from 'underscore'
-import { FullSearch, SearchType } from './searchHelper'
+import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageStyle } from '../image/imageStyleEnum'
 
 const props = defineProps({
     searchType: Number as PropType<SearchType>,
-    id: [String, Number],
+    id: { type: [String, Number], required: true },
     showSearchIcon: Boolean,
     showSearch: Boolean,
 })
 
 
 const emit = defineEmits(['selectItem'])
-const open = ref(false)
 
-const selectedItem = ref('')
-watch(selectedItem, (item) => {
+const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
+watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {
     emit('selectItem', item);
 })
 
@@ -43,13 +42,13 @@ function inputValue(e: Event) {
 onBeforeMount(() => {
     switch (props.searchType) {
         case SearchType.Category:
-            searchUrl.value = '/api/Search/Category';
+            searchUrl.value = '/apiVue/Search/Category'
             break;
         case SearchType.CategoryInWiki:
-            searchUrl.value = '/api/Search/CategoryInWiki'
-            break;
+            searchUrl.value = '/apiVue/Search/CategoryInWiki'
+            break
         default:
-            searchUrl.value = '/api/Search/All';
+            searchUrl.value = '/apiVue/Search/All'
     }
 })
 
@@ -61,9 +60,10 @@ const questionCount = ref(0)
 const userCount = ref(0)
 const userSearchUrl = ref('')
 
-const categories = ref([])
-const questions = ref([])
-const users = ref([])
+const categories = ref([] as TopicItem[])
+const questions = ref([] as QuestionItem[])
+const users = ref([] as UserItem[])
+const config = useRuntimeConfig()
 
 async function search() {
     showDropdown.value = true;
@@ -72,12 +72,11 @@ async function search() {
     };
 
     var result = await $fetch<FullSearch>(searchUrl.value, {
-        body: data,
+        baseURL: process.client ? config.public.clientBase : config.public.serverBase, body: data,
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
         credentials: 'include'
     })
-
     if (result != null) {
         categories.value = result.categories;
         questions.value = result.questions;
@@ -90,7 +89,7 @@ async function search() {
     }
 }
 
-function selectItem(item) {
+function selectItem(item: TopicItem | QuestionItem | UserItem) {
     selectedItem.value = item;
 }
 function openUsers() {

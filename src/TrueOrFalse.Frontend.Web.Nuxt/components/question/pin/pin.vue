@@ -38,7 +38,7 @@ pinStore.$onAction(({ name, after }) => {
 })
 async function pin() {
     stateLoad.value = PinState.Loading
-    var result = await $fetch<boolean>(`/api/Api/Questions/Pin/${props.questionId.value}`, {
+    var result = await $fetch<boolean>(`/apiVue/Api/Questions/Pin/${props.questionId.value}`, {
         method: 'POST', mode: 'cors', credentials: 'include'
     })
     if (result) {
@@ -50,7 +50,7 @@ async function pin() {
 
 async function unpin() {
     stateLoad.value = PinState.Loading
-    var result = await $fetch<boolean>(`/api/Api/Questions/UnPin/${props.questionId.value}`, {
+    var result = await $fetch<boolean>(`/apiVue/Api/Questions/UnPin/${props.questionId.value}`, {
         method: 'POST', mode: 'cors', credentials: 'include'
     })
     if (result) {

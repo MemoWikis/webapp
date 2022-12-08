@@ -3,13 +3,13 @@ import { TopicChangeTypeEnum } from '~~/.nuxt/components';
 const props = defineProps(['item', 'model'])
 const relationChangeItem = ref(null)
 
-function getRelationChangeLabel(r) {
+function getRelationChangeLabel() {
 
 }
 </script>
 
 <template>
-    <template v-if="props.item.IsVisibleToCurrentUser">
+    <!-- <template v-if="props.item.IsVisibleToCurrentUser">
         <div class="panel-group row change-detail-model" id="accordion<%= panelId %>" role="tablist"
             aria-multiselectable="true">
             <div class="panel panel-default">
@@ -115,7 +115,7 @@ function getRelationChangeLabel(r) {
             </div>
         </div>
 
-    </template>
+    </template> -->
     <!-- if (item.IsVisibleToCurrentUser() &&
     item.RelationIsVisibleToCurrentUser) {
     if (item.AggregatedCategoryChangeDetailModel.Count> 1 && PermissionCheck.IsAuthorOrAdmin(item.Author)) { %>

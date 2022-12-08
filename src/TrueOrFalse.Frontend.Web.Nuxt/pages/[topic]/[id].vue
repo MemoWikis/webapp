@@ -2,57 +2,62 @@
 import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { PageType } from '~~/components/shared/pageTypeEnum'
+import { Page } from '~~/components/shared/pageEnum'
 
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const { data: topic } = await useFetch<any>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
-        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local',
+        baseURL: process.client ? config.public.clientBase : config.public.serverBase,
         credentials: 'include',
         mode: 'no-cors',
-        server: true,
     })
 
-if (topic.value.CanAccess) {
-    useState<Topic>('topic', () => topic)
-    const topicStore = useTopicStore()
-    topicStore.setTopic(topic.value)
+if (topic.value != null) {
+    if (topic.value.CanAccess) {
+        useState<Topic | null>('topic', () => topic.value)
+        const topicStore = useTopicStore()
+        topicStore.setTopic(topic.value)
 
-    const spinnerStore = useSpinnerStore()
+        const spinnerStore = useSpinnerStore()
 
-    watch(() => topicStore.id, () => {
-        spinnerStore.showSpinner()
-    })
-    tabsStore.activeTab = Tab.Topic
-
-    onMounted(() => {
-        var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
-        history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}${versionQuery}`)
-        useHead({
-            title: topic.value.Name,
+        watch(() => topicStore.id, () => {
+            spinnerStore.showSpinner()
         })
-        useState<PageType>('page', () => PageType.Topic)
-    })
+        tabsStore.activeTab = Tab.Topic
 
-    watch(() => tabsStore.activeTab, (t) => {
-        if (t == Tab.Topic) {
-            history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}`)
-        }
-        else if (t == Tab.Learning)
-            history.pushState(null, topic.value.Name, `/${encodeURI(topic.value.Name.replaceAll(" ", "-"))}/${topic.value.Id}/Lernen`)
-    })
-
-    watch(() => topicStore.name, () => {
-        useHead({
-            title: topicStore.name,
+        onMounted(() => {
+            var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
+            // history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
+            useHead({
+                title: topic.value!.Name,
+            })
         })
-    })
-} else navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
 
+        watch(() => tabsStore.activeTab, (t) => {
+            if (t == Tab.Topic) {
+                history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}`)
+            }
+            else if (t == Tab.Learning)
+                history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}/Lernen`)
+        })
 
+        watch(() => topicStore.name, () => {
+            useHead({
+                title: topicStore.name,
+            })
+        })
+    } else {
+        navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
+    }
+}
+
+const emit = defineEmits(['setPage'])
+onBeforeMount(() => {
+    emit('setPage', Page.Topic)
+})
 </script>
 
 <template>
@@ -61,7 +66,7 @@ if (topic.value.CanAccess) {
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
-                <TopicContentSegmentation v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
+                <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
                 <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
                 <TopicRelationEdit />
                 <!-- <LazyQuestionEditModal /> -->

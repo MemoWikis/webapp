@@ -2,12 +2,11 @@
 import { reactive } from 'vue'
 
 const props = defineProps(['solution', 'highlightEmptyFields'])
-const choices = reactive({
-    value: [{
-        Text: '',
-        IsCorrect: true
-    }]
-})
+const choices = ref([{
+    Text: '',
+    IsCorrect: true
+}]
+)
 const solutionIsOrdered = ref(false)
 
 const emit = defineEmits(['solutionIsValid', 'setMultipleChoiceSolution'])
@@ -26,7 +25,10 @@ function initiateSolution() {
     validateSolution()
 }
 
-function updateElement(index, newVal) {
+function updateElement(index: number, newVal: {
+    Text: string,
+    IsCorrect: boolean
+}) {
     choices.value[index] = newVal
 }
 
@@ -38,7 +40,7 @@ function addChoice() {
     choices.value.push(placeHolder)
 }
 
-function deleteChoice(index) {
+function deleteChoice(index: number) {
     choices.value.splice(index, 1)
 }
 
@@ -53,7 +55,7 @@ function solutionBuilder() {
     emit('setMultipleChoiceSolution', solution)
 }
 
-function toggleCorrectness(index) {
+function toggleCorrectness(index: number) {
     choices.value[index].IsCorrect = !choices.value[index].IsCorrect
     solutionBuilder()
 }
@@ -63,7 +65,7 @@ function toggleCorrectness(index) {
     <div class="input-container">
         <div class="overline-s no-line">Antworten</div>
 
-        <div class="form-group" v-for="(choice, index) in choices.value" :key="index">
+        <div class="form-group" v-for="(choice, index) in choices" :key="index">
             <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
             <div class="input-group">
                 <div @click="toggleCorrectness(index)"
@@ -71,10 +73,10 @@ function toggleCorrectness(index) {
                     :class="{ active: choice.IsCorrect }"><i class="fas fa-check"></i></div>
                 <div @click="toggleCorrectness(index)" class="input-group-addon toggle-correctness btn is-wrong grey-bg"
                     :class="{ active: choice.IsCorrect == false }"><i class="fas fa-times"></i></div>
-                <input type="text" class="form-control" :id="'SolutionInput-'+index" placeholder=""
+                <input type="text" class="form-control" :id="'SolutionInput-' + index" placeholder=""
                     v-model="choice.Text" v-on:change="solutionBuilder()"
-                    :class="{'is-empty' : choice.Text.length <= 0 && highlightEmptyFields}">
-                <div v-if="choices.value.length > 1" @click="deleteChoice(index)" class="input-group-addon btn grey-bg">
+                    :class="{ 'is-empty': choice.Text.length <= 0 && highlightEmptyFields }">
+                <div v-if="choices.length > 1" @click="deleteChoice(index)" class="input-group-addon btn grey-bg">
                     <i class="fas fa-trash"></i>
                 </div>
             </div>

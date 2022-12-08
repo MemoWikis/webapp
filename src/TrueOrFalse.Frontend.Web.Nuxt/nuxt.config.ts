@@ -9,26 +9,34 @@ export default defineNuxtConfig({
     //         }
     //     }
     //   },
-    //   runtimeConfig: {
-    //     public: {
-    //         apiBase: "http://memucho.local/apiVue/",
-    //         base: "http://memucho.local/",
-    //         apiParams: {
-    //             baseURL: process.server ? "http://memucho.local/apiVue" : "http://memucho.local:3000/api",
-    //             credentials: 'include',
-    //             mode: 'no-cors',
-    //         }
-    //     },
-    // },
+    runtimeConfig: {
+        public: {
+            clientBase: "http://memucho.local:3000",
+            serverBase: "http://memucho.local",
+        },
+    },
     ssr: true,
     modules: [
-        '@pinia/nuxt',    ],
+        '@pinia/nuxt',
+    ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
-      ],
-      typescript: {
+        '~/assets/bootstrap/bootstrap.less',
+        // '~/assets/bootstrap/memucho_overrides.less',
+        '~/assets/bootstrap/variables_custom.less',
+        '~/assets/site.less',
+        '~/assets/top-header.less',
+        '~/assets/fonts/googleFonts.less',
+        '~/assets/shared/dropdown.less'
+    ],
+    typescript: {
         shim: false,
         typeCheck: true,
-        strict: false
+        // strict: false
     },
+    build: {
+        transpile: [
+            '@fortawesome'
+        ]
+    }
 })

@@ -4,11 +4,13 @@ import { useUserStore } from '../../user/userStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from './editQuestionStore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
-import { SearchTopicItem, TopicResult } from '../../search/searchHelper'
+import { SearchTopicItem, TopicResult, TopicItem } from '../../search/searchHelper'
 import _ from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
 import { useTopicStore } from '../../topic/topicStore'
+import { Editor } from '@tiptap/vue-3'
+
 
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
@@ -23,37 +25,40 @@ const highlightEmptyFields = ref(false)
 
 const questionJson = ref({})
 const questionHtml = ref('')
-function setQuestionData(editor) {
+function setQuestionData(editor: Editor) {
     questionJson.value = editor.getJSON()
     questionHtml.value = editor.getHTML()
 }
 
 const questionExtensionJson = ref({})
 const questionExtensionHtml = ref('')
-function setQuestionExtensionData(editor) {
+function setQuestionExtensionData(editor: Editor) {
     questionExtensionJson.value = editor.getJSON()
     questionExtensionHtml.value = editor.getHTML()
 }
 
 const descriptionJson = ref({})
 const descriptionHtml = ref('')
-function setDescriptionData(editor) {
+function setDescriptionData(editor: Editor) {
     descriptionJson.value = editor.getJSON()
     descriptionHtml.value = editor.getHTML()
 }
 
-const textSolution = ref(null)
-const multipleChoiceJson = ref(null)
-const matchListJson = ref(null)
-const flashCardAnswer = ref(null)
+const textSolution = ref(null as string | null)
+const multipleChoiceJson = ref(null as string | null)
+const matchListJson = ref(null as string | null)
+const flashCardAnswer = ref(null as string | null)
+const flashCardJson = ref(null as string | null)
 
 
-const topicIds = ref([])
-const selectedTopics = ref([])
-function removeTopic(t) {
+const topicIds = ref([] as number[])
+const selectedTopics = ref([] as TopicItem[])
+function removeTopic(t: TopicItem) {
     if (selectedTopics.value.length > 1) {
-        selectedTopics.value.splice(t.index, 1)
-        var topicIdIndex = topicIds.value.indexOf(t.topicId)
+        var index = selectedTopics.value.findIndex(s => s == t)
+        selectedTopics.value.splice(index, 1)
+
+        var topicIdIndex = topicIds.value.findIndex(i => i == t.Id)
         topicIds.value.splice(topicIdIndex, 1)
     }
 }
@@ -65,7 +70,7 @@ async function search() {
         term: searchTerm.value,
     }
 
-    var result = await $fetch<TopicResult>('/api/Search/Category', {
+    var result = await $fetch<TopicResult>('/apiVue/Search/Category', {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -95,9 +100,9 @@ watch(searchTerm, (term) => {
         showDropdown.value = false
 })
 
-const topics = ref([])
+const topics = ref([] as TopicItem[])
 
-function selectTopic(t) {
+function selectTopic(t: TopicItem) {
     showDropdown.value = false
     lockDropdown.value = true
     searchTerm.value = ''
@@ -121,15 +126,18 @@ const disabled = ref(true)
 const lockSaveButton = ref(false)
 
 function getSolution() {
-    let solution = ""
+    let solution: string | null = ""
     switch (solutionType.value) {
         case SolutionType.Text:
             return textSolution.value
-        case SolutionType.MultipleChoice: solution = multipleChoiceJson.value
+        case SolutionType.MultipleChoice:
+            solution = multipleChoiceJson.value
             break
-        case SolutionType.MatchList: solution = matchListJson.value
+        case SolutionType.MatchList:
+            solution = matchListJson.value
             break
-        case SolutionType.FlashCard: return flashCardAnswer.value
+        case SolutionType.FlashCard:
+            return flashCardAnswer.value
     }
 
     return JSON.stringify(solution)
@@ -152,7 +160,11 @@ function getSaveJson() {
     }
     var visibility = isPrivate ? 1 : 0
 
-    let sessionConfigJson = localStorage.getItem('sessionConfigJson') != null ? JSON.parse(localStorage.getItem('sessionConfigJson')) : ''
+
+    var sessionConfigJson = ''
+    var savedConfigJson = localStorage.getItem('sessionConfigJson')
+    if (savedConfigJson != null)
+        sessionConfigJson = JSON.parse(savedConfigJson)
 
     var jsonExtension = {
         CategoryIds: topicIds.value,
@@ -172,7 +184,7 @@ function getSaveJson() {
     return { ...json, ...jsonExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/Category/GetCurrentQuestionCount/${id}`, {
+    let count = await $fetch<number>(`/apiVue/VueQuestion/GetCurrentQuestionCount/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -195,7 +207,7 @@ async function save() {
     }
     lockSaveButton.value = true
     spinnerStore.showSpinner()
-    var url = editQuestionStore.edit ? '/Question/Edit' : '/Question/Create'
+    var url = editQuestionStore.edit ? '/apiVue/VueQuestion/Edit' : '/apiVue/VueQuestion/Create'
     var json = getSaveJson()
 
     let result = await $fetch<any>(url, {
@@ -261,19 +273,19 @@ type QuestionData = {
     Visibility: Visibility,
 }
 
-function initiateSolution(solution) {
+function initiateSolution(solution: string) {
     switch (solutionType.value) {
         case SolutionType.Text:
-            this.textSolution = solution;
+            textSolution.value = solution;
             break;
         case SolutionType.MultipleChoice:
-            this.multipleChoiceJson = solution;
+            multipleChoiceJson.value = solution;
             break;
         case SolutionType.MatchList:
-            this.matchListJson = solution;
+            matchListJson.value = solution;
             break;
         case SolutionType.FlashCard:
-            this.flashCardJson = solution;
+            flashCardJson.value = solution;
     }
 
     return solution;
@@ -281,9 +293,9 @@ function initiateSolution(solution) {
 const questionEditor = ref(null)
 const questionExtensionEditor = ref(null)
 
-async function getQuestionData(id) {
+async function getQuestionData(id: number) {
 
-    let result = await $fetch<QuestionData>(`/Question/GetData/${id}`, {
+    let result = await $fetch<QuestionData>(`/apiVue/VueQuestion/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -318,7 +330,7 @@ watch(() => editQuestionStore.showModal, () => {
 
 const solutionIsValid = ref(true)
 
-function setFlashCardContent(editor) {
+function setFlashCardContent(editor: Editor) {
     flashCardAnswer.value = editor.getHTML()
     solutionIsValid.value = editor.state.doc.textContent.length > 0
 }

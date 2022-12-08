@@ -4,11 +4,11 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
-public class QuestionController : BaseController
+public class VueQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
 
-    public QuestionController(QuestionRepo questionRepo)
+    public VueQuestionController(QuestionRepo questionRepo)
     {
         _questionRepo = questionRepo;
     }

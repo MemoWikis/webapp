@@ -31,14 +31,16 @@ const learningSessionStore = useLearningSessionStore()
                             <b>&nbsp;alle&nbsp;</b>
                         </template>
                         <template v-else>
-                            <b>&nbsp;{{currentQuestionCount}}&nbsp;</b>
+                            <b>&nbsp;{{ currentQuestionCount }}&nbsp;</b>
                         </template>
                         Fragen&nbsp;
                         <span class="hidden-xs">aus diesem Thema</span>
-                        &nbsp;({{allQuestionCount}})
+                        &nbsp;({{ allQuestionCount }})
                     </div>
-                    <div class="session-config-header" v-if="topicHasNoQuestions && showError">Leider hat dieses
-                        Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.</div>
+                    <div class="session-config-header" v-if="(topicHasNoQuestions && showError == true)">Leider hat
+                        dieses
+                        Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                    </div>
 
                     <div id="ButtonAndDropdown">
                         <div id="QuestionListHeaderDropDown" class="Button dropdown">

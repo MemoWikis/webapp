@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class UserMessagesController : BaseController
+public class VueUserMessagesController : BaseController
 {
     [HttpGet]
     public JsonResult Get()

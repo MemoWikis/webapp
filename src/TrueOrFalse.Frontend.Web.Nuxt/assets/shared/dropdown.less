@@ -1,0 +1,49 @@
+@import (reference) '~~/assets/includes/imports.less';
+
+.default-dropdown{
+    display: flex; 
+    color: @memo-grey-dark; 
+    font-size: 14px;
+}
+.v-popper--theme-dropdown {
+    .v-popper__inner {
+        border: none !important;
+        display: flex; 
+        color: @memo-grey-darker;
+        font-size: 14px;
+        a{
+            color: @memo-grey-darker;
+            align-items: center;
+        }
+        .dropdown-row{
+            padding: 3px 20px;
+            line-height: 32px;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            text-decoration: none;
+            color: @memo-grey-darker;
+
+            .dropdown-label{
+                padding-left: 12.5px; 
+            }
+
+            .dropdown-icon{
+                height: 100%;
+                display: flex;
+                width: 20px;
+                justify-content: center;
+                align-items: center;
+                a{
+                    min-height: 100%;
+                    height: 100%;
+                }
+            }
+            
+            &:hover{
+                background-color: @memo-grey-lighter;
+                color: @memo-blue;       
+            }
+        }
+    }
+}

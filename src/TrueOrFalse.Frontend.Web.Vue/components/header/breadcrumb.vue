@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useTopicStore } from '../topic/topicStore'
-import { ref } from 'vue'
 import _ from 'underscore'
 import { PageType } from '../shared/pageTypeEnum'
 import { useUserStore } from '../user/userStore'

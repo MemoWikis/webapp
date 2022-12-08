@@ -13,7 +13,7 @@ export class FacebookMemuchoUser {
 
     static async Exists(facebookId: string): Promise<boolean> {
 
-        var doesExist = await $fetch<boolean>('/api/FacebookUsers/UserExists', { method: 'POST', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache' 
+        var doesExist = await $fetch<boolean>('/apiVue/FacebookUsers/UserExists', { method: 'POST', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache' 
         }).catch((error) => console.log(error.data))
 
         return !!doesExist;
@@ -30,7 +30,7 @@ export class FacebookMemuchoUser {
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/api/FacebookUsers/UserExists', { 
+        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/UserExists', { 
             method: 'POST', 
             body: { facebookUser: user }, 
             credentials: 'include', 
@@ -58,13 +58,13 @@ export class FacebookMemuchoUser {
         }
     }
 
-    static async Login(facebookId: string, facebookAccessToken, stayOnPage: boolean = true) {
+    static async Login(facebookId: string, facebookAccessToken: string, stayOnPage: boolean = true) {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
 
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/api/FacebookUsers/Login', { 
+        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/Login', { 
             method: 'POST', 
             body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken }, 
             credentials: 'include', 
@@ -94,20 +94,20 @@ export class FacebookMemuchoUser {
 
         if (response.status === 'connected') {
 
-            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken, stayOnPage);
+            FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
             Site.loadValidPage();
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
-            FB.login(response => {
+            FB.login(async response => {
 
-                    var facebookId = response.authResponse.userID;
-                    var facebookAccessToken = response.authResponse.accessToken;
+                    var facebookId = response.authResponse!.userID;
+                    var facebookAccessToken = response.authResponse!.accessToken;
 
                     if (response.status !== "connected")
                         return;
 
-                    if (FacebookMemuchoUser.Exists(facebookId)) {
+                    if (await FacebookMemuchoUser.Exists(facebookId)) {
                         FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
 
                         return;

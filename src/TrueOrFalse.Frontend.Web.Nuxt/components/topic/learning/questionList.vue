@@ -9,10 +9,10 @@ const props = defineProps([
     'selectedPageFromActiveQuestion',
     'questionCount'])
 
-const questions = reactive({ value: [] as QuestionListItem[] })
+const questions = ref([] as QuestionListItem[])
 
 const pages = ref(0)
-const pageArray = reactive({ value: [] as Number[] })
+const pageArray = ref([] as number[])
 const selectedPage = ref(1)
 
 const pageIsLoading = ref(false)
@@ -30,11 +30,11 @@ const hideRightPageSelector = ref(false)
 const showLeftPageSelector = ref(false)
 const showRightPageSelector = ref(false)
 
-const centerArray = reactive({ value: [] })
-const leftSelectorArray = reactive({ value: [] })
-const rightSelectorArray = reactive({ value: [] })
+const centerArray = ref([] as number[])
+const leftSelectorArray = ref([] as number[])
+const rightSelectorArray = ref([] as number[])
 
-function setPaginationRanges(sP) {
+function setPaginationRanges(sP: number) {
     if ((sP - 2) <= 2) {
         hideLeftPageSelector.value = true
     };
@@ -52,7 +52,7 @@ function setPaginationRanges(sP) {
         cA = cA.filter(e => e >= 2 && e <= pageArray.value.length - 1)
 
         leftArray = _.range(2, cA[0]);
-        rightArray = _.range(cA[cA.length - 1] + 1, this.pageArray.length)
+        rightArray = _.range(cA[cA.length - 1] + 1, pageArray.value.length)
 
         centerArray.value = cA
         leftSelectorArray.value = leftArray
@@ -62,7 +62,7 @@ function setPaginationRanges(sP) {
         centerArray.value = pageArray.value
     }
 }
-async function updatePageCount(sP) {
+async function updatePageCount(sP: number) {
     selectedPage.value = sP
     showLeftSelectionDropUp.value = false
     showRightSelectionDropUp.value = false
@@ -80,7 +80,7 @@ async function updatePageCount(sP) {
 async function loadQuestions(page: Number) {
     pageIsLoading.value = true
 
-    var result = await $fetch<any>('/api/QuestionList/LoadQuestions/', {
+    var result = await $fetch<any>('/apiVue/VueQuestionList/LoadQuestions/', {
         method: 'POST', body: {
             itemCountPerPage: itemCountPerPage.value,
             pageNumber: selectedPage.value,
@@ -106,19 +106,20 @@ function loadNextQuestions() {
 <template>
     <div class="col-xs-12 questionListComponent" id="QuestionListComponent">
 
-        <TopicLearningQuestion v-for="(q, index) in questions.value" :question="q"
-            :is-last-item="index == (questions.value.length - 1)" :index="index" />
+        <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
+            :is-last-item="index == (questions.length - 1)" :session-index="index"
+            :expand-question="props.expandQuestion" />
 
-        <div id="QuestionListPagination" v-show="questions.value.length > 0">
-            <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.value.length <= 8">
+        <div id="QuestionListPagination" v-show="questions.length > 0">
+            <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
                 <li class="page-item page-btn" :class="{ disabled: selectedPage == 1 }">
                     <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
                 </li>
-                <li class="page-item" v-for="(p, key) in pageArray.value" @click="loadQuestions(p)"
+                <li class="page-item" v-for="(p, key) in pageArray" @click="loadQuestions(p)"
                     :class="{ selected: selectedPage == p }">
                     <span class="page-link">{{ p }}</span>
                 </li>
-                <li class="page-item page-btn" :class="{ disabled: selectedPage == pageArray.value.length }">
+                <li class="page-item page-btn" :class="{ disabled: selectedPage == pageArray.length }">
                     <span class="page-link" @click="loadNextQuestions()">Nächste</span>
                 </li>
             </ul>
@@ -144,14 +145,14 @@ function loadNextQuestions() {
                             </div>
                             <ul id="DropUpMenuLeftList" class="pagination dropdown-menu"
                                 aria-labelledby="DropUpMenuLeft" v-show="showLeftSelectionDropUp">
-                                <li class="page-item" v-for="p in leftSelectorArray.value" @click="loadQuestions(p)">
+                                <li class="page-item" v-for="p in leftSelectorArray" @click="loadQuestions(p)">
                                     <span class="page-link">{{ p }}</span>
                                 </li>
                             </ul>
                         </div>
                     </span>
                 </li>
-                <li class="page-item col-auto" v-for="(p, key) in centerArray.value" @click="loadQuestions(p)"
+                <li class="page-item col-auto" v-for="(p, key) in centerArray" @click="loadQuestions(p)"
                     :class="{ selected: selectedPage == p }">
                     <span class="page-link">{{ p }}</span>
                 </li>
@@ -167,21 +168,21 @@ function loadNextQuestions() {
                             </div>
                             <ul id="DropUpMenuRightList" class="pagination dropdown-menu"
                                 aria-labelledby="DropUpMenuLeft" v-show="showRightSelectionDropUp">
-                                <li class="page-item" v-for="p in rightSelectorArray.value" @click="loadQuestions(p)">
+                                <li class="page-item" v-for="p in rightSelectorArray" @click="loadQuestions(p)">
                                     <span class="page-link">{{ p }}</span>
                                 </li>
                             </ul>
                         </div>
                     </span>
                 </li>
-                <li class="page-item col-auto" v-show="selectedPage == pageArray.value.length - 4">
-                    <span class="page-link">{{ pageArray.value.length - 1 }}</span>
+                <li class="page-item col-auto" v-show="selectedPage == pageArray.length - 4">
+                    <span class="page-link">{{ pageArray.length - 1 }}</span>
                 </li>
-                <li class="page-item col-auto" @click="loadQuestions(pageArray.value.length)"
-                    :class="{ selected: selectedPage == pageArray.value.length }">
-                    <span class="page-link">{{ pageArray.value.length }}</span>
+                <li class="page-item col-auto" @click="loadQuestions(pageArray.length)"
+                    :class="{ selected: selectedPage == pageArray.length }">
+                    <span class="page-link">{{ pageArray.length }}</span>
                 </li>
-                <li class="page-item col-auto page-btn" :class="{ disabled: selectedPage == pageArray.value.length }">
+                <li class="page-item col-auto page-btn" :class="{ disabled: selectedPage == pageArray.length }">
                     <span class="page-link" @click="loadNextQuestions()">Nächste</span>
                 </li>
             </ul>
