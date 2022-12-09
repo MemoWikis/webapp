@@ -25,7 +25,7 @@ styleClass.value = props.class + type
 </script>
 
 <template>
-  <img :src="config.base + props.url" :class="styleClass" />
+  <img :src="config.public.serverBase + props.url" :class="styleClass" />
 </template>
 
 <style scoped lang="less">
