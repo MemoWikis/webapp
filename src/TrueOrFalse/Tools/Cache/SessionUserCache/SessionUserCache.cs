@@ -10,7 +10,8 @@ public class SessionUserCache
 {
     public const int ExpirationSpanInMinutes = 600;
 
-    private static string GetCacheKey(int userId) => "UserCacheItem_" + userId;
+    private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
+    private static string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
 
     public static List<SessionUserCacheItem> GetAllCacheItems()
     {
@@ -154,7 +155,7 @@ public class SessionUserCache
             keys.Add(enumerator.Key.ToString());
         }
 
-        foreach (var userCacheKey in keys.Where(k => k.Contains("UserCacheItem_")))
+        foreach (var userCacheKey in keys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
         {
             var startIndex = userCacheKey.IndexOf("_") + 1;
             var endIndex = userCacheKey.Length - startIndex;
