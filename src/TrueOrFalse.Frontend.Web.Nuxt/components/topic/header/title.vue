@@ -138,6 +138,7 @@ onUnmounted(() => {
         font-weight: 600;
         border: solid 1px @memo-grey-light;
         padding: 0 2px;
+        background: none;
         cursor: pointer;
         transition: all .1s ease-in-out;
 

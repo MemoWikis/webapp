@@ -97,7 +97,13 @@ watch(() => route.params, () => {
     getBreadcrumb()
 })
 watch(() => topicStore.id, (newId, oldId) => {
-  if (newId != oldId && props.page == Page.Topic)
+  if (newId != oldId && props.page == Page.Topic) {
+    getBreadcrumb()
+  }
+})
+
+watch(() => props.page, (newPage, oldPage) => {
+  if (oldPage != newPage && newPage == Page.Topic)
     getBreadcrumb()
 })
 async function getBreadcrumb() {

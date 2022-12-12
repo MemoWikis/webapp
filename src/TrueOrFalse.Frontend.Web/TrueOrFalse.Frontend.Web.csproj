@@ -262,6 +262,7 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\ApiVueApp\AppController.cs" />
     <Compile Include="Views\ApiVueApp\EditTopicRelationController.cs" />
     <Compile Include="Views\ApiVueApp\VueQuestionListController.cs" />
     <Compile Include="Views\ApiVueApp\Segmentation\CardController.cs" />

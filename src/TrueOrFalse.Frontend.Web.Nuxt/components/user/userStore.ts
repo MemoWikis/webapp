@@ -13,9 +13,13 @@ export type UserLoginResult = {
   PersonalWikiId: number
 }
 
-export type LoginState = {
+export interface CurrentUser {
   IsLoggedIn: boolean
   UserId: number
+  Name: string
+  IsAdmin: boolean
+  WikiId: number
+  Type: UserType
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -32,16 +36,32 @@ export const useUserStore = defineStore('userStore', {
     }
   },
   actions: {
-    initUserStore(loginState: LoginState) {
-      this.isLoggedIn = loginState.IsLoggedIn
-      this.id = loginState.UserId
+    async initCurrentUser() {
+      const config = useRuntimeConfig()
+      var currentUser = await $fetch<CurrentUser>(`/apiVue/VueSessionUser/GetCurrentUser/`, {
+        baseURL: config.public.clientBasez,
+        method: 'Get',
+        credentials: 'include',
+        mode: 'no-cors',
+      })
+      this.initUserStore(currentUser)
+    },
+    initUserStore(currentUser: CurrentUser) {
+      this.isLoggedIn = currentUser.IsLoggedIn
+      this.id = currentUser.UserId
+      this.name = currentUser.Name
+      this.isAdmin = currentUser.IsAdmin
+      this.wikiId = currentUser.WikiId
+      this.type = currentUser.Type
+
+      this.getPersonalWiki(this.wikiId)
     },
     async login(loginData: {
       EmailAddress: string,
       Password: string,
       PersistentLogin: boolean
     }) {
-      var result = await $fetch<UserLoginResult>('/apiVue/SessionUser/Login', { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
+      var result = await $fetch<UserLoginResult>('/apiVue/VueSessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success) {
         this.id = result.Id
@@ -52,17 +72,18 @@ export const useUserStore = defineStore('userStore', {
         this.isLoggedIn = true
 
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
-          this.personalWiki = await $fetch<Topic>(`/apiVue/Topic/GetTopic/${result.PersonalWikiId}`, { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', credentials: 'include' })
-
+          this.getPersonalWiki(result.PersonalWikiId)
       }
     },
-
+    async getPersonalWiki(id: number) {
+      this.personalWiki = await $fetch<Topic>(`/apiVue/Topic/GetTopic/${id}`, { credentials: 'include' })
+    },
     async register(registerData: {
       Name: string,
       Email: string,
       Password: string
     }) {
-      var result = await $fetch<UserLoginResult>('/apiVue/VueRegister/Register', { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
+      var result = await $fetch<UserLoginResult>('/apiVue/VueRegister/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success) {
         this.id = result.Id
@@ -72,7 +93,7 @@ export const useUserStore = defineStore('userStore', {
         this.isLoggedIn = true
 
         if (result.PersonalWikiId ? result.PersonalWikiId : 0)
-          this.personalWiki = await $fetch<Topic>(`/apiVue/Topic/GetTopic/${result.PersonalWikiId}`, { baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', credentials: 'include' })
+          this.personalWiki = await $fetch<Topic>(`/apiVue/Topic/GetTopic/${result.PersonalWikiId}`, { baseURL: 'http://memucho.local:3000', credentials: 'include' })
 
         return 'success'
       } else if (!!result && !result.Success)
@@ -85,8 +106,8 @@ export const useUserStore = defineStore('userStore', {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
 
-      var result = await $fetch<UserLoginResult>('/apiVue/SessionUser/Logout', {
-        baseURL: process.client ? 'http://memucho.local:3000' : 'http://memucho.local', method: 'POST', mode: 'cors', credentials: 'include'
+      var result = await $fetch<UserLoginResult>('/apiVue/VueSessionUser/Logout', {
+        method: 'POST', mode: 'cors', credentials: 'include'
       })
 
       if (!!result && result.Success) {

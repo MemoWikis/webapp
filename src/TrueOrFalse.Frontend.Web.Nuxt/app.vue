@@ -1,10 +1,20 @@
 <script lang="ts" setup>
-import { useUserStore } from '~/components/user/userStore'
+import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Topic, useTopicStore } from '~/components/topic/topicStore'
-import { Page } from './components/shared/pageEnum';
+import { Page } from './components/shared/pageEnum'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
+
+const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUser/GetCurrentUser', {
+  baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+  method: 'Get',
+  credentials: 'include',
+  mode: 'no-cors',
+  headers: useRequestHeaders(['cookie']) as any
+})
+if (currentUser.value)
+  userStore.initUserStore(currentUser.value)
 
 interface FooterTopics {
   RootTopic: Topic
@@ -35,7 +45,7 @@ function setPage(type: Page | null = null) {
 </script>
 
 <template>
-  <LazyHeaderGuest v-if="!userStore.isLoggedIn" />
+  <HeaderGuest v-if="!userStore.isLoggedIn" />
   <HeaderMain :page="page" />
   <NuxtPage @set-page="setPage" />
   <LazyClientOnly>

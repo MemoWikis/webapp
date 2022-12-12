@@ -3,8 +3,7 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
-import { useEditTopicRelationStore, EditRelationData, EditTopicRelationType } from '../relation/editTopicRelationStore'
-import { Tab, useTabsStore } from '../tabs/tabsStore'
+import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
@@ -16,7 +15,8 @@ const editTopicRelationStore = useEditTopicRelationStore()
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <V-Dropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']">
+            <V-Dropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']"
+                :arrow-padding="300" placement="bottom-end">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>

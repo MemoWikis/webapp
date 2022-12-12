@@ -264,6 +264,11 @@ onMounted(() => {
 .user-dropdown {
     .user-dropdown-label {
         padding: 10px 25px;
+
+        &:hover {
+            background-color: @memo-grey-lighter;
+            cursor: pointer;
+        }
     }
 }
 

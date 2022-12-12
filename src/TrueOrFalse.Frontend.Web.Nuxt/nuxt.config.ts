@@ -38,5 +38,8 @@ export default defineNuxtConfig({
         transpile: [
             '@fortawesome'
         ]
+    },
+    devServer: {
+        host: 'memucho.local'
     }
 })

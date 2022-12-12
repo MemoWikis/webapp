@@ -11,6 +11,17 @@ namespace VueApp;
 public class VueSegmentationController : BaseController
 {
     [HttpPost]
+    public JsonResult GetSegmentation(int id)
+    {
+        var category = EntityCache.GetCategory(id);
+        var s = new SegmentationModel(category);
+        return Json(new
+        {
+            childCategoryIds = s.NotInSegmentCategoryIds,
+            segmentJson = s.SegmentJson
+        });
+    }
+    [HttpPost]
     public JsonResult GetSegment(SegmentJson json)
     {
         var categoryId = json.CategoryId;
