@@ -130,10 +130,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             ? "/Fragen/Suche/" + "Ersteller__" + user.Name + "__"
             : "/Fragen/Suche/" + "Ersteller__unbekannt__";
 
-
-
-
-
         public static string QuestionSearch(string searchTerm) => "/Fragen/Suche/" + searchTerm;
         public static string CategoriesSearch(string searchTerm) => "/Suche/" + searchTerm;
         public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
@@ -144,6 +140,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionHistoryDetail(int questionId, int revisionId) =>
             GetUrlHelper().Action("Detail", "QuestionHistoryDetail", new { questionId = questionId, revisionId = revisionId});
+
+        public static string QuestionRestore(int questionId, int questionChangeId) =>
+            GetUrlHelper().Action("Restore", "Question", new { questionId = questionId, questionChangeId = questionChangeId });
 
         public static string QuestionChangesOverview(int pageToShow) =>
             GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow = pageToShow });

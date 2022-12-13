@@ -38,7 +38,8 @@
                     <i class="fa fa-ellipsis-v" style="font-size: 18px; margin-top: 2px;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
-                    <li>
+                    <%--Vorübergehend rausgenommen, da es nicht richtig funktioniert (#449)--%>
+                    <%--<li>
                         <% if (SessionUser.IsLoggedIn)
                            {
                                if (Model.NextRevExists)
@@ -49,7 +50,7 @@
                                 </a>
                             <% }
                            } %>
-                    </li>
+                    </li>--%>
                     <li>
                         <a href="<%= Links.CategoryChangesOverview(1) %>">
                             <div class="dropdown-icon"><i class="fa fa-list"></i></div>Bearbeitungshistorie aller Themen
