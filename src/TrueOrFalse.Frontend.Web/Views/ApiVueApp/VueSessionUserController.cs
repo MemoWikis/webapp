@@ -58,11 +58,36 @@ public class VueSessionUserController : BaseController
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        return Json(new
+        var type = UserType.Anonymous;
+        if (SessionUser.IsLoggedIn)
         {
-            SessionUser.IsLoggedIn, 
-            SessionUser.UserId
-        }, JsonRequestBehavior.AllowGet);
+            if (SessionUser.User.IsGoogleUser)
+                type = UserType.Google;
+            else if (SessionUser.User.IsFacebookUser)
+                type = UserType.Facebook;
+            else type = UserType.Normal;
+        }
+
+
+        var data = new
+        {
+            IsLoggedIn = SessionUser.IsLoggedIn,
+            UserId = SessionUser.UserId,
+            Name = SessionUser.IsLoggedIn ? SessionUser.User.Name : "",
+            IsAdmin = SessionUser.IsInstallationAdmin,
+            WikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
+            Type = type
+        };
+
+        return Json(data, JsonRequestBehavior.AllowGet);
+    }
+
+    private enum UserType
+    {
+        Normal,
+        Google,
+        Facebook,
+        Anonymous
     }
 }
     

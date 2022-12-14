@@ -19,7 +19,7 @@ const topicStore = useTopicStore()
 
     <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
       <div class="tab-label">Fragen <template
-          v-if="topicStore.questionCount > 0">({{topicStore.questionCount}})</template>
+          v-if="topicStore.questionCount > 0">({{ topicStore.questionCount }})</template>
       </div>
       <div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
       <div class="inactive-tab" v-else>

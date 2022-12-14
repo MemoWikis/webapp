@@ -13,6 +13,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         baseURL: process.client ? config.public.clientBase : config.public.serverBase,
         credentials: 'include',
         mode: 'no-cors',
+        // headers: useRequestHeaders(['cookie']) as HeadersInit
     })
 
 if (topic.value != null) {
@@ -67,7 +68,7 @@ onBeforeMount(() => {
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
+                <LazyTopicTabsQuestions v-if="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
                 <TopicRelationEdit />
                 <!-- <LazyQuestionEditModal /> -->
             </div>

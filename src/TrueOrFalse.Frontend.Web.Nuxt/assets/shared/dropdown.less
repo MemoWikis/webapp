@@ -6,11 +6,22 @@
     font-size: 14px;
 }
 .v-popper--theme-dropdown {
+
+    .v-popper__arrow-outer {
+        visibility: hidden !important;
+    }
+      
+    .v-popper__arrow-inner {
+        visibility: hidden !important;
+    }
+
     .v-popper__inner {
         border: none !important;
         display: flex; 
         color: @memo-grey-darker;
         font-size: 14px;
+        padding: 12px 0;
+
         a{
             color: @memo-grey-darker;
             align-items: center;
@@ -23,6 +34,7 @@
             align-items: center;
             text-decoration: none;
             color: @memo-grey-darker;
+            cursor:pointer;
 
             .dropdown-label{
                 padding-left: 12.5px; 
