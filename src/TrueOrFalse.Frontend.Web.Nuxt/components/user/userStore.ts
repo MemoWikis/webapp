@@ -19,7 +19,7 @@ export interface CurrentUser {
   ImgUrl: string
   Reputation: number
   ReputationPos: number
-  PersonalWiki: any
+  PersonalWiki: Topic
 }
 
 export const useUserStore = defineStore('userStore', {
