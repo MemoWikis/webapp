@@ -21,7 +21,7 @@ public class SessionUserCache
 
     public static SessionUserCacheItem GetUser(int userId) => GetItem(userId);
 
-    private static string _createItemLockKey = "2FB5BC59-9E90-4511-809A-BC67A6D35F7F";
+    private static readonly string _createItemLockKey = "2FB5BC59-9E90-4511-809A-BC67A6D35F7F";
     public static SessionUserCacheItem GetItem(int userId)
     {
         var cacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));

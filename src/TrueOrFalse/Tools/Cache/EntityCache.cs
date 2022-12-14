@@ -189,6 +189,16 @@ public class EntityCache : BaseCache
         AddOrUpdate(Users, user);
     }
 
+    public static void RemoveUser(int id)
+    {
+        Remove(GetUserById(id));
+    }
+
+    public static void Remove(UserCacheItem user)
+    {
+        Remove(Users, user);
+    }
+
     public static void AddOrUpdate(QuestionCacheItem question, List<int> categoriesIdsToRemove = null)
     {
         AddOrUpdate(Questions, question);
@@ -218,7 +228,6 @@ public class EntityCache : BaseCache
                 parent.CachedData.RemoveChildId(categoryCacheItem.Id);
         }
     }
-
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
@@ -276,9 +285,14 @@ public class EntityCache : BaseCache
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
 
+    private static void Remove(ConcurrentDictionary<int, UserCacheItem> objectToCache, UserCacheItem obj)
+    {
+        objectToCache.TryRemove(obj.Id, out _);
+    }
+
     private static void Remove(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
     {
-        objectToCache.TryRemove(obj.Id, out var outObj);
+        objectToCache.TryRemove(obj.Id, out _);
     }
 
     private static void Remove(ConcurrentDictionary<int, QuestionCacheItem> objectToCache, QuestionCacheItem obj)

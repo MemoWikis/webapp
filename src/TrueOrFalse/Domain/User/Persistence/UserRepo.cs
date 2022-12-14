@@ -80,15 +80,16 @@ public class UserRepo : RepositoryDbBase<User>
         _session.Flush();
         ReputationUpdate.ForUser(followerInfo.User);
 
-
         SessionUserCache.AddOrUpdate(followerInfo.User);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(followerInfo.User));
     }
 
-    public void Update(User user)
+    public override void Update(User user)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
         SessionUserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
     }
 
     public void Update(UserCacheItem userCacheItem)
@@ -119,6 +120,7 @@ public class UserRepo : RepositoryDbBase<User>
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
         SessionUserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
     }
 
     public override void Delete(int id)
@@ -131,6 +133,7 @@ public class UserRepo : RepositoryDbBase<User>
         _searchIndexUser.Delete(user);
         base.Delete(id);
         SessionUserCache.Remove(user);
+        EntityCache.RemoveUser(id);
     }
 
     public void DeleteFromAllTables(int userId)
@@ -241,7 +244,6 @@ public class UserRepo : RepositoryDbBase<User>
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);
-        SessionUserCache.AddOrUpdate(user);
     }
 
     public void UpdateUserFollowerCount(int userid)
@@ -254,6 +256,8 @@ public class UserRepo : RepositoryDbBase<User>
                         WHERE uf.User_id =u.id)
                 Where u.id ="+ userid +";"
             ).ExecuteUpdate();
-        
+        var updatedUser = GetById(userid);
+        SessionUserCache.AddOrUpdate(updatedUser);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(updatedUser));
     }
 }

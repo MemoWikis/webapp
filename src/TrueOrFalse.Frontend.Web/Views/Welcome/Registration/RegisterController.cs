@@ -31,10 +31,9 @@ public class RegisterController : BaseController
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
-        user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
-        SessionUser.User.StartTopicId = category.Id;
-        SessionUserCache.AddOrUpdate(user);
+        user.StartTopicId = category.Id;
+        Sl.UserRepo.Update(user);
         return Category(EntityCache.GetCategory(category.Id));
     }
 
