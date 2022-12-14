@@ -205,7 +205,8 @@ public class MaintenanceController : BaseController
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendKnowledgeReportMessage(MessagesModel model)
     {
-        KnowledgeReportMsg.SendHtmlMail(SessionUser.User);
+        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
+        KnowledgeReportMsg.SendHtmlMail(sessionUser);
 
         model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + SessionUser.User.Name +
                                            "</em> with email address <em>" + SessionUser.User.EmailAddress + "</em>.");

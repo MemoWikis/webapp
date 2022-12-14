@@ -20,7 +20,7 @@ public class MessagesController : BaseController
         }
 
         var messages = Resolve<MessageRepo>()
-            .GetForUser(SessionUser.User.Id, false)
+            .GetForUser(SessionUser.UserId, false)
             .Select(m => new MessageModelRow(m))
             .ToList();
 

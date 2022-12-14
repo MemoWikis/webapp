@@ -37,7 +37,7 @@ public class EditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        question.Creator = SessionUser.User;
+        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -48,7 +48,7 @@ public class EditQuestionController : BaseController
             LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.User);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -118,7 +118,7 @@ public class EditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = SessionUser.User;
+        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;
@@ -127,7 +127,7 @@ public class EditQuestionController : BaseController
         _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.User);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_questionRepo);
@@ -250,7 +250,7 @@ public class EditQuestionController : BaseController
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            question.Creator = SessionUser.User;
+            question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
             question.IsWorkInProgress = true;
             _questionRepo.Create(question);
 
@@ -265,13 +265,13 @@ public class EditQuestionController : BaseController
         if (imageSource == "wikimedia")
         {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, ImageType.Question, SessionUser.User.Id);
+                wikiFileName, questionId, ImageType.Question, SessionUser.UserId);
         }
 
         if (imageSource == "upload")
         {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.User.Id, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.UserId, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);

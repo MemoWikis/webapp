@@ -72,7 +72,7 @@ public class VueQuestionListController : BaseController
         var model = new AnswerQuestionModel(question, true);
         if (SessionUser.IsLoggedIn)
         {
-            var userQuestionValuation = UserCache.GetItem(SessionUser.UserId).QuestionValuations;
+            var userQuestionValuation = SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations;
 
             if (userQuestionValuation.ContainsKey(questionId))
                 hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;

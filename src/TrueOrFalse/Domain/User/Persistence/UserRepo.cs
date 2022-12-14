@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Antlr.Runtime.Misc;
 using NHibernate;
 using TrueOrFalse.Search;
 using NHibernate.Linq;
@@ -78,22 +80,47 @@ public class UserRepo : RepositoryDbBase<User>
         _session.Flush();
         ReputationUpdate.ForUser(followerInfo.User);
 
-
-        UserCache.AddOrUpdate(followerInfo.User);
+        SessionUserCache.AddOrUpdate(followerInfo.User);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(followerInfo.User));
     }
 
-    public void Update(User user)
+    public override void Update(User user)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
+    }
+
+    public void Update(UserCacheItem userCacheItem)
+    {
+        var user = GetById(userCacheItem.Id);
+
+        user.EmailAddress = userCacheItem.EmailAddress;
+        user.Name = userCacheItem.Name;
+        user.FacebookId = userCacheItem.FacebookId;
+        user.GoogleId = userCacheItem.GoogleId;
+        user.Reputation = userCacheItem.Reputation;
+        user.ReputationPos = userCacheItem.ReputationPos;
+        user.FollowerCount = userCacheItem.FollowerCount;
+        user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
+
+        Update(user);
+    }
+
+    public void ApplyChangeAndUpdate(int userId, Action<User> change)
+    {
+        var user = GetById(userId);
+        change(user);
+        Update(user);
     }
 
     public override void Create(User user)
     {
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
     }
 
     public override void Delete(int id)
@@ -105,7 +132,8 @@ public class UserRepo : RepositoryDbBase<User>
 
         _searchIndexUser.Delete(user);
         base.Delete(id);
-        UserCache.Remove(user);
+        SessionUserCache.Remove(user);
+        EntityCache.RemoveUser(id);
     }
 
     public void DeleteFromAllTables(int userId)
@@ -216,7 +244,6 @@ public class UserRepo : RepositoryDbBase<User>
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);
-        UserCache.AddOrUpdate(user);
     }
 
     public void UpdateUserFollowerCount(int userid)
@@ -229,6 +256,8 @@ public class UserRepo : RepositoryDbBase<User>
                         WHERE uf.User_id =u.id)
                 Where u.id ="+ userid +";"
             ).ExecuteUpdate();
-        
+        var updatedUser = GetById(userid);
+        SessionUserCache.AddOrUpdate(updatedUser);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(updatedUser));
     }
 }

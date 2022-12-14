@@ -639,7 +639,7 @@ public class AnswerQuestionController : BaseController
             return null;
 
         var question = _questionRepo.GetById(id);
-        var isAuthor = question.Creator == SessionUser.User;
+        var isAuthor = question.Creator.Id == SessionUser.UserId;
         if (IsInstallationAdmin  || isAuthor)
             return Links.EditQuestion(question.Text, id);
 

@@ -81,31 +81,30 @@ public class SearchController : BaseController
     [HttpPost]
     public JsonResult GetPersonalWikiData(int id)
     {
-
         if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUser.User.StartTopicId))
             return Json(new
             {
                 success = false,
             });
 
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
-        var personalWikiItem = FillSearchCategoryItem(personalWiki);
-        var previouslySelectedCategoriesInWiki = new List<SearchCategoryItem>();
+        var recentlyUsedRelationTargetTopicIds = new List<SearchCategoryItem>();
 
-        if (SessionUser.User.AddToWikiHistoryIds != null && SessionUser.User.AddToWikiHistoryIds.Count > 0)
+        if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var categoryId in SessionUser.User.AddToWikiHistoryIds)
+            foreach (var categoryId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
-                previouslySelectedCategoriesInWiki.Add(FillSearchCategoryItem(c));
+                recentlyUsedRelationTargetTopicIds.Add(FillSearchCategoryItem(c));
             }
         }
 
+        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+        
         return Json(new
         {
             success = true,
-            personalWiki = personalWikiItem,
-            addToWikiHistory = previouslySelectedCategoriesInWiki.ToArray()
+            personalWiki = FillSearchCategoryItem(personalWiki),
+            addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
         });
     }
 

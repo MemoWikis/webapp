@@ -72,42 +72,6 @@ public class Category : DomainEntity, ICreator, ICloneable
             : new List<Category>();
     }
 
-    public static IEnumerable<Category> ToCategories(List<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(ToCategory);
-    public static IEnumerable<Category> ToCategories(IEnumerable<CategoryCacheItem> categoriesCacheItems) => categoriesCacheItems.Select(ToCategory);
-
-    public static Category ToCategory(CategoryCacheItem categoryCacheItem)
-    {
-        var userEntityCacheCategoryRelations = new CategoryRelation();
-        return new Category
-        {
-            Id = categoryCacheItem.Id,
-            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(categoryCacheItem.CategoryRelations),
-            CategoriesToExcludeIdsString = categoryCacheItem.CategoriesToExcludeIdsString,
-            CategoriesToIncludeIdsString = categoryCacheItem.CategoriesToIncludeIdsString,
-            Content = categoryCacheItem.Content,
-            CorrectnessProbability = categoryCacheItem.CorrectnessProbability,
-            CorrectnessProbabilityAnswerCount = categoryCacheItem.CorrectnessProbabilityAnswerCount,
-            CountQuestions = categoryCacheItem.CountQuestions,
-            CountQuestionsAggregated = categoryCacheItem.CountQuestionsAggregated,
-            Creator = categoryCacheItem.Creator,
-            CustomSegments = categoryCacheItem.CustomSegments,
-            Description = categoryCacheItem.Description,
-            DisableLearningFunctions = categoryCacheItem.DisableLearningFunctions,
-            FormerSetId = categoryCacheItem.FormerSetId,
-            IsHistoric = categoryCacheItem.IsHistoric,
-            Name = categoryCacheItem.Name,
-            SkipMigration = categoryCacheItem.SkipMigration,
-            Visibility = categoryCacheItem.Visibility,
-            TopicMarkdown = categoryCacheItem.TopicMarkdown,
-            TotalRelevancePersonalEntries = categoryCacheItem.TotalRelevancePersonalEntries,
-            Type = categoryCacheItem.Type,
-            TypeJson = categoryCacheItem.TypeJson,
-            Url = categoryCacheItem.Url,
-            UrlLinkText = categoryCacheItem.UrlLinkText,
-            WikipediaURL = categoryCacheItem.WikipediaURL,
-            DateCreated = categoryCacheItem.DateCreated
-        };
-    }
     public virtual int CountQuestionsAggregated { get; set; }
 
     public virtual void UpdateCountQuestionsAggregated()
@@ -134,7 +98,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual bool IsHistoric { get; set; }
 
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual bool IsInWishknowledge() => UserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
+    public virtual bool IsInWishknowledge() => SessionUserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
 
     public Category()
     {

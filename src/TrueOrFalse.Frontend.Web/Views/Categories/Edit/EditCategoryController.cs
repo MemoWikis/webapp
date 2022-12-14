@@ -116,7 +116,8 @@ public class EditCategoryController : BaseController
         }
 
         var category = convertResult.Category;
-        category.Creator = SessionUser.User;
+        var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        category.Creator = creator;
 
         var categoryNameAllowed = new CategoryNameAllowed();
 
@@ -201,7 +202,8 @@ public class EditCategoryController : BaseController
         var category = new Category(name);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
 
-        category.Creator = SessionUser.User;
+        var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        category.Creator = creator;
         category.Type = CategoryType.Standard;
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
@@ -276,7 +278,7 @@ public class EditCategoryController : BaseController
         }
 
         if (addIdToWikiHistory)
-            SessionUser.User.AddNewIdToWikiHistory(parentCategoryId);
+            RecentlyUsedRelationTargets.Add(SessionUser.UserId, parentCategoryId);
 
         var child = EntityCache.GetCategory(childCategoryId);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
@@ -354,7 +356,7 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
-        var category = new Category(name) { Creator = SessionUser.User };
+        var category = new Category(name) { Creator = Sl.UserRepo.GetById(SessionUser.UserId) };
         category.Visibility = CategoryVisibility.Owner;
 
         var parentCategory = EntityCache.GetCategory(parentCategoryId);
@@ -703,10 +705,10 @@ public class EditCategoryController : BaseController
     public void SaveImage(int categoryId, string source, string wikiFileName = null, string guid = null, string licenseOwner = null)
     {
         if (source == "wikimedia")
-            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.User.Id);
+            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.UserId);
         if (source == "upload")
             Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.User.Id, licenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.UserId, licenseOwner);
     }
 
     [HttpGet]

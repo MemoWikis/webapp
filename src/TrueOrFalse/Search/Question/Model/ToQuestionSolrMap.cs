@@ -15,7 +15,7 @@ namespace TrueOrFalse.Search
                     .Where(r => r.Category != null)
                     .Select(r => r.Category.Id)));
 
-            var creator = new UserTinyModel(question.Creator);
+            var creator = new UserTinyModel(UserCacheItem.ToCacheUser(question.Creator));
 
             var result = new QuestionSolrMap
                 {

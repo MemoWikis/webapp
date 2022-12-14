@@ -15,8 +15,7 @@ public class VueQuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
-        var userQuestionValuation = UserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -38,7 +37,7 @@ public class VueQuestionController : BaseController
             question.SessionIndex = index;
         }
 
-        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
+        if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.User != null)
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
             question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
@@ -81,8 +80,7 @@ public class VueQuestionController : BaseController
     public JsonResult DeleteDetails(int questionId)
     {
         var question = _questionRepo.GetById(questionId);
-        var userTiny = new UserTinyModel(question.Creator);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(userTiny.Id, question);
+        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator.Id, question);
 
         return new JsonResult
         {

@@ -11,7 +11,7 @@ public class AuthorViewModel
     public int Id;
 
     public static List<AuthorViewModel> Convert(IList<User> authors) =>
-        Convert(authors.Select(author => new UserTinyModel(author)).ToList());
+        Convert(authors.Select(author => new UserTinyModel(EntityCache.GetUserById(author.Id))).ToList());
     public static List<AuthorViewModel> Convert(IList<UserTinyModel> authors)
     {
         return authors.Select(author => new AuthorViewModel

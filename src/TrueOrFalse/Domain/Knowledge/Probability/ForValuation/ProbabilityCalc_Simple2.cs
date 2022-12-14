@@ -4,7 +4,7 @@ using System.Linq;
 public class ProbabilityCalc_Simple2 : ProbabilityCalc_Abstract, IRegisterAsInstancePerLifetime
 {
     /// <returns>CorrectnessProbability as Percentage</returns>
-    public override ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, QuestionCacheItem question, User user)
+    public override ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, QuestionCacheItem question, UserCacheItem user)
     {
 	    if (!previousHistoryItems.Any())
 		    return ProbabilityCalcResult.GetResult(previousHistoryItems, user.CorrectnessProbability);

@@ -30,10 +30,10 @@ public class UserTinyModel : IUserTinyModel
     public bool IsMember { get; }
 
     [ScriptIgnore]
-    private readonly User _user;
+    private readonly UserCacheItem _user;
 
     [ScriptIgnore]
-    public User User => _user;
+    public UserCacheItem User => _user;
 
     public bool IsMemuchoUser { get; }
 
@@ -41,9 +41,9 @@ public class UserTinyModel : IUserTinyModel
     public bool IsUnknown { get; }
     public int FollowerCount { get;  }
 
-    public UserTinyModel(User user)
+    public UserTinyModel(UserCacheItem userCacheItem)
     {
-        _user = user;
+        _user = userCacheItem;
 
         if (_user == null)
         {
@@ -63,9 +63,9 @@ public class UserTinyModel : IUserTinyModel
         FacebookId = _user == null ? "null" : _user.FacebookId;
         GoogleId = _user == null ? "null" : _user.GoogleId;
         IsMemuchoUser = _user != null && _user.IsMemuchoUser;
-        Reputation = _user != null ? _user.Reputation :  0;
+        Reputation = _user != null ? _user.Reputation : 0;
         ReputationPos = _user != null ? _user.ReputationPos : 0;
-        IsMember = _user != null && _user.IsMember();
+        IsMember = _user != null && _user.IsMember;
         FollowerCount = _user != null ? _user.FollowerCount : 0;
         ShowWishKnowledge = _user != null && _user.ShowWishKnowledge;
     }

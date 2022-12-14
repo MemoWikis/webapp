@@ -15,7 +15,7 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
         Map(x => x.DataVersion);
         Map(x => x.Type);
 
-        References(x => x.Author);
+        Map(x => x.AuthorId).Column("Author_id");
 
         Map(x => x.DateCreated);
     }

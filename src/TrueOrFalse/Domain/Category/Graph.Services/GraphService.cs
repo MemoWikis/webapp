@@ -75,7 +75,7 @@ public class GraphService
 
     private static bool IsInWishknowledgeOrParentIsPersonalHomepage(bool isRootDirectParent, int userId, int parentId)
     {
-        return UserCache.IsInWishknowledge(userId, parentId) || isRootDirectParent;
+        return SessionUserCache.IsInWishknowledge(userId, parentId) || isRootDirectParent;
     }
 
     public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenIdsToCategoryCacheData(

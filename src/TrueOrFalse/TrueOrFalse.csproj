@@ -249,7 +249,8 @@
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\CategoryCachedData.cs" />
+    <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+    <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailService.cs" />
@@ -266,7 +267,6 @@
     <Compile Include="Domain\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />
-    <Compile Include="Domain\Category\Ops\OrderCategoriesByQuestionCountAndLevel.cs" />
     <Compile Include="Domain\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Category\CategoryValuation\CategoryInKnowledge.cs" />
@@ -316,11 +316,11 @@
     <Compile Include="Tools\Cache\CacheUpdater.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\QuestionCacheItem.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\ReferenceCacheItem.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheItem.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\CategoryCacheRelation.cs" />
-    <Compile Include="Tools\Cache\UserEntityCache\UserEntityCacheItem.cs" />
+    <Compile Include="Tools\Cache\EntityCache\QuestionCacheItem.cs" />
+    <Compile Include="Tools\Cache\EntityCache\ReferenceCacheItem.cs" />
+    <Compile Include="Tools\Cache\EntityCache\CategoryCacheItem.cs" />
+    <Compile Include="Tools\Cache\EntityCache\CategoryCacheRelation.cs" />
+    <Compile Include="Tools\Cache\SessionUserCache\SessionUserCacheItem.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
@@ -734,7 +734,7 @@
     <Compile Include="Domain\User\Badges\Type\BadgeTypes.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeTypesExt.cs" />
     <Compile Include="Domain\User\FollowerInfo.cs" />
-    <Compile Include="Domain\User\Persistence\FolowerMap.cs" />
+    <Compile Include="Domain\User\Persistence\FollowerInfoMap.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
@@ -812,8 +812,8 @@
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
     <Compile Include="Tools\Cache\EntityCache.cs" />
-    <Compile Include="Tools\Cache\UserCache\UserCache.cs" />
-    <Compile Include="Tools\Cache\UserCache\UserCacheItem.cs" />
+    <Compile Include="Tools\Cache\SessionUserCache\SessionUserCache.cs" />
+    <Compile Include="Tools\Cache\EntityCache\UserEntityCacheItem.cs" />
     <Compile Include="Domain\Category\RootCategory.cs" />
     <Compile Include="Tools\PersonalTopic.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ModifyCategoryRelation.cs" />
@@ -828,6 +828,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs238 .cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />

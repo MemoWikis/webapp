@@ -11,7 +11,7 @@ public class QuestionHistoryDetailModel : BaseModel
     public bool PrevRevExists;
     public bool NextRevExists;
 
-    public User Author;
+    public UserCacheItem Author;
     public string AuthorName;
     public string AuthorImageUrl;
 

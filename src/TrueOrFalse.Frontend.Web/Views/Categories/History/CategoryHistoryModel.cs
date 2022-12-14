@@ -115,7 +115,7 @@ public class CategoryChangeDayModel
                 break;
         }
 
-        var userTinyModel = new UserTinyModel(change.Author);
+        var userTinyModel = new UserTinyModel(EntityCache.GetUserById(change.AuthorId));
 
         var affectedParents = new CategoryCacheItem[] {};
         if (change.GetCategoryChangeData().AffectedParentIds != null)
@@ -137,7 +137,7 @@ public class CategoryChangeDayModel
             CategoryName = change.Category == null ? _catName : change.Category.Name,
             Label = label,
             Type = change.Type,
-            CreatorId = new UserTinyModel(change.Category.Creator).Id,
+            CreatorId = change.Category.Creator == null ? -1 : change.Category.Creator.Id,
             Visibility = change.GetCategoryChangeData().Visibility,
             CurrentVisibility = change.Category.Visibility,
             AffectedParents = affectedParents

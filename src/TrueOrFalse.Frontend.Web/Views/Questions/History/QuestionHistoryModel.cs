@@ -120,7 +120,7 @@ public class QuestionChangeDayModel
 
 public class QuestionChangeDetailModel
 {
-    public User Author;
+    public IUserTinyModel Author;
     public string AuthorName;
     public string AuthorImageUrl;
 
