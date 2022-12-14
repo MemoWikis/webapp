@@ -61,8 +61,8 @@ const editTopicRelationStore = useEditTopicRelationStore()
                         </div>
                     </div>
 
-                    <div v-if="userStore.isLoggedIn && topicStore.id != userStore.wikiId" class="dropdown-row"
-                        @click="editTopicRelationStore.addToPersonalWiki(topicStore.id)">
+                    <div v-if="userStore.isLoggedIn && userStore.personalWiki && topicStore.id != userStore.personalWiki.Id"
+                        class="dropdown-row" @click="editTopicRelationStore.addToPersonalWiki(topicStore.id)">
                         <div class="dropdown-icon">
                             <i class="fa fa-plus-square"></i>
                         </div>
