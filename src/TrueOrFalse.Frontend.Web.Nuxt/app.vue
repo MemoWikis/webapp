@@ -6,15 +6,17 @@ import { Page } from './components/shared/pageEnum'
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 
+const headers = useRequestHeaders(['cookie']) as HeadersInit
+
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUser/GetCurrentUser', {
-  baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+  baseURL: process.server ? config.public.serverBase : config.public.clientBase,
   method: 'Get',
   credentials: 'include',
   mode: 'no-cors',
-  headers: useRequestHeaders(['cookie']) as any
+  headers,
 })
 if (currentUser.value)
-  userStore.initUserStore(currentUser.value)
+  userStore.initUser(currentUser.value)
 
 interface FooterTopics {
   RootTopic: Topic
@@ -26,7 +28,7 @@ interface FooterTopics {
 }
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
   method: 'Get',
-  baseURL: config.public.serverBase,
+  baseURL: process.server ? config.public.serverBase : config.public.clientBase,
   mode: 'no-cors',
 })
 
@@ -51,7 +53,7 @@ function setPage(type: Page | null = null) {
   <LazyClientOnly>
     <LazyUserLogin v-if="!userStore.isLoggedIn" />
     <LazySpinner />
-    <LazyAlert />
+    <!-- <LazyAlert /> -->
   </LazyClientOnly>
   <div>
     <section id="GlobalLicense">

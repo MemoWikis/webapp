@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
 import { useUserStore } from '../user/userStore'
-import { Author } from '../author/author'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
@@ -16,17 +15,7 @@ function openUrl(val: any) {
     navigateTo(val.Url)
 }
 const userStore = useUserStore()
-const currentUser = ref(null as Author | null)
 
-if (userStore.isLoggedIn) {
-
-    const data = {
-        id: userStore.id
-    }
-    currentUser.value = await $fetch<Author>('/apiVue/Author/GetAuthor/', {
-        method: 'POST', body: data, mode: 'cors', credentials: 'include'
-    })
-}
 const showRegisterButton = ref(false)
 function handleScroll() {
     var scrollTop = document.documentElement.scrollTop
@@ -39,7 +28,6 @@ onBeforeMount(() => {
     if (!userStore.isLoggedIn) {
         handleScroll()
     }
-
 })
 const headerContainer = ref(null)
 const headerExtras = ref(null)
@@ -79,8 +67,7 @@ onMounted(() => {
                         </div>
                         <VDropdown :distance="6" v-show="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image v-if="currentUser" :src="currentUser.ImgUrl" :style="ImageStyle.Author"
-                                    class="header-author-icon" />
+                                <Image :src="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon" />
                                 <div class="header-user-name">
                                     {{ userStore.name }}
                                 </div>
