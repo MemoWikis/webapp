@@ -26,7 +26,7 @@ public class UserSettingsController : BaseController
             {
                 var result = UpdateKnowledgeReportInterval.Run(Request["userId"].ToInt(), Request["val"].ToInt(), Request["expires"], Request["token"]);
                 userSettingsModel.Message = result.ResultMessage;
-                if (result.Success && (SessionUser.User == result.AffectedUser))
+                if (result.Success && ((UserCacheItem)SessionUser.User).Id == result.AffectedUser.Id)
                 {
                     SessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
                     userSettingsModel.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
@@ -53,6 +53,8 @@ public class UserSettingsController : BaseController
         SessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
         SessionUser.User.KnowledgeReportInterval = model.KnowledgeReportInterval;
 
+        EntityCache.AddOrUpdate(SessionUser.User);
+
         _userRepo.Update(SessionUser.User);
         ReputationUpdate.ForUser(SessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
@@ -65,7 +67,7 @@ public class UserSettingsController : BaseController
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {
-        UserImageStore.Run(file, SessionUser.User.Id);
+        UserImageStore.Run(file, SessionUser.UserId);
         return UserSettings();
     }
 }

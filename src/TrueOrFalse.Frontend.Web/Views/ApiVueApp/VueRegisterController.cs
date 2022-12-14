@@ -57,7 +57,8 @@ public class VueRegisterController : BaseController
         user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
         SessionUser.User.StartTopicId = category.Id;
-        UserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
 
             return Json(new
         {

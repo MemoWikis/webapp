@@ -10,7 +10,11 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual int DataVersion { get; set; }
 
-    public virtual User Author { get; set; }
+    public virtual int AuthorId { get; set; }
+
+    public virtual UserCacheItem Author => _author ??= EntityCache.GetUserById(AuthorId);
+
+    private UserCacheItem _author;
 
     public virtual QuestionChangeType Type { get; set; } 
 

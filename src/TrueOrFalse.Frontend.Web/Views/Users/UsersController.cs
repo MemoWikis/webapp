@@ -96,7 +96,6 @@ public class UsersController : BaseController
         userRepo.Update(userToFollow);
         userToFollow.AddFollower(User_());
         userRepo.UpdateUserFollowerCount(userId);
-        UserCache.AddOrUpdate(userToFollow);
     }
 
     [HttpPost][AccessOnlyAsLoggedIn]
@@ -108,6 +107,5 @@ public class UsersController : BaseController
         userRepo.RemoveFollowerInfo(followerInfoToRemove);
         R<UserActivityRepo>().DeleteForUser(UserId, userId);
         userRepo.UpdateUserFollowerCount(userId);
-        UserCache.AddOrUpdate(userToUnfollow);
     }
 }

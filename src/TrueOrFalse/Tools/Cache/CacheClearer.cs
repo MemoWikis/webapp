@@ -4,7 +4,7 @@
     {
         public static void Run()
         {
-            UserCache.Clear();
+            SessionUserCache.Clear();
             EntityCache.Clear();
 
             EntityCache.Init();

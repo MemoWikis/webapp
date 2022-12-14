@@ -18,13 +18,16 @@ public class AccountController : BaseController
         var membership = model.ToMembership();
         Sl.MembershipRepo.Create(membership);
 
-        SessionUser.User.MembershipPeriods.Add(membership);
+        var updatedUser = Sl.UserRepo.GetById(SessionUser.UserId);
 
+        SessionUser.User.AssignValues(updatedUser);
+        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(updatedUser));
+        
         SendEmail.Run(new MailMessage(
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "We have a new member",
-            $"New member: {SessionUser.User.Name} {SessionUser.User.Id}"), MailMessagePriority.High);
+            $"New member: {SessionUser.User.Name} {SessionUser.UserId}"), MailMessagePriority.High);
 
         return View("~/Views/Users/Account/Membership.aspx", new MembershipModel
         {

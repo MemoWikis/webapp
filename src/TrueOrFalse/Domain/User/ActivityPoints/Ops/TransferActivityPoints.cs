@@ -6,7 +6,7 @@
         {
             foreach (var activityPoints in SessionUser.ActivityPoints)
             {
-                activityPoints.User = SessionUser.User;
+                activityPoints.UserId = SessionUser.UserId;
                 Sl.ActivityPointsRepo.Create(activityPoints);
             }
             SessionUser.ActivityPoints.Clear();

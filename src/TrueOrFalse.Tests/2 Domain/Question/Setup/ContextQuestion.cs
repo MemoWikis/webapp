@@ -125,7 +125,7 @@ public class ContextQuestion
     {
         var lastQuestion = All.Last();
 
-        QuestionInKnowledge.Pin(lastQuestion.Id, user);
+        QuestionInKnowledge.Pin(lastQuestion.Id, user.Id);
 
         return this;
     }
@@ -199,25 +199,20 @@ public class ContextQuestion
     }
 
 
-    public static List<UserCacheItem> SetWuwi(int amountQuestion)
+    public static List<SessionUserCacheItem> SetWuwi(int amountQuestion)
     {
         var contextUser = ContextUser.New();
         var users = contextUser.Add().All;
         var categoryList = ContextCategory.New().Add("Daniel").All;
         categoryList.First().Id = 1; 
 
-        var userCacheItem = new UserCacheItem();
-        userCacheItem.User = users.FirstOrDefault();
-        userCacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>();
-        userCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-
         var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => Sl.UserRepo.Create(u));
-        UserCache.AddOrUpdate(users.FirstOrDefault());
+        SessionUserCache.AddOrUpdate(users.FirstOrDefault());
 
         PutQuestionValuationsIntoUserCache(questions, users);
 
-        return UserCache.GetAllCacheItems();
+        return SessionUserCache.GetAllCacheItems();
     }
 
     private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)
@@ -235,8 +230,8 @@ public class ContextQuestion
             else
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
 
-            questionValuation.User = UserCache.CreateItemFromDatabase(users.FirstOrDefault().Id) ;
-            UserCache.AddOrUpdate(questionValuation);
+            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id) ;
+            SessionUserCache.AddOrUpdate(questionValuation);
         }
     }
 }

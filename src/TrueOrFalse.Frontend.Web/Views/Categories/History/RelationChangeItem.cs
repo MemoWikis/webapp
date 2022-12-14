@@ -44,7 +44,7 @@ public class RelationChangeItem
         CategoryEditData_V2 selectedRevision, 
         int itemCreatorId)
     {
-        var canViewRevisions = PermissionCheck.CanView(UserCache.GetUser(itemCreatorId),
+        var canViewRevisions = PermissionCheck.CanView(itemCreatorId,
             previousRevision.Visibility,
             selectedRevision.Visibility);
 

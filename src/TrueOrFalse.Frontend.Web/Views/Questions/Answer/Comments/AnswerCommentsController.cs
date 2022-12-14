@@ -15,7 +15,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = saveCommentJson.questionId;
         comment.Text = saveCommentJson.text;
         comment.Title = saveCommentJson.title;
-        comment.Creator = SessionUser.User;
+        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
 
 
         Resolve<CommentRepository>().Create(comment);
@@ -49,7 +49,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
         comment.Text = text;
-        comment.Creator = SessionUser.User;
+        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
 
         commentRepo.Create(comment);
 
@@ -91,7 +91,7 @@ public class AnswerCommentsController : BaseController
         if (SessionUser.User != null)
         {
             var currentUserImageUrl =
-                new UserImageSettings(SessionUser.User.Id).GetUrl_128px_square(SessionUser.User).Url;
+                new UserImageSettings(SessionUser.UserId).GetUrl_128px_square(SessionUser.User).Url;
             return currentUserImageUrl;
         }
 
@@ -103,7 +103,7 @@ public class AnswerCommentsController : BaseController
     {
         if (SessionUser.User != null)
         {
-            return SessionUser.User.Id;
+            return SessionUser.UserId;
         }
         return -1;
     }

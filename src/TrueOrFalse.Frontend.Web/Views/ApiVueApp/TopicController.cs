@@ -29,7 +29,7 @@ public class TopicController : BaseController
                 AuthorIds = category.AuthorIds,
                 Authors = category.AuthorIds.Select(id =>
                 {
-                    var author = UserCache.GetUser(id);
+                    var author = EntityCache.GetUserById(id);
                     return new
                     {
                         Id = id,
@@ -40,7 +40,7 @@ public class TopicController : BaseController
                     };
                 }).ToArray(),
                 IsWiki = category.IsStartPage(),
-                CurrentUserIsCreator = SessionUser.User != null && SessionUser.User.Id == category.Creator.Id,
+                CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == category.Creator.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
                 QuestionCount = category.CountQuestionsAggregated
             }, JsonRequestBehavior.AllowGet);

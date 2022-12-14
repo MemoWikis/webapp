@@ -40,7 +40,7 @@ public class AlgoTester
         AlgoInfo algo)
 	{
 	    var question = EntityCache.GetQuestion(answer.Question.Id);
-	    var user = answer.GetUser();
+	    var user = EntityCache.GetUserById(answer.UserId);
 
         var result = algo.Algorithm.Run(question, user, allPreviousItems);
 

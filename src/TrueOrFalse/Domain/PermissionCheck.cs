@@ -5,9 +5,9 @@ public class PermissionCheck
 {
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.User, category);
+    public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.UserId, category);
 
-    public static bool CanView(User user, CategoryCacheItem category)
+    public static bool CanView(int userId, CategoryCacheItem category)
     {
         if (category == null)
             return false;
@@ -15,33 +15,33 @@ public class PermissionCheck
         if (category.Visibility == CategoryVisibility.All)
             return true;
 
-        if (category.Visibility == CategoryVisibility.Owner && category.Creator == user)
+        if (category.Visibility == CategoryVisibility.Owner && category.Creator.Id == userId)
             return true;
 
         return false;
     }
 
-    public static bool CanView(User creator, CategoryVisibility visibility)
+    public static bool CanView(int creatorId, CategoryVisibility visibility)
     {
         if (visibility == CategoryVisibility.All)
             return true;
 
-        if (visibility == CategoryVisibility.Owner && creator == SessionUser.User)
+        if (visibility == CategoryVisibility.Owner && creatorId == SessionUser.UserId)
             return true;
 
         return false;
     }
 
-    public static bool CanView(User creator, CategoryVisibility previousVisibility,
+    public static bool CanView(int creatorId, CategoryVisibility previousVisibility,
         CategoryVisibility selectedVisibility)
     {
-        return CanView(creator, previousVisibility) && CanView(creator, selectedVisibility);
+        return CanView(creatorId, previousVisibility) && CanView(creatorId, selectedVisibility);
     }
 
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
     public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(SessionUser.User, category);
-    public static bool CanEdit(User user, CategoryCacheItem category)
+    public static bool CanEdit(SessionUserCacheItem user, CategoryCacheItem category)
     {
         if (user == null || category == null)
             return false;
@@ -57,7 +57,7 @@ public class PermissionCheck
 
     public static bool CanDelete(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanDelete(CategoryCacheItem category) => CanDelete(SessionUser.User, category);
-    public static bool CanDelete(User user, CategoryCacheItem category)
+    public static bool CanDelete(SessionUserCacheItem user, CategoryCacheItem category)
     {
         if (user == null || category == null)
             return false;
@@ -65,15 +65,15 @@ public class PermissionCheck
         if (category.IsStartPage())
             return false;
 
-        if (category.Creator == user || user.IsInstallationAdmin)
+        if (category.Creator.Id == user.Id || user.IsInstallationAdmin)
             return true;
 
         return false;
     }
 
-    public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.User, question);
+    public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.UserId, question);
 
-    public static bool CanView(User user, QuestionCacheItem question)
+    public static bool CanView(int userId, QuestionCacheItem question)
     {
         if (question == null)
             return false;
@@ -81,14 +81,14 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator == user)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == userId)
             return true;
 
         return false;
     }
-    public static bool CanView(Question question) => CanView(SessionUser.User, question);
+    public static bool CanView(Question question) => CanView(SessionUser.UserId, question);
 
-    public static bool CanView(User user, Question question)
+    public static bool CanView(int userId, Question question)
     {
         if (question == null)
             return false;
@@ -96,7 +96,7 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator == user)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == userId)
             return true;
 
         return false;
@@ -104,7 +104,7 @@ public class PermissionCheck
 
     public static bool CanEdit(Question question) => CanEdit(SessionUser.User, question);
 
-    public static bool CanEdit(User user, Question question)
+    public static bool CanEdit(SessionUserCacheItem user, Question question)
     {
         if (user == null || question == null)
             return false;
@@ -113,7 +113,7 @@ public class PermissionCheck
     }
     public static bool CanEdit(QuestionCacheItem question) => CanEdit(SessionUser.User, question);
 
-    public static bool CanEdit(User user, QuestionCacheItem question)
+    public static bool CanEdit(SessionUserCacheItem user, QuestionCacheItem question)
     {
         if (user == null || question == null)
             return false;
@@ -123,12 +123,12 @@ public class PermissionCheck
 
     public static bool CanDelete(Question question) => CanDelete(SessionUser.User, question);
 
-    public static bool CanDelete(User user, Question question)
+    public static bool CanDelete(SessionUserCacheItem user, Question question)
     {
         if (user == null || question == null)
             return false;
 
-        if (question.Creator == user || user.IsInstallationAdmin)
+        if (question.Creator?.Id == user.Id || user.IsInstallationAdmin)
             return true;
 
         return false;

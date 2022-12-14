@@ -37,7 +37,9 @@ public class QuestionCacheItem
     public virtual IList<ReferenceCacheItem> References { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
-    public virtual User Creator { get; set; }
+    public int CreatorId { get; set; }
+
+    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
 
     public virtual int TotalTrueAnswers { get; set; }
     public virtual int TotalFalseAnswers { get; set; }
@@ -167,7 +169,7 @@ public class QuestionCacheItem
         return answerText;
     }
 
-    public virtual bool IsInWishknowledge() => UserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
+    public virtual bool IsInWishknowledge() => SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
 
     public virtual string ToLomXml() => LomXml.From(this);
@@ -178,7 +180,6 @@ public class QuestionCacheItem
     public virtual bool SkipMigration { get; set; }
 
     public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser() => Categories.Where(PermissionCheck.CanView);
-
 
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(List<Question> questions) =>
         questions.Select(q => ToCacheQuestion(q));
@@ -198,7 +199,7 @@ public class QuestionCacheItem
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
             Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList(),
-            Creator = question.Creator,
+            CreatorId = question.Creator?.Id ?? -1,
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,
             DescriptionHtml = question.DescriptionHtml,

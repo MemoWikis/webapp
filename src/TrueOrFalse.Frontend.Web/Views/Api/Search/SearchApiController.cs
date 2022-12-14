@@ -88,14 +88,14 @@ public class SearchApiController : BaseController
 
         var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
         var personalWikiItem = FillSearchCategoryItem(personalWiki);
-        var previouslySelectedCategoriesInWiki = new List<SearchCategoryItem>();
+        var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
         
-        if (SessionUser.User.AddToWikiHistoryIds != null && SessionUser.User.AddToWikiHistoryIds.Count > 0)
+        if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var categoryId in SessionUser.User.AddToWikiHistoryIds)
+            foreach (var categoryId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
-                previouslySelectedCategoriesInWiki.Add(FillSearchCategoryItem(c));
+                recentlyUsedRelationTargetTopics.Add(FillSearchCategoryItem(c));
             }
         }
 
@@ -103,7 +103,7 @@ public class SearchApiController : BaseController
         {
             success = true,
             personalWiki = personalWikiItem,
-            addToWikiHistory = previouslySelectedCategoriesInWiki.ToArray()
+            addToWikiHistory = recentlyUsedRelationTargetTopics.ToArray()
         });
     }
 

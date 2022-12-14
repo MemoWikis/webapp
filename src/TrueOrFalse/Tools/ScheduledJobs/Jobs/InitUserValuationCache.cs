@@ -14,7 +14,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 var dataMap = context.JobDetail.JobDataMap;
 
-                UserCache.CreateItemFromDatabase(dataMap.GetInt("userId"));
+                SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"));
 
             }, "InitUserValuationCache");
         }

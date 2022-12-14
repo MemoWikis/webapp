@@ -58,7 +58,7 @@ public class QuestionListController : BaseController
             answerCount = history.TimesAnsweredUser,
             correctAnswerCount = history.TimesAnsweredUserTrue,
             wrongAnswerCount = history.TimesAnsweredUserWrong,
-            canBeEdited = (question.Creator == SessionUser.User) || IsInstallationAdmin,
+            canBeEdited = question.Creator.Id == SessionUser.User.Id || IsInstallationAdmin,
         });
 
         return json;
@@ -79,7 +79,7 @@ public class QuestionListController : BaseController
         var model = new AnswerQuestionModel(question, true);
         if (SessionUser.IsLoggedIn)
         {
-            var userQuestionValuation = UserCache.GetItem(SessionUser.UserId).QuestionValuations;
+            var userQuestionValuation = SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations;
 
             if (userQuestionValuation.ContainsKey(questionId))
                 hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;

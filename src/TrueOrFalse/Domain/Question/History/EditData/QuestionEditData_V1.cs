@@ -7,6 +7,7 @@ public class QuestionEditData_V1 : QuestionEditData
 
     public QuestionEditData_V1(Question question, bool imageWasChanged)
     {
+        //TextHtml is missing here
         QuestionText = question.Text;
         QuestionTextExtended = question.TextExtended;
         ImageWasChanged = imageWasChanged;

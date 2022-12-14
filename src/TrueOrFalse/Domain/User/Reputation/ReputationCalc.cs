@@ -13,7 +13,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public ReputationCalcResult Run(User user)
+    public ReputationCalcResult Run(UserCacheItem user)
     {
         var result = new ReputationCalcResult();
         result.User = new UserTinyModel(user);

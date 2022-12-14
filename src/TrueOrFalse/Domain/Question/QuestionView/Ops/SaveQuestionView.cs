@@ -19,9 +19,9 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Guid questionViewGuid, QuestionCacheItem question, User user)
+    public void Run(Guid questionViewGuid, QuestionCacheItem question, IUserTinyModel user)
     {
-        Run(questionViewGuid, question, user == null ? -1 : user.Id);
+        Run(questionViewGuid, question, user?.Id ?? -1);
     }
 
     public void Run(

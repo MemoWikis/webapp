@@ -7,20 +7,20 @@ public class AddToWiki_tests : BaseTest
     public void Add_Category_To_Wiki_Should_Set_Correct_HistoryField_In_User()
     {
         var user = new User();
-        user.AddToWikiHistory = "";
+        user.RecentlyUsedRelationTargetTopics = "";
         var userRepository = Resolve<UserRepo>();
         userRepository.Create(user);
 
-        Assert.That(userRepository.GetAll().FirstOrDefault().AddToWikiHistory, Is.EqualTo(""));
+        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo(""));
 
-        user.AddNewIdToWikiHistory(3);
-        Assert.That(userRepository.GetAll().FirstOrDefault().AddToWikiHistory, Is.EqualTo("3"));
+        RecentlyUsedRelationTargets.Add(3, user.Id);
+        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3"));
 
-        user.AddNewIdToWikiHistory(6);
-        user.AddNewIdToWikiHistory(12);
-        Assert.That(userRepository.GetAll().FirstOrDefault().AddToWikiHistory, Is.EqualTo("3,6,12"));
+        RecentlyUsedRelationTargets.Add(6, user.Id);
+        RecentlyUsedRelationTargets.Add(12, user.Id);
+        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3,6,12"));
 
-        user.AddNewIdToWikiHistory(4);
-        Assert.That(userRepository.GetAll().FirstOrDefault().AddToWikiHistory, Is.EqualTo("6,12,4"));
+        RecentlyUsedRelationTargets.Add(4, user.Id);
+        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("6,12,4"));
     }
 }

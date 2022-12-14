@@ -48,7 +48,7 @@ public class CrumbtrailService
         {
             var parents = category.ParentCategories();
             var rootWikiParent = parents.FirstOrDefault(c => c == root);
-            parents = OrderParentList(parents, root.Creator);
+            parents = OrderParentList(parents, root.Creator.Id);
             if (rootWikiParent != null)
                 AddBreadcrumbParent(result, rootWikiParent, root);
             else
@@ -83,7 +83,7 @@ public class CrumbtrailService
             return;
 
         var parents = categoryCacheItem.ParentCategories();
-        parents = OrderParentList(parents, root.Creator);
+        parents = OrderParentList(parents, root.Creator.Id);
         
         if (parents.Any(c => c.Id == root.Id))
             crumbtrail.Add(root);
@@ -106,10 +106,10 @@ public class CrumbtrailService
 
     }
 
-    private static List<CategoryCacheItem> OrderParentList(IList<CategoryCacheItem> parents, User wikiCreator)
+    private static List<CategoryCacheItem> OrderParentList(IList<CategoryCacheItem> parents, int wikiCreatorId)
     {
-        var parentsWithWikiCreator = parents.Where(c => c.Creator == wikiCreator).Select(c => c);
-        var parentsWithoutWikiCreator = parents.Where(c => c.Creator != wikiCreator).Select(c => c);
+        var parentsWithWikiCreator = parents.Where(c => c.Creator.Id == wikiCreatorId).Select(c => c);
+        var parentsWithoutWikiCreator = parents.Where(c => c.Creator.Id != wikiCreatorId).Select(c => c);
         var orderedParents = new List<CategoryCacheItem>();
         orderedParents.AddRange(parentsWithWikiCreator);
         orderedParents.AddRange(parentsWithoutWikiCreator);
@@ -139,7 +139,7 @@ public class CrumbtrailService
 
                     if (SessionUser.IsLoggedIn)
                     {
-                        var userWikiId = UserCache.GetUser(SessionUser.UserId).StartTopicId;
+                        var userWikiId = SessionUserCache.GetUser(SessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

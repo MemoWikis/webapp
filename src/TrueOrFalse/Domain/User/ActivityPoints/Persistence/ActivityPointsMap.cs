@@ -7,7 +7,7 @@ public class ActivityPointsMap : ClassMap<ActivityPoints>
         Id(x => x.Id);
         Map(x => x.Amount);
         Map(x => x.DateEarned);
-        References(x => x.User);
+        Map(x => x.UserId).Column("User_id");
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

@@ -36,7 +36,7 @@ public class MessageModel : BaseModel
         }
 
         Messages = Resolve<MessageRepo>()
-            .GetForUser(SessionUser.User.Id, true)
+            .GetForUser(SessionUser.UserId, true)
             .Select(m => new MessageModelRow(m))
             .ToList();
 

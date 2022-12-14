@@ -106,12 +106,12 @@ public class AnswerBodyModel : BaseModel
     private void Init(QuestionCacheItem question)
     {
         QuestionId = question.Id;
-        var creator = Sl.UserRepo.GetByEmailEager(question.Creator.EmailAddress);
+        var creator = question.Creator == null ? null : EntityCache.GetUserById(question.Creator.Id);
         Creator = new UserTinyModel(creator);
         IsCreator = Creator.Id == UserId;
         HasCategories = question.Categories.Any();
         var questionChangeList = Sl.QuestionChangeRepo.GetForQuestion(QuestionId);
-        QuestionChangeAuthor = questionChangeList.Count == 0 ? Creator : new UserTinyModel(Sl.UserRepo.GetByEmailEager(questionChangeList.OrderBy(q => q.Id).LastOrDefault().Author.EmailAddress));
+        QuestionChangeAuthor = questionChangeList.Count == 0 ? Creator : new UserTinyModel(EntityCache.GetUserById(questionChangeList.OrderBy(q => q.Id).LastOrDefault()!.AuthorId));
 
         if (HasCategories)
         {
@@ -122,7 +122,7 @@ public class AnswerBodyModel : BaseModel
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
         QuestionLastEditedOn = DateTimeUtils.TimeElapsedAsText(question.DateModified);
         Question = question;
-        Question.Creator = creator;
+        Question.CreatorId = creator?.Id ?? -1;
 
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));

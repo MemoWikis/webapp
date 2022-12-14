@@ -7,7 +7,7 @@ public class UserCardBaseModel:BaseResolve
     public int AmountWishCountQuestions;
     public bool IsCurrentUser;
     public bool IsLoggedIn => SessionUser.IsLoggedIn;
-    public User User => SessionUser.User;
+    public SessionUserCacheItem User => SessionUser.User;
     public UserTinyModel Author;
 
 
@@ -16,7 +16,7 @@ public class UserCardBaseModel:BaseResolve
         if (authors.Count == 1)
         {
             Author = authors[0];
-            var userCashUser = UserCache.GetItem(Author.Id).User;
+            var userCashUser = SessionUserCache.GetItem(Author.Id);
             Author.ShowWishKnowledge = userCashUser.ShowWishKnowledge;
             Reputation = userCashUser.Reputation;
 

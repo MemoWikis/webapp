@@ -15,7 +15,7 @@ public class QuestionChangeMap : ClassMap<QuestionChange>
         Map(x => x.DataVersion);
         Map(x => x.DateCreated);
 
-        References(x => x.Author);
+        Map(x => x.AuthorId).Column("Author_Id");
     }
 }
 

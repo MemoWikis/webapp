@@ -5,7 +5,7 @@ using TrueOrFalse.Web;
 
 public class BreadCrumbModel : BaseModel
 {
-    public User User { get; set; }
+    public UserCacheItem User { get; set; }
     public string UserImage = "";
     public string UserName = "";
     public string ToolTipToHomepage = "Zur Startseite";
@@ -16,7 +16,7 @@ public class BreadCrumbModel : BaseModel
         if (IsLoggedIn)
         {
             UserName = SessionUser.User.Name;
-            var imageSetttings = new UserImageSettings(SessionUser.User.Id);
+            var imageSetttings = new UserImageSettings(SessionUser.UserId);
             UserImage = imageSetttings.GetUrl_30px_square(SessionUser.User).Url;
             ToolTipToHomepage = "Zu deinem Wiki";
         }

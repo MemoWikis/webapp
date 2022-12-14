@@ -49,8 +49,8 @@ public class SegmentationController : BaseController
 
         if (IsLoggedIn)
         {
-            userValuation = UserCache.GetItem(UserId).CategoryValuations;
-            startTopicId = UserCache.GetUser(UserId).StartTopicId;
+            userValuation = SessionUserCache.GetItem(UserId).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(UserId).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
@@ -64,7 +64,7 @@ public class SegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoryData(int categoryId)
     {
-        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, UserCache.GetItem(UserId).CategoryValuations, UserCache.GetUser(UserId).StartTopicId) : GetCategoryCardData(categoryId);
+        var categoryCardData = IsLoggedIn ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(UserId).CategoryValuations, SessionUserCache.GetUser(UserId).StartTopicId) : GetCategoryCardData(categoryId);
         return categoryCardData != null ? Json(categoryCardData) : Json("");
     }
 

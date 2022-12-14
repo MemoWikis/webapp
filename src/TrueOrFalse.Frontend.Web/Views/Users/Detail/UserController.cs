@@ -16,7 +16,7 @@ public class UserController : BaseController
     [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult User(string userName, int id)
     {
-        var user = _userRepo.GetById(id);
+        var user = EntityCache.GetUserById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
         return View(_viewLocation, new UserModel(user, isActiveTabKnowledge: true));
@@ -26,7 +26,7 @@ public class UserController : BaseController
     [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult Badges(string userName, int id)
     {
-        var user = _userRepo.GetById(id);
+        var user = EntityCache.GetUserById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
         return View(_viewLocation, new UserModel(user, isActiveTabBadges: true));
@@ -35,7 +35,7 @@ public class UserController : BaseController
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {
-        UserImageStore.Run(file, SessionUser.User.Id);
-        return User(SessionUser.User.Name, SessionUser.User.Id);
+        UserImageStore.Run(file, SessionUser.UserId);
+        return User(SessionUser.User.Name, SessionUser.UserId);
     }
 }
