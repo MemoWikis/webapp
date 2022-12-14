@@ -44,6 +44,12 @@ onBeforeMount(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', resize);
 })
+
+function scrollToChildTopics() {
+    const s = document.getElementById('Segmentation')
+    if (s)
+        s.scrollIntoView({ behavior: 'smooth' })
+}
 </script>
 
 <template>
@@ -55,7 +61,8 @@ onUnmounted(() => {
         </h1>
         <div id="TopicHeaderDetails">
 
-            <div v-if="topicStore.childTopicCount > 0" class="topic-detail">
+            <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
+                v-tooltip="'Alle Unterthemen'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" />
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
@@ -63,7 +70,7 @@ onUnmounted(() => {
             <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
             </div>
 
-            <div v-if="topicStore.parentTopicCount > 0" class="topic-detail">
+            <div v-if="topicStore.parentTopicCount > 0" class="topic-detail ">
                 <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
                 <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
             </div>
@@ -85,8 +92,9 @@ onUnmounted(() => {
             </LazyNuxtLink>
 
             <VDropdown :distance="6">
-                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn">+{{ lastAuthors.length
-                }}</button>
+                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn"
+                    :class="{ 'long': lastAuthors.length > 9 }">+{{ lastAuthors.length
+                    }}</button>
                 <template #popper>
                     <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
                         <div class="dropdown-icon">
@@ -142,6 +150,10 @@ onUnmounted(() => {
         cursor: pointer;
         transition: all .1s ease-in-out;
 
+        &.long {
+            padding: 0 4px;
+        }
+
         &:hover {
             background: @memo-blue;
             color: white;
@@ -173,6 +185,16 @@ onUnmounted(() => {
 
             .topic-detail-label {
                 padding-left: 6px;
+            }
+
+            &.clickable {
+                cursor: pointer;
+
+                &:hover {
+                    color: @memo-blue-link;
+                }
+
+                transition: color ease-in-out 0.2s;
             }
         }
 
