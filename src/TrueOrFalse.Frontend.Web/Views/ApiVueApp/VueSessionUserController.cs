@@ -27,11 +27,7 @@ public class VueSessionUserController : BaseController
             {
                 Success = true,
                 Message = "",
-                Id = SessionUser.UserId,
-                WikiId = SessionUser.User.StartTopicId,
-                IsAdmin = SessionUser.IsInstallationAdmin,
-                Name = SessionUser.User.Name,
-                PersonalWikiId = SessionUser.User.StartTopicId
+                CurrentUser = GetCurrentUser()
             });
         }
 
@@ -68,18 +64,21 @@ public class VueSessionUserController : BaseController
             else type = UserType.Normal;
         }
 
-
-        var data = new
+        return Json(new
         {
             IsLoggedIn = SessionUser.IsLoggedIn,
-            UserId = SessionUser.UserId,
+            Id = SessionUser.UserId,
             Name = SessionUser.IsLoggedIn ? SessionUser.User.Name : "",
             IsAdmin = SessionUser.IsInstallationAdmin,
-            WikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
-            Type = type
-        };
-
-        return Json(data, JsonRequestBehavior.AllowGet);
+            PersonalWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
+            Type = type,
+            ImgUrl = SessionUser.IsLoggedIn
+                ? new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url
+                : "",
+            Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
+            ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
+            PersonalWiki = new TopicController().GetTopic(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
+        }, JsonRequestBehavior.AllowGet);
     }
 
     private enum UserType

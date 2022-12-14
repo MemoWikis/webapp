@@ -7,13 +7,13 @@ import { Page } from '~~/components/shared/pageEnum'
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
-
+const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
-        baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+        baseURL: process.server ? config.public.serverBase : config.public.clientBase,
         credentials: 'include',
         mode: 'no-cors',
-        // headers: useRequestHeaders(['cookie']) as HeadersInit
+        headers
     })
 
 if (topic.value != null) {
