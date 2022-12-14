@@ -13,14 +13,14 @@ public class AddToWiki_tests : BaseTest
 
         Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo(""));
 
-        RecentlyUsedRelationTargets.Add(3, user.Id);
+        RecentlyUsedRelationTargets.Add(user.Id, 3);
         Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3"));
 
-        RecentlyUsedRelationTargets.Add(6, user.Id);
-        RecentlyUsedRelationTargets.Add(12, user.Id);
+        RecentlyUsedRelationTargets.Add(user.Id, 6);
+        RecentlyUsedRelationTargets.Add(user.Id, 12);
         Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3,6,12"));
 
-        RecentlyUsedRelationTargets.Add(4, user.Id);
+        RecentlyUsedRelationTargets.Add(user.Id, 4);
         Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("6,12,4"));
     }
 }
