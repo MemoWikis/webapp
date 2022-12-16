@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class RecentlyUsedRelationTargets
 {
-    public static void Add(int topicId, int userId)
+    public static void Add(int userId, int topicId)
     {
         var userCacheItem = EntityCache.GetUserById(userId);
 
