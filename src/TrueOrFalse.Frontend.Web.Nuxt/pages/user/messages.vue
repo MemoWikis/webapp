@@ -5,10 +5,15 @@ onBeforeMount(() => {
     emit('setPage', Page.Messages)
 })
 const config = useRuntimeConfig()
-
+const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { data: model } = await useFetch<any>(`/apiVue/VueUserMessages/Get/`, {
-    baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
+    baseURL: process.client ? config.public.clientBase : config.public.serverBase,
+    credentials: 'include',
     mode: 'no-cors',
+    onResponse({ options }) {
+        if (process.server)
+            options.headers = headers
+    }
 })
 
 async function loadAll() {

@@ -13,7 +13,10 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         baseURL: process.server ? config.public.serverBase : config.public.clientBase,
         credentials: 'include',
         mode: 'no-cors',
-        headers
+        onResponse({ options }) {
+            if (process.server)
+                options.headers = headers
+        }
     })
 
 if (topic.value != null) {

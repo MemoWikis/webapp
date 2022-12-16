@@ -35,8 +35,8 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>
                         <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
-                            <LazySearch :search-type="SearchType.All" :show-search="showSearch"
-                                v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
+                            <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
+                                id="SmallHeaderSearchComponent" />
                         </div>
                     </div>
                     <div id="loginAndHelp">

@@ -2,6 +2,7 @@
 using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Frontend.Web.Code;
+using VueApp;
 
 public class VueRegisterController : BaseController
 {
@@ -54,21 +55,48 @@ public class VueRegisterController : BaseController
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
-        user.StartTopicId = category.Id;
         Sl.CategoryRepo.Create(category);
-        SessionUser.User.StartTopicId = category.Id;
-        SessionUserCache.AddOrUpdate(user);
-        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
+        user.StartTopicId = category.Id;
 
-            return Json(new
+        Sl.UserRepo.Update(user);
+
+        var type = UserType.Anonymous;
+        if (SessionUser.IsLoggedIn)
+        {
+            if (SessionUser.User.IsGoogleUser)
+                type = UserType.Google;
+            else if (SessionUser.User.IsFacebookUser)
+                type = UserType.Facebook;
+            else type = UserType.Normal;
+        }
+
+        return Json(new
         {
             Success = true,
             Message = "",
-            Id = SessionUser.UserId,
-            WikiId = SessionUser.User.StartTopicId,
-            IsAdmin = SessionUser.IsInstallationAdmin,
-            Name = SessionUser.User.Name,
-            PersonalWikiId = SessionUser.User.StartTopicId
+            CurrentUser = new
+            {
+                IsLoggedIn = SessionUser.IsLoggedIn,
+                Id = SessionUser.UserId,
+                Name = SessionUser.IsLoggedIn ? SessionUser.User.Name : "",
+                IsAdmin = SessionUser.IsInstallationAdmin,
+                PersonalWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
+                Type = type,
+                ImgUrl = SessionUser.IsLoggedIn
+                    ? new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url
+                    : "",
+                Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
+                ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
+                PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
+            }
         });
+    }
+
+    private enum UserType
+    {
+        Normal,
+        Google,
+        Facebook,
+        Anonymous
     }
 }

@@ -12,10 +12,15 @@ public class TopicController : BaseController
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
+        return Json(GetTopicData(id), JsonRequestBehavior.AllowGet);
+    }
+
+    public dynamic GetTopicData(int id)
+    {
         var category = EntityCache.GetCategory(id);
-     
+
         if (PermissionCheck.CanView(category))
-            return Json(new 
+            return new
             {
                 CanAccess = true,
                 Id = id,
@@ -43,9 +48,9 @@ public class TopicController : BaseController
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == category.Creator.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
                 QuestionCount = category.CountQuestionsAggregated
-            }, JsonRequestBehavior.AllowGet);
+            };
 
-        return Json(new{ }, JsonRequestBehavior.AllowGet);
+        return new { };
     }
 
     [HttpGet]

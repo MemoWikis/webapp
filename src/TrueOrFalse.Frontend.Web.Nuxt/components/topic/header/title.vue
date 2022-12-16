@@ -93,8 +93,11 @@ function scrollToChildTopics() {
 
             <VDropdown :distance="6">
                 <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn"
-                    :class="{ 'long': lastAuthors.length > 9 }">+{{ lastAuthors.length
-                    }}</button>
+                    :class="{ 'long': lastAuthors.length > 9 }">
+                    <span>
+                        +{{ lastAuthors.length }}
+                    </span>
+                </button>
                 <template #popper>
                     <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
                         <div class="dropdown-icon">
@@ -159,6 +162,11 @@ function scrollToChildTopics() {
             color: white;
             transition: all .1s ease-in-out;
             border: solid 1px @memo-blue;
+        }
+
+        span {
+            position: relative;
+            left: -1px;
         }
     }
 

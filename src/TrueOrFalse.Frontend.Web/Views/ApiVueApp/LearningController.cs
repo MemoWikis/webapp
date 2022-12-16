@@ -127,7 +127,7 @@ public class LearningController : BaseController
         var answerBody = new AnswerBodyModel(answerQuestionModel, isInLearningTab, isInTestMode);
         var learningSession = LearningSessionCache.GetLearningSession();
 
-        var serializedPageData = Json(new
+        var data = new
         {
             counter,
             answerBody = answerBody,
@@ -135,26 +135,33 @@ public class LearningController : BaseController
             {
                 nextUrl = nextPageLink,
                 previousUrl = previousPageLink,
-                currentHtml = isSession ? null : ViewRenderer.RenderPartialView(
-                    "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
-                    answerQuestionModel,
-                    ControllerContext
-                )
+                currentHtml = isSession
+                    ? null
+                    : ViewRenderer.RenderPartialView(
+                        "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
+                        answerQuestionModel,
+                        ControllerContext
+                    )
             },
-            sessionData = isSession ? new
-            {
-                currentStepIdx = learningSession.CurrentIndex,
-                skipStepIdx = sessionData.SkipStepIdx,
-                isLastStep = sessionData.IsLastStep,
-                currentStepGuid = sessionData.CurrentStepGuid,
-                currentSessionHeader = sessionData.CurrentSessionHeader,
-                learningSessionId = sessionData.LearningSessionId,
-                stepCount = learningSession.Steps.Count
-            } : null,
+            sessionData = isSession
+                ? new
+                {
+                    currentStepIdx = learningSession.CurrentIndex,
+                    skipStepIdx = sessionData.SkipStepIdx,
+                    isLastStep = sessionData.IsLastStep,
+                    currentStepGuid = sessionData.CurrentStepGuid,
+                    currentSessionHeader = sessionData.CurrentSessionHeader,
+                    learningSessionId = sessionData.LearningSessionId,
+                    stepCount = learningSession.Steps.Count
+                }
+                : null,
             url = currentUrl,
-            commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSectionComponent.vue.ascx", answerQuestionModel, ControllerContext),
+            commentsAsHtml = ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/Comments/CommentsSectionComponent.vue.ascx", answerQuestionModel,
+                ControllerContext),
             isInTestMode
-        });
+        };
+        var serializedPageData = Json(data);
 
         return serializedPageData;
     }

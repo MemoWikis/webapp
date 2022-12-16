@@ -13,7 +13,10 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUse
   method: 'Get',
   credentials: 'include',
   mode: 'no-cors',
-  headers,
+  onResponse({ options }) {
+    if (process.server)
+      options.headers = headers
+  }
 })
 if (currentUser.value)
   userStore.initUser(currentUser.value)
