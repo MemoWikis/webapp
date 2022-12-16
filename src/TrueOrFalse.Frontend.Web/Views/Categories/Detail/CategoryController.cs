@@ -261,6 +261,7 @@ public class CategoryController : BaseController
         var filteredAggregatedQuestions = categoryCacheItem
             .GetAggregatedQuestionsFromMemoryCache()
             .Where(q => 
+                q.Creator != null &&
                 q.Creator.Id == userCacheItem.Id && 
                 q.IsPrivate() && 
                 PermissionCheck.CanEdit(q))

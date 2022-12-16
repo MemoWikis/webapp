@@ -8,7 +8,7 @@ public class UserSummary : IRegisterAsInstancePerLifetime
         var query = Sl.Resolve<ISession>()
             .QueryOver<Question>()
             .Select(Projections.RowCount())
-            .Where(q => q.Creator.Id == creatorId);
+            .Where(q => q.Creator != null && q.Creator.Id == creatorId);
 
         if (!inclPrivateQuestions)
             query = query.Where(q => q.Visibility == QuestionVisibility.All);
@@ -21,7 +21,7 @@ public class UserSummary : IRegisterAsInstancePerLifetime
         return Sl.Resolve<ISession>()
             .QueryOver<Set>()
             .Select(Projections.RowCount())
-            .Where(q => q.Creator.Id == creatorId)
+            .Where(s => s.Creator != null && s.Creator.Id == creatorId)
             .FutureValue<int>().Value;            
     }
 
@@ -30,7 +30,7 @@ public class UserSummary : IRegisterAsInstancePerLifetime
         return Sl.Resolve<ISession>()
             .QueryOver<Category>()
             .Select(Projections.RowCount())
-            .Where(q => q.Creator.Id == creatorId)
+            .Where(c => c.Creator != null && c.Creator.Id == creatorId)
             .FutureValue<int>().Value;
     }
 

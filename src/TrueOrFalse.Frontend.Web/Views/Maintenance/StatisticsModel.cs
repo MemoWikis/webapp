@@ -50,13 +50,13 @@ public class StatisticsModel : BaseModel
 
         var questionCountSoFarMemucho = _session
             .QueryOver<Question>()
-            .Where(q => q.Creator.Id == _memuchoId)
+            .Where(q => q.Creator != null && q.Creator.Id == _memuchoId)
             .And(q => q.DateCreated.Date < SinceGoLive)
             .List()
             .Count;
         var questionCountSoFarOthers = _session
             .QueryOver<Question>()
-            .Where(q => q.Creator.Id != _memuchoId)
+            .Where(q => q.Creator == null || q.Creator.Id != _memuchoId)
             .And(q => q.DateCreated.Date < SinceGoLive)
             .List()
             .Count;
@@ -69,8 +69,8 @@ public class StatisticsModel : BaseModel
             .Select(r => new QuestionsCreatedPerDayResult
             {
                 DateTime = r.Key,
-                CountByMemucho = r.Count(q => q.Creator.Id == _memuchoId),
-                CountByOthers = r.Count(q => q.Creator.Id != _memuchoId)
+                CountByMemucho = r.Count(q => (q.Creator?.Id ?? -1) == _memuchoId),
+                CountByOthers = r.Count(q => (q.Creator?.Id ?? -1) != _memuchoId)
             })
             .ToList();
 

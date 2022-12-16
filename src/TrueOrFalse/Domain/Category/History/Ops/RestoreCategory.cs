@@ -31,7 +31,7 @@ public class RestoreCategory
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
         SendEmail(Constants.MemuchoAdminUserId, subject, body);
-        if (currentUser.Id != category.Creator.Id) 
+        if (category.Creator != null && currentUser.Id != category.Creator.Id) 
             SendEmail(category.Creator.Id, subject, body);
     }
 

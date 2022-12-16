@@ -125,12 +125,12 @@ public class QuestionRepo : RepositoryDbBase<Question>
     public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount = -1) =>
         GetForCategory(new List<int> { categoryId }, currentUser, resultCount);
 
-    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int currentUser, int resultCount = -1)
+    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int currentUserId, int resultCount = -1)
     {
         var query = _session.QueryOver<Question>()
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
-            .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
+            .Where(q => q.Visibility == QuestionVisibility.All || q.Creator != null && q.Creator.Id == currentUserId)
             .JoinQueryOver<Category>(q => q.Categories)
             .Where(Restrictions.In("Id", categoryIds.ToArray()));
 

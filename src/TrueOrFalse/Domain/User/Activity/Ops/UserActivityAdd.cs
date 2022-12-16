@@ -4,6 +4,9 @@ public class UserActivityAdd
 {
     public static void CreatedQuestion(Question question)
     {
+        if(question.Creator == null)
+            return;
+
         var userCreator = Sl.R<UserRepo>().GetById(question.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
@@ -23,6 +26,9 @@ public class UserActivityAdd
     /// <param name="category"></param>
     public static void CreatedCategory(Category category)
     {
+        if(category.Creator == null)
+            return;
+
         var userCreator = Sl.R<UserRepo>().GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {

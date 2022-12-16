@@ -81,7 +81,7 @@ public class QuestionController : BaseController
     public JsonResult DeleteDetails(int questionId)
     {
         var question = _questionRepo.GetById(questionId);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator.Id, question);
+        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator == null ? -1 : question.Creator.Id, question);
 
         return new JsonResult
         {
