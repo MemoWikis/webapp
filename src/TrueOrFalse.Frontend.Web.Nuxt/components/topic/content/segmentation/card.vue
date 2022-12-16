@@ -168,8 +168,8 @@ export default defineNuxtComponent({
             <div class="col-xs-9">
                 <div class="topic-name">
 
-                    <NuxtLink :href="category.LinkToCategory">
-                        <template v-html="category.CategoryTypeHtml"></template> {{ category.Name }}
+                    <NuxtLink :href="$props.category.LinkToCategory">
+                        <template v-html="$props.category.CategoryTypeHtml"></template> {{ $props.category.Name }}
                     </NuxtLink>
 
                     <div v-if="visibility == 1" class="segmentCardLock" @click="openPublishModal" data-toggle="tooltip"
@@ -223,20 +223,36 @@ export default defineNuxtComponent({
                     </VDropdown>
                 </div>
                 <div class="set-question-count">
-                    <a :href="category.LinkToCategory" class="sub-label">
-                        <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
-                        <template v-else-if="category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
-                            Unterthemen</template>
-                        <span v-if="category.QuestionCount > 0">{{ category.QuestionCount }} Frage<template
-                                v-if="category.QuestionCount != 1">n</template></span>
+                    <a :href="$props.category.LinkToCategory" class="sub-label">
+                        <template v-if="$props.category.ChildCategoryCount == 1">1 Unterthema </template>
+                        <template v-else-if="$props.category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
+                            Unterthemen </template>
+                        <span v-if="$props.category.QuestionCount > 0">{{ category.QuestionCount }} Frage<template
+                                v-if="$props.category.QuestionCount != 1">n</template></span>
                     </a>
                 </div>
-                <a :href="category.LinkToCategory">
-                    <div v-if="category.QuestionCount > 0" class="KnowledgeBarWrapper">
-                        <div v-html="category.KnowledgeBarHtml"></div>
-                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                <div v-if="$props.category.QuestionCount > 0" class="KnowledgeBarWrapper">
+                    <div class="category-knowledge-bar">
+                        <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
+                            v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)'"
+                            :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }"></div>
+
+                        <div v-if="$props.category.KnowledgeBarData.NeedsConsolidationPercentage > 0"
+                            class="needs-consolidation"
+                            v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsConsolidation + ' Fragen (' + $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%)'"
+                            :style="{ 'width': $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%' }">
+                        </div>
+
+                        <div v-if="$props.category.KnowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
+                            v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.Solid + ' Fragen (' + $props.category.KnowledgeBarData.SolidPercentage + '%)'"
+                            :style="{ 'width': $props.category.KnowledgeBarData.SolidPercentage + '%' }"></div>
+
+                        <div v-if="$props.category.KnowledgeBarData.NotLearnedPercentage > 0" class="not-learned"
+                            v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NotLearned + ' Fragen (' + $props.category.KnowledgeBarData.NotLearnedPercentage + '%)'"
+                            :style="{ 'width': $props.category.KnowledgeBarData.NotLearnedPercentage + '%' }"></div>
                     </div>
-                </a>
+                    <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                </div>
             </div>
         </div>
     </div>
@@ -287,6 +303,11 @@ li {
     .segment,
     .segmentCategoryCard {
         transition: 0.2s;
+
+        .row {
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
 
         &.hover {
             cursor: pointer;
@@ -503,5 +524,168 @@ li {
             font-size: 18px;
         }
     }
+
+    .topicNavigation,
+    .setCardMiniList {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+
+        &.row:before,
+        &.row:after {
+            display: inline-block;
+        }
+
+        img {
+            border-radius: 0;
+        }
+
+        a {
+            color: @global-text-color;
+
+            &:hover,
+            &:active,
+            &:focus {
+                text-decoration: none;
+            }
+        }
+
+        .set-question-count {
+            color: @gray-light;
+            margin-top: 8px;
+            line-height: 22px;
+        }
+
+        .topic,
+        .setCardMini {
+
+            .row {
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+
+            .stack-below(@extra-breakpoint-cards);
+
+            .ImageContainer {
+                max-width: 80px;
+                min-width: 70px;
+
+                .LicenseInfo {
+                    text-align: center;
+                    color: @gray-light;
+
+                    &:after {
+                        content: "Lizenz";
+                    }
+                }
+            }
+
+            .topic-name {
+                max-height: 65px;
+                overflow: hidden;
+
+                @media (max-width: (@extra-breakpoint-cards - 1px)) {
+                    max-height: none;
+                }
+            }
+
+            .KnowledgeBarLegend {
+                .greyed;
+                font-size: 12px;
+                line-height: 1.5em;
+                //text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 0.2s linear;
+
+                .media-below-sm ({
+                    opacity: 1;
+                });
+        }
+
+        &:hover {
+
+            //show on hover over navigation tile
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
+        }
+    }
+
+    :deep(.category-knowledge-bar,
+        .set-knowledge-bar) {
+        display: inline-flex;
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+
+        .solid-knowledge,
+        .needs-learning,
+        .needs-consolidation,
+        .not-learned,
+        .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
+    }
+
+    .knowledge-bar {
+        display: inline-flex;
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge,
+        .needs-learning,
+        .needs-consolidation,
+        .not-learned,
+        .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
+    }
+}
 }
 </style>

@@ -108,10 +108,10 @@ function openUsers() {
                         @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche" />
                 </div>
 
-                <VDropdown :distance="6" :triggers="[]" :shown="props.showSearch && showDropdown">
+                <VDropdown :distance="6" :triggers="[]" :shown="showDropdown" no-auto-focus>
                     <template #popper>
-                        <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'">
-                            <li v-if="categories.length > 0" class="searchBanner">
+                        <ul :aria-labelledby="id + 'Dropdown'">
+                            <li v-show="categories.length > 0" class="searchBanner">
                                 <div>Themen </div>
                                 <div>{{ categoryCount }} Treffer</div>
                             </li>
@@ -124,7 +124,7 @@ function openUsers() {
                                             v-if="c.QuestionCount != 1">n</template></div>
                                 </div>
                             </li>
-                            <li v-if="questions.length > 0" class="searchBanner">
+                            <li v-show="questions.length > 0" class="searchBanner">
                                 <div>Fragen </div>
                                 <div>{{ questionCount }} Treffer</div>
                             </li>
@@ -136,7 +136,7 @@ function openUsers() {
                                     <div class="searchResultSubLabel body-s"></div>
                                 </div>
                             </li>
-                            <li v-if="users.length > 0" class="searchBanner">
+                            <li v-show="users.length > 0" class="searchBanner">
                                 <div>Nutzer </div>
                                 <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
                             </li>
@@ -148,7 +148,7 @@ function openUsers() {
                                     <div class="searchResultSubLabel body-s"></div>
                                 </div>
                             </li>
-                            <li v-if="noResults">
+                            <li v-show="noResults">
                                 <div>Kein Treffer</div>
                             </li>
                         </ul>
