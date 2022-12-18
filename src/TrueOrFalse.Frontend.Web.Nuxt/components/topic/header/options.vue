@@ -9,7 +9,7 @@ const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
 const editTopicRelationStore = useEditTopicRelationStore()
-
+const hoverLock = ref(false)
 </script>
 
 <template>
@@ -103,9 +103,12 @@ const editTopicRelationStore = useEditTopicRelationStore()
                 </template>
             </V-Dropdown>
         </div>
-        <div v-if="topicStore.visibility == Visibility.Owner">
-            <font-awesome-icon icon="fa-solid fa-lock" />
+        <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true"
+            @mouseleave="hoverLock = false">
+            <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
+            <font-awesome-icon icon="fa-solid fa-lock-open" v-show="hoverLock" />
         </div>
+
     </div>
 </template>
 
@@ -127,7 +130,31 @@ const editTopicRelationStore = useEditTopicRelationStore()
         font-size: 18px;
         height: 30px;
         width: 30px;
+        min-width: 30px;
         transition: filter 0.1s;
+
+        &:hover {
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
+        }
+    }
+
+    .lock-btn {
+        cursor: pointer;
+        background: white;
+        border-radius: 24px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 18px;
+        height: 30px;
+        width: 36px;
+        min-width: 36px;
+        transition: filter 0.1s;
+        padding-left: 8px;
 
         &:hover {
             filter: brightness(0.95)

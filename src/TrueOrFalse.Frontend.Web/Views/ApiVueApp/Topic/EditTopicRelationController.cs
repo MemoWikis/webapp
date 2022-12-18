@@ -5,7 +5,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class EditTopicController : BaseController
+public class EditTopicRelationController : BaseController
 {
     private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
 

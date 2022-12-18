@@ -45,7 +45,7 @@ public class VueSegmentationController : BaseController
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
-        var startTopicId = 0;
+        var startTopicId = 1;
 
         if (IsLoggedIn)
         {
@@ -106,7 +106,7 @@ public class VueSegmentationController : BaseController
             ImgUrl = imgUrl,
             ImgHtml = imgHtml,
             KnowledgeBarData =
-            {
+            new {
                 Total = knowledgeBarSummary.Total,
                 NeedsLearning = knowledgeBarSummary.NeedsLearning,
                 NeedsLearningPercentage = knowledgeBarSummary.NeedsLearningPercentage,

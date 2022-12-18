@@ -19,16 +19,13 @@ watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {
     emit('selectItem', item);
 })
 
-const debounceSearch = _.debounce(() => {
-    search()
-}, 500)
-
 const showDropdown = ref(false)
 const searchTerm = ref('')
+
 watch(searchTerm, (term) => {
     if (term.length > 0 && lockDropdown.value == false) {
         showDropdown.value = true;
-        debounceSearch();
+        search()
     }
     else
         showDropdown.value = false;
@@ -67,13 +64,8 @@ const config = useRuntimeConfig()
 
 async function search() {
     showDropdown.value = true
-    var data = {
-        term: searchTerm.value,
-    };
 
-    var result = await $fetch<FullSearch>(searchUrl.value, {
-        baseURL: process.client ? config.public.clientBase : config.public.serverBase, body: data,
-        method: 'POST',
+    var result = await $fetch<FullSearch>(searchUrl.value + `?term=${encodeURIComponent(searchTerm.value)}`, {
         mode: 'no-cors',
         credentials: 'include'
     })
@@ -93,7 +85,7 @@ function selectItem(item: TopicItem | QuestionItem | UserItem) {
     selectedItem.value = item;
 }
 function openUsers() {
-    location.href = userSearchUrl.value;
+    location.href = userSearchUrl.value
 }
 </script>
 
@@ -104,8 +96,8 @@ function openUsers() {
                 <div class="searchInputContainer">
                     <input ref="searchInput" class="form-control dropdown-toggle"
                         :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text" v-bind:value="searchTerm"
-                        @input="event => inputValue(event)" :id="props.id.toString" autocomplete="off"
-                        @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche" />
+                        @input="event => inputValue(event)" autocomplete="off" @click="lockDropdown = false"
+                        placeholder="Suche" />
                 </div>
 
                 <VDropdown :distance="6" :triggers="[]" :shown="showDropdown" no-auto-focus>

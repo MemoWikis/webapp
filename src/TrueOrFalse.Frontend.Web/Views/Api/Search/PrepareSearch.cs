@@ -20,7 +20,7 @@ public class SearchBoxElementsGet
         searchSpec.Filter.IgnorePrivates = true;
         searchSpec.PageSize = pageSize;
 
-            result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
+        result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
 
         if (type != null)
             result.Ensure_max_elements_per_type_count_of_9("Categories");

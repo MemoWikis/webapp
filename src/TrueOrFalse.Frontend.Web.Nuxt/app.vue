@@ -9,13 +9,14 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUser/GetCurrentUser', {
-  baseURL: process.server ? config.public.serverBase : config.public.clientBase,
   method: 'Get',
   credentials: 'include',
   mode: 'no-cors',
-  onResponse({ options }) {
-    if (process.server)
+  onRequest({ options }) {
+    if (process.server) {
       options.headers = headers
+      options.baseURL = config.public.serverBase
+    }
   }
 })
 if (currentUser.value)
@@ -31,8 +32,12 @@ interface FooterTopics {
 }
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
   method: 'Get',
-  baseURL: process.server ? config.public.serverBase : config.public.clientBase,
   mode: 'no-cors',
+  onRequest({ options }) {
+    if (process.server) {
+      options.baseURL = config.public.serverBase
+    }
+  }
 })
 
 const page = ref(Page.Default)
