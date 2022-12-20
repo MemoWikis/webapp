@@ -435,8 +435,17 @@ export default defineNuxtComponent({
 
   #CustomSegmentSection,
   #GeneratedSegmentSection {
+
+    .topic {
+      @media (max-width: 649px) {
+        width: 100%;
+      }
+    }
+
     .topicNavigation {
       margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
 
       .segmentCategoryCard {
         .topic-name {

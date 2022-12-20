@@ -234,8 +234,7 @@ export default defineNuxtComponent({
                         <template v-else-if="$props.category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
                             Unterthemen </template>
                         <span v-if="$props.category.QuestionCount > 0">
-                            {{ category.QuestionCount }} Frage
-                            <template v-if="$props.category.QuestionCount != 1">n</template>
+                            {{ category.QuestionCount + ' Frage' + ($props.category.QuestionCount == 1 ? '' : 'n') }}
                         </span>
                     </NuxtLink>
 
@@ -528,7 +527,13 @@ li {
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        margin-right: 10px;
+        margin-right: 4px;
+        margin-left: 4px;
+        background: white;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        border-radius: 15px;
 
         .fa-unlock {
             display: none !important;
@@ -549,6 +554,12 @@ li {
                 display: unset !important;
                 color: @memo-blue;
             }
+
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
         }
     }
 
@@ -619,6 +630,9 @@ li {
 
             .topic-name {
                 max-height: 65px;
+                display: flex;
+                align-items: center;
+                height: 100%;
                 overflow: hidden;
 
                 @media (max-width: (@extra-breakpoint-cards - 1px)) {

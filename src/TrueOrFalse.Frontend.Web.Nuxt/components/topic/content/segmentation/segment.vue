@@ -359,3 +359,11 @@ export default defineNuxtComponent({
     </div>
   </div>
 </template>
+
+<style lang="less" scoped>
+.topic {
+  @media (max-width: 649px) {
+    width: 100%;
+  }
+}
+</style>
