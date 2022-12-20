@@ -242,6 +242,11 @@
 #QuestionListApp .session-configurator .session-config-dropdown {
   margin-right: 20px;
 }
+@media (max-width: 479px) {
+  #QuestionListApp .session-configurator .session-config-dropdown {
+    margin-right: 0;
+  }
+}
 .session-config-header {
   display: flex;
   flex-wrap: nowrap;
