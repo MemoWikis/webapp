@@ -224,9 +224,11 @@ function setPage(type: Page | null = null) {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 #FooterBack {
-  background: grey;
+  background: @memo-grey-light;
   z-index: 3000;
   position: relative;
   bottom: 0;
