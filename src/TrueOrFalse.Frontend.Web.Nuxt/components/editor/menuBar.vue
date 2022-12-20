@@ -72,99 +72,116 @@ props.editor.on('blur', () => {
 })
 </script>
 <template>
-    <div class="menubar is-hidden col-xs-12" :class="{ 'is-focused': focused }" v-if="props.editor">
 
-        <button class="menubar__button first-btn" :class="{ 'is-active': props.editor.isActive('bold') }"
-            @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
-            <font-awesome-icon icon="fa-solid fa-bold" />
-        </button>
+    <div class="col-xs-12 menubar-container">
+        <div class="menubar-scroll">
+            <div class="menubar is-focused" :class="{ 'is-focused': focused }" v-if="props.editor">
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('italic') }"
-            @mousedown="command('italic', $event)">
-            <font-awesome-icon icon="fa-solid fa-italic" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
+                    @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
+                    <font-awesome-icon icon="fa-solid fa-bold" />
+                </button>
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('strike') }"
-            @mousedown="command('strike', $event)">
-            <font-awesome-icon icon="fa-solid fa-strikethrough" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('italic') }"
+                    @mousedown="command('italic', $event)">
+                    <font-awesome-icon icon="fa-solid fa-italic" />
+                </button>
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('underline') }"
-            @mousedown="command('underline', $event)">
-            <font-awesome-icon icon="fa-solid fa-underline" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('strike') }"
+                    @mousedown="command('strike', $event)">
+                    <font-awesome-icon icon="fa-solid fa-strikethrough" />
+                </button>
 
-        <button v-if="heading" class="menubar__button"
-            :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }" @mousedown="command('h2', $event)">
-            <b>H1</b>
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('underline') }"
+                    @mousedown="command('underline', $event)">
+                    <font-awesome-icon icon="fa-solid fa-underline" />
+                </button>
 
-        <button v-if="heading" class="menubar__button"
-            :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }" @mousedown="command('h3', $event)">
-            <b>H2</b>
-        </button>
+                <button v-if="heading" class="menubar__button"
+                    :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
+                    @mousedown="command('h2', $event)">
+                    <b>H1</b>
+                </button>
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
-            @mousedown="command('bulletList', $event)">
-            <font-awesome-icon icon="fa-solid fa-list-ul" />
-        </button>
+                <button v-if="heading" class="menubar__button"
+                    :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
+                    @mousedown="command('h3', $event)">
+                    <b>H2</b>
+                </button>
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }"
-            @mousedown="command('orderedList', $event)">
-            <font-awesome-icon icon="fa-solid fa-list-ol" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
+                    @mousedown="command('bulletList', $event)">
+                    <font-awesome-icon icon="fa-solid fa-list-ul" />
+                </button>
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
-            @mousedown="command('blockquote', $event)">
-            <font-awesome-icon icon="fa-solid fa-quote-right" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }"
+                    @mousedown="command('orderedList', $event)">
+                    <font-awesome-icon icon="fa-solid fa-list-ol" />
+                </button>
 
-        <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('codeBlock') }"
-            @mousedown="command('codeBlock', $event)">
-            <font-awesome-icon icon="fa-solid fa-code" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
+                    @mousedown="command('blockquote', $event)">
+                    <font-awesome-icon icon="fa-solid fa-quote-right" />
+                </button>
 
-        <button class="menubar__button" @mousedown="command('setLink', $event)"
-            :class="{ 'is-active': props.editor.isActive('link') }">
-            <font-awesome-icon icon="fa-solid fa-link" />
-        </button>
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('codeBlock') }"
+                    @mousedown="command('codeBlock', $event)">
+                    <font-awesome-icon icon="fa-solid fa-code" />
+                </button>
 
-        <button v-if="props.editor.isActive('link')" class="menubar__button" @mousedown="command('unsetLink', $event)">
-            <font-awesome-icon icon="fa-solid fa-link-slash" />
-        </button>
+                <button class="menubar__button" @mousedown="command('setLink', $event)"
+                    :class="{ 'is-active': props.editor.isActive('link') }">
+                    <font-awesome-icon icon="fa-solid fa-link" />
+                </button>
 
-        <button class="menubar__button" @mousedown="command('addImage', $event)">
-            <font-awesome-icon icon="fa-solid fa-image" />
-        </button>
+                <button v-if="props.editor.isActive('link')" class="menubar__button"
+                    @mousedown="command('unsetLink', $event)">
+                    <font-awesome-icon icon="fa-solid fa-link-slash" />
+                </button>
 
-        <button class="menubar__button" @mousedown="command('horizontalRule', $event)">
-            <b>
-                —
-            </b>
-        </button>
+                <button class="menubar__button" @mousedown="command('addImage', $event)">
+                    <font-awesome-icon icon="fa-solid fa-image" />
+                </button>
 
-        <button class="menubar__button" @mousedown="command('undo', $event)">
-            <font-awesome-icon icon="fa-solid fa-rotate-left" />
-        </button>
+                <button class="menubar__button" @mousedown="command('horizontalRule', $event)">
+                    <font-awesome-icon icon="fa-solid fa-window-minimize" />
+                </button>
 
-        <button class="menubar__button last-btn" @mousedown="command('redo', $event)">
-            <font-awesome-icon icon="fa-solid fa-rotate-right" />
-        </button>
+                <button class="menubar__button" @mousedown="command('undo', $event)">
+                    <font-awesome-icon icon="fa-solid fa-rotate-left" />
+                </button>
 
+                <button class="menubar__button last-btn" @mousedown="command('redo', $event)">
+                    <font-awesome-icon icon="fa-solid fa-rotate-right" />
+                </button>
+
+            </div>
+        </div>
     </div>
+
 
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.menubar {
+.menubar-container {
     top: 60px;
     position: sticky;
     z-index: 10;
+}
+
+.menubar-scroll {
+    overflow-y: auto;
+    max-width: calc(100vw - 24px);
+    border-radius: 4px;
+}
+
+.menubar {
     font-size: 0;
     height: 36px;
     display: flex;
+    flex-wrap: nowrap;
 
     &.is-hidden {
         visibility: hidden;
@@ -195,16 +212,6 @@ props.editor.on('blur', () => {
     align-items: center;
     transition: filter 0.1s;
 
-    &.first-btn {
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-    }
-
-    &.last-btn {
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-    }
-
     &:hover {
         filter: brightness(0.85);
     }
@@ -215,6 +222,11 @@ props.editor.on('blur', () => {
 
     &:active {
         filter: brightness(0.7);
+    }
+
+    &.last-btn {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
     }
 }
 </style>
