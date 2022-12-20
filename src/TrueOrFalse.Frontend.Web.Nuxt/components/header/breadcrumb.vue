@@ -3,13 +3,16 @@ import { VueElement, PropType } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
 import _ from 'underscore'
 import { Page } from '../shared/pageEnum'
+import { useUserStore } from '../user/userStore'
 
 const props = defineProps({
   headerContainer: null,
   headerExtras: null,
-  page: { type: Number as PropType<Page>, required: true }
+  page: { type: Number as PropType<Page>, required: true },
+  showSearch: { type: Boolean, required: true }
 })
 
+const userStore = useUserStore()
 const topicStore = useTopicStore()
 interface BreadcrumbItem {
   Name: string
@@ -24,12 +27,12 @@ class Breadcrumb {
   breadcrumbHasGlobalWiki: boolean = false
   isInPersonalWiki: boolean = false
 }
-const breadcrumb = ref(null as Breadcrumb | null)
+const breadcrumb = ref<Breadcrumb | null>(null)
 
-const breadcrumbItems = ref([] as BreadcrumbItem[])
-const stackedBreadcrumbItems = ref([] as BreadcrumbItem[])
+const breadcrumbItems = ref<BreadcrumbItem[]>([])
+const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 
-const breadcrumbEl = ref(null as VueElement | null)
+const breadcrumbEl = ref<VueElement | null>(null)
 const breadcrumbWidth = ref('')
 
 const hide = ref(false)
@@ -38,34 +41,41 @@ function startUpdateBreadcrumb() {
   hide.value = true
   updateBreadcrumb()
 }
-const personalWiki = ref(null as BreadcrumbItem | null)
+
+function scrollUpdateBreadcrumb() {
+  if (userStore.isLoggedIn || window?.pageYOffset > 105)
+    return
+
+  hide.value = true
+  updateBreadcrumb()
+}
+const personalWiki = ref<BreadcrumbItem | null>(null)
 
 const updateBreadcrumb = _.throttle(async () => {
+
   if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null) {
     const width = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
 
     if (width > 0)
       breadcrumbWidth.value = `width: ${width}px`
 
-    await nextTick()
-
     if (breadcrumbEl.value.clientHeight > 21) {
       shiftToStackedBreadcrumbItems()
     } else if (breadcrumbEl.value.clientHeight < 22) {
       insertToBreadcrumbItems()
-      setTimeout(() => {
-        if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 21) {
-          shiftToStackedBreadcrumbItems()
-        }
-      }, 200)
+      await nextTick()
+      if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 21) {
+        shiftToStackedBreadcrumbItems()
+      }
     }
   }
-}, 10)
+  await nextTick()
+  hide.value = false
+}, 200)
 
 function shiftToStackedBreadcrumbItems() {
   if (breadcrumbItems.value.length > 0)
     stackedBreadcrumbItems.value.push(breadcrumbItems.value.shift()!)
-
 }
 function insertToBreadcrumbItems() {
   if (stackedBreadcrumbItems.value.length > 0)
@@ -74,20 +84,29 @@ function insertToBreadcrumbItems() {
 const pageTitle = ref('')
 
 
-onMounted(async () => {
+onBeforeMount(async () => {
 
   if (typeof window !== 'undefined') {
     window.addEventListener('resize', startUpdateBreadcrumb)
-    window.addEventListener('scroll', startUpdateBreadcrumb)
+    window.addEventListener('scroll', scrollUpdateBreadcrumb)
   }
   await nextTick()
   startUpdateBreadcrumb()
   getBreadcrumb()
+
+})
+
+onUpdated(() => {
+  if (breadcrumbEl.value != undefined && breadcrumbEl.value.clientHeight > 21) {
+    console.log('updateb')
+    // startUpdateBreadcrumb()
+
+  }
 })
 onBeforeUnmount(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('resize', startUpdateBreadcrumb)
-    window.removeEventListener('scroll', startUpdateBreadcrumb)
+    window.removeEventListener('scroll', scrollUpdateBreadcrumb)
   }
 })
 
@@ -168,12 +187,15 @@ function setPageTitle() {
 }
 
 const breadcrumbRefs = ref([] as any[])
-
+watch(() => props.showSearch, (val) => {
+  if (!val)
+    startUpdateBreadcrumb()
+})
 </script>
 
 <template>
-  <div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl"
-    :style="breadcrumbWidth">
+  <div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
+    :class="{ 'hide-breadcrumb': hide }" v-show="!props.showSearch">
 
     <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
       class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
@@ -213,7 +235,7 @@ const breadcrumbRefs = ref([] as any[])
       </template>
     </V-Dropdown>
 
-    <template v-for="b in breadcrumbItems">
+    <template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
       <NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name"
         :ref="el => breadcrumbRefs.push(el)">
         {{ b.Name }}
@@ -246,6 +268,8 @@ const breadcrumbRefs = ref([] as any[])
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+
+
 #BreadCrumb {
   display: flex;
   justify-content: flex-start;
@@ -256,6 +280,9 @@ const breadcrumbRefs = ref([] as any[])
   opacity: 1;
   transition: opacity 0.5s;
 
+  &.hide-breadcrumb {
+    opacity: 0;
+  }
 
   .breadcrumb-item {
     padding: 0 12px;

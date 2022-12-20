@@ -47,7 +47,7 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
                                     Anmelden
                                 </div>
                             </div>
-                            <NuxtLink to="/user/register">
+                            <NuxtLink to="/user/register" class="hidden-xs hidden-sm">
                                 <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                             </NuxtLink>
                         </div>

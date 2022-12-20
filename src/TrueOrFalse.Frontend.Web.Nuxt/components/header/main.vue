@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
+import { PropType, VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
@@ -29,12 +29,13 @@ onBeforeMount(() => {
         handleScroll()
     }
 })
-const headerContainer = ref(null)
-const headerExtras = ref(null)
+const headerContainer = ref<VueElement>()
+const headerExtras = ref<VueElement>()
 
 onMounted(() => {
     if (!userStore.isLoggedIn) {
         window.addEventListener('scroll', handleScroll);
+        showSearch.value = false
     }
 })
 
@@ -46,26 +47,25 @@ onMounted(() => {
             <div class="row">
                 <div class="header-container col-xs-12" ref="headerContainer">
 
-                    <div class="partial">
+                    <div class="partial" :class="{ 'search-open': showSearch }">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
-                            :page="props.page" />
+                            :page="props.page" :show-search="showSearch" />
                     </div>
 
                     <div class="partial" ref="headerExtras">
-                        <div class="stickySearchContainer" v-if="userStore.isLoggedIn">
+                        <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
+                            :class="{ 'showSearch': showSearch }">
                             <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                 @click="showSearch = !showSearch">
                                 <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
-                            <div class="StickySearch" :class="{
-                                'showSearch': showSearch
-                            }">
-                                <LazySearch :search-type="SearchType.All" :show-search="showSearch"
-                                    v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
+                            <div class="StickySearch">
+                                <Search :search-type="SearchType.All" :show-search="showSearch"
+                                    v-on:select-item="openUrl" placement="bottom-end" />
                             </div>
                         </div>
-                        <VDropdown :distance="6" v-show="userStore.isLoggedIn">
+                        <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
                                 <Image :src="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon" />
                                 <div class="header-user-name">
@@ -99,22 +99,23 @@ onMounted(() => {
                             </template>
                         </VDropdown>
 
-                        <template v-if="showRegisterButton && !userStore.isLoggedIn">
-                            <div class="stickySearchContainer">
+                        <template v-if="!userStore.isLoggedIn">
+                            <div class="StickySearchContainer" v-show="showRegisterButton"
+                                :class="{ 'showSearch': showSearch }">
                                 <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                     @click="showSearch = !showSearch">
                                     <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                     <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                                 </div>
-                                <div class="StickySearch" :class="{ 'showSearch': showSearch }">
-                                    <LazySearch :search-type="SearchType.All" :show-search="showSearch"
-                                        v-on:select-item="openUrl" id="SmallHeaderSearchComponent" />
+                                <div class="StickySearch">
+                                    <Search :search-type="SearchType.All" :show-search="showSearch"
+                                        v-on:select-item="openUrl" placement="bottom-end" />
                                 </div>
                             </div>
-                            <div>
+                            <div class="login-btn" v-show="showRegisterButton">
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
-                            <div class="register-btn-container">
+                            <div class="register-btn-container hidden-xs hidden-sm" v-show="showRegisterButton">
                                 <NuxtLink to="/user/register">
                                     <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                                 </NuxtLink>
@@ -132,7 +133,7 @@ onMounted(() => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.stickySearchContainer {
+.StickySearchContainer {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
@@ -148,10 +149,42 @@ onMounted(() => {
         position: absolute;
         transform: translateZ(0);
         transition: all .3s;
-        width: 34px;
+        width: 30px;
         z-index: 1050;
+        cursor: pointer;
+        background: white;
+        border-radius: 15px;
+        height: 30px;
+        margin-right: 2px;
+
+        &:hover {
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
+        }
+    }
+
+    :deep(input) {
+        min-width: 0px;
+        width: 0px;
+        border: none;
+        padding: 0;
+        transition: all 0.3s;
+        background: transparent;
+    }
+
+    &.showSearch {
+        :deep(input) {
+            border: 1px solid #ccc;
+            width: 100%;
+            padding: 6px 40px 6px 12px;
+            background: white;
+        }
     }
 }
+
 
 #Navigation {
     width: 100%;
@@ -183,6 +216,28 @@ onMounted(() => {
             height: 100%;
             display: flex;
             align-items: center;
+        }
+
+        .login-btn {
+            margin: 0 8px;
+            height: 30px;
+            width: 30px;
+            min-width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+            border-radius: 20px;
+            font-size: 20px;
+
+            &:hover {
+                filter: brightness(0.95)
+            }
+
+            &:active {
+                filter: brightness(0.85)
+            }
         }
 
         .register-btn-container {
@@ -259,8 +314,8 @@ onMounted(() => {
     }
 }
 
-#StickySearch,
-#HeaderSearch {
+:global(#StickySearch,
+    #HeaderSearch) {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
@@ -271,6 +326,15 @@ onMounted(() => {
     .SearchContainer {
         width: 100%;
 
+        :deep(&input) {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
         input {
             min-width: 0px;
             width: 0px;
@@ -278,6 +342,15 @@ onMounted(() => {
             padding: 0;
             transition: all 0.3s;
             background: transparent;
+        }
+
+        :deep(&.showSearch) {
+            input {
+                border: 1px solid #ccc;
+                width: 100%;
+                padding: 6px 40px 6px 12px;
+                background: white;
+            }
         }
 
         &.showSearch {
