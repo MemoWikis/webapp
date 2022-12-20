@@ -8,14 +8,13 @@ import { ImageStyle } from '~~/components/image/imageStyleEnum'
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
-const topic = useState<Topic>('topic')
 const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4));
 const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
 
 function resize() {
     let element = textArea.value as VueElement
     if (element) {
-        element.style.height = "54px"
+        element.style.height = "56px"
         element.style.height = element.scrollHeight + "px"
     }
 }
@@ -41,6 +40,8 @@ onBeforeMount(() => {
 
 })
 
+onMounted(() => resize)
+
 onUnmounted(() => {
     window.removeEventListener('resize', resize);
 })
@@ -50,17 +51,17 @@ function scrollToChildTopics() {
     if (s)
         s.scrollIntoView({ behavior: 'smooth' })
 }
+
+const { isDesktopOrTablet, isMobile } = useDevice()
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
-            <textarea v-if="topicStore" placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
+            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
                 v-model="topicStore.name" :readonly="readonly"></textarea>
-            <textarea v-else ref="textArea" v-model="topic.Name"></textarea>
         </h1>
-        <div id="TopicHeaderDetails">
-
+        <div id="TopicHeaderDetails" :class="{ 'is-mobile' : isMobile}">
             <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
                 v-tooltip="'Alle Unterthemen'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" />
@@ -83,8 +84,8 @@ function scrollToChildTopics() {
                 <font-awesome-icon icon="fa-solid fa-eye" />
                 <div class="topic-detail-label">{{ topicStore.views }}</div>
             </div>
-
-            <div class="topic-detail-spacer"></div>
+            <div v-if="isMobile" class="topic-detail-flex-breaker"></div>
+            <div v-if="isDesktopOrTablet" class="topic-detail-spacer"></div>
 
             <LazyNuxtLink v-for="(author) in firstAuthors" :to="`/Nutzer/${author.Name}/${author.Id}`"
                 v-tooltip="author.Name">
@@ -108,6 +109,7 @@ function scrollToChildTopics() {
 
                 </template>
             </VDropdown>
+
 
         </div>
     </div>
@@ -172,17 +174,23 @@ function scrollToChildTopics() {
 
     #TopicHeaderDetails {
         display: flex;
+        flex-wrap: wrap;
         padding-left: 12px;
-        font-size: 14px;
-        color: @memo-grey-dark;
-        height: 20px;
+        align-items: center;
+
+        &.is-mobile {
+            .topic-detail {
+                margin-bottom: 8px;
+            }
+        }
 
         .header-author-icon {
             height: 20px;
             width: 20px;
             min-height: 20px;
             min-width: 20px;
-            margin: 0 4px;
+            margin-left: 0px;
+            margin-right: 8px;
         }
 
         .topic-detail {
@@ -211,6 +219,12 @@ function scrollToChildTopics() {
             width: 1px;
             background: @memo-grey-light;
             margin-right: 8px;
+            min-height: 12px;
+
+        }
+
+        .topic-detail-flex-breaker {
+            flex-basis: 100%;
         }
     }
 }

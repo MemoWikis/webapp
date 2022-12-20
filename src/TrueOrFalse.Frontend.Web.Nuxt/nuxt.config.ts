@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     ssr: true,
     modules: [
         '@pinia/nuxt',
+        '@nuxtjs/device'
     ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',

@@ -169,6 +169,22 @@ props.editor.on('blur', () => {
     top: 60px;
     position: sticky;
     z-index: 10;
+
+    ::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: @memo-grey-dark;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: @memo-grey-darker;
+
+        }
+    }
+
 }
 
 .menubar-scroll {
