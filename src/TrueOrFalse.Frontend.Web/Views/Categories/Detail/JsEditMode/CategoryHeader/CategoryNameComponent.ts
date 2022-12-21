@@ -54,22 +54,23 @@ Vue.component('category-name-component',
                 else
                     this.disabled = true;
             },
-            validateName: _.debounce(function (name) {
+            validateName(name):boolean {
                 var self = this;
                 if (name.length <= 0) {
                     self.errorMsg = "Bitte gebe einen Thementitel ein.";
-                    return;
+                    return false;
                 }
                 $.ajax({
                     type: 'Post',
                     contentType: "application/json",
                     url: '/EditCategory/ValidateName',
                     data: JSON.stringify({ name: name }),
-                    success: function (data) {
+                    success(data) {
                         self.categoryNameAllowed = data.categoryNameAllowed;
                         if (data.categoryNameAllowed) {
                             eventBus.$emit('name-is-valid', { isValid: true });
                             self.nameHasChanged = true;
+                            return true;
                         }
                         else {
                             let errorMsg = messages.error.category[data.key];
@@ -78,40 +79,42 @@ Vue.component('category-name-component',
                                 text: name + ' ' + errorMsg
                             });
                             eventBus.$emit('name-is-valid', { isValid: false, msg: name + ' ' + errorMsg });
+                            return false;
                         }
                     },
                 });
-            }, 500),
-            saveName() {
+            },
+            async saveName() {
                 if (this.categoryName == this.oldCategoryName)
                     return;
                 var self = this;
                 var id = parseInt(this.categoryId);
                 var name = this.categoryName;
-                this.validateName(name);
-                $.ajax({
-                    type: 'Post',
-                    contentType: "application/json",
-                    url: '/EditCategory/SaveName',
-                    data: JSON.stringify({
-                        categoryId: id,
-                        name: name
-                    }),
-                    success: function (result) {
-                        if (result.nameHasChanged) {
-                            self.oldCategoryName = result.categoryName;
-                            var saveMessage = "Das Thema wurde gespeichert.";
-                            eventBus.$emit('save-success');
-                            document.title = name;
-                            $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
-                            window.history.pushState("", name, result.newUrl);
-                            self.nameHasChanged = false;
-                        } else {
-                            var saveMessage = "Das Thema konnte nicht gespeichert werden.";
-                        }
-                        eventBus.$emit('save-msg', saveMessage);
-                    },
-                });
+                var nameIsAllowed = await this.validateName(name);
+                if (nameIsAllowed)
+                    $.ajax({
+                        type: 'Post',
+                        contentType: "application/json",
+                        url: '/EditCategory/SaveName',
+                        data: JSON.stringify({
+                            categoryId: id,
+                            name: name
+                        }),
+                        success(result) {
+                            if (result.nameHasChanged) {
+                                self.oldCategoryName = result.categoryName;
+                                var saveMessage = "Das Thema wurde gespeichert.";
+                                eventBus.$emit('save-success');
+                                document.title = name;
+                                $('#BreadCrumbTrail > div:last-child a').text(name).attr("href", result.newUrl);
+                                window.history.pushState("", name, result.newUrl);
+                                self.nameHasChanged = false;
+                            } else {
+                                var saveMessage = "Das Thema konnte nicht gespeichert werden.";
+                            }
+                            eventBus.$emit('save-msg', saveMessage);
+                        },
+                    });
             },
         },
     });
