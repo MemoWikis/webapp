@@ -21,7 +21,8 @@ public class QuestionGetCount : IRegisterAsInstancePerLifetime
     public int Run(int creatorId)
     {
         return _session.QueryOver<Question>()
-            .Where(s => 
+            .Where(s =>
+                s.Creator != null &&
                 s.Creator.Id == creatorId && 
                 s.IsWorkInProgress == false)
             .Select(Projections.RowCount())
@@ -33,6 +34,7 @@ public class QuestionGetCount : IRegisterAsInstancePerLifetime
     {
         return _session.QueryOver<Question>()
             .Where(q =>
+                q.Creator != null &&
                 q.Creator.Id == creatorId &&
                 q.IsWorkInProgress == false)
                 .AndRestrictionOn(q => q.Visibility).IsIn(visibility)

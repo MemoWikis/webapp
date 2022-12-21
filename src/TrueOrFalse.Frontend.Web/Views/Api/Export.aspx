@@ -22,7 +22,7 @@
         <text><%=question.Text %></text>
         <description><%= question.Description %></description>
         <visibility><%= question.Visibility %></visibility>
-        <creatorId><%=question.Creator.Id %></creatorId>
+        <creatorId><%=question.Creator == null ? -1 : question.Creator.Id %></creatorId>
         <solution><%=question.Solution %></solution>
         <categories>
             <% foreach (var category in question.Categories)

@@ -96,6 +96,7 @@ public class EditCategoryController : BaseController
         return View(_viewPath, model);
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     [SetMainMenu(MainMenuEntry.Categories)]
     [SetThemeMenu]
@@ -526,12 +527,12 @@ public class EditCategoryController : BaseController
             if (Request["ImageSource"] == "wikimedia")
             {
                 Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
-                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.User.Id);
+                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.UserId);
             }
             if (Request["ImageSource"] == "upload")
             {
                 Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.User.Id, Request["ImageLicenseOwner"]);
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.UserId, Request["ImageLicenseOwner"]);
             }
         }
     }

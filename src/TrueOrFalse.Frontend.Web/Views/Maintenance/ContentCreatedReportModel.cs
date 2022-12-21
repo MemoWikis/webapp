@@ -24,14 +24,14 @@ public class ContentCreatedReportModel : BaseModel
         RecentQuestionsAddedMemucho = _session
             .QueryOver<Question>()
             .OrderBy(q => q.DateCreated).Desc
-            .Where(q => q.Creator.Id == 26)
+            .Where(q => q.Creator != null && q.Creator.Id == 26)
             .And(q => q.DateCreated > Since)
             .List();
 
         RecentQuestionsAddedNotMemucho = _session
             .QueryOver<Question>()
             .OrderBy(q => q.DateCreated).Desc
-            .Where(q => q.Creator.Id != 26)
+            .Where(q => q.Creator != null && q.Creator.Id != 26)
             .And(q => q.DateCreated > Since)
             .List();
 

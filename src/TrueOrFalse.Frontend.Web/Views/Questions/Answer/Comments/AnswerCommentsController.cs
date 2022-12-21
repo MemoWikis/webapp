@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 public class AnswerCommentsController : BaseController
 {
-
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public CommentModel SaveComment(SaveCommentJson saveCommentJson)
     {
@@ -27,12 +27,12 @@ public class AnswerCommentsController : BaseController
 
     public class SaveCommentJson
     {
-
         public int questionId { get; set; }
         public string text { get; set; }
         public string title { get; set; }
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveAnswer(int commentId, string text)
     {

@@ -10,7 +10,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         var QuestionChange = new QuestionChange
         {
             Question = question,
-            AuthorId = SessionUser.UserId,
+            AuthorId = SessionUser.IsLoggedIn ? SessionUser.UserId : default,
             Type = QuestionChangeType.Delete,
             DataVersion = 1
         };
@@ -26,7 +26,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         {
             Question = question,
             Type = questionChangeType,
-            AuthorId = author == null ? SessionUser.UserId : author.Id,
+            AuthorId = author != null ? author.Id : SessionUser.IsLoggedIn ? SessionUser.UserId : default,
             DataVersion = 1
         };
 

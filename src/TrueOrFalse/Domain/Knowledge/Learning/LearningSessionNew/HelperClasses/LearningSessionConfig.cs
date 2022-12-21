@@ -19,7 +19,7 @@ public class LearningSessionConfig
     /// <summary>
     /// User is not logged in
     /// </summary>
-    public bool IsAnonymous() => CurrentUserId == -1;
+    public bool IsAnonymous() => CurrentUserId < 0;
 
     public bool InWuwi { get; set; } = true;
     public bool NotInWuwi { get; set; } = true;

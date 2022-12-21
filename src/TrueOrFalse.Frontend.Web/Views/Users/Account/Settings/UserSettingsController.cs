@@ -64,6 +64,7 @@ public class UserSettingsController : BaseController
         return View(_viewLocation, newUserSettingsModel);
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {

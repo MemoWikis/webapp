@@ -23,7 +23,7 @@ public class RestoreQuestion
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
         SendEmail(Constants.MemuchoAdminUserId, subject, body);
-        if (currentUser.Id != question.Creator.Id)
+        if (question.Creator != null && currentUser.Id != question.Creator.Id)
             SendEmail(question.Creator.Id, subject, body);
     }
 

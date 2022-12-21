@@ -410,8 +410,11 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config) 
+    public string RenderNewAnswerBodySessionForCategory(LearningSessionConfig config)
     {
+        if (config.CurrentUserId == default && IsLoggedIn) 
+            config.CurrentUserId = UserId;
+
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
         LearningSessionCache.AddOrUpdate(learningSession);
@@ -457,7 +460,7 @@ public class AnswerQuestionController : BaseController
 
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
-        var sessionUserId = SessionUser.UserId;
+        var sessionUserId = IsLoggedIn ? SessionUser.UserId : -1;
 
         Sl.SaveQuestionView.Run(
             learningSession.QuestionViewGuid,
@@ -639,7 +642,7 @@ public class AnswerQuestionController : BaseController
             return null;
 
         var question = _questionRepo.GetById(id);
-        var isAuthor = question.Creator.Id == SessionUser.UserId;
+        var isAuthor = IsLoggedIn && question.Creator != null && question.Creator.Id == SessionUser.UserId;
         if (IsInstallationAdmin  || isAuthor)
             return Links.EditQuestion(question.Text, id);
 

@@ -200,6 +200,7 @@ public class MaintenanceController : BaseController
         return View("Messages", model);
     }
 
+    [AccessOnlyAsLoggedIn]
     [ValidateAntiForgeryToken]
     [HttpPost]
     [SetMainMenu(MainMenuEntry.Maintenance)]

@@ -29,7 +29,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             .SingleOrDefault();
 
     public QuestionValuationCacheItem GetByFromCache(int questionId, int userId) =>
-        SessionUserCache.GetItem(userId).QuestionValuations
+        SessionUserCache.GetItem(userId)?.QuestionValuations
             .Where(v => v.Value.Question.Id == questionId)
             .Select(v => v.Value)
         .FirstOrDefault();

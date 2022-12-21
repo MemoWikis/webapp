@@ -34,7 +34,7 @@ public class VueQuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var userQuestionValuation = SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations;
+        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations : null;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -56,7 +56,7 @@ public class VueQuestionController : BaseController
             question.SessionIndex = index;
         }
 
-        if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.User != null)
+        if (userQuestionValuation != null && userQuestionValuation.ContainsKey(q.Id))
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
             question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;

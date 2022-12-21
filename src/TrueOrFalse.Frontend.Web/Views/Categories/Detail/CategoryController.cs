@@ -133,7 +133,8 @@ public class CategoryController : BaseController
     {
         var config = new LearningSessionConfig
         {
-            CategoryId = categoryId
+            CategoryId = categoryId,
+            CurrentUserId = IsLoggedIn ? UserId : default
         };
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
@@ -261,6 +262,7 @@ public class CategoryController : BaseController
         var filteredAggregatedQuestions = categoryCacheItem
             .GetAggregatedQuestionsFromMemoryCache()
             .Where(q => 
+                q.Creator != null &&
                 q.Creator.Id == userCacheItem.Id && 
                 q.IsPrivate() && 
                 PermissionCheck.CanEdit(q))

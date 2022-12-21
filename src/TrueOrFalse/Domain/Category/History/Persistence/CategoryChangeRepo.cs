@@ -8,12 +8,12 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
     public CategoryChangeRepo(ISession session) : base(session) { }
 
-    public void AddDeleteEntry(Category category)
+    public void AddDeleteEntry(Category category, int userId)
     {
         var categoryChange = new CategoryChange
         {
             Category = category,
-            AuthorId = SessionUser.UserId,
+            AuthorId = userId,
             Type = CategoryChangeType.Delete,
             DataVersion = 2,
             Data = ""

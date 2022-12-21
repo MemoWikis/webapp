@@ -73,17 +73,17 @@ public class VueSessionUserController : BaseController
         return new
         {
             IsLoggedIn = SessionUser.IsLoggedIn,
-            Id = SessionUser.UserId,
+            Id = IsLoggedIn ? SessionUser.UserId : -1,
             Name = SessionUser.IsLoggedIn ? SessionUser.User.Name : "",
             IsAdmin = SessionUser.IsInstallationAdmin,
-            PersonalWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
+            PersonalWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId,
             Type = type,
             ImgUrl = SessionUser.IsLoggedIn
                 ? new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url
                 : "",
             Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
             ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
-            PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
+            PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId)
         };
     }
 

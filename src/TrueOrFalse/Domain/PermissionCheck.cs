@@ -15,7 +15,7 @@ public class PermissionCheck
         if (category.Visibility == CategoryVisibility.All)
             return true;
 
-        if (category.Visibility == CategoryVisibility.Owner && category.Creator.Id == userId)
+        if (category.Visibility == CategoryVisibility.Owner && category.Creator?.Id == userId)
             return true;
 
         return false;
@@ -96,7 +96,7 @@ public class PermissionCheck
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == userId)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator?.Id == userId)
             return true;
 
         return false;

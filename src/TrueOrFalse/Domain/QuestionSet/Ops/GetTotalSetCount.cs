@@ -17,7 +17,7 @@ public class GetTotalSetCount : IRegisterAsInstancePerLifetime
     public int Run(int creatorId)
     {
         return _session.QueryOver<Set>()
-            .Where(s => s.Creator.Id == creatorId)
+            .Where(s => s.Creator != null && s.Creator.Id == creatorId)
             .Select(Projections.RowCount())
             .FutureValue<int>()
             .Value;

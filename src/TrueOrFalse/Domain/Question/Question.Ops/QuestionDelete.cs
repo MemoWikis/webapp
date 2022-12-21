@@ -11,7 +11,7 @@ public class QuestionDelete
         var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator?.Id ?? -1);
 
         var canBeDeletedResult = CanBeDeleted(SessionUser.UserId, question);
         if (!canBeDeletedResult.Yes)
@@ -20,7 +20,7 @@ public class QuestionDelete
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionForUser(SessionUser.UserId, questionId);
+        SessionUserCache.RemoveQuestionValuationForUser(SessionUser.UserId, questionId);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 

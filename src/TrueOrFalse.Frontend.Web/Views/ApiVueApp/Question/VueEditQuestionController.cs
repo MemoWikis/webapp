@@ -28,6 +28,9 @@ public class VueEditQuestionController : BaseController
     [HttpPost]
     public JsonResult VueCreate(QuestionDataJson questionDataJson)
     {
+        if (questionDataJson?.SessionConfig?.CurrentUserId <= 0)
+            questionDataJson.SessionConfig.CurrentUserId = UserId; 
+        
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
             return new JsonResult
@@ -239,6 +242,7 @@ public class VueEditQuestionController : BaseController
         return categories;
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult StoreImage(
         string imageSource,

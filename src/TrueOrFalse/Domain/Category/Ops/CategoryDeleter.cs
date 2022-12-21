@@ -14,7 +14,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public HasDeleted Run(Category category, bool isTestCase = false)
+    public HasDeleted Run(Category category, int userId, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
@@ -40,7 +40,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         Sl.UserActivityRepo.DeleteForCategory(category.Id);
         Sl.CategoryRepo.Delete(category);
 
-        Sl.CategoryChangeRepo.AddDeleteEntry(category);
+        Sl.CategoryChangeRepo.AddDeleteEntry(category, userId);
         Sl.CategoryValuationRepo.DeleteCategoryValuation(category.Id);
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);

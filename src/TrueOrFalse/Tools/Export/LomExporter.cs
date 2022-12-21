@@ -32,7 +32,7 @@ public class LomExporter
 
         foreach (var category in categories)
         {
-            if (!category.Creator.IsMemuchoUser && !category.Creator.IsBeltz)
+            if (category.Creator != null && !category.Creator.IsMemuchoUser && !category.Creator.IsBeltz)
                 continue;
 
             try
@@ -52,7 +52,7 @@ public class LomExporter
 
         foreach (var question in allQuestions)
         {
-            if(!question.Creator.IsMemuchoUser && !question.Creator.IsBeltz)
+            if(question.Creator != null && !question.Creator.IsMemuchoUser && !question.Creator.IsBeltz)
                 continue;
 
             try

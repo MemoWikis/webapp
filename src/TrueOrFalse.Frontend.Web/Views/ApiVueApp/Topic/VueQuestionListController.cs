@@ -58,7 +58,7 @@ public class VueQuestionListController : BaseController
             answerCount = history.TimesAnsweredUser,
             correctAnswerCount = history.TimesAnsweredUserTrue,
             wrongAnswerCount = history.TimesAnsweredUserWrong,
-            canBeEdited = (question.Creator == SessionUser.User) || IsInstallationAdmin,
+            canBeEdited = question.Creator?.Id == SessionUser.UserId || IsInstallationAdmin,
         });
 
         return json;

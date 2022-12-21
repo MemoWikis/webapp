@@ -233,6 +233,7 @@ public class EditQuestionController : BaseController
         return categories;
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult StoreImage(
         string imageSource,

@@ -232,6 +232,9 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void UpdateActivityPointsData()
     {
+        if(!SessionUser.IsLoggedIn)
+            return;
+
         var totalPointCount = 0;
         foreach (var activityPoints in Sl.ActivityPointsRepo.GetActivtyPointsByUser(Sl.CurrentUserId))
         {
