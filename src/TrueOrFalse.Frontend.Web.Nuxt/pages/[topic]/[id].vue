@@ -10,10 +10,14 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
-        baseURL: process.server ? config.public.serverBase : config.public.clientBase,
         credentials: 'include',
         mode: 'no-cors',
-        headers
+        onRequest({ options }) {
+            if (process.server) {
+                options.headers = headers
+                options.baseURL = config.public.serverBase
+            }
+        }
     })
 
 if (topic.value != null) {

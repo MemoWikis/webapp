@@ -141,6 +141,11 @@ export default defineNuxtComponent({
             // eventBus.$emit('open-publish-category-modal', this.categoryId);
         },
         openAddToWikiModal() {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
             var data = {
                 parentId: this.categoryId,
                 editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
@@ -168,8 +173,8 @@ export default defineNuxtComponent({
             <div class="col-xs-9">
                 <div class="topic-name">
 
-                    <NuxtLink :href="category.LinkToCategory">
-                        <template v-html="category.CategoryTypeHtml"></template> {{ category.Name }}
+                    <NuxtLink :href="$props.category.LinkToCategory">
+                        <template v-html="$props.category.CategoryTypeHtml"></template> {{ $props.category.Name }}
                     </NuxtLink>
 
                     <div v-if="visibility == 1" class="segmentCardLock" @click="openPublishModal" data-toggle="tooltip"
@@ -223,20 +228,45 @@ export default defineNuxtComponent({
                     </VDropdown>
                 </div>
                 <div class="set-question-count">
-                    <a :href="category.LinkToCategory" class="sub-label">
-                        <template v-if="category.ChildCategoryCount == 1">1 Unterthema</template>
-                        <template v-else-if="category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
-                            Unterthemen</template>
-                        <span v-if="category.QuestionCount > 0">{{ category.QuestionCount }} Frage<template
-                                v-if="category.QuestionCount != 1">n</template></span>
-                    </a>
+
+                    <NuxtLink :href="$props.category.LinkToCategory" class="sub-label">
+                        <template v-if="$props.category.ChildCategoryCount == 1">1 Unterthema </template>
+                        <template v-else-if="$props.category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
+                            Unterthemen </template>
+                        <span v-if="$props.category.QuestionCount > 0">
+                            {{ category.QuestionCount + ' Frage' + ($props.category.QuestionCount == 1 ? '' : 'n') }}
+                        </span>
+                    </NuxtLink>
+
                 </div>
-                <a :href="category.LinkToCategory">
-                    <div v-if="category.QuestionCount > 0" class="KnowledgeBarWrapper">
-                        <div v-html="category.KnowledgeBarHtml"></div>
+                <div v-if="$props.category.QuestionCount > 0" class="KnowledgeBarWrapper">
+
+                    <NuxtLink :href="$props.category.LinkToCategory">
+                        <div class="knowledge-bar">
+                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0"
+                                class="needs-learning"
+                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)'"
+                                :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
+                            </div>
+
+                            <div v-if="$props.category.KnowledgeBarData.NeedsConsolidationPercentage > 0"
+                                class="needs-consolidation"
+                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsConsolidation + ' Fragen (' + $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%)'"
+                                :style="{ 'width': $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%' }">
+                            </div>
+
+                            <div v-if="$props.category.KnowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
+                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.Solid + ' Fragen (' + $props.category.KnowledgeBarData.SolidPercentage + '%)'"
+                                :style="{ 'width': $props.category.KnowledgeBarData.SolidPercentage + '%' }"></div>
+
+                            <div v-if="$props.category.KnowledgeBarData.NotLearnedPercentage > 0" class="not-learned"
+                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NotLearned + ' Fragen (' + $props.category.KnowledgeBarData.NotLearnedPercentage + '%)'"
+                                :style="{ 'width': $props.category.KnowledgeBarData.NotLearnedPercentage + '%' }"></div>
+                        </div>
                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                    </div>
-                </a>
+                    </NuxtLink>
+
+                </div>
             </div>
         </div>
     </div>
@@ -288,6 +318,11 @@ li {
     .segmentCategoryCard {
         transition: 0.2s;
 
+        .row {
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
         &.hover {
             cursor: pointer;
         }
@@ -299,6 +334,26 @@ li {
             margin-top: 20px;
 
             .segmentCategoryCard {
+
+                .ButtonEllipsis {
+                    font-size: 18px;
+                    color: @memo-grey-dark;
+                    border-radius: 24px;
+                    height: 30px;
+                    width: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:hover {
+                        background: @memo-grey-lighter;
+                        color: @memo-blue;
+                    }
+
+                    &:active {
+                        background: @memo-grey-light;
+                    }
+                }
 
                 .topic-name {
                     padding: 0;
@@ -472,7 +527,13 @@ li {
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        margin-right: 10px;
+        margin-right: 4px;
+        margin-left: 4px;
+        background: white;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        border-radius: 15px;
 
         .fa-unlock {
             display: none !important;
@@ -493,6 +554,12 @@ li {
                 display: unset !important;
                 color: @memo-blue;
             }
+
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
         }
     }
 
@@ -503,5 +570,133 @@ li {
             font-size: 18px;
         }
     }
+
+    .topicNavigation,
+    .setCardMiniList {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+
+        &.row:before,
+        &.row:after {
+            display: inline-block;
+        }
+
+        img {
+            border-radius: 0;
+        }
+
+        a {
+            color: @global-text-color;
+
+            &:hover,
+            &:active,
+            &:focus {
+                text-decoration: none;
+            }
+        }
+
+        .set-question-count {
+            color: @gray-light;
+            margin-top: 8px;
+            line-height: 22px;
+        }
+
+        .topic,
+        .setCardMini {
+
+            .row {
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+
+            .stack-below(@extra-breakpoint-cards);
+
+            .ImageContainer {
+                max-width: 80px;
+                min-width: 70px;
+
+                .LicenseInfo {
+                    text-align: center;
+                    color: @gray-light;
+
+                    &:after {
+                        content: "Lizenz";
+                    }
+                }
+            }
+
+            .topic-name {
+                max-height: 65px;
+                display: flex;
+                align-items: center;
+                height: 100%;
+                overflow: hidden;
+
+                @media (max-width: (@extra-breakpoint-cards - 1px)) {
+                    max-height: none;
+                }
+            }
+
+            .KnowledgeBarLegend {
+                .greyed;
+                font-size: 12px;
+                line-height: 1.5em;
+                //text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 0.2s linear;
+
+                .media-below-sm ({
+                    opacity: 1;
+                });
+        }
+
+        &:hover {
+
+            //show on hover over navigation tile
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
+        }
+    }
+
+    .knowledge-bar {
+        display: inline-flex;
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge,
+        .needs-learning,
+        .needs-consolidation,
+        .not-learned,
+        .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
+    }
+}
 }
 </style>

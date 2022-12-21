@@ -11,7 +11,7 @@ namespace VueApp;
 
 public class SearchController : BaseController
 {
-    [HttpPost]
+    [HttpGet]
     public JsonResult All(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
@@ -27,7 +27,6 @@ public class SearchController : BaseController
 
         if (elements.Users.Any())
             AddUserItems(userItems, elements);
-
 
         return Json(new
         {

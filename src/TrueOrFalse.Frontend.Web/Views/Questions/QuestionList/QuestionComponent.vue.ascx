@@ -31,8 +31,8 @@
                         <img :src="questionImage"></img>
                     </div>
                     <div class="questionContainerTopSection col-xs-11" >
-                        <div class="questionHeader row">
-                            <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
+                        <div class="questionHeader">
+                            <div class="questionTitle" ref="questionTitle" :id="questionTitleId" @click="expandQuestion()">
                                 <component :is="questionTitleHtml && { template:questionTitleHtml }" @hook:mounted="highlightCode(questionTitleId)" ></component>
                                 <div v-if="visibility == 1" class="privateQuestionIcon">
                                     <p>
@@ -40,7 +40,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="questionHeaderIcons col-xs-3"  @click.self="expandQuestion()">
+                            <div class="questionHeaderIcons"  @click.self="expandQuestion()">
                                 <div class="iconContainer float-right" @click="expandQuestion()">
                                     <i class="fas fa-angle-down rotateIcon" :class="{ open : showFullQuestion }"></i>
                                 </div>

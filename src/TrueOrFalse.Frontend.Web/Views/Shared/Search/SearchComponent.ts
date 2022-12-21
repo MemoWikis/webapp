@@ -82,10 +82,10 @@ Vue.component('search-component',
                 };
 
                 $.ajax({
-                    type: 'Post',
+                    type: 'Get',
                     contentType: "application/json",
-                    url: '/Api/Search/ByName',
-                    data: JSON.stringify(data),
+                    url: '/Api/Search/ByName/?term=' + encodeURIComponent(self.searchTerm),
+                    //data: JSON.stringify(data),
                     success: function (result) {
                         self.categories = result.categories;
                         self.questions = result.questions;

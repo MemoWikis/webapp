@@ -9,9 +9,9 @@ export class Topic {
   Name: string = ''
   ImgUrl: string = ''
   Content: string = ''
-  ParentTopicCount: number =  0
+  ParentTopicCount: number = 0
   ChildTopicCount: number = 0
-  Views: number =  0
+  Views: number = 0
   CommentCount: number = 0
   Visibility: Visibility = Visibility.Owner
   AuthorIds: number[] = []
@@ -28,7 +28,7 @@ export const useTopicStore = defineStore('topicStore', {
       id: 0,
       name: '',
       initialName: '',
-      imgUrl:'',
+      imgUrl: '',
       questionCount: 0,
       content: '',
       initialContent: '',
@@ -42,7 +42,9 @@ export const useTopicStore = defineStore('topicStore', {
       isWiki: false,
       currentUserIsCreator: false,
       canBeDeleted: false,
-      authors: [] as Author[]
+      authors: [] as Author[],
+      showPublishModal: false,
+      questionIds: [] as number[]
     }
   },
   actions: {
@@ -70,6 +72,9 @@ export const useTopicStore = defineStore('topicStore', {
         this.questionCount = topic.QuestionCount
 
         this.authors = topic.Authors
+
+        this.showPublishModal = false
+        this.questionIds = []
       }
     },
     async saveTopic() {
@@ -93,10 +98,26 @@ export const useTopicStore = defineStore('topicStore', {
       this.content = this.initialContent
       this.contentHasChanged = false
     },
-    isOwnerOrAdmin(){
+    isOwnerOrAdmin() {
       const userStore = useUserStore()
       return userStore.isAdmin || this.currentUserIsCreator
     },
+    async publish() {
+      const result = $fetch<number[]>(`apiVue/Topic/LoadQuestionIds?topicId=${this.id}`, {
+        mode: 'no-cors',
+        credentials: 'include'
+      })
+      if (result) {
+        this.questionIds = await result
+        this.showPublishModal = true
+      }
+    },
+    setToPrivate() {
+
+    },
+    delete() {
+
+    }
   },
   getters: {
     getTopicName(): string {

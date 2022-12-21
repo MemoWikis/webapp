@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-const props = defineProps(['question'])
+import { Question } from '../question'
+const props = defineProps({
+    question: { type: Object as () => Question, required: true }
+})
 const front = ref('')
 const back = ref('')
 const flipped = ref(false)
 const emit = defineEmits(['flip'])
 function flip() {
-
+    flipped.value = !flipped.value
 }
 </script>
 
@@ -16,11 +18,10 @@ function flip() {
             <div class="flashcard-front">
                 <p class="QuestionText"
                     style="text-align: center; font-family: Open Sans, Arial, sans-serif; margin: 0;">
-                    {{ props.question.QuesitonText }}</p>
-                <template v-html="props.question.QuestionTextMarkdown"></template>
+                    {{ props.question.Text }}</p>
             </div>
             <div class="flashcard-back">
-
+                <template v-html="props.question.Solution"></template>
             </div>
         </div>
     </div>
@@ -30,12 +31,12 @@ function flip() {
 .flashcard {
     background-color: transparent;
     width: 300px;
-    height: 300px;
+    height: 100%;
     perspective: 1000px;
 
     &.flipped {
-        .flip-card-inner {
-            transform: rotateY(180deg);
+        .flashcard-inner {
+            transform: rotateY(180deg) !important;
         }
     }
 }

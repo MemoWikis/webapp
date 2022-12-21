@@ -4,10 +4,12 @@ import { useTopicStore } from '../topicStore'
 
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
-  <div id="TopicTabBar" class="col-xs-12">
+  <div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
     <div class="tab" @click="tabsStore.activeTab = Tab.Topic">
       <div class="tab-label">Thema</div>
@@ -18,8 +20,8 @@ const topicStore = useTopicStore()
     </div>
 
     <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
-      <div class="tab-label">Fragen <template
-          v-if="topicStore.questionCount > 0">({{ topicStore.questionCount }})</template>
+      <div class="tab-label">Fragen <template v-if="topicStore.questionCount > 0">({{ topicStore.questionCount
+      }})</template>
       </div>
       <div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
       <div class="inactive-tab" v-else>
@@ -107,6 +109,15 @@ const topicStore = useTopicStore()
         background: @memo-grey-light;
         width: 100%;
       }
+    }
+  }
+
+  &.is-mobile {
+    font-size: 16px;
+
+    .tab-label,
+    .tab-filler {
+      padding: 4px 8px;
     }
   }
 

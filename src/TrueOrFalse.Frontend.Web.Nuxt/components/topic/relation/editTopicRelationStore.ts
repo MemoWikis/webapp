@@ -110,13 +110,14 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     },
     addToPersonalWiki(id: number) {
       const editTopicRelationData: EditRelationData = {
-          childId: id,
-          redirect: true,
-          editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
+        childId: id,
+        redirect: true,
+        editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
       }
-  
+
       this.openModal(editTopicRelationData)
-  }
+    }
+
   },
 })
 

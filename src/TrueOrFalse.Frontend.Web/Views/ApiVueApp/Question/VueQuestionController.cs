@@ -13,6 +13,25 @@ public class VueQuestionController : BaseController
         _questionRepo = questionRepo;
     }
 
+    [HttpGet]
+    public JsonResult GetQuestion(int id)
+    {
+        var q = EntityCache.GetQuestionById(id);
+        if (PermissionCheck.CanView(q))
+        {
+            return Json(new
+            {
+                Id = id,
+                Text = q.Text,
+                TextExtended = q.TextExtended,
+                SolutionType = q.SolutionType,
+                Solution = GetQuestionSolution.Run(q).GetCorrectAnswerAsHtml(),
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        return Json(new { }, JsonRequestBehavior.AllowGet);
+    }
+
     public JsonResult LoadQuestion(int questionId)
     {
         var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations : null;

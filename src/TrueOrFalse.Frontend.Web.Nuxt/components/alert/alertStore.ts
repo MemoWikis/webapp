@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 export { messages } from './messages'
 
-export type AlertMsg = {
+export interface AlertMsg {
   text: string,
   reload?: boolean,
   customHtml?: string,

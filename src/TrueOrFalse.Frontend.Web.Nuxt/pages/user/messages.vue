@@ -5,10 +5,16 @@ onBeforeMount(() => {
     emit('setPage', Page.Messages)
 })
 const config = useRuntimeConfig()
-
+const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { data: model } = await useFetch<any>(`/apiVue/VueUserMessages/Get/`, {
-    baseURL: process.client ? config.public.clientBase : config.public.serverBase, credentials: 'include',
+    credentials: 'include',
     mode: 'no-cors',
+    onRequest({ options }) {
+            if (process.server) {
+                options.headers = headers
+                options.baseURL = config.public.serverBase
+            }
+        }
 })
 
 async function loadAll() {
@@ -33,7 +39,7 @@ async function loadAll() {
 
                     <p v-if="model.ReadMessagesCount > 0">
                         Du hast {{ model.ReadMessagesCount }} gelesene Nachricht{{ model.ReadMessagesCount == 0 ||
-                                model.ReadMessagesCount > 1 ? 'en' : ''
+                        model.ReadMessagesCount > 1 ? 'en' : ''
                         }}.
                     <div @click="loadAll()">Alle anzeigen</div>.
                     </p>

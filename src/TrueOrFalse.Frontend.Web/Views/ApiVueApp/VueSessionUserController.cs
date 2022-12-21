@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace VueApp;
 
@@ -54,6 +55,11 @@ public class VueSessionUserController : BaseController
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
+        return Json(GetCurrentUserData(), JsonRequestBehavior.AllowGet);
+    }
+
+    private dynamic GetCurrentUserData()
+    {
         var type = UserType.Anonymous;
         if (SessionUser.IsLoggedIn)
         {
@@ -64,7 +70,7 @@ public class VueSessionUserController : BaseController
             else type = UserType.Normal;
         }
 
-        return Json(new
+        return new
         {
             IsLoggedIn = SessionUser.IsLoggedIn,
             Id = IsLoggedIn ? SessionUser.UserId : -1,
@@ -77,8 +83,8 @@ public class VueSessionUserController : BaseController
                 : "",
             Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
             ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
-            PersonalWiki = new TopicController().GetTopic(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId)
-        }, JsonRequestBehavior.AllowGet);
+            PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId)
+        };
     }
 
     private enum UserType

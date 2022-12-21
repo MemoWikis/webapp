@@ -45,7 +45,7 @@ public class VueSegmentationController : BaseController
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
-        var startTopicId = 0;
+        var startTopicId = 1;
 
         if (IsLoggedIn)
         {
@@ -84,10 +84,8 @@ public class VueSegmentationController : BaseController
 
         var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds;
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
-        var knowledgeBarHtml = "";
-        if (questionCount > 0)
-            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
-                new CategoryKnowledgeBarModel(categoryCacheItem), ControllerContext);
+
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;
 
         var isInWishknowledge = false;
         var isPersonalHomepage = false;
@@ -107,7 +105,18 @@ public class VueSegmentationController : BaseController
             CategoryTypeHtml = categoryTypeHtml,
             ImgUrl = imgUrl,
             ImgHtml = imgHtml,
-            KnowledgeBarHtml = knowledgeBarHtml,
+            KnowledgeBarData =
+            new {
+                Total = knowledgeBarSummary.Total,
+                NeedsLearning = knowledgeBarSummary.NeedsLearning,
+                NeedsLearningPercentage = knowledgeBarSummary.NeedsLearningPercentage,
+                NeedsConsolidation = knowledgeBarSummary.NeedsConsolidation,
+                NeedsConsolidationPercentage = knowledgeBarSummary.NeedsConsolidationPercentage,
+                Solid = knowledgeBarSummary.Solid,
+                SolidPercentage = knowledgeBarSummary.SolidPercentage,
+                NotLearned = knowledgeBarSummary.NotLearned,
+                NotLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage
+            },
             ChildCategoryCount = childCategoryCount,
             QuestionCount = questionCount,
             IsInWishknowledge = isInWishknowledge,
@@ -124,7 +133,7 @@ public class VueSegmentationController : BaseController
         public string LinkToCategory;
         public string CategoryTypeHtml;
         public string ImgHtml;
-        public string KnowledgeBarHtml;
+        public dynamic KnowledgeBarData;
         public int ChildCategoryCount;
         public int QuestionCount;
         public bool IsInWishknowledge = false;

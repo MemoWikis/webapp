@@ -9,11 +9,15 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUser/GetCurrentUser', {
-  baseURL: process.server ? config.public.serverBase : config.public.clientBase,
   method: 'Get',
   credentials: 'include',
   mode: 'no-cors',
-  headers,
+  onRequest({ options }) {
+    if (process.server) {
+      options.headers = headers
+      options.baseURL = config.public.serverBase
+    }
+  }
 })
 if (currentUser.value)
   userStore.initUser(currentUser.value)
@@ -28,8 +32,12 @@ interface FooterTopics {
 }
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
   method: 'Get',
-  baseURL: process.server ? config.public.serverBase : config.public.clientBase,
   mode: 'no-cors',
+  onRequest({ options }) {
+    if (process.server) {
+      options.baseURL = config.public.serverBase
+    }
+  }
 })
 
 const page = ref(Page.Default)
@@ -216,9 +224,11 @@ function setPage(type: Page | null = null) {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 #FooterBack {
-  background: grey;
+  background: @memo-grey-light;
   z-index: 3000;
   position: relative;
   bottom: 0;

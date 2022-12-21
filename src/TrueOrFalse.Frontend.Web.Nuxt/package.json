@@ -8,6 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/device": "^3.0.0",
     "@types/jquery": "^3.5.14",
     "nuxt": "3.0.0"
   },

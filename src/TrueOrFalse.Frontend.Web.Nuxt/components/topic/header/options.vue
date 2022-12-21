@@ -9,7 +9,7 @@ const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
 const editTopicRelationStore = useEditTopicRelationStore()
-
+const hoverLock = ref(false)
 </script>
 
 <template>
@@ -64,7 +64,7 @@ const editTopicRelationStore = useEditTopicRelationStore()
                     <div v-if="userStore.isLoggedIn && userStore.personalWiki && topicStore.id != userStore.personalWiki.Id"
                         class="dropdown-row" @click="editTopicRelationStore.addToPersonalWiki(topicStore.id)">
                         <div class="dropdown-icon">
-                            <i class="fa fa-plus-square"></i>
+                            <font-awesome-icon icon="fa-solid fa-square-plus" />
                         </div>
                         <div class="dropdown-label">
                             Zu meinem Wiki hinzufügen
@@ -72,40 +72,41 @@ const editTopicRelationStore = useEditTopicRelationStore()
                     </div>
 
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
-                        class="dropdown-row">
-                        <a onclick="eventBus.$emit('set-category-to-private', <%= Model.Category.Id %>)"
-                            data-allowed="logged-in">
-                            <div class="dropdown-icon">
-                                <i class="fas fa-lock"></i>
-                            </div>
+                        class="dropdown-row" @click="topicStore.setToPrivate()">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-lock" />
+                        </div>
+                        <div class="dropdown-label">
                             Thema auf privat setzen
-                        </a>
+                        </div>
                     </div>
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
-                        class="dropdown-row">
-                        <a onclick="eventBus.$emit('open-publish-category-modal', <%= Model.Category.Id %>)"
-                            data-allowed="logged-in">
-                            <div class="dropdown-icon">
-                                <i class="fas fa-unlock"></i>
-                            </div>
+                        class="dropdown-row" @click="topicStore.publish()">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-unlock" />
+                        </div>
+                        <div class="dropdown-label">
                             Thema veröffentlichen
-                        </a>
+                        </div>
                     </div>
-                    <div v-if="topicStore.canBeDeleted" class="dropdown-row">
-                        <a onclick="eventBus.$emit('open-delete-category-modal', <%= Model.Category.Id %>)"
-                            data-allowed="logged-in">
-                            <div class="dropdown-icon">
-                                <i class="fas fa-trash"></i>
-                            </div>
+                    <div v-if="topicStore.canBeDeleted" class="dropdown-row" @click="topicStore.delete()">
+
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-trash" />
+                        </div>
+                        <div class="dropdown-label">
                             Thema löschen
-                        </a>
+                        </div>
                     </div>
                 </template>
             </V-Dropdown>
         </div>
-        <div v-if="topicStore.visibility == Visibility.Owner">
-            <font-awesome-icon icon="fa-solid fa-lock" />
+        <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true"
+            @mouseleave="hoverLock = false">
+            <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
+            <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>
+
     </div>
 </template>
 
@@ -127,6 +128,29 @@ const editTopicRelationStore = useEditTopicRelationStore()
         font-size: 18px;
         height: 30px;
         width: 30px;
+        min-width: 30px;
+        transition: filter 0.1s;
+
+        &:hover {
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
+        }
+    }
+
+    .lock-btn {
+        cursor: pointer;
+        background: white;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        height: 30px;
+        width: 30px;
+        min-width: 30px;
         transition: filter 0.1s;
 
         &:hover {

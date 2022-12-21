@@ -58,7 +58,6 @@ var pub = Vue.component('publish-category-component', {
                 success: function (result) {
                     self.categoryName = result.categoryName;
                     self.questionIds = result.questionIds;
-                    self.privateQuestionIds = result.privateQuestionIds;
                     self.questionCount = result.questionCount;
                     $('#PublishCategoryModal').modal('show');
                 },

@@ -16,11 +16,17 @@
     }
 
     .v-popper__inner {
+
+        // [ Default Dropdown ]
         border: none !important;
         display: flex; 
         color: @memo-grey-darker;
         font-size: 14px;
         padding: 12px 0;
+
+        &:has(div.searchDropdown) { 
+            padding: 0;
+        }
 
         a{
             color: @memo-grey-darker;

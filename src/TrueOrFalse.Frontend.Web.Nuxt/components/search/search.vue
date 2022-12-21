@@ -6,9 +6,9 @@ import { ImageStyle } from '../image/imageStyleEnum'
 
 const props = defineProps({
     searchType: Number as PropType<SearchType>,
-    id: { type: [String, Number], required: true },
     showSearchIcon: Boolean,
     showSearch: Boolean,
+    placement: { type: String, default: 'bottom-start' }
 })
 
 
@@ -16,22 +16,19 @@ const emit = defineEmits(['selectItem'])
 
 const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
 watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {
-    emit('selectItem', item);
+    emit('selectItem', item)
 })
-
-const debounceSearch = _.debounce(() => {
-    search()
-}, 500)
 
 const showDropdown = ref(false)
 const searchTerm = ref('')
-watch(searchTerm, (term) => {
-    if (term.length > 0 && lockDropdown.value == false) {
-        showDropdown.value = true;
-        debounceSearch();
+
+watch([searchTerm, () => props.showSearch], () => {
+    if (searchTerm.value.length > 0 && props.showSearch) {
+        showDropdown.value = true
+        search()
     }
     else
-        showDropdown.value = false;
+        showDropdown.value = false
 })
 
 function inputValue(e: Event) {
@@ -53,112 +50,226 @@ onBeforeMount(() => {
 })
 
 const searchUrl = ref('')
-const lockDropdown = ref(false)
 const noResults = ref(false)
-const categoryCount = ref(0)
+const topicCount = ref(0)
 const questionCount = ref(0)
 const userCount = ref(0)
 const userSearchUrl = ref('')
 
-const categories = ref([] as TopicItem[])
+const topics = ref([] as TopicItem[])
 const questions = ref([] as QuestionItem[])
 const users = ref([] as UserItem[])
-const config = useRuntimeConfig()
 
 async function search() {
-    showDropdown.value = true;
-    var data = {
-        term: searchTerm.value,
-    };
-
-    var result = await $fetch<FullSearch>(searchUrl.value, {
-        baseURL: process.client ? config.public.clientBase : config.public.serverBase, body: data,
-        method: 'POST',
+    var result = await $fetch<FullSearch>(`${searchUrl.value}?term=${encodeURIComponent(searchTerm.value)}`, {
         mode: 'no-cors',
         credentials: 'include'
     })
     if (result != null) {
-        categories.value = result.categories;
-        questions.value = result.questions;
-        users.value = result.users;
-        noResults.value = result.categories.length + result.questions.length + result.users.length <= 0;
-        categoryCount.value = result.categoryCount;
-        questionCount.value = result.questionCount;
-        userCount.value = result.userCount;
-        userSearchUrl.value = result.userSearchUrl;
+        topics.value = result.categories
+        questions.value = result.questions
+        users.value = result.users
+        noResults.value = result.categories.length + result.questions.length + result.users.length <= 0
+        topicCount.value = result.categoryCount
+        questionCount.value = result.questionCount
+        userCount.value = result.userCount
+        userSearchUrl.value = result.userSearchUrl
     }
 }
 
 function selectItem(item: TopicItem | QuestionItem | UserItem) {
-    selectedItem.value = item;
+    selectedItem.value = item
 }
 function openUsers() {
-    location.href = userSearchUrl.value;
+    navigateTo(userSearchUrl.value)
 }
+
+onMounted(() => {
+    if (typeof window !== 'undefined') {
+        window.addEventListener('scroll', () => { showDropdown.value = false })
+    }
+})
+
 </script>
 
 <template>
-    <div class="search-category-component" :id="id + 'Container'">
+    <div class="search-category-component">
         <form v-on:submit.prevent>
-            <div class="form-group dropdown searchAutocomplete" :class="{ 'open': showDropdown }">
+            <div class="form-group searchAutocomplete">
                 <div class="searchInputContainer">
-                    <input ref="searchInput" class="form-control dropdown-toggle"
-                        :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text" v-bind:value="searchTerm"
-                        @input="event => inputValue(event)" :id="props.id.toString" autocomplete="off"
-                        @click="lockDropdown = false" aria-haspopup="true" placeholder="Suche" />
+                    <input class="form-control" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
+                        v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
+                        placeholder="Suche" />
                 </div>
-                <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="id + 'Dropdown'"
-                    v-show="props.showSearch">
-                    <li v-if="categories.length > 0" class="searchBanner">
+            </div>
+        </form>
+
+        <VDropdown :distance="6" :triggers="[]" v-model:shown="showDropdown" no-auto-focus :auto-hide="false"
+            :placement="props.placement">
+            <template #popper>
+                <div class="searchDropdown">
+                    <div v-if="topics.length > 0" class="searchBanner">
                         <div>Themen </div>
-                        <div>{{ categoryCount }} Treffer</div>
-                    </li>
-                    <li class="searchResultItem" v-for="c in categories" @click="selectItem(c)" data-toggle="tooltip"
-                        v-tooltip="c.Name">
-                        <Image :src="c.ImageUrl" />
+                        <div>{{ topicCount }} Treffer</div>
+                    </div>
+                    <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
+                        <Image :src="t.ImageUrl" />
                         <div class="searchResultLabelContainer">
-                            <div class="searchResultLabel body-m">{{ c.Name }}</div>
-                            <div class="searchResultSubLabel body-s">{{ c.QuestionCount }} Frage<template
-                                    v-if="c.QuestionCount != 1">n</template></div>
+                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                            <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template
+                                    v-if="t.QuestionCount != 1">n</template></div>
                         </div>
-                    </li>
-                    <li v-if="questions.length > 0" class="searchBanner">
+                    </div>
+                    <div v-if="questions.length > 0" class="searchBanner">
                         <div>Fragen </div>
                         <div>{{ questionCount }} Treffer</div>
-                    </li>
-                    <li class="searchResultItem" v-for="q in questions" @click="selectItem(q)" data-toggle="tooltip"
-                        data-placement="top" :title="q.Name">
+                    </div>
+                    <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.Name">
                         <Image :src="q.ImageUrl" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ q.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>
                         </div>
-                    </li>
-                    <li v-if="users.length > 0" class="searchBanner">
+                    </div>
+                    <div v-if="users.length > 0" class="searchBanner">
                         <div>Nutzer </div>
                         <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
-                    </li>
-                    <li class="searchResultItem" v-for="u in users" @click="selectItem(u)" data-toggle="tooltip"
-                        data-placement="top" :title="u.Name">
-                        <Image class="authorImg" :src="u.ImageUrl" :style="ImageStyle.Author" />
+                    </div>
+                    <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.Name">
+                        <Image :src="u.ImageUrl" :style="ImageStyle.Author" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ u.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>
                         </div>
-                    </li>
-                    <li v-if="noResults">
+                    </div>
+                    <div v-if="noResults" class="noResult">
                         <div>Kein Treffer</div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </div>
 
-        </form>
+            </template>
+        </VDropdown>
     </div>
 </template>
 
 <style scoped lang="less">
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
+
+.searchAutocomplete {
+    z-index: 105;
+    margin: 0;
+}
+
+.searchDropdown {
+    width: 360px;
+    padding: 0;
+
+    .dropdownFooter {
+        line-height: 20px;
+        padding: 8px;
+        text-align: end;
+
+        .dropdownLink {
+            color: @memo-blue-link;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.searchBanner {
+    background: @memo-blue;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    cursor: unset;
+    height: 32px;
+
+    div {
+        padding: 0 12px;
+        cursor: unset;
+
+        &.link {
+            cursor: pointer;
+            color: white;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.searchInputContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+
+    .hasSearchIcon {
+        padding-right: 54px;
+    }
+
+    .searchIconContainer {
+        height: 34px;
+        font-size: 25px;
+        position: relative;
+        left: -40px;
+    }
+}
+
+.searchResultItem {
+    padding: 4px 8px;
+    display: flex;
+    width: 100%;
+    height: 70px;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background: @memo-grey-lighter;
+        color: @memo-blue;
+    }
+
+    .searchResultLabelContainer {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .searchResultLabel {
+        height: 40px;
+        line-height: normal;
+        color: @memo-grey-darker;
+        text-overflow: ellipsis;
+        margin: 0;
+        overflow: hidden;
+        max-width: 408px;
+        white-space: normal;
+    }
+
+    .searchResultSubLabel {
+        color: @memo-grey-light;
+        font-style: italic;
+        height: 20px;
+        line-height: normal;
+    }
+
+
+    img {
+        max-height: 62px;
+        max-width: 62px;
+        height: auto;
+        margin-right: 10px;
+        width: 100%;
+        margin-top: 0px !important;
+    }
+}
 
 .searchButton {
     svg.fa-xmark {
@@ -172,5 +283,12 @@ function openUsers() {
 
 input {
     border-radius: 24px;
+}
+
+.noResult {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
