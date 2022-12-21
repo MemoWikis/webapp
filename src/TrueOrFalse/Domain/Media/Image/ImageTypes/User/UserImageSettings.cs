@@ -83,7 +83,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
         }
 
-        var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
+        var sanitizedEmailAdress = emailAddress?.Trim().ToLowerInvariant() ?? "";
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
 
         var gravatarURL = "//www.gravatar.com/avatar/" +

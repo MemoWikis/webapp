@@ -23,6 +23,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set => SessionData.Set("isAdministrativeLogin", value);
     }
 
+    public static int UserId => _userId;
+    
     private static int _userId
     {
         get => SessionData.Get("userId", -1);
@@ -33,7 +35,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         get
         {
-            if (_userId == -1) 
+            if (_userId < 0) 
                 return null;
 
             return SessionUserCache.GetUser(_userId);
@@ -45,7 +47,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         if (!IsLoggedIn)
             return false;
 
-        return userId == User.Id;
+        return userId == UserId;
     }
 
     public static bool IsLoggedInUserOrAdmin(int userId)
@@ -80,7 +82,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             FormsAuthentication.SignOut();
     }
 
-    public static int UserId => _userId;
 
     public static List<ActivityPoints> ActivityPoints => SessionData.Get("pointActivities", new List<ActivityPoints>());
 

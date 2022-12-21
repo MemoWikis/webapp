@@ -34,7 +34,7 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
 
         var totals = new List<TotalPerUser>();
 
-        if(userId != -1)
+        if(userId > -1)
         { 
             var sbQuestionIdRestriction = new StringBuilder();
 

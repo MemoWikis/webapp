@@ -171,7 +171,7 @@ public class AnswerQuestionModel : BaseModel
         Creator = new UserTinyModel(question.Creator);
 
         if (question.Visibility != QuestionVisibility.All)
-            if(Creator.Id != SessionUser.UserId )
+            if(Creator.Id != SessionUser.UserId)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));

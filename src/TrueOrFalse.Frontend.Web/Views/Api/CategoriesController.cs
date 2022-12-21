@@ -36,7 +36,7 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
             var parentCategories = Sl.CategoryRepo.GetByIds(parentIds);
 
-            var hasDeleted = Sl.CategoryDeleter.Run(category);
+            var hasDeleted = Sl.CategoryDeleter.Run(category, SessionUser.UserId);
             foreach (var parent in parentCategories)
             {
                 Sl.CategoryChangeRepo.AddUpdateEntry(parent, SessionUser.UserId, false);

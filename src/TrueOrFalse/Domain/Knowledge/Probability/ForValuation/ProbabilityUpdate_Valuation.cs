@@ -25,10 +25,12 @@ namespace TrueOrFalse
 
         public static void Run(int questionId, int userId)
         {
-            if (userId == -1)
+            var user = Sl.UserRepo.GetById(userId);
+
+            if(user == null)
                 return;
 
-            Run(EntityCache.GetQuestion(questionId), Sl.UserRepo.GetById(userId));
+            Run(EntityCache.GetQuestion(questionId), user);
         }
 
         public static void Run(QuestionCacheItem question, User user)

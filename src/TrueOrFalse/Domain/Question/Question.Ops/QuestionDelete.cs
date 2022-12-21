@@ -20,7 +20,7 @@ public class QuestionDelete
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionForUser(SessionUser.UserId, questionId);
+        SessionUserCache.RemoveQuestionValuationForUser(SessionUser.UserId, questionId);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 

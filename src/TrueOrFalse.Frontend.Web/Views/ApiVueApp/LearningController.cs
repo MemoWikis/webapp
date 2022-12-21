@@ -29,6 +29,9 @@ public class LearningController : BaseController
     [HttpPost]
     public JsonResult GetNewAnswerBodyForTopic(LearningSessionConfig config)
     {
+        if (config.CurrentUserId == 0 && SessionUser.IsLoggedIn)
+            config.CurrentUserId = SessionUser.UserId;
+
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
 
         LearningSessionCache.AddOrUpdate(learningSession);
@@ -82,7 +85,7 @@ public class LearningController : BaseController
 
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
-        var sessionUserId = SessionUser.UserId;
+        var sessionUserId = IsLoggedIn ? SessionUser.UserId : -1;
 
         Sl.SaveQuestionView.Run(
             learningSession.QuestionViewGuid,

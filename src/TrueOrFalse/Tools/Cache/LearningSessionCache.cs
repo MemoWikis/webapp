@@ -31,7 +31,7 @@ public class LearningSessionCache
 
         if (learningSession != null)
         {
-            var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);
+            var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId);
             var questionDetail = LearningSessionCreator.BuildQuestionDetail(config, question, allQuestionValuation);
 
             learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);

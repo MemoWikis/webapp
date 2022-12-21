@@ -21,7 +21,7 @@ public class CategoryInKnowledge
 
     public static void UnpinQuestionsInCategory(int categoryId, UserCacheItem user)
     {
-        if (user.Id == -1) { throw new Exception("user not existent"); }
+        if (user.Id <= 0) { throw new Exception("user not existent"); }
 
         CreateJob(JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge,
             new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });

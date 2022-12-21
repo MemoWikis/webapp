@@ -12,6 +12,7 @@ public class AccountController : BaseController
         return View("~/Views/Users/Account/Membership.aspx", new MembershipModel());
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public ActionResult Membership(MembershipModel model)
     {

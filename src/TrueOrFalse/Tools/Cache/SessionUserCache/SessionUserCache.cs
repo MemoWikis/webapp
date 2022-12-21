@@ -63,6 +63,8 @@ public class SessionUserCache
     {
         var user = Sl.UserRepo.GetById(userId);
 
+        if (user == null) return null;
+
         var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
         cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
             Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
@@ -88,7 +90,7 @@ public class SessionUserCache
     }
 
     public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
-        GetItem(userId).QuestionValuations.Values.ToList();
+        GetItem(userId)?.QuestionValuations.Values.ToList() ?? new List<QuestionValuationCacheItem>();
 
     public static IList<CategoryValuation> GetCategoryValuations(int userId) =>
         GetItem(userId).CategoryValuations.Values.ToList();
@@ -134,14 +136,14 @@ public class SessionUserCache
     {
         foreach (var userId in Sl.UserRepo.GetAllIds())
         {
-            RemoveQuestionForUser(userId, questionId);
+            RemoveQuestionValuationForUser(userId, questionId);
         }
     }
 
-    public static void RemoveQuestionForUser(int userId, int questionId)
+    public static void RemoveQuestionValuationForUser(int userId, int questionId)
     {
         var cacheItem = GetItem(userId);
-        cacheItem.QuestionValuations.TryRemove(questionId, out var questValOut);
+        cacheItem?.QuestionValuations.TryRemove(questionId, out _);
     }
 
     public static List<SessionUserCacheItem> GetAllActiveCaches()

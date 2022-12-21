@@ -32,6 +32,7 @@ public class UserController : BaseController
         return View(_viewLocation, new UserModel(user, isActiveTabBadges: true));
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {

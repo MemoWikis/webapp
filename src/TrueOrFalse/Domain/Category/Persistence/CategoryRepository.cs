@@ -80,7 +80,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (parentCategories.Count != 0)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, SessionUser.UserId, false, type: CategoryChangeType.Relations);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false, type: CategoryChangeType.Relations);
         }
     }
 
@@ -228,7 +228,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetByName(string categoryName)
     {
-        categoryName = categoryName ?? "";
+        categoryName ??= "";
 
         return _session.CreateQuery("from Category as c where c.Name = :categoryName")
                         .SetString("categoryName", categoryName)

@@ -93,7 +93,8 @@ public class CategoryRedirectController : BaseController
     {
         var config = new LearningSessionConfig
         {
-            CategoryId = categoryId
+            CategoryId = categoryId,
+            CurrentUserId = IsLoggedIn ? UserId : default
         };
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
 

@@ -47,13 +47,13 @@ public class KnowledgeSummaryLoader
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SessionUserCache.GetItem(userId).QuestionValuations;
+        var userValuations = SessionUserCache.GetItem(userId)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 
         foreach (var question in aggregatedQuestions)
         {
-            if (userValuations.ContainsKey(question.Id))
+            if (userValuations != null && userValuations.ContainsKey(question.Id))
             {
                 var valuation = userValuations[question.Id];
 
@@ -89,7 +89,7 @@ public class KnowledgeSummaryLoader
         bool onlyValuated = true,
         string options = "standard")
     {
-        if (userId == -1 && questionIds != null)
+        if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
         var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(userId);

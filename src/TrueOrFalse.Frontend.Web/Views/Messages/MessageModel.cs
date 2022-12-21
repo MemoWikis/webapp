@@ -8,7 +8,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class MessageModel : BaseModel
 {
-    public List<MessageModelRow> Messages = new List<MessageModelRow>();
+    public List<MessageModelRow> Messages = new();
     public int ReadMessagesCount;
 
     public MessageModel()
@@ -34,15 +34,16 @@ public class MessageModel : BaseModel
                 IsRead = false
             }));
         }
+        else
+        {
+            Messages = Resolve<MessageRepo>()
+                .GetForUser(SessionUser.UserId, true)
+                .Select(m => new MessageModelRow(m))
+                .ToList();
 
-        Messages = Resolve<MessageRepo>()
-            .GetForUser(SessionUser.UserId, true)
-            .Select(m => new MessageModelRow(m))
-            .ToList();
-
-        ReadMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUser.UserId);
+            ReadMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUser.UserId);
+        }
     }
-
 }
 
 public class MessageModelRow

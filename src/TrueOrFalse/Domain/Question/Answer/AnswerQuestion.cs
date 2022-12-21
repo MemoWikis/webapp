@@ -134,7 +134,6 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             IsCorrect = solution.IsCorrect(answer),
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer
-            
         };
 
         action(question, result);
