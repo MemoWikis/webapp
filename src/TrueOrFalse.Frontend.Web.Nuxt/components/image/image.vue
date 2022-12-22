@@ -4,6 +4,7 @@ import { ImageStyle } from './imageStyleEnum'
 
 const props = defineProps({
   url: String,
+  alt: String,
   square: Boolean,
   class: { type: String, required: false, default: '' },
   style: { type: String as () => ImageStyle, required: false, default: ImageStyle.Topic }
@@ -25,7 +26,7 @@ styleClass.value = props.class + type
 </script>
 
 <template>
-  <img :src="config.public.serverBase + props.url" :class="styleClass" />
+  <img :src="config.public.serverBase + props.url" :class="styleClass" :alt="props.alt" />
 </template>
 
 <style scoped lang="less">

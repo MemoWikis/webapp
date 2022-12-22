@@ -10,7 +10,7 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
     if (val != null)
         navigateTo({ path: val.Url }, { replace: true })
 }
-
+const { isDesktopOrTablet, isMobile } = useDevice()
 </script>
 
 <template>
@@ -41,13 +41,14 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
                     </div>
                     <div id="loginAndHelp">
                         <div class="login-register-container">
-                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
+                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()"
+                                v-show="(!showSearch && isMobile) || isDesktopOrTablet">
                                 <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" />
                                 <div class="login-btn-label">
                                     Anmelden
                                 </div>
                             </div>
-                            <NuxtLink to="/user/register" class="hidden-xs hidden-sm">
+                            <NuxtLink to="/user/register" class="hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                             </NuxtLink>
                         </div>
