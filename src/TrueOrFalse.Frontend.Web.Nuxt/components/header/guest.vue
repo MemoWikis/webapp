@@ -11,6 +11,12 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
         navigateTo({ path: val.Url }, { replace: true })
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
+
+onMounted(() => {
+    if (isMobile)
+        showSearch.value = false
+})
+
 </script>
 
 <template>
