@@ -163,14 +163,14 @@ export default defineNuxtComponent({
     <div class="col-xs-6 topic segmentCategoryCard" v-show="visible" @mouseover="mouseOver" @mouseleave="mouseLeave"
         :class="{ hover: showHover }">
         <div class="row" v-on:click.self="goToCategory()">
-            <div class="col-xs-3">
+            <div class="col-xs-4 col-sm-3">
                 <NuxtLink :to="category.LinkToCategory">
                     <div class="ImageContainer">
                         <Image :url="category.ImgUrl" :square="true" />
                     </div>
                 </NuxtLink>
             </div>
-            <div class="col-xs-9">
+            <div class="col-xs-8 col-sm-9">
                 <div class="topic-name">
 
                     <NuxtLink :href="$props.category.LinkToCategory">
@@ -666,7 +666,9 @@ li {
         display: inline-flex;
         margin-top: 15px;
         height: 10px;
-        width: 180px;
+        min-width: 150px;
+        width: 100%;
+        max-width: 180px;
 
         .solid-knowledge,
         .needs-learning,

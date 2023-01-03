@@ -210,6 +210,7 @@ onMounted(() => {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
+    min-width: 200px;
 
     .hasSearchIcon {
         padding-right: 54px;

@@ -9,7 +9,8 @@ const props = defineProps({
   headerContainer: null,
   headerExtras: null,
   page: { type: Number as PropType<Page>, required: true },
-  showSearch: { type: Boolean, required: true }
+  showSearch: { type: Boolean, required: true },
+  partialSpacer: null
 })
 
 const userStore = useUserStore()
@@ -35,10 +36,7 @@ const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 const breadcrumbEl = ref<VueElement | null>(null)
 const breadcrumbWidth = ref('')
 
-const hide = ref(false)
-
 function startUpdateBreadcrumb() {
-  hide.value = true
   updateBreadcrumb()
 }
 
@@ -74,7 +72,6 @@ const updateBreadcrumb = _.throttle(async () => {
     }
   }
   await nextTick()
-  hide.value = false
 }, 200)
 
 function shiftToStackedBreadcrumbItems() {
@@ -186,7 +183,6 @@ function setPageTitle() {
   }
 }
 
-const breadcrumbRefs = ref([] as any[])
 watch(() => props.showSearch, (val) => {
   if (!val)
     startUpdateBreadcrumb()
@@ -194,8 +190,13 @@ watch(() => props.showSearch, (val) => {
 
 const { isDesktopOrTablet, isMobile } = useDevice()
 const windowInnerWidth = ref(0)
-onMounted(() => {
+onMounted(async () => {
   windowInnerWidth.value = window.innerWidth
+  await nextTick()
+  startUpdateBreadcrumb()
+})
+onUpdated(() => {
+  startUpdateBreadcrumb()
 })
 const shrinkBreadcrumb = ref(false)
 watch(() => props.showSearch, (val) => {
@@ -208,12 +209,15 @@ watch(() => props.showSearch, (val) => {
     shrinkBreadcrumb.value = false
   startUpdateBreadcrumb()
 })
+
+function showBreadcrumb(e: any) {
+  return true
+}
 </script>
 
 <template>
   <div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
-    :class="{ 'hide-breadcrumb': hide, 'search-is-open': props.showSearch && windowInnerWidth < 768 }"
-    v-show="!shrinkBreadcrumb">
+    :class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768 }" v-show="!shrinkBreadcrumb">
 
     <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
       class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
@@ -255,7 +259,7 @@ watch(() => props.showSearch, (val) => {
 
     <template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
       <NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name"
-        :ref="el => breadcrumbRefs.push(el)">
+        :ref="el => showBreadcrumb(el)">
         {{ b.Name }}
       </NuxtLink>
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -264,7 +268,6 @@ watch(() => props.showSearch, (val) => {
     <div class="breadcrumb-item last" v-tooltip="topicStore.name">
       {{ topicStore.name }}
     </div>
-
   </div>
   <div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
     <NuxtLink :to="`/${encodeURI(personalWiki.Name.replaceAll(' ', '-'))}/${personalWiki.Id}`" class="breadcrumb-item"
@@ -279,6 +282,7 @@ watch(() => props.showSearch, (val) => {
       {{ pageTitle }}
     </div>
   </div>
+  <div ref="remainingWidthDiv"></div>
 
 
 </template>
@@ -298,16 +302,14 @@ watch(() => props.showSearch, (val) => {
   opacity: 1;
   transition: opacity 0.5s;
   visibility: visible;
+  max-height: 22px;
+  overflow-x: hidden;
 
   .search-is-open {
     width: 0;
     padding: 0;
     margin: 0;
     visibility: hidden;
-  }
-
-  &.hide-breadcrumb {
-    opacity: 0;
   }
 
   .breadcrumb-item {

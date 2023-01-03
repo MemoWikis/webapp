@@ -31,7 +31,7 @@ const props = defineProps(['footerTopics'])
 
                 <div class="row footer-links-memucho">
 
-                    <div class="FooterCol xxs-stack col-xs-6 col-md-3">
+                    <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
                             <NuxtLink to="/" id="MasterFooterLogo">
                                 <Image url="/Images/Logo/LogoIconText.svg" />
@@ -50,7 +50,7 @@ const props = defineProps(['footerTopics'])
                         </div>
                     </div>
 
-                    <div class="FooterCol xxs-stack col-xs-6 col-md-3">
+                    <div class="FooterCol xxs-stack col-xs-12 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
                                 <LazyNuxtLink :to="`/${footerTopics.MemoWiki.Name}/${footerTopics.MemoWiki.Id}`"
@@ -92,7 +92,7 @@ const props = defineProps(['footerTopics'])
                     </div>
                     <div class="visible-xs visible-sm" style="clear: both"></div>
 
-                    <div class="FooterCol xxs-stack col-xs-6 col-md-3">
+                    <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
@@ -113,7 +113,7 @@ const props = defineProps(['footerTopics'])
                         </div>
                     </div>
 
-                    <div class="FooterCol xxs-stack col-xs-6 col-md-3">
+                    <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
                                 <LazyNuxtLink

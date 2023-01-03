@@ -88,7 +88,6 @@ onBeforeMount(() => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .topic-container {
-    display: flex;
     min-height: 400px;
 }
 

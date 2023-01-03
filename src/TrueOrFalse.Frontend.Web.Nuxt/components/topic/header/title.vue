@@ -40,7 +40,10 @@ onBeforeMount(() => {
 
 })
 
-onMounted(() => resize)
+onMounted(async () => {
+    await nextTick()
+    resize()
+})
 
 onUnmounted(() => {
     window.removeEventListener('resize', resize);
@@ -61,7 +64,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
             <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
                 v-model="topicStore.name" :readonly="readonly"></textarea>
         </h1>
-        <div id="TopicHeaderDetails" :class="{ 'is-mobile' : isMobile}">
+        <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
             <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
                 v-tooltip="'Alle Unterthemen'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" />

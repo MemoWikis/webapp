@@ -9,7 +9,7 @@ const props = defineProps({
     page: { type: Number as PropType<Page>, required: true }
 })
 
-const showSearch = ref(true)
+const showSearch = ref(false)
 
 function openUrl(val: any) {
     navigateTo(val.Url)
@@ -47,7 +47,7 @@ const headerContainer = ref<VueElement>()
 const headerExtras = ref<VueElement>()
 
 onMounted(async () => {
-    if (!userStore.isLoggedIn) {
+    if (!userStore.isLoggedIn || window.innerWidth < 769 || isMobile) {
         showSearch.value = false
     }
     if (typeof window != undefined) {
@@ -55,12 +55,9 @@ onMounted(async () => {
         window.addEventListener('scroll', handleScroll)
     }
 
-
-    await nextTick()
-    if (window.innerWidth < 769 || isMobile) {
-        showSearch.value = false
-    }
 })
+
+const partialSpacer = ref()
 </script>
 
 <template>
@@ -69,12 +66,12 @@ onMounted(async () => {
             <div class="row">
                 <div class="header-container col-xs-12" ref="headerContainer">
 
-                    <div class="partial" :class="{ 'search-open': showSearch }">
+                    <div class="partial start" :class="{ 'search-open': showSearch }">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
-                            :page="props.page" :show-search="showSearch" />
+                            :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer" />
                     </div>
-
-                    <div class="partial" ref="headerExtras">
+                    <div class="partial-spacer" ref="partialSpacer"></div>
+                    <div class="partial end" ref="headerExtras">
                         <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
                             <div class="searchButton" :class="{ 'showSearch': showSearch }"
@@ -121,9 +118,9 @@ onMounted(async () => {
                             </template>
                         </VDropdown>
 
-                        <template v-if="!userStore.isLoggedIn">
-                            <div class="StickySearchContainer" v-show="showRegisterButton"
-                                :class="{ 'showSearch': showSearch }">
+                        <div v-if="!userStore.isLoggedIn" class="nav-options-container">
+                            <div class="StickySearchContainer"
+                                :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                     @click="showSearch = !showSearch">
                                     <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
@@ -134,17 +131,16 @@ onMounted(async () => {
                                         v-on:select-item="openUrl" placement="bottom-end" />
                                 </div>
                             </div>
-                            <div class="login-btn" v-show="showRegisterButton">
+                            <div class="login-btn">
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
-                            <div class="register-btn-container hidden-xs hidden-sm" v-show="showRegisterButton"
-                                v-if="isDesktopOrTablet">
+                            <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <NuxtLink to="/user/register">
                                     <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                                 </NuxtLink>
                             </div>
 
-                        </template>
+                        </div>
                     </div>
 
                 </div>
@@ -156,12 +152,23 @@ onMounted(async () => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.nav-options-container {
+    position: fixed;
+    top: 0;
+    height: 45px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .StickySearchContainer {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
     height: 100%;
     align-items: center;
+    z-index: 20;
+    margin-right: auto;
 
     .searchButton {
         align-items: center;
@@ -204,6 +211,7 @@ onMounted(async () => {
             width: 100%;
             padding: 6px 40px 6px 12px;
             background: white;
+            box-shadow: -10px 0px 10px 0px rgba(255, 255, 255, 1);
         }
     }
 }
@@ -239,6 +247,23 @@ onMounted(async () => {
             height: 100%;
             display: flex;
             align-items: center;
+            flex-shrink: 2;
+            flex-grow: 1;
+
+            &.start {
+                align-items: baseline;
+                padding-top: 11px;
+            }
+
+            &.end {
+                justify-content: flex-end;
+                min-width: 45px;
+            }
+        }
+
+        .partial-spacer {
+            flex-shrink: 1;
+            flex-grow: 2;
         }
 
         .login-btn {
