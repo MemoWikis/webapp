@@ -43,8 +43,6 @@ export const useTopicStore = defineStore('topicStore', {
       currentUserIsCreator: false,
       canBeDeleted: false,
       authors: [] as Author[],
-      showPublishModal: false,
-      questionIds: [] as number[]
     }
   },
   actions: {
@@ -72,9 +70,6 @@ export const useTopicStore = defineStore('topicStore', {
         this.questionCount = topic.QuestionCount
 
         this.authors = topic.Authors
-
-        this.showPublishModal = false
-        this.questionIds = []
       }
     },
     async saveTopic() {
@@ -102,22 +97,7 @@ export const useTopicStore = defineStore('topicStore', {
       const userStore = useUserStore()
       return userStore.isAdmin || this.currentUserIsCreator
     },
-    async publish() {
-      const result = $fetch<number[]>(`apiVue/Topic/LoadQuestionIds?topicId=${this.id}`, {
-        mode: 'no-cors',
-        credentials: 'include'
-      })
-      if (result) {
-        this.questionIds = await result
-        this.showPublishModal = true
-      }
-    },
-    setToPrivate() {
 
-    },
-    delete() {
-
-    }
   },
   getters: {
     getTopicName(): string {

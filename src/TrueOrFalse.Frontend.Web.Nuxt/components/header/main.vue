@@ -18,27 +18,49 @@ const userStore = useUserStore()
 
 const showRegisterButton = ref(false)
 function handleScroll() {
+    showSearch.value = false
+
     var scrollTop = document.documentElement.scrollTop
     if (scrollTop > 59)
         showRegisterButton.value = true
     else
         showRegisterButton.value = false
+
 }
-onBeforeMount(() => {
-    if (!userStore.isLoggedIn) {
-        handleScroll()
+
+function handleResize() {
+    if (window.innerWidth < 769) {
+        console.log(showSearch.value)
+        showSearch.value = false
+        console.log(showSearch.value)
+
     }
+}
+
+const { isDesktopOrTablet, isMobile } = useDevice()
+
+onBeforeMount(() => {
+    if (isMobile)
+        showSearch.value = false
 })
 const headerContainer = ref<VueElement>()
 const headerExtras = ref<VueElement>()
 
-onMounted(() => {
+onMounted(async () => {
     if (!userStore.isLoggedIn) {
-        window.addEventListener('scroll', handleScroll);
+        showSearch.value = false
+    }
+    if (typeof window != undefined) {
+        window.addEventListener('resize', handleResize)
+        window.addEventListener('scroll', handleScroll)
+    }
+
+
+    await nextTick()
+    if (window.innerWidth < 769 || isMobile) {
         showSearch.value = false
     }
 })
-
 </script>
 
 <template>
@@ -115,7 +137,8 @@ onMounted(() => {
                             <div class="login-btn" v-show="showRegisterButton">
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
-                            <div class="register-btn-container hidden-xs hidden-sm" v-show="showRegisterButton">
+                            <div class="register-btn-container hidden-xs hidden-sm" v-show="showRegisterButton"
+                                v-if="isDesktopOrTablet">
                                 <NuxtLink to="/user/register">
                                     <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                                 </NuxtLink>

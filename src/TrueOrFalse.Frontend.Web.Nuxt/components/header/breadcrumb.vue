@@ -42,12 +42,16 @@ function startUpdateBreadcrumb() {
   updateBreadcrumb()
 }
 
-function scrollUpdateBreadcrumb() {
+function handleResize() {
+  windowInnerWidth.value = window.innerWidth
+  startUpdateBreadcrumb()
+}
+
+function handleScroll() {
   if (userStore.isLoggedIn || window?.pageYOffset > 105)
     return
 
-  hide.value = true
-  updateBreadcrumb()
+  startUpdateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
 
@@ -83,12 +87,11 @@ function insertToBreadcrumbItems() {
 }
 const pageTitle = ref('')
 
-
 onBeforeMount(async () => {
 
   if (typeof window !== 'undefined') {
-    window.addEventListener('resize', startUpdateBreadcrumb)
-    window.addEventListener('scroll', scrollUpdateBreadcrumb)
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('scroll', handleScroll)
   }
   await nextTick()
   startUpdateBreadcrumb()
@@ -98,15 +101,13 @@ onBeforeMount(async () => {
 
 onUpdated(() => {
   if (breadcrumbEl.value != undefined && breadcrumbEl.value.clientHeight > 21) {
-    console.log('updateb')
     // startUpdateBreadcrumb()
-
   }
 })
 onBeforeUnmount(() => {
   if (typeof window !== 'undefined') {
-    window.removeEventListener('resize', startUpdateBreadcrumb)
-    window.removeEventListener('scroll', scrollUpdateBreadcrumb)
+    window.removeEventListener('resize', handleResize)
+    window.removeEventListener('scroll', handleScroll)
   }
 })
 
@@ -169,7 +170,6 @@ async function getBreadcrumb() {
 
   }
   setPageTitle()
-
 }
 
 function setPageTitle() {
@@ -191,11 +191,29 @@ watch(() => props.showSearch, (val) => {
   if (!val)
     startUpdateBreadcrumb()
 })
+
+const { isDesktopOrTablet, isMobile } = useDevice()
+const windowInnerWidth = ref(0)
+onMounted(() => {
+  windowInnerWidth.value = window.innerWidth
+})
+const shrinkBreadcrumb = ref(false)
+watch(() => props.showSearch, (val) => {
+  windowInnerWidth.value = window.innerWidth
+
+  if (isMobile && val) {
+    console.log(isMobile)
+    shrinkBreadcrumb.value = true
+  } else
+    shrinkBreadcrumb.value = false
+  startUpdateBreadcrumb()
+})
 </script>
 
 <template>
   <div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
-    :class="{ 'hide-breadcrumb': hide }" v-show="!props.showSearch">
+    :class="{ 'hide-breadcrumb': hide, 'search-is-open': props.showSearch && windowInnerWidth < 768 }"
+    v-show="!shrinkBreadcrumb">
 
     <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
       class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
@@ -222,7 +240,7 @@ watch(() => props.showSearch, (val) => {
     </template>
 
 
-    <V-Dropdown v-if="stackedBreadcrumbItems.length > 0" :distance="0">
+    <V-Dropdown v-show="stackedBreadcrumbItems.length > 0" :distance="0">
       <font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
       <template #popper>
@@ -279,6 +297,14 @@ watch(() => props.showSearch, (val) => {
   flex-wrap: wrap;
   opacity: 1;
   transition: opacity 0.5s;
+  visibility: visible;
+
+  .search-is-open {
+    width: 0;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+  }
 
   &.hide-breadcrumb {
     opacity: 0;

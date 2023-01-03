@@ -263,6 +263,7 @@
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\ApiVueApp\Topic\DeleteTopicController.cs" />
+    <Compile Include="Views\ApiVueApp\Topic\SetTopicToPrivateController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\PublishTopicController.cs" />
     <Compile Include="Views\ApiVueApp\AppController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\EditTopicRelationController.cs" />

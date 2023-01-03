@@ -54,13 +54,13 @@ Vue.component('category-name-component',
                 else
                     this.disabled = true;
             },
-            validateName(name):boolean {
+            async validateName(name) {
                 var self = this;
                 if (name.length <= 0) {
                     self.errorMsg = "Bitte gebe einen Thementitel ein.";
                     return false;
                 }
-                $.ajax({
+                return $.ajax({
                     type: 'Post',
                     contentType: "application/json",
                     url: '/EditCategory/ValidateName',

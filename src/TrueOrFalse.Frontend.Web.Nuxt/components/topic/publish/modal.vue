@@ -1,18 +1,13 @@
 <script lang="ts" setup>
-import { useTopicStore } from './topicStore'
-import { useAlertStore, AlertType, AlertMsg, messages } from '../alert/alertStore'
-const topicStore = useTopicStore()
-const alertStore = useAlertStore()
-
-const publishRequestConfirmation = ref(false)
-const publishQuestions = ref(true)
+import { usePublishTopicStore } from './publishTopicStore'
+const publishTopicStore = usePublishTopicStore()
 
 const confirmLicense = ref(false)
 
 const blinkTimer = ref(null as ReturnType<typeof setTimeout> | null)
 const blink = ref(false)
 
-async function publishTopic() {
+async function publish() {
     if (!confirmLicense.value) {
         blinkTimer.value = null
         blink.value = true
@@ -21,23 +16,15 @@ async function publishTopic() {
         }, 2000)
         return
     }
-
-    const data = {
-        topicId: topicStore.id
-    }
-
-    const result = await $fetch<any>('/apiVue/PublishTopic/Publish', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-    if (result.success) {
-        alertStore.openAlert(AlertType.Success, { text: messages.category.publish } as AlertMsg)
-    }
+    publishTopicStore.publish()
 }
 </script>
 
 <template>
-    <LazyModal :show="topicStore.showPublishModal">
+    <LazyModal :show="publishTopicStore.showModal">
 
         <template v-slot:header>
-            <h4>{{ topicStore.name }} veröffentlichen</h4>
+            <h4>{{ publishTopicStore.name }} veröffentlichen</h4>
         </template>
 
         <template v-slot:body>
@@ -45,14 +32,16 @@ async function publishTopic() {
                 Öffentliche Inhalte sind für alle auffindbar und können frei weiterverwendet werden. <br />
                 Du veröffentlichst unter Creative-Commons-Lizenz.
             </div>
-            <div class="checkbox-container" @click="publishQuestions = !publishQuestions"
-                v-if="topicStore.questionCount > 0">
+            <div class="checkbox-container"
+                @click="publishTopicStore.includeQuestionsToPublish = !publishTopicStore.includeQuestionsToPublish"
+                v-if="publishTopicStore.questionCount > 0">
                 <div class="checkbox-icon">
-                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="publishQuestions" />
+                    <font-awesome-icon icon="fa-solid fa-square-check"
+                        v-if="publishTopicStore.includeQuestionsToPublish" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
-                    Möchtest Du {{ topicStore.questionCount }} private Fragen veröffentlichen?
+                    Möchtest Du {{ publishTopicStore.questionCount }} private Fragen veröffentlichen?
                 </div>
 
             </div>
@@ -73,8 +62,8 @@ async function publishTopic() {
         </template>
 
         <template v-slot:footer>
-            <div class="btn btn-link memo-button" @click="topicStore.showPublishModal = false">abbrechen</div>
-            <div class="btn btn-primary memo-button" id="PublishCategoryBtn" @click="publishTopic"
+            <div class="btn btn-link memo-button" @click="publishTopicStore.showModal = false">abbrechen</div>
+            <div class="btn btn-primary memo-button" id="PublishCategoryBtn" @click="publish"
                 :class="{ 'disabled-btn': !confirmLicense }">veröffentlichen</div>
         </template>
 
