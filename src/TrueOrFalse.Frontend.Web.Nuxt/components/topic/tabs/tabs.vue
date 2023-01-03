@@ -11,44 +11,46 @@ const { isMobile } = useDevice()
 <template>
   <div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
-    <div class="tab" @click="tabsStore.activeTab = Tab.Topic">
-      <div class="tab-label">Thema</div>
-      <div class="active-tab" v-if="tabsStore.activeTab == Tab.Topic"></div>
-      <div class="inactive-tab" v-else>
-        <div class="tab-border"></div>
+    <div class="tab-scroll">
+      <div class="tab" @click="tabsStore.activeTab = Tab.Topic">
+        <div class="tab-label">Thema</div>
+        <div class="active-tab" v-if="tabsStore.activeTab == Tab.Topic"></div>
+        <div class="inactive-tab" v-else>
+          <div class="tab-border"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
-      <div class="tab-label">Fragen <template v-if="topicStore.questionCount > 0">({{ topicStore.questionCount
-      }})</template>
+      <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
+        <div class="tab-label">Fragen <template v-if="topicStore.questionCount > 0">({{ topicStore.questionCount
+}})</template>
+        </div>
+        <div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
+        <div class="inactive-tab" v-else>
+          <div class="tab-border"></div>
+        </div>
       </div>
-      <div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
-      <div class="inactive-tab" v-else>
-        <div class="tab-border"></div>
-      </div>
-    </div>
 
-    <div class="tab" @click="tabsStore.activeTab = Tab.Feed">
-      <div class="tab-label">Feed</div>
-      <div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
-      <div class="inactive-tab" v-else>
-        <div class="tab-border"></div>
+      <div class="tab" @click="tabsStore.activeTab = Tab.Feed">
+        <div class="tab-label">Feed</div>
+        <div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
+        <div class="inactive-tab" v-else>
+          <div class="tab-border"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
-      <div class="tab-label">Analytics</div>
-      <div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
-      <div class="inactive-tab" v-else>
-        <div class="tab-border"></div>
+      <div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
+        <div class="tab-label">Analytics</div>
+        <div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
+        <div class="inactive-tab" v-else>
+          <div class="tab-border"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="tab-filler-container">
-      <div class="tab-filler"></div>
-      <div class="inactive-tab">
-        <div class="tab-border"></div>
+      <div class="tab-filler-container">
+        <div class="tab-filler" :class="{ 'mobile': isMobile }"></div>
+        <div class="inactive-tab">
+          <div class="tab-border"></div>
+        </div>
       </div>
     </div>
 
@@ -61,9 +63,32 @@ const { isMobile } = useDevice()
 #TopicTabBar {
   text-align: center;
   flex-grow: 1;
-  color: #555555;
+  color: @memo-grey-dark;
   display: flex;
   margin-top: 30px;
+
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: @memo-grey-dark;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: @memo-grey-darker;
+
+    }
+  }
+
+  .tab-scroll {
+    overflow-y: auto;
+    max-width: 100vw;
+
+    flex-grow: 1;
+    display: flex;
+  }
 
   .tab,
   .tab-filler-container {
@@ -79,6 +104,10 @@ const { isMobile } = useDevice()
       padding: 4px 20px;
       height: 34px;
       white-space: nowrap;
+
+      &.mobile {
+        padding: 0;
+      }
     }
 
     .tab-filler {
@@ -125,6 +154,16 @@ const { isMobile } = useDevice()
 
     .tab-label {
       border-radius: 12px;
+
+      &.chip {
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 8px;
+        background: @memo-grey-light;
+        font-size: 14px;
+      }
     }
 
     &:hover {

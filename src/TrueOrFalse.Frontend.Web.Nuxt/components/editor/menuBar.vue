@@ -70,12 +70,14 @@ props.editor.on('focus', () => {
 props.editor.on('blur', () => {
     focused.value = false
 })
+
 </script>
 <template>
 
     <div class="col-xs-12 menubar-container">
-        <div class="menubar-scroll">
-            <div class="menubar is-focused" :class="{ 'is-focused': focused }" v-if="props.editor">
+
+        <perfect-scrollbar>
+            <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
                     @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
@@ -156,7 +158,8 @@ props.editor.on('blur', () => {
                 </button>
 
             </div>
-        </div>
+        </perfect-scrollbar>
+
     </div>
 
 
@@ -170,26 +173,10 @@ props.editor.on('blur', () => {
     position: sticky;
     z-index: 10;
 
-    ::-webkit-scrollbar {
-        height: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: @memo-grey-dark;
-        cursor: pointer;
-        border-radius: 4px;
-
-        &:hover {
-            background-color: @memo-grey-darker;
-
-        }
-    }
-
 }
 
-.menubar-scroll {
-    overflow-y: auto;
-    max-width: calc(100vw - 24px);
+.ps {
+    width: calc(100vw - 20px);
     border-radius: 4px;
 }
 
@@ -206,6 +193,7 @@ props.editor.on('blur', () => {
     }
 
     &.is-focused {
+
         visibility: visible;
         opacity: 1;
         transition: visibility .2s, opacity .2s;
