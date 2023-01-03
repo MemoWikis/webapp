@@ -11,7 +11,6 @@ export class AnswerBody {
     QuestionId: number
 
     Creator: UserTinyModel
-    QuestionChangeAuthor: UserTinyModel
     IsCreator: boolean
     IsInWishknowledge: boolean
     KnowledgeStatus: KnowledgeStatus
