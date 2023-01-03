@@ -4,11 +4,18 @@ import { useTopicStore } from '../topicStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
+import { useSetTopicToPrivateStore } from '../setToPrivate/setTopicToPrivateStore'
+import { usePublishTopicStore } from '../publish/publishTopicStore'
+import { useDeleteTopicStore } from '../delete/deleteTopicStore'
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
 const editTopicRelationStore = useEditTopicRelationStore()
+const setTopicToPrivateStore = useSetTopicToPrivateStore()
+const publishTopicStore = usePublishTopicStore()
+const deleteTopicStore = useDeleteTopicStore()
+
 const hoverLock = ref(false)
 </script>
 
@@ -72,7 +79,7 @@ const hoverLock = ref(false)
                     </div>
 
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
-                        class="dropdown-row" @click="topicStore.setToPrivate()">
+                        class="dropdown-row" @click="setTopicToPrivateStore.openModal(topicStore.id)">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
@@ -81,7 +88,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
-                        class="dropdown-row" @click="topicStore.publish()">
+                        class="dropdown-row" @click="publishTopicStore.openModal(topicStore.id)">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-unlock" />
                         </div>
@@ -89,7 +96,8 @@ const hoverLock = ref(false)
                             Thema veröffentlichen
                         </div>
                     </div>
-                    <div v-if="topicStore.canBeDeleted" class="dropdown-row" @click="topicStore.delete()">
+                    <div v-if="topicStore.canBeDeleted" class="dropdown-row"
+                        @click="deleteTopicStore.openModal(topicStore.id)">
 
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-trash" />
