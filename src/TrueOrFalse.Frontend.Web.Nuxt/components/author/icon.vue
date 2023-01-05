@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ImageStyle } from '../image/imageStyleEnum';
 import { Author } from './author'
-const props = defineProps({
-    author: { type: Object as () => Author, required: true },
-})
+interface Props {
+    author: Author
+}
+const props = defineProps<Props>()
 
 </script>
 

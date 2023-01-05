@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-const props = defineProps(['footerTopics'])
+import { FooterTopics } from '../topic/topicStore'
+
+interface Props {
+    footerTopics: FooterTopics
+}
+const props = defineProps<Props>()
+
 </script>
 
 <template>
@@ -50,7 +56,7 @@ const props = defineProps(['footerTopics'])
                         </div>
                     </div>
 
-                    <div class="FooterCol xxs-stack col-xs-12 col-md-3">
+                    <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
                                 <LazyNuxtLink :to="`/${footerTopics.MemoWiki.Name}/${footerTopics.MemoWiki.Id}`"
@@ -117,9 +123,9 @@ const props = defineProps(['footerTopics'])
                         <div class="footer-group">
                             <div class="overline-m no-line">
                                 <LazyNuxtLink
-                                    :to="`/${footerTopics.RootTopic.Name.replaceAll(' ', '-')}/${footerTopics.RootTopic.Id}`"
-                                    v-if="footerTopics?.RootTopic">
-                                    {{ footerTopics.RootTopic.Name }}
+                                    :to="`/${footerTopics.RootWiki.Name.replaceAll(' ', '-')}/${footerTopics.RootWiki.Id}`"
+                                    v-if="footerTopics?.RootWiki">
+                                    {{ footerTopics.RootWiki.Name }}
                                 </LazyNuxtLink>
 
                             </div>

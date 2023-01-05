@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { Question } from '../question'
-const props = defineProps({
-    question: { type: Object as () => Question, required: true }
-})
+interface Props {
+    question: Question
+}
+const props = defineProps<Props>()
 const front = ref('')
 const back = ref('')
 const flipped = ref(false)

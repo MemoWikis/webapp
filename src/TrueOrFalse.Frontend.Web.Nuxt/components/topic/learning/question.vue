@@ -8,12 +8,14 @@ import { useEditQuestionStore } from '~~/components/question/edit/editQuestionSt
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
 
-const props = defineProps({
-    question: { type: Object as () => QuestionListItem, required: true },
-    isLastItem: { type: Boolean, required: true },
-    expandQuestion: { type: Boolean, required: true },
-    sessionIndex: { type: Number, required: true }
-})
+interface Props {
+    question: QuestionListItem,
+    isLastItem: boolean,
+    expandQuestion: boolean,
+    sessionIndex: number
+}
+
+const props = defineProps<Props>()
 
 const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
 
@@ -207,19 +209,19 @@ function deleteQuestion() {
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
                             <span class="percentageLabel" :class="backgroundColor">{{ correctnessProbability
-                            }}&nbsp</span>
+}}&nbsp</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
                             {{ answerCount }}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{ correctAnswers
-                            }}&nbsprichtig&nbsp/&nbsp{{ wrongAnswers }}&nbspfalsch
+}}&nbsprichtig&nbsp/&nbsp{{ wrongAnswers }}&nbspfalsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
                             <a class="commentIcon" @click.stop="showCommentModal()">
                                 <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{ commentCount
-                                }}</span></i>
+}}</span></i>
                             </a>
                         </div>
                         <div class="Button dropdown">
