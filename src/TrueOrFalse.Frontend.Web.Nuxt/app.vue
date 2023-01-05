@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
-import { Topic, useTopicStore } from '~/components/topic/topicStore'
+import { Topic, useTopicStore, FooterTopics } from '~/components/topic/topicStore'
 import { Page } from './components/shared/pageEnum'
 
 const userStore = useUserStore()
@@ -22,14 +22,7 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUse
 if (currentUser.value)
   userStore.initUser(currentUser.value)
 
-interface FooterTopics {
-  RootTopic: Topic
-  MainTopics: Topic[]
-  MemoWiki: Topic
-  MemoTopics: Topic[]
-  HelpTopics: Topic[]
-  PopularTopics: Topic[]
-}
+
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
   method: 'Get',
   mode: 'no-cors',
@@ -63,5 +56,5 @@ function setPage(type: Page | null = null) {
     <LazySpinner />
     <!-- <LazyAlert /> -->
   </LazyClientOnly>
-  <Footer :footer-topics="footerTopics" />
+  <Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>

@@ -22,6 +22,15 @@ export class Topic {
   Authors: Author[] = []
 }
 
+export interface FooterTopics {
+  RootWiki: Topic
+  MainTopics: Topic[]
+  MemoWiki: Topic
+  MemoTopics: Topic[]
+  HelpTopics: Topic[]
+  PopularTopics: Topic[]
+}
+
 export const useTopicStore = defineStore('topicStore', {
   state: () => {
     return {
