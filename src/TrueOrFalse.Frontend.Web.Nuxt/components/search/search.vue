@@ -89,11 +89,13 @@ onMounted(() => {
         window.addEventListener('scroll', () => { showDropdown.value = false })
     }
 })
-
+function hide() {
+    showDropdown.value = false
+}
 </script>
 
 <template>
-    <div class="search-category-component">
+    <div class="search-category-component" v-click-outside="hide">
         <form v-on:submit.prevent>
             <div class="form-group searchAutocomplete">
                 <div class="searchInputContainer">
@@ -162,8 +164,9 @@ onMounted(() => {
 }
 
 .searchDropdown {
-    width: 360px;
+    max-width: 360px;
     padding: 0;
+    width: calc(100vw - 32px);
 
     .dropdownFooter {
         line-height: 20px;
@@ -210,7 +213,11 @@ onMounted(() => {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
-    min-width: 200px;
+    min-width: 250px;
+
+    @media (max-width: 330px) {
+        min-width: 200px;
+    }
 
     .hasSearchIcon {
         padding-right: 54px;

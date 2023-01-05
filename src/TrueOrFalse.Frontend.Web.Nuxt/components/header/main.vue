@@ -30,10 +30,7 @@ function handleScroll() {
 
 function handleResize() {
     if (window.innerWidth < 769) {
-        console.log(showSearch.value)
         showSearch.value = false
-        console.log(showSearch.value)
-
     }
 }
 
@@ -118,7 +115,8 @@ const partialSpacer = ref()
                             </template>
                         </VDropdown>
 
-                        <div v-if="!userStore.isLoggedIn" class="nav-options-container">
+                        <div v-if="!userStore.isLoggedIn" class="nav-options-container"
+                            :class="{ 'hide-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="searchButton" :class="{ 'showSearch': showSearch }"
@@ -159,6 +157,12 @@ const partialSpacer = ref()
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+
+    &.hide-nav {
+        opacity: 0;
+    }
 }
 
 .StickySearchContainer {
@@ -213,6 +217,8 @@ const partialSpacer = ref()
             background: white;
             box-shadow: -10px 0px 10px 0px rgba(255, 255, 255, 1);
         }
+
+        padding-left: 8px;
     }
 }
 
@@ -307,6 +313,10 @@ const partialSpacer = ref()
                 height: 100% !important;
                 align-items: center;
                 line-height: unset !important;
+            }
+
+            @media (min-width: 1200px) {
+                margin-right: 23px;
             }
         }
     }

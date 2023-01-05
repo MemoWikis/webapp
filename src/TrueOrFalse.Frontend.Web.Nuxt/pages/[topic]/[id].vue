@@ -63,6 +63,8 @@ const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
     emit('setPage', Page.Topic)
 })
+
+const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
 </script>
 
 <template>
@@ -76,7 +78,7 @@ onBeforeMount(() => {
                 <TopicRelationEdit />
                 <!-- <LazyQuestionEditModal /> -->
             </div>
-            <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">
+            <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
                 <div id="SidebarDivider"></div>
             </div>
         </div>
@@ -89,6 +91,11 @@ onBeforeMount(() => {
 
 .topic-container {
     min-height: 400px;
+
+    @media(min-width: 992px) {
+        display: flex;
+
+    }
 }
 
 #Sidebar {
@@ -730,7 +737,7 @@ p:empty {
 }
 
 #CategoryHeader,
-#TopicTabContent {
+#TopicContent {
     line-height: 1.5;
     .new-font-style();
     color: @global-text-color;
@@ -3118,7 +3125,7 @@ img {
     }
 }
 
-#TopicTabContent {
+#TopicContent {
     #ContentModuleApp {
         #MarkdownContent {
             .ProseMirror {

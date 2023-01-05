@@ -12,18 +12,29 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
 
-onMounted(() => {
-    if (isMobile)
+function handleResize() {
+    if (window.innerWidth < 480) {
         showSearch.value = false
+    }
+}
+
+onMounted(() => {
+    if (isMobile || window?.innerWidth < 480)
+        showSearch.value = false
+
+    if (typeof window != undefined) {
+        window.addEventListener('resize', handleResize)
+    }
 })
+
 
 </script>
 
 <template>
     <div id="GuestNavigation">
-        <div class="HeaderMainRow container">
+        <div class="HeaderMainRow container" :class="{ 'search-is-open': showSearch }">
             <div class="row">
-                <div id="LogoContainer" class="col-sm-3 col-Logo col-xs-2">
+                <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" href="/">
                         <div id="Logo">
                             <Image url="/Images/Logo/LogoMemoWiki.svg" />
@@ -33,7 +44,7 @@ onMounted(() => {
 
                     </NuxtLink>
                 </div>
-                <div id="HeaderBodyContainer" class="col-sm-9 col-LoginAndHelp col-xs-10 row">
+                <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
                     <div id="HeaderSearch" class="">
                         <div class="searchButton" :class="{ 'showSearch': showSearch }"
                             @click="showSearch = !showSearch">
@@ -47,16 +58,18 @@ onMounted(() => {
                     </div>
                     <div id="loginAndHelp">
                         <div class="login-register-container">
-                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()"
-                                v-show="(!showSearch && isMobile) || isDesktopOrTablet">
+                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" />
-                                <div class="login-btn-label">
+                                <div class="login-btn-label hidden-xxs">
                                     Anmelden
                                 </div>
                             </div>
-                            <NuxtLink to="/user/register" class="hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
-                            </NuxtLink>
+                            <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
+                                <NuxtLink to="/user/register" class="">
+                                    <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
+                                </NuxtLink>
+                            </div>
+
                         </div>
 
                     </div>
@@ -83,9 +96,24 @@ onMounted(() => {
         min-height: 60px;
         height: 100%;
 
+        &.search-is-open {
+            @media(max-width: 479px) {
+
+                #LogoContainer {
+                    visibility: hidden;
+                    width: 0;
+                }
+
+                #HeaderBodyContainer {
+                    width: 100%;
+                    padding-right: 20px;
+                }
+            }
+        }
+
+
         .row {
             height: 60px;
-
         }
 
         .col-LoginAndHelp {
@@ -165,6 +193,12 @@ onMounted(() => {
                     }
                 }
 
+                .register-btn-container {
+                    @media(min-width: 1200px) {
+                        margin-right: 23px;
+                    }
+                }
+
                 #Login {
                     .dropdown {
                         height: 100%;
@@ -222,9 +256,16 @@ onMounted(() => {
     }
 
     .login-btn {
+        font-size: 20px;
+
         .login-btn-label {
             padding-left: 6px;
+            font-size: 14px;
         }
     }
+}
+
+#HeaderSearch {
+    padding-left: 8px;
 }
 </style>

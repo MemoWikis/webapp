@@ -146,7 +146,7 @@ const { isMobile } = useDevice()
 
     .tab-label,
     .tab-filler {
-      padding: 4px 8px;
+      padding: 4px 12px;
     }
   }
 
