@@ -115,7 +115,7 @@ function hide() {
                         <div>{{ topicCount }} Treffer</div>
                     </div>
                     <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
-                        <Image :src="t.ImageUrl" />
+                        <Image :url="t.ImageUrl" :style="ImageStyle.Topic" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ t.Name }}</div>
                             <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template
@@ -127,7 +127,7 @@ function hide() {
                         <div>{{ questionCount }} Treffer</div>
                     </div>
                     <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.Name">
-                        <Image :src="q.ImageUrl" />
+                        <Image :url="q.ImageUrl" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ q.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>
@@ -138,7 +138,7 @@ function hide() {
                         <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
                     </div>
                     <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.Name">
-                        <Image :src="u.ImageUrl" :style="ImageStyle.Author" />
+                        <Image :url="u.ImageUrl" :style="ImageStyle.Author" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ u.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>
@@ -269,7 +269,7 @@ function hide() {
     }
 
 
-    img {
+    .img-container {
         max-height: 62px;
         max-width: 62px;
         height: auto;

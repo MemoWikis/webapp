@@ -47,7 +47,8 @@ public class TopicController : BaseController
                 IsWiki = category.IsStartPage(),
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == category.Creator?.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
-                QuestionCount = category.CountQuestionsAggregated
+                QuestionCount = category.CountQuestionsAggregated,
+                ImageId = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category).Id
             };
 
         return new { };

@@ -39,9 +39,7 @@ onMounted(() => {
                         <div id="Logo">
                             <Image url="/Images/Logo/LogoMemoWiki.svg" />
                             <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
-
                         </div>
-
                     </NuxtLink>
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
