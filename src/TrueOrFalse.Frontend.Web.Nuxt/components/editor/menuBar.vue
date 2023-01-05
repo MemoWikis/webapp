@@ -74,7 +74,7 @@ props.editor.on('blur', () => {
 </script>
 <template>
 
-    <div class="col-xs-12 menubar-container">
+    <div class="col-xs-12 menubar-container" :class="{ 'is-focused': focused }">
 
         <perfect-scrollbar>
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
@@ -157,6 +157,9 @@ props.editor.on('blur', () => {
                     <font-awesome-icon icon="fa-solid fa-rotate-right" />
                 </button>
 
+                <div>
+
+                </div>
             </div>
         </perfect-scrollbar>
 
@@ -172,19 +175,34 @@ props.editor.on('blur', () => {
     top: 60px;
     position: sticky;
     z-index: 10;
+    display: flex;
+    max-width: 100%;
 
+    .ps {
+        max-width: 100%;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+        // flex-shrink: 1;
+        width: 100%;
+        visibility: hidden;
+    }
+
+    &.is-focused {
+        .ps {
+            visibility: visible;
+        }
+    }
 }
 
-.ps {
-    width: calc(100vw - 20px);
-    border-radius: 4px;
-}
+
 
 .menubar {
     font-size: 0;
     height: 36px;
     display: flex;
     flex-wrap: nowrap;
+    background: white;
+    width: 100%;
 
     &.is-hidden {
         visibility: hidden;
@@ -202,7 +220,7 @@ props.editor.on('blur', () => {
 }
 
 .menubar__button {
-    background: @memo-grey-lighter;
+    background: white;
     border: hidden;
     font-size: 18px;
     width: 36px;
@@ -221,7 +239,7 @@ props.editor.on('blur', () => {
     }
 
     &.is-active {
-        background: @memo-green;
+        background: @memo-grey-light;
     }
 
     &:active {
