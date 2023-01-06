@@ -51,7 +51,7 @@ public class PublishTopicController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator == SessionUser.User)
+            if (questionCacheItem.Creator.Id == SessionUser.User.Id)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
