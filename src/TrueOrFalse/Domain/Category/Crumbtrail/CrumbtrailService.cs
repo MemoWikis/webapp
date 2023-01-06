@@ -83,7 +83,7 @@ public class CrumbtrailService
         if (root == categoryCacheItem)
             return;
 
-        var parents = categoryCacheItem.ParentCategories();
+        var parents = EntityCache.ParentCategories(categoryCacheItem.Id, visibleOnly:true);
         parents = OrderParentList(parents, root.Creator.Id);
         
         if (parents.Any(c => c.Id == root.Id))
