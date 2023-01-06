@@ -83,7 +83,7 @@ const partialSpacer = ref()
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image :src="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                                <Image :url="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon" />
                                 <div class="header-user-name">
                                     {{ userStore.name }}
                                 </div>
@@ -316,7 +316,7 @@ const partialSpacer = ref()
             }
 
             @media (min-width: 1200px) {
-                margin-right: 23px;
+                margin-right: 31px;
             }
         }
     }

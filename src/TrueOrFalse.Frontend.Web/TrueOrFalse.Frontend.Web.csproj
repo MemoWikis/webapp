@@ -262,6 +262,7 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\ApiVueApp\Image\LicenseController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\DeleteTopicController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\SetTopicToPrivateController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\PublishTopicController.cs" />

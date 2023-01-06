@@ -86,9 +86,8 @@ const userStore = useUserStore()
                             </div>
                             <div class="centerText" v-show="!userStore.isLoggedIn">
                                 <div>
-                                    Um zu speichern, musst du&nbsp;<a href="#" data-btn-login="true"
-                                        onclick="eventBus.$emit('show-login-modal')"
-                                        style="padding-top: 4px">angemeldet</a>&nbsp;sein.
+                                    Um zu speichern, musst du&nbsp;<span
+                                        @click="userStore.openLoginModal()">angemeldet</span>&nbsp;sein.
                                 </div>
                             </div>
 

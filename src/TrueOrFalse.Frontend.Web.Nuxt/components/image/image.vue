@@ -2,34 +2,69 @@
 import { ref } from 'vue'
 import { ImageStyle } from './imageStyleEnum'
 
-const props = defineProps({
-  url: String,
-  alt: String,
-  square: Boolean,
-  class: { type: String, required: false, default: '' },
-  style: { type: String as () => ImageStyle, required: false, default: ImageStyle.Topic }
+interface Props {
+  url: string,
+  alt?: string,
+  square?: boolean,
+  class?: string,
+  style?: ImageStyle,
+  showLicense?: boolean
+}
+
+const props = defineProps<Props>()
+
+const cssClass = ref('')
+
+const config = useRuntimeConfig()
+
+onBeforeMount(() => {
+  switch (props.style) {
+    case ImageStyle.Topic:
+      cssClass.value = 'topic'
+      break
+    case ImageStyle.Author:
+      cssClass.value = 'author'
+      break
+    default: cssClass.value = 'topic'
+  }
+
 })
 
-const styleClass = ref('')
-
-const config = useRuntimeConfig();
-let type = ''
-switch (props.style) {
-  case ImageStyle.Topic:
-    type = ' topic'
-    break
-  case ImageStyle.Author:
-    type = ' author'
-    break
-}
-styleClass.value = props.class + type
 </script>
 
 <template>
-  <img :src="config.public.serverBase + props.url" :class="styleClass" :alt="props.alt" />
+  <div class="img-container" :class="props.class">
+    <img :src="config.public.serverBase + props.url" :class="cssClass" :alt="props.alt" />
+    <div v-if="props.showLicense" class="license-btn">Lizenzinfos</div>
+  </div>
 </template>
 
 <style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.img-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+
+  .license-btn {
+    cursor: pointer;
+    color: @memo-grey-dark;
+    line-height: 18px;
+    font-size: 10px;
+    text-align: center;
+
+    &:hover {
+      color: @memo-blue-lighter;
+    }
+  }
+}
+
 .topic {
   border-radius: 0;
 }
