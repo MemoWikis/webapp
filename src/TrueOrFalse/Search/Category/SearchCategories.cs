@@ -66,8 +66,6 @@ namespace TrueOrFalse.Search
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None,
             int[] categoriesToFilter = null)
         {
-            if (searchTerm == null)
-                return null;
 
             var sqb = new SearchQueryBuilder();
 

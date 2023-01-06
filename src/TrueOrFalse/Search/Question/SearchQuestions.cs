@@ -54,9 +54,6 @@ namespace TrueOrFalse.Search
             IList<int> questionIdsToExclude = null,
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
-            if (searchTerm == null)
-                return null;
-
             var sqb = new SearchQueryBuilder();
 
             var creatorFilter = QuestionFilter.GetCreatorFilterValue(searchTerm);

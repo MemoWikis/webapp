@@ -31,8 +31,6 @@ namespace TrueOrFalse.Search
             SearchUsersOrderBy orderBy
         )
         {
-            if (searchTerm == null)
-                return null;
             var sqb = new SearchQueryBuilder()
                 .Add("Name", searchTerm)
                 .Add("Name", searchTerm, startsWith: true, boost: 99999);

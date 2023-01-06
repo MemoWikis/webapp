@@ -59,6 +59,8 @@ public class CrumbtrailService
                     if (IsLinkedToRoot(parent, root))
                         AddBreadcrumbParent(result, parent, root);
                 }
+
+            BreadCrumbtrailCorrectnessCheck(result.Items, category);
         }
 
         result.Items = result.Items.Reverse().ToList();
@@ -66,9 +68,30 @@ public class CrumbtrailService
         return result;
     }
 
+    private static void BreadCrumbtrailCorrectnessCheck(IList<CrumbtrailItem> crumbtrailItems, CategoryCacheItem category)
+    {
+        if (crumbtrailItems == null || crumbtrailItems.Count == 0)
+            return;
+
+        if (category.ParentCategories().All(c => c.Id != crumbtrailItems[0].Category.Id))
+            Logg.r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
+        
+        for (int i = 0; i < crumbtrailItems.Count - 1; i++)
+        {
+            var categoryCacheItem = crumbtrailItems[i].Category;
+            var nextItemId = crumbtrailItems[i + 1].Category.Id;
+
+            if (!PermissionCheck.CanView(categoryCacheItem))
+                Logg.r().Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
+
+            if (categoryCacheItem.ParentCategories().All(c => c.Id != nextItemId))
+                Logg.r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
+        }
+    }
+
     private static bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
     {
-        var isLinkedToRoot = EntityCache.GetAllParents(category.Id).Any(c => c == root);
+        var isLinkedToRoot = EntityCache.GetAllParents(category.Id, visibleOnly:true).Any(c => c == root);
         if (isLinkedToRoot)
             return true;
         return false;
@@ -78,11 +101,12 @@ public class CrumbtrailService
     {
         if (PermissionCheck.CanView(categoryCacheItem))
             crumbtrail.Add(categoryCacheItem);
+        else return;
 
         if (root == categoryCacheItem)
             return;
 
-        var parents = categoryCacheItem.ParentCategories();
+        var parents = EntityCache.ParentCategories(categoryCacheItem.Id, visibleOnly:true);
         parents = OrderParentList(parents, root.Creator.Id);
         
         if (parents.Any(c => c.Id == root.Id))
@@ -123,7 +147,7 @@ public class CrumbtrailService
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
-        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true);
+        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true, true);
         if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !PermissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)
