@@ -59,11 +59,34 @@ public class CrumbtrailService
                     if (IsLinkedToRoot(parent, root))
                         AddBreadcrumbParent(result, parent, root);
                 }
+
+            BreadCrumbtrailCorrectnessCheck(result.Items, category);
         }
 
         result.Items = result.Items.Reverse().ToList();
 
         return result;
+    }
+
+    private static void BreadCrumbtrailCorrectnessCheck(IList<CrumbtrailItem> crumbtrailItems, CategoryCacheItem category)
+    {
+        if (crumbtrailItems == null || crumbtrailItems.Count == 0)
+            return;
+
+        if (category.ParentCategories().All(c => c.Id != crumbtrailItems[0].Category.Id))
+            Logg.r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
+        
+        for (int i = 0; i < crumbtrailItems.Count - 1; i++)
+        {
+            var categoryCacheItem = crumbtrailItems[i].Category;
+            var nextItemId = crumbtrailItems[i + 1].Category.Id;
+
+            if (!PermissionCheck.CanView(categoryCacheItem))
+                Logg.r().Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
+
+            if (categoryCacheItem.ParentCategories().All(c => c.Id != nextItemId))
+                Logg.r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
+        }
     }
 
     private static bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
