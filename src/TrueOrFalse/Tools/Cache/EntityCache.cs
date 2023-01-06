@@ -353,19 +353,23 @@ public class EntityCache : BaseCache
         return descendants;
     }
 
-    public static List<CategoryCacheItem> ParentCategories(int categoryId)
+    public static List<CategoryCacheItem> ParentCategories(int categoryId, bool visibleOnly = false)
     {
         var allCategories = GetAllCategories();
-
+        if (visibleOnly)
+        {
+           return allCategories.SelectMany(c =>
+                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId && PermissionCheck.CanViewCategory(cr.RelatedCategoryId))
+                    .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
+        }
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryId == categoryId)
-                .Select(cr => GetCategory(cr.CategoryId))).ToList();
+                .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
     }
 
-    public static IList<CategoryCacheItem>
-        GetAllParents(int childId, bool getFromEntityCache = false)
+    public static IList<CategoryCacheItem> GetAllParents(int childId, bool getFromEntityCache = false, bool visibleOnly = false)
     {
-        var currentGeneration = ParentCategories(childId);
+        var currentGeneration = ParentCategories(childId, visibleOnly);
         var nextGeneration = new List<CategoryCacheItem>();
         var ascendants = new List<CategoryCacheItem>();
 
@@ -375,7 +379,7 @@ public class EntityCache : BaseCache
 
             foreach (var parent in currentGeneration)
             {
-                var parents = parent.ParentCategories();
+                var parents = ParentCategories(parent.Id, visibleOnly);
                 if (parents.Count > 0)
                 {
                     nextGeneration.AddRange(parents);
