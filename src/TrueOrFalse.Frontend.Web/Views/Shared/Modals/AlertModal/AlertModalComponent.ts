@@ -23,7 +23,7 @@ const messages = {
             publicQuestions: "Dieses Thema hat öffentliche Fragen.",
             notLastChild: "Dieses Thema kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterthemen und versuche es erneut.",
             noRemainingParents: "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem Oberthema zugeordnet sein.",
-            parentIsRoot: "Unter 'Alle Themem', darfst du nur private Themen neu hinzufügen",
+            parentIsRoot: "Unter 'Globales Wiki', darfst du nur private Themen neu hinzufügen",
             loopLink: "Man kann keine Themen sich selber unterordnen",
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
             isLinkedInNonWuwi: "Du hast das Thema außerhalb deines Wunschwissens schon untergeordnet, bitte stelle: 'Zeige nur dein Wunschwissen' aus und füge die Kategorie deinem Wunschwissen hinzu. ",
