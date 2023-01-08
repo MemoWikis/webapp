@@ -25,7 +25,7 @@ public class TopicController : BaseController
                 CanAccess = true,
                 Id = id,
                 Name = category.Name,
-                ImgUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
                 Content = category.Content,
                 ParentTopicCount = category.ParentCategories().Count,
                 ChildTopicCount = category.AggregatedCategories().Count,

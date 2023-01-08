@@ -5,7 +5,8 @@ const topicStore = useTopicStore()
 </script>
 
 <template>
-    <Image :url="topicStore.imgUrl" class="topic-header-image" :style="ImageStyle.Topic" :show-license="true" />
+    <Image :url="topicStore.imgUrl" class="topic-header-image" :style="ImageStyle.Topic" :show-license="true"
+        :image-id="topicStore.imgId" />
 </template>
 
 <style scoped lang="less">

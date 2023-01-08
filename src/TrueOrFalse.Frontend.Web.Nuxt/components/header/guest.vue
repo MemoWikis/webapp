@@ -193,7 +193,7 @@ onMounted(() => {
 
                 .register-btn-container {
                     @media(min-width: 1200px) {
-                        margin-right: 23px;
+                        margin-right: 31px;
                     }
                 }
 
@@ -247,7 +247,7 @@ onMounted(() => {
         align-items: center;
         height: 100%;
 
-        img {
+        .img-container {
             height: 24px;
             margin-right: 6px;
         }

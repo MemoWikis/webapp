@@ -7,7 +7,8 @@ export class Topic {
   CanAccess: boolean = false
   Id: number = 0
   Name: string = ''
-  ImgUrl: string = ''
+  ImageUrl: string = ''
+  ImageId: number = 0
   Content: string = ''
   ParentTopicCount: number = 0
   ChildTopicCount: number = 0
@@ -38,6 +39,7 @@ export const useTopicStore = defineStore('topicStore', {
       name: '',
       initialName: '',
       imgUrl: '',
+      imgId: 0,
       questionCount: 0,
       content: '',
       initialContent: '',
@@ -60,7 +62,8 @@ export const useTopicStore = defineStore('topicStore', {
         this.id = topic.Id
         this.name = topic.Name
         this.initialName = topic.Name
-        this.imgUrl = topic.ImgUrl
+        this.imgUrl = topic.ImageUrl
+        this.imgId = topic.ImageId
         this.content = topic.Content
         this.initialContent = topic.Content
 
