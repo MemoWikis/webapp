@@ -123,7 +123,10 @@ watch(() => props.page, (newPage, oldPage) => {
   if (oldPage != newPage && newPage == Page.Topic)
     getBreadcrumb()
 })
+
 async function getBreadcrumb() {
+  breadcrumbItems.value = []
+  stackedBreadcrumbItems.value = []
   await nextTick()
 
   var sessionStorage = window.sessionStorage
@@ -153,7 +156,6 @@ async function getBreadcrumb() {
     personalWiki.value = result.personalWiki
     breadcrumbItems.value = result.items
     sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
-    updateBreadcrumb()
   } else {
     const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
       {
@@ -167,6 +169,7 @@ async function getBreadcrumb() {
 
   }
   setPageTitle()
+  updateBreadcrumb()
 }
 
 function setPageTitle() {
@@ -227,7 +230,9 @@ function showBreadcrumb(e: any) {
     <template v-if="breadcrumb.rootTopic">
       <div
         v-if="breadcrumb.currentTopic && breadcrumb.rootTopic.Id != breadcrumb.currentTopic.Id && breadcrumb.isInPersonalWiki">
-        <font-awesome-icon icon="fa-solid fa-chevron-right" />
+        <div>
+          <font-awesome-icon icon="fa-solid fa-chevron-right" />
+        </div>
       </div>
 
       <template
@@ -238,7 +243,10 @@ function showBreadcrumb(e: any) {
             class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
             {{ breadcrumb.rootTopic.Name }}
           </NuxtLink>
-          <font-awesome-icon icon="fa-solid fa-chevron-right" />
+          <div>
+            <font-awesome-icon icon="fa-solid fa-chevron-right" />
+
+          </div>
         </template>
       </template>
     </template>
@@ -295,7 +303,6 @@ function showBreadcrumb(e: any) {
 #BreadCrumb {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   font-size: 14px;
   color: @memo-grey-dark;
   flex-wrap: wrap;
@@ -303,7 +310,7 @@ function showBreadcrumb(e: any) {
   transition: opacity 0.5s;
   visibility: visible;
   max-height: 22px;
-  overflow-x: hidden;
+  overflow: hidden;
 
   .search-is-open {
     width: 0;
