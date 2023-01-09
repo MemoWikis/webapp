@@ -63,7 +63,7 @@ public class ImageLicenseStoreController : BaseController
             return Json(new
             {
                 imageCanBeDisplayed = false
-            }, JsonRequestBehavior.AllowGet);
+            }, JsonRequestBehavior.AllowGet );
         }
     }
 
