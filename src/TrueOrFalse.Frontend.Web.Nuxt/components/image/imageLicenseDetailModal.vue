@@ -1,5 +1,6 @@
 <script setup lang="ts">
-
+import { useImageLicenseStore } from './imageLicenseStore'
+const imageLicenseStore = useImageLicenseStore()
 </script>
 
 <template>
@@ -9,20 +10,15 @@
         </template>
         <template v-slot:body>
             <div class="ImageContainer">
-                <img />
-                <%= Model.RenderHtmlImageBasis(1000, false, Model.ImageMetaData.Type) %>
-                    <div class="ImageInfo">
-                        <% if (!String.IsNullOrEmpty(Model.AttributionHtmlString)){ %>
-                            <div>
-                                <%= Model.AttributionHtmlString %>
-                            </div>
-                            <% } %>
-                                <% if (!String.IsNullOrEmpty(WebUtility.HtmlEncode(Model.Description))){ %>
-                                    <div style="margin-top: 10px;"><span class="InfoLabel">Beschreibung:</span>
-                                        <%= WebUtility.HtmlEncode(Model.Description) %>
-                                    </div>
-                                    <% } %>
+                <img :src="imageLicenseStore.url" />
+                <div class="ImageInfo">
+                    <div v-if="imageLicenseStore.attributionHtmlString.length > 0"
+                        v-html="imageLicenseStore.attributionHtmlString"> </div>
+                    <div class="description" v-if="imageLicenseStore.description.length > 0">
+                        <span class="InfoLabel">Beschreibung:</span>
+                        {{ imageLicenseStore.description }}
                     </div>
+                </div>
             </div>
         </template>
         <template v-slot:footer>
@@ -31,3 +27,9 @@
     </LazyModal>
 
 </template>
+
+<style lang="less" scoped>
+.description {
+    margin-top: 10px;
+}
+</style>

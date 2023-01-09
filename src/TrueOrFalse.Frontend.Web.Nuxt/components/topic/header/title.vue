@@ -92,7 +92,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
 
             <LazyNuxtLink v-for="(author) in firstAuthors" :to="`/Nutzer/${author.Name}/${author.Id}`"
                 v-tooltip="author.Name">
-                <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
             </LazyNuxtLink>
 
             <VDropdown :distance="6">
@@ -105,7 +105,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
                 <template #popper>
                     <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
                         <div class="dropdown-icon">
-                            <Image :src="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                            <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
                         </div>
                         <div class="dropdown-label">{{ author.Name }}</div>
                     </LazyNuxtLink>

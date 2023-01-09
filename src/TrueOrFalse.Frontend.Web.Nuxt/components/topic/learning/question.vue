@@ -155,7 +155,7 @@ function deleteQuestion() {
             <div class="questionContainer">
                 <div class="questionBodyTop">
                     <div class="questionImg col-xs-1" @click="expandQuestion()">
-                        <Image :src="props.question.ImageData" />
+                        <Image :url="props.question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader row">
@@ -208,20 +208,23 @@ function deleteQuestion() {
                 <div class="questionBodyBottom" v-show="showFullQuestion">
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
-                            <span class="percentageLabel" :class="backgroundColor">{{ correctnessProbability
-}}&nbsp</span>
+                            <span class="percentageLabel" :class="backgroundColor">{{
+                                correctnessProbability
+                            }}&nbsp</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
-                            {{ answerCount }}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{ correctAnswers
-}}&nbsprichtig&nbsp/&nbsp{{ wrongAnswers }}&nbspfalsch
+                            {{ answerCount }}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{
+                                correctAnswers
+                            }}&nbsprichtig&nbsp/&nbsp{{ wrongAnswers }}&nbspfalsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div>
                             <a class="commentIcon" @click.stop="showCommentModal()">
-                                <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{ commentCount
-}}</span></i>
+                                <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{
+                                    commentCount
+                                }}</span></i>
                             </a>
                         </div>
                         <div class="Button dropdown">

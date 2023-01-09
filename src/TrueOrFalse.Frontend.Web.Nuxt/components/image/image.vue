@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useImageLicenseStore } from './imageLicenseStore'
 import { ImageStyle } from './imageStyleEnum'
 
 interface Props {
@@ -8,7 +9,8 @@ interface Props {
   square?: boolean,
   class?: string,
   style?: ImageStyle,
-  showLicense?: boolean
+  showLicense?: boolean,
+  imageId?: number
 }
 
 const props = defineProps<Props>()
@@ -16,6 +18,7 @@ const props = defineProps<Props>()
 const cssClass = ref('')
 
 const config = useRuntimeConfig()
+
 
 onBeforeMount(() => {
   switch (props.style) {
@@ -30,12 +33,18 @@ onBeforeMount(() => {
 
 })
 
+const imageLicenseStore = useImageLicenseStore()
+function openImage() {
+  if (props.imageId && props.imageId > 0)
+    imageLicenseStore.openImage(props.imageId)
+}
 </script>
 
 <template>
   <div class="img-container" :class="props.class">
     <img :src="config.public.serverBase + props.url" :class="cssClass" :alt="props.alt" />
-    <div v-if="props.showLicense" class="license-btn">Lizenzinfos</div>
+    <div v-if="props.showLicense && props.imageId != undefined" class="license-btn" @click="openImage()">Lizenzinfos
+    </div>
   </div>
 </template>
 
