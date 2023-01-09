@@ -138,6 +138,7 @@ const hoverLock = ref(false)
         width: 30px;
         min-width: 30px;
         transition: filter 0.1s;
+        color: @memo-grey-dark;
 
         &:hover {
             filter: brightness(0.95)

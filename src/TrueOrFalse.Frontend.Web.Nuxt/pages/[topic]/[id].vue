@@ -22,7 +22,6 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
 
 if (topic.value != null) {
     if (topic.value.CanAccess) {
-        useState<Topic | null>('topic', () => topic.value)
         const topicStore = useTopicStore()
         topicStore.setTopic(topic.value)
 

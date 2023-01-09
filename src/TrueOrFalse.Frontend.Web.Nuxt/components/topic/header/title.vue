@@ -123,6 +123,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
 
 #TopicHeaderContainer {
     width: 100%;
+    color: @memo-grey-dark;
 
     #TopicTitle {
         margin: 0;
