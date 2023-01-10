@@ -13,7 +13,7 @@
     <div :key="componentKey" id="Segmentation" v-cloak>
 
         <div class="segmentationHeader overline-m">
-            Untergeordnete Themen <template v-if="categories.length >0">({{categories.length}})</template>
+            Untergeordnete Themen <template v-if="categories.length >0">({{categories.length + segments.length}})</template>
             <div class="toRoot" id="SegmentationLinkToGlobalWiki" style="display:none"><% Html.RenderPartial("CategoryLabel", RootCategory.Get); %></div>
         </div>
 
