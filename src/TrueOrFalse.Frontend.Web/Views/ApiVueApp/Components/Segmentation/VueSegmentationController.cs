@@ -82,7 +82,7 @@ public class VueSegmentationController : BaseController
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
-        var childCategoryCount = EntityCache.GetAllChildren(categoryId).Where(PermissionCheck.CanView).Distinct().Count();
+        var childCategoryCount = EntityCache.GetChildren(categoryId).Where(PermissionCheck.CanView).Distinct().Count();
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
 
         var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;

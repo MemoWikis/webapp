@@ -20,10 +20,10 @@
 
                 <div class="set-question-count">
 
-                    <% if (EntityCache.GetAllChildren(Model.Category.Id).Where(PermissionCheck.CanView).Distinct().Count() == 1)
+                    <% if (EntityCache.GetChildren(Model.Category.Id).Where(PermissionCheck.CanView).Distinct().Count() == 1)
                        { %>1 Unterthema <% } %>
-                        <% if(EntityCache.GetAllChildren(Model.Category.Id).Where(PermissionCheck.CanView).Distinct().Count() > 1)
-                           { %><%= EntityCache.GetAllChildren(Model.Category.Id).Where(PermissionCheck.CanView).Distinct().Count()  %> Unterthemen <% } 
+                        <% if(EntityCache.GetChildren(Model.Category.Id).Where(PermissionCheck.CanView).Distinct().Count() > 1)
+                           { %><%= EntityCache.GetChildren(Model.Category.Id).Where(PermissionCheck.CanView).Distinct().Count()  %> Unterthemen <% } 
                            else { %><% } %><%=Model.TotalQuestionCount %> Frage<% if(Model.TotalQuestionCount != 1){ %>n<% } %>
                 </div>
                     <%if(Model.TotalQuestionCount > 0) {%>
