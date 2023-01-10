@@ -3,7 +3,7 @@ using System.Linq;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
-public class SearchBoxElementsGet
+public class PrepareSearch
 {
     public static SearchBoxElements Go(string term, string type)
     {

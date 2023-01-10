@@ -15,7 +15,7 @@ public class SearchApiController : BaseController
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = SearchBoxElementsGet.Go(term, type);
+        var elements = PrepareSearch.Go(term, type);
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);
@@ -42,7 +42,7 @@ public class SearchApiController : BaseController
     public JsonResult Category(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = SearchBoxElementsGet.GoAllCategories(term, categoriesToFilter);
+        var elements = PrepareSearch.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
@@ -59,7 +59,7 @@ public class SearchApiController : BaseController
     public JsonResult CategoryInWiki(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = SearchBoxElementsGet.GoAllCategories(term, categoriesToFilter);
+        var elements = PrepareSearch.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
