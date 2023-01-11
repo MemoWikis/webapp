@@ -28,7 +28,8 @@ export default defineNuxtConfig({
         '~/assets/site.less',
         '~/assets/top-header.less',
         '~/assets/fonts/googleFonts.less',
-        '~/assets/shared/dropdown.less'
+        '~/assets/shared/dropdown.less',
+        'vue-final-modal/style.css'
     ],
     typescript: {
         shim: false,
