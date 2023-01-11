@@ -8,7 +8,7 @@ const config = useRuntimeConfig()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/VueSessionUser/GetCurrentUser', {
+const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
   method: 'Get',
   credentials: 'include',
   mode: 'no-cors',
@@ -23,7 +23,7 @@ if (currentUser.value)
   userStore.initUser(currentUser.value)
 
 
-const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/Footer/GetFooterTopics`, {
+const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
   method: 'Get',
   mode: 'no-cors',
   onRequest({ options }) {
@@ -51,10 +51,8 @@ function setPage(type: Page | null = null) {
   <HeaderGuest v-if="!userStore.isLoggedIn" />
   <HeaderMain :page="page" />
   <NuxtPage @set-page="setPage" />
-  <LazyClientOnly>
-    <LazyUserLogin v-if="!userStore.isLoggedIn" />
-    <LazySpinner />
-    <!-- <LazyAlert /> -->
-  </LazyClientOnly>
+  <LazyUserLogin v-if="!userStore.isLoggedIn" />
+  <LazySpinner />
+  <LazyAlert />
   <Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>
