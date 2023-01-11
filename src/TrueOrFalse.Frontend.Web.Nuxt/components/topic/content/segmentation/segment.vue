@@ -35,7 +35,7 @@ export default defineNuxtComponent({
       addCategoryId: "",
       dropdownId: null as null | string,
       timer: null,
-      linkToCategory: null,
+      linkToCategory: '',
       visibility: 0,
       segmentTitle: null as null | string,
       knowledgeBarHtml: null,
@@ -53,12 +53,6 @@ export default defineNuxtComponent({
     this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
     this.dropdownId = this.segmentId + "-Dropdown";
 
-    this.$on("select-category", (id: number) => this.selectCategory(id));
-    this.$on("unselect-category", (id: number) => this.unselectCategory(id));
-    this.$on("add-category-card", (e: any) => {
-      if (this.categoryId == e.parentId)
-        this.addNewCategoryCard(e.newCategoryId);
-    });
     if (this.currentChildCategoryIds.length > 0)
       this.getCategoriesData();
   },
@@ -80,6 +74,10 @@ export default defineNuxtComponent({
   updated() { },
 
   methods: {
+    addCategoryCardEvent(e: any) {
+      if (this.categoryId == e.parentId)
+        this.addNewCategoryCard(e.newCategoryId);
+    },
     async addNewCategoryCard(id: number) {
       var self = this;
       var data = {
@@ -113,7 +111,7 @@ export default defineNuxtComponent({
           body: data,
           method: "Post",
           credentials: "include",
-          mode: "no-cors",
+          mode: "cors",
         }
       );
       if (result) {
@@ -279,24 +277,24 @@ export default defineNuxtComponent({
     <div class="segmentSubHeader">
       <div class="segmentHeader">
         <div class="segmentTitle">
-          <a :href?="linkToCategory">
+          <a :href="linkToCategory">
             <h2>
               {{ segmentTitle }}
             </h2>
           </a>
           <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip"
             title="Thema ist privat. Zum Veröffentlichen klicken.">
-            <font-awesome-icon icon="fa-solid fa-lock" />
-            <font-awesome-icon icon="fa-solid fa-lock-open" />
+            <font-awesome-icon :icon="['fa-solid', 'lock']" />
+            <font-awesome-icon :icon="['fa-solid', 'unlock']" />
           </div>
         </div>
         <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown"
           :class="{ hover: showHover && !isHistoric }">
-          <a href="#" :id?="dropdownId" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button"
+          <a href="#" :id="dropdownId!" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="fa fa-ellipsis-v"></i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby?="dropdownId">
+          <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId!">
             <li @click="removeSegment()">
               <a>
                 <div class="dropdown-icon">
@@ -337,13 +335,14 @@ export default defineNuxtComponent({
         <div class="KnowledgeBarWrapper" v-html="knowledgeBarHtml"></div>
       </div>
     </div>
-    <div class="topicNavigation row" :key?="cardsKey">
+    <div class="topicNavigation row" :key="cardsKey!">
       <TopicContentSegmentationCard v-for="(category, index) in categories" @select-category="selectCategory"
         @unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
         :is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories"
-        :segment-id?="segmentId" hide="false" :key="index" :category="category" :is-historic="isHistoric"
-        @filter-children="filterChildren" :parent-topic-id="categoryId" @remove-category="removeCategory" />
-      <div v-if="!isHistoric" class="col-xs-6 topic">
+        :segment-id="segmentId!" hide="false" :key="index" :category="category" :is-historic="isHistoric"
+        @filter-children="filterChildren" :parent-topic-id="categoryId" @remove-category="removeCategory"
+        @add-category-card="addCategoryCardEvent" />
+      <!-- <div v-if="!isHistoric" class="col-xs-6 topic">
         <div class="addCategoryCard memo-button row" :id="addCategoryId">
           <div class="col-xs-3"></div>
           <div class="col-xs-9 addCategoryLabelContainer">
@@ -355,15 +354,433 @@ export default defineNuxtComponent({
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <style lang="less" scoped>
+@import (reference) "~~/assets/includes/imports.less";
+
 .topic {
   @media (max-width: 649px) {
     width: 100%;
   }
+}
+
+#Segmentation {
+  margin-top: 80px;
+  margin-bottom: 40px;
+
+  .toRoot {
+    align-items: center;
+    color: @memo-grey-darker;
+
+    .category-chip-container {
+      margin-top: -10px;
+      margin-left: 4px;
+      text-transform: initial;
+      font-weight: initial;
+      letter-spacing: normal;
+    }
+  }
+
+  .overline-m {
+    margin-bottom: 15px;
+  }
+
+  .segmentationHeader {
+    font-family: 'Open Sans';
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #GeneratedSegmentSection,
+  .segment,
+  .segmentCategoryCard {
+    transition: 0.2s;
+
+    .row {
+      margin-top: 20px;
+      margin-bottom: 25px;
+    }
+
+    &.hover {
+      cursor: pointer;
+    }
+  }
+
+  #CustomSegmentSection,
+  #GeneratedSegmentSection {
+    .topicNavigation {
+      margin-top: 20px;
+
+      .segmentCategoryCard {
+
+        .ButtonEllipsis {
+          font-size: 18px;
+          color: @memo-grey-dark;
+          border-radius: 24px;
+          height: 30px;
+          width: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &:hover {
+            background: @memo-grey-lighter;
+            color: @memo-blue;
+          }
+
+          &:active {
+            background: @memo-grey-light;
+          }
+        }
+
+        .topic-name {
+          padding: 0;
+        }
+
+        .checkBox {
+          position: absolute;
+          z-index: 3;
+          line-height: 0;
+          background: white;
+          color: @memo-green;
+          opacity: 0;
+          transition: opacity .1s ease-in-out;
+          transition: color .1s ease-in-out;
+
+
+          &.show {
+            opacity: 1;
+            transition: opacity .1s ease-in-out;
+            transition: color .1s ease-in-out;
+          }
+
+
+          &.selected {
+            color: @memo-green;
+            opacity: 1;
+            transition: opacity .1s ease-in-out;
+          }
+        }
+      }
+
+      .addCategoryCard {
+        display: flex;
+        border: solid 1px @memo-grey-light;
+        transition: 0.2s;
+        align-items: center;
+        min-height: 150px;
+        color: @memo-grey-dark;
+        cursor: pointer;
+        margin-left: 0;
+        margin-right: 0;
+
+        @media (max-width: 649px) {
+          width: 100%;
+        }
+
+        .addCategoryLabelContainer {
+          padding: 0;
+        }
+
+        &:hover {
+          border-color: @memo-green;
+        }
+
+        .addCategoryCardLabel {
+          transition: 0.2s;
+
+          &:hover {
+            color: @memo-green;
+          }
+        }
+      }
+    }
+  }
+
+  #CustomSegmentSection {
+    .segment {
+      .segmentSubHeader {
+        .segmentKnowledgeBar {
+          max-width: 420px;
+        }
+      }
+    }
+  }
+
+  .segmentHeader {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    .segmentTitle {
+      display: inline-flex;
+      align-items: center;
+
+      a {
+        color: @memo-blue;
+        transition: 0.2s;
+        padding-right: 10px;
+
+        &:hover {
+          text-decoration: none;
+          color: @memo-blue-link;
+        }
+      }
+
+      h2 {
+        margin: 0;
+      }
+
+      span.Button {
+        padding-top: 10px;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .segmentDropdown,
+  .dropdown {
+    font-size: 35px;
+    opacity: 0;
+    transition: all .1s ease-in-out;
+  }
+
+  .segmentDropdown,
+  .dropdown {
+    &.hover {
+      opacity: 1;
+      transition: all .1s ease-in-out;
+    }
+  }
+
+  .DropdownButton {
+    position: absolute;
+    right: 10px;
+    top: -10px;
+
+    &.segmentDropdown {
+      position: relative;
+    }
+
+    a.dropdown-toggle {
+      background: #FFFFFFE6;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      text-align: center;
+      padding: 6px;
+      transition: all .3s ease-in-out;
+
+      .fa-ellipsis-vertical {
+        color: @memo-grey-dark;
+        transition: all .3s ease-in-out;
+      }
+    }
+  }
+
+  .hover {
+    .DropdownButton {
+      a.dropdown-toggle {
+        &:hover {
+          background: #EFEFEFE6;
+
+          .fa-ellipsis-v {
+            color: @memo-blue;
+          }
+        }
+      }
+    }
+  }
+
+  .set-question-count {
+    .sub-label {
+      color: @memo-grey-dark;
+    }
+  }
+
+  .segmentCardLock,
+  .segmentLock {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4px;
+    margin-left: 4px;
+    background: white;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    border-radius: 15px;
+
+    .fa-unlock {
+      display: none !important;
+    }
+
+    .fa-lock {
+      display: unset !important;
+    }
+
+    &:hover {
+
+      .fa-lock {
+        display: none !important;
+        color: @memo-blue;
+      }
+
+      .fa-unlock {
+        display: unset !important;
+        color: @memo-blue;
+      }
+
+      filter: brightness(0.95)
+    }
+
+    &:active {
+      filter: brightness(0.85)
+    }
+  }
+
+  .segmentLock {
+    height: 20px;
+
+    i {
+      font-size: 18px;
+    }
+  }
+
+  .topicNavigation,
+  .setCardMiniList {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+
+    &.row:before,
+    &.row:after {
+      display: inline-block;
+    }
+
+    img {
+      border-radius: 0;
+    }
+
+    a {
+      color: @global-text-color;
+
+      &:hover,
+      &:active,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+
+    .set-question-count {
+      color: @gray-light;
+      margin-top: 8px;
+      line-height: 22px;
+    }
+
+    .topic,
+    .setCardMini {
+
+      .row {
+        margin-top: 20px;
+        margin-bottom: 25px;
+      }
+
+      .stack-below(@extra-breakpoint-cards);
+
+      .ImageContainer {
+        max-width: 80px;
+        min-width: 70px;
+
+        .LicenseInfo {
+          text-align: center;
+          color: @gray-light;
+
+          &:after {
+            content: "Lizenz";
+          }
+        }
+      }
+
+      .topic-name {
+        max-height: 65px;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        overflow: hidden;
+
+        @media (max-width: (@extra-breakpoint-cards - 1px)) {
+          max-height: none;
+        }
+      }
+
+      .KnowledgeBarLegend {
+        .greyed;
+        font-size: 12px;
+        line-height: 1.5em;
+        //text-transform: uppercase;
+        opacity: 0;
+        transition: opacity 0.2s linear;
+
+        .media-below-sm ({
+          opacity: 1;
+        });
+    }
+
+    &:hover {
+
+      //show on hover over navigation tile
+      .KnowledgeBarLegend {
+        opacity: 1;
+      }
+    }
+  }
+
+  .knowledge-bar {
+    display: inline-flex;
+    margin-top: 15px;
+    height: 10px;
+    min-width: 150px;
+    width: 100%;
+    max-width: 180px;
+
+    .solid-knowledge,
+    .needs-learning,
+    .needs-consolidation,
+    .not-learned,
+    .not-in-wish-knowledge {
+      height: inherit;
+      float: left;
+    }
+
+    .needs-learning {
+      background-color: @needs-learning-color;
+    }
+
+    .needs-consolidation {
+      background-color: @needs-consolidation-color;
+    }
+
+    .solid-knowledge {
+      background-color: @solid-knowledge-color;
+    }
+
+    .not-learned {
+      background-color: @not-learned-color;
+    }
+
+    .not-in-wish-knowledge {
+      background-color: @not-in-wish-knowledge-color;
+    }
+  }
+}
 }
 </style>
