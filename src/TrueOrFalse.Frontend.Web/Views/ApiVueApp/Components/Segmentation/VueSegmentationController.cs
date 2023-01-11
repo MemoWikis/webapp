@@ -44,6 +44,7 @@ public class VueSegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
+        var ids = categoryIds;
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
         var startTopicId = 1;
 
