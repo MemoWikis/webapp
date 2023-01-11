@@ -3,15 +3,17 @@ import { ref } from 'vue'
 import { useEditTopicRelationStore, EditTopicRelationType } from './editTopicRelationStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useUserStore } from '~~/components/user/userStore'
-import { messages } from '~~/components/alert/messages'
 import { useTopicStore } from '../topicStore'
 import _ from 'underscore'
 import { FullSearch, TopicItem } from '~~/components/search/searchHelper'
+import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
+import { Alert } from '~~/.nuxt/components'
 
 const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
 const editTopicRelationStore = useEditTopicRelationStore()
 const topicStore = useTopicStore()
+const alertStore = useAlertStore()
 
 const name = ref('')
 const showErrorMsg = ref(false)
@@ -34,7 +36,7 @@ async function addTopic() {
         key: string
     }
 
-    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/EditTopicRelation/ValidateName', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
+    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/TopicRelationEdit/ValidateName', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
 
     if (nameValidationResult.categoryNameAllowed) {
         type QuickCreateResult = {
@@ -48,7 +50,7 @@ async function addTopic() {
             parentTopicId: editTopicRelationStore.parentId,
         }
 
-        const result = await $fetch<QuickCreateResult>('/apiVue/EditTopicRelation/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
+        const result = await $fetch<QuickCreateResult>('/apiVue/TopicRelationEdit/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
         if (result.success) {
             if (editTopicRelationStore.redirect)
                 navigateTo(result.url)
@@ -99,8 +101,6 @@ function selectTopic(t: any) {
 }
 
 const selectedParentInWikiId = ref(0)
-
-const addToWikiHistory = ref(null)
 
 const hideSearch = ref(true)
 const topics = reactive({ value: [] as TopicItem[] })
@@ -163,48 +163,66 @@ async function moveTopicToNewParent() {
 
 }
 
-// async function addExistingTopic() {
-//     spinnerStore.showSpinner()
-
-//     if (this.selectedCategoryId == this.parentId) {
-//         this.errorMsg = messages.error.category.loopLink;
-//         this.showErrorMsg = true;
-//         Utils.HideSpinner();
-//         return;
-//     }
-
-//     var self = this;
-//     var categoryData = {
-//         childCategoryId: self.selectedCategoryId,
-//         parentCategoryId: self.parentId,
-//     }
+async function addExistingTopic() {
+    spinnerStore.showSpinner()
 
 
+    if (editTopicRelationStore.parentId == editTopicRelationStore.childId) {
+        errorMsg.value = messages.error.category.loopLink
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+        return
+    }
 
-//     $.ajax({
-//         type: 'Post',
-//         contentType: "application/json",
-//         url: '/EditCategory/AddChild',
-//         data: JSON.stringify(categoryData),
-//         success(data) {
-//             if (data.success) {
-//                 if (self.redirect)
-//                     window.open(data.url, '_self');
+    var data = {
+        childCategoryId: editTopicRelationStore.childId,
+        parentCategoryId: editTopicRelationStore.parentId,
+    }
 
-//                 if (self.addCategoryBtnId != null)
-//                     self.loadCategoryCard(data.id);
+    var result = await $fetch<any>('/apiVue/TopicRelationEdit/AddChild', {
+        mode: 'cors',
+        method: 'POST',
+        body: data,
+    })
 
-//                 $('#AddCategoryModal').modal('hide');
-//                 self.addCategoryCount();
-//                 Utils.HideSpinner();
-//             } else {
-//                 self.errorMsg = messages.error.category[data.key];
-//                 self.showErrorMsg = true;
-//                 Utils.HideSpinner();
-//             };
-//         },
-//     });
-// }
+    if (result.success) {
+        if (editTopicRelationStore.redirect)
+            navigateTo(result.url)
+        if (editTopicRelationStore.addTopicBtnExists) {
+
+        }
+        editTopicRelationStore.showModal = false
+        spinnerStore.hideSpinner()
+    } else {
+        errorMsg.value = messages.error.category[result.key]
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+    }
+
+    // $.ajax({
+    //     type: 'Post',
+    //     contentType: "application/json",
+    //     url: '/apiVue/TopicRelationEdit/AddChild',
+    //     data: JSON.stringify(categoryData),
+    //     success(data) {
+    //         if (data.success) {
+    //             if (self.redirect)
+    //                 window.open(data.url, '_self');
+
+    //             if (self.addCategoryBtnId != null)
+    //                 self.loadCategoryCard(data.id);
+
+    //             $('#AddCategoryModal').modal('hide');
+    //             self.addCategoryCount();
+    //             Utils.HideSpinner();
+    //         } else {
+    //             self.errorMsg = messages.error.category[data.key];
+    //             self.showErrorMsg = true;
+    //             Utils.HideSpinner();
+    //         };
+    //     },
+    // });
+}
 
 async function addNewParentToTopic() {
 
@@ -257,7 +275,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <!-- <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal">
+    <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal">
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
                 erstellen
@@ -270,7 +288,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 Thema verknüpfen</h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" class="modal-title">Neues
                 Oberthema verknüpfen</h4>
-            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" class="modal-title">Thema zu
+            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki" class="modal-title">
+                Thema zu
                 meinem Wiki hinzufügen</h4>
         </template>
         <template v-slot:body>
@@ -292,13 +311,13 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             </template>
 
 
-            <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki">
+            <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki">
                 <div class="mb-250">
                     <p>Wo soll das Thema hinzugefügt werden?</p>
                 </div>
                 <form v-on:submit.prevent="selectTopic">
                     <div class="categorySearchAutocomplete mb-250" v-if="editTopicRelationStore.personalWiki != null"
-                        @click="selectedParentInWikiId = editTopicRelationStore.personalWiki.Id">
+                        @click="selectedParentInWikiId = userStore.personalWiki?.Id ?? 0">
                         <div class="searchResultItem"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editTopicRelationStore.personalWiki.Id }">
                             <img :src="editTopicRelationStore.personalWiki.MiniImageUrl" />
@@ -306,7 +325,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                                 <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.Name }}
                                 </div>
                                 <div class="searchResultQuestionCount body-s">{{
-                                        editTopicRelationStore.personalWiki.QuestionCount
+                                    editTopicRelationStore.personalWiki.QuestionCount
                                 }}
                                     Frage<template
                                         v-if="editTopicRelationStore.personalWiki.QuestionCount != 1">n</template></div>
@@ -322,9 +341,9 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                     </div>
 
                     <div class="categorySearchAutocomplete mb-250"
-                        v-if="addToWikiHistory != null && addToWikiHistory.length > 0">
+                        v-if="editTopicRelationStore.recentlyUsedRelationTargetTopics != null && editTopicRelationStore.recentlyUsedRelationTargetTopics.length > 0">
                         <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Themen</div>
-                        <template v-for="previousTopic in addToWikiHistory" v-if="addToWikiHistory != null">
+                        <template v-for="previousTopic in editTopicRelationStore.recentlyUsedRelationTargetTopics">
                             <div class="searchResultItem"
                                 :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousTopic.Id }"
                                 @click="selectedParentInWikiId = previousTopic.Id">
@@ -350,15 +369,15 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                     </div>
                     <div v-if="!hideSearch" class="form-group dropdown categorySearchAutocomplete"
                         :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedTopic" class="searchResultItem mb-125"
+                        <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.Id }"
-                            @click="selectedParentInWikiId = selectedTopic.Id" data-toggle="tooltip"
-                            data-placement="top" :title="selectedTopic.Name">
-                            <img :src="selectedTopic.ImageUrl" />
+                            @click="selectedParentInWikiId = selectedTopic?.Id ?? 0" data-toggle="tooltip"
+                            data-placement="top" :title="selectedTopic?.Name">
+                            <img :src="selectedTopic?.ImageUrl" />
                             <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic?.Name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
-                                    Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
+                                    Frage<template v-if="selectedTopic?.QuestionCount != 1">n</template></div>
                             </div>
                             <div v-show="selectedParentInWikiId == selectedTopic.Id"
                                 class="selectedSearchResultItemContainer">
@@ -400,8 +419,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             <template v-else>
                 <form v-on:submit.prevent="selectTopic">
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedTopic" class="searchResultItem mb-125" data-toggle="tooltip"
-                            data-placement="top" :title="selectedTopic.Name">
+                        <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
+                            data-toggle="tooltip" data-placement="top" :title="selectedTopic.Name">
                             <img :src="selectedTopic.ImageUrl" />
                             <div>
                                 <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
@@ -458,12 +477,12 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 class="btn btn-primary memo-button" @click="addNewParentToTopic"
                 :class="{ 'disabled': disableAddButton }">Thema
                 verknüpfen</div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToWiki" id="AddToWiki"
+            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki" id="AddToWiki"
                 class="btn btn-primary memo-button" @click="addNewParentToTopic"
                 :class="{ 'disabled': disableAddButton }">Thema
                 verknüpfen</div>
             <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
         </template>
 
-    </LazyModal> -->
+    </LazyModal>
 </template>

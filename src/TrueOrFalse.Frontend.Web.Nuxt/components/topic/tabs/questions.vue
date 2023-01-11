@@ -3,7 +3,7 @@ const props = defineProps(['topic', 'answerBodyModel'])
 </script>
 
 <template>
-  <div>
+  <div class="row">
     <TopicLearning />
   </div>
 </template>

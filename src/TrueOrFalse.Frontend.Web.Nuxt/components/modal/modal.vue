@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
-
+import { ref } from 'vue'
 const props = defineProps([
     'id',
     'showCloseButton',
@@ -25,7 +24,7 @@ const modalWidthData = ref(props.modalWidth + 'px')
 
 <template>
 
-    <!-- <vue-final-modal v-model="props.show" classes="modal-container" content-class="modal-content">
+    <VueFinalModal v-model="props.show" class="modal-container" content-class="modal-content">
         <div id="defaultModal" class="modal-default">
             <div class="modal-default-mask" @click="$emit('close')">
                 <div class="modal-default-wrapper">
@@ -85,7 +84,7 @@ const modalWidthData = ref(props.modalWidth + 'px')
         </div>
 
 
-    </vue-final-modal> -->
+    </VueFinalModal>
 
 
 

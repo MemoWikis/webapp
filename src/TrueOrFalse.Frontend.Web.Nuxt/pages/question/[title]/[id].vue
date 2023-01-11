@@ -9,22 +9,23 @@ const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQues
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
-            if (process.server) {
-                options.headers = headers
-                options.baseURL = config.public.serverBase
-            }
-        }
+      if (process.server) {
+        options.headers = headers
+        options.baseURL = config.public.serverBase
+      }
+    }
   })
-
 
 </script>
 
 <template>
-  <div>
+  <div v-if="question" class="question-page-container">
     <QuestionAnswerBodyFlashcard v-if="question?.SolutionType == SolutionType.FlashCard" :question="question" />
   </div>
 </template>
 
-<style scoped>
-
+<style scoped lang="less">
+.question-page-container {
+  flex-grow: 2;
+}
 </style>

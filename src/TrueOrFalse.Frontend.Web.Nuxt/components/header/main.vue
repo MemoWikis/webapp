@@ -130,7 +130,7 @@ const partialSpacer = ref()
                                         v-on:select-item="openUrl" placement="bottom-end" />
                                 </div>
                             </div>
-                            <div class="login-btn">
+                            <div class="login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
