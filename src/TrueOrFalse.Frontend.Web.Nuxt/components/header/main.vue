@@ -102,8 +102,9 @@ const partialSpacer = ref()
                                         </LazyNuxtLink>
 
                                         <div class="user-dropdown-label">Dein Netzwerk</div>
-                                        <NuxtLink :to="`${encodeURI(userStore.name)}/${userStore.id}`"></NuxtLink>
-                                        <div class="user-dropdown-label">Deine Profilseite</div>
+                                        <NuxtLink :to="`/user/${encodeURI(userStore.name)}/${userStore.id}`">
+                                            <div class="user-dropdown-label">Deine Profilseite</div>
+                                        </NuxtLink>
                                     </div>
                                     <div class="user-dropdown-managment">
                                         <div class="user-dropdown-label">Konto-Einstellungen</div>
@@ -259,6 +260,7 @@ const partialSpacer = ref()
             &.start {
                 align-items: baseline;
                 padding-top: 11px;
+                padding-bottom: 11px;
             }
 
             &.end {

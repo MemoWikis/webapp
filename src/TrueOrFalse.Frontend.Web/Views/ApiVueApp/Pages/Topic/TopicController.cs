@@ -20,6 +20,8 @@ public class TopicController : BaseController
         var category = EntityCache.GetCategory(id);
 
         if (PermissionCheck.CanView(category))
+        {
+            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             return new
             {
                 CanAccess = true,
@@ -48,8 +50,9 @@ public class TopicController : BaseController
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == category.Creator?.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
                 QuestionCount = category.CountQuestionsAggregated,
-                ImageId = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category).Id
+                ImageId = imageMetaData != null ? imageMetaData.Id : 0
             };
+        }
 
         return new { };
     }

@@ -4,8 +4,17 @@ import { ImageStyle } from '~~/components/image/imageStyleEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
+const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 const { data: model } = await useFetch<UserModel>(`/apiVue/VueUser/GetUser/${route.params.id}`, {
+    credentials: 'include',
+    mode: 'no-cors',
+    onRequest({ options }) {
+        if (process.server) {
+            options.headers = headers
+            options.baseURL = config.public.serverBase
+        }
+    }
 })
 
 function follow() {
@@ -16,9 +25,25 @@ function unfollow() {
 }
 
 const { data: tabBadgesModel } = await useFetch<any>(`/apiVue/VueUser/GetUser/${route.params.id}`, {
+    credentials: 'include',
+    mode: 'no-cors',
+    onRequest({ options }) {
+        if (process.server) {
+            options.headers = headers
+            options.baseURL = config.public.serverBase
+        }
+    }
 })
 
 const { data: tabKnowledgeModel } = await useFetch<any>(`/apiVue/VueUser/GetUser/${route.params.id}`, {
+    credentials: 'include',
+    mode: 'no-cors',
+    onRequest({ options }) {
+        if (process.server) {
+            options.headers = headers
+            options.baseURL = config.public.serverBase
+        }
+    }
 })
 
 const showTab = ref('wuwi')
@@ -159,7 +184,7 @@ const showTab = ref('wuwi')
                         </li>
                         <li :class="{ 'active': showTab == 'badges' }">
                             <div class="btn-link" @click="showTab == 'badges'">
-                                Badges (0 von {{ tabBadgesModel.Count }})
+                                <!-- Badges (0 von {{ tabBadgesModel.Count }}) -->
                             </div>
                         </li>
                     </ul>
