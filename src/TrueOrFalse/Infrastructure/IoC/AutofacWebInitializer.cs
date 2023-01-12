@@ -49,7 +49,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterModule(new SolrNetModule(cores));
 
             //RegisterPostSolrConnection(cores, builder);
-
             return builder.Build();
         }
 

@@ -250,6 +250,10 @@
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+    <Compile Include="Search\GlobalSearch\MeiliGlobalSearch.cs" />
+    <Compile Include="Search\GlobalSearch\SolrGlobalSearch.cs" />
+    <Compile Include="Search\GlobalSearch\GlobalSearchResult.cs" />
+    <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
     <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />

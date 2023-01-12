@@ -36,6 +36,8 @@ public class Settings
 
     private static bool? _developOffline;
 
+    private static bool? _useMeiliSearch; 
+
     public static bool DevelopOffline()
     {
         if (_developOffline != null)
@@ -49,6 +51,21 @@ public class Settings
             _developOffline = false;
 
         return _developOffline.Value;
+    }
+
+    public static bool UseMeiliSearch()
+    {
+        if (_useMeiliSearch != null)
+            return _useMeiliSearch.Value;
+
+        var result = OverwrittenConfig.Value("useMeiliSearch");
+
+        if (result.HasValue)
+            _useMeiliSearch = Boolean.Parse(result.Value);
+        else
+            _useMeiliSearch = false;
+
+        return _useMeiliSearch.Value;
     }
 
     public static bool InitEntityCacheViaJobScheduler()

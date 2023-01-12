@@ -9,7 +9,7 @@
                     <div>Themen </div>
                     <div>{{categoryCount}} Treffer</div>
                 </li>
-                <li class="searchResultItem" v-for="c in categories" @click="selectItem(c)" data-toggle="tooltip" data-placement="top" :title="c.Name">
+                <li class="searchResultItem" v-for="c in categories" @click="selectItem(c)">
                     <img :src="c.ImageUrl"/>
                     <div class="searchResultLabelContainer">
                         <div class="searchResultLabel body-m">{{c.Name}}</div>
@@ -20,7 +20,7 @@
                     <div>Fragen </div>
                     <div>{{questionCount}} Treffer</div>
                 </li>
-                <li class="searchResultItem" v-for="q in questions" @click="selectItem(q)" data-toggle="tooltip" data-placement="top" :title="q.Name">
+                <li class="searchResultItem" v-for="q in questions" @click="selectItem(q)">
                     <img :src="q.ImageUrl"/>
                     <div class="searchResultLabelContainer">
                         <div class="searchResultLabel body-m">{{q.Name}}</div>
@@ -31,7 +31,7 @@
                     <div>Nutzer </div>
                     <div class="link" @click="openUsers()">zeige {{userCount}} Treffer</div>
                 </li>
-                <li class="searchResultItem" v-for="u in users" @click="selectItem(u)" data-toggle="tooltip" data-placement="top" :title="u.Name">
+                <li class="searchResultItem" v-for="u in users" @click="selectItem(u)">
                     <img class="authorImg" :src="u.ImageUrl"/>
                     <div class="searchResultLabelContainer">
                         <div class="searchResultLabel body-m">{{u.Name}}</div>

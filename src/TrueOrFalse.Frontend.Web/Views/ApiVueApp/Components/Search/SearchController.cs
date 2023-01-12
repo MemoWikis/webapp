@@ -1,23 +1,29 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using NHibernate.Linq.Expressions;
 using Seedworks.Lib;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Search;
 
 namespace VueApp;
 
 public class SearchController : BaseController
 {
+
+    private readonly IGlobalSearch _search;
+    public SearchController(IGlobalSearch search)
+    {
+        _search = search ?? throw new ArgumentNullException(nameof(search));
+    }
+
     [HttpGet]
     public JsonResult All(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = PrepareSearch.Go(term, type);
+        var elements = _search.Go(term, type);
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);
@@ -44,7 +50,7 @@ public class SearchController : BaseController
     public JsonResult Category(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = PrepareSearch.GoAllCategories(term, categoriesToFilter);
+        var elements = _search.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
@@ -61,7 +67,7 @@ public class SearchController : BaseController
     public JsonResult CategoryInWiki(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = PrepareSearch.GoAllCategories(term, categoriesToFilter);
+        var elements = _search.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
@@ -98,7 +104,7 @@ public class SearchController : BaseController
         }
 
         var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
-        
+
         return Json(new
         {
             success = true,
@@ -107,7 +113,7 @@ public class SearchController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
@@ -145,7 +151,7 @@ public class SearchController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, SearchBoxElements elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -157,7 +163,7 @@ public class SearchController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, SearchBoxElements elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem
