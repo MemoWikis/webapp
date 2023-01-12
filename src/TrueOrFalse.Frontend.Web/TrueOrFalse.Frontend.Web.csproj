@@ -262,6 +262,7 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\ApiVueApp\Stores\QuestionPinStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\TopicLearningQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\VueSessionUser.cs" />
     <Compile Include="Views\ApiVueApp\Stores\TopicStoreController.cs" />
@@ -4122,6 +4123,7 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="DynamicData\FieldTemplates\" />
+    <Folder Include="Views\ApiVueApp\Components\Pin\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

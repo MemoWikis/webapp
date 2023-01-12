@@ -1,100 +1,81 @@
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue'
-import { usePinStore, PinAction } from './pinStore'
-const props = defineProps(['isInWishknowledge', 'questionId'])
-enum PinState {
+import { usePinStore, PinState } from './pinStore'
+const pinStore = usePinStore()
 
-    Added,
-    Loading,
-    NotAdded
+interface Props {
+    isInWishknowledge: boolean,
+    questionId: number
 }
-const stateLoad = ref(PinState.NotAdded)
-const showAddTxt = ref(false)
-const type = ref('default')
 
-watch(() => props.isInWishknowledge.value, (val) => {
+const props = defineProps<Props>()
+
+const state = ref<PinState>(PinState.Loading)
+watch(() => props.isInWishknowledge, (val) => {
     if (val)
-        stateLoad.value = PinState.Added
-    else
-        stateLoad.value = PinState.NotAdded
+        state.value = PinState.Added
+    else state.value = PinState.NotAdded
 })
+
+onBeforeMount(() => {
+    if (props.isInWishknowledge)
+        state.value = PinState.Added
+    else state.value = PinState.NotAdded
+})
+
+const showLabel = ref(false)
 
 onMounted(() => {
-    if (props.isInWishknowledge.value)
-        stateLoad.value = PinState.Added
-    else
-        stateLoad.value = PinState.NotAdded
-})
-const pinStore = usePinStore()
-pinStore.$onAction(({ name, after }) => {
-    after(() => {
-        if (name == 'update' && pinStore.id == props.questionId.value) {
-            if (pinStore.action == PinAction.Add)
-                stateLoad.value = PinState.Added
-            else
-                stateLoad.value = PinState.NotAdded
-        }
+    pinStore.$onAction(({ after }) => {
+        after((result) => {
+            if (result != null && result.id == props.questionId) {
+                state.value = result.state
+            }
+        })
     })
 })
-async function pin() {
-    stateLoad.value = PinState.Loading
-    var result = await $fetch<boolean>(`/apiVue/Api/Questions/Pin/${props.questionId.value}`, {
-        method: 'POST', mode: 'cors', credentials: 'include'
-    })
-    if (result) {
-        stateLoad.value = PinState.Added
-        pinStore.update(props.questionId.value, PinAction.Add)
-    }
-    else stateLoad.value = PinState.NotAdded
+
+function pin() {
+    state.value = PinState.Loading
+    pinStore.pin(props.questionId)
 }
 
-async function unpin() {
-    stateLoad.value = PinState.Loading
-    var result = await $fetch<boolean>(`/apiVue/Api/Questions/UnPin/${props.questionId.value}`, {
-        method: 'POST', mode: 'cors', credentials: 'include'
-    })
-    if (result) {
-        stateLoad.value = PinState.NotAdded
-        pinStore.update(props.questionId.value, PinAction.Remove)
-    }
-    else stateLoad.value = PinState.Added
+function unpin() {
+    state.value = PinState.Loading
+    pinStore.unpin(props.questionId)
 }
-
-
 </script>
 
 <template>
-
     <div>
-        <div v-if="type == 'full'" class="pin-container">
-            <input id="toggle-heart" type="checkbox" />
-            <label for="toggle-heart">❤</label>
-        </div>
-        <div v-else-if="type == 'long'">
 
-        </div>
-        <div v-else>
-            <span v-if="stateLoad == PinState.Added" @click="unpin()">
-                <font-awesome-icon icon="fa-solid fa-heart" class="pinIcon"
-                    v-tooltip="'Aus deinem Wunschwissen entfernen'" />
-            </span>
-            <span v-else-if="stateLoad == PinState.NotAdded">
-                <font-awesome-icon icon="fa-solid fa-spinner" class="pinIcon" />
-            </span>
-            <span v-else title="Zu deinem Wunschwissen hinzuzufügen" @click="pin()">
-                <font-awesome-icon icon="fa-regular fa-heart" class="pinIcon" />
-                <span v-if="showAddTxt" class="Text">Hinzufügen</span>
-            </span>
-        </div>
+        <span v-if="state == PinState.Added" @click="unpin()" v-tooltip="'Aus deinem Wunschwissen entfernen'">
+            <font-awesome-icon icon="fa-solid fa-heart" class="pin-icon" />
+        </span>
+        <span v-else-if="state == PinState.Loading">
+            <font-awesome-icon icon="fa-solid fa-spinner fa-spin" class="pin-icon" />
+        </span>
+        <span v-else v-tooltip="'Zu deinem Wunschwissen hinzuzufügen'" @click="pin()">
+            <font-awesome-icon icon="fa-regular fa-heart" class="pin-icon" />
+            <span v-if="showLabel" class="pin-label">Hinzufügen</span>
+        </span>
     </div>
-
 
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.pinIcon {
+.pin-icon {
+    color: @memo-wuwi-red;
+}
+
+.pin-label {
+    padding: 0 3px;
+    font-size: 8px;
+    line-height: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: @memo-wuwi-red;
 }
 </style>

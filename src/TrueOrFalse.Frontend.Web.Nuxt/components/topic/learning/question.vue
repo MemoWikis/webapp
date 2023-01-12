@@ -19,10 +19,12 @@ const props = defineProps<Props>()
 
 const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
 
-const questionTitleHtml = ref('')
+const questionTitleHtml = ref<any>()
+
 onBeforeMount(() => {
     questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
 })
+
 const allDataLoaded = ref(false)
 
 const answer = ref('')
@@ -64,7 +66,7 @@ const canBeEdited = ref(false)
 
 async function loadQuestionBody() {
 
-    var data = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestionBody/', {
+    var data = await $fetch<any>('/apiVue/TopicLearningQuestion/LoadQuestionBody/', {
         body: { questionId: props.question.Id },
         method: 'post',
         credentials: 'include',
@@ -147,13 +149,17 @@ function editQuestion() {
 function deleteQuestion() {
 
 }
+
+function publishQuestion() {
+
+}
 </script>
 
 <template>
     <div class="singleQuestionRow" :class="[{ open: showFullQuestion }, backgroundColor]">
         <div class="questionSectionFlex">
             <div class="questionContainer">
-                <div class="questionBodyTop">
+                <div class="questionBodyTop row">
                     <div class="questionImg col-xs-1" @click="expandQuestion()">
                         <Image :url="props.question.ImageData" />
                     </div>
@@ -161,12 +167,13 @@ function deleteQuestion() {
                         <div class="questionHeader row">
                             <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId"
                                 @click="expandQuestion()">
-                                <component :is="questionTitleHtml && { template: questionTitleHtml }"
-                                    @hook:mounted="highlightCode(questionTitleId)"></component>
-                                <div v-if="props.question.Visibility == 1" class="privateQuestionIcon">
-                                    <p>
-                                        <i class="fas fa-lock"></i>
-                                    </p>
+                                <div v-html="questionTitleHtml" v-if="questionTitleHtml != null">
+
+                                </div>
+                                <div v-if="props.question.Visibility == 1" class="privateQuestionIcon question-lock"
+                                    @click="publishQuestion()">
+                                    <font-awesome-icon :icon="['fa-solid', 'lock']" />
+                                    <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                 </div>
                             </div>
                             <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestion()">
@@ -174,7 +181,7 @@ function deleteQuestion() {
                                     <i class="fas fa-angle-down rotateIcon" :class="{ open: showFullQuestion }"></i>
                                 </div>
                                 <div>
-                                    <pin-wuwi-component :is-in-wishknowledge="props.question.IsInWishknowledge"
+                                    <QuestionPin :is-in-wishknowledge="props.question.IsInWishknowledge"
                                         :question-id="props.question.Id" />
                                 </div>
                                 <div class="go-to-question iconContainer">
@@ -641,5 +648,46 @@ function deleteQuestion() {
             line-height: 20px;
         }
     }
+}
+
+.question-lock {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4px;
+    margin-left: 4px;
+    background: white;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    border-radius: 15px;
+
+    .fa-unlock {
+        display: none !important;
+    }
+
+    .fa-lock {
+        display: unset !important;
+    }
+
+    &:hover {
+
+        .fa-lock {
+            display: none !important;
+            color: @memo-blue;
+        }
+
+        .fa-unlock {
+            display: unset !important;
+            color: @memo-blue;
+        }
+
+        filter: brightness(0.95)
+    }
+
+    &:active {
+        filter: brightness(0.85)
+    }
+
 }
 </style>
