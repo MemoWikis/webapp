@@ -3,9 +3,12 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Autofac;
+using Autofac.Integration.Mvc;
 using NHibernate;
 using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
+using TrueOrFalse.Search;
+using TrueOrFalse.Search.GlobalSearch;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -66,9 +69,23 @@ namespace TrueOrFalse.Infrastructure
 
                 throw new Exception(sb.ToString());
             }
-
+           
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
+            if (!Settings.UseMeiliSearch())
+            {
+
+
+                builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
+            }
+            else
+            {
+
+                builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();
+            }
+
+
+
         }
     }
 }

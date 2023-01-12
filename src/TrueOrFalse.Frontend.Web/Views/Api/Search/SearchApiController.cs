@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -6,16 +7,23 @@ using NHibernate.Linq.Expressions;
 using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Search;
 
 public class SearchApiController : BaseController
 {
+    private  IGlobalSearch _search;
+    public SearchApiController(IGlobalSearch search)
+    {
+        _search = search ?? throw new ArgumentNullException(nameof(search));
+    }
+
     [HttpGet]
     public JsonResult ByName(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = PrepareSearch.Go(term, type);
+        var elements = _search.Go(term, type);
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);
@@ -42,7 +50,7 @@ public class SearchApiController : BaseController
     public JsonResult Category(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = PrepareSearch.GoAllCategories(term, categoriesToFilter);
+        var elements = _search.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
@@ -59,7 +67,7 @@ public class SearchApiController : BaseController
     public JsonResult CategoryInWiki(string term, int[] categoriesToFilter)
     {
         var items = new List<SearchCategoryItem>();
-        var elements = PrepareSearch.GoAllCategories(term, categoriesToFilter);
+        var elements = _search.GoAllCategories(term, categoriesToFilter);
 
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
@@ -88,7 +96,7 @@ public class SearchApiController : BaseController
         var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
         var personalWikiItem = FillSearchCategoryItem(personalWiki);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
-        
+
         if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
             foreach (var categoryId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
@@ -106,7 +114,7 @@ public class SearchApiController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, SearchBoxElements elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
@@ -144,7 +152,7 @@ public class SearchApiController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, SearchBoxElements elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -156,7 +164,7 @@ public class SearchApiController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, SearchBoxElements elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem
@@ -268,11 +276,11 @@ public class SearchApiController : BaseController
         {
             ResultCount = resultCount,
             Type = resultItemType.ToString(),
-            Item = new ResultSplitter{ SearchUrl = searchUrl }
+            Item = new ResultSplitter { SearchUrl = searchUrl }
         });
     }
 
-    private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)
+    private static void AddQuestionItems(List<ResultItem> items, GlobalSearchResult elements)
     {
         var questions = elements.Questions.Where(q => PermissionCheck.CanView(q)).ToList();
 
@@ -301,7 +309,7 @@ public class SearchApiController : BaseController
         );
     }
 
-    private static void AddUsersItems(List<ResultItem> items, SearchBoxElements elements)
+    private static void AddUsersItems(List<ResultItem> items, GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(user => new ResultItem
