@@ -76,12 +76,12 @@ namespace TrueOrFalse.Infrastructure
             {
 
 
-                builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
+                builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();
             }
             else
             {
 
-                builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();
+                builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
             }
 
 
