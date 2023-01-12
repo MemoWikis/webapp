@@ -30,6 +30,8 @@ onMounted(async () => {
         mode: 'cors',
         credentials: 'include',
     })
+
+    learningSessionConfigurationStore.setCounter(answerBodyModel.value?.counter)
 })
 
 </script>
@@ -83,7 +85,8 @@ onMounted(async () => {
                                             <font-awesome-icon v-if="expandAllQuestions" icon="fa-solid fa-angles-up" />
                                             <font-awesome-icon v-else icon="fa-solid fa-angles-down" />
                                         </div>
-                                        <span>{{ expandAllQuestions ? 'Alle Fragen zuklappen' : 'Alle Fragen erweitern'
+                                        <span>{{
+                                            expandAllQuestions? 'Alle Fragen zuklappen': 'Alle Fragen erweitern'
                                         }}</span>
                                     </a>
                                 </li>

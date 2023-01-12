@@ -54,7 +54,7 @@ export const useUserStore = defineStore('userStore', {
       Password: string,
       PersistentLogin: boolean
     }) {
-      const result = await $fetch<UserLoginResult>('/apiVue/VueSessionUser/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
+      const result = await $fetch<UserLoginResult>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success) {
         this.showLoginModal = false
@@ -67,11 +67,12 @@ export const useUserStore = defineStore('userStore', {
       Email: string,
       Password: string
     }) {
-      const result = await $fetch<UserLoginResult>('/apiVue/VueRegister/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
+      const result = await $fetch<UserLoginResult>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.Success) {
         this.isLoggedIn = true
         this.initUser(result.CurrentUser)
+        refreshNuxtData()
         return 'success'
       } else if (!!result && !result.Success)
         return result.Message
@@ -83,14 +84,14 @@ export const useUserStore = defineStore('userStore', {
       const spinnerStore = useSpinnerStore()
       spinnerStore.showSpinner()
 
-      var result = await $fetch<UserLoginResult>('/apiVue/VueSessionUser/Logout', {
+      var result = await $fetch<UserLoginResult>('/apiVue/UserStore/Logout', {
         method: 'POST', mode: 'cors', credentials: 'include'
       })
 
       if (!!result && result.Success) {
         spinnerStore.hideSpinner()
         this.isLoggedIn = false
-        window.location.reload()
+        refreshNuxtData()
       }
       spinnerStore.hideSpinner()
     }

@@ -4,6 +4,11 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 
+interface Props {
+    tab?: Tab
+}
+const props = defineProps<Props>()
+
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -30,7 +35,6 @@ if (topic.value != null) {
         watch(() => topicStore.id, () => {
             spinnerStore.showSpinner()
         })
-        tabsStore.activeTab = Tab.Topic
 
         onMounted(() => {
             var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
@@ -57,10 +61,30 @@ if (topic.value != null) {
         navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
     }
 }
+function setTab() {
+    if (tabsStore != null) {
+        switch (props.tab) {
+            case Tab.Learning:
+                tabsStore.activeTab = Tab.Learning
+                break;
+            case Tab.Feed:
+                tabsStore.activeTab = Tab.Feed
+                break;
+            case Tab.Analytics:
+                tabsStore.activeTab = Tab.Analytics
+                break;
+            default: tabsStore.activeTab = Tab.Topic
+        }
+    }
+}
 
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
     emit('setPage', Page.Topic)
+})
+
+onMounted(() => {
+    setTab()
 })
 
 const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
@@ -73,7 +97,7 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <LazyTopicTabsQuestions v-if="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
+                <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
                 <TopicRelationEdit />
                 <!-- <LazyQuestionEditModal /> -->
             </div>

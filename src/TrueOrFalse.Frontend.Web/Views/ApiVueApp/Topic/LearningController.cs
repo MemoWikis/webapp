@@ -133,7 +133,7 @@ public class LearningController : BaseController
         var data = new
         {
             counter,
-            answerBody = answerBody,
+            //answerBody = answerBody,
             navBarData = new
             {
                 nextUrl = nextPageLink,

@@ -199,7 +199,7 @@ public class SearchController : BaseController
                 iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
                 break;
             case CategoryType.Daily:
-                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
+                iconHTML = "<i class=\"fa   \">&nbsp;</i>";
                 break;
             case CategoryType.DailyIssue:
                 iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";

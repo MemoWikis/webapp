@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { useAlertStore, AlertType } from './alertStore'
+
 const alertStore = useAlertStore()
 </script>
 
 <template>
     <div id="AlertModal">
 
-        <vue-final-modal v-model="alertStore.show" @keydown.esc="alertStore.show = false">
+        <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 
@@ -38,7 +39,7 @@ const alertStore = useAlertStore()
 
                 </div>
             </div>
-        </vue-final-modal>
+        </VueFinalModal>
     </div>
 
 </template>

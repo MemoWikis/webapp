@@ -155,6 +155,26 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         }
     },
     actions: {
+        setCounter(e: any) {
+            if (e != null) {
+                this.questionFilterOptions.inWuwi.count = e.InWuwi;
+                this.questionFilterOptions.notInWuwi.count = e.NotInWuwi;
+                this.questionFilterOptions.createdByCurrentUser.count = e.CreatedByCurrentUser;
+                this.questionFilterOptions.notCreatedByCurrentUser.count = e.NotCreatedByCurrentUser;
+                this.questionFilterOptions.privateQuestions.count = e.Private;
+                this.questionFilterOptions.publicQuestions.count = e.Public;
+
+                this.knowledgeSummary.notLearned.count = e.NotLearned;
+                this.knowledgeSummary.needsLearning.count = e.NeedsLearning;
+                this.knowledgeSummary.needsConsolidation.count = e.NeedsConsolidation;
+                this.knowledgeSummary.solid.count = e.Solid;
+
+                this.maxSelectableQuestionCount = e.Max;
+
+                if (!this.userHasChangedMaxCount)
+                    this.selectedQuestionCount = e.Max;
+            }
+        },
         startNewSession() {
 
         },

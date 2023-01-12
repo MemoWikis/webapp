@@ -8,14 +8,8 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class VueQuestionListController : BaseController
+public class TopicLearningQuestionController: BaseController
 {
-    [HttpPost]
-    public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber)
-    {
-        return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
-    }
-
     [HttpPost]
     public JsonResult LoadQuestionBody(int questionId)
     {
@@ -62,50 +56,5 @@ public class VueQuestionListController : BaseController
         });
 
         return json;
-    }
-
-    [HttpPost]
-    public JsonResult GetUpdatedCorrectnessProbability(int questionId)
-    {
-        var question = EntityCache.GetQuestionById(questionId);
-        var hasPersonalAnswer = false;
-        var model = new AnswerQuestionModel(question, true);
-        if (SessionUser.IsLoggedIn)
-        {
-            var userQuestionValuation = SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations;
-
-            if (userQuestionValuation.ContainsKey(questionId))
-                hasPersonalAnswer = userQuestionValuation[questionId].CorrectnessProbabilityAnswerCount > 0;
-        }
-
-        return Json(new
-        {
-            correctnessProbability = model.HistoryAndProbability.CorrectnessProbability.CPPersonal,
-            hasPersonalAnswer
-        });
-    }
-
-    [HttpPost]
-    public JsonResult GetCurrentLearningSessionData(int categoryId)
-    {
-        var learningSession = LearningSessionCache.GetLearningSession();
-
-        if (learningSession == null)
-            return null;
-
-        return Json(new
-        {
-            stepCount = learningSession.Config.CategoryId == categoryId ? learningSession.Steps.Count : 0,
-            currentQuestionCount = learningSession.Config.CategoryId == categoryId
-                ? learningSession.Steps
-                    .Select(s => s.Question)
-                    .Distinct()
-                    .Count()
-                : 0,
-            allQuestionCount = EntityCache
-                .GetCategory(categoryId)
-                .GetAggregatedQuestionsFromMemoryCache()
-                .Count,
-        });
     }
 }

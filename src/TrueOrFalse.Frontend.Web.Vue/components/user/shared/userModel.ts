@@ -6,7 +6,6 @@ export interface UserModel {
     AmountCreatedSets: number,
     AmountCreatedCategories: number,
     AmountWishCountQuestions: number,
-    AmountWishCountSets: number,
     ImageUrl_250: string,
     ImageIsCustom: boolean,
     ReputationRank: number,

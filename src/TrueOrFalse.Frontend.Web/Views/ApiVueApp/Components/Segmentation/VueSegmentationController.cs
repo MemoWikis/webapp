@@ -44,6 +44,7 @@ public class VueSegmentationController : BaseController
     [HttpPost]
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
+        var ids = categoryIds;
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
         var startTopicId = 1;
 
@@ -82,7 +83,7 @@ public class VueSegmentationController : BaseController
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
-        var childCategoryCount = categoryCacheItem.CachedData.CountVisibleChildrenIds;
+        var childCategoryCount = EntityCache.GetChildren(categoryId).Where(PermissionCheck.CanView).Distinct().Count();
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
 
         var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;

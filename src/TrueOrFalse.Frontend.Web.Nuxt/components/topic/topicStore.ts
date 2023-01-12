@@ -96,7 +96,7 @@ export const useTopicStore = defineStore('topicStore', {
         content: this.content,
         saveContent: this.content != this.initialContent
       }
-      var result = await $fetch('/apiVue/Topic/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
+      var result = await $fetch('/apiVue/TopicStore/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
       if (result == true)
         this.contentHasChanged = false
     },

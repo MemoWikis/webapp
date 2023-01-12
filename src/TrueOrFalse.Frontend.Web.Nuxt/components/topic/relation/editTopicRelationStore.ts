@@ -33,7 +33,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
       addTopicBtnExists: false,
       categoriesToFilter: [] as number[],
       personalWiki: null as SearchTopicItem | null,
-      addToWikiHistory: null as SearchTopicItem[] | null,
+      recentlyUsedRelationTargetTopics: null as SearchTopicItem[] | null,
     }
   },
   actions: {
@@ -68,14 +68,14 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         personalWiki: SearchTopicItem,
         addToWikiHistory: SearchTopicItem[]
       }
-      var result = await $fetch<personalWikiDataResult>('/apiVue/Search/GetPersonalWikiData', { method: 'POST', body: { id: this.parentId }, mode: 'cors', credentials: 'include' })
+      var result = await $fetch<personalWikiDataResult>('/apiVue/EditTopicRelationStore/GetPersonalWikiData', { method: 'POST', body: { id: this.parentId }, mode: 'cors', credentials: 'include' })
 
       if (!!result && result.success) {
         this.personalWiki = result.personalWiki
-        this.addToWikiHistory = result.addToWikiHistory.reverse()
+        this.recentlyUsedRelationTargetTopics = result.addToWikiHistory.reverse()
         this.categoriesToFilter = []
         this.categoriesToFilter.push(this.personalWiki.Id)
-        this.addToWikiHistory.forEach((el) => {
+        this.recentlyUsedRelationTargetTopics.forEach((el) => {
           this.categoriesToFilter.push(el.Id)
         })
       }

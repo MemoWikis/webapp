@@ -101,7 +101,7 @@ const userStore = useUserStore()
                                 <div class="button" @click.prevent="topicStore.saveTopic()"
                                     :class="{ expanded: editMode }">
                                     <div class="icon">
-                                        <i class="fas fa-save"></i>
+                                        <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                                     </div>
                                     <div class="btn-label">
                                         Speichern
@@ -111,7 +111,7 @@ const userStore = useUserStore()
                                 <div class="button" @click.prevent="topicStore.resetContent()"
                                     :class="{ expanded: editMode }">
                                     <div class="icon">
-                                        <i class="fas fa-times"></i>
+                                        <font-awesome-icon icon="fa-solid fa-xmark" />
                                     </div>
                                     <div class="btn-label">
                                         Verwerfen

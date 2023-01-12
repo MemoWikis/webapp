@@ -22,7 +22,7 @@ function flip() {
                     {{ props.question.Text }}</p>
             </div>
             <div class="flashcard-back">
-                <template v-html="props.question.Solution"></template>
+                <template v-if="props.question.Solution.length > 0" v-html="props.question.Solution"></template>
             </div>
         </div>
     </div>
