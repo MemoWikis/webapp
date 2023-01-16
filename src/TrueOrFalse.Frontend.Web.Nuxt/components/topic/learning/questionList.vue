@@ -209,12 +209,6 @@ function loadNextQuestions() {
 
 //Less
 #QuestionListComponent {
-    margin-top: 103px;
-    background-color: @memo-grey-lighter;
-    padding: 0px 0px 33px 20px;
-    margin-right: 0;
-    margin-left: 0;
-
     h4 {
         margin-bottom: 0;
 

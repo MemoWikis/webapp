@@ -39,70 +39,9 @@ onMounted(async () => {
 <template>
     <TopicLearningSessionConfiguration v-show="showFilter">
         <slot>
-            <input id="hdnIsTestMode" hidden :value="learningSessionConfigurationStore.isTestMode" />
-            <div class="col-xs-12 drop-down-question-sort">
-                <div class="session-config-header">
-                    <span class="hidden-xs">Du lernst</span>
-                    <template
-                        v-if="learningSessionConfigurationStore.currentQuestionCount == learningSessionConfigurationStore.allQuestionCount">
-                        <b>&nbsp;alle&nbsp;</b>
-                    </template>
-                    <template v-else>
-                        <b>&nbsp;{{ learningSessionConfigurationStore.currentQuestionCount }}&nbsp;</b>
-                    </template>
-                    Fragen&nbsp;
-                    <span class="hidden-xs">aus diesem Thema</span>
-                    &nbsp;({{ learningSessionConfigurationStore.allQuestionCount }})
-                </div>
-                <div class="session-config-header"
-                    v-if="learningSessionConfigurationStore.categoryHasNoQuestions && learningSessionConfigurationStore.showError">
-                    Leider
-                    hat dieses Thema noch keine
-                    Fragen, erstelle oder füge eine Frage hinzu.
-                </div>
-
-
-
-                <div id="ButtonAndDropdown">
-                    <V-Dropdown :distance="0">
-                        <div id="QuestionListHeaderDropDown" class="Button dropdown">
-                            <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-
-                        </div>
-                        <template #popper>
-                            <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                <li onclick="eventBus.$emit('open-edit-question-modal', { categoryId: <%= Model.CategoryId %>, edit: false })"
-                                    data-allowed="logged-in">
-                                    <a>
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                                        </div><span>Frage hinzufügen</span>
-                                    </a>
-                                </li>
-                                <li @click="expandAllQuestions = !expandAllQuestions" style="cursor: pointer">
-                                    <a>
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon v-if="expandAllQuestions" icon="fa-solid fa-angles-up" />
-                                            <font-awesome-icon v-else icon="fa-solid fa-angles-down" />
-                                        </div>
-                                        <span>{{
-                                            expandAllQuestions? 'Alle Fragen zuklappen': 'Alle Fragen erweitern'
-                                        }}</span>
-                                    </a>
-                                </li>
-                                <li style="cursor: pointer">
-                                    <a data-allowed="logged-in"
-                                        @click="learningSessionConfigurationStore.startNewSession()">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-play" />
-                                        </div><span>Fragen jetzt lernen</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </template>
-                    </V-Dropdown>
-                </div>
+            <div class="session-progress-bar">
+                <div>2</div>
+                <div>3%</div>
             </div>
         </slot>
 
@@ -124,6 +63,23 @@ onMounted(async () => {
 </template>
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.session-progress-bar {
+    font-size: 14px;
+    line-height: 1.42857143;
+    display: flex;
+    width: 100%;
+    margin-left: 10px;
+    height: 30px;
+    background: @memo-grey-lighter;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    position: relative;
+    align-items: center;
+    padding: 0 8px;
+}
+
 .drop-down-question-sort {
     display: flex;
     flex-wrap: wrap;
