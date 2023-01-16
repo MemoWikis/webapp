@@ -83,9 +83,6 @@ namespace TrueOrFalse.Infrastructure
 
                 builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();
             }
-
-
-
         }
     }
 }
