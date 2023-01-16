@@ -174,9 +174,9 @@ public class MaintenanceController : BaseController
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult MeiliReIndexAllQuestions()
+    public async Task<ViewResult> MeiliReIndexAllQuestions()
     {
-        //Resolve<IMeiliSearchReIndex>().Run();
+       await Resolve<MeiliSearchReIndexAllQuestions>().Go();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
 

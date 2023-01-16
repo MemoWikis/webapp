@@ -2,6 +2,7 @@
 
 namespace TrueOrFalse.Search
 {
+    //todo: mark to delete
     public class ReIndexAllCategories : IRegisterAsInstancePerLifetime
     {
         private readonly CategoryRepository _categoryRepo;

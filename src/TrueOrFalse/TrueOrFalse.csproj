@@ -286,6 +286,9 @@
     <Compile Include="Search\GlobalSearch\GlobalSearchResult.cs" />
     <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
     <Compile Include="Search\MeiliSearchKonstanten.cs" />
+    <Compile Include="Search\Question\IndexOperations\MeiliSearchReIndexAllQuestions.cs" />
+    <Compile Include="Search\Question\Model\MeiliSearchQuestionMap.cs" />
+    <Compile Include="Search\Question\Model\MeiliSearchToQuestionMap.cs" />
     <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Meilisearch;
-using System.Text.Json;
 
 namespace TrueOrFalse.Search
 {
@@ -27,7 +26,7 @@ namespace TrueOrFalse.Search
             {
                 Id = c.Id,
                 Name = c.Name,
-                CreatorId = c.Creator?.Id,
+                CreatorId =  c.Creator == null ? -1 : c.Creator.Id,
                 DateCreated = c.DateCreated,
                 Description = c.Description,
                 QuestionCount = c.CountQuestions

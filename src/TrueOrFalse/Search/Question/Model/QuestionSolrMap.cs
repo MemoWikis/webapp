@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using SolrNet.Attributes;
 
 namespace TrueOrFalse.Search
-{
+{//todo: Mark to delete
     public class QuestionSolrMap
     {
         [SolrUniqueKey("Id")]
