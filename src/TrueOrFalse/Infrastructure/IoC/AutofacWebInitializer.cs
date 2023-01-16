@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
+using Meilisearch;
 using SolrNet;
 using SolrNet.Impl;
 using TrueOrFalse.Search;
@@ -47,8 +48,6 @@ namespace TrueOrFalse.Infrastructure
                             };
 
             builder.RegisterModule(new SolrNetModule(cores));
-
-            //RegisterPostSolrConnection(cores, builder);
             return builder.Build();
         }
 

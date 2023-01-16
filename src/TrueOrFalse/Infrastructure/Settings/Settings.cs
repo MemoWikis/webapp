@@ -12,6 +12,7 @@ public class Settings
     public static string CanonicalHost;
 
     public static string SolrUrl;
+
     public static string SolrPath;
     public static string SolrCoresSuffix;
    // public static bool GoogleKeyIsSet = false;
@@ -36,7 +37,9 @@ public class Settings
 
     private static bool? _developOffline;
 
-    private static bool? _useMeiliSearch; 
+    private static bool? _useMeiliSearch;
+    public static string MeiliSearchUrl;
+    public static string MeiliSearcMasterKey;
 
     public static bool DevelopOffline()
     {
@@ -91,6 +94,7 @@ public class Settings
 
     public static string RollbarAccessToken => Get<string>("Rollbar.AccessToken");
     public static string RollbarEnvironment => Get<string>("Rollbar.Environment");
+ 
 
     public static string ConnectionString()
     {
@@ -119,13 +123,12 @@ public class Settings
 
     static Settings()
     {
-        //GoogleAnalyticsKey = Get<string>("GoogleAnalyticsKey");
-        //GoogleKeyIsSet = !IsNullOrEmpty(GoogleAnalyticsKey);
         GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
-
         SolrCoresSuffix = GetValue(OverwrittenConfig.Value("solrCoresSuffix"), "SolrCoresSuffix");
         SolrPath = GetValue(OverwrittenConfig.Value("pathToSolr"), "SolrPath");
         SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
+        MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
+        MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
         CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
         LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");

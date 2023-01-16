@@ -4,6 +4,7 @@ using SolrNet.Attributes;
 
 namespace TrueOrFalse.Search
 {
+    //todo mark to delete
     public class CategorySolrMap
     {
         [SolrUniqueKey("Id")]
