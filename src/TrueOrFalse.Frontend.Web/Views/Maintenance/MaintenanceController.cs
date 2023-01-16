@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using NHibernate.Util;
 using TrueOrFalse;
@@ -67,21 +68,6 @@ public class MaintenanceController : BaseController
 
         return result;
     }
-
-    //[HttpPost]
-    //public string CmsRenderCategoriesWithNonAggregatedChildren()
-    //{
-    //    var categories = Sl.CategoryRepo.GetAllEager();
-    //    categories = categories.Where(c => c.NonAggregatedCategories().Any()).ToList();
-
-    //    var result = categories.Count() + " categories found:<br/>";
-    //    foreach (var category in categories)
-    //    {
-    //        result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
-    //    }
-
-    //    return result;
-    //}
 
     [HttpPost]
     public string CmsRenderCategoriesInSeveralRootCategories()
@@ -161,7 +147,7 @@ public class MaintenanceController : BaseController
             new MaintenanceModel
             { Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.") });
     }
-
+    //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
     public ActionResult ReIndexAllQuestions()
@@ -169,18 +155,42 @@ public class MaintenanceController : BaseController
         Resolve<ReIndexAllQuestions>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
+    //todo: Remove when Meilisearch is active
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ViewResult ReIndexAllCategories()
+    {
+        Resolve<ReIndexAllCategories>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
+    }
+    //todo: Remove when Meilisearch is active
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult ReIndexAllUsers()
+    {
+        Resolve<ReIndexAllUsers>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
+    }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult ReIndexAllCategories()
+    public ActionResult MeiliReIndexAllQuestions()
     {
-        Resolve<ReIndexAllCategories>().Run();
+        //Resolve<IMeiliSearchReIndex>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<ViewResult> MeiliReIndexAllCategories()
+    {
+        await Resolve<MeiliSearchReIndexCategories>().Go();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult ReIndexAllUsers()
+    public ActionResult MeiliReIndexAllUsers()
     {
         Resolve<ReIndexAllUsers>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
