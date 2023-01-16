@@ -63,7 +63,7 @@ const editor = useEditor({
     },
 })
 
-watch(props.content, (c) => {
+watch(() => props.content, (c) => {
     editor.value?.commands.setContent(c)
 })
 

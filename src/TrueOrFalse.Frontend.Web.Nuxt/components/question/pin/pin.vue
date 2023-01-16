@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { usePinStore, PinState } from './pinStore'
-const pinStore = usePinStore()
+import { useUserStore } from '~~/components/user/userStore'
 
+const pinStore = usePinStore()
+const userStore = useUserStore()
 interface Props {
     isInWishknowledge: boolean,
     questionId: number
@@ -23,26 +25,39 @@ onBeforeMount(() => {
 })
 
 const showLabel = ref(false)
+const emit = defineEmits(['set-wuwi-state'])
 
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
         after((result) => {
             if (result != null && result.id == props.questionId) {
                 state.value = result.state
+                emit('set-wuwi-state', result.state)
             }
         })
     })
 })
 
 function pin() {
-    state.value = PinState.Loading
-    pinStore.pin(props.questionId)
+    if (userStore.isLoggedIn) {
+        state.value = PinState.Loading
+        pinStore.pin(props.questionId)
+    } else {
+        userStore.openLoginModal()
+    }
+
 }
 
 function unpin() {
-    state.value = PinState.Loading
-    pinStore.unpin(props.questionId)
+    if (userStore.isLoggedIn) {
+        state.value = PinState.Loading
+        pinStore.unpin(props.questionId)
+    } else {
+        userStore.openLoginModal()
+    }
+
 }
+
 </script>
 
 <template>

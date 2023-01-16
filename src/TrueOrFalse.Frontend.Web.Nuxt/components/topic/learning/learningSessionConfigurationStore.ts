@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../../user/userStore'
 import { useTopicStore } from '../topicStore'
+import { useLearningSessionStore } from './learningSessionStore'
 import _ from 'underscore'
 
 export class SessionConfig {
@@ -434,7 +435,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             var val = parseInt(e.target!.toString())
             this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null
             this.userHasChangedMaxCount = true
-
+            var count = this.selectedQuestionCount
+            debugger
             if (this.questionCountIsInvalid)
                 return
 
