@@ -3,17 +3,18 @@ import { useLearningSessionConfigurationStore } from './learningSessionConfigura
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
     state: () => {
-        return{
+        return {
             isLearningSession: true,
             isTestMode: false,
             lastIndex: 0,
             currentIndex: 0,
-    }},
+        }
+    },
     actions: {
-        loadQuestion(skipIndex:number, sessionIndex:number) {
+        loadQuestion(skipIndex: number, sessionIndex: number) {
         },
         startNewSession() {
-            
+            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
         }
-      },
+    },
 })

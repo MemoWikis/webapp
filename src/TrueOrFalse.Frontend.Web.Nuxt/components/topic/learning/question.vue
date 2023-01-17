@@ -4,6 +4,8 @@ import { useUserStore } from '~~/components/user/userStore'
 import { getHighlightedCode } from '~~/components/shared/utils'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
+import { PinState } from '~~/components/question/pin/pinStore'
+import { hide } from '@popperjs/core'
 
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
@@ -23,6 +25,9 @@ const questionTitleHtml = ref<any>()
 
 onBeforeMount(() => {
     questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
+    isInWishknowledge.value = props.question.IsInWishknowledge
+    hasPersonalAnswer.value = props.question.HasPersonalAnswer
+    setKnowledgebarData(props.question.CorrectnessProbability)
 })
 
 const allDataLoaded = ref(false)
@@ -118,6 +123,7 @@ watch(() => props.expandQuestion, (val) => {
 })
 
 function highlightCode(elementId: string) {
+    console.log('highlight')
     var el = document.getElementById(elementId)
     if (el != null)
         el.querySelectorAll('code').forEach(block => {
@@ -137,22 +143,65 @@ const extendedAnswerId = ref('#eaId' + props.question.Id)
 const correctnessProbability = ref('')
 const correctnessProbabilityLabel = ref('')
 
-function showCommentModal() {
+function showCommentModal(hide: any | null = null) {
+    if (hide)
+        hide()
     // needs comment modal
 }
 
 const editQuestionStore = useEditQuestionStore()
-function editQuestion() {
+function editQuestion(hide: any) {
+    hide()
     editQuestionStore.editQuestion(props.question.Id, props.question.SessionIndex)
 }
 
-function deleteQuestion() {
+function deleteQuestion(hide: any) {
+    hide()
+}
+
+function publishQuestion(hide: any | null = null) {
+    if (hide)
+        hide()
+}
+
+const isInWishknowledge = ref(false)
+const hasPersonalAnswer = ref(false)
+
+function setKnowledgebarData(val: number) {
+    if (isInWishknowledge.value) {
+        if (hasPersonalAnswer.value) {
+            if (val >= 80) {
+                backgroundColor.value = "solid"
+                correctnessProbabilityLabel.value = "Sicheres Wissen"
+            } else if (val < 80 && val >= 50) {
+                backgroundColor.value = "shouldConsolidate"
+                correctnessProbabilityLabel.value = "Zu festigen"
+            } else if (val < 50 && val >= 0) {
+                backgroundColor.value = "shouldLearn"
+                correctnessProbabilityLabel.value = "Zu lernen"
+            }
+        } else {
+            backgroundColor.value = "inWishknowledge"
+            correctnessProbabilityLabel.value = "Nicht gelernt"
+        }
+    } else {
+        backgroundColor.value = ""
+        correctnessProbabilityLabel.value = "Nicht im Wunschwissen"
+    }
 
 }
 
-function publishQuestion() {
-
+function setWuwiState(state: PinState) {
+    if (state == PinState.Added)
+        isInWishknowledge.value = true
+    else if (state == PinState.NotAdded)
+        isInWishknowledge.value = false
 }
+
+watch(isInWishknowledge, () => {
+    setKnowledgebarData(props.question.CorrectnessProbability)
+})
+
 </script>
 
 <template>
@@ -164,49 +213,46 @@ function publishQuestion() {
                         <Image :url="props.question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
-                        <div class="questionHeader row">
+                        <div class="questionHeader">
                             <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId"
                                 @click="expandQuestion()">
                                 <div v-html="questionTitleHtml" v-if="questionTitleHtml != null">
 
                                 </div>
                                 <div v-if="props.question.Visibility == 1" class="privateQuestionIcon question-lock"
-                                    @click="publishQuestion()">
+                                    @click.stop="publishQuestion()">
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
                                     <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                 </div>
                             </div>
                             <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestion()">
                                 <div class="iconContainer float-right" @click="expandQuestion()">
-                                    <i class="fas fa-angle-down rotateIcon" :class="{ open: showFullQuestion }"></i>
+                                    <font-awesome-icon icon="fa-solid fa-angle-down" class="rotateIcon"
+                                        :class="{ open: showFullQuestion }" />
                                 </div>
-                                <div>
-                                    <QuestionPin :is-in-wishknowledge="props.question.IsInWishknowledge"
-                                        :question-id="props.question.Id" />
-                                </div>
+                                <QuestionPin :is-in-wishknowledge="isInWishknowledge" :question-id="props.question.Id"
+                                    class="iconContainer" @set-wuwi-state="setWuwiState" />
                                 <div class="go-to-question iconContainer">
-                                    <span class="fas fa-play"
+                                    <font-awesome-icon icon="fa-solid fa-play"
                                         :class="{ 'activeQ': activeQuestionId == props.question.Id }"
-                                        :data-question-id="props.question.Id" @click="loadSpecificQuestion()">
-                                    </span>
+                                        @click="loadSpecificQuestion()" />
                                 </div>
                             </div>
                         </div>
                         <div class="extendedQuestionContainer" v-show="showFullQuestion">
                             <div class="questionBody">
                                 <div class="RenderedMarkdown extendedQuestion" :id="extendedQuestionId">
-                                    <component :is="extendedQuestion && { template: extendedQuestion }"
-                                        @hook:mounted="highlightCode(extendedQuestionId)"></component>
+                                    <div v-html="extendedQuestion" @hook:mounted="highlightCode(extendedQuestionId)">
+                                    </div>
                                 </div>
                                 <div class="answer body-m" :id="answerId">
-                                    Richtige Antwort: <component :is="answer && { template: answer }"
-                                        @hook:mounted="highlightCode(answerId)"></component>
+                                    Richtige Antwort: <div v-html="answer" @hook:mounted="highlightCode(answerId)">
+                                    </div>
                                 </div>
                                 <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 11"
                                     :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
-                                    <component :is="extendedAnswer && { template: extendedAnswer }"
-                                        @hook:mounted="highlightCode(extendedAnswerId)"></component>
+                                    <div :v-html="extendedAnswer" @hook:mounted="highlightCode(extendedAnswerId)"></div>
                                 </div>
                             </div>
                         </div>
@@ -217,54 +263,77 @@ function publishQuestion() {
                         <div class="probabilitySection">
                             <span class="percentageLabel" :class="backgroundColor">{{
                                 correctnessProbability
-                            }}&nbsp</span>
+                            }}</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
-                            {{ answerCount }}&nbspmal&nbspbeantwortet&nbsp|&nbsp{{
+                            {{ answerCount }} mal beantwortet | {{
                                 correctAnswers
-                            }}&nbsprichtig&nbsp/&nbsp{{ wrongAnswers }}&nbspfalsch
+                            }} richtig / {{ wrongAnswers }} falsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
-                        <div>
-                            <a class="commentIcon" @click.stop="showCommentModal()">
-                                <i class="fa fa-comment"><span style="font-weight: 400">&nbsp{{
-                                    commentCount
-                                }}</span></i>
-                            </a>
+                        <div class="commentIcon" @click.stop="showCommentModal()">
+                            <font-awesome-icon icon="fa-solid fa-comment" /><span style="font-weight: 400"> {{
+                                commentCount
+                            }}</span>
                         </div>
                         <div class="Button dropdown">
-                            <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-ellipsis-v"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                <li v-if="userStore.isAdmin || isCreator">
-                                    <a @click="editQuestion()">
-                                        <div class="dropdown-icon"><i class="fa fa-pen"></i></div><span>Frage
-                                            bearbeiten</span>
-                                    </a>
-                                </li>
-                                <li v-if="userStore.isAdmin"><a :href="props.question.LinkToQuestion">
-                                        <div class="dropdown-icon"><i class="fas fa-file"></i></div><span>Frageseite
-                                            anzeigen</span>
-                                    </a></li>
-                                <li><a :href="props.question.LinkToQuestionVersions" data-allowed="logged-in">
-                                        <div class="dropdown-icon"><i class="fa fa-code-fork"></i></div>
-                                        <span>Bearbeitungshistorie der Frage</span>
-                                    </a></li>
-                                <li><a @click="showCommentModal()">
-                                        <div class="dropdown-icon"><i class="fas fa-comment"></i></div><span>Frage
-                                            kommentieren</span>
-                                    </a></li>
-                                <li>
-                                    <a @click="deleteQuestion()">
-                                        <div class="dropdown-icon"><i class="fas fa-trash"></i></div><span>Frage
-                                            löschen</span>
-                                    </a>
-                                </li>
-                            </ul>
+
+                            <V-Dropdown :distance="0">
+                                <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
+                                    class="btn btn-link btn-sm ButtonEllipsis" />
+                                <template #popper="{ hide }">
+
+                                    <div v-if="userStore.isAdmin || isCreator" @click="editQuestion(hide)"
+                                        class="dropdown-row">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-pen" />
+                                        </div>
+                                        <div class="dropdown-label">Frage bearbeiten</div>
+
+                                    </div>
+                                    <NuxtLink :to="props.question.LinkToQuestion">
+                                        <div class="dropdown-row">
+                                            <div class="dropdown-icon">
+                                                <font-awesome-icon icon="fa-solid fa-file" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Frageseite anzeigen
+                                            </div>
+                                        </div>
+                                    </NuxtLink>
+
+                                    <NuxtLink :to="props.question.LinkToQuestionVersions">
+                                        <div class="dropdown-row">
+                                            <div class="dropdown-icon">
+                                                <font-awesome-icon icon="fa-solid fa-code-fork" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Bearbeitungshistorie der Frage
+                                            </div>
+                                        </div>
+                                    </NuxtLink>
+
+                                    <div class="dropdown-row" @click="showCommentModal(hide)">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-comment" />
+                                        </div>
+                                        <div class="dropdown-label">
+                                            Frage kommentieren
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-row" @click="deleteQuestion(hide)">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-trash" />
+                                        </div>
+                                        <div class="dropdown-label">
+                                            Frage löschen
+                                        </div>
+                                    </div>
+                                </template>
+                            </V-Dropdown>
                         </div>
                     </div>
                 </div>
@@ -306,7 +375,7 @@ function publishQuestion() {
     }
 
     &.shouldConsolidate {
-        background: linear-gradient(to right, #FDD648 0px, #FDD648 8px, #ffffffff 8px, #ffffffff 100%);
+        background: linear-gradient(to right, @memo-yellow 0px, @memo-yellow 8px, #ffffffff 8px, #ffffffff 100%);
     }
 
     &.shouldLearn {
@@ -423,22 +492,16 @@ function publishQuestion() {
                             padding-top: 18px;
                         }
 
-                        .fa-spinner,
-                        .fa-play {
-                            padding-right: 10px;
-                        }
-
                         .iconContainer {
-                            padding: 8px 8px 0px 8px;
-                            min-width: 40px;
-                            // height: 57px;
-                            width: 40px;
-                            max-width: 40px;
+                            min-width: 20px;
+                            width: 20px;
+                            max-width: 20px;
                             text-align: center;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
 
-                            .fa-play {
-                                margin-top: 10px;
-                            }
+                            margin-right: 10px;
 
                             .rotateIcon {
                                 transition: all .2s ease-out;
@@ -689,5 +752,17 @@ function publishQuestion() {
         filter: brightness(0.85)
     }
 
+}
+
+.ButtonEllipsis {
+    margin-left: 0px !important;
+    font-size: 18px;
+    color: @memo-grey-dark;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+        color: @memo-blue;
+        transition: all .1s ease-in-out;
+    }
 }
 </style>

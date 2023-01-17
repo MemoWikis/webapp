@@ -48,7 +48,6 @@ const textSolution = ref(null as string | null)
 const multipleChoiceJson = ref(null as string | null)
 const matchListJson = ref(null as string | null)
 const flashCardAnswer = ref(null as string | null)
-const flashCardJson = ref(null as string | null)
 
 
 const topicIds = ref([] as number[])
@@ -285,7 +284,7 @@ function initiateSolution(solution: string) {
             matchListJson.value = solution;
             break;
         case SolutionType.FlashCard:
-            flashCardJson.value = solution;
+            flashCardAnswer.value = solution;
     }
 
     return solution;
@@ -295,15 +294,14 @@ const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
 
-    let result = await $fetch<QuestionData>(`/apiVue/VueQuestion/GetData/${id}`, {
+    let result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
     })
 
     if (result != null) {
-        solutionType.value = result.SolutionType
-
+        solutionType.value = result.SolutionType as SolutionType
         initiateSolution(result.Solution)
         questionHtml.value = result.Text
         questionExtensionHtml.value = result.TextExtended
@@ -338,10 +336,12 @@ function setFlashCardContent(editor: Editor) {
 
 <template>
     <div id="EditQuestionModal">
-        <LazyModal :showCloseButton="true" :modalWidth="600" button1Text="Speichern" :isFullSizeButtons="true"
+        <Modal :showCloseButton="true" :modalWidth="600" button1Text="Speichern" :isFullSizeButtons="true"
             @close="editQuestionStore.showModal = false" @mainBtn="save()" :show="editQuestionStore.showModal">
-            <template slot:header></template>
-            <template slot:body>
+            <template v-slot:header>
+
+            </template>
+            <template v-slot:body>
                 <div class="edit-question-modal-header overline-m overline-title">
 
                     <div class="main-header">
@@ -485,10 +485,253 @@ function setFlashCardContent(editor: Editor) {
                     </select>
                 </div>
             </template>
-            <template slot:footer-text></template>
+            <template v-slot:footer-text></template>
 
 
-        </LazyModal>
+        </Modal>
     </div>
 
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+select {
+    border: solid 1px @memo-grey-light;
+    border-radius: 0;
+    padding: 0 4px;
+    outline: none !important;
+}
+
+.matchlist-container {
+    select {
+        height: 34px;
+        width: 190px;
+
+        option {
+            &:disabled {
+                font-style: italic;
+            }
+        }
+
+        &:focus,
+        &:focus-visible {
+            border: solid 1px @memo-green;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .matchlist-options,
+    .matchlist-pairs {
+        display: flex;
+        justify-content: space-between;
+
+        input,
+        select,
+        .input-group {
+            width: 100%;
+        }
+
+        .matchlist-left,
+        .matchlist-right {
+            width: 50%;
+        }
+    }
+
+    .matchlist-options {
+        @media (max-width:576px) {
+            flex-direction: column;
+
+            .matchlist-left,
+            .matchlist-right {
+                width: 100%;
+            }
+
+            .matchlist-right {
+                margin-top: 26px;
+            }
+
+            .xs-hide {
+                &.col-spacer {
+                    min-width: 0px;
+                    width: 0px;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+.edit-question-modal-header {
+    display: flex;
+    justify-content: space-between;
+
+    .heart-container {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100px;
+        margin-right: -22px;
+        cursor: pointer;
+        color: @memo-wuwi-red;
+        font-size: 22px;
+    }
+
+    .main-header {
+        display: flex;
+        align-items: baseline;
+        padding-bottom: 4px;
+
+        .main-label {
+            padding-right: 20px;
+        }
+
+        .solutionType-selector {
+            select {
+                border: none;
+                background: @memo-grey-lighter;
+                padding: 0 4px;
+                outline: none !important;
+                height: 34px;
+                width: 190px;
+            }
+        }
+
+        @media (max-width:576px) {
+            flex-direction: column;
+        }
+    }
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+:deep(.ProseMirror,
+    input,
+    textarea,
+    select) {
+    border: solid 1px @memo-grey-light;
+    border-radius: 0;
+
+    &.is-empty {
+        border: solid 1px @memo-salmon;
+    }
+}
+
+.is-empty {
+
+    :deep(.ProseMirror) {
+        border: solid 1px @memo-salmon;
+    }
+}
+
+.btn {
+    &.is-empty {
+        border: solid 1px @memo-salmon;
+    }
+}
+
+.input-group-addon {
+    border: none;
+    border-radius: 0;
+}
+
+input,
+.input-group-addon {
+    box-shadow: none;
+    background: none;
+
+    &.toggle-correctness {
+        min-width: 38px;
+
+        &.active {
+            color: white;
+
+            &.is-correct {
+                background-color: @memo-green;
+            }
+
+            &.is-wrong {
+                background-color: @memo-salmon;
+            }
+        }
+    }
+}
+
+:deep(input,
+    .ProseMirror-focused,
+    textarea) {
+
+    &:focus,
+    &:focus-visible {
+        outline: none !important;
+        border: solid 1px @memo-green;
+    }
+}
+
+:deep(.ProseMirror) {
+    padding: 11px 15px 0;
+}
+
+.related-categories-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .category-chip-component {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+        overflow: hidden;
+
+        .category-chip-container {
+            padding: 4px 0;
+        }
+
+        .category-chip-deleteBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+            width: 16px;
+            height: 100%;
+            cursor: pointer;
+            color: @memo-salmon;
+        }
+    }
+}
+
+:deep(.input-group-addon) {
+    background-color: @memo-grey-lighter;
+}
+
+textarea {
+    width: 100%;
+    padding: 11px 15px 0;
+}
+
+.description-container {
+    .ProseMirror {
+        min-height: 62px;
+    }
+}
+
+.col-spacer {
+    min-width: 38px;
+}
+
+.form-control {
+    max-width: 100%;
+}
+</style>

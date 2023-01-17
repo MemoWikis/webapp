@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { QuestionListItem } from './questionListItem'
 import _ from 'underscore'
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+const spinnerStore = useSpinnerStore()
 const props = defineProps([
     'categoryId',
     'isAdmin',
@@ -15,9 +17,7 @@ const pages = ref(0)
 const pageArray = ref([] as number[])
 const selectedPage = ref(1)
 
-const pageIsLoading = ref(false)
 const itemCountPerPage = ref(25)
-
 
 const emit = defineEmits(['updateQuestionCount'])
 const showLeftSelectionDropUp = ref(false)
@@ -74,11 +74,11 @@ async function updatePageCount(sP: number) {
 
     await nextTick()
     setPaginationRanges(sP)
-    pageIsLoading.value = false
+    spinnerStore.hideSpinner()
 }
 
 async function loadQuestions(page: Number) {
-    pageIsLoading.value = true
+    spinnerStore.showSpinner()
     var result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
         method: 'POST', body: {
             itemCountPerPage: itemCountPerPage.value,
@@ -104,6 +104,10 @@ function loadNextQuestions() {
     if (selectedPage.value != pageArray.value.length)
         loadQuestions(selectedPage.value + 1)
 }
+
+function selectPage(page: number) {
+
+}
 </script>
 
 <template>
@@ -112,6 +116,9 @@ function loadNextQuestions() {
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
             :is-last-item="index == (questions.length - 1)" :session-index="index"
             :expand-question="props.expandQuestion" />
+
+        <!-- <vue-awesome-paginate :total-items="50" :items-per-page="5" :max-pages-shown="5" v-model="pageArray.length"
+            :on-click="selectPage" /> -->
 
         <div id="QuestionListPagination" v-show="questions.length > 0">
             <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
@@ -232,10 +239,12 @@ function loadNextQuestions() {
         }
     }
 
-    @media(max-width: @screen-xxs-max) {
-        padding-left: 0;
-        padding-right: 0;
-    }
+    // @media(max-width: @screen-xxs-max) {
+    //     padding-left: 0;
+    //     padding-right: 0;
+    // margin-right: -10px;
+    //     margin-left: -10px;
+    // }
 
     #QuestionFooterIcons {
         .btn-link {
@@ -708,10 +717,6 @@ function loadNextQuestions() {
         }
     }
 
-    @media(max-width: @screen-xxs-max) {
-        margin-right: -10px;
-        margin-left: -10px;
-    }
 
 
     #AddInlineQuestionContainer {

@@ -58,8 +58,8 @@ const editor = useEditor({
 })
 
 onMounted(() => {
-    if (props.solution.value) {
-        editor.value?.commands.setContent(props.solution.value)
+    if (props.solution) {
+        editor.value?.commands.setContent(props.solution)
         emit('setFlashCardContent', editor.value)
     }
 })

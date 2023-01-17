@@ -40,8 +40,10 @@ onMounted(async () => {
     <TopicLearningSessionConfiguration v-show="showFilter">
         <slot>
             <div class="session-progress-bar">
-                <div>2</div>
-                <div>3%</div>
+                <div class="progress-bar"></div>
+
+                <div class="step-count">2</div>
+                <div class="progress-percentage">3%</div>
             </div>
         </slot>
 
@@ -66,8 +68,8 @@ onMounted(async () => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .session-progress-bar {
-    font-size: 14px;
-    line-height: 1.42857143;
+    font-size: @font-size-base;
+    line-height: @line-height-base;
     display: flex;
     width: 100%;
     margin-left: 10px;
@@ -76,9 +78,40 @@ onMounted(async () => {
     justify-content: space-between;
     flex-wrap: nowrap;
     position: relative;
-    align-items: center;
-    padding: 0 8px;
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 1.25px;
+    text-align: center;
+
+    .step-count {
+        display: flex;
+        padding-left: 10px;
+        padding-right: 15px;
+        flex-wrap: nowrap;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .progress-percentage {
+        display: flex;
+        align-items: center;
+        padding-right: 10px;
+        padding-left: 15px;
+        z-index: 2;
+    }
+
+    .progress-bar {
+        position: absolute;
+        background: @memo-green;
+        height: 100%;
+        left: 0;
+        right: 0;
+    }
 }
+
 
 .drop-down-question-sort {
     display: flex;

@@ -99,7 +99,7 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
                 <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
                 <TopicRelationEdit />
-                <!-- <LazyQuestionEditModal /> -->
+                <LazyQuestionEditModal />
             </div>
             <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
                 <div id="SidebarDivider"></div>
