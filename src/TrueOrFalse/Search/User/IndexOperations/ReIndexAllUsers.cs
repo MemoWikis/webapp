@@ -2,6 +2,7 @@
 
 namespace TrueOrFalse.Search
 {
+    //todo: Remark to Delete
     public class ReIndexAllUsers : IRegisterAsInstancePerLifetime
     {
         private readonly UserRepo _userRepo;

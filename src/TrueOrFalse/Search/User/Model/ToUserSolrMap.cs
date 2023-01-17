@@ -1,5 +1,6 @@
 ﻿namespace TrueOrFalse.Search
 {
+    //todo mark to Delete
     public class ToUserSolrMap
     {
         public static UserSolrMap Run(User user)

@@ -9,7 +9,7 @@ namespace TrueOrFalse.Search
     public class MeiliSearchReIndexAllQuestions : IRegisterAsInstancePerLifetime
     {
         private readonly MeilisearchClient _client;
-        private readonly QuestionRepo _questionRepo;
+        private QuestionRepo __questionRepo;
         private QuestionValuationRepo __questionValuationRepo;
 
         private QuestionValuationRepo _questionValuationRepo
@@ -20,6 +20,17 @@ namespace TrueOrFalse.Search
                     __questionValuationRepo = Sl.Resolve<QuestionValuationRepo>();
 
                 return __questionValuationRepo;
+            }
+        }
+
+        private QuestionRepo _questionRepo
+        {
+            get
+            {
+                if (__questionRepo == null)
+                    __questionRepo = Sl.Resolve<QuestionRepo>();
+
+                return __questionRepo;
             }
         }
 
