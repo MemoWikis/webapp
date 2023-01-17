@@ -22,7 +22,7 @@ const learningSessionStore = useLearningSessionStore()
 
 <template>
     <div id="QuestionListSection" class="row">
-        <template v-if="showFilter">
+        <div v-if="showFilter">
             <TopicLearningSessionConfiguration>
                 <slot>
                     <div class="drop-down-question-sort">
@@ -87,7 +87,7 @@ const learningSessionStore = useLearningSessionStore()
                 </slot>
             </TopicLearningSessionConfiguration>
             <TopicLearningQuestionList />
-        </template>
+        </div>
 
         <div class="session-configurator col-xs-12" v-else>
             <div class="session-config-header">
@@ -110,12 +110,17 @@ const learningSessionStore = useLearningSessionStore()
 //Less
 #QuestionListSection {
 
+    // background-color: @memo-grey-lighter;
+    // margin-right: 0;
+    // margin-left: 0;
+    // margin-bottom: 46px;
+
+
     margin-top: 103px;
     background-color: @memo-grey-lighter;
-    padding: 0px 0px 33px 20px;
+    padding: 0px 20px 33px 20px;
     margin-right: 0;
     margin-left: 0;
-    margin-bottom: 46px;
 
     @media(max-width: @screen-xxs-max) {
         padding-left: 0;

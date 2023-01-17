@@ -37,18 +37,20 @@ onMounted(async () => {
 </script>
 
 <template>
-    <TopicLearningSessionConfiguration v-show="showFilter">
-        <slot>
-            <div class="session-progress-bar">
-                <div class="progress-bar"></div>
+    <div class="">
+        <TopicLearningSessionConfiguration v-if="showFilter">
+            <slot>
+                <div class="session-progress-bar">
+                    <div class="progress-bar"></div>
 
-                <div class="step-count">2</div>
-                <div class="progress-percentage">3%</div>
-            </div>
-        </slot>
+                    <div class="step-count">2</div>
+                    <div class="progress-percentage">3%</div>
+                </div>
+            </slot>
+        </TopicLearningSessionConfiguration>
 
+    </div>
 
-    </TopicLearningSessionConfiguration>
     <div class="session-configurator col-xs-12" v-if="!showFilter">
         <div class="session-config-header">
             <div class="col-xs-12 drop-down-question-sort">
@@ -59,13 +61,28 @@ onMounted(async () => {
         </div>
     </div>
 
-    <LazyQuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" />
+    <!-- <LazyQuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" /> -->
+    <div>
+        <div class="col-xs-12" id="QuestionListContainer">
+            <TopicLearningQuestionsSection />
 
-    <TopicLearningQuestionsSection />
+        </div>
+    </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+#QuestionListContainer {
+    padding-bottom: 40px;
+
+    @media(max-width: @screen-xxs-max) {
+        padding-left: 0;
+        padding-right: 0;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
 
 .session-progress-bar {
     font-size: @font-size-base;

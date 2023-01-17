@@ -13,8 +13,18 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
     actions: {
         loadQuestion(skipIndex: number, sessionIndex: number) {
         },
-        startNewSession() {
+        async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+            const json = learningSessionConfigurationStore.buildSessionConfigJson()
+            const result = await $fetch<any>('/apiVue/LearningSessionStore/NewSession/', {
+                method: 'POST',
+                body: json,
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null) {
+                return true
+            } else return false
         }
     },
 })

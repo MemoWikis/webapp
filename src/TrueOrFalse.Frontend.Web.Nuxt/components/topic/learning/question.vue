@@ -356,11 +356,6 @@ watch(isInWishknowledge, () => {
     flex-direction: row;
     flex-wrap: nowrap;
     transition: all .2s ease-out;
-    margin-right: 20px;
-
-    @media(max-width: @screen-xxs-max) {
-        margin-right: 0;
-    }
 
     &.open {
         height: unset;
@@ -500,7 +495,7 @@ watch(isInWishknowledge, () => {
                             display: flex;
                             justify-content: center;
                             align-items: center;
-
+                            height: 57px;
                             margin-right: 10px;
 
                             .rotateIcon {

@@ -12,12 +12,6 @@ public class TopicController : BaseController
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var config = new LearningSessionConfig
-        {
-            CategoryId = id,
-            CurrentUserId = IsLoggedIn ? UserId : default
-        };
-        LearningSessionCreator.BuildLearningSession(config);
         return Json(GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
