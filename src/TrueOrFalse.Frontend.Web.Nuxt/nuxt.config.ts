@@ -25,8 +25,7 @@ export default defineNuxtConfig({
         '~/assets/bootstrap/bootstrap.less',
         // '~/assets/bootstrap/memucho_overrides.less',
         '~/assets/bootstrap/variables_custom.less',
-        '~/assets/site.less',
-        '~/assets/top-header.less',
+        '~/assets/memo-bundle.less',
         '~/assets/fonts/googleFonts.less',
         '~/assets/shared/dropdown.less',
         'vue-final-modal/style.css'
