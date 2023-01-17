@@ -87,13 +87,13 @@
         <div class="col-md-6 MaintenanceSection">
             <h4>Suche MeiliSearch</h4>
             Alle für Suche neu indizieren: <br/>
-            <a href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>" data-url="toSecurePost">
+            <a href="<%= Url.Action("MeiliReIndexAllQuestions", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Fragen 
             </a> /
             <a href="<%= Url.Action("MeiliReIndexAllCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Themen
             </a> /
-            <a href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>" data-url="toSecurePost">
+            <a href="<%= Url.Action("MeiliReIndexAllUsers", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Nutzer
             </a>
         </div>

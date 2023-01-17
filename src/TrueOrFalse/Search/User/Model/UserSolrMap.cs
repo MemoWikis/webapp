@@ -3,6 +3,7 @@ using SolrNet.Attributes;
 
 namespace TrueOrFalse.Search
 {
+    //todo: mark to delete
     public class UserSolrMap
     {
         [SolrUniqueKey("Id")]
@@ -14,7 +15,7 @@ namespace TrueOrFalse.Search
         [SolrField("DateCreated")]
         public DateTime DateCreated { get; set; }
 
-        [SolrField("WishCountQuestions")] 
+        [SolrField("WishCountQuestions")]
         public int WishCountQuestions { get; set; }
 
         [SolrField("Rank")]

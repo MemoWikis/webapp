@@ -190,9 +190,9 @@ public class MaintenanceController : BaseController
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult MeiliReIndexAllUsers()
+    public async Task<ViewResult> MeiliReIndexAllUsers()
     {
-        Resolve<ReIndexAllUsers>().Run();
+        await Resolve<MeiliSearchReIndexAllUsers>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 
