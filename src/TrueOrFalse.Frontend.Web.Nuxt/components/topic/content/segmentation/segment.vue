@@ -268,66 +268,68 @@ export default defineNuxtComponent({
         return c.Id != id;
       });
     },
+    mouseEnter() {
+      this.hover = true
+    },
+    mouseLeave() {
+      this.hover = false
+
+    },
   },
 });
 </script>
 
 <template>
-  <div class="segment" @mouseover="hover = true" @mouseleave="hover = false" :class="{ hover: showHover }">
+  <div class="segment" @mouseover="mouseEnter" @mouseleave="mouseLeave" :class="{ hover: showHover }">
     <div class="segmentSubHeader">
       <div class="segmentHeader">
         <div class="segmentTitle">
-          <a :href="linkToCategory">
+          <NuxtLink :to="linkToCategory">
             <h2>
               {{ segmentTitle }}
             </h2>
-          </a>
+          </NuxtLink>
           <div v-if="visibility == 1" class="segmentLock" @click="openPublishModal" data-toggle="tooltip"
             title="Thema ist privat. Zum Veröffentlichen klicken.">
             <font-awesome-icon :icon="['fa-solid', 'lock']" />
             <font-awesome-icon :icon="['fa-solid', 'unlock']" />
           </div>
         </div>
+
+
         <div v-if="!isHistoric" class="Button dropdown DropdownButton segmentDropdown"
           :class="{ hover: showHover && !isHistoric }">
-          <a href="#" :id="dropdownId!" class="dropdown-toggle btn btn-link btn-sm ButtonEllipsis" type="button"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <i class="fa fa-ellipsis-v"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-right" :aria-labelledby="dropdownId!">
-            <li @click="removeSegment()">
-              <a>
+          <VDropdown :distance="1">
+            <div class="btn btn-link btn-sm ButtonEllipsis">
+              <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
+            </div>
+            <template #popper>
+              <div @click="removeSegment()" class="dropdown-row">
                 <div class="dropdown-icon">
-                  <img class="fas" src="/Images/Icons/sitemap-disable.svg" />
+                  <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
                 </div>
-                Unterthema ausblenden
-              </a>
-            </li>
-            <li v-if="visibility == 1">
-              <a @click="openPublishModal">
+                <div class="dropdown-label"> Unterthema ausblenden</div>
+              </div>
+              <div @click="openPublishModal()" class="dropdown-row" v-if="visibility == 1">
                 <div class="dropdown-icon">
-                  <i class="fas fa-unlock"></i>
+                  <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                 </div>
-                Thema veröffentlichen
-              </a>
-            </li>
-            <li>
-              <a @click="openMoveCategoryModal()" data-allowed="logged-in">
+                <div class="dropdown-label">Thema veröffentlichen</div>
+              </div>
+              <div @click="openMoveCategoryModal()" class="dropdown-row">
                 <div class="dropdown-icon">
-                  <i class="fa fa-arrow-circle-right"></i>
+                  <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
                 </div>
-                Thema verschieben
-              </a>
-            </li>
-            <li>
-              <a @click="openAddToWikiModal()" data-allowed="logged-in">
+                <div class="dropdown-label">Thema verschieben</div>
+              </div>
+              <div @click="openAddToWikiModal()" data-allowed="logged-in" class="dropdown-row">
                 <div class="dropdown-icon">
-                  <i class="fa fa-plus-square"></i>
+                  <font-awesome-icon :icon="['fa-solid', 'plus']" />
                 </div>
-                Zu meinem Wiki hinzufügen
-              </a>
-            </li>
-          </ul>
+                <div class="dropdown-label">Zu meinem Wiki hinzufügen</div>
+              </div>
+            </template>
+          </VDropdown>
         </div>
       </div>
 
@@ -410,103 +412,98 @@ export default defineNuxtComponent({
     }
   }
 
-  #CustomSegmentSection,
-  #GeneratedSegmentSection {
-    .topicNavigation {
-      margin-top: 20px;
+  .topicNavigation {
+    margin-top: 20px;
 
-      .segmentCategoryCard {
+    .segmentCategoryCard {
 
-        .ButtonEllipsis {
-          font-size: 18px;
-          color: @memo-grey-dark;
-          border-radius: 24px;
-          height: 30px;
-          width: 30px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+      .ButtonEllipsis {
+        font-size: 18px;
+        color: @memo-grey-dark;
+        border-radius: 24px;
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-          &:hover {
-            background: @memo-grey-lighter;
-            color: @memo-blue;
-          }
-
-          &:active {
-            background: @memo-grey-light;
-          }
+        &:hover {
+          background: @memo-grey-lighter;
+          color: @memo-blue;
         }
 
-        .topic-name {
-          padding: 0;
-        }
-
-        .checkBox {
-          position: absolute;
-          z-index: 3;
-          line-height: 0;
-          background: white;
-          color: @memo-green;
-          opacity: 0;
-          transition: opacity .1s ease-in-out;
-          transition: color .1s ease-in-out;
-
-
-          &.show {
-            opacity: 1;
-            transition: opacity .1s ease-in-out;
-            transition: color .1s ease-in-out;
-          }
-
-
-          &.selected {
-            color: @memo-green;
-            opacity: 1;
-            transition: opacity .1s ease-in-out;
-          }
+        &:active {
+          background: @memo-grey-light;
         }
       }
 
-      .addCategoryCard {
-        display: flex;
-        border: solid 1px @memo-grey-light;
+      .topic-name {
+        padding: 0;
+      }
+
+      .checkBox {
+        position: absolute;
+        z-index: 3;
+        line-height: 0;
+        background: white;
+        color: @memo-green;
+        opacity: 0;
+        transition: opacity .1s ease-in-out;
+        transition: color .1s ease-in-out;
+
+
+        &.show {
+          opacity: 1;
+          transition: opacity .1s ease-in-out;
+          transition: color .1s ease-in-out;
+        }
+
+
+        &.selected {
+          color: @memo-green;
+          opacity: 1;
+          transition: opacity .1s ease-in-out;
+        }
+      }
+    }
+
+    .addCategoryCard {
+      display: flex;
+      border: solid 1px @memo-grey-light;
+      transition: 0.2s;
+      align-items: center;
+      min-height: 150px;
+      color: @memo-grey-dark;
+      cursor: pointer;
+      margin-left: 0;
+      margin-right: 0;
+
+      @media (max-width: 649px) {
+        width: 100%;
+      }
+
+      .addCategoryLabelContainer {
+        padding: 0;
+      }
+
+      &:hover {
+        border-color: @memo-green;
+      }
+
+      .addCategoryCardLabel {
         transition: 0.2s;
-        align-items: center;
-        min-height: 150px;
-        color: @memo-grey-dark;
-        cursor: pointer;
-        margin-left: 0;
-        margin-right: 0;
-
-        @media (max-width: 649px) {
-          width: 100%;
-        }
-
-        .addCategoryLabelContainer {
-          padding: 0;
-        }
 
         &:hover {
-          border-color: @memo-green;
-        }
-
-        .addCategoryCardLabel {
-          transition: 0.2s;
-
-          &:hover {
-            color: @memo-green;
-          }
+          color: @memo-green;
         }
       }
     }
   }
 
-  #CustomSegmentSection {
-    .segment {
-      .segmentSubHeader {
-        .segmentKnowledgeBar {
-          max-width: 420px;
-        }
+  .segment {
+    .segmentSubHeader {
+      .segmentKnowledgeBar {
+        max-width: 420px;
       }
     }
   }
@@ -568,7 +565,7 @@ export default defineNuxtComponent({
       position: relative;
     }
 
-    a.dropdown-toggle {
+    .dropdown-toggle {
       background: #FFFFFFE6;
       border-radius: 50%;
       height: 40px;
@@ -584,9 +581,9 @@ export default defineNuxtComponent({
     }
   }
 
-  .hover {
+  & .hover {
     .DropdownButton {
-      a.dropdown-toggle {
+      .dropdown-toggle {
         &:hover {
           background: #EFEFEFE6;
 

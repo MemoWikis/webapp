@@ -190,13 +190,11 @@ export default defineNuxtComponent({
                             <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                         </div>
                         <template #popper>
-                            <div v-if="!isCustomSegment">
-                                <div @click="thisToSegment" class="dropdown-row">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                    </div>
-                                    <div class="dropdown-label"> Unterthemen einblenden</div>
+                            <div v-if="!isCustomSegment" @click="thisToSegment" class="dropdown-row">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
                                 </div>
+                                <div class="dropdown-label"> Unterthemen einblenden</div>
                             </div>
                             <div @click="removeParent" class="dropdown-row">
                                 <div class="dropdown-icon">
@@ -204,13 +202,11 @@ export default defineNuxtComponent({
                                 </div>
                                 <div class="dropdown-label">Verknüpfung entfernen </div>
                             </div>
-                            <div v-if="visibility == 1">
-                                <div @click="openPublishModal" class="dropdown-row">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon :icon="['fa-solid', 'unlock']" />
-                                    </div>
-                                    <div class="dropdown-label">Thema veröffentlichen</div>
+                            <div v-if="visibility == 1" @click="openPublishModal" class="dropdown-row">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                 </div>
+                                <div class="dropdown-label">Thema veröffentlichen</div>
                             </div>
                             <div @click="openMoveCategoryModal()" class="dropdown-row">
                                 <div class="dropdown-icon">
