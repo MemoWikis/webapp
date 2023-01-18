@@ -173,7 +173,7 @@ const partialSpacer = ref()
     height: 100%;
     align-items: center;
     z-index: 20;
-    margin-right: auto;
+    margin-right: 0;
 
     .searchButton {
         align-items: center;

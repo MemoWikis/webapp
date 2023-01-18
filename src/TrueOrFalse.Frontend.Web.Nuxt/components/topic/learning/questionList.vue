@@ -106,7 +106,7 @@ function preloadQuestions() {
     loadQuestions(1)
 }
 onBeforeMount(() => {
-    preloadQuestions()
+    // preloadQuestions()
 })
 
 onMounted(() => {
@@ -289,7 +289,6 @@ function selectPage(page: number) {
             display: flex;
             align-items: center;
             margin-top: -10px;
-            margin-right: 28px;
 
             @media(max-width: 768px) {
                 padding-left: 10px;
@@ -464,7 +463,7 @@ function selectPage(page: number) {
                 }
 
                 .form-check-label {
-                    i.fa-lock {
+                    .fa-lock {
                         font-size: 14px;
                     }
                 }

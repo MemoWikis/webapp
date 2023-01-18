@@ -1,22 +1,38 @@
 <script lang="ts" setup>
 
 import { useLearningSessionStore } from './learningSessionStore'
+import { useTopicStore } from '../topicStore'
+import { useUserStore } from '~~/components/user/userStore'
 
-const props = defineProps([''])
-const showFilter = ref(true)
+const learningSessionStore = useLearningSessionStore()
+const topicStore = useTopicStore()
+const userStore = useUserStore()
+
+const showFilter = ref(false)
 
 const currentQuestionCount = ref(0)
 const allQuestionCount = ref(0)
+onBeforeMount(() => {
+    allQuestionCount.value = topicStore.questionCount
+    if (topicStore.questionCount > 0)
+        showFilter.value = true
+})
 
+watch(() => learningSessionStore.steps.length, (v) => {
+    currentQuestionCount.value = learningSessionStore.steps.length
+})
 const topicHasNoQuestions = ref(true)
 const showError = ref(false)
 
 const questionsExpanded = ref(false)
 function expandAllQuestions() {
-    questionsExpanded.value = true
+    questionsExpanded.value = !questionsExpanded.value
 }
 
-const learningSessionStore = useLearningSessionStore()
+function createQuestion() {
+
+}
+
 
 </script>
 
@@ -25,18 +41,19 @@ const learningSessionStore = useLearningSessionStore()
         <div v-if="showFilter">
             <TopicLearningSessionConfiguration>
                 <slot>
-                    <div class="drop-down-question-sort">
+                    <div class="drop-down-question-sort col-xs-12">
                         <div class="session-config-header">
-                            <span class="hidden-xs">Du lernst</span>
+                            <span class="hidden-xs">Du lernst </span>
                             <template v-if="currentQuestionCount == allQuestionCount">
-                                <b>&nbsp;alle&nbsp;</b>
+                                <b> alle </b>
                             </template>
                             <template v-else>
-                                <b>&nbsp;{{ currentQuestionCount }}&nbsp;</b>
+                                <b> {{ currentQuestionCount }} </b>
                             </template>
-                            Fragen&nbsp;
+                            <template v-if="currentQuestionCount == 1"> Frage </template>
+                            <template v-else> Fragen </template>
                             <span class="hidden-xs">aus diesem Thema</span>
-                            &nbsp;({{ allQuestionCount }})
+                            ({{ allQuestionCount }})
                         </div>
                         <div class="session-config-header" v-if="(topicHasNoQuestions && showError == true)">Leider
                             hat
@@ -44,49 +61,58 @@ const learningSessionStore = useLearningSessionStore()
                             Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
                         </div>
 
+
+
                         <div id="ButtonAndDropdown">
                             <div id="QuestionListHeaderDropDown" class="Button dropdown">
-                                <a href="#" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                    <li onclick="eventBus.$emit('open-edit-question-modal', { categoryId: <%= Model.CategoryId %>, edit: false })"
-                                        data-allowed="logged-in">
-                                        <a>
+                                <V-Dropdown :distance="0">
+                                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
+                                        class="btn btn-link btn-sm ButtonEllipsis" />
+                                    <template #popper="{ hide }">
+
+                                        <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="createQuestion()">
                                             <div class="dropdown-icon">
-                                                <i class="fa fa-plus-circle"></i>
-                                            </div><span>Frage hinzufügen</span>
-                                        </a>
-                                    </li>
-                                    <li v-if="questionsExpanded" @click="expandAllQuestions()" style="cursor: pointer">
-                                        <a>
+                                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
+                                            </div>
+                                            <div class="dropdown-label">Frage hinzufügen</div>
+
+                                        </div>
+
+                                        <div class="dropdown-row" @click="expandAllQuestions()"
+                                            v-if="questionsExpanded">
                                             <div class="dropdown-icon">
-                                                <i class="fa fa-angle-double-up"></i>
-                                            </div><span>Alle Fragen zuklappen</span>
-                                        </a>
-                                    </li>
-                                    <li v-else @click="expandAllQuestions()" style="cursor: pointer">
-                                        <a>
+                                                <font-awesome-icon icon="fa-solid fa-angles-up" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Alle Fragen zuklappen
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-row" @click="expandAllQuestions()" v-else>
                                             <div class="dropdown-icon">
-                                                <i class="fa fa-angle-double-down"></i>
-                                            </div><span>Alle Fragen erweitern</span>
-                                        </a>
-                                    </li>
-                                    <li style="cursor: pointer">
-                                        <a data-allowed="logged-in" @click="learningSessionStore.startNewSession()">
+                                                <font-awesome-icon icon="fa-solid fa-angles-down" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Alle Fragen erweitern
+                                            </div>
+                                        </div>
+
+                                        <div class="dropdown-row" @click="learningSessionStore.startNewSession()">
                                             <div class="dropdown-icon">
-                                                <i class="fa fa-play"></i>
-                                            </div><span>Fragen jetzt lernen</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                                <font-awesome-icon icon="fa-solid fa-play" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Fragen jetzt lernen
+                                            </div>
+                                        </div>
+                                    </template>
+                                </V-Dropdown>
+
                             </div>
                         </div>
                     </div>
                 </slot>
             </TopicLearningSessionConfiguration>
-            <TopicLearningQuestionList />
+            <TopicLearningQuestionList :expand-question="questionsExpanded" />
         </div>
 
         <div class="session-configurator col-xs-12" v-else>
@@ -101,11 +127,11 @@ const learningSessionStore = useLearningSessionStore()
     </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
 //Variables
-@colorPagination: @memo-grey-lighter ;
+// @colorPagination: @memo-grey-lighter ;
 
 //Less
 #QuestionListSection {
@@ -136,14 +162,33 @@ const learningSessionStore = useLearningSessionStore()
         padding-right: 0;
 
         #ButtonAndDropdown {
+            cursor: pointer;
+            background: @memo-grey-lighter;
+            border-radius: 24px;
             display: flex;
+            justify-content: center;
             align-items: center;
+            font-size: 18px;
+            height: 30px;
+            width: 30px;
+            min-width: 30px;
+            transition: filter 0.1s;
+
             margin-top: -10px;
-            margin-right: 28px;
 
             @media(max-width: 768px) {
                 padding-left: 10px;
             }
+
+            &:hover {
+                filter: brightness(0.95)
+            }
+
+            &:active {
+                filter: brightness(0.85)
+            }
+
+
         }
     }
 

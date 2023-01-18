@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useTopicStore } from '../topicStore'
+import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 
+const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const expandAllQuestions = ref(false)
 const showFilter = ref(true)
@@ -32,7 +34,23 @@ onMounted(async () => {
     })
 
     learningSessionConfigurationStore.setCounter(answerBodyModel.value?.counter)
+    learningSessionStore.startNewSession()
 })
+
+const progressPercentage = ref(0)
+
+function calculateProgress() {
+    const answered = learningSessionStore.steps.filter(s =>
+        s != AnswerState.Unanswered
+    ).length
+
+    progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
+
+}
+
+watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {
+    calculateProgress()
+}, { deep: true })
 
 </script>
 
@@ -41,10 +59,15 @@ onMounted(async () => {
         <TopicLearningSessionConfiguration v-if="showFilter">
             <slot>
                 <div class="session-progress-bar">
-                    <div class="progress-bar"></div>
+                    <div class="session-progress">
+                        <div v-for="step in learningSessionStore.steps" class="step"
+                            :class="{ 'answered': step != AnswerState.Unanswered }"></div>
+                    </div>
 
-                    <div class="step-count">2</div>
-                    <div class="progress-percentage">3%</div>
+                    <div class="step-count">
+                        {{ learningSessionStore.currentStep }} / {{ learningSessionStore.steps.length }}
+                    </div>
+                    <div class="progress-percentage">{{ progressPercentage }}%</div>
                 </div>
             </slot>
         </TopicLearningSessionConfiguration>
@@ -69,8 +92,16 @@ onMounted(async () => {
         </div>
     </div>
 </template>
-
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.step {
+    &.answered {
+        background: @memo-green;
+    }
+}
+</style>
+<style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
 #QuestionListContainer {
@@ -120,31 +151,23 @@ onMounted(async () => {
         z-index: 2;
     }
 
-    .progress-bar {
+    .session-progress {
         position: absolute;
-        background: @memo-green;
         height: 100%;
         left: 0;
         right: 0;
-    }
-}
-
-
-.drop-down-question-sort {
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 18px;
-    justify-content: space-between;
-    padding-right: 0;
-
-    #ButtonAndDropdown {
         display: flex;
-        align-items: center;
-        margin-top: -10px;
-        margin-right: 28px;
+        flex-wrap: nowrap;
+        width: 100%;
 
-        @media(max-width: 768px) {
-            padding-left: 10px;
+        .step {
+            width: 100%;
+            flex-grow: 2;
+            height: 100%;
+
+            &.answered {
+                background: @memo-green;
+            }
         }
     }
 }

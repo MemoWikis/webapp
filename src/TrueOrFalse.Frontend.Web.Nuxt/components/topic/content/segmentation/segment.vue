@@ -269,10 +269,10 @@ export default defineNuxtComponent({
       });
     },
     mouseEnter() {
-      this.hover = true
+      this.showHover = true
     },
     mouseLeave() {
-      this.hover = false
+      this.showHover = false
 
     },
   },
@@ -370,6 +370,8 @@ export default defineNuxtComponent({
   }
 }
 
+
+
 #Segmentation {
   margin-top: 80px;
   margin-bottom: 40px;
@@ -426,14 +428,15 @@ export default defineNuxtComponent({
         display: flex;
         justify-content: center;
         align-items: center;
+        background: white;
+        border-radius: 15px;
 
         &:hover {
-          background: @memo-grey-lighter;
-          color: @memo-blue;
+          filter: brightness(0.85);
         }
 
         &:active {
-          background: @memo-grey-light;
+          filter: brightness(0.7);
         }
       }
 
@@ -539,6 +542,26 @@ export default defineNuxtComponent({
         margin-left: 10px;
       }
     }
+
+    .ButtonEllipsis {
+      font-size: 18px;
+      color: @memo-grey-dark;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+
+      &:hover {
+        filter: brightness(0.85);
+      }
+
+      &:active {
+        filter: brightness(0.7);
+      }
+    }
   }
 
   .segmentDropdown,
@@ -557,14 +580,6 @@ export default defineNuxtComponent({
   }
 
   .DropdownButton {
-    position: absolute;
-    right: 10px;
-    top: -10px;
-
-    &.segmentDropdown {
-      position: relative;
-    }
-
     .dropdown-toggle {
       background: #FFFFFFE6;
       border-radius: 50%;

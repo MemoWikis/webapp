@@ -5,7 +5,6 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { PinState } from '~~/components/question/pin/pinStore'
-import { hide } from '@popperjs/core'
 
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')

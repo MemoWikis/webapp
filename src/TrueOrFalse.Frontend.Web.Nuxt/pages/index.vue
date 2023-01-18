@@ -8,6 +8,7 @@ if (userStore.isLoggedIn) {
 } else {
     navigateTo(`/Globales-Wiki/1`)
 }
+
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
     emit('setPage', Page.Welcome)
@@ -15,7 +16,5 @@ onBeforeMount(() => {
 </script>
 
 <template>
-    <div> hello </div>
-
-    <NuxtLink to="/random/1">To global wiki</NuxtLink>
+    <div></div>
 </template>
