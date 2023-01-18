@@ -8,23 +8,8 @@ public class MeiliGlobalSearch : IGlobalSearch
         var result = new GlobalSearchResult();
 
         var pageSize = 5;
-        result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
-
-        result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
-
-        var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
-        searchSpec.OrderBy.BestMatch.Desc();
-        searchSpec.Filter.SearchTerm = term;
-        searchSpec.Filter.IgnorePrivates = true;
-        searchSpec.PageSize = pageSize;
-
-        result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
-
-        if (type != null)
-            result.Ensure_max_elements_per_type_count_of_9("Categories");
-        else
-            result.Ensure_max_element_count_of_12();
-
+        result.CategoriesResult =
+           Sl.MeiliSearchCategories.Run(term, new Pager { PageSize = pageSize }).Result;
         return result;
     }
 

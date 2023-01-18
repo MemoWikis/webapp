@@ -3,21 +3,14 @@ using Seedworks.Lib.Persistence;
 using SolrNet.Impl;
 
 namespace TrueOrFalse.Search
-{
-    public class SearchCategoriesResult
+{//Todo: Mark to Delete
+    public class SearchCategoriesResult : ISearchCategoriesResult
     {
-        /// <summary>In milliseconds</summary>
         public int QueryTime;
-
-        /// <summary>Amount of items found</summary>
-        public int Count;
-
+        public int Count { get; set; }
         public SpellCheckResults SpellChecking;
-
-        public List<int> CategoryIds = new List<int>();
-
-        public IPager Pager;
-
+        public List<int> CategoryIds { get; set;  } = new List<int>();
+        public IPager Pager { get; set; }
         public IList<Category> GetCategories() => Sl.CategoryRepo.GetByIds(CategoryIds);
     }
 }

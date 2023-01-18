@@ -35,6 +35,7 @@ public class Sl
     public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
 
     public static SearchCategories SearchCategories => R<SearchCategories>();
+    public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
     public static SearchQuestions SearchQuestions => R<SearchQuestions>();
     public static SearchUsers SearchUsers => R<SearchUsers>();
 

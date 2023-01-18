@@ -18,28 +18,6 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchCategoriesResult Run(CategorySearchSpec searchSpec)
-        {
-            var orderBy = SearchCategoriesOrderBy.None;
-            if (searchSpec.OrderBy.BestMatch.IsCurrent())
-            {
-                orderBy = SearchCategoriesOrderBy.None;
-
-                if (IsNullOrEmpty(searchSpec.SearchTerm))
-                    orderBy = SearchCategoriesOrderBy.QuestionCount;
-
-            } 
-            else if (searchSpec.OrderBy.QuestionCount.IsCurrent()) 
-                orderBy = SearchCategoriesOrderBy.QuestionCount;
-            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) 
-                orderBy = SearchCategoriesOrderBy.DateCreated;
-
-            var result = Run(searchSpec.SearchTerm, searchSpec, searchSpec.Filter.ValuatorId, orderBy: orderBy);
-            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);
-
-            return result;
-        }
-
         public SearchCategoriesResult Run(
             string searchTerm,
             int valuatorId = -1,

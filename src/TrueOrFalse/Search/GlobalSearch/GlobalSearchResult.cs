@@ -4,7 +4,7 @@ using System.Linq;
 namespace TrueOrFalse.Search; 
 public class GlobalSearchResult
 {
-    public SearchCategoriesResult CategoriesResult;
+    public ISearchCategoriesResult CategoriesResult;
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
     public int CategoriesResultCount => CategoriesResult.Count;

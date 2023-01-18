@@ -84,25 +84,4 @@ public class CategorytOrderBy : OrderByCriteria
     public OrderBy BestMatch;
     public OrderBy CreationDate;
     public OrderBy QuestionCount;
-
-    public CategorytOrderBy()
-    {
-        BestMatch = new OrderBy("BestMatch", this);
-        CreationDate = new OrderBy("DateCreated", this);
-        QuestionCount = new OrderBy("CountQuestions", this);
-    }
-
-    public string ToText()
-    {
-        if (BestMatch.IsCurrent())
-            return "Beste Treffer";
-
-        if (CreationDate.IsCurrent())
-            return "Datum erstellt";
-
-        if (QuestionCount.IsCurrent())
-            return "Anzahl Fragen";
-
-        return "";
-    }
 }

@@ -279,12 +279,16 @@
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+    <Compile Include="Search\Category\ISearchCategoriesResult.cs" />
     <Compile Include="Search\Category\IndexOperations\MeiliSearchReIndexCategories.cs" />
     <Compile Include="Search\Category\Model\MeiliSearchCategoryMap.cs" />
+    <Compile Include="Search\Category\MeiliSearchCategories.cs" />
+    <Compile Include="Search\Category\MeiliSearchCategoriesResult.cs" />
     <Compile Include="Search\GlobalSearch\MeiliGlobalSearch.cs" />
     <Compile Include="Search\GlobalSearch\SolrGlobalSearch.cs" />
     <Compile Include="Search\GlobalSearch\GlobalSearchResult.cs" />
     <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
+    <Compile Include="Search\MeiliSearch.cs" />
     <Compile Include="Search\MeiliSearchKonstanten.cs" />
     <Compile Include="Search\Question\IndexOperations\MeiliSearchReIndexAllQuestions.cs" />
     <Compile Include="Search\Question\Model\MeiliSearchQuestionMap.cs" />
