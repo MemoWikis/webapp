@@ -4,9 +4,12 @@ import { useUserStore } from '~/components/user/userStore'
 import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from '../edit/editQuestionStore'
+import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 
 const props = defineProps(['question', 'answerBodyModel'])
 const learningSessionStore = useLearningSessionStore()
+const deleteQuestionStore = useDeleteQuestionStore()
+
 const showPinButton = ref(true)
 
 const userStore = useUserStore()
@@ -16,16 +19,23 @@ const editQuestionStore = useEditQuestionStore()
 const answerIsCorrect = ref(false)
 const answerIsWrong = ref(false)
 
-const flashcard = ref(null)
+const flashcard = ref()
 
+function openCommentModal() {
+
+}
+
+function answer() {
+
+}
 </script>
 
 <template>
-    <!-- 
+
 
     <div id="AnswerBody">
 
-        <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
+        <!-- <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
         <input type="hidden" id="hddInteractionNumber" value="1" />
         <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
         <input type="hidden" id="isLastQuestion" value="<%= Model.IsLastQuestion %>" />
@@ -49,70 +59,68 @@ const flashcard = ref(null)
 
         <input type="hidden" id="hddTimeRecords" />
         <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
-        <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>" />
+        <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>" /> -->
         <div id="QuestionTitle" style="display:none">
             {{ props.answerBodyModel.Name }}
         </div>
         <div class="AnswerQuestionBodyMenu">
 
             <div v-if="showPinButton" class="Pin" :data-question-id="props.answerBodyModel.Id">
-                <QuestionPin :questionId="props.answerBodyModel.Id" />
+                <QuestionPin :questionId="props.answerBodyModel.Id"
+                    :is-in-wishknowledge="props.answerBodyModel.IsInWishknowledge" />
             </div>
             <div class="Button dropdown">
                 <span class="margin-top-4">
                     <V-Dropdown :distance="0">
-                        <i class="fa fa-ellipsis-v"></i>
+                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                         <template #popper>
-                            <ul class="dropdown-menu dropdown-menu-right standard-question-drop-down">
-                                <li
-                                    v-if="tabsStore.activeTab == Tab.Learning && (props.answerBodyModel.IsCreator || userStore.isAdmin)">
-                                    <div @click="editQuestionStore.edit(props.answerBodyModel.Id)" type="button">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-pen" />
-                                        </div>
-                                        <span>Frage bearbeiten</span>
+
+                            <div class="dropdown-row"
+                                v-if="tabsStore.activeTab == Tab.Learning && (props.answerBodyModel.IsCreator || userStore.isAdmin)"
+                                @click="editQuestionStore.editQuestion(props.answerBodyModel.Id)">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon icon="fa-solid fa-pen" />
+                                </div>
+                                <div class="dropdown-label">Frage bearbeiten</div>
+
+                            </div>
+
+                            <LazyNuxtLink :to="`/question/${props.question.Name}/${props.question.Id}`"
+                                v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
+                                <div class="dropdown-row">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon icon="fa-solid fa-file" />
                                     </div>
-                                </li>
+                                    <span>Frageseite anzeigen</span>
 
+                                </div>
+                            </LazyNuxtLink>
 
-                                <li v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
-                                    <LazyNuxtLink :to="`/question/${props.question.Name}/${props.question.Id}`">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-file" />
-                                        </div>
-                                        <span>Frageseite anzeigen</span>
+                            <LazyNuxtLink :to="`/QuestionHistory/${props.question.Name}/${props.question.Id}`"
+                                v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
+                                <div class="dropdown-row">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon icon="fa-solid fa-code-fork" />
+                                    </div>
+                                    <span>Bearbeitungshistorie der Frage</span>
 
-                                    </LazyNuxtLink>
-                                </li>
+                                </div>
+                            </LazyNuxtLink>
 
-                                <li>
-                                    <LazyNuxtLink :to="`/QuestionHistory/${props.question.Name}/${props.question.Id}`">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-code-fork" />
-                                        </div>
-                                        <span>Bearbeitungshistorie der Frage</span>
+                            <div class="dropdown-row" @click="openCommentModal()">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon icon="fa-solid fa-comment" />
+                                </div>
+                                <div class="dropdown-label">Frage kommentieren</div>
+                            </div>
 
-                                    </LazyNuxtLink>
-                                </li>
-                                <li>
-                                    <a onclick="eventBus.$emit('show-comment-section-modal', <%=Model.QuestionId%>)">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-comment" />
-                                        </div>
-                                        <span>Frage kommentieren</span>
-                                    </a>
-                                </li>
+                            <div class="dropdown-row" @click="deleteQuestionStore.openModal(props.question.id)">
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon icon="fa-solid fa-trash" />
+                                </div>
+                                <div class="dropdown-label">Frage löschen</div>
+                            </div>
 
-                                <li
-                                    v-if="(tabsStore.activeTab == Tab.Learning && props.answerBodyModel.IsCreator) || userStore.isAdmin">
-                                    <a href="#" onclick="eventBus.$emit('delete-question',<%=Model.QuestionId %>)">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-trash" />
-                                        </div>
-                                        <span>Frage löschen</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </template>
                     </V-Dropdown>
 
@@ -139,11 +147,11 @@ const flashcard = ref(null)
             <div id="AnswerAndSolutionCol">
                 <div id="AnswerAndSolution">
                     <div class="row"
-                        :class="{'hasFlashCard': props.answerBodyModel.SolutionType == SolutionType.FlashCard }">
+                        :class="{ 'hasFlashCard': props.answerBodyModel.SolutionType == SolutionType.FlashCard }">
                         <div id="AnswerInputSection">
-                            <input type="hidden" id="hddSolutionMetaDataJson"
+                            <!-- <input type="hidden" id="hddSolutionMetaDataJson"
                                 value="<%: Model.SolutionMetaDataJson %>" />
-                            <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" />
+                            <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" /> -->
                             <template v-if="props.question.SolutionType != SolutionType.FlashCard">
                                 <div class="answerFeedback answerFeedbackCorrect" v-if="answerIsCorrect">
                                     <font-awesome-icon icon="fa-solid fa-circle-check" />&nbsp;Richtig!
@@ -169,7 +177,7 @@ const flashcard = ref(null)
                                         </a>
                                     </div>
                                     <div v-if="props.question.SolutionType == SolutionType.FlashCard"
-                                        class="btn btn-warning memo-button" @click="flashcard.flip()">
+                                        class="btn btn-warning memo-button" @click="answer()">
                                         Umdrehen
                                     </div>
 
@@ -305,7 +313,7 @@ const flashcard = ref(null)
                                                 Antwort:
                                             </div>
                                             <div class="Content body-m">
-                                                {{props.answerBodyModel.QuestionDescription}}
+                                                {{ props.answerBodyModel.QuestionDescription }}
                                             </div>
                                         </div>
                                     </div>
@@ -320,7 +328,7 @@ const flashcard = ref(null)
         <div id="ActivityPointsDisplay">
             <small>Dein Punktestand</small>
             <span id="ActivityPoints">
-                {{props.answerBodyModel.TotalActivityPoints}}
+                {{ props.answerBodyModel.TotalActivityPoints }}
             </span>
             <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom"
                 title="Du bekommst Lernpunkte für das Beantworten von Fragen">
@@ -328,6 +336,6 @@ const flashcard = ref(null)
             </span>
         </div>
         <QuestionAnswerQuestionDetails :answer-body-model="props.answerBodyModel" />
-    </div> -->
+    </div>
 
 </template>

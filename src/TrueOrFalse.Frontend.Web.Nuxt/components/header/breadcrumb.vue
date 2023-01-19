@@ -223,8 +223,11 @@ function showBreadcrumb(e: any) {
     :class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768 }" v-show="!shrinkBreadcrumb">
 
     <NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
-      class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki">
-      <font-awesome-icon icon="fa-solid fa-house" />
+      class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki"
+      :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.Id }">
+      <font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
+      <font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
+
     </NuxtLink>
 
     <template v-if="breadcrumb.rootTopic">
@@ -245,16 +248,17 @@ function showBreadcrumb(e: any) {
           </NuxtLink>
           <div>
             <font-awesome-icon icon="fa-solid fa-chevron-right" />
-
           </div>
         </template>
       </template>
     </template>
 
-
     <V-Dropdown v-show="stackedBreadcrumbItems.length > 0" :distance="0">
-      <font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
-      <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      <div>
+        <font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
+        <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      </div>
+
       <template #popper>
 
         <NuxtLink v-for="s in stackedBreadcrumbItems" :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`"
@@ -270,7 +274,9 @@ function showBreadcrumb(e: any) {
         :ref="el => showBreadcrumb(el)">
         {{ b.Name }}
       </NuxtLink>
-      <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      <div>
+        <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      </div>
     </template>
 
     <div class="breadcrumb-item last" v-tooltip="topicStore.name">
@@ -280,7 +286,8 @@ function showBreadcrumb(e: any) {
   <div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
     <NuxtLink :to="`/${encodeURI(personalWiki.Name.replaceAll(' ', '-'))}/${personalWiki.Id}`" class="breadcrumb-item"
       v-tooltip="personalWiki.Name">
-      <font-awesome-icon icon="fa-solid fa-house" />
+      <font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
+      <font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
     </NuxtLink>
     <div class="breadcrumb-divider"></div>
     <div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="props.page == Page.Topic">
@@ -298,7 +305,9 @@ function showBreadcrumb(e: any) {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-
+.home-btn {
+  font-size: 16px;
+}
 
 #BreadCrumb {
   display: flex;
@@ -342,6 +351,10 @@ function showBreadcrumb(e: any) {
 
     &:hover {
       color: @memo-blue;
+    }
+
+    &.is-in-root-topic {
+      padding-right: 0px;
     }
 
   }

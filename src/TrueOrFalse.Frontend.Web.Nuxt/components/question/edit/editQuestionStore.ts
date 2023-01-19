@@ -47,6 +47,6 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
       } else {
         userStore.openLoginModal()
       }
-    }
+    },
   },
 })

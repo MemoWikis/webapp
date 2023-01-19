@@ -1,14 +1,7 @@
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-    // nitro: {
-    //     devProxy: {
-    //         '/api': {
-    //             target: "http://memucho.local/apiVue",
-    //             changeOrigin: true
-    //         }
-    //     }
-    //   },
+
     runtimeConfig: {
         public: {
             clientBase: "http://memucho.local:3000",
@@ -25,8 +18,8 @@ export default defineNuxtConfig({
         '~/assets/bootstrap/bootstrap.less',
         // '~/assets/bootstrap/memucho_overrides.less',
         '~/assets/bootstrap/variables_custom.less',
-        '~/assets/site.less',
-        '~/assets/top-header.less',
+        '~/assets/includes/shared.less',
+        '~/assets/memo-bundle.less',
         '~/assets/fonts/googleFonts.less',
         '~/assets/shared/dropdown.less',
         'vue-final-modal/style.css'
