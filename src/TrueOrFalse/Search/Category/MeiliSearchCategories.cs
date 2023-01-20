@@ -22,11 +22,13 @@ namespace TrueOrFalse.Search
             var index = client.Index(MeiliSearchKonstanten.Categories);
             var categoriesSearchResult = await index.SearchAsync<MeiliSearchCategoryMap>(searchTerm);
             var categories = categoriesSearchResult.Hits.ToList();
+            var categoriesCount = categories.Count;
+            var countForExistentsCategories = pager.PageSize <= categoriesCount ? pager.PageSize : categoriesCount;  
 
             var result = new MeiliSearchCategoriesResult();
-            result.Count = categories.Count; 
+            result.Count = categoriesCount; 
 
-            for (int i = 0; i < pager.PageSize; i++)
+            for (int i = 0; i < countForExistentsCategories; i++)
             {
                 result.CategoryIds.Add(categories[i].Id);
             }
