@@ -9,9 +9,9 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-  <div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
+  <perfect-scrollbar>
+    <div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
-    <div class="tab-scroll">
       <div class="tab" @click="tabsStore.activeTab = Tab.Topic">
         <div class="tab-label">Thema</div>
         <div class="active-tab" v-if="tabsStore.activeTab == Tab.Topic"></div>
@@ -53,13 +53,20 @@ const { isMobile } = useDevice()
           <div class="tab-border"></div>
         </div>
       </div>
-    </div>
 
-  </div>
+    </div>
+  </perfect-scrollbar>
+
 </template>
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+.ps {
+  max-width: calc(100vw - 20px);
+  // flex-shrink: 1;
+  width: 100%;
+}
 
 #TopicTabBar {
   text-align: center;
@@ -81,14 +88,6 @@ const { isMobile } = useDevice()
       background-color: @memo-grey-darker;
 
     }
-  }
-
-  .tab-scroll {
-    overflow-y: auto;
-    max-width: 100vw;
-
-    flex-grow: 1;
-    display: flex;
   }
 
   .tab,

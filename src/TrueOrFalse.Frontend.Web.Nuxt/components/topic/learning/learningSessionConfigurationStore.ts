@@ -203,11 +203,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
                 return
+            const learningSessionStore = useLearningSessionStore()
+            learningSessionStore.startNewSession()
 
-            // needs questionliststore
-            // eventBus.$emit('update-selected-page', 1)
-            var json = this.buildSessionConfigJson()
-            // this.answerBody.Loader.loadNewSession(json, true, false, false)
             this.saveSessionConfig()
         },
 
@@ -224,9 +222,6 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             }
 
             localStorage.setItem(this.sessionConfigKey, JSON.stringify(sessionConfig))
-
-            // needs questionliststore
-            // eventBus.$emit('sync-session-config', (this.isTestMode))
             this.checkSettingChanges()
         },
 
@@ -431,12 +426,10 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.selectedQuestionCount = count
             this.lazyLoadCustomSession()
         },
-        setSelectedQuestionCount(e: Event) {
-            var val = parseInt(e.target!.toString())
+        setSelectedQuestionCount(e: number) {
+            var val = e
             this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null
             this.userHasChangedMaxCount = true
-            var count = this.selectedQuestionCount
-            debugger
             if (this.questionCountIsInvalid)
                 return
 

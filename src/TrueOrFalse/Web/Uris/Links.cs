@@ -362,6 +362,9 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (type is Set)
                 return SetDetail((Set)type);
 
+            if (type is Question)
+                return AnswerQuestion((Question)type);
+
             if (type is QuestionCacheItem)
                 return AnswerQuestion((QuestionCacheItem)type);
 

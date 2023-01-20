@@ -2,7 +2,15 @@
 import { QuestionListItem } from './questionListItem'
 import _ from 'underscore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { Tab, useTabsStore } from '../tabs/tabsStore'
+import { useTopicStore } from '../topicStore'
+import { useLearningSessionStore } from './learningSessionStore'
+
+const learningSessionStore = useLearningSessionStore()
+const tabsStore = useTabsStore()
 const spinnerStore = useSpinnerStore()
+const topicStore = useTopicStore()
+
 const props = defineProps([
     'categoryId',
     'isAdmin',
@@ -74,15 +82,18 @@ async function updatePageCount(sP: number) {
 
     await nextTick()
     setPaginationRanges(sP)
-    spinnerStore.hideSpinner()
+    if (tabsStore.activeTab == Tab.Learning)
+        spinnerStore.hideSpinner()
 }
 
 async function loadQuestions(page: Number) {
-    spinnerStore.showSpinner()
+    if (tabsStore.activeTab == Tab.Learning)
+        spinnerStore.showSpinner()
     var result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
         method: 'POST', body: {
             itemCountPerPage: itemCountPerPage.value,
             pageNumber: page,
+            topicId: topicStore.id
         }, mode: 'cors', credentials: 'include'
     })
     if (result != null) {
@@ -91,10 +102,25 @@ async function loadQuestions(page: Number) {
         emit('updateQuestionCount')
     }
 }
+function preloadQuestions() {
+    loadQuestions(1)
+}
+onBeforeMount(() => {
+    // preloadQuestions()
+})
 
 onMounted(() => {
-    loadQuestions(1)
+    learningSessionStore.$onAction(({ after, name }) => {
+        if (name == 'startNewSession') {
+            after((result) => {
+                if (result) {
+                    loadQuestions(1)
+                }
+            })
+        }
+    })
 })
+
 function loadPreviousQuestions() {
     if (selectedPage.value != 1)
         loadQuestions(selectedPage.value - 1)
@@ -111,7 +137,7 @@ function selectPage(page: number) {
 </script>
 
 <template>
-    <div class="col-xs-12 questionListComponent" id="QuestionListComponent">
+    <div class="col-xs-12" id="QuestionListComponent">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
             :is-last-item="index == (questions.length - 1)" :session-index="index"
@@ -242,7 +268,7 @@ function selectPage(page: number) {
     // @media(max-width: @screen-xxs-max) {
     //     padding-left: 0;
     //     padding-right: 0;
-    // margin-right: -10px;
+    //     margin-right: -10px;
     //     margin-left: -10px;
     // }
 
@@ -263,7 +289,6 @@ function selectPage(page: number) {
             display: flex;
             align-items: center;
             margin-top: -10px;
-            margin-right: 28px;
 
             @media(max-width: 768px) {
                 padding-left: 10px;
@@ -291,378 +316,6 @@ function selectPage(page: number) {
     .activeQ {
         &::before {
             color: @memo-grey-darker;
-        }
-    }
-
-    .singleQuestionRow {
-        background: linear-gradient(to right, @memo-grey-light 0px, @memo-grey-light 8px, #ffffffff 9px, #ffffffff 100%);
-        font-family: "Open Sans";
-        font-size: 14px;
-        border: 0.05px solid @memo-grey-light;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        transition: all .2s ease-out;
-        margin-right: 20px;
-
-        @media(max-width: @screen-xxs-max) {
-            margin-right: 0;
-        }
-
-        &.open {
-            height: unset;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            transition: all .2s ease-out;
-            box-shadow: 0px 1px 6px 0px #C4C4C4;
-        }
-
-        &.solid {
-            background: linear-gradient(to right, @memo-green 0px, @memo-green 8px, #ffffffff 8px, #ffffffff 100%);
-        }
-
-        &.shouldConsolidate {
-            background: linear-gradient(to right, #FDD648 0px, #FDD648 8px, #ffffffff 8px, #ffffffff 100%);
-        }
-
-        &.shouldLearn {
-            background: linear-gradient(to right, @memo-salmon 0px, @memo-salmon 8px, #ffffffff 8px, #ffffffff 100%);
-        }
-
-        &.inWishknowledge {
-            background: linear-gradient(to right, #949494 0px, #949494 8px, #ffffffff 8px, #ffffffff 100%);
-        }
-
-        .knowledgeState {
-            width: 8px;
-            min-width: 8px;
-            z-index: 10;
-            position: relative;
-        }
-
-        .questionSectionFlex {
-            width: 100%;
-
-            .questionSection {
-                display: flex;
-                flex-wrap: nowrap;
-                width: 100%;
-            }
-
-            .questionImg {
-                min-width: 75px;
-                height: 100%;
-                padding: 8px 0 8px 32px;
-
-                @media(max-width: @screen-xxs-max) {
-                    display: none;
-                }
-            }
-
-            .questionContainer {
-                width: 100%;
-
-                .questionBodyTop {
-                    display: flex;
-                    max-width: 100%;
-
-                    .questionContainerTopSection {
-                        flex: 1 1 100%;
-                        min-width: 0;
-                        padding-right: 0;
-
-                        .questionHeader {
-                            display: flex;
-                            flex-wrap: nowrap;
-                            justify-content: space-between;
-                            min-width: 0;
-                            min-height: 57px;
-
-                            &:hover {
-                                cursor: pointer;
-                            }
-
-                            .questionTitle {
-                                padding: 8px;
-                                min-width: 0;
-                                color: @memo-grey-darker;
-                                font-weight: 600;
-                                align-self: center;
-                                display: inline-flex;
-
-                                .privateQuestionIcon {
-                                    padding-left: 8px;
-                                    padding-right: 8px;
-                                }
-                            }
-
-                            @media (max-width: 640px) {
-                                .col-xs-3 {
-                                    width: 33%;
-                                }
-
-                                .col-xs-9 {
-                                    width: 66%;
-                                }
-                            }
-
-                            @media (max-width: @screen-sm-min) {
-                                .col-xs-3 {
-                                    width: 50%;
-                                }
-
-                                .col-xs-9 {
-                                    width: 50%;
-                                }
-                            }
-                        }
-
-                        .questionHeaderIcons {
-                            flex: 0 0 auto;
-                            font-size: 18px;
-                            min-width: 77px;
-                            display: flex;
-                            flex-wrap: nowrap;
-                            color: @memo-grey-light;
-                            flex-direction: row-reverse;
-                            padding: 0;
-
-                            .iAdded,
-                            .iAddedNot {
-                                padding: 0;
-                            }
-
-                            .fa-heart,
-                            .fa-spinner,
-                            .fa-heart-o {
-                                font-size: 18px;
-                                padding-top: 18px;
-                            }
-
-                            .fa-spinner,
-                            .fa-play {
-                                padding-right: 10px;
-                            }
-
-                            .iconContainer {
-                                padding: 8px 8px 0px 8px;
-                                min-width: 40px;
-                                // height: 57px;
-                                width: 40px;
-                                max-width: 40px;
-                                text-align: center;
-
-                                .fa-play {
-                                    margin-top: 10px;
-                                }
-
-                                .rotateIcon {
-                                    transition: all .2s ease-out;
-                                    line-height: 41px;
-
-                                    &.open {
-                                        transform: rotate(180deg);
-                                    }
-                                }
-                            }
-
-                            @media (max-width: 767px) {
-                                .iconContainer {
-                                    padding-right: 2px;
-                                    padding-left: 2px;
-                                }
-                            }
-                        }
-
-                        @media(max-width: @screen-xxs-max) {
-                            padding-left: 20px;
-                        }
-                    }
-
-                    .extendedQuestionContainer {
-                        padding: 0 0 8px 0;
-
-                        @media (max-width: 550px) {
-                            padding: 8px 8px 8px 4px;
-                        }
-
-                        .extendedAnswer {
-                            padding-top: 16px;
-                        }
-
-                        .notes {
-                            padding-top: 16px;
-                            padding-bottom: 8px;
-                            font-size: 12px;
-
-                            a {
-                                cursor: pointer;
-                            }
-
-                            .relatedCategories {
-                                padding-bottom: 16px;
-                            }
-
-                            .author {}
-
-                            .sources {
-                                overflow-wrap: break-word;
-                            }
-                        }
-                    }
-                }
-
-                .questionBodyBottom {
-                    display: flex;
-                    justify-content: space-between;
-                    padding-right: 10px;
-                    padding-left: 72px;
-                    align-items: center;
-
-                    .questionDetails {
-                        font-size: 12px;
-                        padding-left: 24px;
-
-                        #StatsHeader {
-                            display: none;
-                        }
-                    }
-
-                    .questionStats {
-                        display: flex;
-                        font-size: 11px;
-                        padding-left: 12px;
-                        padding-right: 12px;
-                        width: 100%;
-
-                        .answerCountFooter {
-                            width: 260px;
-                            padding-bottom: 16px;
-
-
-                            @media(max-width: @screen-xxs-max) {
-                                padding-right: 0px;
-                            }
-                        }
-
-                        .probabilitySection {
-                            padding-right: 10px;
-                            display: flex;
-                            justify-content: center;
-                            padding-bottom: 16px;
-
-                            span {
-                                &.percentageLabel {
-                                    font-weight: bold;
-                                    color: @memo-grey-light;
-
-                                    &.solid {
-                                        color: @memo-green;
-                                    }
-
-                                    &.shouldConsolidate {
-                                        color: #FDD648;
-                                    }
-
-                                    &.shouldLearn {
-                                        color: @memo-salmon;
-                                    }
-
-                                    &.inWishknowledge {
-                                        color: #949494;
-                                    }
-                                }
-
-                                &.chip {
-                                    padding: 1px 10px;
-                                    border-radius: 20px;
-                                    background: @memo-grey-light;
-                                    color: @memo-grey-darker;
-                                    white-space: nowrap;
-
-                                    &.solid {
-                                        background: @memo-green;
-                                    }
-
-                                    &.shouldConsolidate {
-                                        background: #FDD648;
-                                    }
-
-                                    &.shouldLearn {
-                                        background: @memo-salmon;
-                                    }
-
-                                    &.inWishknowledge {
-                                        background: #949494;
-                                        color: white;
-                                    }
-                                }
-                            }
-
-                            &.open {
-                                height: unset;
-                                margin-top: 20px;
-                                margin-bottom: 20px;
-                                transition: all .2s ease-out;
-                                box-shadow: 0px 1px 6px 0px #C4C4C4;
-                            }
-                        }
-
-                        @media(max-width: @screen-sm-min) {
-                            flex-wrap: wrap;
-                        }
-                    }
-
-                    .questionFooterIcons {
-                        color: @memo-grey-dark;
-                        font-size: 11px;
-                        margin: 0;
-                        display: flex;
-                        align-items: center;
-                        margin-top: -21px;
-
-
-                        a.commentIcon {
-                            text-decoration: none;
-                            color: @memo-grey-dark;
-                            font-size: 14px;
-                            cursor: pointer;
-                        }
-
-                        .dropdown-menu {
-                            text-align: left;
-                        }
-
-                        span {
-                            line-height: 36px;
-                            font-family: Open Sans;
-                        }
-
-                        .ellipsis {
-                            padding-left: 16px;
-                        }
-                    }
-
-                    @media (max-width: @screen-xxs-max) {
-                        flex-wrap: wrap;
-                        padding-left: 10px;
-                        justify-content: flex-end;
-                    }
-                }
-            }
-        }
-
-        .questionFooter {
-            height: 52px;
-            border-top: 0.5px solid @memo-grey-light;
-            display: flex;
-            flex-direction: row-reverse;
-            font-size: 20px;
-
-            .questionFooterLabel {
-                padding: 16px;
-                line-height: 20px;
-            }
         }
     }
 
@@ -810,7 +463,7 @@ function selectPage(page: number) {
                 }
 
                 .form-check-label {
-                    i.fa-lock {
+                    .fa-lock {
                         font-size: 14px;
                     }
                 }

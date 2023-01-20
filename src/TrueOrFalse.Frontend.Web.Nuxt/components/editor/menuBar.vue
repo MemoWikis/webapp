@@ -179,7 +179,7 @@ props.editor.on('blur', () => {
     max-width: 100%;
 
     .ps {
-        max-width: 100%;
+        max-width: calc(100vw - 20px);
         border-radius: 4px;
         box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
         // flex-shrink: 1;

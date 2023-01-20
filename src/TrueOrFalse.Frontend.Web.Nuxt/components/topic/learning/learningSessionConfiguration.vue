@@ -92,7 +92,7 @@ function closeKnowledgeSummaryDropdown() {
                 <div class="question-counter"
                     :class="{ 'input-is-active': learningSessionConfigurationStore.questionCountInputFocused, 'input-error': learningSessionConfigurationStore.questionCountIsInvalid && learningSessionConfigurationStore.userHasChangedMaxCount }">
                     <input type="number" min="0" v-model="learningSessionConfigurationStore.selectedQuestionCount"
-                        v-on:input="learningSessionConfigurationStore.setSelectedQuestionCount($event)"
+                        @input="(event: any) => learningSessionConfigurationStore.setSelectedQuestionCount(event.target.value)"
                         @focus="learningSessionConfigurationStore.questionCountInputFocused = true"
                         @blur="learningSessionConfigurationStore.questionCountInputFocused = false" />
                     <div class="question-counter-selector-container">
@@ -126,7 +126,8 @@ function closeKnowledgeSummaryDropdown() {
                     <div class="knowledge-summary-chip-container">
                         <template v-for="s in learningSessionConfigurationStore.knowledgeSummary">
                             <div v-if="s.isSelected" class="knowledge-summary-chip" :class="s.colorClass">
-                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{ s.label
+                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{
+                                    s.label
                                 }}</template>
                             </div>
                         </template>

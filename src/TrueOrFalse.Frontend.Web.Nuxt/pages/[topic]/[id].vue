@@ -3,12 +3,13 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
-
+import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 interface Props {
     tab?: Tab
 }
 const props = defineProps<Props>()
 
+const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -97,7 +98,7 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" />
+                <TopicTabsQuestions v-if="tabsStore != null && tabsStore.activeTab == Tab.Learning" keep-alive />
                 <TopicRelationEdit />
                 <LazyQuestionEditModal />
             </div>
@@ -135,7 +136,7 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
     }
 }
 
-div.column {
+:deep(.column) {
     width: 33%;
     float: left;
 }
