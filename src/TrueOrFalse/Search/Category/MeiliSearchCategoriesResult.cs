@@ -13,7 +13,7 @@ namespace TrueOrFalse.Search
 
         public IPager Pager { get; set;}
 
-        public IList<Category> GetCategories()  => Sl.CategoryRepo.GetByIds(CategoryIds);
+        public IList<Category> GetCategories()  => Sl.CategoryRepo.GetByIds(CategoryIds); //todo: das ist doch nicht schön warum denn aus der Db statt ausm Cache.
 
         public MeiliSearchCategoriesResult()
         {

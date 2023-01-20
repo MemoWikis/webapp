@@ -2,7 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Meilisearch;
 using NHibernate.Linq.Expressions;
 using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
@@ -18,14 +20,15 @@ public class SearchApiController : BaseController
     }
 
     [HttpGet]
-    public JsonResult ByName(string term, string type)
+    public async Task<JsonResult> ByName(string term, string type)
     {
 
-        var client = Resolve<MeiliSearch>().Client;
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = _search.Go(term, type);
+
+        var elements = await _search.Go(term, type);
+
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);

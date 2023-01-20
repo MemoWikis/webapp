@@ -8,13 +8,13 @@ public class GlobalSearchResult
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
     public int CategoriesResultCount => CategoriesResult.Count;
-    public SearchQuestionsResult QuestionsResult;
-    private IList<Question> _questions;
+    public SearchQuestionsResult QuestionsResult = new();
+    private IList<Question> _questions = new List<Question>();
     public IList<Question> Questions => _questions ?? (_questions = QuestionsResult.GetQuestions());
     public int QuestionsResultCount => QuestionsResult.Count;
 
-    public SearchUsersResult UsersResult;
-    private IList<User> _users;
+    public SearchUsersResult UsersResult = new ();
+    private IList<User> _users = new List<User>();
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;
 

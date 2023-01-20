@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
@@ -18,12 +19,12 @@ public class SearchController : BaseController
     }
 
     [HttpGet]
-    public JsonResult All(string term, string type)
+    public async Task<JsonResult> All(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = _search.Go(term, type);
+        var elements = await _search.Go(term, type);
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);

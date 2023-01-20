@@ -46,7 +46,7 @@ public class CategorySearchTests : BaseTest
             .Persist();
 
         var categories = R<CategoryRepository>().GetByIds(
-            R<SearchCategories>().Run("", orderBy: SearchCategoriesOrderBy.QuestionCount).CategoryIds);
+            R<SolrSearchCategories>().Run("", orderBy: SearchCategoriesOrderBy.QuestionCount).CategoryIds);
             
         Assert.That(categories.Count, Is.EqualTo(3));
         Assert.That(categories.Count(x => x.Name == "2"), Is.EqualTo(1));

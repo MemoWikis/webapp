@@ -1,10 +1,11 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System.Threading.Tasks;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Search.GlobalSearch;
 
 public class SolrGlobalSearch : IGlobalSearch
 {
-    public GlobalSearchResult Go(string term, string type)
+    public Task<GlobalSearchResult> Go(string term, string type)
     {
         var result = new GlobalSearchResult();
 
@@ -26,7 +27,7 @@ public class SolrGlobalSearch : IGlobalSearch
         else
             result.Ensure_max_element_count_of_12();
 
-        return result;
+        return Task.FromResult(result);
     }
 
     public GlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
