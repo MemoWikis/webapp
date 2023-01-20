@@ -29,14 +29,6 @@ public class ModifyRelationsEntityCache
             RelatedCategoryId = parentId,
             CategoryId = child.Id
         }); 
-
-        EntityCache.GetCategory(parentId).CategoryRelations.Add(
-      new CategoryCacheRelation 
-      {
-          CategoryId = parentId,
-          RelatedCategoryId = child.Id
-
-      });
     }
     public static void RemoveRelation(CategoryCacheItem categoryCacheItem, int relatedId)
     {
