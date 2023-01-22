@@ -12,22 +12,24 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
       id: 0,
       type: null as Type | null,
       edit: false,
-      sessionIndex: 0
+      sessionIndex: 0,
+      questionHtml: '',
+      flashCardAnswerHtml: '',
+      topicId: 0,
     }
   },
   actions: {
     createQuestion(q: {
       topicId: number
-      edit: boolean,
       questionHtml: string,
-      solution: string,
+      flashCardAnswerHtml: string,
     }) {
-      var question = {
-        topicId: q.topicId,
-        editQuestion: false,
-        questionHtml: q.questionHtml,
-        solution: q.solution,
-      }
+      this.topicId = q.topicId
+      this.questionHtml = q.questionHtml
+      this.flashCardAnswerHtml = q.flashCardAnswerHtml
+
+      this.edit = false
+      this.openModal()
     },
     openModal() {
       this.showModal = true

@@ -41,7 +41,7 @@ const progressPercentage = ref(0)
 
 function calculateProgress() {
     const answered = learningSessionStore.steps.filter(s =>
-        s != AnswerState.Unanswered
+        s.state != AnswerState.Unanswered
     ).length
 
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
@@ -61,7 +61,7 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
                 <div class="session-progress-bar">
                     <div class="session-progress">
                         <div v-for="step in learningSessionStore.steps" class="step"
-                            :class="{ 'answered': step != AnswerState.Unanswered }"></div>
+                            :class="{ 'answered': step.state != AnswerState.Unanswered }"></div>
                     </div>
 
                     <div class="step-count">

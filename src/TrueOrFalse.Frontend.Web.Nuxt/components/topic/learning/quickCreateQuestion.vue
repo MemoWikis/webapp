@@ -90,6 +90,10 @@ function validateForm() {
     disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
 }
 
+watch([isPrivate, licenseConfirmation, flashCardAnswer], (isPrivate,) => {
+    validateForm()
+})
+
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
 const flashCardEditor = ref()
@@ -99,22 +103,22 @@ const learningSessionConfigStore = useLearningSessionConfigurationStore()
 function createQuestion() {
     var question = {
         topicId: topicStore.id,
-        edit: false,
         questionHtml: questionHtml.value,
-        solution: flashCardAnswer.value,
+        flashCardAnswerHtml: flashCardAnswer.value,
     }
     editQuestionStore.createQuestion(question)
     editor.value?.commands.setContent('')
-    flashCardEditor.value.clearFlashCard()
+    flashCardEditor.value?.clearFlashCard()
 }
 
 const emit = defineEmits(['changeActiveQuestion'])
 
 async function addFlashcard() {
     if (!userStore.isLoggedIn) {
-        // NotLoggedIn.ShowErrorMsg("CreateFlashCard")
+        userStore.openLoginModal()
         return
     }
+
     if (disabled.value) {
         highlightEmptyFields.value = true
         return
@@ -123,7 +127,7 @@ async function addFlashcard() {
     sessionConfigJson.value = learningSessionConfigStore.buildSessionConfigJson(topicStore.id)
 
     var json = {
-        CategoryId: sessionConfigJson.value.id,
+        TopicId: sessionConfigJson.value.id,
         TextHtml: questionHtml.value,
         Answer: flashCardAnswer.value,
         Visibility: isPrivate.value ? 1 : 0,
@@ -132,7 +136,7 @@ async function addFlashcard() {
         SessionConfig: sessionConfigJson.value
     }
 
-    var data = await $fetch<any>('/apiVue/VueQuestion/CreateFlashcard', {
+    var data = await $fetch<any>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
         method: 'POST', body: json, mode: 'cors', credentials: 'include'
     })
 
@@ -151,9 +155,14 @@ async function addFlashcard() {
         editor.value?.commands.setContent('')
         questionHtml.value = ''
         flashCardAnswer.value = ''
-        flashCardEditor.value.clearFlashCard()
+        flashCardEditor.value?.clearFlashCard()
         topicStore.questionCount++
     }
+}
+
+function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) {
+    flashCardAnswer.value = e.solution
+    solutionIsValid.value = e.solutionIsValid
 }
 </script>
 
@@ -188,57 +197,60 @@ async function addFlashcard() {
                         Bitte formuliere eine Frage.
                     </div>
                 </div>
-            </div>
-            <div>
-                <QuestionEditFlashCard :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"
-                    :ref="flashCardEditor" />
-            </div>
-            <div class="input-container">
-                <div class="overline-s no-line">
-                    Sichtbarkeit
+                <div>
+                    <QuestionEditFlashCard :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"
+                        ref="flashCardEditor" @set-flash-card-content="setFlashCardContent" />
                 </div>
-                <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
-                    <div class="checkbox-container">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
-                                    class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
-                                    data-html="true" data-original-title="
-                            <ul class='show-tooltip-ul'>
-                                <li>Die Frage kann nur von dir genutzt werden.</li>
-                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                            </ul>">
-                                </i>
-                            </label>
-                        </div>
+                <div class="input-container">
+                    <div class="overline-s no-line">
+                        Sichtbarkeit
                     </div>
-                    <div class="checkbox-container license-confirmation-box" v-if="!isPrivate">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" v-model="licenseConfirmation" value="false">
-                                Dieser Eintrag wird veröffentlicht unter CC BY 4.0. <span class="btn-link"
-                                    @click.prevent="showMore = !showMore">mehr</span>
-                                <template v-if="showMore">
-                                    <br />
-                                    <br />
-                                    Ich stelle diesen Eintrag unter die Lizenz "Creative Commons -
-                                    Namensnennung 4.0 International" (CC BY 4.0, Lizenztext, deutsche
-                                    Zusammenfassung).
-                                    Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter
-                                    genutzt werden.
-                                    Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus
-                                    urheberrechtlich geschützten Quellen kopiert.
-                                </template>
+                    <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
+                        <div class="checkbox-container">
+                            <div class="checkbox">
+                                <label>
+                                    <VTooltip>
+                                        <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage
+                                        <font-awesome-icon icon="fa-solid fa-lock" />
+                                        <template #popper>
+                                            <ul>
+                                                <li>Die Frage kann nur von dir genutzt werden.</li>
+                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                            </ul>
+                                        </template>
+                                    </VTooltip>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="checkbox-container license-confirmation-box" v-if="!isPrivate">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" v-model="licenseConfirmation" value="false">
+                                    Dieser Eintrag wird veröffentlicht unter CC BY 4.0. <span class="btn-link"
+                                        @click.prevent="showMore = !showMore">mehr</span>
+                                    <template v-if="showMore">
+                                        <br />
+                                        <br />
+                                        Ich stelle diesen Eintrag unter die Lizenz "Creative Commons -
+                                        Namensnennung 4.0 International" (CC BY 4.0, Lizenztext, deutsche
+                                        Zusammenfassung).
+                                        Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter
+                                        genutzt werden.
+                                        Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus
+                                        urheberrechtlich geschützten Quellen kopiert.
+                                    </template>
 
-                            </label>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="btn-container">
+                    <div class="btn btn-lg btn-link memo-button" @click="createQuestion()">erweiterte Optionen</div>
+                    <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
+                </div>
             </div>
-            <div class="btn-container">
-                <div class="btn btn-lg btn-link memo-button" @click="createQuestion()">erweiterte Optionen</div>
-                <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
-            </div>
+
         </div>
     </div>
 
@@ -253,11 +265,7 @@ async function addFlashcard() {
     margin-top: 20px;
     padding: 22px 21px 30px;
     font-size: 16px;
-    margin-right: 20px;
 
-    @media(max-width: @screen-xxs-max) {
-        margin-right: 0;
-    }
 
     .add-inline-question-label {
         font-weight: 700;
@@ -364,5 +372,36 @@ async function addFlashcard() {
     .wuwi-grey {
         color: @memo-grey-dark;
     }
+}
+
+:deep(.ProseMirror) {
+    border: solid 1px @memo-grey-light;
+    border-radius: 0;
+    padding: 11px 15px 0;
+
+    &.is-empty {
+        border: solid 1px @memo-salmon;
+    }
+}
+
+:deep(.is-empty) {
+
+    .ProseMirror {
+        border: solid 1px @memo-salmon;
+    }
+}
+
+
+:deep(.ProseMirror-focused) {
+
+    &:focus,
+    &:focus-visible {
+        outline: none !important;
+        border: solid 1px @memo-green;
+    }
+}
+
+:deep(.overline-s) {
+    margin-top: 26px;
 }
 </style>

@@ -4,6 +4,7 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -17,24 +18,24 @@ public class TopicController : BaseController
 
     public dynamic GetTopicData(int id)
     {
-        var category = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetCategory(id);
 
-        if (PermissionCheck.CanView(category))
+        if (PermissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             return new
             {
                 CanAccess = true,
                 Id = id,
-                Name = category.Name,
+                Name = topic.Name,
                 ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
-                Content = category.Content,
-                ParentTopicCount = category.ParentCategories().Count,
-                ChildTopicCount = category.AggregatedCategories().Count,
+                Content = topic.Content,
+                ParentTopicCount = topic.ParentCategories().Count,
+                ChildTopicCount = topic.AggregatedCategories().Count,
                 Views = Sl.CategoryViewRepo.GetViewCount(id),
-                Visibility = category.Visibility,
-                AuthorIds = category.AuthorIds,
-                Authors = category.AuthorIds.Select(id =>
+                Visibility = topic.Visibility,
+                AuthorIds = topic.AuthorIds,
+                Authors = topic.AuthorIds.Select(id =>
                 {
                     var author = EntityCache.GetUserById(id);
                     return new
@@ -46,11 +47,12 @@ public class TopicController : BaseController
                         ReputationPos = author.ReputationPos
                     };
                 }).ToArray(),
-                IsWiki = category.IsStartPage(),
-                CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == category.Creator?.Id,
-                CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(category),
-                QuestionCount = category.CountQuestionsAggregated,
-                ImageId = imageMetaData != null ? imageMetaData.Id : 0
+                IsWiki = topic.IsStartPage(),
+                CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == topic.Creator?.Id,
+                CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(topic),
+                QuestionCount = topic.CountQuestionsAggregated,
+                ImageId = imageMetaData != null ? imageMetaData.Id : 0,
+                EncodedName = UriSanitizer.Run(topic.Name)
             };
         }
 

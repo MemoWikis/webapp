@@ -275,16 +275,16 @@ type QuestionData = {
 function initiateSolution(solution: string) {
     switch (solutionType.value) {
         case SolutionType.Text:
-            textSolution.value = solution;
-            break;
+            textSolution.value = solution
+            break
         case SolutionType.MultipleChoice:
-            multipleChoiceJson.value = solution;
-            break;
+            multipleChoiceJson.value = solution
+            break
         case SolutionType.MatchList:
             matchListJson.value = solution;
-            break;
+            break
         case SolutionType.FlashCard:
-            flashCardAnswer.value = solution;
+            flashCardAnswer.value = solution
     }
 
     return solution;
@@ -320,17 +320,25 @@ async function getQuestionData(id: number) {
     }
 }
 
-watch(() => editQuestionStore.showModal, () => {
+watch(() => editQuestionStore.showModal, (e) => {
+    if (e) {
+
+    }
     if (editQuestionStore.edit)
         getQuestionData(editQuestionStore.id)
+    else {
+        topicIds.value = [editQuestionStore.topicId]
+        questionHtml.value = editQuestionStore.questionHtml
+        solutionType.value = SolutionType.FlashCard
+        initiateSolution(editQuestionStore.flashCardAnswerHtml)
+    }
 })
-
 
 const solutionIsValid = ref(true)
 
-function setFlashCardContent(editor: Editor) {
-    flashCardAnswer.value = editor.getHTML()
-    solutionIsValid.value = editor.state.doc.textContent.length > 0
+function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) {
+    flashCardAnswer.value = e.solution
+    solutionIsValid.value = e.solutionIsValid
 }
 </script>
 

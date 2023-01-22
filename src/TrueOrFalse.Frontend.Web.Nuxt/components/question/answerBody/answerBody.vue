@@ -29,10 +29,10 @@ function answer() {
 
 }
 </script>
-
 <template>
-
-
+    
+</template>
+<template>
     <div id="AnswerBody">
 
         <!-- <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
@@ -162,6 +162,7 @@ function answer() {
                             </template>
                             <QuestionAnswerBodyFlashcard v-else ref="flashcard" :question="question" />
 
+
                         </div>
                         <div id="ButtonsAndSolutionCol">
                             <div id="ButtonsAndSolution" class="Clearfix">
@@ -183,12 +184,21 @@ function answer() {
 
                                     <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
                                         id="buttons-first-try" class="ButtonGroup">
-                                        <a href="#" id="btnCheck" class="btn btn-primary memo-button"
+                                        <button class="btn btn-primary memo-button">
+                                            Antworten
+                                        </button>
+                                        <button
+                                            v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                            class="selectorShowSolution SecAction btn btn-link memo-button">
+                                            <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
+                                        </button>
+
+                                        <!-- <a href="#" id="btnCheck" class="btn btn-primary memo-button"
                                             rel="nofollow">Antworten</a>
                                         <a v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
                                             href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i
                                                 class="fa fa-lightbulb-o">&nbsp;</i>Lösung
-                                            anzeigen</a>
+                                            anzeigen</a> -->
                                     </div>
                                     <div v-else id="buttons-answer" class="ButtonGroup flashCardAnswerButtons"
                                         style="display: none">

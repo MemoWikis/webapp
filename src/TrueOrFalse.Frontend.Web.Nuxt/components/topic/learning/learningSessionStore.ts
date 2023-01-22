@@ -9,9 +9,15 @@ export enum AnswerState {
     ShowedSolutionOnly = 4
 }
 
+interface Step {
+    state: AnswerState,
+    id: number
+}
+
 interface NewSessionResult {
     success: boolean,
-    steps: AnswerState[]
+    steps: Step[],
+    activeQuestionCount: number
 }
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
@@ -21,8 +27,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             isTestMode: false,
             lastIndex: 0,
             currentIndex: 0,
-            steps: [] as AnswerState[],
+            steps: [] as Step[],
             currentStep: 1,
+            activeQuestionCount: 0
         }
     },
     actions: {
@@ -39,6 +46,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             })
             if (result != null && result.success) {
                 this.steps = result.steps
+                this.activeQuestionCount = result.activeQuestionCount
                 return true
             } else return false
         },

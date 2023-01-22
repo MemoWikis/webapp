@@ -40,7 +40,7 @@ const editor = useEditor({
     ],
     content: content.value,
     onUpdate: ({ editor }) => {
-        emit('setFlashCardContent', editor)
+        setFlashCardContent()
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
@@ -60,13 +60,26 @@ const editor = useEditor({
 onMounted(() => {
     if (props.solution) {
         editor.value?.commands.setContent(props.solution)
-        emit('setFlashCardContent', editor.value)
+        setFlashCardContent()
     }
 })
+
+function setFlashCardContent() {
+    if (editor.value) {
+        const content = {
+            solution: editor.value.getHTML(),
+            solutionIsValid: editor.value.state.doc.textContent.length > 0
+        }
+        emit('setFlashCardContent', content)
+    }
+
+}
 
 function clearFlashCard() {
     editor.value?.commands.setContent('')
 }
+
+defineExpose({ clearFlashCard })
 </script>
 
 <template>

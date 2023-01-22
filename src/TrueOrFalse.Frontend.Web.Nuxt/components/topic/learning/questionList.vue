@@ -86,7 +86,7 @@ async function updatePageCount(sP: number) {
         spinnerStore.hideSpinner()
 }
 
-async function loadQuestions(page: Number) {
+async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
     var result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
@@ -98,9 +98,8 @@ async function loadQuestions(page: Number) {
     })
     if (result != null) {
         questions.value = result
-        updatePageCount(selectedPage.value)
-        emit('updateQuestionCount')
     }
+    spinnerStore.hideSpinner()
 }
 function preloadQuestions() {
     loadQuestions(1)
@@ -109,7 +108,7 @@ onBeforeMount(() => {
     // preloadQuestions()
 })
 
-onMounted(() => {
+onBeforeMount(() => {
     learningSessionStore.$onAction(({ after, name }) => {
         if (name == 'startNewSession') {
             after((result) => {
@@ -131,9 +130,9 @@ function loadNextQuestions() {
         loadQuestions(selectedPage.value + 1)
 }
 
-function selectPage(page: number) {
+const currentPage = ref(1)
+watch(currentPage, (p) => loadQuestions(p))
 
-}
 </script>
 
 <template>
@@ -141,93 +140,52 @@ function selectPage(page: number) {
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
             :is-last-item="index == (questions.length - 1)" :session-index="index"
-            :expand-question="props.expandQuestion" />
+            :expand-question="props.expandQuestion" :key="q.Id" />
 
-        <!-- <vue-awesome-paginate :total-items="50" :items-per-page="5" :max-pages-shown="5" v-model="pageArray.length"
-            :on-click="selectPage" /> -->
+        <TopicLearningQuickCreateQuestion />
 
         <div id="QuestionListPagination" v-show="questions.length > 0">
-            <ul class="pagination col-xs-12 row justify-content-xs-center" v-if="pageArray.length <= 8">
-                <li class="page-item page-btn" :class="{ disabled: selectedPage == 1 }">
-                    <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
-                </li>
-                <li class="page-item" v-for="(p, key) in pageArray" @click="loadQuestions(p)"
-                    :class="{ selected: selectedPage == p }">
-                    <span class="page-link">{{ p }}</span>
-                </li>
-                <li class="page-item page-btn" :class="{ disabled: selectedPage == pageArray.length }">
-                    <span class="page-link" @click="loadNextQuestions()">Nächste</span>
-                </li>
-            </ul>
 
-            <ul class="pagination col-xs-12 row justify-content-xs-center" v-else>
-                <li class="page-item col-auto page-btn" :class="{ disabled: selectedPage == 1 }">
-                    <span class="page-link" @click="loadPreviousQuestions()">Vorherige</span>
-                </li>
-                <li class="page-item col-auto" @click="loadQuestions(1)" :class="{ selected: selectedPage == 1 }">
-                    <span class="page-link">1</span>
-                </li>
-                <li class="page-item col-auto" v-show="selectedPage == 5">
-                    <span class="page-link">2</span>
-                </li>
-                <li class="page-item col-auto" v-show="showLeftPageSelector" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="true">
-                    <span class="page-link" @click.this="showLeftSelectionDropUp = !showLeftSelectionDropUp">
-                        <div class="dropup" @click.this="showLeftSelectionDropUp = !showLeftSelectionDropUp">
-                            <div class="dropdown-toggle" type="button" id="DropUpMenuLeft" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"
-                                @click="showLeftSelectionDropUp = !showLeftSelectionDropUp">
-                                ...
-                            </div>
-                            <ul id="DropUpMenuLeftList" class="pagination dropdown-menu"
-                                aria-labelledby="DropUpMenuLeft" v-show="showLeftSelectionDropUp">
-                                <li class="page-item" v-for="p in leftSelectorArray" @click="loadQuestions(p)">
-                                    <span class="page-link">{{ p }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </span>
-                </li>
-                <li class="page-item col-auto" v-for="(p, key) in centerArray" @click="loadQuestions(p)"
-                    :class="{ selected: selectedPage == p }">
-                    <span class="page-link">{{ p }}</span>
-                </li>
-
-                <li class="page-item col-auto" v-show="showRightPageSelector" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="true">
-                    <span class="page-link" @click.this="showRightSelectionDropUp = !showRightSelectionDropUp">
-                        <div class="dropup" @click.this="showRightSelectionDropUp = !showRightSelectionDropUp">
-                            <div class="dropdown-toggle" type="button" id="DropUpMenuRight" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"
-                                @click="showRightSelectionDropUp = !showRightSelectionDropUp">
-                                ...
-                            </div>
-                            <ul id="DropUpMenuRightList" class="pagination dropdown-menu"
-                                aria-labelledby="DropUpMenuLeft" v-show="showRightSelectionDropUp">
-                                <li class="page-item" v-for="p in rightSelectorArray" @click="loadQuestions(p)">
-                                    <span class="page-link">{{ p }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </span>
-                </li>
-                <li class="page-item col-auto" v-show="selectedPage == pageArray.length - 4">
-                    <span class="page-link">{{ pageArray.length - 1 }}</span>
-                </li>
-                <li class="page-item col-auto" @click="loadQuestions(pageArray.length)"
-                    :class="{ selected: selectedPage == pageArray.length }">
-                    <span class="page-link">{{ pageArray.length }}</span>
-                </li>
-                <li class="page-item col-auto page-btn" :class="{ disabled: selectedPage == pageArray.length }">
-                    <span class="page-link" @click="loadNextQuestions()">Nächste</span>
-                </li>
-            </ul>
+            <vue-awesome-paginate :total-items="learningSessionStore?.activeQuestionCount" :items-per-page="24"
+                :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false"
+                prev-button-content="Vorherige" next-button-content="Nächste" first-page-content="Erste"
+                last-page-content="Letzte" />
         </div>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.pagination-container {
+    display: flex;
+    column-gap: 10px;
+}
+
+.paginate-buttons {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(217, 217, 217);
+    color: black;
+}
+
+.paginate-buttons:hover {
+    background-color: #d8d8d8;
+}
+
+.active-page {
+    background-color: #3498db;
+    border: 1px solid #3498db;
+    color: white;
+}
+
+.active-page:hover {
+    background-color: #2988c8;
+}
+
 
 .drop-down-question-sort {
     display: flex;
@@ -370,124 +328,6 @@ function selectPage(page: number) {
         }
     }
 
-
-
-    #AddInlineQuestionContainer {
-        background: white;
-        margin-top: 20px;
-        padding: 22px 21px 30px;
-        font-size: 16px;
-        margin-right: 20px;
-
-        @media(max-width: @screen-xxs-max) {
-            margin-right: 0;
-        }
-
-        .add-inline-question-label {
-            font-weight: 700;
-
-            &.s-label {
-                font-size: 14px;
-                margin-bottom: 5px;
-            }
-
-            span,
-            a {
-                font-weight: 400;
-            }
-
-            a {
-                cursor: pointer;
-            }
-        }
-
-        #AddQuestionHeader {
-            display: flex;
-
-            .main-label {
-                padding-bottom: 6px;
-                flex: 1;
-            }
-
-            .heart-container {
-                display: flex;
-                align-content: center;
-                align-items: center;
-                flex-direction: column;
-                width: 100px;
-                margin-right: -22px;
-                cursor: pointer;
-
-                .Text {
-                    padding: 0 3px !important;
-                    font-size: 8px !important;
-                    line-height: 14px !important;
-                    font-weight: 600 !important;
-                    text-transform: uppercase !important;
-                    letter-spacing: 0.1em;
-                    color: #FF001F !important;
-                }
-            }
-        }
-
-        #AddQuestionBody {
-            display: flex;
-
-            #AddQuestionFormContainer {
-                flex: 1;
-
-                @media(max-width: @screen-xxs-max) {
-                    padding-right: 0;
-                }
-
-                .ProseMirror {
-                    padding: 11px 15px 0;
-                }
-
-                .overline-s {
-                    margin-top: 26px;
-                }
-            }
-
-            #AddQuestionPrivacyContainer {
-                padding: 20px;
-                border: solid 1px @memo-grey-light;
-                border-radius: 4px;
-                min-width: 216px;
-                max-height: 143px;
-                margin-top: 24px;
-
-                .form-check-label,
-                form-check-radio {
-                    cursor: pointer;
-                }
-
-                .form-check-label {
-                    .fa-lock {
-                        font-size: 14px;
-                    }
-                }
-            }
-
-            .btn-container {
-                display: flex;
-                justify-content: flex-end;
-
-                @media(max-width: @screen-xxs-max) {
-                    justify-content: center;
-                    flex-wrap: wrap-reverse;
-                }
-            }
-        }
-
-        .wuwi-red {
-            color: rgb(255, 0, 31);
-        }
-
-        .wuwi-grey {
-            color: @memo-grey-dark;
-        }
-    }
 
     .ProseMirror,
     input,
