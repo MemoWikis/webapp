@@ -22,7 +22,6 @@ public class SearchApiController : BaseController
     [HttpGet]
     public async Task<JsonResult> ByName(string term, string type)
     {
-
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
