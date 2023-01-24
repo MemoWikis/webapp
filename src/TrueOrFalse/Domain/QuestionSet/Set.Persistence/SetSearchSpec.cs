@@ -2,6 +2,7 @@
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
+//todo: Mark to Delete
 [Serializable]
 public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
 {

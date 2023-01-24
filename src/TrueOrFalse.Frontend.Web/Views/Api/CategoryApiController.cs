@@ -6,11 +6,11 @@ using TrueOrFalse.Search;
 
 public class CategoryApiController : BaseController
 {
-    private readonly SearchCategories _searchCategories;
+    private readonly SolrSearchCategories _searchCategories;
     private readonly CategoryRepository _categoryRepo;
 
     public CategoryApiController(
-        SearchCategories searchCategories,
+        SolrSearchCategories searchCategories,
         CategoryRepository categoryRepo)
     {
         _searchCategories = searchCategories;

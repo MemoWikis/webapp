@@ -160,7 +160,7 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ViewResult ReIndexAllCategories()
     {
-        Resolve<ReIndexAllCategories>().Run();
+        Resolve<SolrReIndexAllCategories>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
     }
     //todo: Remove when Meilisearch is active

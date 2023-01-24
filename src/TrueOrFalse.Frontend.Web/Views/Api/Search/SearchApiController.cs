@@ -2,7 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Meilisearch;
 using NHibernate.Linq.Expressions;
 using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
@@ -18,12 +20,14 @@ public class SearchApiController : BaseController
     }
 
     [HttpGet]
-    public JsonResult ByName(string term, string type)
+    public async Task<JsonResult> ByName(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = _search.Go(term, type);
+
+        var elements = await _search.Go(term, type);
+
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);
@@ -114,7 +118,7 @@ public class SearchApiController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
@@ -152,7 +156,7 @@ public class SearchApiController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -164,7 +168,7 @@ public class SearchApiController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem
@@ -280,7 +284,7 @@ public class SearchApiController : BaseController
         });
     }
 
-    private static void AddQuestionItems(List<ResultItem> items, GlobalSearchResult elements)
+    private static void AddQuestionItems(List<ResultItem> items, SolrGlobalSearchResult elements)
     {
         var questions = elements.Questions.Where(q => PermissionCheck.CanView(q)).ToList();
 
@@ -309,7 +313,7 @@ public class SearchApiController : BaseController
         );
     }
 
-    private static void AddUsersItems(List<ResultItem> items, GlobalSearchResult elements)
+    private static void AddUsersItems(List<ResultItem> items, SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(user => new ResultItem

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Search
 {
-    internal static class MeiliSearchKonstanten
+    public static class MeiliSearchKonstanten
     {
         public const string Categories = "Categories";
         public const string Questions = "Questions";

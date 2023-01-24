@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
@@ -18,12 +19,12 @@ public class SearchController : BaseController
     }
 
     [HttpGet]
-    public JsonResult All(string term, string type)
+    public async Task<JsonResult> All(string term, string type)
     {
         var categoryItems = new List<SearchCategoryItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = _search.Go(term, type);
+        var elements = await _search.Go(term, type);
 
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);
@@ -113,7 +114,7 @@ public class SearchController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
@@ -151,7 +152,7 @@ public class SearchController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -163,7 +164,7 @@ public class SearchController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem

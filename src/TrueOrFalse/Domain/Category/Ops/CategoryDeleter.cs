@@ -9,7 +9,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
     public CategoryDeleter(
         ISession session,
-        SearchIndexCategory searchIndexCategory)
+        SolrSearchIndexCategory solrSearchIndexCategory)
     {
         _session = session;
     }
