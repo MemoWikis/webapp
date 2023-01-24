@@ -51,16 +51,16 @@ public class QuestionSearchTests : BaseTest
 
         Resolve<ReIndexAllQuestions>().Run();
 
-        Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1));
-        Assert.That(Resolve<SearchQuestions>().Run("Juliane Misdom", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
-        Assert.That(Resolve<SearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(2)); ;
+        Assert.That(Resolve<SolrSearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1));
+        Assert.That(Resolve<SolrSearchQuestions>().Run("Juliane Misdom", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
+        Assert.That(Resolve<SolrSearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(2)); ;
 
         Should_filter_by_creator_id(context);
     }
 
     public void Should_filter_by_creator_id(ContextQuestion contextQuestion)
     {
-        Assert.That(Resolve<SearchQuestions>().Run(
+        Assert.That(Resolve<SolrSearchQuestions>().Run(
             "", new Pager(), creatorId: contextQuestion.Creator.Id).Count, Is.EqualTo(3));
     }
 
@@ -97,10 +97,10 @@ public class QuestionSearchTests : BaseTest
 
         Resolve<ReIndexAllQuestions>().Run();
 
-        Assert.That(Resolve<SearchQuestions>().Run("\"Question35\"", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
-        Assert.That(Resolve<SearchQuestions>().Run("\"Answer35\"", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
+        Assert.That(Resolve<SolrSearchQuestions>().Run("\"Question35\"", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
+        Assert.That(Resolve<SolrSearchQuestions>().Run("\"Answer35\"", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
 
-        var result = Resolve<SearchQuestions>().Run("Question", new Pager { PageSize = 10 });
+        var result = Resolve<SolrSearchQuestions>().Run("Question", new Pager { PageSize = 10 });
         Assert.That(result.Count, Is.EqualTo(50));//Category
         Assert.That(result.QuestionIds.Count, Is.EqualTo(10));//Result is always paged
     }
@@ -119,7 +119,7 @@ public class QuestionSearchTests : BaseTest
 
         R<ISolrOperations<QuestionSolrMap>>().Commit();
 
-        var result = Resolve<SearchQuestions>().Run("Question", 
+        var result = Resolve<SolrSearchQuestions>().Run("Question", 
             new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Quality);
         var questions = Resolve<QuestionRepo>().GetByIds(result.QuestionIds);
 
@@ -128,7 +128,7 @@ public class QuestionSearchTests : BaseTest
         Assert.That(questions[1].Text, Is.EqualTo("Question1"));
         Assert.That(questions[2].Text, Is.EqualTo("Question3"));
 
-        result = Resolve<SearchQuestions>().Run("Question",
+        result = Resolve<SolrSearchQuestions>().Run("Question",
             new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Valuation);
         questions = Resolve<QuestionRepo>()
             .GetByIds(result.QuestionIds)
@@ -151,7 +151,7 @@ public class QuestionSearchTests : BaseTest
 
         R<ReIndexAllQuestions>().Run();
 
-        Assert.That(Resolve<SearchQuestions>().Run("Kat:\"C\"", new Pager { PageSize = 10 }).QuestionIds.Count, Is.EqualTo(1));
-        Assert.That(Resolve<SearchQuestions>().Run("Kat:\"B\"", new Pager { PageSize = 10 }).QuestionIds.Count, Is.EqualTo(2));
+        Assert.That(Resolve<SolrSearchQuestions>().Run("Kat:\"C\"", new Pager { PageSize = 10 }).QuestionIds.Count, Is.EqualTo(1));
+        Assert.That(Resolve<SolrSearchQuestions>().Run("Kat:\"B\"", new Pager { PageSize = 10 }).QuestionIds.Count, Is.EqualTo(2));
     }
 }

@@ -98,7 +98,7 @@ public class AnswerQuestionController : BaseController
                 activeSearchSpec.PageSize = 1;
 
                 //set total count
-                Sl.R<SearchQuestions>().Run(activeSearchSpec);
+                Sl.R<SolrSearchQuestions>().Run(activeSearchSpec);
             }
         }
 

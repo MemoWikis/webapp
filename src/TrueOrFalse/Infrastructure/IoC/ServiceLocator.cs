@@ -32,11 +32,11 @@ public class Sl
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
     public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 
-    public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
+    public static SolrSearchIndexCategory SolrSearchIndexCategory => R<SolrSearchIndexCategory>();
 
     public static SolrSearchCategories SearchCategories => R<SolrSearchCategories>();
     public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
-    public static SearchQuestions SearchQuestions => R<SearchQuestions>();
+    public static SolrSearchQuestions SolrSearchQuestions => R<SolrSearchQuestions>();
     public static SearchUsers SearchUsers => R<SearchUsers>();
 
     public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();

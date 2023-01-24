@@ -13,7 +13,6 @@ public class MeiliGlobalSearch : IGlobalSearch
         return result;
     }
 
-
     public SolrGlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
     {
         var pager = new Pager {QueryAll = true};

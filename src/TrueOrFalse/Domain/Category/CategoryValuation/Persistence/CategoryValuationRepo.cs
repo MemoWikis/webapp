@@ -73,7 +73,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         categoryValuation.UpdateKnowledgeSummary();
 
         base.Update(categoryValuation);
-        Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
+        Sl.SolrSearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
     public void DeleteCategoryValuation( int categoryId)
