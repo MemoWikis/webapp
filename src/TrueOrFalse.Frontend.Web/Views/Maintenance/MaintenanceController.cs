@@ -321,21 +321,6 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { });
     }
 
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public ActionResult CreateAggregationsForAll()
-    {
-        var allCategories = Sl.CategoryRepo.GetAll();
-        foreach (var category in allCategories)
-        {
-            Logg.r().Information("Created aggregates for {0}", category.Name);
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(EntityCache.GetCategory(category.Id));
-        }
-        Logg.r().Information("Aggregations where created");
-
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
-    }
-
     [HttpPost]
     public ActionResult MigrateDefaultTemplates()
     {
