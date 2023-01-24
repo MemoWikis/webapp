@@ -101,7 +101,7 @@ public class EditQuestionController : BaseController
 
         question.TextHtml = flashCardJson.TextHtml;
         question.Text = safeText;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
+        question.SolutionType = SolutionType.FlashCard;
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
         solutionModelFlashCard.Text = flashCardJson.Answer;

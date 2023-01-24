@@ -21,6 +21,7 @@ export class Topic {
   CanBeDeleted: boolean = false
   QuestionCount: number = 0
   Authors: Author[] = []
+  EncodedName: string = ''
 }
 
 export interface FooterTopics {

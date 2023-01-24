@@ -76,7 +76,9 @@ props.editor.on('blur', () => {
 
     <div class="col-xs-12 menubar-container" :class="{ 'is-focused': focused }">
 
-        <perfect-scrollbar>
+        <perfect-scrollbar :options="{
+            scrollYMarginOffset: 30
+        }">
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
@@ -168,6 +170,18 @@ props.editor.on('blur', () => {
 
 </template>
 
+<style lang="less">
+.ps__rail-x {
+    pointer-events: none;
+
+    &.ps--clicking {
+        .ps__thumb-x {
+            height: 8px;
+        }
+    }
+}
+</style>
+
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
@@ -176,7 +190,13 @@ props.editor.on('blur', () => {
     position: sticky;
     z-index: 10;
     display: flex;
-    max-width: 100%;
+    max-width: calc(100vw - 20px);
+    height: 36px;
+    margin-top: -36px;
+
+    @media(max-width: @screen-xxs-max) {
+        max-width: calc(100vw - 16px);
+    }
 
     .ps {
         max-width: calc(100vw - 20px);

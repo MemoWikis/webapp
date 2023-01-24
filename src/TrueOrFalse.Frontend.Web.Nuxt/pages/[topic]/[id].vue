@@ -47,10 +47,10 @@ if (topic.value != null) {
 
         watch(() => tabsStore.activeTab, (t) => {
             if (t == Tab.Topic) {
-                history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}`)
+                history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}`)
             }
             else if (t == Tab.Learning)
-                history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}/Lernen`)
+                history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}/Lernen`)
         })
 
         watch(() => topicStore.name, () => {
@@ -3150,6 +3150,8 @@ img {
 }
 
 #TopicContent {
+    padding-top: 36px;
+
     #ContentModuleApp {
         #MarkdownContent {
             .ProseMirror {
