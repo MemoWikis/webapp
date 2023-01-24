@@ -15,7 +15,7 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchQuestionsResult Run(QuestionSearchSpec searchSpec)
+        public SolrSearchQuestionsResult Run(QuestionSearchSpec searchSpec)
         {
             var orderBy = SearchQuestionsOrderBy.None;
             if (searchSpec.OrderBy.BestMatch.IsCurrent()) orderBy = SearchQuestionsOrderBy.BestMatch;
@@ -40,11 +40,11 @@ namespace TrueOrFalse.Search
             return result;
         }
 
-        public SearchQuestionsResult Run(string searchTerm){
+        public SolrSearchQuestionsResult Run(string searchTerm){
             return Run(searchTerm, new Pager());
         }
 
-        public SearchQuestionsResult Run(
+        public SolrSearchQuestionsResult Run(
             string searchTerm, 
             Pager pager,
             int creatorId = -1,
@@ -133,7 +133,7 @@ namespace TrueOrFalse.Search
                     OrderBy = orderby
                 });
 
-            var result = new SearchQuestionsResult();
+            var result = new SolrSearchQuestionsResult();
             result.QueryTime = queryResult.Header.QTime;
             result.Count = (int)queryResult.NumFound;
             result.SpellChecking = queryResult.SpellChecking;

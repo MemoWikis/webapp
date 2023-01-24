@@ -290,9 +290,12 @@
     <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
     <Compile Include="Search\MeiliSearch.cs" />
     <Compile Include="Search\MeiliSearchKonstanten.cs" />
+    <Compile Include="Search\Question\ISearchQuestionsResult.cs" />
     <Compile Include="Search\Question\IndexOperations\MeiliSearchReIndexAllQuestions.cs" />
     <Compile Include="Search\Question\Model\MeiliSearchQuestionMap.cs" />
     <Compile Include="Search\Question\Model\MeiliSearchToQuestionMap.cs" />
+    <Compile Include="Search\Question\MeiliSearchQuestions.cs" />
+    <Compile Include="Search\Question\SearchQuestionsResult.cs" />
     <Compile Include="Search\User\IndexOperations\MeiliSearchReIndexAllUsers.cs" />
     <Compile Include="Search\User\Model\MeiliSearchToUserMap.cs" />
     <Compile Include="Search\User\Model\MeiliSearchUserMap.cs" />
@@ -845,7 +848,7 @@
     <Compile Include="Search\Question\Model\ToQuestionSolrMap.cs" />
     <Compile Include="Search\Question\SolrSearchQuestions.cs" />
     <Compile Include="Search\Question\SearchQuestionsOrderBy.cs" />
-    <Compile Include="Search\Question\SearchQuestionsResult.cs" />
+    <Compile Include="Search\Question\SolrSearchQuestionsResult.cs" />
     <Compile Include="Search\InputToSearchExpression.cs" />
     <Compile Include="Search\SearchQueryBuilder.cs" />
     <Compile Include="Search\SpellCheckResult.cs" />
