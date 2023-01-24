@@ -37,7 +37,7 @@ public class CategorySearchTests : BaseTest
     [Test]
     public void Should_order_search_result()
     {
-        R<ReIndexAllCategories>().Run();
+        R<SolrReIndexAllCategories>().Run();
 
         var context = ContextCategory.New()
             .Add("1").QuestionCount(10)

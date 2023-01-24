@@ -9,8 +9,7 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchCategories : IRegisterAsInstancePerLifetime
     {
-        private List<CategoryCacheItem> _categories = new List<CategoryCacheItem>();
-        private List<MeiliSearchCategoryMap> _categoryMaps;
+        private List<CategoryCacheItem> _categories = new();
         private int _count = 20;
         private MeiliSearchCategoriesResult _result;
         public async Task<ISearchCategoriesResult> RunAsync(

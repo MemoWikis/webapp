@@ -832,7 +832,7 @@
     <Compile Include="Infrastructure\StringUtils.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
     <Compile Include="Infrastructure\Time\TimeSpanLabel.cs" />
-    <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />
+    <Compile Include="Search\Category\IndexOperations\SolrReIndexAllCategories.cs" />
     <Compile Include="Search\Category\IndexOperations\SearchIndexCategory.cs" />
     <Compile Include="Search\Category\Model\CategorySolrMap.cs" />
     <Compile Include="Search\Category\Model\ToCategorytSolrMap.cs" />
