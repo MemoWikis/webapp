@@ -8,7 +8,6 @@
     LearningSessionStepCount: Number;
     LinkToComment: String;
     LinkToDeleteQuestion: String;
-    LinkToEditQuestion: String;
     LinkToQuestion: String;
     LinkToQuestionDetailSite: String;
     LinkToQuestionVersions: String;

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Concurrent;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
@@ -24,5 +19,33 @@ public class TopicLearningQuestionListController: BaseController
         }
 
         return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
+    }
+
+    [HttpGet]
+    public JsonResult LoadNewQuestion(int index)
+    {
+        var steps = LearningSessionCache.GetLearningSession().Steps;
+        var question = steps[index].Question;
+
+        var userQuestionValuation = SessionUser.IsLoggedIn
+            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+            : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUser.IsLoggedIn;
+
+        return Json( new {
+            Id = question.Id,
+            Title = question.Text,
+            LinkToQuestion = Links.GetUrl(question),
+            ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(40, true).Url,
+            LearningSessionStepCount = steps.Count,
+            LinkToQuestionVersions = Links.QuestionHistory(question.Id),
+            LinkToComment = Links.GetUrl(question) + "#JumpLabel",
+            CorrectnessProbability = question.CorrectnessProbability,
+            Visibility = question.Visibility,
+            SessionIndex = index,
+            IsInWishknowledge = hasUserValuation && userQuestionValuation[question.Id].IsInWishKnowledge,
+            HasPersonalAnswer = false
+        }, JsonRequestBehavior.AllowGet);
     }
 }

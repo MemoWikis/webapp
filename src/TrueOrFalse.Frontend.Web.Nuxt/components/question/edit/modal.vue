@@ -10,8 +10,11 @@ import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
 import { useTopicStore } from '../../topic/topicStore'
 import { Editor } from '@tiptap/vue-3'
+import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 
-
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
 const editQuestionStore = useEditQuestionStore()
@@ -159,12 +162,6 @@ function getSaveJson() {
     }
     var visibility = isPrivate ? 1 : 0
 
-
-    var sessionConfigJson = ''
-    var savedConfigJson = localStorage.getItem('sessionConfigJson')
-    if (savedConfigJson != null)
-        sessionConfigJson = JSON.parse(savedConfigJson)
-
     var jsonExtension = {
         CategoryIds: topicIds.value,
         TextHtml: questionHtml.value,
@@ -174,16 +171,16 @@ function getSaveJson() {
         Visibility: visibility,
         SolutionMetadataJson: solutionMetadataJson,
         LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
-        // SessionIndex: sessionIndex,
+        SessionIndex: learningSessionStore.lastIndexInQuestionList,
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
-        SessionConfig: sessionConfigJson
+        SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
     }
     var json = editQuestionStore.edit ? editJson : createJson
 
     return { ...json, ...jsonExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/apiVue/VueQuestion/GetCurrentQuestionCount/${id}`, {
+    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -195,8 +192,7 @@ async function updateQuestionCount() {
 }
 async function save() {
     if (!userStore.isLoggedIn) {
-        // NotLoggedIn.ShowErrorMsg("EditQuestion")
-
+        userStore.openLoginModal()
         return
     }
 
@@ -206,7 +202,7 @@ async function save() {
     }
     lockSaveButton.value = true
     spinnerStore.showSpinner()
-    var url = editQuestionStore.edit ? '/apiVue/VueQuestion/Edit' : '/apiVue/VueQuestion/Create'
+    var url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     var json = getSaveJson()
 
     let result = await $fetch<any>(url, {
@@ -221,6 +217,7 @@ async function save() {
     })
 
     if (result != null) {
+        learningSessionStore.changeActiveQuestion(result.SessionIndex)
         // if (isLearningSession) {
         //     var answerBody = new AnswerBody()
         //     var skipIndex = 0
@@ -289,7 +286,7 @@ function initiateSolution(solution: string) {
 
     return solution;
 }
-const questionEditor = ref(null)
+const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
@@ -340,6 +337,17 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
     flashCardAnswer.value = e.solution
     solutionIsValid.value = e.solutionIsValid
 }
+
+function validateForm() {
+    licenseIsValid.value = licenseConfirmation.value || isPrivate.value
+
+    var questionIsValid = questionHtml.value.length > 0
+    disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
+}
+
+watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
+    validateForm()
+})
 </script>
 
 <template>
@@ -393,7 +401,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
                         :highlightEmptyFields="highlightEmptyFields" />
                     <QuestionEditMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
                         :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields" />
-                    <QuestionEditMatchtList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
+                    <QuestionEditMatchList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" />
                     <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
                         :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashCardContent"
@@ -410,7 +418,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
                             <div class="form-group dropdown categorySearchAutocomplete"
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
-                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :category="t"
+                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
                                         :index="index" @removeTopic="removeTopic" />
 
                                 </div>
@@ -501,7 +509,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
 
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
 .modal-footer {
@@ -626,10 +634,10 @@ select {
     margin-bottom: 16px;
 }
 
-:deep(.ProseMirror,
-    input,
-    textarea,
-    select) {
+.ProseMirror,
+input,
+textarea,
+select {
     border: solid 1px @memo-grey-light;
     border-radius: 0;
 
@@ -640,7 +648,7 @@ select {
 
 .is-empty {
 
-    :deep(.ProseMirror) {
+    .ProseMirror {
         border: solid 1px @memo-salmon;
     }
 }
@@ -678,18 +686,20 @@ input,
     }
 }
 
-:deep(input,
-    .ProseMirror-focused,
-    textarea) {
+input,
+.ProseMirror-focused,
+textarea,
+.form-control {
 
     &:focus,
     &:focus-visible {
         outline: none !important;
         border: solid 1px @memo-green;
+        box-shadow: none;
     }
 }
 
-:deep(.ProseMirror) {
+.ProseMirror {
     padding: 11px 15px 0;
 }
 
@@ -720,7 +730,7 @@ input,
     }
 }
 
-:deep(.input-group-addon) {
+.input-group-addon {
     background-color: @memo-grey-lighter;
 }
 

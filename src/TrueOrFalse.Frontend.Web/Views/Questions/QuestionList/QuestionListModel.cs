@@ -48,7 +48,6 @@ public class QuestionListModel : BaseModel
                 LinkToQuestion = Links.GetUrl(q),
                 ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url,
                 LearningSessionStepCount = steps.Count,
-                LinkToEditQuestion = Links.EditQuestion(q.Text, q.Id),
                 LinkToQuestionVersions = Links.QuestionHistory(q.Id),
                 LinkToComment = Links.GetUrl(q) + "#JumpLabel",
                 CorrectnessProbability = q.CorrectnessProbability,

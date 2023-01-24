@@ -9,17 +9,11 @@ using TrueOrFalse;
 namespace VueApp;
 public class QuickCreateQuestionController : BaseController
 {
-    private readonly QuestionRepo _questionRepo;
-
-    public QuickCreateQuestionController(QuestionRepo questionRepo)
-    {
-        _questionRepo = questionRepo;
-    }
-
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
     {
+        
         var safeText = GetSafeText(flashCardJson.TextHtml);
         if (safeText.Length <= 0)
             return new JsonResult
@@ -53,18 +47,22 @@ public class QuickCreateQuestionController : BaseController
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
         question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
-        question.Categories = GetAllParentsForQuestion(flashCardJson.TopicId, question);
+        question.Categories = new List<Category>
+        {
+            Sl.CategoryRepo.GetById(flashCardJson.TopicId)
+        };
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        _questionRepo.Create(question);
+        var questionRepo = Sl.QuestionRepo;
+        questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(questionRepo);
 
         return questionController.LoadQuestion(question.Id);
     }
@@ -83,18 +81,5 @@ public class QuickCreateQuestionController : BaseController
     private string GetSafeText(string text)
     {
         return Regex.Replace(text, "<.*?>", "");
-    }
-
-    private List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) => GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
-    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
-    {
-        var categories = new List<Category>();
-        var privateCategories = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
-        categories.AddRange(privateCategories);
-
-        foreach (var categoryId in newCategoryIds)
-            categories.Add(Sl.CategoryRepo.GetById(categoryId));
-
-        return categories;
     }
 }

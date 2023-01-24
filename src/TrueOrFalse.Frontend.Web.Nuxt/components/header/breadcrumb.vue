@@ -320,6 +320,7 @@ function showBreadcrumb(e: any) {
   visibility: visible;
   max-height: 22px;
   overflow: hidden;
+  min-width: 240px;
 
   .search-is-open {
     width: 0;

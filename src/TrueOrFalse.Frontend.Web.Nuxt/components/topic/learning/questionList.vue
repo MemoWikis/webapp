@@ -21,70 +21,11 @@ const props = defineProps([
 
 const questions = ref([] as QuestionListItem[])
 
-const pages = ref(0)
-const pageArray = ref([] as number[])
 const selectedPage = ref(1)
 
 const itemCountPerPage = ref(25)
 
 const emit = defineEmits(['updateQuestionCount'])
-const showLeftSelectionDropUp = ref(false)
-const showRightSelectionDropUp = ref(false)
-const questionCount = ref(0)
-
-const hideLeftPageSelector = ref(false)
-const hideRightPageSelector = ref(false)
-
-const showLeftPageSelector = ref(false)
-const showRightPageSelector = ref(false)
-
-const centerArray = ref([] as number[])
-const leftSelectorArray = ref([] as number[])
-const rightSelectorArray = ref([] as number[])
-
-function setPaginationRanges(sP: number) {
-    if ((sP - 2) <= 2) {
-        hideLeftPageSelector.value = true
-    };
-    if ((sP + 2) >= pageArray.value.length) {
-        hideRightPageSelector.value = true
-    };
-
-    let leftArray = [];
-    let cA = [];
-    let rightArray = [];
-
-    if (pageArray.value.length >= 8) {
-
-        cA = _.range(sP - 2, sP + 3);
-        cA = cA.filter(e => e >= 2 && e <= pageArray.value.length - 1)
-
-        leftArray = _.range(2, cA[0]);
-        rightArray = _.range(cA[cA.length - 1] + 1, pageArray.value.length)
-
-        centerArray.value = cA
-        leftSelectorArray.value = leftArray
-        rightSelectorArray.value = rightArray
-
-    } else {
-        centerArray.value = pageArray.value
-    }
-}
-async function updatePageCount(sP: number) {
-    selectedPage.value = sP
-    showLeftSelectionDropUp.value = false
-    showRightSelectionDropUp.value = false
-
-    if (typeof questions.value[0] != "undefined")
-        pages.value = Math.ceil(questionCount.value / itemCountPerPage.value)
-    else
-        pages.value = 1
-
-    await nextTick()
-    setPaginationRanges(sP)
-    if (tabsStore.activeTab == Tab.Learning)
-        spinnerStore.hideSpinner()
-}
 
 async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
@@ -98,15 +39,10 @@ async function loadQuestions(page: number) {
     })
     if (result != null) {
         questions.value = result
+        learningSessionStore.lastIndexInQuestionList = questions.value[questions.value.length - 1].SessionIndex
     }
     spinnerStore.hideSpinner()
 }
-function preloadQuestions() {
-    loadQuestions(1)
-}
-onBeforeMount(() => {
-    // preloadQuestions()
-})
 
 onBeforeMount(() => {
     learningSessionStore.$onAction(({ after, name }) => {
@@ -120,19 +56,22 @@ onBeforeMount(() => {
     })
 })
 
-function loadPreviousQuestions() {
-    if (selectedPage.value != 1)
-        loadQuestions(selectedPage.value - 1)
-}
-
-function loadNextQuestions() {
-    if (selectedPage.value != pageArray.value.length)
-        loadQuestions(selectedPage.value + 1)
-}
-
 const currentPage = ref(1)
 watch(currentPage, (p) => loadQuestions(p))
 
+async function loadNewQuestion(index: number) {
+    spinnerStore.showSpinner()
+
+    var result = await $fetch<any>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/?index=${index}`, {
+        mode: 'cors',
+        credentials: 'include'
+    })
+    if (result != null) {
+        questions.value.push(result)
+        learningSessionStore.lastIndexInQuestionList = index + 1
+    }
+    spinnerStore.hideSpinner()
+}
 </script>
 
 <template>
@@ -142,7 +81,7 @@ watch(currentPage, (p) => loadQuestions(p))
             :is-last-item="index == (questions.length - 1)" :session-index="index"
             :expand-question="props.expandQuestion" :key="q.Id" />
 
-        <TopicLearningQuickCreateQuestion />
+        <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 
         <div id="QuestionListPagination" v-show="questions.length > 0">
 
@@ -157,35 +96,48 @@ watch(currentPage, (p) => loadQuestions(p))
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.pagination-container {
+#QuestionListPagination {
     display: flex;
-    column-gap: 10px;
-}
+    justify-content: center;
+    align-items: center;
 
-.paginate-buttons {
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
-    cursor: pointer;
-    background-color: rgb(242, 242, 242);
-    border: 1px solid rgb(217, 217, 217);
-    color: black;
-}
+    :deep(.pagination-container) {
+        display: flex;
+    }
 
-.paginate-buttons:hover {
-    background-color: #d8d8d8;
-}
+    :deep(.paginate-buttons) {
+        height: 30px;
+        min-width: 30px;
+        border-radius: 20px;
+        cursor: pointer;
+        color: @memo-grey-dark;
+        background: @memo-grey-lighter;
+    }
 
-.active-page {
-    background-color: #3498db;
-    border: 1px solid #3498db;
-    color: white;
-}
+    :deep(.paginate-buttons:hover) {
+        filter: brightness(0.85);
+    }
 
-.active-page:hover {
-    background-color: #2988c8;
-}
+    :deep(.paginate-buttons:active) {
+        filter: brightness(0.5);
+    }
 
+    :deep(.active-page) {
+        &::before {
+            background-color: @memo-grey-darker;
+        }
+
+        color: @memo-grey-darker;
+    }
+
+    :deep(.active-page:hover) {
+        color: @memo-blue;
+    }
+
+    :deep(.li:has(.active-page)) {
+        background-color: green;
+    }
+}
 
 .drop-down-question-sort {
     display: flex;
@@ -268,12 +220,6 @@ watch(currentPage, (p) => loadQuestions(p))
             font-size: 18px;
             padding: 8px 24px;
             text-align: right;
-        }
-    }
-
-    .activeQ {
-        &::before {
-            color: @memo-grey-darker;
         }
     }
 

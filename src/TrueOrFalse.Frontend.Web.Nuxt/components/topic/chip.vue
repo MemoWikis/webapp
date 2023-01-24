@@ -9,8 +9,7 @@ const name = ref('')
 const showImage = ref(false)
 
 onMounted(() => {
-    if (props.topic.MiniImageUrl.includes('no-category-picture'))
-        showImage.value = true
+    showImage.value = props.topic.MiniImageUrl.includes('no-category-picture')
 
     name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name;
 
@@ -21,7 +20,7 @@ onMounted(() => {
 <template>
     <div class="category-chip-component">
         <div class="category-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <a :href="topic.Url">
+            <NuxtLink :to="topic.Url">
                 <div class="category-chip show-tooltip" :title="topic.Name">
 
                     <img v-if="showImage" :src="topic.MiniImageUrl" />
@@ -31,7 +30,7 @@ onMounted(() => {
                     </div>
                     <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" />
                 </div>
-            </a>
+            </NuxtLink>
         </div>
         <div class="category-chip-deleteBtn" v-show="props.selectedTopics.length > 1"
             @click="emit('removeTopic', { index: props.index, topicId: props.topic.Id })">

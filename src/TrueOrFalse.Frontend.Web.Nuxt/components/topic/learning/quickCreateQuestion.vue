@@ -111,7 +111,7 @@ function createQuestion() {
     flashCardEditor.value?.clearFlashCard()
 }
 
-const emit = defineEmits(['changeActiveQuestion'])
+const emit = defineEmits(['newQuestionCreated'])
 
 async function addFlashcard() {
     if (!userStore.isLoggedIn) {
@@ -127,12 +127,12 @@ async function addFlashcard() {
     sessionConfigJson.value = learningSessionConfigStore.buildSessionConfigJson(topicStore.id)
 
     var json = {
-        TopicId: sessionConfigJson.value.id,
+        TopicId: topicStore.id,
         TextHtml: questionHtml.value,
         Answer: flashCardAnswer.value,
         Visibility: isPrivate.value ? 1 : 0,
         AddToWishknowledge: addToWishknowledge.value,
-        LastIndex: learningSessionStore.lastIndex,
+        LastIndex: learningSessionStore.lastIndexInQuestionList,
         SessionConfig: sessionConfigJson.value
     }
 
@@ -148,9 +148,8 @@ async function addFlashcard() {
                 customBtn: '<div class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</div>',
             })
 
-        learningSessionStore.loadQuestion(-5, learningSessionStore.lastIndex)
-
-        emit('changeActiveQuestion', learningSessionStore.lastIndex)
+        learningSessionStore.getLastStepInQuestionList()
+        emit('newQuestionCreated', learningSessionStore.lastIndexInQuestionList)
         highlightEmptyFields.value = false
         editor.value?.commands.setContent('')
         questionHtml.value = ''
@@ -176,8 +175,8 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
             </div>
             <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
                 <div>
-                    <i class="fa fa-heart" v-if="addToWishknowledge"></i>
-                    <i class="fa fa-heart-o" v-else></i>
+                    <font-awesome-icon icon="fa-solid fa-heart" v-if="addToWishknowledge" />
+                    <font-awesome-icon icon="fa-regular fa-heart" v-else />
                 </div>
                 <div class="Text">
                     <span v-if="addToWishknowledge">Hinzugefügt</span>
@@ -298,9 +297,10 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
             align-content: center;
             align-items: center;
             flex-direction: column;
-            width: 100px;
-            margin-right: -22px;
+            width: 65px;
+            margin-right: 7px;
             cursor: pointer;
+            font-size: 18px;
 
             .Text {
                 padding: 0 3px !important;
@@ -309,7 +309,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
                 font-weight: 600 !important;
                 text-transform: uppercase !important;
                 letter-spacing: 0.1em;
-                color: #FF001F !important;
+                color: @memo-wuwi-red !important;
             }
         }
     }
