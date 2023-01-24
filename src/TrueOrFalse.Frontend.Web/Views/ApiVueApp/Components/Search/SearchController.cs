@@ -114,7 +114,7 @@ public class SearchController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
@@ -152,7 +152,7 @@ public class SearchController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -164,7 +164,7 @@ public class SearchController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem

@@ -5,9 +5,9 @@ namespace TrueOrFalse.Search.GlobalSearch;
 
 public class SolrGlobalSearch : IGlobalSearch
 {
-    public Task<GlobalSearchResult> Go(string term, string type)
+    public Task<SolrGlobalSearchResult> Go(string term, string type)
     {
-        var result = new GlobalSearchResult();
+        var result = new SolrGlobalSearchResult();
 
         var pageSize = 5;
         result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
@@ -30,11 +30,11 @@ public class SolrGlobalSearch : IGlobalSearch
         return Task.FromResult(result);
     }
 
-    public GlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
+    public SolrGlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
     {
         var pager = new Pager {QueryAll = true};
 
-        var result = new GlobalSearchResult
+        var result = new SolrGlobalSearchResult
         {
             CategoriesResult = Sl.SearchCategories.Run(term, pager, categoriesToFilter: categoriesToFilter)
         };
