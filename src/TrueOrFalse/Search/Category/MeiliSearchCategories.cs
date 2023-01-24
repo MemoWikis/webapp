@@ -1,41 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Meilisearch;
 using Seedworks.Lib.Persistence;
-using SolrNet;
-
 
 namespace TrueOrFalse.Search
 {
     public class MeiliSearchCategories : IRegisterAsInstancePerLifetime
     {
         private List<CategoryCacheItem> _categories = new List<CategoryCacheItem>();
-        private List<MeiliSearchCategoryMap> _categoryMaps; 
-        private int _count= 20;
+        private List<MeiliSearchCategoryMap> _categoryMaps;
+        private int _count = 20;
+        private MeiliSearchCategoriesResult _result;
         public async Task<ISearchCategoriesResult> RunAsync(
-            string searchTerm,
-            Pager pager,
-            SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None)
+            string searchTerm)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             var index = client.Index(MeiliSearchKonstanten.Categories);
-            var result = new MeiliSearchCategoriesResult();
+            _result = new MeiliSearchCategoriesResult();
 
-            result.CategoryIds.AddRange(await LoadSearchResults(searchTerm, index));
+            _result.CategoryIds.AddRange(await LoadSearchResults(searchTerm, index));
 
-            return result;
+            return _result;
         }
 
         private bool IsReloadRequired(int searchResultCount, int categoriesCount)
         {
             if (searchResultCount == _count && categoriesCount < 5)
             {
-                return true; 
+                return true;
             }
-
             return false;
         }
 
@@ -45,26 +40,41 @@ namespace TrueOrFalse.Search
             {
                 Limit = _count
             };
-            _categoryMaps =
-                (await index.SearchAsync<MeiliSearchCategoryMap>(searchTerm, sq))
-                .Hits
-                .ToList();
 
+            var categoryMaps =
+                (await index.SearchAsync<MeiliSearchCategoryMap>(searchTerm, sq))
+                .Hits;
+
+            _result.Count = categoryMaps.Count;
+
+            var categoryMapsSkip = categoryMaps
+             .Skip(_count - 20)
+             .ToList();
+
+            FilterCacheItems(categoryMapsSkip);
+
+            if (IsReloadRequired(categoryMaps.Count, _categories.Count()))
+            {
+                _count += 20;
+                await LoadSearchResults(searchTerm, index);
+            };
+
+            return _categories
+                .Select(c => c.Id)
+                .Take(5)
+                .ToList();
+        }
+
+        private void FilterCacheItems(List<MeiliSearchCategoryMap> categoryMaps)
+        {
             var categoriesTemp = EntityCache.GetCategories(
-                    _categoryMaps.Select(c => c.Id))
+                    categoryMaps.Select(c => c.Id))
                 .Where(PermissionCheck.CanView)
                 .ToList();
             _categories.AddRange(categoriesTemp);
-            _categories = _categories.Distinct().ToList(); 
-
-
-            if (IsReloadRequired(_categoryMaps.Count, _categories.Count()))
-            {
-                _count += 20;
-                await LoadSearchResults(searchTerm, index); 
-            };
-
-            return _categories.Select(c => c.Id).Take(5).ToList();
+           _categories = _categories
+                .Distinct()
+                .ToList();
         }
     }
 }
