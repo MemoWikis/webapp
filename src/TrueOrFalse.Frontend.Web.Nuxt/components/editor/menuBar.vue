@@ -195,7 +195,7 @@ props.editor.on('blur', () => {
     margin-top: -36px;
 
     @media(max-width: @screen-xxs-max) {
-        max-width: calc(100vw - 16px);
+        max-width: 100vw;
     }
 
     .ps {

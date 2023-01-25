@@ -11,20 +11,56 @@ public class LearningSessionStoreController: BaseController
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
         LearningSessionCache.AddOrUpdate(learningSession);
         if (learningSession != null)
+        {
+            var firstStep = learningSession.Steps.First();
             return Json(new
             {
                 success = true,
-                steps = learningSession.Steps.Select(s => new
+                steps = learningSession.Steps.Select((s, index) => new
                 {
                     id = s.Question.Id,
-                    state = s.AnswerState
+                    state = s.AnswerState,
+                    index = index
                 }).ToArray(),
-                activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count()
+                activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
+                firstStep = new
+                {
+                    state = firstStep.AnswerState,
+                    id = firstStep.Question.Id,
+                    index = 0
+                }
+
             });
+        }
 
         return Json(new
         {
             success = false
         });
+    }
+
+    [HttpGet]
+    public JsonResult GetLastStepInQuestionList(int index)
+    {
+        var learningSession = LearningSessionCache.GetLearningSession();
+        if (learningSession != null)
+        {
+            return Json(new
+            {
+                success = true,
+                steps = learningSession.Steps.Select((s, index) => new
+                {
+                    id = s.Question.Id,
+                    state = s.AnswerState,
+                    index = index
+                }).ToArray(),
+                activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        return Json(new
+        {
+            success = false
+        }, JsonRequestBehavior.AllowGet);
     }
 }

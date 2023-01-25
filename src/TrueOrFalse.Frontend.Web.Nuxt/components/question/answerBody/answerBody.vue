@@ -28,6 +28,17 @@ function openCommentModal() {
 function answer() {
 
 }
+
+interface AnswerBodyModel {
+
+}
+
+async function loadAnswerBodyModel(): Promise<AnswerBodyModel> {
+    return {}
+}
+
+const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
+
 </script>
 <template>
     
@@ -61,7 +72,7 @@ function answer() {
         <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
         <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>" /> -->
         <div id="QuestionTitle" style="display:none">
-            {{ props.answerBodyModel.Name }}
+            {{ props.answerBodyModel.Title }}
         </div>
         <div class="AnswerQuestionBodyMenu">
 
@@ -160,7 +171,17 @@ function answer() {
                                     <font-awesome-icon icon="fa-solid fa-circle-minus" />&nbsp;Leider falsch
                                 </div>
                             </template>
-                            <QuestionAnswerBodyFlashcard v-else ref="flashcard" :question="question" />
+                            <QuestionAnswerBodyFlashcard
+                                v-else-if="props.question.SolutionType == SolutionType.FlashCard" ref="flashcard"
+                                :question="question" />
+                            <QuestionAnswerBodyMatchlist
+                                v-else-if="props.question.SolutionType == SolutionType.MatchList" ref="flashcard"
+                                :question="question" />
+                            <QuestionAnswerBodyMultipleChoice
+                                v-else-if="props.question.SolutionType == SolutionType.MultipleChoice" ref="flashcard"
+                                :question="question" />
+                            <QuestionAnswerBodyText v-else-if="props.question.SolutionType == SolutionType.Text"
+                                ref="flashcard" :question="question" />
 
 
                         </div>
@@ -169,93 +190,97 @@ function answer() {
                                 <div id="Buttons">
                                     <div id="btnGoToTestSession" style="display: none">
 
-                                        <a v-if="props.answerBodyModel.HasCategories && !props.answerBodyModel.IsInWidget && !props.answerBodyModel.IsForVideo &&
+                                        <NuxtLink v-if="props.answerBodyModel.HasCategories && !props.answerBodyModel.IsInWidget && !props.answerBodyModel.IsForVideo &&
                                         props.answerBodyModel.IsLastQuestion"
-                                            href="<%= Links.CategoryDetailLearningTab(Model.PrimaryCategory) %>"
+                                            :to="`${answerBodyModel.primaryTopic.EncodedName}/${answerBodyModel.primaryTopic.Id}`"
                                             id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow"
-                                            data-original-title='<%= Model.IsLoggedIn ? "Lerne alle Fragen im Thema " : "Lerne 5 zufällig ausgewählte Fragen aus dem Thema " %><%= Model.PrimaryCategory.Name  %>'>
+                                            v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopic.Name">
                                             <b>Weiterlernen</b>
-                                        </a>
+                                        </NuxtLink>
                                     </div>
-                                    <div v-if="props.question.SolutionType == SolutionType.FlashCard"
-                                        class="btn btn-warning memo-button" @click="answer()">
-                                        Umdrehen
-                                    </div>
+                                    <template v-if="props.question.SolutionType == SolutionType.FlashCard">
+                                        <div class="btn btn-warning memo-button" @click="flipCard()">
+                                            Umdrehen
+                                        </div>
 
-                                    <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
-                                        id="buttons-first-try" class="ButtonGroup">
-                                        <button class="btn btn-primary memo-button">
-                                            Antworten
-                                        </button>
-                                        <button
-                                            v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                            class="selectorShowSolution SecAction btn btn-link memo-button">
-                                            <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
-                                        </button>
+                                        <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons"
+                                            style="display: none">
+                                            <button id="btnRightAnswer" class="btn btn-warning memo-button"
+                                                @click="markAsCorrect()">
+                                                Wusste ich!
+                                            </button>
+                                            <button id="btnWrongAnswer" class="btn btn-warning memo-button"
+                                                @click="markAsWrong()">
+                                                Wusste ich nicht!
+                                            </button>
+                                            <button
+                                                v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                                id="flashCard-dontCountAnswer"
+                                                class="selectorShowSolution SecAction btn btn-link memo-button"
+                                                @click="doNotMark()">
+                                                Nicht werten!
+                                            </button>
+                                        </div>
+                                    </template>
 
-                                        <!-- <a href="#" id="btnCheck" class="btn btn-primary memo-button"
-                                            rel="nofollow">Antworten</a>
-                                        <a v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                            href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i
-                                                class="fa fa-lightbulb-o">&nbsp;</i>Lösung
-                                            anzeigen</a> -->
-                                    </div>
-                                    <div v-else id="buttons-answer" class="ButtonGroup flashCardAnswerButtons"
-                                        style="display: none">
-                                        <a href="#" id="btnRightAnswer" class="btn btn-warning memo-button"
-                                            rel="nofollow">
-                                            Wusste ich!
-                                        </a>
-                                        <a href="#" id="btnWrongAnswer" class="btn btn-warning memo-button"
-                                            rel="nofollow">
-                                            Wusste ich nicht!
-                                        </a>
-                                        <a v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                            href="#" id="flashCard-dontCountAnswer"
-                                            class="selectorShowSolution SecAction btn btn-link memo-button">
-                                            Nicht werten!
-                                        </a>
-                                    </div>
+                                    <template v-else>
+                                        <div id="buttons-first-try" class="ButtonGroup">
+                                            <button class="btn btn-primary memo-button" @click="answer()">
+                                                Antworten
+                                            </button>
+                                            <button
+                                                v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                                class="selectorShowSolution SecAction btn btn-link memo-button"
+                                                @click="showSolution()">
+                                                <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
+                                            </button>
+                                        </div>
+                                    </template>
+
                                     <div
-                                        v-if="props.answerBodyModel.IsLearningSession && props.answerBodyModel.NextUrl != null && !props.answerBodyModel.IsIntestMode">
-
-                                        <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>"
-                                            class="SecAction btn btn-link memo-button"><i
-                                                class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
+                                        v-if="learningSessionStore.isLearningSession
+                                        && !learningSessionStore.isTestMode && learningSessionStore.steps.length - 1 < learningSessionStore.currentIndex">
+                                        <button id="aSkipStep" class="SecAction btn btn-link memo-button">
+                                            <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
+                                        </button>
                                     </div>
 
                                     <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                        <a v-if="props.answerBodyModel.NextUrl && !props.answerBodyModel.IsLastQuestion"
-                                            href="<%= Model.NextUrl(Url) %>" id="btnNext"
-                                            class="btn btn-primary memo-button" rel="nofollow">
+                                        <button
+                                            v-if="props.answerBodyModel.NextUrl && !props.answerBodyModel.IsLastQuestion"
+                                            @click="loadNextQuestion()" id="btnNext" class="btn btn-primary memo-button"
+                                            rel="nofollow">
                                             Nächste Frage
-                                        </a>
+                                        </button>
                                         <button
                                             v-else-if="props.answerBodyModel.NextUrl == null && props.answerBodyModel.IsForVideo"
                                             id="continue" class="btn btn-primary clickToContinue memo-button"
-                                            style="display: none">
+                                            style="display: none" @click="continueSession()">
                                             Weiter
                                         </button>
 
-                                        <a v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard && !props.answerBodyModel.IsIntestMode && !props.answerBodyModel.AnswerHelp"
+                                        <button
+                                            v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard && !props.answerBodyModel.IsIntestMode && !props.answerBodyModel.AnswerHelp"
                                             href="#" id="aCountAsCorrect"
                                             class="SecAction btn btn-link show-tooltip memo-button"
                                             title="Drücke hier und die Frage wird als richtig beantwortet gewertet"
-                                            rel="nofollow" style="display: none;">
+                                            rel="nofollow" style="display: none;" @click="markAsCorrect()">
                                             Hab ich gewusst!
-                                        </a>
+                                        </button>
 
                                     </div>
 
                                     <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
                                         id="buttons-answer-again" class="ButtonGroup" style="display: none">
-                                        <a href="#" id="btnCheckAgain" class="btn btn-warning memo-button"
+                                        <button id="btnCheckAgain" class="btn btn-warning memo-button"
                                             rel="nofollow">Nochmal
-                                            Antworten</a>
-                                        <a v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                            href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i
-                                                class="fa fa-lightbulb-o">&nbsp;</i>
-                                            Lösung anzeigen</a>
+                                            Antworten</button>
+                                        <button
+                                            v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                            class="selectorShowSolution SecAction btn btn-link memo-button">
+                                            <font-awesome-icon icon="fa-solid fa-lightbulb" />
+                                            Lösung anzeigen
+                                        </button>
                                     </div>
                                     <div style="clear: both">
                                     </div>
@@ -286,16 +311,21 @@ function answer() {
                                         </div>
                                         <div id="divWrongAnswer" class="Detail"
                                             style="display: none; background-color: white;">
-                                            <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsch
+                                            <span id="spnWrongAnswer" style="color: #B13A48">
+                                                <b>Falsch
                                                     beantwortet
-                                                </b></span>
-                                            <a href="#" id="CountWrongAnswers" style="float: right;">(zwei
-                                                Versuche)</a><br />
+                                                </b>
+                                            </span>
+                                            <span id="CountWrongAnswers" style="float: right;">
+                                                (zwei Versuche)
+                                            </span>
+                                            <br />
 
                                             <div style="margin-top: 5px;" id="answerFeedbackTry">
                                                 Du könntest es
                                                 wenigstens
-                                                probieren!</div>
+                                                probieren!
+                                            </div>
 
                                             <div id="divWrongAnswers" style="margin-top: 7px; display: none;">
                                                 <span class="WrongAnswersHeading">Deine
@@ -307,9 +337,9 @@ function answer() {
                                         </div>
                                     </div>
 
-                                    <div id="SolutionDetailsSpinner" style="display: none;">
+                                    <!-- <div id="SolutionDetailsSpinner" style="display: none;">
                                         <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
-                                    </div>
+                                    </div> -->
 
 
 
@@ -340,10 +370,8 @@ function answer() {
             <span id="ActivityPoints">
                 {{ props.answerBodyModel.TotalActivityPoints }}
             </span>
-            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom"
-                title="Du bekommst Lernpunkte für das Beantworten von Fragen">
-                <i class="fa fa-info-circle"></i>
-            </span>
+            <font-awesome-icon icon="fa-solid fa-circle-info"
+                v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
         </div>
         <QuestionAnswerQuestionDetails :answer-body-model="props.answerBodyModel" />
     </div>
