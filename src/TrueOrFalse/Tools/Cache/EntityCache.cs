@@ -63,6 +63,7 @@ public class EntityCache : BaseCache
         IsFirstStart = false;
     }
 
+    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
     public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))

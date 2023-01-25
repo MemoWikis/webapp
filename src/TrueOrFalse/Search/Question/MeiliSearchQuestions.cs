@@ -14,14 +14,14 @@ public class MeiliSearchQuestions : IRegisterAsInstancePerLifetime
 {
     private List<QuestionCacheItem> _questions = new();
     private int _count = 20;
-    private SearchQuestionsResult _result;
+    private MeiliSearchQuestionsResult _result;
 
     public async Task<ISearchQuestionsResult> RunAsync(
              string searchTerm)
     {
         var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
         var index = client.Index(MeiliSearchKonstanten.Questions);
-        _result = new SearchQuestionsResult();
+        _result = new MeiliSearchQuestionsResult();
 
         _result.QuestionIds.AddRange(await LoadSearchResults(searchTerm, index));
 

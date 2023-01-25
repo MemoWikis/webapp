@@ -37,7 +37,7 @@ public class Sl
     public static SolrSearchCategories SearchCategories => R<SolrSearchCategories>();
     public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
     public static SolrSearchQuestions SolrSearchQuestions => R<SolrSearchQuestions>();
-    public static SearchUsers SearchUsers => R<SearchUsers>();
+    public static SolrSearchUsers SolrSearchUsers => R<SolrSearchUsers>();
 
     public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
 
