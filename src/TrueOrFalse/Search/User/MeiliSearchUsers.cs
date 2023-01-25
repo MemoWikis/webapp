@@ -2,16 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Meilisearch;
-using Seedworks.Lib.Persistence;
-using SolrNet;
-using SolrNet.Commands.Parameters;
 
 namespace TrueOrFalse.Search
 {
-    public class MeiliSearchUsers : IRegisterAsInstancePerLifetime
+    public class MeiliSearchUsers : MeiliSearchHelper,IRegisterAsInstancePerLifetime
     {
         private List<UserCacheItem> _users = new();
-        private int _count = 20;
+        
         private MeiliSearchUsersResult _result;
 
         public async Task<ISearchUsersResult> RunAsync(
@@ -24,15 +21,6 @@ namespace TrueOrFalse.Search
             _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));
 
             return _result;
-        }
-
-        private bool IsReloadRequired(int searchResultCount, int usersCount) //todo advanced class
-        {
-            if (searchResultCount == _count && usersCount < 5)
-            {
-                return true;
-            }
-            return false;
         }
 
         private async Task<List<int>> LoadSearchResults(string searchTerm, Index index)

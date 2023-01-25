@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Meilisearch;
-using NHibernate.Util;
-using Seedworks.Lib.Persistence;
-using SolrNet;
-using SolrNet.Commands.Parameters;
+
 
 namespace TrueOrFalse.Search;
 
-public class MeiliSearchQuestions : IRegisterAsInstancePerLifetime
+public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLifetime
 {
     private List<QuestionCacheItem> _questions = new();
-    private int _count = 20;
     private MeiliSearchQuestionsResult _result;
 
     public async Task<ISearchQuestionsResult> RunAsync(
@@ -26,15 +21,6 @@ public class MeiliSearchQuestions : IRegisterAsInstancePerLifetime
         _result.QuestionIds.AddRange(await LoadSearchResults(searchTerm, index));
 
         return _result;
-    }
-
-    private bool IsReloadRequired(int searchResultCount, int categoriesCount)
-    {
-        if (searchResultCount == _count && categoriesCount < 5)
-        {
-            return true;
-        }
-        return false;
     }
 
     private async Task<List<int>> LoadSearchResults(string searchTerm, Index index)
