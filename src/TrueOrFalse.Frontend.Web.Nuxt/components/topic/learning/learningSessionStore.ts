@@ -11,13 +11,15 @@ export enum AnswerState {
 
 interface Step {
     state: AnswerState,
-    id: number
+    id: number,
+    index: number
 }
 
 interface NewSessionResult {
     success: boolean,
     steps: Step[],
-    activeQuestionCount: number
+    activeQuestionCount: number,
+    firstStep: Step
 }
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
@@ -25,15 +27,28 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         return {
             isLearningSession: true,
             isTestMode: false,
-            lastIndex: 0,
+            lastIndexInQuestionList: 0,
             currentIndex: 0,
             steps: [] as Step[],
-            currentStep: 1,
+            currentStep: null as Step | null,
             activeQuestionCount: 0
         }
     },
     actions: {
-        loadQuestion(skipIndex: number, sessionIndex: number) {
+        async getLastStepInQuestionList() {
+            const result = await $fetch<{
+                success: boolean,
+                steps: Step[],
+                activeQuestionCount: number,
+            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/&index=${this.lastIndexInQuestionList}`, {
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null && result.success) {
+                this.steps = result.steps
+                this.activeQuestionCount = result.activeQuestionCount
+                return true
+            } else return false
         },
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
@@ -47,11 +62,15 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             if (result != null && result.success) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
+                this.currentStep = result.firstStep
                 return true
             } else return false
         },
         answerQuestion() {
 
+        },
+        changeActiveQuestion(index: number) {
+            console.log(index)
         }
     },
 })

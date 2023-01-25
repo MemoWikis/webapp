@@ -42,7 +42,6 @@ public class VueQuestionController : BaseController
         question.LinkToQuestion = Links.GetUrl(q);
         question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.LinkToEditQuestion = Links.EditQuestion(q.Text, q.Id);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
         question.CorrectnessProbability = q.CorrectnessProbability;

@@ -70,14 +70,18 @@ function toggleCorrectness(index: number) {
             <div class="input-group">
                 <div @click="toggleCorrectness(index)"
                     class="input-group-addon toggle-correctness btn is-correct grey-bg"
-                    :class="{ active: choice.IsCorrect }"><i class="fas fa-check"></i></div>
+                    :class="{ active: choice.IsCorrect }">
+                    <font-awesome-icon icon="fa-solid fa-check" />
+                </div>
                 <div @click="toggleCorrectness(index)" class="input-group-addon toggle-correctness btn is-wrong grey-bg"
-                    :class="{ active: choice.IsCorrect == false }"><i class="fas fa-times"></i></div>
+                    :class="{ active: choice.IsCorrect == false }">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                </div>
                 <input type="text" class="form-control" :id="'SolutionInput-' + index" placeholder=""
                     v-model="choice.Text" v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': choice.Text.length <= 0 && highlightEmptyFields }">
                 <div v-if="choices.length > 1" @click="deleteChoice(index)" class="input-group-addon btn grey-bg">
-                    <i class="fas fa-trash"></i>
+                    <font-awesome-icon icon="fa-solid fa-trash" />
                 </div>
             </div>
             <div v-if="choice.Text.length <= 0 && highlightEmptyFields" class="field-error">Bitte gib eine Antwort ein.

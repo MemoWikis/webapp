@@ -4,20 +4,10 @@ using SolrNet.Impl;
 
 namespace TrueOrFalse.Search
 {
-    public class SearchQuestionsResult
+    public class SearchQuestionsResult : ISearchQuestionsResult
     {
-        /// <summary>In milliseconds</summary>
-        public int QueryTime;
-
-        /// <summary>Amount of items found</summary>
-        public int Count;
-
-        public SpellCheckResults SpellChecking;
-
-        public List<int> QuestionIds = new List<int>();
-
-        public IPager Pager;
-
-        public IList<Question> GetQuestions() => Sl.QuestionRepo.GetByIds(QuestionIds);
+        public int Count { get; set;}
+        public List<int> QuestionIds { get; set; } = new ();
+        public IList<Question> GetQuestions() => Sl.QuestionRepo.GetByIds(QuestionIds); //todo change to EntityCacheItem
     }
 }

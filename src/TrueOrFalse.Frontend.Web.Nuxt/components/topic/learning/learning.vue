@@ -65,7 +65,9 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
                     </div>
 
                     <div class="step-count">
-                        {{ learningSessionStore.currentStep }} / {{ learningSessionStore.steps.length }}
+                        <template v-if="learningSessionStore.currentStep">
+                            {{ learningSessionStore.currentStep?.index + 1 }} / {{ learningSessionStore.steps.length }}
+                        </template>
                     </div>
                     <div class="progress-percentage">{{ progressPercentage }}%</div>
                 </div>

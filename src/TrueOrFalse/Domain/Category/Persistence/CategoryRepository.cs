@@ -7,13 +7,13 @@ using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
 {
-    private readonly SearchIndexCategory _searchIndexCategory;
+    private readonly SolrSearchIndexCategory _solrSearchIndexCategory;
 
-    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
+    public CategoryRepository(ISession session, SolrSearchIndexCategory solrSearchIndexCategory)
         : base(session)
     {
-        _searchIndexCategory = searchIndexCategory;
-        _searchIndexCategory = searchIndexCategory;
+        _solrSearchIndexCategory = solrSearchIndexCategory;
+        _solrSearchIndexCategory = solrSearchIndexCategory;
     }
 
     public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] { categoryId }).FirstOrDefault();
@@ -63,7 +63,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
        
         UserActivityAdd.CreatedCategory(category);
-        _searchIndexCategory.Update(category);
+        _solrSearchIndexCategory.Update(category);
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
@@ -90,7 +90,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
         base.Create(category);
         Flush();
-        _searchIndexCategory.Update(category);
+        _solrSearchIndexCategory.Update(category);
         Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
     }
 
@@ -173,7 +173,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public void Update(Category category, SessionUserCacheItem author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false, CategoryChangeType type = CategoryChangeType.Update, bool createCategoryChange = true, int[] affectedParentIdsByMove = null)
     {
         if (!isFromModifiyRelations)
-            _searchIndexCategory.Update(category);
+            _solrSearchIndexCategory.Update(category);
 
         base.Update(category);
 
@@ -188,7 +188,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         bool isFromModifiyRelations = false)
     {
         if (!isFromModifiyRelations)
-            _searchIndexCategory.Update(category);
+            _solrSearchIndexCategory.Update(category);
 
         base.Update(category);
 
@@ -205,7 +205,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public void UpdateBeforeEntityCacheInit(Category category)
     {
-        _searchIndexCategory.Update(category);
+        _solrSearchIndexCategory.Update(category);
         base.Update(category);
 
         Flush();
@@ -213,14 +213,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Delete(Category category)
     {
-        _searchIndexCategory.Delete(category);
+        _solrSearchIndexCategory.Delete(category);
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category));
     }
 
     public override void DeleteWithoutFlush(Category category)
     {
-        _searchIndexCategory.Delete(category);
+        _solrSearchIndexCategory.Delete(category);
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id));
         SessionUserCache.RemoveAllForCategory(category.Id);

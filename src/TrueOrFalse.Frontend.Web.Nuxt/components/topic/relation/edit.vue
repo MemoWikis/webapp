@@ -334,7 +334,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
-                                    <i class="fas fa-check"></i>
+                                    <font-awesome-icon icon="fa-solid fa-check" />
                                 </div>
                             </div>
                         </div>
@@ -357,7 +357,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                                     class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
                                         Ausgewählt
-                                        <i class="fas fa-check"></i>
+                                        <font-awesome-icon icon="fa-solid fa-check" />
                                     </div>
                                 </div>
                             </div>
@@ -383,7 +383,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
-                                    <i class="fas fa-check"></i>
+                                    <font-awesome-icon icon="fa-solid fa-check" />
                                 </div>
                             </div>
                         </div>

@@ -135,7 +135,6 @@ const learningSessionStore = useLearningSessionStore()
 function loadSpecificQuestion() {
     learningSessionStore.loadQuestion(-5, props.sessionIndex)
 }
-const activeQuestionId = ref(0)
 const extendedQuestionId = ref('#eqId-' + props.question.Id)
 const answerId = ref('#aId' + props.question.Id)
 const extendedAnswerId = ref('#eaId' + props.question.Id)
@@ -165,6 +164,12 @@ function publishQuestion(hide: any | null = null) {
 
 const isInWishknowledge = ref(false)
 const hasPersonalAnswer = ref(false)
+
+
+watch(() => props.sessionIndex, (val) => {
+    if (props.isLastItem)
+        learningSessionStore.lastIndexInQuestionList = val
+})
 
 function setKnowledgebarData(val: number) {
     if (isInWishknowledge.value) {
@@ -233,7 +238,7 @@ watch(isInWishknowledge, () => {
                                     class="iconContainer" @set-wuwi-state="setWuwiState" />
                                 <div class="go-to-question iconContainer">
                                     <font-awesome-icon icon="fa-solid fa-play"
-                                        :class="{ 'activeQ': activeQuestionId == props.question.Id }"
+                                        :class="{ 'activeQ': props.question.Id == learningSessionStore.currentStep?.id }"
                                         @click="loadSpecificQuestion()" />
                                 </div>
                             </div>
@@ -345,6 +350,11 @@ watch(isInWishknowledge, () => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.activeQ {
+    &::before {
+        color: @memo-grey-darker;
+    }
+}
 
 .singleQuestionRow {
     background: linear-gradient(to right, @memo-grey-light 0px, @memo-grey-light 8px, #ffffffff 9px, #ffffffff 100%);

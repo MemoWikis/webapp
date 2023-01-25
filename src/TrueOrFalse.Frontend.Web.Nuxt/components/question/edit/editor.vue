@@ -66,7 +66,6 @@ const editor = useEditor({
 watch(() => props.content, (c) => {
     editor.value?.commands.setContent(c)
 })
-
 </script>
 
 <template>

@@ -8,11 +8,10 @@ public class MeiliGlobalSearch : IGlobalSearch
         var result = new SolrGlobalSearchResult();
         var pageSize = 5;
         result.CategoriesResult = await new MeiliSearchCategories().RunAsync(term);
-        
+        result.QuestionsResult = await new MeiliSearchQuestions().RunAsync(term);
         
         return result;
     }
-
 
     public SolrGlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
     {
