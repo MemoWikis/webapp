@@ -84,7 +84,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         {
             Sl.CategoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false, type: CategoryChangeType.Relations);
         }
-        var result = Task.Run(async ()=> await MeiliSearchDatabaseOperations.CategoryCreateAsync(category));
+        var result = Task.Run(async ()=> await MeiliSearchCategoryDatabaseOperations.CreateAsync(category));
 
     }
 
@@ -186,6 +186,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.UpdateAsync(category); });
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
@@ -202,6 +203,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.UpdateAsync(category); });
+
     }
 
 
@@ -220,6 +223,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _solrSearchIndexCategory.Delete(category);
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category));
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.DeleteAsync(category); });
+
     }
 
     public override void DeleteWithoutFlush(Category category)
@@ -228,6 +233,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id));
         SessionUserCache.RemoveAllForCategory(category.Id);
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.DeleteAsync(category); });
     }
 
     public IList<Category> GetByName(string categoryName)
