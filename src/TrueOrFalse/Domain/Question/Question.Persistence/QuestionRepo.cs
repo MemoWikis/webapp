@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
-using SolrNet.Mapping.Validation.Rules;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -69,6 +67,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        Task.Run(async () => await MeiliSearchQuestionsDatabaseOperations.UpdateAsync(question)); 
     }
 
     public override void Create(Question question)
@@ -96,6 +96,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         Sl.QuestionChangeRepo.AddCreateEntry(question);
+        Task.Run(async () => await MeiliSearchQuestionsDatabaseOperations.CreateAsync(question));
+
     }
 
     public override void Delete(Question question)
@@ -103,6 +105,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion.Delete(question);
         base.Delete(question);
         Sl.QuestionChangeRepo.AddDeleteEntry(question);
+        Task.Run(async () => await MeiliSearchQuestionsDatabaseOperations.DeleteAsync(question));
     }
 
     public IList<Question> GetForCategory(int categoryId)
