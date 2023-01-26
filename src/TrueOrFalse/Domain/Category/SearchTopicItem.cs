@@ -1,4 +1,4 @@
-﻿public class SearchCategoryItem
+﻿public class SearchTopicItem
 {
     public int Id;
     public string Name;

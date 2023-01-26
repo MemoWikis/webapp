@@ -5,8 +5,11 @@ import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from '../edit/editQuestionStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 
-const props = defineProps(['question', 'answerBodyModel'])
+const props = defineProps(['question'])
+
+const spinnerStore = useSpinnerStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 
@@ -30,21 +33,44 @@ function answer() {
 }
 
 interface AnswerBodyModel {
-
+    id: number,
+    title: string,
+    isInWishknowledge: boolean,
+    solutionType: SolutionType,
+    name: string,
+    questionViewGuid: number,
+    isCreator: boolean,
+    learningSessionStepGuid: number,
 }
 
-async function loadAnswerBodyModel(): Promise<AnswerBodyModel> {
-    return {}
+async function loadAnswerBodyModel(): Promise<AnswerBodyModel | null> {
+    const id = learningSessionStore.currentStep?.id
+    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBodyController/Get/?id=${id}`, {
+        mode: 'cors',
+        credentials: 'include'
+    })
+    if (result != null)
+        return result
+    else return null
 }
 
-const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
+const answerBodyModel = ref<AnswerBodyModel | null>(await loadAnswerBodyModel())
+const interactionNumber = ref(0)
+
+async function countAsCorrect() {
+    const data = {
+        questionViewGuid: answerBodyModel.value?.questionViewGuid,
+        interactionNumber: interactionNumber.value,
+        learningSessionStepGuid: answerBodyModel.value?.learningSessionStepGuid
+    }
+}
 
 </script>
 <template>
     
 </template>
 <template>
-    <div id="AnswerBody">
+    <div id="AnswerBody" v-if="answerBodyModel">
 
         <!-- <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
         <input type="hidden" id="hddInteractionNumber" value="1" />
@@ -72,13 +98,13 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
         <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
         <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>" /> -->
         <div id="QuestionTitle" style="display:none">
-            {{ props.answerBodyModel.Title }}
+            {{ answerBodyModel.title }}
         </div>
         <div class="AnswerQuestionBodyMenu">
 
-            <div v-if="showPinButton" class="Pin" :data-question-id="props.answerBodyModel.Id">
-                <QuestionPin :questionId="props.answerBodyModel.Id"
-                    :is-in-wishknowledge="props.answerBodyModel.IsInWishknowledge" />
+            <div v-if="showPinButton" class="Pin" :data-question-id="answerBodyModel.id">
+                <QuestionPin :questionId="answerBodyModel.id"
+                    :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
             </div>
             <div class="Button dropdown">
                 <span class="margin-top-4">
@@ -87,8 +113,8 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                         <template #popper>
 
                             <div class="dropdown-row"
-                                v-if="tabsStore.activeTab == Tab.Learning && (props.answerBodyModel.IsCreator || userStore.isAdmin)"
-                                @click="editQuestionStore.editQuestion(props.answerBodyModel.Id)">
+                                v-if="tabsStore.activeTab == Tab.Learning && (answerBodyModel.isCreator || userStore.isAdmin)"
+                                @click="editQuestionStore.editQuestion(answerBodyModel!.id)">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon icon="fa-solid fa-pen" />
                                 </div>
@@ -141,16 +167,16 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
 
         </div>
 
-        <h3 v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard" class="QuestionText">
-            {{ props.answerBodyModel.Name }}
+        <h3 v-if="answerBodyModel.solutionType != SolutionType.FlashCard" class="QuestionText">
+            {{ answerBodyModel.name }}
         </h3>
 
         <div class="row">
 
             <div id="MarkdownCol"
-                v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard && props.answerBodyModel.QuestionTextMarkdown != null">
+                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && answerBodyModel.QuestionTextMarkdown != null">
                 <div class="RenderedMarkdown">
-                    {{ props.answerBodyModel.QuestionTextMarkdown }}
+                    {{ answerBodyModel.QuestionTextMarkdown }}
                 </div>
             </div>
 
@@ -158,7 +184,7 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
             <div id="AnswerAndSolutionCol">
                 <div id="AnswerAndSolution">
                     <div class="row"
-                        :class="{ 'hasFlashCard': props.answerBodyModel.SolutionType == SolutionType.FlashCard }">
+                        :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
                         <div id="AnswerInputSection">
                             <!-- <input type="hidden" id="hddSolutionMetaDataJson"
                                 value="<%: Model.SolutionMetaDataJson %>" />
@@ -190,8 +216,8 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                                 <div id="Buttons">
                                     <div id="btnGoToTestSession" style="display: none">
 
-                                        <NuxtLink v-if="props.answerBodyModel.HasCategories && !props.answerBodyModel.IsInWidget && !props.answerBodyModel.IsForVideo &&
-                                        props.answerBodyModel.IsLastQuestion"
+                                        <NuxtLink v-if="answerBodyModel.hasCategories && !answerBodyModel.IsForVideo &&
+                                        answerBodyModel.isLastQuestion"
                                             :to="`${answerBodyModel.primaryTopic.EncodedName}/${answerBodyModel.primaryTopic.Id}`"
                                             id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow"
                                             v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopic.Name">
@@ -213,8 +239,7 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                                                 @click="markAsWrong()">
                                                 Wusste ich nicht!
                                             </button>
-                                            <button
-                                                v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                            <button v-if="!answerBodyModel.IsIntestMode && answerBodyModel.AnswerHelp"
                                                 id="flashCard-dontCountAnswer"
                                                 class="selectorShowSolution SecAction btn btn-link memo-button"
                                                 @click="doNotMark()">
@@ -228,8 +253,7 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                                             <button class="btn btn-primary memo-button" @click="answer()">
                                                 Antworten
                                             </button>
-                                            <button
-                                                v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                            <button v-if="!answerBodyModel.IsIntestMode && answerBodyModel.AnswerHelp"
                                                 class="selectorShowSolution SecAction btn btn-link memo-button"
                                                 @click="showSolution()">
                                                 <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
@@ -246,21 +270,20 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                                     </div>
 
                                     <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                        <button
-                                            v-if="props.answerBodyModel.NextUrl && !props.answerBodyModel.IsLastQuestion"
+                                        <button v-if="answerBodyModel.NextUrl && !answerBodyModel.IsLastQuestion"
                                             @click="loadNextQuestion()" id="btnNext" class="btn btn-primary memo-button"
                                             rel="nofollow">
                                             Nächste Frage
                                         </button>
                                         <button
-                                            v-else-if="props.answerBodyModel.NextUrl == null && props.answerBodyModel.IsForVideo"
+                                            v-else-if="answerBodyModel.NextUrl == null && answerBodyModel.IsForVideo"
                                             id="continue" class="btn btn-primary clickToContinue memo-button"
                                             style="display: none" @click="continueSession()">
                                             Weiter
                                         </button>
 
                                         <button
-                                            v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard && !props.answerBodyModel.IsIntestMode && !props.answerBodyModel.AnswerHelp"
+                                            v-if="answerBodyModel.SolutionType != SolutionType.FlashCard && !answerBodyModel.IsIntestMode && !answerBodyModel.AnswerHelp"
                                             href="#" id="aCountAsCorrect"
                                             class="SecAction btn btn-link show-tooltip memo-button"
                                             title="Drücke hier und die Frage wird als richtig beantwortet gewertet"
@@ -270,13 +293,12 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
 
                                     </div>
 
-                                    <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
+                                    <div v-if="answerBodyModel.SolutionType != SolutionType.FlashCard"
                                         id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                         <button id="btnCheckAgain" class="btn btn-warning memo-button"
                                             rel="nofollow">Nochmal
                                             Antworten</button>
-                                        <button
-                                            v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
+                                        <button v-if="!answerBodyModel.IsIntestMode && answerBodyModel.AnswerHelp"
                                             class="selectorShowSolution SecAction btn btn-link memo-button">
                                             <font-awesome-icon icon="fa-solid fa-lightbulb" />
                                             Lösung anzeigen
@@ -286,7 +308,7 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                                     </div>
                                 </div>
                                 <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
+                                    <div v-if="answerBodyModel.SolutionType != SolutionType.FlashCard"
                                         id="AnswerFeedback">
                                         <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
                                             <b style="color: green;">Richtig!</b>
@@ -344,7 +366,7 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
 
 
                                     <div id="SolutionDetails"
-                                        v-if="props.answerBodyModel.QuestionDescription != null && props.answerBodyModel.QuestionDescription.trim().length > 0"
+                                        v-if="answerBodyModel.QuestionDescription != null && answerBodyModel.QuestionDescription.trim().length > 0"
                                         style="display: none; background-color: white;">
                                         <div id="Description" class="Detail">
                                             <div class="Label">
@@ -353,7 +375,7 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                                                 Antwort:
                                             </div>
                                             <div class="Content body-m">
-                                                {{ props.answerBodyModel.QuestionDescription }}
+                                                {{ answerBodyModel.QuestionDescription }}
                                             </div>
                                         </div>
                                     </div>
@@ -368,12 +390,12 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
         <div id="ActivityPointsDisplay">
             <small>Dein Punktestand</small>
             <span id="ActivityPoints">
-                {{ props.answerBodyModel.TotalActivityPoints }}
+                {{ answerBodyModel.TotalActivityPoints }}
             </span>
             <font-awesome-icon icon="fa-solid fa-circle-info"
                 v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
         </div>
-        <QuestionAnswerQuestionDetails :answer-body-model="props.answerBodyModel" />
+        <QuestionAnswerQuestionDetails :answer-body-model="answerBodyModel" />
     </div>
 
 </template>

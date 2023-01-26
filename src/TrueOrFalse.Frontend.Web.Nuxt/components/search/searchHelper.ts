@@ -8,16 +8,15 @@ export enum SearchType {
     CategoryInWiki = 4
 }
 
-export interface SearchTopicItem
-{
-     Id: number
-     Name: string
-     Url: string
-     QuestionCount: number
-     ImageUrl: string
-     MiniImageUrl: string
-     IconHtml: string
-     Visibility: Visibility
+export interface SearchTopicItem {
+    Id: number
+    Name: string
+    Url: string
+    QuestionCount: number
+    ImageUrl: string
+    MiniImageUrl: string
+    IconHtml: string
+    Visibility: Visibility
 }
 
 export interface TopicItem {

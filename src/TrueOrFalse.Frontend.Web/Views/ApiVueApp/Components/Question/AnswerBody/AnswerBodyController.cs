@@ -10,6 +10,7 @@ public class AnswerBodyController: BaseController
     public JsonResult Get(int id)
     {
         var question = EntityCache.GetQuestion(id);
+
         if (!PermissionCheck.CanView(question))
         {
             return Json(new
@@ -18,6 +19,10 @@ public class AnswerBodyController: BaseController
             }, JsonRequestBehavior.AllowGet);
         }
         var learningSession = LearningSessionCache.GetLearningSession();
+        var model = new
+        {
+            questionViewGuid = learningSession.QuestionViewGuid,
+        };
         return Json(new
         {
 

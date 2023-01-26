@@ -52,11 +52,30 @@ public class TopicController : BaseController
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(topic),
                 QuestionCount = topic.CountQuestionsAggregated,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-                EncodedName = UriSanitizer.Run(topic.Name)
+                EncodedName = UriSanitizer.Run(topic.Name),
+                SearchTopicItem = FillMiniTopicItem(topic)
             };
         }
 
         return new { };
+    }
+
+    public SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)
+    {
+        var miniTopicItem = new SearchTopicItem
+        {
+            Id = topic.Id,
+            Name = topic.Name,
+            Url = Links.CategoryDetail(topic.Name, topic.Id),
+            QuestionCount = topic.GetCountQuestionsAggregated(),
+            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
+            IconHtml = SearchApiController.GetIconHtml(topic),
+            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
+                .GetImageUrl(30, true, false, ImageType.Category).Url,
+            Visibility = (int)topic.Visibility
+        };
+
+        return miniTopicItem;
     }
 
     [HttpGet]
