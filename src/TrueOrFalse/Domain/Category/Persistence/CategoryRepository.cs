@@ -207,17 +207,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     }
 
-
-
-
-    public void UpdateBeforeEntityCacheInit(Category category)
-    {
-        _solrSearchIndexCategory.Update(category);
-        base.Update(category);
-
-        Flush();
-    }
-
     public override void Delete(Category category)
     {
         _solrSearchIndexCategory.Delete(category);
