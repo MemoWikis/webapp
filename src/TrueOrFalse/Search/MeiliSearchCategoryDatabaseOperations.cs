@@ -7,6 +7,11 @@ namespace TrueOrFalse.Search
 {
     internal class MeiliSearchCategoryDatabaseOperations
     {
+        /// <summary>
+        /// Create MeiliSearch Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public static async Task CreateAsync(Category category)
         {
             try
@@ -21,6 +26,11 @@ namespace TrueOrFalse.Search
             }
         }
 
+        /// <summary>
+        /// Update MeiliSearch Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public static async Task UpdateAsync(Category category)
         {
             try
@@ -35,6 +45,11 @@ namespace TrueOrFalse.Search
             }
         }
 
+        /// <summary>
+        /// Delete MeiliSearch Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public static async Task DeleteAsync(Category category)
         {
             try
