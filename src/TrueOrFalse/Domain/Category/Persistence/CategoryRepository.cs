@@ -213,7 +213,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category));
         Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.DeleteAsync(category); });
-
     }
 
     public override void DeleteWithoutFlush(Category category)
@@ -330,11 +329,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     nextGeneration.AddRange(children);
                 }
             }
-
             currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
             nextGeneration = new List<Category>();
         }
-
         return descendants;
     }
 
@@ -372,26 +369,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
         }
         return result;
-    }
-
-    public IEnumerable<Category> GetWithMostQuestions(int amount)
-    {
-        return _session
-            .QueryOver<Category>()
-            .OrderBy(c => c.CountQuestionsAggregated).Desc
-            .Take(amount)
-            .List();
-    }
-
-    public IEnumerable<Category> GetMostRecent_WithAtLeast3Questions(int amount)
-    {
-        return _session
-            .QueryOver<Category>()
-            .Where(c => c.CountQuestionsAggregated > 3 || c.CountQuestions > 3)
-            .OrderBy(c => c.DateCreated)
-            .Desc
-            .Take(amount)
-            .List();
     }
 
     public bool Exists(string categoryName)
