@@ -8,12 +8,12 @@ public class SolrGlobalSearchResult
     private IList<Category> _categories;
     public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
     public int CategoriesResultCount => CategoriesResult.Count;
-    public SearchQuestionsResult QuestionsResult = new();
+    public ISearchQuestionsResult QuestionsResult;
     private IList<Question> _questions;
     public IList<Question> Questions => _questions ?? (_questions = QuestionsResult.GetQuestions());
     public int QuestionsResultCount => QuestionsResult.Count;
 
-    public SearchUsersResult UsersResult = new ();
+    public ISearchUsersResult UsersResult;
     private IList<User> _users;
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;

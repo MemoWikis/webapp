@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
@@ -56,12 +57,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
     /// <param name="category"></param>
     public override void Create(Category category)
     {
+
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
             related.DateModified = related.DateCreated = DateTime.Now;
 
         base.Create(category);
         Flush();
-       
+
         UserActivityAdd.CreatedCategory(category);
         _solrSearchIndexCategory.Update(category);
 
@@ -82,6 +84,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
         {
             Sl.CategoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false, type: CategoryChangeType.Relations);
         }
+        var result = Task.Run(async ()=> await MeiliSearchCategoryDatabaseOperations.CreateAsync(category));
+
     }
 
     public void CreateOnlyDb(Category category)
@@ -159,7 +163,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public void UpdateAuthors(Category category)
     {
         var sql = "UPDATE category " +
-                  "SET AuthorIds = " +"'" + category.AuthorIds + "'" +
+                  "SET AuthorIds = " + "'" + category.AuthorIds + "'" +
                   " WHERE Id = " + category.Id;
         _session.CreateSQLQuery(sql).ExecuteUpdate();
     }
@@ -182,6 +186,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.UpdateAsync(category); });
     }
 
     public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
@@ -198,17 +203,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
-    }
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.UpdateAsync(category); });
 
-
-
-
-    public void UpdateBeforeEntityCacheInit(Category category)
-    {
-        _solrSearchIndexCategory.Update(category);
-        base.Update(category);
-
-        Flush();
     }
 
     public override void Delete(Category category)
@@ -216,6 +212,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _solrSearchIndexCategory.Delete(category);
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category));
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.DeleteAsync(category); });
     }
 
     public override void DeleteWithoutFlush(Category category)
@@ -224,6 +221,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id));
         SessionUserCache.RemoveAllForCategory(category.Id);
+        Task.Run(async () => { await MeiliSearchCategoryDatabaseOperations.DeleteAsync(category); });
     }
 
     public IList<Category> GetByName(string categoryName)
@@ -331,11 +329,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
                     nextGeneration.AddRange(children);
                 }
             }
-
             currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
             nextGeneration = new List<Category>();
         }
-
         return descendants;
     }
 
@@ -373,26 +369,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
         }
         return result;
-    }
-
-    public IEnumerable<Category> GetWithMostQuestions(int amount)
-    {
-        return _session
-            .QueryOver<Category>()
-            .OrderBy(c => c.CountQuestionsAggregated).Desc
-            .Take(amount)
-            .List();
-    }
-
-    public IEnumerable<Category> GetMostRecent_WithAtLeast3Questions(int amount)
-    {
-        return _session
-            .QueryOver<Category>()
-            .Where(c => c.CountQuestionsAggregated > 3 || c.CountQuestions > 3)
-            .OrderBy(c => c.DateCreated)
-            .Desc
-            .Take(amount)
-            .List();
     }
 
     public bool Exists(string categoryName)

@@ -63,6 +63,7 @@ public class EntityCache : BaseCache
         IsFirstStart = false;
     }
 
+    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
     public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))
@@ -115,6 +116,24 @@ public class EntityCache : BaseCache
 
         return questions;
     }
+
+    public static IList<QuestionCacheItem> GetQuestionsByIds(IEnumerable<int> questionIds)
+    {
+        var questions = new List<QuestionCacheItem>();
+
+        var cachedQuestions = Questions;
+
+        foreach (var questionId in questionIds)
+        {
+            if (cachedQuestions.TryGetValue(questionId, out var questionToAdd))
+            {
+                questions.Add(questionToAdd);
+            }
+        }
+
+        return questions;
+    }
+
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
     public static QuestionCacheItem GetQuestionById(int questionId)

@@ -12,7 +12,7 @@ public class SolrGlobalSearch : IGlobalSearch
         var pageSize = 5;
         result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
 
-        result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
+        result.UsersResult = Sl.SolrSearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 
         var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
         searchSpec.OrderBy.BestMatch.Desc();
