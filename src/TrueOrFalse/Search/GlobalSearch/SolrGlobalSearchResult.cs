@@ -13,7 +13,7 @@ public class SolrGlobalSearchResult
     public IList<Question> Questions => _questions ?? (_questions = QuestionsResult.GetQuestions());
     public int QuestionsResultCount => QuestionsResult.Count;
 
-    public SearchUsersResult UsersResult = new ();
+    public ISearchUsersResult UsersResult;
     private IList<User> _users;
     public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
     public int UsersResultCount => UsersResult.Count;

@@ -4,17 +4,17 @@ using SolrNet.Impl;
 
 namespace TrueOrFalse.Search
 {
-    public class SearchUsersResult
+    public class SearchUsersResult : ISearchUsersResult
     {
         /// <summary>In milliseconds</summary>
         public int QueryTime;
 
         /// <summary>Amount of items found</summary>
-        public int Count;
+        public int Count { get; set; }
 
         public SpellCheckResults SpellChecking;
 
-        public List<int> UserIds = new List<int>();
+        public List<int> UserIds { get; set; } = new();
 
         public IPager Pager;
 

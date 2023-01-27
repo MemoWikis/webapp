@@ -9,7 +9,8 @@ public class MeiliGlobalSearch : IGlobalSearch
         var pageSize = 5;
         result.CategoriesResult = await new MeiliSearchCategories().RunAsync(term);
         result.QuestionsResult = await new MeiliSearchQuestions().RunAsync(term);
-        
+        result.UsersResult = await new MeiliSearchUsers().RunAsync(term);
+
         return result;
     }
 

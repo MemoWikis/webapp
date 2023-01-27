@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Meilisearch;
-using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Search
 {
-    public class MeiliSearchCategories : IRegisterAsInstancePerLifetime
+    public class MeiliSearchCategories : MeiliSearchHelper, IRegisterAsInstancePerLifetime
     {
         private List<CategoryCacheItem> _categories = new();
-        private int _count = 20;
         private MeiliSearchCategoriesResult _result;
         public async Task<ISearchCategoriesResult> RunAsync(
             string searchTerm)
@@ -24,22 +22,9 @@ namespace TrueOrFalse.Search
             return _result;
         }
 
-        private bool IsReloadRequired(int searchResultCount, int categoriesCount)
-        {
-            if (searchResultCount == _count && categoriesCount < 5)
-            {
-                return true;
-            }
-            return false;
-        }
-
         private async Task<List<int>> LoadSearchResults(string searchTerm, Index index)
         {
-            var sq = new SearchQuery
-            {
-                Limit = _count
-            };
-
+            var sq = new SearchQuery { Limit = _count };
             var categoryMaps =
                 (await index.SearchAsync<MeiliSearchCategoryMap>(searchTerm, sq))
                 .Hits;

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 namespace VueApp;
 public class QuestionEditModalController : BaseController
@@ -93,26 +94,27 @@ public class QuestionEditModalController : BaseController
             SolutionMetadataJson = question.SolutionMetadataJson,
             Text = question.TextHtml,
             TextExtended = question.TextExtendedHtml,
-            TopicIds = topicsVisibleToCurrentUser.Select(t => t.Id).ToList(),
+            PublicTopicIds = topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             DescriptionHtml = question.DescriptionHtml,
-            Topics = topicsVisibleToCurrentUser.Select(t => FillMiniTopicItem(t)),
+            Topics = topicsVisibleToCurrentUser.Select(t => FillMiniTopicItem(t)).ToArray(),
+            TopicIds = topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             LicenseId = question.LicenseId,
             Visibility = question.Visibility,
         }, JsonRequestBehavior.AllowGet);
     }
-    public SearchCategoryItem FillMiniTopicItem(CategoryCacheItem category)
+    public SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)
     {
-        var miniTopicItem = new SearchCategoryItem
+        var miniTopicItem = new SearchTopicItem
         {
-            Id = category.Id,
-            Name = category.Name,
-            Url = Links.CategoryDetail(category.Name, category.Id),
-            QuestionCount = category.GetCountQuestionsAggregated(),
-            ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px(asSquare: true).Url,
-            IconHtml = SearchApiController.GetIconHtml(category),
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category))
+            Id = topic.Id,
+            Name = topic.Name,
+            Url = Links.CategoryDetail(topic.Name, topic.Id),
+            QuestionCount = topic.GetCountQuestionsAggregated(),
+            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
+            IconHtml = SearchApiController.GetIconHtml(topic),
+            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
-            Visibility = (int)category.Visibility
+            Visibility = (int)topic.Visibility
         };
 
         return miniTopicItem;

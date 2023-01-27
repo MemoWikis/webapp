@@ -39,6 +39,6 @@ public class UserSearchTests : BaseTest
 
         Resolve<ReIndexAllUsers>().Run();
 
-        Assert.That(Resolve<SearchUsers>().Run("Juliane Misdom", new Pager(), SearchUsersOrderBy.None).Count, Is.EqualTo(1));
+        Assert.That(Resolve<SolrSearchUsers>().Run("Juliane Misdom", new Pager(), SearchUsersOrderBy.None).Count, Is.EqualTo(1));
     }
 }

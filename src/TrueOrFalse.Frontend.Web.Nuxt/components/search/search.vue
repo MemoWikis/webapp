@@ -4,11 +4,23 @@ import _ from 'underscore'
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageStyle } from '../image/imageStyleEnum'
 
-const props = defineProps({
-    searchType: Number as PropType<SearchType>,
-    showSearchIcon: Boolean,
-    showSearch: Boolean,
-    placement: { type: String, default: 'bottom-start' }
+interface Props {
+    searchType: SearchType
+    showSearchIcon?: boolean
+    showSearch: boolean
+    placement?: string
+    topicIdsToFilter?: number[]
+    autoHide?: boolean
+    placeholderLabel?: string
+    showDefaultSearchIcon?: boolean
+}
+
+
+const props = withDefaults(defineProps<Props>(), {
+    showSearchIcon: true,
+    placement: 'bottom-start',
+    placeholderLabel: 'Suche',
+    topicIdsToFilter: () => []
 })
 
 
@@ -39,10 +51,10 @@ function inputValue(e: Event) {
 onBeforeMount(() => {
     switch (props.searchType) {
         case SearchType.Category:
-            searchUrl.value = '/apiVue/Search/Category'
+            searchUrl.value = '/apiVue/Search/Topic'
             break;
         case SearchType.CategoryInWiki:
-            searchUrl.value = '/apiVue/Search/CategoryInWiki'
+            searchUrl.value = '/apiVue/Search/TopicInPersonalWiki'
             break
         default:
             searchUrl.value = '/apiVue/Search/All'
@@ -66,14 +78,20 @@ async function search() {
         credentials: 'include'
     })
     if (result != null) {
-        topics.value = result.categories
-        questions.value = result.questions
-        users.value = result.users
-        noResults.value = result.categories.length + result.questions.length + result.users.length <= 0
-        topicCount.value = result.categoryCount
-        questionCount.value = result.questionCount
-        userCount.value = result.userCount
-        userSearchUrl.value = result.userSearchUrl
+        if (result.categories) {
+            topics.value = result.categories
+            topicCount.value = result.categoryCount
+        }
+        if (result.questions) {
+            questions.value = result.questions
+            questionCount.value = result.questionCount
+        }
+        if (result.users) {
+            users.value = result.users
+            userCount.value = result.userCount
+        }
+        noResults.value = result.categories?.length + result.questions?.length + result.users?.length <= 0
+        userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }
 
@@ -99,9 +117,12 @@ function hide() {
         <form v-on:submit.prevent>
             <div class="form-group searchAutocomplete">
                 <div class="searchInputContainer">
-                    <input class="form-control" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
+                    <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
                         v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                        placeholder="Suche" />
+                        :placeholder="props.placeholderLabel" />
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
+                        v-if="props.showDefaultSearchIcon" />
+
                 </div>
             </div>
         </form>
@@ -157,6 +178,14 @@ function hide() {
 <style scoped lang="less">
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
+
+.default-search-icon {
+    position: absolute;
+    margin-top: 10px;
+    margin-right: 15px;
+    right: 0;
+    color: @memo-grey-dark;
+}
 
 .searchAutocomplete {
     z-index: 105;
@@ -289,7 +318,8 @@ function hide() {
     }
 }
 
-input {
+input,
+.form-control {
     border-radius: 24px;
 }
 

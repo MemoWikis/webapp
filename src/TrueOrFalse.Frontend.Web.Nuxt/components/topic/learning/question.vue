@@ -133,7 +133,7 @@ function highlightCode(elementId: string) {
 const learningSessionStore = useLearningSessionStore()
 
 function loadSpecificQuestion() {
-    learningSessionStore.loadQuestion(-5, props.sessionIndex)
+    learningSessionStore.changeActiveQuestion(props.sessionIndex)
 }
 const extendedQuestionId = ref('#eqId-' + props.question.Id)
 const answerId = ref('#aId' + props.question.Id)

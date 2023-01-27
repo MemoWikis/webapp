@@ -5,7 +5,7 @@ public class UsersControllerSearch
 {
     public IList<User> Run()
     {
-        var solrResult = Sl.SearchUsers.Run(Sl.SessionUiData.SearchSpecUser);
+        var solrResult = Sl.SolrSearchUsers.Run(Sl.SessionUiData.SearchSpecUser);
         return Sl.UserRepo.GetByIds(solrResult.UserIds.ToArray());
     }
 }

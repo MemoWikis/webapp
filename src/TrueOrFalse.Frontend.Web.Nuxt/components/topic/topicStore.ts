@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 import { Author } from '../author/author'
+import { SearchTopicItem } from '../search/searchHelper'
 
 export class Topic {
   CanAccess: boolean = false
@@ -22,6 +23,7 @@ export class Topic {
   QuestionCount: number = 0
   Authors: Author[] = []
   EncodedName: string = ''
+  SearchTopicItem: SearchTopicItem | null = null
 }
 
 export interface FooterTopics {
@@ -55,6 +57,7 @@ export const useTopicStore = defineStore('topicStore', {
       currentUserIsCreator: false,
       canBeDeleted: false,
       authors: [] as Author[],
+      searchTopicItem: null as null | SearchTopicItem
     }
   },
   actions: {
@@ -83,6 +86,7 @@ export const useTopicStore = defineStore('topicStore', {
         this.questionCount = topic.QuestionCount
 
         this.authors = topic.Authors
+        this.searchTopicItem = topic.SearchTopicItem
       }
     },
     async saveTopic() {
