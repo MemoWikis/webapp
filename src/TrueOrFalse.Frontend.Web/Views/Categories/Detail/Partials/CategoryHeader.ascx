@@ -42,7 +42,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                { %>
                 <category-name-component inline-template origin-category-name="<%= Server.HtmlEncode(Model.Name) %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
                     <textarea-autosize
-                        placeholder="Type something here..."
+                        placeholder="Gib deinem Thema einen Namen"
                         ref="categoryNameArea"
                         v-model="categoryName"
                         rows="1"
