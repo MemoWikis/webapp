@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Question } from '../question'
 interface Props {
-    question: Question
+    text: string
+    solution: string
 }
 const props = defineProps<Props>()
 const front = ref('')
@@ -11,6 +11,7 @@ const emit = defineEmits(['flip'])
 function flip() {
     flipped.value = !flipped.value
 }
+defineExpose({ flip })
 </script>
 
 <template>
@@ -19,10 +20,10 @@ function flip() {
             <div class="flashcard-front">
                 <p class="QuestionText"
                     style="text-align: center; font-family: Open Sans, Arial, sans-serif; margin: 0;">
-                    {{ props.question.Text }}</p>
+                    {{ props.text }}</p>
             </div>
             <div class="flashcard-back">
-                <template v-if="props.question.Solution.length > 0" v-html="props.question.Solution"></template>
+                <template v-if="props.solution?.length > 0" v-html="props.solution"></template>
             </div>
         </div>
     </div>

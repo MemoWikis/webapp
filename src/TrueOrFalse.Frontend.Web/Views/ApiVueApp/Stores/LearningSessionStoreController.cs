@@ -28,8 +28,9 @@ public class LearningSessionStoreController: BaseController
                     state = firstStep.AnswerState,
                     id = firstStep.Question.Id,
                     index = 0
-                }
-
+                },
+                answerHelp = learningSession.Config.AnswerHelp,
+                isInTestMode = learningSession.Config.IsInTestMode
             });
         }
 
@@ -61,6 +62,44 @@ public class LearningSessionStoreController: BaseController
         return Json(new
         {
             success = false
+        }, JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpGet]
+    public JsonResult GetCurrentSession()
+    {
+        var learningSession = LearningSessionCache.GetLearningSession();
+        if (learningSession != null)
+        {
+            var firstUnansweredStep = learningSession.Steps.First(s => s.AnswerState != AnswerState.Unanswered);
+            return Json(new
+            {
+                success = true,
+                steps = learningSession.Steps.Select((s, index) => new
+                {
+                    id = s.Question.Id,
+                    state = s.AnswerState,
+                    index = index
+                }).ToArray(),
+                activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
+                firstUnansweredStep = new
+                {
+                    state = firstUnansweredStep.AnswerState,
+                    id = firstUnansweredStep.Question.Id,
+                    index = learningSession.Steps.IndexOf(s => s == firstUnansweredStep)
+                }
+
+            });
+        }
+
+        return Json(new
+        {
+            success = false
+        });
+
+        return Json(new
+        {
+
         }, JsonRequestBehavior.AllowGet);
     }
 }

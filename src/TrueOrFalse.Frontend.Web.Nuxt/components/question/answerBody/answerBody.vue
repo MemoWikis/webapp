@@ -7,8 +7,6 @@ import { useEditQuestionStore } from '../edit/editQuestionStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 
-const props = defineProps(['question'])
-
 const spinnerStore = useSpinnerStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
@@ -33,42 +31,75 @@ function answer() {
 }
 
 interface AnswerBodyModel {
-    id: number,
-    title: string,
-    isInWishknowledge: boolean,
-    solutionType: SolutionType,
-    name: string,
-    questionViewGuid: number,
-    isCreator: boolean,
-    learningSessionStepGuid: number,
+    id: number
+    text: string
+    title: string
+    solutionType: SolutionType
+    renderedQuestionTextExtended: string
+    description: string
+    hasTopics: boolean
+    primaryTopicUrl: string
+    primaryTopicName: string
+    solution: string
+
+    isCreator: boolean
+    isInWishknowledge: boolean
+
+    questionViewGuid: number
+    isLastStep: boolean
 }
 
-async function loadAnswerBodyModel(): Promise<AnswerBodyModel | null> {
-    const id = learningSessionStore.currentStep?.id
-    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBodyController/Get/?id=${id}`, {
+const flashCardSolution = ref('')
+
+const answerBodyModel = ref<AnswerBodyModel | null>(null)
+
+async function loadAnswerBodyModel() {
+    if (!learningSessionStore.currentStep) {
+        return
+    }
+    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentStep.index}`, {
         mode: 'cors',
         credentials: 'include'
     })
-    if (result != null)
-        return result
-    else return null
+    if (result != null) {
+        answerBodyModel.value = result
+    }
 }
-
-const answerBodyModel = ref<AnswerBodyModel | null>(await loadAnswerBodyModel())
 const interactionNumber = ref(0)
 
-async function countAsCorrect() {
+async function markAsCorrect() {
     const data = {
         questionViewGuid: answerBodyModel.value?.questionViewGuid,
         interactionNumber: interactionNumber.value,
-        learningSessionStepGuid: answerBodyModel.value?.learningSessionStepGuid
     }
 }
 
+async function markAsWrong() {
+
+}
+
+async function skipMarking() {
+
+}
+
+function showSolution() {
+
+}
+
+async function loadNextQuestion() {
+
+}
+
+async function continueSession() {
+
+}
+
+watch(() => learningSessionStore.currentStep?.index, () => {
+    loadAnswerBodyModel()
+})
+
 </script>
-<template>
-    
-</template>
+
 <template>
     <div id="AnswerBody" v-if="answerBodyModel">
 
@@ -122,7 +153,7 @@ async function countAsCorrect() {
 
                             </div>
 
-                            <LazyNuxtLink :to="`/question/${props.question.Name}/${props.question.Id}`"
+                            <LazyNuxtLink :to="`/question/${answerBodyModel.title}/${answerBodyModel.id}`"
                                 v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
                                 <div class="dropdown-row">
                                     <div class="dropdown-icon">
@@ -133,7 +164,7 @@ async function countAsCorrect() {
                                 </div>
                             </LazyNuxtLink>
 
-                            <LazyNuxtLink :to="`/QuestionHistory/${props.question.Name}/${props.question.Id}`"
+                            <LazyNuxtLink :to="`/QuestionHistory/${answerBodyModel.title}/${answerBodyModel.id}`"
                                 v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
                                 <div class="dropdown-row">
                                     <div class="dropdown-icon">
@@ -151,7 +182,7 @@ async function countAsCorrect() {
                                 <div class="dropdown-label">Frage kommentieren</div>
                             </div>
 
-                            <div class="dropdown-row" @click="deleteQuestionStore.openModal(props.question.id)">
+                            <div class="dropdown-row" @click="deleteQuestionStore.openModal(answerBodyModel!.id)">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon icon="fa-solid fa-trash" />
                                 </div>
@@ -168,15 +199,14 @@ async function countAsCorrect() {
         </div>
 
         <h3 v-if="answerBodyModel.solutionType != SolutionType.FlashCard" class="QuestionText">
-            {{ answerBodyModel.name }}
+            {{ answerBodyModel.text }}
         </h3>
 
         <div class="row">
 
             <div id="MarkdownCol"
-                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && answerBodyModel.QuestionTextMarkdown != null">
-                <div class="RenderedMarkdown">
-                    {{ answerBodyModel.QuestionTextMarkdown }}
+                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended">
+                <div class="RenderedMarkdown" v-html="answerBodyModel.renderedQuestionTextExtended">
                 </div>
             </div>
 
@@ -189,7 +219,7 @@ async function countAsCorrect() {
                             <!-- <input type="hidden" id="hddSolutionMetaDataJson"
                                 value="<%: Model.SolutionMetaDataJson %>" />
                             <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" /> -->
-                            <template v-if="props.question.SolutionType != SolutionType.FlashCard">
+                            <template v-if="answerBodyModel.solutionType != SolutionType.FlashCard">
                                 <div class="answerFeedback answerFeedbackCorrect" v-if="answerIsCorrect">
                                     <font-awesome-icon icon="fa-solid fa-circle-check" />&nbsp;Richtig!
                                 </div>
@@ -198,34 +228,32 @@ async function countAsCorrect() {
                                 </div>
                             </template>
                             <QuestionAnswerBodyFlashcard
-                                v-else-if="props.question.SolutionType == SolutionType.FlashCard" ref="flashcard"
-                                :question="question" />
+                                v-else-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
+                                :solution="answerBodyModel.solution" :text="answerBodyModel.text" />
                             <QuestionAnswerBodyMatchlist
-                                v-else-if="props.question.SolutionType == SolutionType.MatchList" ref="flashcard"
-                                :question="question" />
+                                v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchlist" />
                             <QuestionAnswerBodyMultipleChoice
-                                v-else-if="props.question.SolutionType == SolutionType.MultipleChoice" ref="flashcard"
-                                :question="question" />
-                            <QuestionAnswerBodyText v-else-if="props.question.SolutionType == SolutionType.Text"
-                                ref="flashcard" :question="question" />
+                                v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
+                                :solution="answerBodyModel.solution" ref="multipleChoice" />
+                            <QuestionAnswerBodyText v-else-if="answerBodyModel.solutionType == SolutionType.Text"
+                                ref="text" />
 
 
                         </div>
                         <div id="ButtonsAndSolutionCol">
                             <div id="ButtonsAndSolution" class="Clearfix">
                                 <div id="Buttons">
-                                    <div id="btnGoToTestSession" style="display: none">
+                                    <!-- <div id="btnGoToTestSession" style="display: none">
 
-                                        <NuxtLink v-if="answerBodyModel.hasCategories && !answerBodyModel.IsForVideo &&
-                                        answerBodyModel.isLastQuestion"
-                                            :to="`${answerBodyModel.primaryTopic.EncodedName}/${answerBodyModel.primaryTopic.Id}`"
+                                        <NuxtLink v-if="answerBodyModel.hasTopics &&
+                                        answerBodyModel.isLastQuestion" :to="`${answerBodyModel.primaryTopicUrl}`"
                                             id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow"
-                                            v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopic.Name">
+                                            v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopicName">
                                             <b>Weiterlernen</b>
                                         </NuxtLink>
-                                    </div>
-                                    <template v-if="props.question.SolutionType == SolutionType.FlashCard">
-                                        <div class="btn btn-warning memo-button" @click="flipCard()">
+                                    </div> -->
+                                    <template v-if="answerBodyModel.solutionType == SolutionType.FlashCard">
+                                        <div class="btn btn-warning memo-button" @click="flashcard.flip()">
                                             Umdrehen
                                         </div>
 
@@ -239,10 +267,11 @@ async function countAsCorrect() {
                                                 @click="markAsWrong()">
                                                 Wusste ich nicht!
                                             </button>
-                                            <button v-if="!answerBodyModel.IsIntestMode && answerBodyModel.AnswerHelp"
+                                            <button
+                                                v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
                                                 id="flashCard-dontCountAnswer"
                                                 class="selectorShowSolution SecAction btn btn-link memo-button"
-                                                @click="doNotMark()">
+                                                @click="skipMarking()">
                                                 Nicht werten!
                                             </button>
                                         </div>
@@ -253,7 +282,8 @@ async function countAsCorrect() {
                                             <button class="btn btn-primary memo-button" @click="answer()">
                                                 Antworten
                                             </button>
-                                            <button v-if="!answerBodyModel.IsIntestMode && answerBodyModel.AnswerHelp"
+                                            <button
+                                                v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
                                                 class="selectorShowSolution SecAction btn btn-link memo-button"
                                                 @click="showSolution()">
                                                 <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
@@ -263,27 +293,20 @@ async function countAsCorrect() {
 
                                     <div
                                         v-if="learningSessionStore.isLearningSession
-                                        && !learningSessionStore.isTestMode && learningSessionStore.steps.length - 1 < learningSessionStore.currentIndex">
+                                        && !learningSessionStore.isInTestMode && learningSessionStore.steps.length - 1 < learningSessionStore.currentIndex">
                                         <button id="aSkipStep" class="SecAction btn btn-link memo-button">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
                                         </button>
                                     </div>
 
                                     <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                        <button v-if="answerBodyModel.NextUrl && !answerBodyModel.IsLastQuestion"
-                                            @click="loadNextQuestion()" id="btnNext" class="btn btn-primary memo-button"
-                                            rel="nofollow">
+                                        <button v-if="!answerBodyModel.isLastStep" @click="loadNextQuestion()"
+                                            id="btnNext" class="btn btn-primary memo-button" rel="nofollow">
                                             Nächste Frage
-                                        </button>
-                                        <button
-                                            v-else-if="answerBodyModel.NextUrl == null && answerBodyModel.IsForVideo"
-                                            id="continue" class="btn btn-primary clickToContinue memo-button"
-                                            style="display: none" @click="continueSession()">
-                                            Weiter
                                         </button>
 
                                         <button
-                                            v-if="answerBodyModel.SolutionType != SolutionType.FlashCard && !answerBodyModel.IsIntestMode && !answerBodyModel.AnswerHelp"
+                                            v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !learningSessionStore.isInTestMode && !learningSessionStore.answerHelp"
                                             href="#" id="aCountAsCorrect"
                                             class="SecAction btn btn-link show-tooltip memo-button"
                                             title="Drücke hier und die Frage wird als richtig beantwortet gewertet"
@@ -293,12 +316,13 @@ async function countAsCorrect() {
 
                                     </div>
 
-                                    <div v-if="answerBodyModel.SolutionType != SolutionType.FlashCard"
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
                                         id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                         <button id="btnCheckAgain" class="btn btn-warning memo-button"
                                             rel="nofollow">Nochmal
                                             Antworten</button>
-                                        <button v-if="!answerBodyModel.IsIntestMode && answerBodyModel.AnswerHelp"
+                                        <button
+                                            v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
                                             class="selectorShowSolution SecAction btn btn-link memo-button">
                                             <font-awesome-icon icon="fa-solid fa-lightbulb" />
                                             Lösung anzeigen
@@ -308,7 +332,7 @@ async function countAsCorrect() {
                                     </div>
                                 </div>
                                 <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="answerBodyModel.SolutionType != SolutionType.FlashCard"
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
                                         id="AnswerFeedback">
                                         <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
                                             <b style="color: green;">Richtig!</b>
@@ -365,8 +389,7 @@ async function countAsCorrect() {
 
 
 
-                                    <div id="SolutionDetails"
-                                        v-if="answerBodyModel.QuestionDescription != null && answerBodyModel.QuestionDescription.trim().length > 0"
+                                    <div id="SolutionDetails" v-if="answerBodyModel.description?.trim().length > 0"
                                         style="display: none; background-color: white;">
                                         <div id="Description" class="Detail">
                                             <div class="Label">
@@ -375,7 +398,7 @@ async function countAsCorrect() {
                                                 Antwort:
                                             </div>
                                             <div class="Content body-m">
-                                                {{ answerBodyModel.QuestionDescription }}
+                                                {{ answerBodyModel.description }}
                                             </div>
                                         </div>
                                     </div>
@@ -390,7 +413,7 @@ async function countAsCorrect() {
         <div id="ActivityPointsDisplay">
             <small>Dein Punktestand</small>
             <span id="ActivityPoints">
-                {{ answerBodyModel.TotalActivityPoints }}
+                {{ userStore.totalActivityPoints }}
             </span>
             <font-awesome-icon icon="fa-solid fa-circle-info"
                 v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />

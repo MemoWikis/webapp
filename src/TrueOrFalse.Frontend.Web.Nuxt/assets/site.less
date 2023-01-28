@@ -1937,7 +1937,7 @@ b, strong {
     // }
 
 
-    .ProseMirror, input {
+    .ProseMirror, input, textarea, select {
         border: solid 1px @memo-grey-light;
         border-radius: 0;
         padding: 11px 15px 0;
@@ -1948,6 +1948,9 @@ b, strong {
         }
         &.search {
             padding: 0 11px;
+        }
+        &.is-empty {
+            border-color: @memo-salmon;
         }
     }
 

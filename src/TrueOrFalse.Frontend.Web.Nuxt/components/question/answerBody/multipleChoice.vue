@@ -1,6 +1,6 @@
 <script lang=ts setup>
 
-const props = defineProps([])
+const props = defineProps(['solution'])
 interface Choice {
     Text: string,
     IsCorrect: boolean

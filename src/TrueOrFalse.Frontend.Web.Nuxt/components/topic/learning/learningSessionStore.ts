@@ -10,28 +10,31 @@ export enum AnswerState {
 }
 
 interface Step {
-    state: AnswerState,
-    id: number,
+    state: AnswerState
+    id: number
     index: number
 }
 
 interface NewSessionResult {
-    success: boolean,
-    steps: Step[],
-    activeQuestionCount: number,
+    success: boolean
+    steps: Step[]
+    activeQuestionCount: number
     firstStep: Step
+    answerHelp: boolean
+    isInTestMode: boolean
 }
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
     state: () => {
         return {
             isLearningSession: true,
-            isTestMode: false,
+            isInTestMode: false,
             lastIndexInQuestionList: 0,
             currentIndex: 0,
             steps: [] as Step[],
             currentStep: null as Step | null,
-            activeQuestionCount: 0
+            activeQuestionCount: 0,
+            answerHelp: true
         }
     },
     actions: {
@@ -63,6 +66,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
                 this.currentStep = result.firstStep
+                this.answerHelp = result.answerHelp
+                this.isInTestMode = result.isInTestMode
                 return true
             } else return false
         },

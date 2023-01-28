@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
 
 const props = defineProps(['solution', 'highlightEmptyFields'])
 const choices = ref([{
@@ -18,12 +17,17 @@ function validateSolution() {
     emit('solutionIsValid', !hasEmptyAnswer)
 }
 
-function initiateSolution() {
-    var json = JSON.parse(props.solution.value)
-    choices.value = json.Choices
-    solutionIsOrdered.value = json.IsSolutionOrdered
-    validateSolution()
+function initSolution() {
+    if (props.solution?.value) {
+        var json = JSON.parse(props.solution.value)
+        choices.value = json.Choices
+        solutionIsOrdered.value = json.IsSolutionOrdered
+        validateSolution()
+    }
 }
+
+watch(() => props.solution, () => initSolution())
+onMounted(() => initSolution())
 
 function updateElement(index: number, newVal: {
     Text: string,

@@ -13,17 +13,15 @@ function resize() {
         element.style.height = "43px"
         element.style.height = element.scrollHeight + "px"
     }
-
 }
-onMounted(() => {
-    if (props.solution)
-        text.value = props.solution;
-    if (text.value.length > 0)
-        emit('setSolutionIsValid')
+onMounted(() => window.addEventListener('resize', resize))
 
-    window.addEventListener('resize', resize)
-
-})
+function initSolution() {
+    if (props.solution?.value)
+        text.value = props.solution
+}
+watch(() => props.solution, () => initSolution())
+onMounted(() => initSolution())
 
 watch(text, (e) => {
     if (e.length > 0)
@@ -61,14 +59,12 @@ watch(text, (e) => {
 .textsolution {
     textarea {
         width: 100%;
-        border: none;
         outline: none;
         min-height: 43px;
         resize: none;
-        margin-top: -8px;
-        padding: 0;
         padding-left: 12px;
         overflow: hidden;
+        padding: 11px 15px 0;
     }
 }
 </style>

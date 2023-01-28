@@ -34,19 +34,19 @@ function solutionBuilder() {
     emit('setMatchListJson', solution)
 }
 
-function initiateSolution() {
-    var json = JSON.parse(props.solution)
-    pairs.value = json.Pairs
-    rightElements.value = json.RightElements
-    solutionIsOrdered.value = json.IsSolutionOrdered
-    solutionBuilder()
-    validateSolution()
+function initSolution() {
+    if (props.solution?.value) {
+        var json = JSON.parse(props.solution)
+        pairs.value = json.Pairs
+        rightElements.value = json.RightElements
+        solutionIsOrdered.value = json.IsSolutionOrdered
+        solutionBuilder()
+        validateSolution()
+    }
 }
 
-onMounted(() => {
-    if (props.solution?.value)
-        initiateSolution()
-})
+watch(() => props.solution, () => initSolution())
+onMounted(() => initSolution())
 
 function deletePair(index: number) {
     pairs.value.splice(index, 1)

@@ -278,9 +278,11 @@ watch(isInWishknowledge, () => {
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div class="commentIcon" @click.stop="showCommentModal()">
-                            <font-awesome-icon icon="fa-solid fa-comment" /><span style="font-weight: 400"> {{
+                            <font-awesome-icon icon="fa-solid fa-comment" />
+                            <span> {{
                                 commentCount
-                            }}</span>
+                            }}
+                            </span>
                         </div>
                         <div class="Button dropdown">
 
@@ -673,11 +675,18 @@ watch(isInWishknowledge, () => {
                     margin-top: -21px;
 
 
-                    a.commentIcon {
+                    .commentIcon {
                         text-decoration: none;
                         color: @memo-grey-dark;
                         font-size: 14px;
                         cursor: pointer;
+                        display: flex;
+                        align-items: center;
+
+                        span {
+                            font-weight: 400;
+                            padding-left: 8px;
+                        }
                     }
 
                     .dropdown-menu {

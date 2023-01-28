@@ -85,8 +85,8 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
             </div>
         </div>
     </div>
+    <QuestionAnswerBody />
 
-    <!-- <LazyQuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" /> -->
     <div>
         <div class="col-xs-12" id="QuestionListContainer">
             <TopicLearningQuestionsSection />
