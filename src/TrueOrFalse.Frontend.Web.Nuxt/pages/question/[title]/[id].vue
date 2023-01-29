@@ -20,7 +20,8 @@ const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQues
 
 <template>
   <div v-if="question" class="question-page-container">
-    <QuestionAnswerBodyFlashcard v-if="question?.SolutionType == SolutionType.FlashCard" :question="question" />
+    <QuestionAnswerBodyFlashcard v-if="question?.SolutionType == SolutionType.FlashCard" :solution="question.Solution"
+      :text="question.Text" />
   </div>
 </template>
 

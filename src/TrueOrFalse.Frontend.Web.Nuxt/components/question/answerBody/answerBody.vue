@@ -20,14 +20,59 @@ const editQuestionStore = useEditQuestionStore()
 const answerIsCorrect = ref(false)
 const answerIsWrong = ref(false)
 
-const flashcard = ref()
 
 function openCommentModal() {
 
 }
 
-function answer() {
+const amountOfTries = ref(0)
+const answersSoFar = ref<string[]>([])
 
+const multipleChoice = ref()
+const text = ref()
+const matchList = ref()
+const flashcard = ref()
+
+async function answer() {
+    amountOfTries.value++
+    let solutionComponent
+    switch (answerBodyModel.value?.solutionType) {
+        case SolutionType.MultipleChoice:
+            solutionComponent = multipleChoice.value
+            break
+        case SolutionType.Text:
+            solutionComponent = text.value
+            break
+        case SolutionType.MatchList:
+            solutionComponent = matchList.value
+            break
+        case SolutionType.FlashCard:
+            solutionComponent = flashcard.value
+            break
+    }
+
+    if (solutionComponent == null)
+        return
+
+    answersSoFar.value.push(solutionComponent.getAnswerText())
+
+    const data = {
+        answer: solutionComponent.getAnswerDataString(),
+        id: answerBodyModel.value?.id,
+        questionViewGuid: answerBodyModel.value?.questionViewGuid,
+        inTestMode: learningSessionStore.isInTestMode,
+        isLearningSession: learningSessionStore.isLearningSession
+    }
+
+    const result = await $fetch<any>(`/apiVue/AnswerBody/SendAnswerToLearningSession/`,
+        {
+            method: 'POST',
+            body: data,
+            credentials: 'include',
+            mode: 'cors',
+        })
+
+    console.log(result)
 }
 
 interface AnswerBodyModel {
@@ -65,6 +110,7 @@ async function loadAnswerBodyModel() {
         answerBodyModel.value = result
     }
 }
+
 const interactionNumber = ref(0)
 
 async function markAsCorrect() {
@@ -102,32 +148,6 @@ watch(() => learningSessionStore.currentStep?.index, () => {
 
 <template>
     <div id="AnswerBody" v-if="answerBodyModel">
-
-        <!-- <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
-        <input type="hidden" id="hddInteractionNumber" value="1" />
-        <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
-        <input type="hidden" id="isLastQuestion" value="<%= Model.IsLastQuestion %>" />
-        <input type="hidden" id="ajaxUrl_GetSolution" value="<%= Model.AjaxUrl_GetSolution(Url) %>" />
-        <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect"
-            value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
-        <input type="hidden" id="ajaxUrl_CountUnansweredAsCorrect"
-            value="<%= Model.AjaxUrl_CountUnansweredAsCorrect(Url) %>" />
-
-        <template v-if="learningSessionStore.isTestMode">
-            <input type="hidden" id="ajaxUrl_TestSessionRegisterAnsweredQuestion"
-                value="<%= Model.AjaxUrl_TestSessionRegisterAnsweredQuestion(Url) %>" />
-            <input type="hidden" id="TestSessionProgessAfterAnswering"
-                value="<%= Model.TestSessionProgessAfterAnswering %>" />
-        </template>
-        <template v-if="learningSessionStore.isLearningSession">
-            <input type="hidden" id="ajaxUrl_LearningSessionAmendAfterShowSolution"
-                value="<%= Model.AjaxUrl_LearningSessionAmendAfterShowSolution(Url) %>" />
-        </template>
-        <input type="hidden" id="disableAddKnowledgeButton" value="<%= Model.DisableAddKnowledgeButton %>" />
-
-        <input type="hidden" id="hddTimeRecords" />
-        <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
-        <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>" /> -->
         <div id="QuestionTitle" style="display:none">
             {{ answerBodyModel.title }}
         </div>
@@ -230,12 +250,12 @@ watch(() => learningSessionStore.currentStep?.index, () => {
                             <QuestionAnswerBodyFlashcard
                                 v-else-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
                                 :solution="answerBodyModel.solution" :text="answerBodyModel.text" />
-                            <QuestionAnswerBodyMatchlist
-                                v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchlist" />
+                            <QuestionAnswerBodyMatchlist v-if="answerBodyModel.solutionType == SolutionType.MatchList"
+                                ref="matchList" :solution="answerBodyModel.solution" />
                             <QuestionAnswerBodyMultipleChoice
-                                v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
+                                v-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
                                 :solution="answerBodyModel.solution" ref="multipleChoice" />
-                            <QuestionAnswerBodyText v-else-if="answerBodyModel.solutionType == SolutionType.Text"
+                            <QuestionAnswerBodyText v-if="answerBodyModel.solutionType == SolutionType.Text"
                                 ref="text" />
 
 
@@ -422,3 +442,7 @@ watch(() => learningSessionStore.currentStep?.index, () => {
     </div>
 
 </template>
+
+<style lang="less">
+@import '~~/assets/views/answerQuestion.less';
+</style>

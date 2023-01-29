@@ -74,8 +74,16 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         answerQuestion() {
 
         },
-        changeActiveQuestion(index: number) {
-            console.log(index)
+        async changeActiveQuestion(index: number) {
+            const result = await $fetch<Step>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
+                method: 'POST',
+                body: { index: index },
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null) {
+                this.currentStep = result
+            }
         }
     },
 })

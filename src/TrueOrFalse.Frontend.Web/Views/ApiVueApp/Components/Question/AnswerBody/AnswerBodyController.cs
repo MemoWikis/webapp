@@ -9,6 +9,15 @@ using TrueOrFalse.Web;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerBodyController: BaseController
 {
+    private readonly QuestionRepo _questionRepo;
+    private readonly AnswerQuestion _answerQuestion;
+
+    public AnswerBodyController(QuestionRepo questionRepo, AnswerQuestion answerQuestion)
+    {
+        _questionRepo = questionRepo;
+        _answerQuestion = answerQuestion;
+    }
+
     [HttpGet]
     public JsonResult Get(int index)
     {
@@ -39,5 +48,33 @@ public class AnswerBodyController: BaseController
 
         };
         return Json(model, JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpPost]
+    public JsonResult SendAnswerToLearningSession(
+        int id,
+        Guid questionViewGuid = new Guid(),
+        string answer = "",
+        bool inTestMode = false,
+        bool isLearningSession = false)
+    {
+        if (isLearningSession)
+            LearningSessionCache.GetLearningSession().CurrentStep.Answer = answer;
+
+        var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, 0,
+            0, 0, new Guid(), inTestMode);
+        var question = EntityCache.GetQuestion(id);
+        var solution = GetQuestionSolution.Run(question);
+
+        return Json(new
+        {
+            correct = result.IsCorrect,
+            correctAnswer = result.CorrectAnswer,
+            choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution)
+                ? ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
+                : null,
+            newStepAdded = result.NewStepAdded,
+            numberSteps = result.NumberSteps,
+        });
     }
 }

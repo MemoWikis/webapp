@@ -95,11 +95,20 @@ public class LearningSessionStoreController: BaseController
         return Json(new
         {
             success = false
-        });
+        }, JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpPost]
+    public JsonResult LoadSpecificQuestion(int index)
+    {
+        var learningSession = LearningSessionCache.GetLearningSession();
+        learningSession.LoadSpecificQuestion(index);
 
         return Json(new
         {
-
-        }, JsonRequestBehavior.AllowGet);
+            state = learningSession.CurrentStep.AnswerState,
+            id = learningSession.CurrentStep.Question.Id,
+            index
+        });
     }
 }

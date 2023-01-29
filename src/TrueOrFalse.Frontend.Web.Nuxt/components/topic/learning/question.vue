@@ -122,7 +122,6 @@ watch(() => props.expandQuestion, (val) => {
 })
 
 function highlightCode(elementId: string) {
-    console.log('highlight')
     var el = document.getElementById(elementId)
     if (el != null)
         el.querySelectorAll('code').forEach(block => {
@@ -353,9 +352,7 @@ watch(isInWishknowledge, () => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .activeQ {
-    &::before {
-        color: @memo-grey-darker;
-    }
+    color: @memo-grey-darker;
 }
 
 .singleQuestionRow {

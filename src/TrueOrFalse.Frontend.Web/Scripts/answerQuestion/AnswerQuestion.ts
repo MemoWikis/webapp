@@ -208,7 +208,7 @@ class AnswerQuestion {
                             .attr('data-time-of-answer')),
                         inTestMode: isTestMode,
                         isLearningSession: $("#hddIsLearningSession").val()
-        }),
+                }),
                 cache: false,
                 success(result) {
                     $('div#answerFeedbackTry, a#CountWrongAnswers').show();

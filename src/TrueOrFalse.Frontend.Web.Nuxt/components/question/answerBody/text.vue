@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 
+const answer = ref('')
 </script>
 
 <template>
 
-    <textarea id="txtAnswer" class="form-control " rows="1" placeholder="Gib hier bitte deine Antwort ein.">
+    <textarea id="txtAnswer" class="form-control " rows="1" placeholder="Gib hier bitte deine Antwort ein."
+        v-model="answer">
     </textarea>
 
 </template>

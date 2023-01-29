@@ -7,7 +7,17 @@ const props = defineProps<Props>()
 const front = ref('')
 const back = ref('')
 const flipped = ref(false)
-const emit = defineEmits(['flip'])
+
+const solutionHtml = ref('')
+function init() {
+    solutionHtml.value = JSON.parse(props.solution).Text
+}
+onBeforeMount(() => {
+    init()
+})
+watch(() => props.solution, () => init())
+
+
 function flip() {
     flipped.value = !flipped.value
 }
@@ -23,7 +33,7 @@ defineExpose({ flip })
                     {{ props.text }}</p>
             </div>
             <div class="flashcard-back">
-                <template v-if="props.solution?.length > 0" v-html="props.solution"></template>
+                <template v-if="solutionHtml.length > 0" v-html="solutionHtml"></template>
             </div>
         </div>
     </div>
