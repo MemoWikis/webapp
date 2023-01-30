@@ -44,6 +44,8 @@ function calculateProgress() {
         s.state != AnswerState.Unanswered
     ).length
 
+    console.log(answered)
+
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
 
 }
@@ -61,7 +63,8 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
                 <div class="session-progress-bar">
                     <div class="session-progress">
                         <div v-for="step in learningSessionStore.steps" class="step"
-                            :class="{ 'answered': step.state != AnswerState.Unanswered }"></div>
+                            :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
+                        </div>
                     </div>
 
                     <div class="step-count">
@@ -97,11 +100,11 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.step {
-    &.answered {
-        background: @memo-green;
-    }
-}
+// .step {
+//     &.answered {
+//         background: @memo-green;
+//     }
+// }
 </style>
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
@@ -166,9 +169,18 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
             width: 100%;
             flex-grow: 2;
             height: 100%;
+            transition: all 0.5s ease-in-out;
 
             &.answered {
                 background: @memo-green;
+            }
+
+            &.skipped {
+                background: @memo-yellow;
+            }
+
+            &.false {
+                background: @memo-salmon;
             }
         }
     }

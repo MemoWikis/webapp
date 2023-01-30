@@ -298,7 +298,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
             align-items: center;
             flex-direction: column;
             width: 65px;
-            margin-right: 7px;
+            margin-right: 8px;
             cursor: pointer;
             font-size: 18px;
 

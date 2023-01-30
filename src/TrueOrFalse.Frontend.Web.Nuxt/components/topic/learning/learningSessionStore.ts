@@ -13,6 +13,7 @@ interface Step {
     state: AnswerState
     id: number
     index: number
+    isLastStep: boolean
 }
 
 interface NewSessionResult {
@@ -66,8 +67,19 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
                 this.currentStep = result.firstStep
+                this.currentIndex = result.firstStep.index
                 this.answerHelp = result.answerHelp
                 this.isInTestMode = result.isInTestMode
+                return true
+            } else return false
+        },
+        async loadSteps() {
+            const result = await $fetch<Step[]>('/apiVue/LearningSessionStore/LoadSteps/', {
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null) {
+                this.steps = result
                 return true
             } else return false
         },
@@ -83,7 +95,39 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             })
             if (result != null) {
                 this.currentStep = result
+                this.currentIndex = result.index
             }
+        },
+        loadNextQuestionInSession() {
+            if (this.currentIndex < this.steps[this.steps.length - 1].index)
+                this.changeActiveQuestion(this.currentIndex + 1)
+        },
+        async skipStep() {
+            const data = {
+                index: this.currentIndex
+            }
+            const result = await $fetch<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
+                {
+                    method: 'POST',
+                    body: data,
+                    credentials: 'include',
+                    mode: 'cors',
+                })
+            if (result) {
+                this.steps[this.currentIndex].state = AnswerState.Skipped
+                this.currentStep = result
+                this.currentIndex = result.index
+            }
+        },
+        markCurrentStepAsCorrect() {
+            if (this.currentStep)
+                this.currentStep.state = AnswerState.Correct
+            this.steps[this.currentIndex].state = AnswerState.Correct
+        },
+        markCurrentStepAsWrong() {
+            if (this.currentStep)
+                this.currentStep.state = AnswerState.False
+            this.steps[this.currentIndex].state = AnswerState.False
         }
     },
 })

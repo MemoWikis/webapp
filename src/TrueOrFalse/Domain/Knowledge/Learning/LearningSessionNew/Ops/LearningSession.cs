@@ -58,7 +58,8 @@ public class LearningSession
         {
             for (int i = CurrentIndex; i < index; i++)
             {
-                Steps[i].AnswerState = AnswerState.Skipped;
+                if (Steps[i].AnswerState == AnswerState.Unanswered)
+                    Steps[i].AnswerState = AnswerState.Skipped;
             }
         }
 

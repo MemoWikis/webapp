@@ -75,18 +75,20 @@ public class LearningSessionStoreController: BaseController
             return Json(new
             {
                 success = true,
-                steps = learningSession.Steps.Select((s, index) => new
+                steps = learningSession.Steps.Select((s, index) => new StepResult
                 {
                     id = s.Question.Id,
                     state = s.AnswerState,
-                    index = index
+                    index = index,
+                    isLastStep = learningSession.Steps.Last() == s
                 }).ToArray(),
                 activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
-                firstUnansweredStep = new
+                firstUnansweredStep = new StepResult
                 {
                     state = firstUnansweredStep.AnswerState,
                     id = firstUnansweredStep.Question.Id,
-                    index = learningSession.Steps.IndexOf(s => s == firstUnansweredStep)
+                    index = learningSession.Steps.IndexOf(s => s == firstUnansweredStep),
+                    isLastStep = learningSession.Steps.Last() == firstUnansweredStep
                 }
 
             });
@@ -97,18 +99,59 @@ public class LearningSessionStoreController: BaseController
             success = false
         }, JsonRequestBehavior.AllowGet);
     }
-
+        
     [HttpPost]
     public JsonResult LoadSpecificQuestion(int index)
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         learningSession.LoadSpecificQuestion(index);
 
-        return Json(new
+        return Json(new StepResult
         {
             state = learningSession.CurrentStep.AnswerState,
             id = learningSession.CurrentStep.Question.Id,
-            index
+            index = index,
+            isLastStep = learningSession.IsLastStep
         });
+    }
+
+    [HttpPost]
+    public JsonResult SkipStep(int index)
+    {
+        var learningSession = LearningSessionCache.GetLearningSession();
+        if (learningSession.CurrentIndex == index)
+        {
+            learningSession.SkipStep();
+            return Json(new StepResult
+            {
+                state = learningSession.CurrentStep.AnswerState,
+                id = learningSession.CurrentStep.Question.Id,
+                index = learningSession.CurrentIndex,
+                isLastStep = learningSession.IsLastStep
+            });
+        }
+
+        return Json(null);
+    }
+
+    [HttpGet]
+    public JsonResult LoadSteps()
+    {
+        var learningSession = LearningSessionCache.GetLearningSession();
+        return Json(learningSession.Steps.Select((s, index) => new StepResult
+        {
+            id = s.Question.Id,
+            state = s.AnswerState,
+            index = index,
+            isLastStep = learningSession.Steps.Last() == s
+        }).ToArray(), JsonRequestBehavior.AllowGet);
+    }
+
+    public class StepResult
+    {
+        public AnswerState state;
+        public int id;
+        public int index;
+        public bool isLastStep;
     }
 }

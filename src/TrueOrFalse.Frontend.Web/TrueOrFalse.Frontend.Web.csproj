@@ -289,6 +289,7 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\LearningSessionResultController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />
