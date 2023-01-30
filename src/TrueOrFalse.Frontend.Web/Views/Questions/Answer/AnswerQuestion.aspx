@@ -103,8 +103,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="" style="width: 100%; padding: 0 20px;">
-        <input type="hidden" id="hddIsLandingPage" value="<%=Model.PageCurrent == null ? "2" : Model.PageCurrent %>" />
-        <%-- value "1" is Questionsite , value 2 is LandingPage, Test or Learningsession is this input not available--%>
+        <input type="hidden" id="hddIsLandingPage" value="true" />
 
         <div id="FirstRow" class="row">
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model)); %>
