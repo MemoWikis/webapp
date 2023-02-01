@@ -110,9 +110,9 @@ public class GraphService
             }
         }
 
-        foreach (var parentCategory in parentsFromParentCategories)
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(
-                EntityCache.GetCategory(parentCategory.Id));
+        //foreach (var parentCategory in parentsFromParentCategories)
+        //    ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(
+        //        EntityCache.GetCategory(parentCategory.Id));
     }
 
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)

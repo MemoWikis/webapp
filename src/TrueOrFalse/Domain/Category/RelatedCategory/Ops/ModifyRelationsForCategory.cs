@@ -23,7 +23,7 @@ public class ModifyRelationsForCategory
         //RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType));
     }
 
-    public static void AddCategoryRelationOfType(Category category, int relatedCategoryId, bool isRelatedParent = false)
+    public static void AddCategoryRelation(Category category, int relatedCategoryId, bool isRelatedParent = false)
     {
         var relatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId);
         var categoryRelationToAdd = new CategoryRelation()
@@ -39,35 +39,24 @@ public class ModifyRelationsForCategory
         if (isRelatedParent) return;
 
         //Get all GrandChildren and add them to the CategoryRelations
-        foreach (CategoryRelation categoryRelation in category.CategoryRelations)
+        foreach (var categoryRelation in category.CategoryRelations)
         {
-            AddCategoryRelationOfType(category, categoryRelation.RelatedCategory.Id, true);
+            AddCategoryRelation(category, categoryRelation.RelatedCategory.Id, true);
         }
 
     }
 
     public static void AddParentCategory(Category child, int parent)
     {
-        AddCategoryRelationOfType(child, parent);
+        AddCategoryRelation(child, parent);
     }
 
     public static void AddParentCategories(Category category, List<int> relatedCategoryIds)
     {
         foreach (var relatedId in relatedCategoryIds)
         {
-            AddCategoryRelationOfType(category, relatedId);
+            AddCategoryRelation(category, relatedId);
         }
-    }
-
-    public static void UpdateRelationsOfTypeIncludesContentOf(CategoryCacheItem categoryCacheItem)
-    {
-        var allChildren = GetCategoryChildren.WithAppliedRules(categoryCacheItem);
-        var allChildrenAsId = allChildren.Select(cci => cci.Id).ToList();
-
-        UpdateCategoryRelationsOfType(categoryCacheItem.Id, allChildrenAsId);
-
-        categoryCacheItem.UpdateCountQuestionsAggregated();
-        Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(categoryCacheItem.Id), isFromModifiyRelations: true, author: SessionUser.User, type: CategoryChangeType.Relations, createCategoryChange: false);
     }
 
     public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)

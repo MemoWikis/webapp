@@ -4,16 +4,6 @@ public class CategoryNameAllowed
 {
     public IList<Category> ExistingCategories { get; private set; }
 
-    public bool Yes(EditCategoryModel model, CategoryType type)
-    {
-        return Yes(model.Name, type);
-    }
-
-    public bool No(EditCategoryModel model, CategoryType type)
-    {
-        return !Yes(model.Name, type);
-    }
-
     public bool Yes(Category category)
     {
         return Yes(category.Name, category.Type);

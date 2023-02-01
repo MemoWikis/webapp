@@ -18,84 +18,6 @@ public class EditCategoryController : BaseController
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
     private const string _viewPathTypeControls = "~/Views/Categories/Edit/TypeControls/{0}.ascx";
 
-    public EditCategoryController(CategoryRepository categoryRepository)
-    {
-        _categoryRepository = categoryRepository;
-        ActionInvoker = new JavaScriptActionInvoker();
-    }
-
-    //[SetMenu(MainMenuEntry.Categories)]
-    [SetThemeMenu(true)]
-    public ViewResult Edit(int id)
-    {
-        var category = _categoryRepository.GetById(id);
-
-        if (!PermissionCheck.CanEdit(category))
-            throw new SecurityException("Not allowed to edit category");
-
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
-
-        var model = new EditCategoryModel(category) { IsEditing = true };
-
-        if (TempData["createCategoryMsg"] != null)
-            model.Message = (SuccessMessage)TempData["createCategoryMsg"];
-
-        return View(_viewPath, model);
-    }
-
-    [HttpPost]
-    [SetThemeMenu(true)]
-    public ViewResult Edit(int id, EditCategoryModel model)
-    {
-        var oldcategoryCacheItem = EntityCache.GetCategory(id);
-        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(oldcategoryCacheItem, HistoryItemType.Edit));
-
-        if (!PermissionCheck.CanEdit(oldcategoryCacheItem))
-            throw new SecurityException("Not allowed to edit categoty");
-
-        var categoryAllowed = new CategoryNameAllowed();
-
-        model.FillReleatedCategoriesFromPostData(Request.Form);
-
-        var newParents = EntityCache.GetCategories(
-            model.ParentCategories.Select(c => c.Id))
-            .ToList();
-        var oldParents = oldcategoryCacheItem.ParentCategories();
-
-        var isChangeParents = !GraphService.IsCategoryParentEqual(newParents, oldParents);
-
-
-        model.UpdateCategory(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id));
-
-        if (model.Name != oldcategoryCacheItem.Name && categoryAllowed.No(model, oldcategoryCacheItem.Type))
-        {
-            model.Message = new ErrorMessage(
-                $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
-        }
-        else
-        {
-            _categoryRepository.Update(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id), SessionUser.User, Request["ImageIsNew"] == "true");
-
-            model.Message
-                = new SuccessMessage(
-                    "Das Thema wurde gespeichert. <br>" + "Du kannst es weiter bearbeiten oder" +
-                    $" <a href=\"{Links.CategoryDetail(oldcategoryCacheItem)}\">zur Detailansicht wechseln</a>.");
-        }
-        StoreImage(id);
-
-        if (isChangeParents)
-        {
-            Sl.Session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + id).ExecuteUpdate();
-            GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(EntityCache.GetCategory(id), oldParents);
-        }
-
-        model.Init(_categoryRepository.GetByIdEager(oldcategoryCacheItem.Id));
-        model.IsEditing = true;
-        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(oldcategoryCacheItem.Id).ToList();
-
-        return View(_viewPath, model);
-    }
-
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     [SetMainMenu(MainMenuEntry.Categories)]
@@ -490,8 +412,6 @@ public class EditCategoryController : BaseController
         });
     }
 
-
-
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult RemoveChildren(int parentCategoryId, int[] childCategoryIds)
@@ -546,7 +466,7 @@ public class EditCategoryController : BaseController
         category.CategoriesToExcludeIdsString = categoriesToExcludeIdsString;
         category.CategoriesToIncludeIdsString = categoriesToIncludeIdsString;
 
-        ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
+        //ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
     }
 
     [HttpPost]
@@ -568,11 +488,6 @@ public class EditCategoryController : BaseController
         catRepo.Update(category);
     }
 
-    public ActionResult GetEditCategoryAggregationModalContent(int categoryId)
-    {
-        var category = _categoryRepository.GetById(categoryId);
-        return View("~/Views/Categories/Modals/EditAggregationModal.ascx", new EditCategoryModel(category));
-    }
 
     public string GetCategoryGraphDisplay(int categoryId)
     {
