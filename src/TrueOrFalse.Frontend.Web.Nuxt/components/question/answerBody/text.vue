@@ -11,6 +11,14 @@ function resize() {
     }
 }
 
+function getAnswerDataString(): string {
+    return getAnswerText()
+}
+function getAnswerText(): string {
+    return answer.value
+}
+defineExpose({ getAnswerDataString, getAnswerText })
+
 </script>
 
 <template>

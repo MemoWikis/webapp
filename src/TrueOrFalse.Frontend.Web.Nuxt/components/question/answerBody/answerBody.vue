@@ -38,6 +38,7 @@ const showAnswerButtons = ref(true)
 async function answer() {
     amountOfTries.value++
     let solutionComponent
+
     switch (answerBodyModel.value?.solutionType) {
         case SolutionType.MultipleChoice:
             solutionComponent = multipleChoice.value
@@ -52,7 +53,6 @@ async function answer() {
             solutionComponent = flashcard.value
             break
     }
-    console.log(solutionComponent)
     if (solutionComponent == null)
         return
 
@@ -83,8 +83,15 @@ async function answer() {
         showAnswer.value = true
         if (result.newStepAdded)
             learningSessionStore.loadSteps()
-        // if (result.correct)
+
+        learningSessionStore.currentStep!.isLastStep = result.isLastStep
     }
+}
+
+const markFlashCardAsCorrect = ref(false)
+function answerFlashcard(isCorrect: boolean) {
+    markFlashCardAsCorrect.value = isCorrect
+    answer()
 }
 
 interface AnswerBodyModel {
@@ -106,8 +113,6 @@ interface AnswerBodyModel {
     isLastStep: boolean
 }
 
-const flashCardSolution = ref('')
-
 const answerBodyModel = ref<AnswerBodyModel | null>(null)
 
 async function loadAnswerBodyModel() {
@@ -126,24 +131,26 @@ async function loadAnswerBodyModel() {
     }
 }
 
-const interactionNumber = ref(0)
-
-async function markAsCorrect() {
-    const data = {
-        questionViewGuid: answerBodyModel.value?.questionViewGuid,
-        interactionNumber: interactionNumber.value,
-    }
-}
-
 function flip() {
     amountOfTries.value++
     flashcard.value.flip()
 }
 
-async function markFlashcardAsCorrect() {
+async function markAsCorrect() {
 
+    const data = {
+        questionViewGuid: answerBodyModel.value!.questionViewGuid,
+        amountOfTries: amountOfTries.value,
+    }
+
+    const result = $fetch<any>('/apiVue/AnswerBody/MarkAsCorrect', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+    })
+    console.log(result)
 }
-async function markFlashcardAsWrong() {
+async function markAsWrong() {
 
 }
 
@@ -162,22 +169,21 @@ learningSessionStore.$onAction(({ name, after }) => {
     })
 })
 
-const showResult = ref(false)
 function loadResult() {
     answerBodyModel.value = null
-    showResult.value = true
+    learningSessionStore.showResult = true
 
 }
 
 function startNewSession() {
-    showResult.value = false
+    learningSessionStore.showResult = false
     learningSessionStore.startNewSession()
 }
 </script>
 
 <template>
     <div>
-        <div id="AnswerBody" v-if="answerBodyModel && !showResult">
+        <div id="AnswerBody" v-if="answerBodyModel && !learningSessionStore.showResult">
             <div id="QuestionTitle" style="display:none">
                 {{ answerBodyModel.title }}
             </div>
@@ -279,7 +285,8 @@ function startNewSession() {
                                 </template>
                                 <QuestionAnswerBodyFlashcard
                                     v-else-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
-                                    :solution="answerBodyModel.solution" :text="answerBodyModel.text" />
+                                    :solution="answerBodyModel.solution" :text="answerBodyModel.text"
+                                    :marked-as-correct="markFlashCardAsCorrect" />
                                 <QuestionAnswerBodyMatchlist
                                     v-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
                                     :solution="answerBodyModel.solution" />
@@ -312,11 +319,11 @@ function startNewSession() {
 
                                             <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" v-else>
                                                 <button id="btnRightAnswer" class="btn btn-warning memo-button"
-                                                    @click="markFlashcardAsCorrect()">
+                                                    @click="answerFlashcard(true)">
                                                     Wusste ich!
                                                 </button>
                                                 <button id="btnWrongAnswer" class="btn btn-warning memo-button"
-                                                    @click="markFlashcardAsWrong()">
+                                                    @click="answerFlashcard(false)">
                                                     Wusste ich nicht!
                                                 </button>
                                                 <button
@@ -480,9 +487,9 @@ function startNewSession() {
                 <font-awesome-icon icon="fa-solid fa-circle-info"
                     v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
             </div>
-            <QuestionAnswerQuestionDetails :answer-body-model="answerBodyModel" />
+            <QuestionAnswerQuestionDetails :id="answerBodyModel.id" />
         </div>
-        <div v-else-if="showResult">
+        <div v-else-if="learningSessionStore.showResult">
             <QuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
         </div>
     </div>

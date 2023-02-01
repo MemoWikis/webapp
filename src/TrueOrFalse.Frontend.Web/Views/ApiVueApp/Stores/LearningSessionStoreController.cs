@@ -49,13 +49,19 @@ public class LearningSessionStoreController: BaseController
             return Json(new
             {
                 success = true,
-                steps = learningSession.Steps.Select((s, index) => new
+                steps = learningSession.Steps.Select((s, i) => new
                 {
                     id = s.Question.Id,
                     state = s.AnswerState,
-                    index = index
+                    index = i
                 }).ToArray(),
                 activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
+                lastQuestionInList = new
+                {
+                    id = learningSession.Steps[index].Question.Id,
+                    state = AnswerState.Unanswered,
+                    index = index
+                }
             }, JsonRequestBehavior.AllowGet);
         }
 

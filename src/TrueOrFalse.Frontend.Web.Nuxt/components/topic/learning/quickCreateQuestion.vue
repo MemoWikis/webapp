@@ -147,7 +147,7 @@ async function addFlashcard() {
                 customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
                 customBtn: '<div class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</div>',
             })
-
+        learningSessionStore.lastIndexInQuestionList = data.SessionIndex
         learningSessionStore.getLastStepInQuestionList()
         emit('newQuestionCreated', learningSessionStore.lastIndexInQuestionList)
         highlightEmptyFields.value = false

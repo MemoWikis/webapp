@@ -15,13 +15,13 @@ const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQues
       }
     }
   })
-
+const markFlashCardAsCorrect = ref(false)
 </script>
 
 <template>
   <div v-if="question" class="question-page-container">
     <QuestionAnswerBodyFlashcard v-if="question?.SolutionType == SolutionType.FlashCard" :solution="question.Solution"
-      :text="question.Text" />
+      :text="question.Text" :marked-as-correct="markFlashCardAsCorrect" />
   </div>
 </template>
 

@@ -2,6 +2,7 @@
 interface Props {
     text: string
     solution: string
+    markedAsCorrect: boolean
 }
 const props = defineProps<Props>()
 const front = ref('')
@@ -21,7 +22,16 @@ watch(() => props.solution, () => init())
 function flip() {
     flipped.value = !flipped.value
 }
-defineExpose({ flip })
+
+function getAnswerDataString(): string {
+    return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
+}
+function getAnswerText(): string {
+    return ''
+}
+defineExpose({ flip, getAnswerDataString, getAnswerText })
+
+
 </script>
 
 <template>

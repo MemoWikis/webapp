@@ -55,11 +55,10 @@ public class AnswerBodyController: BaseController
         int id,
         Guid questionViewGuid = new Guid(),
         string answer = "",
-        bool inTestMode = false,
-        bool isLearningSession = false)
+        bool inTestMode = false)
     {
-        if (isLearningSession)
-            LearningSessionCache.GetLearningSession().CurrentStep.Answer = answer;
+        var learningSession = LearningSessionCache.GetLearningSession();
+        learningSession.CurrentStep.Answer = answer;
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, 0,
             0, 0, new Guid(), inTestMode);
@@ -74,7 +73,30 @@ public class AnswerBodyController: BaseController
                 ? ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                 : null,
             newStepAdded = result.NewStepAdded,
-            numberSteps = result.NumberSteps,
+            isLastStep = learningSession.IsLastStep
         });
     }
+
+    [HttpPost]
+    public JsonResult MarkAsCorrect(int id, Guid questionViewGuid, int amountOfTries)
+    {
+        var result = amountOfTries == 0 ? 
+            _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true): 
+            _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, amountOfTries, true);
+        if (result != null)
+        {
+            return Json(true);
+        }
+        return Json(false);
+    }
+
+
+    [HttpPost]
+    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId, int? learningSessionId, string learningSessionStepGuid) =>
+        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
+
+    [HttpPost]
+    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId, int? learningSessionId) =>
+        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
+
 }

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useLearningSessionConfigurationStore, StoredSessionConfig } from './learningSessionConfigurationStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
+import { useUserStore } from '~~/components/user/userStore'
 
+const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const expandAllQuestions = ref(false)
@@ -11,6 +13,16 @@ const showFilter = ref(true)
 
 onBeforeMount(() => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
+})
+
+learningSessionConfigurationStore.$subscribe((state: any) => {
+    if (userStore.isLoggedIn) {
+        const sessionConfigState: StoredSessionConfig = {
+            userId: userStore.id,
+            state: state
+        }
+        localStorage.setItem('learningSessionConfiguration', JSON.stringify(sessionConfigState))
+    }
 })
 
 watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
@@ -43,11 +55,7 @@ function calculateProgress() {
     const answered = learningSessionStore.steps.filter(s =>
         s.state != AnswerState.Unanswered
     ).length
-
-    console.log(answered)
-
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
-
 }
 
 watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {
@@ -97,15 +105,7 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
         </div>
     </div>
 </template>
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
 
-// .step {
-//     &.answered {
-//         background: @memo-green;
-//     }
-// }
-</style>
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 

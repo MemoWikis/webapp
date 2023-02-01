@@ -423,7 +423,8 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
                                     <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
-                                        :index="index" @removeTopic="removeTopic" :selected-topics="selectedTopics" />
+                                        :index="index" @removeTopic="removeTopic"
+                                        :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
                                 <Search :search-type="SearchType.Category" :show-search-icon="false" :show-search="true"

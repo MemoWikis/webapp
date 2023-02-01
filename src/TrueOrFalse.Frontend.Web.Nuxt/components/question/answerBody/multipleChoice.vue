@@ -1,6 +1,4 @@
 <script lang=ts setup>
-import { selectNodeBackward } from '@tiptap/core/dist/packages/core/src/commands'
-
 
 interface Props {
     solution: string,
@@ -14,6 +12,7 @@ interface Choice {
 }
 
 function init() {
+    selected.value = []
     const json: { Choices: Choice[], isSolutionOrdered: boolean } = JSON.parse(props.solution)
     localChoices.value = json.Choices
 }

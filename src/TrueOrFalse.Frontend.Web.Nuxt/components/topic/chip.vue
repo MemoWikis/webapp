@@ -1,6 +1,13 @@
 <script lang="ts" setup>
+import { TopicItem } from '../search/searchHelper'
 
-const props = defineProps(['topic', 'selectedTopics', 'index'])
+
+interface Props {
+    topic: TopicItem
+    removableChip?: boolean
+    index?: number
+}
+const props = defineProps<Props>()
 const emit = defineEmits(['removeTopic'])
 
 const hover = ref(false)
@@ -31,7 +38,7 @@ onMounted(() => {
                 </div>
             </NuxtLink>
         </div>
-        <div class="category-chip-deleteBtn" v-if="props.selectedTopics?.length > 1"
+        <div class="category-chip-deleteBtn" v-if="props.removableChip"
             @click="emit('removeTopic', { index: props.index, topicId: props.topic.Id })">
             <font-awesome-icon icon="fa-solid fa-xmark" />
         </div>
