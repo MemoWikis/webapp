@@ -71,10 +71,10 @@ async function loadNewQuestion(index: number) {
 </script>
 
 <template>
-    <div class="col-xs-12" id="QuestionListComponent">
+    <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
-            :is-last-item="index == (questions.length - 1)" :session-index="index"
+            :is-last-item="index == (questions.length - 1)" :session-index="q.SessionIndex"
             :expand-question="props.expandQuestion" :key="q.Id" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />

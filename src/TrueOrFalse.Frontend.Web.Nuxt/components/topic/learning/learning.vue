@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useLearningSessionConfigurationStore, StoredSessionConfig } from './learningSessionConfigurationStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
+import { useUserStore } from '~~/components/user/userStore'
 
+const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const expandAllQuestions = ref(false)
@@ -11,6 +13,16 @@ const showFilter = ref(true)
 
 onBeforeMount(() => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
+})
+
+learningSessionConfigurationStore.$subscribe((state: any) => {
+    if (userStore.isLoggedIn) {
+        const sessionConfigState: StoredSessionConfig = {
+            userId: userStore.id,
+            state: state
+        }
+        localStorage.setItem('learningSessionConfiguration', JSON.stringify(sessionConfigState))
+    }
 })
 
 watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
@@ -43,9 +55,7 @@ function calculateProgress() {
     const answered = learningSessionStore.steps.filter(s =>
         s.state != AnswerState.Unanswered
     ).length
-
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
-
 }
 
 watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {
@@ -61,7 +71,8 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
                 <div class="session-progress-bar">
                     <div class="session-progress">
                         <div v-for="step in learningSessionStore.steps" class="step"
-                            :class="{ 'answered': step.state != AnswerState.Unanswered }"></div>
+                            :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
+                        </div>
                     </div>
 
                     <div class="step-count">
@@ -85,8 +96,8 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
             </div>
         </div>
     </div>
+    <QuestionAnswerBody />
 
-    <!-- <LazyQuestionAnswerBody v-if="answerBodyModel != null" :answer-body-model="answerBodyModel" /> -->
     <div>
         <div class="col-xs-12" id="QuestionListContainer">
             <TopicLearningQuestionsSection />
@@ -94,15 +105,7 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
         </div>
     </div>
 </template>
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
 
-.step {
-    &.answered {
-        background: @memo-green;
-    }
-}
-</style>
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
@@ -166,9 +169,18 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
             width: 100%;
             flex-grow: 2;
             height: 100%;
+            transition: all 0.5s ease-in-out;
 
             &.answered {
                 background: @memo-green;
+            }
+
+            &.skipped {
+                background: @memo-yellow;
+            }
+
+            &.false {
+                background: @memo-salmon;
             }
         }
     }

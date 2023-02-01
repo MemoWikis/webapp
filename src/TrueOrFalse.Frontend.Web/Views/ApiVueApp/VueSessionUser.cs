@@ -29,7 +29,8 @@ public class VueSessionUser
                 : "",
             Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
             ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
-            PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId)
+            PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId),
+            TotalActivityPoints = SessionUser.GetTotalActivityPoints()
         };
     }
     private enum UserType

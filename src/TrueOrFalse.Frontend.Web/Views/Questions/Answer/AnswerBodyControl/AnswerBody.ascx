@@ -189,7 +189,7 @@
                                     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()){ %>
                                         <div id="buttons-first-try" class="ButtonGroup">
                                         <a href="#" id="btnCheck" class="btn btn-primary memo-button" rel="nofollow">Antworten</a>
-                                        <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
+                                        <% if (!Model.IsInTestMode && Model.AnswerHelp || !Model.IsInLearningTab){ %>
                                             <a href="#" class="selectorShowSolution SecAction btn btn-link memo-button"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                         <% }%>
                                         </div>
@@ -197,7 +197,7 @@
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning memo-button" rel="nofollow">Wusste ich!</a>
                                             <a href="#" id="btnWrongAnswer" class="btn btn-warning memo-button" rel="nofollow">Wusste ich nicht!</a>
-                                            <% if (!Model.IsInTestMode && Model.AnswerHelp){ %>
+                                            <% if (!Model.IsInTestMode && Model.AnswerHelp || !Model.IsInLearningTab){ %>
                                                 <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link memo-button">Nicht werten!</a>
                                             <% } %>
                                             </div>

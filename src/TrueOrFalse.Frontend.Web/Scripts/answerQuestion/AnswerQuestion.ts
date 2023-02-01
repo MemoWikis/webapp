@@ -33,7 +33,7 @@ class AnswerQuestion {
     public ShowedSolutionOnly = false;
 
     constructor(answerEntry: IAnswerEntry = null) {
-        this.IsLandingPage = $("#hddIsLandingPage").val() == "2";
+        this.IsLandingPage = $("#hddIsLandingPage").val() == "true"; 
         this.SolutionType = answerEntry.SolutionType;
         this.IsGameMode = answerEntry.IsGameMode;
 
@@ -208,7 +208,7 @@ class AnswerQuestion {
                             .attr('data-time-of-answer')),
                         inTestMode: isTestMode,
                         isLearningSession: $("#hddIsLearningSession").val()
-        }),
+                }),
                 cache: false,
                 success(result) {
                     $('div#answerFeedbackTry, a#CountWrongAnswers').show();
@@ -242,6 +242,7 @@ class AnswerQuestion {
     }
 
     private HideChipsOnLandingPageAndDisplayCards() {
+        // this.isLandingPage Code Block wird nicht wirklich genutzt, da .question-details nicht existiert
         if (this.IsLandingPage) {
 
             if (window.innerWidth < 768) {

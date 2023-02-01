@@ -292,13 +292,11 @@ const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
-
-    let result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
+    const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
     })
-
     if (result != null) {
         solutionType.value = result.SolutionType as SolutionType
         initiateSolution(result.Solution)
@@ -320,8 +318,9 @@ async function getQuestionData(id: number) {
 
 watch(() => editQuestionStore.showModal, (e) => {
     if (e) {
-        if (editQuestionStore.edit)
+        if (editQuestionStore.edit) {
             getQuestionData(editQuestionStore.id)
+        }
         else {
             if (editQuestionStore.topicId == topicStore.id)
                 selectedTopics.value = [topicStore.searchTopicItem!]
@@ -354,8 +353,9 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
 </script>
 
 <template>
-    <Modal :modal-width="600" primary-btn="Speichern" :is-full-size-buttons="false" secondary-btn="Abbrechen"
-        @close="editQuestionStore.showModal = false" @main-btn="save()" :show="editQuestionStore.showModal">
+    <Modal :modal-width="600" :primary-btn="editQuestionStore.edit ? ' Speichern' : 'Hinzufügen'"
+        :is-full-size-buttons="false" secondary-btn="Abbrechen" @close="editQuestionStore.showModal = false"
+        @main-btn="save()" :show="editQuestionStore.showModal">
         <template v-slot:header>
 
         </template>
@@ -423,7 +423,8 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
                                     <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
-                                        :index="index" @removeTopic="removeTopic" :selected-topics="selectedTopics" />
+                                        :index="index" @removeTopic="removeTopic"
+                                        :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
                                 <Search :search-type="SearchType.Category" :show-search-icon="false" :show-search="true"
@@ -639,18 +640,6 @@ select {
 
 .form-group {
     margin-bottom: 16px;
-}
-
-.ProseMirror,
-input,
-textarea,
-select {
-    border: solid 1px @memo-grey-light;
-    border-radius: 0;
-
-    &.is-empty {
-        border: solid 1px @memo-salmon;
-    }
 }
 
 .is-empty {

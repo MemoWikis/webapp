@@ -118,6 +118,32 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     }
 
     public AnswerQuestionResult Run(
+        int questionId,
+        int userId,
+        Guid questionViewGuid,
+        int interactionNumber,
+        bool countLastAnswerAsCorrect = false,
+        bool countUnansweredAsCorrect = false)
+    {
+        if (countLastAnswerAsCorrect && countUnansweredAsCorrect)
+            throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
+
+        if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
+        {
+            var learningSession = LearningSessionCache.GetLearningSession();
+            learningSession.SetCurrentStepAsCorrect();
+
+            var answer = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
+            answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
+            return Run(questionId, "", userId, (question, answerQuestionResult) =>
+                _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
+
+            // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
+        }
+        throw new Exception("neither countLastAnswerAsCorrect or countUnansweredAsCorrect true");
+    }
+
+    public AnswerQuestionResult Run(
         int questionId, 
         string answer, 
         int userId,

@@ -1,16 +1,37 @@
 <script lang="ts" setup>
-import { Question } from '../question'
 interface Props {
-    question: Question
+    text: string
+    solution: string
+    markedAsCorrect: boolean
 }
 const props = defineProps<Props>()
 const front = ref('')
 const back = ref('')
 const flipped = ref(false)
-const emit = defineEmits(['flip'])
+
+const solutionHtml = ref('')
+function init() {
+    solutionHtml.value = JSON.parse(props.solution).Text
+}
+onBeforeMount(() => {
+    init()
+})
+watch(() => props.solution, () => init())
+
+
 function flip() {
     flipped.value = !flipped.value
 }
+
+function getAnswerDataString(): string {
+    return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
+}
+function getAnswerText(): string {
+    return ''
+}
+defineExpose({ flip, getAnswerDataString, getAnswerText })
+
+
 </script>
 
 <template>
@@ -19,10 +40,10 @@ function flip() {
             <div class="flashcard-front">
                 <p class="QuestionText"
                     style="text-align: center; font-family: Open Sans, Arial, sans-serif; margin: 0;">
-                    {{ props.question.Text }}</p>
+                    {{ props.text }}</p>
             </div>
             <div class="flashcard-back">
-                <template v-if="props.question.Solution.length > 0" v-html="props.question.Solution"></template>
+                <template v-if="solutionHtml.length > 0" v-html="solutionHtml"></template>
             </div>
         </div>
     </div>

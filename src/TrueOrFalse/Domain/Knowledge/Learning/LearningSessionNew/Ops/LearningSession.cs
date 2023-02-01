@@ -11,7 +11,7 @@ public class LearningSession
     public int Pager;
 
     public int CurrentIndex { get; private set; }
-    public bool IsLastStep { get; private set; }
+    public bool IsLastStep => TestIsLastStep();
     public LearningSessionStep CurrentStep => Steps[CurrentIndex];
     public string UrlName = "";
 
@@ -37,8 +37,6 @@ public class LearningSession
 
     public void NextStep()
     {
-        IsLastStep = TestIsLastStep();
-
         if (!IsLastStep)
             CurrentIndex++;
     }
@@ -46,7 +44,6 @@ public class LearningSession
     public void SkipStep()
     {
         CurrentStep.AnswerState = AnswerState.Skipped;
-        IsLastStep = TestIsLastStep();
 
         if (!IsLastStep)
             CurrentIndex++;
@@ -58,7 +55,8 @@ public class LearningSession
         {
             for (int i = CurrentIndex; i < index; i++)
             {
-                Steps[i].AnswerState = AnswerState.Skipped;
+                if (Steps[i].AnswerState == AnswerState.Unanswered)
+                    Steps[i].AnswerState = AnswerState.Skipped;
             }
         }
 

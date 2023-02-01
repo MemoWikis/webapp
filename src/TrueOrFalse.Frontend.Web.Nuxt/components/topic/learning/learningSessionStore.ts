@@ -10,28 +10,33 @@ export enum AnswerState {
 }
 
 interface Step {
-    state: AnswerState,
-    id: number,
+    state: AnswerState
+    id: number
     index: number
+    isLastStep: boolean
 }
 
 interface NewSessionResult {
-    success: boolean,
-    steps: Step[],
-    activeQuestionCount: number,
+    success: boolean
+    steps: Step[]
+    activeQuestionCount: number
     firstStep: Step
+    answerHelp: boolean
+    isInTestMode: boolean
 }
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
     state: () => {
         return {
             isLearningSession: true,
-            isTestMode: false,
+            isInTestMode: false,
             lastIndexInQuestionList: 0,
             currentIndex: 0,
             steps: [] as Step[],
             currentStep: null as Step | null,
-            activeQuestionCount: 0
+            activeQuestionCount: 0,
+            answerHelp: true,
+            showResult: false,
         }
     },
     actions: {
@@ -40,13 +45,16 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 success: boolean,
                 steps: Step[],
                 activeQuestionCount: number,
-            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/&index=${this.lastIndexInQuestionList}`, {
+                lastQuestionInList: Step
+            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/?index=${this.lastIndexInQuestionList}`, {
                 mode: 'cors',
                 credentials: 'include'
             })
             if (result != null && result.success) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
+                this.currentStep = result.lastQuestionInList
+                this.currentIndex = result.lastQuestionInList.index
                 return true
             } else return false
         },
@@ -63,14 +71,67 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
                 this.currentStep = result.firstStep
+                this.currentIndex = result.firstStep.index
+                this.answerHelp = result.answerHelp
+                this.isInTestMode = result.isInTestMode
+                return true
+            } else return false
+        },
+        async loadSteps() {
+            const result = await $fetch<Step[]>('/apiVue/LearningSessionStore/LoadSteps/', {
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null) {
+                this.steps = result
                 return true
             } else return false
         },
         answerQuestion() {
 
         },
-        changeActiveQuestion(index: number) {
-            console.log(index)
+        async changeActiveQuestion(index: number) {
+            const result = await $fetch<Step>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
+                method: 'POST',
+                body: { index: index },
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null) {
+                this.currentStep = result
+                this.currentIndex = result.index
+            }
+        },
+        loadNextQuestionInSession() {
+            if (this.currentIndex < this.steps[this.steps.length - 1].index)
+                this.changeActiveQuestion(this.currentIndex + 1)
+        },
+        async skipStep() {
+            const data = {
+                index: this.currentIndex
+            }
+            const result = await $fetch<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
+                {
+                    method: 'POST',
+                    body: data,
+                    credentials: 'include',
+                    mode: 'cors',
+                })
+            if (result) {
+                this.steps[this.currentIndex].state = AnswerState.Skipped
+                this.currentStep = result
+                this.currentIndex = result.index
+            }
+        },
+        markCurrentStepAsCorrect() {
+            if (this.currentStep)
+                this.currentStep.state = AnswerState.Correct
+            this.steps[this.currentIndex].state = AnswerState.Correct
+        },
+        markCurrentStepAsWrong() {
+            if (this.currentStep)
+                this.currentStep.state = AnswerState.False
+            this.steps[this.currentIndex].state = AnswerState.False
         }
     },
 })

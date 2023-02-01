@@ -62,7 +62,9 @@ const editor = useEditor({
         emit('setQuestionData', editor)
     },
 })
-
+onMounted(() => {
+    editor.value?.commands.setContent(props.content)
+})
 watch(() => props.content, (c) => {
     editor.value?.commands.setContent(c)
 })
