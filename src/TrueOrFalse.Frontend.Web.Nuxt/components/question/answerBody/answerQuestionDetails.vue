@@ -30,9 +30,9 @@ const wrongAnswers = ref('0')
 const overallAnswerCount = ref(0)
 const overallAnsweredCorrectly = ref(0)
 const overallAnsweredWrongly = ref(0)
-const allAnswerCount = ref(0)
-const allCorrectAnswers = ref(0)
-const allWrongAnswers = ref(0)
+const allAnswerCount = ref('0')
+const allCorrectAnswers = ref('0')
+const allWrongAnswers = ref('0')
 const isInWishknowledge = ref(false)
 const showTopBorder = ref(false)
 const arcSvg = ref<any>({})
@@ -409,12 +409,12 @@ function drawCounterArcs() {
         .attr("d", arc)
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
-        .style("visibility", () => overallAnswerCount.value > 0 ? "visible" : "hidden");
+        .style("visibility", () => overallAnswerCount.value > 0 ? "visible" : "hidden")
 
     overallCounterSvg.value.selectAll("i")
         .style("color", () => {
-            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
-        });
+            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+        })
 
     overallCounterSvg.value
         .append('svg:foreignObject')
@@ -423,11 +423,11 @@ function drawCounterArcs() {
         .attr('x', -10)
         .attr('y', -8)
         .html(() => {
-            var fontColor = overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
+            var fontColor = overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
             if (visibility.value == Visibility.Owner)
-                return "<i class='fas fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>";
+                return "<i class='fas fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
-                return "<i class='fas fa-users' style='font-size:16px; color:" + fontColor + "'> </i>";
+                return "<i class='fas fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"
 
         });
 }
@@ -436,12 +436,12 @@ function updateCounters() {
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
         .style("visibility", () => {
-            return personalAnswerCount.value > 0 ? "visible" : "hidden";
+            return personalAnswerCount.value > 0 ? "visible" : "hidden"
         })
 
     personalCounterSvg.selectAll("i")
         .style("color", () => {
-            return personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
+            return personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
         })
 
     personalCounterSvg.selectAll(".personalWrongAnswerCounter")
@@ -638,13 +638,13 @@ function setAvgLabel() {
         .text("∅ " + avgProbability + "%")
 }
 
-const semiPieRef = ref()
+const semiPie = ref()
 function drawArc() {
 
     var width = 200
     var height = 130
 
-    arcSvg.value = d3.select(semiPieRef.value).append("svg")
+    arcSvg.value = d3.select(semiPie.value).append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g").attr("transform", "translate(" + width / 2 + "," + (height - 50) + ")")
@@ -725,8 +725,8 @@ onMounted(() => {
 
 watch(() => props.id, () => loadData())
 
-function abbreviateNumber(val: number) {
-    var newVal;
+function abbreviateNumber(val: number): string {
+    var newVal
     if (val < 1000000) {
         return val.toLocaleString("de-DE")
     }
@@ -734,6 +734,7 @@ function abbreviateNumber(val: number) {
         newVal = val / 1000000
         return parseInt(newVal.toFixed(2)).toLocaleString("de-DE") + " Mio."
     }
+    return ''
 }
 
 watch(personalAnswerCount, (val) => {
@@ -743,31 +744,31 @@ watch(personalAnswerCount, (val) => {
     answerCount.value = abbreviateNumber(val)
 })
 
+watch(personalAnsweredCorrectly, (val) => {
+    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
+    correctAnswers.value = abbreviateNumber(val)
+})
 
-personalAnsweredCorrectly: function(val) {
-    personalStartAngle = 100 - (100 / personalAnswerCount * personalAnsweredCorrectly);
-    correctAnswers = abbreviateNumber(val);
-},
+watch(personalAnsweredWrongly, (val) => {
+    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
+    wrongAnswers.value = abbreviateNumber(val)
+})
 
-personalAnsweredWrongly: function (val) {
-    personalStartAngle = 100 - (100 / personalAnswerCount * personalAnsweredCorrectly);
-    wrongAnswers = abbreviateNumber(val);
-},
+watch(overallAnswerCount, (val) => {
+    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
+    allAnswerCount.value = abbreviateNumber(val);
+})
 
-overallAnswerCount: function(val) {
-    overallStartAngle = 100 - (100 / overallAnswerCount * overallAnsweredCorrectly);
-    allAnswerCount = abbreviateNumber(val);
-},
+watch(overallAnsweredCorrectly, (val) => {
+    allCorrectAnswers.value = abbreviateNumber(val);
+    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
+})
 
-overallAnsweredCorrectly: function (val) {
-    allCorrectAnswers = abbreviateNumber(val);
-    overallStartAngle = 100 - (100 / overallAnswerCount * overallAnsweredCorrectly);
-},
+watch(overallAnsweredWrongly, (val) => {
+    allWrongAnswers.value = abbreviateNumber(val);
+    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
+})
 
-overallAnsweredWrongly: function (val) {
-    allWrongAnswers = abbreviateNumber(val);
-    overallStartAngle = 100 - (100 / overallAnswerCount * overallAnsweredCorrectly);
-},
 
 </script>
 
@@ -782,7 +783,8 @@ overallAnsweredWrongly: function (val) {
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
-                            <TopicChip v-for="(t, index) in topics" :key="index" :topic="t" :index="index" />
+                            <TopicChip v-for="(t, index) in topics" :key="index" :topic="t" :index="index"
+                                :is-spoiler="learningSessionStore.isInTestMode" />
 
                         </div>
                     </div>

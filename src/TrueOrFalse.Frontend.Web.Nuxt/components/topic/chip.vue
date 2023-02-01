@@ -6,6 +6,7 @@ interface Props {
     topic: TopicItem
     removableChip?: boolean
     index?: number
+    isSpoiler?: boolean
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['removeTopic'])
@@ -20,7 +21,6 @@ onMounted(() => {
 
     name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name;
 })
-
 </script>
 
 <template>
