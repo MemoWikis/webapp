@@ -34,18 +34,17 @@ watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber,
 })
 
 const topicStore = useTopicStore()
-const answerBodyModel = ref()
 
 onMounted(async () => {
     var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
-    answerBodyModel.value = await $fetch<any>(`/apiVue/Learning/GetNewAnswerBodyForTopic/`, {
+    const count = await $fetch<number>(`/apiVue/Learning/GetCount/`, {
         body: sessionJson,
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
     })
 
-    learningSessionConfigurationStore.setCounter(answerBodyModel.value?.counter)
+    learningSessionConfigurationStore.setCounter(count)
     learningSessionStore.startNewSession()
 })
 

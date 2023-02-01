@@ -117,7 +117,7 @@ public class LearningSessionStoreController: BaseController
             state = learningSession.CurrentStep.AnswerState,
             id = learningSession.CurrentStep.Question.Id,
             index = index,
-            isLastStep = learningSession.IsLastStep
+            isLastStep = learningSession.TestIsLastStep()
         });
     }
 
@@ -133,7 +133,7 @@ public class LearningSessionStoreController: BaseController
                 state = learningSession.CurrentStep.AnswerState,
                 id = learningSession.CurrentStep.Question.Id,
                 index = learningSession.CurrentIndex,
-                isLastStep = learningSession.IsLastStep
+                isLastStep = learningSession.TestIsLastStep()
             });
         }
 
