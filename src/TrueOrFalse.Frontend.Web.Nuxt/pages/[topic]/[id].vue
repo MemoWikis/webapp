@@ -8,7 +8,6 @@ interface Props {
     tab?: Tab
 }
 const props = defineProps<Props>()
-
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 const route = useRoute()

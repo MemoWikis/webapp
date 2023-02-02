@@ -1,5 +1,31 @@
 <script lang="ts" setup>
 
+const props = defineProps(['solution'])
+
+interface Pair {
+    ElementLeft: ElementLeft;
+    ElementRight: ElementRight;
+}
+
+interface ElementLeft {
+    Text: string;
+}
+
+interface ElementRight {
+    Text: string;
+}
+
+const pairs = ref([])
+function getAnswerDataString(): string {
+    // return selected.value.join("%seperate&xyz%")
+    return ''
+}
+function getAnswerText(): string {
+    // return selected.value.join("</br>")
+    return ''
+
+}
+defineExpose({ getAnswerDataString, getAnswerText })
 
 </script>
 

@@ -12,6 +12,7 @@ import { useTopicStore } from '../../topic/topicStore'
 import { Editor } from '@tiptap/vue-3'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
+import { SearchType } from '../../search/searchHelper'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
@@ -47,14 +48,15 @@ function setDescriptionData(editor: Editor) {
     descriptionHtml.value = editor.getHTML()
 }
 
-const textSolution = ref(null as string | null)
-const multipleChoiceJson = ref(null as string | null)
-const matchListJson = ref(null as string | null)
-const flashCardAnswer = ref(null as string | null)
+const textSolution = ref<string | null>(null)
+const multipleChoiceJson = ref<string | null>(null)
+const matchListJson = ref<string | null>(null)
+const flashCardAnswer = ref<string | null>(null)
 
 
-const topicIds = ref([] as number[])
-const selectedTopics = ref([] as TopicItem[])
+const topicIds = ref<number[]>([])
+const selectedTopics = ref<TopicItem[]>([])
+const privateTopicIds = ref<number[]>([])
 function removeTopic(t: TopicItem) {
     if (selectedTopics.value.length > 1) {
         var index = selectedTopics.value.findIndex(s => s == t)
@@ -258,15 +260,15 @@ async function save() {
 
 type QuestionData = {
     SolutionType: SolutionType
-    Solution: string,
-    SolutionMetadataJson: string,
-    Text: string,
-    TextExtended: string,
-    TopicIds: number[],
-    DescriptionHtml: string,
-    Topics: SearchTopicItem[],
-    LicenseId: number,
-    Visibility: Visibility,
+    Solution: string
+    SolutionMetadataJson: string
+    Text: string
+    TextExtended: string
+    TopicIds: number[]
+    DescriptionHtml: string
+    Topics: SearchTopicItem[]
+    LicenseId: number
+    Visibility: Visibility
 }
 
 function initiateSolution(solution: string) {
@@ -290,22 +292,19 @@ const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
-
-    let result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
+    const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
     })
-
     if (result != null) {
         solutionType.value = result.SolutionType as SolutionType
         initiateSolution(result.Solution)
         questionHtml.value = result.Text
         questionExtensionHtml.value = result.TextExtended
         descriptionHtml.value = result.DescriptionHtml
-
         topicIds.value = result.TopicIds
-        topics.value = result.Topics
+        selectedTopics.value = result.Topics
         licenseId.value = result.LicenseId
         solutionMetadataJson.value = result.SolutionMetadataJson
         if (result.Visibility == 1)
@@ -319,15 +318,18 @@ async function getQuestionData(id: number) {
 
 watch(() => editQuestionStore.showModal, (e) => {
     if (e) {
+        if (editQuestionStore.edit) {
+            getQuestionData(editQuestionStore.id)
+        }
+        else {
+            if (editQuestionStore.topicId == topicStore.id)
+                selectedTopics.value = [topicStore.searchTopicItem!]
 
-    }
-    if (editQuestionStore.edit)
-        getQuestionData(editQuestionStore.id)
-    else {
-        topicIds.value = [editQuestionStore.topicId]
-        questionHtml.value = editQuestionStore.questionHtml
-        solutionType.value = SolutionType.FlashCard
-        initiateSolution(editQuestionStore.flashCardAnswerHtml)
+            topicIds.value = [editQuestionStore.topicId]
+            questionHtml.value = editQuestionStore.questionHtml
+            solutionType.value = SolutionType.FlashCard
+            initiateSolution(editQuestionStore.flashCardAnswerHtml)
+        }
     }
 })
 
@@ -351,13 +353,15 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
 </script>
 
 <template>
-    <div id="EditQuestionModal">
-        <Modal :showCloseButton="true" :modalWidth="600" button1Text="Speichern" :isFullSizeButtons="true"
-            @close="editQuestionStore.showModal = false" @mainBtn="save()" :show="editQuestionStore.showModal">
-            <template v-slot:header>
+    <Modal :modal-width="600" :primary-btn="editQuestionStore.edit ? ' Speichern' : 'Hinzufügen'"
+        :is-full-size-buttons="false" secondary-btn="Abbrechen" @close="editQuestionStore.showModal = false"
+        @main-btn="save()" :show="editQuestionStore.showModal">
+        <template v-slot:header>
 
-            </template>
-            <template v-slot:body>
+        </template>
+        <template v-slot:body>
+            <div id="EditQuestionModal">
+
                 <div class="edit-question-modal-header overline-m overline-title">
 
                     <div class="main-header">
@@ -419,10 +423,15 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
                                     <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
-                                        :index="index" @removeTopic="removeTopic" />
+                                        :index="index" @removeTopic="removeTopic"
+                                        :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
-                                <input ref="searchInput" class="form-control dropdown-toggle" type="text"
+                                <Search :search-type="SearchType.Category" :show-search-icon="false" :show-search="true"
+                                    :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
+                                    placeholder-label="Bitte gib den Namen des Themas ein"
+                                    :show-default-search-icon="true" @select-item="selectTopic" />
+                                <!-- <input ref="searchInput" class="form-control dropdown-toggle" type="text"
                                     v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
                                     @click="lockDropdown = false" aria-haspopup="true"
                                     placeholder="Bitte gib den Namen des Themas ein" />
@@ -438,10 +447,10 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
                                     </li>
                                     <li class="dropdownFooter body-m">
                                         <b>{{ totalCount }}</b> Treffer. <br />
-                                        <!-- Deins ist nicht dabei? <span class="dropdownLink"
-                                            @click="createCategory = true">Erstelle hier dein Thema</span> -->
+                                        Deins ist nicht dabei? <span class="dropdownLink"
+                                            @click="createCategory = true">Erstelle hier dein Thema</span>
                                     </li>
-                                </ul>
+                                </ul> -->
                             </div>
 
                         </form>
@@ -500,16 +509,15 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
                         <option value="4">BLAC</option>
                     </select>
                 </div>
-            </template>
-            <template v-slot:footer-text></template>
+            </div>
 
+        </template>
 
-        </Modal>
-    </div>
+    </Modal>
 
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
 .modal-footer {
@@ -632,18 +640,6 @@ select {
 
 .form-group {
     margin-bottom: 16px;
-}
-
-.ProseMirror,
-input,
-textarea,
-select {
-    border: solid 1px @memo-grey-light;
-    border-radius: 0;
-
-    &.is-empty {
-        border: solid 1px @memo-salmon;
-    }
 }
 
 .is-empty {

@@ -48,4 +48,3 @@ public enum RepetitionType
     Normal,
     Leitner
 }
-

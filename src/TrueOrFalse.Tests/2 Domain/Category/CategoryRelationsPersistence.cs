@@ -9,7 +9,7 @@ class CategoryRelationsPersistence : BaseTest
     [Test]
     public void ShouldAggregateGrandChildren()
     {
-        var editCategoryController = new EditCategoryController(Sl.CategoryRepo);
+        var editCategoryController = new EditCategoryController();
         var user = ContextUser.GetUser();
         var rootCategory = new Category("Root");
         rootCategory.Creator = user;

@@ -24,7 +24,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var parentCategory = catRepo.GetById(parentCategoryId);
 
             ModifyRelationsForCategory.AddParentCategory(childCategory, parentCategoryId);
-            ModifyRelationsForCategory.AddCategoryRelationOfType(childCategory, parentCategoryId);
+            ModifyRelationsForCategory.AddCategoryRelation(childCategory, parentCategoryId);
 
             catRepo.Update(childCategory, SessionUser.User, type: CategoryChangeType.Relations);
             catRepo.Update(parentCategory, SessionUser.User, type: CategoryChangeType.Relations);

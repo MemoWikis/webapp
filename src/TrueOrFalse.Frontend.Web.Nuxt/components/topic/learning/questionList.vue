@@ -21,11 +21,7 @@ const props = defineProps([
 
 const questions = ref([] as QuestionListItem[])
 
-const selectedPage = ref(1)
-
 const itemCountPerPage = ref(25)
-
-const emit = defineEmits(['updateQuestionCount'])
 
 async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
@@ -75,10 +71,10 @@ async function loadNewQuestion(index: number) {
 </script>
 
 <template>
-    <div class="col-xs-12" id="QuestionListComponent">
+    <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
-            :is-last-item="index == (questions.length - 1)" :session-index="index"
+            :is-last-item="index == (questions.length - 1)" :session-index="q.SessionIndex"
             :expand-question="props.expandQuestion" :key="q.Id" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
@@ -86,14 +82,14 @@ async function loadNewQuestion(index: number) {
         <div id="QuestionListPagination" v-show="questions.length > 0">
 
             <vue-awesome-paginate :total-items="learningSessionStore?.activeQuestionCount" :items-per-page="24"
-                :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false"
+                :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false"
                 prev-button-content="Vorherige" next-button-content="Nächste" first-page-content="Erste"
                 last-page-content="Letzte" />
         </div>
     </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
 #QuestionListPagination {
@@ -101,43 +97,56 @@ async function loadNewQuestion(index: number) {
     justify-content: center;
     align-items: center;
 
-    :deep(.pagination-container) {
+    .pagination-container {
         display: flex;
     }
 
-    :deep(.paginate-buttons) {
+    .paginate-buttons {
         height: 30px;
         min-width: 30px;
         border-radius: 20px;
         cursor: pointer;
         color: @memo-grey-dark;
         background: @memo-grey-lighter;
+
+        &.number-buttons {
+            padding: 0 !important;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
     }
 
-    :deep(.paginate-buttons:hover) {
+    .paginate-buttons:hover {
         filter: brightness(0.85);
     }
 
-    :deep(.paginate-buttons:active) {
+    .paginate-buttons:active {
         filter: brightness(0.5);
     }
 
-    :deep(.active-page) {
-        &::before {
-            background-color: @memo-grey-darker;
-        }
-
+    .active-page {
         color: @memo-grey-darker;
+
+        &:after {
+            content: "";
+            display: block;
+            border-radius: 4px;
+            width: 30px;
+            height: 5px;
+            background-color: @memo-blue;
+            margin-bottom: -10px;
+            margin-top: 5px;
+        }
     }
 
-    :deep(.active-page:hover) {
+    .active-page:hover {
         color: @memo-blue;
     }
-
-    :deep(.li:has(.active-page)) {
-        background-color: green;
-    }
 }
+</style>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
 
 .drop-down-question-sort {
     display: flex;

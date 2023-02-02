@@ -20,6 +20,7 @@ export interface CurrentUser {
   Reputation: number
   ReputationPos: number
   PersonalWiki: Topic
+  TotalActivityPoints: number
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -34,7 +35,8 @@ export const useUserStore = defineStore('userStore', {
       personalWiki: null as Topic | null,
       imgUrl: '',
       reputation: 0,
-      reputationPos: 0
+      reputationPos: 0,
+      totalActivityPoints: 0
     }
   },
   actions: {
@@ -48,6 +50,7 @@ export const useUserStore = defineStore('userStore', {
       this.reputation = currentUser.Reputation
       this.reputationPos = currentUser.ReputationPos
       this.personalWiki = currentUser.PersonalWiki
+      this.totalActivityPoints = currentUser.TotalActivityPoints
     },
     async login(loginData: {
       EmailAddress: string,

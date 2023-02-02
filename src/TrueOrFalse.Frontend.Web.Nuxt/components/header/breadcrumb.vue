@@ -206,7 +206,6 @@ watch(() => props.showSearch, (val) => {
   windowInnerWidth.value = window.innerWidth
 
   if (isMobile && val) {
-    console.log(isMobile)
     shrinkBreadcrumb.value = true
   } else
     shrinkBreadcrumb.value = false

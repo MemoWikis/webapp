@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
-import { useTopicStore, Topic } from '../topicStore'
+import { useTopicStore } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { Author } from '~~/components/author/author'
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
@@ -122,6 +122,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
 @import (reference) '~~/assets/includes/imports.less';
 
 #TopicHeaderContainer {
+    padding-left: 20px;
     width: 100%;
     color: @memo-grey-dark;
 
@@ -136,7 +137,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
             resize: none;
             margin-top: -8px;
             padding: 0;
-            padding-left: 12px;
+            padding-left: 0;
             height: 54px;
             overflow: hidden;
         }
@@ -179,7 +180,6 @@ const { isDesktopOrTablet, isMobile } = useDevice()
     #TopicHeaderDetails {
         display: flex;
         flex-wrap: wrap;
-        padding-left: 12px;
         align-items: center;
 
         &.is-mobile {

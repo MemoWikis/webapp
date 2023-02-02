@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Search;
 
 namespace VueApp;
 
@@ -21,13 +20,13 @@ public class SearchController : BaseController
     [HttpGet]
     public async Task<JsonResult> All(string term, string type)
     {
-        var categoryItems = new List<SearchCategoryItem>();
+        var categoryItems = new List<SearchTopicItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
         var elements = await _search.Go(term, type);
 
         if (elements.Categories.Any())
-            AddCategoryItems(categoryItems, elements);
+            AddTopicItems(categoryItems, elements);
 
         if (elements.Questions.Any())
             AddQuestionItems(questionItems, elements);
@@ -47,14 +46,14 @@ public class SearchController : BaseController
         }, JsonRequestBehavior.AllowGet);
     }
 
-    [HttpPost]
-    public JsonResult Category(string term, int[] categoriesToFilter)
+    [HttpGet]
+    public JsonResult Topic(string term, int[] topicIdsToFilter = null)
     {
-        var items = new List<SearchCategoryItem>();
-        var elements = _search.GoAllCategories(term, categoriesToFilter);
+        var items = new List<SearchTopicItem>();
+        var elements = _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            AddCategoryItems(items, elements);
+            AddTopicItems(items, elements);
 
         return Json(new
         {
@@ -65,13 +64,13 @@ public class SearchController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult CategoryInWiki(string term, int[] categoriesToFilter)
+    public JsonResult TopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
     {
-        var items = new List<SearchCategoryItem>();
-        var elements = _search.GoAllCategories(term, categoriesToFilter);
+        var items = new List<SearchTopicItem>();
+        var elements = _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            AddCategoryItems(items, elements);
+            AddTopicItems(items, elements);
 
         var wikiChildren = EntityCache.GetAllChildren(SessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
@@ -114,25 +113,25 @@ public class SearchController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
     {
         items.AddRange(
-            elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
+            elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchTopicItem));
     }
 
-    public static SearchCategoryItem FillSearchCategoryItem(Category c)
+    public static SearchTopicItem FillSearchTopicItem(Category topic)
     {
-        return new SearchCategoryItem
+        return new SearchTopicItem
         {
-            Id = c.Id,
-            Name = c.Name,
-            Url = Links.CategoryDetail(c.Name, c.Id),
-            QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(),
-            ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
-            IconHtml = GetIconHtml(c),
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category))
+            Id = topic.Id,
+            Name = topic.Name,
+            Url = Links.CategoryDetail(topic.Name, topic.Id),
+            QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(),
+            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
+            IconHtml = GetIconHtml(topic),
+            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
-            Visibility = (int)c.Visibility
+            Visibility = (int)topic.Visibility
         };
     }
 

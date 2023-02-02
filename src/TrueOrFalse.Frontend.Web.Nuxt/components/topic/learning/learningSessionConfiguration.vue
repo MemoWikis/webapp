@@ -2,6 +2,7 @@
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 
 const props = defineProps(['questionsCount', 'allQuestionCount', 'isLoggedIn', 'isInQuestionList'])
+
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const showFilterDropdown = ref(false)
 const showQuestionFilterOptionsDropdown = ref(false)
@@ -29,8 +30,9 @@ function closeKnowledgeSummaryDropdown() {
                 :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '']">
                 Filter
                 <div>
-                    <font-awesome-icon v-if="showFilterDropdown" icon="fa-solid fa-chevron-up" />
-                    <font-awesome-icon v-else icon="fa-solid fa-chevron-down" />
+                    <font-awesome-icon v-if="showFilterDropdown" icon="fa-solid fa-chevron-up"
+                        class="filter-button-icon" />
+                    <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
                 </div>
             </div>
             <slot></slot>
@@ -661,6 +663,10 @@ function closeKnowledgeSummaryDropdown() {
         i {
             color: @memo-blue-link;
         }
+    }
+
+    .filter-button-icon {
+        margin-left: 4px;
     }
 }
 

@@ -5,8 +5,9 @@ import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from '../edit/editQuestionStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 
-const props = defineProps(['question', 'answerBodyModel'])
+const spinnerStore = useSpinnerStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 
@@ -19,341 +20,455 @@ const editQuestionStore = useEditQuestionStore()
 const answerIsCorrect = ref(false)
 const answerIsWrong = ref(false)
 
-const flashcard = ref()
 
 function openCommentModal() {
 
 }
 
-function answer() {
+const amountOfTries = ref(0)
+const answersSoFar = ref<string[]>([])
 
+const multipleChoice = ref()
+const text = ref()
+const matchList = ref()
+const flashcard = ref()
+const showAnswer = ref(false)
+const showAnswerButtons = ref(true)
+
+async function answer() {
+    amountOfTries.value++
+    let solutionComponent
+
+    switch (answerBodyModel.value?.solutionType) {
+        case SolutionType.MultipleChoice:
+            solutionComponent = multipleChoice.value
+            break
+        case SolutionType.Text:
+            solutionComponent = text.value
+            break
+        case SolutionType.MatchList:
+            solutionComponent = matchList.value
+            break
+        case SolutionType.FlashCard:
+            solutionComponent = flashcard.value
+            break
+    }
+    if (solutionComponent == null)
+        return
+
+    answersSoFar.value.push(solutionComponent.getAnswerText())
+
+    const data = {
+        answer: solutionComponent.getAnswerDataString(),
+        id: answerBodyModel.value?.id,
+        questionViewGuid: answerBodyModel.value?.questionViewGuid,
+        inTestMode: learningSessionStore.isInTestMode,
+        isLearningSession: learningSessionStore.isLearningSession
+    }
+
+    const result = await $fetch<any>(`/apiVue/AnswerBody/SendAnswerToLearningSession/`,
+        {
+            method: 'POST',
+            body: data,
+            credentials: 'include',
+            mode: 'cors',
+        })
+
+    if (result) {
+        if (result.correct)
+            learningSessionStore.markCurrentStepAsCorrect()
+        else learningSessionStore.markCurrentStepAsWrong()
+
+        showAnswerButtons.value = false
+        showAnswer.value = true
+        if (result.newStepAdded)
+            learningSessionStore.loadSteps()
+
+        learningSessionStore.currentStep!.isLastStep = result.isLastStep
+    }
+}
+
+const markFlashCardAsCorrect = ref(false)
+function answerFlashcard(isCorrect: boolean) {
+    markFlashCardAsCorrect.value = isCorrect
+    answer()
 }
 
 interface AnswerBodyModel {
+    id: number
+    text: string
+    title: string
+    solutionType: SolutionType
+    renderedQuestionTextExtended: string
+    description: string
+    hasTopics: boolean
+    primaryTopicUrl: string
+    primaryTopicName: string
+    solution: string
+
+    isCreator: boolean
+    isInWishknowledge: boolean
+
+    questionViewGuid: number
+    isLastStep: boolean
+}
+
+const answerBodyModel = ref<AnswerBodyModel | null>(null)
+
+async function loadAnswerBodyModel() {
+    if (!learningSessionStore.currentStep) {
+        return
+    }
+    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentIndex}`, {
+        mode: 'cors',
+        credentials: 'include'
+    })
+    if (result != null) {
+        showAnswer.value = false
+        amountOfTries.value = 0
+        showAnswerButtons.value = true
+        answerBodyModel.value = result
+    }
+}
+
+function flip() {
+    amountOfTries.value++
+    flashcard.value.flip()
+}
+
+async function markAsCorrect() {
+
+    const data = {
+        questionViewGuid: answerBodyModel.value!.questionViewGuid,
+        amountOfTries: amountOfTries.value,
+    }
+
+    const result = $fetch<any>('/apiVue/AnswerBody/MarkAsCorrect', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+    })
+    console.log(result)
+}
+async function markAsWrong() {
 
 }
 
-async function loadAnswerBodyModel(): Promise<AnswerBodyModel> {
-    return {}
+function showSolution() {
+
 }
 
-const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
 
+watch(() => learningSessionStore.currentStep?.index, () => {
+    loadAnswerBodyModel()
+})
+learningSessionStore.$onAction(({ name, after }) => {
+    after(() => {
+        if (name == 'startNewSession')
+            loadAnswerBodyModel()
+    })
+})
+
+function loadResult() {
+    answerBodyModel.value = null
+    learningSessionStore.showResult = true
+
+}
+
+function startNewSession() {
+    learningSessionStore.showResult = false
+    learningSessionStore.startNewSession()
+}
 </script>
+
 <template>
-    
-</template>
-<template>
-    <div id="AnswerBody">
-
-        <!-- <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
-        <input type="hidden" id="hddInteractionNumber" value="1" />
-        <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
-        <input type="hidden" id="isLastQuestion" value="<%= Model.IsLastQuestion %>" />
-        <input type="hidden" id="ajaxUrl_GetSolution" value="<%= Model.AjaxUrl_GetSolution(Url) %>" />
-        <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect"
-            value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
-        <input type="hidden" id="ajaxUrl_CountUnansweredAsCorrect"
-            value="<%= Model.AjaxUrl_CountUnansweredAsCorrect(Url) %>" />
-
-        <template v-if="learningSessionStore.isTestMode">
-            <input type="hidden" id="ajaxUrl_TestSessionRegisterAnsweredQuestion"
-                value="<%= Model.AjaxUrl_TestSessionRegisterAnsweredQuestion(Url) %>" />
-            <input type="hidden" id="TestSessionProgessAfterAnswering"
-                value="<%= Model.TestSessionProgessAfterAnswering %>" />
-        </template>
-        <template v-if="learningSessionStore.isLearningSession">
-            <input type="hidden" id="ajaxUrl_LearningSessionAmendAfterShowSolution"
-                value="<%= Model.AjaxUrl_LearningSessionAmendAfterShowSolution(Url) %>" />
-        </template>
-        <input type="hidden" id="disableAddKnowledgeButton" value="<%= Model.DisableAddKnowledgeButton %>" />
-
-        <input type="hidden" id="hddTimeRecords" />
-        <input type="hidden" id="hddQuestionId" value="<%=Model.QuestionId %>" />
-        <input type="hidden" id="isInTestMode" value="<%=Model.IsInTestMode %>" /> -->
-        <div id="QuestionTitle" style="display:none">
-            {{ props.answerBodyModel.Title }}
-        </div>
-        <div class="AnswerQuestionBodyMenu">
-
-            <div v-if="showPinButton" class="Pin" :data-question-id="props.answerBodyModel.Id">
-                <QuestionPin :questionId="props.answerBodyModel.Id"
-                    :is-in-wishknowledge="props.answerBodyModel.IsInWishknowledge" />
+    <div>
+        <div id="AnswerBody" v-if="answerBodyModel && !learningSessionStore.showResult">
+            <div id="QuestionTitle" style="display:none">
+                {{ answerBodyModel.title }}
             </div>
-            <div class="Button dropdown">
-                <span class="margin-top-4">
-                    <V-Dropdown :distance="0">
-                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-                        <template #popper>
+            <div class="AnswerQuestionBodyMenu">
 
-                            <div class="dropdown-row"
-                                v-if="tabsStore.activeTab == Tab.Learning && (props.answerBodyModel.IsCreator || userStore.isAdmin)"
-                                @click="editQuestionStore.editQuestion(props.answerBodyModel.Id)">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-solid fa-pen" />
-                                </div>
-                                <div class="dropdown-label">Frage bearbeiten</div>
-
-                            </div>
-
-                            <LazyNuxtLink :to="`/question/${props.question.Name}/${props.question.Id}`"
-                                v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
-                                <div class="dropdown-row">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon icon="fa-solid fa-file" />
-                                    </div>
-                                    <span>Frageseite anzeigen</span>
-
-                                </div>
-                            </LazyNuxtLink>
-
-                            <LazyNuxtLink :to="`/QuestionHistory/${props.question.Name}/${props.question.Id}`"
-                                v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
-                                <div class="dropdown-row">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon icon="fa-solid fa-code-fork" />
-                                    </div>
-                                    <span>Bearbeitungshistorie der Frage</span>
-
-                                </div>
-                            </LazyNuxtLink>
-
-                            <div class="dropdown-row" @click="openCommentModal()">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-solid fa-comment" />
-                                </div>
-                                <div class="dropdown-label">Frage kommentieren</div>
-                            </div>
-
-                            <div class="dropdown-row" @click="deleteQuestionStore.openModal(props.question.id)">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon icon="fa-solid fa-trash" />
-                                </div>
-                                <div class="dropdown-label">Frage löschen</div>
-                            </div>
-
-                        </template>
-                    </V-Dropdown>
-
-
-                </span>
-            </div>
-
-        </div>
-
-        <h3 v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard" class="QuestionText">
-            {{ props.answerBodyModel.Name }}
-        </h3>
-
-        <div class="row">
-
-            <div id="MarkdownCol"
-                v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard && props.answerBodyModel.QuestionTextMarkdown != null">
-                <div class="RenderedMarkdown">
-                    {{ props.answerBodyModel.QuestionTextMarkdown }}
+                <div v-if="showPinButton" class="Pin" :data-question-id="answerBodyModel.id">
+                    <QuestionPin :questionId="answerBodyModel.id"
+                        :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                 </div>
+                <div class="Button dropdown">
+                    <span class="margin-top-4">
+                        <V-Dropdown :distance="0">
+                            <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                            <template #popper>
+
+                                <div class="dropdown-row"
+                                    v-if="tabsStore.activeTab == Tab.Learning && (answerBodyModel.isCreator || userStore.isAdmin)"
+                                    @click="editQuestionStore.editQuestion(answerBodyModel!.id)">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon icon="fa-solid fa-pen" />
+                                    </div>
+                                    <div class="dropdown-label">Frage bearbeiten</div>
+
+                                </div>
+
+                                <LazyNuxtLink :to="`/question/${answerBodyModel.title}/${answerBodyModel.id}`"
+                                    v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
+                                    <div class="dropdown-row">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-file" />
+                                        </div>
+                                        <span>Frageseite anzeigen</span>
+
+                                    </div>
+                                </LazyNuxtLink>
+
+                                <LazyNuxtLink :to="`/QuestionHistory/${answerBodyModel.title}/${answerBodyModel.id}`"
+                                    v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
+                                    <div class="dropdown-row">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-code-fork" />
+                                        </div>
+                                        <span>Bearbeitungshistorie der Frage</span>
+
+                                    </div>
+                                </LazyNuxtLink>
+
+                                <div class="dropdown-row" @click="openCommentModal()">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon icon="fa-solid fa-comment" />
+                                    </div>
+                                    <div class="dropdown-label">Frage kommentieren</div>
+                                </div>
+
+                                <div class="dropdown-row" @click="deleteQuestionStore.openModal(answerBodyModel!.id)">
+                                    <div class="dropdown-icon">
+                                        <font-awesome-icon icon="fa-solid fa-trash" />
+                                    </div>
+                                    <div class="dropdown-label">Frage löschen</div>
+                                </div>
+
+                            </template>
+                        </V-Dropdown>
+
+
+                    </span>
+                </div>
+
             </div>
 
+            <h3 v-if="answerBodyModel.solutionType != SolutionType.FlashCard" class="QuestionText">
+                {{ answerBodyModel.text }}
+            </h3>
 
-            <div id="AnswerAndSolutionCol">
-                <div id="AnswerAndSolution">
-                    <div class="row"
-                        :class="{ 'hasFlashCard': props.answerBodyModel.SolutionType == SolutionType.FlashCard }">
-                        <div id="AnswerInputSection">
-                            <!-- <input type="hidden" id="hddSolutionMetaDataJson"
+            <div class="row">
+
+                <div id="MarkdownCol"
+                    v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended">
+                    <div class="RenderedMarkdown" v-html="answerBodyModel.renderedQuestionTextExtended">
+                    </div>
+                </div>
+
+
+                <div id="AnswerAndSolutionCol">
+                    <div id="AnswerAndSolution">
+                        <div class="row"
+                            :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
+                            <div id="AnswerInputSection">
+                                <!-- <input type="hidden" id="hddSolutionMetaDataJson"
                                 value="<%: Model.SolutionMetaDataJson %>" />
                             <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" /> -->
-                            <template v-if="props.question.SolutionType != SolutionType.FlashCard">
-                                <div class="answerFeedback answerFeedbackCorrect" v-if="answerIsCorrect">
-                                    <font-awesome-icon icon="fa-solid fa-circle-check" />&nbsp;Richtig!
-                                </div>
-                                <div class="answerFeedback answerFeedbackWrong" v-else-if="answerIsWrong">
-                                    <font-awesome-icon icon="fa-solid fa-circle-minus" />&nbsp;Leider falsch
-                                </div>
-                            </template>
-                            <QuestionAnswerBodyFlashcard
-                                v-else-if="props.question.SolutionType == SolutionType.FlashCard" ref="flashcard"
-                                :question="question" />
-                            <QuestionAnswerBodyMatchlist
-                                v-else-if="props.question.SolutionType == SolutionType.MatchList" ref="flashcard"
-                                :question="question" />
-                            <QuestionAnswerBodyMultipleChoice
-                                v-else-if="props.question.SolutionType == SolutionType.MultipleChoice" ref="flashcard"
-                                :question="question" />
-                            <QuestionAnswerBodyText v-else-if="props.question.SolutionType == SolutionType.Text"
-                                ref="flashcard" :question="question" />
+                                <template v-if="answerBodyModel.solutionType != SolutionType.FlashCard">
+                                    <div class="answerFeedback answerFeedbackCorrect" v-if="answerIsCorrect">
+                                        <font-awesome-icon icon="fa-solid fa-circle-check" />&nbsp;Richtig!
+                                    </div>
+                                    <div class="answerFeedback answerFeedbackWrong" v-else-if="answerIsWrong">
+                                        <font-awesome-icon icon="fa-solid fa-circle-minus" />&nbsp;Leider falsch
+                                    </div>
+                                </template>
+                                <QuestionAnswerBodyFlashcard
+                                    v-else-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
+                                    :solution="answerBodyModel.solution" :text="answerBodyModel.text"
+                                    :marked-as-correct="markFlashCardAsCorrect" />
+                                <QuestionAnswerBodyMatchlist
+                                    v-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
+                                    :solution="answerBodyModel.solution" />
+                                <QuestionAnswerBodyMultipleChoice
+                                    v-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
+                                    :solution="answerBodyModel.solution" :show-answer="showAnswer"
+                                    ref="multipleChoice" />
+                                <QuestionAnswerBodyText v-if="answerBodyModel.solutionType == SolutionType.Text"
+                                    ref="text" />
 
 
-                        </div>
-                        <div id="ButtonsAndSolutionCol">
-                            <div id="ButtonsAndSolution" class="Clearfix">
-                                <div id="Buttons">
-                                    <div id="btnGoToTestSession" style="display: none">
+                            </div>
+                            <div id="ButtonsAndSolutionCol">
+                                <div id="ButtonsAndSolution" class="Clearfix">
+                                    <div id="Buttons">
+                                        <!-- <div id="btnGoToTestSession" style="display: none">
 
-                                        <NuxtLink v-if="props.answerBodyModel.HasCategories && !props.answerBodyModel.IsInWidget && !props.answerBodyModel.IsForVideo &&
-                                        props.answerBodyModel.IsLastQuestion"
-                                            :to="`${answerBodyModel.primaryTopic.EncodedName}/${answerBodyModel.primaryTopic.Id}`"
+                                        <NuxtLink v-if="answerBodyModel.hasTopics &&
+                                        answerBodyModel.isLastQuestion" :to="`${answerBodyModel.primaryTopicUrl}`"
                                             id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow"
-                                            v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopic.Name">
+                                            v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopicName">
                                             <b>Weiterlernen</b>
                                         </NuxtLink>
-                                    </div>
-                                    <template v-if="props.question.SolutionType == SolutionType.FlashCard">
-                                        <div class="btn btn-warning memo-button" @click="flipCard()">
-                                            Umdrehen
+                                    </div> -->
+                                        <template v-if="answerBodyModel.solutionType == SolutionType.FlashCard">
+                                            <div class="btn btn-warning memo-button" @click="flip()"
+                                                v-if="amountOfTries < 1">
+                                                Umdrehen
+                                            </div>
+
+                                            <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" v-else>
+                                                <button id="btnRightAnswer" class="btn btn-warning memo-button"
+                                                    @click="answerFlashcard(true)">
+                                                    Wusste ich!
+                                                </button>
+                                                <button id="btnWrongAnswer" class="btn btn-warning memo-button"
+                                                    @click="answerFlashcard(false)">
+                                                    Wusste ich nicht!
+                                                </button>
+                                                <button
+                                                    v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
+                                                    id="flashCard-dontCountAnswer"
+                                                    class="selectorShowSolution SecAction btn btn-link memo-button"
+                                                    @click="learningSessionStore.skipStep()">
+                                                    Nicht werten!
+                                                </button>
+                                            </div>
+                                        </template>
+
+                                        <template v-else-if="showAnswerButtons">
+                                            <div id="buttons-first-try" class="ButtonGroup">
+                                                <button class="btn btn-primary memo-button" @click="answer()">
+                                                    Antworten
+                                                </button>
+                                                <button
+                                                    v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
+                                                    class="selectorShowSolution SecAction btn btn-link memo-button"
+                                                    @click="showSolution()">
+                                                    <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
+                                                </button>
+                                            </div>
+                                        </template>
+
+                                        <div v-if="learningSessionStore.isLearningSession
+                                        && !learningSessionStore.isInTestMode && amountOfTries == 0">
+                                            <button class="SecAction btn btn-link memo-button"
+                                                @click="learningSessionStore.skipStep()">
+                                                <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
+                                            </button>
                                         </div>
 
-                                        <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons"
-                                            style="display: none">
-                                            <button id="btnRightAnswer" class="btn btn-warning memo-button"
-                                                @click="markAsCorrect()">
-                                                Wusste ich!
+                                        <div id="buttons-next-question" class="ButtonGroup"
+                                            v-if="amountOfTries > 0 && !answerBodyModel.isLastStep && !showAnswerButtons">
+                                            <button v-if="!answerBodyModel.isLastStep"
+                                                @click="learningSessionStore.loadNextQuestionInSession()" id="btnNext"
+                                                class="btn btn-primary memo-button" rel="nofollow">
+                                                Nächste Frage
                                             </button>
-                                            <button id="btnWrongAnswer" class="btn btn-warning memo-button"
-                                                @click="markAsWrong()">
-                                                Wusste ich nicht!
-                                            </button>
+
                                             <button
-                                                v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                                id="flashCard-dontCountAnswer"
-                                                class="selectorShowSolution SecAction btn btn-link memo-button"
-                                                @click="doNotMark()">
-                                                Nicht werten!
+                                                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !learningSessionStore.isInTestMode && !learningSessionStore.answerHelp"
+                                                href="#" id="aCountAsCorrect"
+                                                class="SecAction btn btn-link show-tooltip memo-button"
+                                                title="Drücke hier und die Frage wird als richtig beantwortet gewertet"
+                                                rel="nofollow" style="display: none;" @click="markAsCorrect()">
+                                                Hab ich gewusst!
                                             </button>
                                         </div>
-                                    </template>
 
-                                    <template v-else>
-                                        <div id="buttons-first-try" class="ButtonGroup">
-                                            <button class="btn btn-primary memo-button" @click="answer()">
-                                                Antworten
+                                        <div
+                                            v-else-if="learningSessionStore.steps[learningSessionStore.currentIndex].isLastStep && amountOfTries > 0">
+                                            <button @click="loadResult()" class="btn btn-primary memo-button"
+                                                rel="nofollow">
+                                                Zum Ergebnis
                                             </button>
+                                        </div>
+
+                                        <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
+                                            id="buttons-answer-again" class="ButtonGroup" style="display: none">
+                                            <button id="btnCheckAgain" class="btn btn-warning memo-button"
+                                                rel="nofollow">Nochmal
+                                                Antworten</button>
                                             <button
-                                                v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                                class="selectorShowSolution SecAction btn btn-link memo-button"
-                                                @click="showSolution()">
-                                                <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
+                                                v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
+                                                class="selectorShowSolution SecAction btn btn-link memo-button">
+                                                <font-awesome-icon icon="fa-solid fa-lightbulb" />
+                                                Lösung anzeigen
                                             </button>
                                         </div>
-                                    </template>
-
-                                    <div
-                                        v-if="learningSessionStore.isLearningSession
-                                        && !learningSessionStore.isTestMode && learningSessionStore.steps.length - 1 < learningSessionStore.currentIndex">
-                                        <button id="aSkipStep" class="SecAction btn btn-link memo-button">
-                                            <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
-                                        </button>
-                                    </div>
-
-                                    <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                        <button
-                                            v-if="props.answerBodyModel.NextUrl && !props.answerBodyModel.IsLastQuestion"
-                                            @click="loadNextQuestion()" id="btnNext" class="btn btn-primary memo-button"
-                                            rel="nofollow">
-                                            Nächste Frage
-                                        </button>
-                                        <button
-                                            v-else-if="props.answerBodyModel.NextUrl == null && props.answerBodyModel.IsForVideo"
-                                            id="continue" class="btn btn-primary clickToContinue memo-button"
-                                            style="display: none" @click="continueSession()">
-                                            Weiter
-                                        </button>
-
-                                        <button
-                                            v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard && !props.answerBodyModel.IsIntestMode && !props.answerBodyModel.AnswerHelp"
-                                            href="#" id="aCountAsCorrect"
-                                            class="SecAction btn btn-link show-tooltip memo-button"
-                                            title="Drücke hier und die Frage wird als richtig beantwortet gewertet"
-                                            rel="nofollow" style="display: none;" @click="markAsCorrect()">
-                                            Hab ich gewusst!
-                                        </button>
-
-                                    </div>
-
-                                    <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
-                                        id="buttons-answer-again" class="ButtonGroup" style="display: none">
-                                        <button id="btnCheckAgain" class="btn btn-warning memo-button"
-                                            rel="nofollow">Nochmal
-                                            Antworten</button>
-                                        <button
-                                            v-if="!props.answerBodyModel.IsIntestMode && props.answerBodyModel.AnswerHelp"
-                                            class="selectorShowSolution SecAction btn btn-link memo-button">
-                                            <font-awesome-icon icon="fa-solid fa-lightbulb" />
-                                            Lösung anzeigen
-                                        </button>
-                                    </div>
-                                    <div style="clear: both">
-                                    </div>
-                                </div>
-                                <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="props.answerBodyModel.SolutionType != SolutionType.FlashCard"
-                                        id="AnswerFeedback">
-                                        <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
-                                            <b style="color: green;">Richtig!</b>
-                                            <span id="wellDoneMsg"></span>
-                                        </div>
-                                        <div id="Solution" class="Detail" style="display: none;">
-                                            <div class="Label">
-                                                Richtige
-                                                Antwort:</div>
-                                            <div class="Content body-m">
-                                            </div>
-                                        </div>
-                                        <div id="divWrongAnswerPlay" class="Detail"
-                                            style="display: none; background-color: white;">
-                                            <span style="color: #B13A48"><b>Deine
-                                                    Antwort war
-                                                    falsch</b></span>
-                                            <div>Deine Eingabe:
-                                            </div>
-                                            <div style="margin-top: 7px;" id="divWrongEnteredAnswer">
-                                            </div>
-                                        </div>
-                                        <div id="divWrongAnswer" class="Detail"
-                                            style="display: none; background-color: white;">
-                                            <span id="spnWrongAnswer" style="color: #B13A48">
-                                                <b>Falsch
-                                                    beantwortet
-                                                </b>
-                                            </span>
-                                            <span id="CountWrongAnswers" style="float: right;">
-                                                (zwei Versuche)
-                                            </span>
-                                            <br />
-
-                                            <div style="margin-top: 5px;" id="answerFeedbackTry">
-                                                Du könntest es
-                                                wenigstens
-                                                probieren!
-                                            </div>
-
-                                            <div id="divWrongAnswers" style="margin-top: 7px; display: none;">
-                                                <span class="WrongAnswersHeading">Deine
-                                                    bisherigen
-                                                    Antwortversuche:</span>
-                                                <ul style="padding-top: 5px;" id="ulAnswerHistory">
-                                                </ul>
-                                            </div>
+                                        <div style="clear: both">
                                         </div>
                                     </div>
+                                    <div id="AnswerFeedbackAndSolutionDetails">
+                                        <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
+                                            id="AnswerFeedback">
+                                            <div class="" id="divAnsweredCorrect"
+                                                style="display: none; margin-top: 5px;">
+                                                <b style="color: green;">Richtig!</b>
+                                                <span id="wellDoneMsg"></span>
+                                            </div>
+                                            <div id="Solution" class="Detail" style="display: none;">
+                                                <div class="Label">
+                                                    Richtige
+                                                    Antwort:</div>
+                                                <div class="Content body-m">
+                                                </div>
+                                            </div>
+                                            <div id="divWrongAnswerPlay" class="Detail"
+                                                style="display: none; background-color: white;">
+                                                <span style="color: #B13A48"><b>Deine
+                                                        Antwort war
+                                                        falsch</b></span>
+                                                <div>Deine Eingabe:
+                                                </div>
+                                                <div style="margin-top: 7px;" id="divWrongEnteredAnswer">
+                                                </div>
+                                            </div>
+                                            <div id="divWrongAnswer" class="Detail"
+                                                style="display: none; background-color: white;">
+                                                <span id="spnWrongAnswer" style="color: #B13A48">
+                                                    <b>Falsch
+                                                        beantwortet
+                                                    </b>
+                                                </span>
+                                                <span id="CountWrongAnswers" style="float: right;">
+                                                    (zwei Versuche)
+                                                </span>
+                                                <br />
 
-                                    <!-- <div id="SolutionDetailsSpinner" style="display: none;">
+                                                <div style="margin-top: 5px;" id="answerFeedbackTry">
+                                                    Du könntest es
+                                                    wenigstens
+                                                    probieren!
+                                                </div>
+
+                                                <div id="divWrongAnswers" style="margin-top: 7px; display: none;">
+                                                    <span class="WrongAnswersHeading">Deine
+                                                        bisherigen
+                                                        Antwortversuche:</span>
+                                                    <ul style="padding-top: 5px;" id="ulAnswerHistory">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div id="SolutionDetailsSpinner" style="display: none;">
                                         <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
                                     </div> -->
 
 
 
-                                    <div id="SolutionDetails"
-                                        v-if="props.answerBodyModel.QuestionDescription != null && props.answerBodyModel.QuestionDescription.trim().length > 0"
-                                        style="display: none; background-color: white;">
-                                        <div id="Description" class="Detail">
-                                            <div class="Label">
-                                                Ergänzungen
-                                                zur
-                                                Antwort:
-                                            </div>
-                                            <div class="Content body-m">
-                                                {{ props.answerBodyModel.QuestionDescription }}
+                                        <div id="SolutionDetails" v-if="answerBodyModel.description?.trim().length > 0"
+                                            style="display: none; background-color: white;">
+                                            <div id="Description" class="Detail">
+                                                <div class="Label">
+                                                    Ergänzungen
+                                                    zur
+                                                    Antwort:
+                                                </div>
+                                                <div class="Content body-m">
+                                                    {{ answerBodyModel.description }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -363,17 +478,30 @@ const answerBodyModel = ref<AnswerBodyModel>(await loadAnswerBodyModel())
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div id="ActivityPointsDisplay">
-            <small>Dein Punktestand</small>
-            <span id="ActivityPoints">
-                {{ props.answerBodyModel.TotalActivityPoints }}
-            </span>
-            <font-awesome-icon icon="fa-solid fa-circle-info"
-                v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
+            <div id="ActivityPointsDisplay">
+                <small>Dein Punktestand</small>
+                <span id="ActivityPoints">
+                    {{ userStore.totalActivityPoints }}
+                </span>
+                <font-awesome-icon icon="fa-solid fa-circle-info"
+                    v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
+            </div>
+            <QuestionAnswerQuestionDetails :id="answerBodyModel.id" />
         </div>
-        <QuestionAnswerQuestionDetails :answer-body-model="props.answerBodyModel" />
+        <div v-else-if="learningSessionStore.showResult">
+            <QuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
+        </div>
     </div>
 
+
 </template>
+
+<style lang="less">
+@import '~~/assets/views/answerQuestion.less';
+
+#AnswerBody {
+    transition: all 0.5s ease-in-out;
+
+}
+</style>

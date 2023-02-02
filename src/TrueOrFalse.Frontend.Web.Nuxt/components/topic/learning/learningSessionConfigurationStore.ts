@@ -93,11 +93,24 @@ export enum RepetitionType {
     Leitner,
     None
 }
+export interface StoredSessionConfig {
+    userId: number
+    state: any
+}
 
 export const useLearningSessionConfigurationStore = defineStore('learningSessionConfigurationStore', {
     state: () => {
         const userStore = useUserStore()
         let sessionConfig = new SessionConfig()
+
+        const storedSessionConfig = process.client ? localStorage.getItem('learningSessionConfiguration') : null
+        if (userStore.isLoggedIn && storedSessionConfig != null) {
+            const sessionConfigState: StoredSessionConfig = JSON.parse(storedSessionConfig)
+            if (sessionConfigState.userId == userStore.id)
+                return sessionConfigState.state
+        }
+
+
         return {
             topicId: 0,
             order: QuestionOrder.Random,
