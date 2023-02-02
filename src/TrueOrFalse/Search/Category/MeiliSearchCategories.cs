@@ -10,6 +10,22 @@ namespace TrueOrFalse.Search
     {
         private List<CategoryCacheItem> _categories = new();
         private MeiliSearchCategoriesResult _result;
+        private int _size;
+
+        /// <summary>
+        /// Construktor with optional Parameter size = 5
+        /// </summary>
+        /// <param name="size"></param>
+        public MeiliSearchCategories(int size = 5)
+        {
+            _size = size; 
+        }
+
+        /// <summary>
+        /// Get Categories From MeiliSearch Async
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         public async Task<ISearchCategoriesResult> RunAsync(
             string searchTerm)
         {
@@ -45,7 +61,7 @@ namespace TrueOrFalse.Search
 
             return _categories
                 .Select(c => c.Id)
-                .Take(5)
+                .Take(_size)
                 .ToList();
         }
 

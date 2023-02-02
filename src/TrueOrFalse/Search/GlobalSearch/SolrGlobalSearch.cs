@@ -30,14 +30,14 @@ public class SolrGlobalSearch : IGlobalSearch
         return Task.FromResult(result);
     }
 
-    public GlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
+    public Task<GlobalSearchResult> GoAllCategories(string term, int[] categoriesToFilter = null)
     {
         var pager = new Pager {QueryAll = true};
 
         var result = new GlobalSearchResult
         {
-            CategoriesResult = Sl.SearchCategories.Run(term, pager, categoriesToFilter: categoriesToFilter)
+            CategoriesResult =  Sl.SearchCategories.Run(term, pager, categoriesToFilter: categoriesToFilter)
         };
-        return result;
+        return Task.FromResult(result);
     }
 }

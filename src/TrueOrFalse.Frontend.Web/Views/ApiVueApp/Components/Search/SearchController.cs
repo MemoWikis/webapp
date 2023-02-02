@@ -47,10 +47,10 @@ public class SearchController : BaseController
     }
 
     [HttpGet]
-    public JsonResult Topic(string term, int[] topicIdsToFilter = null)
+    public async Task<JsonResult> Topic(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = _search.GoAllCategories(term, topicIdsToFilter);
+        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
             AddTopicItems(items, elements);
@@ -64,10 +64,10 @@ public class SearchController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult TopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
+    public async Task<JsonResult> TopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = _search.GoAllCategories(term, topicIdsToFilter);
+        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
             AddTopicItems(items, elements);
