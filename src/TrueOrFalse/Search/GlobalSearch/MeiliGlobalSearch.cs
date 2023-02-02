@@ -3,9 +3,9 @@ using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 public class MeiliGlobalSearch : IGlobalSearch
 {
-    public async Task<SolrGlobalSearchResult> Go(string term, string type)
+    public async Task<GlobalSearchResult> Go(string term, string type)
     {
-        var result = new SolrGlobalSearchResult();
+        var result = new GlobalSearchResult();
         var pageSize = 5;
         result.CategoriesResult = await new MeiliSearchCategories().RunAsync(term);
         result.QuestionsResult = await new MeiliSearchQuestions().RunAsync(term);
@@ -14,10 +14,10 @@ public class MeiliGlobalSearch : IGlobalSearch
         return result;
     }
 
-    public SolrGlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
+    public GlobalSearchResult GoAllCategories(string term, int[] categoriesToFilter = null)
     {
         var pager = new Pager {QueryAll = true};
-        var result = new SolrGlobalSearchResult
+        var result = new GlobalSearchResult
         {
             CategoriesResult = Sl.SearchCategories.Run(term, pager, categoriesToFilter: categoriesToFilter)
         };

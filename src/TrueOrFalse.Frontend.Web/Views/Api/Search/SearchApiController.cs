@@ -118,7 +118,7 @@ public class SearchApiController : BaseController
         });
     }
 
-    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddCategoryItems(List<SearchCategoryItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchCategoryItem));
@@ -156,7 +156,7 @@ public class SearchApiController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -168,7 +168,7 @@ public class SearchApiController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem
@@ -284,7 +284,7 @@ public class SearchApiController : BaseController
         });
     }
 
-    private static void AddQuestionItems(List<ResultItem> items, SolrGlobalSearchResult elements)
+    private static void AddQuestionItems(List<ResultItem> items, GlobalSearchResult elements)
     {
         var questions = elements.Questions.Where(q => PermissionCheck.CanView(q)).ToList();
 
@@ -313,7 +313,7 @@ public class SearchApiController : BaseController
         );
     }
 
-    private static void AddUsersItems(List<ResultItem> items, SolrGlobalSearchResult elements)
+    private static void AddUsersItems(List<ResultItem> items, GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(user => new ResultItem
