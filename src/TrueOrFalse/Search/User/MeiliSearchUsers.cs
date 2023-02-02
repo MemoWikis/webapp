@@ -15,7 +15,7 @@ namespace TrueOrFalse.Search
             string searchTerm)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
-            var index = client.Index(MeiliSearchKonstanten.User);
+            var index = client.Index(MeiliSearchKonstanten.Users);
             _result = new MeiliSearchUsersResult();
 
             _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));

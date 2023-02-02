@@ -19,7 +19,7 @@ namespace TrueOrFalse.Search
 
         public async Task Run()
         {
-            await _client.DeleteIndexAsync(MeiliSearchKonstanten.User);
+            await _client.DeleteIndexAsync(MeiliSearchKonstanten.Users);
             await _client.DeleteIndexAsync("MeiliSearchCategory"); 
 
 
@@ -29,8 +29,8 @@ namespace TrueOrFalse.Search
             foreach (var user in allUser)
                 listMeilieSearchUser.Add(MeiliSearchToUserMap.Run(user));
 
-            await _client.CreateIndexAsync(MeiliSearchKonstanten.User);
-            var index = _client.Index(MeiliSearchKonstanten.User); 
+            await _client.CreateIndexAsync(MeiliSearchKonstanten.Users);
+            var index = _client.Index(MeiliSearchKonstanten.Users); 
             await index.AddDocumentsAsync(listMeilieSearchUser);
         }
     }

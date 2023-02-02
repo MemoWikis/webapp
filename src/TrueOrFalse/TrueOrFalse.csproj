@@ -289,7 +289,7 @@
     <Compile Include="Search\GlobalSearch\SolrGlobalSearchResult.cs" />
     <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
     <Compile Include="Search\MeiliSearch.cs" />
-    <Compile Include="Search\Category\MeiliSearchCategoryDatabaseOperations.cs" />
+    <Compile Include="Search\Category\MeiliSearchCategoriesDatabaseOperations.cs" />
     <Compile Include="Search\MeiliSearchHelper.cs" />
     <Compile Include="Search\MeiliSearchKonstanten.cs" />
     <Compile Include="Search\Question\ISearchQuestionsResult.cs" />
@@ -301,6 +301,7 @@
     <Compile Include="Search\Question\MeiliSearchQuestionsResult.cs" />
     <Compile Include="Search\User\ISearchUsersResult.cs" />
     <Compile Include="Search\User\IndexOperations\MeiliSearchReIndexAllUsers.cs" />
+    <Compile Include="Search\User\MeiliSearchUsersDatabaseOperations.cs" />
     <Compile Include="Search\User\Model\MeiliSearchToUserMap.cs" />
     <Compile Include="Search\User\Model\MeiliSearchUserMap.cs" />
     <Compile Include="Search\User\MeiliSearchUsers.cs" />
