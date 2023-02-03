@@ -61,6 +61,7 @@ namespace TrueOrFalse.Search
             index = client.Index(MeiliSearchKonstanten.Users);
             var userMap = new MeiliSearchUserMap
             {
+                Id = user.Id,
                 DateCreated = DateTime.Now,
                 Name = user.Name,
                 Rank = user.ActivityLevel,
