@@ -77,7 +77,7 @@ public class UsersController : BaseController
         return Users(null, model);
     }
 
-    public void SetUsersOrderBy(string orderByCommand)
+    private void SetUsersOrderBy(string orderByCommand)
     {
         var searchSpec = _sessionUiData.SearchSpecUser;
 
