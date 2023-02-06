@@ -21,9 +21,10 @@ const { isMobile } = useDevice()
       </div>
 
       <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
-        <div class="tab-label">Fragen <template v-if="topicStore.questionCount > 0">({{
-          topicStore.questionCount
-        }})</template>
+        <div class="tab-label learning-tab">Fragen
+          <div class="chip" v-if="topicStore.questionCount > 0">
+            {{ topicStore.questionCount }}
+          </div>
         </div>
         <div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
         <div class="inactive-tab" v-else>
@@ -155,14 +156,22 @@ const { isMobile } = useDevice()
     .tab-label {
       border-radius: 12px;
 
-      &.chip {
-        border-radius: 24px;
+      .chip {
+        border-radius: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 0 8px;
-        background: @memo-grey-light;
-        font-size: 14px;
+        background: @memo-grey-lighter;
+        font-size: 12px;
+        margin-left: 4px;
+        margin-right: -8px;
+        height: 24px;
+      }
+
+      &.learning-tab {
+        display: flex;
+        flex-wrap: nowrap;
       }
     }
 

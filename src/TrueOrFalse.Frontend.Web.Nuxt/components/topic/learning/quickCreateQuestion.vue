@@ -101,7 +101,10 @@ const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigStore = useLearningSessionConfigurationStore()
 
 function createQuestion() {
-    var question = {
+    if (!userStore.isLoggedIn)
+        userStore.openLoginModal()
+
+    const question = {
         topicId: topicStore.id,
         questionHtml: questionHtml.value,
         flashCardAnswerHtml: flashCardAnswer.value,

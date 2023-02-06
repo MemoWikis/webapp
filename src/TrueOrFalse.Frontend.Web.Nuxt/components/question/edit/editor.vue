@@ -66,7 +66,8 @@ onMounted(() => {
     editor.value?.commands.setContent(props.content)
 })
 watch(() => props.content, (c) => {
-    editor.value?.commands.setContent(c)
+    if (c != editor.value?.getHTML())
+        editor.value?.commands.setContent(c)
 })
 </script>
 

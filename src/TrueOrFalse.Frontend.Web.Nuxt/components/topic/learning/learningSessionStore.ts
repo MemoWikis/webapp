@@ -123,15 +123,16 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.currentIndex = result.index
             }
         },
-        markCurrentStepAsCorrect() {
+        markCurrentStep(state: AnswerState) {
             if (this.currentStep)
-                this.currentStep.state = AnswerState.Correct
-            this.steps[this.currentIndex].state = AnswerState.Correct
+                this.currentStep.state = state
+            this.steps[this.currentIndex].state = state
+        },
+        markCurrentStepAsCorrect() {
+            this.markCurrentStep(AnswerState.Correct)
         },
         markCurrentStepAsWrong() {
-            if (this.currentStep)
-                this.currentStep.state = AnswerState.False
-            this.steps[this.currentIndex].state = AnswerState.False
+            this.markCurrentStep(AnswerState.False)
         }
     },
 })

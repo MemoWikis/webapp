@@ -1,16 +1,16 @@
 import { defineStore } from "pinia"
 import { useAlertStore, AlertType, AlertMsg, messages } from "~~/components/alert/alertStore"
-interface SetTopicToPrivateData {
-    success: boolean,
-    name: string,
-    personalQuestionCount: number,
-    personalQuestionIds: number[],
-    allQuestionCount: number,
-    allQuestionIds: number[],
+interface TopicToPrivateData {
+    success: boolean
+    name?: string
+    personalQuestionCount?: number
+    personalQuestionIds?: number[]
+    allQuestionCount?: number
+    allQuestionIds?: number[]
     key: string
 }
 
-export const useSetTopicToPrivateStore = defineStore('setTopicToPrivateStore', {
+export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
     state: () => {
         return {
             id: 0,
@@ -29,16 +29,16 @@ export const useSetTopicToPrivateStore = defineStore('setTopicToPrivateStore', {
     actions: {
         async openModal(id: number) {
             if (this.id != id) {
-                const result = await $fetch<SetTopicToPrivateData>(`apiVue/PublishTopic/Get?id=${id}`, {
+                const result = await $fetch<TopicToPrivateData>(`/apiVue/TopicToPrivateStore/Get?id=${id}`, {
                     mode: 'no-cors',
                     credentials: 'include'
                 })
                 if (result.success) {
-                    this.name = result.name
-                    this.personalQuestionCount = result.personalQuestionCount
-                    this.personalQuestionIds = result.personalQuestionIds
-                    this.allQuestionCount = result.allQuestionCount
-                    this.allQuestionIds = result.allQuestionIds
+                    this.name = result.name!
+                    this.personalQuestionCount = result.personalQuestionCount!
+                    this.personalQuestionIds = result.personalQuestionIds!
+                    this.allQuestionCount = result.allQuestionCount!
+                    this.allQuestionIds = result.allQuestionIds!
 
                     this.showModal = true
                 } else {
@@ -52,7 +52,7 @@ export const useSetTopicToPrivateStore = defineStore('setTopicToPrivateStore', {
             const data = {
                 topicId: this.id
             }
-            const result = await $fetch<any>('/apiVue/SetTopicToPrivate/SetTopicToprivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            const result = await $fetch<any>('/apiVue/TopicToPrivateStore/Set', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
             if (result.success) {
                 this.showModal = false
 
@@ -69,7 +69,7 @@ export const useSetTopicToPrivateStore = defineStore('setTopicToPrivateStore', {
             const data = {
                 questionIds: this.allQuestionsToPrivate ? this.allQuestionIds : this.personalQuestionIds,
             }
-            $fetch<any>('/apiVue/SetTopicToPrivate/SetQuestionsToPrivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            $fetch<any>('/apiVue/topicToPrivate/SetQuestionsToPrivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
         }
     }
 })

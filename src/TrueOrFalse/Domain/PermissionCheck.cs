@@ -71,6 +71,9 @@ public class PermissionCheck
         return false;
     }
 
+
+    public static bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
+
     public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.UserId, question);
 
     public static bool CanView(int userId, QuestionCacheItem question)

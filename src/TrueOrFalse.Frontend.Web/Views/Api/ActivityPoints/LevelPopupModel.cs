@@ -11,6 +11,5 @@
         UserPoints = points;
         IsLoggedIn = isLoggedIn;
         PointsToNextLevel = UserLevelCalculator.GetUpperLevelBound(level);
-
     }
 }

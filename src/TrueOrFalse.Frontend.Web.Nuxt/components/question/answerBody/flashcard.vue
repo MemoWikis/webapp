@@ -5,8 +5,6 @@ interface Props {
     markedAsCorrect: boolean
 }
 const props = defineProps<Props>()
-const front = ref('')
-const back = ref('')
 const flipped = ref(false)
 
 const solutionHtml = ref('')
@@ -31,30 +29,56 @@ function getAnswerText(): string {
 }
 defineExpose({ flip, getAnswerDataString, getAnswerText })
 
+const front = ref()
+const back = ref()
 
+function getMinHeight() {
+    let minHeight = 200
+    if (front.value != null && back.value != null) {
+        minHeight = Math.max(front.value.clientHeight, back.value.clientHeight, minHeight) + 68
+    }
+    return `min-height: ${minHeight}px`
+}
 </script>
 
 <template>
     <div class="flashcard" @click="flip()" :class="{ 'flipped': flipped }">
         <div class="flashcard-inner">
-            <div class="flashcard-front">
-                <p class="QuestionText"
-                    style="text-align: center; font-family: Open Sans, Arial, sans-serif; margin: 0;">
-                    {{ props.text }}</p>
+            <div class="flashcard-front" :style="getMinHeight()">
+                <div class="question-text" ref="front">
+                    {{ props.text }}
+                </div>
+                <div class="flip-label">
+                    <font-awesome-icon icon="fa-solid fa-rotate" />
+                    Zum Umdrehen klicken
+                </div>
             </div>
-            <div class="flashcard-back">
-                <template v-if="solutionHtml.length > 0" v-html="solutionHtml"></template>
+            <div class="flashcard-back" :style="getMinHeight()">
+                <div v-if="solutionHtml.length > 0" v-html="solutionHtml" ref="back"></div>
+                <div class="flip-label">
+                    <font-awesome-icon icon="fa-solid fa-rotate" />
+                    Zum Umdrehen klicken
+                </div>
             </div>
         </div>
     </div>
 </template>
  
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.question-text {
+    text-align: center;
+    font-family: Open Sans, Arial, sans-serif;
+    margin: 0;
+}
+
 .flashcard {
     background-color: transparent;
-    width: 300px;
+    width: 100%;
     height: 100%;
     perspective: 1000px;
+    cursor: pointer;
 
     &.flipped {
         .flashcard-inner {
@@ -70,26 +94,41 @@ defineExpose({ flip, getAnswerDataString, getAnswerText })
     text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+    border: 1px @memo-grey-light solid;
 }
 
 .flashcard-front,
 .flashcard-back {
-    position: absolute;
+    padding: 12px 12px 44px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    min-height: 268px;
 }
 
 .flashcard-front {
-    background-color: #bbb;
-    color: black;
+    background-color: white;
+    color: @memo-grey-darker;
 }
 
 .flashcard-back {
-    background-color: #2980b9;
-    color: white;
+    background-color: white;
+    color: @memo-grey-darker;
     transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+
+}
+
+.flip-label {
+    color: @memo-grey-light;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 12px;
 }
 </style>

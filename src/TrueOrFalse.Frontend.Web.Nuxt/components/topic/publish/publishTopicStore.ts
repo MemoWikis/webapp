@@ -23,8 +23,8 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
     actions: {
         async openModal(id: number) {
             if (this.id != id) {
-                const result = await $fetch<PublishTopicData>(`apiVue/PublishTopic/Get?topicId=${id}`, {
-                    mode: 'no-cors',
+                const result = await $fetch<PublishTopicData>(`/apiVue/PublishTopicStore/Get?topicId=${id}`, {
+                    mode: 'cors',
                     credentials: 'include'
                 })
                 if (result.success) {
@@ -40,7 +40,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             const data = {
                 topicId: this.id
             }
-            const result = await $fetch<any>('/apiVue/PublishTopic/PublishTopic', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            const result = await $fetch<any>('/apiVue/PublishTopicStore/PublishTopic', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
             if (result.success) {
                 this.showModal = false
 
@@ -57,7 +57,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             var data = {
                 questionIds: this.questionIds,
             }
-            $fetch<any>('/apiVue/PublishTopic/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            $fetch<any>('/apiVue/PublishTopicStore/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
         }
 
     },

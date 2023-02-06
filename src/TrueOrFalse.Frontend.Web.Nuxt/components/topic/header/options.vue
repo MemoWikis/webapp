@@ -4,7 +4,7 @@ import { useTopicStore } from '../topicStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
-import { useSetTopicToPrivateStore } from '../setToPrivate/setTopicToPrivateStore'
+import { useTopicToPrivateStore } from '../topicToPrivate/topicToPrivateStore'
 import { usePublishTopicStore } from '../publish/publishTopicStore'
 import { useDeleteTopicStore } from '../delete/deleteTopicStore'
 
@@ -12,9 +12,9 @@ const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
 const editTopicRelationStore = useEditTopicRelationStore()
-const setTopicToPrivateStore = useSetTopicToPrivateStore()
 const publishTopicStore = usePublishTopicStore()
 const deleteTopicStore = useDeleteTopicStore()
+const topicToPrivateStore = useTopicToPrivateStore()
 
 const hoverLock = ref(false)
 </script>
@@ -79,7 +79,7 @@ const hoverLock = ref(false)
                     </div>
 
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
-                        class="dropdown-row" @click="setTopicToPrivateStore.openModal(topicStore.id)">
+                        class="dropdown-row" @click="topicToPrivateStore.openModal(topicStore.id)">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
