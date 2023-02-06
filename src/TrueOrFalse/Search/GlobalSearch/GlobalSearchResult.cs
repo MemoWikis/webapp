@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace TrueOrFalse.Search; 
-public class SolrGlobalSearchResult
+public class GlobalSearchResult
 {
     public ISearchCategoriesResult CategoriesResult;
     private IList<Category> _categories;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
-using SolrNet.Mapping.Validation.Rules;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -69,16 +67,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Sl.QuestionChangeRepo.AddUpdateEntry(question);
-    }
 
-
-    public void UpdateBeforeEntityCacheInit(Question question, bool withSolr = true)
-    {
-        if (withSolr)
-            _searchIndexQuestion.Update(question);
-        base.Update(question);
-
-        Flush();
+        Task.Run(async () => await MeiliSearchQuestionsDatabaseOperations.UpdateAsync(question)); 
     }
 
     public override void Create(Question question)
@@ -106,6 +96,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         Sl.QuestionChangeRepo.AddCreateEntry(question);
+        Task.Run(async () => await MeiliSearchQuestionsDatabaseOperations.CreateAsync(question));
+
     }
 
     public override void Delete(Question question)
@@ -113,31 +105,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion.Delete(question);
         base.Delete(question);
         Sl.QuestionChangeRepo.AddDeleteEntry(question);
-    }
-
-    public IList<QuestionCacheItem> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-
-        return category.GetAggregatedQuestionsFromMemoryCache();
-    }
-
-    public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount = -1) =>
-        GetForCategory(new List<int> { categoryId }, currentUser, resultCount);
-
-    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int currentUserId, int resultCount = -1)
-    {
-        var query = _session.QueryOver<Question>()
-            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
-            .ThenBy(x => x.DateCreated).Desc
-            .Where(q => q.Visibility == QuestionVisibility.All || q.Creator != null && q.Creator.Id == currentUserId)
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(Restrictions.In("Id", categoryIds.ToArray()));
-
-        if (resultCount > -1)
-            query.Take(resultCount);
-
-        return query.List<Question>();
+        Task.Run(async () => await MeiliSearchQuestionsDatabaseOperations.DeleteAsync(question));
     }
 
     public IList<Question> GetForCategory(int categoryId)
@@ -172,8 +140,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
                 .ToList()
         };
     }
-
-    public QuestionCacheItem GetByIdFromMemoryCache(int questionId) => EntityCache.GetQuestionById(questionId);
 
     public IList<Question> GetByIds(List<int> questionIds) =>
         GetByIds(questionIds.ToArray());
@@ -237,25 +203,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<int>();
     }
 
-    public IEnumerable<Question> GetMostRecent(int amount, QuestionVisibility questionVisibility = QuestionVisibility.All)
-    {
-        return _session
-            .QueryOver<Question>()
-            .Where(q => q.Visibility == questionVisibility)
-            .OrderBy(q => q.DateCreated).Desc
-            .Take(amount)
-            .List();
-    }
-
-    public IList<Question> GetMostViewed(int amount)
-    {
-        return _session
-            .QueryOver<Question>()
-            .OrderBy(q => q.TotalViews).Desc
-            .Take(amount)
-            .List();
-    }
-
     /// <summary>
     /// Return how often a question is in other peoples WuWi
     /// </summary>
@@ -284,17 +231,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
         return _session.QueryOver<Question>()
             .Where(q => q.Visibility == QuestionVisibility.All)
             .RowCount();
-    }
-
-    public int GetPercentageQuestionsAnsweredMostlyWrong()
-    {
-        int moreWrongThanRight = _session
-            .Query<Question>()
-            .Count(q => q.TotalFalseAnswers + q.TotalTrueAnswers > 0 && q.TotalFalseAnswers >= q.TotalTrueAnswers);
-        int moreRightThanWrong = _session
-            .Query<Question>()
-            .Count(q => q.TotalFalseAnswers < q.TotalTrueAnswers);
-        return (100 * moreWrongThanRight / (moreRightThanWrong + moreWrongThanRight));
     }
 
     public IList<Question> GetAllEager()

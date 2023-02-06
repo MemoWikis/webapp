@@ -7,6 +7,7 @@ using NHibernate;
 using TrueOrFalse.Search;
 using NHibernate.Linq;
 using Serilog;
+using System.Threading.Tasks;
 
 public class UserRepo : RepositoryDbBase<User>
 {
@@ -90,6 +91,7 @@ public class UserRepo : RepositoryDbBase<User>
         base.Update(user);
         SessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
+        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.UpdateAsync(user));
     }
 
     public void Update(UserCacheItem userCacheItem)
@@ -121,6 +123,8 @@ public class UserRepo : RepositoryDbBase<User>
         base.Create(user);
         SessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
+        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.CreateAsync(user));
+
     }
 
     public override void Delete(int id)
@@ -134,10 +138,15 @@ public class UserRepo : RepositoryDbBase<User>
         base.Delete(id);
         SessionUserCache.Remove(user);
         EntityCache.RemoveUser(id);
+        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.DeleteAsync(user));
+
     }
 
     public void DeleteFromAllTables(int userId)
     {
+        var user = _session.Get<User>(userId); 
+        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.DeleteAsync(user));
+
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();

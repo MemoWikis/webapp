@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Search
 {
-    internal class MeiliSearchCategoryDatabaseOperations
+    internal class MeiliSearchCategoriesDatabaseOperations
     {
         /// <summary>
         /// Create MeiliSearch Category

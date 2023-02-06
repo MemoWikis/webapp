@@ -47,10 +47,10 @@ public class SearchController : BaseController
     }
 
     [HttpGet]
-    public JsonResult Topic(string term, int[] topicIdsToFilter = null)
+    public async Task<JsonResult> Topic(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = _search.GoAllCategories(term, topicIdsToFilter);
+        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
             AddTopicItems(items, elements);
@@ -64,10 +64,10 @@ public class SearchController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult TopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
+    public async Task<JsonResult> TopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = _search.GoAllCategories(term, topicIdsToFilter);
+        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
             AddTopicItems(items, elements);
@@ -113,7 +113,7 @@ public class SearchController : BaseController
         });
     }
 
-    public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchTopicItem));
@@ -151,7 +151,7 @@ public class SearchController : BaseController
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
@@ -163,7 +163,7 @@ public class SearchController : BaseController
             }));
     }
 
-    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.SolrGlobalSearchResult elements)
+    public static void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem
