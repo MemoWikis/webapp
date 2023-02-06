@@ -1,37 +1,54 @@
 ﻿using System;
 using Meilisearch;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
+[assembly: InternalsVisibleTo("TrueOrFalse.Tests")]
 namespace TrueOrFalse.Search
 {
     internal class MeiliSearchUsersDatabaseOperations
     {
-        public static async Task CreateAsync(User user)
+        /// <summary>
+        /// CreateUserAsync in MeilieSearch
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="indexConstant"></param>
+        /// <returns></returns>
+        public static async Task<TaskInfo> CreateAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
         {
             try
             {
-                var userMapAndIndex = CreateUserMap(user, out var index);
-                await index.AddDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
+                var userMap = CreateUserMap(user, indexConstant, out var index);
+                return await index.AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
                 .ConfigureAwait(false);
             }
             catch (Exception e)
             {
-                Logg.r().Error("Cannot create question in MeiliSearch", e);
+                Logg.r().Error("Cannot create user in MeiliSearch", e);
             }
+
+            return null;
         }
 
-        public static async Task UpdateAsync(User user)
+        /// <summary>
+        /// UpdateUserAsync in MeiliSearch
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="indexConstant"></param>
+        /// <returns></returns>
+        public static async Task UpdateAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
         {
             try
             {
-                var userMapAndIndex = CreateUserMap(user, out var index);
+                var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
                 await index.UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
                     .ConfigureAwait(false);
             }
             catch (Exception e)
             {
-                Logg.r().Error("Cannot updated question in MeiliSearch", e);
+                Logg.r().Error("Cannot updated user in MeiliSearch", e);
             }
         }
 
@@ -39,26 +56,27 @@ namespace TrueOrFalse.Search
         /// DeleteUserAsync in Meiliesearch
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="indexConstant"></param>
         /// <returns></returns>
-        public static async Task DeleteAsync(User user)
+        public static async Task DeleteAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
         {
             try
             {
-                var userMapAndIndex = CreateUserMap(user, out var index);
+                var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
                 await index
                     .DeleteOneDocumentAsync(userMapAndIndex.Id.ToString())
                     .ConfigureAwait(false);
             }
             catch (Exception e)
             {
-                Logg.r().Error("Cannot updated question in MeiliSearch", e);
+                Logg.r().Error("Cannot delete user in MeiliSearch", e);
             }
         }
 
-        private static MeiliSearchUserMap CreateUserMap(User user, out Index index)
+        private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant,  out Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
-            index = client.Index(MeiliSearchKonstanten.Users);
+            index = client.Index(indexConstant);
             var userMap = new MeiliSearchUserMap
             {
                 Id = user.Id,

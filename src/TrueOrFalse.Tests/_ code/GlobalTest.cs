@@ -7,7 +7,7 @@ public class GlobalTest
     [OneTimeSetUp]
     public void InitializeDb()
     {
-        BaseTest.InitializeContainer();
-        SessionFactory.BuildSchema();
+        //BaseTest.InitializeContainer();
+        //SessionFactory.BuildSchema();
     }
 }
