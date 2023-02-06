@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionDetailsController: BaseController
@@ -9,6 +10,9 @@ public class AnswerQuestionDetailsController: BaseController
     [HttpGet]
     public JsonResult Get(int id)
     {
+        if (!PermissionCheck.CanViewQuestion(id))
+            return Json(null);
+
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var question = EntityCache.GetQuestionById(id);
         var answerQuestionModel = new AnswerQuestionModel(question, true);
@@ -41,7 +45,21 @@ public class AnswerQuestionDetailsController: BaseController
 
             visibility = question.Visibility,
             dateNow,
-            endTimer = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            endTimer = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            creator = new {
+                id = question.CreatorId,
+                name = question.Creator.Name,
+                encodedName = UriSanitizer.Run(question.Creator.Name)
+            },
+            creationDate = DateTimeUtils.TimeElapsedAsText(question.DateCreated),
+            totalViewCount = question.TotalViews,
+            wishknowledgeCount = question.TotalRelevancePersonalEntries,
+            license = new
+            {
+                isDefault = question.License.IsDefault(),
+                shortText = question.License.DisplayTextShort,
+                fullText = question.License.DisplayTextFull
+            }
         }, JsonRequestBehavior.AllowGet);
         return json;
     }

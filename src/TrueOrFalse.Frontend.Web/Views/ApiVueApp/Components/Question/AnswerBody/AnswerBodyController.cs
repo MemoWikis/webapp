@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -7,7 +8,7 @@ using TrueOrFalse;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class AnswerBodyController: BaseController
+public class AnswerBodyController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerQuestion _answerQuestion;
@@ -40,7 +41,7 @@ public class AnswerBodyController: BaseController
             solution = q.Solution,
 
             isCreator = q.Creator.Id = SessionUser.UserId,
-            isInWishKnowledge = SessionUser.IsLoggedIn && q.IsInWishknowledge(),
+            isInWishknowledge = SessionUser.IsLoggedIn && q.IsInWishknowledge(),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
@@ -80,23 +81,69 @@ public class AnswerBodyController: BaseController
     [HttpPost]
     public JsonResult MarkAsCorrect(int id, Guid questionViewGuid, int amountOfTries)
     {
-        var result = amountOfTries == 0 ? 
-            _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true): 
-            _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, amountOfTries, true);
+        var result = amountOfTries == 0
+            ? _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
+            : _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, amountOfTries, true);
         if (result != null)
         {
             return Json(true);
         }
+
         return Json(false);
     }
 
 
     [HttpPost]
-    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId, int? learningSessionId, string learningSessionStepGuid) =>
-        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
+    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId,
+        int? learningSessionId, string learningSessionStepGuid) =>
+        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
+            learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
 
     [HttpPost]
-    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId, int? learningSessionId) =>
-        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
+    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber,
+        int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId,
+        int? learningSessionId) =>
+        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
+            learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
 
+    private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
+    {
+        foreach (var reference in references)
+        {
+            if (reference.ReferenceText != null)
+                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+            if (reference.AdditionalInfo != null)
+                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+        }
+    }
+
+
+    [HttpPost]
+    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber,
+        int millisecondsSinceQuestionView = -1, bool unanswered = false)
+    {
+        var question = EntityCache.GetQuestion(id);
+        var solution = GetQuestionSolution.Run(question);
+        if (!unanswered)
+            R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
+                millisecondsSinceQuestionView);
+
+        EscapeReferencesText(question.References);
+
+        return Json(new
+            {
+                answerAsHTML = solution.GetCorrectAnswerAsHtml(),
+                answer = solution.CorrectAnswer(),
+                answerDescription = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
+                answerReferences = question.References.Select(r => new
+                {
+                    referenceId = r.Id,
+                    topicId = r.Category?.Id ?? null,
+                    referenceType = r.ReferenceType.GetName(),
+                    additionalInfo = r.AdditionalInfo ?? "",
+                    referenceText = r.ReferenceText ?? ""
+                }).ToArray()
+            }
+        );
+    }
 }

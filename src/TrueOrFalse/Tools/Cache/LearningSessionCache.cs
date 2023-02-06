@@ -41,7 +41,9 @@ public class LearningSessionCache
                 questionDetail.AddByVisibility &&
                 questionDetail.FilterByKnowledgeSummary)
             {
-                learningSession.Steps.Insert(sessionIndex + 1, step);
+                if (learningSession.Steps.Count > sessionIndex + 1)
+                    learningSession.Steps.Insert(sessionIndex + 1, step);
+                else learningSession.Steps.Add(step);
             }
 
             learningSession.QuestionCounter.Max += 1;

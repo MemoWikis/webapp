@@ -40,7 +40,9 @@
             align-items: center;
             text-decoration: none;
             color: @memo-grey-darker;
+            background: white;
             cursor:pointer;
+            user-select: none;  
 
             .dropdown-label{
                 padding-left: 12.5px; 
@@ -57,10 +59,13 @@
                     height: 100%;
                 }
             }
-            
-            &:hover{
-                background-color: @memo-grey-lighter;
+            &:hover {
                 color: @memo-blue;       
+                filter: brightness(0.95)
+            }
+    
+            &:active {
+                filter: brightness(0.85)
             }
         }
     }

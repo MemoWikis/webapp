@@ -43,7 +43,7 @@ watch(text, (e) => {
         <form class="form-horizontal">
             <div class="form-group">
                 <div class="col-sm-12 textsolution">
-                    <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea" v-model="text"
+                    <textarea placeholder="Tippe hier deine Antwort" @input="resize()" ref="textArea" v-model="text"
                         :class="{ 'is-empty': text.length === 0 && props.highlightEmptyFields }"></textarea>
 
                     <div v-if="text.length === 0 && props.highlightEmptyFields" class="field-error"

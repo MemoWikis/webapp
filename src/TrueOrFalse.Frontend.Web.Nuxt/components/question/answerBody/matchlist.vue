@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-const props = defineProps(['solution'])
+const props = defineProps({ showAnswer: Boolean })
 
 interface Pair {
     ElementLeft: ElementLeft;

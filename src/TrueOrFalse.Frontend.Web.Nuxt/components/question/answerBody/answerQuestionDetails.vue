@@ -5,11 +5,10 @@ import * as d3 from 'd3'
 import { Tab, useTabsStore } from '~~/components/topic/tabs/tabsStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+import { dom } from '@fortawesome/fontawesome-svg-core'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
-
-const color = useCssModule('colorReferences')
 
 interface Props {
     id: number
@@ -18,8 +17,8 @@ const props = defineProps<Props>()
 
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
-const personalProbabilityText = ref("Nicht im Wunschwissen")
-const personalColor = ref(color.memoGreyLight)
+const personalProbabilityText = ref('Nicht im Wunschwissen')
+const personalColor = ref('#DDDDDD')
 const avgProbability = ref(0)
 const personalAnswerCount = ref(0)
 const personalAnsweredCorrectly = ref(0)
@@ -203,10 +202,11 @@ function calculateLabelWidth() {
         .attr("font-weight", "bold")
         .attr("font-size", "30px")
         .text(personalProbability.value)
-        .each((e: any) => {
-            let thisWidth = e.getComputedTextLength()
+        .each(function (this: any) {
+            console.log
+            let thisWidth = this.getComputedTextLength()
             probabilityLabelWidth = thisWidth
-            e.remove()
+            this.remove()
         })
 
     arcSvg.value.append('g')
@@ -218,10 +218,10 @@ function calculateLabelWidth() {
         .attr("font-weight", "medium")
         .attr("font-size", "18px")
         .text((d: any) => d)
-        .each((e: any) => {
+        .each(function (this: any) {
             let thisWidth = 0
             percentageLabelWidth.value = thisWidth
-            e.remove()
+            this.remove()
         })
 
     return probabilityLabelWidth + percentageLabelWidth.value + 1
@@ -250,13 +250,12 @@ function updateArc() {
         .transition()
         .duration(800)
         .attr("dx", -(labelWidth / 2) - 5 + "px")
-        .style("fill", () => showPersonalArc ? personalColor : "#DDDDDD")
-        .tween("text", (e: any) => {
-            var selection = d3.select(e)
-            var start = d3.select(e).text()
+        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .tween("text", function (this: any) {
+            var selection = d3.select(this)
+            var start = d3.select(this).text()
             var end = personalProbability.value
             var interpolator = d3.interpolateNumber(parseInt(start), end)
-
             return (t: any) => {
                 selection.text(Math.round(interpolator(t)))
             }
@@ -281,12 +280,12 @@ function updateArc() {
         .attr("transform", (d: any) => {
             return "translate(" + pos.centroid(d) + ")";
         })
-        .attr("dx", dxAvgLabel)
-        .attr("dy", dyAvgLabel)
-        .attr("text-anchor", avgLabelAnchor)
-        .tween("text", (e: any) => {
-            var selection = d3.select(e);
-            var text = d3.select(e).text();
+        .attr("dx", dxAvgLabel.value)
+        .attr("dy", dyAvgLabel.value)
+        .attr("text-anchor", avgLabelAnchor.value)
+        .tween("text", function (this: any) {
+            var selection = d3.select(this);
+            var text = d3.select(this).text();
             var numbers = text.match(/(\d+)/);
             var end = avgProbability.value
             var interpolator = d3.interpolateNumber(parseInt(numbers![0]), end)
@@ -304,9 +303,9 @@ function updateArc() {
     arcSvg.value.selectAll(".personalArc")
         .transition()
         .duration(800)
-        .style("fill", personalColor)
+        .style("fill", personalColor.value)
         .style("visibility", () => {
-            return showPersonalArc ? "visible" : "hidden";
+            return showPersonalArc.value ? "visible" : "hidden";
         })
         .attrTween("d", (d: any) => {
             return arcTween(d,
@@ -329,9 +328,9 @@ function updateArc() {
 
     var probabilityTextWidth
     arcSvg.value.selectAll(".personalProbabilityText")
-        .text(personalProbabilityText)
-        .each((e: any) => {
-            probabilityTextWidth = e.getComputedTextLength()
+        .text(personalProbabilityText.value)
+        .each(function (this: any) {
+            probabilityTextWidth = this.getComputedTextLength()
         })
         .transition()
         .delay(200)
@@ -342,7 +341,7 @@ function updateArc() {
         arcSvg.value.selectAll(".personalProbabilityChip")
             .transition()
             .duration(400)
-            .style("fill", personalColor)
+            .style("fill", personalColor.value)
             .attr("x", - probabilityTextWidth / 2 - 11)
             .attr("width", probabilityTextWidth + 22);
 
@@ -386,14 +385,14 @@ function drawCounterArcs() {
         .attr('y', -8)
         .html(() => {
             var fontColor = personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
-            return "<i class='fas fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
+            return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
         });
 
     var overallCounterData = [
-        baseCounterData,
-        overallWrongAnswerCountData,
-        overallCorrectAnswerCountData
-    ];
+        baseCounterData.value,
+        overallWrongAnswerCountData.value,
+        overallCorrectAnswerCountData.value
+    ]
 
     overallCounterSvg.value = d3.select(overallCounter.value).append("svg")
         .attr("width", 50)
@@ -419,17 +418,17 @@ function drawCounterArcs() {
     overallCounterSvg.value
         .append('svg:foreignObject')
         .attr('height', '16px')
-        .attr('width', '20px')
-        .attr('x', -10)
+        .attr('width', visibility.value == Visibility.Owner ? '14px' : '20px')
+        .attr('x', visibility.value == Visibility.Owner ? -7 : -10)
         .attr('y', -8)
         .html(() => {
             var fontColor = overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
             if (visibility.value == Visibility.Owner)
-                return "<i class='fas fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
+                return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
-                return "<i class='fas fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"
+                return "<i class='fa-solid fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"
 
-        });
+        })
 }
 
 function updateCounters() {
@@ -439,12 +438,12 @@ function updateCounters() {
             return personalAnswerCount.value > 0 ? "visible" : "hidden"
         })
 
-    personalCounterSvg.selectAll("i")
+    personalCounterSvg.value.selectAll("i")
         .style("color", () => {
             return personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
         })
 
-    personalCounterSvg.selectAll(".personalWrongAnswerCounter")
+    personalCounterSvg.value.selectAll(".personalWrongAnswerCounter")
         .transition()
         .duration(800)
         .attrTween("d", (d: any) => {
@@ -455,7 +454,7 @@ function updateCounters() {
                 25)
         })
 
-    personalCounterSvg.selectAll(".personalCorrectAnswerCounter")
+    personalCounterSvg.value.selectAll(".personalCorrectAnswerCounter")
         .transition()
         .duration(800)
         .attrTween("d", (d: any) => {
@@ -466,23 +465,23 @@ function updateCounters() {
                 25)
         })
 
-    personalCounterSvg.selectAll("text")
+    personalCounterSvg.value.selectAll("text")
         .transition()
         .duration(800)
         .style("fill", () => personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD");
 
 
-    overallCounterSvg.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
+    overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
         .style("visibility", () => {
             return overallAnswerCount.value > 0 ? "visible" : "hidden";
         })
 
-    overallCounterSvg.selectAll("i")
+    overallCounterSvg.value.selectAll("i")
         .style("color", () => {
             return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
         })
 
-    overallCounterSvg.selectAll(".overallWrongAnswerCounter")
+    overallCounterSvg.value.selectAll(".overallWrongAnswerCounter")
         .transition()
         .duration(800)
         .attrTween("d", (d: any) => {
@@ -493,7 +492,7 @@ function updateCounters() {
                 25)
         })
 
-    overallCounterSvg.selectAll(".overallCorrectAnswerCounter")
+    overallCounterSvg.value.selectAll(".overallCorrectAnswerCounter")
         .transition()
         .duration(800)
         .attrTween("d", (d: any) => {
@@ -504,7 +503,7 @@ function updateCounters() {
                 25)
         })
 
-    overallCounterSvg.selectAll("text")
+    overallCounterSvg.value.selectAll("text")
         .transition()
         .duration(800)
         .style("fill", () => overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD")
@@ -558,9 +557,9 @@ function drawProbabilityLabel() {
         .attr("class", "personalProbabilityText")
         .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555")
         .attr("transform", "translate(0,0)")
-        .text(personalProbabilityText)
-        .each((e: any) => {
-            textWidth = e.getComputedTextLength()
+        .text(personalProbabilityText.value)
+        .each(function (this: any) {
+            textWidth = this.getComputedTextLength()
         })
 
     arcSvg.value.selectAll(".personalProbabilityChip")
@@ -584,10 +583,10 @@ function setAvgLabelPos() {
         .attr("font-weight", "regular")
         .attr("font-size", "12")
         .text((d: any) => "∅ " + d + "%")
-        .each((e: any) => {
-            var thisWidth = e.getComputedTextLength()
+        .each(function (this: any) {
+            var thisWidth = this.getComputedTextLength()
             avgProbabilityLabelWidth.value = thisWidth
-            e.remove()
+            this.remove()
         });
 
     var el = (avgProbability.value - 50) / 10
@@ -626,16 +625,16 @@ function setAvgLabel() {
 
     arcSvg.value.append("svg:text")
         .attr("transform", (d: any) => "translate(" + pos.centroid(d) + ")")
-        .attr("dx", dxAvgLabel)
-        .attr("dy", dyAvgLabel)
-        .attr("text-anchor", avgLabelAnchor)
+        .attr("dx", dxAvgLabel.value)
+        .attr("dy", dyAvgLabel.value)
+        .attr("text-anchor", avgLabelAnchor.value)
         .attr("style", "font-family:'Open Sans'")
         .attr("font-size", "12")
         .attr("font-weight", "regular")
         .style("fill", "#555555")
         .style("opacity", 1.0)
         .attr("class", "avgProbabilityLabel")
-        .text("∅ " + avgProbability + "%")
+        .text("∅ " + avgProbability.value + "%")
 }
 
 const semiPie = ref()
@@ -665,8 +664,8 @@ function drawArc() {
 
     arcSvg.value.selectAll(".personalArc")
         .style("visibility", () => {
-            return showPersonalArc ? "visible" : "hidden";
-        });
+            return showPersonalArc.value ? "visible" : "hidden";
+        })
 
     drawProbabilityLabel()
     setAvgLabel()
@@ -693,6 +692,12 @@ async function loadData() {
         overallAnsweredWrongly.value = result.overallAnsweredWrongly
 
         personalColor.value = result.personalColor
+
+        creator.value = result.creator
+        creationDate.value = result.creationDate
+        totalViewCount.value = result.totalViewCount
+        wishknowledgeCount.value = result.wishknowledgeCount
+        license.value = result.license
 
         if (!learningSessionStore.isInTestMode)
             topics.value = result.topics
@@ -721,6 +726,7 @@ async function loadData() {
 
 onMounted(() => {
     loadData()
+    dom.watch()
 })
 
 watch(() => props.id, () => loadData())
@@ -769,6 +775,34 @@ watch(overallAnsweredWrongly, (val) => {
     overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
 })
 
+const creator = ref({
+    name: '',
+    id: 0,
+    encodedName: ''
+})
+const creationDate = ref('')
+const wishknowledgeCount = ref(0)
+const totalViewCount = ref(0)
+const license = ref({
+    isDefault: true,
+    shortText: '',
+    fullText: ''
+})
+
+function openCommentModal() {
+
+}
+const unsettledCommentCount = ref(0)
+
+onMounted(() => {
+    learningSessionStore.$onAction(({ after, name }) => {
+        if (name == 'markCurrentStep') {
+            after(() => {
+                loadData()
+            })
+        }
+    })
+})
 
 </script>
 
@@ -783,14 +817,13 @@ watch(overallAnsweredWrongly, (val) => {
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
-                            <TopicChip v-for="(t, index) in topics" :key="index" :topic="t" :index="index"
+                            <TopicChip v-for="(t, index) in topics" :key="t.Id + index" :topic="t" :index="index"
                                 :is-spoiler="learningSessionStore.isInTestMode" />
-
                         </div>
                     </div>
                 </div>
-                <div id="questionStatistics" class="col-sm-7 row">
-                    <div id="probabilityContainer" class="col-sm-6" ref="probabilityContainer">
+                <div id="questionStatistics" class="col-sm-7">
+                    <div id="probabilityContainer" class="" ref="probabilityContainer">
                         <div class="overline-s no-line">Antwortwahrscheinlichkeit</div>
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
@@ -813,7 +846,7 @@ watch(overallAnsweredWrongly, (val) => {
                         </div>
 
                     </div>
-                    <div id="counterContainer" class="col-sm-6" style="font-size:12px">
+                    <div id="counterContainer" class="" style="font-size:12px">
                         <div class="overline-s no-line">Antworten</div>
 
                         <div class="counterBody">
@@ -859,56 +892,75 @@ watch(overallAnsweredWrongly, (val) => {
             <div class="separationBorderTop" style="min-height: 10px;"></div>
         </div>
         <div id="QuestionDetailsFooter">
-            <!-- <div class="questionDetailsFooterPartialLeft">
+            <div class="questionDetailsFooterPartialLeft">
 
                 <div id="LicenseQuestion">
-                    <% if (Model.LicenseQuestion.IsDefault()) { %>
-                        <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/"
-                            data-toggle="popover" data-trigger="focus"
-                            title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>"
-                            data-placement="auto top"
-                            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "
-                            target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf
-                            <a href='/' target='_blank'>memucho.de</a>)" : " " %><br />
-                        <%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-                            <div> <img src="/Images/Licenses/cc-by 88x31.png" width="60"
-                                    style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;</div>
-                            <div class="TextDiv"> <span class="TextSpan">
-                                    <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>
-                                </span></div>
-                            </a><%--target blank to open outside the iframe of widget--%>
+                    <VTooltip v-if="license.isDefault">
+                        <div class="TextLinkWithIcon">
+                            <img src="/Images/Licenses/cc-by 88x31.png" width="60" />
+                            <div class="TextDiv">
+                                <span class="TextSpan">
+                                    {{ license.shortText }}
+                                </span>
+                            </div>
+                        </div>
 
-                                <% } else { %>
-                                    <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus"
-                                        title="Infos zur Lizenz" data-placement="auto top"
-                                        data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
-                                        <div class="TextDiv"><span class="TextSpan">
-                                                <%= Model.LicenseQuestion.DisplayTextShort %>
-                                            </span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i></div>
-                                    </a>
-                                    <% } %>
+
+                        <template #popper>
+                            <div class="tooltip-header">
+                                Infos zur Lizenz: {{ license.shortText }}
+                            </div>
+                            Autor: <NuxtLink v-if="creator.id > 0" :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
+                                {{ creator.name }} </NuxtLink>
+                            {{ license.fullText }}
+                        </template>
+                    </VTooltip>
+
+                    <VTooltip v-else>
+                        <div class="TextLinkWithIcon">
+                            <div class="TextDiv">
+                                <span class="TextSpan">
+                                    {{ license.shortText }}
+                                </span>
+                                <font-awesome-icon icon="fa-solid fa-circle-info" />
+                            </div>
+                        </div>
+
+                        <template #popper>
+                            {{ license.fullText }}
+                        </template>
+                    </VTooltip>
                 </div>
-                <div class="created"> Erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>">
-                        <%= Model.Creator.Name %>
-                    </a> vor <%= Model.CreationDateNiceText %>
+                <div class="created"> Erstellt von:
+                    <NuxtLink :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
+                        &nbsp;{{ creator.name }}&nbsp;
+                    </NuxtLink>
+                    vor {{ creationDate }}
                 </div>
             </div>
 
             <div class="questionDetailsFooterPartialRight">
-                <% if (PermissionCheck.CanView(Model.Question)){ %>
-                    <div class="wishknowledgeCount"><i class="fas fa-heart"></i><span id="<%= " WishknowledgeCounter-" +
-                            Model.QuestionId %>" data-relevance="<%= Model.IsInWishknowledge %>"><%=
-                                    Model.Question.TotalRelevancePersonalEntries %></span></div>
-                    <div class="viewCount"><i class="fas fa-eye"></i><span>
-                            <%= Model.Question.TotalViews %>
-                        </span></div>
-                    <div class="commentCount pointer"
-                        onclick="eventBus.$emit('show-comment-section-modal', <%=Model.QuestionId%>)"><a><i
-                                class="fas fa-comment"></i><span id="commentCountAnswerBody">
-                                <%= Model.UnsettledCommentCount %>
-                            </span></a></div>
-                    <%}%>
-            </div> -->
+
+                <div class="wishknowledgeCount">
+                    <font-awesome-icon icon="fa-solid fa-heart" />
+                    <span class="detail-label">
+                        {{ wishknowledgeCount }}
+                    </span>
+                </div>
+
+                <div class="viewCount">
+                    <font-awesome-icon icon="fa-solid fa-eye" />
+                    <span class="detail-label">
+                        {{ totalViewCount }}
+                    </span>
+                </div>
+                <div class="commentCount pointer" @click="openCommentModal()">
+                    <font-awesome-icon icon="fa-solid fa-comment" />
+                    <span id="commentCountAnswerBody" class="detail-label">
+                        {{ unsettledCommentCount }}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -970,10 +1022,6 @@ watch(overallAnsweredWrongly, (val) => {
     .second-row {
         padding-left: 0px;
         display: flex;
-
-        .fa-eye {
-            padding-right: 3px;
-        }
 
         .media-below-lg {
             padding-left: 10px;
@@ -1187,8 +1235,10 @@ watch(overallAnsweredWrongly, (val) => {
                 min-width: 220px;
 
                 #semiPieSection {
+
                     @media (max-width:767px) {
                         display: flex;
+                        flex-wrap: wrap;
                     }
 
                     @media (max-width:595px) {
@@ -1257,6 +1307,7 @@ watch(overallAnsweredWrongly, (val) => {
                         text-align: center;
                         font-size: 12px;
                         max-width: 300px;
+                        align-items: center;
 
                         @media(max-width:767px) {
                             padding-top: 25px;
@@ -1283,12 +1334,14 @@ watch(overallAnsweredWrongly, (val) => {
         #LicenseQuestion {
             padding-right: 10px;
 
-            a.TextLinkWithIcon {
-                flex-direction: unset !important;
-
+            .TextLinkWithIcon {
                 img {
-                    margin: 0 8px 0 0 !important;
+                    margin: 0 8px 0 0;
                 }
+
+                align-items: center;
+                flex-wrap: nowrap;
+                flex-direction: unset;
             }
         }
     }
@@ -1298,6 +1351,7 @@ watch(overallAnsweredWrongly, (val) => {
         display: flex;
         justify-content: flex-end;
         padding-right: 4px;
+        align-items: center;
 
         .wishknowledgeCount,
         .viewCount,
@@ -1318,5 +1372,14 @@ watch(overallAnsweredWrongly, (val) => {
             }
         }
     }
+}
+
+.created {
+    display: flex;
+    align-items: center;
+}
+
+.detail-label {
+    padding-left: 3px;
 }
 </style>

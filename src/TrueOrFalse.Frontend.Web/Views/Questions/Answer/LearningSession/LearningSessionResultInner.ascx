@@ -91,7 +91,7 @@
                     Weiterlernen
                 </a>   
             <% } else if (Model.LearningSession.Config.InWuwi) { %>
-                <a href="<%=Links.StartLearningSession(Model.LearningSession)  %>" class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px">
+                <a class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px">
                     Neue Lernsitzung
                 </a>
             <% } else {

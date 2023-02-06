@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { useSetTopicToPrivateStore } from './setTopicToPrivateStore'
+import { useTopicToPrivateStore } from './topicToPrivateStore'
 import { useUserStore } from '~~/components/user/userStore'
-const setTopicToPrivateStore = useSetTopicToPrivateStore()
+const topicToPrivateStore = useTopicToPrivateStore()
 const userStore = useUserStore()
 </script>
 
 <template>
     <LazyModal>
         <template slot:header>
-            <h4 class="modal-title">Thema {{ setTopicToPrivateStore.name }} auf privat setzen</h4>
+            <h4 class="modal-title">Thema {{ topicToPrivateStore.name }} auf privat setzen</h4>
         </template>
 
         <template slot:body>
@@ -16,18 +16,17 @@ const userStore = useUserStore()
                 Der Inhalt kann nur von Dir genutzt werden. Niemand sonst kann ihn sehen oder nutzen.
             </div>
             <div class="checkbox-container"
-                @click="setTopicToPrivateStore.questionsToPrivate = !setTopicToPrivateStore.questionsToPrivate"
-                v-if="setTopicToPrivateStore.personalQuestionCount > 0">
+                @click="topicToPrivateStore.questionsToPrivate = !topicToPrivateStore.questionsToPrivate"
+                v-if="topicToPrivateStore.personalQuestionCount > 0">
                 <div class="checkbox-icon">
-                    <font-awesome-icon icon="fa-solid fa-square-check"
-                        v-if="setTopicToPrivateStore.questionsToPrivate" />
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="topicToPrivateStore.questionsToPrivate" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
-                    Möchtest Du {{ setTopicToPrivateStore.personalQuestionCount }} von {{
-                            setTopicToPrivateStore.allQuestionCount
+                    Möchtest Du {{ topicToPrivateStore.personalQuestionCount }} von {{
+                        topicToPrivateStore.allQuestionCount
                     }} öffentliche
-                    Frage{{ setTopicToPrivateStore.personalQuestionCount > 0 ? 'n' : '' }} ebenfalls auf privat stellen?
+                    Frage{{ topicToPrivateStore.personalQuestionCount > 0 ? 'n' : '' }} ebenfalls auf privat stellen?
                     (Du kannst nur deine
                     eigenen Fragen auf privat stellen.)
                 </div>
@@ -35,16 +34,16 @@ const userStore = useUserStore()
             </div>
 
             <div class="checkbox-container"
-                @click="setTopicToPrivateStore.allQuestionsToPrivate = !setTopicToPrivateStore.allQuestionsToPrivate"
-                v-if="setTopicToPrivateStore.allQuestionCount > 0 && userStore.isAdmin">
+                @click="topicToPrivateStore.allQuestionsToPrivate = !topicToPrivateStore.allQuestionsToPrivate"
+                v-if="topicToPrivateStore.allQuestionCount > 0 && userStore.isAdmin">
                 <div class="checkbox-icon">
                     <font-awesome-icon icon="fa-solid fa-square-check"
-                        v-if="setTopicToPrivateStore.allQuestionsToPrivate" />
+                        v-if="topicToPrivateStore.allQuestionsToPrivate" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
-                    Möchtest Du {{ setTopicToPrivateStore.allQuestionCount }} öffentliche Frage{{
-                            setTopicToPrivateStore.allQuestionCount > 0 ? 'n' : ''
+                    Möchtest Du {{ topicToPrivateStore.allQuestionCount }} öffentliche Frage{{
+                        topicToPrivateStore.allQuestionCount > 0 ? 'n' : ''
                     }} ebenfalls
                     auf
                     privat stellen? (Admin)
@@ -55,7 +54,7 @@ const userStore = useUserStore()
 
         <template slot:footer>
             <div class="btn btn-link" data-dismiss="modal" aria-label="Close">abbrechen</div>
-            <div class="btn btn-primary" id="SetCategoryToPrivateBtn" @click="setTopicToPrivateStore.setToPrivate()">
+            <div class="btn btn-primary" id="SetCategoryToPrivateBtn" @click="topicToPrivateStore.setToPrivate()">
                 Thema auf Privat
                 setzen</div>
         </template>

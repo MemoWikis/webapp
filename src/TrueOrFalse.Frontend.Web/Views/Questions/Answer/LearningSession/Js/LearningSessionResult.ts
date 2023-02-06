@@ -38,10 +38,11 @@
             eventBus.$emit('change-active-question', 0);
             $(".EduPartnerWrapper").remove();
             $("#QuestionCountCompletSideBar").fadeIn(); 
-            var answerBody = new AnswerBody();
-            answerBody.Loader.loadNewLearningSession(true);
             $("#progressPercentageDone").width("0%");
             $("#spanPercentageDone").text("0%");
+
+            eventBus.$emit('load-new-session');
+
             $(".ProgressBarSegment .ProgressBarLegend").show();
             Utils.ShowSpinner();
         });

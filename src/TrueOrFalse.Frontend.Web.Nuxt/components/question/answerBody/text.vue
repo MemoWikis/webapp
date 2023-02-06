@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
 
+const props = defineProps({
+    showAnswer: Boolean
+})
+
 const answer = ref('')
 const textArea = ref()
 function resize() {
@@ -24,7 +28,7 @@ defineExpose({ getAnswerDataString, getAnswerText })
 <template>
 
     <textarea id="txtAnswer" class="form-control " rows="1" placeholder="Gib hier bitte deine Antwort ein."
-        @input="resize" v-model="answer" ref="textArea">
+        @input="resize" v-model="answer" ref="textArea" :disabled="props.showAnswer">
     </textarea>
 
 </template>

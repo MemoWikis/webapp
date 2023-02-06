@@ -42,11 +42,11 @@ function validate(c: Choice) {
 }
 
 function getClass(c: Choice) {
-    if (props.showAnswer) {
-        if ((selected.value.indexOf(c.Text) >= 0 && c.IsCorrect) || (selected.value.indexOf(c.Text) < 0 && !c.IsCorrect))
-            return 'is-correct'
-        else return 'is-wrong'
-    } return ''
+    if (props.showAnswer && c.IsCorrect)
+        return 'is-correct show-solution'
+    else if ((selected.value.indexOf(c.Text) >= 0 && !c.IsCorrect))
+        return 'is-wrong show-solution'
+    return ''
 }
 </script>
 
@@ -58,9 +58,10 @@ function getClass(c: Choice) {
                 <input type="checkbox" name="answer" :value="choice.Text" v-model="selected" class="hidden"
                     :disabled="props.showAnswer" />
                 <font-awesome-icon icon="fa-solid fa-square-check" v-if="selected.indexOf(choice.Text) >= 0"
-                    class="checkbox-icon" />
-                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
-                <span>
+                    class="checkbox-icon" :class="{ 'disabled': props.showAnswer }" />
+                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon"
+                    :class="{ 'disabled': props.showAnswer }" />
+                <span class="checkbox-label">
 
                     {{ choice.Text }}
 
@@ -102,6 +103,10 @@ function getClass(c: Choice) {
     .checkbox-icon {
         font-size: 18px;
         margin-right: 12px;
+
+        &.disabled {
+            color: @memo-grey-light;
+        }
     }
 
     .label-icon {
@@ -118,10 +123,14 @@ function getClass(c: Choice) {
 }
 
 .is-correct {
-    color: @memo-green;
+    color: @memo-blue-link;
+
+    .checkbox-label {
+        font-weight: 700;
+    }
 }
 
 .is-wrong {
-    color: @memo-salmon;
+    color: @memo-grey-dark;
 }
 </style>

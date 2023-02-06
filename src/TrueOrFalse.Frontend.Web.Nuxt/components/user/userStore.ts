@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { Topic } from '../topic/topicStore'
+import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 
 export interface UserLoginResult {
   Success: boolean
@@ -20,7 +21,13 @@ export interface CurrentUser {
   Reputation: number
   ReputationPos: number
   PersonalWiki: Topic
-  TotalActivityPoints: number
+  ActivityPoints: {
+    points: number
+    level: number
+    levelUp: boolean
+    activityPointsTillNextLevel: number
+    activityPointsPercentageOfNextLevel?: number
+  }
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -36,7 +43,6 @@ export const useUserStore = defineStore('userStore', {
       imgUrl: '',
       reputation: 0,
       reputationPos: 0,
-      totalActivityPoints: 0
     }
   },
   actions: {
@@ -50,7 +56,9 @@ export const useUserStore = defineStore('userStore', {
       this.reputation = currentUser.Reputation
       this.reputationPos = currentUser.ReputationPos
       this.personalWiki = currentUser.PersonalWiki
-      this.totalActivityPoints = currentUser.TotalActivityPoints
+
+      const activityPointsStore = useActivityPointsStore()
+      activityPointsStore.setData(currentUser.ActivityPoints)
     },
     async login(loginData: {
       EmailAddress: string,

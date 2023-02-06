@@ -54,5 +54,6 @@ function setPage(type: Page | null = null) {
   <LazyUserLogin v-if="!userStore.isLoggedIn" />
   <LazySpinner />
   <LazyAlert />
+  <LazyActivityPointsLevelPopUp />
   <Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>

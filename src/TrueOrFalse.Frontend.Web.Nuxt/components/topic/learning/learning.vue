@@ -49,12 +49,17 @@ onMounted(async () => {
 })
 
 const progressPercentage = ref(0)
-
+const answeredWidth = ref<string>('width: 0%')
+const unansweredWidth = ref('width: 100%')
 function calculateProgress() {
     const answered = learningSessionStore.steps.filter(s =>
         s.state != AnswerState.Unanswered
     ).length
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
+
+    answeredWidth.value = `width: ${progressPercentage.value}%`
+    unansweredWidth.value = `width: ${100 - progressPercentage.value}%`
+
 }
 
 watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {
@@ -64,14 +69,18 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
 </script>
 
 <template>
-    <div class="">
+    <div class="col-xs-12">
         <TopicLearningSessionConfiguration v-if="showFilter">
             <slot>
                 <div class="session-progress-bar">
                     <div class="session-progress">
-                        <div v-for="step in learningSessionStore.steps" class="step"
+                        <!-- <div v-for="step in learningSessionStore.steps" class="step"
                             :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
-                        </div>
+                        </div> -->
+
+                        <div class="step answered" :style="answeredWidth"></div>
+                        <div class="step" :style="unansweredWidth"></div>
+
                     </div>
 
                     <div class="step-count">
@@ -83,7 +92,6 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
                 </div>
             </slot>
         </TopicLearningSessionConfiguration>
-
     </div>
 
     <div class="session-configurator col-xs-12" v-if="!showFilter">
@@ -95,13 +103,13 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
             </div>
         </div>
     </div>
-    <QuestionAnswerBody />
 
-    <div>
-        <div class="col-xs-12" id="QuestionListContainer">
-            <TopicLearningQuestionsSection />
+    <div class="col-xs-12">
+        <QuestionAnswerBody />
+    </div>
 
-        </div>
+    <div class="col-xs-12" id="QuestionListContainer">
+        <TopicLearningQuestionsSection />
     </div>
 </template>
 
