@@ -252,8 +252,10 @@
     <Compile Include="2 Domain\User\AddToWiki_tests.cs" />
     <Compile Include="2 Domain\Visibility\CategoryVisibility.cs" />
     <Compile Include="MeiliSearch\MeiliSearchBase.cs" />
+    <Compile Include="MeiliSearch\MeiliSearchCategoriesDatabaseOperationsTests.cs" />
+    <Compile Include="MeiliSearch\MeiliSearchQuestionsDatabaseOperationsTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchTestConstants.cs" />
-    <Compile Include="MeiliSearch\MeiliSearchUserTests.cs" />
+    <Compile Include="MeiliSearch\MeiliSearchUserDatabaseOperationsTests.cs" />
     <Compile Include="_ code\Email\Mail_persistence.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Count_answer_as_correct.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Create_learning_session.cs" />

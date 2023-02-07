@@ -10,7 +10,7 @@ internal class MeiliSearchBase : MeiliSearchTestConstants
 {
     protected MeilisearchClient client;
 
-    public MeiliSearchBase()
+    internal MeiliSearchBase()
     {
         client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
     }
@@ -21,6 +21,24 @@ internal class MeiliSearchBase : MeiliSearchTestConstants
         await client.WaitForTaskAsync(deleteIndexTaskId);
 
         var createIndexId = (await client.CreateIndexAsync(UsersTest)).TaskUid;
+        await client.WaitForTaskAsync(createIndexId);
+    }
+
+    protected async Task DeleteCategories()
+    {
+        var deleteIndexTaskId = (await client.DeleteIndexAsync(CategoriesTest)).TaskUid;
+        await client.WaitForTaskAsync(deleteIndexTaskId);
+
+        var createIndexId = (await client.CreateIndexAsync(CategoriesTest)).TaskUid;
+        await client.WaitForTaskAsync(createIndexId);
+    }
+
+    protected async Task DeleteQuestions()
+    {
+        var deleteIndexTaskId = (await client.DeleteIndexAsync(QuestionsTest)).TaskUid;
+        await client.WaitForTaskAsync(deleteIndexTaskId);
+
+        var createIndexId = (await client.CreateIndexAsync(QuestionsTest)).TaskUid;
         await client.WaitForTaskAsync(createIndexId);
     }
 }

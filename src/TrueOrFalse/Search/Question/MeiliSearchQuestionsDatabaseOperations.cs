@@ -13,18 +13,19 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task CreateAsync(Question question)
+        public static async Task<TaskInfo> CreateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
             try
             {
-                var questionMapAndIndex = CreateQuestionMap(question, out var index);
-                await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
+                var questionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+                return await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
                 .ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 Logg.r().Error("Cannot create question in MeiliSearch", e);
             }
+            return null;
         }
 
         /// <summary>
@@ -32,18 +33,19 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task UpdateAsync(Question question)
+        public static async Task<TaskInfo> UpdateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
             try
             {
-                var QuestionMapAndIndex = CreateQuestionMap(question, out var index);
-                await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex})
+                var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+                return await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex })
                     .ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 Logg.r().Error("Cannot updated question in MeiliSearch", e);
             }
+            return null;
         }
 
         /// <summary>
@@ -51,12 +53,12 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task DeleteAsync(Question question)
+        public static async Task<TaskInfo> DeleteAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
             try
             {
-                var QuestionMapAndIndex = CreateQuestionMap(question, out var index);
-                await index
+                var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+                return await index
                     .DeleteOneDocumentAsync(QuestionMapAndIndex.Id.ToString())
                     .ConfigureAwait(false);
             }
@@ -64,18 +66,19 @@ namespace TrueOrFalse.Search
             {
                 Logg.r().Error("Cannot updated question in MeiliSearch", e);
             }
+            return null;
         }
 
-        private static MeiliSearchQuestionMap CreateQuestionMap(Question question, out Index index)
+        private static MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Index index)
         {
-           var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
-            index = client.Index(MeiliSearchKonstanten.Questions);
+            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            index = client.Index(indexConstant);
             var questionMap = new MeiliSearchQuestionMap
             {
                 CreatorId = question.Creator.Id,
                 Description = question.Description ?? "",
                 Categories = question.Categories.Select(c => c.Name).ToList(),
-                CategoryIds = question.Categories.Select(c=> c.Id).ToList(),
+                CategoryIds = question.Categories.Select(c => c.Id).ToList(),
                 Id = question.Id,
                 Solution = question.Solution,
                 SolutionType = (int)question.SolutionType,

@@ -8,7 +8,7 @@ using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Tests.MeiliSearch;
 
-internal class MeiliSearchUserDatabaseOperationsTests : MeiliSearchBase
+internal class  MeiliSearchUserDatabaseOperationsTests : MeiliSearchBase
 {
     [Test(Description = "Set TestUser in MeiliSearch")]
     public async Task CreateUserTest()
