@@ -28,7 +28,6 @@ namespace TrueOrFalse.Search
             {
                 Logg.r().Error("Cannot create user in MeiliSearch", e);
             }
-
             return null;
         }
 
@@ -50,7 +49,6 @@ namespace TrueOrFalse.Search
             {
                 Logg.r().Error("Cannot updated user in MeiliSearch", e);
             }
-
             return null; 
         }
 
