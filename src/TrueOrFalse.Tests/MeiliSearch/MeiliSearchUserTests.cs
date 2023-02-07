@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Meilisearch;
-using NHibernate.Hql.Ast.ANTLR.Tree;
-using NHibernate.Mapping;
+using Microsoft.IdentityModel.Tokens;
 using NUnit.Framework;
 using TrueOrFalse.Search;
 
@@ -17,7 +14,7 @@ internal class MeiliSearchUserTests : MeiliSearchBase
     public async Task CreateUserTest()
     {
         //construction
-        await DeleteUserTest();
+        await DeleteTestUser();
         var user = new User
         {
             Id = 12,
@@ -27,14 +24,11 @@ internal class MeiliSearchUserTests : MeiliSearchBase
         };
 
         //Execution
-        var createDocument = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, MeiliSearchTestConstants.UsersTest).ConfigureAwait(false)).TaskUid;
-        await client.WaitForTaskAsync(createDocument);
-        var searchQuery = new SearchQuery
-        {
-            Limit = 100
-        };
+        var taskId = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, MeiliSearchTestConstants.UsersTest).ConfigureAwait(false)).TaskUid;
+        await client.WaitForTaskAsync(taskId);
+     
         var index = client.Index(MeiliSearchTestConstants.UsersTest);
-        var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name, searchQuery).ConfigureAwait(false)).Hits.ToList();
+        var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
         var userMap = result.First();
 
         //Tests 
@@ -46,5 +40,70 @@ internal class MeiliSearchUserTests : MeiliSearchBase
         Assert.AreEqual(userMap.Id, user.Id);
         Assert.AreEqual(userMap.Rank, user.ActivityLevel);
         Assert.AreEqual(userMap.WishCountQuestions, user.WishCountQuestions);
+    }
+
+    [Test(Description = "Update TestUser in MeiliSearch")]
+    public async Task UpdateUserTest()
+    {
+        //construction
+        await DeleteTestUser();
+        var user = new User
+        {
+            Id = 12,
+            Name = "Daniel",
+            ActivityLevel = 5,
+            WishCountQuestions = 2000
+        };
+
+        //Execution
+        var taskId = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, MeiliSearchTestConstants.UsersTest).ConfigureAwait(false)).TaskUid;
+        await client.WaitForTaskAsync(taskId);
+
+        user.Name = "Daniela";
+        taskId = (await MeiliSearchUsersDatabaseOperations.UpdateAsync(user, MeiliSearchTestConstants.UsersTest).ConfigureAwait(false)).TaskUid;
+        await client.WaitForTaskAsync(taskId);
+
+        var index = client.Index(MeiliSearchTestConstants.UsersTest);
+        var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
+        var userMap = result.First();
+        //Tests 
+        Assert.AreEqual(result.GetType(), typeof(List<MeiliSearchUserMap>));
+        Assert.True(result.Count == 1);
+
+        Assert.AreEqual(userMap.Name, user.Name);
+        Assert.True((DateTime.Now - userMap.DateCreated).Ticks > 0);
+        Assert.AreEqual(userMap.Id, user.Id);
+        Assert.AreEqual(userMap.Rank, user.ActivityLevel);
+        Assert.AreEqual(userMap.WishCountQuestions, user.WishCountQuestions);
+    }
+
+
+    [Test(Description = "Delete TestUser in MeiliSearch")]
+    public async Task DeleteUserTest()
+    {
+        //construction
+        await DeleteTestUser();
+        var user = new User
+        {
+            Id = 12,
+            Name = "Daniel",
+            ActivityLevel = 5,
+            WishCountQuestions = 2000
+        };
+
+        //Execution
+        var taskId = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, MeiliSearchTestConstants.UsersTest).ConfigureAwait(false)).TaskUid;
+        await client.WaitForTaskAsync(taskId);
+
+      
+        taskId = (await MeiliSearchUsersDatabaseOperations.DeleteAsync(user, MeiliSearchTestConstants.UsersTest).ConfigureAwait(false)).TaskUid;
+        await client.WaitForTaskAsync(taskId);
+
+        var index = client.Index(MeiliSearchTestConstants.UsersTest);
+        var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
+        var userMap = result.FirstOrDefault();
+        //Tests 
+        Assert.True(result.IsNullOrEmpty());
+        Assert.True(userMap == null);
     }
 }

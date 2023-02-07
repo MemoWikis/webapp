@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Meilisearch;
@@ -16,7 +15,7 @@ internal class MeiliSearchBase
         client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
     }
 
-    protected async Task DeleteUserTest()
+    protected async Task DeleteTestUser()
     {
         var deleteIndexTaskId = (await client.DeleteIndexAsync(MeiliSearchTestConstants.UsersTest)).TaskUid; 
         await client.WaitForTaskAsync(deleteIndexTaskId);

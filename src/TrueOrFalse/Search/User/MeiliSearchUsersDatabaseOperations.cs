@@ -38,18 +38,20 @@ namespace TrueOrFalse.Search
         /// <param name="user"></param>
         /// <param name="indexConstant"></param>
         /// <returns></returns>
-        public static async Task UpdateAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
+        public static async Task<TaskInfo> UpdateAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
         {
             try
             {
                 var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
-                await index.UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
+                return await index.UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
                     .ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 Logg.r().Error("Cannot updated user in MeiliSearch", e);
             }
+
+            return null; 
         }
 
         /// <summary>
@@ -58,12 +60,12 @@ namespace TrueOrFalse.Search
         /// <param name="user"></param>
         /// <param name="indexConstant"></param>
         /// <returns></returns>
-        public static async Task DeleteAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
+        public static async Task<TaskInfo> DeleteAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
         {
             try
             {
                 var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
-                await index
+                return await index
                     .DeleteOneDocumentAsync(userMapAndIndex.Id.ToString())
                     .ConfigureAwait(false);
             }
@@ -71,6 +73,8 @@ namespace TrueOrFalse.Search
             {
                 Logg.r().Error("Cannot delete user in MeiliSearch", e);
             }
+
+            return null;
         }
 
         private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant,  out Index index)
