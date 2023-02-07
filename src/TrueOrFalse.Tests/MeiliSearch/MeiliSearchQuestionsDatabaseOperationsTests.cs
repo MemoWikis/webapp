@@ -7,7 +7,7 @@ using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Tests.MeiliSearch;
 
-internal class MeiliSearchQuestionsDatabaseOperationsTests : MeiliSearchBase
+internal class MeiliSearchQuestionsDatabaseOperationsTests : MeiliSearchBaseTests
 {
     [Test(Description = "Set TestQuestion in MeiliSearch")]
     public async Task CreateQuestionTest()
@@ -22,22 +22,19 @@ internal class MeiliSearchQuestionsDatabaseOperationsTests : MeiliSearchBase
                 Id = 15
             },
             Description = "Description",
-            Categories = new List<Category>{ new(){ Name = "Daniel", Id = 15}},
+            Categories = new List<Category> { new() { Name = "Daniel", Id = 15 } },
             Solution = "Solution",
             SolutionType = SolutionType.Date,
             Text = "Text"
         };
 
         //Execution
-        var taskId = 
-            (await MeiliSearchQuestionsDatabaseOperations
-                .CreateAsync(question, QuestionsTest)
-                .ConfigureAwait(false))
-            .TaskUid;
-        await client.WaitForTaskAsync(taskId);
+        await new MeiliSearchQuestionsDatabaseOperations()
+            .CreateAsync(question, QuestionsTest)
+            .ConfigureAwait(false);
 
         var index = client.Index(QuestionsTest);
-        var result = 
+        var result =
             (await index.SearchAsync<MeiliSearchQuestionMap>(question.Text)
                 .ConfigureAwait(false))
             .Hits
@@ -78,20 +75,15 @@ internal class MeiliSearchQuestionsDatabaseOperationsTests : MeiliSearchBase
         };
 
         //Execution
-        var taskId =
-            (await MeiliSearchQuestionsDatabaseOperations
-                .CreateAsync(question, QuestionsTest)
-                .ConfigureAwait(false))
-            .TaskUid;
-        await client.WaitForTaskAsync(taskId);
+        await new MeiliSearchQuestionsDatabaseOperations()
+            .CreateAsync(question, QuestionsTest)
+            .ConfigureAwait(false); 
 
         question.Text = "Ratte";
-        taskId = 
-            (await MeiliSearchQuestionsDatabaseOperations
-                .UpdateAsync(question, QuestionsTest)
-                .ConfigureAwait(false))
-            .TaskUid;
-        await client.WaitForTaskAsync(taskId);
+
+        await new MeiliSearchQuestionsDatabaseOperations()
+            .UpdateAsync(question, QuestionsTest)
+            .ConfigureAwait(false);
 
         var index = client.Index(QuestionsTest);
         var result =
@@ -135,20 +127,14 @@ internal class MeiliSearchQuestionsDatabaseOperationsTests : MeiliSearchBase
         };
 
         //Execution
-        var taskId =
-            (await MeiliSearchQuestionsDatabaseOperations
-                .CreateAsync(question, QuestionsTest)
-                .ConfigureAwait(false))
-            .TaskUid;
-        await client.WaitForTaskAsync(taskId);
 
-       
-        taskId =
-            (await MeiliSearchQuestionsDatabaseOperations
-                .DeleteAsync(question, QuestionsTest)
-                .ConfigureAwait(false))
-            .TaskUid;
-        await client.WaitForTaskAsync(taskId);
+        await new MeiliSearchQuestionsDatabaseOperations()
+            .CreateAsync(question, QuestionsTest)
+            .ConfigureAwait(false);
+
+        await new MeiliSearchQuestionsDatabaseOperations()
+            .DeleteAsync(question, QuestionsTest)
+            .ConfigureAwait(false);
 
         var index = client.Index(QuestionsTest);
         var result =
@@ -161,7 +147,5 @@ internal class MeiliSearchQuestionsDatabaseOperationsTests : MeiliSearchBase
         //Tests 
         Assert.AreEqual(result.GetType(), typeof(List<MeiliSearchQuestionMap>));
         Assert.IsNull(questionMap);
-
-
     }
 }

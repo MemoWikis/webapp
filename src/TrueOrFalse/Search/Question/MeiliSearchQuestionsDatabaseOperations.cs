@@ -6,26 +6,19 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Search
 {
-    internal class MeiliSearchQuestionsDatabaseOperations
+    internal class MeiliSearchQuestionsDatabaseOperations : MeiliSearchBase
     {
         /// <summary>
         /// Create MeiliSearch Question
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task<TaskInfo> CreateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
+        public async Task CreateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            try
-            {
-                var questionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
-                return await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
-                .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot create question in MeiliSearch", e);
-            }
-            return null;
+            var questionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+            var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
+             .ConfigureAwait(false);
+            await CheckStatus(taskInfo).ConfigureAwait(false); 
         }
 
         /// <summary>
@@ -33,19 +26,13 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task<TaskInfo> UpdateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
+        public async Task UpdateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            try
-            {
+        
                 var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
-                return await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex })
+               var taskInfo =  await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex })
                     .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot updated question in MeiliSearch", e);
-            }
-            return null;
+               await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -53,23 +40,17 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task<TaskInfo> DeleteAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
+        public async Task DeleteAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            try
-            {
+            
                 var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
-                return await index
+                 var taskInfo = await index
                     .DeleteOneDocumentAsync(QuestionMapAndIndex.Id.ToString())
                     .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot updated question in MeiliSearch", e);
-            }
-            return null;
+                 await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private static MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Index index)
+        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             index = client.Index(indexConstant);

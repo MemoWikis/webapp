@@ -8,7 +8,7 @@ using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Tests.MeiliSearch
 {
-    internal class MeiliSearchCategoriesDatabaseOperationsTests : MeiliSearchBase
+    internal class MeiliSearchCategoriesDatabaseOperationsTests : MeiliSearchBaseTests
     {
         [Test(Description = "Set TestCategory in MeiliSearch")]
         public async Task CreateCategoryTest()
@@ -29,8 +29,9 @@ namespace TrueOrFalse.Tests.MeiliSearch
             };
 
             //Execution
-            var taskId = (await MeiliSearchCategoriesDatabaseOperations.CreateAsync(category, CategoriesTest).ConfigureAwait(false)).TaskUid;
-            await client.WaitForTaskAsync(taskId);
+            await new MeiliSearchCategoriesDatabaseOperations()
+                .CreateAsync(category, CategoriesTest)
+                .ConfigureAwait(false);
 
             var index = client.Index(CategoriesTest);
             var result = (await index.SearchAsync<MeiliSearchCategoryMap>(category.Name).ConfigureAwait(false)).Hits.ToList();
@@ -67,12 +68,14 @@ namespace TrueOrFalse.Tests.MeiliSearch
             };
 
             //Execution
-            var taskId = (await MeiliSearchCategoriesDatabaseOperations.CreateAsync(category, CategoriesTest).ConfigureAwait(false)).TaskUid;
-            await client.WaitForTaskAsync(taskId);
+            await new MeiliSearchCategoriesDatabaseOperations()
+                .CreateAsync(category, CategoriesTest)
+                .ConfigureAwait(false);
 
             category.Name = "Daniela";
-            taskId = (await MeiliSearchCategoriesDatabaseOperations.UpdateAsync(category, CategoriesTest).ConfigureAwait(false)).TaskUid;
-            await client.WaitForTaskAsync(taskId);
+            await new MeiliSearchCategoriesDatabaseOperations()
+                .UpdateAsync(category, CategoriesTest)
+                .ConfigureAwait(false);
 
             var index = client.Index(CategoriesTest);
             var result = (await index.SearchAsync<MeiliSearchCategoryMap>(category.Name).ConfigureAwait(false)).Hits.ToList();
@@ -110,12 +113,14 @@ namespace TrueOrFalse.Tests.MeiliSearch
             };
 
             //Execution
-            var taskId = (await MeiliSearchCategoriesDatabaseOperations.CreateAsync(category, CategoriesTest).ConfigureAwait(false)).TaskUid;
-            await client.WaitForTaskAsync(taskId);
+            await new MeiliSearchCategoriesDatabaseOperations()
+                .CreateAsync(category, CategoriesTest)
+                .ConfigureAwait(false);
 
             category.Name = "Daniela";
-            taskId = (await MeiliSearchCategoriesDatabaseOperations.DeleteAsync(category, CategoriesTest).ConfigureAwait(false)).TaskUid;
-            await client.WaitForTaskAsync(taskId);
+            await new MeiliSearchCategoriesDatabaseOperations()
+                .DeleteAsync(category, CategoriesTest)
+                .ConfigureAwait(false);
 
             var index = client.Index(CategoriesTest);
             var result = (await index.SearchAsync<MeiliSearchCategoryMap>(category.Name).ConfigureAwait(false)).Hits.ToList();

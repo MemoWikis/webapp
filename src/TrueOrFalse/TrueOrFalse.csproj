@@ -290,6 +290,7 @@
     <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
     <Compile Include="Search\MeiliSearch.cs" />
     <Compile Include="Search\Category\MeiliSearchCategoriesDatabaseOperations.cs" />
+    <Compile Include="Search\MeiliSearchBase.cs" />
     <Compile Include="Search\MeiliSearchHelper.cs" />
     <Compile Include="Search\MeiliSearchKonstanten.cs" />
     <Compile Include="Search\Question\ISearchQuestionsResult.cs" />

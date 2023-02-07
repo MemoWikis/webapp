@@ -6,11 +6,11 @@ using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Tests.MeiliSearch;
 
-internal class MeiliSearchBase : MeiliSearchTestConstants
+internal class MeiliSearchBaseTests : MeiliSearchTestConstants
 {
     protected MeilisearchClient client;
 
-    internal MeiliSearchBase()
+    internal MeiliSearchBaseTests()
     {
         client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
     }

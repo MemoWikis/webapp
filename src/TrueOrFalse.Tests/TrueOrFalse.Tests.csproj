@@ -251,7 +251,7 @@
     <Compile Include="2 Domain\Category\Setup\TestHelper.cs" />
     <Compile Include="2 Domain\User\AddToWiki_tests.cs" />
     <Compile Include="2 Domain\Visibility\CategoryVisibility.cs" />
-    <Compile Include="MeiliSearch\MeiliSearchBase.cs" />
+    <Compile Include="MeiliSearch\MeiliSearchBaseTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchCategoriesDatabaseOperationsTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchQuestionsDatabaseOperationsTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchTestConstants.cs" />
