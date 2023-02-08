@@ -31,7 +31,7 @@ namespace TrueOrFalse.Search
             SearchUsersOrderBy orderBy
         )
         {
-            var sqb = new SearchQueryBuilder()
+            var sqb = new SolrSearchQueryBuilder()
                 .Add("Name", searchTerm)
                 .Add("Name", searchTerm, startsWith: true, boost: 99999);
 

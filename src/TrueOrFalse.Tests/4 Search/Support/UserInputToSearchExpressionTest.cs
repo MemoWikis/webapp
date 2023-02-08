@@ -21,26 +21,26 @@ public class UserInputToSearchExpressionTests
     [Test]
     public void Should_build_search_expression()
     {
-        var sqb = new SearchQueryBuilder()
+        var sqb = new SolrSearchQueryBuilder()
             .Add("fieldName", "1")
             .Add("fieldName", "2")
             .Add("fieldName", "3");
 
         Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(2~) fieldName:(3~))"));
 
-        sqb = new SearchQueryBuilder()
+        sqb = new SolrSearchQueryBuilder()
             .Add("fieldName", "1")
             .Add("fieldName", "2", isAndCondition: true)
             .Add("fieldName", "3");
 
         Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(3~)) AND fieldName:(2~)"));
 
-        sqb = new SearchQueryBuilder()
+        sqb = new SolrSearchQueryBuilder()
             .Add("fieldName", "1", isAndCondition: true);
 
         Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~)"));
 
-        sqb = new SearchQueryBuilder()
+        sqb = new SolrSearchQueryBuilder()
             .Add("fieldName", "1")
             .Add("fieldName", "\"one two\"", startsWith: true);
 

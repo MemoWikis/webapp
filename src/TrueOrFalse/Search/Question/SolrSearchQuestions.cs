@@ -54,7 +54,7 @@ namespace TrueOrFalse.Search
             IList<int> questionIdsToExclude = null,
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
-            var sqb = new SearchQueryBuilder();
+            var sqb = new SolrSearchQueryBuilder();
 
             var creatorFilter = QuestionFilter.GetCreatorFilterValue(searchTerm);
             if (creatorFilter != null)
