@@ -28,13 +28,16 @@ namespace TrueOrFalse.Tests._2_Domain.Category
 
             var user = ContextUser.New().Add("User").Persist().All[0];
             SessionUser.Login(user);
+
             editCategoryController.AddChild(child.Id, parent.Id);
+            //wait for Job StartImmediately_ModifyCategoryRelation in AddChild()
+            await Task.Delay(100);
 
             var childEntityCache = EntityCache.GetCategoryByName("D").First();
             var isCacheRelationCorrect =
                 TestHelper.HasParent(childEntityCache, parent.Id);
             var parentEntityCache = EntityCache.GetCategoryByName("B").First();
-            //await Task.Delay(10000);
+
             var parentFromDb = categoryRepo.GetByName("B").First();
             var childfromDb = categoryRepo.GetByName("D").First();
             var childHasCorrectRelation =
@@ -47,6 +50,8 @@ namespace TrueOrFalse.Tests._2_Domain.Category
 
             // Test Database
             Assert.True(childHasCorrectRelation);
+            Assert.That(childEntityCache.CategoryRelations.Count, Is.EqualTo(1));
+
         }
 
         [Test]

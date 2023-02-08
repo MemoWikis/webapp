@@ -194,7 +194,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId)
         {
             _scheduler.ScheduleJob(
-                JobBuilder.Create<ModifyCategoryRelation>()
+                JobBuilder.Create<AddParentCategoryInDb>()
                     .UsingJobData("childCategoryId", childCategoryId)
                     .UsingJobData("parentCategoryId", parentCategoryId)
                     .Build(),

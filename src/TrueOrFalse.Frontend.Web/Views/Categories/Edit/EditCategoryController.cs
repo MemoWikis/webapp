@@ -16,7 +16,6 @@ public class EditCategoryController : BaseController
 {
     private readonly CategoryRepository _categoryRepository;
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
-    private const string _viewPathTypeControls = "~/Views/Categories/Edit/TypeControls/{0}.ascx";
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
