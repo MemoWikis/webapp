@@ -84,8 +84,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         {
             Sl.CategoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false, type: CategoryChangeType.Relations);
         }
-        var result = Task.Run(async ()=> await MeiliSearchCategoriesDatabaseOperations.CreateAsync(category));
-
+        var result = Task.Run(async ()=> await new MeiliSearchCategoriesDatabaseOperations()
+            .CreateAsync(category)
+            .ConfigureAwait(false));
     }
 
     public void CreateOnlyDb(Category category)
@@ -186,7 +187,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
-        Task.Run(async () => { await MeiliSearchCategoriesDatabaseOperations
+        Task.Run(async () => { await new MeiliSearchCategoriesDatabaseOperations()
             .UpdateAsync(category)
             .ConfigureAwait(false); });
     }
@@ -205,10 +206,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
-        Task.Run(async () => { await MeiliSearchCategoriesDatabaseOperations
+        Task.Run(async () => { await new MeiliSearchCategoriesDatabaseOperations()
             .UpdateAsync(category)
             .ConfigureAwait(false); });
-
     }
 
     public override void Delete(Category category)
@@ -216,7 +216,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _solrSearchIndexCategory.Delete(category);
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category));
-        Task.Run(async () => { await MeiliSearchCategoriesDatabaseOperations
+        Task.Run(async () => { await new MeiliSearchCategoriesDatabaseOperations()
             .DeleteAsync(category)
             .ConfigureAwait(false); });
     }
@@ -227,7 +227,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id));
         SessionUserCache.RemoveAllForCategory(category.Id);
-        Task.Run(async () => { await MeiliSearchCategoriesDatabaseOperations
+        Task.Run(async () => { await new MeiliSearchCategoriesDatabaseOperations()
             .DeleteAsync(category)
             .ConfigureAwait(false); });
     }

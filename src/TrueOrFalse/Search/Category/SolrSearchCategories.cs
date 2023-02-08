@@ -45,7 +45,7 @@ namespace TrueOrFalse.Search
             int[] categoriesToFilter = null)
         {
 
-            var sqb = new SearchQueryBuilder();
+            var sqb = new SolrSearchQueryBuilder();
 
             if (searchOnlyWithStartingWith)
             {

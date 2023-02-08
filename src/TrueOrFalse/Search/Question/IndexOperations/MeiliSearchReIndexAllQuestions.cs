@@ -41,7 +41,9 @@ namespace TrueOrFalse.Search
 
         public async Task Go()
         {
-            await _client.DeleteIndexAsync(MeiliSearchKonstanten.Questions);
+            var taskId = (await _client.DeleteIndexAsync(MeiliSearchKonstanten.Questions)).TaskUid;
+            await _client.WaitForTaskAsync(taskId);
+
             var allQuestionsFromDb = _questionRepo.GetAll().Where(q => !q.IsWorkInProgress);
             var allValuations = _questionValuationRepo.GetAll();
             var meiliSearchQuestions = new List<MeiliSearchQuestionMap>();

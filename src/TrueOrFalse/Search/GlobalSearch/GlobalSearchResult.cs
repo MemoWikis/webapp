@@ -51,7 +51,7 @@ public class GlobalSearchResult
         if (type == "Categories")
         {
             if (TotalElements >= maxElements)
-                _categories = Categories.Take(9).ToList();
+                _categories = Categories.Take(nine).ToList();
         } else if (type == "Questions") {
             if (TotalElements >= maxElements)
                 _questions = Questions.Take(nine).ToList();

@@ -5,25 +5,19 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Search
 {
-    internal class MeiliSearchCategoriesDatabaseOperations
+    internal class MeiliSearchCategoriesDatabaseOperations : MeiliSearchBase
     {
         /// <summary>
         /// Create MeiliSearch Category
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static async Task CreateAsync(Category category)
+        public async Task CreateAsync(Category category, string indexConstant = MeiliSearchKonstanten.Categories)
         {
-            try
-            {
-                var categoryMapAndIndex = CreateCategoryMap(category, out var index);
-                await index.AddDocumentsAsync(new List<MeiliSearchCategoryMap> { categoryMapAndIndex })
-                .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot create category in MeiliSearch", e);
-            }
+            var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
+            var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchCategoryMap> { categoryMapAndIndex })
+             .ConfigureAwait(false);
+            await CheckStatus(taskInfo);
         }
 
         /// <summary>
@@ -31,18 +25,12 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static async Task UpdateAsync(Category category)
+        public async Task UpdateAsync(Category category, string indexConstant = MeiliSearchKonstanten.Categories)
         {
-            try
-            {
-                var categoryMapAndIndex = CreateCategoryMap(category, out var index);
-                await index.UpdateDocumentsAsync(new List<MeiliSearchCategoryMap> { categoryMapAndIndex})
-                    .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot updated category in MeiliSearch", e);
-            }
+            var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
+            var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchCategoryMap> { categoryMapAndIndex })
+                .ConfigureAwait(false);
+            await CheckStatus(taskInfo);
         }
 
         /// <summary>
@@ -50,24 +38,18 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static async Task DeleteAsync(Category category)
+        public async Task DeleteAsync(Category category, string indexConstant = MeiliSearchKonstanten.Categories)
         {
-            try
-            {
-                var categoryMapAndIndex = CreateCategoryMap(category, out var index);
-                await index.DeleteOneDocumentAsync(categoryMapAndIndex.Id.ToString())
-                    .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot updated category in MeiliSearch", e);
-            }
+                var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
+                var taskInfo = await index.DeleteOneDocumentAsync(categoryMapAndIndex.Id.ToString())
+                     .ConfigureAwait(false);
+                await CheckStatus(taskInfo);
         }
 
-        private static MeiliSearchCategoryMap CreateCategoryMap(Category category, out Index index)
+        private static MeiliSearchCategoryMap CreateCategoryMap(Category category, string indexConstant, out Index index)
         {
-           var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
-            index = client.Index(MeiliSearchKonstanten.Categories);
+            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            index = client.Index(indexConstant);
             var categoryMap = new MeiliSearchCategoryMap
             {
                 CreatorId = category.Creator.Id,

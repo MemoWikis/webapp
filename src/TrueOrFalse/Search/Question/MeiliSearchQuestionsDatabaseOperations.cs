@@ -6,25 +6,19 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Search
 {
-    internal class MeiliSearchQuestionsDatabaseOperations
+    internal class MeiliSearchQuestionsDatabaseOperations : MeiliSearchBase
     {
         /// <summary>
         /// Create MeiliSearch Question
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task CreateAsync(Question question)
+        public async Task CreateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            try
-            {
-                var questionMapAndIndex = CreateQuestionMap(question, out var index);
-                await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
-                .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot create question in MeiliSearch", e);
-            }
+            var questionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+            var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
+             .ConfigureAwait(false);
+            await CheckStatus(taskInfo).ConfigureAwait(false); 
         }
 
         /// <summary>
@@ -32,18 +26,13 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task UpdateAsync(Question question)
+        public async Task UpdateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            try
-            {
-                var QuestionMapAndIndex = CreateQuestionMap(question, out var index);
-                await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex})
+        
+                var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+               var taskInfo =  await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex })
                     .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot updated question in MeiliSearch", e);
-            }
+               await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -51,31 +40,26 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public static async Task DeleteAsync(Question question)
+        public async Task DeleteAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            try
-            {
-                var QuestionMapAndIndex = CreateQuestionMap(question, out var index);
-                await index
+            
+                var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+                 var taskInfo = await index
                     .DeleteOneDocumentAsync(QuestionMapAndIndex.Id.ToString())
                     .ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error("Cannot updated question in MeiliSearch", e);
-            }
+                 await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private static MeiliSearchQuestionMap CreateQuestionMap(Question question, out Index index)
+        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Index index)
         {
-           var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
-            index = client.Index(MeiliSearchKonstanten.Questions);
+            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            index = client.Index(indexConstant);
             var questionMap = new MeiliSearchQuestionMap
             {
                 CreatorId = question.Creator.Id,
                 Description = question.Description ?? "",
                 Categories = question.Categories.Select(c => c.Name).ToList(),
-                CategoryIds = question.Categories.Select(c=> c.Id).ToList(),
+                CategoryIds = question.Categories.Select(c => c.Id).ToList(),
                 Id = question.Id,
                 Solution = question.Solution,
                 SolutionType = (int)question.SolutionType,
