@@ -1,57 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests._2_Domain.Category
 {
     class Edit_category_tests : BaseTest
     {
-        [Test]
-        public void AddParent()
+        [Test(Description = "Add Parent Test")]
+        public async Task AddParentTest()
         {
             var categoryRepo = Sl.CategoryRepo;
             var context = ContextCategory.New();
-            var all = context.Add("A").Add("B").Add("C").Add("D").Persist().All;
+            var all = context
+                .Add("A")
+                .Add("B")
+                .Add("C")
+                .Add("D")
+                .Persist()
+                .All;
+
             EntityCache.Init();
             var editCategoryController = new EditCategoryController();
-
 
             var child = all.ByName("D");
             var parent = all.ByName("B");
 
             var user = ContextUser.New().Add("User").Persist().All[0];
             SessionUser.Login(user);
-
             editCategoryController.AddChild(child.Id, parent.Id);
 
-            //TestEntityCache
             var childEntityCache = EntityCache.GetCategoryByName("D").First();
-            var childHasCorrectRelation =
-                TestHelper.HasRelation(childEntityCache, child.Id, parent.Id);
-            Assert.That(childHasCorrectRelation, Is.EqualTo(true));
-            Assert.That(childEntityCache.CategoryRelations.Count, Is.EqualTo(1));
-
+            var isCacheRelationCorrect =
+                TestHelper.HasParent(childEntityCache, parent.Id);
             var parentEntityCache = EntityCache.GetCategoryByName("B").First();
-            var parentHasCorrectRelation =
-                TestHelper.HasRelation(parentEntityCache, parent.Id, child.Id);
-            Assert.That(parentHasCorrectRelation, Is.EqualTo(true));
-            Assert.That(parentEntityCache.CategoryRelations.Count, Is.EqualTo(1));
-
+            //await Task.Delay(10000);
+            var parentFromDb = categoryRepo.GetByName("B").First();
+            var childfromDb = categoryRepo.GetByName("D").First();
+            var childHasCorrectRelation =
+                TestHelper.HasParent(childfromDb, parentFromDb.Id);
+            
+            //TestEntityCache
+            Assert.True(isCacheRelationCorrect);
+            Assert.That(childEntityCache.CategoryRelations.Count, Is.EqualTo(1));
+            Assert.That(parentEntityCache.CategoryRelations.Count, Is.EqualTo(0));
 
             // Test Database
-            parent = categoryRepo.GetByName("B").First();
-            parentHasCorrectRelation =
-               TestHelper.HasRelation(parent, parent.Id, child.Id);
-            Assert.That(parentHasCorrectRelation, Is.EqualTo(true));
-            Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
-
-            child = categoryRepo.GetByName("D").First();
-            childHasCorrectRelation =
-               TestHelper.HasRelation(child, child.Id, parent.Id);
-            Assert.That(childHasCorrectRelation, Is.EqualTo(true));
-            Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
-
-
+            Assert.True(childHasCorrectRelation);
         }
 
         [Test]
@@ -80,26 +75,26 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             // Test Database
             parent = categoryRepo.GetByName("A").First();
             var parentHasRelationToC =
-                TestHelper.HasRelation(parent, parent.Id, childC.Id);
+                TestHelper.HasParent(parent, childC.Id);
             Assert.That(parentHasRelationToC, Is.EqualTo(true));
             Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
 
             childC = categoryRepo.GetByName("C").First();
             var childHasCorrectRelation =
-                TestHelper.HasRelation(childC, childC.Id, parent.Id);
+                TestHelper.HasParent(childC, parent.Id);
             Assert.That(childHasCorrectRelation, Is.EqualTo(true));
             Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
 
             //TestEntityCache
             var childCEntityCache = EntityCache.GetCategoryByName("C").First();
             childHasCorrectRelation =
-                TestHelper.HasRelation(childCEntityCache, childC.Id, parent.Id);
+                TestHelper.HasParent(childCEntityCache, parent.Id);
             Assert.That(childHasCorrectRelation, Is.EqualTo(true));
             Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
 
             var parentEntityCache = categoryRepo.GetByName("A").First();
             parentHasRelationToC =
-                TestHelper.HasRelation(parentEntityCache, parent.Id, childC.Id);
+                TestHelper.HasParent(parentEntityCache, childC.Id);
             Assert.That(parentHasRelationToC, Is.EqualTo(true));
             Assert.That(parent.CategoryRelations.Count, Is.EqualTo(1));
 
@@ -114,22 +109,22 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             // Test Database
             parent = categoryRepo.GetByName("A").First();
             var parentHasRelationToD =
-                TestHelper.HasRelation(parent, parent.Id, childD.Id);
+                TestHelper.HasParent(parent,childD.Id);
             Assert.That(parentHasRelationToD, Is.EqualTo(false));
 
             childD = categoryRepo.GetByName("D").First();
             var childDHasRelation =
-                TestHelper.HasRelation(childD, childD.Id, parent.Id);
+                TestHelper.HasParent(childD, parent.Id);
             Assert.That(childDHasRelation, Is.EqualTo(false));
 
             //TestEntityCache
             var childEntityCache = EntityCache.GetCategoryByName("D").First();
             childHasCorrectRelation =
-                TestHelper.HasRelation(childEntityCache, childD.Id, parent.Id);
+                TestHelper.HasParent(childEntityCache, parent.Id);
             Assert.That(childDHasRelation, Is.EqualTo(false));
 
             parentHasRelationToD =
-                TestHelper.HasRelation(parentEntityCache, parent.Id, childD.Id);
+                TestHelper.HasParent(parentEntityCache, childD.Id);
             Assert.That(parentHasRelationToD, Is.EqualTo(false));
 
         }

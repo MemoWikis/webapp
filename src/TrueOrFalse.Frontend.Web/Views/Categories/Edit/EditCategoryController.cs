@@ -186,7 +186,6 @@ public class EditCategoryController : BaseController
                 success = false,
                 key = "isAlreadyLinkedAsChild"
             });
-
         var selectedCategoryIsParent = GraphService.GetAllParentsFromEntityCache(parentCategoryId)
             .Any(c => c.Id == childCategoryId);
 
@@ -205,9 +204,7 @@ public class EditCategoryController : BaseController
 
         var child = EntityCache.GetCategory(childCategoryId);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
-
         JobScheduler.StartImmediately_ModifyCategoryRelation(childCategoryId, parentCategoryId);
-
         EntityCache.GetCategory(parentCategoryId).CachedData.AddChildId(childCategoryId);
         EntityCache.GetCategory(parentCategoryId).DirectChildrenIds = EntityCache.GetChildren(parentCategoryId).Select(cci => cci.Id).ToList();
 

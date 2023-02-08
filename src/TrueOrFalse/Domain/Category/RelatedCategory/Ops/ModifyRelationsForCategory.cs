@@ -18,44 +18,30 @@ public class ModifyRelationsForCategory
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
         var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategorieIds);
         var existingRelationsOfType = GetExistingRelations(category).ToList();
-
-        //CreateIncludeContentOf(category, GetRelationsToAdd(category, relatedCategoriesAsCategories, existingRelationsOfType));
-        //RemoveIncludeContentOf(category, GetRelationsToRemove(relatedCategoriesAsCategories, existingRelationsOfType));
     }
 
-    public static void AddCategoryRelation(Category category, int relatedCategoryId, bool isRelatedParent = false)
+    public static void AddParentCategory(Category category, int parentId)
     {
-        var relatedCategory = Sl.CategoryRepo.GetByIdEager(relatedCategoryId);
+        var relatedCategory = Sl.CategoryRepo.GetByIdEager(parentId);
         var categoryRelationToAdd = new CategoryRelation()
         {
             Category = category,
             RelatedCategory = relatedCategory,
         };
-        if (!category.CategoryRelations.Any(cr => cr.Category == categoryRelationToAdd.Category && cr.RelatedCategory == categoryRelationToAdd.RelatedCategory))
+        if (!category.CategoryRelations.Any(cr =>
+                cr.Category == categoryRelationToAdd.Category &&
+                cr.RelatedCategory == categoryRelationToAdd.RelatedCategory))
         {
             category.CategoryRelations.Add(categoryRelationToAdd);
         }
-
-        if (isRelatedParent) return;
-
-        //Get all GrandChildren and add them to the CategoryRelations
-        foreach (var categoryRelation in category.CategoryRelations)
-        {
-            AddCategoryRelation(category, categoryRelation.RelatedCategory.Id, true);
-        }
-
     }
 
-    public static void AddParentCategory(Category child, int parent)
-    {
-        AddCategoryRelation(child, parent);
-    }
 
     public static void AddParentCategories(Category category, List<int> relatedCategoryIds)
     {
         foreach (var relatedId in relatedCategoryIds)
         {
-            AddCategoryRelation(category, relatedId);
+            AddParentCategory(category, relatedId);
         }
     }
 
@@ -64,19 +50,6 @@ public class ModifyRelationsForCategory
         return category.CategoryRelations.Any()
             ? category.CategoryRelations?.Where(r => r.RelatedCategory.Id == category.Id).ToList()
             : new List<CategoryRelation>();
-    }
-
-    public static IEnumerable<CategoryRelation> GetRelationsToAdd(Category category,
-        IEnumerable<Category> relatedCategoriesAsCategories,
-        IEnumerable<CategoryRelation> existingRelationsOfType)
-    {
-        return relatedCategoriesAsCategories
-            .Except(existingRelationsOfType.Select(r => r.RelatedCategory))
-            .Select(c => new CategoryRelation
-            {
-                Category = category,
-                RelatedCategory = c,
-            });
     }
 
     private static IEnumerable<CategoryRelation> GetRelationsToRemove(IList<Category> relatedCategoriesAsCategories, IEnumerable<CategoryRelation> existingRelationsOfType)
