@@ -5,7 +5,7 @@ namespace TrueOrFalse.Search
 {
     internal class MeiliSearchBase
     {
-        MeilisearchClient _client;
+       private readonly MeilisearchClient _client;
         internal MeiliSearchBase()
         {
             _client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);

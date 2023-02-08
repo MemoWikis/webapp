@@ -91,7 +91,7 @@ public class UserRepo : RepositoryDbBase<User>
         base.Update(user);
         SessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.UpdateAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user));
     }
 
     public void Update(UserCacheItem userCacheItem)
@@ -123,7 +123,7 @@ public class UserRepo : RepositoryDbBase<User>
         base.Create(user);
         SessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.CreateAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
 
     }
 
@@ -138,14 +138,14 @@ public class UserRepo : RepositoryDbBase<User>
         base.Delete(id);
         SessionUserCache.Remove(user);
         EntityCache.RemoveUser(id);
-        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.DeleteAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
 
     }
 
     public void DeleteFromAllTables(int userId)
     {
         var user = _session.Get<User>(userId); 
-        Task.Run(async () => await MeiliSearchUsersDatabaseOperations.DeleteAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
 
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId).ExecuteUpdate();

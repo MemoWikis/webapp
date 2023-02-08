@@ -24,9 +24,7 @@ internal class  MeiliSearchUserDatabaseOperationsTests : MeiliSearchBaseTests
         };
 
         //Execution
-        var taskId = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, UsersTest).ConfigureAwait(false)).TaskUid;
-        await client.WaitForTaskAsync(taskId);
-     
+        await new MeiliSearchUsersDatabaseOperations().CreateAsync(user, UsersTest).ConfigureAwait(false);
         var index = client.Index(MeiliSearchTestConstants.UsersTest);
         var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
         var userMap = result.First();
@@ -56,12 +54,10 @@ internal class  MeiliSearchUserDatabaseOperationsTests : MeiliSearchBaseTests
         };
 
         //Execution
-        var taskId = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, UsersTest).ConfigureAwait(false)).TaskUid;
-        await client.WaitForTaskAsync(taskId);
-
+        await new MeiliSearchUsersDatabaseOperations().CreateAsync(user, UsersTest).ConfigureAwait(false);
         user.Name = "Daniela";
-        taskId = (await MeiliSearchUsersDatabaseOperations.UpdateAsync(user, UsersTest).ConfigureAwait(false)).TaskUid;
-        await client.WaitForTaskAsync(taskId);
+        await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user, UsersTest).ConfigureAwait(false);
+     
 
         var index = client.Index(UsersTest);
         var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
@@ -92,16 +88,12 @@ internal class  MeiliSearchUserDatabaseOperationsTests : MeiliSearchBaseTests
         };
 
         //Execution
-        var taskId = (await MeiliSearchUsersDatabaseOperations.CreateAsync(user, UsersTest).ConfigureAwait(false)).TaskUid;
-        await client.WaitForTaskAsync(taskId);
-
-      
-        taskId = (await MeiliSearchUsersDatabaseOperations.DeleteAsync(user, UsersTest).ConfigureAwait(false)).TaskUid;
-        await client.WaitForTaskAsync(taskId);
-
+        await new MeiliSearchUsersDatabaseOperations().CreateAsync(user, UsersTest).ConfigureAwait(false);
+        await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user, UsersTest).ConfigureAwait(false);
         var index = client.Index(MeiliSearchTestConstants.UsersTest);
         var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
         var userMap = result.FirstOrDefault();
+
         //Tests 
         Assert.True(result.IsNullOrEmpty());
         Assert.True(userMap == null);

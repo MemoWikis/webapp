@@ -77,11 +77,17 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FakeItEasy, Version=7.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.7.3.1\lib\net45\FakeItEasy.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate, Version=3.1.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.3.1.0\lib\net461\FluentNHibernate.dll</HintPath>
@@ -251,10 +257,12 @@
     <Compile Include="2 Domain\Category\Setup\TestHelper.cs" />
     <Compile Include="2 Domain\User\AddToWiki_tests.cs" />
     <Compile Include="2 Domain\Visibility\CategoryVisibility.cs" />
+    <Compile Include="MeiliSearch\GlobalSearchResultTest.cs" />
     <Compile Include="MeiliSearch\MeiliSearchBaseTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchCategoriesDatabaseOperationsTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchQuestionsDatabaseOperationsTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchTestConstants.cs" />
+    <Compile Include="MeiliSearch\MeiliSearchToUserMapTest.cs" />
     <Compile Include="MeiliSearch\MeiliSearchUserDatabaseOperationsTests.cs" />
     <Compile Include="_ code\Email\Mail_persistence.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Count_answer_as_correct.cs" />
