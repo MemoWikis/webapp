@@ -206,4 +206,7 @@ public class QuestionEditModalController : BaseController
 
         return categories;
     }
+
+    [HttpGet]
+    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache().Count;
 }

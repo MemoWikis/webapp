@@ -70,7 +70,6 @@ function toggleCorrectness(index: number) {
         <div class="overline-s no-line">Antworten</div>
 
         <div class="form-group" v-for="(choice, index) in choices" :key="index">
-            <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
             <div class="input-group">
                 <div @click="toggleCorrectness(index)"
                     class="input-group-addon toggle-correctness btn is-correct grey-bg"
@@ -81,8 +80,8 @@ function toggleCorrectness(index: number) {
                     :class="{ active: choice.IsCorrect == false }">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
-                <input type="text" class="form-control" :id="'SolutionInput-' + index" placeholder=""
-                    v-model="choice.Text" v-on:change="solutionBuilder()"
+                <input type="text" class="form-control multiplechoice-input" :id="'SolutionInput-' + index"
+                    placeholder="" v-model="choice.Text" v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': choice.Text.length <= 0 && highlightEmptyFields }">
                 <div v-if="choices.length > 1" @click="deleteChoice(index)" class="input-group-addon btn grey-bg">
                     <font-awesome-icon icon="fa-solid fa-trash" />
@@ -98,8 +97,8 @@ function toggleCorrectness(index: number) {
         <div class="checkbox-container">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" v-model="solutionIsOrdered" :true-value="false" :false-value="true">Antworten
-                    zufällig anordnen
+                    <input type="checkbox" v-model="solutionIsOrdered" :true-value="false" :false-value="true">
+                    Antworten zufällig anordnen
                 </label>
             </div>
         </div>
@@ -107,3 +106,37 @@ function toggleCorrectness(index: number) {
 
 
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.multiplechoice-input {
+    padding: 0 8px;
+    min-height: 43px;
+}
+
+.toggle-correctness {
+    min-width: 43px;
+    box-shadow: none;
+    border-top: 1px solid @memo-grey-light;
+    border-bottom: 1px solid @memo-grey-light;
+    border-left: 1px solid @memo-grey-light;
+    border-right: none;
+
+    &.active {
+        color: white;
+
+        &.is-correct {
+            background-color: @memo-green;
+        }
+
+        &.is-wrong {
+            background-color: @memo-salmon;
+        }
+    }
+}
+
+.btn {
+    min-width: 43px;
+}
+</style>

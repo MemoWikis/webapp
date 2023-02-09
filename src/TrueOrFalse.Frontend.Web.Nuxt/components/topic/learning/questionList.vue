@@ -55,6 +55,18 @@ onBeforeMount(() => {
 const currentPage = ref(1)
 watch(currentPage, (p) => loadQuestions(p))
 
+learningSessionStore.$onAction(
+    ({
+        name,
+        after,
+    }) => {
+        if (name == 'addNewQuestionToList')
+            after((result) => {
+                loadNewQuestion(result)
+            })
+    }
+)
+
 async function loadNewQuestion(index: number) {
     spinnerStore.showSpinner()
 

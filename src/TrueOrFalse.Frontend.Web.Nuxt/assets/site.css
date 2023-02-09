@@ -2430,7 +2430,7 @@ input::placeholder {
   order: 1;
   flex-wrap: nowrap;
   align-items: center;
-  padding: 54px 40px 4px 40px;
+  padding: 54px 40px 40px 40px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);

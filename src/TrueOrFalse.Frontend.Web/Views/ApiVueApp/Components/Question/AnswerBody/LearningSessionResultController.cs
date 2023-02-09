@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
@@ -14,12 +15,21 @@ public class VueLearningSessionResultController: BaseController
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         var model = new LearningSessionResultModel(learningSession);
-        var steps = model.AnsweredStepsGrouped.Select(g =>
-            new {
-            id = g.First().Question.Id,
-            count = g.Count(),
-            states = g.Select(s => s.AnswerState).ToArray(),
-            }).ToArray();
+        var questions = model.AnsweredStepsGrouped.Select(g =>
+        {
+            var question = g.First().Question;
+            return new {
+                    correctAnswerHtml = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
+                    id = question.Id,
+                    imgUrl = GetQuestionImageFrontendData.Run(question).GetImageUrl(128, true,
+                        false, ImageType.Question),
+                    title = question.GetShortTitle(),
+                    steps = g.Select(s => new {
+                        answerState = s.AnswerState,
+                        answerAsHtml = Question.AnswersAsHtml(s.Answer, question.SolutionType)
+                    }).ToArray(),
+                };
+        }).ToArray();
 
         return Json(new
         {
@@ -44,7 +54,10 @@ public class VueLearningSessionResultController: BaseController
                 percentage = model.NumberNotAnsweredPercentage,
                 count = model.NumberNotAnswered
             },
-            steps = steps
+            encodedTopicName = UriSanitizer.Run(learningSession.Config.Category.Name),
+            topicId = learningSession.Config.Category.Id,
+            inWuwi = learningSession.Config.InWuwi,
+            questions = questions,
         }, JsonRequestBehavior.AllowGet);
     }
 }

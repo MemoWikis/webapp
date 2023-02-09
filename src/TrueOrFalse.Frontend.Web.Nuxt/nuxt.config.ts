@@ -22,7 +22,8 @@ export default defineNuxtConfig({
         '~/assets/memo-bundle.less',
         '~/assets/fonts/googleFonts.less',
         '~/assets/shared/dropdown.less',
-        'vue-final-modal/style.css'
+        'vue-final-modal/style.css',
+        '~/assets/vue-transitions.less',
     ],
     typescript: {
         shim: false,

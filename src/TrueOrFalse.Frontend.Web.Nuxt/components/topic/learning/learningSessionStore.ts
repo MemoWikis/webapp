@@ -9,7 +9,7 @@ export enum AnswerState {
     ShowedSolutionOnly = 4
 }
 
-interface Step {
+export interface Step {
     state: AnswerState
     id: number
     index: number
@@ -40,6 +40,10 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         }
     },
     actions: {
+        setCurrentStep(step: Step) {
+            this.currentStep = step
+            this.currentIndex = step.index
+        },
         async getLastStepInQuestionList() {
             const result = await $fetch<{
                 success: boolean,
@@ -53,8 +57,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             if (result != null && result.success) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
-                this.currentStep = result.lastQuestionInList
-                this.currentIndex = result.lastQuestionInList.index
+                this.setCurrentStep(result.lastQuestionInList)
                 return true
             } else return false
         },
@@ -70,8 +73,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             if (result != null && result.success) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
-                this.currentStep = result.firstStep
-                this.currentIndex = result.firstStep.index
+                this.setCurrentStep(result.firstStep)
                 this.answerHelp = result.answerHelp
                 this.isInTestMode = result.isInTestMode
                 return true
@@ -87,9 +89,6 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 return true
             } else return false
         },
-        answerQuestion() {
-
-        },
         async changeActiveQuestion(index: number) {
             const result = await $fetch<Step>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
                 method: 'POST',
@@ -97,10 +96,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
-            if (result != null) {
-                this.currentStep = result
-                this.currentIndex = result.index
-            }
+            if (result != null)
+                this.setCurrentStep(result)
         },
         loadNextQuestionInSession() {
             if (this.currentIndex < this.steps[this.steps.length - 1].index)
@@ -119,8 +116,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 })
             if (result) {
                 this.steps[this.currentIndex].state = AnswerState.Skipped
-                this.currentStep = result
-                this.currentIndex = result.index
+                this.setCurrentStep(result)
             }
         },
         markCurrentStep(state: AnswerState) {
@@ -133,6 +129,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         markCurrentStepAsWrong() {
             this.markCurrentStep(AnswerState.False)
+        },
+        addNewQuestionToList(index: number) {
+            return index
         }
     },
 })

@@ -21,6 +21,8 @@ function flip() {
     flipped.value = !flipped.value
 }
 
+watch(flipped, () => emit('flipped'))
+
 function getAnswerDataString(): string {
     return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
 }
@@ -39,6 +41,8 @@ function getMinHeight() {
     }
     return `min-height: ${minHeight}px`
 }
+
+const emit = defineEmits((['flipped']))
 </script>
 
 <template>
