@@ -11,7 +11,7 @@ namespace TrueOrFalse.Tests.MeiliSearch
 {
     internal class GlobalSearchResultTest
     {
-        [Test(Description = "Member Cateogories Tests")]
+        [Test(Description = "Member Categories Tests")]
         public void CategoriesMembersTests()
         {
             var categoriesResult = A.Fake<ISearchCategoriesResult>();

@@ -149,8 +149,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .RepeatForever()).Build());
         }
 
-        //public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
-        //public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
         public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }
         public static void StartImmediately_RecalcKnowledgeStati() { StartImmediately<RecalcKnowledgeStati>(); }
         public static void StartImmediately_RefreshEntityCache() { StartImmediately<RefreshEntityCache>(); }
@@ -196,7 +194,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId)
         {
             _scheduler.ScheduleJob(
-                JobBuilder.Create<ModifyCategoryRelation>()
+                JobBuilder.Create<AddParentCategoryInDb>()
                     .UsingJobData("childCategoryId", childCategoryId)
                     .UsingJobData("parentCategoryId", parentCategoryId)
                     .Build(),

@@ -20,7 +20,6 @@ public class SetController : BaseController
         }
         Response.Redirect(Links.CategoryDetailLearningTab(category));
     }
-
     public void QuestionSetById(int id)
     {
         Response.Redirect(Links.SetDetail(Sl.SetRepo.GetById(id)));

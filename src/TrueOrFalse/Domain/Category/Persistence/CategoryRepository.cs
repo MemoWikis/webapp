@@ -175,7 +175,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public override void Update(Category category) => Update(category);
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
-    public void Update(Category category, SessionUserCacheItem author = null, bool imageWasUpdated = false, bool isFromModifiyRelations = false, CategoryChangeType type = CategoryChangeType.Update, bool createCategoryChange = true, int[] affectedParentIdsByMove = null)
+    public void Update(Category category,
+        SessionUserCacheItem author = null,
+        bool imageWasUpdated = false,
+        bool isFromModifiyRelations = false,
+        CategoryChangeType type = CategoryChangeType.Update,
+        bool createCategoryChange = true,
+        int[] affectedParentIdsByMove = null)
     {
         if (!isFromModifiyRelations)
             _solrSearchIndexCategory.Update(category);

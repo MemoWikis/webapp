@@ -35,15 +35,6 @@ public class GraphService
         return allParents;
     }
 
-    private static List<int> GetDirectParentIdsInWuwi(CategoryCacheItem userEntityCacheItem)
-    {
-        var directParentIds = GetDirectParentIds(userEntityCacheItem);
-        var directParentIdsInWuwi = EntityCache.GetCategories(directParentIds)
-            .Where(cci => cci.IsInWishknowledge() || cci.Id == SessionUser.User.StartTopicId)
-            .Select(cci => cci.Id).ToList();
-        return directParentIdsInWuwi;
-    }
-
     public static List<int> GetDirectParentIds(CategoryCacheItem category)
     {
         if (category == null)
@@ -53,29 +44,6 @@ public class GraphService
 
         return category.CategoryRelations
             .Select(cr => cr.RelatedCategoryId).ToList();
-    }
-
-    private static List<CategoryCacheItem> GetAllChildrenFromAllCategories(CategoryCacheItem rootCategory,
-        CategoryCacheItem personalHomepage)
-    {
-        rootCategory.CategoryRelations.Add(new CategoryCacheRelation
-        {
-            CategoryId = rootCategory.Id,
-            RelatedCategoryId = personalHomepage.Id
-        });
-
-        var wuwiChildren = EntityCache.GetAllCategories()
-            .Where(c => c.IsInWishknowledge())
-            .Distinct()
-            .Select(c => c.DeepClone())
-            .ToList();
-
-        return wuwiChildren;
-    }
-
-    private static bool IsInWishknowledgeOrParentIsPersonalHomepage(bool isRootDirectParent, int userId, int parentId)
-    {
-        return SessionUserCache.IsInWishknowledge(userId, parentId) || isRootDirectParent;
     }
 
     public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenIdsToCategoryCacheData(
@@ -96,66 +64,13 @@ public class GraphService
         return categories;
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbUpdate(CategoryCacheItem category,
-        IList<CategoryCacheItem> oldParents)
-    {
-        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
-
-        foreach (var oldParent in oldParents)
-        {
-            for (var i = oldParent.CategoryRelations.Count - 1; i > 0; i--)
-            {
-                if (oldParent.CategoryRelations[i].RelatedCategoryId == category.Id)
-                    oldParent.CategoryRelations.RemoveAt(i);
-            }
-        }
-
-        //foreach (var parentCategory in parentsFromParentCategories)
-        //    ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(
-        //        EntityCache.GetCategory(parentCategory.Id));
-    }
-
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
 
         foreach (var parent in parentsFromParentCategories)
         {
-            //var descendants = GetCategoryChildren.WithAppliedRules(parent, true);
-            //var descendantsAsCategory = Sl.CategoryRepo.GetByIds(descendants.Select(cci => cci.Id).ToList());
-
-            //var parentAsCategory = Sl.CategoryRepo.GetByIdEager(parent.Id);
-
-            //var existingRelations =
-            //    ModifyRelationsForCategory.GetExistingRelations(parentAsCategory).ToList();
-
-            //var relationsToAdd = ModifyRelationsForCategory.GetRelationsToAdd(parentAsCategory,
-            //    descendantsAsCategory,
-            //    existingRelations);
-
-            //ModifyRelationsForCategory.CreateIncludeContentOf(parentAsCategory, relationsToAdd);
-            //Sl.CategoryRepo.Update(Sl.CategoryRepo.GetByIdEager(parent.Id), isFromModifiyRelations: true);
-
             parent.UpdateCountQuestionsAggregated();
         }
-    }
-
-    public static bool IsCategoryParentEqual(IList<CategoryCacheItem> parent1, IList<CategoryCacheItem> parent2)
-    {
-        if (parent1 == null || parent2 == null)
-        {
-            Logg.r().Error("parent1 or parent2 have a NullReferenceException");
-            return false;
-        }
-
-        if (parent1.Count != parent2.Count)
-            return false;
-
-        if (parent1.Count == 0 && parent2.Count == 0)
-            return true;
-
-        var result = parent1.Where(p => !parent2.Any(p2 => p2.Id == p.Id)).Count();
-
-        return result == 0;
     }
 }
