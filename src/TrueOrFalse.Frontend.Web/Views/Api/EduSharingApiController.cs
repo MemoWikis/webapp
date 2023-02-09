@@ -43,7 +43,6 @@ public class EduSharingApiController : BaseController
                     ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
                     Licence = "CC_BY",
                     Author = new UserTinyModel(EntityCache.GetUserById(category.Creator != null ? category.Creator.Id : -1)).Name,
-                    DateModified = new DateTimeOffset(category.DateModified).ToUnixTimeSeconds(),
                 })
         }, JsonRequestBehavior.AllowGet);
         jsonResult.MaxJsonLength = Int32.MaxValue;

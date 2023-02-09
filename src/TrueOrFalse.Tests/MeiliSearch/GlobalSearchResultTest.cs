@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FakeItEasy;
 using NUnit.Framework;
 using TrueOrFalse.Search;
@@ -15,7 +12,7 @@ namespace TrueOrFalse.Tests.MeiliSearch
         public void CategoriesMembersTests()
         {
             var categoriesResult = A.Fake<ISearchCategoriesResult>();
-            A.CallTo(() => categoriesResult.GetCategories()).Returns(new List<Category>
+            A.CallTo(() => categoriesResult.GetCategories()).Returns(new List<CategoryCacheItem>
             {
                 new(){Name = "Daniel"},
                 new(){Name = "Majunke"}
@@ -37,7 +34,7 @@ namespace TrueOrFalse.Tests.MeiliSearch
         public void QUestionsMemberTests()
         {
             var questionsResult = A.Fake<ISearchQuestionsResult>();
-            A.CallTo(() => questionsResult.GetQuestions()).Returns(new List<Question>
+            A.CallTo(() => questionsResult.GetQuestions()).Returns(new List<QuestionCacheItem>
             {
                 new(){Text = "Daniel"},
                 new(){Text = "Majunke"}
@@ -59,7 +56,7 @@ namespace TrueOrFalse.Tests.MeiliSearch
         public void UsersMemberTests()
         {
             var usersResult = A.Fake<ISearchUsersResult>();
-            A.CallTo(() => usersResult.GetUsers()).Returns(new List<User>
+            A.CallTo(() => usersResult.GetUsers()).Returns(new List<UserCacheItem>
             {
                 new(){Name = "Daniel"},
                 new(){Name = "Majunke"}
@@ -81,19 +78,19 @@ namespace TrueOrFalse.Tests.MeiliSearch
         public void TotalMemberTests()
         {
             var categoriesResult = A.Fake<ISearchCategoriesResult>();
-            A.CallTo(() => categoriesResult.GetCategories()).Returns(new List<Category>
+            A.CallTo(() => categoriesResult.GetCategories()).Returns(new List<CategoryCacheItem>
             {
                 new(){Name = "Daniel"},
                 new(){Name = "Majunke"}
             });
             var questionsResult = A.Fake<ISearchQuestionsResult>();
-            A.CallTo(() => questionsResult.GetQuestions()).Returns(new List<Question>
+            A.CallTo(() => questionsResult.GetQuestions()).Returns(new List<QuestionCacheItem>
             {
                 new(),
                 new()
             });
             var usersResult = A.Fake<ISearchUsersResult>();
-            A.CallTo(() => usersResult.GetUsers()).Returns(new List<User>
+            A.CallTo(() => usersResult.GetUsers()).Returns(new List<UserCacheItem>
             {
                 new(),
                 new()

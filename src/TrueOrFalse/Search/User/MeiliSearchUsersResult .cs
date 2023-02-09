@@ -10,6 +10,6 @@ namespace TrueOrFalse.Search
 
         public List<int> UserIds { get; set; } = new();
 
-        public IList<User> GetUsers() => Sl.UserRepo.GetByIds(UserIds); //todo: Get From EntityCache
+        public IList<UserCacheItem> GetUsers() => EntityCache.GetUsersByIds(UserIds); 
     }
 }

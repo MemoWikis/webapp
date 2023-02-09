@@ -10,7 +10,6 @@ namespace TrueOrFalse.Tests.MeiliSearch;
 
     internal class MeiliSearchToUserMapTest
     {
-
         [Test(Description = "Run Test successfull")]
         public void Run_successfull()
         {

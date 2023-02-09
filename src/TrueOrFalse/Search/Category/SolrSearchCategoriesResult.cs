@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 using SolrNet.Impl;
 
@@ -11,6 +12,6 @@ namespace TrueOrFalse.Search
         public SpellCheckResults SpellChecking;
         public List<int> CategoryIds { get; set;  } = new List<int>();
         public IPager Pager { get; set; }
-        public IList<Category> GetCategories() => Sl.CategoryRepo.GetByIds(CategoryIds);
+        public IList<CategoryCacheItem> GetCategories() => EntityCache.GetCategories(CategoryIds).ToList();
     }
 }

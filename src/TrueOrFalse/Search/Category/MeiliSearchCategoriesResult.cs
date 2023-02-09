@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 using SolrNet.Impl;
 
@@ -13,7 +14,7 @@ namespace TrueOrFalse.Search
 
         public IPager Pager { get; set;}
 
-        public IList<Category> GetCategories()  => Sl.CategoryRepo.GetByIds(CategoryIds); //todo: das ist doch nicht schön warum denn aus der Db statt ausm Cache.
+        public IList<CategoryCacheItem> GetCategories() => EntityCache.GetCategories(CategoryIds).ToList();
 
         public MeiliSearchCategoriesResult()
         {
