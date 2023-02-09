@@ -18,6 +18,6 @@ namespace TrueOrFalse.Search
 
         public IPager Pager;
 
-        public IList<Question> GetQuestions() => Sl.QuestionRepo.GetByIds(QuestionIds);
+        public IList<QuestionCacheItem> GetQuestions() => EntityCache.GetQuestionsByIds(QuestionIds);
     }
 }

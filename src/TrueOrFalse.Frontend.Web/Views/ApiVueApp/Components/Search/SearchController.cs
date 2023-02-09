@@ -119,7 +119,7 @@ public class SearchController : BaseController
             elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchTopicItem));
     }
 
-    public static SearchTopicItem FillSearchTopicItem(Category topic)
+    public static SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic)
     {
         return new SearchTopicItem
         {

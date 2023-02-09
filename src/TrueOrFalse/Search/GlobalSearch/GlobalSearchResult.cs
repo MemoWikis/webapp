@@ -5,23 +5,23 @@ namespace TrueOrFalse.Search;
 public class GlobalSearchResult
 {
     public ISearchCategoriesResult CategoriesResult;
-    private IList<Category> _categories;
-    public IList<Category> Categories => _categories ?? (_categories = CategoriesResult.GetCategories());
+    private IList<CategoryCacheItem> _categories;
+    public IList<CategoryCacheItem> Categories => _categories ??= CategoriesResult.GetCategories();
     public int CategoriesResultCount => CategoriesResult.Count;
     public ISearchQuestionsResult QuestionsResult;
-    private IList<Question> _questions;
-    public IList<Question> Questions => _questions ?? (_questions = QuestionsResult.GetQuestions());
+    private IList<QuestionCacheItem> _questions;
+    public IList<QuestionCacheItem> Questions => _questions ??= QuestionsResult.GetQuestions();
     public int QuestionsResultCount => QuestionsResult.Count;
 
     public ISearchUsersResult UsersResult;
-    private IList<User> _users;
-    public IList<User> Users => _users ?? (_users = UsersResult.GetUsers());
+    private IList<UserCacheItem> _users;
+    public IList<UserCacheItem> Users => _users ??= UsersResult.GetUsers();
     public int UsersResultCount => UsersResult.Count;
 
-    public int TotalElements  =>  Categories.Count + Questions.Count + Users.Count;
+     public int TotalElements  =>  Categories.Count + Questions.Count + Users.Count;
 
     public void Ensure_max_element_count_of_12()
-    {
+     {
         var maxElements = 9;
 
         //first round

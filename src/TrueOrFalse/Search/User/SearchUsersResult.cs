@@ -18,6 +18,6 @@ namespace TrueOrFalse.Search
 
         public IPager Pager;
 
-        public IList<User> GetUsers() => Sl.UserRepo.GetByIds(UserIds);
+        public IList<UserCacheItem> GetUsers() => EntityCache.GetUsersByIds(UserIds);
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 
-
 public class AnswerCommentsController : BaseController
 {
     [AccessOnlyAsLoggedIn]
@@ -86,7 +85,7 @@ public class AnswerCommentsController : BaseController
 
 
     [HttpPost]
-    public String GetCurrentUserImgUrl()
+    public string GetCurrentUserImgUrl()
     {
         if (SessionUser.User != null)
         {
