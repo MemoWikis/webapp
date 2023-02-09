@@ -44,7 +44,7 @@ function validate(c: Choice) {
 function getClass(c: Choice) {
     if (props.showAnswer && c.IsCorrect)
         return 'is-correct show-solution'
-    else if ((selected.value.indexOf(c.Text) >= 0 && !c.IsCorrect))
+    else if ((selected.value.indexOf(c.Text) >= 0 && !c.IsCorrect) && props.showAnswer)
         return 'is-wrong show-solution'
     return ''
 }

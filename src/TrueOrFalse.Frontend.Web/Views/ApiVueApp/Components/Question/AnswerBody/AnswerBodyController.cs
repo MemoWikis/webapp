@@ -26,7 +26,7 @@ public class AnswerBodyController : BaseController
         var step = learningSession.Steps[index];
 
         var q = step.Question;
-        var primaryCategory = q.Categories.LastOrDefault();
+        var primaryTopic = q.Categories.LastOrDefault();
         var model = new
         {
             id = q.Id,
@@ -36,8 +36,8 @@ public class AnswerBodyController : BaseController
             renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
             description = q.Description,
             hasTopics = q.Categories.Any(),
-            primaryTopicUrl = primaryCategory?.Url,
-            primaryTopicName = primaryCategory?.Name,
+            primaryTopicUrl = "/" + UriSanitizer.Run(primaryTopic?.Name) + "/" + primaryTopic?.Id,
+            primaryTopicName = primaryTopic?.Name,
             solution = q.Solution,
 
             isCreator = q.Creator.Id = SessionUser.UserId,

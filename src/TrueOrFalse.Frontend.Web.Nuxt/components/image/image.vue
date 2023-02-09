@@ -56,6 +56,13 @@ function openImage() {
   flex-direction: column;
   align-items: center;
 
+  &.header-author-icon {
+    img {
+      border-radius: 24px;
+
+    }
+  }
+
   img {
     height: 100%;
     width: 100%;

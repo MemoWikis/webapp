@@ -156,7 +156,7 @@ public class VueQuestionController : BaseController
     public JsonResult GetQuestionPage(int id)
     {
         var q = EntityCache.GetQuestion(id);
-        var primaryCategory = q.Categories.LastOrDefault();
+        var primaryTopic = q.Categories.LastOrDefault();
         var solution = GetQuestionSolution.Run(q);
 
         EscapeReferencesText(q.References);
@@ -172,8 +172,8 @@ public class VueQuestionController : BaseController
                 renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
                 description = q.Description,
                 hasTopics = q.Categories.Any(),
-                primaryTopicUrl = primaryCategory?.Url,
-                primaryTopicName = primaryCategory?.Name,
+                primaryTopicUrl = "/" + UriSanitizer.Run(primaryTopic?.Name) + "/" + primaryTopic?.Id,
+                primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = SessionUser.UserId,

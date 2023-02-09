@@ -10,11 +10,11 @@ const { data: model } = await useFetch<any>(`/apiVue/VueUserMessages/Get/`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
-            if (process.server) {
-                options.headers = headers
-                options.baseURL = config.public.serverBase
-            }
+        if (process.server) {
+            options.headers = headers
+            options.baseURL = config.public.serverBase
         }
+    }
 })
 
 async function loadAll() {
@@ -23,7 +23,7 @@ async function loadAll() {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container main-page">
 
         <div class="row">
             <div class="col-md-9" v-if="model">
@@ -38,8 +38,9 @@ async function loadAll() {
                     </div>
 
                     <p v-if="model.ReadMessagesCount > 0">
-                        Du hast {{ model.ReadMessagesCount }} gelesene Nachricht{{ model.ReadMessagesCount == 0 ||
-                        model.ReadMessagesCount > 1 ? 'en' : ''
+                        Du hast {{ model.ReadMessagesCount }} gelesene Nachricht{{
+                            model.ReadMessagesCount == 0 ||
+                                model.ReadMessagesCount > 1 ? 'en' : ''
                         }}.
                     <div @click="loadAll()">Alle anzeigen</div>.
                     </p>

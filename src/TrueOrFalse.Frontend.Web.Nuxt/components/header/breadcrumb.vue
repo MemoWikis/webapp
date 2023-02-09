@@ -5,13 +5,20 @@ import _ from 'underscore'
 import { Page } from '../shared/pageEnum'
 import { useUserStore } from '../user/userStore'
 
-const props = defineProps({
-  headerContainer: null,
-  headerExtras: null,
-  page: { type: Number as PropType<Page>, required: true },
-  showSearch: { type: Boolean, required: true },
-  partialSpacer: null
-})
+interface Props {
+  headerContainer?: VueElement,
+  headerExtras?: VueElement,
+  page: Page,
+  showSearch: boolean,
+  partialSpacer?: VueElement,
+  questionPageData?: {
+    primaryTopicName: string
+    primaryTopicUrl: string
+    title: string
+  }
+}
+
+const props = defineProps<Props>()
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
@@ -55,7 +62,7 @@ const personalWiki = ref<BreadcrumbItem | null>(null)
 
 const updateBreadcrumb = _.throttle(async () => {
 
-  if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null) {
+  if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null && props.headerContainer != null && props.headerExtras != null) {
     const width = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
 
     if (width > 0)
@@ -292,6 +299,19 @@ function showBreadcrumb(e: any) {
     <div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="props.page == Page.Topic">
       {{ topicStore.name }}
     </div>
+    <template v-else-if="props.page == Page.Question && props.questionPageData != null">
+      <NuxtLink :to="`${questionPageData?.primaryTopicUrl}`" class="breadcrumb-item"
+        v-tooltip="questionPageData?.primaryTopicName" :ref="el => showBreadcrumb(el)">
+        {{ questionPageData?.primaryTopicName }}
+      </NuxtLink>
+      <div>
+        <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      </div>
+      <div class="breadcrumb-item last">
+        {{ questionPageData?.title }}
+      </div>
+    </template>
+
     <div class="breadcrumb-item last" v-tooltip="pageTitle" v-else>
       {{ pageTitle }}
     </div>

@@ -3,39 +3,15 @@ import { ref } from 'vue'
 import { useLearningSessionConfigurationStore, StoredSessionConfig } from './learningSessionConfigurationStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
-import { useUserStore } from '~~/components/user/userStore'
 
-const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-const expandAllQuestions = ref(false)
-const showFilter = ref(true)
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
-})
+    if (process.client)
+        learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-learningSessionConfigurationStore.$subscribe((state: any) => {
-    if (userStore.isLoggedIn) {
-        const sessionConfigState: StoredSessionConfig = {
-            userId: userStore.id,
-            state: state
-        }
-        localStorage.setItem('learningSessionConfiguration', JSON.stringify(sessionConfigState))
-    }
-})
-
-watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
-    learningSessionConfigurationStore.questionCountIsInvalid = newNumber <= 0 || isNaN(newNumber) || newNumber == null
-    if (oldNumber != newNumber && isNaN(newNumber)) {
-        var val = newNumber as any
-        learningSessionConfigurationStore.selectedQuestionCount = parseInt(val)
-    }
-})
-
-const topicStore = useTopicStore()
-
-onMounted(async () => {
     var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
     const count = await $fetch<number>(`/apiVue/Learning/GetCount/`, {
         body: sessionJson,
@@ -46,6 +22,17 @@ onMounted(async () => {
 
     learningSessionConfigurationStore.setCounter(count)
     learningSessionStore.startNewSession()
+})
+
+const topicStore = useTopicStore()
+
+onMounted(() => {
+    watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
+        learningSessionConfigurationStore.questionCountIsInvalid = newNumber <= 0 || isNaN(newNumber)
+        if (oldNumber != newNumber && !isNaN(newNumber)) {
+            learningSessionConfigurationStore.selectedQuestionCount = parseInt(newNumber)
+        }
+    })
 })
 
 const progressPercentage = ref(0)
@@ -69,39 +56,33 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
 </script>
 
 <template>
-    <div class="col-xs-12">
-        <TopicLearningSessionConfiguration v-if="showFilter">
-            <slot>
-                <div class="session-progress-bar">
-                    <div class="session-progress">
-                        <!-- <div v-for="step in learningSessionStore.steps" class="step"
+    <div class="col-xs-12" v-if="learningSessionConfigurationStore.showFilter">
+        <ClientOnly>
+            <TopicLearningSessionConfiguration>
+                <slot>
+                    <div class="session-progress-bar">
+                        <div class="session-progress">
+                            <!-- <div v-for="step in learningSessionStore.steps" class="step"
                             :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
                         </div> -->
 
-                        <div class="step answered" :style="answeredWidth"></div>
-                        <div class="step" :style="unansweredWidth"></div>
+                            <div class="step answered" :style="answeredWidth"></div>
+                            <div class="step" :style="unansweredWidth"></div>
 
+                        </div>
+
+                        <div class="step-count">
+                            <template v-if="learningSessionStore.currentStep">
+                                {{ learningSessionStore.currentStep?.index + 1 }} / {{
+                                    learningSessionStore.steps.length
+                                }}
+                            </template>
+                        </div>
+                        <div class="progress-percentage">{{ progressPercentage }}%</div>
                     </div>
-
-                    <div class="step-count">
-                        <template v-if="learningSessionStore.currentStep">
-                            {{ learningSessionStore.currentStep?.index + 1 }} / {{ learningSessionStore.steps.length }}
-                        </template>
-                    </div>
-                    <div class="progress-percentage">{{ progressPercentage }}%</div>
-                </div>
-            </slot>
-        </TopicLearningSessionConfiguration>
-    </div>
-
-    <div class="session-configurator col-xs-12" v-if="!showFilter">
-        <div class="session-config-header">
-            <div class="col-xs-12 drop-down-question-sort">
-                <div class="session-config-header">
-                    Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
-                </div>
-            </div>
-        </div>
+                </slot>
+            </TopicLearningSessionConfiguration>
+        </ClientOnly>
     </div>
 
     <div class="col-xs-12">

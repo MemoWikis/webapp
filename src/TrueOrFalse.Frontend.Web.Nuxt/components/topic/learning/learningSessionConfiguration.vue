@@ -24,7 +24,7 @@ function closeKnowledgeSummaryDropdown() {
 </script>
 
 <template>
-    <div class="session-configurator col-xs-12 ">
+    <div class="session-configurator" :class="{ 'col-xs-12': props.isInQuestionList }">
         <div class="session-config-header">
             <div class="filter-button selectable-item session-title" @click="showFilterDropdown = !showFilterDropdown"
                 :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '']">
