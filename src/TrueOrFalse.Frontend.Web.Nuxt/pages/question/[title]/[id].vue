@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-import { Question, SolutionType } from '~~/components/question/question'
+import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQuestion/${route.params.id}`,
+
+interface Question {
+  answerBodyModel: AnswerBodyModel
+  solutionData: SolutionData
+}
+
+const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQuestionPage/${route.params.id}`,
   {
     credentials: 'include',
     mode: 'no-cors',
@@ -15,18 +21,20 @@ const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQues
       }
     }
   })
-const markFlashCardAsCorrect = ref(false)
 </script>
 
 <template>
-  <div v-if="question" class="question-page-container">
-    <QuestionAnswerBodyFlashcard v-if="question?.SolutionType == SolutionType.FlashCard" :solution="question.Solution"
-      :text="question.Text" :marked-as-correct="markFlashCardAsCorrect" />
+  <div class="container">
+    <div v-if="question" class="question-page-container row">
+      <QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
+        :landing-page-solution-data="question.solutionData" />
+    </div>
   </div>
 </template>
 
 <style scoped lang="less">
 .question-page-container {
-  flex-grow: 2;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 </style>

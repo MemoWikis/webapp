@@ -101,8 +101,10 @@ const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigStore = useLearningSessionConfigurationStore()
 
 function createQuestion() {
-    if (!userStore.isLoggedIn)
+    if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
+        return
+    }
 
     const question = {
         topicId: topicStore.id,
@@ -114,7 +116,6 @@ function createQuestion() {
     flashCardEditor.value?.clearFlashCard()
 }
 
-const emit = defineEmits(['newQuestionCreated'])
 
 async function addFlashcard() {
     if (!userStore.isLoggedIn) {
@@ -152,7 +153,7 @@ async function addFlashcard() {
             })
         learningSessionStore.lastIndexInQuestionList = data.SessionIndex
         learningSessionStore.getLastStepInQuestionList()
-        emit('newQuestionCreated', learningSessionStore.lastIndexInQuestionList)
+        learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
         highlightEmptyFields.value = false
         editor.value?.commands.setContent('')
         questionHtml.value = ''

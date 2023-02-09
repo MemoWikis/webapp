@@ -42,7 +42,7 @@ function openImage() {
 
 <template>
   <div class="img-container" :class="props.class">
-    <img :src="config.public.serverBase + props.url" :class="cssClass" :alt="props.alt" />
+    <img :src="props.url" :class="cssClass" :alt="props.alt" />
     <div v-if="props.showLicense && props.imageId != undefined" class="license-btn" @click="openImage()">Lizenzinfos
     </div>
   </div>

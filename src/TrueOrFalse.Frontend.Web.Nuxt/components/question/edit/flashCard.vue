@@ -47,8 +47,8 @@ const editor = useEditor({
             let eventContent = event.content as any
             let content = eventContent.content
             if (content.length >= 1 && !_.isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src;
-                if (src.length > 1048576 && src.startsWith('data:image')) {
+                let src = content[0].attrs.src
+                if (src?.length > 1048576 && src.startsWith('data:image')) {
                     alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
                     return true
                 }

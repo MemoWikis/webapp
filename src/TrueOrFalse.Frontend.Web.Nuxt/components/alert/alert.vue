@@ -7,7 +7,7 @@ const alertStore = useAlertStore()
 <template>
     <div id="AlertModal">
 
-        <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false">
+        <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false" :z-index-auto="false">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 

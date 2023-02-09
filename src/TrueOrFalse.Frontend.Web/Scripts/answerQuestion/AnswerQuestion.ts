@@ -242,7 +242,7 @@ class AnswerQuestion {
     }
 
     private HideChipsOnLandingPageAndDisplayCards() {
-        // this.isLandingPage Code Block wird nicht wirklich genutzt, da .question-details nicht existiert
+        // this.IsLandingPage Code Block wird nicht wirklich genutzt, da .question-details nicht existiert
         if (this.IsLandingPage) {
 
             if (window.innerWidth < 768) {

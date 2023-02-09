@@ -730,6 +730,7 @@ onMounted(() => {
 })
 
 watch(() => props.id, () => loadData())
+watch(() => learningSessionStore.currentStep?.state, () => loadData(), { deep: true })
 
 function abbreviateNumber(val: number): string {
     var newVal

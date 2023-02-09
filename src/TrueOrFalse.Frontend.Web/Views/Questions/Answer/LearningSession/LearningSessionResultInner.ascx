@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LearningSessionResultModel>" %>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LearningSessionResultModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%--    <% if (Model.IsLoggedIn)
@@ -140,7 +141,7 @@
                                     </i><%= learningSessionStepNew.First().Question.GetShortTitle(150) %> 
                                     (Details)</a><br/>
                     <% }
-                    else if (((learningSessionStepNew.Last().AnswerState != AnswerState.Unanswered) && (learningSessionStepNew.Last().AnswerState == AnswerState.Correct)) ||
+                    else if (((learningSessionStepNew.Last().AnswerState != AnswerState.Unanswered) && (learningSessionStepNew.Last().AnswerState == AnswerState.False)) ||
                                 ((learningSessionStepNew.Last().AnswerState == AnswerState.Unanswered) && (learningSessionStepNew.Count() > 1)))
                     { %>
                         <div class="row">

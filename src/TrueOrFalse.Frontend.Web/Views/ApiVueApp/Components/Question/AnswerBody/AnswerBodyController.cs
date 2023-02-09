@@ -45,8 +45,6 @@ public class AnswerBodyController : BaseController
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
-
-
         };
         return Json(model, JsonRequestBehavior.AllowGet);
     }
@@ -74,7 +72,7 @@ public class AnswerBodyController : BaseController
                 ? ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                 : null,
             newStepAdded = result.NewStepAdded,
-            isLastStep = learningSession.IsLastStep
+            isLastStep = learningSession.TestIsLastStep()
         });
     }
 

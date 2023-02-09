@@ -49,7 +49,19 @@ function setDescriptionData(editor: Editor) {
 }
 
 const textSolution = ref<string | null>(null)
+
+function setTextSolution(e: { textSolution: string, solutionMetaDataJson: string }) {
+    textSolution.value = e.textSolution
+    solutionMetadataJson.value = e.solutionMetaDataJson
+}
+
 const multipleChoiceJson = ref<string | null>(null)
+
+function setMultipleChoiceJson(e: { textSolution: string, solutionMetaDataJson: string }) {
+    textSolution.value = e.textSolution
+    solutionMetadataJson.value = e.solutionMetaDataJson
+}
+
 const matchListJson = ref<string | null>(null)
 const flashCardAnswer = ref<string | null>(null)
 
@@ -171,7 +183,7 @@ function getSaveJson() {
         Solution: solution,
         SolutionType: solutionType.value,
         Visibility: visibility,
-        SolutionMetadataJson: solutionMetadataJson,
+        SolutionMetadataJson: solutionMetadataJson.value,
         LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
         SessionIndex: learningSessionStore.lastIndexInQuestionList,
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
@@ -182,7 +194,7 @@ function getSaveJson() {
     return { ...json, ...jsonExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${id}`, {
+    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount?topicId=${topicStore.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -219,20 +231,9 @@ async function save() {
     })
 
     if (result != null) {
-        learningSessionStore.changeActiveQuestion(result.SessionIndex)
-        // if (isLearningSession) {
-        //     var answerBody = new AnswerBody()
-        //     var skipIndex = 0
-
-        //     answerBody.Loader.loadNewQuestion("/AnswerQuestion/RenderAnswerBodyByLearningSession/" +
-        //         "?skipStepIdx=" +
-        //         skipIndex +
-        //         "&index=" +
-        //         sessionIndex)
-
-        //     eventBus.$emit('change-active-question', sessionIndex)
-        //     eventBus.$emit('update-question-count')
-        // }
+        learningSessionStore.lastIndexInQuestionList = result.SessionIndex
+        learningSessionStore.getLastStepInQuestionList()
+        learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
 
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
@@ -257,6 +258,8 @@ async function save() {
         updateQuestionCount()
     }
 }
+
+
 
 type QuestionData = {
     SolutionType: SolutionType
@@ -347,7 +350,11 @@ function validateForm() {
     disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
 }
 
-watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
+watch([isPrivate, licenseConfirmation, flashCardAnswer, textSolution, multipleChoiceJson, matchListJson], () => {
+    validateForm()
+})
+
+onMounted(() => {
     validateForm()
 })
 </script>
@@ -402,7 +409,7 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (p, l, f) => {
                             :content="questionExtensionHtml" />
                     </div>
                     <QuestionEditText v-if="solutionType == SolutionType.Text" :solution="textSolution"
-                        :highlightEmptyFields="highlightEmptyFields" />
+                        :highlightEmptyFields="highlightEmptyFields" @set-solution="setTextSolution" />
                     <QuestionEditMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
                         :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields" />
                     <QuestionEditMatchList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"

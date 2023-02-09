@@ -123,7 +123,7 @@ function getClass(c: Choice) {
 }
 
 .is-correct {
-    color: @memo-blue-link;
+    color: @memo-green-correct;
 
     .checkbox-label {
         font-weight: 700;
