@@ -4,12 +4,11 @@ using System.Linq;
 
 public class TopicOfWeekRepo
 {
-
     public static List<TopicOfWeek> GetAllTopicsOfWeek()
     {
         var topicsOfWeek = new List<TopicOfWeek>
         {
-            new TopicOfWeek
+            new()
             {
                 FirstValidDay = new DateTime(2017,07,17),
                 CategoryId = 392, // Sportbootführerscheine
@@ -35,8 +34,7 @@ public class TopicOfWeekRepo
                 QuizOfWeekSetId = 50, //SBF Binnen: Segeln
                 AdditionalCategoriesIds = new List<int> { 393, 395, 614, 633 }
             },
-
-            new TopicOfWeek
+            new()
             {
                 FirstValidDay = new DateTime(2017,07,24),
                 CategoryId = 264, // Psychologie (Studium)
@@ -59,8 +57,7 @@ public class TopicOfWeekRepo
                 QuizOfWeekSetId = 141,
                 AdditionalCategoriesIds = new List<int> { 271, 607, 618, 649 }
             },
-
-            new TopicOfWeek
+            new()
             {
                 FirstValidDay = new DateTime(2017,07,31),
                 CategoryId = 182, // Hauptstadt
@@ -68,8 +65,7 @@ public class TopicOfWeekRepo
                 QuizOfWeekSetId = 20,
                 AdditionalCategoriesIds = new List<int> { 752, 437, 439, 146}
             },
-
-            new TopicOfWeek
+            new()
             {
                 FirstValidDay = new DateTime(2017,08,07),
                 CategoryId = 145, // Europäische Union
@@ -77,8 +73,7 @@ public class TopicOfWeekRepo
                 QuizOfWeekSetId = 19,
                 AdditionalCategoriesIds = new List<int> { 847, 844, 387, 358 }
             },
-
-            new TopicOfWeek
+            new()
             {
                 FirstValidDay = new DateTime(2017,08,14),
                 CategoryId = 794, // Geschichte
@@ -86,8 +81,7 @@ public class TopicOfWeekRepo
                 QuizOfWeekSetId = 90,
                 AdditionalCategoriesIds = new List<int> { 828, 827, 829, 830 }
             },
-
-            new TopicOfWeek
+            new()
             {
                 FirstValidDay = new DateTime(2017,08,21),
                 CategoryId = 363, // Globalisierung
@@ -95,7 +89,6 @@ public class TopicOfWeekRepo
                 QuizOfWeekSetId = 59,
                 AdditionalCategoriesIds = new List<int> { 364, 847, 14, 748 }
             },
-
         };
         return topicsOfWeek;
     }

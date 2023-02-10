@@ -9,7 +9,7 @@ public class SponsorRepo{
     public static List<Sponsor> GetAllSponsors() {
         var allSponsors = new List<Sponsor>
         {
-            new Sponsor {
+            new() {
                 Id = 1,
                 ImpressionSharePercentage = 0.1,
                 SponsorUrl = "http://www.tutory.de",
@@ -18,7 +18,7 @@ public class SponsorRepo{
                 TextBeforeLink = "Zum Erstellen von Arbeitsblättern empfehlen wir "
             },
 
-            new Sponsor
+            new()
             {
                 Id = 2,
                 ImpressionSharePercentage = 0.1,
@@ -28,7 +28,7 @@ public class SponsorRepo{
                 TextBeforeLink = "Selbst etwas für das Klima tun mit der App von "
             },
 
-            new Sponsor {
+            new(){
                 Id = 3,
                 ImpressionSharePercentage = 0.4,
                 SponsorUrl = "https://learning-levelup.de/",
@@ -37,8 +37,8 @@ public class SponsorRepo{
                 TextBeforeLink = "Für anpassbare digitale Lehr- und Lerninhalte als Animation, Grafik und Video empfehlen wir ",
                 ImageStyleOverwrite = "max-width: 70%"
             },
-
-            new Sponsor {
+            new()
+            {
                 Id = 4,
                 ImpressionSharePercentage = 0.4,
                 SponsorUrl = "http://lernox.de/",
@@ -47,14 +47,12 @@ public class SponsorRepo{
                 TextBeforeLink = "Ankommen durch Sprache: DaF-/DaZ-Material finden bei ",
                 ImageStyleOverwrite = "max-width: 60%"
             },
-
         };
 
         if (allSponsors.Sum(s => s.ImpressionSharePercentage) > 1)
         {
             throw new Exception("Overall probability exceeds 1.0");
         }
-
         return allSponsors;
     }
 

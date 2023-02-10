@@ -8,7 +8,6 @@ public class AnswerFeatureRepo : RepositoryDbBase<AnswerFeature>
     public AnswerFeatureRepo(ISession session) : base(session)
     {
     }
-
     public int GetCount(int featureId)
     {
         return Session.QueryOver<AnswerFeature>()

@@ -898,7 +898,7 @@ onMounted(() => {
                 <div id="LicenseQuestion">
                     <VTooltip v-if="license.isDefault">
                         <div class="TextLinkWithIcon">
-                            <img src="/Images/Licenses/cc-by 88x31.png" width="60" />
+                            <img src="/Images/Licenses/cc-by_88x31.png" width="60" />
                             <div class="TextDiv">
                                 <span class="TextSpan">
                                     {{ license.shortText }}

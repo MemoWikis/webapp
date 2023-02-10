@@ -6,7 +6,6 @@ public class UserActivityRepo : RepositoryDb<UserActivity>
 {
     public UserActivityRepo(ISession session) : base(session) { }
 
-
     public IList<UserActivity> GetByUser(User user, int amount = 10)
     {
         return Query

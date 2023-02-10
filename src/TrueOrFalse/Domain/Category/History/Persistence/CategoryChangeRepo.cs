@@ -22,13 +22,18 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public void AddCreateEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Create);
-    public void AddCreateEntryDbOnly(Category category, User author) => AddUpdateOrCreateEntryDbOnly(category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(Category category, int authorId, bool imageWasUpdated) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(Category category, int authorId, bool imageWasUpdated, CategoryChangeType type, int[] affectedParentIdsByMove = null) => AddUpdateOrCreateEntry(category, authorId, type, imageWasUpdated, affectedParentIdsByMove);
-    public void AddPublishEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Published);
-    public void AddMadePrivateEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Privatized);
-    public void AddTitleIsChangedEntry(Category category, int authorId) => AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Renamed);
+    public void AddCreateEntry(Category category, int authorId) => 
+        AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Create);
+    public void AddCreateEntryDbOnly(Category category, User author) => 
+        AddUpdateOrCreateEntryDbOnly(category, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(Category category, int authorId, bool imageWasUpdated) =>
+        AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Update, imageWasUpdated);
+    public void AddUpdateEntry(Category category,
+        int authorId,
+        bool imageWasUpdated,
+        CategoryChangeType type,
+        int[] affectedParentIdsByMove = null) =>
+        AddUpdateOrCreateEntry(category, authorId, type, imageWasUpdated, affectedParentIdsByMove);
 
     private void AddUpdateOrCreateEntry(Category category, int authorId, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
     {
@@ -55,7 +60,11 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    private void AddUpdateOrCreateEntryDbOnly(Category category, User author, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
+    private void AddUpdateOrCreateEntryDbOnly(Category category,
+        User author,
+        CategoryChangeType categoryChangeType,
+        bool imageWasUpdated = false,
+        int[] affectedParentIdsByMove = null)
     {
         var categoryChange = new CategoryChange
         {
@@ -168,9 +177,5 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     public virtual int GetCategoryId(int version)
     {
         return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
-    }
-    public virtual int GetParentCategoryId(int version)
-    {
-        return Sl.Resolve<ISession>().CreateSQLQuery("Select Parent_Category_Ids FROM categorychange where id = " + version).UniqueResult<int>();
     }
 }

@@ -36,7 +36,6 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
                 }.ToJson();
             }
         }
-
         return metaData;
     }
 
