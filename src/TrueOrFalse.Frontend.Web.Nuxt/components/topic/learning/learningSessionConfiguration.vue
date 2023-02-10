@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { useUserStore } from '~~/components/user/userStore';
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 
-const props = defineProps(['questionsCount', 'allQuestionCount', 'isLoggedIn', 'isInQuestionList'])
+const userStore = useUserStore()
+const props = defineProps(['questionsCount', 'allQuestionCount', 'isInQuestionList'])
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const showFilterDropdown = ref(false)
@@ -64,24 +66,26 @@ function closeKnowledgeSummaryDropdown() {
                 </div>
                 <div v-if="showQuestionFilterOptionsDropdown" class="question-filter-options-dropdown">
                     <div @click="learningSessionConfigurationStore.selectAllQuestionFilter()"
-                        class="selectable-item dropdown-item" :class="{ 'item-disabled': !isLoggedIn }">
+                        class="selectable-item dropdown-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
 
                         <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
                             v-if="learningSessionConfigurationStore.allQuestionFilterOptionsAreSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
-                        <div class="selectable-item" :class="{ 'item-disabled': !isLoggedIn }">Alles auswählen</div>
+                        <div class="selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">Alles auswählen
+                        </div>
                     </div>
                     <div class="dropdown-divider"></div>
 
                     <div v-for="q in learningSessionConfigurationStore.questionFilterOptions"
                         @click="learningSessionConfigurationStore.selectQuestionFilter(q)"
-                        class="dropdown-item selectable-item" :class="{ 'item-disabled': !isLoggedIn }">
+                        class="dropdown-item selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
                         <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
                             v-if="q.isSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <font-awesome-icon class="dropdown-filter-icon" :icon="q.icon" />
 
-                        <div class="selectable-item dropdown-item-label" :class="{ 'item-disabled': !isLoggedIn }">
+                        <div class="selectable-item dropdown-item-label"
+                            :class="{ 'item-disabled': !userStore.isLoggedIn }">
                             {{ q.label }} ({{ q.count }})
                         </div>
                     </div>
@@ -141,15 +145,16 @@ function closeKnowledgeSummaryDropdown() {
                 <div v-if="showKnowledgeSummaryDropdown" class="knowledge-summary-dropdown">
                     <div class="selectable-item dropdown-item"
                         @click="learningSessionConfigurationStore.selectAllKnowledgeSummary()"
-                        :class="{ 'item-disabled': !isLoggedIn }">
+                        :class="{ 'item-disabled': !userStore.isLoggedIn }">
                         <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
                             v-if="learningSessionConfigurationStore.allKnowledgeSummaryOptionsAreSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
-                        <div class="selectable-item" :class="{ 'item-disabled': !isLoggedIn }">Alles auswählen</div>
+                        <div class="selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">Alles auswählen
+                        </div>
                     </div>
                     <div class="dropdown-divider"></div>
                     <div v-for="k in learningSessionConfigurationStore.knowledgeSummary"
-                        class="dropdown-item selectable-item" :class="{ 'item-disabled': !isLoggedIn }"
+                        class="dropdown-item selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }"
                         @click="learningSessionConfigurationStore.selectKnowledgeSummary(k)">
                         <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
                             v-if="k.isSelected" />
@@ -229,7 +234,7 @@ function closeKnowledgeSummaryDropdown() {
                             </div>
                             <div class="mode-item-container selectable-item"
                                 @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 2)"
-                                :class="{ 'item-disabled': !isLoggedIn }">
+                                :class="{ 'item-disabled': !userStore.isLoggedIn }">
                                 <div class="mode-sub-label">
                                     Nicht gewusste Fragen zuerst
                                 </div>
@@ -370,10 +375,6 @@ function closeKnowledgeSummaryDropdown() {
                 <div>
                     Für diese Einstellungen sind keine Fragen verfügbar.
                     Bitte ändere den Wissensstand oder wähle alle Fragen aus.
-                </div>
-                <div class="selectable-item close-selection-error-button"
-                    @click="learningSessionConfigurationStore.showSelectionError = false">
-                    <img src="/img/close_black.svg" alt="close-selection-error Button">
                 </div>
             </div>
 
