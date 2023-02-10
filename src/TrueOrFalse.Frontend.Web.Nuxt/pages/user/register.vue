@@ -8,7 +8,7 @@ onBeforeMount(() => {
 
 <template>
 
-    <div class="container">
+    <div class="container main-page">
         <div class="row register-container">
             <div class="col-lg-9 col-md-12 container">
                 <LazyUserRegister />

@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { FooterTopics } from '../topic/topicStore'
+import { useUserStore } from '../user/userStore'
 
 interface Props {
     footerTopics: FooterTopics
 }
 const props = defineProps<Props>()
-
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -39,7 +40,9 @@ const props = defineProps<Props>()
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
-                            <NuxtLink to="/" id="MasterFooterLogo">
+                            <NuxtLink
+                                :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'"
+                                id="MasterFooterLogo">
                                 <Image url="/Images/Logo/LogoIconText.svg" />
                             </NuxtLink>
 

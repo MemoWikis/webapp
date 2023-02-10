@@ -4,7 +4,7 @@
 </script>
 
 <template>
-    <div class="container">
+    <div class="container main-page">
         <LazyTopicHistory />
     </div>
 

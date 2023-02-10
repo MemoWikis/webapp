@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore';
 import { AnswerState } from '~~/components/topic/learning/learningSessionStore'
+import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { useUserStore } from '~~/components/user/userStore'
 
 const userStore = useUserStore()
@@ -48,6 +48,8 @@ onBeforeMount(async () => {
         mode: 'cors'
     })
 })
+
+const tabsStore = useTabsStore()
 </script>
 
 <template>
@@ -84,7 +86,12 @@ onBeforeMount(async () => {
 
                 <div class="buttonRow">
                     <template v-if="!userStore.isLoggedIn || !learningSessionResult.inWuwi">
-                        <NuxtLink :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
+                        <div v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Topic"
+                            class="btn btn-link ">
+                            Zum Thema
+                        </div>
+                        <NuxtLink v-else
+                            :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
                             class="btn btn-link " style="padding-right: 10px">Zum Thema</NuxtLink>
                         <button @click="emit('startNewSession')" class="btn btn-primary nextLearningSession memo-button"
                             style="padding-right: 10px">

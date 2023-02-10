@@ -157,10 +157,11 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             questionCountInputFocused: false,
             timeLimit: 0,
             questionCountIsInvalid: false,
-            sessionConfigKey: 'sessionConfig',
             userIdString: '',
             defaultMode: null,
             showSelectionError: false,
+            sessionConfigKey: 'sessionConfig',
+            showFilter: false
         }
     },
     getters: {
@@ -192,7 +193,12 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         startNewSession() {
 
         },
-        loadSessionFromLocalStorage(firstLoad = false) {
+        loadSessionFromLocalStorage() {
+            const userStore = useUserStore()
+
+            if (userStore.isLoggedIn)
+                this.sessionConfigKey = `sessionConfig-u${userStore.id}`
+
             var storedSession = localStorage.getItem(this.sessionConfigKey)
 
             if (storedSession != null) {
@@ -206,9 +212,6 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 this.testOptions = sessionConfig.testOptions
                 this.practiceOptions = sessionConfig.practiceOptions
             }
-
-            if (firstLoad)
-                this.loadCustomSession()
 
             var json = this.buildSessionConfigJson()
             localStorage.setItem('sessionConfigJson', JSON.stringify(json))

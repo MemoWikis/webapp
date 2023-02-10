@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LearningSessionResultModel>" %>
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LearningSessionResultModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%--    <% if (Model.IsLoggedIn)

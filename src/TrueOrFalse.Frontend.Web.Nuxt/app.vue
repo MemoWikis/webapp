@@ -22,7 +22,6 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 if (currentUser.value)
   userStore.initUser(currentUser.value)
 
-
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
   method: 'Get',
   mode: 'no-cors',
@@ -45,12 +44,24 @@ function setPage(type: Page | null = null) {
     }
   }
 }
+const questionPageData = ref<{
+  primaryTopicName: string
+  primaryTopicUrl: string
+  title: string
+} | undefined>(undefined)
+function setBreadcrumb(e: {
+  primaryTopicName: string
+  primaryTopicUrl: string
+  title: string
+}) {
+  questionPageData.value = e
+}
 </script>
 
 <template>
   <HeaderGuest v-if="!userStore.isLoggedIn" />
-  <HeaderMain :page="page" />
-  <NuxtPage @set-page="setPage" />
+  <HeaderMain :page="page" :question-page-data="questionPageData" />
+  <NuxtPage @set-page="setPage" @set-question-page-data="setBreadcrumb" />
   <LazyUserLogin v-if="!userStore.isLoggedIn" />
   <LazySpinner />
   <LazyAlert />

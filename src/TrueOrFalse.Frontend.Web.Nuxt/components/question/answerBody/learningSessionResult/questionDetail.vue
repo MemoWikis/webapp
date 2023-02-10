@@ -99,6 +99,15 @@ onBeforeMount(() => {
 @color-wrongAnswer: @needs-learning-color;
 @color-notAnswered: @not-learned-color;
 
+
+.fa-circle-check {
+    color: @memo-green;
+}
+
+.fa-circle-minus {
+    color: @memo-red-wrong;
+}
+
 .detail-title {
     cursor: pointer;
     user-select: none;

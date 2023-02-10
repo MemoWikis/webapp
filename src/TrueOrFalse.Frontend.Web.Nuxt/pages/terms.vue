@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="container">
+    <div class="container main-page">
         <div class="row" style="padding-top:30px;">
             <div class="form-horizontal col-md-12">
 

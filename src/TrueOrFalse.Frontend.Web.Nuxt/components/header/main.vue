@@ -5,9 +5,16 @@ import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
 
-const props = defineProps({
-    page: { type: Number as PropType<Page>, required: true }
-})
+
+interface Props {
+    page: Page
+    questionPageData?: {
+        primaryTopicName: string
+        primaryTopicUrl: string
+        title: string
+    }
+}
+const props = defineProps<Props>()
 
 const showSearch = ref(false)
 
@@ -65,7 +72,8 @@ const partialSpacer = ref()
 
                     <div class="partial start" :class="{ 'search-open': showSearch }">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
-                            :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer" />
+                            :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer"
+                            :question-page-data="props.questionPageData" />
                     </div>
                     <div class="partial-spacer" ref="partialSpacer"></div>
                     <div class="partial end" ref="headerExtras">

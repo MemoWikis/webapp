@@ -17,6 +17,12 @@ public class EditCategoryController : BaseController
     private readonly CategoryRepository _categoryRepository;
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
 
+    public EditCategoryController(CategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+        ActionInvoker = new JavaScriptActionInvoker();
+    }
+    
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     [SetMainMenu(MainMenuEntry.Categories)]

@@ -91,14 +91,14 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
 </script>
 
 <template>
-    <div class="container">
+    <div class="container main-page">
         <div class="row topic-container">
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader />
                 <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-if="tabsStore != null && tabsStore.activeTab == Tab.Learning" keep-alive />
-                <TopicRelationEdit />
+                <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" keep-alive />
+                <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
             </div>
             <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container" v-if="isDesktop">

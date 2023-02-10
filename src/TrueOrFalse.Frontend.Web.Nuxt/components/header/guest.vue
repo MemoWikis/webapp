@@ -35,7 +35,8 @@ onMounted(() => {
         <div class="HeaderMainRow container" :class="{ 'search-is-open': showSearch }">
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
-                    <NuxtLink id="LogoLink" href="/">
+                    <NuxtLink id="LogoLink"
+                        :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'">
                         <div id="Logo">
                             <Image url="/Images/Logo/LogoMemoWiki.svg" />
                             <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
@@ -63,7 +64,7 @@ onMounted(() => {
                                 </div>
                             </div>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                <NuxtLink to="/user/register" class="">
+                                <NuxtLink to="/Registrieren" class="">
                                     <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                                 </NuxtLink>
                             </div>

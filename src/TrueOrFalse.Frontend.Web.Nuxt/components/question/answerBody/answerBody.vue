@@ -10,6 +10,7 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { random } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
+import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 
 const spinnerStore = useSpinnerStore()
 const learningSessionStore = useLearningSessionStore()
@@ -167,7 +168,10 @@ async function answer() {
         }
 
         showAnswerButtons.value = false
-        loadSolution()
+
+        if (learningSessionStore.isInTestMode || amountOfTries.value > 1 || answerIsCorrect.value)
+            loadSolution()
+
         if (result.newStepAdded)
             learningSessionStore.loadSteps()
 
@@ -441,8 +445,7 @@ onBeforeMount(() => {
                                 <div id="Buttons" v-if="props.isLandingPage">
                                     <div id="btnGoToTestSession">
 
-                                        <NuxtLink v-if="answerBodyModel.hasTopics &&
-                                        learningSessionStore.currentStep?.isLastStep"
+                                        <NuxtLink v-if="answerBodyModel.hasTopics"
                                             :to="`${answerBodyModel.primaryTopicUrl}`" id="btnStartTestSession"
                                             class="btn btn-primary show-tooltip" rel="nofollow"
                                             v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopicName">
@@ -520,8 +523,7 @@ onBeforeMount(() => {
                                         </button>
                                     </div>
 
-                                    <div
-                                        v-else-if="learningSessionStore.currentStep?.isLastStep && amountOfTries > 0 && showAnswer">
+                                    <div v-else-if="learningSessionStore.currentStep?.isLastStep && amountOfTries > 0">
                                         <button @click="loadResult()" class="btn btn-primary memo-button"
                                             rel="nofollow">
                                             Zum Ergebnis
@@ -529,15 +531,18 @@ onBeforeMount(() => {
                                     </div>
 
                                     <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
-                                        id="buttons-answer-again" class="ButtonGroup" style="display: none">
-                                        <button id="btnCheckAgain" class="btn btn-warning memo-button"
-                                            rel="nofollow">Nochmal
-                                            Antworten</button>
+                                        id="buttons-answer-again" class="ButtonGroup">
                                         <button
-                                            v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp"
-                                            class="selectorShowSolution SecAction btn btn-link memo-button">
-                                            <font-awesome-icon icon="fa-solid fa-lightbulb" />
-                                            Lösung anzeigen
+                                            v-if="amountOfTries == 1 && !learningSessionStore.isInTestMode && answerIsWrong && !showAnswer"
+                                            id="btnCheckAgain" class="btn btn-warning memo-button" rel="nofollow"
+                                            @click="answer()">
+                                            Nochmal Antworten
+                                        </button>
+                                        <button
+                                            v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp && !showAnswer"
+                                            class="selectorShowSolution SecAction btn btn-link memo-button"
+                                            @click="loadSolution(true)">
+                                            <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen
                                         </button>
                                     </div>
                                     <div style="clear: both">
