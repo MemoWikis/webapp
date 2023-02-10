@@ -153,3 +153,70 @@ function addRightElement() {
 
     </div>
 </template>
+
+<style lang="less" setup>
+@import (reference) '~~/assets/includes/imports.less';
+
+.matchlist-container {
+    select {
+        height: 34px;
+        width: 190px;
+
+        option {
+            &:disabled {
+                font-style: italic;
+            }
+        }
+
+        &:focus,
+        &:focus-visible {
+            border: solid 1px @memo-green;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .matchlist-options,
+    .matchlist-pairs {
+        display: flex;
+        justify-content: space-between;
+
+        input,
+        select,
+        .input-group {
+            width: 100%;
+        }
+
+        .matchlist-left,
+        .matchlist-right {
+            width: 50%;
+        }
+    }
+
+    .matchlist-options {
+        @media (max-width:576px) {
+            flex-direction: column;
+
+            .matchlist-left,
+            .matchlist-right {
+                width: 100%;
+            }
+
+            .matchlist-right {
+                margin-top: 26px;
+            }
+
+            .xs-hide {
+                &.col-spacer {
+                    min-width: 0px;
+                    width: 0px;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+</style>

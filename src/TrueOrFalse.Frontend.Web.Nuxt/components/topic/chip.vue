@@ -34,7 +34,7 @@ onMounted(() => {
                     <div :href="topic.Url" class="category-chip-label">
                         <i v-if="topic.IconHtml.length > 0" v-html="topic.IconHtml"></i>{{ name }}
                     </div>
-                    <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" />
+                    <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
             </NuxtLink>
         </div>
@@ -95,7 +95,7 @@ onMounted(() => {
                 text-overflow: ellipsis;
             }
 
-            i.fa-lock {
+            .lock {
                 margin-left: 4px;
             }
         }

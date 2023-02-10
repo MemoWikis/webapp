@@ -36,7 +36,11 @@ function expandAllQuestions() {
 function createQuestion() {
 
 }
-
+function getClass(): string {
+    if (process.server)
+        return ''
+    else return !learningSessionConfigurationStore.showFilter ? 'no-questions' : ''
+}
 
 </script>
 
@@ -44,8 +48,9 @@ function createQuestion() {
     <div id="QuestionListSection" class="row"
         :class="{ 'no-questions': !learningSessionConfigurationStore.showFilter }">
         <div>
-            <ClientOnly v-if="learningSessionConfigurationStore.showFilter">
-                <TopicLearningSessionConfiguration :is-in-question-list="true">
+            <ClientOnly>
+                <TopicLearningSessionConfiguration :is-in-question-list="true"
+                    v-if="learningSessionConfigurationStore.showFilter">
                     <slot>
                         <div class="drop-down-question-sort col-xs-12">
                             <div class="session-config-header">
@@ -119,20 +124,21 @@ function createQuestion() {
                         </div>
                     </slot>
                 </TopicLearningSessionConfiguration>
-            </ClientOnly>
-            <div class="session-configurator missing-questions" v-if="!learningSessionConfigurationStore.showFilter">
-                <div class="session-config-header">
-                    <div class="col-xs-12 drop-down-question-sort">
-                        <div class="session-config-header">
-                            Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+
+                <div class="session-configurator missing-questions"
+                    v-if="!learningSessionConfigurationStore.showFilter">
+                    <div class="session-config-header">
+                        <div class="col-xs-12 drop-down-question-sort">
+                            <div class="session-config-header">
+                                Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <TopicLearningQuestionList :expand-question="questionsExpanded" />
+                <TopicLearningQuestionList :expand-question="questionsExpanded" />
+            </ClientOnly>
+
         </div>
-
-
     </div>
 </template>
 
