@@ -234,11 +234,6 @@ public class UserRepo : RepositoryDbBase<User>
         return query.List();
     }
 
-    public int GetTotalActivityPoints()
-    {
-        return _session.Query<User>().Sum(u => u.ActivityPoints);
-    }
-
     public void UpdateActivityPointsData()
     {
         if(!SessionUser.IsLoggedIn)

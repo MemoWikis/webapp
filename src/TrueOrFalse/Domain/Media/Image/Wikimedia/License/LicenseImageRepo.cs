@@ -18,8 +18,7 @@ public class LicenseImageRepo
             //to allow for other licenses not covered there.
 
             //to do: add link to author! Often, Wikipedia-Authors link to their profiles!
-            
-            new LicenseImage
+            new()
             {
                 Id = 1,
                 WikiSearchString = "cc-by-1.0",
@@ -32,8 +31,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 1.0 Generic",
                 LicenseShortName = "CC BY 1.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 2,
                 WikiSearchString = "cc-by-2.0",
@@ -46,8 +44,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 2.0 Generic",
                 LicenseShortName = "CC BY 2.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 3,
                 WikiSearchString = "cc-by-2.5",
@@ -60,8 +57,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 2.5 Generic",
                 LicenseShortName = "CC BY 2.5",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 4,
                 WikiSearchString = "cc-by-3.0",
@@ -74,8 +70,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 3.0 Unported",
                 LicenseShortName = "CC BY 3.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 5,
                 WikiSearchString = "cc-by-3.0,2.5,2.0,1.0",
@@ -88,8 +83,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 3.0 Unported",
                 LicenseShortName = "CC BY 3.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 6,
                 WikiSearchString = "cc-sa-1.0",
@@ -102,8 +96,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Weitergabe unter gleichen Bedingungen 1.0 Generic",
                 LicenseShortName = "CC SA 1.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 7,
                 WikiSearchString = "cc-by-sa-1.0",
@@ -116,8 +109,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 1.0 Generic",
                 LicenseShortName = "CC BY-SA 1.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 8,
                 WikiSearchString = "cc-by-sa-2.0",
@@ -130,8 +122,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 2.0 Generic",
                 LicenseShortName = "CC BY-SA 2.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 9,
                 WikiSearchString = "cc-by-sa-2.5",
@@ -144,8 +135,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 2.5 Generic",
                 LicenseShortName = "CC BY-SA 2.5",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 10,
                 WikiSearchString = "cc-by-sa-3.0",
@@ -158,8 +148,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
                 LicenseShortName = "CC BY-SA 3.0",
             },
-            
-            new LicenseImage
+            new()
             {
                 Id = 11,
                 WikiSearchString = "cc-by-sa-3.0,2.5,2.0,1.0",
@@ -172,8 +161,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
                 LicenseShortName = "CC BY-SA 3.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 12,
                 WikiSearchString = "cc-by-sa-4.0",
@@ -186,18 +174,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International",
                 LicenseShortName = "CC BY-SA 4.0",
             },
-            
-            //new License()
-            //{
-            //    Id = 100,
-            //    WikiSearchString = "gfdl",
-            //    LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-
-            //    LicenseRequirementsType = LicenseRequirementsType.GFDL,
-
-            //},
-
-            new LicenseImage
+            new()
             {
                 //License requires stating the source and prohibits changes
                 Id = 13,
@@ -211,8 +188,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Anderes Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
                 LicenseShortName = "Amtliches Werk",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 14,
                 WikiSearchString = "cc-by-4.0",
@@ -225,8 +201,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 4.0 International",
                 LicenseShortName = "CC BY 4.0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 15,
                 WikiSearchString = "cc-by-sa-3.0-de",
@@ -239,7 +214,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Deutschland",
                 LicenseShortName = "CC BY-SA 3.0 DE",
             },
-            new LicenseImage
+            new()
             {
                 Id = 16,
                 WikiSearchString = "migration=relicense",
@@ -252,7 +227,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
                 LicenseShortName = "CC BY-SA 3.0",
             },
-            new LicenseImage
+            new()
             {
                 Id = 17,
                 WikiSearchString = "Agência Brasil",
@@ -265,8 +240,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Atribuição 3.0 Brasil",
                 LicenseShortName = "CC BY 3.0 BR",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 18,
                 WikiSearchString = "CC0",
@@ -279,8 +253,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons Zero (Gemeinfreiheit, keine Rechte vorbehalten)",
                 LicenseShortName = "CC0",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 19,
                 WikiSearchString = "MIT_License",
@@ -293,8 +266,7 @@ public class LicenseImageRepo
                 LicenseLongName = "MIT-Lizenz",
                 LicenseShortName = "MIT",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 20,
                 WikiSearchString = "Unsplash License",
@@ -307,8 +279,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Unsplash license",
                 LicenseShortName = "Unsplash",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 21,
                 WikiSearchString = "GNU Lesser General Public License",
@@ -321,8 +292,7 @@ public class LicenseImageRepo
                 LicenseLongName = "GNU Lesser General Public License",
                 LicenseShortName = "LGPL",
             },
-
-            new LicenseImage
+            new()
             {
                 Id = 198,
                 WikiSearchString = "Public Domain / Gemeinfrei (Amtliches Werk)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
@@ -331,21 +301,21 @@ public class LicenseImageRepo
                 //LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html", //valid only for Germany, but 
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
-            new LicenseImage
+            new()
             {
                 Id = 199,
                 WikiSearchString = "Public Domain / Gemeinfrei", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
-            new LicenseImage
+            new()
             {
                 Id = 200,
                 WikiSearchString = "pd-old",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
-            new LicenseImage
+            new()
             {
                 Id = 201,
                 WikiSearchString = "PD-UA-exempt",
@@ -353,7 +323,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain (Ukraine) / Gemeinfrei"
             },
-            new LicenseImage
+            new()
             {
                 Id = 202,
                 WikiSearchString = "PD-ineligible",
@@ -361,7 +331,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain"
             },
-            new LicenseImage
+            new()
             {
                 Id = 203,
                 WikiSearchString = "PD-RU-exemp",
@@ -369,7 +339,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain"
             },
-            new LicenseImage
+            new()
             {
                 Id = 204,
                 WikiSearchString = "PD-Art",
@@ -377,7 +347,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain"
             },
-            new LicenseImage
+            new()
             {
                 Id = 205,
                 WikiSearchString = "GPL",
@@ -385,7 +355,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.GPL,
                 LicenseLink = "https://www.gnu.org/copyleft/gpl-3.0.html",
             },
-            new LicenseImage
+            new()
             {
                 Id = 206,
                 WikiSearchString = "PD-US",
@@ -393,7 +363,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain - published in USA before 1923"
             },
-            new LicenseImage
+            new()
             {
                 Id = 207,
                 WikiSearchString = "PD-textlogo",
@@ -402,7 +372,7 @@ public class LicenseImageRepo
                 LicenseLongName = "Public domain - text logo",
                 LicenseLink = "https://commons.wikimedia.org/wiki/Template_talk:PD-textlogo"
             },
-            new LicenseImage
+            new()
             {
                 Id = 208,
                 WikiSearchString = "PD-user",
@@ -410,7 +380,7 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain - by user",
             },
-            new LicenseImage
+            new()
             {
                 Id = 209,
                 WikiSearchString = "PD-user-w",
@@ -418,52 +388,15 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain - by user",
             },
-            new LicenseImage
+            new()
             {
                 Id = 555,
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Youtube Preview Image",
             }
-
-            //Template for CC-BY-SA licenses:
-            //new License()
-            //{
-            //    Id = 2,
-            //    WikiSearchString = "cc-by-sa-3.0,2.5,2.0,1.0",
-            //    LicenseApplicability = LicenseApplicability.,//Requirements should be recorded under License > InitLicenseSettings()
-                
-            //    LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
-            //    LicenseLink = "http://creativecommons.org/licenses/by-sa/3.0/legalcode",
-                
-            //    LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/3.0/deed.de",
-            //    LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
-            //    LicenseShortName = "CC BY-SA 3.0",
-            //},
-
-            //Template general:
-            //new License()
-            //{
-            //    Id = ,
-            //    WikiSearchString = "",
-             
-            //    Choose RequirementsType or add requirements manually
-            //    LicenseRequirementsType = LicenseRequirementsType.,
-            //        //LicenseLink = ,
-            //        //CopyOfLicenseTextUrl = ,
-            //    //or:
-            //        AuthorRequired = ,
-            //        LicenseLinkRequired = ,
-            //        //LicenseLink = ,
-            //        CopyOfLicenseTextRequired = ,
-            //        //CopyOfLicenseTextUrl = ,
-
-            //    LicenseApplicability = ,
-            //}
         };
-
         registeredLicenses.ForEach(license => license.InitLicenseSettings());
-
         return registeredLicenses;
     }
 

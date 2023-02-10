@@ -274,7 +274,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />

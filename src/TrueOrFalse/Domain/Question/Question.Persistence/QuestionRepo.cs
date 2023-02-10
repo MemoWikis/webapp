@@ -260,7 +260,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             NHibernateUtil.Initialize(question.Creator);
             NHibernateUtil.Initialize(question.References);
         }
-
         return result;
     }
 }

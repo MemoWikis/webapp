@@ -34,26 +34,36 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     public void DeleteAllJobs(JobQueueType jobQueueType)
     {
         var query = $"DELETE FROM jobqueue WHERE jobqueue.JobQueueType = {(int)jobQueueType}";
-        _session.CreateSQLQuery(query).ExecuteUpdate();
+        _session
+            .CreateSQLQuery(query)
+            .ExecuteUpdate();
     }
 
     public IList<JobQueue> GetReputationUpdateUsers()
     {
         return
-            _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.UpdateReputationForUser).List();
+            _session
+                .QueryOver<JobQueue>()
+                .Where(j => j.JobQueueType == JobQueueType.UpdateReputationForUser)
+                .List();
     }
 
     public IList<JobQueue> GetRecalcKnowledgeSummariesForCategory()
     {
         return
-            _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory).List();
+            _session
+                .QueryOver<JobQueue>()
+                .Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory)
+                .List();
     }
 
     public IList<JobQueue> GetRemoveQuestionsInCategoryFromWishKnowledge()
     {
         return
-            _session.QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge).List();
+            _session
+                .QueryOver<JobQueue>()
+                .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge)
+                .List();
     }
     public JobQueue GetTopPriorityMailMessage()
     {
@@ -71,7 +81,9 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 LIMIT 1;"
                 );
 
-        var mailJobs = result?.SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue))).List();
+        var mailJobs = result?
+            .SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue)))
+            .List();
 
         if (mailJobs?.Any() == true)
         {
