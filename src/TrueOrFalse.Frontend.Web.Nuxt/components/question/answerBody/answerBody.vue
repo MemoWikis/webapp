@@ -539,7 +539,7 @@ onBeforeMount(() => {
                                             Nochmal Antworten
                                         </button>
                                         <button
-                                            v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp && !showAnswer"
+                                            v-if="!learningSessionStore.isInTestMode && learningSessionStore.answerHelp && !showAnswer && !showAnswerButtons"
                                             class="selectorShowSolution SecAction btn btn-link memo-button"
                                             @click="loadSolution(true)">
                                             <font-awesome-icon icon="fa-solid fa-lightbulb" /> Lösung anzeigen

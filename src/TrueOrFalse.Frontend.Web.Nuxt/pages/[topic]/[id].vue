@@ -114,6 +114,7 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
 
 .topic-container {
     min-height: 400px;
+    height: 100%;
 
     @media(min-width: 992px) {
         display: flex;

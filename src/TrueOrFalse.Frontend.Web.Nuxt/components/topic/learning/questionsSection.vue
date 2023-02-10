@@ -41,9 +41,10 @@ function createQuestion() {
 </script>
 
 <template>
-    <div id="QuestionListSection" class="row">
-        <div v-if="learningSessionConfigurationStore.showFilter">
-            <ClientOnly>
+    <div id="QuestionListSection" class="row"
+        :class="{ 'no-questions': !learningSessionConfigurationStore.showFilter }">
+        <div>
+            <ClientOnly v-if="learningSessionConfigurationStore.showFilter">
                 <TopicLearningSessionConfiguration :is-in-question-list="true">
                     <slot>
                         <div class="drop-down-question-sort col-xs-12">
@@ -119,37 +120,28 @@ function createQuestion() {
                     </slot>
                 </TopicLearningSessionConfiguration>
             </ClientOnly>
-            <TopicLearningQuestionList :expand-question="questionsExpanded" />
-        </div>
-
-        <div class="session-configurator" v-else>
-            <div class="session-config-header">
-                <div class="col-xs-12 drop-down-question-sort">
-                    <div class="session-config-header">
-                        Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+            <div class="session-configurator missing-questions" v-if="!learningSessionConfigurationStore.showFilter">
+                <div class="session-config-header">
+                    <div class="col-xs-12 drop-down-question-sort">
+                        <div class="session-config-header">
+                            Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                        </div>
                     </div>
                 </div>
             </div>
+            <TopicLearningQuestionList :expand-question="questionsExpanded" />
         </div>
+
+
     </div>
 </template>
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-//Variables
-// @colorPagination: @memo-grey-lighter ;
-
-//Less
 #QuestionListSection {
 
-    // background-color: @memo-grey-lighter;
-    // margin-right: 0;
-    // margin-left: 0;
-    // margin-bottom: 46px;
-
-
-    margin-top: 103px;
+    margin-top: 100px;
     background-color: @memo-grey-lighter;
     padding: 0px 20px 33px 20px;
     margin-right: 0;
@@ -158,6 +150,15 @@ function createQuestion() {
     @media(max-width: @screen-xxs-max) {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    &.no-questions {
+        margin-top: 20px;
+
+        .session-config-header {
+            padding-top: 12px;
+            padding-bottom: 24px;
+        }
     }
 
 
