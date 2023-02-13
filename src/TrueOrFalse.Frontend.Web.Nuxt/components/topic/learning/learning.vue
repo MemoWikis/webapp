@@ -29,11 +29,9 @@ const topicStore = useTopicStore()
 onMounted(() => {
     watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
         learningSessionConfigurationStore.questionCountIsInvalid = newNumber <= 0 || isNaN(newNumber)
-        if (oldNumber != newNumber && !isNaN(newNumber)) {
-            learningSessionConfigurationStore.selectedQuestionCount = parseInt(newNumber)
-        }
     })
 })
+
 
 const progressPercentage = ref(0)
 const answeredWidth = ref<string>('width: 0%')

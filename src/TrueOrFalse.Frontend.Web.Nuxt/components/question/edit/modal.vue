@@ -138,7 +138,13 @@ const licenseConfirmation = ref(false)
 const showMore = ref(false)
 const licenseId = ref(0)
 
-const disabled = ref(true)
+const disabled = computed(() => {
+    licenseIsValid.value = licenseConfirmation.value || isPrivate.value
+
+    var questionIsValid = questionHtml.value.length > 0
+    return !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
+})
+
 const lockSaveButton = ref(false)
 
 function getSolution() {
@@ -343,20 +349,16 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
     solutionIsValid.value = e.solutionIsValid
 }
 
-function validateForm() {
-    licenseIsValid.value = licenseConfirmation.value || isPrivate.value
-
-    var questionIsValid = questionHtml.value.length > 0
-    disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
+function setMultipleChoiceContent(e: { solution: string, solutionIsValid: boolean }) {
+    multipleChoiceJson.value = e.solution
+    solutionIsValid.value = e.solutionIsValid
 }
 
-watch([isPrivate, licenseConfirmation, flashCardAnswer, textSolution, multipleChoiceJson, matchListJson], () => {
-    validateForm()
-})
+function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) {
+    matchListJson.value = e.solution
+    solutionIsValid.value = e.solutionIsValid
+}
 
-onMounted(() => {
-    validateForm()
-})
 </script>
 
 <template>
@@ -411,9 +413,10 @@ onMounted(() => {
                     <QuestionEditText v-if="solutionType == SolutionType.Text" :solution="textSolution"
                         :highlightEmptyFields="highlightEmptyFields" @set-solution="setTextSolution" />
                     <QuestionEditMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
-                        :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields" />
+                        :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields"
+                        @set-multiplechoice-json="setMultipleChoiceContent" />
                     <QuestionEditMatchList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
-                        :highlightEmptyFields="highlightEmptyFields" />
+                        :highlightEmptyFields="highlightEmptyFields" @set-matchlist-json="setMatchlistContent" />
                     <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
                         :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashCardContent"
                         ref="flashCardComponent" />
@@ -524,7 +527,7 @@ onMounted(() => {
 
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
 .modal-footer {
@@ -538,69 +541,6 @@ select {
     border-radius: 0;
     padding: 0 4px;
     outline: none !important;
-}
-
-.matchlist-container {
-    select {
-        height: 34px;
-        width: 190px;
-
-        option {
-            &:disabled {
-                font-style: italic;
-            }
-        }
-
-        &:focus,
-        &:focus-visible {
-            border: solid 1px @memo-green;
-        }
-    }
-
-    .form-group {
-        display: flex;
-        align-items: center;
-    }
-
-    .matchlist-options,
-    .matchlist-pairs {
-        display: flex;
-        justify-content: space-between;
-
-        input,
-        select,
-        .input-group {
-            width: 100%;
-        }
-
-        .matchlist-left,
-        .matchlist-right {
-            width: 50%;
-        }
-    }
-
-    .matchlist-options {
-        @media (max-width:576px) {
-            flex-direction: column;
-
-            .matchlist-left,
-            .matchlist-right {
-                width: 100%;
-            }
-
-            .matchlist-right {
-                margin-top: 26px;
-            }
-
-            .xs-hide {
-                &.col-spacer {
-                    min-width: 0px;
-                    width: 0px;
-                    padding: 0;
-                }
-            }
-        }
-    }
 }
 
 .edit-question-modal-header {

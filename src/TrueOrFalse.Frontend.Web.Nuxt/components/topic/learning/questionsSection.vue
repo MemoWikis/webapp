@@ -45,8 +45,7 @@ function getClass(): string {
 </script>
 
 <template>
-    <div id="QuestionListSection" class="row"
-        :class="{ 'no-questions': !learningSessionConfigurationStore.showFilter }">
+    <div id="QuestionListSection" class="row" :class="getClass()">
         <div>
             <ClientOnly>
                 <TopicLearningSessionConfiguration :is-in-question-list="true"
@@ -135,9 +134,8 @@ function getClass(): string {
                         </div>
                     </div>
                 </div>
-                <TopicLearningQuestionList :expand-question="questionsExpanded" />
             </ClientOnly>
-
+            <TopicLearningQuestionList :expand-question="questionsExpanded" />
         </div>
     </div>
 </template>

@@ -21,7 +21,7 @@ export default <RouterConfig>{
         },
         {
             name: 'questionPage',
-            path: '/Frage/:title/:id',
+            path: '/Fragen/:title/:id',
             component: () => import('~/pages/question/[title]/[id].vue')
         },
         {

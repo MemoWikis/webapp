@@ -10,7 +10,6 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { random } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
-import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 
 const spinnerStore = useSpinnerStore()
 const learningSessionStore = useLearningSessionStore()
@@ -92,12 +91,14 @@ function flip() {
     flashcard.value?.flip()
 }
 
-const _errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+const _errMsgs = [
     "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
     "Weiter, weiter, nicht aufgeben.",
     "Übung macht den Meister. Du bist auf dem richtigen Weg.",
-    "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
 ]
+
+const _repeatedErrMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+    "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."]
 
 const _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
     "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse.", "Schubidu!",
@@ -108,8 +109,11 @@ const wellDoneMsg = ref('')
 const wrongAnswerMsg = ref('')
 
 async function answer() {
+    showWrongAnswers.value = false
+
     if (answerBodyModel.value?.solutionType == SolutionType.Text && text.value.getAnswerText().trim().length == 0) {
         wrongAnswerMsg.value = 'Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)'
+        showWrongAnswers.value = true
         return
     }
     wrongAnswerMsg.value = ''
@@ -133,6 +137,7 @@ async function answer() {
     if (solutionComponent == null)
         return
 
+    const repeatedAnswer = answersSoFar.value.indexOf(solutionComponent.getAnswerText()) >= 0
     answersSoFar.value.push(solutionComponent.getAnswerText())
 
     const data = {
@@ -164,12 +169,15 @@ async function answer() {
             learningSessionStore.markCurrentStepAsWrong()
             answerIsCorrect.value = false
             answerIsWrong.value = true
-            wrongAnswerMsg.value = _errMsgs[random(0, _errMsgs.length - 1)]
+            wrongAnswerMsg.value = repeatedAnswer ? _repeatedErrMsgs[random(0, _repeatedErrMsgs.length - 1)] : _errMsgs[random(0, _errMsgs.length - 1)]
         }
 
         showAnswerButtons.value = false
 
-        if (learningSessionStore.isInTestMode || amountOfTries.value > 1 || answerIsCorrect.value)
+        if (learningSessionStore.isInTestMode
+            || answerIsCorrect.value
+            || (answerBodyModel.value?.solutionType != SolutionType.MultipleChoice && amountOfTries.value > 1)
+            || (answerBodyModel.value?.solutionType == SolutionType.MultipleChoice && allMultipleChoiceCombinationTried.value))
             loadSolution()
 
         if (result.newStepAdded)
@@ -218,6 +226,7 @@ async function loadAnswerBodyModel() {
         answerBodyModel.value = result
         solutionData.value = null
         answersSoFar.value = []
+        await nextTick()
         highlightCode()
     }
 }
@@ -242,9 +251,6 @@ async function markAsCorrect() {
         answerIsCorrect.value = true
         wellDoneMsg.value = _successMsgs[random(0, _successMsgs.length - 1)]
     }
-}
-async function markAsWrong() {
-
 }
 const solutionData = ref<SolutionData | null>(null)
 
@@ -310,6 +316,25 @@ onBeforeMount(() => {
         showAnswer.value = true
     }
 })
+
+
+const allMultipleChoiceCombinationTried = computed(() => {
+    if (answerBodyModel.value?.solutionType == SolutionType.MultipleChoice) {
+        interface Choice {
+            Text: string,
+            IsCorrect: boolean
+        }
+        const json: { Choices: Choice[], isSolutionOrdered: boolean } = JSON.parse(answerBodyModel.value.solution)
+        const maxCombinationCount = 2 ** json.Choices.length
+        const uniqueAnswerCount = [...new Set(answersSoFar.value)].length
+        return uniqueAnswerCount >= maxCombinationCount
+    }
+    return false
+})
+
+function handleNewLine(str: string) {
+    return str.replace(/(\\r)*\\n/g, '<br>')
+}
 </script>
 
 <template>
@@ -398,7 +423,7 @@ onBeforeMount(() => {
 
             <div id="MarkdownCol"
                 v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended">
-                <div class="RenderedMarkdown" v-html="answerBodyModel.renderedQuestionTextExtended">
+                <div class="RenderedMarkdown" v-html="handleNewLine(answerBodyModel.renderedQuestionTextExtended)">
                 </div>
             </div>
 
@@ -446,7 +471,7 @@ onBeforeMount(() => {
                                     <div id="btnGoToTestSession">
 
                                         <NuxtLink v-if="answerBodyModel.hasTopics"
-                                            :to="`${answerBodyModel.primaryTopicUrl}`" id="btnStartTestSession"
+                                            :to="`${answerBodyModel.primaryTopicUrl}/Lernen`" id="btnStartTestSession"
                                             class="btn btn-primary show-tooltip" rel="nofollow"
                                             v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopicName">
                                             <b>Weiterlernen</b>
@@ -533,7 +558,7 @@ onBeforeMount(() => {
                                     <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
                                         id="buttons-answer-again" class="ButtonGroup">
                                         <button
-                                            v-if="amountOfTries == 1 && !learningSessionStore.isInTestMode && answerIsWrong && !showAnswer"
+                                            v-if="!allMultipleChoiceCombinationTried && !learningSessionStore.isInTestMode && answerIsWrong && !showAnswer && !showAnswerButtons"
                                             id="btnCheckAgain" class="btn btn-warning memo-button" rel="nofollow"
                                             @click="answer()">
                                             Nochmal Antworten

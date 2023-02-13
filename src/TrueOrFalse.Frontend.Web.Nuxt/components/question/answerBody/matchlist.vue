@@ -197,7 +197,7 @@ function handleDragEnd(i: number) {
     align-items: center;
     transition: all 0.1s ease-in;
     background: white;
-    word-break: break-word;
+    overflow-wrap: break-word;
     padding: 12px;
     text-align: center;
 
@@ -238,7 +238,7 @@ function handleDragEnd(i: number) {
     justify-content: center;
     align-items: center;
     cursor: grab;
-    word-break: break-word;
+    overflow-wrap: break-word;
     padding: 12px;
     text-align: center;
 
@@ -264,7 +264,7 @@ function handleDragEnd(i: number) {
         padding: 5px;
         width: 160px;
         min-height: 50px;
-        word-break: break-all;
+        overflow-wrap: break-all;
         display: flex;
         justify-content: center;
         align-items: center;

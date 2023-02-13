@@ -8,13 +8,13 @@ const choices = ref([{
 )
 const solutionIsOrdered = ref(false)
 
-const emit = defineEmits(['solutionIsValid', 'setMultipleChoiceSolution'])
+const emit = defineEmits(['setMultipleChoiceJson'])
 
 function validateSolution() {
     var hasEmptyAnswer = choices.value.some((c) => {
         return c.Text.trim() == ''
     })
-    emit('solutionIsValid', !hasEmptyAnswer)
+    return !hasEmptyAnswer
 }
 
 function initSolution() {
@@ -29,15 +29,8 @@ function initSolution() {
 watch(() => props.solution, () => initSolution())
 onMounted(() => initSolution())
 
-function updateElement(index: number, newVal: {
-    Text: string,
-    IsCorrect: boolean
-}) {
-    choices.value[index] = newVal
-}
-
 function addChoice() {
-    let placeHolder = {
+    const placeHolder = {
         Text: '',
         IsCorrect: false
     }
@@ -49,14 +42,13 @@ function deleteChoice(index: number) {
 }
 
 function solutionBuilder() {
-    validateSolution()
 
-    let solution = {
+    const solution = {
         Choices: choices.value,
         IsSolutionOrdered: solutionIsOrdered.value
     }
 
-    emit('setMultipleChoiceSolution', solution)
+    emit('setMultipleChoiceJson', { solution: JSON.stringify(solution), solutionIsValid: validateSolution() })
 }
 
 function toggleCorrectness(index: number) {

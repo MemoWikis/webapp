@@ -33,14 +33,6 @@ function getAnswerText(): string {
 }
 defineExpose({ getAnswerDataString, getAnswerText })
 
-function validate(c: Choice) {
-    if (props.showAnswer) {
-        if ((selected.value.indexOf(c.Text) >= 0 && c.IsCorrect) || (selected.value.indexOf(c.Text) < 0 && !c.IsCorrect))
-            return true
-        else return false
-    }
-}
-
 function getClass(c: Choice) {
     if (props.showAnswer && c.IsCorrect)
         return 'is-correct show-solution'
