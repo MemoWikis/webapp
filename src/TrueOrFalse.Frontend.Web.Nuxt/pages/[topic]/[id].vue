@@ -87,7 +87,6 @@ onMounted(() => {
     setTab()
 })
 
-const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
 </script>
 
 <template>
@@ -101,13 +100,17 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
             </div>
-            <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
-                <div id="SidebarDivider"></div>
-            </div>
+            <Sidebar />
         </div>
-
     </div>
 </template>
+
+<style lang="less">
+#InlineEdit {
+    padding: 0px;
+    border: none;
+}
+</style>
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
@@ -119,20 +122,6 @@ const { isDesktopOrTablet, isMobile, isDesktop } = useDevice()
     @media(min-width: 992px) {
         display: flex;
 
-    }
-}
-
-#Sidebar {
-    display: flex;
-    align-items: stretch;
-    flex-grow: 1;
-
-    #SidebarDivider {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-left: 1px solid @memo-grey-light;
-        top: 0;
-        flex-grow: 1;
     }
 }
 

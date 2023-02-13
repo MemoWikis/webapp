@@ -8,7 +8,7 @@ import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { getHighlightedCode } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
-import { random } from '~/components/shared/utils'
+import { random, handleNewLine } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 
 const spinnerStore = useSpinnerStore()
@@ -288,7 +288,6 @@ async function loadSolution(answered: boolean = true) {
 
 }
 
-
 watch(() => learningSessionStore.currentStep?.index, () => {
     loadAnswerBodyModel()
 })
@@ -317,7 +316,6 @@ onBeforeMount(() => {
     }
 })
 
-
 const allMultipleChoiceCombinationTried = computed(() => {
     if (answerBodyModel.value?.solutionType == SolutionType.MultipleChoice) {
         interface Choice {
@@ -331,10 +329,6 @@ const allMultipleChoiceCombinationTried = computed(() => {
     }
     return false
 })
-
-function handleNewLine(str: string) {
-    return str.replace(/(\\r)*\\n/g, '<br>')
-}
 </script>
 
 <template>
@@ -586,7 +580,8 @@ function handleNewLine(str: string) {
                                             <div class="solution-label">
                                                 Richtige Antwort:
                                             </div>
-                                            <div class="Content body-m" v-html="solutionData?.answerAsHTML">
+                                            <div class="Content body-m"
+                                                v-html="handleNewLine(solutionData?.answerAsHTML)">
                                             </div>
                                         </div>
 
@@ -616,7 +611,8 @@ function handleNewLine(str: string) {
                                             <div class="solution-label">
                                                 Ergänzungen zur Antwort:
                                             </div>
-                                            <div class="Content body-m" v-html="solutionData?.answerDescription">
+                                            <div class="Content body-m"
+                                                v-html="handleNewLine(solutionData?.answerDescription)">
                                             </div>
                                         </div>
                                     </div>

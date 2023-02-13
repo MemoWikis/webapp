@@ -105,7 +105,7 @@ const partialSpacer = ref()
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
                                     </div>
                                     <div class="user-dropdown-social">
-                                        <LazyNuxtLink to="/user/messages/">
+                                        <LazyNuxtLink to="/Nachrichten/">
                                             <div class="user-dropdown-label">Deine Nachrichten</div>
                                         </LazyNuxtLink>
 

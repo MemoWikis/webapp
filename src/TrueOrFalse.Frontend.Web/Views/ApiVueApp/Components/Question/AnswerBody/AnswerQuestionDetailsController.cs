@@ -8,7 +8,9 @@ using TrueOrFalse.Web;
 public class AnswerQuestionDetailsController: BaseController
 {
     [HttpGet]
-    public JsonResult Get(int id)
+    public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
+
+    public dynamic GetData(int id)
     {
         if (!PermissionCheck.CanViewQuestion(id))
             return Json(null);
@@ -18,8 +20,7 @@ public class AnswerQuestionDetailsController: BaseController
         var answerQuestionModel = new AnswerQuestionModel(question, true);
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
-        var json = Json(new
-        {
+        return new {
             personalProbability = correctnessProbability.CPPersonal,
             personalColor = correctnessProbability.CPPColor,
             avgProbability = correctnessProbability.CPAll,
@@ -46,7 +47,8 @@ public class AnswerQuestionDetailsController: BaseController
             visibility = question.Visibility,
             dateNow,
             endTimer = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-            creator = new {
+            creator = new
+            {
                 id = question.CreatorId,
                 name = question.Creator.Name,
                 encodedName = UriSanitizer.Run(question.Creator.Name)
@@ -60,7 +62,7 @@ public class AnswerQuestionDetailsController: BaseController
                 shortText = question.License.DisplayTextShort,
                 fullText = question.License.DisplayTextFull
             }
-        }, JsonRequestBehavior.AllowGet);
-        return json;
+        };
+
     }
 }

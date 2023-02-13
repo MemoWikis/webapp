@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { handleNewLine } from '~~/components/shared/utils'
 import { AnswerState } from '~~/components/topic/learning/learningSessionStore'
 
 interface Step {
@@ -65,7 +66,7 @@ onBeforeMount(() => {
                             </div>
                             <div class="col-xs-9 col-sm-10">
                                 <p class="rightAnswer">Richtige Antwort:
-                                <div v-html="question.correctAnswerHtml"></div>
+                                <div v-html="handleNewLine(question.correctAnswerHtml)"></div>
 
                                 <br /></p>
                                 <p class="answerTry" v-for="(step, index) in question.steps">
