@@ -103,7 +103,8 @@ const { isDesktopOrTablet, isMobile } = useDevice()
                     </span>
                 </button>
                 <template #popper>
-                    <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row" :to="'/user/' + author.Id">
+                    <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row"
+                        :to="`/Nutzer/${author.Name}/${author.Id}`">
                         <div class="dropdown-icon">
                             <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
                         </div>

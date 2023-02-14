@@ -28,6 +28,7 @@ export interface TopicItem {
     MiniImageUrl: string
     IconHtml: string
     Visibility: number
+    IsSpoiler?: boolean
 }
 
 export type QuestionItem = {

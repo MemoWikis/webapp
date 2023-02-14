@@ -41,7 +41,8 @@ public class AnswerQuestionDetailsController: BaseController
                 IconHtml = SearchApiController.GetIconHtml(t),
                 MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(t.Id, ImageType.Category))
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
-                Visibility = (int)t.Visibility
+                Visibility = (int)t.Visibility,
+                IsSpoiler = IsSpoilerCategory.Yes(t.Name, question)
             }).Distinct().ToArray(),
 
             visibility = question.Visibility,

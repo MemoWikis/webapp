@@ -92,6 +92,7 @@ function getClass(c: Choice) {
     align-items: center;
     width: 100%;
     padding-left: 0px;
+    cursor: pointer;
 
     .checkbox-icon {
         font-size: 18px;

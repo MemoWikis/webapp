@@ -820,7 +820,7 @@ onMounted(() => {
                         <div style="display: flex; flex-wrap: wrap;">
 
                             <TopicChip v-for="(t, index) in topics" :key="t.Id + index" :topic="t" :index="index"
-                                :is-spoiler="learningSessionStore.isInTestMode" />
+                                :is-spoiler="learningSessionStore.isInTestMode && t.IsSpoiler && !$props.landingPage" />
                         </div>
                     </div>
                 </div>

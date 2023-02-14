@@ -17,7 +17,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
     {
         credentials: 'include',
         mode: 'no-cors',
-        onRequest({ options }) {
+        onRequest({ options, request }) {
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase

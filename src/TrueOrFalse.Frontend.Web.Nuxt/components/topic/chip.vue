@@ -15,28 +15,36 @@ const hover = ref(false)
 const name = ref('')
 
 const showImage = ref(false)
+const showName = ref(true)
 
-onMounted(() => {
+onBeforeMount(() => {
     showImage.value = props.topic.MiniImageUrl.includes('no-category-picture')
-
-    name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name;
+    name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name
+    if (props.isSpoiler)
+        showName.value = false
 })
+
 </script>
 
 <template>
     <div class="category-chip-component">
         <div class="category-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <NuxtLink :to="topic.Url">
-                <div class="category-chip show-tooltip" :title="topic.Name">
+            <NuxtLink :to="topic.Url" v-if="showName">
+                <div class="category-chip" :v-tooltip="topic.Name">
 
                     <img v-if="showImage" :src="topic.MiniImageUrl" />
 
-                    <div :href="topic.Url" class="category-chip-label">
+                    <div class="category-chip-label">
                         <i v-if="topic.IconHtml.length > 0" v-html="topic.IconHtml"></i>{{ name }}
                     </div>
                     <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
             </NuxtLink>
+            <div class="category-chip spoiler" v-else @click="showName = true">
+                <div class="category-chip-label">
+                    Spoiler anzeigen
+                </div>
+            </div>
         </div>
         <div class="category-chip-deleteBtn" v-if="props.removableChip"
             @click="emit('removeTopic', { index: props.index, topicId: props.topic.Id })">
@@ -74,6 +82,7 @@ onMounted(() => {
             flex-wrap: nowrap;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
 
             img {
                 margin-left: -8px;

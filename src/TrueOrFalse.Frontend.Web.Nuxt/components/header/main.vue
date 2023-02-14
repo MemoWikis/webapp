@@ -110,7 +110,7 @@ const partialSpacer = ref()
                                         </LazyNuxtLink>
 
                                         <div class="user-dropdown-label">Dein Netzwerk</div>
-                                        <NuxtLink :to="`/user/${encodeURI(userStore.name)}/${userStore.id}`">
+                                        <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
@@ -142,7 +142,7 @@ const partialSpacer = ref()
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                <NuxtLink to="/user/register">
+                                <NuxtLink to="/Registrieren">
                                     <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
                                 </NuxtLink>
                             </div>
