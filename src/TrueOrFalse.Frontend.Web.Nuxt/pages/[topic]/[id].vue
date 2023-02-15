@@ -84,6 +84,7 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
+    console.log(route.params)
     setTab()
 })
 

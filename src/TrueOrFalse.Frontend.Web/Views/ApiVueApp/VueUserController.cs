@@ -26,7 +26,7 @@ public class VueUserController : BaseController
                 {
                     id = user.Id,
                     name = user.Name,
-                    wikiUrl = PermissionCheck.CanView(userWiki) ? "/" + UriSanitizer.Run(user.Name) + "/" + user.StartTopicId : null,
+                    wikiUrl = PermissionCheck.CanView(userWiki) ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId : null,
                     imageUrl = new UserImageSettings(user.Id).GetUrl_250px(user),
                     reputationPoints = reputation.TotalReputation,
                     rank = user.ReputationPos
@@ -60,7 +60,7 @@ public class VueUserController : BaseController
                         id = t.CategoryCacheItem.Id
                     }).ToArray()
                 },
-                isCurrentUser = SessionUser.User.Id == user.Id
+                isCurrentUser = SessionUser.UserId == user.Id
             }, JsonRequestBehavior.AllowGet);
         }
 
