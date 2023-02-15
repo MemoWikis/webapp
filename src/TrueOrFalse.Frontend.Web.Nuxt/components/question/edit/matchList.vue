@@ -4,34 +4,31 @@ const props = defineProps(['solution', 'highlightEmptyFields'])
 const pairs = ref([{
     ElementRight: { Text: "" },
     ElementLeft: { Text: "" }
-}]
-)
+}])
 const rightElements = ref<{ [key: string]: string }[]>([])
 const solutionIsOrdered = ref(false)
 
-const emit = defineEmits(['setSolutionIsValid', 'setMatchListJson'])
+const emit = defineEmits(['setMatchListJson'])
 
 function validateSolution() {
-    var hasEmptyAnswer = rightElements.value.some((e: { [key: string]: string }) => {
-        return e.Text.trim() == ''
+    const allDroppableAnswersAreValid = rightElements.value.every((e: { [key: string]: string }) => {
+        return e.Text.trim() != ''
     })
-    var leftElementHasNoAnswer = pairs.value.some((p) => {
-        return p.ElementLeft.Text.trim() == ''
+
+    const allPairsAreValid = pairs.value.every((p) => {
+        return p.ElementLeft.Text.trim() != '' && p.ElementRight.Text.trim() != ''
     })
-    var rightElementHasNoAnswer = pairs.value.some((p) => {
-        return p.ElementRight.Text.trim() == ''
-    })
-    emit('setSolutionIsValid', !hasEmptyAnswer && !leftElementHasNoAnswer && !rightElementHasNoAnswer)
+
+    return allDroppableAnswersAreValid && allPairsAreValid
 }
 
 function solutionBuilder() {
-    validateSolution()
-    let solution = {
+    const solution = {
         Pairs: pairs.value,
         RightElements: rightElements.value,
         IsSolutionOrdered: solutionIsOrdered.value
     }
-    emit('setMatchListJson', solution)
+    emit('setMatchListJson', { solution: JSON.stringify(solution), solutionIsValid: validateSolution() })
 }
 
 function initSolution() {
@@ -41,7 +38,6 @@ function initSolution() {
         rightElements.value = json.RightElements
         solutionIsOrdered.value = json.IsSolutionOrdered
         solutionBuilder()
-        validateSolution()
     }
 }
 
@@ -85,17 +81,17 @@ function addRightElement() {
                     class="field-error-container">
                     <div class="field-error">Bitte gib ein linkes Element an.</div>
                 </div>
-                <input type="text" class="form-control col-sm-10" :id="'left-' + index" v-model="pair.ElementLeft.Text"
-                    placeholder="Linkes Element" v-on:change="solutionBuilder()"
+                <input type="text" class="form-control col-sm-10 matchlist-input" :id="'left-' + index"
+                    v-model="pair.ElementLeft.Text" placeholder="Linkes Element" v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields }">
-                <font-awesome-icon icon="fa-solid fa-arrow-right" class="col-sm-2 col-spacer" />
+                <font-awesome-icon icon="fa-solid fa-arrow-right" class="col-sm-2 col-spacer fa-icon" />
             </div>
             <div class="matchlist-right form-group">
                 <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields"
                     class="field-error-container">
                     <div class="field-error">Bitte wähle ein rechtes Element aus.</div>
                 </div>
-                <select v-model="pair.ElementRight.Text" :id="'right-' + index" class="col-sm-10"
+                <select v-model="pair.ElementRight.Text" :id="'right-' + index" class="col-sm-10 matchlist-select"
                     v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementRight.Text.length <= 0 && props.highlightEmptyFields }">
                     <option disabled selected value="" hidden>Rechtes Element</option>
@@ -119,8 +115,8 @@ function addRightElement() {
             <div class="matchlist-right">
                 <div v-for="(element, i) in rightElements" :key="i" class="form-group">
                     <div class="d-flex">
-                        <input type="text" class="form-control col-sm-10" :id="i.toString()" v-model="element.Text"
-                            placeholder="" v-on:change="solutionBuilder()"
+                        <input type="text" class="form-control col-sm-10 matchlist-input" :id="i.toString()"
+                            v-model="element.Text" placeholder="" v-on:change="solutionBuilder()"
                             :class="{ 'is-empty': i == 0 && element.Text.length <= 0 && props.highlightEmptyFields }">
                         <div @click="deleteRightElement(i)" class="btn grey-bg col-sm-2 col-spacer">
                             <font-awesome-icon icon="fa-solid fa-trash" />
@@ -153,3 +149,86 @@ function addRightElement() {
 
     </div>
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+
+
+.matchlist-container {
+
+    .matchlist-input,
+    .matchlist-select {
+        padding: 6px 12px;
+    }
+
+    select {
+        height: 34px;
+        width: 190px;
+
+        option {
+            &:disabled {
+                font-style: italic;
+            }
+        }
+
+        &:focus,
+        &:focus-visible {
+            border: solid 1px @memo-green;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .matchlist-options,
+    .matchlist-pairs {
+        display: flex;
+        justify-content: space-between;
+
+        input,
+        select,
+        .input-group {
+            width: 100%;
+        }
+
+        .matchlist-left,
+        .matchlist-right {
+            width: 50%;
+
+            .fa-icon {
+                box-sizing: border-box !important;
+            }
+        }
+    }
+
+    .matchlist-options {
+        @media (max-width:576px) {
+            flex-direction: column;
+
+            .matchlist-left,
+            .matchlist-right {
+                width: 100%;
+            }
+
+            .matchlist-right {
+                margin-top: 26px;
+            }
+
+            .xs-hide {
+                &.col-spacer {
+                    min-width: 0px;
+                    width: 0px;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+.col-spacer {
+    min-width: 38px;
+}
+</style>

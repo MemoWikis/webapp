@@ -103,14 +103,6 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         const userStore = useUserStore()
         let sessionConfig = new SessionConfig()
 
-        const storedSessionConfig = process.client ? localStorage.getItem('learningSessionConfiguration') : null
-        if (userStore.isLoggedIn && storedSessionConfig != null) {
-            const sessionConfigState: StoredSessionConfig = JSON.parse(storedSessionConfig)
-            if (sessionConfigState.userId == userStore.id)
-                return sessionConfigState.state
-        }
-
-
         return {
             topicId: 0,
             order: QuestionOrder.Random,
@@ -172,49 +164,49 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
     actions: {
         setCounter(e: any) {
             if (e != null) {
-                this.questionFilterOptions.inWuwi.count = e.InWuwi;
-                this.questionFilterOptions.notInWuwi.count = e.NotInWuwi;
-                this.questionFilterOptions.createdByCurrentUser.count = e.CreatedByCurrentUser;
-                this.questionFilterOptions.notCreatedByCurrentUser.count = e.NotCreatedByCurrentUser;
-                this.questionFilterOptions.privateQuestions.count = e.Private;
-                this.questionFilterOptions.publicQuestions.count = e.Public;
+                this.questionFilterOptions.inWuwi.count = e.InWuwi
+                this.questionFilterOptions.notInWuwi.count = e.NotInWuwi
+                this.questionFilterOptions.createdByCurrentUser.count = e.CreatedByCurrentUser
+                this.questionFilterOptions.notCreatedByCurrentUser.count = e.NotCreatedByCurrentUser
+                this.questionFilterOptions.privateQuestions.count = e.Private
+                this.questionFilterOptions.publicQuestions.count = e.Public
 
-                this.knowledgeSummary.notLearned.count = e.NotLearned;
-                this.knowledgeSummary.needsLearning.count = e.NeedsLearning;
-                this.knowledgeSummary.needsConsolidation.count = e.NeedsConsolidation;
-                this.knowledgeSummary.solid.count = e.Solid;
+                this.knowledgeSummary.notLearned.count = e.NotLearned
+                this.knowledgeSummary.needsLearning.count = e.NeedsLearning
+                this.knowledgeSummary.needsConsolidation.count = e.NeedsConsolidation
+                this.knowledgeSummary.solid.count = e.Solid
 
-                this.maxSelectableQuestionCount = e.Max;
+                this.maxSelectableQuestionCount = e.Max as number
 
                 if (!this.userHasChangedMaxCount)
-                    this.selectedQuestionCount = e.Max;
+                    this.selectedQuestionCount = e.Max as number
             }
         },
         startNewSession() {
 
         },
-        loadSessionFromLocalStorage() {
+        async loadSessionFromLocalStorage() {
             const userStore = useUserStore()
 
             if (userStore.isLoggedIn)
                 this.sessionConfigKey = `sessionConfig-u${userStore.id}`
 
-            var storedSession = localStorage.getItem(this.sessionConfigKey)
+            const storedSession = localStorage.getItem(this.sessionConfigKey)
 
             if (storedSession != null) {
-                var sessionConfig = JSON.parse(storedSession)
-                this.knowledgeSummary = sessionConfig.knowledgeSummary
-                this.questionFilterOptions = sessionConfig.questionFilterOptions
+                const sessionConfig = JSON.parse(storedSession)
+
+                if (userStore.isLoggedIn) {
+                    this.knowledgeSummary = sessionConfig.knowledgeSummary
+                    this.questionFilterOptions = sessionConfig.questionFilterOptions
+                }
                 this.userHasChangedMaxCount = sessionConfig.userHasChangedMaxCount
-                this.selectedQuestionCount = sessionConfig.selectedQuestionCount
+                this.selectedQuestionCount = sessionConfig.selectedQuestionCount as number
                 this.isTestMode = sessionConfig.isTestMode
                 this.isPracticeMode = sessionConfig.isPracticeMode
                 this.testOptions = sessionConfig.testOptions
                 this.practiceOptions = sessionConfig.practiceOptions
             }
-
-            var json = this.buildSessionConfigJson()
-            localStorage.setItem('sessionConfigJson', JSON.stringify(json))
         },
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
@@ -225,7 +217,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.saveSessionConfig()
         },
 
-        saveSessionConfig() {
+        async saveSessionConfig() {
             var sessionConfig = {
                 knowledgeSummary: this.knowledgeSummary,
                 questionFilterOptions: this.questionFilterOptions,
@@ -238,36 +230,12 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             }
 
             localStorage.setItem(this.sessionConfigKey, JSON.stringify(sessionConfig))
-            this.checkSettingChanges()
-        },
-
-        checkSettingChanges() {
-            var hasCustomSettings = false
-            var currentMode = JSON.parse(JSON.stringify({
-                testMode: this.isTestMode,
-                testOptions: this.testOptions,
-                isPracticeMode: this.isPracticeMode,
-                practiceOptions: this.practiceOptions
-            }))
-
-            var changedMode = !_.isEqual(JSON.stringify(this.defaultMode), JSON.stringify(currentMode))
-
-            if (!this.allQuestionFilterOptionsAreSelected ||
-                !this.allKnowledgeSummaryOptionsAreSelected ||
-                this.userHasChangedMaxCount ||
-                changedMode)
-                hasCustomSettings = true
-        },
-
-        goToLogin() {
-            const userStore = useUserStore()
-            userStore.openLoginModal()
         },
 
         selectAllKnowledgeSummary() {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
-                // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
+                userStore.openLoginModal()
                 return
             }
 
@@ -282,7 +250,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         selectKnowledgeSummary(summary: any, loadCustomSession = true, force: boolean | null = null) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
-                // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
+                userStore.openLoginModal()
                 return
             }
 
@@ -319,7 +287,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         selectAllQuestionFilter() {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
-                // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
+                userStore.openLoginModal()
                 return
             }
             var force = this.allQuestionFilterOptionsAreSelected ? false : true
@@ -336,7 +304,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         selectQuestionFilter(option: any, loadCustomSession = true, force: boolean | null = null) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
-                // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
+                userStore.openLoginModal()
                 return
             }
 
@@ -442,8 +410,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.selectedQuestionCount = count
             this.lazyLoadCustomSession()
         },
-        setSelectedQuestionCount(e: number) {
-            var val = e
+        setSelectedQuestionCount(val: number) {
             this.questionCountIsInvalid = val <= 0 || isNaN(val) || val == null
             this.userHasChangedMaxCount = true
             if (this.questionCountIsInvalid)
@@ -514,7 +481,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         selectPracticeOption(key: string, val: number) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn && val == 2 && key == 'questionOrder') {
-                // NotLoggedIn.ShowErrorMsg('set-session-filter-options')
+                userStore.openLoginModal()
                 return
             }
             this.practiceOptions[key] = val

@@ -108,12 +108,12 @@ onMounted(() => {
         <EditorMenuBar :editor="editor" :heading="true" />
         <editor-content :editor="editor" class="col-xs-12" />
     </template>
-    <div class="col-xs-12" v-else-if="topic != null">
+    <!-- <div class="col-xs-12" v-else-if="topic != null">
         <div style="height:36px"></div>
         <div class="ProseMirror content-placeholder" v-html="topic.Content">
 
         </div>
-    </div>
+    </div> -->
 </template>
 
 <style lang="less" scoped>

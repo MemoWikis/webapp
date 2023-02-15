@@ -33,14 +33,6 @@ function getAnswerText(): string {
 }
 defineExpose({ getAnswerDataString, getAnswerText })
 
-function validate(c: Choice) {
-    if (props.showAnswer) {
-        if ((selected.value.indexOf(c.Text) >= 0 && c.IsCorrect) || (selected.value.indexOf(c.Text) < 0 && !c.IsCorrect))
-            return true
-        else return false
-    }
-}
-
 function getClass(c: Choice) {
     if (props.showAnswer && c.IsCorrect)
         return 'is-correct show-solution'
@@ -52,7 +44,7 @@ function getClass(c: Choice) {
 
 <template>
 
-    <div class="checkbox" v-for="choice in localChoices" :class="getClass(choice)">
+    <div v-for="choice in localChoices" :class="getClass(choice)">
         <label>
             <div class="checkbox-container">
                 <input type="checkbox" name="answer" :value="choice.Text" v-model="selected" class="hidden"
@@ -99,6 +91,8 @@ function getClass(c: Choice) {
     justify-items: space-between;
     align-items: center;
     width: 100%;
+    padding-left: 0px;
+    cursor: pointer;
 
     .checkbox-icon {
         font-size: 18px;

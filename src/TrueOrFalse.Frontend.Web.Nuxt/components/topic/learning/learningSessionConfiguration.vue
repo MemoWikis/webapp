@@ -634,7 +634,7 @@ function closeKnowledgeSummaryDropdown() {
 
     .input-is-active,
     .is-open {
-        border: solid 1px @memo-blue;
+        border: solid 1px @memo-green;
     }
 
     .input-error {

@@ -21,7 +21,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
                 .All;
 
             EntityCache.Init();
-            var editCategoryController = new EditCategoryController();
+            var editCategoryController = new EditCategoryController(categoryRepo);
 
             var child = all.ByName("D");
             var parent = all.ByName("B");
@@ -61,7 +61,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             var context = ContextCategory.New();
             var all = context.Add("A").Add("B").Add("C").Add("D").Persist().All;
             EntityCache.Init();
-            var editCategoryController = new EditCategoryController();
+            var editCategoryController = new EditCategoryController(categoryRepo);
 
 
             var childC = all.ByName("C");
@@ -154,7 +154,7 @@ namespace TrueOrFalse.Tests._2_Domain.Category
             var questionInWuwiWiki = contextCategory.All.ByName("questionInWuwis Startseite");
 
 
-            var editCategoryController = new EditCategoryController();
+            var editCategoryController = new EditCategoryController(categoryRepo);
             var categoryValuationRepo = Sl.CategoryValuationRepo;
 
             EntityCache.Init();

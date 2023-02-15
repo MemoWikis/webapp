@@ -1,12 +1,21 @@
 <script lang="ts" setup>
 import { Page } from '~~/components/shared/pageEnum'
+import { Message } from '~~/components/user/messages/message'
+
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
     emit('setPage', Page.Messages)
 })
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: model } = await useFetch<any>(`/apiVue/VueUserMessages/Get/`, {
+
+interface MessageResult {
+    notLoggedIn?: boolean
+    messages?: Message[]
+    readCount?: number
+}
+
+const { data: model } = await useFetch<MessageResult>(`/apiVue/UserMessages/Get/`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -17,32 +26,31 @@ const { data: model } = await useFetch<any>(`/apiVue/VueUserMessages/Get/`, {
     }
 })
 
-async function loadAll() {
-}
+const forceShow = ref(false)
 
 </script>
 
 <template>
     <div class="container main-page">
 
-        <div class="row">
-            <div class="col-md-9" v-if="model">
-
-                <h1 style="margin-top: 0; margin-bottom: 20px;">
-                    <span class="ColoredUnderline Message" style="padding-right: 3px;">Nachrichten</span>
+        <div class="row mt-45 messages-container">
+            <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
+                <h1>
+                    <span class="ColoredUnderline Message">Nachrichten</span>
                 </h1>
                 <div id="messagesWrapper">
-                    <UserMessagesRows v-if="model.Messages != null" v-for="msg in model.Messages" :msg="msg" />
-                    <div class="alert alert-info" v-if="model.Messages.filter((m: any) => !m.IsRead).length == 0">
+                    <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages" :message="message"
+                        :force-show="forceShow" />
+                    <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length == 0">
                         Du hast aktuell keine ungelesenen Nachrichten.
                     </div>
 
-                    <p v-if="model.ReadMessagesCount > 0">
-                        Du hast {{ model.ReadMessagesCount }} gelesene Nachricht{{
-                            model.ReadMessagesCount == 0 ||
-                                model.ReadMessagesCount > 1 ? 'en' : ''
+                    <p v-if="model.readCount > 0">
+                        Du hast {{ model.readCount }} gelesene Nachricht{{
+                            model.readCount == 0 ||
+                                model.readCount > 1 ? 'en' : ''
                         }}.
-                    <div @click="loadAll()">Alle anzeigen</div>.
+                    <div v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</div>.
                     </p>
 
                 </div>
@@ -54,7 +62,30 @@ async function loadAll() {
 </template>
 
 <style lang="less" scoped>
+@import '~~/assets/views/answerQuestion.less';
+
+.click {
+    cursor: pointer;
+
+    &:hover {
+        color: @memo-blue-link;
+    }
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.Message {
+    padding-right: 3px;
+}
+
 .container {
     min-height: 400px;
+}
+
+.messages-container {
+    padding-bottom: 45px;
 }
 </style>

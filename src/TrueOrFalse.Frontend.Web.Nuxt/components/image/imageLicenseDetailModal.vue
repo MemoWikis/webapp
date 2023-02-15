@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { handleNewLine } from '../shared/utils'
 import { useImageLicenseStore } from './imageLicenseStore'
 const imageLicenseStore = useImageLicenseStore()
 </script>
@@ -13,7 +14,7 @@ const imageLicenseStore = useImageLicenseStore()
                 <img :src="imageLicenseStore.url" />
                 <div class="ImageInfo">
                     <div v-if="imageLicenseStore.attributionHtmlString.length > 0"
-                        v-html="imageLicenseStore.attributionHtmlString"> </div>
+                        v-html="handleNewLine(imageLicenseStore.attributionHtmlString)"> </div>
                     <div class="description" v-if="imageLicenseStore.description.length > 0">
                         <span class="InfoLabel">Beschreibung:</span>
                         {{ imageLicenseStore.description }}

@@ -9,6 +9,7 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 interface Question {
   answerBodyModel: AnswerBodyModel
   solutionData: SolutionData
+  answerQuestionDetailsModel: any
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/VueQuestion/GetQuestionPage/${route.params.id}`,
@@ -33,20 +34,24 @@ onBeforeMount(() => {
       title: question.value.answerBodyModel.title
     })
 })
+
+const { isDesktop } = useDevice()
 </script>
 
 <template>
   <div class="container main-page">
-    <div v-if="question" class="question-page-container row">
-      <QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
-        :landing-page-solution-data="question.solutionData" />
+    <div v-if="question" class="question-page-container row mt-45">
+      <div class="col-lg-9 col-md-12 container">
+        <QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
+          :landing-page-solution-data="question.solutionData" />
+      </div>
+      <Sidebar />
     </div>
   </div>
 </template>
 
 <style scoped lang="less">
 .question-page-container {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-bottom: 80px;
 }
 </style>
