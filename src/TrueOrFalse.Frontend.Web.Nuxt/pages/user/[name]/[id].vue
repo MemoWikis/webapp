@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { propsToAttrMap } from '@vue/shared';
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
 import { Tab } from '~~/components/user/tabs/tabsEnum';
 import { useUserStore } from '~~/components/user/userStore'
@@ -36,7 +37,7 @@ interface User {
     id: number
     name: string
     wikiUrl?: string
-    imageUrl?: string
+    imageUrl: string
     reputationPoints: number
     rank: number
 }
@@ -71,6 +72,7 @@ const maxBadgeCount = ref(0)
 function setTab(t: Tab) {
     tab.value = t
 }
+
 </script>
 
 <template>
@@ -79,7 +81,7 @@ function setTab(t: Tab) {
             <div class="col-xs-12 container" v-if="profile">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">
-                        <Image :style="ImageStyle.Author" :url="''" class="profile-picture" />
+                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture" />
                         <div class="profile-header-info">
                             <h1>{{ profile.user.name }}</h1>
                             <div>
@@ -196,7 +198,7 @@ function setTab(t: Tab) {
 
                         </div>
                     </div>
-                    <UserSettings v-else-if="tab == Tab.Settings" />
+                    <UserSettings v-else-if="tab == Tab.Settings" :image-url="profile.user.imageUrl" />
                 </Transition>
             </div>
         </div>

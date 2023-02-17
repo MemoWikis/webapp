@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row">           
             <div class="col-xs-9 xxs-stack">
                 <% Html.Message(Model.Message); %>
             </div>
@@ -62,7 +62,7 @@
                 <div id="imageUpload" style="display: none">
                     <% using (Html.BeginForm("UploadPicture", "UserSettings", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
                        { %>
-                        <input type="file" accept="image/*" name="file" id="file" />
+                            <input type="file" accept="image/*" name="file" id="file" />
                         <input class="cancel" type="submit" value="Hochladen" />
                     <% } %>
                 </div>

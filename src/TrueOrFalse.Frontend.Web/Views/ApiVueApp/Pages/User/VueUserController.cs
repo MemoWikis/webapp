@@ -27,7 +27,7 @@ public class VueUserController : BaseController
                     id = user.Id,
                     name = user.Name,
                     wikiUrl = PermissionCheck.CanView(userWiki) ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId : null,
-                    imageUrl = new UserImageSettings(user.Id).GetUrl_250px(user),
+                    imageUrl = new UserImageSettings(user.Id).GetUrl_250px(user).Url, 
                     reputationPoints = reputation.TotalReputation,
                     rank = user.ReputationPos
                 },

@@ -2,6 +2,12 @@
 import { useUserStore } from './userStore'
 import { ImageStyle } from '../image/imageStyleEnum'
 
+interface Props {
+    imageUrl?: string
+}
+
+const props = defineProps<Props>()
+
 const userStore = useUserStore()
 enum Content {
     //Profile Information
@@ -17,12 +23,152 @@ enum Content {
     General,
     KnowledgeReport
 }
-const activeContent = ref<Content>()
+const activeContent = ref<Content>(Content.EditProfile)
+
+const userName = ref<string>(userStore.name)
+const email = ref<string>(userStore.email)
+
+const currentPassword = ref<string>('')
+const newPassword = ref<string>('')
+const repeatedPassword = ref<string>('')
+
+const showWuwi = ref(false)
+const allowSupportLogin = ref(false)
+
+
+// NotificationInterval is UserSettingNotificationInterval in backend
+
+
+function onFileChange(e: any) {
+    var files = e.target.files || e.dataTransfer.files
+    if (!files.length)
+        return
+    createImage(files[0])
+}
+const imgFile = ref<File>()
+const imageUrl = ref('')
+onBeforeMount(() => {
+    if (props.imageUrl)
+        imageUrl.value = props.imageUrl
+})
+function createImage(file: File) {
+    imgFile.value = file
+    const previewImgUrl = URL.createObjectURL(file)
+    imageUrl.value = previewImgUrl
+}
+
+function removeImage() {
+
+}
+
+async function saveProfileInformation() {
+    let formData = new FormData()
+
+    if (imgFile.value != null)
+        formData.append('file', imgFile.value)
+
+    if (email.value.trim() != '' && email.value != userStore.email)
+        formData.append('email', email.value)
+
+    if (userName.value.trim() != '' && userName.value != userStore.name)
+        formData.append('username', userName.value)
+
+    formData.append('id', userStore.id.toString())
+
+    const result = await $fetch('/apiVue/UserSettings/SaveProfileInformations', {
+        mode: 'cors',
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+    })
+}
+
+async function saveNewPassword() {
+
+    if (currentPassword.value.length <= 0 || newPassword.value.length <= 0 || repeatedPassword.value.length <= 0)
+        return
+
+    if (newPassword.value != repeatedPassword.value)
+        return
+
+    const result = await $fetch('/apiVue/UserSettings/ChangePassword', {
+        mode: 'cors',
+        method: 'POST',
+        body: {
+            currentPassword: currentPassword.value,
+            newPassword: newPassword.value
+        },
+        credentials: 'include'
+    })
+
+    if (result) {
+
+    }
+}
+
+async function saveWuwiVisibility() {
+
+    const result = await $fetch('/apiVue/UserSettings/ChangeWuwiVisibility', {
+        mode: 'cors',
+        method: 'POST',
+        body: {
+            showWuwi: showWuwi.value
+        },
+        credentials: 'include'
+    })
+
+    if (result) {
+
+    }
+}
+async function saveSupportLoginRights() {
+
+    const result = await $fetch('/apiVue/UserSettings/ChangeSupportLoginRights', {
+        mode: 'cors',
+        method: 'POST',
+        body: {
+            allowSupportiveLogin: allowSupportLogin.value
+        },
+        credentials: 'include'
+    })
+
+    if (result) {
+
+    }
+}
+
+enum NotifcationInterval {
+    NotSet = 0,
+    Never = 1,
+    Daily = 2,
+    Weekly = 3,
+    Monthly = 4,
+    Quarterly = 5
+}
+const selectedNotificationInterval = ref<NotifcationInterval>(NotifcationInterval.Weekly)
+
+const getNotificationIntervalText = computed(() => {
+    switch (selectedNotificationInterval.value) {
+
+        case NotifcationInterval.Never:
+            return 'Nie'
+        case NotifcationInterval.Daily:
+            return 'Täglich'
+        case NotifcationInterval.Weekly:
+            return 'Wöchentlich'
+        case NotifcationInterval.Monthly:
+            return 'Monatlich'
+        case NotifcationInterval.Quarterly:
+            return 'Vierteljährlich'
+        default:
+            return 'Nicht ausgewählt'
+    }
+})
 </script>
 
 <template>
     <div class="row">
-        <div class="col-lg-3 navigation">
+        <div class="col-lg-3 col-xs-3 navigation">
             <div class="overline-s no-line">Profil Informationen</div>
             <button @click="activeContent = Content.EditProfile">Profil bearbeiten</button>
             <button @click="activeContent = Content.Password">Passwort</button>
@@ -40,44 +186,286 @@ const activeContent = ref<Content>()
 
             <div class="divider"></div>
         </div>
-        <div class="col-lg-9 settings-content">
+        <div class="col-lg-9 col-xs-9 settings-content">
             <Transition>
                 <div v-if="activeContent == Content.EditProfile" class="content">
-                    <div class="overline-s no-line">Profilbild</div>
-                    <Image :url="userStore.imgUrl" :style="ImageStyle.Author" />
+                    <div class="settings-section">
+                        <div class="overline-s no-line">Profilbild</div>
+                        <Image :url="imageUrl" :style="ImageStyle.Author" class="profile-picture" />
+                        <div class="img-settings-btns">
+
+                            <div>
+                                <label class="img-upload-btn" for="imageUpload">
+                                    <input type="file" accept="image/*" name="file" id="imageUpload"
+                                        v-on:change="onFileChange" />
+                                    <font-awesome-icon icon="fa-solid fa-upload" />
+                                    Bild hochladen
+                                </label>
+                                <span>{{ imgFile?.name }}</span>
+                            </div>
+
+                            <div>
+                                <button class="img-delete-btn" @click="removeImage()">
+                                    <font-awesome-icon icon="fa-solid fa-trash" /> Profilbild entfernen
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="input-container">
+                            <div class="overline-s no-line">Nutzername</div>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-lg-6">
+                                        <input name="username" placeholder="" type="text" width="0" v-model="userName"
+                                            class="settings-input" id="username">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="overline-s no-line">E-Mail</div>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-lg-6">
+                                        <input name="email" placeholder="" type="email" width="0" v-model="email"
+                                            class="settings-input" id="email">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <button class="memo-btn btn btn-primary" @click="saveProfileInformation()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Speichern
+                        </button>
+                    </div>
                 </div>
-                <div v-else-if="activeContent == Content.Password" class="content"></div>
-                <div v-else-if="activeContent == Content.DeleteProfile" class="content"></div>
-                <div v-else-if="activeContent == Content.ShowWuwi" class="content"></div>
-                <div v-else-if="activeContent == Content.SupportLogin" class="content"></div>
+
+                <div v-else-if="activeContent == Content.Password" class="content">
+                    <div class="settings-section">
+                        <div class="input-container">
+                            <div class="overline-s no-line">Altes Passwort</div>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-lg-6">
+                                        <input placeholder="" type="password" width="0" v-model="currentPassword"
+                                            class="settings-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="overline-s no-line">Neues Passwort</div>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-lg-6">
+                                        <input placeholder="" type="password" width="0" v-model="newPassword"
+                                            class="settings-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="overline-s no-line">Neues Passwort wiederholen</div>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-lg-6">
+                                        <input placeholder="" type="password" width="0" v-model="repeatedPassword"
+                                            class="settings-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <button class="memo-btn btn btn-primary" @click="saveNewPassword()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Passwort ändern
+                        </button>
+                    </div>
+                </div>
+
+                <div v-else-if="activeContent == Content.DeleteProfile" class="content">
+                </div>
+
+                <div v-else-if="activeContent == Content.ShowWuwi" class="content">
+                    <div class="settings-section">
+                        <label class="checkbox-section">
+                            <div class="checkbox-container">
+                                <input type="checkbox" name="answer" :value="true" v-model="showWuwi" class="hidden" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi"
+                                    class="checkbox-icon" />
+                                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
+                            </div>
+                            <div class="checkbox-label">
+                                <div class="overline-s no-line">
+                                    Wunschwissen zeigen
+                                </div>
+                                <p>
+                                    Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind
+                                    (außer
+                                    private Fragen). Antwortstatistiken werden nicht angezeigt.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="settings-section">
+                        <button class="memo-btn btn btn-primary" @click="saveWuwiVisibility()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Speichern
+                        </button>
+                    </div>
+                </div>
+
+                <div v-else-if="activeContent == Content.SupportLogin" class="content">
+                    <div class="settings-section">
+                        <label class="checkbox-section">
+                            <div class="checkbox-container">
+                                <input type="checkbox" name="answer" :value="true" v-model="allowSupportLogin"
+                                    class="hidden" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="allowSupportLogin"
+                                    class="checkbox-icon" />
+                                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
+                            </div>
+                            <div class="checkbox-label">
+                                <div class="overline-s no-line">
+                                    Support-Login zulassen
+                                </div>
+                                <p>
+                                    Achtung: Das ist nur nach Rücksprache mit dem memucho-Team nötig! Wenn du den
+                                    Support-Login
+                                    aktivierst, können sich Mitarbeiter von memucho zur Fehlerbehebung oder zu deiner
+                                    Unterstützung in deinem Nutzerkonto einloggen, selbstverständlich ohne dein Passwort
+                                    zu
+                                    benötigen oder sehen zu können.
+                                </p>
+                            </div>
+                        </label>
+
+                    </div>
+                    <div class="settings-section">
+                        <button class="memo-btn btn btn-primary" @click="saveSupportLoginRights()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Speichern
+                        </button>
+                    </div>
+                </div>
+
                 <div v-else-if="activeContent == Content.General" class="content"></div>
-                <div v-else-if="activeContent == Content.KnowledgeReport" class="content"></div>
+
+                <div v-else-if="activeContent == Content.KnowledgeReport" class="content">
+                    <div class="settings-section">
+                        <div class="overline-s no-line">
+                            Wissensbericht per E-Mail:
+                        </div>
+                        <div class="interval-dropdown">
+                            <V-Dropdown :distance="0">
+                                <div class="interval-select">
+                                    {{ getNotificationIntervalText }}
+                                </div>
+
+                                <template #popper="{ hide }">
+                                    <div class="dropdown-row interval-row"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Quarterly }">
+                                        <div class="dropdown-label interval-option">
+                                            Vierteljährlich
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-row"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Monthly }">
+                                        <div class="dropdown-label interval-option">
+                                            Monatlich
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-row interval-row"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Weekly }">
+                                        <div class="dropdown-label interval-option">
+                                            Wöchentlich
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-row interval-row"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Daily }">
+                                        <div class="dropdown-label interval-option">
+                                            Täglich
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-row interval-row"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Never }">
+                                        <div class="dropdown-label interval-option">
+                                            Nie
+                                        </div>
+                                    </div>
+
+                                </template>
+                            </V-Dropdown>
+                        </div>
+
+                        <p>
+                            Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem
+                            <font-awesome-icon icon="fa-solid fa-heart" />
+                            Wunschwissen, über anstehende Termine und über neue Inhalte bei memucho. Er wird nur
+                            verschickt, wenn du Wunschwissen hast.
+                        </p>
+                    </div>
+
+                </div>
             </Transition>
         </div>
     </div>
 </template>
 
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.dropdown-label {
+    &.interval-option {
+        padding-left: 0px !important;
+        width: 150px;
+    }
+}
+
+.dropdown-row {
+    &.interval-row {
+        &.active {
+            color: @memo-blue;
+            // font-weight: 700;
+            background: @memo-grey-lighter;
+        }
+    }
+}
+</style>
+
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.divider {
-    margin-top: 20px;
-    height: 1px;
-    background: @memo-grey-lighter;
-    width: 100%;
-    margin-bottom: 10px;
+p {
+    margin: 10px 0;
 }
 
-button {
-    background: white;
-    text-align: left;
-    color: @memo-grey-dark;
-    padding: 12px 0;
-    border-radius: 24px;
+.interval-dropdown {
+    width: 190px;
+}
 
-    &.active {
-        color: @memo-blue-link;
-    }
+.interval-select {
+    padding: 6px 12px;
+    height: 34px;
+    width: 190px;
+    cursor: pointer;
+    border: solid 1px @memo-grey-light;
+    background: white;
 
     &:hover {
         color: @memo-blue;
@@ -87,23 +475,127 @@ button {
     &:active {
         filter: brightness(0.85)
     }
+
 }
+
+
+
+.checkbox-section {
+    cursor: pointer;
+    display: flex;
+    flex-wrap: nowrap;
+
+    .checkbox-label {
+        .overline-s {
+            margin-top: 0;
+            padding-top: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.settings-input {
+    resize: none;
+    height: 44px;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 15px 0;
+    border: solid @memo-grey-light 1px;
+    box-shadow: none;
+    color: @memo-grey-dark !important;
+}
+
+.settings-section {
+    margin-bottom: 40px;
+}
+
+.profile-picture {
+    width: 166px;
+    height: 166px;
+    margin: 10px 0;
+}
+
+.img-settings-btns {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .img-upload-btn,
+    .img-delete-btn {
+        input[type="file"] {
+            display: none;
+        }
+
+        border-radius: 24px;
+
+        color: @memo-blue-link;
+        cursor: pointer;
+        background: white;
+        padding: 6px 12px;
+        border: none;
+        text-align: left;
+
+        &:hover {
+            color: @memo-blue;
+            // filter: brightness(0.95)
+        }
+
+        &:active {
+            // filter: brightness(0.85)
+        }
+    }
+}
+
+
+
+.divider {
+    margin-top: 20px;
+    height: 1px;
+    background: @memo-grey-lighter;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
 
 .navigation {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+
+    button {
+        background: white;
+        text-align: left;
+        color: @memo-grey-dark;
+        padding: 12px 20px;
+        border-radius: 24px;
+
+        &.active {
+            color: @memo-blue-link;
+        }
+
+        &:hover {
+            color: @memo-blue;
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
+        }
+    }
+
+    .overline-s,
+    button {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
 }
 
 .overline-s {
     margin: 5px 0;
 }
 
-.overline-s,
-button {
-    padding-left: 20px;
-    padding-right: 20px;
-}
 
 .navigation,
 .settings-content {

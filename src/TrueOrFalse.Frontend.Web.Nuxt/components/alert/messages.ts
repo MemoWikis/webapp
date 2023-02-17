@@ -11,7 +11,11 @@ export const messages: any = {
             saved: "Deine Frage wurde erfolgreich gespeichert.",
             delete: "Deine Frage wurde erfolgreich gelöscht."
         },
-        user: {}
+        user: {
+            profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
+            passwordChange: "Dein Passwort wurde erfolgreich geändert."
+
+        }
     },
     error: {
         category: {
@@ -43,8 +47,9 @@ export const messages: any = {
         },
         user: {
             emailInUse: "Die Email-Adresse ist bereits in Verwendung.",
-            userNameInUse: "Dieser Benutzername ist bereits vergeben"
-        } as {[key: string]: string },
+            userNameInUse: "Dieser Benutzername ist bereits vergeben.",
+            passwordIsWrong: "Falsches Passwort. Gib das Passwort erneut ein."
+        } as { [key: string]: string },
         default: "Ein Fehler ist aufgetreten.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."

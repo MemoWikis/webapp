@@ -154,7 +154,6 @@ function addRightElement() {
 @import (reference) '~~/assets/includes/imports.less';
 
 
-
 .matchlist-container {
 
     .matchlist-input,
