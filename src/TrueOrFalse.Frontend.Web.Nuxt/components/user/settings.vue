@@ -75,7 +75,7 @@ async function saveProfileInformation() {
 
     formData.append('id', userStore.id.toString())
 
-    const result = await $fetch('/apiVue/UserSettings/SaveProfileInformations', {
+    const result = await $fetch('/apiVue/VueUserSettings/SaveProfileInformations', {
         mode: 'cors',
         method: 'POST',
         body: formData,
@@ -91,7 +91,7 @@ async function saveNewPassword() {
     if (newPassword.value != repeatedPassword.value)
         return
 
-    const result = await $fetch('/apiVue/UserSettings/ChangePassword', {
+    const result = await $fetch('/apiVue/VueUserSettings/ChangePassword', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -108,7 +108,7 @@ async function saveNewPassword() {
 
 async function saveWuwiVisibility() {
 
-    const result = await $fetch('/apiVue/UserSettings/ChangeWuwiVisibility', {
+    const result = await $fetch('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -123,7 +123,7 @@ async function saveWuwiVisibility() {
 }
 async function saveSupportLoginRights() {
 
-    const result = await $fetch('/apiVue/UserSettings/ChangeSupportLoginRights', {
+    const result = await $fetch('/apiVue/VueUserSettings/ChangeSupportLoginRights', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -300,8 +300,7 @@ const getNotificationIntervalText = computed(() => {
                         <label class="checkbox-section">
                             <div class="checkbox-container">
                                 <input type="checkbox" name="answer" :value="true" v-model="showWuwi" class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi"
-                                    class="checkbox-icon" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi" class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">

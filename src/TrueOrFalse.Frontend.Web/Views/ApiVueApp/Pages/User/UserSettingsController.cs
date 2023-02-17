@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class UserSettingsController : BaseController
+public class VueUserSettingsController : BaseController
 {
     public class ProfileInformation
     {

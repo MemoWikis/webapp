@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { propsToAttrMap } from '@vue/shared';
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
 import { Tab } from '~~/components/user/tabs/tabsEnum';
 import { useUserStore } from '~~/components/user/userStore'
@@ -84,18 +83,20 @@ function setTab(t: Tab) {
                         <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture" />
                         <div class="profile-header-info">
                             <h1>{{ profile.user.name }}</h1>
-                            <div>
-                                {{ profile.user.reputationPoints }} Reputationspunkte (Rang {{ profile.user.rank }})
-                                <NuxtLink>
+                            <div class="sub-info">
+                                <b>{{ profile.user.reputationPoints }}</b> Reputationspunkte
+                                <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
+                                (Rang {{ profile.user.rank }})
+                                <NuxtLink class="link-to-all-users">
                                     Zur Übersicht aller Nutzer
                                 </NuxtLink>
                             </div>
-                            <div>
+                            <div class="profile-btn-container">
                                 <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
                                     <div class="memo-btn btn btn-primary">
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
-                                        Zu {{ isCurrentUser? 'meinem': `${profile.user.name}s` }} Wiki
+                                        Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
                                     </div>
                                 </NuxtLink>
                             </div>
@@ -208,8 +209,8 @@ function setTab(t: Tab) {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.content {
 
+.content {
     .overview-partial {
         padding-top: 50px;
     }
@@ -226,6 +227,23 @@ function setTab(t: Tab) {
     }
 
     .profile-header-info {}
+
+    .sub-info {
+        font-size: 18px;
+        margin-bottom: 10px;
+
+        .info-icon {
+            color: @memo-grey-light;
+            margin-right: 4px;
+        }
+
+        .link-to-all-users {
+            font-size: 14px;
+        }
+    }
+
+    .profile-btn-container {}
+
 }
 
 .divider {
