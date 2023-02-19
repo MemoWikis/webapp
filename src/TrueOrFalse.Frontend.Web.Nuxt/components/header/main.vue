@@ -85,8 +85,8 @@ const partialSpacer = ref()
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
                             <div class="StickySearch">
-                                <Search :search-type="SearchType.All" :show-search="showSearch"
-                                    v-on:select-item="openUrl" placement="bottom-end" />
+                                <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
+                                    placement="bottom-end" />
                             </div>
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
@@ -142,9 +142,11 @@ const partialSpacer = ref()
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                <NuxtLink to="/Registrieren">
-                                    <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
-                                </NuxtLink>
+                                <div navigate class="btn memo-button register-btn">
+                                    <NuxtLink to="/Registrieren">
+                                        Kostenlos registrieren!
+                                    </NuxtLink>
+                                </div>
                             </div>
 
                         </div>
@@ -162,7 +164,7 @@ const partialSpacer = ref()
 .nav-options-container {
     position: fixed;
     top: 0;
-    height: 45px;
+    height: 43px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -326,7 +328,7 @@ const partialSpacer = ref()
             }
 
             @media (min-width: 1200px) {
-                margin-right: 31px;
+                margin-right: 33px;
             }
         }
     }

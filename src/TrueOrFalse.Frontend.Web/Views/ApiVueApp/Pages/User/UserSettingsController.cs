@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace VueApp;
@@ -22,7 +23,7 @@ public class VueUserSettingsController : BaseController
 
         if (form.email != null && form.email.Trim() != SessionUser.User.EmailAddress && IsEmailAddressAvailable.Yes(form.email))
             SessionUser.User.EmailAddress = form.email.Trim();
-        else if(!IsEmailAddressAvailable.Yes(form.email))
+        else if(form.email != null && !IsEmailAddressAvailable.Yes(form.email))
             return Json(new
                 {
                     success = false,
@@ -32,7 +33,7 @@ public class VueUserSettingsController : BaseController
 
         if (form.username != null && form.username.Trim() != SessionUser.User.Name && IsUserNameAvailable.Yes(form.username))
             SessionUser.User.Name = form.username.Trim();
-        else if (!IsUserNameAvailable.Yes(form.username))
+        else if (form.username != null && !IsUserNameAvailable.Yes(form.username))
             return Json(new
                 {
                     success = false,
@@ -100,6 +101,26 @@ public class VueUserSettingsController : BaseController
     public JsonResult ChangeSupportLoginRights(bool allowSupportiveLogin)
     {
         SessionUser.User.AllowsSupportiveLogin = allowSupportiveLogin;
+
+        EntityCache.AddOrUpdate(SessionUser.User);
+        Sl.UserRepo.Update(SessionUser.User);
+
+        return Json(true);
+    }
+
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult ChangeSupportLoginRights(UserSettingNotificationInterval notificationInterval)
+    {
+        DateTime expirationDate;
+        var result = UpdateKnowledgeReportInterval.Run(SessionUser.User, notificationInterval, expirationDate, Request["token"]);
+        var message = result.ResultMessage;
+        if (result.Success && ((UserCacheItem)SessionUser.User).Id == result.AffectedUser.Id)
+        {
+            SessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
+            userSettingsModel.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
+        }
 
         EntityCache.AddOrUpdate(SessionUser.User);
         Sl.UserRepo.Update(SessionUser.User);

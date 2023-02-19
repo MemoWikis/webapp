@@ -424,8 +424,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
             <div id="AnswerAndSolutionCol">
                 <div id="AnswerAndSolution">
-                    <div class="row"
-                        :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
+                    <div class="row" :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
                         <div id="AnswerInputSection">
                             <template v-if="answerBodyModel.solutionType != SolutionType.FlashCard">
                                 <Transition name="fade">
@@ -451,8 +450,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     @flipped="amountOfTries++" />
                                 <QuestionAnswerBodyMultipleChoice :key="answerBodyModel.id + 'multiplechoice'"
                                     v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
-                                    :solution="answerBodyModel.solution" :show-answer="showAnswer"
-                                    ref="multipleChoice" />
+                                    :solution="answerBodyModel.solution" :show-answer="showAnswer" ref="multipleChoice" />
                                 <QuestionAnswerBodyText :key="answerBodyModel.id + 'text'"
                                     v-else-if="answerBodyModel.solutionType == SolutionType.Text" ref="text"
                                     :show-answer="showAnswer" />
@@ -477,10 +475,10 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     <template
                                         v-if="answerBodyModel.solutionType == SolutionType.FlashCard && !flashCardAnswered">
 
-                                        <div class="btn btn-warning memo-button" @click="flip()"
+                                        <button class="btn btn-warning memo-button" @click="flip()"
                                             v-if="amountOfTries == 0">
                                             Umdrehen
-                                        </div>
+                                        </button>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" v-else>
                                             <button id="btnRightAnswer" class="btn btn-warning memo-button"
                                                 @click="answerFlashcard(true)">
@@ -517,7 +515,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     </template>
 
                                     <div v-if="learningSessionStore.isLearningSession
-                                    && !learningSessionStore.isInTestMode && amountOfTries == 0 && !showAnswer">
+                                        && !learningSessionStore.isInTestMode && amountOfTries == 0 && !showAnswer">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
@@ -543,8 +541,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     </div>
 
                                     <div v-else-if="learningSessionStore.currentStep?.isLastStep && amountOfTries > 0">
-                                        <button @click="loadResult()" class="btn btn-primary memo-button"
-                                            rel="nofollow">
+                                        <button @click="loadResult()" class="btn btn-primary memo-button" rel="nofollow">
                                             Zum Ergebnis
                                         </button>
                                     </div>
@@ -569,8 +566,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                 </div>
 
                                 <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
-                                        id="AnswerFeedback">
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard" id="AnswerFeedback">
                                         <div id="divAnsweredCorrect" v-if="answerIsCorrect">
                                             <b class="correct-answer-label">Richtig! </b>
                                             <div v-html="wellDoneMsg" v-if="wellDoneMsg.length > 0"></div>
@@ -580,8 +576,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                             <div class="solution-label">
                                                 Richtige Antwort:
                                             </div>
-                                            <div class="Content body-m"
-                                                v-html="handleNewLine(solutionData?.answerAsHTML)">
+                                            <div class="Content body-m" v-html="handleNewLine(solutionData?.answerAsHTML)">
                                             </div>
                                         </div>
 
@@ -643,13 +638,22 @@ const allMultipleChoiceCombinationTried = computed(() => {
     <div v-else-if="learningSessionStore.showResult">
         <QuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
     </div>
-
-
 </template>
 
 
 <style lang="less">
 @import '~~/assets/views/answerQuestion.less';
+
+#ButtonsAndSolution {
+    .btn-primary {
+        margin-right: 22px;
+    }
+}
+
+.ButtonGroup {
+    display: flex;
+    justify-content: flex-start;
+}
 
 #AnswerBody {
     transition: all 1s ease-in-out;
@@ -730,3 +734,5 @@ const allMultipleChoiceCombinationTried = computed(() => {
     color: @memo-red-wrong;
 }
 </style>
+
+<style lang="less" scoped></style>

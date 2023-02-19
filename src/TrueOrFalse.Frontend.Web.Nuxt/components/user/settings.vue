@@ -164,6 +164,23 @@ const getNotificationIntervalText = computed(() => {
             return 'Nicht ausgewählt'
     }
 })
+
+async function saveNotificationIntervalPreferences() {
+
+    const result = await $fetch('/apiVue/VueUserSettings/SaveNotificationIntervalPreferences', {
+        mode: 'cors',
+        method: 'POST',
+        body: {
+            notificationInterval: selectedNotificationInterval.value
+        },
+        credentials: 'include'
+    })
+
+    if (result) {
+
+    }
+}
+
 </script>
 
 <template>
@@ -238,7 +255,7 @@ const getNotificationIntervalText = computed(() => {
                         </div>
                     </div>
                     <div class="settings-section">
-                        <button class="memo-btn btn btn-primary" @click="saveProfileInformation()">
+                        <button class="memo-button btn btn-primary" @click="saveProfileInformation()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Speichern
                         </button>
@@ -285,7 +302,7 @@ const getNotificationIntervalText = computed(() => {
                     </div>
 
                     <div class="settings-section">
-                        <button class="memo-btn btn btn-primary" @click="saveNewPassword()">
+                        <button class="memo-button btn btn-primary" @click="saveNewPassword()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Passwort ändern
                         </button>
@@ -317,7 +334,7 @@ const getNotificationIntervalText = computed(() => {
                     </div>
 
                     <div class="settings-section">
-                        <button class="memo-btn btn btn-primary" @click="saveWuwiVisibility()">
+                        <button class="memo-button btn btn-primary" @click="saveWuwiVisibility()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Speichern
                         </button>
@@ -351,7 +368,7 @@ const getNotificationIntervalText = computed(() => {
 
                     </div>
                     <div class="settings-section">
-                        <button class="memo-btn btn btn-primary" @click="saveSupportLoginRights()">
+                        <button class="memo-button btn btn-primary" @click="saveSupportLoginRights()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Speichern
                         </button>
@@ -414,10 +431,17 @@ const getNotificationIntervalText = computed(() => {
 
                         <p>
                             Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem
-                            <font-awesome-icon icon="fa-solid fa-heart" />
-                            Wunschwissen, über anstehende Termine und über neue Inhalte bei memucho. Er wird nur
+                            <font-awesome-icon icon="fa-solid fa-heart" class="wuwi-icon" />
+                            Wunschwissen und über neue Inhalte bei memucho. Er wird nur
                             verschickt, wenn du Wunschwissen hast.
                         </p>
+                    </div>
+
+                    <div class="settings-section">
+                        <button class="memo-button btn btn-primary" @click="saveNotificationIntervalPreferences()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Speichern
+                        </button>
                     </div>
 
                 </div>
@@ -477,8 +501,6 @@ p {
 
 }
 
-
-
 .checkbox-section {
     cursor: pointer;
     display: flex;
@@ -502,6 +524,17 @@ p {
     border: solid @memo-grey-light 1px;
     box-shadow: none;
     color: @memo-grey-dark !important;
+    outline: none;
+
+    &:focus {
+        border: solid 1px @memo-green;
+        box-shadow: none;
+    }
+
+    &:active {
+        border: solid 1px @memo-green;
+        box-shadow: none;
+    }
 }
 
 .settings-section {
@@ -568,6 +601,7 @@ p {
         color: @memo-grey-dark;
         padding: 12px 20px;
         border-radius: 24px;
+        outline: none;
 
         &.active {
             color: @memo-blue-link;
@@ -599,5 +633,9 @@ p {
 .navigation,
 .settings-content {
     padding-top: 50px;
+}
+
+.wuwi-icon {
+    color: @memo-wuwi-red;
 }
 </style>

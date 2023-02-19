@@ -92,13 +92,15 @@ function setTab(t: Tab) {
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
-                                <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
-                                    <div class="memo-btn btn btn-primary">
+                                <button class="memo-button btn btn-primary">
+                                    <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
+
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
                                         Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
-                                    </div>
-                                </NuxtLink>
+                                    </NuxtLink>
+                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -223,7 +225,7 @@ function setTab(t: Tab) {
     .profile-picture {
         width: 166px;
         height: 166px;
-        margin-right: 10px;
+        margin-right: 30px;
     }
 
     .profile-header-info {}

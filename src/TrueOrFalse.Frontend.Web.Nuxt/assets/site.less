@@ -1710,12 +1710,25 @@ h3 {
 
 .memo-button {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 36px;
     letter-spacing: 1.25px;
     text-transform: uppercase;
     height: 36px !important;
     padding: 0 12px !important;
+    display: flex;
+    align-items: center;
+    color: white;
+    outline: none !important;
+
+    a {
+        color: white;
+    }
+
+    svg {
+        font-size: 16px;
+        margin-right: 6px;
+    }
 
     &.btn-link {
         color: @memo-blue-link;

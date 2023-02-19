@@ -45,8 +45,7 @@ onMounted(() => {
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
                     <div id="HeaderSearch" class="">
-                        <div class="searchButton" :class="{ 'showSearch': showSearch }"
-                            @click="showSearch = !showSearch">
+                        <div class="searchButton" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>
@@ -57,16 +56,20 @@ onMounted(() => {
                     </div>
                     <div id="loginAndHelp">
                         <div class="login-register-container">
-                            <div class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
+                            <button class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" />
                                 <div class="login-btn-label hidden-xxs">
                                     Anmelden
                                 </div>
-                            </div>
+                            </button>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                <NuxtLink to="/Registrieren" class="">
-                                    <div navigate class="btn memo-button register-btn">Kostenlos registrieren!</div>
-                                </NuxtLink>
+                                <button navigate class="btn memo-button register-btn">
+                                    <NuxtLink to="/Registrieren" class="">
+
+                                        Kostenlos registrieren!
+                                    </NuxtLink>
+
+                                </button>
                             </div>
 
                         </div>
@@ -194,7 +197,7 @@ onMounted(() => {
 
                 .register-btn-container {
                     @media(min-width: 1200px) {
-                        margin-right: 31px;
+                        margin-right: 33px;
                     }
                 }
 

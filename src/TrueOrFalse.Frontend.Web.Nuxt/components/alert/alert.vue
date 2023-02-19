@@ -13,8 +13,8 @@ const alertStore = useAlertStore()
 
                     <div class="modal-body">
                         <h3>
-                            <font-awesome-icon v-if="alertStore.type == AlertType.Success"
-                                icon="fa-solid fa-circle-check" class="success" />
+                            <font-awesome-icon v-if="alertStore.type == AlertType.Success" icon="fa-solid fa-circle-check"
+                                class="success" />
                             <font-awesome-icon v-else-if="alertStore.type == AlertType.Error"
                                 icon="fa-solid fa-circle-xmark" class="error" />
                             {{ alertStore.title }}
@@ -25,15 +25,15 @@ const alertStore = useAlertStore()
                     </div>
 
                     <div class="modal-footer">
-                        <div class="btn memo-button col-xs-4 pull-right" :class="{
+                        <button class="btn memo-button col-xs-4 pull-right" :class="{
                             'btn-success': alertStore.type == AlertType.Success,
                             'btn-error': alertStore.type == AlertType.Error,
                             'btn-primary': alertStore.type == AlertType.Default
-                        }" @click="alertStore.closeAlert()">{{ alertStore.label }}</div>
-                        <div v-if="alertStore.showCancelButton" class="btn memo-button col-xs-4 btn-default pull-right"
+                        }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
+                        <button v-if="alertStore.showCancelButton" class="btn memo-button col-xs-4 btn-default pull-right"
                             id="CancelAlert" @click="alertStore.closeAlert(true)">
                             Abbrechen
-                        </div>
+                        </button>
                         <div v-if="alertStore.msg != null" v-html="alertStore.msg.customBtn"></div>
                     </div>
 
@@ -41,7 +41,6 @@ const alertStore = useAlertStore()
             </div>
         </VueFinalModal>
     </div>
-
 </template>
 
 <style lang="less" scoped>

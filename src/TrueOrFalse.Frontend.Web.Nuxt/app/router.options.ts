@@ -25,6 +25,11 @@ export default <RouterConfig>{
             component: () => import('~/pages/question/[title]/[id].vue')
         },
         {
+            name: 'usersPage',
+            path: '/Nutzer',
+            component: () => import('~/pages/user/users.vue')
+        },
+        {
             name: 'userPage',
             path: '/Nutzer/:name/:id',
             component: () => import('~/pages/user/[name]/[id].vue')

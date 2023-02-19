@@ -29,6 +29,8 @@ public class UpdateKnowledgeReportInterval
             knowledgeReportInterval = (UserSettingNotificationInterval)val;
 
             expirationDate = DateTime.ParseExact(expires, ExpirationDateFormat, System.Globalization.CultureInfo.InvariantCulture);
+
+            return Run(user, knowledgeReportInterval, expirationDate, token);
         }
         catch (Exception exception)
         {
@@ -36,6 +38,12 @@ public class UpdateKnowledgeReportInterval
             result.ResultMessage = new ErrorMessage("Die Einstellung konnte nicht verändert werden, da der übermittelte Link fehlerhaft war.");
             return result;
         }
+
+    }
+
+    public static UpdateKnowledgeReportIntervalResult Run(User user, UserSettingNotificationInterval knowledgeReportInterval, DateTime expirationDate, string token)
+    {
+        var result = new UpdateKnowledgeReportIntervalResult();
 
         if (expirationDate.Date < DateTime.Now.Date)
         {
