@@ -199,6 +199,12 @@ onMounted(() => {
                     @media(min-width: 1200px) {
                         margin-right: 33px;
                     }
+
+                    .register-btn {
+                        a {
+                            color: @memo-blue;
+                        }
+                    }
                 }
 
                 #Login {

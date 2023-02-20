@@ -31,9 +31,8 @@ const forceShow = ref(false)
 </script>
 
 <template>
-    <div class="container main-page">
-
-        <div class="row mt-45 messages-container">
+    <div class="container">
+        <div class="row mt-45 messages-container main-page">
             <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
                 <h1>
                     <span class="ColoredUnderline Message">Nachrichten</span>
@@ -48,7 +47,7 @@ const forceShow = ref(false)
                     <p v-if="model.readCount > 0">
                         Du hast {{ model.readCount }} gelesene Nachricht{{
                             model.readCount == 0 ||
-                                model.readCount > 1 ? 'en' : ''
+                            model.readCount > 1 ? 'en' : ''
                         }}.
                     <div v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</div>.
                     </p>

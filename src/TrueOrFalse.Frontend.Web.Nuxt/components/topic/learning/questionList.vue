@@ -39,6 +39,11 @@ async function loadQuestions(page: number) {
     }
     spinnerStore.hideSpinner()
 }
+const itemsPerPage = ref(24)
+function loadPageWithSpecificQuestion() {
+    const page = Math.ceil(learningSessionStore.currentIndex / itemsPerPage.value)
+    currentPage.value = page
+}
 
 onBeforeMount(() => {
     learningSessionStore.$onAction(({ after, name }) => {
@@ -46,6 +51,12 @@ onBeforeMount(() => {
             after((result) => {
                 if (result) {
                     loadQuestions(1)
+                }
+            })
+        } else if (name == 'startNewSessionWithJumpToQuestion') {
+            after((result) => {
+                if (result) {
+                    loadPageWithSpecificQuestion()
                 }
             })
         }
@@ -85,15 +96,14 @@ async function loadNewQuestion(index: number) {
 <template>
     <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
-        <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
-            :is-last-item="index == (questions.length - 1)" :session-index="q.SessionIndex"
-            :expand-question="props.expandQuestion" :key="q.Id" />
+        <TopicLearningQuestion v-for="(q, index) in questions" :question="q" :is-last-item="index == (questions.length - 1)"
+            :session-index="q.SessionIndex" :expand-question="props.expandQuestion" :key="q.Id" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 
         <div id="QuestionListPagination" v-show="questions.length > 0">
 
-            <vue-awesome-paginate :total-items="learningSessionStore?.activeQuestionCount" :items-per-page="24"
+            <vue-awesome-paginate :total-items="learningSessionStore?.activeQuestionCount" :items-per-page="itemsPerPage"
                 :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false"
                 prev-button-content="Vorherige" next-button-content="Nächste" first-page-content="Erste"
                 last-page-content="Letzte" />

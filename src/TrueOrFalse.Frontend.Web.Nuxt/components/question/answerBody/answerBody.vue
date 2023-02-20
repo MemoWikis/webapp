@@ -10,11 +10,13 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { random, handleNewLine } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
+import { useTopicStore } from '~~/components/topic/topicStore'
 
 const spinnerStore = useSpinnerStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const activityPointsStore = useActivityPointsStore()
+const topicStore = useTopicStore()
 
 interface Props {
     isLandingPage?: boolean
@@ -204,7 +206,7 @@ function highlightCode() {
                 block.innerHTML = getHighlightedCode(block.textContent)
         })
 }
-
+const route = useRoute()
 const answerBodyModel = ref<AnswerBodyModel | null>(null)
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
@@ -228,6 +230,9 @@ async function loadAnswerBodyModel() {
         answersSoFar.value = []
         await nextTick()
         highlightCode()
+
+        // if (!props.isLandingPage && window.location.pathname != `/${topicStore.encodedName}/${topicStore.id}/Lernen/${result.id}`)
+        //     history.replaceState(null, topicStore.name, `/${topicStore.encodedName}/${topicStore.id}/Lernen/${result.id}`)
     }
 }
 
@@ -372,8 +377,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-file" />
                                         </div>
-                                        <span>Frageseite anzeigen</span>
-
+                                        <div class="dropdown-label">Frageseite anzeigen</div>
                                     </div>
                                 </LazyNuxtLink>
 
@@ -383,8 +387,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-code-fork" />
                                         </div>
-                                        <span>Bearbeitungshistorie der Frage</span>
-
+                                        <div class="dropdown-label">Bearbeitungshistorie der Frage</div>
                                     </div>
                                 </LazyNuxtLink>
 

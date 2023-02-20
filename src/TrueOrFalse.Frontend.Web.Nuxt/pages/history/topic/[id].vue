@@ -4,8 +4,9 @@
 </script>
 
 <template>
-    <div class="container main-page">
-        <LazyTopicHistory />
+    <div class="container">
+        <div class="row main-page">
+            <LazyTopicHistory />
+        </div>
     </div>
-
 </template>

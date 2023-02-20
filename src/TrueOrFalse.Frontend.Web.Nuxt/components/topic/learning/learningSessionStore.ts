@@ -25,6 +25,16 @@ interface NewSessionResult {
     isInTestMode: boolean
 }
 
+interface NewSessionWithJumpToQuestionResult {
+    success: boolean
+    message?: string
+    steps?: Step[]
+    activeQuestionCount?: number
+    currentStep?: Step
+    answerHelp?: boolean
+    isInTestMode?: boolean
+}
+
 export const useLearningSessionStore = defineStore('learningSessionStore', {
     state: () => {
         return {
@@ -63,10 +73,10 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const json = learningSessionConfigurationStore.buildSessionConfigJson()
+            const config = learningSessionConfigurationStore.buildSessionConfigJson()
             const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSession/', {
                 method: 'POST',
-                body: json,
+                body: config,
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -77,6 +87,27 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.answerHelp = result.answerHelp
                 this.isInTestMode = result.isInTestMode
                 return true
+            } else return false
+        },
+        async startNewSessionWithJumpToQuestion(id: number) {
+            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+            const config = learningSessionConfigurationStore.buildSessionConfigJson()
+            const result = await $fetch<NewSessionWithJumpToQuestionResult>('/apiVue/LearningSessionStore/NewSessionWithJumpToQuestion/', {
+                method: 'POST',
+                body: { config: config, id: id },
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result != null && result.success) {
+                this.steps = result.steps!
+                this.activeQuestionCount = result.activeQuestionCount!
+                this.setCurrentStep(result.currentStep!)
+                this.answerHelp = result.answerHelp!
+                this.isInTestMode = result.isInTestMode!
+                return true
+            } else if (!result.success && result.message == 'filterMismatch') {
+                learningSessionConfigurationStore.reset()
+                this.startNewSessionWithJumpToQuestion(id)
             } else return false
         },
         async loadSteps() {
@@ -90,14 +121,16 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             } else return false
         },
         async changeActiveQuestion(index: number) {
-            const result = await $fetch<Step>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
+            const result = await $fetch<{ steps: Step[], currentStep: Step }>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
                 method: 'POST',
                 body: { index: index },
                 mode: 'cors',
                 credentials: 'include'
             })
-            if (result != null)
-                this.setCurrentStep(result)
+            if (result != null) {
+                this.steps = result.steps
+                this.setCurrentStep(result.currentStep)
+            }
         },
         loadNextQuestionInSession() {
             if (this.currentIndex < this.steps[this.steps.length - 1].index)

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from './userStore'
 import { ImageStyle } from '../image/imageStyleEnum'
+import { messages } from '../alert/messages'
 
 interface Props {
     imageUrl?: string
@@ -35,10 +36,6 @@ const repeatedPassword = ref<string>('')
 const showWuwi = ref(false)
 const allowSupportLogin = ref(false)
 
-
-// NotificationInterval is UserSettingNotificationInterval in backend
-
-
 function onFileChange(e: any) {
     var files = e.target.files || e.dataTransfer.files
     if (!files.length)
@@ -61,6 +58,28 @@ function removeImage() {
 
 }
 
+const showAlert = ref(false)
+const msg = ref('')
+const success = ref(false)
+
+function resetAlert() {
+    showAlert.value = false
+    msg.value = ''
+    success.value = false
+}
+
+watch(activeContent, () => resetAlert())
+
+
+interface ChangeProfileInformationResult {
+    success: boolean
+    message: string
+    name?: string
+    email?: string
+    imgUrl?: string
+    tinyImgUrl?: string
+}
+
 async function saveProfileInformation() {
     let formData = new FormData()
 
@@ -75,23 +94,53 @@ async function saveProfileInformation() {
 
     formData.append('id', userStore.id.toString())
 
-    const result = await $fetch('/apiVue/VueUserSettings/SaveProfileInformations', {
+    const result = await $fetch<ChangeProfileInformationResult>('/apiVue/VueUserSettings/ChangeProfileInformation', {
         mode: 'cors',
         method: 'POST',
         body: formData,
         credentials: 'include'
     })
+
+    if (result?.success) {
+        userStore.name, userName.value = result.name!
+        userStore.email, email.value = result.name!
+        userStore.imgUrl = result.tinyImgUrl!
+        emit('updateProfile')
+
+        msg.value = messages.success.user[result.message]
+        success.value = true
+        showAlert.value = true
+    } else {
+        msg.value = messages.error.user[result.message]
+        success.value = false
+        showAlert.value = true
+    }
+}
+
+const emit = defineEmits(['updateProfile'])
+
+interface DefaultResult {
+    success: boolean
+    message: string
 }
 
 async function saveNewPassword() {
 
-    if (currentPassword.value.length <= 0 || newPassword.value.length <= 0 || repeatedPassword.value.length <= 0)
+    if (currentPassword.value.length <= 0 || newPassword.value.length <= 0 || repeatedPassword.value.length <= 0) {
+        msg.value = messages.error.user['inputError']
+        success.value = false
+        showAlert.value = true
         return
+    }
 
-    if (newPassword.value != repeatedPassword.value)
+    if (newPassword.value != repeatedPassword.value) {
+        msg.value = messages.error.user['passwordNotCorrectlyRepeated']
+        success.value = false
+        showAlert.value = true
         return
+    }
 
-    const result = await $fetch('/apiVue/VueUserSettings/ChangePassword', {
+    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangePassword', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -101,14 +150,20 @@ async function saveNewPassword() {
         credentials: 'include'
     })
 
-    if (result) {
-
+    if (result.success) {
+        msg.value = messages.success.user[result.message]
+        success.value = true
+        showAlert.value = true
+    } else {
+        msg.value = messages.error.user[result.message]
+        success.value = false
+        showAlert.value = true
     }
 }
 
 async function saveWuwiVisibility() {
 
-    const result = await $fetch('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
+    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -117,13 +172,20 @@ async function saveWuwiVisibility() {
         credentials: 'include'
     })
 
-    if (result) {
-
+    if (result.success) {
+        msg.value = messages.success.user[result.message]
+        success.value = true
+        showAlert.value = true
+    } else {
+        msg.value = messages.error.user[result.message]
+        success.value = false
+        showAlert.value = true
     }
 }
+
 async function saveSupportLoginRights() {
 
-    const result = await $fetch('/apiVue/VueUserSettings/ChangeSupportLoginRights', {
+    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeSupportLoginRights', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -132,11 +194,18 @@ async function saveSupportLoginRights() {
         credentials: 'include'
     })
 
-    if (result) {
-
+    if (result.success) {
+        msg.value = messages.success.user[result.message]
+        success.value = true
+        showAlert.value = true
+    } else {
+        msg.value = messages.error.user[result.message]
+        success.value = false
+        showAlert.value = true
     }
 }
 
+// NotificationInterval is UserSettingNotificationInterval in backend
 enum NotifcationInterval {
     NotSet = 0,
     Never = 1,
@@ -165,9 +234,10 @@ const getNotificationIntervalText = computed(() => {
     }
 })
 
+const notificationIntervalChangeMsg = ref('')
 async function saveNotificationIntervalPreferences() {
 
-    const result = await $fetch('/apiVue/VueUserSettings/SaveNotificationIntervalPreferences', {
+    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeNotificationIntervalPreferences', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -176,16 +246,42 @@ async function saveNotificationIntervalPreferences() {
         credentials: 'include'
     })
 
-    if (result) {
-
+    if (result.success) {
+        notificationIntervalChangeMsg.value = result.message
+        success.value = true
+        showAlert.value = true
+    } else {
+        notificationIntervalChangeMsg.value = messages.error.default
+        success.value = false
+        showAlert.value = true
     }
 }
+
+const getSelectedSettingsPageLabel = computed(() => {
+    switch (activeContent.value) {
+
+        case Content.EditProfile:
+            return 'Profil bearbeiten'
+        case Content.Password:
+            return 'Passwort'
+        case Content.DeleteProfile:
+            return 'Profil löschen'
+        case Content.ShowWuwi:
+            return 'Wunschwissen anzeigen'
+        case Content.SupportLogin:
+            return 'Support Login'
+        case Content.General:
+            return 'Allgemein'
+        case Content.KnowledgeReport:
+            return 'Wissensbericht'
+    }
+})
 
 </script>
 
 <template>
     <div class="row">
-        <div class="col-lg-3 col-xs-3 navigation">
+        <div class="col-lg-3 col-sm-3 hidden-xs navigation">
             <div class="overline-s no-line">Profil Informationen</div>
             <button @click="activeContent = Content.EditProfile">Profil bearbeiten</button>
             <button @click="activeContent = Content.Password">Passwort</button>
@@ -198,14 +294,53 @@ async function saveNotificationIntervalPreferences() {
 
             <div class="divider"></div>
             <div class="overline-s no-line">Benachrichtigungen</div>
-            <button @click="activeContent = Content.General">Allgemein</button>
+            <!-- <button @click="activeContent = Content.General">Allgemein</button> -->
             <button @click="activeContent = Content.KnowledgeReport">Wissensbericht</button>
 
             <div class="divider"></div>
         </div>
-        <div class="col-lg-9 col-xs-9 settings-content">
+        <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+            <div class="settings-dropdown">
+                <V-Dropdown :distance="0">
+                    <div class="settings-select">
+                        {{ getSelectedSettingsPageLabel }}
+                    </div>
+
+                    <template #popper="{ hide }">
+                        <div class="dropdown-row group-label">
+                            Profil Informationen
+                        </div>
+                        <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; hide()"
+                            :class="{ 'active': activeContent == Content.EditProfile }">
+                            <div class="dropdown-label select-option">
+                                Profil bearbeiten
+                            </div>
+                        </div>
+                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; hide()"
+                            :class="{ 'active': activeContent == Content.Password }">
+                            <div class="dropdown-label select-option">
+                                Passwort
+                            </div>
+                        </div>
+                        <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; hide()"
+                            :class="{ 'active': activeContent == Content.DeleteProfile }">
+                            <div class="dropdown-label select-option">
+                                Profil löschen
+                            </div>
+                        </div>
+
+                    </template>
+                </V-Dropdown>
+            </div>
+
+        </div>
+        <div class="col-lg-9 col-sm-9 col-xs-12 settings-content">
             <Transition>
                 <div v-if="activeContent == Content.EditProfile" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
+                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                    </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">Profilbild</div>
                         <Image :url="imageUrl" :style="ImageStyle.Author" class="profile-picture" />
@@ -263,6 +398,10 @@ async function saveNotificationIntervalPreferences() {
                 </div>
 
                 <div v-else-if="activeContent == Content.Password" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
+                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                    </div>
                     <div class="settings-section">
                         <div class="input-container">
                             <div class="overline-s no-line">Altes Passwort</div>
@@ -310,9 +449,26 @@ async function saveNotificationIntervalPreferences() {
                 </div>
 
                 <div v-else-if="activeContent == Content.DeleteProfile" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
+                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="">
+                            <p>
+                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink
+                                    to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
+                            </p>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div v-else-if="activeContent == Content.ShowWuwi" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
+                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                    </div>
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
@@ -342,6 +498,10 @@ async function saveNotificationIntervalPreferences() {
                 </div>
 
                 <div v-else-if="activeContent == Content.SupportLogin" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
+                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                    </div>
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
@@ -378,6 +538,10 @@ async function saveNotificationIntervalPreferences() {
                 <div v-else-if="activeContent == Content.General" class="content"></div>
 
                 <div v-else-if="activeContent == Content.KnowledgeReport" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success" v-html="notificationIntervalChangeMsg"></div>
+                        <div class="alert alert-danger" v-else v-html="notificationIntervalChangeMsg"></div>
+                    </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">
                             Wissensbericht per E-Mail:
@@ -389,38 +553,38 @@ async function saveNotificationIntervalPreferences() {
                                 </div>
 
                                 <template #popper="{ hide }">
-                                    <div class="dropdown-row interval-row"
+                                    <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Quarterly }">
-                                        <div class="dropdown-label interval-option">
+                                        <div class="dropdown-label select-option">
                                             Vierteljährlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Monthly }">
-                                        <div class="dropdown-label interval-option">
+                                        <div class="dropdown-label select-option">
                                             Monatlich
                                         </div>
                                     </div>
-                                    <div class="dropdown-row interval-row"
+                                    <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Weekly }">
-                                        <div class="dropdown-label interval-option">
+                                        <div class="dropdown-label select-option">
                                             Wöchentlich
                                         </div>
                                     </div>
-                                    <div class="dropdown-row interval-row"
+                                    <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Daily }">
-                                        <div class="dropdown-label interval-option">
+                                        <div class="dropdown-label select-option">
                                             Täglich
                                         </div>
                                     </div>
-                                    <div class="dropdown-row interval-row"
+                                    <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Never }">
-                                        <div class="dropdown-label interval-option">
+                                        <div class="dropdown-label select-option">
                                             Nie
                                         </div>
                                     </div>
@@ -450,32 +614,20 @@ async function saveNotificationIntervalPreferences() {
     </div>
 </template>
 
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
-
-.dropdown-label {
-    &.interval-option {
-        padding-left: 0px !important;
-        width: 150px;
-    }
-}
-
-.dropdown-row {
-    &.interval-row {
-        &.active {
-            color: @memo-blue;
-            // font-weight: 700;
-            background: @memo-grey-lighter;
-        }
-    }
-}
-</style>
-
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
 p {
     margin: 10px 0;
+}
+
+.settings-dropdown {
+    width: 100%;
+
+    .settings-select {
+        width: 100%;
+    }
+
 }
 
 .interval-dropdown {

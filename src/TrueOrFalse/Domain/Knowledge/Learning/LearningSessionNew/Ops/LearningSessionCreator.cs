@@ -82,6 +82,65 @@ public class LearningSessionCreator
         };
     }
 
+    public static LearningSession BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
+    {
+        var questionCounter = new QuestionCounter();
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);
+
+        IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
+        IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
+
+        if (SessionUser.IsLoggedIn)
+        {
+            foreach (var q in allQuestions)
+            {
+                var questionDetail = BuildQuestionDetail(config, q, allQuestionValuation);
+
+                if (questionDetail.AddByWuwi &&
+                    questionDetail.AddByCreator &&
+                    questionDetail.AddByVisibility &&
+                    questionDetail.FilterByKnowledgeSummary)
+                {
+                    AddQuestionToFilteredList(filteredQuestions, questionDetail, q, knowledgeSummaryDetails);
+                    questionCounter.Max++;
+                }
+                questionCounter = CountQuestionsForSessionConfig(questionDetail, questionCounter);
+            }
+        }
+        else
+        {
+            filteredQuestions = allQuestions;
+            questionCounter.Max = filteredQuestions.Count;
+            questionCounter.NotInWuwi = filteredQuestions.Count;
+            questionCounter.NotCreatedByCurrentUser = filteredQuestions.Count;
+            questionCounter.NotLearned = filteredQuestions.Count;
+            questionCounter.Public = filteredQuestions.Count;
+        }
+
+        if (filteredQuestions.IndexOf(q => q.Id == id) < 0)
+            return null;
+
+        filteredQuestions = filteredQuestions.Where(q => q.Id != id).ToList();
+        filteredQuestions = filteredQuestions.Shuffle();
+        config.MaxQuestionCount -= 1;
+        filteredQuestions = GetQuestionsByCount(config, filteredQuestions);
+        config.MaxQuestionCount += 1;
+        filteredQuestions.Add(EntityCache.GetQuestion(id));
+        filteredQuestions = filteredQuestions.Shuffle();
+        filteredQuestions = SetQuestionOrder(filteredQuestions, config, knowledgeSummaryDetails);
+
+        var learningSessionSteps = filteredQuestions
+            .Distinct()
+            .Select(q => new LearningSessionStep(q))
+            .ToList();
+
+        return new LearningSession(learningSessionSteps, config)
+        {
+            QuestionCounter = questionCounter
+        };
+    }
+
+
     public static QuestionDetail BuildQuestionDetail(LearningSessionConfig config, QuestionCacheItem q,
         IList<QuestionValuationCacheItem> allQuestionValuation)
     {

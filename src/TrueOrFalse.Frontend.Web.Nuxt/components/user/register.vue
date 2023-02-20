@@ -218,7 +218,7 @@ async function register() {
                                 <div class="overline-s no-line">Benutzername</div>
                             </div>
                             <div class="col-sm-offset-2 col-sm-8">
-                                <input name="login" placeholder="" type="text" width="100%" class="loginInputs"
+                                <input name="login" placeholder="" type="text" width="100%" class="login-inputs"
                                     v-model="userName" @keydown.enter="register()" @click="errorMessage = ''" />
                             </div>
                         </div>
@@ -230,7 +230,7 @@ async function register() {
                         <div class="overline-s no-line">E-Mail</div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-8">
-                        <input name="login" placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail"
+                        <input name="login" placeholder="" type="email" width="100%" class="login-inputs" v-model="eMail"
                             @keydown.enter="register()" @click="errorMessage = ''" />
                     </div>
                 </div>
@@ -241,7 +241,7 @@ async function register() {
                     </div>
 
                     <div class="col-sm-offset-2 col-sm-8">
-                        <input name="password" placeholder="" :type="passwordInputType" width="100%" class="loginInputs"
+                        <input name="password" placeholder="" :type="passwordInputType" width="100%" class="login-inputs"
                             v-model="password" @keydown.enter="register()" @click="errorMessage = ''" />
                         <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon" v-if="passwordInputType == 'password'"
                             @click="passwordInputType = 'text'" />

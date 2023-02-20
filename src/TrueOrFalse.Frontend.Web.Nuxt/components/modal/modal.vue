@@ -24,9 +24,8 @@ const slots = useSlots()
 
 
 <template>
-
     <VueFinalModal v-model="props.show" class="modal-container" content-class="modal-content" :z-index-auto="false">
-        <div id="defaultModal" class="modal-default">
+        <div class="modal-default">
             <div class="modal-default-mask" @click="$emit('close')">
                 <div class="modal-default-wrapper">
                     <div class="modal-default-container" :style="{ width: modalWidthData }" v-on:click.stop
@@ -36,10 +35,10 @@ const slots = useSlots()
                                 class="pull-right pointer modal-close-button" @click="$emit('close')" />
                             <div class="header-default-modal"
                                 v-bind:class="{ errorHeaderModal: isError, successHeaderModal: isSuccess }">
-                                <div class="iconHeaderModal" v-if="isError || isSuccess || !!$slots.headerIcon">
-                                    <font-awesome-icon v-if="isError" icon="fa-solid fa-circle-xmark iconHeaderModal" />
+                                <div class="modal-header-icon" v-if="isError || isSuccess || !!$slots.headerIcon">
+                                    <font-awesome-icon v-if="isError" icon="fa-solid fa-circle-xmark modal-header-icon" />
                                     <font-awesome-icon v-else-if="isSuccess"
-                                        icon="fa-solid fa-circle-check iconHeaderModal" />
+                                        icon="fa-solid fa-circle-check modal-header-icon" />
                                     <slot name="headerIcon"></slot>
                                 </div>
                                 <slot name="header">
@@ -57,23 +56,23 @@ const slots = useSlots()
                                     <div class="col-xs-12">
                                         <button v-if="props.primaryBtn != null"
                                             class="btn btn-primary memo-button pull-right modal-button" v-bind:class="{
-                                                'errorButton1Modal': isError,
-                                                'successButton1Modal': isSuccess,
-                                                'fullSizeButtons': props.isFullSizeButtons
+                                                'primary-error-button': isError,
+                                                'primary-success-button': isSuccess,
+                                                'full-size-buttons': props.isFullSizeButtons
                                             }" @click="$emit('main-btn')" :disabled="disabled">
                                             {{ props.primaryBtn }}
                                         </button>
                                         <button v-if="props.secondaryBtn != null"
-                                            class="btn btn-lg btn-link memo-button pull-right modalSecondActionButton modal-button"
+                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
                                             v-bind:class="{
-                                                'errorButton2Modal': isError,
-                                                'successButton2Modal': isSuccess,
-                                                'fullSizeButtons': props.isFullSizeButtons
+                                                'secondary-error-button': isError,
+                                                'secondary-success-button': isSuccess,
+                                                'full-size-buttons': props.isFullSizeButtons
                                             }" @click="$emit('sub-btn')">
                                             {{ props.secondaryBtn }}
                                         </button>
                                         <button v-if="props.cancelBtn"
-                                            class="btn btn-lg btn-link memo-button pull-right modalSecondActionButton modal-button"
+                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
                                             @click="$emit('close')">
                                             Abbrechen
                                         </button>
@@ -92,9 +91,6 @@ const slots = useSlots()
 
 
     </VueFinalModal>
-
-
-
 </template>
 
 <style scoped lang="less">

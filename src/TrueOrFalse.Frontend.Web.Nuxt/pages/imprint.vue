@@ -1,8 +1,8 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="container main-page">
-    <div class="row" style="padding-top: 30px;">
+  <div class="container">
+    <div class="row main-page" style="padding-top: 30px;">
       <div class="form-horizontal col-md-12">
 
         <h1 class="PageHeader">Impressum & Datenschutzerklärung</h1>
@@ -99,8 +99,8 @@
         <p></p>
         <p>
           (Eine) Quelle: <i><a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer</a> von
-            eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/"
-              target="_blank">Rechtsanwalt</a> Sören Siebert.</i>
+            eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/" target="_blank">Rechtsanwalt</a>
+            Sören Siebert.</i>
         </p>
 
         <br />
@@ -276,8 +276,7 @@
         <p><a href="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten von
             Cookies und Websitedaten mit Safari</a></p>
 
-        <p><a
-            href="https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?tid=311128432">Firefox:
+        <p><a href="https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?tid=311128432">Firefox:
             Cookies l&ouml;schen, um Daten zu entfernen, die Websites auf Ihrem Computer abgelegt haben</a></p>
 
         <p><a
@@ -809,8 +808,7 @@
         <p><a href="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten von
             Cookies und Websitedaten mit Safari</a></p>
 
-        <p><a
-            href="https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?tid=311128432">Firefox:
+        <p><a href="https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?tid=311128432">Firefox:
             Cookies l&ouml;schen, um Daten zu entfernen, die Websites auf Ihrem Computer abgelegt haben</a></p>
 
         <p><a
@@ -954,6 +952,4 @@
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

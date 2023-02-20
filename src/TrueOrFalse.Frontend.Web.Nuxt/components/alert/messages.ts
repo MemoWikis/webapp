@@ -13,8 +13,7 @@ export const messages: any = {
         },
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
-            passwordChange: "Dein Passwort wurde erfolgreich geändert."
-
+            passwordChanged: "Dein Passwort wurde erfolgreich geändert."
         }
     },
     error: {
@@ -48,9 +47,12 @@ export const messages: any = {
         user: {
             emailInUse: "Die Email-Adresse ist bereits in Verwendung.",
             userNameInUse: "Dieser Benutzername ist bereits vergeben.",
-            passwordIsWrong: "Falsches Passwort. Gib das Passwort erneut ein."
+            passwordIsWrong: "Falsches Passwort. Gib das Passwort erneut ein.",
+            samePassword: "Das neue Passwort entspricht dem alten Passwort. Bitte gebe ein neues Passwort ein.",
+            passwordNotCorrectlyRepeated: "Das wiederholte Passwort gleicht nicht deiner neuen Passworteingabe.",
+            inputError: "Bitte überprüfe deine Eingaben."
         } as { [key: string]: string },
-        default: "Ein Fehler ist aufgetreten.",
+        default: "Leider ist ein unerwarteter Fehler aufgetreten, wiederhole den Vorgang zu einem späteren Zeitpunkt durch.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
         }

@@ -30,7 +30,15 @@ public class UpdateKnowledgeReportInterval
 
             expirationDate = DateTime.ParseExact(expires, ExpirationDateFormat, System.Globalization.CultureInfo.InvariantCulture);
 
-            return Run(user, knowledgeReportInterval, expirationDate, token);
+            if (expirationDate.Date < DateTime.Now.Date)
+            {
+                Logg.r().Information("UpdateKnowledgeReportInterval could not change settings because link already expired.");
+                result.ResultMessage = new ErrorMessage("Die Einstellung konnte NICHT übernommen werden, da die Gültigkeit des Links abgelaufen ist. <br>" +
+                                                        "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.");
+                return result;
+            }
+
+            return Run(user, knowledgeReportInterval, result);
         }
         catch (Exception exception)
         {
@@ -41,18 +49,8 @@ public class UpdateKnowledgeReportInterval
 
     }
 
-    public static UpdateKnowledgeReportIntervalResult Run(User user, UserSettingNotificationInterval knowledgeReportInterval, DateTime expirationDate, string token)
+    public static UpdateKnowledgeReportIntervalResult Run(User user, UserSettingNotificationInterval knowledgeReportInterval, UpdateKnowledgeReportIntervalResult result)
     {
-        var result = new UpdateKnowledgeReportIntervalResult();
-
-        if (expirationDate.Date < DateTime.Now.Date)
-        {
-            Logg.r().Information("UpdateKnowledgeReportInterval could not change settings because link already expired.");
-            result.ResultMessage = new ErrorMessage("Die Einstellung konnte NICHT übernommen werden, da die Gültigkeit des Links abgelaufen ist. <br>" +
-                                                    "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.");
-            return result;
-        }
-
         user.KnowledgeReportInterval = knowledgeReportInterval;
         Sl.R<UserRepo>().Update(user);
 

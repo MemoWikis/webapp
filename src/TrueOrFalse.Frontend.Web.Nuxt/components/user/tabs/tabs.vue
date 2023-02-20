@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { VueElement } from 'vue';
 import { Tab } from './tabsEnum'
 
 interface Props {
@@ -14,6 +15,16 @@ const props = defineProps<Props>()
 const { isMobile } = useDevice()
 
 const emit = defineEmits(['setTab'])
+
+const overviewLabelEl = ref()
+const wishknowledgeLabelEl = ref()
+const badgesLabelEl = ref()
+const settingsLabelEl = ref()
+
+function getWidth(e: VueElement) {
+    if (e != null)
+        return `width: ${e.clientWidth}px`
+}
 </script>
 
 <template>
@@ -21,7 +32,9 @@ const emit = defineEmits(['setTab'])
         <div id="ProfileTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
             <button class="tab" @click="emit('setTab', Tab.Overview)">
-                <div class="tab-label" :class="{ 'active': props.tab == Tab.Overview }">Übersicht</div>
+                <div class="tab-label active" v-if="props.tab == Tab.Overview" :style="getWidth(overviewLabelEl)">Übersicht
+                </div>
+                <div class="tab-label" :class="{ 'invis': props.tab == Tab.Overview }" ref="overviewLabelEl">Übersicht</div>
                 <div class="active-tab" v-if="props.tab == Tab.Overview"></div>
                 <div class="inactive-tab" v-else>
                     <div class="tab-border"></div>
@@ -29,7 +42,12 @@ const emit = defineEmits(['setTab'])
             </button>
 
             <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
-                <div class="tab-label" :class="{ 'active': props.tab == Tab.Wishknowledge }">Wunschwissen</div>
+
+                <div class="tab-label active" v-if="props.tab == Tab.Wishknowledge" :style="getWidth(wishknowledgeLabelEl)">
+                    Wunschwissen</div>
+                <div class="tab-label" :class="{ 'invis': props.tab == Tab.Wishknowledge }" ref="wishknowledgeLabelEl">
+                    Wunschwissen</div>
+
                 <div class="active-tab" v-if="props.tab == Tab.Wishknowledge"></div>
                 <div class="inactive-tab" v-else>
                     <div class="tab-border"></div>
@@ -37,11 +55,20 @@ const emit = defineEmits(['setTab'])
             </button>
 
             <button class="tab" @click="emit('setTab', Tab.Badges)">
-                <div class="tab-label learning-tab" :class="{ 'active': props.tab == Tab.Badges }">Badges
+
+                <div class="tab-label learning-tab active" v-if="props.tab == Tab.Badges" :style="getWidth(badgesLabelEl)">
+                    Badges
                     <div class="chip" v-if="props.maxBadgeCount > 0">
                         {{ props.badgeCount }}/{{ props.maxBadgeCount }}
                     </div>
                 </div>
+                <div class="tab-label learning-tab" :class="{ 'invis': props.tab == Tab.Badges }" ref="badgesLabelEl">
+                    Badges
+                    <div class="chip" v-if="props.maxBadgeCount > 0">
+                        {{ props.badgeCount }}/{{ props.maxBadgeCount }}
+                    </div>
+                </div>
+
                 <div class="active-tab" v-if="props.tab == Tab.Badges"></div>
                 <div class="inactive-tab" v-else>
                     <div class="tab-border"></div>
@@ -49,7 +76,11 @@ const emit = defineEmits(['setTab'])
             </button>
 
             <button class="tab" @click="emit('setTab', Tab.Settings)" v-if="props.isCurrentUser">
-                <div class="tab-label" :class="{ 'active': props.tab == Tab.Settings }">Einstellungen</div>
+                <div class="tab-label active" v-if="props.tab == Tab.Settings" :style="getWidth(settingsLabelEl)">
+                    Einstellungen</div>
+                <div class="tab-label" :class="{ 'invis': props.tab == Tab.Settings }" ref="settingsLabelEl">Einstellungen
+                </div>
+
                 <div class="active-tab" v-if="props.tab == Tab.Settings"></div>
                 <div class="inactive-tab" v-else>
                     <div class="tab-border"></div>
@@ -65,7 +96,6 @@ const emit = defineEmits(['setTab'])
 
         </div>
     </perfect-scrollbar>
-
 </template>
 
 <style scoped lang="less">

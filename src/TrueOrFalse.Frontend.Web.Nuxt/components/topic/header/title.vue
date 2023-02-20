@@ -61,8 +61,8 @@ const { isDesktopOrTablet, isMobile } = useDevice()
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
-            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
-                v-model="topicStore.name" :readonly="readonly"></textarea>
+            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea" v-model="topicStore.name"
+                :readonly="readonly"></textarea>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
             <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
@@ -128,6 +128,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
     color: @memo-grey-dark;
 
     #TopicTitle {
+        min-height: 60px;
         margin: 0;
 
         textarea {

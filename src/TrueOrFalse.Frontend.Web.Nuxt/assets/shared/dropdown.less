@@ -17,6 +17,12 @@
 
     .v-popper__inner {
 
+        .dropdown-select-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         // [ Default Dropdown ]
         border: none !important;
         display: flex; 
@@ -42,7 +48,7 @@
             color: @memo-grey-darker;
             background: white;
             cursor:pointer;
-            user-select: none;  
+            user-select: none;
 
             .dropdown-label{
                 padding-left: 12.5px; 
@@ -66,6 +72,28 @@
     
             &:active {
                 filter: brightness(0.85)
+            }
+
+            &.select-row {
+                &.active {
+                    color: @memo-blue;
+                    font-weight: 700;
+                    background: @memo-grey-lighter;
+                }
+            }
+
+            .select-option {
+                padding-left: 0px !important;
+                min-width: 150px;
+            }
+
+            &.group-label {
+                cursor: default;
+                pointer-events: none;
+                &:hover {
+                    color: @memo-grey-dark;
+                    filter: brightness(1)
+                }
             }
         }
     }

@@ -87,7 +87,15 @@ button {
 }
 //dropdown Standard
 
+.btn {
+    &:focus, &:hover {
+        color: white;
 
+        &.btn-link {
+            color: @memo-blue-link;
+        }
+    }
+}
 
 .standard-question-drop-down {
     padding: 0;
@@ -1723,6 +1731,9 @@ h3 {
 
     a {
         color: white;
+        &:hover {
+            text-decoration: none;
+        }
     }
 
     svg {
@@ -2454,7 +2465,7 @@ textarea, input {
     color: @memo-green !important;
 }
 
-.iconHeaderModal {
+.modal-header-icon {
     padding-right: 5px;
     font-weight: 900;
 }
@@ -2488,14 +2499,14 @@ textarea, input {
 
 
 
-.modalSecondActionButton {
+.secondary-action-button {
     margin-right: 14px;
 }
 
 
 
 @media (max-width: 850px) {
-    .modalSecondActionButton {
+    .secondary-action-button {
         margin-right: 0;
         margin-top: 8px;
     }
@@ -2505,31 +2516,34 @@ textarea, input {
     }
 }
 
-.fullSizeButtons {
+.full-size-buttons {
     width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .noPadding {
     padding: 0;
 }
 
-.errorButton1Modal {
+.primary-error-button {
     background: @memo-salmon;
     border-color: @memo-salmon;
     color: white !important;
 }
 
-.successButton1Modal {
+.primary-success-button {
     background: @memo-green;
     border-color: @memo-green;
     color: white !important;
 }
 
-.errorButton2Modal {
+.secondary-error-button {
     color: @memo-salmon !important;
 }
 
-.successButton2Modal {
+.secondary-success-button {
     color: @memo-green !important;
 }
 

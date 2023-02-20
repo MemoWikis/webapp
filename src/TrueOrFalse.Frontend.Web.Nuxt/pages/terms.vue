@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <div class="container main-page">
-        <div class="row" style="padding-top:30px;">
+    <div class="container">
+        <div class="row main-page" style="padding-top:30px;">
             <div class="form-horizontal col-md-12">
 
                 <h2 class="PageHeader">Nutzungsbedingungen</h2>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -16,7 +17,7 @@ public class VueUserSettingsController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult SaveProfileInformations(ProfileInformation form)
+    public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
         if (form.id != SessionUser.User.Id)
             return Json(null);
@@ -50,6 +51,7 @@ public class VueUserSettingsController : BaseController
         return Json(new
         {
             success = true,
+            message = "profileUpdate",
             name = SessionUser.User.Name,
             email = SessionUser.User.EmailAddress,
             imgUrl = new UserImageSettings(SessionUser.UserId).GetUrl_250px(SessionUser.User).Url,
@@ -63,14 +65,24 @@ public class VueUserSettingsController : BaseController
     public JsonResult ChangePassword(string currentPassword, string newPassword)
     {
         var credentialsAreValid = R<CredentialsAreValid>();
+
         if (credentialsAreValid.Yes(SessionUser.User.EmailAddress, currentPassword))
         {
+            if (currentPassword == newPassword)
+
+                return Json(new
+                {
+                    success = false,
+                    message = "samePassword"
+                });
+
             var user = Sl.UserRepo.GetById(SessionUser.User.Id);
             SetUserPassword.Run(newPassword.Trim(), user);
 
             return Json(new
             {
-                success = true
+                success = true,
+                message = "passwordChanged"
             });
         }
 
@@ -93,7 +105,11 @@ public class VueUserSettingsController : BaseController
         Sl.UserRepo.Update(SessionUser.User);
         ReputationUpdate.ForUser(SessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
-        return Json(true);
+        return Json(new
+        {
+            success = true,
+            message = "wuwiChanged"
+        });
     }
 
     [AccessOnlyAsLoggedIn]
@@ -105,27 +121,38 @@ public class VueUserSettingsController : BaseController
         EntityCache.AddOrUpdate(SessionUser.User);
         Sl.UserRepo.Update(SessionUser.User);
 
-        return Json(true);
+        return Json(new
+        {
+            success = true,
+            message = "supportLoginUpdated"
+        });
     }
 
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeSupportLoginRights(UserSettingNotificationInterval notificationInterval)
+    public JsonResult ChangeNotificationIntervalPreferences(UserSettingNotificationInterval notificationInterval)
     {
-        DateTime expirationDate;
-        var result = UpdateKnowledgeReportInterval.Run(SessionUser.User, notificationInterval, expirationDate, Request["token"]);
-        var message = result.ResultMessage;
-        if (result.Success && ((UserCacheItem)SessionUser.User).Id == result.AffectedUser.Id)
+        var result = new UpdateKnowledgeReportIntervalResult();
+        var updatedResult = UpdateKnowledgeReportInterval.Run(Sl.UserRepo.GetById(SessionUser.UserId), notificationInterval, result);
+        var message = updatedResult.ResultMessage;
+        if (result.Success && SessionUser.User.Id == result.AffectedUser.Id)
         {
-            SessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
-            userSettingsModel.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
+            SessionUser.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
+            EntityCache.AddOrUpdate(SessionUser.User);
+            Sl.UserRepo.Update(SessionUser.User);
+            return Json(new
+            {
+                success = true,
+                message = message,
+            });
         }
 
-        EntityCache.AddOrUpdate(SessionUser.User);
-        Sl.UserRepo.Update(SessionUser.User);
+        return Json(new
+        {
+            success = false
+        });
 
-        return Json(true);
     }
 
 }

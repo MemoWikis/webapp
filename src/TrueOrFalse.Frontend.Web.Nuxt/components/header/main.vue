@@ -164,7 +164,7 @@ const partialSpacer = ref()
 .nav-options-container {
     position: fixed;
     top: 0;
-    height: 43px;
+    height: 45px;
     display: flex;
     justify-content: flex-end;
     align-items: center;

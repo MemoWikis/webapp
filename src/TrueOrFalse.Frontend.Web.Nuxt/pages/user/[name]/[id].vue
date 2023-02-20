@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
-import { Tab } from '~~/components/user/tabs/tabsEnum';
+import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
 const route = useRoute()
@@ -20,7 +20,8 @@ interface Overview {
 }
 interface Question {
     title: string
-    encodedName: string
+    encodedPrimaryTopicName: string
+    primaryTopicId: number
     id: number
 }
 interface Topic {
@@ -39,11 +40,12 @@ interface User {
     imageUrl: string
     reputationPoints: number
     rank: number
+    showWuwi: boolean
 }
 interface ProfileData {
     user: User
     overview: Overview
-    wuwi: Wuwi
+    wuwi?: Wuwi
     isCurrentUser: boolean
 }
 const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id}`, {
@@ -72,11 +74,25 @@ function setTab(t: Tab) {
     tab.value = t
 }
 
+function updateProfile() {
+    refreshNuxtData('profile')
+}
+
+interface Props {
+    isSettingsPage?: boolean
+}
+const props = defineProps<Props>()
+
+onBeforeMount(() => {
+    if (props.isSettingsPage && profile.value?.isCurrentUser)
+        tab.value = Tab.Settings
+})
+
 </script>
 
 <template>
-    <div class="container main-page">
-        <div class="row profile-container mt-45">
+    <div class="container">
+        <div class="row profile-container mt-45 main-page">
             <div class="col-xs-12 container" v-if="profile">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">
@@ -150,6 +166,7 @@ function setTab(t: Tab) {
 
                             <div class="divider"></div>
 
+                            <NuxtLink to="/Globales-Wiki/1">Erfahre mehr über Reputationspunkte</NuxtLink>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
@@ -201,7 +218,8 @@ function setTab(t: Tab) {
 
                         </div>
                     </div>
-                    <UserSettings v-else-if="tab == Tab.Settings" :image-url="profile.user.imageUrl" />
+                    <UserSettings v-else-if="tab == Tab.Settings && profile.isCurrentUser"
+                        :image-url="profile.user.imageUrl" @update-profile="updateProfile" />
                 </Transition>
             </div>
         </div>
