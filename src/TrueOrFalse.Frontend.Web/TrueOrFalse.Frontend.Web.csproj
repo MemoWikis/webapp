@@ -294,6 +294,7 @@
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\UserSettingsController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\ActivityPointsStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\LearningSessionStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\TopicToPrivateStoreController.cs" />
@@ -309,7 +310,7 @@
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\TopicLearningQuestionListController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\CardController.cs" />
-    <Compile Include="Views\ApiVueApp\VueUserController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\VueUserController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Header\BreadcrumbController.cs" />
     <Compile Include="Views\ApiVueApp\VueRegisterController.cs" />
@@ -321,7 +322,7 @@
     <Compile Include="Views\ApiVueApp\Topic\EditTopicController.cs" />
     <Compile Include="Views\ApiVueApp\Question\VueEditQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Question\VueQuestionController.cs" />
-    <Compile Include="Views\ApiVueApp\VueUserMessagesController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\UserMessagesController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicController.cs" />
     <Compile Include="Views\Api\ActivityPointsApiController.cs" />
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="Views\Api\Search\SearchApiController.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
+    <Compile Include="Views\Api\User\Messages\MessageRowController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />

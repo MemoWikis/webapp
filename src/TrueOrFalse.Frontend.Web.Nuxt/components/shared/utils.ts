@@ -11,3 +11,7 @@ export function random(minVal: any, maxVal: any, floatVal: any = 'undefined'): n
     var randVal = minVal + (Math.random() * (maxVal - minVal));
     return <number>(typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
 }
+
+export function handleNewLine(str: string = '') {
+    return str.replace(/(\\r)*\\n/g, '<br>')
+}

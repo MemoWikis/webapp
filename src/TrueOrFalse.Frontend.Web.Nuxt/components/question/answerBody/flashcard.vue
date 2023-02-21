@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { handleNewLine } from '~~/components/shared/utils'
+
 interface Props {
     text: string
     solution: string
@@ -58,7 +60,7 @@ const emit = defineEmits((['flipped']))
                 </div>
             </div>
             <div class="flashcard-back" :style="getMinHeight()">
-                <div v-if="solutionHtml.length > 0" v-html="solutionHtml" ref="back"></div>
+                <div v-if="solutionHtml.length > 0" v-html="handleNewLine(solutionHtml)" ref="back"></div>
                 <div class="flip-label">
                     <font-awesome-icon icon="fa-solid fa-rotate" />
                     Zum Umdrehen klicken

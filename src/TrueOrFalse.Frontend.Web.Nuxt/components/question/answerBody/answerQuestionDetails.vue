@@ -11,7 +11,9 @@ const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 
 interface Props {
-    id: number
+    id: number,
+    landingPage?: boolean
+    model?: any
 }
 const props = defineProps<Props>()
 
@@ -672,60 +674,59 @@ function drawArc() {
 
     arcLoaded.value = true
 }
+function initData(e: any) {
+    personalProbability.value = e.personalProbability
+    isInWishknowledge.value = e.isInWishknowledge
+    avgProbability.value = e.avgProbability
 
-async function loadData() {
+    personalAnswerCount.value = e.personalAnswerCount
+    personalAnsweredCorrectly.value = e.personalAnsweredCorrectly
+    personalAnsweredWrongly.value = e.personalAnsweredWrongly
 
-    const result = await $fetch<any>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`)
-    if (result != null) {
-        personalProbability.value = result.personalProbability
-        isInWishknowledge.value = result.isInWishknowledge
-        avgProbability.value = result.avgProbability
+    visibility.value = e.visibility
 
-        personalAnswerCount.value = result.personalAnswerCount
-        personalAnsweredCorrectly.value = result.personalAnsweredCorrectly
-        personalAnsweredWrongly.value = result.personalAnsweredWrongly
+    overallAnswerCount.value = e.overallAnswerCount
+    overallAnsweredCorrectly.value = e.overallAnsweredCorrectly
+    overallAnsweredWrongly.value = e.overallAnsweredWrongly
 
-        visibility.value = result.visibility
+    personalColor.value = e.personalColor
 
-        overallAnswerCount.value = result.overallAnswerCount
-        overallAnsweredCorrectly.value = result.overallAnsweredCorrectly
-        overallAnsweredWrongly.value = result.overallAnsweredWrongly
+    creator.value = e.creator
+    creationDate.value = e.creationDate
+    totalViewCount.value = e.totalViewCount
+    wishknowledgeCount.value = e.wishknowledgeCount
+    license.value = e.license
 
-        personalColor.value = result.personalColor
+    if (!learningSessionStore.isInTestMode)
+        topics.value = e.topics
 
-        creator.value = result.creator
-        creationDate.value = result.creationDate
-        totalViewCount.value = result.totalViewCount
-        wishknowledgeCount.value = result.wishknowledgeCount
-        license.value = result.license
+    setPersonalProbability()
+    setPersonalArcData()
 
-        if (!learningSessionStore.isInTestMode)
-            topics.value = result.topics
+    setAvgArcData()
 
-        setPersonalProbability()
-        setPersonalArcData()
+    setPersonalCounterData()
+    setOverallCounterData()
 
-        setAvgArcData()
-
-        setPersonalCounterData()
-        setOverallCounterData()
-
-        if (arcLoaded.value) {
-            updateArc()
-            if (questionIdHasChanged.value)
-                drawCounterArcs()
-            else
-                updateCounters()
-        } else {
-            drawArc()
+    if (arcLoaded.value) {
+        updateArc()
+        if (questionIdHasChanged.value)
             drawCounterArcs()
-        }
-        questionIdHasChanged.value
+        else
+            updateCounters()
+    } else {
+        drawArc()
+        drawCounterArcs()
     }
+    questionIdHasChanged.value
+}
+async function loadData() {
+    const result = await $fetch<any>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`)
+    initData(result)
 }
 
 onMounted(() => {
-    loadData()
+    props.landingPage ? initData(props.model) : loadData()
     dom.watch()
 })
 
@@ -819,7 +820,7 @@ onMounted(() => {
                         <div style="display: flex; flex-wrap: wrap;">
 
                             <TopicChip v-for="(t, index) in topics" :key="t.Id + index" :topic="t" :index="index"
-                                :is-spoiler="learningSessionStore.isInTestMode" />
+                                :is-spoiler="learningSessionStore.isInTestMode && t.IsSpoiler && !$props.landingPage" />
                         </div>
                     </div>
                 </div>

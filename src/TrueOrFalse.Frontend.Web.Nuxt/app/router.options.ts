@@ -41,6 +41,12 @@ export default <RouterConfig>{
             props: { tab: Tab.Learning }
         },
         {
+            name: 'topicLearningPageWithQuestion',
+            path: '/:topic/:id/Lernen/:questionId',
+            component: () => import('~/pages/[topic]/[id].vue'),
+            props: { tab: Tab.Learning }
+        },
+        {
             name: 'topicFeedPage',
             path: '/:topic/:id/Feed',
             component: () => import('~/pages/[topic]/[id].vue'),

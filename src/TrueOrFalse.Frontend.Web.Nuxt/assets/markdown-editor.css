@@ -59,14 +59,14 @@ blockquote {
     cursor: pointer;
 }
 
-.wmd-button > span {
+/* .wmd-button > span {
     background-image: url(/img/wmd-buttons.png);
     background-repeat: no-repeat;
     background-position: 0px 0px;
     width: 20px;
     height: 20px;
     display: inline-block;
-}
+} */
 
 .wmd-spacer1
 {

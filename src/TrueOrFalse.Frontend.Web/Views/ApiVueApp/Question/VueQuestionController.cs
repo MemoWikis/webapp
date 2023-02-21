@@ -160,7 +160,6 @@ public class VueQuestionController : BaseController
         var solution = GetQuestionSolution.Run(q);
 
         EscapeReferencesText(q.References);
-
         return Json(new
         {
             answerBodyModel = new
@@ -184,19 +183,21 @@ public class VueQuestionController : BaseController
             },
             solutionData = new
             {
-            answerAsHTML = solution.GetCorrectAnswerAsHtml(),
-            answer = solution.CorrectAnswer(),
-            answerDescription = q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
-            answerReferences = q.References.Select(r => new
-            {
-                referenceId = r.Id,
-                topicId = r.Category?.Id ?? null,
-                referenceType = r.ReferenceType.GetName(),
-                additionalInfo = r.AdditionalInfo ?? "",
-                referenceText = r.ReferenceText ?? ""
-            }).ToArray()
-        }
-    }, JsonRequestBehavior.AllowGet);
+                answerAsHTML = solution.GetCorrectAnswerAsHtml(),
+                answer = solution.CorrectAnswer(),
+                answerDescription = q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
+                answerReferences = q.References.Select(r => new
+                {
+                    referenceId = r.Id,
+                    topicId = r.Category?.Id ?? null,
+                    referenceType = r.ReferenceType.GetName(),
+                    additionalInfo = r.AdditionalInfo ?? "",
+                    referenceText = r.ReferenceText ?? ""
+                }).ToArray()
+            },
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController().GetData(id)
+
+        }, JsonRequestBehavior.AllowGet);
     }
 
 }
