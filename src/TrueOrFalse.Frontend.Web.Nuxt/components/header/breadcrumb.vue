@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { VueElement, PropType } from 'vue'
+import { VueElement } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
 import _ from 'underscore'
 import { Page } from '../shared/pageEnum'
@@ -317,8 +317,6 @@ function showBreadcrumb(e: any) {
     </div>
   </div>
   <div ref="remainingWidthDiv"></div>
-
-
 </template>
 
 <style lang="less" scoped>

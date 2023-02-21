@@ -4,12 +4,15 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+
+const topicStore = useTopicStore()
+const learningSessionStore = useLearningSessionStore()
+const tabsStore = useTabsStore()
+
 interface Props {
     tab?: Tab
 }
 const props = defineProps<Props>()
-const learningSessionStore = useLearningSessionStore()
-const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -27,7 +30,6 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
 
 if (topic.value != null) {
     if (topic.value.CanAccess) {
-        const topicStore = useTopicStore()
         topicStore.setTopic(topic.value)
 
         const spinnerStore = useSpinnerStore()

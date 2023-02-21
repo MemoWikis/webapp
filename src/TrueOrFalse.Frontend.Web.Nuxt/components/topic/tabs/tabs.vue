@@ -177,6 +177,6 @@ function getWidth(e: VueElement) {
   </ClientOnly>
 </template>
 
-<style scoped lang="less">
+<style lang="less">
 @import '~~/assets/tabs-bar.less';
 </style>

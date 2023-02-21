@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref, PropType } from 'vue'
 import _ from 'underscore'
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageStyle } from '../image/imageStyleEnum'
@@ -14,7 +13,6 @@ interface Props {
     placeholderLabel?: string
     showDefaultSearchIcon?: boolean
 }
-
 
 const props = withDefaults(defineProps<Props>(), {
     showSearchIcon: true,

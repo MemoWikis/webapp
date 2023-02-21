@@ -16,11 +16,10 @@ const topicStore = useTopicStore()
                 </div>
             </template>
         </ClientOnly>
-
     </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 #TopicContentPlaceholder {
     padding: 0px;
 }

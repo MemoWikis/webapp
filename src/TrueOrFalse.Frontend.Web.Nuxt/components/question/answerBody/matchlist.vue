@@ -124,7 +124,6 @@ function handleDragEnd(i: number) {
 </script>
 
 <template>
-
     <div class="row" id="MatchlistAnswerbody">
         <div class="col-sm-12">
             <div class="row">
@@ -164,7 +163,6 @@ function handleDragEnd(i: number) {
             </div>
         </div>
     </div>
-
 </template>
 
 <style lang="less" scoped>
@@ -264,7 +262,7 @@ function handleDragEnd(i: number) {
         padding: 5px;
         width: 160px;
         min-height: 50px;
-        overflow-wrap: break-all;
+        overflow-wrap: break-word;
         display: flex;
         justify-content: center;
         align-items: center;

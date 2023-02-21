@@ -98,6 +98,6 @@ function getWidth(e: VueElement) {
     </perfect-scrollbar>
 </template>
 
-<style scoped lang="less">
+<style lang="less">
 @import '~~/assets/tabs-bar.less';
 </style>
