@@ -1,4 +1,4 @@
-﻿import { UserCreateResult } from './UserCreateResult'
+﻿import { UserCreateResult } from './userCreateResult'
 import { Site } from '../shared/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'

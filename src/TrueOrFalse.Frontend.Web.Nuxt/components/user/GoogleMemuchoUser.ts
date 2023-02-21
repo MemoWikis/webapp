@@ -1,4 +1,4 @@
-﻿import { UserCreateResult } from './UserCreateResult'
+﻿import { UserCreateResult } from './userCreateResult'
 
 export class GoogleMemuchoUser {
 

@@ -32,7 +32,10 @@ export default defineNuxtConfig({
     },
     build: {
         transpile: [
-            '@fortawesome'
+            '@fortawesome',
+            'underscore',
+            '@tiptap'
+
         ]
     },
     // devServer: {
