@@ -6,7 +6,6 @@ import { Page } from '~~/components/shared/pageEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 
 const topicStore = useTopicStore()
-const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 
 interface Props {

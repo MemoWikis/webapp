@@ -24,6 +24,8 @@ export default defineNuxtConfig({
         '~/assets/shared/dropdown.less',
         'vue-final-modal/style.css',
         '~/assets/vue-transitions.less',
+        '~/assets/shared/pagination.less',
+
     ],
     typescript: {
         shim: false,

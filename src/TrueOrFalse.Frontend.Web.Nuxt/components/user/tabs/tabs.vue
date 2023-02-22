@@ -32,7 +32,8 @@ function getWidth(e: VueElement) {
         <div id="ProfileTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
             <button class="tab" @click="emit('setTab', Tab.Overview)">
-                <div class="tab-label active" v-if="props.tab == Tab.Overview" :style="getWidth(overviewLabelEl)">Übersicht
+                <div class="tab-label active" v-if="props.tab == Tab.Overview" style="width: 113px;"
+                    :style="getWidth(overviewLabelEl)">Übersicht
                 </div>
                 <div class="tab-label" :class="{ 'invis': props.tab == Tab.Overview }" ref="overviewLabelEl">Übersicht</div>
                 <div class="active-tab" v-if="props.tab == Tab.Overview"></div>

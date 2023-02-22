@@ -106,7 +106,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.isInTestMode = result.isInTestMode!
                 return true
             } else if (!result.success && result.message == 'filterMismatch') {
-                learningSessionConfigurationStore.reset()
+                learningSessionConfigurationStore.resetData()
                 this.startNewSessionWithJumpToQuestion(id)
             } else return false
         },

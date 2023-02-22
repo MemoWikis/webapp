@@ -1,0 +1,53 @@
+@import (reference) '~~/assets/includes/imports.less';
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .pagination-container {
+        display: flex;
+    }
+
+    .paginate-buttons {
+        height: 30px;
+        min-width: 30px;
+        border-radius: 20px;
+        cursor: pointer;
+        color: @memo-grey-dark;
+        background: white;
+
+        &.number-buttons {
+            padding: 0 !important;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
+    }
+
+    .paginate-buttons:hover {
+        filter: brightness(0.85);
+    }
+
+    .paginate-buttons:active {
+        filter: brightness(0.5);
+    }
+
+    .active-page {
+        color: @memo-grey-darker;
+
+        &:after {
+            content: "";
+            display: block;
+            border-radius: 4px;
+            width: 30px;
+            height: 3px;
+            background-color: @memo-grey-darker;
+            margin-bottom: -8px;
+            margin-top: 5px;
+        }
+    }
+
+    .active-page:hover {
+        color: @memo-blue;
+    }
+}

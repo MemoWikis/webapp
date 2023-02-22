@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useImageLicenseStore } from './imageLicenseStore'
 import { ImageStyle } from './imageStyleEnum'
 
@@ -15,24 +14,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const cssClass = ref('')
-
-const config = useRuntimeConfig()
-
-
-onBeforeMount(() => {
-  switch (props.style) {
-    case ImageStyle.Topic:
-      cssClass.value = 'topic'
-      break
-    case ImageStyle.Author:
-      cssClass.value = 'author'
-      break
-    default: cssClass.value = 'topic'
-  }
-
-})
-
 const imageLicenseStore = useImageLicenseStore()
 function openImage() {
   if (props.imageId && props.imageId > 0)
@@ -42,7 +23,9 @@ function openImage() {
 
 <template>
   <div class="img-container" :class="props.class">
-    <img :src="props.url" :class="cssClass" :alt="props.alt" />
+    <img v-if="props.style == ImageStyle.Author" :src="props.url" class="author" :alt="props.alt" />
+    <img v-else :src="props.url" class="topic" :alt="props.alt" />
+
     <div v-if="props.showLicense && props.imageId != undefined" class="license-btn" @click="openImage()">Lizenzinfos
     </div>
   </div>
@@ -74,6 +57,7 @@ function openImage() {
     line-height: 18px;
     font-size: 10px;
     text-align: center;
+    z-index: 200;
 
     &:hover {
       color: @memo-blue-lighter;

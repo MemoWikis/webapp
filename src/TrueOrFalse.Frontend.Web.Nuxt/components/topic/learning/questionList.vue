@@ -41,8 +41,12 @@ async function loadQuestions(page: number) {
 }
 const itemsPerPage = ref(24)
 function loadPageWithSpecificQuestion() {
+    if (learningSessionStore.currentIndex == 0)
+        loadQuestions(1)
     const page = Math.ceil(learningSessionStore.currentIndex / itemsPerPage.value)
     currentPage.value = page
+    if (page == 1)
+        loadQuestions(1)
 }
 
 onBeforeMount(() => {
@@ -101,12 +105,12 @@ async function loadNewQuestion(index: number) {
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 
-        <div id="QuestionListPagination" v-show="questions.length > 0">
+        <div id="QuestionListPagination" class="pagination" v-show="questions.length > 0">
 
-            <vue-awesome-paginate :total-items="learningSessionStore?.activeQuestionCount" :items-per-page="itemsPerPage"
-                :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false"
-                prev-button-content="Vorherige" next-button-content="Nächste" first-page-content="Erste"
-                last-page-content="Letzte" />
+            <vue-awesome-paginate v-if="currentPage > 0" :total-items="learningSessionStore?.activeQuestionCount"
+                :items-per-page="itemsPerPage" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
+                :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
+                first-page-content="Erste" last-page-content="Letzte" />
         </div>
     </div>
 </template>
@@ -115,54 +119,8 @@ async function loadNewQuestion(index: number) {
 @import (reference) '~~/assets/includes/imports.less';
 
 #QuestionListPagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .pagination-container {
-        display: flex;
-    }
-
     .paginate-buttons {
-        height: 30px;
-        min-width: 30px;
-        border-radius: 20px;
-        cursor: pointer;
-        color: @memo-grey-dark;
         background: @memo-grey-lighter;
-
-        &.number-buttons {
-            padding: 0 !important;
-            margin-left: 6px;
-            margin-right: 6px;
-        }
-    }
-
-    .paginate-buttons:hover {
-        filter: brightness(0.85);
-    }
-
-    .paginate-buttons:active {
-        filter: brightness(0.5);
-    }
-
-    .active-page {
-        color: @memo-grey-darker;
-
-        &:after {
-            content: "";
-            display: block;
-            border-radius: 4px;
-            width: 30px;
-            height: 5px;
-            background-color: @memo-blue;
-            margin-bottom: -10px;
-            margin-top: 5px;
-        }
-    }
-
-    .active-page:hover {
-        color: @memo-blue;
     }
 }
 </style>

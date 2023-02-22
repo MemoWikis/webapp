@@ -11,8 +11,9 @@ const route = useRoute()
 
 onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
-    if (process.client)
+    if (process.client) {
         learningSessionConfigurationStore.loadSessionFromLocalStorage()
+    }
 
     var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
     const count = await $fetch<number>(`/apiVue/Learning/GetCount/`, {
@@ -66,8 +67,8 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
                     <div class="session-progress-bar">
                         <div class="session-progress">
                             <!-- <div v-for="step in learningSessionStore.steps" class="step"
-                                                        :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
-                                                    </div> -->
+                                                                :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
+                                                            </div> -->
 
                             <div class="step answered" :style="answeredWidth"></div>
                             <div class="step" :style="unansweredWidth"></div>

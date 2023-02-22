@@ -656,6 +656,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
 .ButtonGroup {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 #AnswerBody {

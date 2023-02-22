@@ -14,7 +14,7 @@ public class VueUserController : BaseController
         if (user != null)
         {
             var userWiki = EntityCache.GetCategory(user.StartTopicId);
-            var reputation = Resolve<ReputationCalc>().Run(user);
+            var reputation = Resolve<ReputationCalc>().RunWithQuestionCacheItems(user);
 
             if (user.ShowWishKnowledge || SessionUser.UserId == user.Id)
             {
@@ -53,7 +53,8 @@ public class VueUserController : BaseController
                         questions = wishQuestions.Select(q => new
                         {
                             title = q.GetShortTitle(200),
-                            encodedName = UriSanitizer.Run(q.GetShortTitle(50)),
+                            encodedPrimaryTopicName = UriSanitizer.Run(q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Name),
+                            primaryTopicId = q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Id,
                             id = q.Id
 
                         }).ToArray(),
@@ -61,7 +62,8 @@ public class VueUserController : BaseController
                         {
                             name = t.CategoryCacheItem.Name,
                             encodedName = UriSanitizer.Run(t.CategoryCacheItem.Name),
-                            id = t.CategoryCacheItem.Id
+                            id = t.CategoryCacheItem.Id,
+                            questionCount = t.CategoryCacheItem.CountQuestions
                         }).ToArray()
                     },
                     isCurrentUser = SessionUser.UserId == user.Id

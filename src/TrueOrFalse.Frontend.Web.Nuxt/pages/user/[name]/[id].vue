@@ -28,6 +28,7 @@ interface Topic {
     name: string
     encodedName: string
     id: number
+    questionCount: number
 }
 interface Wuwi {
     questions: Question[]
@@ -87,7 +88,10 @@ onBeforeMount(() => {
     if (props.isSettingsPage && profile.value?.isCurrentUser)
         tab.value = Tab.Settings
 })
-
+watch(() => userStore.isLoggedIn, (val) => {
+    console.log(val)
+    refreshNuxtData('profile')
+})
 </script>
 
 <template>
@@ -127,7 +131,7 @@ onBeforeMount(() => {
                 </div>
 
                 <Transition>
-                    <div v-if="tab == Tab.Overview" class="row content">
+                    <div v-show="tab == Tab.Overview" class="row content">
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
@@ -218,9 +222,26 @@ onBeforeMount(() => {
 
                         </div>
                     </div>
-                    <UserSettings v-else-if="tab == Tab.Settings && profile.isCurrentUser"
-                        :image-url="profile.user.imageUrl" @update-profile="updateProfile" />
                 </Transition>
+                <Transition>
+                    <div v-show="tab == Tab.Wishknowledge">
+                        <div v-if="profile.user.showWuwi || profile.isCurrentUser">
+                            <UserTabsWishknowledge :questions="profile.wuwi?.questions" :topics="profile.wuwi?.topics"
+                                keep-alive />
+                        </div>
+                        <div v-else></div>
+                    </div>
+                </Transition>
+                <Transition>
+                    <div v-show="tab == Tab.Badges">
+
+                    </div>
+                </Transition>
+                <Transition v-if="profile.isCurrentUser">
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
+                        @update-profile="updateProfile" />
+                </Transition>
+
             </div>
         </div>
     </div>
@@ -228,7 +249,6 @@ onBeforeMount(() => {
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-
 
 .content {
     .overview-partial {

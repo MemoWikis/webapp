@@ -186,6 +186,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
         },
         async loadSessionFromLocalStorage() {
+            const preLoadJson = this.buildSessionConfigJson()
             const userStore = useUserStore()
 
             if (userStore.isLoggedIn)
@@ -207,6 +208,11 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 this.testOptions = sessionConfig.testOptions
                 this.practiceOptions = sessionConfig.practiceOptions
             }
+
+            const postLoadJson = this.buildSessionConfigJson()
+
+            if (preLoadJson != postLoadJson)
+                this.activeCustomSettings = true
         },
         loadCustomSession() {
             if (this.maxQuestionCountIsZero)
@@ -244,6 +250,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             for (var key in this.knowledgeSummary) {
                 this.selectKnowledgeSummary(this.knowledgeSummary[key], false, force)
             }
+            this.activeCustomSettings = true
+
             this.lazyLoadCustomSession()
         },
 
@@ -262,6 +270,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 summary.isSelected = !summary.isSelected
 
             this.checkKnowledgeSummarySelection()
+            this.activeCustomSettings = true
 
             if (loadCustomSession)
                 this.lazyLoadCustomSession()
@@ -295,6 +304,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             for (var key in this.questionFilterOptions) {
                 this.selectQuestionFilter(this.questionFilterOptions[key], false, force)
             }
+            this.activeCustomSettings = true
 
             this.checkQuestionFilterSelection()
             this.lazyLoadCustomSession()
@@ -316,6 +326,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 option.isSelected = false
 
             this.checkQuestionFilterSelection()
+            this.activeCustomSettings = true
 
             if (loadCustomSession)
                 this.lazyLoadCustomSession()
@@ -408,6 +419,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.userHasChangedMaxCount = true
             var count = this.selectedQuestionCount + val
             this.selectedQuestionCount = count
+            this.activeCustomSettings = true
             this.lazyLoadCustomSession()
         },
         setSelectedQuestionCount(val: number) {
@@ -436,10 +448,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         closeModeSelectionDropdown() {
             this.showModeSelectionDropdown = false
         },
-        reset() {
+        resetData() {
             if (!this.activeCustomSettings)
                 return
-
             const userStore = useUserStore()
 
             this.knowledgeSummary = new SessionConfig().knowledgeSummary
@@ -462,6 +473,10 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             this.showKnowledgeSummaryDropdown = false
             this.showModeSelectionDropdown = false
 
+            this.activeCustomSettings = false
+        },
+        reset() {
+            this.resetData()
             this.loadCustomSession()
         },
         selectPracticeMode() {
@@ -469,6 +484,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
             this.isTestMode = false
             this.isPracticeMode = true
+            this.activeCustomSettings = true
             this.lazyLoadCustomSession()
         },
         selectTestMode() {
@@ -476,6 +492,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
             this.isPracticeMode = false
             this.isTestMode = true
+            this.activeCustomSettings = true
             this.lazyLoadCustomSession()
         },
         selectPracticeOption(key: string, val: number) {
@@ -485,10 +502,12 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
             }
             this.practiceOptions[key] = val
+            this.activeCustomSettings = true
             this.lazyLoadCustomSession()
         },
         selectTestOption(key: string | number, val: any) {
             this.testOptions[key] = val
+            this.activeCustomSettings = true
             this.lazyLoadCustomSession()
         }
     },
