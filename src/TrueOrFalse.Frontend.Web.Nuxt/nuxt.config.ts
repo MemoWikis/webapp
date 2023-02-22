@@ -41,6 +41,11 @@ export default defineNuxtConfig({
             'underscore',
         ]
     },
+    //Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
+    // sourcemap: {
+    //     client: false
+    // },
+    
     // devServer: {
     //     host: 'memucho.local'
     // }
