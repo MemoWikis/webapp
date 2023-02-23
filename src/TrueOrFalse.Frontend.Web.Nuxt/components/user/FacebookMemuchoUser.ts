@@ -1,4 +1,4 @@
-﻿import { UserCreateResult } from './UserCreateResult'
+﻿import { UserCreateResult } from './userCreateResult'
 import { Site } from '../shared/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
@@ -13,7 +13,8 @@ export class FacebookMemuchoUser {
 
     static async Exists(facebookId: string): Promise<boolean> {
 
-        var doesExist = await $fetch<boolean>('/apiVue/FacebookUsers/UserExists', { method: 'POST', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache' 
+        var doesExist = await $fetch<boolean>('/apiVue/FacebookUsers/UserExists', {
+            method: 'POST', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
 
         return !!doesExist;
@@ -30,11 +31,12 @@ export class FacebookMemuchoUser {
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/UserExists', { 
-            method: 'POST', 
-            body: { facebookUser: user }, 
-            credentials: 'include', 
-            cache: 'no-cache'})
+        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/UserExists', {
+            method: 'POST',
+            body: { facebookUser: user },
+            credentials: 'include',
+            cache: 'no-cache'
+        })
             .catch((error) => {
                 spinnerStore.hideSpinner()
                 // Rollbar.error("Something went wrong", error.data)
@@ -43,7 +45,7 @@ export class FacebookMemuchoUser {
         if (!!result) {
             spinnerStore.hideSpinner();
 
-            if (result.Success){
+            if (result.Success) {
                 userStore.isLoggedIn = true
                 Site.loadValidPage();
             }
@@ -64,17 +66,18 @@ export class FacebookMemuchoUser {
 
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/Login', { 
-            method: 'POST', 
-            body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken }, 
-            credentials: 'include', 
-            cache: 'no-cache' })
+        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/Login', {
+            method: 'POST',
+            body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
+            credentials: 'include',
+            cache: 'no-cache'
+        })
             .catch((error) => {
                 spinnerStore.hideSpinner()
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        if (!!result && result.Success){
+        if (!!result && result.Success) {
             userStore.isLoggedIn = true
             Site.loadValidPage();
         }
@@ -101,30 +104,30 @@ export class FacebookMemuchoUser {
 
             FB.login(async response => {
 
-                    var facebookId = response.authResponse!.userID;
-                    var facebookAccessToken = response.authResponse!.accessToken;
+                var facebookId = response.authResponse!.userID;
+                var facebookAccessToken = response.authResponse!.accessToken;
 
-                    if (response.status !== "connected")
-                        return;
+                if (response.status !== "connected")
+                    return;
 
-                    if (await FacebookMemuchoUser.Exists(facebookId)) {
-                        FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
+                if (await FacebookMemuchoUser.Exists(facebookId)) {
+                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
 
-                        return;
-                    }
+                    return;
+                }
 
-                    if (disallowRegistration) {
-                        Site.redirectToRegistration();
-                        return;
-                    }
+                if (disallowRegistration) {
+                    Site.redirectToRegistration();
+                    return;
+                }
 
-                    Facebook.GetUser(facebookId,
-                        facebookAccessToken,
-                        (user: FacebookUserFields) => {
-                            FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken);
-                        });
+                Facebook.GetUser(facebookId,
+                    facebookAccessToken,
+                    (user: FacebookUserFields) => {
+                        FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken);
+                    });
 
-                },
+            },
                 { scope: 'email' });
         }
 

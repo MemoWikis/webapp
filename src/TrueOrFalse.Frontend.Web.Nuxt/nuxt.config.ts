@@ -35,7 +35,7 @@ export default defineNuxtConfig({
             '@fortawesome'
         ]
     },
-    // devServer: {
-    //     host: 'memucho.local'
-    // }
+    devServer: {
+        host: 'memucho.local'
+    }
 })
