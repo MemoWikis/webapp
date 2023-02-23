@@ -14,6 +14,7 @@ export interface CurrentUser {
   IsLoggedIn: boolean
   Id: number
   Name: string
+  Email?: string
   IsAdmin: boolean
   WikiId: number
   Type: UserType
@@ -43,6 +44,7 @@ export const useUserStore = defineStore('userStore', {
       imgUrl: '',
       reputation: 0,
       reputationPos: 0,
+      email: ''
     }
   },
   actions: {
@@ -56,6 +58,7 @@ export const useUserStore = defineStore('userStore', {
       this.reputation = currentUser.Reputation
       this.reputationPos = currentUser.ReputationPos
       this.personalWiki = currentUser.PersonalWiki
+      this.email = currentUser.Email ? currentUser.Email : ''
 
       const activityPointsStore = useActivityPointsStore()
       activityPointsStore.setData(currentUser.ActivityPoints)

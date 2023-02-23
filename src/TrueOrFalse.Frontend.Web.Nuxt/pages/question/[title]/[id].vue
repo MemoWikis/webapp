@@ -39,9 +39,9 @@ const { isDesktop } = useDevice()
 </script>
 
 <template>
-  <div class="container main-page">
-    <div v-if="question" class="question-page-container row mt-45">
-      <div class="col-lg-9 col-md-12 container">
+  <div class="container">
+    <div class="question-page-container row mt-45 main-page">
+      <div class="col-lg-9 col-md-12 container" v-if="question">
         <QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
           :landing-page-solution-data="question.solutionData" />
       </div>

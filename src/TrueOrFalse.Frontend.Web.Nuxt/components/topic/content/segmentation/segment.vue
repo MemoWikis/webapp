@@ -344,19 +344,6 @@ export default defineNuxtComponent({
         :segment-id="segmentId!" hide="false" :key="index" :category="category" :is-historic="isHistoric"
         @filter-children="filterChildren" :parent-topic-id="categoryId" @remove-category="removeCategory"
         @add-category-card="addCategoryCardEvent" />
-      <!-- <div v-if="!isHistoric" class="col-xs-6 topic">
-        <div class="addCategoryCard memo-button row" :id="addCategoryId">
-          <div class="col-xs-3"></div>
-          <div class="col-xs-9 addCategoryLabelContainer">
-            <div class="addCategoryCardLabel" @click="addCategory(true)">
-              <font-awesome-icon icon="fa-solid fa-plus" /> Neues Thema
-            </div>
-            <div class="addCategoryCardLabel" @click="addCategory(false)">
-              <font-awesome-icon icon="fa-solid fa-plus" /> Bestehendes Thema
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -466,38 +453,6 @@ export default defineNuxtComponent({
           color: @memo-green;
           opacity: 1;
           transition: opacity .1s ease-in-out;
-        }
-      }
-    }
-
-    .addCategoryCard {
-      display: flex;
-      border: solid 1px @memo-grey-light;
-      transition: 0.2s;
-      align-items: center;
-      min-height: 150px;
-      color: @memo-grey-dark;
-      cursor: pointer;
-      margin-left: 0;
-      margin-right: 0;
-
-      @media (max-width: 649px) {
-        width: 100%;
-      }
-
-      .addCategoryLabelContainer {
-        padding: 0;
-      }
-
-      &:hover {
-        border-color: @memo-green;
-      }
-
-      .addCategoryCardLabel {
-        transition: 0.2s;
-
-        &:hover {
-          color: @memo-green;
         }
       }
     }

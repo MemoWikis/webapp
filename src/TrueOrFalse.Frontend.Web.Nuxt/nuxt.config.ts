@@ -24,6 +24,8 @@ export default defineNuxtConfig({
         '~/assets/shared/dropdown.less',
         'vue-final-modal/style.css',
         '~/assets/vue-transitions.less',
+        '~/assets/shared/pagination.less',
+
     ],
     typescript: {
         shim: false,
@@ -32,10 +34,21 @@ export default defineNuxtConfig({
     },
     build: {
         transpile: [
-            '@fortawesome'
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/free-solid-svg-icons',
+            '@fortawesome/free-regular-svg-icons',
+            '@fortawesome/free-brands-svg-icons',
+            '@fortawesome/vue-fontawesome',
+            '@fortawesome',
+            'underscore',
         ]
     },
-    devServer: {
-        host: 'memucho.local'
-    }
+    //Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
+    // sourcemap: {
+    //     client: false
+    // },
+    
+    // devServer: {
+    //     host: 'memucho.local'
+    // }
 })

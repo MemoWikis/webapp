@@ -66,5 +66,6 @@ function setBreadcrumb(e: {
   <LazySpinner />
   <LazyAlert />
   <LazyActivityPointsLevelPopUp />
+  <LazyImageLicenseDetailModal />
   <Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>

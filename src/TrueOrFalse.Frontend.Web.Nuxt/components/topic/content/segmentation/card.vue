@@ -239,8 +239,7 @@ export default defineNuxtComponent({
 
                     <NuxtLink :href="$props.category.LinkToCategory">
                         <div class="knowledge-bar">
-                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0"
-                                class="needs-learning"
+                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
                                 v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)'"
                                 :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
                             </div>
@@ -377,38 +376,6 @@ li {
                         color: @memo-green;
                         opacity: 1;
                         transition: opacity .1s ease-in-out;
-                    }
-                }
-            }
-
-            .addCategoryCard {
-                display: flex;
-                border: solid 1px @memo-grey-light;
-                transition: 0.2s;
-                align-items: center;
-                min-height: 150px;
-                color: @memo-grey-dark;
-                cursor: pointer;
-                margin-left: 0;
-                margin-right: 0;
-
-                @media (max-width: 649px) {
-                    width: 100%;
-                }
-
-                .addCategoryLabelContainer {
-                    padding: 0;
-                }
-
-                &:hover {
-                    border-color: @memo-green;
-                }
-
-                .addCategoryCardLabel {
-                    transition: 0.2s;
-
-                    &:hover {
-                        color: @memo-green;
                     }
                 }
             }

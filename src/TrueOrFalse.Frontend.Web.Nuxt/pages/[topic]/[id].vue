@@ -4,12 +4,14 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+
+const topicStore = useTopicStore()
+const tabsStore = useTabsStore()
+
 interface Props {
     tab?: Tab
 }
 const props = defineProps<Props>()
-const learningSessionStore = useLearningSessionStore()
-const tabsStore = useTabsStore()
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -27,7 +29,6 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
 
 if (topic.value != null) {
     if (topic.value.CanAccess) {
-        const topicStore = useTopicStore()
         topicStore.setTopic(topic.value)
 
         const spinnerStore = useSpinnerStore()
@@ -45,9 +46,12 @@ if (topic.value != null) {
         })
 
         watch(() => tabsStore.activeTab, (t) => {
+            preloadTopicTab.value = false
             if (t == Tab.Topic) {
                 history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}`)
             }
+            else if (t == Tab.Learning && route.params.questionId != null)
+                history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}/Lernen/${route.params.questionId}`)
             else if (t == Tab.Learning)
                 history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}/Lernen`)
         })
@@ -78,25 +82,27 @@ function setTab() {
     }
 }
 
+const preloadTopicTab = ref(true)
+
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
+    if (props.tab != Tab.Topic)
+        preloadTopicTab.value
     emit('setPage', Page.Topic)
 })
-
-onMounted(() => {
-    setTab()
-})
+onMounted(() => setTab())
 
 </script>
 
 <template>
-    <div class="container main-page">
-        <div class="row topic-container">
+    <div class="container">
+        <div class="row topic-container main-page">
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader />
-                <TopicTabsContent v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" keep-alive />
+                <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)"
+                    keep-alive />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-show="tabsStore != null && tabsStore.activeTab == Tab.Learning" keep-alive />
+                <TopicTabsQuestions v-show="tabsStore.activeTab == Tab.Learning" keep-alive />
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
             </div>

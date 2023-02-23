@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
-import { Tab } from '~~/components/user/tabs/tabsEnum';
+import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
 const route = useRoute()
@@ -20,11 +20,15 @@ interface Overview {
 }
 interface Question {
     title: string
-    url: string
+    encodedPrimaryTopicName: string
+    primaryTopicId: number
+    id: number
 }
 interface Topic {
     name: string
-    url: string
+    encodedName: string
+    id: number
+    questionCount: number
 }
 interface Wuwi {
     questions: Question[]
@@ -34,14 +38,15 @@ interface User {
     id: number
     name: string
     wikiUrl?: string
-    imageUrl?: string
+    imageUrl: string
     reputationPoints: number
     rank: number
+    showWuwi: boolean
 }
 interface ProfileData {
     user: User
     overview: Overview
-    wuwi: Wuwi
+    wuwi?: Wuwi
     isCurrentUser: boolean
 }
 const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id}`, {
@@ -58,7 +63,9 @@ const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${
 const tab = ref<Tab>(Tab.Overview)
 const userStore = useUserStore()
 const isCurrentUser = computed(() => {
-    return profile.value?.isCurrentUser && userStore.id == profile.value?.user.id
+    if (profile.value?.isCurrentUser && userStore.id == profile.value?.user.id)
+        return true
+    else return false
 })
 
 const badgeCount = ref(0)
@@ -67,48 +74,174 @@ const maxBadgeCount = ref(0)
 function setTab(t: Tab) {
     tab.value = t
 }
+
+function updateProfile() {
+    refreshNuxtData('profile')
+}
+
+interface Props {
+    isSettingsPage?: boolean
+}
+const props = defineProps<Props>()
+
+onBeforeMount(() => {
+    if (props.isSettingsPage && profile.value?.isCurrentUser)
+        tab.value = Tab.Settings
+})
+watch(() => userStore.isLoggedIn, (val) => {
+    console.log(val)
+    refreshNuxtData('profile')
+})
 </script>
 
 <template>
-    <div class="container main-page">
-        <div class="row profile-container mt-45">
+    <div class="container">
+        <div class="row profile-container mt-45 main-page">
             <div class="col-xs-12 container" v-if="profile">
-                <div class="profile-header row">
-                    <div class="col-xs-12">
-                        <Image :style="ImageStyle.Author" :url="''" class="profile-picture" />
-                        <div>
+                <div class="row">
+                    <div class="col-xs-12 profile-header ">
+                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture" />
+                        <div class="profile-header-info">
                             <h1>{{ profile.user.name }}</h1>
-                            <div>
-                                {{ profile.user.reputationPoints }} Reputationspunkte
-                                <NuxtLink>
+                            <div class="sub-info">
+                                <b>{{ profile.user.reputationPoints }}</b> Reputationspunkte
+                                <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
+                                (Rang {{ profile.user.rank }})
+                                <NuxtLink class="link-to-all-users">
                                     Zur Übersicht aller Nutzer
                                 </NuxtLink>
                             </div>
-                            <div>
-                                <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
-                                    <div class="memo-btn btn-default">
+                            <div class="profile-btn-container">
+                                <button class="memo-button btn btn-primary">
+                                    <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
+
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
-                                        Zu {{ isCurrentUser? 'meinem': `${profile.user.name}s'` }} Wiki
-                                    </div>
-                                </NuxtLink>
-                                <button @click="tab = Tab.Settings" v-if="isCurrentUser">
-                                    <div class="memo-btn btn-link">
-                                        Profil bearbeiten
-                                    </div>
+                                        Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
+                                    </NuxtLink>
                                 </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="setTab" />
+                <div class="row">
+                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="setTab"
+                        :is-current-user="isCurrentUser" />
+                </div>
+
                 <Transition>
-                    <div v-if="tab == Tab.Overview" class="row">
-                        <div class="col-lg-3 col-md-6 col-xs-12">a</div>
-                        <div class="col-lg-3 col-md-6 col-xs-12">b</div>
-                        <div class="col-lg-3 col-md-6 col-xs-12">c</div>
+                    <div v-show="tab == Tab.Overview" class="row content">
+                        <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
+
+                            <div class="overline-s">
+                                Reputationspunkte
+                            </div>
+
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.activityPoints.total }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>gesamt</div>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div class="sub-counter-container">
+                                <div class="count">
+                                    {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
+                                </div>
+                                <div class="count-label">Eigene Fragen im Wunschwissen anderer</div>
+                            </div>
+                            <div class="sub-counter-container">
+                                <div class="count">
+                                    {{ profile.overview.activityPoints.questionsCreated }} P
+                                </div>
+                                <div class="count-label">Erstellte Fragen</div>
+                            </div>
+                            <div class="sub-counter-container">
+                                <div class="count">
+                                    {{ profile.overview.activityPoints.publicWishknowledges }} P
+                                </div>
+                                <div class="count-label">Veröffentlichung des eigenes Wunschwissen</div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <NuxtLink to="/Globales-Wiki/1">Erfahre mehr über Reputationspunkte</NuxtLink>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
+
+                            <div class="overline-s">
+                                Erstellte Inhalte
+                            </div>
+
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.publicQuestionsCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>
+                                        Öffentliche Fragen
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.publicTopicsCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>
+                                        Öffentliche Themen
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
+
+                            <div class="overline-s">
+                                Im Wunschwissen
+                            </div>
+
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.wuwiCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>Fragen</div>
+                                </div>
+
+                            </div>
+                            <div class="divider"></div>
+
+                        </div>
                     </div>
                 </Transition>
+                <Transition>
+                    <div v-show="tab == Tab.Wishknowledge">
+                        <div v-if="profile.user.showWuwi || profile.isCurrentUser">
+                            <UserTabsWishknowledge :questions="profile.wuwi?.questions" :topics="profile.wuwi?.topics"
+                                keep-alive />
+                        </div>
+                        <div v-else></div>
+                    </div>
+                </Transition>
+                <Transition>
+                    <div v-show="tab == Tab.Badges">
+
+                    </div>
+                </Transition>
+                <Transition v-if="profile.isCurrentUser">
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
+                        @update-profile="updateProfile" />
+                </Transition>
+
             </div>
         </div>
     </div>
@@ -117,12 +250,95 @@ function setTab(t: Tab) {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
+.content {
+    .overview-partial {
+        padding-top: 50px;
+    }
+}
+
 .profile-header {
     display: flex;
+    flex-direction: row;
 
     .profile-picture {
         width: 166px;
         height: 166px;
+        margin-right: 30px;
+    }
+
+    .profile-header-info {}
+
+    .sub-info {
+        font-size: 18px;
+        margin-bottom: 10px;
+
+        .info-icon {
+            color: @memo-grey-light;
+            margin-right: 4px;
+        }
+
+        .link-to-all-users {
+            font-size: 14px;
+        }
+    }
+
+    .profile-btn-container {}
+
+}
+
+.divider {
+    height: 1px;
+    background: @memo-grey-lighter;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.overline-s {
+    margin-bottom: 10px;
+}
+
+.main-counter-container {
+    display: flex;
+    flex-wrap: nowrap;
+
+    margin: 0 20px;
+
+    .count {
+        margin-right: 10px;
+        // width: 150px;
+        // text-align: right;
+
+        h1 {
+            margin-top: 0px;
+            color: @memo-grey-darker;
+        }
+    }
+
+    .count-label {
+        line-height: 54px;
+        display: flex;
+        flex-direction: column-reverse;
+        color: @memo-grey-darker;
+    }
+}
+
+.sub-counter-container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0 20px;
+    margin-bottom: 10px;
+
+
+    .count {
+        font-weight: 700;
+        min-width: 70px;
+        text-align: right;
+        margin-right: 10px;
+        color: @memo-grey-dark;
+    }
+
+    .count-label {
+        color: @memo-grey-dark;
     }
 }
 </style>

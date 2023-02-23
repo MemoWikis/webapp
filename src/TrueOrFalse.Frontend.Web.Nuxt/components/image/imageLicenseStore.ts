@@ -32,6 +32,7 @@ export const useImageLicenseStore = defineStore('imageLicenseStore', {
             }
             this.description = result.description ?? ''
             this.attributionHtmlString = result.attributionHtmlString ?? ''
+            this.show = true
         }
     }
 })

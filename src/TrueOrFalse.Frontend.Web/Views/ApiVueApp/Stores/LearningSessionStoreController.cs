@@ -40,6 +40,61 @@ public class LearningSessionStoreController: BaseController
         });
     }
 
+    [HttpPost]
+    public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
+    {
+        var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache();
+        if (allQuestions.IndexOf(q => q.Id == id) < 0)
+            return Json(new
+            {
+                success = false,
+                message = "questionDoesntExistInTopic"
+            });
+
+        if (!PermissionCheck.CanViewQuestion(id))
+            return Json(new
+            {
+                success = false,
+                message = "private"
+            });
+
+        var learningSession = LearningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
+
+        if (learningSession == null)
+            return Json(new
+            {
+                success = false,
+                message = "filterMismatch"
+            });
+
+        LearningSessionCache.AddOrUpdate(learningSession);
+
+        var index = learningSession.Steps.IndexOf(s => s.Question.Id == id);
+        learningSession.LoadSpecificQuestion(index);
+
+        return Json(new
+        {
+            success = true,
+            steps = learningSession.Steps.Select((s, index) => new
+            {
+                id = s.Question.Id,
+                state = s.AnswerState,
+                index = index
+            }).ToArray(),
+            activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
+            currentStep = new
+            {
+                state = learningSession.CurrentStep.AnswerState,
+                id = learningSession.CurrentStep.Question.Id,
+                index = index,
+                isLastStep = learningSession.TestIsLastStep()
+            },
+            answerHelp = learningSession.Config.AnswerHelp,
+            isInTestMode = learningSession.Config.IsInTestMode
+        });
+
+    }
+
     [HttpGet]
     public JsonResult GetLastStepInQuestionList(int index)
     {
@@ -112,12 +167,22 @@ public class LearningSessionStoreController: BaseController
         var learningSession = LearningSessionCache.GetLearningSession();
         learningSession.LoadSpecificQuestion(index);
 
-        return Json(new StepResult
+        return Json(new
         {
-            state = learningSession.CurrentStep.AnswerState,
-            id = learningSession.CurrentStep.Question.Id,
-            index = index,
-            isLastStep = learningSession.TestIsLastStep()
+            steps = learningSession.Steps.Select((s, index) => new StepResult
+            {
+                id = s.Question.Id,
+                state = s.AnswerState,
+                index = index,
+                isLastStep = learningSession.Steps.Last() == s
+            }).ToArray(),
+            currentStep = new StepResult
+            {
+                state = learningSession.CurrentStep.AnswerState,
+                id = learningSession.CurrentStep.Question.Id,
+                index = index,
+                isLastStep = learningSession.TestIsLastStep()
+            },
         });
     }
 

@@ -87,7 +87,15 @@ button {
 }
 //dropdown Standard
 
+.btn {
+    &:focus, &:hover {
+        color: white;
 
+        &.btn-link {
+            color: @memo-blue-link;
+        }
+    }
+}
 
 .standard-question-drop-down {
     padding: 0;
@@ -362,7 +370,7 @@ img {
 
 .MenuButtonSM { //to override bootstrap styles several times
     padding: 0px;
-    ont-size: 25px;
+    font-size: 25px;
 }
 
 #MenuButton, #StickyMenuButton {
@@ -1368,7 +1376,7 @@ div.box-main .box-content {
 }
 
 .rowBase {
-    *zoom: 1;
+    zoom: 1;
 }
 
 .rowBase:before,
@@ -1710,12 +1718,28 @@ h3 {
 
 .memo-button {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 36px;
     letter-spacing: 1.25px;
     text-transform: uppercase;
     height: 36px !important;
     padding: 0 12px !important;
+    display: flex;
+    align-items: center;
+    color: white;
+    outline: none !important;
+
+    a {
+        color: white;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    svg {
+        font-size: 16px;
+        margin-right: 6px;
+    }
 
     &.btn-link {
         color: @memo-blue-link;
@@ -1960,7 +1984,7 @@ b, strong {
     p {
         code {
             color: @memo-grey-darker;
-            bckground-color: @memo-grey-lighter
+            background-color: @memo-grey-lighter
         }
     }
 
@@ -2441,7 +2465,7 @@ textarea, input {
     color: @memo-green !important;
 }
 
-.iconHeaderModal {
+.modal-header-icon {
     padding-right: 5px;
     font-weight: 900;
 }
@@ -2475,14 +2499,14 @@ textarea, input {
 
 
 
-.modalSecondActionButton {
+.secondary-action-button {
     margin-right: 14px;
 }
 
 
 
 @media (max-width: 850px) {
-    .modalSecondActionButton {
+    .secondary-action-button {
         margin-right: 0;
         margin-top: 8px;
     }
@@ -2492,31 +2516,34 @@ textarea, input {
     }
 }
 
-.fullSizeButtons {
+.full-size-buttons {
     width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .noPadding {
     padding: 0;
 }
 
-.errorButton1Modal {
+.primary-error-button {
     background: @memo-salmon;
     border-color: @memo-salmon;
     color: white !important;
 }
 
-.successButton1Modal {
+.primary-success-button {
     background: @memo-green;
     border-color: @memo-green;
     color: white !important;
 }
 
-.errorButton2Modal {
+.secondary-error-button {
     color: @memo-salmon !important;
 }
 
-.successButton2Modal {
+.secondary-success-button {
     color: @memo-green !important;
 }
 

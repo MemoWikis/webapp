@@ -256,7 +256,6 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
 
         </div>
     </div>
-
 </template>
 
 

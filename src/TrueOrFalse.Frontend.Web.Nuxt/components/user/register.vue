@@ -160,7 +160,6 @@ async function register() {
 </script>
 
 <template>
-
     <div class="row login-register">
         <div class="form-horizontal col-md-12">
             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
@@ -175,8 +174,7 @@ async function register() {
             <div class="form-group omb_login row">
                 <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
                     <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                        <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister"
-                            @click="googleRegister()">
+                        <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister" @click="googleRegister()">
                             <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleRegister"
                                 class="socialMediaLogo">
                             <div class="socialMediaLabel">weiter mit Google</div>
@@ -220,7 +218,7 @@ async function register() {
                                 <div class="overline-s no-line">Benutzername</div>
                             </div>
                             <div class="col-sm-offset-2 col-sm-8">
-                                <input name="login" placeholder="" type="text" width="100%" class="loginInputs"
+                                <input name="login" placeholder="" type="text" width="100%" class="login-inputs"
                                     v-model="userName" @keydown.enter="register()" @click="errorMessage = ''" />
                             </div>
                         </div>
@@ -232,7 +230,7 @@ async function register() {
                         <div class="overline-s no-line">E-Mail</div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-8">
-                        <input name="login" placeholder="" type="email" width="100%" class="loginInputs" v-model="eMail"
+                        <input name="login" placeholder="" type="email" width="100%" class="login-inputs" v-model="eMail"
                             @keydown.enter="register()" @click="errorMessage = ''" />
                     </div>
                 </div>
@@ -243,18 +241,18 @@ async function register() {
                     </div>
 
                     <div class="col-sm-offset-2 col-sm-8">
-                        <input name="password" placeholder="" :type="passwordInputType" width="100%" class="loginInputs"
+                        <input name="password" placeholder="" :type="passwordInputType" width="100%" class="login-inputs"
                             v-model="password" @keydown.enter="register()" @click="errorMessage = ''" />
                         <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon" v-if="passwordInputType == 'password'"
                             @click="passwordInputType = 'text'" />
-                        <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                            v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" />
+                        <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon" v-if="passwordInputType == 'text'"
+                            @click="passwordInputType = 'password'" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                        <div @click="register()" class="btn btn-primary memo-button col-sm-12">Registrieren</div>
+                        <button @click="register()" class="btn btn-primary memo-button col-sm-12">Registrieren</button>
                     </div>
                 </div>
 
@@ -263,15 +261,14 @@ async function register() {
                         <p href="#" style="text-align: center;">
                             Ich bin schon Nutzer!
                             <br />
-                        <div style="text-align: center;" class="btn btn-link" @click="userStore.openLoginModal()">
-                            Anmelden</div>
+                            <button style="text-align: center;" class="btn btn-link" @click="userStore.openLoginModal()">
+                                Anmelden</button>
                         </p>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-8"
-                        style="font-size: 12px; padding-top: 20px; text-align: center;">
+                    <div class="col-sm-offset-2 col-sm-8" style="font-size: 12px; padding-top: 20px; text-align: center;">
                         Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
                         <NuxtLink to="/AGB">
                             Nutzungsbedingungen
@@ -290,7 +287,6 @@ async function register() {
             </fieldset>
         </div>
     </div>
-
 </template>
 
 

@@ -13,13 +13,16 @@ const solutionHtml = ref('')
 function init() {
     solutionHtml.value = JSON.parse(props.solution).Text
 }
-onBeforeMount(() => {
-    init()
-})
+
+onBeforeMount(() => init())
+
 watch(() => props.solution, () => init())
 
-
 function flip() {
+    if (flipped.value && solutionHtml.value.charAt(0) === ' ')
+        solutionHtml.value = solutionHtml.value.substring(1)
+    else solutionHtml.value = ' ' + solutionHtml.value
+
     flipped.value = !flipped.value
 }
 
@@ -45,6 +48,7 @@ function getMinHeight() {
 }
 
 const emit = defineEmits((['flipped']))
+
 </script>
 
 <template>
@@ -60,7 +64,7 @@ const emit = defineEmits((['flipped']))
                 </div>
             </div>
             <div class="flashcard-back" :style="getMinHeight()">
-                <div v-if="solutionHtml.length > 0" v-html="handleNewLine(solutionHtml)" ref="back"></div>
+                <div v-show="solutionHtml.length > 0" v-html="handleNewLine(solutionHtml)" ref="back"></div>
                 <div class="flip-label">
                     <font-awesome-icon icon="fa-solid fa-rotate" />
                     Zum Umdrehen klicken

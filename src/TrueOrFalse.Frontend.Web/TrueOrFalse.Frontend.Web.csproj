@@ -294,6 +294,7 @@
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\UserSettingsController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\ActivityPointsStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\LearningSessionStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\TopicToPrivateStoreController.cs" />
@@ -309,7 +310,7 @@
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\TopicLearningQuestionListController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\CardController.cs" />
-    <Compile Include="Views\ApiVueApp\VueUserController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\VueUserController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Header\BreadcrumbController.cs" />
     <Compile Include="Views\ApiVueApp\VueRegisterController.cs" />

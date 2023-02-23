@@ -31,6 +31,8 @@ public class UserCacheItem : IUserTinyModel
     public bool IsMember { get; set; }
     public Membership CurrentMembership { get; set; }
 
+    public int TotalInOthersWishknowledge { get; set; }
+
     public static UserCacheItem ToCacheUser(User user)
     {
         var userCacheItem = new UserCacheItem();
@@ -64,6 +66,7 @@ public class UserCacheItem : IUserTinyModel
         CorrectnessProbability = user.CorrectnessProbability;
         IsMember = user.IsMember();
         CurrentMembership = user.MembershipPeriods.FirstOrDefault(x => x.IsActive());
+        TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
     }
 
     public virtual string WidgetHostsSpaceSeparated { get; set; }

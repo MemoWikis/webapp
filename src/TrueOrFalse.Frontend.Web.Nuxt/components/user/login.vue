@@ -81,9 +81,9 @@ onMounted(() => {
 
 <template>
     <div id="LoginModalComponent">
-        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn="primaryBtnLabel"
-            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @main-btn="login()"
-            :show="userStore.showLoginModal" @keydown.esc="userStore.showLoginModal = false">
+        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn="primaryBtnLabel" :is-full-size-buttons="true"
+            @close="userStore.showLoginModal = false" @main-btn="login()" :show="userStore.showLoginModal"
+            @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>
                 <span v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</span>
@@ -134,14 +134,14 @@ onMounted(() => {
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                                     <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
                                         v-if="allowFacebookPlugin" @click="facebookLogin()">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
-                                            alt="FacebookLogin" class="socialMediaLogo">
+                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
+                                            class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
                                     </div>
                                     <div class="btn btn-block cursor-hand socialMediaBtn" v-else
                                         @click="showFacebookPluginInfo = true">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
-                                            alt="FacebookLogin" class="socialMediaLogo">
+                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
+                                            class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
                                     </div>
                                 </div>
@@ -159,39 +159,36 @@ onMounted(() => {
                             Infos!
                         </NuxtLink>
                     </p>
-
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-12">
-                            <div class="register-divider-container">
-                                <div class="register-divider">
-                                    <div class="register-divider-line"></div>
-                                </div>
-                                <div class="register-divider-label-container">
-                                    <div class="register-divider-label">
-                                        oder
+                    <form class="form-horizontal">
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-12">
+                                <div class="register-divider-container">
+                                    <div class="register-divider">
+                                        <div class="register-divider-line"></div>
+                                    </div>
+                                    <div class="register-divider-label-container">
+                                        <div class="register-divider-label">
+                                            oder
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="input-container">
-                        <div class="overline-s no-line">E-Mail</div>
-                        <form class="form-horizontal">
+                        <div class="input-container">
+                            <div class="overline-s no-line">E-Mail</div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <input name="login" placeholder="" type="email" width="100%" class="loginInputs"
+                                    <input name="login" placeholder="" type="email" width="100%" class="login-inputs"
                                         v-model="eMail" @keydown.enter="login()" @click="errorMessage = ''" />
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="input-container">
-                        <div class="overline-s no-line">Passwort</div>
-                        <form class="form-horizontal">
+                        </div>
+                        <div class="input-container">
+                            <div class="overline-s no-line">Passwort</div>
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <input name="password" placeholder="" :type="passwordInputType" width="100%"
-                                        class="loginInputs" v-model="password" @keydown.enter="login()"
+                                        class="login-inputs" v-model="password" @keydown.enter="login()"
                                         @click="errorMessage = ''" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
                                         v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'" />
@@ -199,20 +196,20 @@ onMounted(() => {
                                         v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" />
                                 </div>
                             </div>
-                        </form>
-                        <div class="infoContainer col-sm-12 noPadding">
-                            <div class="col-sm-4 noPadding">
-                                <label class="cursor-hand">
-                                    <input type="checkbox" class="cursor-hand" v-model="persistentLogin" />
-                                    <span class="checkboxText">Angemeldet bleiben</span>
-                                </label>
+                            <div class="infoContainer col-sm-12 noPadding">
+                                <div class="col-sm-4 noPadding">
+                                    <label class="cursor-hand">
+                                        <input type="checkbox" class="cursor-hand" v-model="persistentLogin" />
+                                        <span class="checkboxText">Angemeldet bleiben</span>
+                                    </label>
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
+                                    <a href="/Login/PasswortZuruecksetzen">Passwort vergessen?</a>
+                                </div>
                             </div>
-                            <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
-                                <a href="/Login/PasswortZuruecksetzen">Passwort vergessen?</a>
-                            </div>
+                            <div class="errorMessage" v-if="errorMessage.length > 0">{{ errorMessage }}</div>
                         </div>
-                        <div class="errorMessage" v-if="errorMessage.length > 0">{{ errorMessage }}</div>
-                    </div>
+                    </form>
                 </template>
 
 
@@ -247,8 +244,7 @@ onMounted(() => {
 
                 <div class="row" v-else-if="showFacebookPluginInfo">
                     <p>
-                        <button type="button" class="btn btn-primary pull-right memo-button"
-                            @click="loadFacebookPlugin()">
+                        <button type="button" class="btn btn-primary pull-right memo-button" @click="loadFacebookPlugin()">
                             Einverstanden
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"
@@ -262,7 +258,6 @@ onMounted(() => {
     </div>
     <UserFacebookLogin ref="facebookLoginComponent" />
     <UserGoogleLogin ref="googleLoginComponent" />
-
 </template>
 
 <style scoped lang="less">

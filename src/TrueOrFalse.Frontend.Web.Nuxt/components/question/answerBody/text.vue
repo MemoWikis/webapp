@@ -26,11 +26,9 @@ defineExpose({ getAnswerDataString, getAnswerText })
 </script>
 
 <template>
-
-    <textarea id="txtAnswer" class="form-control " rows="1" placeholder="Gib hier bitte deine Antwort ein."
-        @input="resize" v-model="answer" ref="textArea" :disabled="props.showAnswer">
-    </textarea>
-
+    <textarea id="txtAnswer" class="form-control " rows="1" placeholder="Gib hier bitte deine Antwort ein." @input="resize"
+        v-model="answer" ref="textArea" :disabled="props.showAnswer">
+            </textarea>
 </template>
 
 <style lang="less" scoped>
@@ -48,12 +46,12 @@ textarea {
     border-radius: 0;
 
     &:focus {
-        @border-color: @memo-green;
+        border: solid 1px @memo-green;
         box-shadow: none;
     }
 
     &:active {
-        @border-color: @memo-green;
+        border: solid 1px @memo-green;
         box-shadow: none;
 
     }

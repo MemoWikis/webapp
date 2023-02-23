@@ -23,6 +23,7 @@ public class VueSessionUser
                 IsLoggedIn = SessionUser.IsLoggedIn,
                 Id =  SessionUser.UserId,
                 Name = SessionUser.User.Name,
+                Email = SessionUser.User.EmailAddress,
                 IsAdmin = SessionUser.IsInstallationAdmin,
                 PersonalWikiId = SessionUser.User.StartTopicId,
                 Type = type,

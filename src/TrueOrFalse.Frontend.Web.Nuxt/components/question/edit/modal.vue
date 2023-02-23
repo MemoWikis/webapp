@@ -256,7 +256,7 @@ async function save() {
                 alertStore.openAlert(AlertType.Success, {
                     text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created,
                     customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
-                    customBtn: '<div class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</div>',
+                    customBtn: '<button class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</button>',
                 })
         }
         editQuestionStore.showModal = false
@@ -389,8 +389,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         </div>
                     </div>
 
-                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi"
-                        v-if="!editQuestionStore.edit">
+                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!editQuestionStore.edit">
                         <div>
                             <font-awesome-icon v-if="addToWuwi" icon="fa-solid fa-heart" />
                             <font-awesome-icon v-else icon="fa-regular fa-heart" />
@@ -401,8 +400,8 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-                        <QuestionEditEditor :highlightEmptyFields="highlightEmptyFields"
-                            @setQuestionData="setQuestionData" ref="questionEditor" :content="questionHtml" />
+                        <QuestionEditEditor :highlightEmptyFields="highlightEmptyFields" @setQuestionData="setQuestionData"
+                            ref="questionEditor" :content="questionHtml" />
                     </div>
 
                     <div class="input-container" v-if="solutionType != SolutionType.FlashCard">
@@ -429,38 +428,36 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>
                         <form class="" v-on:submit.prevent>
-                            <div class="form-group dropdown categorySearchAutocomplete"
-                                :class="{ 'open': showDropdown }">
+                            <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
-                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
-                                        :index="index" @removeTopic="removeTopic"
-                                        :removable-chip="selectedTopics.length > 1" />
+                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t" :index="index"
+                                        @removeTopic="removeTopic" :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
                                 <Search :search-type="SearchType.Category" :show-search-icon="false" :show-search="true"
                                     :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
-                                    placeholder-label="Bitte gib den Namen des Themas ein"
-                                    :show-default-search-icon="true" @select-item="selectTopic" />
+                                    placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
+                                    @select-item="selectTopic" />
                                 <!-- <input ref="searchInput" class="form-control dropdown-toggle" type="text"
-                                    v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
-                                    @click="lockDropdown = false" aria-haspopup="true"
-                                    placeholder="Bitte gib den Namen des Themas ein" />
-                                <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
-                                    <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
-                                        data-toggle="tooltip" data-placement="top" :title="t.Name">
-                                        <img :src="t.ImageUrl" />
-                                        <div>
-                                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                            <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
-                                                Frage<template v-if="t.QuestionCount != 1">n</template></div>
-                                        </div>
-                                    </li>
-                                    <li class="dropdownFooter body-m">
-                                        <b>{{ totalCount }}</b> Treffer. <br />
-                                        Deins ist nicht dabei? <span class="dropdownLink"
-                                            @click="createCategory = true">Erstelle hier dein Thema</span>
-                                    </li>
-                                </ul> -->
+                                        v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
+                                        @click="lockDropdown = false" aria-haspopup="true"
+                                        placeholder="Bitte gib den Namen des Themas ein" />
+                                    <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
+                                        <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
+                                            data-toggle="tooltip" data-placement="top" :title="t.Name">
+                                            <img :src="t.ImageUrl" />
+                                            <div>
+                                                <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                                <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
+                                                    Frage<template v-if="t.QuestionCount != 1">n</template></div>
+                                            </div>
+                                        </li>
+                                        <li class="dropdownFooter body-m">
+                                            <b>{{ totalCount }}</b> Treffer. <br />
+                                            Deins ist nicht dabei? <span class="dropdownLink"
+                                                @click="createCategory = true">Erstelle hier dein Thema</span>
+                                        </li>
+                                    </ul> -->
                             </div>
 
                         </form>
@@ -469,18 +466,17 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         <div class="overline-s no-line">
                             Sichtbarkeit
                         </div>
-                        <div class="privacy-selector"
-                            :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
+                        <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
                             <div class="checkbox-container">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
-                                            class="fas fa-lock show-tooltip tooltip-min-200" title=""
-                                            data-placement="top" data-html="true" data-original-title="
-                            <ul class='show-tooltip-ul'>
-                                <li>Die Frage kann nur von dir genutzt werden.</li>
-                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                            </ul>">
+                                            class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
+                                            data-html="true" data-original-title="
+                                <ul class='show-tooltip-ul'>
+                                    <li>Die Frage kann nur von dir genutzt werden.</li>
+                                    <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                </ul>">
                                         </i>
                                     </label>
                                 </div>
@@ -524,7 +520,6 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
         </template>
 
     </Modal>
-
 </template>
 
 <style lang="less">

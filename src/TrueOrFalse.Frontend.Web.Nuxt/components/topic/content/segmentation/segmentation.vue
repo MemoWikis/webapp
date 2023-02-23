@@ -373,18 +373,18 @@ export default defineNuxtComponent({
           @remove-card="removeCard(category.Id)" :parent-topic-id="categoryId" @remove-category="removeCategory"
           @load-segment="loadSegment" />
         <div v-if="!isHistoric" class="col-xs-6 topic">
-          <div class="addCategoryCard memo-button row" :id="addCategoryId">
+          <button class="add-category-card memo-button row" :id="addCategoryId">
             <div class="col-xs-3"></div>
             <div class="col-xs-9 addCategoryLabelContainer">
-              <div class="addCategoryCardLabel" @click="addCategory(true)">
+              <div class="add-category-card-label" @click="addCategory(true)">
                 <font-awesome-icon icon="fa-solid fa-plus" />
                 Neues Thema
               </div>
-              <div class="addCategoryCardLabel" @click="addCategory(false)">
+              <div class="add-category-card-label" @click="addCategory(false)">
                 <font-awesome-icon icon="fa-solid fa-plus" /> Bestehendes Thema
               </div>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -476,7 +476,7 @@ export default defineNuxtComponent({
         }
       }
 
-      .addCategoryCard {
+      .add-category-card {
         display: flex;
         border: solid 1px @memo-grey-light;
         transition: 0.2s;
@@ -486,6 +486,8 @@ export default defineNuxtComponent({
         cursor: pointer;
         margin-left: 0;
         margin-right: 0;
+        background: none;
+        width: 100%;
 
         @media (max-width: 649px) {
           width: 100%;
@@ -499,8 +501,9 @@ export default defineNuxtComponent({
           border-color: @memo-green;
         }
 
-        .addCategoryCardLabel {
+        .add-category-card-label {
           transition: 0.2s;
+          text-align: left;
 
           &:hover {
             color: @memo-green;
