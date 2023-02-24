@@ -196,6 +196,13 @@ const partialSpacer = ref()
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.header-author-icon {
+    height: 32px;
+    width: 32px;
+    margin-left: -8px;
+    margin-right: 4px;
+}
+
 .nav-options-container {
     position: fixed;
     top: 0;

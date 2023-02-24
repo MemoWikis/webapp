@@ -27,7 +27,7 @@ public class VueSessionUser
                 IsAdmin = SessionUser.IsInstallationAdmin,
                 PersonalWikiId = SessionUser.User.StartTopicId,
                 Type = type,
-                ImgUrl =  new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url,
+                ImgUrl =  new UserImageSettings(SessionUser.UserId).GetUrl_50px(SessionUser.User).Url,
                 Reputation = SessionUser.User.Reputation,
                 ReputationPos = SessionUser.User.ReputationPos,
                 PersonalWiki = new TopicController().GetTopicData(SessionUser.User.StartTopicId),
