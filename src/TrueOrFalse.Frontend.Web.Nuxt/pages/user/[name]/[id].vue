@@ -61,8 +61,6 @@ const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${
     }
 })
 
-watch(profile, () => console.log(Date.now()))
-
 const { data: wuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
@@ -73,7 +71,6 @@ const { data: wuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${ro
         }
     }
 })
-watch(wuwi, () => console.log(Date.now()))
 
 const tab = ref<Tab>()
 const isCurrentUser = computed(() => {
