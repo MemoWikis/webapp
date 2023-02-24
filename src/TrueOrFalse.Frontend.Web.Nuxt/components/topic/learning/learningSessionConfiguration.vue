@@ -3,7 +3,11 @@ import { useUserStore } from '~~/components/user/userStore';
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 
 const userStore = useUserStore()
-const props = defineProps(['questionsCount', 'allQuestionCount', 'isInQuestionList'])
+interface Props {
+    isInQuestionList?: boolean
+    openFilter?: boolean
+}
+const props = defineProps<Props>()
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const showFilterDropdown = ref(false)
@@ -22,7 +26,14 @@ const showKnowledgeSummaryDropdown = ref(false)
 function closeKnowledgeSummaryDropdown() {
     showKnowledgeSummaryDropdown.value = false
 }
-
+onBeforeMount(() => {
+    if (props.openFilter)
+        showFilterDropdown.value = true
+})
+watch(() => props.openFilter, (val) => {
+    if (val)
+        showFilterDropdown.value = true
+})
 </script>
 
 <template>
@@ -52,7 +63,7 @@ function closeKnowledgeSummaryDropdown() {
                         deine Fragen aus</div>
                     <div v-else class="question-filter-options-icon-container">
                         <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay">
-                            <font-awesome-icon v-if="o.isSelected" :icon="o.icon" />
+                            <font-awesome-icon v-if="o.isSelected" :icon="o.icon" class="filter-icon" />
                         </template>
                         <div class="icon-counter"
                             v-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount >= 2">
@@ -361,7 +372,7 @@ function closeKnowledgeSummaryDropdown() {
             <div class="col-xs-12 reset-session-button-container">
                 <div class="reset-session-button" @click="learningSessionConfigurationStore.reset"
                     :class="{ 'disabled': !learningSessionConfigurationStore.activeCustomSettings }">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                    <font-awesome-icon icon="fa-solid fa-xmark" class="reset-icon" />
                     <div>
                         Alle Filter zurücksetzen
                     </div>
@@ -373,6 +384,9 @@ function closeKnowledgeSummaryDropdown() {
                     Für diese Einstellungen sind keine Fragen verfügbar.
                     Bitte ändere den Wissensstand oder wähle alle Fragen aus.
                 </div>
+                <button class="close-alert-btn" @click="learningSessionConfigurationStore.showSelectionError = false">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                </button>
             </div>
 
         </div>
@@ -381,12 +395,20 @@ function closeKnowledgeSummaryDropdown() {
 </template>
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
 @import '~~/assets/shared/register.less';
 
 @radioSize: 17px;
 @borderColor: #949494;
 @activeSelection: #428BCA;
 @fontColor: @memo-blue;
+
+.close-alert-btn {
+    background: none;
+    margin-left: 6px;
+    padding: 12px 6px;
+    cursor: pointer;
+}
 
 .opacity {
     opacity: 0.5;
@@ -462,10 +484,6 @@ function closeKnowledgeSummaryDropdown() {
         justify-content: center;
         text-transform: uppercase;
         z-index: 5;
-
-        i {
-            padding-left: 5px;
-        }
 
         &:hover {
             color: @memo-blue;
@@ -777,7 +795,7 @@ function closeKnowledgeSummaryDropdown() {
         align-items: center;
         color: @memo-blue;
 
-        i {
+        .reset-icon {
             padding-right: 4px;
         }
 
@@ -798,7 +816,7 @@ function closeKnowledgeSummaryDropdown() {
     flex-wrap: nowrap;
     align-items: center;
 
-    i {
+    .filter-icon {
         padding-right: 4px;
     }
 

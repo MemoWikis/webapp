@@ -25,7 +25,6 @@ public class SearchApiController : BaseController
 
         var elements = await _search.Go(term, type);
 
-
         if (elements.Categories.Any())
             AddCategoryItems(categoryItems, elements);
 

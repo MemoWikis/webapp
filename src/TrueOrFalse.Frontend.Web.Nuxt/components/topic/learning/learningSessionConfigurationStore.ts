@@ -3,6 +3,21 @@ import { useUserStore } from '../../user/userStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import _ from 'underscore'
+import { AlertType, messages, useAlertStore } from '~~/components/alert/alertStore'
+
+export interface QustionCounter {
+    CreatedByCurrentUser: number
+    InWuwi: number
+    Max: number
+    NeedsConsolidation: number
+    NeedsLearning: number
+    NotCreatedByCurrentUser: number
+    NotInWuwi: number
+    NotLearned: number
+    Private: number
+    Public: number
+    Solid: number
+}
 
 export class SessionConfig {
     questionFilterOptions: { [key: string]: any; } = {
@@ -180,10 +195,11 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
                 if (!this.userHasChangedMaxCount)
                     this.selectedQuestionCount = e.Max as number
-            }
-        },
-        startNewSession() {
 
+                if (this.maxQuestionCountIsZero)
+                    this.showSelectionError = true
+                else this.showSelectionError = false
+            }
         },
         async loadSessionFromLocalStorage() {
             const preLoadJson = this.buildSessionConfigJson()
@@ -214,7 +230,20 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             if (preLoadJson != postLoadJson)
                 this.activeCustomSettings = true
         },
-        loadCustomSession() {
+        async getQuestionCount() {
+            const topicStore = useTopicStore()
+            const sessionJson = this.buildSessionConfigJson(topicStore.id)
+            const count = await $fetch<QustionCounter>(`/apiVue/Learning/GetCount/`, {
+                body: sessionJson,
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+            })
+            this.setCounter(count)
+        },
+
+        async loadCustomSession() {
+            await this.getQuestionCount()
             if (this.maxQuestionCountIsZero)
                 return
             const learningSessionStore = useLearningSessionStore()
@@ -452,11 +481,12 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             if (!this.activeCustomSettings)
                 return
             const userStore = useUserStore()
-
+            const topicStore = useTopicStore()
             this.knowledgeSummary = new SessionConfig().knowledgeSummary
             this.questionFilterOptions = new SessionConfig().questionFilterOptions
             this.checkQuestionFilterSelection()
             this.checkKnowledgeSummarySelection()
+            this.selectedQuestionCount = topicStore.questionCount
             this.userHasChangedMaxCount = false
             this.isTestMode = !userStore.isLoggedIn
             this.testOptions = {

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useLearningSessionConfigurationStore, StoredSessionConfig } from './learningSessionConfigurationStore'
-import { useTopicStore } from '../topicStore'
+import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 
 const learningSessionStore = useLearningSessionStore()
@@ -15,29 +14,22 @@ onBeforeMount(async () => {
         learningSessionConfigurationStore.loadSessionFromLocalStorage()
     }
 
-    var sessionJson = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
-    const count = await $fetch<number>(`/apiVue/Learning/GetCount/`, {
-        body: sessionJson,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-    })
-
-    learningSessionConfigurationStore.setCounter(count)
     if (route.params.questionId != null)
         learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
     else
         learningSessionStore.startNewSession()
 })
-
-const topicStore = useTopicStore()
-
+const openFilter = ref(false)
 onMounted(() => {
     watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
         learningSessionConfigurationStore.questionCountIsInvalid = newNumber <= 0 || isNaN(newNumber)
     })
 })
-
+watch(() => learningSessionConfigurationStore.showSelectionError, (val) => {
+    console.log(val)
+    if (val)
+        openFilter.value = true
+})
 
 const progressPercentage = ref(0)
 const answeredWidth = ref<string>('width: 0%')
@@ -62,13 +54,13 @@ watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps]
 <template>
     <div class="col-xs-12" v-if="learningSessionConfigurationStore.showFilter">
         <ClientOnly>
-            <TopicLearningSessionConfiguration>
+            <TopicLearningSessionConfiguration :open-filter="openFilter">
                 <slot>
                     <div class="session-progress-bar">
                         <div class="session-progress">
                             <!-- <div v-for="step in learningSessionStore.steps" class="step"
-                                                                :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
-                                                            </div> -->
+                                                                                                                                    :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
+                                                                                                                                </div> -->
 
                             <div class="step answered" :style="answeredWidth"></div>
                             <div class="step" :style="unansweredWidth"></div>

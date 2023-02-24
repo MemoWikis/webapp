@@ -25,13 +25,17 @@ public class UserSummary : IRegisterAsInstancePerLifetime
             .FutureValue<int>().Value;            
     }
 
-    public int AmountCreatedCategories(int creatorId)
+    public int AmountCreatedCategories(int creatorId, bool inclPrivateQuestions = true)
     {
-        return Sl.Resolve<ISession>()
+        var query = Sl.Resolve<ISession>()
             .QueryOver<Category>()
             .Select(Projections.RowCount())
-            .Where(c => c.Creator != null && c.Creator.Id == creatorId)
-            .FutureValue<int>().Value;
+            .Where(c => c.Creator != null && c.Creator.Id == creatorId);
+
+        if (!inclPrivateQuestions)
+            query = query.Where(q => q.Visibility == CategoryVisibility.All);
+
+        return query.FutureValue<int>().Value;
     }
 
 }

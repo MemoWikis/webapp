@@ -41,6 +41,12 @@ export default <RouterConfig>{
             props: { isSettingsPage: true }
         },
         {
+            name: 'userSettingsPage',
+            path: '/Nutzer/Einstellungen',
+            component: () => import('~/pages/user/[name]/[id].vue'),
+            props: { isSettingsPage: true }
+        },
+        {
             name: 'topicContentPage',
             path: '/:topic/:id',
             component: () => import('~/pages/[topic]/[id].vue'),

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { PropType, VueElement } from 'vue'
+import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
+import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 
+const activityPointsStore = useActivityPointsStore()
 
 interface Props {
     page: Page
@@ -103,7 +105,35 @@ const partialSpacer = ref()
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
+                                        <div class="user-dropdown-container">
+                                            <span style="white-space: nowrap;  display: block;">bist du in <b>Level
+                                                    {{ activityPointsStore.level }}</b>.</span>
+                                            <div class="NextLevelContainer">
+                                                <div class="ProgressBarContainer">
+                                                    <div id="NextLevelProgressPercentageDone"
+                                                        class="ProgressBarSegment ProgressBarDone"
+                                                        :style="`width: ${activityPointsStore.activityPointsPercentageOfNextLevel}%`">
+                                                        <div class="ProgressBarSegment ProgressBarLegend">
+                                                            <span id="NextLevelProgressSpanPercentageDone">
+                                                                {{ activityPointsStore.activityPointsPercentageOfNextLevel
+                                                                }}%
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ProgressInfoText">Noch <span id="ProgressToNextLevel">{{
+                                                activityPointsStore.activityPointsTillNextLevel }} </span>Punkte <br />
+                                                bis
+                                                Level <span id="NextActivityLevel">{{ activityPointsStore.level + 1
+                                                }}</span>
+                                            </div>
+                                        </div>
+
                                     </div>
+                                    <div class="divider"></div>
                                     <div class="user-dropdown-social">
                                         <LazyNuxtLink to="/Nachrichten/">
                                             <div class="user-dropdown-label">Deine Nachrichten</div>
@@ -114,8 +144,13 @@ const partialSpacer = ref()
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
+                                    <div class="divider"></div>
+
                                     <div class="user-dropdown-managment">
-                                        <div class="user-dropdown-label">Konto-Einstellungen</div>
+                                        <NuxtLink
+                                            :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
+                                            <div class="user-dropdown-label">Konto-Einstellungen</div>
+                                        </NuxtLink>
                                         <div class="user-dropdown-label">Administrativ</div>
                                         <div class="user-dropdown-label">Adminrechte abgeben</div>
                                         <div class="user-dropdown-label" @click="userStore.logout()">Ausloggen</div>
@@ -381,6 +416,10 @@ const partialSpacer = ref()
             background-color: @memo-grey-lighter;
             cursor: pointer;
         }
+    }
+
+    .user-dropdown-container {
+        padding: 10px 25px;
     }
 }
 

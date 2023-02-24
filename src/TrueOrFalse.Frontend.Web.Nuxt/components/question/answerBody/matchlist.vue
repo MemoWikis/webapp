@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { exportDefaultSpecifier } from '@babel/types';
 
 interface Props {
     solution: string
@@ -51,10 +50,12 @@ function getAnswerText(): string {
 defineExpose({ getAnswerDataString, getAnswerText })
 
 const isDroppableItemActive = ref(false)
-const onDragOver = () => {
+function onDragOver() {
     isDroppableItemActive.value = true
 }
-const onDragLeave = () => isDroppableItemActive.value = false
+function onDragLeave() {
+    isDroppableItemActive.value = false
+}
 function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
     const e = JSON.parse(event.dataTransfer.getData('value'))
@@ -147,9 +148,9 @@ function handleDragEnd(i: number) {
                 </div>
                 <div class="col-sm-12">
                     <div class="row">
-                        <div id="matchlist-rightelements">
-                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text" class="draggable-element"
-                                @dragstart="dragStart(e.Text)">
+                        <div id="matchlist-rightelements row">
+                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text"
+                                class="draggable-element col-xs-6" @dragstart="dragStart(e.Text)">
                                 <div class="drag">
                                     {{ e.Text }}
                                 </div>

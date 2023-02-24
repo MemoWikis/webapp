@@ -183,6 +183,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        min-height: 21px;
 
         &.is-mobile {
             .topic-detail {

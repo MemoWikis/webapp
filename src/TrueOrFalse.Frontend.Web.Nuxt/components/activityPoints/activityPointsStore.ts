@@ -66,5 +66,5 @@ export const useActivityPointsStore = defineStore('activityPointsStore', () => {
             showLevelPopUp.value = true
     }
 
-    return { level, points, addPoints, activityPointsTillNextLevel, setData, showLevelPopUp }
+    return { level, points, addPoints, activityPointsTillNextLevel, activityPointsPercentageOfNextLevel, setData, showLevelPopUp }
 })

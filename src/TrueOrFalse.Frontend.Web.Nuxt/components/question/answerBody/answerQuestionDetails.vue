@@ -924,7 +924,7 @@ onMounted(() => {
                                 <span class="TextSpan">
                                     {{ license.shortText }}
                                 </span>
-                                <font-awesome-icon icon="fa-solid fa-circle-info" />
+                                <font-awesome-icon icon="fa-solid fa-circle-info" class="license-info" />
                             </div>
                         </div>
 
@@ -965,8 +965,6 @@ onMounted(() => {
             </div>
         </div>
     </div>
-
-
 </template>
 
 <style lang="less" scoped>
@@ -1344,6 +1342,10 @@ onMounted(() => {
                 align-items: center;
                 flex-wrap: nowrap;
                 flex-direction: unset;
+
+                .license-info {
+                    padding-left: 4px;
+                }
             }
         }
     }

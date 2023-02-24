@@ -1,16 +1,15 @@
 <script lang="ts" setup>
-import { VueElement } from 'vue';
+import { VueElement } from 'vue'
 import { Tab } from './tabsEnum'
 
 interface Props {
-    tab: Tab
+    tab?: Tab
     badgeCount: number
     maxBadgeCount: number
     isCurrentUser: boolean
 }
 
 const props = defineProps<Props>()
-
 
 const { isMobile } = useDevice()
 

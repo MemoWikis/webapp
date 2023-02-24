@@ -105,14 +105,14 @@ function loadFacebookPlugin(toRegister = false) {
 onMounted(() => {
     alertStore.$onAction(({ name, after }) => {
         if (name == 'closeAlert')
-            after(() => {
-                handleAlertClosing()
+            after((result) => {
+                handleAlertClosing(result.cancelled)
             })
     })
 })
 
-function handleAlertClosing() {
-    if (!alertStore.cancelled) {
+function handleAlertClosing(cancelled: boolean) {
+    if (!cancelled) {
         if (awaitingConsent.value == 'google')
             loadGooglePlugin(true)
         else if (awaitingConsent.value == 'facebook')
