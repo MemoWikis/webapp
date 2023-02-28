@@ -13,7 +13,8 @@ export const messages: any = {
         },
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
-            passwordChanged: "Dein Passwort wurde erfolgreich geändert."
+            passwordChanged: "Dein Passwort wurde erfolgreich geändert.",
+            passwordReset: "Dein Passwort wurde zurückgesetzt."
         }
     },
     error: {

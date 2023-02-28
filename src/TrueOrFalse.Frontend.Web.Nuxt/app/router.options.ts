@@ -1,5 +1,6 @@
 import type { RouterConfig } from '@nuxt/schema'
-import { Tab } from '~~/components/topic/tabs/tabsStore'
+import { Tab as TopicTab } from '~~/components/topic/tabs/tabsStore'
+import { Tab as UsersTab } from '~~/components/users/tabsEnum'
 
 // https://router.vuejs.org/api/interfaces/routeroptions.html
 export default <RouterConfig>{
@@ -30,6 +31,12 @@ export default <RouterConfig>{
             component: () => import('~/pages/user/users.vue')
         },
         {
+            name: 'networkPage',
+            path: '/Netzwerk',
+            component: () => import('~/pages/user/users.vue'),
+            props: { tab: UsersTab.Network }
+        },
+        {
             name: 'userPage',
             path: '/Nutzer/:name/:id',
             component: () => import('~/pages/user/[name]/[id].vue')
@@ -50,31 +57,31 @@ export default <RouterConfig>{
             name: 'topicContentPage',
             path: '/:topic/:id',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: Tab.Topic }
+            props: { tab: TopicTab.Topic }
         },
         {
             name: 'topicLearningPage',
             path: '/:topic/:id/Lernen',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: Tab.Learning }
+            props: { tab: TopicTab.Learning }
         },
         {
             name: 'topicLearningPageWithQuestion',
             path: '/:topic/:id/Lernen/:questionId',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: Tab.Learning }
+            props: { tab: TopicTab.Learning }
         },
         {
             name: 'topicFeedPage',
             path: '/:topic/:id/Feed',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: Tab.Feed }
+            props: { tab: TopicTab.Feed }
         },
         {
             name: 'topicAnalyticsPage',
             path: '/:topic/:id/Analytics',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: Tab.Analytics }
+            props: { tab: TopicTab.Analytics }
         },
     ],
 }

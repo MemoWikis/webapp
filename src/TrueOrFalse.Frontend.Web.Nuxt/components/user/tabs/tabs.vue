@@ -56,13 +56,13 @@ function getWidth(e: VueElement) {
 
             <button class="tab" @click="emit('setTab', Tab.Badges)">
 
-                <div class="tab-label learning-tab active" v-if="props.tab == Tab.Badges" :style="getWidth(badgesLabelEl)">
+                <div class="tab-label chip-tab active" v-if="props.tab == Tab.Badges" :style="getWidth(badgesLabelEl)">
                     Badges
                     <div class="chip" v-if="props.maxBadgeCount > 0">
                         {{ props.badgeCount }}/{{ props.maxBadgeCount }}
                     </div>
                 </div>
-                <div class="tab-label learning-tab" :class="{ 'invis': props.tab == Tab.Badges }" ref="badgesLabelEl">
+                <div class="tab-label chip-tab" :class="{ 'invis': props.tab == Tab.Badges }" ref="badgesLabelEl">
                     Badges
                     <div class="chip" v-if="props.maxBadgeCount > 0">
                         {{ props.badgeCount }}/{{ props.maxBadgeCount }}

@@ -205,7 +205,6 @@ function calculateLabelWidth() {
         .attr("font-size", "30px")
         .text(personalProbability.value)
         .each(function (this: any) {
-            console.log
             let thisWidth = this.getComputedTextLength()
             probabilityLabelWidth = thisWidth
             this.remove()

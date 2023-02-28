@@ -161,6 +161,21 @@ async function saveNewPassword() {
     }
 }
 
+async function resetPassword() {
+
+    const result = await $fetch<boolean>('/apiVue/VueUserSettings/ResetPassword', {
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include'
+    })
+
+    if (result) {
+        msg.value = messages.success.user['passwordReset']
+        success.value = true
+        showAlert.value = true
+    }
+}
+
 async function saveWuwiVisibility() {
 
     const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
@@ -469,10 +484,14 @@ const getSelectedSettingsPageLabel = computed(() => {
                         </div>
                     </div>
 
-                    <div class="settings-section">
+                    <div class="settings-section password-section">
                         <button class="memo-button btn btn-primary" @click="saveNewPassword()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Passwort ändern
+                        </button>
+
+                        <button class="memo-button btn btn-link" @click="saveNewPassword()">
+                            Passwort vergessen
                         </button>
                     </div>
                 </div>
@@ -753,6 +772,11 @@ p {
 
 .settings-section {
     margin-bottom: 40px;
+}
+
+.password-section {
+    display: flex;
+    flex-direction: row;
 }
 
 .profile-picture {

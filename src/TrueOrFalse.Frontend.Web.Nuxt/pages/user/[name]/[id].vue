@@ -82,10 +82,6 @@ const isCurrentUser = computed(() => {
 const badgeCount = ref(0)
 const maxBadgeCount = ref(0)
 
-function setTab(t: Tab) {
-    tab.value = t
-}
-
 function updateProfile() {
     refreshNuxtData('profile')
 }
@@ -95,12 +91,8 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-onMounted(() => {
-    if (props.isSettingsPage && profile.value?.isCurrentUser)
-        tab.value = Tab.Settings
-    else tab.value = Tab.Overview
+onMounted(() => tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview)
 
-})
 watch(() => userStore.isLoggedIn, () => {
     refreshNuxtData('profile')
     refreshNuxtData('wuwi')
@@ -142,7 +134,7 @@ watch(() => userStore.isLoggedIn, () => {
                     </div>
                 </div>
                 <div class="row">
-                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="setTab"
+                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="tab = $event"
                         :is-current-user="isCurrentUser" />
                 </div>
 

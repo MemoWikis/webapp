@@ -8,51 +8,74 @@ namespace VueApp;
 
 public class VueUsersController : BaseController
 {
-    [HttpPost]
-    public JsonResult Get(int page, int usersPerPageCount, string searchTerm = "", SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
+
+    [HttpGet]
+    public JsonResult GetTotalUserCount()
     {
-        var solrResult = Sl.SolrSearchUsers.Run(searchTerm, new Pager { PageSize = usersPerPageCount, IgnorePageCount = true, CurrentPage = page }, orderBy);
+        return Json(R<GetTotalUsers>().Run(), JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpGet]
+    public JsonResult Get(int page, int pageSize, string searchTerm = "", SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
+    {
+        var solrResult = Sl.SolrSearchUsers.Run(searchTerm, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
 
         var users = EntityCache.GetUsersByIds(solrResult.UserIds);
-
-        var usersResult = users.Select(u =>
-        {
-            var wishQuestionCount = 0;
-            var topicsWithWishQuestionCount = 0;
-
-            if (u.ShowWishKnowledge || u.Id == SessionUser.UserId)
-            {
-                var valuations = Sl.QuestionValuationRepo
-                    .GetByUserFromCache(u.Id)
-                    .QuestionIds().ToList();
-                var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(PermissionCheck.CanView);
-                wishQuestionCount = wishQuestions.Count();
-                topicsWithWishQuestionCount = wishQuestions.QuestionsInCategories().Count();
-            }
-
-            return new UserResult
-            {
-                name = u.Name,
-                id = u.Id,
-                encodedName = UriSanitizer.Run(u.Name, 12),
-                reputationPoints = u.Reputation,
-                rank = u.ReputationPos,
-                createdQuestionsCount = Resolve<UserSummary>().AmountCreatedQuestions(u.Id, SessionUser.UserId == u.Id),
-                createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(u.Id, SessionUser.UserId == u.Id),
-                showWuwi = u.ShowWishKnowledge,
-                wuwiQuestionsCount = wishQuestionCount,
-                wuwiTopicsCount = topicsWithWishQuestionCount
-            };
-        });
-
+        var usersResult = users.Select(GetUserResult);
 
         return Json(new
         {
             users = usersResult.ToArray(),
-            currentPage = solrResult.Pager.CurrentPage,
-            totalPages = solrResult.Pager.PageCount,
             totalItems = solrResult.Pager.TotalItems,
-        });
+        },JsonRequestBehavior.AllowGet);
+    }
+
+    public UserResult GetUserResult(UserCacheItem user)
+    {
+        var wishQuestionCount = 0;
+        var topicsWithWishQuestionCount = 0;
+
+        if (user.ShowWishKnowledge || user.Id == SessionUser.UserId)
+        {
+            var valuations = Sl.QuestionValuationRepo
+                .GetByUserFromCache(user.Id)
+                .QuestionIds().ToList();
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(PermissionCheck.CanView);
+            wishQuestionCount = wishQuestions.Count();
+            topicsWithWishQuestionCount = wishQuestions.QuestionsInCategories().Count();
+        }
+
+        return new UserResult
+        {
+            name = user.Name,
+            id = user.Id,
+            encodedName = UriSanitizer.Run(user.Name, 12),
+            reputationPoints = user.Reputation,
+            rank = user.ReputationPos,
+            createdQuestionsCount =
+                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, SessionUser.UserId == user.Id),
+            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, SessionUser.UserId == user.Id),
+            showWuwi = user.ShowWishKnowledge,
+            wuwiQuestionsCount = wishQuestionCount,
+            wuwiTopicsCount = topicsWithWishQuestionCount,
+            imgUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url,
+            followed = SessionUser.IsLoggedIn && SessionUser.User.FollowingIds.Any(id => id == user.Id),
+            wikiId = PermissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
+        };
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpGet]
+    public JsonResult GetNetwork()
+    {
+        if (!SessionUser.IsLoggedIn)
+            return Json(null);
+
+        return Json(new
+        {
+            following = SessionUser.User.FollowingIds.Select(id => GetUserResult(EntityCache.GetUserById(id))).ToArray(),
+            followers = SessionUser.User.FollowerIds.Select(id => GetUserResult(EntityCache.GetUserById(id))).ToArray(),
+        }, JsonRequestBehavior.AllowGet);
     }
 
     public class UserResult
@@ -67,6 +90,8 @@ public class VueUsersController : BaseController
         public bool showWuwi { get; set; }
         public int wuwiQuestionsCount { get; set; }
         public int wuwiTopicsCount { get; set; }
-
+        public string imgUrl { get; set; }
+        public bool followed { get; set; }
+        public int wikiId { get; set; }
     }
 }
