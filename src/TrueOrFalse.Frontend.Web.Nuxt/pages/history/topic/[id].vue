@@ -6,7 +6,10 @@
 <template>
     <div class="container">
         <div class="row main-page">
-            <LazyTopicHistory />
+            <!-- <LazyTopicHistory /> -->
+
+            <TopicHistoryItem />
+
         </div>
     </div>
 </template>

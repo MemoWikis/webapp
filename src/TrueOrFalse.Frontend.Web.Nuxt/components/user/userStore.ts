@@ -120,6 +120,9 @@ export const useUserStore = defineStore('userStore', {
 
             if (result) return true
             else return false
+        },
+        async resetPassword(email: string) {
+
         }
     }
 })

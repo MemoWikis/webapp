@@ -41,6 +41,7 @@
     "underscore": "^1.13.6",
     "vue": "^3.2.45",
     "vue-awesome-paginate": "^1.1.46",
+    "vue-diff": "^1.2.4",
     "vue-final-modal": "^4.0.0-rc.7",
     "vue-tsc": "^1.0.9",
     "vue3-perfect-scrollbar": "^1.6.1"

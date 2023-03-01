@@ -2958,3 +2958,36 @@ a {
 .mt-45 {
     margin-top: 45px;
 }
+
+
+.btn, button {
+    outline: none;
+    border: none;
+
+    &:focus {
+        outline: none;
+        border: none;
+    }
+
+    &:active {
+        outline: none;
+        border: none;
+        &:focus {
+            outline: none;
+            border: none;
+        }
+    }
+
+    &.col-xs-12, &.col-sm-12 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// .btn-link {
+//     &:hover {
+//         text-decoration: none;
+//     }
+// }
+

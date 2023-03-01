@@ -143,7 +143,7 @@ async function unfollow() {
             .user-header {
                 display: flex;
                 justify-content: space-between;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
                 align-items: center;
 
                 .user-name {
@@ -155,7 +155,9 @@ async function unfollow() {
                 }
             }
 
-            .user-body {}
+            .user-body {
+                overflow-wrap: break-word;
+            }
         }
     }
 }

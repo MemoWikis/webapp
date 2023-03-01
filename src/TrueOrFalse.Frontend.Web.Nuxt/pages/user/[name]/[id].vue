@@ -90,40 +90,34 @@ interface Props {
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['setBreadcrumb'])
+function handleBreadcrumb(t: Tab) {
+    if (t == Tab.Settings) {
+        history.pushState(null, 'Alle Nutzer', `/Nutzer`)
+        const breadcrumbItem: BreadcrumbItem = {
+            name: 'Einstellungen',
+            url: `/Nutzer/Einstellungen`
+        }
+        emit('setBreadcrumb', [breadcrumbItem])
+    }
+    else {
+        const breadcrumbItems: BreadcrumbItem[] = [
+            {
+                name: 'Nutzer',
+                url: '/Nutzer'
+            },
+            {
+                name: `${profile.value?.user.name}`,
+                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
+            }]
+        emit('setBreadcrumb', breadcrumbItems)
+    }
+}
 onMounted(() => {
     tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
-    const breadcrumbItems: BreadcrumbItem[] = [
-        {
-            name: 'Nutzer',
-            url: '/Nutzer'
-        },
-        {
-            name: `${profile.value?.user.name}`,
-            url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
-        }]
-    emit('setBreadcrumb', breadcrumbItems)
-
+    handleBreadcrumb(tab.value)
     watch(tab, (t) => {
-        if (t == Tab.Settings) {
-            history.pushState(null, 'Alle Nutzer', `/Nutzer`)
-            const breadcrumbItem: BreadcrumbItem = {
-                name: 'Einstellungen',
-                url: `/Nutzer/Einstellungen`
-            }
-            emit('setBreadcrumb', [breadcrumbItem])
-        }
-        else {
-            const breadcrumbItems: BreadcrumbItem[] = [
-                {
-                    name: 'Nutzer',
-                    url: '/Nutzer'
-                },
-                {
-                    name: `${profile.value?.user.name}`,
-                    url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
-                }]
-            emit('setBreadcrumb', breadcrumbItems)
-        }
+        if (t)
+            handleBreadcrumb(t)
     })
 })
 

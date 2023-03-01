@@ -490,7 +490,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                             Passwort ändern
                         </button>
 
-                        <button class="memo-button btn btn-link" @click="saveNewPassword()">
+                        <button class="memo-button btn btn-link" @click="resetPassword()">
                             Passwort vergessen
                         </button>
                     </div>

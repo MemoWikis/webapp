@@ -724,9 +724,12 @@ async function loadData() {
     initData(result)
 }
 
-onMounted(() => {
+onMounted(async () => {
     props.landingPage ? initData(props.model) : loadData()
     dom.watch()
+    await nextTick()
+    props.landingPage ? initData(props.model) : loadData()
+
 })
 
 watch(() => props.id, () => loadData())

@@ -30,6 +30,7 @@ function getWidth(e: VueElement) {
     if (e != null)
         return `width: ${e.clientWidth}px`
 }
+
 </script>
 
 <template>

@@ -83,5 +83,10 @@ export default <RouterConfig>{
             component: () => import('~/pages/[topic]/[id].vue'),
             props: { tab: TopicTab.Analytics }
         },
+        {
+            name: 'topicHistoryOverview',
+            path: '/Historie',
+            component: () => import('~/pages/history/topic/[id].vue'),
+        },
     ],
 }
