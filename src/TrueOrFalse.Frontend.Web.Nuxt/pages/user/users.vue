@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { ImageStyle } from '~~/components/image/imageStyleEnum'
+import { BreadcrumbItem } from '~~/components/header/breadcrumbItems';
+import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Tab } from '~~/components/users/tabsEnum'
 import { UserResult } from '~~/components/users/userResult'
+
+const spinnerStore = useSpinnerStore()
 
 const userCount = ref(200)
 const currentPage = ref(1)
@@ -27,7 +30,7 @@ interface UsersResult {
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 
-const { data: totalUserCount } = await useFetch<number>('/apiVue/VueUsers/GetTotalUserCount', {
+const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/VueUsers/GetTotalUserCount', {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -43,7 +46,8 @@ const url = computed(() => {
     return `/apiVue/VueUsers/Get?page=${currentPage.value}&pageSize=${usersPerPageCount.value}&searchTerm=${searchTerm.value}&orderBy=${orderBy.value}`
 })
 // pageData gets refreshed by executing the request again whenever data changes in the computed url value
-const { data: pageData } = await useFetch<UsersResult>(url, {
+// nuxt uses the url in useFetch/useLazyFetch 
+const { data: pageData, pending: pageDataPending } = await useFetch<UsersResult>(url, {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -60,7 +64,13 @@ watch(pageData, (e) => {
     }
 })
 
-const { data: network } = await useLazyFetch<Network>('/apiVue/VueUsers/GetNetwork', {
+watch(pageDataPending, (p) => {
+    if (p)
+        spinnerStore.showSpinner()
+    else spinnerStore.hideSpinner()
+})
+
+const { data: network, refresh: refreshNetwork } = await useLazyFetch<Network>('/apiVue/VueUsers/GetNetwork', {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -78,23 +88,29 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
+const emit = defineEmits(['setBreadcrumb'])
 onMounted(() => {
     tab.value = props.tab == Tab.Network ? Tab.Network : Tab.AllUsers
-
     watch(tab, (t) => {
         if (t == Tab.AllUsers) {
             history.pushState(null, 'Alle Nutzer', `/Nutzer`)
+            const breadcrumbItem: BreadcrumbItem = {
+                name: 'Alle Nutzer',
+                url: '/Nutzer'
+            }
+            emit('setBreadcrumb', [breadcrumbItem])
         }
-        else if (t == Tab.Network)
+        else if (t == Tab.Network) {
             history.pushState(null, 'Mein Netzwerk', `/Netzwerk`)
+            const breadcrumbItem: BreadcrumbItem = {
+                name: 'Mein Netzwerk',
+                url: '/Netzwerk'
+            }
+            emit('setBreadcrumb', [breadcrumbItem])
+        }
     })
+
 })
-const refresh = () => refreshNuxtData('network')
-function refreshNetwork() {
-    console.log('refresh')
-    refresh()
-}
 
 </script>
 
@@ -111,9 +127,20 @@ function refreshNetwork() {
                 </div>
 
                 <div class="row content" v-if="pageData && tab == Tab.AllUsers">
+                    <div class="col-xs-12">
 
+                        <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
+                            Kein Nutzer mit dem Namen "{{ searchTerm }}"
+                        </div>
+                        <div class="overline-s no-line" v-else-if="pageData.totalItems > 0 && searchTerm.length > 0">
+                            Ergebnisse für "{{ searchTerm }}" ({{ pageData.totalItems }})
+                        </div>
+                        <div class="overline-s no-line" v-else>
+                            Alle Nutzer ({{ totalUserCount }})
+                        </div>
+                    </div>
                     <div class="col-xs-12 search-section">
-                        <div class="search-container" v-if="pageData.users.length > 1">
+                        <div class="search-container">
                             <input type="text" v-model="searchTerm" class="search-input" placeholder="Suche" />
                             <div class="search-icon reset-icon" v-if="searchTerm.length > 0" @click="searchTerm = ''">
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
@@ -123,8 +150,15 @@ function refreshNetwork() {
                             </div>
                         </div>
                     </div>
+                    <TransitionGroup name="usercard">
+                        <UsersCard v-for="u in pageData.users" :user="u" @refresh-network="refreshNetwork" />
+                    </TransitionGroup>
 
-                    <UsersCard v-for="u in pageData.users" :user="u" @refresh-network="refreshNetwork" />
+                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                        <div class="empty-page">
+                            Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
+                        </div>
+                    </div>
 
                     <div class="col-xs-12">
                         <div class="pagination">
@@ -138,7 +172,7 @@ function refreshNetwork() {
 
                 <div class="row content" v-else-if="network && tab == Tab.Network">
                     <UserNetwork :following="network.following" :followers="network.followers"
-                        @refresh-network="refreshNetwork" />
+                        @refresh-network="refreshNetwork" @tab-to-all-users="tab = Tab.AllUsers" />
                 </div>
             </div>
 
@@ -149,6 +183,16 @@ function refreshNetwork() {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.empty-page-container {
+    padding: 4px 12px;
+
+    .empty-page {
+        border: solid 1px @memo-grey-light;
+        padding: 24px;
+    }
+}
+
 
 .content {
     padding-top: 30px;
@@ -172,6 +216,7 @@ function refreshNetwork() {
             height: 34px;
             width: 300px;
             padding: 4px 12px;
+            outline: none;
 
             &:focus {
                 border: solid 1px @memo-green;

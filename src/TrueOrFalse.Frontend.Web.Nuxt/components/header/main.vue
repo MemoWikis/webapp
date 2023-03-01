@@ -5,6 +5,7 @@ import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
+import { BreadcrumbItem } from './breadcrumbItems'
 
 const activityPointsStore = useActivityPointsStore()
 
@@ -15,6 +16,7 @@ interface Props {
         primaryTopicUrl: string
         title: string
     }
+    breadcrumbItems?: BreadcrumbItem[]
 }
 const props = defineProps<Props>()
 
@@ -75,7 +77,7 @@ const partialSpacer = ref()
                     <div class="partial start" :class="{ 'search-open': showSearch }">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
                             :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer"
-                            :question-page-data="props.questionPageData" />
+                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems" />
                     </div>
                     <div class="partial-spacer" ref="partialSpacer"></div>
                     <div class="partial end" ref="headerExtras">
@@ -138,8 +140,9 @@ const partialSpacer = ref()
                                         <LazyNuxtLink to="/Nachrichten/">
                                             <div class="user-dropdown-label">Deine Nachrichten</div>
                                         </LazyNuxtLink>
-
-                                        <div class="user-dropdown-label">Dein Netzwerk</div>
+                                        <NuxtLink to="/Netzwerk">
+                                            <div class="user-dropdown-label">Dein Netzwerk</div>
+                                        </NuxtLink>
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>

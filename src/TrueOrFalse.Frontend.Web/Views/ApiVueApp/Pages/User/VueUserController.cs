@@ -12,11 +12,14 @@ public class VueUserController : BaseController
     public JsonResult Get(int id)
     {
         var user = EntityCache.GetUserById(id);
+
         if (user != null)
         {
             var userWiki = EntityCache.GetCategory(user.StartTopicId);
             var reputation = Resolve<ReputationCalc>().RunWithQuestionCacheItems(user);
             var isCurrentUser = SessionUser.UserId == user.Id;
+            var allQuestionsCreatedByUser = EntityCache.GetAllQuestions().Where(q => q.Creator != null && q.CreatorId == user.Id);
+            var allTopicsCreatedByUser = EntityCache.GetAllCategories().Where(c => c.Creator != null && c.CreatorId == user.Id);
 
             return Json(new
             {
@@ -41,9 +44,11 @@ public class VueUserController : BaseController
                         questionsCreated = reputation.ForQuestionsCreated,
                         publicWishknowledges = reputation.ForPublicWishknowledge
                     },
-                    publicQuestionsCount = Resolve<UserSummary>().AmountCreatedQuestions(user.Id, isCurrentUser),
-                    publicTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, isCurrentUser),
-                    wuwiCount = Resolve<GetWishQuestionCount>().Run(user.Id)
+                    publicQuestionsCount = allQuestionsCreatedByUser.Count(q => q.Visibility == QuestionVisibility.All),
+                    privateQuestionsCount = allQuestionsCreatedByUser.Count(q => q.Visibility != QuestionVisibility.All),
+                    publicTopicsCount = allTopicsCreatedByUser.Count(c => c.Visibility == CategoryVisibility.All),
+                    privateTopicsCount = allTopicsCreatedByUser.Count(c => c.Visibility != CategoryVisibility.All),
+                    wuwiCount = user.WishCountQuestions
                 },
                 isCurrentUser = isCurrentUser
             }, JsonRequestBehavior.AllowGet);

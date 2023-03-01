@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { BreadcrumbItem } from '~~/components/header/breadcrumbItems';
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
@@ -17,6 +18,8 @@ interface Overview {
     }
     publicQuestionsCount: number
     publicTopicsCount: number
+    privateQuestionsCount: number
+    privateTopicsCount: number
     wuwiCount: number
 }
 interface Question {
@@ -50,7 +53,7 @@ interface ProfileData {
     isCurrentUser: boolean
 }
 
-const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id ? route.params.id : userStore.id}`, {
+const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -61,7 +64,7 @@ const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${
     }
 })
 
-const { data: wuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
+const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -82,20 +85,51 @@ const isCurrentUser = computed(() => {
 const badgeCount = ref(0)
 const maxBadgeCount = ref(0)
 
-function updateProfile() {
-    refreshNuxtData('profile')
-}
-
 interface Props {
     isSettingsPage?: boolean
 }
 const props = defineProps<Props>()
+const emit = defineEmits(['setBreadcrumb'])
+onMounted(() => {
+    tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
+    const breadcrumbItems: BreadcrumbItem[] = [
+        {
+            name: 'Nutzer',
+            url: '/Nutzer'
+        },
+        {
+            name: `${profile.value?.user.name}`,
+            url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
+        }]
+    emit('setBreadcrumb', breadcrumbItems)
 
-onMounted(() => tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview)
+    watch(tab, (t) => {
+        if (t == Tab.Settings) {
+            history.pushState(null, 'Alle Nutzer', `/Nutzer`)
+            const breadcrumbItem: BreadcrumbItem = {
+                name: 'Einstellungen',
+                url: `/Nutzer/Einstellungen`
+            }
+            emit('setBreadcrumb', [breadcrumbItem])
+        }
+        else {
+            const breadcrumbItems: BreadcrumbItem[] = [
+                {
+                    name: 'Nutzer',
+                    url: '/Nutzer'
+                },
+                {
+                    name: `${profile.value?.user.name}`,
+                    url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
+                }]
+            emit('setBreadcrumb', breadcrumbItems)
+        }
+    })
+})
 
 watch(() => userStore.isLoggedIn, () => {
-    refreshNuxtData('profile')
-    refreshNuxtData('wuwi')
+    refreshWuwi()
+    refreshProfile()
 })
 </script>
 
@@ -120,8 +154,9 @@ watch(() => userStore.isLoggedIn, () => {
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
-                                <button class="memo-button btn btn-primary">
-                                    <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
+                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl"
+                                    :to="profile.user.wikiUrl">
+                                    <NuxtLink>
 
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
@@ -209,7 +244,29 @@ watch(() => userStore.isLoggedIn, () => {
                                 </div>
                             </div>
                             <div class="divider"></div>
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.privateQuestionsCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>
+                                        Private Fragen <font-awesome-icon icon="fa-solid fa-lock" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
 
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.privateTopicsCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>
+                                        Private Themen <font-awesome-icon icon="fa-solid fa-lock" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
@@ -249,7 +306,7 @@ watch(() => userStore.isLoggedIn, () => {
                 </Transition>
                 <Transition v-if="profile.isCurrentUser">
                     <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
-                        @update-profile="updateProfile" />
+                        @update-profile="refreshProfile" />
                 </Transition>
 
             </div>

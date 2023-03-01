@@ -8,18 +8,27 @@ interface Props {
 const props = defineProps<Props>()
 const searchFollowing = ref('')
 const currentFollowingPage = ref(1)
+const currentFollowingPageUsers = computed(() => {
+    let filteredResults = props.following.filter(u => u.name.replace(/\s/g, '').trim().toLowerCase().includes(searchFollowing.value.replace(/\s/g, '').trim().toLowerCase()))
+    return filteredResults.slice(10 * (currentFollowingPage.value - 1), 10 * currentFollowingPage.value - 1)
+})
 
 const searchFollowers = ref('')
 const currentFollowersPage = ref(1)
+const currentFollowersPageUsers = computed(() => {
+    let filteredResults = props.followers.filter(u => u.name.replace(/\s/g, '').trim().toLowerCase().includes(searchFollowers.value.replace(/\s/g, '').trim().toLowerCase()))
+    return filteredResults.slice(10 * (currentFollowersPage.value - 1), 10 * currentFollowersPage.value - 1)
+})
 
-const emit = defineEmits(['refreshNetwork'])
+const emit = defineEmits(['refreshNetwork', 'tabToAllUsers'])
 </script>
 
 <template>
     <div class="col-xs-12 row">
         <div class="col-xs-12">
-            <div class="overline-s no-line">Du folgst {{ props.following.length == 1 ? '1 Nutzer' :
-                `${props.following.length} Nutzer` }}</div>
+            <div class="overline-s no-line">
+                Du folgst {{ props.following.length == 1 ? '1 Nutzer' : `${props.following.length} Nutzern` }}
+            </div>
         </div>
 
         <div class="col-xs-12 search-section">
@@ -33,8 +42,25 @@ const emit = defineEmits(['refreshNetwork'])
                 </div>
             </div>
         </div>
-        <UsersCard v-for="u in props.following" :user="u" @refresh-network="emit('refreshNetwork')" />
-        <div class="col-xs-12">
+
+        <TransitionGroup name="usercard">
+            <UsersCard v-for="u in currentFollowingPageUsers" :user="u" @refresh-network="emit('refreshNetwork')" />
+        </TransitionGroup>
+        <div v-if="currentFollowingPageUsers.length <= 0" class="empty-page-container col-xs-12">
+            <div v-if="props.following?.length <= 0" class="empty-page">
+                <h3>Noch folgst du niemanden</h3>
+                Um Nutzern zu folgen, gehe zur <button @click="emit('tabToAllUsers')"> "Alle Nutzer"</button> Seite und
+                verwende
+                den "Folgen"-Button.
+            </div>
+            <div v-else-if="currentFollowingPageUsers.length <= 0 && searchFollowing.length > 0" class="empty-page">
+                Leider gibt es keinen Nutzer mit "{{ searchFollowing }}"
+            </div>
+
+        </div>
+
+
+        <div class="col-xs-12 pager">
             <div class="pagination">
                 <vue-awesome-paginate v-if="props.following.length > 10" :total-items="props.following.length"
                     :items-per-page="10" :max-pages-shown="5" v-model="currentFollowingPage" :show-ending-buttons="false"
@@ -50,8 +76,9 @@ const emit = defineEmits(['refreshNetwork'])
 
     <div class="col-xs-12 row">
         <div class="col-xs-12">
-            <div class="overline-s no-line">Dir {{ props.followers.length == 1 ? 'folgt 1' :
-                `folgen ${props.followers.length}` }} Nutzer</div>
+            <div class="overline-s no-line">
+                Dir {{ props.followers.length == 1 ? 'folgt 1' : `folgen ${props.followers.length}` }} Nutzer
+            </div>
         </div>
 
         <div class="col-xs-12 search-section">
@@ -66,9 +93,20 @@ const emit = defineEmits(['refreshNetwork'])
             </div>
         </div>
 
-        <UsersCard v-for="u in props.followers" :user="u" />
+        <TransitionGroup name="usercard">
+            <UsersCard v-for="u in currentFollowersPageUsers" :user="u" @refresh-network="emit('refreshNetwork')" />
+        </TransitionGroup>
+        <div class="col-xs-12 empty-page-container" v-if="currentFollowersPageUsers.length <= 0">
+            <div v-if="props.followers.length <= 0" class="empty-page">
+                Dir folgt noch kein Nutzer.
+            </div>
+            <div v-else-if="currentFollowersPageUsers.length <= 0 && searchFollowers.length > 0" class="empty-page">
+                Leider gibt es keinen Nutzer mit "{{ searchFollowers }}"
+            </div>
+        </div>
 
-        <div class="col-xs-12">
+
+        <div class="col-xs-12 pager">
             <div class="pagination">
                 <vue-awesome-paginate v-if="props.followers.length > 10" :total-items="props.followers.length"
                     :items-per-page="10" :max-pages-shown="5" v-model="currentFollowersPage" :show-ending-buttons="false"
@@ -81,6 +119,20 @@ const emit = defineEmits(['refreshNetwork'])
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.pager {
+    margin-bottom: 30px;
+}
+
+.empty-page-container {
+    padding: 4px 12px;
+
+    .empty-page {
+        border: solid 1px @memo-grey-light;
+        padding: 24px;
+    }
+}
+
 
 .divider {
     height: 1px;
@@ -106,6 +158,7 @@ const emit = defineEmits(['refreshNetwork'])
             height: 34px;
             width: 300px;
             padding: 4px 12px;
+            outline: none;
 
             &:focus {
                 border: solid 1px @memo-green;

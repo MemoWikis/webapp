@@ -34,7 +34,8 @@ function getWidth(e: VueElement) {
                 <div class="tab-label active" v-if="props.tab == Tab.Overview" style="width: 113px;"
                     :style="getWidth(overviewLabelEl)">Übersicht
                 </div>
-                <div class="tab-label" :class="{ 'invis': props.tab == Tab.Overview }" ref="overviewLabelEl">Übersicht</div>
+                <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Overview }" ref="overviewLabelEl">
+                    Übersicht</div>
                 <div class="active-tab" v-if="props.tab == Tab.Overview"></div>
                 <div class="inactive-tab" v-else>
                     <div class="tab-border"></div>
@@ -45,7 +46,8 @@ function getWidth(e: VueElement) {
 
                 <div class="tab-label active" v-if="props.tab == Tab.Wishknowledge" :style="getWidth(wishknowledgeLabelEl)">
                     Wunschwissen</div>
-                <div class="tab-label" :class="{ 'invis': props.tab == Tab.Wishknowledge }" ref="wishknowledgeLabelEl">
+                <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Wishknowledge }"
+                    ref="wishknowledgeLabelEl">
                     Wunschwissen</div>
 
                 <div class="active-tab" v-if="props.tab == Tab.Wishknowledge"></div>
@@ -62,7 +64,7 @@ function getWidth(e: VueElement) {
                         {{ props.badgeCount }}/{{ props.maxBadgeCount }}
                     </div>
                 </div>
-                <div class="tab-label chip-tab" :class="{ 'invis': props.tab == Tab.Badges }" ref="badgesLabelEl">
+                <div class="tab-label chip-tab" :class="{ 'invisible-tab': props.tab == Tab.Badges }" ref="badgesLabelEl">
                     Badges
                     <div class="chip" v-if="props.maxBadgeCount > 0">
                         {{ props.badgeCount }}/{{ props.maxBadgeCount }}
@@ -78,7 +80,8 @@ function getWidth(e: VueElement) {
             <button class="tab" @click="emit('setTab', Tab.Settings)" v-if="props.isCurrentUser">
                 <div class="tab-label active" v-if="props.tab == Tab.Settings" :style="getWidth(settingsLabelEl)">
                     Einstellungen</div>
-                <div class="tab-label" :class="{ 'invis': props.tab == Tab.Settings }" ref="settingsLabelEl">Einstellungen
+                <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Settings }" ref="settingsLabelEl">
+                    Einstellungen
                 </div>
 
                 <div class="active-tab" v-if="props.tab == Tab.Settings"></div>
@@ -98,6 +101,4 @@ function getWidth(e: VueElement) {
     </perfect-scrollbar>
 </template>
 
-<style lang="less">
-@import '~~/assets/tabs-bar.less';
-</style>
+<style lang="less">@import '~~/assets/tabs-bar.less';</style>
