@@ -22,14 +22,14 @@ const hoverLock = ref(false)
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <V-Dropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']"
-                :arrow-padding="300" placement="bottom-end">
+            <V-Dropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']" :arrow-padding="300"
+                placement="bottom-end">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
                 <template #popper>
 
-                    <NuxtLink :to="`/history/topic/${topicStore.id}`" class="dropdown-row">
+                    <NuxtLink :to="`/Historie/Thema/${topicStore.id}`" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-history" />
                         </div>
@@ -78,8 +78,8 @@ const hoverLock = ref(false)
                         </div>
                     </div>
 
-                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
-                        class="dropdown-row" @click="topicToPrivateStore.openModal(topicStore.id)">
+                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All" class="dropdown-row"
+                        @click="topicToPrivateStore.openModal(topicStore.id)">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>

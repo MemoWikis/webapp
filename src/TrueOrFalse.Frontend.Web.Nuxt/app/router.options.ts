@@ -8,7 +8,8 @@ export default <RouterConfig>{
         {
             name: 'welcomePage',
             path: '/',
-            component: () => import('~/pages/index.vue')
+            component: () => import('~/pages/[topic]/[id].vue'),
+            props: { tab: TopicTab.Topic, redirectFromWelcomePage: true }
         },
         {
             name: 'registerPage',
@@ -48,7 +49,7 @@ export default <RouterConfig>{
             props: { isSettingsPage: true }
         },
         {
-            name: 'userSettingsPage',
+            name: 'directUserSettingsPage',
             path: '/Nutzer/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
             props: { isSettingsPage: true }
@@ -84,9 +85,24 @@ export default <RouterConfig>{
             props: { tab: TopicTab.Analytics }
         },
         {
+            name: 'allTopicHistoryOverview',
+            path: '/Historie/Themen',
+            component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
+        },
+        {
             name: 'topicHistoryOverview',
-            path: '/Historie',
-            component: () => import('~/pages/history/topic/[id].vue'),
+            path: '/Historie/Thema/:id',
+            component: () => import('~~/pages/history/topic/overview.vue'),
+        },
+        {
+            name: 'topicHistoryDetail',
+            path: '/Historie/Thema/:topicId/:currentRevisionId/:firstEditId',
+            component: () => import('~/pages/history/topic/detail.vue'),
+        },
+        {
+            name: 'topicHistoryDetailWithPrevRev',
+            path: '/Historie/Thema/:topicId/:currentRevisionId/',
+            component: () => import('~/pages/history/topic/detail.vue'),
         },
     ],
 }

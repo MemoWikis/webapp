@@ -129,7 +129,7 @@ watch(() => userStore.isLoggedIn, () => {
 
 <template>
     <div class="container">
-        <div class="row profile-container mt-45 main-page">
+        <div class="row profile-container  main-page">
             <div class="col-xs-12 container" v-if="profile">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">

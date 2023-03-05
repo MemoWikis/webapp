@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Mode, Theme } from 'vue-diff/dist/types'
 import { TopicChangeTypeEnum } from '~~/.nuxt/components'
 const props = defineProps(['item', 'model'])
 const relationChangeItem = ref(null)
@@ -7,16 +6,12 @@ const relationChangeItem = ref(null)
 function getRelationChangeLabel() {
 
 }
-const mode = ref<Mode>('split')
-const theme = ref<Theme>('light')
-const prev = ref('1')
-const current = ref('2')
+
 
 </script>
 
 <template>
-    <Diff :mode="mode" :theme="theme" :language="'html'" :prev="prev" :current="current" />
-<!-- <template v-if="props.item.IsVisibleToCurrentUser">
+    <!-- <template v-if="props.item.IsVisibleToCurrentUser">
         <div class="panel-group row change-detail-model" id="accordion<%= panelId %>" role="tablist"
             aria-multiselectable="true">
             <div class="panel panel-default">
@@ -107,27 +102,27 @@ const current = ref('2')
                 <div v-if="props.item.Type == TopicChangeTypeEnum.Relations" class="related-category-name">
                     <a class="history-link" href="<%= Links.CategoryDetail(relationChangeItem.RelatedCategory) %>">
 
-                                {{relationChangeItem.RelatedCategory.Name}}
+                                        {{relationChangeItem.RelatedCategory.Name}}
                     </a>
                     {{getRelationChangeLabel(relationChangeItem)}}
                             </div>
-                            <template v-else>
+                                <template v-else>
                         <a class="btn btn-sm btn-default btn-primary display-changes pull-right memo-button history-link"
                                         href="<%= Links.CategoryHistoryDetail(Model.CategoryId, item.AggregatedCategoryChangeDetailModel.Last().CategoryChangeId, item.CategoryChangeId) %>">
-                                Ansehen
-                            </a>
-                            <div class="change-detail-spacer"></div>
-                                    </template>
+                                        Ansehen
+                                    </a>
+                                    <div class="change-detail-spacer"></div>
+                                            </template>
 
-                                                </div>
                                                             </div>
+                                                                        </div>
 
-                                                        </template> -->
+                                                                    </template> -->
     <!-- if (item.IsVisibleToCurrentUser() &&
-                                                        item.RelationIsVisibleToCurrentUser) {
-                                                        if (item.AggregatedCategoryChangeDetailModel.Count> 1 && PermissionCheck.IsAuthorOrAdmin(item.Author)) { %>
+                                                                    item.RelationIsVisibleToCurrentUser) {
+                                                                    if (item.AggregatedCategoryChangeDetailModel.Count> 1 && PermissionCheck.IsAuthorOrAdmin(item.Author)) { %>
 
-                                                        <% } else { %>
+                                                                    <% } else { %>
         
-                                                                            <% } %> -->
+                                                                                        <% } %> -->
 </template>

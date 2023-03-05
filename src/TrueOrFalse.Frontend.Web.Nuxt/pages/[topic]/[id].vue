@@ -3,23 +3,33 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
-import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+import { useUserStore } from '~~/components/user/userStore'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
+const userStore = useUserStore()
 
 interface Props {
-    tab?: Tab
+    tab?: Tab,
+    redirectFromWelcomePage?: boolean
 }
 const props = defineProps<Props>()
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+
+function getTopicUrl() {
+    if (props.redirectFromWelcomePage)
+        if (userStore.isLoggedIn)
+            return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
+        else return `/apiVue/Topic/GetTopic/1`
+    else return `/apiVue/Topic/GetTopic/${route.params.id}`
+}
+const { data: topic } = await useFetch<Topic>(getTopicUrl(),
     {
         credentials: 'include',
         mode: 'no-cors',
-        onRequest({ options, request }) {
+        onRequest({ options }) {
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
@@ -38,8 +48,6 @@ if (topic.value != null) {
         })
 
         onMounted(() => {
-            var versionQuery = route.query.v != null ? `?v=${route.query.v}` : ''
-            // history.pushState(null, topic.value!.Name, `/${encodeURI(topic.value!.Name.replaceAll(" ", "-"))}/${topic.value!.Id}${versionQuery}`)
             useHead({
                 title: topic.value!.Name,
             })
