@@ -806,6 +806,10 @@ onMounted(() => {
             })
         }
     })
+    watch(() => tabsStore.activeTab, (val) => {
+        if (val == Tab.Learning)
+            loadData()
+    })
 })
 
 </script>

@@ -56,12 +56,12 @@ function loadFacebookPlugin(login = false) {
     showLoginIsInProgress.value = true
     facebookLoginComponent.value.loadPlugin(login)
 }
-const primaryBtnLabel = ref('Anmelden' as string | null)
+const primaryBtnLabel = ref<string | undefined>('Anmelden')
 const showPasswordReset = ref(false)
 
 watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo, showPasswordReset], ([inProgress, googleInfo, fbInfo, pwReset]) => {
     if (inProgress || googleInfo || fbInfo)
-        primaryBtnLabel.value = null
+        primaryBtnLabel.value = undefined
     else if (pwReset)
         primaryBtnLabel.value = 'Link anfordern'
     else primaryBtnLabel.value = 'Anmelden'
@@ -85,9 +85,9 @@ onMounted(() => {
 
 <template>
     <div id="LoginModalComponent">
-        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn="primaryBtnLabel" :is-full-size-buttons="true"
-            @close="userStore.showLoginModal = false" @main-btn="login()" :show="userStore.showLoginModal"
-            @keydown.esc="userStore.showLoginModal = false">
+        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn-label="primaryBtnLabel"
+            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @main-btn="login()"
+            :show="userStore.showLoginModal" @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>
                 <span v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</span>

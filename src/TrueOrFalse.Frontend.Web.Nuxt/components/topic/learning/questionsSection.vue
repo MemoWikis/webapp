@@ -16,6 +16,7 @@ const allQuestionCount = ref(0)
 
 onBeforeMount(() => {
     allQuestionCount.value = topicStore.questionCount
+    console.log(topicStore.questionCount)
     if (topicStore.questionCount > 0)
         learningSessionConfigurationStore.showFilter = true
     else
@@ -80,8 +81,7 @@ function getClass(): string {
                                             class="btn btn-link btn-sm ButtonEllipsis" />
                                         <template #popper="{ hide }">
 
-                                            <div v-if="userStore.isLoggedIn" class="dropdown-row"
-                                                @click="createQuestion()">
+                                            <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="createQuestion()">
                                                 <div class="dropdown-icon">
                                                     <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                                 </div>
@@ -124,8 +124,7 @@ function getClass(): string {
                     </slot>
                 </TopicLearningSessionConfiguration>
 
-                <div class="session-configurator missing-questions"
-                    v-if="!learningSessionConfigurationStore.showFilter">
+                <div class="session-configurator missing-questions" v-if="!learningSessionConfigurationStore.showFilter">
                     <div class="session-config-header">
                         <div class="col-xs-12 drop-down-question-sort">
                             <div class="session-config-header">

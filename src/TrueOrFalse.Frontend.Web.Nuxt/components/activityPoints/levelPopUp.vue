@@ -11,8 +11,8 @@ function close() {
 
 <template>
     <Modal :show="activityPointsStore.showLevelPopUp" :show-close-button="true"
-        :primary-btn="userStore.isLoggedIn ? null : 'Registrieren'" :secondary-btn="'Weiterlernen'" @sub-btn="close()"
-        @main-btn="navigateTo('/Registrieren')" @close="close()" @keydown.esc="close()">
+        :primary-btn-label="userStore.isLoggedIn ? undefined : 'Registrieren'" :secondary-btn="'Weiterlernen'"
+        @sub-btn="close()" @main-btn="navigateTo('/Registrieren')" @close="close()" @keydown.esc="close()">
         <template v-slot:header>
             <img class="happy-memo-svg" width="120" src="/Images/memucho_MEMO_happy_blau.svg">
             <span class="title-text"><b>Fortschritt:</b> Du bist jetzt Level </span>

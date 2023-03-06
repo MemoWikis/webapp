@@ -4,6 +4,7 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+import { Visibility } from '~~/components/shared/visibilityEnum'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -113,6 +114,7 @@ onMounted(() => setTab())
                 <TopicTabsQuestions v-show="tabsStore.activeTab == Tab.Learning" keep-alive />
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
+                <LazyTopicPublishModal v-if="topic?.Visibility != Visibility.All" />
             </div>
             <Sidebar />
         </div>
