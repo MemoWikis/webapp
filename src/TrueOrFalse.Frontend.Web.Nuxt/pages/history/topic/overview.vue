@@ -90,7 +90,8 @@ function getChangeTypeText(change: Change) {
                     <h3>{{ day.date }}</h3>
                 </div>
                 <template v-for="change in day.changes">
-                    <div class="col-xs-12 row change-detail-model" v-if="change.topicId == parseInt(route.params.id)">
+                    <div class="col-xs-12 row change-detail-model"
+                        v-if="change.topicId == parseInt(route.params.id.toString())">
                         <div class="col-xs-3">
                             <NuxtLink :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`">
                                 <Image :url="change.author.imgUrl" :style="ImageStyle.Author" />

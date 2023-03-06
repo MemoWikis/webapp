@@ -66,6 +66,8 @@ watch(pageData, (e) => {
     }
 })
 
+watch(searchTerm, (e) => currentPage.value = 1)
+
 watch(pageDataPending, (p) => {
     if (p)
         spinnerStore.showSpinner()

@@ -12,6 +12,16 @@ export default <RouterConfig>{
             props: { tab: TopicTab.Topic, redirectFromWelcomePage: true }
         },
         {
+            name: 'termsPage',
+            path: '/Nutzungsbedingungen',
+            component: () => import('~/pages/terms.vue')
+        },
+        {
+            name: 'imprintPage',
+            path: '/Impressum',
+            component: () => import('~/pages/imprint.vue')
+        },
+        {
             name: 'registerPage',
             path: '/Registrieren',
             component: () => import('~/pages/user/register.vue')
