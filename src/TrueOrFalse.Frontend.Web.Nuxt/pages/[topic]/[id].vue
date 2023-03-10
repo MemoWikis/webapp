@@ -97,6 +97,7 @@ onMounted(() => setTab())
 
 <template>
     <div class="container">
+        <h1>{{ config.public.exampleVar }}</h1>
         <div class="row topic-container main-page">
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader />
