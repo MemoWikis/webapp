@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-import { PropType, VueElement } from 'vue'
+import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { ImageStyle } from '../image/imageStyleEnum'
 import { SearchType } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
+import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
+import { BreadcrumbItem } from './breadcrumbItems'
 
+const activityPointsStore = useActivityPointsStore()
 
 interface Props {
     page: Page
@@ -13,6 +16,7 @@ interface Props {
         primaryTopicUrl: string
         title: string
     }
+    breadcrumbItems?: BreadcrumbItem[]
 }
 const props = defineProps<Props>()
 
@@ -73,7 +77,7 @@ const partialSpacer = ref()
                     <div class="partial start" :class="{ 'search-open': showSearch }">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
                             :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer"
-                            :question-page-data="props.questionPageData" />
+                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems" />
                     </div>
                     <div class="partial-spacer" ref="partialSpacer"></div>
                     <div class="partial end" ref="headerExtras">
@@ -103,19 +107,53 @@ const partialSpacer = ref()
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
+                                        <div class="user-dropdown-container">
+                                            <span style="white-space: nowrap;  display: block;">bist du in <b>Level
+                                                    {{ activityPointsStore.level }}</b>.</span>
+                                            <div class="NextLevelContainer">
+                                                <div class="ProgressBarContainer">
+                                                    <div id="NextLevelProgressPercentageDone"
+                                                        class="ProgressBarSegment ProgressBarDone"
+                                                        :style="`width: ${activityPointsStore.activityPointsPercentageOfNextLevel}%`">
+                                                        <div class="ProgressBarSegment ProgressBarLegend">
+                                                            <span id="NextLevelProgressSpanPercentageDone">
+                                                                {{ activityPointsStore.activityPointsPercentageOfNextLevel
+                                                                }}%
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ProgressInfoText">Noch <span id="ProgressToNextLevel">{{
+                                                activityPointsStore.activityPointsTillNextLevel }} </span>Punkte <br />
+                                                bis
+                                                Level <span id="NextActivityLevel">{{ activityPointsStore.level + 1
+                                                }}</span>
+                                            </div>
+                                        </div>
+
                                     </div>
+                                    <div class="divider"></div>
                                     <div class="user-dropdown-social">
                                         <LazyNuxtLink to="/Nachrichten/">
                                             <div class="user-dropdown-label">Deine Nachrichten</div>
                                         </LazyNuxtLink>
-
-                                        <div class="user-dropdown-label">Dein Netzwerk</div>
+                                        <NuxtLink to="/Netzwerk">
+                                            <div class="user-dropdown-label">Dein Netzwerk</div>
+                                        </NuxtLink>
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
+                                    <div class="divider"></div>
+
                                     <div class="user-dropdown-managment">
-                                        <div class="user-dropdown-label">Konto-Einstellungen</div>
+                                        <NuxtLink
+                                            :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
+                                            <div class="user-dropdown-label">Konto-Einstellungen</div>
+                                        </NuxtLink>
                                         <div class="user-dropdown-label">Administrativ</div>
                                         <div class="user-dropdown-label">Adminrechte abgeben</div>
                                         <div class="user-dropdown-label" @click="userStore.logout()">Ausloggen</div>
@@ -160,6 +198,13 @@ const partialSpacer = ref()
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.header-author-icon {
+    height: 32px;
+    width: 32px;
+    margin-left: -8px;
+    margin-right: 4px;
+}
 
 .nav-options-container {
     position: fixed;
@@ -381,6 +426,10 @@ const partialSpacer = ref()
             background-color: @memo-grey-lighter;
             cursor: pointer;
         }
+    }
+
+    .user-dropdown-container {
+        padding: 10px 25px;
     }
 }
 

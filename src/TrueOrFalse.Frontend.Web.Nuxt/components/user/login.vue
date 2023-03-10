@@ -56,11 +56,14 @@ function loadFacebookPlugin(login = false) {
     showLoginIsInProgress.value = true
     facebookLoginComponent.value.loadPlugin(login)
 }
-const primaryBtnLabel = ref('Anmelden' as string | null)
+const primaryBtnLabel = ref<string | undefined>('Anmelden')
+const showPasswordReset = ref(false)
 
-watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo], ([inProgress, googleInfo, fbInfo]) => {
+watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo, showPasswordReset], ([inProgress, googleInfo, fbInfo, pwReset]) => {
     if (inProgress || googleInfo || fbInfo)
-        primaryBtnLabel.value = null
+        primaryBtnLabel.value = undefined
+    else if (pwReset)
+        primaryBtnLabel.value = 'Link anfordern'
     else primaryBtnLabel.value = 'Anmelden'
 })
 
@@ -77,23 +80,24 @@ onMounted(() => {
     if (facebookCookie == "true")
         loadFacebookPlugin()
 })
+
 </script>
 
 <template>
     <div id="LoginModalComponent">
-        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn="primaryBtnLabel" :is-full-size-buttons="true"
-            @close="userStore.showLoginModal = false" @main-btn="login()" :show="userStore.showLoginModal"
-            @keydown.esc="userStore.showLoginModal = false">
+        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn-label="primaryBtnLabel"
+            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @main-btn="login()"
+            :show="userStore.showLoginModal" @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>
                 <span v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</span>
+                <span v-else-if="showPasswordReset">Passwort zürcksetzen</span>
                 <span v-else>Anmelden</span>
             </template>
             <template v-slot:body>
                 <div v-if="showLoginIsInProgress">
                     Die Anmeldung / Registrierung wird in einem neuen Fenster fortgesetzt.
                 </div>
-
                 <div v-else-if="(showGooglePluginInfo && !allowGooglePlugin) || (showFacebookPluginInfo && !allowFacebookPlugin)"
                     class="row">
                     <div v-if="showGooglePluginInfo && !allowGooglePlugin" class="col-xs-12">
@@ -112,6 +116,31 @@ onMounted(() => {
                         </p>
                     </div>
                 </div>
+                <template v-else-if="showPasswordReset">
+
+                    <div>
+                        <p>
+                            Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen Link,
+                            mit dem du dir ein neues Passwort setzen kannst.
+                        </p>
+                    </div>
+
+                    <div>
+                        <form class="form-horizontal">
+
+                            <div class="input-container">
+                                <div class="overline-s no-line">E-Mail</div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input name="passwordReset" placeholder="" type="email" width="100%"
+                                            class="login-inputs" v-model="eMail"
+                                            @keydown.enter="userStore.resetPassword(eMail)" @click="errorMessage = ''" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </template>
                 <template v-else>
                     <div class="form-group omb_login row">
                         <LazyClientOnly>
@@ -204,7 +233,9 @@ onMounted(() => {
                                     </label>
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
-                                    <a href="/Login/PasswortZuruecksetzen">Passwort vergessen?</a>
+                                    <div class="btn btn-link" @click="showPasswordReset = true">
+                                        Passwort vergessen?
+                                    </div>
                                 </div>
                             </div>
                             <div class="errorMessage" v-if="errorMessage.length > 0">{{ errorMessage }}</div>
@@ -223,10 +254,19 @@ onMounted(() => {
                         </button>
                     </p>
                 </div>
+                <div v-else-if="showPasswordReset" class="footerText">
+                    <p>
+                        <strong>Passwort wieder eingefallen?</strong><br />
+                        <button class="btn-link" @click="showPasswordReset = false">
+                            Klicke hier um Dich anzumelden.
+                        </button>
+                    </p>
+                </div>
                 <div class="footerText" v-else-if="!showGooglePluginInfo && !showFacebookPluginInfo">
                     <p>
                         <strong style="font-weight: 700;">Noch kein Benutzer?</strong> <br />
-                        <NuxtLink href="/Registrieren">Jetzt Registrieren!</NuxtLink>
+                        <NuxtLink to="/Registrieren" @click="userStore.showLoginModal = false">Jetzt Registrieren!
+                        </NuxtLink>
                     </p>
                 </div>
                 <div class="row" v-else-if="showGooglePluginInfo">
@@ -241,7 +281,6 @@ onMounted(() => {
                         </button>
                     </p>
                 </div>
-
                 <div class="row" v-else-if="showFacebookPluginInfo">
                     <p>
                         <button type="button" class="btn btn-primary pull-right memo-button" @click="loadFacebookPlugin()">

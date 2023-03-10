@@ -49,14 +49,17 @@ public class CategoryHistoryDetailModel : BaseModel
     public string PrevRelations;
     public CategoryVisibility PrevVisibility;
 
+    public CategoryChangeType ChangeType;
+
     public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
     {
+        ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
-        var previouisRevisionData = !PrevRevExists ? null : previousRevision.GetCategoryChangeData();
+        var previousRevisionData = !PrevRevExists ? null : previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
 
@@ -65,7 +68,7 @@ public class CategoryHistoryDetailModel : BaseModel
             currentRevision.Category.Id;
 
         if (currentVersionTypeDelete) // is currentVersion deleted then is too category deleted
-            CategoryName = previouisRevisionData.Name;
+            CategoryName = previousRevisionData.Name;
         else if (isCategoryDeleted) // is category deleted  then currentversion type delete is not necessarily
             CategoryName = currentRevisionData.Name;
         else
@@ -78,7 +81,7 @@ public class CategoryHistoryDetailModel : BaseModel
        
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
-        CurrentName = currentVersionTypeDelete ? previouisRevisionData.Name :  currentRevisionData.Name;
+        CurrentName = currentVersionTypeDelete ? previousRevisionData.Name :  currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentContent = FormatHtmlString(currentRevisionData.Content);
         CurrentSegments = currentRevisionData.CustomSegments;

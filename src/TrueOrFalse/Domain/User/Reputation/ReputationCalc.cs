@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Linq;
+using NHibernate;
 
 public class ReputationCalc : IRegisterAsInstancePerLifetime
 {
@@ -30,6 +31,29 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.Id);
         result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
+
+        /* Calculate Reputation for other things */
+
+        result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(result.User.Id) * PointsPerUserFollowingMe;
+
+        return result;
+    }
+
+    public ReputationCalcResult RunWithQuestionCacheItems(UserCacheItem user)
+    {
+        var result = new ReputationCalcResult();
+        result.User = new UserTinyModel(user);
+
+        /*Calculate Reputation for Questions and Sets created */
+
+        var createdQuestions = EntityCache.GetAllQuestions()
+            .Where(q => q.Creator != null && q.Creator.Id == result.User.Id && q.Visibility == QuestionVisibility.All).ToList();
+        result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
+
+        /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
+
+        result.ForQuestionsInOtherWishknowledge = user.TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
         /* Calculate Reputation for other things */
 

@@ -13,7 +13,8 @@ export const messages: any = {
         },
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
-            passwordChanged: "Dein Passwort wurde erfolgreich geändert."
+            passwordChanged: "Dein Passwort wurde erfolgreich geändert.",
+            passwordReset: "Dein Passwort wurde zurückgesetzt."
         }
     },
     error: {
@@ -55,7 +56,10 @@ export const messages: any = {
         default: "Leider ist ein unerwarteter Fehler aufgetreten, wiederhole den Vorgang zu einem späteren Zeitpunkt durch.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
-        }
+        },
+        learningSession: {
+            noQuestionsAvailableWithCurrentConfig: 'Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.'
+        },
     },
     info: {
         category: {},
@@ -63,6 +67,7 @@ export const messages: any = {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.'
         },
         googleLogin: '<p>Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
-        facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>'
-    }
+        facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
+        questionNotInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.'
+    },
 }

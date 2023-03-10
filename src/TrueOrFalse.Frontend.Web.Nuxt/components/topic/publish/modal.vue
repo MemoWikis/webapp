@@ -4,7 +4,7 @@ const publishTopicStore = usePublishTopicStore()
 
 const confirmLicense = ref(false)
 
-const blinkTimer = ref(null as ReturnType<typeof setTimeout> | null)
+const blinkTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 const blink = ref(false)
 
 async function publish() {
@@ -18,13 +18,16 @@ async function publish() {
     }
     publishTopicStore.publish()
 }
+
 </script>
 
 <template>
-    <LazyModal :show="publishTopicStore.showModal">
+    <LazyModal :show="publishTopicStore.showModal" :modal-width="780" primary-btn-label="Veröffentlichen"
+        @close="publishTopicStore.showModal = false" @main-btn="publish()"
+        @keydown.esc="publishTopicStore.showModal = false" :disabled="!confirmLicense" :show-cancel-btn="true">
 
         <template v-slot:header>
-            <h4>{{ publishTopicStore.name }} veröffentlichen</h4>
+            <h4>Thema {{ publishTopicStore.name }} veröffentlichen</h4>
         </template>
 
         <template v-slot:body>
@@ -36,8 +39,7 @@ async function publish() {
                 @click="publishTopicStore.includeQuestionsToPublish = !publishTopicStore.includeQuestionsToPublish"
                 v-if="publishTopicStore.questionCount > 0">
                 <div class="checkbox-icon">
-                    <font-awesome-icon icon="fa-solid fa-square-check"
-                        v-if="publishTopicStore.includeQuestionsToPublish" />
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="publishTopicStore.includeQuestionsToPublish" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
@@ -61,11 +63,57 @@ async function publish() {
             </div>
         </template>
 
-        <template v-slot:footer>
-            <div class="btn btn-link memo-button" @click="publishTopicStore.showModal = false">abbrechen</div>
-            <div class="btn btn-primary memo-button" id="PublishCategoryBtn" @click="publish"
-                :class="{ 'disabled-btn': !confirmLicense }">veröffentlichen</div>
-        </template>
-
     </LazyModal>
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.subHeader {
+    line-height: 18px;
+    margin-bottom: 16px;
+}
+
+.checkbox-container {
+    cursor: pointer;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-start;
+
+    .checkbox-icon {
+        font-size: 24px;
+
+        .fa-check-square {
+            color: @memo-blue-link;
+        }
+    }
+
+    .checkbox-label {
+        padding-top: 4px;
+        line-height: 20px;
+        padding-left: 10px;
+    }
+
+    &.license-info {
+        background-color: @background-grey;
+        user-select: none;
+
+        .checkbox-label {
+            line-height: 18px;
+            font-size: 12px;
+        }
+
+        margin-bottom: 40px;
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    }
+}
+</style>

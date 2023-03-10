@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { AlertType, useAlertStore } from '~~/components/alert/alertStore'
+import { messages } from '~~/components/alert/messages'
 
 export enum AnswerState {
     Unanswered = 0,
@@ -74,6 +76,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
+            learningSessionConfigurationStore.getQuestionCount()
+
             const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSession/', {
                 method: 'POST',
                 body: config,
@@ -92,6 +96,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         async startNewSessionWithJumpToQuestion(id: number) {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
+            learningSessionConfigurationStore.getQuestionCount()
+
             const result = await $fetch<NewSessionWithJumpToQuestionResult>('/apiVue/LearningSessionStore/NewSessionWithJumpToQuestion/', {
                 method: 'POST',
                 body: { config: config, id: id },
@@ -105,9 +111,23 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.answerHelp = result.answerHelp!
                 this.isInTestMode = result.isInTestMode!
                 return true
-            } else if (!result.success && result.message == 'filterMismatch') {
-                learningSessionConfigurationStore.reset()
-                this.startNewSessionWithJumpToQuestion(id)
+            } else if (!result.success && result.message == 'questionNotInFilter') {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Default, { text: messages.info.questionNotInFilter }, 'Filter zurücksetzen', true)
+
+                alertStore.$onAction(({ name, after }) => {
+                    if (name == 'closeAlert')
+                        after((result) => {
+                            if (!result.cancelled) {
+                                learningSessionConfigurationStore.resetData()
+                                learningSessionConfigurationStore.saveSessionConfig()
+                                learningSessionConfigurationStore.getQuestionCount()
+                                this.startNewSessionWithJumpToQuestion(id)
+                            } else {
+                                this.startNewSession()
+                            }
+                        })
+                })
             } else return false
         },
         async loadSteps() {

@@ -30,7 +30,7 @@ function getWidth(e: VueElement) {
           <div class="tab-label active" v-if="tabsStore.activeTab == Tab.Topic" :style="getWidth(topicLabelEl)">
             Thema
           </div>
-          <div class="tab-label" :class="{ 'invis': tabsStore.activeTab == Tab.Topic }" ref="topicLabelEl">
+          <div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Topic }" ref="topicLabelEl">
             Thema
           </div>
 
@@ -42,14 +42,14 @@ function getWidth(e: VueElement) {
 
         <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
 
-          <div class="tab-label learning-tab active" v-if="tabsStore.activeTab == Tab.Learning"
+          <div class="tab-label chip-tab active" v-if="tabsStore.activeTab == Tab.Learning"
             :style="getWidth(learningLabelEl)">
             Fragen
             <div class="chip" v-if="topicStore.questionCount > 0">
               {{ topicStore.questionCount }}
             </div>
           </div>
-          <div class="tab-label learning-tab" :class="{ 'invis': tabsStore.activeTab == Tab.Learning }"
+          <div class="tab-label chip-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Learning }"
             ref="learningLabelEl">
             Fragen
             <div class="chip" v-if="topicStore.questionCount > 0">
@@ -66,7 +66,8 @@ function getWidth(e: VueElement) {
         <div class="tab" @click="tabsStore.activeTab = Tab.Feed">
 
           <div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed" :style="getWidth(feedLabelEl)">Feed</div>
-          <div class="tab-label" :class="{ 'invis': tabsStore.activeTab == Tab.Feed }" ref="feedLabelEl">Feed</div>
+          <div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }" ref="feedLabelEl">Feed
+          </div>
 
           <div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
           <div class="inactive-tab" v-else>
@@ -78,7 +79,8 @@ function getWidth(e: VueElement) {
 
           <div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics" :style="getWidth(analyticsLabelEl)">
             Analytics</div>
-          <div class="tab-label" :class="{ 'invis': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+          <div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
+            ref="analyticsLabelEl">
             Analytics
           </div>
 
@@ -107,7 +109,7 @@ function getWidth(e: VueElement) {
             :style="getWidth(topicLabelEl)">
             Thema
           </div>
-          <div class="tab-label" :class="{ 'invis': tabsStore.activeTab == Tab.Topic }" ref="topicLabelEl">
+          <div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Topic }" ref="topicLabelEl">
             Thema
           </div>
 
@@ -119,14 +121,14 @@ function getWidth(e: VueElement) {
 
         <div class="tab" @click="tabsStore.activeTab = Tab.Learning">
 
-          <div class="tab-label learning-tab active" v-if="tabsStore.activeTab == Tab.Learning"
+          <div class="tab-label chip-tab active" v-if="tabsStore.activeTab == Tab.Learning"
             :style="getWidth(learningLabelEl)">
             Fragen
             <div class="chip" v-if="topicStore.questionCount > 0">
               {{ topicStore.questionCount }}
             </div>
           </div>
-          <div class="tab-label learning-tab" :class="{ 'invis': tabsStore.activeTab == Tab.Learning }"
+          <div class="tab-label chip-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Learning }"
             ref="learningLabelEl">
             Fragen
             <div class="chip" v-if="topicStore.questionCount > 0">
@@ -143,7 +145,8 @@ function getWidth(e: VueElement) {
         <div class="tab" @click="tabsStore.activeTab = Tab.Feed">
 
           <div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed" :style="getWidth(feedLabelEl)">Feed</div>
-          <div class="tab-label" :class="{ 'invis': tabsStore.activeTab == Tab.Feed }" ref="feedLabelEl">Feed</div>
+          <div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }" ref="feedLabelEl">Feed
+          </div>
 
           <div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
           <div class="inactive-tab" v-else>
@@ -155,7 +158,8 @@ function getWidth(e: VueElement) {
 
           <div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics" :style="getWidth(analyticsLabelEl)">
             Analytics</div>
-          <div class="tab-label" :class="{ 'invis': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+          <div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
+            ref="analyticsLabelEl">
             Analytics
           </div>
 
@@ -177,6 +181,4 @@ function getWidth(e: VueElement) {
   </ClientOnly>
 </template>
 
-<style lang="less">
-@import '~~/assets/tabs-bar.less';
-</style>
+<style lang="less">@import '~~/assets/tabs-bar.less';</style>

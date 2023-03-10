@@ -6,10 +6,10 @@
     width: 100%;
 }
 
-#TopicTabBar, #ProfileTabBar {
+#TopicTabBar, #ProfileTabBar, #UsersTabBar {
     text-align: center;
     flex-grow: 1;
-    color: @memo-grey-dark;
+    color: @memo-grey-darker;
     display: flex;
     margin-top: 30px;
 
@@ -61,7 +61,7 @@
         }
 
         .active-tab {
-            background: @memo-grey-dark;
+            background: @memo-grey-darker;
             border-radius: 4px;
         }
 
@@ -100,7 +100,7 @@
                 padding: 4px 0px;
             }
 
-            &.invis {
+            &.invisible-tab {
                 visibility: hidden;
             }
 
@@ -117,7 +117,7 @@
                 height: 24px;
             }
 
-            &.learning-tab {
+            &.chip-tab {
                 display: flex;
                 flex-wrap: nowrap;
                 align-items: center;

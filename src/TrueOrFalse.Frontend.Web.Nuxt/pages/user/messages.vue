@@ -32,7 +32,7 @@ const forceShow = ref(false)
 
 <template>
     <div class="container">
-        <div class="row mt-45 messages-container main-page">
+        <div class="row  messages-container main-page">
             <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
                 <h1>
                     <span class="ColoredUnderline Message">Nachrichten</span>

@@ -1,6 +1,5 @@
-﻿using System.IO;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 
 namespace VueApp;
 
@@ -50,6 +49,63 @@ public class UserStoreController : BaseController
         {
             Success = !SessionUser.IsLoggedIn,
         }, JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult Follow(int userId)
+    {
+        var userRepo = R<UserRepo>();
+        var userToFollow = userRepo.GetById(userId);
+
+        userToFollow.AddFollower(User_());
+        userRepo.Update(userToFollow);
+        userRepo.UpdateUserFollowerCount(userId);
+        userRepo.Update(SessionUser.User);
+
+        //var userCacheToFollow = EntityCache.GetUserById(userId);
+        //if (userCacheToFollow.FollowerIds.All(id => id != SessionUser.UserId))
+        //{
+        //    userCacheToFollow.FollowerIds.Add(SessionUser.UserId);
+        //    EntityCache.AddOrUpdate(userCacheToFollow);
+        //}
+
+        //if (SessionUser.User.FollowingIds.All(id => id != userId))
+        //{
+        //    SessionUser.User.FollowingIds.Add(userId);
+        //    EntityCache.AddOrUpdate(SessionUser.User);
+        //}
+
+        return Json(true);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public JsonResult UnFollow(int userId)
+    {
+        var userRepo = R<UserRepo>();
+        var userToUnfollow = userRepo.GetById(userId);
+        var followerInfoToRemove = userToUnfollow.Followers.First(x => x.Follower.Id == UserId);
+        userRepo.RemoveFollowerInfo(followerInfoToRemove);
+        R<UserActivityRepo>().DeleteForUser(UserId, userId);
+        userRepo.UpdateUserFollowerCount(userId);
+        userRepo.Update(userToUnfollow);
+        userRepo.Update(SessionUser.User);
+
+        //var userCacheToUnFollow = EntityCache.GetUserById(userId);
+        //if (userCacheToUnFollow.FollowerIds.Any(id => id == SessionUser.UserId))
+        //{
+        //    userCacheToUnFollow.FollowerIds.Remove(SessionUser.UserId);
+        //    EntityCache.AddOrUpdate(userCacheToUnFollow);
+        //}
+
+        //if (SessionUser.User.FollowingIds.Any(id => id == userId))
+        //{
+        //    SessionUser.User.FollowingIds.Remove(userId);
+        //    EntityCache.AddOrUpdate(SessionUser.User);
+        //}
+        return Json(true);
+
     }
 }
     

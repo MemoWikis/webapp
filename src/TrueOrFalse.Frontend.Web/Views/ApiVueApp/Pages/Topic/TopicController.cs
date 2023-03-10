@@ -50,7 +50,7 @@ public class TopicController : BaseController
                 IsWiki = topic.IsStartPage(),
                 CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == topic.Creator?.Id,
                 CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(topic),
-                QuestionCount = topic.CountQuestionsAggregated,
+                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
                 SearchTopicItem = FillMiniTopicItem(topic)

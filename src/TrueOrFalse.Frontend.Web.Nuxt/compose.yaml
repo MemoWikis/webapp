@@ -1,0 +1,10 @@
+version: '3'
+services:
+  my_service:
+    image: nuxt-memucho
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+      - "80:8086"
+    extra_hosts:
+    - "host.docker.internal:192.117.0.1"

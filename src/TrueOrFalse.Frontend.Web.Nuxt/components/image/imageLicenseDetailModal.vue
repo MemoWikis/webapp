@@ -5,7 +5,8 @@ const imageLicenseStore = useImageLicenseStore()
 </script>
 
 <template>
-    <LazyModal>
+    <LazyModal :show="imageLicenseStore.show" @close="imageLicenseStore.show = false" :show-close-button="true"
+        @keydown.esc="imageLicenseStore.show = false">
         <template v-slot:header>
             Bilddetails
         </template>
@@ -26,7 +27,6 @@ const imageLicenseStore = useImageLicenseStore()
 
         </template>
     </LazyModal>
-
 </template>
 
 <style lang="less" scoped>

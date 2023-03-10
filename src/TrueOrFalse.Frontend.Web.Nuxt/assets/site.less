@@ -1766,6 +1766,10 @@ h3 {
             background-color: darken(@memo-green, 5%);
         }
     }
+
+    &.btn-default {
+        color: @memo-grey-darker;
+    }
 }
 
 #AnswerBody {
@@ -2952,8 +2956,46 @@ a {
 .main-page {
     height: 100%;
     min-height: max(836px, 50vh);
-}
-
-.mt-45 {
+    margin-bottom: 45px;
     margin-top: 45px;
 }
+
+.btn, button {
+    outline: none;
+    border: none;
+
+    &:focus {
+        outline: none;
+        border: none;
+    }
+
+    &:active {
+        outline: none;
+        border: none;
+        &:focus {
+            outline: none;
+            border: none;
+        }
+    }
+
+    &.col-xs-12, &.col-sm-12 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// .btn-link {
+//     &:hover {
+//         text-decoration: none;
+//     }
+// }
+
+// h1, h2, h3, h4 {
+//     color: @memo-grey-darker;
+//     textarea {
+//         color: @memo-grey-darker;
+
+//     }
+// }
+

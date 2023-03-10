@@ -2,10 +2,11 @@
 import { useUserStore } from '~~/components/user/userStore'
 import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
 import { useEditTopicRelationStore, EditRelationData, EditTopicRelationType } from '../../relation/editTopicRelationStore'
+import { usePublishTopicStore } from '../../publish/publishTopicStore'
 
 export default defineNuxtComponent({
     props: {
-        categoryId: [String, Number],
+        categoryId: { type: Number, required: true },
         isCustomSegment: Boolean,
         selectedCategories: Array,
         segmentId: [String, Number],
@@ -77,7 +78,8 @@ export default defineNuxtComponent({
             this.visibility = this.category!.Visibility;
         },
 
-        thisToSegment() {
+        thisToSegment(hide: any) {
+            hide()
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
@@ -87,7 +89,8 @@ export default defineNuxtComponent({
                 this.$emit('load-segment', this.id)
             }
         },
-        async removeParent() {
+        async removeParent(hide: any) {
+            hide()
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
@@ -118,7 +121,8 @@ export default defineNuxtComponent({
                 }
             }
         },
-        openMoveCategoryModal() {
+        openMoveCategoryModal(hide: any) {
+            hide()
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
@@ -137,10 +141,13 @@ export default defineNuxtComponent({
         hideCategory() {
             this.$emit('filter-children', [this.categoryId])
         },
-        openPublishModal() {
-            // eventBus.$emit('open-publish-category-modal', this.categoryId);
+        openPublishModal(hide: any) {
+            hide()
+            const publishTopicStore = usePublishTopicStore()
+            publishTopicStore.openModal(this.categoryId)
         },
-        openAddToWikiModal() {
+        openAddToWikiModal(hide: any) {
+            hide()
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
@@ -189,32 +196,32 @@ export default defineNuxtComponent({
                         <div class="btn btn-link btn-sm ButtonEllipsis">
                             <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                         </div>
-                        <template #popper>
-                            <div v-if="!isCustomSegment" @click="thisToSegment" class="dropdown-row">
+                        <template #popper="{ hide }">
+                            <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
                                 </div>
                                 <div class="dropdown-label"> Unterthemen einblenden</div>
                             </div>
-                            <div @click="removeParent" class="dropdown-row">
+                            <div @click="removeParent(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
                                 </div>
                                 <div class="dropdown-label">Verknüpfung entfernen </div>
                             </div>
-                            <div v-if="visibility == 1" @click="openPublishModal" class="dropdown-row">
+                            <div v-if="visibility == 1" @click="openPublishModal(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                 </div>
                                 <div class="dropdown-label">Thema veröffentlichen</div>
                             </div>
-                            <div @click="openMoveCategoryModal()" class="dropdown-row">
+                            <div @click="openMoveCategoryModal(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
                                 </div>
                                 <div class="dropdown-label">Thema verschieben</div>
                             </div>
-                            <div @click="openAddToWikiModal()" data-allowed="logged-in" class="dropdown-row">
+                            <div @click="openAddToWikiModal(hide)" data-allowed="logged-in" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'plus']" />
                                 </div>

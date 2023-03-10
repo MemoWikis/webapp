@@ -10,7 +10,7 @@ public class LearningSessionStoreController: BaseController
     {
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
         LearningSessionCache.AddOrUpdate(learningSession);
-        if (learningSession != null)
+        if (learningSession is { Steps: { Count: > 0 } })
         {
             var firstStep = learningSession.Steps.First();
             return Json(new
@@ -64,7 +64,7 @@ public class LearningSessionStoreController: BaseController
             return Json(new
             {
                 success = false,
-                message = "filterMismatch"
+                message = "questionNotInFilter"
             });
 
         LearningSessionCache.AddOrUpdate(learningSession);

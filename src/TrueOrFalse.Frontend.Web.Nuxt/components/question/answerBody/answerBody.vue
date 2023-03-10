@@ -206,7 +206,6 @@ function highlightCode() {
                 block.innerHTML = getHighlightedCode(block.textContent)
         })
 }
-const route = useRoute()
 const answerBodyModel = ref<AnswerBodyModel | null>(null)
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
@@ -297,10 +296,13 @@ watch(() => learningSessionStore.currentStep?.index, () => {
     loadAnswerBodyModel()
 })
 learningSessionStore.$onAction(({ name, after }) => {
-    after(() => {
-        if (name == 'startNewSession')
-            loadAnswerBodyModel()
-    })
+    if (name == 'startNewSession') {
+        after((newSession) => {
+            if (newSession)
+                loadAnswerBodyModel()
+        })
+    }
+
 })
 
 function loadResult() {
@@ -656,6 +658,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
 .ButtonGroup {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 #AnswerBody {

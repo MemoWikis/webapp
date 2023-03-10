@@ -161,6 +161,21 @@ async function saveNewPassword() {
     }
 }
 
+async function resetPassword() {
+
+    const result = await $fetch<boolean>('/apiVue/VueUserSettings/ResetPassword', {
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include'
+    })
+
+    if (result) {
+        msg.value = messages.success.user['passwordReset']
+        success.value = true
+        showAlert.value = true
+    }
+}
+
 async function saveWuwiVisibility() {
 
     const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
@@ -303,7 +318,10 @@ const getSelectedSettingsPageLabel = computed(() => {
             <div class="settings-dropdown">
                 <V-Dropdown :distance="0">
                     <div class="settings-select">
-                        {{ getSelectedSettingsPageLabel }}
+                        <div>
+                            {{ getSelectedSettingsPageLabel }}
+                        </div>
+                        <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                     </div>
 
                     <template #popper="{ hide }">
@@ -326,6 +344,32 @@ const getSelectedSettingsPageLabel = computed(() => {
                             :class="{ 'active': activeContent == Content.DeleteProfile }">
                             <div class="dropdown-label select-option">
                                 Profil löschen
+                            </div>
+                        </div>
+
+                        <div class="dropdown-row group-label">
+                            Einstellungen
+                        </div>
+                        <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; hide()"
+                            :class="{ 'active': activeContent == Content.ShowWuwi }">
+                            <div class="dropdown-label select-option">
+                                Wunschwissen anzeigen
+                            </div>
+                        </div>
+                        <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
+                            :class="{ 'active': activeContent == Content.SupportLogin }">
+                            <div class="dropdown-label select-option">
+                                Support Login
+                            </div>
+                        </div>
+
+                        <div class="dropdown-row group-label">
+                            Benachrichtigungen
+                        </div>
+                        <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; hide()"
+                            :class="{ 'active': activeContent == Content.KnowledgeReport }">
+                            <div class="dropdown-label select-option">
+                                Wissensbericht
                             </div>
                         </div>
 
@@ -440,10 +484,14 @@ const getSelectedSettingsPageLabel = computed(() => {
                         </div>
                     </div>
 
-                    <div class="settings-section">
+                    <div class="settings-section password-section">
                         <button class="memo-button btn btn-primary" @click="saveNewPassword()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Passwort ändern
+                        </button>
+
+                        <button class="memo-button btn btn-link" @click="resetPassword()">
+                            Passwort vergessen
                         </button>
                     </div>
                 </div>
@@ -549,7 +597,10 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <div class="interval-dropdown">
                             <V-Dropdown :distance="0">
                                 <div class="interval-select">
-                                    {{ getNotificationIntervalText }}
+                                    <div>
+                                        {{ getNotificationIntervalText }}
+                                    </div>
+                                    <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                 </div>
 
                                 <template #popper="{ hide }">
@@ -614,6 +665,15 @@ const getSelectedSettingsPageLabel = computed(() => {
     </div>
 </template>
 
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.group-label {
+    background-color: @memo-blue;
+    color: white;
+}
+</style>
+
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
@@ -622,25 +682,43 @@ p {
 }
 
 .settings-dropdown {
+    padding-top: 30px;
     width: 100%;
 
     .settings-select {
         width: 100%;
+        color: @memo-blue-link;
+        font-weight: 600;
     }
-
 }
 
 .interval-dropdown {
     width: 190px;
 }
 
+
+.v-popper--shown {
+
+    .settings-select,
+    .interval-select {
+
+        .chevron {
+            transform: rotate(180deg)
+        }
+    }
+}
+
+.settings-select,
 .interval-select {
     padding: 6px 12px;
     height: 34px;
-    width: 190px;
     cursor: pointer;
     border: solid 1px @memo-grey-light;
     background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
 
     &:hover {
         color: @memo-blue;
@@ -650,7 +728,10 @@ p {
     &:active {
         filter: brightness(0.85)
     }
+}
 
+.interval-select {
+    width: 190px;
 }
 
 .checkbox-section {
@@ -693,8 +774,14 @@ p {
     margin-bottom: 40px;
 }
 
+.password-section {
+    display: flex;
+    flex-direction: row;
+}
+
 .profile-picture {
     width: 166px;
+    min-width: 166px;
     height: 166px;
     margin: 10px 0;
 }

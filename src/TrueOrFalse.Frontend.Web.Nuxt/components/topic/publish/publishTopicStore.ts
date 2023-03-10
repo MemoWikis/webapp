@@ -3,10 +3,10 @@ import { useAlertStore, AlertType, AlertMsg, messages } from "~~/components/aler
 
 interface PublishTopicData {
     success: boolean,
-    name: string,
-    questionCount: number,
-    questionIds: number[],
-    key: string
+    name?: string,
+    questionCount?: number,
+    questionIds?: number[],
+    key?: string
 }
 
 export const usePublishTopicStore = defineStore('publishTopicStore', {
@@ -28,9 +28,9 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
                     credentials: 'include'
                 })
                 if (result.success) {
-                    this.name = result.name
-                    this.questionCount = result.questionCount
-                    this.questionIds = result.questionIds
+                    this.name = result.name!
+                    this.questionCount = result.questionCount!
+                    this.questionIds = result.questionIds!
                     this.showModal = true
                 }
             }

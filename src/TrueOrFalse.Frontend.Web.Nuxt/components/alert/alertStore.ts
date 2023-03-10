@@ -22,7 +22,6 @@ export const useAlertStore = defineStore('alertStore', {
       msg: null as AlertMsg | null,
       showCancelButton: false,
       label: 'Ok',
-      cancelled: false,
       title: null as string | null
     }
   },
@@ -39,7 +38,7 @@ export const useAlertStore = defineStore('alertStore', {
       this.show = false
       this.type = AlertType.Default
       this.msg = null
-      this.cancelled = cancel
+      return { cancelled: cancel }
     },
   },
   getters: {

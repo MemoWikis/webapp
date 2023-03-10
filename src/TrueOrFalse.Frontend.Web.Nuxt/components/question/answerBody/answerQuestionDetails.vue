@@ -205,7 +205,6 @@ function calculateLabelWidth() {
         .attr("font-size", "30px")
         .text(personalProbability.value)
         .each(function (this: any) {
-            console.log
             let thisWidth = this.getComputedTextLength()
             probabilityLabelWidth = thisWidth
             this.remove()
@@ -725,9 +724,12 @@ async function loadData() {
     initData(result)
 }
 
-onMounted(() => {
+onMounted(async () => {
     props.landingPage ? initData(props.model) : loadData()
     dom.watch()
+    await nextTick()
+    props.landingPage ? initData(props.model) : loadData()
+
 })
 
 watch(() => props.id, () => loadData())
@@ -803,6 +805,10 @@ onMounted(() => {
                 loadData()
             })
         }
+    })
+    watch(() => tabsStore.activeTab, (val) => {
+        if (val == Tab.Learning)
+            loadData()
     })
 })
 
@@ -924,7 +930,7 @@ onMounted(() => {
                                 <span class="TextSpan">
                                     {{ license.shortText }}
                                 </span>
-                                <font-awesome-icon icon="fa-solid fa-circle-info" />
+                                <font-awesome-icon icon="fa-solid fa-circle-info" class="license-info" />
                             </div>
                         </div>
 
@@ -965,8 +971,6 @@ onMounted(() => {
             </div>
         </div>
     </div>
-
-
 </template>
 
 <style lang="less" scoped>
@@ -1344,6 +1348,10 @@ onMounted(() => {
                 align-items: center;
                 flex-wrap: nowrap;
                 flex-direction: unset;
+
+                .license-info {
+                    padding-left: 4px;
+                }
             }
         }
     }

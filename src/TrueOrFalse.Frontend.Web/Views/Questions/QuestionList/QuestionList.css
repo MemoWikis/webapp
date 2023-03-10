@@ -260,6 +260,9 @@
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .notes .sources {
   overflow-wrap: break-word;
 }
+#QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyTop .extendedQuestionContainer .questionBody ul li p {
+  margin-bottom: 0px;
+}
 #QuestionListApp .singleQuestionRow .questionSectionFlex .questionContainer .questionBodyBottom {
   display: flex;
   justify-content: space-between;

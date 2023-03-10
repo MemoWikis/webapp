@@ -94,6 +94,15 @@ public class VueUserSettingsController : BaseController
         });
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult ResetPassword()
+    {
+        var passwordRecoveryResult = Sl.Resolve<PasswordRecovery>().Run(SessionUser.User.EmailAddress);
+        return Json(passwordRecoveryResult.Success);
+    }
+
+
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]

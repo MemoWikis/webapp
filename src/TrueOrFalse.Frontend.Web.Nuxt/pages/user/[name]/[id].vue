@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { BreadcrumbItem } from '~~/components/header/breadcrumbItems';
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
@@ -6,6 +7,7 @@ import { useUserStore } from '~~/components/user/userStore'
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
+const userStore = useUserStore()
 
 interface Overview {
     activityPoints: {
@@ -16,6 +18,8 @@ interface Overview {
     }
     publicQuestionsCount: number
     publicTopicsCount: number
+    privateQuestionsCount: number
+    privateTopicsCount: number
     wuwiCount: number
 }
 interface Question {
@@ -28,6 +32,7 @@ interface Topic {
     name: string
     encodedName: string
     id: number
+    questionCount: number
 }
 interface Wuwi {
     questions: Question[]
@@ -45,10 +50,10 @@ interface User {
 interface ProfileData {
     user: User
     overview: Overview
-    wuwi?: Wuwi
     isCurrentUser: boolean
 }
-const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id}`, {
+
+const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -59,8 +64,18 @@ const { data: profile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${
     }
 })
 
-const tab = ref<Tab>(Tab.Overview)
-const userStore = useUserStore()
+const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
+    credentials: 'include',
+    mode: 'no-cors',
+    onRequest({ options }) {
+        if (process.server) {
+            options.headers = headers
+            options.baseURL = config.public.serverBase
+        }
+    }
+})
+
+const tab = ref<Tab>()
 const isCurrentUser = computed(() => {
     if (profile.value?.isCurrentUser && userStore.id == profile.value?.user.id)
         return true
@@ -70,33 +85,58 @@ const isCurrentUser = computed(() => {
 const badgeCount = ref(0)
 const maxBadgeCount = ref(0)
 
-function setTab(t: Tab) {
-    tab.value = t
-}
-
-function updateProfile() {
-    refreshNuxtData('profile')
-}
-
 interface Props {
     isSettingsPage?: boolean
 }
 const props = defineProps<Props>()
-
-onBeforeMount(() => {
-    if (props.isSettingsPage && profile.value?.isCurrentUser)
-        tab.value = Tab.Settings
+const emit = defineEmits(['setBreadcrumb'])
+function handleBreadcrumb(t: Tab) {
+    if (t == Tab.Settings) {
+        history.pushState(null, 'Alle Nutzer', `/Nutzer`)
+        const breadcrumbItem: BreadcrumbItem = {
+            name: 'Einstellungen',
+            url: `/Nutzer/Einstellungen`
+        }
+        emit('setBreadcrumb', [breadcrumbItem])
+    }
+    else {
+        const breadcrumbItems: BreadcrumbItem[] = [
+            {
+                name: 'Nutzer',
+                url: '/Nutzer'
+            },
+            {
+                name: `${profile.value?.user.name}`,
+                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
+            }]
+        emit('setBreadcrumb', breadcrumbItems)
+    }
+}
+onMounted(() => {
+    tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
+    handleBreadcrumb(tab.value)
+    watch(tab, (t) => {
+        if (t)
+            handleBreadcrumb(t)
+    })
 })
 
+watch(() => userStore.isLoggedIn, () => {
+    refreshWuwi()
+    refreshProfile()
+})
 </script>
 
 <template>
     <div class="container">
-        <div class="row profile-container mt-45 main-page">
+        <div class="row profile-container  main-page">
             <div class="col-xs-12 container" v-if="profile">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">
-                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture" />
+                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture hidden-xs" />
+                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl"
+                            class="profile-picture-small hidden-sm hidden-md hidden-lg" />
+
                         <div class="profile-header-info">
                             <h1>{{ profile.user.name }}</h1>
                             <div class="sub-info">
@@ -108,8 +148,9 @@ onBeforeMount(() => {
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
-                                <button class="memo-button btn btn-primary">
-                                    <NuxtLink v-if="profile.user.wikiUrl" :to="profile.user.wikiUrl">
+                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl"
+                                    :to="profile.user.wikiUrl">
+                                    <NuxtLink>
 
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
@@ -122,12 +163,12 @@ onBeforeMount(() => {
                     </div>
                 </div>
                 <div class="row">
-                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="setTab"
+                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="tab = $event"
                         :is-current-user="isCurrentUser" />
                 </div>
 
                 <Transition>
-                    <div v-if="tab == Tab.Overview" class="row content">
+                    <div v-show="tab == Tab.Overview" class="row content">
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
@@ -197,7 +238,29 @@ onBeforeMount(() => {
                                 </div>
                             </div>
                             <div class="divider"></div>
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.privateQuestionsCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>
+                                        Private Fragen <font-awesome-icon icon="fa-solid fa-lock" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
 
+                            <div class="main-counter-container">
+                                <div class="count">
+                                    <h1>{{ profile.overview.privateTopicsCount }}</h1>
+                                </div>
+                                <div class="count-label">
+                                    <div>
+                                        Private Themen <font-awesome-icon icon="fa-solid fa-lock" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
@@ -218,9 +281,28 @@ onBeforeMount(() => {
 
                         </div>
                     </div>
-                    <UserSettings v-else-if="tab == Tab.Settings && profile.isCurrentUser"
-                        :image-url="profile.user.imageUrl" @update-profile="updateProfile" />
                 </Transition>
+                <Transition>
+                    <div v-show="tab == Tab.Wishknowledge">
+                        <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
+                            <div v-if="!profile.user.showWuwi && profile.isCurrentUser">
+
+                            </div>
+                            <UserTabsWishknowledge :questions="wuwi.questions" :topics="wuwi.topics" keep-alive />
+                        </div>
+                        <div v-else></div>
+                    </div>
+                </Transition>
+                <Transition>
+                    <div v-show="tab == Tab.Badges">
+
+                    </div>
+                </Transition>
+                <Transition v-if="profile.isCurrentUser">
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
+                        @update-profile="refreshProfile" />
+                </Transition>
+
             </div>
         </div>
     </div>
@@ -228,7 +310,6 @@ onBeforeMount(() => {
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-
 
 .content {
     .overview-partial {
@@ -244,6 +325,14 @@ onBeforeMount(() => {
         width: 166px;
         height: 166px;
         margin-right: 30px;
+        min-width: 166px;
+    }
+
+    .profile-picture-small {
+        width: 96px;
+        height: 96px;
+        margin-right: 30px;
+        min-width: 96px;
     }
 
     .profile-header-info {}
