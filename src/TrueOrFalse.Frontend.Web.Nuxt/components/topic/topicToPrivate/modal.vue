@@ -6,7 +6,7 @@ const userStore = useUserStore()
 </script>
 
 <template>
-    <LazyModal>
+    <!-- <LazyModal>
         <template slot:header>
             <h4 class="modal-title">Thema {{ topicToPrivateStore.name }} auf privat setzen</h4>
         </template>
@@ -58,5 +58,5 @@ const userStore = useUserStore()
                 Thema auf Privat
                 setzen</div>
         </template>
-    </LazyModal>
+    </LazyModal> -->
 </template>

@@ -2,12 +2,12 @@
 </script>
 
 <template>
-    <LazyModal>
+    <!-- <LazyModal>
         <template v-slot:body>
 
         </template>
         <template v-slot:footer>
 
         </template>
-    </LazyModal>
+    </LazyModal> -->
 </template>
