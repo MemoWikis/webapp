@@ -6,7 +6,7 @@ const userStore = useUserStore()
 </script>
 
 <template>
-    <LazyModal>
+    <LazyModal :show="topicToPrivateStore.showModal">
         <template slot:header>
             <h4 class="modal-title">Thema {{ topicToPrivateStore.name }} auf privat setzen</h4>
         </template>
@@ -37,8 +37,7 @@ const userStore = useUserStore()
                 @click="topicToPrivateStore.allQuestionsToPrivate = !topicToPrivateStore.allQuestionsToPrivate"
                 v-if="topicToPrivateStore.allQuestionCount > 0 && userStore.isAdmin">
                 <div class="checkbox-icon">
-                    <font-awesome-icon icon="fa-solid fa-square-check"
-                        v-if="topicToPrivateStore.allQuestionsToPrivate" />
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="topicToPrivateStore.allQuestionsToPrivate" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">

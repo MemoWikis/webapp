@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+const show = ref(false)
 </script>
 
 <template>
-    <LazyModal>
+    <LazyModal :show="show">
         <template v-slot:body>
 
         </template>
