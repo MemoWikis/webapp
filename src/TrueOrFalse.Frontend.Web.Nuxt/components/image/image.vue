@@ -57,7 +57,7 @@ function openImage() {
     line-height: 18px;
     font-size: 10px;
     text-align: center;
-    z-index: 200;
+    z-index: 2;
 
     &:hover {
       color: @memo-blue-lighter;

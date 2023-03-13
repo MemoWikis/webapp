@@ -15,7 +15,9 @@ const { isDesktopOrTablet, isMobile } = useDevice()
 function handleResize() {
     if (window.innerWidth < 480) {
         showSearch.value = false
-    }
+    } else
+        showSearch.value = true
+
 }
 
 onMounted(() => {
