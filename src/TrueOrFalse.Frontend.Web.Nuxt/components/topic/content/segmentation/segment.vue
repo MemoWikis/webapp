@@ -88,7 +88,7 @@ export default defineNuxtComponent({
         "/apiVue/VueSegmentation/GetCategoryData",
         {
           body: data,
-          method: "Post",
+          method: "POST",
           credentials: "include",
           mode: "no-cors",
         }
@@ -109,7 +109,7 @@ export default defineNuxtComponent({
         "/apiVue/VueSegmentation/GetCategoriesData",
         {
           body: data,
-          method: "Post",
+          method: "POST",
           credentials: "include",
           mode: "cors",
         }
@@ -126,7 +126,7 @@ export default defineNuxtComponent({
 
       let result = await $fetch<any>("/apiVue/VueSegmentation/GetSegmentData", {
         body: data,
-        method: "Post",
+        method: "POST",
         credentials: "include",
       });
       if (result) {
@@ -223,7 +223,7 @@ export default defineNuxtComponent({
 
       let result = await $fetch<any>("/apiVue/EditCategory/RemoveChildren", {
         body: data,
-        method: "Post",
+        method: "POST",
         credentials: "include",
         mode: "no-cors",
       });

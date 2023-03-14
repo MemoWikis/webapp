@@ -72,7 +72,7 @@ async function loadQuestionBody() {
 
     var data = await $fetch<any>('/apiVue/TopicLearningQuestion/LoadQuestionBody/', {
         body: { questionId: props.question.Id },
-        method: 'post',
+        method: 'POST',
         credentials: 'include',
     })
 
@@ -252,8 +252,7 @@ watch(isInWishknowledge, () => {
                                     Richtige Antwort: <div v-html="answer" @hook:mounted="highlightCode(answerId)">
                                     </div>
                                 </div>
-                                <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 11"
-                                    :id="extendedAnswerId">
+                                <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 11" :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
                                     <div :v-html="extendedAnswer" @hook:mounted="highlightCode(extendedAnswerId)"></div>
                                 </div>
