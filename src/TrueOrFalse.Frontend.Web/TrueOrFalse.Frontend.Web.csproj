@@ -299,6 +299,7 @@
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\OverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserSettingsController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UsersController.cs" />
+    <Compile Include="Views\ApiVueApp\Stores\DeleteTopicStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\ActivityPointsStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\LearningSessionStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\TopicToPrivateStoreController.cs" />

@@ -105,11 +105,6 @@ onBeforeMount(async () => {
 
 })
 
-onUpdated(() => {
-	if (breadcrumbEl.value != undefined && breadcrumbEl.value.clientHeight > 21) {
-		// startUpdateBreadcrumb()
-	}
-})
 onBeforeUnmount(() => {
 	if (typeof window !== 'undefined') {
 		window.removeEventListener('resize', handleResize)
@@ -123,13 +118,13 @@ watch(() => route.params, () => {
 		getBreadcrumb()
 })
 watch(() => topicStore.id, (newId, oldId) => {
-	if (newId != oldId && props.page == Page.Topic) {
+	if (newId > 0 && newId != oldId && props.page == Page.Topic) {
 		getBreadcrumb()
 	}
 })
 
 watch(() => props.page, (newPage, oldPage) => {
-	if (oldPage != newPage && newPage == Page.Topic)
+	if (oldPage != newPage && (newPage == Page.Topic && topicStore.id > 0))
 		getBreadcrumb()
 })
 

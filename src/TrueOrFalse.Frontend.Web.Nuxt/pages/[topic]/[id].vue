@@ -26,6 +26,7 @@ function getTopicUrl() {
         else return `/apiVue/Topic/GetTopic/1`
     else return `/apiVue/Topic/GetTopic/${route.params.id}`
 }
+
 const { data: topic } = await useFetch<Topic>(getTopicUrl(),
     {
         credentials: 'include',
@@ -35,11 +36,16 @@ const { data: topic } = await useFetch<Topic>(getTopicUrl(),
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
-        }
+        },
     })
+7
+const emit = defineEmits(['setPage'])
+emit('setPage', Page.Topic)
 
 if (topic.value != null) {
+
     if (topic.value.CanAccess) {
+
         topicStore.setTopic(topic.value)
 
         const spinnerStore = useSpinnerStore()
@@ -93,11 +99,9 @@ function setTab() {
 
 const preloadTopicTab = ref(true)
 
-const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
     if (props.tab != Tab.Topic)
         preloadTopicTab.value
-    emit('setPage', Page.Topic)
 })
 onMounted(() => setTab())
 
@@ -107,14 +111,15 @@ onMounted(() => setTab())
     <div class="container">
         <div class="row topic-container main-page">
             <div class="col-lg-9 col-md-12 container">
-                <TopicHeader />
+                <TopicHeader v-if="topic" />
                 <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)"
                     keep-alive />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-show="tabsStore.activeTab == Tab.Learning" keep-alive />
+                <TopicTabsQuestions v-if="topic" v-show="tabsStore.activeTab == Tab.Learning" keep-alive />
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
                 <LazyTopicPublishModal v-if="topic?.Visibility != Visibility.All" />
+                <LazyTopicDeleteModal v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
             </div>
             <Sidebar />
         </div>

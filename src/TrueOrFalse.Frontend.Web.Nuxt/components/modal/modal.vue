@@ -21,19 +21,21 @@ const isError = ref(false)
 const isSuccess = ref(false)
 const modalWidthData = ref(props.modalWidth + 'px')
 const slots = useSlots()
+
+const emit = defineEmits(['close', 'main-btn', 'sub-btn'])
 </script>
 
 
 <template>
     <VueFinalModal v-model="props.show" class="modal-container" content-class="modal-content" :z-index-auto="false">
         <div class="modal-default">
-            <div class="modal-default-mask" @click="$emit('close')">
+            <div class="modal-default-mask" @click="emit('close')">
                 <div class="modal-default-wrapper">
                     <div class="modal-default-container" :style="{ width: modalWidthData }" v-on:click.stop
                         :class="{ 'no-close-button': !props.showCloseButton }">
                         <div>
                             <font-awesome-icon v-if="props.showCloseButton" icon="fa-solid fa-xmark"
-                                class="pull-right pointer modal-close-button" @click="$emit('close')" />
+                                class="pull-right pointer modal-close-button" @click="emit('close')" />
                             <div class="header-default-modal"
                                 v-bind:class="{ errorHeaderModal: isError, successHeaderModal: isSuccess }">
                                 <div class="modal-header-icon" v-if="isError || isSuccess || !!$slots.headerIcon">
@@ -60,7 +62,7 @@ const slots = useSlots()
                                                 'primary-error-button': isError,
                                                 'primary-success-button': isSuccess,
                                                 'full-size-buttons': props.isFullSizeButtons
-                                            }" @click="$emit('main-btn')" :disabled="disabled">
+                                            }" @click="emit('main-btn')" :disabled="disabled">
                                             {{ props.primaryBtnLabel }}
                                         </button>
                                         <button v-if="props.secondaryBtnLabel"
@@ -69,14 +71,14 @@ const slots = useSlots()
                                                 'secondary-error-button': isError,
                                                 'secondary-success-button': isSuccess,
                                                 'full-size-buttons': props.isFullSizeButtons
-                                            }" @click="$emit('sub-btn')">
+                                            }" @click="emit('sub-btn')">
                                             {{ props.secondaryBtnLabel }}
                                         </button>
                                         <button v-if="props.showCancelBtn"
                                             class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
                                             :class="{
                                                 'full-size-buttons': props.isFullSizeButtons
-                                            }" @click="$emit('close')">
+                                            }" @click="emit('close')">
                                             Abbrechen
                                         </button>
                                     </div>
