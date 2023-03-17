@@ -50,37 +50,29 @@ export default defineNuxtComponent({
     const topicStore = useTopicStore();
     this.categoryId = topicStore.id;
     this.initSegments();
-    // eventBus.$on('add-category-card',
-    //     (e) => {
-    //         if (e.parentId == this.categoryId)
-    //             this.addNewCategoryCard(e.newCategoryId);
-    //     });
 
-    // eventBus.$on('category-data-is-loading', () => {
-    //     this.loaded = false;
-    // });
-    // eventBus.$on('category-data-finished-loading', () => this.showComponents());
-    // eventBus.$on('add-category',
-    //     () => {
-    //         this.$nextTick(() => {
-    //             var categoriesToFilter = this.setCategoriesToFilter();
-    //             eventBus.$emit('set-categories-to-filter', categoriesToFilter);
-    //         });
-    //     });
+    const editTopicRelationStore = useEditTopicRelationStore()
+    const self = this;
+    editTopicRelationStore.$onAction(({
+      name,
+      after
+    }) => {
+      if (name == 'addTopicCard') {
+        after((result) => {
+          if (result.parentId == self.categoryId) {
+            self.addNewCategoryCard(result.childId)
+          }
+        })
+      }
+    })
+
+
   },
 
   watch: {
     hover(val) {
       this.showHover = !!val;
     },
-    // currentChildCategoryIds() {
-    //     var categoriesToFilter = this.setCategoriesToFilter();
-    //     eventBus.$emit('set-categories-to-filter', categoriesToFilter);
-    // },
-    // segments() {
-    //     var categoriesToFilter = this.setCategoriesToFilter();
-    //     eventBus.$emit('set-categories-to-filter', categoriesToFilter);
-    // }
   },
   methods: {
     async initSegments() {

@@ -57,6 +57,7 @@ async function addTopic() {
 
             topicStore.childTopicCount++
             editTopicRelationStore.showModal = false
+            editTopicRelationStore.addTopicCard(result.id)
             spinnerStore.hideSpinner()
         }
     } else {
@@ -166,7 +167,6 @@ async function moveTopicToNewParent() {
 async function addExistingTopic() {
     spinnerStore.showSpinner()
 
-
     if (editTopicRelationStore.parentId == editTopicRelationStore.childId) {
         errorMsg.value = messages.error.category.loopLink
         showErrorMsg.value = true
@@ -192,36 +192,13 @@ async function addExistingTopic() {
 
         }
         editTopicRelationStore.showModal = false
+        editTopicRelationStore.addTopicCard(editTopicRelationStore.childId)
         spinnerStore.hideSpinner()
     } else {
         errorMsg.value = messages.error.category[result.key]
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
     }
-
-    // $.ajax({
-    //     type: 'Post',
-    //     contentType: "application/json",
-    //     url: '/apiVue/TopicRelationEdit/AddChild',
-    //     data: JSON.stringify(categoryData),
-    //     success(data) {
-    //         if (data.success) {
-    //             if (self.redirect)
-    //                 window.open(data.url, '_self');
-
-    //             if (self.addCategoryBtnId != null)
-    //                 self.loadCategoryCard(data.id);
-
-    //             $('#AddCategoryModal').modal('hide');
-    //             self.addCategoryCount();
-    //             Utils.HideSpinner();
-    //         } else {
-    //             self.errorMsg = messages.error.category[data.key];
-    //             self.showErrorMsg = true;
-    //             Utils.HideSpinner();
-    //         };
-    //     },
-    // });
 }
 
 async function addNewParentToTopic() {
@@ -272,10 +249,52 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     })
 })
 
+const primaryBtnLabel = ref('Thema erstellen')
+watch(() => editTopicRelationStore.type, (type) => {
+    switch (type) {
+        case EditTopicRelationType.Create:
+            primaryBtnLabel.value = 'Thema erstellen'
+            break
+        case EditTopicRelationType.Move:
+            primaryBtnLabel.value = 'Thema verschieben'
+            break
+        case EditTopicRelationType.AddChild:
+            primaryBtnLabel.value = 'Thema verknüpfen'
+            break
+        case EditTopicRelationType.AddParent:
+            primaryBtnLabel.value = 'Thema verknüpfen'
+            break
+        case EditTopicRelationType.AddToPersonalWiki:
+            primaryBtnLabel.value = 'Thema verknüpfen'
+            break
+    }
+})
+
+function handleMainBtn() {
+    switch (editTopicRelationStore.type) {
+        case EditTopicRelationType.Create:
+            addTopic()
+            break
+        case EditTopicRelationType.Move:
+            moveTopicToNewParent()
+            break
+        case EditTopicRelationType.AddChild:
+            addExistingTopic()
+            break
+        case EditTopicRelationType.AddParent:
+            addNewParentToTopic()
+            break
+        case EditTopicRelationType.AddToPersonalWiki:
+            addNewParentToTopic()
+            break
+    }
+}
+
 </script>
 
 <template>
-    <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal">
+    <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal"
+        :primary-btn-label="primaryBtnLabel" @main-btn="handleMainBtn()" :show-cancel-btn="true">
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
                 erstellen
@@ -296,7 +315,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             <template v-if="editTopicRelationStore.type == EditTopicRelationType.Create">
                 <form v-on:submit.prevent="addTopic">
                     <div class="form-group">
-                        <input class="form-control" v-model="name" placeholder="Bitte gib den Namen des Themas ein" />
+                        <input class="form-control create-input" v-model="name"
+                            placeholder="Bitte gib den Namen des Themas ein" />
                         <small class="form-text text-muted"></small>
                     </div>
                 </form>
@@ -392,8 +412,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                             placeholder="Bitte gib den Namen des Themas ein" />
                         <ul class="dropdown-menu" aria-labelledby="searchList">
                             <li class="searchResultItem" v-for="t in topics.value" @click="selectTopic(t)"
-                                data-toggle="tooltip" data-placement="top" :title="t.Name"
-                                :data-original-title="t.Name">
+                                data-toggle="tooltip" data-placement="top" :title="t.Name" :data-original-title="t.Name">
                                 <img :src="t.ImageUrl" />
                                 <div>
                                     <div class="searchResultLabel body-m">{{ t.Name }}</div>
@@ -433,8 +452,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                             placeholder="Bitte gib den Namen des Themas ein" />
                         <ul class="dropdown-menu" aria-labelledby="searchList">
                             <li class="searchResultItem" v-for="t in topics.value" @click="selectTopic(t)"
-                                data-toggle="tooltip" data-placement="top" :title="t.Name"
-                                :data-original-title="t.Name">
+                                data-toggle="tooltip" data-placement="top" :title="t.Name" :data-original-title="t.Name">
                                 <img :src="t.ImageUrl" />
                                 <div>
                                     <div class="searchResultLabel body-m">{{ t.Name }}</div>
@@ -460,29 +478,12 @@ editTopicRelationStore.$onAction(({ name, after }) => {
 
 
         </template>
-        <template v-slot:footer>
-            <div v-if="editTopicRelationStore.type == EditTopicRelationType.Create" id="AddNewTopicBtn"
-                class="btn btn-primary memo-button" @click="addTopic" :class="{ 'disabled': disableAddButton }">Thema
-                erstellen
-            </div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" id="MoveTopicToNewParentBtn"
-                class="btn btn-primary memo-button" @click="moveTopicToNewParent"
-                :class="{ 'disabled': disableAddButton }">
-                Thema verschieben</div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" id="AddExistingTopicBtn"
-                class="btn btn-primary memo-button" @click="addExistingTopic" :class="{ 'disabled': disableAddButton }">
-                Thema
-                verknüpfen</div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" id="AddNewParentBtn"
-                class="btn btn-primary memo-button" @click="addNewParentToTopic"
-                :class="{ 'disabled': disableAddButton }">Thema
-                verknüpfen</div>
-            <div v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki" id="AddToWiki"
-                class="btn btn-primary memo-button" @click="addNewParentToTopic"
-                :class="{ 'disabled': disableAddButton }">Thema
-                verknüpfen</div>
-            <div class="btn btn-link memo-button" @click="editTopicRelationStore.showModal = false">Abbrechen</div>
-        </template>
 
     </LazyModal>
 </template>
+
+<style lang="less" scoped>
+.create-input {
+    border-radius: 0px;
+}
+</style>

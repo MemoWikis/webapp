@@ -116,6 +116,12 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
       }
 
       this.openModal(editTopicRelationData)
+    },
+    addTopicCard(childId: number) {
+      return {
+        parentId: this.parentId,
+        childId: childId,
+      }
     }
 
   },

@@ -7,6 +7,7 @@ import {
   useEditTopicRelationStore,
 } from "../../relation/editTopicRelationStore";
 import { CategoryCardData } from "./CategoryCardData";
+
 export default defineNuxtComponent({
   props: {
     title: String,
@@ -55,6 +56,21 @@ export default defineNuxtComponent({
 
     if (this.currentChildCategoryIds.length > 0)
       this.getCategoriesData();
+
+    const editTopicRelationStore = useEditTopicRelationStore()
+    const self = this;
+    editTopicRelationStore.$onAction(({
+      name,
+      after
+    }) => {
+      if (name == 'addTopicCard') {
+        after((result) => {
+          if (result.parentId == self.categoryId) {
+            self.addNewCategoryCard(result.childId)
+          }
+        })
+      }
+    })
   },
 
   watch: {

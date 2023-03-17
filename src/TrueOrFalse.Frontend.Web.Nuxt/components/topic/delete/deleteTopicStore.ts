@@ -8,11 +8,17 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             name: '',
             showModal: false,
             errorMsg: '',
+            topicDeleted: false,
+            redirectURL: ''
         }
     },
     actions: {
         async openModal(id: number) {
+            this.topicDeleted = false
+            this.name = ''
+            this.errorMsg = ''
             this.id = id
+            this.redirectURL = ''
             if (await this.initDeleteData())
                 this.showModal = true
         },
@@ -39,10 +45,12 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 success: boolean
                 hasChildren: boolean
                 isNotCreatorOrAdmin: boolean
+                redirectURL: string
             }
             var result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
             if (!!result && result.success) {
-
+                this.redirectURL = result.redirectURL
+                this.topicDeleted = true
             }
         }
     }

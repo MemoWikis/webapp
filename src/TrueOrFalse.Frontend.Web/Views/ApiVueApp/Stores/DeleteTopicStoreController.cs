@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse.Web;
 
 public class DeleteTopicStoreController : BaseController
 {
@@ -24,6 +25,7 @@ public class DeleteTopicStoreController : BaseController
     [HttpPost]
     public JsonResult Delete(int id)
     {
+        var redirectURL = GetRedirectTopic(id);
         var topic = Sl.CategoryRepo.GetById(id);
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
@@ -43,7 +45,17 @@ public class DeleteTopicStoreController : BaseController
         {
             hasChildren = hasDeleted.HasChildren,
             isNotCreatorOrAdmin = hasDeleted.IsNotCreatorOrAdmin,
-            success = hasDeleted.DeletedSuccessful
+            success = hasDeleted.DeletedSuccessful,
+            redirectURL = redirectURL
         });
+    }
+
+    private string GetRedirectTopic(int id)
+    {
+        var topic = EntityCache.GetCategory(id);
+        var currentWiki = EntityCache.GetCategory(SessionUser.CurrentWikiId);
+        var lastBreadcrumbItem = CrumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
+
+        return "/" + UriSanitizer.Run(lastBreadcrumbItem.Text) + "/" + lastBreadcrumbItem.Category.Id;
     }
 }
