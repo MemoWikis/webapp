@@ -22,5 +22,9 @@ const topicStore = useTopicStore()
 <style lang="less">
 #TopicContentPlaceholder {
     padding: 0px;
+
+    p {
+        min-height: 30px;
+    }
 }
 </style>

@@ -22,8 +22,8 @@ async function publish() {
 </script>
 
 <template>
-    <!-- <LazyModal :show="publishTopicStore.showModal" :modal-width="780" primary-btn-label="Veröffentlichen"
-        @close="publishTopicStore.showModal = false" @main-btn="publish()"
+    <LazyModal :show="publishTopicStore.showModal" :modal-width="780" primary-btn-label="Veröffentlichen"
+        @close="publishTopicStore.showModal = false" @primary-btn="publish()"
         @keydown.esc="publishTopicStore.showModal = false" :disabled="!confirmLicense" :show-cancel-btn="true">
 
         <template v-slot:header>
@@ -63,7 +63,7 @@ async function publish() {
             </div>
         </template>
 
-    </LazyModal> -->
+    </LazyModal>
 </template>
 
 <style lang="less" scoped>

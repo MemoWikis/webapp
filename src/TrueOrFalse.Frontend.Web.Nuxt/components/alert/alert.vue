@@ -5,20 +5,32 @@ const alertStore = useAlertStore()
 </script>
 
 <template>
-    <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false" :z-index-auto="false">
+    <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false" :z-index-auto="false"
+        @close="alertStore.show = false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
                 <div class="modal-body">
-                    <h3>
+                    <h3 v-if="alertStore.title != null && alertStore.title.length > 0">
                         <font-awesome-icon v-if="alertStore.type == AlertType.Success" icon="fa-solid fa-circle-check"
                             class="success" />
                         <font-awesome-icon v-else-if="alertStore.type == AlertType.Error" icon="fa-solid fa-circle-xmark"
                             class="error" />
                         {{ alertStore.title }}
                     </h3>
+                    <div class="alert-msg-container" :class="{ 'has-icon': alertStore.type != AlertType.Default }">
+                        <template v-if="alertStore.title == null || alertStore.title.length == 0">
+                            <font-awesome-icon v-if="alertStore.type == AlertType.Success" icon="fa-solid fa-circle-check"
+                                class="success msg-icon" />
+                            <font-awesome-icon v-else-if="alertStore.type == AlertType.Error"
+                                icon="fa-solid fa-circle-xmark" class="error msg-icon" />
 
-                    <div class="">{{ alertStore.text }}</div>
+                        </template>
+                        <div class="alert-msg">
+                            {{ alertStore.text }}
+
+                        </div>
+                    </div>
                     <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
                 </div>
 
@@ -53,5 +65,23 @@ const alertStore = useAlertStore()
 
 .cancel-alert {
     margin-right: 4px;
+}
+
+.alert-msg-container {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+
+    .msg-icon {
+        font-size: 25px;
+    }
+
+    &.has-icon {
+        .alert-msg {
+            padding-left: 20px;
+        }
+    }
 }
 </style>

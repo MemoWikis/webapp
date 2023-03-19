@@ -11,7 +11,11 @@ const topicStore = useTopicStore()
 
 <style scoped lang="less">
 .topic-header-image {
+    min-width: 80px;
     width: 80px;
+    max-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
     height: 80px;
 }
 </style>

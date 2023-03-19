@@ -219,6 +219,10 @@ watch(() => props.showSearch, (val) => {
 function showBreadcrumb(e: any) {
 	return true
 }
+
+watch(() => userStore.isLoggedIn, () => {
+	getBreadcrumb()
+})
 </script>
 
 <template>
@@ -267,9 +271,11 @@ function showBreadcrumb(e: any) {
 
 				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`"
 					v-tooltip="s.Name">
-					{{ s.Name }}
+					<div class="dropdown-row">
+						{{ s.Name }}
+					</div>
 				</NuxtLink>
-
+				<div></div>
 			</template>
 		</V-Dropdown>
 

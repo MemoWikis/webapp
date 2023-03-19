@@ -107,9 +107,13 @@ const partialSpacer = ref()
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
-                                        <div class="user-dropdown-container">
-                                            <span style="white-space: nowrap;  display: block;">bist du in <b>Level
-                                                    {{ activityPointsStore.level }}</b>.</span>
+                                        <div class="user-dropdown-container level-info">
+                                            <div>
+                                                <span>Mit {{ activityPointsStore.points }} Lernpunkten</span>
+                                                <span style="white-space: nowrap;  display: block;">bist du in <b>Level
+                                                        {{ activityPointsStore.level }}</b>.</span>
+                                            </div>
+
                                             <div class="NextLevelContainer">
                                                 <div class="ProgressBarContainer">
                                                     <div id="NextLevelProgressPercentageDone"
@@ -404,6 +408,7 @@ const partialSpacer = ref()
         }
 
         .header-user-name {
+            font-weight: 600;
             padding: 0 4px;
         }
     }

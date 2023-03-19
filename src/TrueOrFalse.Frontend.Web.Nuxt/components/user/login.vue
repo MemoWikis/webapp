@@ -86,7 +86,7 @@ onMounted(() => {
 <template>
     <div id="LoginModalComponent">
         <LazyModal :show-close-button="true" :modal-width="600" :primary-btn-label="primaryBtnLabel"
-            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @main-btn="login()"
+            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @primary-btn="login()"
             :show="userStore.showLoginModal" @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>

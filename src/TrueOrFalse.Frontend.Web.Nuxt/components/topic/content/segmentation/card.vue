@@ -13,7 +13,7 @@ export default defineNuxtComponent({
         hide: String,
         category: { type: Object, required: true },
         isHistoric: Boolean,
-        parentTopicId: Number
+        parentTopicId: Number,
     },
     data() {
         return {
@@ -98,11 +98,11 @@ export default defineNuxtComponent({
             }
             var self = this;
             var data = {
-                parentCategoryIdToRemove: self.parentTopicId,
-                childCategoryId: self.categoryId,
+                parentIdToRemove: self.parentTopicId,
+                childId: self.categoryId,
             };
 
-            var result = await $fetch<any>('/apiVue/Card/RemoveParent', {
+            var result = await $fetch<any>('/apiVue/TopicRelationEdit/RemoveParent', {
                 method: 'POST',
                 body: data,
             })
@@ -130,7 +130,7 @@ export default defineNuxtComponent({
             }
             var self = this;
             var data = {
-                parentId: self.$parentz.categoryId,
+                topicIdToRemove: self.parentTopicId,
                 childId: self.categoryId,
                 editCategoryRelation: EditTopicRelationType.Move,
             } as EditRelationData
@@ -197,12 +197,12 @@ export default defineNuxtComponent({
                             <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                         </div>
                         <template #popper="{ hide }">
-                            <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
-                                <div class="dropdown-icon">
-                                    <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                </div>
-                                <div class="dropdown-label"> Unterthemen einblenden</div>
-                            </div>
+                            <!-- <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
+                                                        <div class="dropdown-icon">
+                                                            <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
+                                                        </div>
+                                                        <div class="dropdown-label"> Unterthemen einblenden</div>
+                                                    </div> -->
                             <div @click="removeParent(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'link-slash']" />

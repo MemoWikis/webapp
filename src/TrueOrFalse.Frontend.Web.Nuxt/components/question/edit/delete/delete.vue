@@ -89,7 +89,8 @@ watch(() => deleteQuestionStore.showModal, (val) => {
 
 <template>
     <LazyModal :show-close-button="true" primary-btn-label="Löschen" :is-full-size-buttons="true"
-        @close="deleteQuestionStore.showModal = false" @main-btn="deleteQuestion()" :show="deleteQuestionStore.showModal">
+        @close="deleteQuestionStore.showModal = false" @primary-btn="deleteQuestion()"
+        :show="deleteQuestionStore.showModal">
         <template slot:header>
             <h4 class="modal-title">Frage löschen</h4>
         </template>

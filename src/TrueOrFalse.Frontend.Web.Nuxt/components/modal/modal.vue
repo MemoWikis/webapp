@@ -25,7 +25,8 @@ const isSuccess = ref(false)
 const modalWidthString = ref(props.modalWidth + 'px')
 const slots = useSlots()
 
-const emit = defineEmits(['close', 'main-btn', 'sub-btn'])
+const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
+
 </script>
 
 
@@ -65,7 +66,7 @@ const emit = defineEmits(['close', 'main-btn', 'sub-btn'])
                                                 'primary-error-button': isError,
                                                 'primary-success-button': isSuccess,
                                                 'full-size-buttons': props.isFullSizeButtons
-                                            }" @click="emit('main-btn')" :disabled="disabled">
+                                            }" @click="emit('primary-btn')" :disabled="disabled">
                                             {{ props.primaryBtnLabel }}
                                         </button>
                                         <button v-if="props.secondaryBtnLabel"
@@ -74,7 +75,7 @@ const emit = defineEmits(['close', 'main-btn', 'sub-btn'])
                                                 'secondary-error-button': isError,
                                                 'secondary-success-button': isSuccess,
                                                 'full-size-buttons': props.isFullSizeButtons
-                                            }" @click="emit('sub-btn')">
+                                            }" @click="emit('secondary-btn')">
                                             {{ props.secondaryBtnLabel }}
                                         </button>
                                         <button v-if="props.showCancelBtn"

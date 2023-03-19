@@ -118,7 +118,8 @@ onMounted(() => setTab())
                 <TopicTabsQuestions v-if="topic" v-show="tabsStore.activeTab == Tab.Learning" keep-alive />
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
-                <LazyTopicPublishModal v-if="topic?.Visibility != Visibility.All" />
+                <LazyTopicPublishModal />
+                <LazyTopicTopicToPrivateModal v-if="topic?.CurrentUserIsCreator || userStore.isAdmin" />
                 <LazyTopicDeleteModal v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
             </div>
             <Sidebar />

@@ -5,9 +5,8 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
 import _ from 'underscore'
-import { FullSearch, TopicItem } from '~~/components/search/searchHelper'
+import { FullSearch, TopicItem, SearchType } from '~~/components/search/searchHelper'
 import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
-import { Alert } from '~~/.nuxt/components'
 
 const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
@@ -109,16 +108,13 @@ const totalCount = ref(0)
 
 const forbiddenTopicName = ref('')
 
-const childId = ref(null)
-const parentTopicIdToRemove = ref(null)
-const parentId = ref(null)
 const redirect = ref(true)
 
 const addTopicBtnId = ref(null)
 
 function loadTopicCard(id: number) {
     var data = {
-        parentId: parentId.value,
+        parentId: editTopicRelationStore.parentId,
         newCategoryId: id
     }
     // eventBus.$emit('add-category-card', data);
@@ -127,7 +123,7 @@ function loadTopicCard(id: number) {
 async function moveTopicToNewParent() {
     spinnerStore.showSpinner()
 
-    if (selectedTopicId.value == parentId.value) {
+    if (selectedTopicId.value == editTopicRelationStore.parentId) {
         errorMsg.value = messages.error.category.loopLink
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
@@ -135,22 +131,25 @@ async function moveTopicToNewParent() {
     }
 
     var topicData = {
-        childCategoryId: childId.value,
-        parentCategoryIdToRemove: parentTopicIdToRemove.value,
-        parentCategoryIdToAdd: selectedTopic.value?.Id
+        childId: editTopicRelationStore.childId,
+        parentIdToRemove: editTopicRelationStore.topicIdToRemove,
+        parentIdToAdd: selectedTopic.value?.Id
     }
 
-    var data = await $fetch<any>('/apiVue/EditTopic/MoveChild', {
+    var data = await $fetch<any>('/apiVue/TopicRelationEdit/MoveChild', {
         body: topicData,
         method: 'POST',
     })
 
     if (data.success) {
         if (redirect.value)
-            window.open(data.url, '_self')
+            navigateTo(data.url)
 
-        if (addTopicBtnId.value != null)
-            loadTopicCard(data.id)
+        if (addTopicBtnId.value != null) {
+            editTopicRelationStore.parentId = selectedTopic.value?.Id!
+            editTopicRelationStore.addTopicCard(editTopicRelationStore.childId)
+
+        }
         else
             editTopicRelationStore.showModal = false
 
@@ -166,6 +165,7 @@ async function moveTopicToNewParent() {
 
 async function addExistingTopic() {
     spinnerStore.showSpinner()
+    editTopicRelationStore.childId = selectedTopicId.value
 
     if (editTopicRelationStore.parentId == editTopicRelationStore.childId) {
         errorMsg.value = messages.error.category.loopLink
@@ -175,8 +175,8 @@ async function addExistingTopic() {
     }
 
     var data = {
-        childCategoryId: editTopicRelationStore.childId,
-        parentCategoryId: editTopicRelationStore.parentId,
+        childId: editTopicRelationStore.childId,
+        parentId: editTopicRelationStore.parentId,
     }
 
     var result = await $fetch<any>('/apiVue/TopicRelationEdit/AddChild', {
@@ -188,9 +188,6 @@ async function addExistingTopic() {
     if (result.success) {
         if (editTopicRelationStore.redirect)
             navigateTo(result.url)
-        if (editTopicRelationStore.addTopicBtnExists) {
-
-        }
         editTopicRelationStore.showModal = false
         editTopicRelationStore.addTopicCard(editTopicRelationStore.childId)
         spinnerStore.hideSpinner()
@@ -219,14 +216,14 @@ const debounceSearch = _.debounce(() => {
 }, 500)
 
 async function search() {
-    showDropdown.value = true;
+    showDropdown.value = true
     var data = {
         term: searchTerm.value,
     }
 
     var url = editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki
-        ? '/apiVue/Search/CategoryInWiki'
-        : '/apiVue/Search/Category';
+        ? '/apiVue/TopicRelationEdit/SearchTopicInPersonalWiki'
+        : '/apiVue/TopicRelationEdit/SearchTopic'
 
     var result = await $fetch<FullSearch>(url, {
         body: data,
@@ -236,8 +233,8 @@ async function search() {
     })
 
     if (result != null) {
-        topics.value = result.categories.filter(t => t.Id != parentId.value)
-        totalCount.value = result.categoryCount
+        topics.value = result.topics.filter(t => t.Id != editTopicRelationStore.parentId)
+        totalCount.value = result.topicCount
     }
 }
 
@@ -294,7 +291,7 @@ function handleMainBtn() {
 
 <template>
     <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal"
-        :primary-btn-label="primaryBtnLabel" @main-btn="handleMainBtn()" :show-cancel-btn="true">
+        :primary-btn-label="primaryBtnLabel" @primary-btn="handleMainBtn()" :show-cancel-btn="true">
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
                 erstellen
@@ -335,7 +332,7 @@ function handleMainBtn() {
                 <div class="mb-250">
                     <p>Wo soll das Thema hinzugefügt werden?</p>
                 </div>
-                <form v-on:submit.prevent="selectTopic">
+                <div>
                     <div class="categorySearchAutocomplete mb-250" v-if="editTopicRelationStore.personalWiki != null"
                         @click="selectedParentInWikiId = userStore.personalWiki?.Id ?? 0">
                         <div class="searchResultItem"
@@ -407,36 +404,19 @@ function handleMainBtn() {
                                 </div>
                             </div>
                         </div>
-                        <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm"
-                            id="searchInWikiList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true"
-                            placeholder="Bitte gib den Namen des Themas ein" />
-                        <ul class="dropdown-menu" aria-labelledby="searchList">
-                            <li class="searchResultItem" v-for="t in topics.value" @click="selectTopic(t)"
-                                data-toggle="tooltip" data-placement="top" :title="t.Name" :data-original-title="t.Name">
-                                <img :src="t.ImageUrl" />
-                                <div>
-                                    <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                    <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }} Frage<template
-                                            v-if="t.QuestionCount != 1">n</template></div>
-                                </div>
-                            </li>
-                            <li class="dropdownFooter body-m">
-                                <b>{{ totalCount }}</b> Treffer. <br />
-                                Deins ist nicht dabei? <span class="dropdownLink"
-                                    @click="editTopicRelationStore.type = EditTopicRelationType.Create">Erstelle hier
-                                    dein
-                                    Thema</span>
-                            </li>
-                        </ul>
+                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic" />
+
                     </div>
-                </form>
+
+
+                </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
                     <a :href="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</a>
                     {{ errorMsg }}
                 </div>
             </template>
             <template v-else>
-                <form v-on:submit.prevent="selectTopic">
+                <div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
                             data-toggle="tooltip" data-placement="top" :title="selectedTopic.Name">
@@ -447,29 +427,9 @@ function handleMainBtn() {
                                     Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <input ref="searchInput" class="form-control dropdown-toggle" type="text" v-model="searchTerm"
-                            id="searchList" autocomplete="off" @click="lockDropdown = false" aria-haspopup="true"
-                            placeholder="Bitte gib den Namen des Themas ein" />
-                        <ul class="dropdown-menu" aria-labelledby="searchList">
-                            <li class="searchResultItem" v-for="t in topics.value" @click="selectTopic(t)"
-                                data-toggle="tooltip" data-placement="top" :title="t.Name" :data-original-title="t.Name">
-                                <img :src="t.ImageUrl" />
-                                <div>
-                                    <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                    <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }} Frage<template
-                                            v-if="t.QuestionCount != 1">n</template></div>
-                                </div>
-                            </li>
-                            <li class="dropdownFooter body-m">
-                                <b>{{ totalCount }}</b> Treffer. <br />
-                                Deins ist nicht dabei? <span class="dropdownLink"
-                                    @click="editTopicRelationStore.type = EditTopicRelationType.Create">Erstelle hier
-                                    dein
-                                    Thema</span>
-                            </li>
-                        </ul>
+                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic" />
                     </div>
-                </form>
+                </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
                     <a :href="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</a>
                     {{ errorMsg }}
@@ -483,7 +443,95 @@ function handleMainBtn() {
 </template>
 
 <style lang="less" scoped>
+@import '~~/assets/shared/search.less';
+@import (reference) '~~/assets/includes/imports.less';
+
 .create-input {
     border-radius: 0px;
+}
+
+.searchResultItem {
+    padding: 4px;
+    display: flex;
+    width: 100%;
+    height: 70px;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+    margin-left: -4px;
+    margin-right: -4px;
+
+    .searchResultBody {
+        width: 100%;
+    }
+
+    .searchResultLabelContainer {
+        width: 100%;
+        height: 100%;
+    }
+
+    .searchResultLabel {
+        height: 40px;
+        line-height: normal;
+        color: @memo-grey-darker;
+        text-overflow: ellipsis;
+        margin: 0;
+        overflow: hidden;
+        max-width: 408px;
+    }
+
+    &:hover {
+        background: @memo-grey-lighter;
+        color: @memo-blue;
+
+        .searchResultLabel {
+            color: @memo-blue;
+        }
+    }
+
+
+    .searchResultQuestionCount {
+        color: @memo-grey-dark;
+        font-style: italic;
+        height: 20px;
+        line-height: normal;
+    }
+
+
+    img {
+        max-height: 70px;
+        max-width: 70px;
+        height: auto;
+        margin-right: 10px;
+
+        &.authorImg {
+            border-radius: 50%;
+        }
+    }
+
+    &.selectedSearchResultItem {
+        color: @memo-blue;
+        background-color: @memo-blue-light-transparent;
+
+        .searchResultLabel {
+            color: @memo-blue;
+        }
+    }
+
+    .selectedSearchResultItemContainer {
+        position: relative;
+
+        .selectedSearchResultItem {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            i {
+                padding-left: 4px;
+            }
+        }
+    }
 }
 </style>

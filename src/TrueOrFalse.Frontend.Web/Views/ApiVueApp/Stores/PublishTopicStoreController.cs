@@ -10,11 +10,11 @@ public class PublishTopicStoreController
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult PublishCategory(int categoryId)
+    public JsonResult PublishTopic(int topicId)
     {
-        var topicCacheItem = EntityCache.GetCategory(categoryId);
+        var topicCacheItem = EntityCache.GetCategory(topicId);
 
-        if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == categoryId)
+        if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == topicId)
         {
             if (topicCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !IsInstallationAdmin)
                 return Json(new
@@ -25,7 +25,7 @@ public class PublishTopicStoreController
 
             var topicRepo = Sl.CategoryRepo;
             topicCacheItem.Visibility = CategoryVisibility.All;
-            var topic = topicRepo.GetById(categoryId);
+            var topic = topicRepo.GetById(topicId);
             topic.Visibility = CategoryVisibility.All;
             topicRepo.Update(topic, SessionUser.User, type: CategoryChangeType.Published);
 

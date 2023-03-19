@@ -26,7 +26,8 @@ function openImage() {
     <img v-if="props.style == ImageStyle.Author" :src="props.url" class="author" :alt="props.alt" />
     <img v-else :src="props.url" class="topic" :alt="props.alt" />
 
-    <div v-if="props.showLicense && props.imageId != undefined" class="license-btn" @click="openImage()">Lizenzinfos
+    <div v-if="props.showLicense && props.imageId != undefined && !props.url.includes('no-category-picture')"
+      class="license-btn" @click="openImage()">Lizenzinfos
     </div>
   </div>
 </template>
