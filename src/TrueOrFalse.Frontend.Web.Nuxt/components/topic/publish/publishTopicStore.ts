@@ -19,23 +19,24 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             questionCount: 0,
             questionIds: [] as number[],
             showModal: false,
-            includeQuestionsToPublish: false
+            includeQuestionsToPublish: false,
+            confirmLicense: false
         }
     },
     actions: {
         async openModal(id: number) {
-            if (this.id != id) {
-                const result = await $fetch<PublishTopicData>(`/apiVue/PublishTopicStore/Get?topicId=${id}`, {
-                    mode: 'cors',
-                    credentials: 'include'
-                })
-                if (result.success) {
-                    this.name = result.name!
-                    this.questionCount = result.questionCount!
-                    this.questionIds = result.questionIds!
-                    this.showModal = true
-                    this.id = id
-                }
+            this.includeQuestionsToPublish = false
+            this.confirmLicense = false
+            const result = await $fetch<PublishTopicData>(`/apiVue/PublishTopicStore/Get?topicId=${id}`, {
+                mode: 'cors',
+                credentials: 'include'
+            })
+            if (result.success) {
+                this.name = result.name!
+                this.questionCount = result.questionCount!
+                this.questionIds = result.questionIds!
+                this.showModal = true
+                this.id = id
             }
         },
         async publish() {

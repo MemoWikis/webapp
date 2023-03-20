@@ -2,14 +2,12 @@
 import { usePublishTopicStore } from './publishTopicStore'
 const publishTopicStore = usePublishTopicStore()
 
-const confirmLicense = ref(false)
-
-const blinkTimer = ref<ReturnType<typeof setTimeout> | null>(null)
+const blinkTimer = ref<ReturnType<typeof setTimeout>>()
 const blink = ref(false)
 
 async function publish() {
-    if (!confirmLicense.value) {
-        blinkTimer.value = null
+    if (!publishTopicStore.confirmLicense) {
+        blinkTimer.value = undefined
         blink.value = true
         blinkTimer.value = setTimeout(() => {
             blink.value = false
@@ -24,7 +22,8 @@ async function publish() {
 <template>
     <LazyModal :show="publishTopicStore.showModal" :modal-width="780" primary-btn-label="Veröffentlichen"
         @close="publishTopicStore.showModal = false" @primary-btn="publish()"
-        @keydown.esc="publishTopicStore.showModal = false" :disabled="!confirmLicense" :show-cancel-btn="true">
+        @keydown.esc="publishTopicStore.showModal = false" :disabled="!publishTopicStore.confirmLicense"
+        :show-cancel-btn="true">
 
         <template v-slot:header>
             <h4>Thema {{ publishTopicStore.name }} veröffentlichen</h4>
@@ -47,9 +46,10 @@ async function publish() {
                 </div>
 
             </div>
-            <div class="checkbox-container license-info" @click="confirmLicense = !confirmLicense">
+            <div class="checkbox-container license-info"
+                @click="publishTopicStore.confirmLicense = !publishTopicStore.confirmLicense">
                 <div class="checkbox-icon" :class="{ blink: blink }">
-                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="confirmLicense" />
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="publishTopicStore.confirmLicense" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label" :class="{ blink: blink }">
