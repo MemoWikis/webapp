@@ -131,7 +131,7 @@ watch(() => props.page, (newPage, oldPage) => {
 async function getBreadcrumb() {
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
-	await nextTick()
+	// await nextTick()
 
 	var sessionStorage = window.sessionStorage
 

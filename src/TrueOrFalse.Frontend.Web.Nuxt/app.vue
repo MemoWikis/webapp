@@ -68,10 +68,13 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" />
-	<LazyUserLogin v-if="!userStore.isLoggedIn" />
-	<LazySpinner />
-	<LazyAlert />
-	<LazyActivityPointsLevelPopUp />
-	<LazyImageLicenseDetailModal />
+	<ClientOnly>
+		<LazyUserLogin v-if="!userStore.isLoggedIn" />
+		<LazySpinner />
+		<LazyAlert />
+		<LazyActivityPointsLevelPopUp />
+		<LazyImageLicenseDetailModal />
+	</ClientOnly>
+
 	<Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>

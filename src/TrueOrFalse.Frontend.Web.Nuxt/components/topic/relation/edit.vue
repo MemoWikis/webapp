@@ -112,14 +112,6 @@ const redirect = ref(true)
 
 const addTopicBtnId = ref(null)
 
-function loadTopicCard(id: number) {
-    var data = {
-        parentId: editTopicRelationStore.parentId,
-        newCategoryId: id
-    }
-    // eventBus.$emit('add-category-card', data);
-}
-
 async function moveTopicToNewParent() {
     spinnerStore.showSpinner()
 

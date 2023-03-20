@@ -87,7 +87,7 @@ const hoverLock = ref(false)
                             Thema auf privat setzen
                         </div>
                     </div>
-                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
+                    <div v-else-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
                         class="dropdown-row" @click="publishTopicStore.openModal(topicStore.id)">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-unlock" />

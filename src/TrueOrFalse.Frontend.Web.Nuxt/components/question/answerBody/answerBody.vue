@@ -5,18 +5,17 @@ import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from '../edit/editQuestionStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { getHighlightedCode } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { random, handleNewLine } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { useTopicStore } from '~~/components/topic/topicStore'
+import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 
-const spinnerStore = useSpinnerStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const activityPointsStore = useActivityPointsStore()
-const topicStore = useTopicStore()
 
 interface Props {
     isLandingPage?: boolean
@@ -206,7 +205,7 @@ function highlightCode() {
                 block.innerHTML = getHighlightedCode(block.textContent)
         })
 }
-const answerBodyModel = ref<AnswerBodyModel | null>(null)
+const answerBodyModel = ref<AnswerBodyModel>()
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
@@ -292,7 +291,7 @@ async function loadSolution(answered: boolean = true) {
 
 }
 
-watch(() => learningSessionStore.currentStep?.index, () => {
+watch([() => learningSessionStore.currentStep?.index], () => {
     loadAnswerBodyModel()
 })
 learningSessionStore.$onAction(({ name, after }) => {
@@ -302,11 +301,17 @@ learningSessionStore.$onAction(({ name, after }) => {
                 loadAnswerBodyModel()
         })
     }
-
 })
 
+if (process.client) {
+
+    (<any>window).reloadAnswerBody = () => loadAnswerBodyModel()
+}
+
+watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
+
 function loadResult() {
-    answerBodyModel.value = null
+    answerBodyModel.value = undefined
     learningSessionStore.showResult = true
 }
 
@@ -335,6 +340,15 @@ const allMultipleChoiceCombinationTried = computed(() => {
         return uniqueAnswerCount >= maxCombinationCount
     }
     return false
+})
+
+// watch(() => tabsStore.activeTab, (tab) => {
+//     if (tab == Tab.Learning && answerBodyModel.value == undefined)
+//         loadAnswerBodyModel()
+// })
+onMounted(() => {
+    if (answerBodyModel.value == undefined && !learningSessionConfigurationStore.maxQuestionCountIsZero)
+        loadAnswerBodyModel()
 })
 </script>
 
@@ -373,7 +387,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
                                 </div>
 
-                                <LazyNuxtLink :to="`/question/${answerBodyModel.title}/${answerBodyModel.id}`"
+                                <LazyNuxtLink :to="`/Fragen/${answerBodyModel.encodedTitle}/${answerBodyModel.id}`"
                                     v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
                                     <div class="dropdown-row">
                                         <div class="dropdown-icon">

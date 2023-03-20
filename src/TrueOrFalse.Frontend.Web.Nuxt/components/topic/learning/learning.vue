@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 
+const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 
@@ -30,6 +32,12 @@ watch(() => learningSessionConfigurationStore.showSelectionError, (val) => {
         openFilter.value = true
 })
 
+watch(() => userStore.isLoggedIn, () => {
+    if (process.client) {
+        learningSessionConfigurationStore.loadSessionFromLocalStorage()
+    }
+})
+
 const progressPercentage = ref(0)
 const answeredWidth = ref<string>('width: 0%')
 const unansweredWidth = ref('width: 100%')
@@ -41,7 +49,6 @@ function calculateProgress() {
 
     answeredWidth.value = `width: ${progressPercentage.value}%`
     unansweredWidth.value = `width: ${100 - progressPercentage.value}%`
-
 }
 
 watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {

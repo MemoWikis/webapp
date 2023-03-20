@@ -4,7 +4,6 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-import { Visibility } from '~~/components/shared/visibilityEnum'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -19,18 +18,18 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-function getTopicUrl() {
+const getTopicUrl = computed(() => {
     if (props.redirectFromWelcomePage)
         if (userStore.isLoggedIn)
             return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
         else return `/apiVue/Topic/GetTopic/1`
     else return `/apiVue/Topic/GetTopic/${route.params.id}`
-}
+})
 
-const { data: topic } = await useFetch<Topic>(getTopicUrl(),
+const { data: topic, refresh } = await useFetch<Topic>(getTopicUrl,
     {
         credentials: 'include',
-        mode: 'no-cors',
+        mode: 'cors',
         onRequest({ options }) {
             if (process.server) {
                 options.headers = headers
@@ -43,7 +42,6 @@ const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 
 if (topic.value != null) {
-
     if (topic.value.CanAccess) {
 
         topicStore.setTopic(topic.value)
@@ -104,7 +102,9 @@ onBeforeMount(() => {
         preloadTopicTab.value
 })
 onMounted(() => setTab())
-
+watch(() => userStore.isLoggedIn, () => {
+    refresh()
+})
 </script>
 
 <template>
@@ -112,14 +112,14 @@ onMounted(() => setTab())
         <div class="row topic-container main-page">
             <div class="col-lg-9 col-md-12 container">
                 <TopicHeader v-if="topic" />
-                <TopicTabsContent v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)"
-                    keep-alive />
+                <TopicTabsContent v-if="topic"
+                    v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)" />
                 <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-if="topic" v-show="tabsStore.activeTab == Tab.Learning" keep-alive />
+                <TopicTabsQuestions v-if="topic" v-show="tabsStore.activeTab == Tab.Learning" />
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
                 <LazyTopicPublishModal />
-                <LazyTopicTopicToPrivateModal v-if="topic?.CurrentUserIsCreator || userStore.isAdmin" />
+                <LazyTopicTopicToPrivateModal />
                 <LazyTopicDeleteModal v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
             </div>
             <Sidebar />
