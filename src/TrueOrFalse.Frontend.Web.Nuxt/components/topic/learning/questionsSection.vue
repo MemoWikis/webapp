@@ -16,7 +16,6 @@ const allQuestionCount = ref(0)
 
 onBeforeMount(() => {
     allQuestionCount.value = topicStore.questionCount
-    console.log(topicStore.questionCount)
     if (topicStore.questionCount > 0)
         learningSessionConfigurationStore.showFilter = true
     else

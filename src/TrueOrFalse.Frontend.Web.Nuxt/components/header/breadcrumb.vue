@@ -105,11 +105,6 @@ onBeforeMount(async () => {
 
 })
 
-onUpdated(() => {
-	if (breadcrumbEl.value != undefined && breadcrumbEl.value.clientHeight > 21) {
-		// startUpdateBreadcrumb()
-	}
-})
 onBeforeUnmount(() => {
 	if (typeof window !== 'undefined') {
 		window.removeEventListener('resize', handleResize)
@@ -123,20 +118,20 @@ watch(() => route.params, () => {
 		getBreadcrumb()
 })
 watch(() => topicStore.id, (newId, oldId) => {
-	if (newId != oldId && props.page == Page.Topic) {
+	if (newId > 0 && newId != oldId && props.page == Page.Topic) {
 		getBreadcrumb()
 	}
 })
 
 watch(() => props.page, (newPage, oldPage) => {
-	if (oldPage != newPage && newPage == Page.Topic)
+	if (oldPage != newPage && (newPage == Page.Topic && topicStore.id > 0))
 		getBreadcrumb()
 })
 
 async function getBreadcrumb() {
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
-	await nextTick()
+	// await nextTick()
 
 	var sessionStorage = window.sessionStorage
 
@@ -224,6 +219,10 @@ watch(() => props.showSearch, (val) => {
 function showBreadcrumb(e: any) {
 	return true
 }
+
+watch(() => userStore.isLoggedIn, () => {
+	getBreadcrumb()
+})
 </script>
 
 <template>
@@ -272,9 +271,11 @@ function showBreadcrumb(e: any) {
 
 				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`"
 					v-tooltip="s.Name">
-					{{ s.Name }}
+					<div class="dropdown-row">
+						{{ s.Name }}
+					</div>
 				</NuxtLink>
-
+				<div></div>
 			</template>
 		</V-Dropdown>
 

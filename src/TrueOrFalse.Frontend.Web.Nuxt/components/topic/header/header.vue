@@ -18,7 +18,7 @@
 @import (reference) '~~/assets/includes/imports.less';
 
 #TopicHeader {
-    margin-top: 20px;
+    margin-top: 25px;
     display: flex;
 }
 </style>

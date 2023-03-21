@@ -6,12 +6,14 @@ const userStore = useUserStore()
 </script>
 
 <template>
-    <LazyModal>
-        <template slot:header>
-            <h4 class="modal-title">Thema {{ topicToPrivateStore.name }} auf privat setzen</h4>
+    <LazyModal :show="topicToPrivateStore.showModal" :show-cancel-btn="true"
+        @primary-btn="topicToPrivateStore.setToPrivate()" primary-btn-label="Thema auf Privat setzen"
+        @close="topicToPrivateStore.showModal = false" @keydown.esc="topicToPrivateStore.showModal = false">
+        <template v-slot:header>
+            <h4>Thema {{ topicToPrivateStore.name }} auf privat setzen</h4>
         </template>
 
-        <template slot:body>
+        <template v-slot:body>
             <div class="subHeader">
                 Der Inhalt kann nur von Dir genutzt werden. Niemand sonst kann ihn sehen oder nutzen.
             </div>
@@ -37,8 +39,7 @@ const userStore = useUserStore()
                 @click="topicToPrivateStore.allQuestionsToPrivate = !topicToPrivateStore.allQuestionsToPrivate"
                 v-if="topicToPrivateStore.allQuestionCount > 0 && userStore.isAdmin">
                 <div class="checkbox-icon">
-                    <font-awesome-icon icon="fa-solid fa-square-check"
-                        v-if="topicToPrivateStore.allQuestionsToPrivate" />
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="topicToPrivateStore.allQuestionsToPrivate" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
@@ -51,12 +52,57 @@ const userStore = useUserStore()
 
             </div>
         </template>
-
-        <template slot:footer>
-            <div class="btn btn-link" data-dismiss="modal" aria-label="Close">abbrechen</div>
-            <div class="btn btn-primary" id="SetCategoryToPrivateBtn" @click="topicToPrivateStore.setToPrivate()">
-                Thema auf Privat
-                setzen</div>
-        </template>
     </LazyModal>
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.subHeader {
+    line-height: 18px;
+    margin-bottom: 16px;
+}
+
+.checkbox-container {
+    cursor: pointer;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-start;
+
+    .checkbox-icon {
+        font-size: 24px;
+
+        .fa-check-square {
+            color: @memo-blue-link;
+        }
+    }
+
+    .checkbox-label {
+        padding-top: 4px;
+        line-height: 20px;
+        padding-left: 10px;
+    }
+
+    &.license-info {
+        background-color: @background-grey;
+        user-select: none;
+
+        .checkbox-label {
+            line-height: 18px;
+            font-size: 12px;
+        }
+
+        margin-bottom: 40px;
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    }
+}
+</style>

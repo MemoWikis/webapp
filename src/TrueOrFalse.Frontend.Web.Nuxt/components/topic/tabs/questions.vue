@@ -4,6 +4,6 @@ const props = defineProps(['topic', 'answerBodyModel'])
 
 <template>
   <div class="row">
-    <TopicLearning keep-alive />
+    <TopicLearning />
   </div>
 </template>

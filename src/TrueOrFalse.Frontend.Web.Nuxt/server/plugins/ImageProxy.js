@@ -2,7 +2,7 @@ import httpProxy from "http-proxy" // make sure to use package redirect to "http
 
 const apiProxy = httpProxy.createProxyServer({
   changeOrigin: true, // don't forget this, or you're going to chase your tail for hours
-  target: "https://stage.memucho.de/Images/",
+  target: useRuntimeConfig().public.serverBase + "/Images/",
 })
 
 export default defineNitroPlugin(nitroApp => {

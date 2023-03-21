@@ -50,52 +50,11 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
     protected string GetFallbackImage(IUserTinyModel user, int width)
     {
-        var emailAddress = user.EmailAddress;
-
-        if (user.IsFacebookUser)
-        {
-            var url = $"//graph.facebook.com/{user.FacebookId}/picture";
-
-            if (width > 50)
-                url += "?type=large";
-
-            //return GetImage("http:" + url);
-            return url;
-        }
-
-        if (user.IsGoogleUser)
-        {
-            var url = $"https://www.googleapis.com/plus/v1/people/{user.GoogleId}?fields=image&key={Settings.GoogleApiKey}";
-
-            try
-            {
-                var result = new WebClient().DownloadString(url);
-
-                if (!IsNullOrEmpty(result) && result.Contains("url"))
-                {
-                    dynamic json = JsonConvert.DeserializeObject(result);
-                    return ((string)json.image.url).Replace("sz=50", "sz=120");
-                }
-            }
-            catch (WebException webException)
-            {
-            }
-
-        }
-
-        var sanitizedEmailAdress = emailAddress?.Trim().ToLowerInvariant() ?? "";
-        var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
-
-        var gravatarURL = "//www.gravatar.com/avatar/" +
-                          BitConverter.ToString(hash).Replace("-", Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
-                          Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
-                                               HttpContext.Current.Request.Url.Host +
-                                               HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
-
-        //return GetImage(gravatarURL);
-        return gravatarURL;
+        //Removed Google, Facebook and Gravatar urls for the time being, to be reintroduced with images fetched server side
+        return HttpContext.Current.Request.Url.Scheme + "://" +
+               HttpContext.Current.Request.Url.Host +
+               HttpContext.Current.Request.ApplicationPath + BaseDummyUrl + width + ".png";
     }
-
 
     public string GetImage(string url)
     {

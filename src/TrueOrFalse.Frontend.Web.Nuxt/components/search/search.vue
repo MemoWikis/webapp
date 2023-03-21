@@ -76,9 +76,9 @@ async function search() {
         credentials: 'include'
     })
     if (result != null) {
-        if (result.categories) {
-            topics.value = result.categories
-            topicCount.value = result.categoryCount
+        if (result.topics) {
+            topics.value = result.topics
+            topicCount.value = result.topicCount
         }
         if (result.questions) {
             questions.value = result.questions
@@ -88,7 +88,7 @@ async function search() {
             users.value = result.users
             userCount.value = result.userCount
         }
-        noResults.value = result.categories?.length + result.questions?.length + result.users?.length <= 0
+        noResults.value = result.topics?.length + result.questions?.length + result.users?.length <= 0
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }

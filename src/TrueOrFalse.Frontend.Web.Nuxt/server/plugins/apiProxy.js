@@ -2,7 +2,7 @@ import httpProxy from "http-proxy" // make sure to use package redirect to "http
 
 const apiProxy = httpProxy.createProxyServer({
   changeOrigin: true, // don't forget this, or you're going to chase your tail for hours
-  target: "http://memucho.local/apiVue/",
+  target: useRuntimeConfig().public.serverBase + "/apiVue/",
 })
 
 export default defineNitroPlugin(nitroApp => {

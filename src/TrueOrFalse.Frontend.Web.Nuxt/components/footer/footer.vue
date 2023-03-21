@@ -87,14 +87,14 @@ const userStore = useUserStore()
                             </NuxtLink>
                             <br />
                             <!-- <% if (Request.IsLocal)
-                           { %>
-                            <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight") %><br/>
-                        <% } %>
-                        <% var assembly = Assembly.Load("TrueOrFalse"); %>
-                        <span style="color: darkgray">
-                            (Build: <%= assembly.GetName().Version.Major %> am
-                            <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
-                        </span> -->
+                               { %>
+                                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight") %><br/>
+                            <% } %>
+                            <% var assembly = Assembly.Load("TrueOrFalse"); %>
+                            <span style="color: darkgray">
+                                (Build: <%= assembly.GetName().Version.Major %> am
+                                <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
+                            </span> -->
                         </div>
 
                     </div>

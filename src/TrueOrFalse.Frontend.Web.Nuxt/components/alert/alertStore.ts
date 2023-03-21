@@ -45,11 +45,5 @@ export const useAlertStore = defineStore('alertStore', {
     text(): string {
       return !!this.msg ? this.msg.text : ''
     },
-    // html() {
-    //   return !!this.msg && !!this.msg.customHtml ? this.msg.customHtml : null
-    // },
-    // btn(){
-    //   return !!this.msg && !!this.msg.customBtn ? this.msg.customBtn : null
-    // }
   }
 })

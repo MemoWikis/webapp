@@ -5,7 +5,9 @@ export enum SearchType {
     Category = 1,
     Questions = 2,
     Users = 3,
-    CategoryInWiki = 4
+    CategoryInWiki = 4,
+
+    Topic = Category
 }
 
 export interface SearchTopicItem {
@@ -48,8 +50,8 @@ export type UserItem = {
 }
 
 export type FullSearch = {
-    categories: TopicItem[]
-    categoryCount: number
+    topics: TopicItem[]
+    topicCount: number
     questions: QuestionItem[]
     questionCount: number
     users: UserItem[]

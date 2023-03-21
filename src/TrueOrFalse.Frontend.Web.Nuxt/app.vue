@@ -10,7 +10,7 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
-	method: 'Get',
+	method: 'GET',
 	credentials: 'include',
 	mode: 'no-cors',
 	onRequest({ options }) {
@@ -24,7 +24,7 @@ if (currentUser.value)
 	userStore.initUser(currentUser.value)
 
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
-	method: 'Get',
+	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
 		if (process.server) {
@@ -68,10 +68,13 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" />
-	<LazyUserLogin v-if="!userStore.isLoggedIn" />
-	<LazySpinner />
-	<LazyAlert />
-	<LazyActivityPointsLevelPopUp />
-	<LazyImageLicenseDetailModal />
+	<ClientOnly>
+		<LazyUserLogin v-if="!userStore.isLoggedIn" />
+		<LazySpinner />
+		<LazyAlert />
+		<LazyActivityPointsLevelPopUp />
+		<LazyImageLicenseDetailModal />
+	</ClientOnly>
+
 	<Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>

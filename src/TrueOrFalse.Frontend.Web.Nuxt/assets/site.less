@@ -2359,20 +2359,30 @@ textarea, input {
     overflow-y: auto;
     overflow-x: hidden;
     opacity: 1;
-    animation-name: open-default-modal;
-    animation-duration: 150ms;
+    // animation-name: open-default-modal;
+    // animation-duration: 300ms;
+    min-width: 600px;
 }
 
 @keyframes open-default-modal {
-    from {
-        width: 300px;
-        height: 220px;
-        opacity: 0.2;
+    0% {
+        width: 0px;
+        height: 0px;
+        min-height: 0px;
+        opacity: 0;
     }
 
-    to {
+    80% {
+        width: 550px;
+        height: 300px;
+        min-height: 300px;
+        opacity: 0.8;
+    }
+
+    100% {
         width: 600px;
         height: auto;
+        min-height: 300px;
         opacity: 1;
     }
 }
