@@ -4,8 +4,8 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            clientBase: "http://memucho.local:3000",
-            serverBase: "http://memucho.local",
+            clientBase: "http://localhost:3000",
+            serverBase: "https://stage.memucho.de",
         },
     },
     ssr: true,

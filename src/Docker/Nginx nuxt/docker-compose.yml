@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  nginxreverse:
+    image: nginxreverse
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - SERVER_PORT=3001
+      - HOST_VAR=https://stage.memucho.de
+      - PORT_NUXT=3000
+    command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
+              /usr/sbin/nginx -g 'daemon off;'"

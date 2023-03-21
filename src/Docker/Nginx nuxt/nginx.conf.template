@@ -1,0 +1,22 @@
+server {
+  listen $SERVER_PORT;
+  server_name localhost;
+
+  location /Images/ {
+    proxy_ssl_server_name on;
+    proxy_pass $HOST_VAR/images/;
+  }
+
+  location = /robots.txt {
+    root /etc/nginx/html;
+  }
+
+  location /apiVue/ {
+    proxy_pass $HOST_VAR/apivue/;
+    proxy_ssl_server_name on;
+  }
+
+  location / {
+    proxy_pass http://host.docker.internal:$PORT_NUXT/;
+  }
+}
