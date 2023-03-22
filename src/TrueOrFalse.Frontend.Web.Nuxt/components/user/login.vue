@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
 
-const x = useState<boolean>(() => false)
-
 const eMail = ref('')
 const password = ref('')
 const persistentLogin = ref(false)

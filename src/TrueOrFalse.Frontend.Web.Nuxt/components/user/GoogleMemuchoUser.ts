@@ -18,21 +18,13 @@ export class GoogleMemuchoUser {
         }).catch((error) => console.log(error.data))
     }
 
-    static async CreateAndLogin(googleUser: gapi.auth2.GoogleUser): Promise<boolean> {
-
-        var basicProfile = googleUser.getBasicProfile();
+    static async CreateAndLogin(token: string): Promise<boolean> {
 
         var data = {
-            "googleUser":
-            {
-                GoogleId: googleUser.getId(),
-                Email: basicProfile.getEmail(),
-                UserName: basicProfile.getName(),
-                ProfileImage: basicProfile.getImageUrl()
-            }
+            token: token
         }
 
-        var result = await $fetch<UserCreateResult>('/apiVue/GoogleUsers/CreateAndLogin', {
+        var result = await $fetch<UserCreateResult>('/apiVue/GoogleUser/CreateAndLogin', {
             method: 'POST', body: data, mode: 'cors', credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
 
