@@ -221,6 +221,7 @@ async function save() {
         return
     }
     lockSaveButton.value = true
+
     spinnerStore.showSpinner()
     var url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     var json = getSaveJson()
@@ -439,25 +440,25 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                     placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
                                     @select-item="selectTopic" />
                                 <!-- <input ref="searchInput" class="form-control dropdown-toggle" type="text"
-                                                    v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
-                                                    @click="lockDropdown = false" aria-haspopup="true"
-                                                    placeholder="Bitte gib den Namen des Themas ein" />
-                                                <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
-                                                    <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
-                                                        data-toggle="tooltip" data-placement="top" :title="t.Name">
-                                                        <img :src="t.ImageUrl" />
-                                                        <div>
-                                                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                                            <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
-                                                                Frage<template v-if="t.QuestionCount != 1">n</template></div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="dropdownFooter body-m">
-                                                        <b>{{ totalCount }}</b> Treffer. <br />
-                                                        Deins ist nicht dabei? <span class="dropdownLink"
-                                                            @click="createCategory = true">Erstelle hier dein Thema</span>
-                                                    </li>
-                                                </ul> -->
+                                                            v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
+                                                            @click="lockDropdown = false" aria-haspopup="true"
+                                                            placeholder="Bitte gib den Namen des Themas ein" />
+                                                        <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
+                                                            <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
+                                                                data-toggle="tooltip" data-placement="top" :title="t.Name">
+                                                                <img :src="t.ImageUrl" />
+                                                                <div>
+                                                                    <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                                                    <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
+                                                                        Frage<template v-if="t.QuestionCount != 1">n</template></div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="dropdownFooter body-m">
+                                                                <b>{{ totalCount }}</b> Treffer. <br />
+                                                                Deins ist nicht dabei? <span class="dropdownLink"
+                                                                    @click="createCategory = true">Erstelle hier dein Thema</span>
+                                                            </li>
+                                                        </ul> -->
                             </div>
 
                         </form>
@@ -473,10 +474,10 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
                                             class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
                                             data-html="true" data-original-title="
-                                            <ul class='show-tooltip-ul'>
-                                                <li>Die Frage kann nur von dir genutzt werden.</li>
-                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                                            </ul>">
+                                                    <ul class='show-tooltip-ul'>
+                                                        <li>Die Frage kann nur von dir genutzt werden.</li>
+                                                        <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                                    </ul>">
                                         </i>
                                     </label>
                                 </div>

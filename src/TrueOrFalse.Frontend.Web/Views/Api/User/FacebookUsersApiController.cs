@@ -10,17 +10,35 @@ using TrueOrFalse.Frontend.Web.Code;
 public class FacebookUsersApiController : BaseController
 {
     [HttpPost]
-    public void Login(string facebookUserId, string facebookAccessToken)
+    public JsonResult Login(string facebookUserId, string facebookAccessToken)
     {
         var user = R<UserRepo>().UserGetByFacebookId(facebookUserId);
 
         if (user == null)
-            throw new Exception($"facebook user {facebookUserId} not found");
+        {
+            return Json(new
+            {
+                success = false,
+                key = "userDoesntExist"
+            });
+        }
 
         if (IsFacebookAccessToken.Valid(facebookAccessToken, facebookUserId))
-            throw new Exception("invalid facebook access token");
+        {
+            return Json(new
+            {
+                success = false,
+                key = "invalidFBToken"
+            });
+        }
 
         SessionUser.Login(user);
+
+        return Json(new
+        {
+            success = true,
+            currentUser = VueApp.VueSessionUser.GetCurrentUserData()
+        });
     }
 
     [HttpPost]
@@ -38,25 +56,20 @@ public class FacebookUsersApiController : BaseController
             Sl.CategoryRepo.Create(category);
             SessionUser.User.StartTopicId = category.Id;
 
-            return new JsonResult
+            return Json(new
             {
-                Data = new
-                {
-                    Success = true,
-                    registerResult,
-                    localHref = Links.CategoryDetail(category.Name, category.Id)
-                }
-            };
+                Success = true,
+                registerResult,
+                localHref = Links.CategoryDetail(category.Name, category.Id),
+                currentUser = VueApp.VueSessionUser.GetCurrentUserData(),
+            });
         }
 
-        return new JsonResult
+        return Json(new
         {
-            Data = new
-            {
-                Success = false,
-                registerResult
-            }
-        };
+            Success = false,
+            registerResult
+        });
     }
     
     [HttpPost]

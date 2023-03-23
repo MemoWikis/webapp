@@ -5,7 +5,7 @@ export class Site {
     static loadValidPage(link: string = window.location.pathname) {
         const isInvalid = link == '/Registrieren' || link == '/Ausloggen' || link == '/Fehler/500' || link == '/Fehler/404';
         if (isInvalid)
-            location.href = "/";
+            navigateTo('/')
         else this.reloadPage();
     }
 }

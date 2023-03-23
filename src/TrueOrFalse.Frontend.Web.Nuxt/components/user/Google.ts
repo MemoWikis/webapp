@@ -1,67 +1,50 @@
-﻿import { Site } from '../shared/site';
-import { GoogleMemuchoUser } from './GoogleMemuchoUser'
-import { nextTick } from 'vue'
+﻿import { AlertType, useAlertStore } from "../alert/alertStore"
+import { useUserStore, CurrentUser } from "./userStore"
+
+declare var window: any
+
+interface LoginResult {
+    success: boolean
+    currentUser?: CurrentUser
+}
 
 export class Google {
-
-    private static _auth2: gapi.auth2.GoogleAuth;
-
-    constructor() {
-        gapi.load('auth2', () => {
-            Google._auth2 = this.InitApi();
-        });
-        
-
-    }
-
-    static async AttachClickHandler(selector : string) {
-        
-        await nextTick()
-        var element = document.getElementById(selector);
-
-        if (element == null)
-            return;
-
-        Google._auth2.attachClickHandler(element, {},
-            googleUser => Google.OnLoginSuccess(googleUser),
-            error => Google.OnLoginError(error)
-        );        
-    }
-
-    private InitApi() {
-        return gapi.auth2.init(({
-            client_id: '290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com',
-            cookiepolicy: 'single_host_origin',
-        }) as any);
-    }
-
     public static SignIn() {
-        Google._auth2.signIn().then(
-            (googleUser: gapi.auth2.GoogleUser) => {
-                Google.OnLoginSuccess(googleUser);
-            },
-            (error: string) => {
-                Google.OnLoginError(error);
-            });
-     }
+        window.google.accounts.id.prompt()
+    }
 
-    private static async OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
+    public static loadGsiClient() {
+        const gsiClientElement = document.getElementById('gsiClient')
+        if (gsiClientElement == null) {
+            const config = useRuntimeConfig()
 
-        var googleId = googleUser.getBasicProfile().getId();
-        var googleIdToken = googleUser.getAuthResponse().id_token;
-
-        if (await GoogleMemuchoUser.Exists(googleId)) {
-            GoogleMemuchoUser.Login(googleId, googleIdToken);
-            Site.loadValidPage();
-            return;
+            const gsiClientScript = document.createElement('script')
+            gsiClientScript.setAttribute('id', 'gsiClient')
+            gsiClientScript.src = 'https://accounts.google.com/gsi/client'
+            gsiClientScript.onload = () => {
+                window.google.accounts.id.initialize({
+                    client_id: config.public.gsiClientKey,
+                    callback: this.handleCredentialResponse
+                });
+                this.SignIn()
+            }
+            document.head.appendChild(gsiClientScript)
         }
-
-       GoogleMemuchoUser.CreateAndLogin(googleUser);
-       Site.loadValidPage();
     }
 
-    private static OnLoginError(error: string) {
-        alert(JSON.stringify(error, undefined, 2));
-    }
+    public static async handleCredentialResponse(e: any) {
 
+        var result = await $fetch<LoginResult>('/apiVue/Google/Login', {
+            method: 'POST', body: { token: e.credential }, mode: 'cors', credentials: 'include', cache: 'no-cache'
+        }).catch((error) => console.log(error.data))
+        if (result?.success && result.currentUser) {
+            const userStore = useUserStore()
+            userStore.initUser(result.currentUser)
+            // if (window.location.pathname == '/Registrieren')
+            //     navigateTo('/')
+        } else {
+            const alertStore = useAlertStore()
+            alertStore.openAlert(AlertType.Error, { text: "Fehler" })
+        }
+    }
 }

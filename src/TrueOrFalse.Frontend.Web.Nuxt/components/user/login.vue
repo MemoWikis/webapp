@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { useUserStore } from '../user/userStore'
 
-const x = useState<boolean>(() => false)
-
 const eMail = ref('')
 const password = ref('')
 const persistentLogin = ref(false)
@@ -33,11 +31,11 @@ const showLoginIsInProgress = ref(false)
 const showGooglePluginInfo = ref(false)
 const allowGooglePlugin = ref(false)
 
-function loadGooglePlugin(login = false) {
+function loadGooglePlugin() {
     document.cookie = "allowGooglePlugin=true";
     allowGooglePlugin.value = true
     showLoginIsInProgress.value = true
-    googleLoginComponent.value.loadPlugin(login)
+    googleLoginComponent.value.loadPlugin()
 }
 
 const facebookLoginComponent = ref()
@@ -182,7 +180,8 @@ onMounted(() => {
 
                     <p class="consentInfoText">
                         Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
-                        <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum">
+                        <NuxtLink to="/Nutzungsbedingungen">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink
+                            to="/Impressum">
                             Datenschutzerklärung</NuxtLink>
                         einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr
                             Infos!
@@ -271,8 +270,7 @@ onMounted(() => {
                 </div>
                 <div class="row" v-else-if="showGooglePluginInfo">
                     <p>
-                        <button type="button" class="btn btn-primary pull-right memo-button"
-                            @click="loadGooglePlugin(true)">
+                        <button type="button" class="btn btn-primary pull-right memo-button" @click="loadGooglePlugin()">
                             Einverstanden
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"

@@ -7,7 +7,8 @@ export default defineNuxtConfig({
             clientBase: "http://memucho.local:3000",
             serverBase: "http://memucho.local",
             //Include .env file (is ignored by git) in root dir with variable "NUXT_PUBLIC_EXAMPLE_VAR=ExampleVarEnvOverwritten" to overwrite:
-            exampleVar: "ExampleVarNuxtConfig"
+            exampleVar: "ExampleVarNuxtConfig",
+            gsiClientKey: ""
         },
     },
     ssr: true,

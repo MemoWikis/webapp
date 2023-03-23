@@ -3,7 +3,7 @@ import { Site } from '../shared/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
-import { useUserStore } from '../user/userStore'
+import { useUserStore, CurrentUser } from '../user/userStore'
 
 const spinnerStore = useSpinnerStore()
 const alertStore = useAlertStore()
@@ -47,7 +47,7 @@ export class FacebookMemuchoUser {
 
             if (result.Success) {
                 userStore.isLoggedIn = true
-                Site.loadValidPage();
+                userStore.initUser(result.currentUser!)
             }
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
@@ -63,10 +63,9 @@ export class FacebookMemuchoUser {
     static async Login(facebookId: string, facebookAccessToken: string, stayOnPage: boolean = true) {
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
-
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/Login', {
+        var result = await $fetch<{ success: string, key?: string, currentUser?: CurrentUser }>('/apiVue/FacebookUsers/Login', {
             method: 'POST',
             body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             credentials: 'include',
@@ -77,9 +76,8 @@ export class FacebookMemuchoUser {
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        if (!!result && result.Success) {
-            userStore.isLoggedIn = true
-            Site.loadValidPage();
+        if (!!result && result.success) {
+            userStore.initUser(result.currentUser!)
         }
 
     }

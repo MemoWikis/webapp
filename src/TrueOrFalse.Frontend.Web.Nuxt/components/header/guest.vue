@@ -67,7 +67,6 @@ onMounted(() => {
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <button navigate class="btn memo-button register-btn">
                                     <NuxtLink to="/Registrieren" class="">
-
                                         Kostenlos registrieren!
                                     </NuxtLink>
 
