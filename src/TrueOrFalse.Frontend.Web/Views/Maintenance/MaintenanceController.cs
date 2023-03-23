@@ -275,6 +275,24 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
+
+    [HttpPost]
+    public ActionResult AddAmount(string name,
+        string description,
+        int amount,
+        string currency,
+        string intervall)
+    {
+        var model = new MaintenanceModel();
+        model.AddAmount(name, description, amount, currency,intervall);
+        model.Message = new SuccessMessage($"Der neue Buchungsbetrag wurde erfolgreich hinzugefügt, Name: {name}," +
+                                           $" Description: {description}, " +
+                                           $"Betrag: {amount}," +
+                                           $"Währung: {currency}," +
+                                           $"Intervall: {intervall}"); 
+        return View("Maintenance", model);
+    }
+
     [HttpPost]
     public ActionResult ClearMigratedData()
     {
