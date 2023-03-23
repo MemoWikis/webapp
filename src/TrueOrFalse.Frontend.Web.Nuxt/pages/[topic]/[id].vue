@@ -48,8 +48,9 @@ if (topic.value != null) {
 
         const spinnerStore = useSpinnerStore()
 
-        watch(() => topicStore.id, () => {
-            spinnerStore.showSpinner()
+        watch(() => topicStore.id, (val) => {
+            if (val != 0)
+                spinnerStore.showSpinner()
         })
 
         onMounted(() => {
@@ -111,11 +112,12 @@ watch(() => userStore.isLoggedIn, () => {
     <div class="container">
         <div class="row topic-container main-page">
             <div class="col-lg-9 col-md-12 container">
-                <TopicHeader v-if="topic" />
-                <TopicTabsContent v-if="topic"
+                <TopicHeader v-if="topic && topicStore.id != 0" />
+                <TopicTabsContent v-if="topic && topicStore.id != 0"
                     v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)" />
-                <TopicContentSegmentation v-if="topic" v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
-                <TopicTabsQuestions v-if="topic" v-show="tabsStore.activeTab == Tab.Learning" />
+                <TopicContentSegmentation v-if="topic && topicStore.id != 0"
+                    v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
+                <TopicTabsQuestions v-if="topic && topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
                 <LazyTopicRelationEdit />
                 <LazyQuestionEditModal />
                 <LazyTopicPublishModal />

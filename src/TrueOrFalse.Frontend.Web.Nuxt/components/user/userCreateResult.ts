@@ -1,4 +1,7 @@
-export type UserCreateResult = {
+import { CurrentUser } from '../user/userStore'
+
+export interface UserCreateResult {
     Success: boolean,
-    EmailAlreadyInUse: boolean
+    EmailAlreadyInUse: boolean,
+    currentUser?: CurrentUser
 }

@@ -96,6 +96,7 @@ export const useUserStore = defineStore('userStore', {
         },
         async logout() {
             const spinnerStore = useSpinnerStore()
+
             spinnerStore.showSpinner()
 
             var result = await $fetch<UserLoginResult>('/apiVue/UserStore/Logout', {

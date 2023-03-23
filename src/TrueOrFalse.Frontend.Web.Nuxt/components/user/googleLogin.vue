@@ -3,8 +3,8 @@
 <script setup lang="ts">
 import { Google } from './Google'
 
-function loadPlugin(toLogin = false) {
-    Google.loadGsiClient(toLogin)
+function loadPlugin() {
+    Google.loadGsiClient()
 }
 
 function login() {

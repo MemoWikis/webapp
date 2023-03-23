@@ -51,7 +51,6 @@ async function deleteQuestion() {
     showDeleteBtn.value = false
     spinnerStore.showSpinner()
 
-
     var data = {
         questionId: deleteQuestionStore.id,
         sessionIndex: learningSessionStore.currentIndex

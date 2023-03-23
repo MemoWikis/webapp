@@ -13,7 +13,7 @@ export class Google {
         window.google.accounts.id.prompt()
     }
 
-    public static loadGsiClient(toLogin: boolean) {
+    public static loadGsiClient() {
         const gsiClientElement = document.getElementById('gsiClient')
         if (gsiClientElement == null) {
             const config = useRuntimeConfig()
@@ -26,8 +26,7 @@ export class Google {
                     client_id: config.public.gsiClientKey,
                     callback: this.handleCredentialResponse
                 });
-                if (toLogin)
-                    this.SignIn()
+                this.SignIn()
             }
             document.head.appendChild(gsiClientScript)
         }
@@ -41,6 +40,8 @@ export class Google {
         if (result?.success && result.currentUser) {
             const userStore = useUserStore()
             userStore.initUser(result.currentUser)
+            // if (window.location.pathname == '/Registrieren')
+            //     navigateTo('/')
         } else {
             const alertStore = useAlertStore()
             alertStore.openAlert(AlertType.Error, { text: "Fehler" })
