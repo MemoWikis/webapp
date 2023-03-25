@@ -1,5 +1,4 @@
 ﻿import { UserCreateResult } from './userCreateResult'
-import { Site } from '../shared/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
@@ -96,7 +95,8 @@ export class FacebookMemuchoUser {
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
-            Site.loadValidPage();
+            if (window.location.pathname == '/Registrieren')
+                navigateTo('/')
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
@@ -115,7 +115,7 @@ export class FacebookMemuchoUser {
                 }
 
                 if (disallowRegistration) {
-                    Site.redirectToRegistration();
+                    navigateTo('/Registrieren');
                     return;
                 }
 

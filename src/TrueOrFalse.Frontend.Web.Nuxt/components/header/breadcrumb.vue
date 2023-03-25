@@ -18,6 +18,7 @@ interface Props {
 		title: string
 	}
 	customBreadcrumbItems?: CustomBreadcrumbItem[]
+	navOptions?: VueElement,
 }
 
 const props = defineProps<Props>()
@@ -27,6 +28,7 @@ const topicStore = useTopicStore()
 interface BreadcrumbItem {
 	Name: string
 	Id: number
+	width?: number
 }
 class Breadcrumb {
 	newWikiId: number = 0
@@ -57,18 +59,16 @@ function handleResize() {
 function handleScroll() {
 	if (userStore.isLoggedIn || window?.pageYOffset > 105)
 		return
-
 	startUpdateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
-
-const updateBreadcrumb = _.throttle(async () => {
-
+async function updateBreadcrumb() {
+	await nextTick()
 	if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null && props.headerContainer != null && props.headerExtras != null) {
-		const width = props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30
-
+		breadcrumbWidth.value = `max-width: ${0}px`
+		const width = userStore.isLoggedIn ? props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30 : props.headerContainer.clientWidth - props.navOptions!.clientWidth + 200
 		if (width > 0)
-			breadcrumbWidth.value = `width: ${width}px`
+			breadcrumbWidth.value = `max-width: ${width}px`
 
 		if (breadcrumbEl.value.clientHeight > 21) {
 			shiftToStackedBreadcrumbItems()
@@ -76,16 +76,20 @@ const updateBreadcrumb = _.throttle(async () => {
 			insertToBreadcrumbItems()
 			await nextTick()
 			if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 21) {
-				shiftToStackedBreadcrumbItems()
+				shiftToStackedBreadcrumbItems(false)
 			}
 		}
 	}
-	await nextTick()
-}, 200)
+}
 
-function shiftToStackedBreadcrumbItems() {
-	if (breadcrumbItems.value.length > 0)
+function shiftToStackedBreadcrumbItems(update: boolean = true) {
+	if (breadcrumbItems.value.length > 0) {
 		stackedBreadcrumbItems.value.push(breadcrumbItems.value.shift()!)
+
+		if (breadcrumbEl.value!.clientHeight > 21 && breadcrumbItems.value.length > 0 && update) {
+			updateBreadcrumb()
+		}
+	}
 }
 function insertToBreadcrumbItems() {
 	if (stackedBreadcrumbItems.value.length > 0)
@@ -131,7 +135,6 @@ watch(() => props.page, (newPage, oldPage) => {
 async function getBreadcrumb() {
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
-	// await nextTick()
 
 	var sessionStorage = window.sessionStorage
 
@@ -202,9 +205,7 @@ onMounted(async () => {
 	await nextTick()
 	startUpdateBreadcrumb()
 })
-onUpdated(() => {
-	startUpdateBreadcrumb()
-})
+
 const shrinkBreadcrumb = ref(false)
 watch(() => props.showSearch, (val) => {
 	windowInnerWidth.value = window.innerWidth
@@ -215,10 +216,6 @@ watch(() => props.showSearch, (val) => {
 		shrinkBreadcrumb.value = false
 	startUpdateBreadcrumb()
 })
-
-function showBreadcrumb(e: any) {
-	return true
-}
 
 watch(() => userStore.isLoggedIn, () => {
 	getBreadcrumb()
@@ -269,8 +266,8 @@ watch(() => userStore.isLoggedIn, () => {
 
 			<template #popper>
 
-				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`"
-					v-tooltip="s.Name">
+				<NuxtLink v-for="(s, i) in stackedBreadcrumbItems"
+					:to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`" v-tooltip="s.Name">
 					<div class="dropdown-row">
 						{{ s.Name }}
 					</div>
@@ -280,8 +277,7 @@ watch(() => userStore.isLoggedIn, () => {
 		</V-Dropdown>
 
 		<template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
-			<NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name"
-				:ref="el => showBreadcrumb(el)">
+			<NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name">
 				{{ b.Name }}
 			</NuxtLink>
 			<div>
@@ -305,7 +301,7 @@ watch(() => userStore.isLoggedIn, () => {
 		</div>
 		<template v-else-if="props.page == Page.Question && props.questionPageData != null">
 			<NuxtLink :to="`${questionPageData?.primaryTopicUrl}`" class="breadcrumb-item"
-				v-tooltip="questionPageData?.primaryTopicName" :ref="el => showBreadcrumb(el)">
+				v-tooltip="questionPageData?.primaryTopicName">
 				{{ questionPageData?.primaryTopicName }}
 			</NuxtLink>
 			<div>
@@ -318,7 +314,7 @@ watch(() => userStore.isLoggedIn, () => {
 
 		<template v-else-if="props.customBreadcrumbItems != null && props.customBreadcrumbItems.length > 0">
 			<template v-for="e, index in props.customBreadcrumbItems">
-				<NuxtLink :to="`${e.url}`" class="breadcrumb-item" v-tooltip="e.name" :ref="el => showBreadcrumb(el)">
+				<NuxtLink :to="`${e.url}`" class="breadcrumb-item" v-tooltip="e.name">
 					{{ e.name }}
 				</NuxtLink>
 				<div v-if="index != props.customBreadcrumbItems.length - 1">

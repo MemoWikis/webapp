@@ -66,6 +66,8 @@ onMounted(async () => {
 })
 
 const partialSpacer = ref()
+const partialLeft = ref()
+const navOptions = ref()
 </script>
 
 <template>
@@ -74,10 +76,11 @@ const partialSpacer = ref()
             <div class="row">
                 <div class="header-container col-xs-12" ref="headerContainer">
 
-                    <div class="partial start" :class="{ 'search-open': showSearch }">
+                    <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
                         <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
                             :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer"
-                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems" />
+                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
+                            :partial-left="partialLeft" :nav-options="navOptions" />
                     </div>
                     <div class="partial-spacer" ref="partialSpacer"></div>
                     <div class="partial end" ref="headerExtras">
@@ -166,7 +169,7 @@ const partialSpacer = ref()
                             </template>
                         </VDropdown>
 
-                        <div v-if="!userStore.isLoggedIn" class="nav-options-container"
+                        <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
                             :class="{ 'hide-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
@@ -314,7 +317,7 @@ const partialSpacer = ref()
             display: flex;
             align-items: center;
             flex-shrink: 2;
-            flex-grow: 1;
+            flex-grow: 2;
 
             &.start {
                 align-items: baseline;
@@ -329,8 +332,8 @@ const partialSpacer = ref()
         }
 
         .partial-spacer {
-            flex-shrink: 1;
-            flex-grow: 2;
+            flex-shrink: 2;
+            flex-grow: 1;
         }
 
         .login-btn {
