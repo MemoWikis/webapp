@@ -8,7 +8,7 @@ public class Settings
 
     [ThreadStatic]
     public static bool UseWebConfig;
-
+    public static string SecurityKeyStripe { get; set; }
     public static string CanonicalHost;
 
     public static string SolrUrl;
@@ -132,8 +132,9 @@ public class Settings
         CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
         LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
-
+        SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
         ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
     }
 
+   
 }
