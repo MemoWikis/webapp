@@ -247,7 +247,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             if (this.maxQuestionCountIsZero)
                 return
             const learningSessionStore = useLearningSessionStore()
-            learningSessionStore.startNewSession()
+            await learningSessionStore.startNewSession()
 
             this.saveSessionConfig()
         },

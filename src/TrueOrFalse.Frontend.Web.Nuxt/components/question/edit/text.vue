@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
-const props = defineProps(['solution', 'highlightEmptyFields'])
+
+interface Props {
+    highlightEmptyFields: boolean
+    solution?: string
+}
+
+const props = defineProps<Props>()
 const text = ref('')
 const isEmpty = ref('')
 
@@ -17,7 +23,7 @@ function resize() {
 onMounted(() => window.addEventListener('resize', resize))
 
 function initSolution() {
-    if (props.solution?.value)
+    if (props.solution)
         text.value = props.solution
 }
 watch(() => props.solution, () => initSolution())

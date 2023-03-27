@@ -5,6 +5,9 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { PinState } from '~~/components/question/pin/pinStore'
+import { useCommentsStore } from '~~/components/comment/commentStore'
+
+const commentsStore = useCommentsStore()
 
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
@@ -140,10 +143,10 @@ const extendedAnswerId = ref('#eaId' + props.question.Id)
 const correctnessProbability = ref('')
 const correctnessProbabilityLabel = ref('')
 
-function showCommentModal(hide: any | null = null) {
+function showCommentModal(hide: any = undefined) {
     if (hide)
         hide()
-    // needs comment modal
+    commentsStore.openModal(props.question.Id)
 }
 
 const editQuestionStore = useEditQuestionStore()
@@ -321,7 +324,7 @@ watch(isInWishknowledge, () => {
 
                                     <div class="dropdown-row" @click="showCommentModal(hide)">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-comment" />
+                                            <font-awesome-icon :icon="['fas', 'comment']" />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren

@@ -94,6 +94,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             } else return false
         },
         async startNewSessionWithJumpToQuestion(id: number) {
+
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
             learningSessionConfigurationStore.getQuestionCount()
@@ -104,6 +105,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+
             if (result != null && result.success) {
                 this.steps = result.steps!
                 this.activeQuestionCount = result.activeQuestionCount!

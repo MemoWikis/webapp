@@ -40,8 +40,8 @@ onMounted(() => {
                     <NuxtLink id="LogoLink"
                         :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'">
                         <div id="Logo">
-                            <Image url="/Images/Logo/LogoMemoWiki.svg" />
-                            <Image url="/Images/Logo/memoWikis.svg" class="hidden-xs" />
+                            <Image url="/Images/Logo/Logo.svg" class="hidden-xs" />
+                            <Image url="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small" />
                         </div>
                     </NuxtLink>
                 </div>
@@ -261,6 +261,10 @@ onMounted(() => {
         .img-container {
             height: 24px;
             margin-right: 6px;
+
+            &.small {
+                height: 40px;
+            }
         }
     }
 

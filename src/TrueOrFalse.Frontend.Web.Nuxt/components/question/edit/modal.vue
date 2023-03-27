@@ -48,22 +48,22 @@ function setDescriptionData(editor: Editor) {
     descriptionHtml.value = editor.getHTML()
 }
 
-const textSolution = ref<string | null>(null)
+const textSolution = ref<string>()
 
 function setTextSolution(e: { textSolution: string, solutionMetaDataJson: string }) {
     textSolution.value = e.textSolution
     solutionMetadataJson.value = e.solutionMetaDataJson
 }
 
-const multipleChoiceJson = ref<string | null>(null)
+const multipleChoiceJson = ref<string>()
 
 function setMultipleChoiceJson(e: { textSolution: string, solutionMetaDataJson: string }) {
     textSolution.value = e.textSolution
     solutionMetadataJson.value = e.solutionMetaDataJson
 }
 
-const matchListJson = ref<string | null>(null)
-const flashCardAnswer = ref<string | null>(null)
+const matchListJson = ref<string>()
+const flashCardAnswer = ref<string>()
 
 
 const topicIds = ref<number[]>([])
@@ -148,7 +148,7 @@ const disabled = computed(() => {
 const lockSaveButton = ref(false)
 
 function getSolution() {
-    let solution: string | null = ""
+    let solution: string | undefined = ""
     switch (solutionType.value) {
         case SolutionType.Text:
             return textSolution.value
@@ -424,7 +424,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
                         <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
-                            @setDescriptionData="setDescriptionData" />
+                            :content="descriptionHtml" @setDescriptionData="setDescriptionData" />
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>
@@ -440,25 +440,25 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                     placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
                                     @select-item="selectTopic" />
                                 <!-- <input ref="searchInput" class="form-control dropdown-toggle" type="text"
-                                                            v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
-                                                            @click="lockDropdown = false" aria-haspopup="true"
-                                                            placeholder="Bitte gib den Namen des Themas ein" />
-                                                        <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
-                                                            <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
-                                                                data-toggle="tooltip" data-placement="top" :title="t.Name">
-                                                                <img :src="t.ImageUrl" />
-                                                                <div>
-                                                                    <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                                                    <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
-                                                                        Frage<template v-if="t.QuestionCount != 1">n</template></div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="dropdownFooter body-m">
-                                                                <b>{{ totalCount }}</b> Treffer. <br />
-                                                                Deins ist nicht dabei? <span class="dropdownLink"
-                                                                    @click="createCategory = true">Erstelle hier dein Thema</span>
-                                                            </li>
-                                                        </ul> -->
+                                                                                v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
+                                                                                @click="lockDropdown = false" aria-haspopup="true"
+                                                                                placeholder="Bitte gib den Namen des Themas ein" />
+                                                                            <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
+                                                                                <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
+                                                                                    data-toggle="tooltip" data-placement="top" :title="t.Name">
+                                                                                    <img :src="t.ImageUrl" />
+                                                                                    <div>
+                                                                                        <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                                                                        <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
+                                                                                            Frage<template v-if="t.QuestionCount != 1">n</template></div>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li class="dropdownFooter body-m">
+                                                                                    <b>{{ totalCount }}</b> Treffer. <br />
+                                                                                    Deins ist nicht dabei? <span class="dropdownLink"
+                                                                                        @click="createCategory = true">Erstelle hier dein Thema</span>
+                                                                                </li>
+                                                                            </ul> -->
                             </div>
 
                         </form>
@@ -474,10 +474,10 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
                                             class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
                                             data-html="true" data-original-title="
-                                                    <ul class='show-tooltip-ul'>
-                                                        <li>Die Frage kann nur von dir genutzt werden.</li>
-                                                        <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                                                    </ul>">
+                                                                        <ul class='show-tooltip-ul'>
+                                                                            <li>Die Frage kann nur von dir genutzt werden.</li>
+                                                                            <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                                                        </ul>">
                                         </i>
                                     </label>
                                 </div>

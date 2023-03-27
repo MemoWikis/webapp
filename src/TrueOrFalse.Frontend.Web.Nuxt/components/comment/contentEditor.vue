@@ -9,7 +9,8 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore, messages } from '../alert/alertStore'
+
 interface Props {
     highlightEmptyFields: boolean
     content: string
@@ -17,7 +18,7 @@ interface Props {
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
-const emit = defineEmits(['setQuestionExtensionData'])
+const emit = defineEmits(['setQuestionData'])
 
 const editor = useEditor({
     extensions: [
@@ -35,7 +36,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+            placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
             showOnlyCurrent: true,
         }),
         Image.configure({
@@ -57,36 +58,27 @@ const editor = useEditor({
                 }
             }
         },
-        attributes: {
-            id: 'QuestionInputField',
-        }
     },
     onUpdate: ({ editor }) => {
-        emit('setQuestionExtensionData', editor)
+        emit('setQuestionData', editor)
     },
 })
-
-const showExtension = ref(false)
-
-watch(() => props.content, (o, n) => {
-    if (n != null && n.length > 0)
-        showExtension.value = true
-    if (o != n)
-        editor.value?.commands.setContent(n)
+onMounted(() => {
+    editor.value?.commands.setContent(props.content)
+})
+watch(() => props.content, (c) => {
+    if (c != editor.value?.getHTML())
+        editor.value?.commands.setContent(c)
 })
 </script>
 
 <template>
-    <div class="overline-s no-line">Ergänzungen zur Frage</div>
-    <div v-if="showExtension && editor">
+    <div v-if="editor">
         <EditorMenuBar :editor="editor" />
-        <editor-content :editor="editor" />
+        <editor-content :editor="editor"
+            :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
+        <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
+            Bitte
+            formuliere eine Frage.</div>
     </div>
-    <template v-else>
-        <div class="d-flex">
-            <div class="btn grey-bg form-control col-md-6" @click="showExtension = true">
-                Ergänzungen hinzufügen</div>
-            <div class="col-sm-12 hidden-xs"></div>
-        </div>
-    </template>
 </template>

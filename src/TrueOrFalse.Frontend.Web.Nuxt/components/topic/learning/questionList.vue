@@ -5,21 +5,20 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
+import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 const spinnerStore = useSpinnerStore()
 const topicStore = useTopicStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 
-const props = defineProps([
-    'categoryId',
-    'isAdmin',
-    'expandQuestion',
-    'activeQuestionId',
-    'selectedPageFromActiveQuestion',
-    'questionCount'])
+interface Props {
+    expandQuestion: boolean
+}
+const props = defineProps<Props>()
 
-const questions = ref([] as QuestionListItem[])
+const questions = ref<QuestionListItem[]>([])
 
 const itemCountPerPage = ref(25)
 
@@ -95,6 +94,11 @@ async function loadNewQuestion(index: number) {
     }
     spinnerStore.hideSpinner()
 }
+
+onMounted(() => {
+    if (learningSessionStore.currentStep != null)
+        loadQuestions(1)
+})
 </script>
 
 <template>
