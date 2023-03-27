@@ -76,25 +76,16 @@ const userStore = useUserStore()
 
                         </div>
                         <div class="footer-group">
-                        <div class="overline-m no-line">Software</div>
-                        <NuxtLink to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
-                            <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
-                        </NuxtLink>
-                        <br />
-                        <NuxtLink to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
-                            target="_blank" :external="true">
-                            <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
+                            <div class="overline-m no-line">Software</div>
+                            <NuxtLink to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
+                                <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </NuxtLink>
                             <br />
-                            <!-- <% if (Request.IsLocal)
-                               { %>
-                                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight") %><br/>
-                            <% } %>
-                            <% var assembly = Assembly.Load("TrueOrFalse"); %>
-                            <span style="color: darkgray">
-                                (Build: <%= assembly.GetName().Version.Major %> am
-                                <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
-                            </span> -->
+                            <NuxtLink to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
+                                target="_blank" :external="true">
+                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
+                            </NuxtLink>
+                            <br />
                         </div>
 
                     </div>
