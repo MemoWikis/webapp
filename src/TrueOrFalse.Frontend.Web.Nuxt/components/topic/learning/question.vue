@@ -5,7 +5,7 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { PinState } from '~~/components/question/pin/pinStore'
-import { useCommentsStore } from '~~/components/comment/commentStore'
+import { useCommentsStore } from '~~/components/comment/commentsStore'
 
 const commentsStore = useCommentsStore()
 

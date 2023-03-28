@@ -9,16 +9,15 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
-import { AlertType, useAlertStore, messages } from '../alert/alertStore'
+import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
 interface Props {
     highlightEmptyFields: boolean
-    content: string
 }
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
-const emit = defineEmits(['setQuestionData'])
+const emit = defineEmits(['setAnswer'])
 
 const editor = useEditor({
     extensions: [
@@ -60,25 +59,33 @@ const editor = useEditor({
         },
     },
     onUpdate: ({ editor }) => {
-        emit('setQuestionData', editor)
+        emit('setAnswer', editor)
     },
-})
-onMounted(() => {
-    editor.value?.commands.setContent(props.content)
-})
-watch(() => props.content, (c) => {
-    if (c != editor.value?.getHTML())
-        editor.value?.commands.setContent(c)
 })
 </script>
 
 <template>
-    <div v-if="editor">
-        <EditorMenuBar :editor="editor" />
-        <editor-content :editor="editor"
-            :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
-        <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte
-            formuliere eine Frage.</div>
+    <div>
+        <div class="commentAnswerAddContainer" id="CommentAnswerAddComponent">
+            <div class="row">
+                <div class="col-sm-2 hidden-xs"></div>
+                <div class="col-sm-10 col-xs-12">
+                    <div id="AddAnswerTextFormContainer" class="inline-question-editor">
+                        <div class="input-container">
+                            <div class="overline-s no-line">Deine Antwort</div>
+                            <div v-if="editor">
+                                <EditorMenuBar :editor="editor" />
+                                <editor-content :editor="editor"
+                                    :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
+                                <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0"
+                                    class="field-error">
+                                    Bitte formuliere einen Kommentar mit min. 10 Zeichen.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

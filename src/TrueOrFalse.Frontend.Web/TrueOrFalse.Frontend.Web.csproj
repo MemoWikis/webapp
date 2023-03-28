@@ -312,6 +312,9 @@
     <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Comment\CommentHelper.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Comment\AddController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Comment\CommentController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerQuestionDetailsController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\LearningSessionResultController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
@@ -327,6 +330,7 @@
     <Compile Include="Views\ApiVueApp\Stores\DeleteTopicStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\ActivityPointsStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\LearningSessionStoreController.cs" />
+    <Compile Include="Views\ApiVueApp\Stores\CommentsStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\TopicToPrivateStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\QuestionPinStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\TopicLearningQuestionController.cs" />

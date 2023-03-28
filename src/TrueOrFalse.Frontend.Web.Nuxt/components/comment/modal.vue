@@ -1,11 +1,15 @@
 <script lang="ts" setup>
-import { useCommentsStore } from './commentStore'
+import { useCommentsStore, CommentModel } from './commentsStore'
 
 const commentsStore = useCommentsStore()
+function addAnswerToUnsettledComments(e: { commentId: number, answer: CommentModel }) {
+    commentsStore.unsettledComments.find(c => c.id == e.commentId)?.answers.push(e.answer)
+}
 
 const showSettledComments = ref(false)
-
-
+function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel }) {
+    commentsStore.settledComments.find(c => c.id == e.commentId)?.answers.push(e.answer)
+}
 </script>
 
 <template>
@@ -15,10 +19,10 @@ const showSettledComments = ref(false)
         <template v-slot:body>
             <div id="CommentsSection">
                 <div class="commentSection">
-                    <div v-if="commentsStore.comments">
-                        <div v-for="comment in commentsStore.comments" class="comment">
+                    <div>
+                        <div v-for="comment in commentsStore.unsettledComments" class="comment">
                             <Comment :comment="comment" :question-id="commentsStore.questionId"
-                                :creator-id="comment.creatorId" />
+                                :creator-id="comment.creatorId" @add-answer="addAnswerToUnsettledComments" />
                         </div>
                         <div v-if="commentsStore.settledComments?.length > 0">
                             <div class="commentSettledInfo">
@@ -33,7 +37,7 @@ const showSettledComments = ref(false)
                             <div v-if="showSettledComments">
                                 <div v-for="settledComment in commentsStore.settledComments " class="comment">
                                     <Comment :comment="settledComment" :question-id="commentsStore.questionId"
-                                        :creator-id="settledComment.creatorId" />
+                                        :creator-id="settledComment.creatorId" @add-answer="addAnswerToSettledComments" />
                                 </div>
                             </div>
                         </div>

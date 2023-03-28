@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import { Editor } from '@tiptap/vue-3';
 import { useUserStore } from '../user/userStore'
-import { Comment } from './commentStore'
+import { useCommentsStore, CommentModel } from './commentsStore'
 
 const userStore = useUserStore()
-
+const commentsStore = useCommentsStore()
 interface Props {
-    comment: Comment
+    comment: CommentModel
     questionId: number
     creatorId: number
 }
@@ -16,18 +17,52 @@ const readMore = ref(false)
 const foldOut = ref(false)
 const showCommentAnswers = ref(false)
 
-async function saveAnswer() {
-
-}
-
 async function markAsSettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkAsSettled/${props.comment.id}`)
+    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
+        method: 'POST',
+        body: { commentId: props.comment.id },
+        mode: 'cors',
+        credentials: 'include'
+    })
+    if (result)
+        commentsStore.loadComments()
 }
 
 async function markAsUnsettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkAsUnsettled/${props.comment.id}`)
+    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsUnsettled/`, {
+        method: 'POST',
+        body: { commentId: props.comment.id },
+        mode: 'cors',
+        credentials: 'include'
+    })
+    if (result)
+        commentsStore.loadComments()
 }
 
+const showAnswers = computed(() => foldOut && userStore.isAdmin || foldOut && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isAdmin || !props.comment.isSettled && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isLoggedIn)
+
+const highlightEmptyAnswer = ref(false)
+const answerText = ref('')
+function setAnswer(e: Editor) {
+    answerText.value = e.getHTML()
+}
+const emit = defineEmits(['addAnswer'])
+async function saveAnswer() {
+    const data = {
+        commentId: props.comment.id,
+        text: answerText.value
+    }
+    const result = await $fetch<CommentModel>(`/apiVue/Comment/SaveAnswer/`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data
+    })
+    if (result != null) {
+        emit('addAnswer', { commentId: props.comment.id, answer: result })
+    }
+
+}
 </script>
 
 <template>
@@ -44,7 +79,7 @@ async function markAsUnsettled() {
                         <template class="commentTitle" v-else v-html="props.comment.text + '&nbsp &nbsp'"></template>
                     </span>
 
-                    <span class="commentSpeechBubbleIcon">
+                    <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                         <template class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
                             &nbsp {{ props.comment.answers.length }} Beitrag
@@ -65,7 +100,7 @@ async function markAsUnsettled() {
                     </div>
                     <div class="commentTitle" v-if="props.comment.title.length > 0">
                         <template v-html="props.comment.title"> </template>
-                        <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                        <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
                                 {{ props.comment.answers.length }} Beitrag</span>
@@ -76,7 +111,7 @@ async function markAsUnsettled() {
                     <div class="commentTitle" v-else-if="props.comment.text.length > 25">
                         <template v-html="props.comment.text.slice(0, 25) + '...'"></template>
 
-                        <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                        <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
                                 {{ props.comment.answers.length }} Beitrag</span>
@@ -86,7 +121,7 @@ async function markAsUnsettled() {
                     </div>
                     <div class="commentTitle" v-else>
                         <template v-html="props.comment.text"></template>
-                        <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                        <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
                                 {{ props.comment.answers.length }} Beitrag</span>
@@ -110,7 +145,8 @@ async function markAsUnsettled() {
                         </span>
                     </div>
                     <div class="commentUserDetails">
-                        <NuxtLink class="pointer" :to="props.comment.creatorUrl">
+                        <NuxtLink class="pointer"
+                            :to="`/Nutzer/${props.comment.creatorEncodedName}/${props.comment.creatorId}`">
                             <img class="commentUserImg" :src="props.comment.imageUrl">
                             <span class="commentUserName">{{ props.comment.creatorName }}</span>
                         </NuxtLink>
@@ -123,21 +159,20 @@ async function markAsUnsettled() {
             </div>
         </div>
 
-        <div class="commentAnswersContainer"
-            v-if="foldOut && userStore.isAdmin || foldOut && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isAdmin || !props.comment.isSettled && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isLoggedIn">
-            <div v-if="showCommentAnswers" class="" v-for="(answer, index) in props.comment.answers">
-                <CommentAnswer :answer="answer" :comment-id="props.comment.id"
-                    :last-answer="props.comment.answers.length - 1 == index" />
-            </div>
-            <div v-if="userStore.isLoggedIn && !props.comment.isSettled">
-                <CommentAnswerAdd :parentCommentId="props.comment.id" />
-            </div>
+        <div class="commentAnswersContainer" v-if="showAnswers">
+
+            <CommentAnswer v-if="showCommentAnswers" v-for="(answer, index) in props.comment.answers" :answer="answer"
+                :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 == index" />
+
+            <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled" :parentCommentId="props.comment.id"
+                :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" />
 
             <div class="commentButtonsContainer row" style="" v-if="userStore.isLoggedIn">
                 <div class="col-xs-12 col-sm-12">
                     <div v-if="!props.comment.isSettled" class="pull-right col-xs-12 col-sm-4">
-                        <button @click="saveAnswer()"
-                            class="btn btn-primary memo-button col-xs-12 answerBtn">Antworten</button>
+                        <button @click="saveAnswer()" class="btn btn-primary memo-button col-xs-12 answerBtn">
+                            Antworten
+                        </button>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-5">
                         <button

@@ -1,17 +1,36 @@
 <script lang="ts" setup>
+import { Editor } from '@tiptap/vue-3';
 import { useUserStore } from '../user/userStore'
-import { useCommentsStore } from './commentStore'
+import { useCommentsStore } from './commentsStore'
 
 const commentsStore = useCommentsStore()
 const userStore = useUserStore()
 const highlightEmptyTitle = ref(false)
 const commentTitle = ref<string>('')
-
+function setTitle(editor: Editor) {
+    commentTitle.value = editor.getHTML()
+}
 const highlightEmptyComment = ref(false)
-const commentContent = ref<string>('')
+const commentText = ref<string>('')
+function setText(editor: Editor) {
+    commentText.value = editor.getHTML()
+}
 
 async function saveComment() {
+    const data = {
+        id: commentsStore.questionId,
+        title: commentTitle.value,
+        text: commentText.value
+    }
+    const result = await $fetch<boolean>(`/apiVue/CommentAdd/SaveComment/`, {
+        mode: 'cors',
+        method: 'POST',
+        body: data,
+        credentials: 'include'
+    })
 
+    if (result)
+        commentsStore.loadComments()
 }
 </script>
 
@@ -30,14 +49,14 @@ async function saveComment() {
                                 <div class="input-container" id="AddCommentTitleFormContainer">
                                     <div class="overline-s no-line">Titel der Diskussion</div>
                                     <CommentTitleEditor :highlight-empty-fields="highlightEmptyTitle"
-                                        :content="commentTitle" />
+                                        :content="commentTitle" @set-title="setTitle" />
                                     <div v-if="highlightEmptyTitle" class="field-error">Bitte formuliere einen Titel</div>
                                 </div>
                                 <div class="input-container" id="AddCommentTextFormContainer">
                                     <div class="overline-s no-line">Dein Diskussionsbeitrag</div>
 
-                                    <CommentContentEditor :highlight-empty-fields="highlightEmptyComment"
-                                        :content="commentContent" />
+                                    <CommentTextEditor :highlight-empty-fields="highlightEmptyComment"
+                                        :content="commentText" @set-content="setText" />
                                 </div>
                             </div>
                         </div>

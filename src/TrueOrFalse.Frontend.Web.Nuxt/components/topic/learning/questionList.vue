@@ -116,6 +116,8 @@ onMounted(() => {
                 :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
                 first-page-content="Erste" last-page-content="Letzte" />
         </div>
+
+        <LazyCommentModal />
     </div>
 </template>
 

@@ -18,7 +18,7 @@ interface Props {
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
-const emit = defineEmits(['setTitle'])
+const emit = defineEmits(['setText'])
 
 const editor = useEditor({
     extensions: [
@@ -36,7 +36,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Gib den Fragetext ein',
+            placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
             showOnlyCurrent: true,
         }),
         Image.configure({
@@ -60,7 +60,7 @@ const editor = useEditor({
         },
     },
     onUpdate: ({ editor }) => {
-        emit('setTitle', editor)
+        emit('setText', editor)
     },
 })
 onMounted(() => {
@@ -74,10 +74,11 @@ watch(() => props.content, (c) => {
 
 <template>
     <div v-if="editor">
+        <EditorMenuBar :editor="editor" />
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
-        <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 10" class="field-error">
-            Bitte formuliere einen Titel mit mind. 10 Zeichen.
+        <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
+            Bitte formuliere einen Kommentar mit min. 10 Zeichen.
         </div>
     </div>
 </template>

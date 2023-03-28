@@ -231,7 +231,9 @@ watch(() => userStore.isLoggedIn, () => {
 			:class="{ 'is-in-root-topic': topicStore.id == personalWiki?.Id }">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
-
+			<span class="root-topic-label" v-if="topicStore.id == personalWiki?.Id">
+				{{ topicStore.name }}
+			</span>
 		</NuxtLink>
 
 		<template v-if="breadcrumb.rootTopic">
@@ -285,7 +287,7 @@ watch(() => userStore.isLoggedIn, () => {
 			</div>
 		</template>
 
-		<div class="breadcrumb-item last" v-tooltip="topicStore.name">
+		<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.Id">
 			{{ topicStore.name }}
 		</div>
 	</div>
@@ -384,6 +386,13 @@ watch(() => userStore.isLoggedIn, () => {
 
 		&.is-in-root-topic {
 			padding-right: 0px;
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+
+			.root-topic-label {
+				padding-left: 6px;
+			}
 		}
 
 	}
