@@ -64,19 +64,6 @@ public class VueUsersController : BaseController
         };
     }
 
-    [HttpGet]
-    public JsonResult GetNetwork()
-    {
-        if (!SessionUser.IsLoggedIn)
-            return Json(null, JsonRequestBehavior.AllowGet);
-
-        return Json(new
-        {
-            following = SessionUser.User.FollowingIds.Select(id => GetUserResult(EntityCache.GetUserById(id))).ToArray(),
-            followers = SessionUser.User.FollowerIds.Select(id => GetUserResult(EntityCache.GetUserById(id))).ToArray(),
-        }, JsonRequestBehavior.AllowGet);
-    }
-
     public class UserResult
     {
         public string name { get; set; }

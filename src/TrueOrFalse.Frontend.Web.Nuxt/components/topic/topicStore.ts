@@ -24,6 +24,7 @@ export class Topic {
 	Authors: Author[] = []
 	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
+	MetaDescription: string = ''
 }
 
 export interface FooterTopics {

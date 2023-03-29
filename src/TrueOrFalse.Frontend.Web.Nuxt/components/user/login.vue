@@ -180,8 +180,7 @@ onMounted(() => {
 
                     <p class="consentInfoText">
                         Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
-                        <NuxtLink to="/Nutzungsbedingungen">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink
-                            to="/Impressum">
+                        <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum">
                             Datenschutzerklärung</NuxtLink>
                         einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr
                             Infos!

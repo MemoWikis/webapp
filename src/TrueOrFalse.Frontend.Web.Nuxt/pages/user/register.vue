@@ -261,7 +261,7 @@ async function register() {
                                 <div class="col-sm-offset-2 col-sm-8"
                                     style="font-size: 12px; padding-top: 20px; text-align: center;">
                                     Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
-                                    <NuxtLink to="/Nutzungsbedingungen">
+                                    <NuxtLink to="/AGB">
                                         Nutzungsbedingungen
                                     </NuxtLink>
                                     und unserer

@@ -24,13 +24,8 @@ public class QuestionEditModalController : BaseController
     {
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult
-            {
-                Data = new
-                {
-                    ErrorMsg = "Fehlender Fragetext",
-                }
-            };
+            return Json(null);
+
         var question = new Question();
         question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
@@ -56,14 +51,7 @@ public class QuestionEditModalController : BaseController
     {
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult
-            {
-                Data = new
-                {
-                    error = true,
-                    key = "missingText",
-                }
-            };
+            return Json(null);
 
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
@@ -71,7 +59,7 @@ public class QuestionEditModalController : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id), questionDataJson.SessionIndex);
+            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         var questionController = new QuestionController(_questionRepo);
         return questionController.LoadQuestion(updatedQuestion.Id);

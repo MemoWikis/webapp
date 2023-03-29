@@ -46,6 +46,7 @@ interface User {
     reputationPoints: number
     rank: number
     showWuwi: boolean
+    encodedName: string
 }
 interface ProfileData {
     user: User
@@ -125,6 +126,21 @@ watch(() => userStore.isLoggedIn, () => {
     refreshWuwi()
     refreshProfile()
 })
+
+useHead(() => ({
+    link: [
+        {
+            rel: 'canonical',
+            href: `${config.public.serverBase}/${profile.value?.user.encodedName}/${profile.value?.user.id}`,
+        },
+    ],
+    meta: [
+        {
+            property: 'og:title',
+            content: profile.value?.user.encodedName
+        },
+    ]
+}))
 </script>
 
 <template>
@@ -335,8 +351,6 @@ watch(() => userStore.isLoggedIn, () => {
         min-width: 96px;
     }
 
-    .profile-header-info {}
-
     .sub-info {
         font-size: 18px;
         margin-bottom: 10px;
@@ -350,9 +364,6 @@ watch(() => userStore.isLoggedIn, () => {
             font-size: 14px;
         }
     }
-
-    .profile-btn-container {}
-
 }
 
 .divider {

@@ -13,7 +13,7 @@ export default <RouterConfig>{
         },
         {
             name: 'termsPage',
-            path: '/Nutzungsbedingungen',
+            path: '/AGB',
             component: () => import('~/pages/terms.vue')
         },
         {
@@ -37,15 +37,15 @@ export default <RouterConfig>{
             component: () => import('~/pages/question/[title]/[id].vue')
         },
         {
-            name: 'usersPage',
-            path: '/Nutzer',
-            component: () => import('~/pages/user/users.vue')
+            name: 'questionPage2',
+            path: '/Fragen/:title/:id/:step',
+            component: () => import('~/pages/question/[title]/[id].vue')
         },
         {
-            name: 'networkPage',
-            path: '/Netzwerk',
+            name: 'usersPage',
+            path: '/Nutzer',
             component: () => import('~/pages/user/users.vue'),
-            props: { tab: UsersTab.Network }
+            props: { tab: UsersTab.AllUsers }
         },
         {
             name: 'userPage',

@@ -298,9 +298,9 @@ watch(isInWishknowledge, () => {
                                             <font-awesome-icon icon="fa-solid fa-pen" />
                                         </div>
                                         <div class="dropdown-label">Frage bearbeiten</div>
-
                                     </div>
-                                    <NuxtLink :to="props.question.LinkToQuestion">
+
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -339,6 +339,7 @@ watch(isInWishknowledge, () => {
                                             Frage löschen
                                         </div>
                                     </div>
+
                                 </template>
                             </V-Dropdown>
                         </div>

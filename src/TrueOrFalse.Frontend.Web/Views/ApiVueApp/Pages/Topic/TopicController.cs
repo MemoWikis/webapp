@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -53,7 +54,8 @@ public class TopicController : BaseController
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
-                SearchTopicItem = FillMiniTopicItem(topic)
+                SearchTopicItem = FillMiniTopicItem(topic),
+                MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true)
             };
         }
 

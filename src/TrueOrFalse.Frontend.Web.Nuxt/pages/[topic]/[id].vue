@@ -106,6 +106,37 @@ onMounted(() => setTab())
 watch(() => userStore.isLoggedIn, () => {
     refresh()
 })
+
+useHead(() => ({
+    link: [
+        {
+            rel: 'canonical',
+            href: `${config.public.serverBase}/${topic.value?.EncodedName}/${topic.value?.Id}`,
+        },
+    ],
+    meta: [
+        {
+            name: 'descroption',
+            content: topic.value?.MetaDescription
+        },
+        {
+            property: 'og:title',
+            content: topic.value?.Name
+        },
+        {
+            property: 'og:url',
+            content: `${config.public.serverBase}/${topic.value?.EncodedName}/${topic.value?.Id}`
+        },
+        {
+            property: 'og:type',
+            content: 'article'
+        },
+        {
+            property: 'og:image',
+            content: topic.value?.ImageUrl
+        }
+    ]
+}))
 </script>
 
 <template>
@@ -448,19 +479,6 @@ ul {
     width: 100%;
 }
 
-.SetTitle {
-    &:hover {
-        //.ShadowBox;
-        /*position: absolute;
-            left: 0;
-            right: 0;
-            height: auto;*/
-        /*overflow:visible;
-            box-shadow: 0 0 30px #000;
-            width: 100%;
-            z-index: 100000000000;*/
-    }
-}
 }
 
 .WikiLink {
@@ -2344,8 +2362,6 @@ img {
                         animation: move-left .5s forwards;
                     }
                 }
-
-                &:active {}
 
                 .fab-icon-container {
                     position: absolute;

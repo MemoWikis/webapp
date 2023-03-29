@@ -1,33 +1,12 @@
 <script lang="ts" setup>
 import { ImageStyle } from '../image/imageStyleEnum'
 import { UserResult } from './userResult'
-import { useUserStore } from '../user/userStore'
-const userStore = useUserStore()
 
 interface Props {
     user: UserResult
 }
 const props = defineProps<Props>()
-const followed = ref(false)
-onBeforeMount(() => {
-    followed.value = props.user.followed
-})
 
-const emit = defineEmits(['refreshNetwork'])
-
-async function follow() {
-    if (await userStore.follow(props.user.id)) {
-        followed.value = true
-        emit('refreshNetwork')
-    }
-}
-
-async function unfollow() {
-    if (await userStore.unfollow(props.user.id)) {
-        followed.value = false
-        emit('refreshNetwork')
-    }
-}
 </script>
 
 <template>
@@ -41,13 +20,6 @@ async function unfollow() {
                             {{ props.user.name }}
                         </NuxtLink>
                     </div>
-                    <button class="follow-btn btn btn-link">
-                        <div v-if="followed" @click="unfollow()" class="inactive"><font-awesome-icon
-                                icon="fa-solid fa-user-minus" /> Entfolgen
-                        </div>
-                        <div v-else @click="follow()"><font-awesome-icon icon="fa-solid fa-user-plus" />
-                            Folgen</div>
-                    </button>
                 </div>
                 <div class="user-body">
                     <div class="">
@@ -84,25 +56,6 @@ async function unfollow() {
 
 .mb-8 {
     margin-bottom: 8px;
-}
-
-
-.follow-btn {
-    outline: none;
-    border: none;
-    text-decoration: none;
-    background: white;
-    border-radius: 24px;
-
-    &:hover {
-        filter: brightness(0.95)
-    }
-
-    &:active {
-        outline: none;
-        border: none;
-        filter: brightness(0.85)
-    }
 }
 
 .user-card-container {

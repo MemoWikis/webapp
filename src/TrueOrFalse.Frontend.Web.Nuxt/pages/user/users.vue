@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { useUserStore } from '~~/components/user/userStore'
-import { Tab } from '~~/components/users/tabsEnum'
 import { UserResult } from '~~/components/users/userResult'
 
 const spinnerStore = useSpinnerStore()
-const userStore = useUserStore()
 
 const userCount = ref(200)
 const currentPage = ref(1)
@@ -85,44 +82,15 @@ const { data: network, refresh: refreshNetwork } = await useLazyFetch<Network>('
     }
 })
 
-const tab = ref<Tab>()
-
-interface Props {
-    tab?: Tab
-}
-
-const props = defineProps<Props>()
 const emit = defineEmits(['setBreadcrumb'])
-function handleBreadcrumb(t: Tab) {
-    if (t == Tab.AllUsers) {
-        history.pushState(null, 'Alle Nutzer', `/Nutzer`)
-        const breadcrumbItem: BreadcrumbItem = {
-            name: 'Nutzer',
-            url: '/Nutzer'
-        }
-        emit('setBreadcrumb', [breadcrumbItem])
-    }
-    else if (t == Tab.Network) {
-        history.pushState(null, 'Mein Netzwerk', `/Netzwerk`)
-        const breadcrumbItem: BreadcrumbItem = {
-            name: 'Mein Netzwerk',
-            url: '/Netzwerk'
-        }
-        emit('setBreadcrumb', [breadcrumbItem])
-    }
-}
-// onBeforeMount(() => {
-//     tab.value = props.tab == Tab.Network ? Tab.Network : Tab.AllUsers
 
-// })
+
 onMounted(() => {
-    tab.value = props.tab == Tab.Network ? Tab.Network : Tab.AllUsers
-    handleBreadcrumb(tab.value)
-
-    watch(tab, (t) => {
-        if (t)
-            handleBreadcrumb(t)
-    })
+    const breadcrumbItem: BreadcrumbItem = {
+        name: 'Nutzer',
+        url: '/Nutzer'
+    }
+    emit('setBreadcrumb', [breadcrumbItem])
 })
 const getSelectedOrderLabel = computed(() => {
     switch (orderBy.value) {
@@ -141,16 +109,15 @@ const getSelectedOrderLabel = computed(() => {
         <div class="row main-page">
             <div class="col-xs-12 container">
                 <div class="users-header">
-                    <h1 v-if="tab == Tab.Network">Mein Netzwerk </h1>
-                    <h1 v-else="tab == Tab.AllUsers">Alle Nutzer</h1>
+                    <h1>Alle Nutzer</h1>
                 </div>
 
                 <div class="row">
-                    <UsersTabs :tab="tab" :all-user-count="totalUserCount!" :following-count="network?.following?.length"
-                        :follower-count="network?.followers?.length" @set-tab="tab = $event" />
+                    <UsersTabs :all-user-count="totalUserCount!" :following-count="network?.following?.length"
+                        :follower-count="network?.followers?.length" />
                 </div>
 
-                <div class="row content" v-if="pageData && tab == Tab.AllUsers">
+                <div class="row content" v-if="pageData">
                     <div class="col-xs-12 col-sm-12 ">
 
                         <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
@@ -231,11 +198,6 @@ const getSelectedOrderLabel = computed(() => {
                                 v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false" />
                         </div>
                     </div>
-                </div>
-
-                <div class="row content" v-else-if="network && tab == Tab.Network && userStore.isLoggedIn">
-                    <UserNetwork :following="network.following" :followers="network.followers"
-                        @refresh-network="refreshNetwork" @tab-to-all-users="tab = Tab.AllUsers" />
                 </div>
             </div>
 

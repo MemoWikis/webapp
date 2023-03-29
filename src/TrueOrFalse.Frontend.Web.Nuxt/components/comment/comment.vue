@@ -167,7 +167,8 @@ async function saveAnswer() {
             <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled" :parentCommentId="props.comment.id"
                 :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" />
 
-            <div class="commentButtonsContainer row" style="" v-if="userStore.isLoggedIn">
+            <div class="commentButtonsContainer row" style=""
+                v-if="userStore.isLoggedIn && !props.comment.isSettled || userStore.isAdmin">
                 <div class="col-xs-12 col-sm-12">
                     <div v-if="!props.comment.isSettled" class="pull-right col-xs-12 col-sm-4">
                         <button @click="saveAnswer()" class="btn btn-primary memo-button col-xs-12 answerBtn">

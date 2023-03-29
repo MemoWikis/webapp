@@ -13,6 +13,7 @@ import { Editor } from '@tiptap/vue-3'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 import { SearchType } from '../../search/searchHelper'
+import { QuestionListItem } from '~~/components/topic/learning/questionListItem'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
@@ -207,7 +208,6 @@ async function updateQuestionCount() {
 
     if (count != null)
         topicStore.questionCount = count
-
 }
 async function save() {
     if (!userStore.isLoggedIn) {
@@ -225,7 +225,7 @@ async function save() {
     var url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     var json = getSaveJson()
 
-    let result = await $fetch<any>(url, {
+    let result = await $fetch<QuestionListItem>(url, {
         body: json,
         method: 'POST',
         mode: 'cors',
@@ -237,35 +237,40 @@ async function save() {
     })
 
     if (result != null) {
-        learningSessionStore.lastIndexInQuestionList = result.SessionIndex
-        learningSessionStore.getLastStepInQuestionList()
-        learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
+        if (editQuestionStore.edit) {
+            learningSessionStore.updateQuestionList(result)
+        } else {
+            learningSessionStore.lastIndexInQuestionList = result.SessionIndex
+            learningSessionStore.getLastStepInQuestionList()
+            learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
+        }
 
+        if (result.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
+            alertStore.openAlert(AlertType.Success, {
+                text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
+            })
+        else
+            alertStore.openAlert(AlertType.Success, {
+                text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created,
+                customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
+                customBtn: '<button class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</button>',
+            })
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
-        if (result.error) {
-            alertStore.openAlert(AlertType.Error, {
-                text: messages.error.question[result.key]
-            })
-        } else {
-            if (result.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
-                alertStore.openAlert(AlertType.Success, {
-                    text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
-                })
-            else
-                alertStore.openAlert(AlertType.Success, {
-                    text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created,
-                    customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
-                    customBtn: '<button class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</button>',
-                })
-        }
         editQuestionStore.showModal = false
         lockSaveButton.value = false
         updateQuestionCount()
+    } else {
+        highlightEmptyFields.value = false
+        spinnerStore.hideSpinner()
+        editQuestionStore.showModal = false
+        lockSaveButton.value = false
+
+        alertStore.openAlert(AlertType.Error, {
+            text: messages.error.question["missingText"]
+        })
     }
 }
-
-
 
 type QuestionData = {
     SolutionType: SolutionType
@@ -439,25 +444,25 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                     placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
                                     @select-item="selectTopic" />
                                 <!-- <input ref="searchInput" class="form-control dropdown-toggle" type="text"
-                                                                                                    v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
-                                                                                                    @click="lockDropdown = false" aria-haspopup="true"
-                                                                                                    placeholder="Bitte gib den Namen des Themas ein" />
-                                                                                                <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
-                                                                                                    <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
-                                                                                                        data-toggle="tooltip" data-placement="top" :title="t.Name">
-                                                                                                        <img :src="t.ImageUrl" />
-                                                                                                        <div>
-                                                                                                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                                                                                            <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
-                                                                                                                Frage<template v-if="t.QuestionCount != 1">n</template></div>
-                                                                                                        </div>
-                                                                                                    </li>
-                                                                                                    <li class="dropdownFooter body-m">
-                                                                                                        <b>{{ totalCount }}</b> Treffer. <br />
-                                                                                                        Deins ist nicht dabei? <span class="dropdownLink"
-                                                                                                            @click="createCategory = true">Erstelle hier dein Thema</span>
-                                                                                                    </li>
-                                                                                                </ul> -->
+                                                                                                                                                                                    v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
+                                                                                                                                                                                    @click="lockDropdown = false" aria-haspopup="true"
+                                                                                                                                                                                    placeholder="Bitte gib den Namen des Themas ein" />
+                                                                                                                                                                                <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
+                                                                                                                                                                                    <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
+                                                                                                                                                                                        data-toggle="tooltip" data-placement="top" :title="t.Name">
+                                                                                                                                                                                        <img :src="t.ImageUrl" />
+                                                                                                                                                                                        <div>
+                                                                                                                                                                                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                                                                                                                                                                            <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
+                                                                                                                                                                                                Frage<template v-if="t.QuestionCount != 1">n</template></div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </li>
+                                                                                                                                                                                    <li class="dropdownFooter body-m">
+                                                                                                                                                                                        <b>{{ totalCount }}</b> Treffer. <br />
+                                                                                                                                                                                        Deins ist nicht dabei? <span class="dropdownLink"
+                                                                                                                                                                                            @click="createCategory = true">Erstelle hier dein Thema</span>
+                                                                                                                                                                                    </li>
+                                                                                                                                                                                </ul> -->
                             </div>
 
                         </form>
@@ -472,11 +477,12 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                     <label>
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
                                             class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
-                                            data-html="true" data-original-title="
-                                                                                            <ul class='show-tooltip-ul'>
-                                                                                                <li>Die Frage kann nur von dir genutzt werden.</li>
-                                                                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                                                                                            </ul>">
+                                            data-html="true"
+                                            data-original-title="
+                                                                                                                                                                            <ul class='show-tooltip-ul'>
+                                                                                                                                                                                <li>Die Frage kann nur von dir genutzt werden.</li>
+                                                                                                                                                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                                                                                                                                                            </ul>">
                                         </i>
                                     </label>
                                 </div>

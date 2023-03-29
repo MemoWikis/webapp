@@ -76,7 +76,7 @@ public class EditQuestionController : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id), questionDataJson.SessionIndex);
+            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         var questionController = new QuestionController(_questionRepo);
         return questionController.LoadQuestion(updatedQuestion.Id);

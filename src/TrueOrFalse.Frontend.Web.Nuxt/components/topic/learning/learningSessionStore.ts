@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { AlertType, useAlertStore } from '~~/components/alert/alertStore'
 import { messages } from '~~/components/alert/messages'
+import { QuestionListItem } from './questionListItem'
 
 export enum AnswerState {
     Unanswered = 0,
@@ -187,6 +188,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         addNewQuestionToList(index: number) {
             return index
+        },
+        updateQuestionList(question: QuestionListItem) {
+            return question
         }
     },
 })

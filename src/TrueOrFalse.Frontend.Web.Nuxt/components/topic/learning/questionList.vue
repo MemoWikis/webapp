@@ -5,13 +5,12 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
-import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 const spinnerStore = useSpinnerStore()
 const topicStore = useTopicStore()
-const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 
 interface Props {
     expandQuestion: boolean
@@ -69,17 +68,21 @@ onBeforeMount(() => {
 const currentPage = ref(1)
 watch(currentPage, (p) => loadQuestions(p))
 
-learningSessionStore.$onAction(
-    ({
-        name,
-        after,
-    }) => {
-        if (name == 'addNewQuestionToList')
-            after((result) => {
-                loadNewQuestion(result)
+learningSessionStore.$onAction(({ name, after }) => {
+    if (name == 'addNewQuestionToList')
+        after((result) => {
+            loadNewQuestion(result)
+        })
+
+    if (name == 'updateQuestionList')
+        after((updatedQuestion) => {
+            questions.value.forEach((q) => {
+                if (q.Id == updatedQuestion.Id) {
+                    q = updatedQuestion
+                }
             })
-    }
-)
+        })
+})
 
 async function loadNewQuestion(index: number) {
     spinnerStore.showSpinner()
@@ -99,6 +102,7 @@ onMounted(() => {
     if (learningSessionStore.currentStep != null)
         loadQuestions(1)
 })
+
 </script>
 
 <template>

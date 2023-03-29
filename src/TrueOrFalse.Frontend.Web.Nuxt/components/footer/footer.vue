@@ -52,7 +52,7 @@ const userStore = useUserStore()
                             </div>
                         </div>
                         <div class="footer-group">
-                            <LazyNuxtLink to="/Nutzungsbedingungen">Nutzungsbedingungen (AGBs)</LazyNuxtLink>
+                            <LazyNuxtLink to="/AGB">Nutzungsbedingungen (AGBs)</LazyNuxtLink>
                             <br />
                             <LazyNuxtLink to="/Impressum">Impressum & Datenschutz</LazyNuxtLink>
                         </div>
