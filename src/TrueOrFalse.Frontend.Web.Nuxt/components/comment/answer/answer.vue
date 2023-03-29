@@ -18,8 +18,9 @@ const readMore = ref(false)
         <div class="col-sm-2 hidden-xs"></div>
         <div class="col-xs-12 col-sm-10 answerUserDetails" v-bind:class="{ commentUserDetails: props.lastAnswer }">
             <div>
-                <NuxtLink :to="`/Nutzer/${props.answer.creatorEncodedName}/${props.answer.creatorId}`">
-                    <Image class="commentUserImg" :url="props.answer.imageUrl" :style="ImageStyle.Author" />
+                <NuxtLink :to="`/Nutzer/${props.answer.creatorEncodedName}/${props.answer.creatorId}`"
+                    class="comment-header">
+                    <Image class="commentUserImg" :url="props.answer.creatorImgUrl" :style="ImageStyle.Author" />
                     <span class="commentUserName">{{ props.answer.creatorName }}</span>
                 </NuxtLink>
 
@@ -33,8 +34,8 @@ const readMore = ref(false)
             <div class="answerTextContainer">
                 <span class="commentText" v-if="props.answer.text.length < 350" v-html="props.answer.text"></span>
                 <span v-else>
-                    <template v-if="readMore" v-html="props.answer.text"></template>
-                    <template v-else class="commentText" v-html="props.answer.text.slice(0, 350) + '...'"></template>
+                    <span v-if="readMore" v-html="props.answer.text"></span>
+                    <span v-else class="commentText" v-html="props.answer.text.slice(0, 350) + '...'"></span>
                     <button class="cursor-hand" @click="readMore = !readMore">
                         {{ readMore ? 'Weniger' : 'Mehr' }}
                     </button>

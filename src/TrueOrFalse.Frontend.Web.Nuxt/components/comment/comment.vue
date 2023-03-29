@@ -47,7 +47,17 @@ function setAnswer(e: Editor) {
     answerText.value = e.getHTML()
 }
 const emit = defineEmits(['addAnswer'])
+
+watch(answerText, (e) => {
+    if (e.length >= 10)
+        highlightEmptyAnswer.value = false
+})
 async function saveAnswer() {
+
+    if (answerText.value.length < 10) {
+        highlightEmptyAnswer.value = true
+        return
+    }
     const data = {
         commentId: props.comment.id,
         text: answerText.value
@@ -58,7 +68,8 @@ async function saveAnswer() {
         credentials: 'include',
         body: data
     })
-    if (result != null) {
+    if (result) {
+        answerText.value = ''
         emit('addAnswer', { commentId: props.comment.id, answer: result })
     }
 
@@ -72,12 +83,13 @@ async function saveAnswer() {
 
                 <div v-if="!props.comment.isSettled">
                     <span class="commentTitle" v-if="props.comment.title.length > 0"
-                        v-html="props.comment.title + '&nbsp &nbsp'"></span>
-                    <span v-else>
-                        <template class="commentTitle" v-if="props.comment.text.length > 25"
-                            v-html="props.comment.text.slice(0, 25) + '...' + '&nbsp &nbsp'"></template>
-                        <template class="commentTitle" v-else v-html="props.comment.text + '&nbsp &nbsp'"></template>
+                        v-html="props.comment.title + '&nbsp &nbsp'">
                     </span>
+                    <template v-else>
+                        <span class="commentTitle" v-if="props.comment.text.length > 25"
+                            v-html="props.comment.text.slice(0, 25) + '...' + '&nbsp &nbsp'"></span>
+                        <span class="commentTitle" v-else v-html="props.comment.text + '&nbsp &nbsp'"></span>
+                    </template>
 
                     <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
@@ -99,7 +111,7 @@ async function saveAnswer() {
                         </span>
                     </div>
                     <div class="commentTitle" v-if="props.comment.title.length > 0">
-                        <template v-html="props.comment.title"> </template>
+                        <span v-html="props.comment.title"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
@@ -109,7 +121,7 @@ async function saveAnswer() {
                         </span>
                     </div>
                     <div class="commentTitle" v-else-if="props.comment.text.length > 25">
-                        <template v-html="props.comment.text.slice(0, 25) + '...'"></template>
+                        <span v-html="props.comment.text.slice(0, 25) + '...'"></span>
 
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
@@ -120,7 +132,7 @@ async function saveAnswer() {
                         </span>
                     </div>
                     <div class="commentTitle" v-else>
-                        <template v-html="props.comment.text"></template>
+                        <span v-html="props.comment.text"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
@@ -135,19 +147,19 @@ async function saveAnswer() {
                     <div class="commentTextContainer">
                         <span class="commentText" v-if="props.comment.text.length < 350" v-html="props.comment.text"></span>
                         <span v-else class="commentText">
-                            <template v-if="readMore" v-html="props.comment.text">
-                            </template>
-                            <template v-else v-html="props.comment.text.slice(0, 360) + '...'">
-                            </template>
-                            <button @click="readMore = !readMore">
+                            <span v-if="readMore" v-html="props.comment.text">
+                            </span>
+                            <span v-else v-html="props.comment.text.slice(0, 360) + '...'">
+                            </span>
+                            <button @click="readMore = !readMore" class="btn-link">
                                 {{ readMore ? 'Weniger' : 'Mehr' }}
                             </button>
                         </span>
                     </div>
                     <div class="commentUserDetails">
-                        <NuxtLink class="pointer"
+                        <NuxtLink class="pointer comment-header"
                             :to="`/Nutzer/${props.comment.creatorEncodedName}/${props.comment.creatorId}`">
-                            <img class="commentUserImg" :src="props.comment.imageUrl">
+                            <img class="commentUserImg" :src="props.comment.creatorImgUrl">
                             <span class="commentUserName">{{ props.comment.creatorName }}</span>
                         </NuxtLink>
                         <span class="greyed commentDate">
@@ -165,7 +177,7 @@ async function saveAnswer() {
                 :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 == index" />
 
             <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled" :parentCommentId="props.comment.id"
-                :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" />
+                :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" :content="answerText" />
 
             <div class="commentButtonsContainer row" style=""
                 v-if="userStore.isLoggedIn && !props.comment.isSettled || userStore.isAdmin">

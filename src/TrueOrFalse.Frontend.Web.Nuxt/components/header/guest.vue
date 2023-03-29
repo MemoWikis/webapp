@@ -152,6 +152,7 @@ onMounted(() => {
 
                     #SmallHeaderSearchBoxDiv {
                         width: 43px;
+                        transition: width 0.3s;
                         -webkit-transition: width 0.3s;
                         display: none;
                         margin-top: 2px;

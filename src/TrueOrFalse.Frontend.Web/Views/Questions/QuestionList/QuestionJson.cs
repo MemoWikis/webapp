@@ -21,6 +21,7 @@ namespace QuestionListJson
         public string LinkToQuestionVersions { get; set; }
         public int SessionIndex { get; set; }
         public QuestionVisibility Visibility { get; set; }
+        public int CreatorId { get; set; } = 0;
     }
 }
 

@@ -13,6 +13,7 @@ import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
 interface Props {
     highlightEmptyFields: boolean
+    content: string
 }
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
@@ -61,6 +62,11 @@ const editor = useEditor({
     onUpdate: ({ editor }) => {
         emit('setAnswer', editor)
     },
+})
+
+watch(() => props.content, (c) => {
+    if (c != editor.value?.getHTML())
+        editor.value?.commands.setContent(c)
 })
 </script>
 

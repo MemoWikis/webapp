@@ -199,16 +199,12 @@ props.editor.on('blur', () => {
     position: sticky;
     z-index: 10;
     display: flex;
-    max-width: min(100%, calc(100vw - 60px));
     height: 36px;
     margin-top: -36px;
 
     .ps {
-        max-width: min(100%, calc(100vw - 20px));
         border-radius: 4px;
         box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
-        // flex-shrink: 1;
-        width: 100%;
         visibility: hidden;
     }
 

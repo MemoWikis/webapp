@@ -50,6 +50,7 @@ public class VueQuestionController : BaseController
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
+        question.CreatorId = q.CreatorId;
 
         var learningSession = LearningSessionCache.GetLearningSession();
         if (learningSession != null)
@@ -67,69 +68,6 @@ public class VueQuestionController : BaseController
         }
 
         return Json(question);
-    }
-
-    [HttpPost]
-    public JsonResult GetData(int id)
-    {
-        var question = EntityCache.GetQuestionById(id);
-        var categoryController = new CategoryController();
-        var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
-        var topicsVisibleToCurrentUser =
-            question.Categories.Where(PermissionCheck.CanView).Distinct();
-
-        var json = new JsonResult
-        {
-            Data = new
-            {
-                SolutionType = (int)question.SolutionType,
-                Solution = solution,
-                SolutionMetadataJson = question.SolutionMetadataJson,
-                Text = question.TextHtml,
-                TextExtended = question.TextExtendedHtml,
-                TopicIds = topicsVisibleToCurrentUser.Select(c => c.Id).ToList(),
-                DescriptionHtml = question.DescriptionHtml,
-                Topics = topicsVisibleToCurrentUser.Select(c => categoryController.FillMiniCategoryItem(c)),
-                LicenseId = question.LicenseId,
-                Visibility = question.Visibility,
-            }
-        };
-
-        return json;
-    }
-
-    [HttpPost]
-    public JsonResult DeleteDetails(int questionId)
-    {
-        var question = _questionRepo.GetById(questionId);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator.Id, question);
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                questionTitle = question.Text.TruncateAtWord(90),
-                totalAnswers = question.TotalAnswers(),
-                canNotBeDeleted = !canBeDeleted.Yes,
-                wuwiCount = canBeDeleted.WuwiCount,
-                hasRights = canBeDeleted.HasRights
-            }
-        };
-    }
-
-    [HttpPost]
-    public JsonResult Delete(int questionId, int sessionIndex)
-    {
-        QuestionDelete.Run(questionId);
-        LearningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
-        return new JsonResult
-        {
-            Data = new
-            {
-                sessionIndex,
-                questionId
-            }
-        };
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]

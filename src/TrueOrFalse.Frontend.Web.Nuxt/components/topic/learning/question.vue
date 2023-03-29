@@ -311,7 +311,7 @@ watch(isInWishknowledge, () => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink :to="props.question.LinkToQuestionVersions">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -331,7 +331,9 @@ watch(isInWishknowledge, () => {
                                         </div>
                                     </div>
 
-                                    <div class="dropdown-row" @click="deleteQuestion(hide)">
+                                    <div class="dropdown-row"
+                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
+                                        @click="deleteQuestion(hide)">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>
@@ -555,8 +557,6 @@ watch(isInWishknowledge, () => {
                         .relatedCategories {
                             padding-bottom: 16px;
                         }
-
-                        .author {}
 
                         .sources {
                             overflow-wrap: break-word;
