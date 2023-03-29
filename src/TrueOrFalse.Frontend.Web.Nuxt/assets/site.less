@@ -1656,6 +1656,10 @@ h1 {
     letter-spacing: -1.5px;
     line-height: 54px;
     color: @memo-blue;
+
+    @media (max-width: 576px) {
+        font-size: 35px;
+    }
 }
 
 h2 {
@@ -1923,31 +1927,6 @@ b, strong {
         &.is-active {
             opacity: 1;
             visibility: visible;
-        }
-    }
-
-    .menubar {
-        top: 60px;
-        position: sticky;
-        background: white;
-        margin-top: -36px;
-        z-index: 10;
-        box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
-        border-radius: 2px;
-        font-size: 0;
-        height: 36px;
-
-        &.is-hidden {
-            visibility: hidden;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        &.is-focused {
-            visibility: visible;
-            opacity: 1;
-            transition: visibility .2s,opacity .2s;
-            pointer-events: auto !important;
         }
     }
 
@@ -2407,7 +2386,7 @@ textarea, input {
 
 @media (max-width: 850px) and (min-width: 386px) {
     .modal-default-container {
-        width: 100% !important;
+        width: 100vw !important;
         position: relative;
         top: 0;
         left: 0;
@@ -2422,12 +2401,13 @@ textarea, input {
         height: 100% !important;
         overflow-y: scroll;
         overflow-x: hidden;
+        min-width: unset;
     }
 }
 
 @media (max-width: 385px) {
     .modal-default-container {
-        width: 100%;
+        width: 100vw;
         position: relative;
         top: 0;
         left: 0;
@@ -2442,6 +2422,7 @@ textarea, input {
         height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
+        min-width: unset;
     }
 }
 
@@ -2527,6 +2508,9 @@ textarea, input {
 
     .modal-button {
         width: 100%;
+        display:flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 

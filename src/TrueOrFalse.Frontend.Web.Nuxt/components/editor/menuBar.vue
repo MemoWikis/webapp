@@ -205,7 +205,9 @@ props.editor.on('blur', () => {
     .ps {
         border-radius: 4px;
         box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+        // flex-shrink: 1;
         visibility: hidden;
+        max-width: 100vw;
     }
 
     &.is-focused {

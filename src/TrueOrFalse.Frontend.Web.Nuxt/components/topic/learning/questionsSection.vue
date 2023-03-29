@@ -4,12 +4,13 @@ import { useLearningSessionStore } from './learningSessionStore'
 import { useTopicStore } from '../topicStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const topicStore = useTopicStore()
 const userStore = useUserStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-
+const editQuestionStore = useEditQuestionStore()
 
 const currentQuestionCount = ref(0)
 const allQuestionCount = ref(0)
@@ -33,9 +34,6 @@ function expandAllQuestions() {
     questionsExpanded.value = !questionsExpanded.value
 }
 
-function createQuestion() {
-
-}
 function getClass(): string {
     if (process.server)
         return ''
@@ -80,7 +78,8 @@ function getClass(): string {
                                             class="btn btn-link btn-sm ButtonEllipsis" />
                                         <template #popper="{ hide }">
 
-                                            <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="createQuestion()">
+                                            <div v-if="userStore.isLoggedIn" class="dropdown-row"
+                                                @click="editQuestionStore.create()">
                                                 <div class="dropdown-icon">
                                                     <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                                 </div>

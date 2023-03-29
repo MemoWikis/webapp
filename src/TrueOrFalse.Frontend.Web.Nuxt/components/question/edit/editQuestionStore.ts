@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../../user/userStore'
+import { useTopicStore } from '~~/components/topic/topicStore'
+
 enum Type {
 	Create,
 	Edit
@@ -45,6 +47,8 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			const userStore = useUserStore()
 			if (userStore.isLoggedIn) {
 				this.edit = false
+				const topicStore = useTopicStore()
+				this.topicId = topicStore.id
 				this.openModal()
 			} else {
 				userStore.openLoginModal()
