@@ -29,6 +29,7 @@ export interface CurrentUser {
         activityPointsTillNextLevel: number
         activityPointsPercentageOfNextLevel?: number
     }
+    UnreadMessagesCount?: number
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -44,7 +45,8 @@ export const useUserStore = defineStore('userStore', {
             imgUrl: '',
             reputation: 0,
             reputationPos: 0,
-            email: ''
+            email: '',
+            unreadMessagesCount: 0
         }
     },
     actions: {
@@ -59,6 +61,7 @@ export const useUserStore = defineStore('userStore', {
             this.reputationPos = currentUser.ReputationPos
             this.personalWiki = currentUser.PersonalWiki
             this.email = currentUser.Email ? currentUser.Email : ''
+            this.unreadMessagesCount = currentUser.UnreadMessagesCount ? currentUser.UnreadMessagesCount : 0
 
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.ActivityPoints)
@@ -122,8 +125,12 @@ export const useUserStore = defineStore('userStore', {
             if (result) return true
             else return false
         },
-        async resetPassword(email: string) {
-
+        async getUnreadMessagesCount() {
+            this.unreadMessagesCount = await $fetch<number>('/apiVue/UserStore/GetUnreadMessagesCount', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include'
+            })
         }
     }
 })

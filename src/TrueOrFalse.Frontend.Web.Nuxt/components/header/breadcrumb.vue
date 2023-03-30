@@ -27,21 +27,21 @@ interface BreadcrumbItem {
 	Id: number
 	width?: number
 }
-class Breadcrumb {
-	newWikiId: number = 0
-	personalWiki: BreadcrumbItem | null = null
-	items: BreadcrumbItem[] = []
-	rootTopic: BreadcrumbItem | null = null
-	currentTopic: BreadcrumbItem | null = null
-	breadcrumbHasGlobalWiki: boolean = false
-	isInPersonalWiki: boolean = false
+interface Breadcrumb {
+	newWikiId: number
+	personalWiki: BreadcrumbItem
+	items: BreadcrumbItem[]
+	rootTopic: BreadcrumbItem
+	currentTopic: BreadcrumbItem
+	breadcrumbHasGlobalWiki: boolean
+	isInPersonalWiki: boolean
 }
-const breadcrumb = ref<Breadcrumb | null>(null)
+const breadcrumb = ref<Breadcrumb>()
 
 const breadcrumbItems = ref<BreadcrumbItem[]>([])
 const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 
-const breadcrumbEl = ref<VueElement | null>(null)
+const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
 function startUpdateBreadcrumb() {

@@ -95,7 +95,13 @@ const navOptions = ref()
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image :url="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                                <Image :url="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon">
+                                    <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
+                                        <div class="unread-msg-badge-container">
+                                            <div class="unread-msg-badge"></div>
+                                        </div>
+                                    </template>
+                                </Image>
                                 <div class="header-user-name">
                                     {{ userStore.name }}
                                 </div>
@@ -103,64 +109,72 @@ const navOptions = ref()
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" />
                                 </div>
                             </div>
-                            <template #popper>
+                            <template #popper="{ hide }">
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
                                         <div class="user-dropdown-container level-info">
-                                            <div>
-                                                <span>Mit {{ activityPointsStore.points }} Lernpunkten</span>
-                                                <span style="white-space: nowrap;  display: block;">bist du in <b>Level
-                                                        {{ activityPointsStore.level }}</b>.</span>
+                                            <div class="primary-info">
+                                                Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
+                                                bist du in <b>Level {{ activityPointsStore.level }}</b>.
                                             </div>
-
-                                            <div class="NextLevelContainer">
-                                                <div class="ProgressBarContainer">
-                                                    <div id="NextLevelProgressPercentageDone"
-                                                        class="ProgressBarSegment ProgressBarDone"
+                                            <div class="progress-bar-container">
+                                                <div class="p-bar">
+                                                    <div class="p-bar-a"
+                                                        :style="`left: -${100 - activityPointsStore.activityPointsPercentageOfNextLevel}%`">
+                                                    </div>
+                                                    <div class="p-bar-label-grey"
+                                                        v-if="activityPointsStore.activityPointsPercentageOfNextLevel < 30">
+                                                        {{ activityPointsStore.activityPointsPercentageOfNextLevel }}%
+                                                    </div>
+                                                    <div class="p-bar-label" v-else
                                                         :style="`width: ${activityPointsStore.activityPointsPercentageOfNextLevel}%`">
-                                                        <div class="ProgressBarSegment ProgressBarLegend">
-                                                            <span id="NextLevelProgressSpanPercentageDone">
-                                                                {{ activityPointsStore.activityPointsPercentageOfNextLevel
-                                                                }}%
-                                                            </span>
-                                                        </div>
+                                                        {{ activityPointsStore.activityPointsPercentageOfNextLevel }}%
                                                     </div>
-                                                    <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;">
-                                                    </div>
+
                                                 </div>
                                             </div>
-                                            <div class="ProgressInfoText">Noch <span id="ProgressToNextLevel">{{
-                                                activityPointsStore.activityPointsTillNextLevel }} </span>Punkte <br />
-                                                bis
-                                                Level <span id="NextActivityLevel">{{ activityPointsStore.level + 1
-                                                }}</span>
+                                            <div class="secondary-info">
+                                                Noch {{ activityPointsStore.activityPointsTillNextLevel }} Punkte <br />
+                                                bis Level {{ activityPointsStore.level + 1 }}
                                             </div>
                                         </div>
 
                                     </div>
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
-                                        <LazyNuxtLink to="/Nachrichten/">
-                                            <div class="user-dropdown-label">Deine Nachrichten</div>
-                                        </LazyNuxtLink>
-                                        <NuxtLink to="/Netzwerk">
-                                            <div class="user-dropdown-label">Dein Netzwerk</div>
+                                        <NuxtLink to="/Nachrichten/" @click="hide">
+                                            <div class="user-dropdown-label"
+                                                :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
+                                                Deine Nachrichten
+                                                <div class="counter-badge red-badge"
+                                                    v-if="userStore.unreadMessagesCount > 0">{{
+                                                        userStore.unreadMessagesCount }}
+                                                </div>
+                                            </div>
                                         </NuxtLink>
-                                        <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`">
+                                        <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
+                                            @click="hide">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
                                     <div class="divider"></div>
 
                                     <div class="user-dropdown-managment">
-                                        <NuxtLink
+                                        <NuxtLink @click="hide"
                                             :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
-                                        <div class="user-dropdown-label">Administrativ</div>
-                                        <div class="user-dropdown-label">Adminrechte abgeben</div>
-                                        <div class="user-dropdown-label" @click="userStore.logout()">Ausloggen</div>
+                                        <div class="user-dropdown-label" @click="hide" v-if="userStore.isAdmin">
+                                            Administrativ
+                                        </div>
+                                        <div class="user-dropdown-label" @click="hide" v-if="userStore.isAdmin">
+                                            Adminrechte
+                                            abgeben
+                                        </div>
+                                        <div class="user-dropdown-label" @click="userStore.logout(), hide">
+                                            Ausloggen
+                                        </div>
                                     </div>
                                 </div>
                             </template>
@@ -407,6 +421,22 @@ const navOptions = ref()
             font-weight: 600;
             padding: 0 4px;
         }
+
+        .unread-msg-badge-container {
+            position: relative;
+            width: 100%;
+
+            .unread-msg-badge {
+                background: @memo-wuwi-red;
+                height: 12px;
+                width: 12px;
+                border-radius: 12px;
+                position: absolute;
+                border: 2px solid white;
+                top: -2px;
+                right: -2px;
+            }
+        }
     }
 
     .v-popper--shown {
@@ -427,10 +457,121 @@ const navOptions = ref()
             background-color: @memo-grey-lighter;
             cursor: pointer;
         }
+
+        &.has-badge {
+            display: flex;
+            align-items: center;
+
+            .counter-badge {
+                height: 16px;
+                border-radius: 16px;
+                padding: 0 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: @memo-grey-light;
+                color: @memo-grey-dark;
+                font-size: 10px;
+                font-weight: 700;
+                margin-left: 8px;
+
+                &.red-badge {
+                    background: @memo-wuwi-red;
+                    color: white;
+                }
+            }
+        }
+
+
     }
 
     .user-dropdown-container {
         padding: 10px 25px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    color: @memo-grey-darker;
+}
+
+.user-dropdown-info {
+
+    .user-dropdown-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        padding-bottom: 0px;
+
+        &:hover {
+            background-color: unset;
+            cursor: default;
+        }
+    }
+
+    .progress-bar-container {
+        background: @memo-grey-light;
+        border-radius: 25px;
+        height: 25px;
+        width: 100%;
+        margin: 6px 0;
+
+        .p-bar {
+            position: relative;
+            width: 100%;
+            height: 25px;
+            overflow: hidden;
+            border-radius: 25px;
+
+            .p-bar-a {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 25px;
+                height: 25px;
+                background: @memo-green;
+                width: 100%;
+            }
+
+            .p-bar-label,
+            .p-bar-label-grey {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 25px;
+                font-weight: 600;
+            }
+
+            .p-bar-label {
+                color: white;
+            }
+
+            .p-bar-label-grey {
+                color: @memo-grey-darker;
+                width: 100%;
+            }
+        }
+
+
+    }
+
+    .primary-info,
+    .secondary-info {
+        font-size: 12px;
+        text-align: center;
+        padding: 6px 0;
+
+        b {
+            font-weight: 600;
+        }
+    }
+
+    .secondary-info {
+        color: @memo-grey-dark;
     }
 }
 
