@@ -65,7 +65,6 @@ onMounted(async () => {
 
 })
 
-const partialSpacer = ref()
 const partialLeft = ref()
 const navOptions = ref()
 </script>
@@ -77,12 +76,10 @@ const navOptions = ref()
                 <div class="header-container col-xs-12" ref="headerContainer">
 
                     <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
-                        <HeaderBreadcrumb :header-container="headerContainer" :header-extras="headerExtras"
-                            :page="props.page" :show-search="showSearch" :partial-spacer="partialSpacer"
+                        <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
                             :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
-                            :partial-left="partialLeft" :nav-options="navOptions" />
+                            :partial-left="partialLeft" />
                     </div>
-                    <div class="partial-spacer" ref="partialSpacer"></div>
                     <div class="partial end" ref="headerExtras">
                         <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
@@ -328,12 +325,8 @@ const navOptions = ref()
             &.end {
                 justify-content: flex-end;
                 min-width: 45px;
+                flex-grow: 0;
             }
-        }
-
-        .partial-spacer {
-            flex-shrink: 2;
-            flex-grow: 1;
         }
 
         .login-btn {
