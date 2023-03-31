@@ -98,6 +98,8 @@ export const useUserStore = defineStore('userStore', {
             this.showLoginModal = true
         },
         async logout() {
+            this.isLoggedIn = false
+
             const spinnerStore = useSpinnerStore()
 
             spinnerStore.showSpinner()
@@ -108,22 +110,16 @@ export const useUserStore = defineStore('userStore', {
 
             if (!!result && result.Success) {
                 spinnerStore.hideSpinner()
-                this.isLoggedIn = false
                 refreshNuxtData()
             }
             spinnerStore.hideSpinner()
         },
-        async follow(id: number) {
-            const result = await $fetch<boolean>('/apiVue/UserStore/Follow', { method: 'POST', body: { userId: id }, mode: 'cors', credentials: 'include' })
-
-            if (result) return true
-            else return false
-        },
-        async unfollow(id: number) {
-            const result = await $fetch<boolean>('/apiVue/UserStore/UnFollow', { method: 'POST', body: { userId: id }, mode: 'cors', credentials: 'include' })
-
-            if (result) return true
-            else return false
+        async resetPassword(email: string) {
+            const result = await $fetch<boolean>('/apiVue/VueUserSettings/ResetPassword', {
+                mode: 'cors',
+                method: 'POST',
+                credentials: 'include'
+            })
         },
         async getUnreadMessagesCount() {
             this.unreadMessagesCount = await $fetch<number>('/apiVue/UserStore/GetUnreadMessagesCount', {

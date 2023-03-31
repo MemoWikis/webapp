@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
+import { useUserStore } from '../userStore'
 import { Tab } from './tabsEnum'
+
+const userStore = useUserStore()
 
 interface Props {
     tab?: Tab
@@ -80,7 +83,8 @@ function getWidth(e: VueElement) {
                     </div>
                 </button>
 
-                <button class="tab" @click="emit('setTab', Tab.Settings)" v-if="props.isCurrentUser">
+                <button class="tab" @click="emit('setTab', Tab.Settings)"
+                    v-if="userStore.isLoggedIn && props.isCurrentUser">
                     <div class="tab-label active" v-if="props.tab == Tab.Settings" :style="getWidth(settingsLabelEl)">
                         Einstellungen</div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Settings }" ref="settingsLabelEl">

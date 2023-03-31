@@ -23,7 +23,7 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 			}
 		}
 	})
-const emit = defineEmits(['setQuestionPageData', 'setPage'])
+const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
 	emit('setPage', Page.Question)
 
@@ -33,9 +33,8 @@ onBeforeMount(() => {
 			primaryTopicUrl: question.value.answerBodyModel?.primaryTopicUrl,
 			title: question.value.answerBodyModel.title
 		})
+	if (!question.value) emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
 })
-
-const { isDesktop } = useDevice()
 
 useHead(() => ({
 	link: [
@@ -68,11 +67,14 @@ useHead(() => ({
 <template>
 	<div class="container">
 		<div class="question-page-container row  main-page">
-			<div class="col-lg-9 col-md-12 container" v-if="question">
-				<QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
-					:landing-page-solution-data="question.solutionData" />
-			</div>
-			<Sidebar />
+			<template v-if="question && question.answerBodyModel != null">
+				<div class="col-lg-9 col-md-12 container">
+					<QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
+						:landing-page-solution-data="question.solutionData" />
+				</div>
+				<Sidebar />
+			</template>
+			<Error v-else />
 		</div>
 	</div>
 </template>

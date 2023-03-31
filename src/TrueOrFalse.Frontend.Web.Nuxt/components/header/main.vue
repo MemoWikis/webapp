@@ -331,9 +331,7 @@ const navOptions = ref()
             flex-grow: 2;
 
             &.start {
-                align-items: baseline;
-                padding-top: 11px;
-                padding-bottom: 11px;
+                align-items: center;
             }
 
             &.end {

@@ -869,8 +869,8 @@ onMounted(() => {
                                     Du hast diese Frage noch nie beantwortet.
                                 </div>
                                 <div v-else class="counterLabel">
-                                    Du bist nicht angemeldet. Wir haben keine Daten. <a role="button"
-                                        @click="userStore.openLoginModal()">Anmelden</a>
+                                    Du bist nicht angemeldet. Wir haben keine Daten. <button class="btn-link"
+                                        @click="userStore.openLoginModal()">Anmelden</button>
                                 </div>
                             </div>
                             <div class="counterHalf">

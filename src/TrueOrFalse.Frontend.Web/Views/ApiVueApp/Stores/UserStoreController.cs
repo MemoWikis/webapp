@@ -57,6 +57,10 @@ public class UserStoreController : BaseController
     {
         return Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId);
     }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public void ResetPassword(string email) => Sl.Resolve<PasswordRecovery>().Run(email);
 }
     
 public class StateModel

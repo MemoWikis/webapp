@@ -34,6 +34,7 @@ export interface FooterTopics {
 	MemoTopics: Topic[]
 	HelpTopics: Topic[]
 	PopularTopics: Topic[]
+	Documentation: Topic
 }
 
 export const useTopicStore = defineStore('topicStore', {

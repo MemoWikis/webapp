@@ -359,6 +359,7 @@ watch(() => userStore.isLoggedIn, () => {
 	visibility: visible;
 	overflow: hidden;
 	min-width: 240px;
+	align-items: center;
 
 	.search-is-open {
 		width: 0;
@@ -394,9 +395,7 @@ watch(() => userStore.isLoggedIn, () => {
 
 		&.is-in-root-topic {
 			padding-right: 0px;
-			display: flex;
-			flex-wrap: nowrap;
-			align-items: center;
+			display: block;
 
 			.root-topic-label {
 				padding-left: 6px;

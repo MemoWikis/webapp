@@ -373,7 +373,8 @@ function handleMainBtn() {
                         </template>
                     </div>
                     <div class="mb-125">
-                        <a v-if="hideSearch" @click="hideSearch = false">Anderes Thema auswählen</a>
+                        <button v-if="hideSearch" @click="hideSearch = false" class="btn-link">Anderes Thema
+                            auswählen</button>
                         <span v-else>Anderes Thema auswählen</span>
                     </div>
                     <div v-if="!hideSearch" class="form-group dropdown categorySearchAutocomplete"
@@ -403,7 +404,7 @@ function handleMainBtn() {
 
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <a :href="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</a>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>
@@ -423,7 +424,7 @@ function handleMainBtn() {
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <a :href="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</a>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>

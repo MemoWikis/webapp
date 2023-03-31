@@ -154,8 +154,8 @@ const { isDesktopOrTablet, isMobile } = useDevice()
         justify-content: center;
         align-items: center;
         display: inline-flex;
-        font-size: 11px;
-        font-weight: 600;
+        font-size: 10px;
+        font-weight: 700;
         border: solid 1px @memo-grey-light;
         padding: 0 2px;
         background: none;

@@ -826,8 +826,8 @@ ul.AutocompleteHeader {
 #MasterFooter {
     background-color: @memo-blue;
     padding-top: 20px;
-    padding-left: 15px; //for Bootstrap .row
-    padding-right: 15px; //for Bootstrap .row
+    padding-left: 30px; //for Bootstrap .row
+    padding-right: 30px; //for Bootstrap .row
     padding-bottom: 20px;
     position: relative;
     z-index: 50;
@@ -902,6 +902,7 @@ ul.AutocompleteHeader {
         }
 
         #MasterFooterLogoContainer {
+            max-width: 300px;
             #MasterFooterLogo {
                 cursor: pointer;
             }
@@ -922,9 +923,6 @@ ul.AutocompleteHeader {
     }
 
     #FooterEndContainer {
-        @media (max-width: 768px) {
-            padding: 0 30px;
-        }
 
         #FooterEnd {
             margin-top: 17px;
@@ -2590,7 +2588,6 @@ textarea, input {
             padding: 6px 0;
 
             .memucho-info-partial {
-                height: 100%;
                 display: flex;
                 align-items: center;
                 padding: 10px;
@@ -2735,7 +2732,6 @@ textarea, input {
             padding: 10px 0;
 
             .memucho-info-partial {
-                height: 100%;
                 display: flex;
                 align-items: center;
                 padding: 10px;
@@ -2941,6 +2937,21 @@ textarea, input {
             display: none;
         }
     }
+    .category-change-author {
+
+        display:flex;
+        align-items: center;
+        height: 100%;
+
+        .category-change-author-img {
+            max-width: 20px;
+            min-width: 20px;
+            max-height: 20px;
+            min-height: 20px;
+            margin-right: 8px;
+        }
+    }
+
 }
 
 a {
@@ -2992,4 +3003,3 @@ a {
 
 //     }
 // }
-

@@ -97,10 +97,10 @@ watch(() => deleteQuestionStore.showModal, (val) => {
     <LazyModal :show-close-button="true" primary-btn-label="Löschen" :is-full-size-buttons="true"
         @close="deleteQuestionStore.showModal = false" @primary-btn="deleteQuestion()"
         :show="deleteQuestionStore.showModal">
-        <template slot:header>
+        <template v-slot:header>
             <h4 class="modal-title">Frage löschen</h4>
         </template>
-        <template slot:body>
+        <template v-slot:body>
 
             <div class="cardModalContent">
                 <div class="modalHeader">
@@ -121,7 +121,7 @@ watch(() => deleteQuestionStore.showModal, (val) => {
             </div>
         </template>
 
-        <template slot:footer> </template>
+        <template v-slot:footer> </template>
     </LazyModal>
 </template>
 

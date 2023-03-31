@@ -90,6 +90,7 @@ interface Props {
     isSettingsPage?: boolean
 }
 const props = defineProps<Props>()
+
 const emit = defineEmits(['setBreadcrumb'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
@@ -100,7 +101,7 @@ function handleBreadcrumb(t: Tab) {
         }
         emit('setBreadcrumb', [breadcrumbItem])
     }
-    else {
+    else if (profile.value?.user.id && profile.value.user.id > 0) {
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
@@ -111,6 +112,8 @@ function handleBreadcrumb(t: Tab) {
                 url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
             }]
         emit('setBreadcrumb', breadcrumbItems)
+    } else {
+        emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
     }
 }
 onMounted(() => {
@@ -141,12 +144,13 @@ useHead(() => ({
         },
     ]
 }))
+
 </script>
 
 <template>
     <div class="container">
         <div class="row profile-container  main-page">
-            <div class="col-xs-12 container" v-if="profile">
+            <div class="col-xs-12 container" v-if="profile && profile.user.id > 0">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">
                         <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture hidden-xs" />
@@ -314,12 +318,13 @@ useHead(() => ({
 
                     </div>
                 </Transition>
-                <Transition v-if="profile.isCurrentUser">
+                <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
                     <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
                         @update-profile="refreshProfile" />
                 </Transition>
 
             </div>
+            <Error v-else />
         </div>
     </div>
 </template>
