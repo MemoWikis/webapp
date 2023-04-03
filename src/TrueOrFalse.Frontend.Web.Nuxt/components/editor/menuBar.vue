@@ -83,7 +83,7 @@ props.editor.on('blur', () => {
 
 </script>
 <template>
-    <div class="menubar-container" :class="{ 'is-focused': focused }">
+    <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused }">
 
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
@@ -201,7 +201,7 @@ props.editor.on('blur', () => {
     display: flex;
     height: 36px;
     margin-top: -36px;
-    max-width: calc(100% - 20px);
+    max-width: calc(100vw - 20px);
 
     .ps {
         border-radius: 4px;

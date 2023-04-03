@@ -122,12 +122,10 @@ function getClass(): string {
                     </slot>
                 </TopicLearningSessionConfiguration>
 
-                <div class="session-configurator missing-questions" v-if="!learningSessionConfigurationStore.showFilter">
+                <div class="session-configurator no-questions" v-if="!learningSessionConfigurationStore.showFilter">
                     <div class="session-config-header">
                         <div class="col-xs-12 drop-down-question-sort">
-                            <div class="session-config-header">
-                                Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
-                            </div>
+                            Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
                         </div>
                     </div>
                 </div>

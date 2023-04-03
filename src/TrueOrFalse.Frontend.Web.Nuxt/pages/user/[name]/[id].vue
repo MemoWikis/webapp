@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BreadcrumbItem } from '~~/components/header/breadcrumbItems';
+import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { ImageStyle } from '~~/components/image/imageStyleEnum'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
@@ -163,15 +163,13 @@ useHead(() => ({
                                 <b>{{ profile.user.reputationPoints }}</b> Reputationspunkte
                                 <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
                                 (Rang {{ profile.user.rank }})
-                                <NuxtLink class="link-to-all-users">
+                                <NuxtLink class="link-to-all-users" to="/Nutzer">
                                     Zur Übersicht aller Nutzer
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
-                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl"
-                                    :to="profile.user.wikiUrl">
-                                    <NuxtLink>
-
+                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl">
+                                    <NuxtLink :to="profile.user.wikiUrl">
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
                                         Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
@@ -366,7 +364,7 @@ useHead(() => ({
         }
 
         .link-to-all-users {
-            font-size: 14px;
+            // font-size: 14px;
         }
     }
 }

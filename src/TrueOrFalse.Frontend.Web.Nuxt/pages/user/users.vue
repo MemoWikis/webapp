@@ -71,17 +71,6 @@ watch(pageDataPending, (p) => {
     else spinnerStore.hideSpinner()
 })
 
-const { data: network, refresh: refreshNetwork } = await useLazyFetch<Network>('/apiVue/VueUsers/GetNetwork', {
-    credentials: 'include',
-    mode: 'cors',
-    onRequest({ options }) {
-        if (process.server) {
-            options.headers = headers
-            options.baseURL = config.public.serverBase
-        }
-    }
-})
-
 const emit = defineEmits(['setBreadcrumb'])
 
 
@@ -113,8 +102,7 @@ const getSelectedOrderLabel = computed(() => {
                 </div>
 
                 <div class="row">
-                    <UsersTabs :all-user-count="totalUserCount!" :following-count="network?.following?.length"
-                        :follower-count="network?.followers?.length" />
+                    <UsersTabs :all-user-count="totalUserCount!" />
                 </div>
 
                 <div class="row content" v-if="pageData">
@@ -176,9 +164,12 @@ const getSelectedOrderLabel = computed(() => {
                             </div>
                         </div>
                     </div>
-                    <TransitionGroup name="usercard">
-                        <UsersCard v-for="u in pageData.users" :user="u" @refresh-network="refreshNetwork" />
-                    </TransitionGroup>
+
+                    <div class="row usercard-container">
+                        <TransitionGroup name="usercard">
+                            <UsersCard v-for="u in pageData.users" :user="u" />
+                        </TransitionGroup>
+                    </div>
 
                     <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
@@ -313,7 +304,11 @@ const getSelectedOrderLabel = computed(() => {
     }
 }
 
-
+.usercard-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 10px;
+}
 
 .orderby-dropdown {
     width: 150px;

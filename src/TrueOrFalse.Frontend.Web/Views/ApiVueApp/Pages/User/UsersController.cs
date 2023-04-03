@@ -59,7 +59,6 @@ public class VueUsersController : BaseController
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,
             imgUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url,
-            followed = SessionUser.IsLoggedIn && SessionUser.User.FollowingIds.Any(id => id == user.Id),
             wikiId = PermissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
         };
     }
@@ -77,7 +76,6 @@ public class VueUsersController : BaseController
         public int wuwiQuestionsCount { get; set; }
         public int wuwiTopicsCount { get; set; }
         public string imgUrl { get; set; }
-        public bool followed { get; set; }
         public int wikiId { get; set; }
     }
 }

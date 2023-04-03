@@ -43,44 +43,44 @@ function getClass(c: Choice) {
 </script>
 
 <template>
+    <div>
+        <div v-for="choice in localChoices" :class="getClass(choice)">
+            <label>
+                <div class="checkbox-container">
+                    <input type="checkbox" name="answer" :value="choice.Text" v-model="selected" class="hidden"
+                        :disabled="props.showAnswer" />
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="selected.indexOf(choice.Text) >= 0"
+                        class="checkbox-icon" :class="{ 'disabled': props.showAnswer }" />
+                    <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon"
+                        :class="{ 'disabled': props.showAnswer }" />
+                    <span class="checkbox-label">
 
-    <div v-for="choice in localChoices" :class="getClass(choice)">
-        <label>
-            <div class="checkbox-container">
-                <input type="checkbox" name="answer" :value="choice.Text" v-model="selected" class="hidden"
-                    :disabled="props.showAnswer" />
-                <font-awesome-icon icon="fa-solid fa-square-check" v-if="selected.indexOf(choice.Text) >= 0"
-                    class="checkbox-icon" :class="{ 'disabled': props.showAnswer }" />
-                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon"
-                    :class="{ 'disabled': props.showAnswer }" />
-                <span class="checkbox-label">
+                        {{ choice.Text }}
 
-                    {{ choice.Text }}
+                    </span>
+                    <!-- 
+                        <template v-if="props.showAnswer">
 
-                </span>
-                <!-- 
-                <template v-if="props.showAnswer">
+                            <font-awesome-layers v-if="validate(choice)" class="label-icon is-correct">
+                                <font-awesome-icon icon="circle" />
+                                <font-awesome-icon icon="check" class="inner" />
+                            </font-awesome-layers>
 
-                    <font-awesome-layers v-if="validate(choice)" class="label-icon is-correct">
-                        <font-awesome-icon icon="circle" />
-                        <font-awesome-icon icon="check" class="inner" />
-                    </font-awesome-layers>
+                            <font-awesome-layers v-else class="label-icon is-wrong">
+                                <font-awesome-icon icon="circle" />
+                                <font-awesome-icon icon="fa-xmark" class="inner" />
+                            </font-awesome-layers>
 
-                    <font-awesome-layers v-else class="label-icon is-wrong">
-                        <font-awesome-icon icon="circle" />
-                        <font-awesome-icon icon="fa-xmark" class="inner" />
-                    </font-awesome-layers>
+                        </template> -->
 
-                </template> -->
-
-            </div>
-        </label>
+                </div>
+            </label>
+        </div>
+        <br />
+        <h6 class="ItemInfo">
+            Es können keine oder mehrere Antworten richtig sein!
+        </h6>
     </div>
-    <br />
-    <h6 class="ItemInfo">
-        Es können keine oder mehrere Antworten richtig sein!
-    </h6>
-
 </template>
 
 <style lang="less" scoped>

@@ -15,7 +15,7 @@ function openEmail() {
 		<div class="row main-page">
 			<div class="form-horizontal col-md-12">
 
-				<h1 class="PageHeader" id="PageHeader">Impressum & Datenschutzerklärung</h1>
+				<h1 class="PageHeader" id="Impressum">Impressum & Datenschutzerklärung</h1>
 
 				<h2>1. Impressum</h2>
 
@@ -36,7 +36,7 @@ function openEmail() {
 				Telefon:
 				<br />
 				+49-178 186 68 48<br />
-				<span class="mailme" @click="openEmail">team@memucho.de</span>
+				<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
 
 				<h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
 				<p>Robert Mischke<br />
@@ -103,8 +103,9 @@ function openEmail() {
 				</p>
 				<p>
 					Die Zustimmung durch Deine Eltern kann per Email oder Telefon erfolgen.
-					Hier können Deine Eltern mit uns in Kontakt treten: <NuxtLink to="#PageHeader">Kontakt
-					</NuxtLink>
+					Hier können Deine Eltern mit uns in Kontakt treten: <span class="mailme btn-link"
+						@click="openEmail">team@memucho.de</span>
+
 				</p>
 				<p>
 					Du kannst Die Seite natürlich anonym Nutzen, also ohne Registrierung nutzen.

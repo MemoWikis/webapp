@@ -939,7 +939,7 @@ onMounted(() => {
                     </VTooltip>
                 </div>
                 <div class="created"> Erstellt von:
-                    <NuxtLink :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
+                    <NuxtLink v-if="creator.id > 0" :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
                         &nbsp;{{ creator.name }}&nbsp;
                     </NuxtLink>
                     vor {{ creationDate }}
@@ -1195,6 +1195,8 @@ onMounted(() => {
         #questionStatistics {
 
             #counterContainer {
+                padding-bottom: 12px;
+
                 .counterBody {
                     display: flex;
                     flex-wrap: wrap;
@@ -1238,6 +1240,7 @@ onMounted(() => {
 
             #probabilityContainer {
                 min-width: 220px;
+                margin-right: 20px;
 
                 #semiPieSection {
 

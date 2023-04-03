@@ -1,23 +1,10 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
-import { useUserStore } from '../user/userStore'
-import { Tab } from './tabsEnum'
-
-const userStore = useUserStore()
 
 interface Props {
     allUserCount: number
-    followingCount?: number
-    followerCount?: number
 }
-
-const props = withDefaults(defineProps<Props>(), {
-    followingCount: 0,
-    followerCount: 0,
-})
-
-
-
+const props = defineProps<Props>()
 const { isMobile } = useDevice()
 
 const allUsersLabelEl = ref()

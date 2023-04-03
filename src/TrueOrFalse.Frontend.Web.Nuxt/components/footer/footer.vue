@@ -7,6 +7,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const userStore = useUserStore()
+const config = useRuntimeConfig()
 </script>
 
 <template>
@@ -95,8 +96,7 @@ const userStore = useUserStore()
                         <div class="footer-group">
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
-                            <template v-for="(t, i) in props.footerTopics.HelpTopics"
-                                v-if="props.footerTopics?.HelpTopics">NuxtLink
+                            <template v-for="(t, i) in props.footerTopics.HelpTopics" v-if="props.footerTopics?.HelpTopics">
                                 <NuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </NuxtLink>
@@ -104,7 +104,7 @@ const userStore = useUserStore()
                             </template>
                             <br />
 
-                            <NuxtLink to="https://discord.com/invite/nXKwGrN" target="_blank" :external="true">
+                            <NuxtLink :to="config.public.discord" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                             </NuxtLink><br />
                             <NuxtLink to="https://twitter.com/memuchoWissen" target="_blank" :external="true">

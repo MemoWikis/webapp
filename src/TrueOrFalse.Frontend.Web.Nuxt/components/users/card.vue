@@ -16,7 +16,7 @@ const props = defineProps<Props>()
             <div class="user-content">
                 <div class="user-header">
                     <div class="user-name">
-                        <NuxtLink :to="`/Nutzer/${props.user.encodedName}/${props.user.id}`">
+                        <NuxtLink v-if="props.user.id > 0" :to="`/Nutzer/${props.user.encodedName}/${props.user.id}`">
                             {{ props.user.name }}
                         </NuxtLink>
                     </div>
@@ -110,6 +110,11 @@ const props = defineProps<Props>()
 
             .user-body {
                 overflow-wrap: break-word;
+
+                .inactive {
+                    color: @memo-grey-dark;
+                }
+
             }
         }
     }

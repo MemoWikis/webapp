@@ -9,7 +9,8 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <LazyNuxtLink :to="`/Nutzer/${props.author.Name}/${props.author.Id}`" v-tooltip="props.author.Name">
+    <LazyNuxtLink :to="`/Nutzer/${props.author.Name}/${props.author.Id}`" v-tooltip="props.author.Name"
+        v-if="props.author.Id > 0">
         <Image :url="props.author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
     </LazyNuxtLink>
 </template>

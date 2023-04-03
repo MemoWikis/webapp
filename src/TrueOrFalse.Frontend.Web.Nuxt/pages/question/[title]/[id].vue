@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { Page } from '~~/components/shared/pageEnum'
+import { Topic } from '~~/components/topic/topicStore'
+
+interface Props {
+	documentation: Topic
+}
+
+const props = defineProps<Props>()
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -72,7 +79,7 @@ useHead(() => ({
 					<QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
 						:landing-page-solution-data="question.solutionData" />
 				</div>
-				<Sidebar />
+				<Sidebar :documentation="props.documentation" />
 			</template>
 			<Error v-else />
 		</div>

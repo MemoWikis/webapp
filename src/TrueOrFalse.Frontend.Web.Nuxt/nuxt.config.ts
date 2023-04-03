@@ -7,6 +7,7 @@ export default defineNuxtConfig({
             clientBase: "http://memucho.local:3000",
             serverBase: "http://memucho.local",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
+            discord: "https://discord.com/invite/nXKwGrN"
         },
     },
     ssr: true,

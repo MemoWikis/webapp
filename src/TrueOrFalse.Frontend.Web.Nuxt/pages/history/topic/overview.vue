@@ -93,7 +93,8 @@ function getChangeTypeText(change: Change) {
                     <div class="col-xs-12 row change-detail-model" :class="{ 'last-detail': i == day.changes.length - 1 }"
                         v-if="change.topicId == parseInt(route.params.id.toString())">
                         <div class="col-xs-3">
-                            <NuxtLink :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`"
+                            <NuxtLink v-if="change.author.id > 0"
+                                :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`"
                                 class="category-change-author">
                                 <Image :url="change.author.imgUrl" :style="ImageStyle.Author"
                                     class="category-change-author-img" />

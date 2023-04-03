@@ -157,7 +157,7 @@ async function saveAnswer() {
                         </span>
                     </div>
                     <div class="commentUserDetails">
-                        <NuxtLink class="pointer comment-header"
+                        <NuxtLink class="pointer comment-header" v-if="props.comment.creatorId > 0"
                             :to="`/Nutzer/${props.comment.creatorEncodedName}/${props.comment.creatorId}`">
                             <img class="commentUserImg" :src="props.comment.creatorImgUrl">
                             <span class="commentUserName">{{ props.comment.creatorName }}</span>

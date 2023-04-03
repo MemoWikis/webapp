@@ -12,6 +12,7 @@ const userStore = useUserStore()
 interface Props {
     tab?: Tab,
     redirectFromWelcomePage?: boolean
+    documentation: Topic
 }
 const props = defineProps<Props>()
 const route = useRoute()
@@ -117,7 +118,7 @@ useHead(() => ({
     ],
     meta: [
         {
-            name: 'descroption',
+            name: 'description',
             content: topic.value?.MetaDescription
         },
         {
@@ -158,7 +159,7 @@ useHead(() => ({
                     <LazyTopicTopicToPrivateModal />
                     <LazyTopicDeleteModal v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
                 </div>
-                <Sidebar />
+                <Sidebar :documentation="props.documentation" />
             </template>
 
             <Error v-else />
