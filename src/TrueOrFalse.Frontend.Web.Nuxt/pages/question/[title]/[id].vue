@@ -30,6 +30,10 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 			}
 		}
 	})
+
+if (question.value == null || question.value.answerBodyModel == null)
+	navigateTo('/Fehler/500')
+
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
 	emit('setPage', Page.Question)
@@ -81,7 +85,6 @@ useHead(() => ({
 				</div>
 				<Sidebar :documentation="props.documentation" />
 			</template>
-			<Error v-else />
 		</div>
 	</div>
 </template>

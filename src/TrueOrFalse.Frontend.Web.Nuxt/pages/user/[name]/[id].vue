@@ -65,6 +65,9 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
     }
 })
 
+if (profile.value == null || profile.value.user.id <= 0)
+    navigateTo('/Fehler/500')
+
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
@@ -322,7 +325,6 @@ useHead(() => ({
                 </Transition>
 
             </div>
-            <Error v-else />
         </div>
     </div>
 </template>

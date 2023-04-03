@@ -27,7 +27,7 @@ public class QuestionLandingPageController : BaseController
         var q = EntityCache.GetQuestion(id);
         var primaryTopic = q.Categories.LastOrDefault();
         var solution = GetQuestionSolution.Run(q);
-
+        var title = Regex.Replace(q.Text, "<.*?>", String.Empty);
         EscapeReferencesText(q.References);
         return Json(new
         {
@@ -35,7 +35,8 @@ public class QuestionLandingPageController : BaseController
             {
                 id = q.Id,
                 text = q.Text,
-                title = Regex.Replace(q.Text, "<.*?>", String.Empty),
+                title = title,
+                encodedTitle = UriSanitizer.Run(title, 10),
                 solutionType = q.SolutionType,
                 renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
                 description = q.Description,

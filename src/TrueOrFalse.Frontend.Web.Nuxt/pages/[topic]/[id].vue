@@ -77,9 +77,12 @@ if (topic.value != null) {
             })
         })
     } else {
-        // throw createError({ statusCode: 404, fatal: false })
-        // navigateTo({ path: '/Globales-Wiki/1' }, { replace: true })
+        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+        // navigateTo('/Fehler/500')
     }
+} else {
+    throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+
 }
 function setTab() {
     if (tabsStore != null) {
@@ -161,8 +164,6 @@ useHead(() => ({
                 </div>
                 <Sidebar :documentation="props.documentation" />
             </template>
-
-            <Error v-else />
         </div>
     </div>
 </template>

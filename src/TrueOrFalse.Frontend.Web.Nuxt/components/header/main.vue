@@ -73,15 +73,15 @@ const navOptions = ref()
     <div id="Navigation">
         <div class="container">
             <div class="row">
-                <div class="header-container col-xs-12" ref="headerContainer">
+            <div class="header-container col-xs-12" ref="headerContainer">
 
-                    <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
-                        <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
-                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
-                            :partial-left="partialLeft" />
-                    </div>
-                    <div class="partial end" ref="headerExtras">
-                        <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
+                <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
+                    <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
+                        :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
+                        :partial-left="partialLeft" />
+                </div>
+                <div class="partial end" ref="headerExtras">
+                    <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
                             <div class="searchButton" :class="{ 'showSearch': showSearch }"
                                 @click="showSearch = !showSearch">
@@ -96,11 +96,11 @@ const navOptions = ref()
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
                                 <Image :url="userStore.imgUrl" :style="ImageStyle.Author" class="header-author-icon">
-                                    <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
-                                        <div class="unread-msg-badge-container">
-                                            <div class="unread-msg-badge"></div>
-                                        </div>
-                                    </template>
+                                    <!-- <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
+                                            <div class="unread-msg-badge-container">
+                                                <div class="unread-msg-badge"></div>
+                                            </div>
+                                        </template> -->
                                 </Image>
                                 <div class="header-user-name">
                                     {{ userStore.name }}
@@ -143,16 +143,16 @@ const navOptions = ref()
                                     </div>
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
-                                        <NuxtLink to="/Nachrichten/" @click="hide">
-                                            <div class="user-dropdown-label"
-                                                :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
-                                                Deine Nachrichten
-                                                <div class="counter-badge red-badge"
-                                                    v-if="userStore.unreadMessagesCount > 0">{{
-                                                        userStore.unreadMessagesCount }}
+                                        <!-- <NuxtLink to="/Nachrichten/" @click="hide">
+                                                <div class="user-dropdown-label"
+                                                    :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
+                                                    Deine Nachrichten
+                                                    <div class="counter-badge red-badge"
+                                                        v-if="userStore.unreadMessagesCount > 0">{{
+                                                            userStore.unreadMessagesCount }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </NuxtLink>
+                                            </NuxtLink> -->
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
                                             @click="hide">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
@@ -308,6 +308,7 @@ const navOptions = ref()
     z-index: 99;
     white-space: nowrap;
     top: 0;
+    min-height: 45px;
 
     .container {
         height: 100%;

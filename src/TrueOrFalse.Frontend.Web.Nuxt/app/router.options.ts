@@ -113,6 +113,6 @@ export default <RouterConfig>{
             name: 'topicHistoryDetailWithPrevRev',
             path: '/Historie/Thema/:topicId/:currentRevisionId/',
             component: () => import('~/pages/history/topic/detail.vue'),
-        },
+        }
     ],
 }

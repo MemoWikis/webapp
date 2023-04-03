@@ -1,12 +1,6 @@
-<script lang="ts" setup>
-
-const slots = useSlots()
-</script>
-
+<script lang="ts" setup></script>
 <template>
-    <slot name="header"></slot>
-    <slot name="body" v-if="slots['body']"></slot>
-    <div class="col-xs-12 container" v-else>
+    <div class="col-xs-12 container">
         <div class="error-page">
             <Image url="/Images/Error/memo-500_german_600.png" class="error-image" />
             <div class="error-message">
@@ -19,9 +13,7 @@ const slots = useSlots()
             </div>
         </div>
     </div>
-    <slot name="footer"></slot>
 </template>
-
 <style lang="less" scoped>
 .error-page {
     display: flex;

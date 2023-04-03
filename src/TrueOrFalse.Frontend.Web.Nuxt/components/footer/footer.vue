@@ -3,18 +3,25 @@ import { FooterTopics } from '../topic/topicStore'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
-    footerTopics: FooterTopics
+    footerTopics: FooterTopics,
+    isError?: boolean
 }
 const props = defineProps<Props>()
 const userStore = useUserStore()
 const config = useRuntimeConfig()
+
+function handleError() {
+    if (props.isError)
+        clearError()
+}
 </script>
 
 <template>
     <section id="GlobalLicense">
         <div class="license-container">
             <div class="license-text-container">
-                <NuxtLink class="CCLogo" rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                <NuxtLink @click="handleError()" class="CCLogo" rel="license"
+                    to="https://creativecommons.org/licenses/by/4.0/" :external="true">
                     <Image url="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
                 </NuxtLink>
                 <div class="Text">
@@ -53,23 +60,24 @@ const config = useRuntimeConfig()
                             </div>
                         </div>
                         <div class="footer-group">
-                            <NuxtLink to="/AGB">Nutzungsbedingungen (AGBs)</NuxtLink>
+                            <NuxtLink @click="handleError()" to="/AGB">Nutzungsbedingungen (AGBs)</NuxtLink>
                             <br />
-                            <NuxtLink to="/Impressum">Impressum & Datenschutz</NuxtLink>
+                            <NuxtLink @click="handleError()" to="/Impressum">Impressum & Datenschutz</NuxtLink>
                         </div>
                     </div>
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <NuxtLink :to="`/${props.footerTopics.MemoWiki.Name}/${props.footerTopics.MemoWiki.Id}`"
+                                <NuxtLink @click="handleError()"
+                                    :to="`/${props.footerTopics.MemoWiki.Name}/${props.footerTopics.MemoWiki.Id}`"
                                     v-if="props.footerTopics?.MemoWiki">
                                     {{ props.footerTopics.MemoWiki.Name }}
                                 </NuxtLink>
 
                             </div>
                             <template v-for="(t, i) in props.footerTopics.MemoTopics" v-if="props.footerTopics?.MemoTopics">
-                                <NuxtLink :to="`/${t.Name}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name}/${t.Id}`">
                                     {{ t.Name }}
                                 </NuxtLink>
                                 <br v-if="i < props.footerTopics?.MemoTopics.length - 1" />
@@ -78,11 +86,13 @@ const config = useRuntimeConfig()
                         </div>
                         <div class="footer-group">
                             <div class="overline-m no-line">Software</div>
-                            <NuxtLink to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"
+                                :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </NuxtLink>
                             <br />
-                            <NuxtLink to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
+                            <NuxtLink @click="handleError()"
+                                to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
                                 target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
                             </NuxtLink>
@@ -97,17 +107,18 @@ const config = useRuntimeConfig()
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
                             <template v-for="(t, i) in props.footerTopics.HelpTopics" v-if="props.footerTopics?.HelpTopics">
-                                <NuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </NuxtLink>
                                 <br v-if="i < props.footerTopics.HelpTopics.length - 1" />
                             </template>
                             <br />
 
-                            <NuxtLink :to="config.public.discord" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                             </NuxtLink><br />
-                            <NuxtLink to="https://twitter.com/memuchoWissen" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank"
+                                :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
                             </NuxtLink><br />
                         </div>
@@ -124,7 +135,7 @@ const config = useRuntimeConfig()
 
                             </div>
                             <template v-for="(t, i) in props.footerTopics.MainTopics" v-if="props.footerTopics?.MainTopics">
-                                <NuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </NuxtLink>
                                 <br v-if="i < props.footerTopics.MainTopics.length - 1" />
@@ -134,7 +145,7 @@ const config = useRuntimeConfig()
                             <div class="overline-m no-line">Beliebte Themen</div>
                             <template v-for="(t, i) in props.footerTopics.PopularTopics"
                                 v-if="props.footerTopics?.PopularTopics">
-                                <NuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
                                 </NuxtLink>
                                 <br v-if="i < props.footerTopics.PopularTopics.length - 1" />
@@ -147,10 +158,10 @@ const config = useRuntimeConfig()
                             <div>
                                 Entwickelt von:
                             </div>
-                            <NuxtLink to="https://bitwerke.de/" :external="true">
+                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
                                 <Image url="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" />
                             </NuxtLink>
-                            <NuxtLink to="https://bitwerke.de/" :external="true">
+                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
                                 <div>
                                     Individualsoftware, UX/UI, Entwicklung und Beratung
                                 </div>
@@ -183,5 +194,4 @@ const config = useRuntimeConfig()
 
 .bitwerke-logo {
     padding: 0 10px;
-}
-</style>
+}</style>
