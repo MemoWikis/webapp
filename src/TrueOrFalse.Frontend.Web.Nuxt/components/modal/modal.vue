@@ -58,7 +58,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                             </div>
 
                             <div class="modal-default-footer"
-                                v-if="props.primaryBtnLabel || props.secondaryBtnLabel || props.showCancelBtn">
+                                v-if="props.primaryBtnLabel || props.secondaryBtnLabel || props.showCancelBtn || slots['footer-text']">
                                 <slot name="footer"></slot>
                                 <div class="row">
                                     <div class="col-xs-12">
