@@ -315,6 +315,7 @@
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\AddController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Image\ImageUploadModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerQuestionDetailsController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\LearningSessionResultController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
