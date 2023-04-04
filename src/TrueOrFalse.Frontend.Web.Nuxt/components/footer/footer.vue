@@ -63,6 +63,9 @@ function handleError() {
                             <NuxtLink @click="handleError()" to="/AGB">Nutzungsbedingungen (AGBs)</NuxtLink>
                             <br />
                             <NuxtLink @click="handleError()" to="/Impressum">Impressum & Datenschutz</NuxtLink>
+                            <br />
+                            <NuxtLink @click="handleError()" to="/Nutzer">Alle Nutzer</NuxtLink>
+                            <br />
                         </div>
                     </div>
 
@@ -74,7 +77,6 @@ function handleError() {
                                     v-if="props.footerTopics?.MemoWiki">
                                     {{ props.footerTopics.MemoWiki.Name }}
                                 </NuxtLink>
-
                             </div>
                             <template v-for="(t, i) in props.footerTopics.MemoTopics" v-if="props.footerTopics?.MemoTopics">
                                 <NuxtLink @click="handleError()" :to="`/${t.Name}/${t.Id}`">
@@ -194,4 +196,5 @@ function handleError() {
 
 .bitwerke-logo {
     padding: 0 10px;
-}</style>
+}
+</style>

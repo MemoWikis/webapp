@@ -811,6 +811,10 @@ onMounted(() => {
     })
 })
 
+watch(() => userStore.isLoggedIn, () => {
+    loadData()
+})
+
 </script>
 
 <template>

@@ -101,10 +101,6 @@ const getSelectedOrderLabel = computed(() => {
                     <h1>Alle Nutzer</h1>
                 </div>
 
-                <div class="row">
-                    <UsersTabs :all-user-count="totalUserCount!" />
-                </div>
-
                 <div class="row content" v-if="pageData">
                     <div class="col-xs-12 col-sm-12 ">
 

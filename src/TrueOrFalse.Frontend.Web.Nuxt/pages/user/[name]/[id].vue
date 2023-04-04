@@ -413,13 +413,12 @@ useHead(() => ({
     margin: 0 20px;
     margin-bottom: 10px;
 
-
     .count {
         font-weight: 700;
         min-width: 70px;
         text-align: right;
         margin-right: 10px;
-        color: @memo-grey-dark;
+        color: @memo-grey-darker;
     }
 
     .count-label {

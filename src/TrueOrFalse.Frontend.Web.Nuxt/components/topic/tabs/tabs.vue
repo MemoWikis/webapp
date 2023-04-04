@@ -83,10 +83,17 @@ function getWidth(e: VueElement) {
 
 						<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics"
 							:style="getWidth(analyticsLabelEl)">
-							Analytics</div>
+							<font-awesome-icon :icon="['fas', 'chart-pie']" />
+							<template v-if="!isMobile">
+								Analytics
+							</template>
+						</div>
 						<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
 							ref="analyticsLabelEl">
-							Analytics
+							<font-awesome-icon :icon="['fas', 'chart-pie']" />
+							<template v-if="!isMobile">
+								Analytics
+							</template>
 						</div>
 
 						<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
@@ -167,10 +174,18 @@ function getWidth(e: VueElement) {
 
 					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics"
 						:style="getWidth(analyticsLabelEl)">
-						Analytics</div>
+
+						<font-awesome-icon :icon="['fas', 'chart-pie']" />
+						<template v-if="!isMobile">
+							Analytics
+						</template>
+					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
 						ref="analyticsLabelEl">
-						Analytics
+						<font-awesome-icon :icon="['fas', 'chart-pie']" />
+						<template v-if="!isMobile">
+							Analytics
+						</template>
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>

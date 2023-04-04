@@ -12,7 +12,6 @@ const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
 const editTopicRelationStore = useEditTopicRelationStore()
 const topicStore = useTopicStore()
-const alertStore = useAlertStore()
 
 const name = ref('')
 const showErrorMsg = ref(false)
