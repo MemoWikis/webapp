@@ -20,7 +20,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.2",
     "@pinia/nuxt": "^0.4.4",
     "@tiptap/extension-blockquote": "^2.0.0-beta.202",
-    "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.202",
+    "@tiptap/extension-code-block-lowlight": "^2.0.2",
     "@tiptap/extension-horizontal-rule": "^2.0.0-beta.202",
     "@tiptap/extension-image": "^2.0.0-beta.202",
     "@tiptap/extension-link": "^2.0.0-beta.202",
