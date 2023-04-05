@@ -6,7 +6,7 @@ export interface CommentModel {
     creatorEncodedName: string
     creationDate: string
     creationDateNiceText: string
-    imageUrl: string
+    creatorImgUrl: string
     creatorId: number
     title: string
     text: string

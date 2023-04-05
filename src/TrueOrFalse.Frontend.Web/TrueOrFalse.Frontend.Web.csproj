@@ -315,9 +315,11 @@
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\AddController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Image\ImageUploadModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerQuestionDetailsController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\LearningSessionResultController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Question\Edit\DeleteQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Search\SearchHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />
@@ -325,6 +327,7 @@
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\DetailController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverview.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\OverviewController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\Question\QuestionLandingPageController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserSettingsController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UsersController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\DeleteTopicStoreController.cs" />

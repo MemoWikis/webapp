@@ -24,6 +24,7 @@ export class Topic {
 	Authors: Author[] = []
 	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
+	MetaDescription: string = ''
 }
 
 export interface FooterTopics {
@@ -33,6 +34,7 @@ export interface FooterTopics {
 	MemoTopics: Topic[]
 	HelpTopics: Topic[]
 	PopularTopics: Topic[]
+	Documentation: Topic
 }
 
 export const useTopicStore = defineStore('topicStore', {

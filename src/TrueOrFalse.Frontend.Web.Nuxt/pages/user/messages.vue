@@ -1,10 +1,18 @@
 <script lang="ts" setup>
+import { BreadcrumbItem } from '~~/components/header/breadcrumbItems';
 import { Page } from '~~/components/shared/pageEnum'
 import { Message } from '~~/components/user/messages/message'
 
-const emit = defineEmits(['setPage'])
+const emit = defineEmits(['setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
     emit('setPage', Page.Messages)
+
+    const breadcrumbItems: BreadcrumbItem[] = [
+        {
+            name: 'Nachrichten',
+            url: '/Nachrichten'
+        }]
+    emit('setBreadcrumb', breadcrumbItems)
 })
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit

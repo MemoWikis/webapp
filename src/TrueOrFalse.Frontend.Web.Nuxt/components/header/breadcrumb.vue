@@ -7,18 +7,15 @@ import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 
 interface Props {
-	headerContainer?: VueElement,
-	headerExtras?: VueElement,
 	page: Page,
 	showSearch: boolean,
-	partialSpacer?: VueElement,
 	questionPageData?: {
 		primaryTopicName: string
 		primaryTopicUrl: string
 		title: string
 	}
 	customBreadcrumbItems?: CustomBreadcrumbItem[]
-	navOptions?: VueElement,
+	partialLeft?: VueElement
 }
 
 const props = defineProps<Props>()
@@ -30,21 +27,21 @@ interface BreadcrumbItem {
 	Id: number
 	width?: number
 }
-class Breadcrumb {
-	newWikiId: number = 0
-	personalWiki: BreadcrumbItem | null = null
-	items: BreadcrumbItem[] = []
-	rootTopic: BreadcrumbItem | null = null
-	currentTopic: BreadcrumbItem | null = null
-	breadcrumbHasGlobalWiki: boolean = false
-	isInPersonalWiki: boolean = false
+interface Breadcrumb {
+	newWikiId: number
+	personalWiki: BreadcrumbItem
+	items: BreadcrumbItem[]
+	rootTopic: BreadcrumbItem
+	currentTopic: BreadcrumbItem
+	breadcrumbHasGlobalWiki: boolean
+	isInPersonalWiki: boolean
 }
-const breadcrumb = ref<Breadcrumb | null>(null)
+const breadcrumb = ref<Breadcrumb>()
 
 const breadcrumbItems = ref<BreadcrumbItem[]>([])
 const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 
-const breadcrumbEl = ref<VueElement | null>(null)
+const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
 function startUpdateBreadcrumb() {
@@ -62,25 +59,29 @@ function handleScroll() {
 	startUpdateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
+
 async function updateBreadcrumb() {
 	await nextTick()
-	if (breadcrumbEl.value != null && breadcrumbEl.value.clientHeight != null && props.headerContainer != null && props.headerExtras != null) {
+	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null) {
+
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ? props.headerContainer.clientWidth - props.headerExtras.clientWidth - 30 : props.headerContainer.clientWidth - props.navOptions!.clientWidth + 200
+		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight + 200
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 
-		if (breadcrumbEl.value.clientHeight > 21) {
+		if (document.getElementById('BreadCrumb')!.clientHeight > 30) {
 			shiftToStackedBreadcrumbItems()
-		} else if (breadcrumbEl.value.clientHeight < 22) {
+		} else if (document.getElementById('BreadCrumb')!.clientHeight == 30) {
 			insertToBreadcrumbItems()
 			await nextTick()
-			if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 21) {
+			if (breadcrumbEl.value && document.getElementById('BreadCrumb')!.clientHeight > 30) {
 				shiftToStackedBreadcrumbItems(false)
 			}
 		}
 	}
 }
+
+const rootWikiIsStacked = ref(false)
 
 function shiftToStackedBreadcrumbItems(update: boolean = true) {
 	if (breadcrumbItems.value.length > 0) {
@@ -89,11 +90,19 @@ function shiftToStackedBreadcrumbItems(update: boolean = true) {
 		if (breadcrumbEl.value!.clientHeight > 21 && breadcrumbItems.value.length > 0 && update) {
 			updateBreadcrumb()
 		}
+	} else if (breadcrumb.value?.rootTopic && !rootWikiIsStacked.value) {
+		rootWikiIsStacked.value = true
+		stackedBreadcrumbItems.value.unshift(breadcrumb.value.rootTopic)
 	}
 }
 function insertToBreadcrumbItems() {
-	if (stackedBreadcrumbItems.value.length > 0)
-		breadcrumbItems.value.unshift(stackedBreadcrumbItems.value.pop()!)
+	if (stackedBreadcrumbItems.value.length > 0) {
+		if (rootWikiIsStacked.value) {
+			rootWikiIsStacked.value = false
+			stackedBreadcrumbItems.value.shift()
+		} else
+			breadcrumbItems.value.unshift(stackedBreadcrumbItems.value.pop()!)
+	}
 }
 const pageTitle = ref('')
 
@@ -198,7 +207,7 @@ watch(() => props.showSearch, (val) => {
 		startUpdateBreadcrumb()
 })
 
-const { isDesktopOrTablet, isMobile } = useDevice()
+const { isMobile } = useDevice()
 const windowInnerWidth = ref(0)
 onMounted(async () => {
 	windowInnerWidth.value = window.innerWidth
@@ -247,7 +256,7 @@ watch(() => userStore.isLoggedIn, () => {
 			<template
 				v-else-if="breadcrumb.personalWiki && breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
 				<div class="breadcrumb-divider"></div>
-				<template v-if="topicStore.id != breadcrumb.rootTopic.Id">
+				<template v-if="topicStore.id != breadcrumb.rootTopic.Id && !rootWikiIsStacked">
 					<NuxtLink
 						:to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
 						class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
@@ -348,9 +357,9 @@ watch(() => userStore.isLoggedIn, () => {
 	opacity: 1;
 	transition: opacity 0.5s;
 	visibility: visible;
-	max-height: 22px;
 	overflow: hidden;
 	min-width: 240px;
+	align-items: center;
 
 	.search-is-open {
 		width: 0;
@@ -386,9 +395,7 @@ watch(() => userStore.isLoggedIn, () => {
 
 		&.is-in-root-topic {
 			padding-right: 0px;
-			display: flex;
-			flex-wrap: nowrap;
-			align-items: center;
+			display: block;
 
 			.root-topic-label {
 				padding-left: 6px;

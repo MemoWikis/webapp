@@ -18,6 +18,7 @@ export interface AnswerBodyModel {
 
     questionViewGuid: number
     isLastStep: boolean
+    imgUrl?: string
 }
 export interface Reference {
     referenceId: number

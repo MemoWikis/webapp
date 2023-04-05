@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -46,6 +47,11 @@ public class AppController : BaseController
                 Id = id,
                 Name = EntityCache.GetCategory(id).Name
             }).ToArray(),
+            Documentation = new
+            {
+                Id = RootCategory.IntroCategoryId,
+                EncodedName = UriSanitizer.Run(EntityCache.GetCategory(RootCategory.IntroCategoryId).Name)
+            }
         }, JsonRequestBehavior.AllowGet);
     }
 }

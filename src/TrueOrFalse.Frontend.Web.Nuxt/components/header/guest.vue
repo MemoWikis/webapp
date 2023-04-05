@@ -2,6 +2,12 @@
 import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 
+interface Props {
+    isError?: boolean
+}
+
+const props = defineProps<Props>()
+
 const userStore = useUserStore()
 
 const showSearch = ref(true)
@@ -29,6 +35,10 @@ onMounted(() => {
     }
 })
 
+function handleError() {
+    if (props.isError)
+        clearError()
+}
 
 </script>
 
@@ -37,7 +47,7 @@ onMounted(() => {
         <div class="HeaderMainRow container" :class="{ 'search-is-open': showSearch }">
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
-                    <NuxtLink id="LogoLink"
+                    <NuxtLink id="LogoLink" @click="handleError"
                         :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'">
                         <div id="Logo">
                             <Image url="/Images/Logo/Logo.svg" class="hidden-xs" />
@@ -46,7 +56,7 @@ onMounted(() => {
                     </NuxtLink>
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
-                    <div id="HeaderSearch" class="">
+                    <div id="HeaderSearch" class="" v-if="!props.isError">
                         <div class="searchButton" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
@@ -66,7 +76,7 @@ onMounted(() => {
                             </button>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <button navigate class="btn memo-button register-btn">
-                                    <NuxtLink to="/Registrieren" class="">
+                                    <NuxtLink to="/Registrieren" class="" @click="handleError">
                                         Kostenlos registrieren!
                                     </NuxtLink>
 
@@ -152,6 +162,7 @@ onMounted(() => {
 
                     #SmallHeaderSearchBoxDiv {
                         width: 43px;
+                        transition: width 0.3s;
                         -webkit-transition: width 0.3s;
                         display: none;
                         margin-top: 2px;

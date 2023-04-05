@@ -1,9 +1,11 @@
 @import (reference) 'includes/imports.less';
 
-.ps {
+.tabs-bar {
     max-width: calc(100vw - 20px);
-    // flex-shrink: 1;
-    width: 100%;
+
+}
+.ps {
+ width: 100%;
 }
 
 #TopicTabBar, #ProfileTabBar, #UsersTabBar {
@@ -98,6 +100,11 @@
                 font-weight: 700;
                 position: absolute;
                 padding: 4px 0px;
+
+                &.not-absolute {
+                    position: unset;
+                    padding: 4px 16px;
+                }
             }
 
             &.invisible-tab {

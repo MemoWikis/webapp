@@ -811,6 +811,10 @@ onMounted(() => {
     })
 })
 
+watch(() => userStore.isLoggedIn, () => {
+    loadData()
+})
+
 </script>
 
 <template>
@@ -869,8 +873,8 @@ onMounted(() => {
                                     Du hast diese Frage noch nie beantwortet.
                                 </div>
                                 <div v-else class="counterLabel">
-                                    Du bist nicht angemeldet. Wir haben keine Daten. <a role="button"
-                                        @click="userStore.openLoginModal()">Anmelden</a>
+                                    Du bist nicht angemeldet. Wir haben keine Daten. <button class="btn-link"
+                                        @click="userStore.openLoginModal()">Anmelden</button>
                                 </div>
                             </div>
                             <div class="counterHalf">
@@ -939,7 +943,7 @@ onMounted(() => {
                     </VTooltip>
                 </div>
                 <div class="created"> Erstellt von:
-                    <NuxtLink :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
+                    <NuxtLink v-if="creator.id > 0" :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
                         &nbsp;{{ creator.name }}&nbsp;
                     </NuxtLink>
                     vor {{ creationDate }}
@@ -1195,6 +1199,8 @@ onMounted(() => {
         #questionStatistics {
 
             #counterContainer {
+                padding-bottom: 12px;
+
                 .counterBody {
                     display: flex;
                     flex-wrap: wrap;
@@ -1238,6 +1244,7 @@ onMounted(() => {
 
             #probabilityContainer {
                 min-width: 220px;
+                margin-right: 20px;
 
                 #semiPieSection {
 

@@ -40,8 +40,8 @@ export class Google {
         if (result?.success && result.currentUser) {
             const userStore = useUserStore()
             userStore.initUser(result.currentUser)
-            // if (window.location.pathname == '/Registrieren')
-            //     navigateTo('/')
+            if (window.location.pathname == '/Registrieren')
+                navigateTo('/')
         } else {
             const alertStore = useAlertStore()
             alertStore.openAlert(AlertType.Error, { text: "Fehler" })

@@ -52,7 +52,7 @@
             <span class="mailme">team at memucho dot de</span>
 
             <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
-            <p>Christof Mauersberger, Robert Mischke<br />
+            <p>Robert Mischke<br />
             </p>
 
             <h3>Haftungsausschluss</h3>

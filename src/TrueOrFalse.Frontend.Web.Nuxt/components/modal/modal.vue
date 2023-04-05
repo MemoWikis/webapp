@@ -57,12 +57,13 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                                 </slot>
                             </div>
 
-                            <div class="modal-default-footer">
+                            <div class="modal-default-footer"
+                                v-if="props.primaryBtnLabel || props.secondaryBtnLabel || props.showCancelBtn || slots['footer-text']">
                                 <slot name="footer"></slot>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <button v-if="props.primaryBtnLabel"
-                                            class="btn btn-primary memo-button pull-right modal-button" :class="{
+                                            class="btn btn-primary memo-button pull-right modal-button col-sm" :class="{
                                                 'primary-error-button': isError,
                                                 'primary-success-button': isSuccess,
                                                 'full-size-buttons': props.isFullSizeButtons
@@ -70,7 +71,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                                             {{ props.primaryBtnLabel }}
                                         </button>
                                         <button v-if="props.secondaryBtnLabel"
-                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
+                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button col-sm"
                                             :class="{
                                                 'secondary-error-button': isError,
                                                 'secondary-success-button': isSuccess,
@@ -79,7 +80,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                                             {{ props.secondaryBtnLabel }}
                                         </button>
                                         <button v-if="props.showCancelBtn"
-                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
+                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button col-sm"
                                             :class="{
                                                 'full-size-buttons': props.isFullSizeButtons
                                             }" @click="emit('close')">

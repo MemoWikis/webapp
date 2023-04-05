@@ -16,7 +16,25 @@ function setText(editor: Editor) {
     commentText.value = editor.getHTML()
 }
 
+watch([commentText, commentTitle], ([text, title]) => {
+    if (title.length >= 10)
+        highlightEmptyTitle.value = false
+
+    if (text.length >= 10)
+        highlightEmptyComment.value = false
+})
+
 async function saveComment() {
+    if (commentTitle.value.length < 10 || commentText.value.length < 10) {
+        if (commentTitle.value.length < 10)
+            highlightEmptyTitle.value = true
+
+        if (commentText.value.length < 10)
+            highlightEmptyComment.value = true
+
+        return
+    }
+
     const data = {
         id: commentsStore.questionId,
         title: commentTitle.value,
@@ -29,8 +47,11 @@ async function saveComment() {
         credentials: 'include'
     })
 
-    if (result)
+    if (result) {
+        commentTitle.value = ''
+        commentText.value = ''
         commentsStore.loadComments()
+    }
 }
 </script>
 
@@ -50,13 +71,12 @@ async function saveComment() {
                                     <div class="overline-s no-line">Titel der Diskussion</div>
                                     <CommentTitleEditor :highlight-empty-fields="highlightEmptyTitle"
                                         :content="commentTitle" @set-title="setTitle" />
-                                    <div v-if="highlightEmptyTitle" class="field-error">Bitte formuliere einen Titel</div>
                                 </div>
                                 <div class="input-container" id="AddCommentTextFormContainer">
                                     <div class="overline-s no-line">Dein Diskussionsbeitrag</div>
 
                                     <CommentTextEditor :highlight-empty-fields="highlightEmptyComment"
-                                        :content="commentText" @set-content="setText" />
+                                        :content="commentText" @set-text="setText" />
                                 </div>
                             </div>
                         </div>

@@ -8,7 +8,7 @@ import { ImageStyle } from '~~/components/image/imageStyleEnum'
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
-const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4));
+const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4))
 const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
 
 function resize() {
@@ -90,10 +90,11 @@ const { isDesktopOrTablet, isMobile } = useDevice()
             <div v-if="isMobile" class="topic-detail-flex-breaker"></div>
             <div v-if="isDesktopOrTablet" class="topic-detail-spacer"></div>
 
-            <LazyNuxtLink v-for="(author) in firstAuthors" :to="`/Nutzer/${author.Name}/${author.Id}`"
-                v-tooltip="author.Name">
-                <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
-            </LazyNuxtLink>
+            <template v-for="author in firstAuthors">
+                <LazyNuxtLink v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name">
+                    <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                </LazyNuxtLink>
+            </template>
 
             <VDropdown :distance="6">
                 <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn"
@@ -103,13 +104,15 @@ const { isDesktopOrTablet, isMobile } = useDevice()
                     </span>
                 </button>
                 <template #popper>
-                    <LazyNuxtLink v-for="(author) in lastAuthors" class="dropdown-row"
-                        :to="`/Nutzer/${author.Name}/${author.Id}`">
-                        <div class="dropdown-icon">
-                            <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
-                        </div>
-                        <div class="dropdown-label">{{ author.Name }}</div>
-                    </LazyNuxtLink>
+                    <template v-for="author in lastAuthors">
+                        <LazyNuxtLink class="dropdown-row" v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`">
+                            <div class="dropdown-icon">
+                                <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                            </div>
+                            <div class="dropdown-label">{{ author.Name }}</div>
+                        </LazyNuxtLink>
+                    </template>
+
 
                 </template>
             </VDropdown>
@@ -154,8 +157,8 @@ const { isDesktopOrTablet, isMobile } = useDevice()
         justify-content: center;
         align-items: center;
         display: inline-flex;
-        font-size: 11px;
-        font-weight: 600;
+        font-size: 10px;
+        font-weight: 700;
         border: solid 1px @memo-grey-light;
         padding: 0 2px;
         background: none;

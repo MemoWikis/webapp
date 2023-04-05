@@ -28,7 +28,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
                             <div class="commentSettledInfo">
                                 Die Frage hat {{ commentsStore.settledComments.length }} geschlossene {{
                                     commentsStore.settledComments.length == 1 ? 'Diskussion' : 'Diskussionen' }}
-                                <button class="cursor-hand" @click="showSettledComments != showSettledComments">
+                                <button class="cursor-hand btn-link" @click="showSettledComments = !showSettledComments">
                                     ({{ showSettledComments ? 'ausblenden' : 'einblenden' }})
                                 </button>
 

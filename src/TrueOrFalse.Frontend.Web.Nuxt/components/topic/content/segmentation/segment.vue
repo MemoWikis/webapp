@@ -14,7 +14,7 @@ export default defineNuxtComponent({
 	props: {
 		title: String,
 		description: String,
-		childCategoryIds: Array,
+		childCategoryIds: [Array, String],
 		categoryId: {
 			type: Number,
 			required: true,
