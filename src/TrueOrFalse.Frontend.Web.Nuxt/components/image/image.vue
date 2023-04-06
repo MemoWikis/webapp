@@ -12,7 +12,6 @@ interface Props {
 	imageId?: number,
 	minWidth?: number,
 	minHeight?: number,
-	fit?: 'contain' | 'cover' | 'fill' | 'inherit' | 'initial' | 'none' | 'revert' | 'scale-down' | 'unset'
 }
 
 const props = defineProps<Props>()
@@ -42,10 +41,8 @@ const getCustomStyle = computed(() => {
 		str += `min-width: ${props.minWidth}px;`
 	if (props.minHeight)
 		str += `min-height: ${props.minHeight}px;`
-	if (props.fit)
-		str += `object-fit: ${props.fit};`
 	if (props.square && imgContainer.value != null && imgContainer.value.clientWidth != null)
-		str += `height: ${imgContainer.value.clientWidth}px;`
+		str += `height: ${imgContainer.value.clientWidth}px; object-fit: cover;`
 	return str
 })
 </script>

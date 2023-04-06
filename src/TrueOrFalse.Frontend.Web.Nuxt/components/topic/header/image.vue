@@ -14,7 +14,8 @@ function openUploadModal() {
 
 <template>
     <Image :src="topicStore.imgUrl" class="topic-header-image" :format="ImageFormat.Topic" :show-license="true"
-        :image-id="topicStore.imgId" @click="openUploadModal" :min-height="80" :min-width="80" />
+        :image-id="topicStore.imgId" @click="openUploadModal" :min-height="80" :min-width="80"
+        :class="{ 'editable': userStore.isLoggedIn }" />
     <ImageUploadModal v-if="userStore.isLoggedIn" :show="showModal" @close="showModal = false" />
 </template>
 
@@ -25,5 +26,9 @@ function openUploadModal() {
     max-width: 80px;
     min-height: 80px;
     max-height: 80px;
+
+    &.editable {
+        cursor: pointer;
+    }
 }
 </style>

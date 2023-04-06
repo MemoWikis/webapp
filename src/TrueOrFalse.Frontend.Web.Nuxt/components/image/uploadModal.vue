@@ -111,7 +111,7 @@ async function upload() {
     if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia) {
         url = '/apiVue/ImageUploadModal/SaveWikimediaImage'
         data = {
-            topciId: topicStore.id,
+            topicId: topicStore.id,
             url: wikimediaUrl.value
         }
     } else {
@@ -195,11 +195,14 @@ const disablePrimaryButton = computed(() => {
                     </p>
 
                     <div class="form-group">
-                        <input class="form-control wikimedia-url-input" v-model.lazy="wikimediaUrl" placeholder="http://" />
+                        <input class="form-control wikimedia-url-input" v-model="wikimediaUrl" placeholder="http://" />
                         <small class="form-text text-muted">Wikimedia-URL <font-awesome-icon :icon="['fas', 'circle-info']"
                                 v-tooltip="'Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden.'" /></small>
                     </div>
-                    <div v-if="showWikimediaError" class="alert alert-warning"></div>
+                    <div v-if="showWikimediaError" class="alert alert-warning">
+                        Nur folgende Formate sind erlaubt: {{
+                            allowedExtensions.join(', ') }}
+                    </div>
 
                     <div v-if="imageLoaded" class="image-preview-container">
                         <b>Bildvorschau:</b>
@@ -235,8 +238,7 @@ const disablePrimaryButton = computed(() => {
                     </div>
                     <div v-if="imageLoaded" class="image-preview-container">
                         <b>Bildvorschau:</b>
-                        <Image :src="customImgUrl" :format="ImageFormat.Topic" class="image-preview" :fit="'cover'"
-                            :square="true" />
+                        <Image :src="customImgUrl" :format="ImageFormat.Topic" class="image-preview" :square="true" />
                     </div>
                     <div v-if="imageLoaded" class="license-container">
                         <b>Urheberrechtsinformation:</b>
@@ -325,13 +327,10 @@ const disablePrimaryButton = computed(() => {
         width: 100%;
         border: dashed 1px silver;
         display: flex;
-
         justify-content: center;
         align-items: center;
         flex-direction: column;
-
         text-align: center;
-
 
         &.active {
             background: @memo-grey-lighter;
