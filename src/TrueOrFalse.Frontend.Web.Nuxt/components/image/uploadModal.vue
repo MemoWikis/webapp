@@ -136,11 +136,11 @@ async function upload() {
         emit('close')
         alertStore.openAlert(AlertType.Success, { text: messages.success.category.saveImage })
         topicStore.refreshTopicImage()
+        resetModal()
     } else {
         alertStore.openAlert(AlertType.Error, { text: messages.error.category.saveImage })
     }
 }
-
 
 const disablePrimaryButton = computed(() => {
     if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && imageLoaded.value)
@@ -149,6 +149,19 @@ const disablePrimaryButton = computed(() => {
         return false
     else return true
 })
+
+function resetModal() {
+    selectedImageUploadMode.value = ImageUploadMode.Wikimedia
+    imageLoaded.value = false
+    wikimediaUrl.value = ''
+    showWikimediaError.value = false
+    wikiMediaPreviewUrl.value = ''
+    imgFile.value = undefined
+    customImgUrl.value = ''
+    showTypeError.value = false
+    licenseGiverName.value = ''
+    isPersonalCreation.value = undefined
+}
 </script>
 
 <template>

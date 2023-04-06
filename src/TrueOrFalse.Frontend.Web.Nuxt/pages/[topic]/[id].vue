@@ -298,6 +298,6 @@ h4 {
 
 #TopicContent {
     padding-top: 36px;
-    max-width: calc(100vw - 20px);
+    max-width: 100vw;
 }
 </style>

@@ -201,7 +201,7 @@ props.editor.on('blur', () => {
     display: flex;
     height: 36px;
     margin-top: -36px;
-    max-width: calc(100vw - 20px);
+    max-width: 100vw;
 
     .ps {
         border-radius: 4px;

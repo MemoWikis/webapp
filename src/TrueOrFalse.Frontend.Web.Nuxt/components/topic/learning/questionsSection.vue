@@ -145,7 +145,7 @@ function getClass(): string {
     padding: 0px 20px 33px 20px;
     margin-right: 0;
     margin-left: 0;
-    max-width: calc(100vw - 20px);
+    max-width: 100vw;
 
     @media(max-width: @screen-xxs-max) {
         padding-left: 0;
