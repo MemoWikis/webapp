@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ImageStyle } from '~~/components/image/imageStyleEnum';
+import { ImageFormat } from '~~/components/image/imageFormatEnum';
 import { CommentModel } from '../commentsStore'
 
 interface Props {
@@ -20,7 +20,7 @@ const readMore = ref(false)
             <div>
                 <NuxtLink :to="`/Nutzer/${props.answer.creatorEncodedName}/${props.answer.creatorId}`"
                     class="comment-header">
-                    <Image class="commentUserImg" :url="props.answer.creatorImgUrl" :style="ImageStyle.Author" />
+                    <Image class="commentUserImg" :src="props.answer.creatorImgUrl" :format="ImageFormat.Author" />
                     <span class="commentUserName">{{ props.answer.creatorName }}</span>
                 </NuxtLink>
 

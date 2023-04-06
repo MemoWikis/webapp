@@ -22,7 +22,7 @@ function handleError() {
             <div class="license-text-container">
                 <NuxtLink @click="handleError()" class="CCLogo" rel="license"
                     to="https://creativecommons.org/licenses/by/4.0/" :external="true">
-                    <Image url="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
+                    <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
                 </NuxtLink>
                 <div class="Text">
                     Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
@@ -50,7 +50,7 @@ function handleError() {
                             <NuxtLink
                                 :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'"
                                 id="MasterFooterLogo">
-                                <Image url="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img" />
+                                <Image src="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img" />
                             </NuxtLink>
 
                             <div class="overline-s no-line">
@@ -161,7 +161,7 @@ function handleError() {
                                 Entwickelt von:
                             </div>
                             <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
-                                <Image url="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" />
+                                <Image src="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" />
                             </NuxtLink>
                             <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
                                 <div>

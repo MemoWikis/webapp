@@ -76,7 +76,8 @@ export const useUserStore = defineStore('userStore', {
             if (!!result && result.Success) {
                 this.showLoginModal = false
                 this.initUser(result.CurrentUser)
-            }
+                return { success: true }
+            } else return { success: false, msg: result.Message }
         },
         async register(registerData: {
             Name: string,

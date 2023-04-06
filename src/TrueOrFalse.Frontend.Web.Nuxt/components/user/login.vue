@@ -12,13 +12,17 @@ const persistentLogin = ref(false)
 
 async function login() {
 
-    var data = {
+    errorMessage.value = ''
+
+    const data = {
         EmailAddress: eMail.value,
         Password: password.value,
         PersistentLogin: persistentLogin.value
     }
 
-    userStore.login(data)
+    const result = await userStore.login(data)
+    if (!result.success)
+        errorMessage.value = result.msg!
 }
 const passwordInputType = ref('password')
 
@@ -97,9 +101,9 @@ onMounted(() => {
 
 <template>
     <div id="LoginModalComponent">
-        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn-label="primaryBtnLabel"
-            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @primary-btn="primaryAction"
-            :show="userStore.showLoginModal" @keydown.esc="userStore.showLoginModal = false">
+        <LazyModal :show-close-button="true" :primary-btn-label="primaryBtnLabel" :is-full-size-buttons="true"
+            @close="userStore.showLoginModal = false" @primary-btn="primaryAction" :show="userStore.showLoginModal"
+            @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>
                 <span v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</span>

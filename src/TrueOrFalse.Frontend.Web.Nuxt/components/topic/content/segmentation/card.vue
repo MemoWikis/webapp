@@ -173,7 +173,7 @@ export default defineNuxtComponent({
             <div class="col-xs-3 col-sm-3">
                 <NuxtLink :to="category.LinkToCategory">
                     <div class="ImageContainer">
-                        <Image :url="category.ImgUrl" :square="true" />
+                        <Image :src="category.ImgUrl" />
                     </div>
                 </NuxtLink>
             </div>
@@ -198,11 +198,11 @@ export default defineNuxtComponent({
                         </div>
                         <template #popper="{ hide }">
                             <!-- <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
-                                                                                <div class="dropdown-icon">
-                                                                                    <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                                                                </div>
-                                                                                <div class="dropdown-label"> Unterthemen einblenden</div>
-                                                                            </div> -->
+                                                                                                    <div class="dropdown-icon">
+                                                                                                        <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
+                                                                                                    </div>
+                                                                                                    <div class="dropdown-label"> Unterthemen einblenden</div>
+                                                                                                </div> -->
                             <div @click="removeParent(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'link-slash']" />

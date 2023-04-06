@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
-import { ImageStyle } from '~~/components/image/imageStyleEnum'
+import { ImageFormat } from '~~/components/image/imageFormatEnum'
 const topicStore = useTopicStore()
 const userStore = useUserStore()
 const showModal = ref(false)
@@ -13,8 +13,8 @@ function openUploadModal() {
 </script>
 
 <template>
-    <Image :url="topicStore.imgUrl" class="topic-header-image" :style="ImageStyle.Topic" :show-license="true"
-        :image-id="topicStore.imgId" @click="openUploadModal" />
+    <Image :src="topicStore.imgUrl" class="topic-header-image" :format="ImageFormat.Topic" :show-license="true"
+        :image-id="topicStore.imgId" @click="openUploadModal" :min-height="80" :min-width="80" />
     <ImageUploadModal v-if="userStore.isLoggedIn" :show="showModal" @close="showModal = false" />
 </template>
 
@@ -25,6 +25,5 @@ function openUploadModal() {
     max-width: 80px;
     min-height: 80px;
     max-height: 80px;
-    height: 80px;
 }
 </style>

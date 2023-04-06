@@ -50,8 +50,8 @@ function handleError() {
                     <NuxtLink id="LogoLink" @click="handleError"
                         :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'">
                         <div id="Logo">
-                            <Image url="/Images/Logo/Logo.svg" class="hidden-xs" />
-                            <Image url="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small" />
+                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" />
+                            <Image src="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small" />
                         </div>
                     </NuxtLink>
                 </div>

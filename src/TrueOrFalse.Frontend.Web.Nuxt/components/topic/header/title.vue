@@ -3,7 +3,7 @@ import { VueElement } from 'vue'
 import { useTopicStore } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { Author } from '~~/components/author/author'
-import { ImageStyle } from '~~/components/image/imageStyleEnum'
+import { ImageFormat } from '~~/components/image/imageFormatEnum'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -92,7 +92,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
 
             <template v-for="author in firstAuthors">
                 <LazyNuxtLink v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name">
-                    <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                    <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
                 </LazyNuxtLink>
             </template>
 
@@ -107,7 +107,7 @@ const { isDesktopOrTablet, isMobile } = useDevice()
                     <template v-for="author in lastAuthors">
                         <LazyNuxtLink class="dropdown-row" v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`">
                             <div class="dropdown-icon">
-                                <Image :url="author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+                                <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
                             </div>
                             <div class="dropdown-label">{{ author.Name }}</div>
                         </LazyNuxtLink>

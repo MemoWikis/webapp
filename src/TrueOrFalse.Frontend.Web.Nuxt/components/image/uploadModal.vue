@@ -1,13 +1,20 @@
 <script lang="ts" setup>
+import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { useTopicStore } from '../topic/topicStore'
+import { ImageFormat } from './imageFormatEnum'
+
+const topicStore = useTopicStore()
+const alertStore = useAlertStore()
+
 interface Props {
     show: boolean
 }
 const props = defineProps<Props>()
-enum SelectedImageType {
+enum ImageUploadMode {
     Wikimedia,
     Custom
 }
-const selectedImageType = ref<SelectedImageType>(SelectedImageType.Wikimedia)
+const selectedImageUploadMode = ref<ImageUploadMode>(ImageUploadMode.Wikimedia)
 
 const emit = defineEmits(['close'])
 const imageLoaded = ref(false)
@@ -40,11 +47,9 @@ async function loadWikimediaImage() {
     })
     if (result.imageFound) {
         wikiMediaPreviewUrl.value = result.imageThumbUrl
-        imageLoaded.value = true
     } else {
-        imageLoaded.value = false
+        wikiMediaPreviewUrl.value = ''
     }
-
 }
 watch(wikimediaUrl, (url) => {
     if (allowedExtensions.some(end => url.endsWith(end))) {
@@ -55,12 +60,100 @@ watch(wikimediaUrl, (url) => {
     }
 })
 
-function upload() { }
+watch(wikiMediaPreviewUrl, (url) => {
+    if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && url?.length > 0)
+        imageLoaded.value = true
+    else if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && (url == null || url?.length <= 0))
+        imageLoaded.value = false
+})
+
+const imgFile = ref<File>()
+const customImgUrl = ref('')
+const showTypeError = ref(false)
+const imageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg', 'image/gif']
+
+function handleImageChange(e: any) {
+    const files = e.target.files || e.dataTransfer.files
+
+    if (files.length > 0 && imageTypes.some(end => files[0].type == end)) {
+        showTypeError.value = false
+        createImage(files[0])
+    }
+    else showTypeError.value = true
+}
+const onDragOver = ref(false)
+
+function createImage(file: File) {
+    imgFile.value = file
+    const previewImgUrl = URL.createObjectURL(file)
+    customImgUrl.value = previewImgUrl
+}
+
+watch(customImgUrl, (url) => {
+    if (selectedImageUploadMode.value == ImageUploadMode.Custom && url?.length > 0)
+        imageLoaded.value = true
+    else if (selectedImageUploadMode.value == ImageUploadMode.Custom && (url == null || url?.length <= 0))
+        imageLoaded.value = false
+})
+
+watch(selectedImageUploadMode, (mode) => {
+    if ((selectedImageUploadMode.value == ImageUploadMode.Wikimedia && wikiMediaPreviewUrl.value.length > 0) || (selectedImageUploadMode.value == ImageUploadMode.Custom && customImgUrl.value.length > 0))
+        imageLoaded.value = true
+    else imageLoaded.value = false
+})
+
+const licenseGiverName = ref('')
+const isPersonalCreation = ref<boolean>()
+
+async function upload() {
+    let url
+    let data
+    if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia) {
+        url = '/apiVue/ImageUploadModal/SaveWikimediaImage'
+        data = {
+            topciId: topicStore.id,
+            url: wikimediaUrl.value
+        }
+    } else {
+        url = '/apiVue/ImageUploadModal/SaveCustomImage'
+
+        data = new FormData()
+        if (imgFile.value == null)
+            return
+
+        data.append('file', imgFile.value)
+        data.append('topicId', topicStore.id.toString())
+        data.append('licenseOwner', licenseGiverName.value)
+    }
+    const result = await $fetch<boolean>(url, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result) {
+        emit('close')
+        alertStore.openAlert(AlertType.Success, { text: messages.success.category.saveImage })
+        topicStore.refreshTopicImage()
+    } else {
+        alertStore.openAlert(AlertType.Error, { text: messages.error.category.saveImage })
+    }
+}
+
+
+const disablePrimaryButton = computed(() => {
+    if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && imageLoaded.value)
+        return false
+    else if (selectedImageUploadMode.value == ImageUploadMode.Custom && imageLoaded.value && isPersonalCreation.value && licenseGiverName.value.length >= 3)
+        return false
+    else return true
+})
 </script>
 
 <template>
     <Modal :show="props.show" :show-cancel-btn="true" @close="emit('close')" @primary-btn="upload"
-        :primary-btn-label="primaryLabel" :disabled="!imageLoaded">
+        :primary-btn-label="primaryLabel" :disabled="disablePrimaryButton">
         <template v-slot:header>
             Themenbild hochladen
         </template>
@@ -70,22 +163,22 @@ function upload() { }
                 unter einer entsprechenden Lizenz stehen oder die du selbst erstellt hast.
             </div>
             <div class="imagetype-select-container">
-                <div @click="selectedImageType = SelectedImageType.Wikimedia" class="imagetype-select">
+                <div @click="selectedImageUploadMode = ImageUploadMode.Wikimedia" class="imagetype-select">
                     <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
-                        v-if="selectedImageType == SelectedImageType.Wikimedia" />
+                        v-if="selectedImageUploadMode == ImageUploadMode.Wikimedia" />
                     <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
                     Bilder von Wikimedia verwenden.
                 </div>
 
-                <div @click="selectedImageType = SelectedImageType.Custom" class="imagetype-select">
+                <div @click="selectedImageUploadMode = ImageUploadMode.Custom" class="imagetype-select">
                     <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
-                        v-if="selectedImageType == SelectedImageType.Custom" />
+                        v-if="selectedImageUploadMode == ImageUploadMode.Custom" />
                     <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
                     Eigene Bilder
                 </div>
             </div>
             <Transition fade>
-                <div v-if="selectedImageType == SelectedImageType.Wikimedia" class="content">
+                <div v-if="selectedImageUploadMode == ImageUploadMode.Wikimedia" class="content">
                     <p>
                         Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. Auf
                         <NuxtLink to="https://commons.wikimedia.org/wiki/Hauptseite?uselang=de" :external="true">
@@ -103,18 +196,86 @@ function upload() { }
 
                     <div class="form-group">
                         <input class="form-control wikimedia-url-input" v-model.lazy="wikimediaUrl" placeholder="http://" />
-                        <small class="form-text text-muted"></small>
+                        <small class="form-text text-muted">Wikimedia-URL <font-awesome-icon :icon="['fas', 'circle-info']"
+                                v-tooltip="'Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden.'" /></small>
                     </div>
+                    <div v-if="showWikimediaError" class="alert alert-warning"></div>
 
-                    <div v-if="imageLoaded">
-                        <img :src="wikiMediaPreviewUrl" />
+                    <div v-if="imageLoaded" class="image-preview-container">
+                        <b>Bildvorschau:</b>
+                        <Image :src="wikiMediaPreviewUrl" :format="ImageFormat.Topic" class="image-preview"
+                            :square="true" />
                     </div>
                 </div>
-                <div v-else-if="selectedImageType == SelectedImageType.Custom">
+                <div v-else-if="selectedImageUploadMode == ImageUploadMode.Custom" class="imageupload-dropzone-container">
+                    <label for="imageUpload" class="imageupload-dropzone" @drop.prevent="handleImageChange"
+                        :class="{ 'active': onDragOver }" @dragover.prevent="onDragOver = true"
+                        @dragleave.prevent="onDragOver = false">
+                        <input type="file" class="imageupload-dropzone-input" :accept="imageTypes.join(', ')" name="file"
+                            id="imageUpload" v-on:change="handleImageChange" />
+                        <div>
+                            <h4>
+                                <font-awesome-icon icon="fa-solid fa-upload" />
+                                Bild Hochladen
+                            </h4>
+                        </div>
+                        <div>
+                            Zieh ein Bild hierher
+                            <br />
+                            oder..
+                            <br />
+                            <div class="memo-button btn-link btn">
+                                Datei auswählen
+                            </div>
+                        </div>
+                    </label>
+                    <div v-if="showTypeError" class="alert alert-warning">
+                        Nur folgende Formate sind erlaubt: {{
+                            allowedExtensions.join(', ') }}
+                    </div>
+                    <div v-if="imageLoaded" class="image-preview-container">
+                        <b>Bildvorschau:</b>
+                        <Image :src="customImgUrl" :format="ImageFormat.Topic" class="image-preview" :fit="'cover'"
+                            :square="true" />
+                    </div>
+                    <div v-if="imageLoaded" class="license-container">
+                        <b>Urheberrechtsinformation:</b>
+                        <p>
+                            Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können, dass
+                            Inhalte auf memucho frei weiterverwendet werden können. memucho folgt dem Wikipedia Prinzip.
+                        </p>
 
+                        <div>
+                            <div @click="isPersonalCreation = true" class="license-select">
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
+                                    v-if="isPersonalCreation == true" />
+                                <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
+                                Dieses Bild ist meine eigene Arbeit.
+                            </div>
+                            <p v-if="isPersonalCreation == true" class="license-info">
+                                Ich, <input v-model="licenseGiverName" type="text" placeholder="Name"
+                                    class="creator-name-input" />, der Rechteinhaber
+                                dieses Werks gewähre unwiderruflich jedem das Recht, es gemäß der
+                                „Creative Commons“-Lizenz „Namensnennung 4.0 International" (CC BY 4.0) <NuxtLink
+                                    to="https://creativecommons.org/licenses/by/4.0/deed.de" :external="true">(Text der
+                                    Lizenz)</NuxtLink> zu
+                                nutzen.
+                            </p>
+
+                            <div @click="isPersonalCreation = false" class="license-select">
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
+                                    v-if="isPersonalCreation == false" />
+                                <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
+                                Dieses Bild ist nicht meine eigene Arbeit.
+                            </div>
+                            <p v-if="isPersonalCreation == false" class="license-info">
+                                Wir bitten dich das Bild auf <NuxtLink to="https://commons.wikimedia.org/wiki/Main_Page"
+                                    :external="true">Wikimedia </NuxtLink> hochzuladen und so einzubinden.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </Transition>
-            <div></div>
         </template>
     </Modal>
 </template>
@@ -125,20 +286,25 @@ function upload() { }
 .imagetype-select-container {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+}
 
-    .imagetype-select {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        cursor: pointer;
-        margin-right: 20px;
+.imagetype-select,
+.license-select {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 20px;
+    padding-bottom: 8px;
+    padding-top: 8px;
 
-        .imagetype-select-radio {
-            margin-right: 8px;
+    .imagetype-select-radio,
+    .license-select-radio {
+        margin-right: 8px;
 
-            &.active {
-                color: @memo-blue-link;
-            }
+        &.active {
+            color: @memo-blue-link;
         }
     }
 }
@@ -149,5 +315,65 @@ function upload() { }
 
 .wikimedia-url-input {
     border-radius: 0px
+}
+
+.imageupload-dropzone-container {
+    padding-top: 20px;
+
+    .imageupload-dropzone {
+        height: 160px;
+        width: 100%;
+        border: dashed 1px silver;
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        text-align: center;
+
+
+        &.active {
+            background: @memo-grey-lighter;
+        }
+
+        .imageupload-dropzone-input {
+            display: none;
+
+            &::-webkit-file-upload-button {
+                border: none;
+                font-size: 0px;
+                width: 100%;
+                min-height: 200px;
+                color: white;
+            }
+
+            .imageupload-dropzone-input-visible {
+                visibility: visible;
+            }
+        }
+    }
+}
+
+.image-preview-container,
+.license-container {
+    padding-top: 20px;
+    width: 100%;
+}
+
+.image-preview-container {
+    .image-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.creator-name-input {
+    border: solid 1px @memo-grey-light;
+}
+
+.license-info {
+    padding-left: 22px;
 }
 </style>

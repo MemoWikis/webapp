@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ImageStyle } from '../image/imageStyleEnum';
+import { ImageFormat } from '../image/imageFormatEnum';
 import { Author } from './author'
 interface Props {
     author: Author
@@ -11,7 +11,7 @@ const props = defineProps<Props>()
 <template>
     <LazyNuxtLink :to="`/Nutzer/${props.author.Name}/${props.author.Id}`" v-tooltip="props.author.Name"
         v-if="props.author.Id > 0">
-        <Image :url="props.author.ImgUrl" :style="ImageStyle.Author" class="header-author-icon" />
+        <Image :src="props.author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
     </LazyNuxtLink>
 </template>
 

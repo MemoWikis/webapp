@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 
@@ -16,5 +17,36 @@ public class ImageUploadModalController : BaseController
             imageFound = !result.ImageNotFound,
             imageThumbUrl = result.ImageUrl
         });
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public bool SaveWikimediaImage(int topicId, string url)
+    {
+        if (url == null || !PermissionCheck.CanEditCategory(topicId))
+            return false;
+
+        Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, SessionUser.UserId);
+        return true;
+    }
+
+    public class CustomImageFormdata
+    {
+        public int topicId { get; set; }
+        public string licenseGiverName { get; set; }
+        public HttpPostedFileBase file { get; set; }
+    }
+
+    [AccessOnlyAsLoggedIn]
+
+    [HttpPost]
+    public bool SaveCustomImage(CustomImageFormdata form)
+    {
+        if (form.file == null || !PermissionCheck.CanEditCategory(form.topicId))
+            return false;
+
+        Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(form.file, form.topicId, SessionUser.UserId, form.licenseGiverName);
+
+        return true;
     }
 }

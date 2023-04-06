@@ -11,18 +11,14 @@ interface Props {
     iconClasses?: string
     primaryBtnLabel?: string
     secondaryBtnLabel?: string
-    modalWidth?: number
     isFullSizeButtons?: boolean
 
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    modalWidth: 600,
-})
+const props = defineProps<Props>()
 
 const isError = ref(false)
 const isSuccess = ref(false)
-const modalWidthString = ref(props.modalWidth + 'px')
 const slots = useSlots()
 
 const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
@@ -35,7 +31,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
         <div class="modal-default">
             <div class="modal-default-mask" @click="emit('close')">
                 <div class="modal-default-wrapper">
-                    <div class="modal-default-container" :style="{ width: modalWidthString }" v-on:click.stop
+                    <div class="modal-default-container" v-on:click.stop
                         :class="{ 'no-close-button': !props.showCloseButton }">
                         <div>
                             <font-awesome-icon v-if="props.showCloseButton" icon="fa-solid fa-xmark"

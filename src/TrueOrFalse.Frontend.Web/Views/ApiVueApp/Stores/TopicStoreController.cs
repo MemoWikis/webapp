@@ -33,5 +33,14 @@ public class TopicStoreController : BaseController
 
         return Json(true);
     }
+
+    [HttpGet]
+    public string GetTopicImageUrl(int id)
+    {
+        if (PermissionCheck.CanViewCategory(id))
+            return new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url;
+
+        return "";
+    }
 }
 

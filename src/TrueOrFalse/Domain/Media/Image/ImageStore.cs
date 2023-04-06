@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using TrueOrFalse;
 
 public class ImageStore : IRegisterAsInstancePerLifetime
@@ -73,6 +74,17 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             }
         }
 
+
+        _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+    }
+
+    public void RunUploaded<T>(HttpPostedFileBase imagefile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
+    {
+        var imageSettings = Activator.CreateInstance<T>();
+        imageSettings.Init(typeId);
+        imageSettings.DeleteFiles(); //old files..
+
+        SaveImageToFile.Run(imagefile.InputStream, imageSettings);
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }

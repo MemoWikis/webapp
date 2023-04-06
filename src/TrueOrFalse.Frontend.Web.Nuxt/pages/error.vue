@@ -2,7 +2,7 @@
 <template>
     <div class="col-xs-12 container">
         <div class="error-page">
-            <Image url="/Images/Error/memo-500_german_600.png" class="error-image" />
+            <Image src="/Images/Error/memo-500_german_600.png" class="error-image" />
             <div class="error-message">
                 <p>Oder schicke eine E-Mail an team@memucho.de.</p>
                 <ul>

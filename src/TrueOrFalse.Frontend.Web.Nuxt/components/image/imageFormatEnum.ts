@@ -1,4 +1,4 @@
-export enum ImageStyle{
+export enum ImageFormat {
     Topic = 'topic',
     Author = 'author'
 }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ImageStyle } from '../image/imageStyleEnum'
+import { ImageFormat } from '../image/imageFormatEnum'
 import { UserResult } from './userResult'
 
 interface Props {
@@ -12,7 +12,7 @@ const props = defineProps<Props>()
 <template>
     <div class="col-md-6 col-sm-12 user-card-container">
         <div class="user-card">
-            <Image :url="props.user.imgUrl" :style="ImageStyle.Author" class="user-image" />
+            <Image :src="props.user.imgUrl" :format="ImageFormat.Author" class="user-image" />
             <div class="user-content">
                 <div class="user-header">
                     <div class="user-name">

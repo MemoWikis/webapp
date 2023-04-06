@@ -4,7 +4,8 @@ export const messages: any = {
             publish: "Dein Thema wurde erfolgreich veröffentlicht.",
             setToPrivate: "Das Thema wurde erfolgreich auf 'Privat' gesetzt.",
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
-            addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt."
+            addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt.",
+            saveImage: "Das neue Themenbild wurde gespeichert"
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
@@ -33,7 +34,8 @@ export const messages: any = {
             nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
             rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden.",
             missingRights: "Dir fehlen die notwendigen Rechte.",
-            tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User"
+            tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
+            saveImage: "Das Bild konnte nicht gespeichert werden."
         },
         question: {
             missingText: "Der Fragetext fehlt.",

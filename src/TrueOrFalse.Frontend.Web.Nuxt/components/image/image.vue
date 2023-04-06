@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import { useImageLicenseStore } from './imageLicenseStore'
-import { ImageStyle } from './imageStyleEnum'
+import { ImageFormat } from './imageFormatEnum'
 
 interface Props {
-	url: string,
+	src: string,
 	alt?: string,
 	square?: boolean,
 	class?: string,
-	style?: ImageStyle,
+	format?: ImageFormat,
 	showLicense?: boolean,
-	imageId?: number
+	imageId?: number,
+	minWidth?: number,
+	minHeight?: number,
+	fit?: 'contain' | 'cover' | 'fill' | 'inherit' | 'initial' | 'none' | 'revert' | 'scale-down' | 'unset'
 }
 
 const props = defineProps<Props>()
@@ -20,26 +23,41 @@ function openImage() {
 		imageLicenseStore.openImage(props.imageId)
 }
 
-const imgUrl = ref('')
+const imgSrc = ref('')
 
-if (props.url.startsWith('/Images/Categories/') || props.url.startsWith('/Images/Questions/') || props.url.startsWith('/Images/Users/'))
-	imgUrl.value = props.url
-else
-	imgUrl.value = props.url.replace("/Images", "/img")
-onBeforeMount(() => {
+function setImgSrc() {
+	if (props.src.startsWith('/Images/Categories/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/'))
+		imgSrc.value = props.src
+	else if (props.src.startsWith('/Images'))
+		imgSrc.value = props.src.replace("/Images", "/img")
+	else imgSrc.value = props.src
+}
+watch(() => props.src, () => setImgSrc())
+setImgSrc()
 
-
+const imgContainer = ref()
+const getCustomStyle = computed(() => {
+	let str = ''
+	if (props.minWidth)
+		str += `min-width: ${props.minWidth}px;`
+	if (props.minHeight)
+		str += `min-height: ${props.minHeight}px;`
+	if (props.fit)
+		str += `object-fit: ${props.fit};`
+	if (props.square && imgContainer.value != null && imgContainer.value.clientWidth != null)
+		str += `height: ${imgContainer.value.clientWidth}px;`
+	return str
 })
 </script>
 
 <template>
-	<div class="img-container" :class="props.class">
+	<div class="img-container" :class="props.class" ref="imgContainer">
 		<slot name="top"></slot>
+		<img v-if="props.format == ImageFormat.Author" :src="imgSrc" class="author" :alt="props.alt"
+			:style="getCustomStyle" />
+		<img v-else :src="imgSrc" class="topic" :alt="props.alt" :style="getCustomStyle" />
 
-		<img v-if="props.style == ImageStyle.Author" :src="imgUrl" class="author" :alt="props.alt" />
-		<img v-else :src="imgUrl" class="topic" :alt="props.alt" />
-
-		<div v-if="props.showLicense && props.imageId != undefined && !props.url.includes('no-category-picture')"
+		<div v-if="props.showLicense && props.imageId != undefined && !props.src.includes('no-category-picture')"
 			class="license-btn" @click="openImage()">Lizenzinfos
 		</div>
 		<slot name="bottom"></slot>

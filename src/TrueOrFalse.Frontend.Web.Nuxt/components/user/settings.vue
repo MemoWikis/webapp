@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from './userStore'
-import { ImageStyle } from '../image/imageStyleEnum'
+import { ImageFormat } from '../image/imageFormatEnum'
 import { messages } from '../alert/messages'
 
 interface Props {
@@ -387,7 +387,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">Profilbild</div>
-                        <Image :url="imageUrl" :style="ImageStyle.Author" class="profile-picture" />
+                        <Image :src="imageUrl" :format="ImageFormat.Author" class="profile-picture" />
                         <div class="img-settings-btns">
 
                             <div>

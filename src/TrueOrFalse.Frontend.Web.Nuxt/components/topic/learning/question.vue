@@ -216,7 +216,7 @@ watch(isInWishknowledge, () => {
             <div class="questionContainer">
                 <div class="questionBodyTop row">
                     <div class="questionImg col-xs-1" @click="expandQuestion()">
-                        <Image :url="props.question.ImageData" />
+                        <Image :src="props.question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader">

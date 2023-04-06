@@ -20,7 +20,7 @@ async function publish() {
 </script>
 
 <template>
-    <LazyModal :show="publishTopicStore.showModal" :modal-width="780" primary-btn-label="Veröffentlichen"
+    <LazyModal :show="publishTopicStore.showModal" primary-btn-label="Veröffentlichen"
         @close="publishTopicStore.showModal = false" @primary-btn="publish()"
         @keydown.esc="publishTopicStore.showModal = false" :disabled="!publishTopicStore.confirmLicense"
         :show-cancel-btn="true">

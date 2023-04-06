@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
-import { ImageStyle } from '~~/components/image/imageStyleEnum'
+import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
@@ -156,8 +156,9 @@ useHead(() => ({
             <div class="col-xs-12 container" v-if="profile && profile.user.id > 0">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">
-                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture hidden-xs" />
-                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl"
+                        <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
+                            class="profile-picture hidden-xs" />
+                        <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
                             class="profile-picture-small hidden-sm hidden-md hidden-lg" />
 
                         <div class="profile-header-info">

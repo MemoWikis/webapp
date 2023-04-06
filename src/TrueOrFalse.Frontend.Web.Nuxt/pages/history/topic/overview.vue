@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ImageStyle } from '~~/components/image/imageStyleEnum';
+import { ImageFormat } from '~~/components/image/imageFormatEnum.js';
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
 
 const route = useRoute()
@@ -96,7 +96,7 @@ function getChangeTypeText(change: Change) {
                             <NuxtLink v-if="change.author.id > 0"
                                 :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`"
                                 class="category-change-author">
-                                <Image :url="change.author.imgUrl" :style="ImageStyle.Author"
+                                <Image :src="change.author.imgUrl" :format="ImageFormat.Author"
                                     class="category-change-author-img" />
                                 {{ change.author.name }}
                             </NuxtLink>
