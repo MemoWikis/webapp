@@ -142,6 +142,7 @@ useHead(() => ({
         }
     ]
 }))
+const { isMobile } = useDevice()
 
 </script>
 
@@ -298,6 +299,10 @@ h4 {
 
 #TopicContent {
     padding-top: 36px;
-    max-width: 100vw;
+    max-width: calc(100vw - 20px);
+
+    &.is-mobile {
+        max-width: 100vw;
+    }
 }
 </style>

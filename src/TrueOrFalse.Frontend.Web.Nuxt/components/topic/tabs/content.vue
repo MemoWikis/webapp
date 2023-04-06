@@ -2,10 +2,11 @@
 import { useTopicStore } from '../topicStore'
 
 const topicStore = useTopicStore()
+const { isMobile } = useDevice()
 </script>
 
 <template>
-    <div id="TopicContent" class="row">
+    <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }">
         <ClientOnly>
             <TopicContentEditor />
             <TopicContentEditBar />

@@ -80,10 +80,10 @@ props.editor.on('focus', () => {
 props.editor.on('blur', () => {
     focused.value = false
 })
-
+const { isMobile } = useDevice()
 </script>
 <template>
-    <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused }">
+    <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
 
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
@@ -201,7 +201,11 @@ props.editor.on('blur', () => {
     display: flex;
     height: 36px;
     margin-top: -36px;
-    max-width: 100vw;
+    max-width: calc(100vw - 20px);
+
+    &.is-mobile {
+        max-width: 100vw;
+    }
 
     .ps {
         border-radius: 4px;

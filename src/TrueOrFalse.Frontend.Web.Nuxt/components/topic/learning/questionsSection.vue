@@ -33,13 +33,16 @@ const questionsExpanded = ref(false)
 function expandAllQuestions() {
     questionsExpanded.value = !questionsExpanded.value
 }
+const { isMobile } = useDevice()
 
 function getClass(): string {
+    let str = ''
+    if (isMobile)
+        str += 'is-mobile'
     if (process.server)
-        return ''
-    else return !learningSessionConfigurationStore.showFilter ? 'no-questions' : ''
+        return str
+    else return !learningSessionConfigurationStore.showFilter ? `${str} no-questions` : str
 }
-
 </script>
 
 <template>
@@ -145,12 +148,15 @@ function getClass(): string {
     padding: 0px 20px 33px 20px;
     margin-right: 0;
     margin-left: 0;
-    max-width: 100vw;
+    max-width: calc(100vw - 20px);
+
+    &.is-mobile {
+        max-width: 100vw;
+    }
 
     @media(max-width: @screen-xxs-max) {
         padding-left: 0;
         padding-right: 0;
-
     }
 
     &.no-questions {

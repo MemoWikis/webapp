@@ -1,8 +1,11 @@
 @import (reference) 'includes/imports.less';
 
 .tabs-bar {
-    max-width: 100vw;
+    max-width: calc(100vw - 20px);
 
+    &.is-mobile {
+        max-width: 100vw;
+    }
 }
 .ps {
  width: 100%;
