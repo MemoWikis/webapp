@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-
-const props = defineProps(['solution', 'highlightEmptyFields'])
+interface Props {
+    highlightEmptyFields: boolean
+    solution?: string
+}
+const props = defineProps<Props>()
 const pairs = ref([{
     ElementRight: { Text: "" },
     ElementLeft: { Text: "" }
@@ -32,7 +35,7 @@ function solutionBuilder() {
 }
 
 function initSolution() {
-    if (props.solution?.value) {
+    if (props.solution) {
         var json = JSON.parse(props.solution)
         pairs.value = json.Pairs
         rightElements.value = json.RightElements
@@ -77,8 +80,7 @@ function addRightElement() {
 
         <form class="form-inline matchlist-pairs" v-for="(pair, index) in pairs" :key="'pair' + index">
             <div class="matchlist-left form-group">
-                <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields"
-                    class="field-error-container">
+                <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields" class="field-error-container">
                     <div class="field-error">Bitte gib ein linkes Element an.</div>
                 </div>
                 <input type="text" class="form-control col-sm-10 matchlist-input" :id="'left-' + index"
@@ -87,8 +89,7 @@ function addRightElement() {
                 <font-awesome-icon icon="fa-solid fa-arrow-right" class="col-sm-2 col-spacer fa-icon" />
             </div>
             <div class="matchlist-right form-group">
-                <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields"
-                    class="field-error-container">
+                <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields" class="field-error-container">
                     <div class="field-error">Bitte wähle ein rechtes Element aus.</div>
                 </div>
                 <select v-model="pair.ElementRight.Text" :id="'right-' + index" class="col-sm-10 matchlist-select"

@@ -24,7 +24,7 @@ const addToWishknowledge = ref(true)
 const questionJson = ref(null as null | JSONContent)
 const questionHtml = ref('')
 const flashCardAnswer = ref('')
-const flashCardJson = ref(null)
+const flashCardJson = ref('')
 const licenseConfirmation = ref(false)
 const showMore = ref(false)
 const licenseIsValid = ref(false)
@@ -51,7 +51,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+            placeholder: 'Vorderseite der Karteikarte',
             showOnlyCurrent: true,
         }),
         Image.configure({
@@ -268,7 +268,6 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
     padding: 22px 21px 30px;
     font-size: 16px;
 
-
     .add-inline-question-label {
         font-weight: 700;
 
@@ -323,6 +322,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
         #AddQuestionFormContainer {
             padding-right: 24px;
             flex: 1;
+            width: 100%;
 
             @media(max-width: @screen-xxs-max) {
                 padding-right: 0;

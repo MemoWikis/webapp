@@ -122,7 +122,7 @@ function handleDragEnd(i: number) {
     movingAnswerIndex.value = null
     dragStarted.value = false
 }
-</script>
+</script>   
 
 <template>
     <div class="row" id="MatchlistAnswerbody">

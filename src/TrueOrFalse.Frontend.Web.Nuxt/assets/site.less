@@ -646,85 +646,6 @@ ul.AutocompleteHeader {
 /*  Breadcrumbs
 ----------------------------------------------------------*/
 
-
-#MasterSidebarColumn {
-    position: static;
-
-    @media(max-width: 1199.9px) {
-        display: none;
-    }
-
-    #Sidebar {
-        display: inline-flex;
-
-        #SidebarDivider {
-            border-left: solid 1px @memo-grey-light;
-            position: fixed;
-            height: 100vh;
-            top: 0;
-        }
-
-        #SidebarContent {
-            color: @memo-grey-darker;
-            padding-top: 70px;
-
-            .sidebar-card {
-                padding-left: 30px;
-                font-family: 'Open Sans';
-                padding-bottom: 10px;
-
-                a {
-                    color: @memo-grey-dark;
-
-                    &:hover {
-                        color: @memo-blue;
-                    }
-                }
-
-                .sidebar-title {
-                    font-size: 12px;
-                    border-bottom: solid 1px @memo-grey-light;
-                    text-transform: uppercase;
-                    padding-bottom: 10px;
-                    font-weight: 600;
-                    letter-spacing: 0.25px;
-                }
-
-                .sidebar-body {
-                    padding: 25px 0;
-
-                    .sidebar-card-preheader {
-                        font-size: 12px;
-                        padding-bottom: 10px;
-                    }
-
-                    .sidebar-card-header {
-                        font-size: 18px;
-                        padding-bottom: 15px;
-                        font-weight: 600;
-                    }
-
-                    .sidebar-card-content {
-                        font-size: 12px;
-                    }
-                }
-
-                .sidebar-footer {
-                    padding-top: 5px;
-                    font-size: 12px;
-                    border-top: solid 1px @memo-grey-light;
-                    text-align: right;
-
-                    a {
-                        color: @memo-grey-dark;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 #MasterMainWrapper {
     background-color: white;
     padding-left: 20px;
@@ -826,8 +747,8 @@ ul.AutocompleteHeader {
 #MasterFooter {
     background-color: @memo-blue;
     padding-top: 20px;
-    padding-left: 15px; //for Bootstrap .row
-    padding-right: 15px; //for Bootstrap .row
+    padding-left: 30px; //for Bootstrap .row
+    padding-right: 30px; //for Bootstrap .row
     padding-bottom: 20px;
     position: relative;
     z-index: 50;
@@ -902,6 +823,7 @@ ul.AutocompleteHeader {
         }
 
         #MasterFooterLogoContainer {
+            max-width: 300px;
             #MasterFooterLogo {
                 cursor: pointer;
             }
@@ -922,9 +844,6 @@ ul.AutocompleteHeader {
     }
 
     #FooterEndContainer {
-        @media (max-width: 768px) {
-            padding: 0 30px;
-        }
 
         #FooterEnd {
             margin-top: 17px;
@@ -1656,6 +1575,10 @@ h1 {
     letter-spacing: -1.5px;
     line-height: 54px;
     color: @memo-blue;
+
+    @media (max-width: 576px) {
+        font-size: 35px;
+    }
 }
 
 h2 {
@@ -1923,31 +1846,6 @@ b, strong {
         &.is-active {
             opacity: 1;
             visibility: visible;
-        }
-    }
-
-    .menubar {
-        top: 60px;
-        position: sticky;
-        background: white;
-        margin-top: -36px;
-        z-index: 10;
-        box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
-        border-radius: 2px;
-        font-size: 0;
-        height: 36px;
-
-        &.is-hidden {
-            visibility: hidden;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        &.is-focused {
-            visibility: visible;
-            opacity: 1;
-            transition: visibility .2s,opacity .2s;
-            pointer-events: auto !important;
         }
     }
 
@@ -2361,7 +2259,7 @@ textarea, input {
     opacity: 1;
     // animation-name: open-default-modal;
     // animation-duration: 300ms;
-    min-width: 600px;
+    width: 600px;
 }
 
 @keyframes open-default-modal {
@@ -2407,7 +2305,7 @@ textarea, input {
 
 @media (max-width: 850px) and (min-width: 386px) {
     .modal-default-container {
-        width: 100% !important;
+        width: 100vw !important;
         position: relative;
         top: 0;
         left: 0;
@@ -2422,17 +2320,18 @@ textarea, input {
         height: 100% !important;
         overflow-y: scroll;
         overflow-x: hidden;
+        min-width: unset;
     }
 }
 
 @media (max-width: 385px) {
     .modal-default-container {
-        width: 100%;
+        width: 100vw;
         position: relative;
         top: 0;
         left: 0;
         margin: 0px auto;
-        padding: 8px 4px;
+        padding: 8px 24px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -2442,6 +2341,7 @@ textarea, input {
         height: 100%;
         overflow-y: scroll;
         overflow-x: hidden;
+        min-width: unset;
     }
 }
 
@@ -2527,6 +2427,9 @@ textarea, input {
 
     .modal-button {
         width: 100%;
+        display:flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
@@ -2606,7 +2509,6 @@ textarea, input {
             padding: 6px 0;
 
             .memucho-info-partial {
-                height: 100%;
                 display: flex;
                 align-items: center;
                 padding: 10px;
@@ -2751,7 +2653,6 @@ textarea, input {
             padding: 10px 0;
 
             .memucho-info-partial {
-                height: 100%;
                 display: flex;
                 align-items: center;
                 padding: 10px;
@@ -2957,6 +2858,21 @@ textarea, input {
             display: none;
         }
     }
+    .category-change-author {
+
+        display:flex;
+        align-items: center;
+        height: 100%;
+
+        .category-change-author-img {
+            max-width: 20px;
+            min-width: 20px;
+            max-height: 20px;
+            min-height: 20px;
+            margin-right: 8px;
+        }
+    }
+
 }
 
 a {
@@ -3009,3 +2925,7 @@ a {
 //     }
 // }
 
+
+.v-popper--theme-tooltip {
+    max-width: 300px;
+  }

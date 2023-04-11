@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { BreadcrumbItem } from '~~/components/header/breadcrumbItems';
-import { ImageStyle } from '~~/components/image/imageStyleEnum'
+import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
+import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
@@ -46,6 +46,7 @@ interface User {
     reputationPoints: number
     rank: number
     showWuwi: boolean
+    encodedName: string
 }
 interface ProfileData {
     user: User
@@ -63,6 +64,9 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
         }
     }
 })
+
+if (profile.value == null || profile.value.user.id <= 0)
+    navigateTo('/Fehler/500')
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
@@ -89,6 +93,7 @@ interface Props {
     isSettingsPage?: boolean
 }
 const props = defineProps<Props>()
+
 const emit = defineEmits(['setBreadcrumb'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
@@ -99,7 +104,7 @@ function handleBreadcrumb(t: Tab) {
         }
         emit('setBreadcrumb', [breadcrumbItem])
     }
-    else {
+    else if (profile.value?.user.id && profile.value.user.id > 0) {
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
@@ -110,6 +115,8 @@ function handleBreadcrumb(t: Tab) {
                 url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
             }]
         emit('setBreadcrumb', breadcrumbItems)
+    } else {
+        emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
     }
 }
 onMounted(() => {
@@ -125,16 +132,33 @@ watch(() => userStore.isLoggedIn, () => {
     refreshWuwi()
     refreshProfile()
 })
+
+useHead(() => ({
+    link: [
+        {
+            rel: 'canonical',
+            href: `${config.public.serverBase}/${profile.value?.user.encodedName}/${profile.value?.user.id}`,
+        },
+    ],
+    meta: [
+        {
+            property: 'og:title',
+            content: profile.value?.user.encodedName
+        },
+    ]
+}))
+
 </script>
 
 <template>
     <div class="container">
         <div class="row profile-container  main-page">
-            <div class="col-xs-12 container" v-if="profile">
+            <div class="col-xs-12 container" v-if="profile && profile.user.id > 0">
                 <div class="row">
                     <div class="col-xs-12 profile-header ">
-                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl" class="profile-picture hidden-xs" />
-                        <Image :style="ImageStyle.Author" :url="profile.user.imageUrl"
+                        <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
+                            class="profile-picture hidden-xs" />
+                        <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
                             class="profile-picture-small hidden-sm hidden-md hidden-lg" />
 
                         <div class="profile-header-info">
@@ -143,15 +167,13 @@ watch(() => userStore.isLoggedIn, () => {
                                 <b>{{ profile.user.reputationPoints }}</b> Reputationspunkte
                                 <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
                                 (Rang {{ profile.user.rank }})
-                                <NuxtLink class="link-to-all-users">
+                                <NuxtLink class="link-to-all-users" to="/Nutzer">
                                     Zur Übersicht aller Nutzer
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
-                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl"
-                                    :to="profile.user.wikiUrl">
-                                    <NuxtLink>
-
+                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl">
+                                    <NuxtLink :to="profile.user.wikiUrl">
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
                                         Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
@@ -298,7 +320,7 @@ watch(() => userStore.isLoggedIn, () => {
 
                     </div>
                 </Transition>
-                <Transition v-if="profile.isCurrentUser">
+                <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
                     <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
                         @update-profile="refreshProfile" />
                 </Transition>
@@ -335,8 +357,6 @@ watch(() => userStore.isLoggedIn, () => {
         min-width: 96px;
     }
 
-    .profile-header-info {}
-
     .sub-info {
         font-size: 18px;
         margin-bottom: 10px;
@@ -347,12 +367,9 @@ watch(() => userStore.isLoggedIn, () => {
         }
 
         .link-to-all-users {
-            font-size: 14px;
+            // font-size: 14px;
         }
     }
-
-    .profile-btn-container {}
-
 }
 
 .divider {
@@ -397,13 +414,12 @@ watch(() => userStore.isLoggedIn, () => {
     margin: 0 20px;
     margin-bottom: 10px;
 
-
     .count {
         font-weight: 700;
         min-width: 70px;
         text-align: right;
         margin-right: 10px;
-        color: @memo-grey-dark;
+        color: @memo-grey-darker;
     }
 
     .count-label {

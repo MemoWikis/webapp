@@ -7,5 +7,6 @@ export enum Page {
     Terms,
     Register,
     Messages,
-    Default
+    Default,
+    Error
 }

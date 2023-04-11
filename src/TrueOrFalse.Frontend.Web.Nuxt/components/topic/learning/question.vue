@@ -5,6 +5,9 @@ import { getHighlightedCode } from '~~/components/shared/utils'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { PinState } from '~~/components/question/pin/pinStore'
+import { useCommentsStore } from '~~/components/comment/commentsStore'
+
+const commentsStore = useCommentsStore()
 
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
@@ -140,10 +143,10 @@ const extendedAnswerId = ref('#eaId' + props.question.Id)
 const correctnessProbability = ref('')
 const correctnessProbabilityLabel = ref('')
 
-function showCommentModal(hide: any | null = null) {
+function showCommentModal(hide: any = undefined) {
     if (hide)
         hide()
-    // needs comment modal
+    commentsStore.openModal(props.question.Id)
 }
 
 const editQuestionStore = useEditQuestionStore()
@@ -213,7 +216,7 @@ watch(isInWishknowledge, () => {
             <div class="questionContainer">
                 <div class="questionBodyTop row">
                     <div class="questionImg col-xs-1" @click="expandQuestion()">
-                        <Image :url="props.question.ImageData" />
+                        <Image :src="props.question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader">
@@ -295,9 +298,9 @@ watch(isInWishknowledge, () => {
                                             <font-awesome-icon icon="fa-solid fa-pen" />
                                         </div>
                                         <div class="dropdown-label">Frage bearbeiten</div>
-
                                     </div>
-                                    <NuxtLink :to="props.question.LinkToQuestion">
+
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -308,7 +311,7 @@ watch(isInWishknowledge, () => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink :to="props.question.LinkToQuestionVersions">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -321,14 +324,16 @@ watch(isInWishknowledge, () => {
 
                                     <div class="dropdown-row" @click="showCommentModal(hide)">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-comment" />
+                                            <font-awesome-icon :icon="['fas', 'comment']" />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren
                                         </div>
                                     </div>
 
-                                    <div class="dropdown-row" @click="deleteQuestion(hide)">
+                                    <div class="dropdown-row"
+                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
+                                        @click="deleteQuestion(hide)">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>
@@ -336,6 +341,7 @@ watch(isInWishknowledge, () => {
                                             Frage löschen
                                         </div>
                                     </div>
+
                                 </template>
                             </V-Dropdown>
                         </div>
@@ -551,8 +557,6 @@ watch(isInWishknowledge, () => {
                         .relatedCategories {
                             padding-bottom: 16px;
                         }
-
-                        .author {}
 
                         .sources {
                             overflow-wrap: break-word;

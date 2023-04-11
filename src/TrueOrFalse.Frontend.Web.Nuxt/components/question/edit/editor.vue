@@ -11,7 +11,11 @@ import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
-const props = defineProps(['highlightEmptyFields', 'content'])
+interface Props {
+    highlightEmptyFields: boolean
+    content: string
+}
+const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionData'])

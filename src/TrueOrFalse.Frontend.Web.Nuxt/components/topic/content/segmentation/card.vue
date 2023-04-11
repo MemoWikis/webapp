@@ -170,14 +170,14 @@ export default defineNuxtComponent({
     <div class="col-xs-6 topic segmentCategoryCard" v-show="visible" @mouseover="mouseOver" @mouseleave="mouseLeave"
         :class="{ hover: showHover }">
         <div class="row" v-on:click.self="goToCategory()">
-            <div class="col-xs-4 col-sm-3">
+            <div class="col-xs-3 col-sm-3">
                 <NuxtLink :to="category.LinkToCategory">
                     <div class="ImageContainer">
-                        <Image :url="category.ImgUrl" :square="true" />
+                        <Image :src="category.ImgUrl" />
                     </div>
                 </NuxtLink>
             </div>
-            <div class="col-xs-8 col-sm-9">
+            <div class="col-xs-9">
                 <div class="topic-name">
 
                     <NuxtLink :href="$props.category.LinkToCategory">
@@ -198,11 +198,11 @@ export default defineNuxtComponent({
                         </div>
                         <template #popper="{ hide }">
                             <!-- <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
-                                                        <div class="dropdown-icon">
-                                                            <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                                        </div>
-                                                        <div class="dropdown-label"> Unterthemen einblenden</div>
-                                                    </div> -->
+                                                                                                    <div class="dropdown-icon">
+                                                                                                        <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
+                                                                                                    </div>
+                                                                                                    <div class="dropdown-label"> Unterthemen einblenden</div>
+                                                                                                </div> -->
                             <div @click="removeParent(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
@@ -327,6 +327,14 @@ li {
 
         &.hover {
             cursor: pointer;
+        }
+
+        .ImageContainer {
+            @media (max-width: 576px) {
+                max-width: 60px;
+                min-width: 60px;
+                width: 60px;
+            }
         }
     }
 
@@ -489,6 +497,7 @@ li {
     .set-question-count {
         .sub-label {
             color: @memo-grey-dark;
+            font-size: 18px;
         }
     }
 
@@ -604,6 +613,7 @@ li {
                 align-items: center;
                 height: 100%;
                 overflow: hidden;
+                font-size: 18px;
 
                 @media (max-width: (@extra-breakpoint-cards - 1px)) {
                     max-height: none;

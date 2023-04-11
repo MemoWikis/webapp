@@ -1,5 +1,4 @@
 ﻿import { UserCreateResult } from './userCreateResult'
-import { Site } from '../shared/site'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
@@ -48,6 +47,8 @@ export class FacebookMemuchoUser {
             if (result.Success) {
                 userStore.isLoggedIn = true
                 userStore.initUser(result.currentUser!)
+                if (window.location.pathname == '/Registrieren')
+                    navigateTo('/')
             }
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
@@ -78,6 +79,8 @@ export class FacebookMemuchoUser {
 
         if (!!result && result.success) {
             userStore.initUser(result.currentUser!)
+            if (window.location.pathname == '/Registrieren')
+                navigateTo('/')
         }
 
     }
@@ -85,7 +88,7 @@ export class FacebookMemuchoUser {
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus(response => {
             this._LoginOrRegister(response, stayOnPage, disallowRegistration);
-        });
+        })
     }
 
     private static _LoginOrRegister(
@@ -96,34 +99,35 @@ export class FacebookMemuchoUser {
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
-            Site.loadValidPage();
+            if (window.location.pathname == '/Registrieren')
+                navigateTo('/')
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
             FB.login(async response => {
 
-                var facebookId = response.authResponse!.userID;
-                var facebookAccessToken = response.authResponse!.accessToken;
+                var facebookId = response.authResponse!.userID
+                var facebookAccessToken = response.authResponse!.accessToken
 
                 if (response.status !== "connected")
                     return;
 
                 if (await FacebookMemuchoUser.Exists(facebookId)) {
-                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage);
+                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage)
 
                     return;
                 }
 
                 if (disallowRegistration) {
-                    Site.redirectToRegistration();
-                    return;
+                    navigateTo('/Registrieren')
+                    return
                 }
 
                 Facebook.GetUser(facebookId,
                     facebookAccessToken,
                     (user: FacebookUserFields) => {
-                        FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken);
-                    });
+                        FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)
+                    })
 
             },
                 { scope: 'email' });

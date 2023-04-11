@@ -13,13 +13,13 @@ const route = useRoute()
 onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     if (process.client) {
-        learningSessionConfigurationStore.loadSessionFromLocalStorage()
+        await learningSessionConfigurationStore.loadSessionFromLocalStorage()
     }
 
     if (route.params.questionId != null)
-        learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
+        await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
     else
-        learningSessionStore.startNewSession()
+        await learningSessionStore.startNewSession()
 })
 const openFilter = ref(false)
 onMounted(() => {
@@ -32,9 +32,9 @@ watch(() => learningSessionConfigurationStore.showSelectionError, (val) => {
         openFilter.value = true
 })
 
-watch(() => userStore.isLoggedIn, () => {
+watch(() => userStore.isLoggedIn, async () => {
     if (process.client) {
-        learningSessionConfigurationStore.loadSessionFromLocalStorage()
+        await learningSessionConfigurationStore.loadSessionFromLocalStorage()
     }
 })
 

@@ -1,4 +1,3 @@
 export enum Tab {
-    AllUsers,
-    Network
+    AllUsers
 }

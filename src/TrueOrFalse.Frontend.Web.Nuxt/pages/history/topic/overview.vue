@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ImageStyle } from '~~/components/image/imageStyleEnum';
+import { ImageFormat } from '~~/components/image/imageFormatEnum.js';
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
 
 const route = useRoute()
@@ -89,12 +89,15 @@ function getChangeTypeText(change: Change) {
                 <div class="col-xs-12">
                     <h3>{{ day.date }}</h3>
                 </div>
-                <template v-for="change in day.changes">
-                    <div class="col-xs-12 row change-detail-model"
+                <template v-for="change, i in day.changes">
+                    <div class="col-xs-12 row change-detail-model" :class="{ 'last-detail': i == day.changes.length - 1 }"
                         v-if="change.topicId == parseInt(route.params.id.toString())">
                         <div class="col-xs-3">
-                            <NuxtLink :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`">
-                                <Image :url="change.author.imgUrl" :style="ImageStyle.Author" />
+                            <NuxtLink v-if="change.author.id > 0"
+                                :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`"
+                                class="category-change-author">
+                                <Image :src="change.author.imgUrl" :format="ImageFormat.Author"
+                                    class="category-change-author-img" />
                                 {{ change.author.name }}
                             </NuxtLink>
                         </div>
@@ -122,14 +125,18 @@ function getChangeTypeText(change: Change) {
 
 .change-detail-model {
     border: 1px solid silver;
-    margin: -1px;
-    margin-left: 0px;
+    margin: 0px;
     padding: 10px;
     min-height: 60px;
     display: flex;
     align-items: center;
     color: @memo-grey-dark;
     flex-wrap: wrap;
+    border-bottom: none;
+
+    &.last-detail {
+        border-bottom: 1px solid silver;
+    }
 
     .col-xs-3 {
         height: 100%;

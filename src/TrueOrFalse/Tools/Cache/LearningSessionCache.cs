@@ -51,7 +51,7 @@ public class LearningSessionCache
         }
     }
 
-    public static void EditQuestionInLearningSession(QuestionCacheItem question, int sessionIndex)
+    public static void EditQuestionInLearningSession(QuestionCacheItem question)
     {
         var learningSession = GetLearningSession();
 

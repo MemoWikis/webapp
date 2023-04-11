@@ -14,15 +14,23 @@ const showDeleteBtn = ref(false)
 const name = ref('')
 const alertStore = useAlertStore()
 
+interface DeleteDetails {
+    questionTitle: string
+    totalAnswers: number
+    canNotBeDeleted: boolean
+    wuwiCount: number
+    hasRights: boolean
+}
+
 async function getDeleteDetails(id: number) {
 
-    var result = await $fetch<any>(`/apiVue/Question/DeleteDetails/${id}`, {
-        method: 'POST',
+    var result = await $fetch<DeleteDetails>(`/apiVue/DeleteQuestion/DeleteDetails?questionId=${id}`, {
+        method: 'GET',
         mode: 'cors',
         credentials: 'include',
     })
 
-    if (result != null) {
+    if (result) {
         name.value = result.questionTitle
         if (result.canNotBeDeleted) {
             if (result.wuwiCount > 0)
@@ -45,7 +53,6 @@ const spinnerStore = useSpinnerStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const topicStore = useTopicStore()
 
-const config = useRuntimeConfig()
 async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
@@ -56,10 +63,11 @@ async function deleteQuestion() {
         sessionIndex: learningSessionStore.currentIndex
     }
 
-    var result = await $fetch<any>('/apVue/Question/Delete', {
+    var result = await $fetch<any>('/apVue/DeleteQuestion/Delete', {
         method: 'POST',
         body: data,
-        credentials: 'include'
+        credentials: 'include',
+        mode: 'cors'
     })
 
     if (result) {
@@ -78,7 +86,6 @@ async function deleteQuestion() {
     }
 }
 
-
 watch(() => deleteQuestionStore.showModal, (val) => {
     if (val) {
         getDeleteDetails(deleteQuestionStore.id)
@@ -90,10 +97,10 @@ watch(() => deleteQuestionStore.showModal, (val) => {
     <LazyModal :show-close-button="true" primary-btn-label="Löschen" :is-full-size-buttons="true"
         @close="deleteQuestionStore.showModal = false" @primary-btn="deleteQuestion()"
         :show="deleteQuestionStore.showModal">
-        <template slot:header>
+        <template v-slot:header>
             <h4 class="modal-title">Frage löschen</h4>
         </template>
-        <template slot:body>
+        <template v-slot:body>
 
             <div class="cardModalContent">
                 <div class="modalHeader">
@@ -114,7 +121,7 @@ watch(() => deleteQuestionStore.showModal, (val) => {
             </div>
         </template>
 
-        <template slot:footer> </template>
+        <template v-slot:footer> </template>
     </LazyModal>
 </template>
 

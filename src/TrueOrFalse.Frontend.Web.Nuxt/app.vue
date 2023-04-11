@@ -49,7 +49,7 @@ const questionPageData = ref<{
 	primaryTopicName: string
 	primaryTopicUrl: string
 	title: string
-} | undefined>(undefined)
+}>()
 function setQuestionpageBreadcrumb(e: {
 	primaryTopicName: string
 	primaryTopicUrl: string
@@ -62,12 +62,15 @@ const breadcrumbItems = ref<BreadcrumbItem[]>()
 function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
+
 </script>
 
 <template>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" />
+	<BannerInfo :documentation="footerTopics?.Documentation!" />
+	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
+		:documentation="footerTopics?.Documentation!" />
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

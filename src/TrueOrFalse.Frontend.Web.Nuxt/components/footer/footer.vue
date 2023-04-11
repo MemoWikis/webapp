@@ -3,18 +3,26 @@ import { FooterTopics } from '../topic/topicStore'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
-    footerTopics: FooterTopics
+    footerTopics: FooterTopics,
+    isError?: boolean
 }
 const props = defineProps<Props>()
 const userStore = useUserStore()
+const config = useRuntimeConfig()
+
+function handleError() {
+    if (props.isError)
+        clearError()
+}
 </script>
 
 <template>
     <section id="GlobalLicense">
         <div class="license-container">
             <div class="license-text-container">
-                <NuxtLink class="CCLogo" rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">
-                    <Image url="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
+                <NuxtLink @click="handleError()" class="CCLogo" rel="license"
+                    to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                    <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
                 </NuxtLink>
                 <div class="Text">
                     Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
@@ -42,7 +50,7 @@ const userStore = useUserStore()
                             <NuxtLink
                                 :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'"
                                 id="MasterFooterLogo">
-                                <Image url="/Images/Logo/LogoIconText.svg" />
+                                <Image src="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img" />
                             </NuxtLink>
 
                             <div class="overline-s no-line">
@@ -52,36 +60,41 @@ const userStore = useUserStore()
                             </div>
                         </div>
                         <div class="footer-group">
-                            <LazyNuxtLink to="/Nutzungsbedingungen">Nutzungsbedingungen (AGBs)</LazyNuxtLink>
+                            <NuxtLink @click="handleError()" to="/AGB">Nutzungsbedingungen (AGBs)</NuxtLink>
                             <br />
-                            <LazyNuxtLink to="/Impressum">Impressum & Datenschutz</LazyNuxtLink>
+                            <NuxtLink @click="handleError()" to="/Impressum">Impressum & Datenschutz</NuxtLink>
+                            <br />
+                            <NuxtLink @click="handleError()" to="/Nutzer">Alle Nutzer</NuxtLink>
+                            <br />
                         </div>
                     </div>
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <LazyNuxtLink :to="`/${props.footerTopics.MemoWiki.Name}/${props.footerTopics.MemoWiki.Id}`"
+                                <NuxtLink @click="handleError()"
+                                    :to="`/${props.footerTopics.MemoWiki.Name}/${props.footerTopics.MemoWiki.Id}`"
                                     v-if="props.footerTopics?.MemoWiki">
                                     {{ props.footerTopics.MemoWiki.Name }}
-                                </LazyNuxtLink>
-
+                                </NuxtLink>
                             </div>
                             <template v-for="(t, i) in props.footerTopics.MemoTopics" v-if="props.footerTopics?.MemoTopics">
-                                <LazyNuxtLink :to="`/${t.Name}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name}/${t.Id}`">
                                     {{ t.Name }}
-                                </LazyNuxtLink>
+                                </NuxtLink>
                                 <br v-if="i < props.footerTopics?.MemoTopics.length - 1" />
                             </template>
 
                         </div>
                         <div class="footer-group">
                             <div class="overline-m no-line">Software</div>
-                            <NuxtLink to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"
+                                :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </NuxtLink>
                             <br />
-                            <NuxtLink to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
+                            <NuxtLink @click="handleError()"
+                                to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
                                 target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
                             </NuxtLink>
@@ -95,19 +108,20 @@ const userStore = useUserStore()
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
                             <template v-for="(t, i) in props.footerTopics.HelpTopics" v-if="props.footerTopics?.HelpTopics">
-                                <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
-                                </LazyNuxtLink>
+                                </NuxtLink>
                                 <br v-if="i < props.footerTopics.HelpTopics.length - 1" />
                             </template>
                             <br />
 
-                            <a href="https://discord.com/invite/nXKwGrN" target="_blank">
+                            <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
-                            </a><br />
-                            <a href="https://twitter.com/memuchoWissen" target="_blank">
+                            </NuxtLink><br />
+                            <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank"
+                                :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
-                            </a><br />
+                            </NuxtLink><br />
                         </div>
                         <div class="footer-group">
                             <div class="overline-m no-line">Mitgliedschaft</div>
@@ -119,17 +133,17 @@ const userStore = useUserStore()
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <LazyNuxtLink
+                                <NuxtLink
                                     :to="`/${props.footerTopics.RootWiki.Name.replaceAll(' ', '-')}/${props.footerTopics.RootWiki.Id}`"
                                     v-if="props.footerTopics?.RootWiki">
                                     {{ props.footerTopics.RootWiki.Name }}
-                                </LazyNuxtLink>
+                                </NuxtLink>
 
                             </div>
                             <template v-for="(t, i) in props.footerTopics.MainTopics" v-if="props.footerTopics?.MainTopics">
-                                <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
-                                </LazyNuxtLink>
+                                </NuxtLink>
                                 <br v-if="i < props.footerTopics.MainTopics.length - 1" />
                             </template>
                         </div>
@@ -138,9 +152,9 @@ const userStore = useUserStore()
                             <div class="overline-m no-line">Beliebte Themen</div>
                             <template v-for="(t, i) in props.footerTopics.PopularTopics"
                                 v-if="props.footerTopics?.PopularTopics">
-                                <LazyNuxtLink :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
+                                <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
-                                </LazyNuxtLink>
+                                </NuxtLink>
                                 <br v-if="i < props.footerTopics.PopularTopics.length - 1" />
                             </template>
                         </div>
@@ -152,14 +166,14 @@ const userStore = useUserStore()
                             <div>
                                 Entwickelt von:
                             </div>
-                            <a href="https://bitwerke.de/">
-                                <Image url="/Images/Logo/BitwerkeLogo.svg" />
-                            </a>
-                            <a href="https://bitwerke.de/">
+                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
+                                <Image src="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" />
+                            </NuxtLink>
+                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
                                 <div>
                                     Individualsoftware, UX/UI, Entwicklung und Beratung
                                 </div>
-                            </a>
+                            </NuxtLink>
                         </div>
                     </div>
                 </div>
@@ -179,5 +193,14 @@ const userStore = useUserStore()
     bottom: 0;
     display: flex;
     flex-grow: 1;
+}
+
+.master-footer-logo-img {
+    margin-bottom: 20px;
+    padding-right: 20px;
+}
+
+.bitwerke-logo {
+    padding: 0 10px;
 }
 </style>

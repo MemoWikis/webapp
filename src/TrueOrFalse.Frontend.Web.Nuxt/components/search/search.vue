@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import _ from 'underscore'
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
-import { ImageStyle } from '../image/imageStyleEnum'
+import { ImageFormat } from '../image/imageFormatEnum'
 
 interface Props {
     searchType: SearchType
@@ -134,7 +134,7 @@ function hide() {
                         <div>{{ topicCount }} Treffer</div>
                     </div>
                     <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
-                        <Image :url="t.ImageUrl" :style="ImageStyle.Topic" />
+                        <Image :src="t.ImageUrl" :format="ImageFormat.Topic" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ t.Name }}</div>
                             <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template
@@ -146,7 +146,7 @@ function hide() {
                         <div>{{ questionCount }} Treffer</div>
                     </div>
                     <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.Name">
-                        <Image :url="q.ImageUrl" />
+                        <Image :src="q.ImageUrl" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ q.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>
@@ -157,7 +157,7 @@ function hide() {
                         <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
                     </div>
                     <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.Name">
-                        <Image :url="u.ImageUrl" :style="ImageStyle.Author" />
+                        <Image :src="u.ImageUrl" :format="ImageFormat.Author" />
                         <div class="searchResultLabelContainer">
                             <div class="searchResultLabel body-m">{{ u.Name }}</div>
                             <div class="searchResultSubLabel body-s"></div>

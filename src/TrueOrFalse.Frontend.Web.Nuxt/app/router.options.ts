@@ -13,7 +13,7 @@ export default <RouterConfig>{
         },
         {
             name: 'termsPage',
-            path: '/Nutzungsbedingungen',
+            path: '/AGB',
             component: () => import('~/pages/terms.vue')
         },
         {
@@ -38,23 +38,23 @@ export default <RouterConfig>{
         },
         {
             name: 'questionPage',
-            path: '/Fragen/:title/:id',
+            path: '/Fragen/:title/:id(\\d+)',
+            component: () => import('~/pages/question/[title]/[id].vue')
+        },
+        {
+            name: 'questionPage2',
+            path: '/Fragen/:title/:id(\\d+)/:step',
             component: () => import('~/pages/question/[title]/[id].vue')
         },
         {
             name: 'usersPage',
             path: '/Nutzer',
-            component: () => import('~/pages/user/users.vue')
-        },
-        {
-            name: 'networkPage',
-            path: '/Netzwerk',
             component: () => import('~/pages/user/users.vue'),
-            props: { tab: UsersTab.Network }
+            props: { tab: UsersTab.AllUsers }
         },
         {
             name: 'userPage',
-            path: '/Nutzer/:name/:id',
+            path: '/Nutzer/:name/:id(\\d+)',
             component: () => import('~/pages/user/[name]/[id].vue')
         },
         {
@@ -71,31 +71,31 @@ export default <RouterConfig>{
         },
         {
             name: 'topicContentPage',
-            path: '/:topic/:id',
+            path: '/:topic/:id(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
             props: { tab: TopicTab.Topic }
         },
         {
             name: 'topicLearningPage',
-            path: '/:topic/:id/Lernen',
+            path: '/:topic/:id(\\d+)/Lernen',
             component: () => import('~/pages/[topic]/[id].vue'),
             props: { tab: TopicTab.Learning }
         },
         {
             name: 'topicLearningPageWithQuestion',
-            path: '/:topic/:id/Lernen/:questionId',
+            path: '/:topic/:id(\\d+)/Lernen/:questionId(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
             props: { tab: TopicTab.Learning }
         },
         {
             name: 'topicFeedPage',
-            path: '/:topic/:id/Feed',
+            path: '/:topic/:id(\\d+)/Feed',
             component: () => import('~/pages/[topic]/[id].vue'),
             props: { tab: TopicTab.Feed }
         },
         {
             name: 'topicAnalyticsPage',
-            path: '/:topic/:id/Analytics',
+            path: '/:topic/:id(\\d+)/Analytics',
             component: () => import('~/pages/[topic]/[id].vue'),
             props: { tab: TopicTab.Analytics }
         },
@@ -106,7 +106,7 @@ export default <RouterConfig>{
         },
         {
             name: 'topicHistoryOverview',
-            path: '/Historie/Thema/:id',
+            path: '/Historie/Thema/:id(\\d+)',
             component: () => import('~~/pages/history/topic/overview.vue'),
         },
         {
@@ -118,6 +118,6 @@ export default <RouterConfig>{
             name: 'topicHistoryDetailWithPrevRev',
             path: '/Historie/Thema/:topicId/:currentRevisionId/',
             component: () => import('~/pages/history/topic/detail.vue'),
-        },
+        }
     ],
 }

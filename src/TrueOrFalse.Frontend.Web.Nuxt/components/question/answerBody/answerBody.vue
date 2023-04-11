@@ -303,11 +303,6 @@ learningSessionStore.$onAction(({ name, after }) => {
     }
 })
 
-if (process.client) {
-
-    (<any>window).reloadAnswerBody = () => loadAnswerBodyModel()
-}
-
 watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
 
 function loadResult() {
@@ -342,14 +337,6 @@ const allMultipleChoiceCombinationTried = computed(() => {
     return false
 })
 
-// watch(() => tabsStore.activeTab, (tab) => {
-//     if (tab == Tab.Learning && answerBodyModel.value == undefined)
-//         loadAnswerBodyModel()
-// })
-onMounted(() => {
-    if (answerBodyModel.value == undefined && !learningSessionConfigurationStore.maxQuestionCountIsZero)
-        loadAnswerBodyModel()
-})
 </script>
 
 <template>

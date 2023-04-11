@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { handleNewLine } from '~~/components/shared/utils'
+import { useUserStore } from '../userStore'
 import { Message } from './message'
+
+const userStore = useUserStore()
 
 interface Props {
     message: Message,
@@ -15,19 +18,21 @@ onBeforeMount(() => {
 })
 
 async function markAsRead() {
-    $fetch(`/apiVue/MessageRow/MarkAsRead?id=${props.message.id}`, {
+    await $fetch(`/apiVue/MessageRow/MarkAsRead?id=${props.message.id}`, {
         credentials: 'include',
         mode: 'cors'
     })
     read.value = true
+    userStore.getUnreadMessagesCount()
 }
 
 async function markAsUnread() {
-    $fetch(`/apiVue/MessageRow/MarkAsUnread?id=${props.message.id}`, {
+    await $fetch(`/apiVue/MessageRow/MarkAsUnread?id=${props.message.id}`, {
         credentials: 'include',
         mode: 'cors'
     })
     read.value = false
+    userStore.getUnreadMessagesCount()
 }
 const showMessage = ref(false)
 watch(() => props.forceShow, (val) => showMessage.value = val)
@@ -67,7 +72,6 @@ watch(() => props.forceShow, (val) => showMessage.value = val)
             </div>
         </div>
     </div>
-
 </template>
 
 <style lang="less" scoped>

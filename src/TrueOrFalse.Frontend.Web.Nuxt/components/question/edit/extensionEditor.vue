@@ -10,8 +10,11 @@ import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
-
-const props = defineProps(['highlightEmptyFields', 'content'])
+interface Props {
+    highlightEmptyFields: boolean
+    content: string
+}
+const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionExtensionData'])
@@ -65,11 +68,11 @@ const editor = useEditor({
 
 const showExtension = ref(false)
 
-watch(props.content, (o, n) => {
-    if (n.value != null && n.value.length > 0)
+watch(() => props.content, (o, n) => {
+    if (n != null && n.length > 0)
         showExtension.value = true
-    if (o.value != n.value)
-        editor.value?.commands.setContent(n.value)
+    if (o != n)
+        editor.value?.commands.setContent(n)
 })
 </script>
 

@@ -11,7 +11,11 @@ import { lowlight } from 'lowlight/lib/core'
 import _ from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 
-const props = defineProps(['solution', 'highlightEmptyFields'])
+interface Props {
+    highlightEmptyFields: boolean
+    solution?: string
+}
+const props = defineProps<Props>()
 const emit = defineEmits(['setFlashCardContent'])
 const alertStore = useAlertStore()
 const content = ref(null)
@@ -58,7 +62,7 @@ const editor = useEditor({
 })
 
 function initSolution() {
-    if (props.solution?.value) {
+    if (props.solution) {
         editor.value?.commands.setContent(props.solution)
         setFlashCardContent()
     }

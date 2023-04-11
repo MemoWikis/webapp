@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using FluentNHibernate.Conventions;
 
 namespace VueApp;
 
@@ -38,7 +39,8 @@ public class VueSessionUser
                 levelUp = false,
                 activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel) - activityPoints,
                 activityPointsPercentageOfNextLevel = activityPoints == 0 ? 0 : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
-                }
+                },
+                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId)
             };
         }
 
@@ -61,7 +63,7 @@ public class VueSessionUser
                 level = userLevel,
                 levelUp = false,
                 activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)
-            }
+            },
         };
     }
     private enum UserType

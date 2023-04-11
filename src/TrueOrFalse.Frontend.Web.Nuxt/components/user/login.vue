@@ -1,21 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useUserStore } from '../user/userStore'
+
+const alertStore = useAlertStore()
+const userStore = useUserStore()
 
 const eMail = ref('')
 const password = ref('')
 const persistentLogin = ref(false)
-const userStore = useUserStore()
 
 async function login() {
 
-    var data = {
+    errorMessage.value = ''
+
+    const data = {
         EmailAddress: eMail.value,
         Password: password.value,
         PersistentLogin: persistentLogin.value
     }
 
-    userStore.login(data)
+    const result = await userStore.login(data)
+    if (!result.success)
+        errorMessage.value = result.msg!
 }
 const passwordInputType = ref('password')
 
@@ -65,6 +72,17 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo, show
     else primaryBtnLabel.value = 'Anmelden'
 })
 
+function primaryAction() {
+    if (showLoginIsInProgress.value || showGooglePluginInfo.value || showFacebookPluginInfo.value)
+        return
+    else if (showPasswordReset.value) {
+        userStore.resetPassword(eMail.value)
+        userStore.showLoginModal = false
+        alertStore.openAlert(AlertType.Default, { text: messages.info.passwordResetRequested(eMail.value) })
+    }
+    else login()
+}
+
 watch(() => userStore.showLoginModal, () => {
     showLoginIsInProgress.value = false
 })
@@ -83,9 +101,9 @@ onMounted(() => {
 
 <template>
     <div id="LoginModalComponent">
-        <LazyModal :show-close-button="true" :modal-width="600" :primary-btn-label="primaryBtnLabel"
-            :is-full-size-buttons="true" @close="userStore.showLoginModal = false" @primary-btn="login()"
-            :show="userStore.showLoginModal" @keydown.esc="userStore.showLoginModal = false">
+        <LazyModal :show-close-button="true" :primary-btn-label="primaryBtnLabel" :is-full-size-buttons="true"
+            @close="userStore.showLoginModal = false" @primary-btn="primaryAction" :show="userStore.showLoginModal"
+            @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
                 <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>
                 <span v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</span>
@@ -115,7 +133,6 @@ onMounted(() => {
                     </div>
                 </div>
                 <template v-else-if="showPasswordReset">
-
                     <div>
                         <p>
                             Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen Link,
@@ -131,8 +148,8 @@ onMounted(() => {
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <input name="passwordReset" placeholder="" type="email" width="100%"
-                                            class="login-inputs" v-model="eMail"
-                                            @keydown.enter="userStore.resetPassword(eMail)" @click="errorMessage = ''" />
+                                            class="login-inputs" v-model="eMail" @keydown.enter="primaryAction"
+                                            @click="errorMessage = ''" />
                                     </div>
                                 </div>
                             </div>
@@ -180,8 +197,7 @@ onMounted(() => {
 
                     <p class="consentInfoText">
                         Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
-                        <NuxtLink to="/Nutzungsbedingungen">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink
-                            to="/Impressum">
+                        <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum">
                             Datenschutzerklärung</NuxtLink>
                         einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr
                             Infos!
@@ -207,7 +223,7 @@ onMounted(() => {
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <input name="login" placeholder="" type="email" width="100%" class="login-inputs"
-                                        v-model="eMail" @keydown.enter="login()" @click="errorMessage = ''" />
+                                        v-model="eMail" @keydown.enter="primaryAction" @click="errorMessage = ''" />
                                 </div>
                             </div>
                         </div>
@@ -216,7 +232,7 @@ onMounted(() => {
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <input name="password" placeholder="" :type="passwordInputType" width="100%"
-                                        class="login-inputs" v-model="password" @keydown.enter="login()"
+                                        class="login-inputs" v-model="password" @keydown.enter="primaryAction"
                                         @click="errorMessage = ''" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
                                         v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'" />

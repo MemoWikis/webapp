@@ -1,15 +1,52 @@
 <script lang="ts" setup>
+import { Topic } from '../topic/topicStore'
+
 const { isDesktop } = useDevice()
+interface Props {
+    documentation: Topic
+}
+const props = defineProps<Props>()
+const config = useRuntimeConfig()
+
+const discordBounce = ref(false)
+function bounceDiscord() {
+
+}
 </script>
 
 <template>
     <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
         <div id="SidebarDivider"></div>
+        <div id="SidebarContent">
+            <div id="SidebarSpacer"></div>
+            <SidebarCard>
+                <template v-slot:header>
+                    <NuxtLink :to="`/${props.documentation.EncodedName}/${props.documentation.Id}`" class="sidebar-link">
+                        Zur Dokumentation
+                    </NuxtLink>
+                </template>
+            </SidebarCard>
+            <SidebarCard>
+                <template v-slot:header>
+                    <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
+                        @mouseleave="discordBounce = false">
+                        <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> Discord
+                    </NuxtLink>
+                </template>
+                <template v-slot:body>
+                    Du willst dich mit uns unterhalten?
+                    <br />
+                    Dann triff dich mit uns auf Discord!
+
+                </template>
+            </SidebarCard>
+        </div>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+@import (reference) '~~/assets/sidebar.less';
 
 #Sidebar {
     display: flex;
@@ -21,7 +58,24 @@ const { isDesktop } = useDevice()
         margin-bottom: 20px;
         border-left: 1px solid @memo-grey-light;
         top: 0;
-        flex-grow: 1;
+        flex-grow: 0;
+    }
+
+    #SidebarContent {
+        flex-grow: 2;
+
+        #SidebarSpacer {
+            height: 60px;
+        }
+    }
+
+    .sidebar-link {
+        color: @memo-grey-dark;
+        text-decoration: none;
+
+        &:hover {
+            color: @memo-blue-link;
+        }
     }
 }
 </style>

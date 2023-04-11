@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-
-const props = defineProps(['solution', 'highlightEmptyFields'])
+interface Props {
+    highlightEmptyFields: boolean
+    solution?: string
+}
+const props = defineProps<Props>()
 const choices = ref([{
     Text: '',
     IsCorrect: true
@@ -18,8 +21,8 @@ function validateSolution() {
 }
 
 function initSolution() {
-    if (props.solution?.value) {
-        var json = JSON.parse(props.solution.value)
+    if (props.solution) {
+        var json = JSON.parse(props.solution)
         choices.value = json.Choices
         solutionIsOrdered.value = json.IsSolutionOrdered
         validateSolution()
@@ -63,8 +66,7 @@ function toggleCorrectness(index: number) {
 
         <div class="form-group" v-for="(choice, index) in choices" :key="index">
             <div class="input-group">
-                <div @click="toggleCorrectness(index)"
-                    class="input-group-addon toggle-correctness btn is-correct grey-bg"
+                <div @click="toggleCorrectness(index)" class="input-group-addon toggle-correctness btn is-correct grey-bg"
                     :class="{ active: choice.IsCorrect }">
                     <font-awesome-icon icon="fa-solid fa-check" />
                 </div>
@@ -72,8 +74,8 @@ function toggleCorrectness(index: number) {
                     :class="{ active: choice.IsCorrect == false }">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
-                <input type="text" class="form-control multiplechoice-input" :id="'SolutionInput-' + index"
-                    placeholder="" v-model="choice.Text" v-on:change="solutionBuilder()"
+                <input type="text" class="form-control multiplechoice-input" :id="'SolutionInput-' + index" placeholder=""
+                    v-model="choice.Text" v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': choice.Text.length <= 0 && highlightEmptyFields }">
                 <div v-if="choices.length > 1" @click="deleteChoice(index)" class="input-group-addon btn grey-bg">
                     <font-awesome-icon icon="fa-solid fa-trash" />
@@ -95,8 +97,6 @@ function toggleCorrectness(index: number) {
             </div>
         </div>
     </div>
-
-
 </template>
 
 <style lang="less" scoped>

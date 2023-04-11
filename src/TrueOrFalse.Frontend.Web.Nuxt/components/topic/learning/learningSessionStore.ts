@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { AlertType, useAlertStore } from '~~/components/alert/alertStore'
 import { messages } from '~~/components/alert/messages'
+import { QuestionListItem } from './questionListItem'
 
 export enum AnswerState {
     Unanswered = 0,
@@ -94,6 +95,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             } else return false
         },
         async startNewSessionWithJumpToQuestion(id: number) {
+
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
             learningSessionConfigurationStore.getQuestionCount()
@@ -104,6 +106,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+
             if (result != null && result.success) {
                 this.steps = result.steps!
                 this.activeQuestionCount = result.activeQuestionCount!
@@ -185,6 +188,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         addNewQuestionToList(index: number) {
             return index
+        },
+        updateQuestionList(question: QuestionListItem) {
+            return question
         }
     },
 })

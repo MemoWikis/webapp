@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-const props = defineProps(['transferData', 'disabled'])
+interface Props {
+    transferData: string
+    disabled?: boolean
+}
+const props = defineProps<Props>()
 function handleDragStart(event: any) {
     event.dataTransfer.setData('value', JSON.stringify(props.transferData))
 }

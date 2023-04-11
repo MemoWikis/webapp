@@ -10,6 +10,5 @@ export interface UserResult {
     wuwiQuestionsCount: number
     wuwiTopicsCount: number
     imgUrl: string
-    followed: boolean
     wikiId: number
 }

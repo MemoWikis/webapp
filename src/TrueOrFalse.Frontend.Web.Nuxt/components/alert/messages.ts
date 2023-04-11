@@ -4,7 +4,8 @@ export const messages: any = {
             publish: "Dein Thema wurde erfolgreich veröffentlicht.",
             setToPrivate: "Das Thema wurde erfolgreich auf 'Privat' gesetzt.",
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
-            addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt."
+            addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt.",
+            saveImage: "Das neue Themenbild wurde gespeichert"
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
@@ -33,7 +34,8 @@ export const messages: any = {
             nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
             rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden.",
             missingRights: "Dir fehlen die notwendigen Rechte.",
-            tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User"
+            tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
+            saveImage: "Das Bild konnte nicht gespeichert werden."
         },
         question: {
             missingText: "Der Fragetext fehlt.",
@@ -68,6 +70,7 @@ export const messages: any = {
         },
         googleLogin: '<p>Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
         facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
-        questionNotInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.'
+        questionNotInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',
+        passwordResetRequested: (email: string) => `Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an ${email} geschickt.`
     },
 }

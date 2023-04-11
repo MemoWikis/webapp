@@ -24,6 +24,7 @@ export class Topic {
 	Authors: Author[] = []
 	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
+	MetaDescription: string = ''
 }
 
 export interface FooterTopics {
@@ -33,6 +34,7 @@ export interface FooterTopics {
 	MemoTopics: Topic[]
 	HelpTopics: Topic[]
 	PopularTopics: Topic[]
+	Documentation: Topic
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -103,7 +105,7 @@ export const useTopicStore = defineStore('topicStore', {
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
-			var result = await $fetch('/apiVue/TopicStore/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
+			const result = await $fetch('/apiVue/TopicStore/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
 			if (result == true)
 				this.contentHasChanged = false
 		},
@@ -116,6 +118,10 @@ export const useTopicStore = defineStore('topicStore', {
 			const userStore = useUserStore()
 			return userStore.isAdmin || this.currentUserIsCreator
 		},
+
+		async refreshTopicImage() {
+			this.imgUrl = await $fetch(`/apiVue/TopicStore/GetTopicImageUrl?id=${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+		}
 
 	},
 	getters: {

@@ -4,12 +4,13 @@ import { useLearningSessionStore } from './learningSessionStore'
 import { useTopicStore } from '../topicStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const topicStore = useTopicStore()
 const userStore = useUserStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-
+const editQuestionStore = useEditQuestionStore()
 
 const currentQuestionCount = ref(0)
 const allQuestionCount = ref(0)
@@ -32,16 +33,16 @@ const questionsExpanded = ref(false)
 function expandAllQuestions() {
     questionsExpanded.value = !questionsExpanded.value
 }
+const { isMobile } = useDevice()
 
-function createQuestion() {
-
-}
 function getClass(): string {
+    let str = ''
+    if (isMobile)
+        str += 'is-mobile'
     if (process.server)
-        return ''
-    else return !learningSessionConfigurationStore.showFilter ? 'no-questions' : ''
+        return str
+    else return !learningSessionConfigurationStore.showFilter ? `${str} no-questions` : str
 }
-
 </script>
 
 <template>
@@ -80,7 +81,8 @@ function getClass(): string {
                                             class="btn btn-link btn-sm ButtonEllipsis" />
                                         <template #popper="{ hide }">
 
-                                            <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="createQuestion()">
+                                            <div v-if="userStore.isLoggedIn" class="dropdown-row"
+                                                @click="editQuestionStore.create()">
                                                 <div class="dropdown-icon">
                                                     <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                                 </div>
@@ -123,12 +125,10 @@ function getClass(): string {
                     </slot>
                 </TopicLearningSessionConfiguration>
 
-                <div class="session-configurator missing-questions" v-if="!learningSessionConfigurationStore.showFilter">
+                <div class="session-configurator no-questions" v-if="!learningSessionConfigurationStore.showFilter">
                     <div class="session-config-header">
                         <div class="col-xs-12 drop-down-question-sort">
-                            <div class="session-config-header">
-                                Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
-                            </div>
+                            Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
                         </div>
                     </div>
                 </div>
@@ -148,6 +148,11 @@ function getClass(): string {
     padding: 0px 20px 33px 20px;
     margin-right: 0;
     margin-left: 0;
+    max-width: calc(100vw - 20px);
+
+    &.is-mobile {
+        max-width: 100vw;
+    }
 
     @media(max-width: @screen-xxs-max) {
         padding-left: 0;

@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-const props = defineProps(['editor', 'heading'])
+import { Editor } from '@tiptap/vue-3';
+
+interface Props {
+    editor: Editor
+    heading?: boolean
+}
+const props = defineProps<Props>()
 const focused = ref(false)
 
-async function command(fn: any, e: Event) {
+async function command(commandString: string, e: Event) {
     e.preventDefault()
-    switch (fn) {
+    switch (commandString) {
         case 'bold':
             props.editor.commands.toggleBold()
             break
@@ -37,18 +43,22 @@ async function command(fn: any, e: Event) {
             break
         case 'setLink':
             const linkUrl = window.prompt('Link URL')
-            props.editor.commands.extendMarkRange('link').setLink({ href: linkUrl })
-            if (props.editor.view.state.selection.empty) {
-                var transaction = props.editor.state.tr.insertText(linkUrl);
-                props.editor.view.dispatch(transaction)
+            if (linkUrl) {
+                props.editor.chain().extendMarkRange('link').setLink({ href: linkUrl })
+                if (props.editor.view.state.selection.empty) {
+                    var transaction = props.editor.state.tr.insertText(linkUrl)
+                    props.editor.view.dispatch(transaction)
+                }
             }
+
             break;
         case 'unsetLink':
-            props.editor.commands.unsetLink().focus()
+            props.editor.chain().unsetLink().focus()
             break
         case 'addImage':
             const imgUrl = window.prompt('Bild URL')
-            props.editor.commands.setImage({ src: imgUrl })
+            if (imgUrl)
+                props.editor.commands.setImage({ src: imgUrl })
             break
         case 'horizontalRule':
             props.editor.commands.setHorizontalRule()
@@ -70,11 +80,10 @@ props.editor.on('focus', () => {
 props.editor.on('blur', () => {
     focused.value = false
 })
-
+const { isMobile } = useDevice()
 </script>
 <template>
-
-    <div class="col-xs-12 menubar-container" :class="{ 'is-focused': focused }">
+    <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
 
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
@@ -158,16 +167,10 @@ props.editor.on('blur', () => {
                 <button class="menubar__button last-btn" @mousedown="command('redo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-right" />
                 </button>
-
-                <div>
-
-                </div>
             </div>
         </perfect-scrollbar>
 
     </div>
-
-
 </template>
 
 <style lang="less">
@@ -196,17 +199,20 @@ props.editor.on('blur', () => {
     position: sticky;
     z-index: 10;
     display: flex;
-    max-width: min(100%, calc(100vw - 60px));
     height: 36px;
     margin-top: -36px;
+    max-width: calc(100vw - 20px);
+
+    &.is-mobile {
+        max-width: 100vw;
+    }
 
     .ps {
-        max-width: min(100%, calc(100vw - 20px));
         border-radius: 4px;
         box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
         // flex-shrink: 1;
-        width: 100%;
         visibility: hidden;
+        max-width: 100vw;
     }
 
     &.is-focused {

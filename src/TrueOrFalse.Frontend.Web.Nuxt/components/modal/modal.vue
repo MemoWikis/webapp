@@ -11,18 +11,14 @@ interface Props {
     iconClasses?: string
     primaryBtnLabel?: string
     secondaryBtnLabel?: string
-    modalWidth?: number
     isFullSizeButtons?: boolean
 
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    modalWidth: 600,
-})
+const props = defineProps<Props>()
 
 const isError = ref(false)
 const isSuccess = ref(false)
-const modalWidthString = ref(props.modalWidth + 'px')
 const slots = useSlots()
 
 const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
@@ -35,7 +31,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
         <div class="modal-default">
             <div class="modal-default-mask" @click="emit('close')">
                 <div class="modal-default-wrapper">
-                    <div class="modal-default-container" :style="{ width: modalWidthString }" v-on:click.stop
+                    <div class="modal-default-container" v-on:click.stop
                         :class="{ 'no-close-button': !props.showCloseButton }">
                         <div>
                             <font-awesome-icon v-if="props.showCloseButton" icon="fa-solid fa-xmark"
@@ -57,12 +53,13 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                                 </slot>
                             </div>
 
-                            <div class="modal-default-footer">
+                            <div class="modal-default-footer"
+                                v-if="props.primaryBtnLabel || props.secondaryBtnLabel || props.showCancelBtn || slots['footer-text']">
                                 <slot name="footer"></slot>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <button v-if="props.primaryBtnLabel"
-                                            class="btn btn-primary memo-button pull-right modal-button" :class="{
+                                            class="btn btn-primary memo-button pull-right modal-button col-sm" :class="{
                                                 'primary-error-button': isError,
                                                 'primary-success-button': isSuccess,
                                                 'full-size-buttons': props.isFullSizeButtons
@@ -70,7 +67,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                                             {{ props.primaryBtnLabel }}
                                         </button>
                                         <button v-if="props.secondaryBtnLabel"
-                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
+                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button col-sm"
                                             :class="{
                                                 'secondary-error-button': isError,
                                                 'secondary-success-button': isSuccess,
@@ -79,7 +76,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
                                             {{ props.secondaryBtnLabel }}
                                         </button>
                                         <button v-if="props.showCancelBtn"
-                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button"
+                                            class="btn btn-lg btn-link memo-button pull-right secondary-action-button modal-button col-sm"
                                             :class="{
                                                 'full-size-buttons': props.isFullSizeButtons
                                             }" @click="emit('close')">
