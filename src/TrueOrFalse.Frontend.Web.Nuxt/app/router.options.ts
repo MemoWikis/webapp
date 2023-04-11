@@ -22,6 +22,11 @@ export default <RouterConfig>{
             component: () => import('~/pages/imprint.vue')
         },
         {
+            name: 'preisePage',
+            path: '/Preise',
+            component: () => import('~/pages/membership/price.vue')
+        },
+        {
             name: 'registerPage',
             path: '/Registrieren',
             component: () => import('~/pages/user/register.vue')

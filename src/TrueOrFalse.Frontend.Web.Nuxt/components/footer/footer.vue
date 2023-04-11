@@ -76,27 +76,17 @@ const userStore = useUserStore()
 
                         </div>
                         <div class="footer-group">
-                        <div class="overline-m no-line">Software</div>
-                        <NuxtLink to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
-                            <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
-                        </NuxtLink>
-                        <br />
-                        <NuxtLink to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
-                            target="_blank" :external="true">
-                            <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
+                            <div class="overline-m no-line">Software</div>
+                            <NuxtLink to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
+                                <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </NuxtLink>
                             <br />
-                            <!-- <% if (Request.IsLocal)
-                               { %>
-                                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight") %><br/>
-                            <% } %>
-                            <% var assembly = Assembly.Load("TrueOrFalse"); %>
-                            <span style="color: darkgray">
-                                (Build: <%= assembly.GetName().Version.Major %> am
-                                <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
-                            </span> -->
+                            <NuxtLink to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
+                                target="_blank" :external="true">
+                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
+                            </NuxtLink>
+                            <br />
                         </div>
-
                     </div>
                     <div class="visible-xs visible-sm" style="clear: both"></div>
 
@@ -119,6 +109,11 @@ const userStore = useUserStore()
                                 <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
                             </a><br />
                         </div>
+                        <div class="footer-group">
+                            <div class="overline-m no-line">Mitgliedschaft</div>
+                            <LazyNuxtLink :to="'/Preise'">Preise</LazyNuxtLink>
+                            <br />
+                        </div>
                     </div>
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
@@ -138,6 +133,7 @@ const userStore = useUserStore()
                                 <br v-if="i < props.footerTopics.MainTopics.length - 1" />
                             </template>
                         </div>
+
                         <div class="footer-group">
                             <div class="overline-m no-line">Beliebte Themen</div>
                             <template v-for="(t, i) in props.footerTopics.PopularTopics"
@@ -149,6 +145,7 @@ const userStore = useUserStore()
                             </template>
                         </div>
                     </div>
+
 
                     <div id="FooterEndContainer" class="col-xs-12 col-lg-12">
                         <div id="FooterEnd">
