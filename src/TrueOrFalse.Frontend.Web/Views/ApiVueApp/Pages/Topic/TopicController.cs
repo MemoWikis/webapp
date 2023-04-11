@@ -24,6 +24,8 @@ public class TopicController : BaseController
         if (PermissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
+            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
+
             return new
             {
                 CanAccess = true,
@@ -55,7 +57,13 @@ public class TopicController : BaseController
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
                 SearchTopicItem = FillMiniTopicItem(topic),
-                MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true)
+                MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
+                KnowledgeSummary = new {
+                    notLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+                    needsLearning = knowledgeSummary.NeedsLearning,
+                    needsConsolidation = knowledgeSummary.NeedsConsolidation,
+                    solid = knowledgeSummary.Solid
+                }
             };
         }
 
