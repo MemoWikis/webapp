@@ -2,21 +2,15 @@
 FROM node
 
 # create destination directory
-RUN mkdir -p /usr/src/nuxt-app
-WORKDIR /usr/src/nuxt-app
-
-# update and install dependency
-RUN apt-get update
-RUN apt-get install git
+RUN mkdir -p /usr/src/nuxt-output
 
 # copy the app, note .dockerignore
-COPY . /usr/src/nuxt-app/
-RUN npm install
-RUN npm run build
+COPY .output /usr/src/nuxt-output/
 
 EXPOSE 3000
 
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
 
-CMD [ "npm", "run", "dev" ]
+WORKDIR /usr/src/nuxt-output
+CMD [ "node", "server/index.mjs"]
