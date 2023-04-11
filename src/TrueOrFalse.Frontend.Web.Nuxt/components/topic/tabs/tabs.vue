@@ -119,7 +119,7 @@ function getWidth(e: VueElement) {
 		<template #fallback>
 			<div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
-				<div class="tab" @click="tabsStore.activeTab = Tab.Topic">
+				<div class="tab">
 
 					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Topic" style="width:90px"
 						:style="getWidth(topicLabelEl)">
@@ -136,7 +136,7 @@ function getWidth(e: VueElement) {
 					</div>
 				</div>
 
-				<div class="tab" @click="tabsStore.activeTab = Tab.Learning">
+				<div class="tab">
 
 					<div class="tab-label chip-tab active" v-if="tabsStore.activeTab == Tab.Learning"
 						:style="getWidth(learningLabelEl)">
@@ -159,7 +159,7 @@ function getWidth(e: VueElement) {
 					</div>
 				</div>
 
-				<div class="tab" @click="tabsStore.activeTab = Tab.Feed">
+				<div class="tab">
 
 					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed" :style="getWidth(feedLabelEl)">Feed
 					</div>
@@ -173,7 +173,7 @@ function getWidth(e: VueElement) {
 					</div>
 				</div>
 
-				<div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
+				<div class="tab">
 
 					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics"
 						:style="getWidth(analyticsLabelEl)">

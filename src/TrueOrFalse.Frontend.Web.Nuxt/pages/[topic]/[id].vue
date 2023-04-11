@@ -142,7 +142,6 @@ useHead(() => ({
         }
     ]
 }))
-const { isMobile } = useDevice()
 
 </script>
 
