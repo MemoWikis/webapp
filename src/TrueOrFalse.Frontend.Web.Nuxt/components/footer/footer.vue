@@ -100,7 +100,6 @@ function handleError() {
                             </NuxtLink>
                             <br />
                         </div>
-
                     </div>
                     <div class="visible-xs visible-sm" style="clear: both"></div>
 
@@ -124,6 +123,11 @@ function handleError() {
                                 <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
                             </NuxtLink><br />
                         </div>
+                        <div class="footer-group">
+                            <div class="overline-m no-line">Mitgliedschaft</div>
+                            <LazyNuxtLink :to="'/Preise'">Preise</LazyNuxtLink>
+                            <br />
+                        </div>
                     </div>
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
@@ -143,6 +147,7 @@ function handleError() {
                                 <br v-if="i < props.footerTopics.MainTopics.length - 1" />
                             </template>
                         </div>
+
                         <div class="footer-group">
                             <div class="overline-m no-line">Beliebte Themen</div>
                             <template v-for="(t, i) in props.footerTopics.PopularTopics"
@@ -154,6 +159,7 @@ function handleError() {
                             </template>
                         </div>
                     </div>
+
 
                     <div id="FooterEndContainer" class="col-xs-12 col-lg-12">
                         <div id="FooterEnd">
