@@ -355,10 +355,12 @@ function updateArc() {
         .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
 }
 
-const personalCounter = ref()
-const overallCounter = ref()
+const personalCounter = ref<SVGSVGElement | null>(null)
+const overallCounter = ref<SVGSVGElement | null>(null)
 
 function drawCounterArcs() {
+    if (!personalCounter.value || !overallCounter.value)
+        return
     var arc = d3.arc()
 
     var personalCounterData = [
@@ -367,17 +369,15 @@ function drawCounterArcs() {
         personalCorrectAnswerCountData.value
     ]
 
-    personalCounterSvg.value = d3.select(personalCounter.value).append("svg")
-        .attr("width", 50)
-        .attr("height", 50)
+    personalCounterSvg.value = d3.select(personalCounter.value)
         .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
 
     personalCounterSvg.value.selectAll("path")
         .data(personalCounterData)
         .enter()
         .append("path")
-        .style("fill", (d: any) => { return d.fill })
-        .attr("class", (d: any) => { return d.class })
+        .style("fill", (d: any) => d.fill)
+        .attr("class", (d: any) => d.class)
         .attr("d", arc);
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
@@ -400,17 +400,15 @@ function drawCounterArcs() {
         overallCorrectAnswerCountData.value
     ]
 
-    overallCounterSvg.value = d3.select(overallCounter.value).append("svg")
-        .attr("width", 50)
-        .attr("height", 50)
+    overallCounterSvg.value = d3.select(overallCounter.value)
         .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
 
     overallCounterSvg.value.selectAll("path")
         .data(overallCounterData)
         .enter()
         .append("path")
-        .style("fill", (d: any) => { return d.fill })
-        .attr("class", (d: any) => { return d.class })
+        .style("fill", (d: any) => d.fill)
+        .attr("class", (d: any) => d.class)
         .attr("d", arc)
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
@@ -649,10 +647,7 @@ function drawArc() {
     var width = 200
     var height = 130
 
-    arcSvg.value = d3.select(semiPie.value).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g").attr("transform", "translate(" + width / 2 + "," + (height - 50) + ")")
+    arcSvg.value = d3.select(semiPie.value).append("g").attr("transform", "translate(" + width / 2 + "," + (height - 50) + ")")
 
     var arc = d3.arc()
 
@@ -678,6 +673,13 @@ function drawArc() {
 
     arcLoaded.value = true
 }
+
+watch(() => props.id, (o, n) => {
+    if (o != n)
+        questionIdHasChanged.value = true
+    else questionIdHasChanged.value = false
+})
+
 async function initData(e: AnswerQuestionDetailsResult) {
     personalProbability.value = e.personalProbability
     isInWishknowledge.value = e.isInWishknowledge
@@ -723,7 +725,8 @@ async function initData(e: AnswerQuestionDetailsResult) {
         drawArc()
         drawCounterArcs()
     }
-    questionIdHasChanged.value
+
+    questionIdHasChanged.value = false
 }
 
 interface AnswerQuestionDetailsResult {
@@ -880,9 +883,9 @@ watch(() => userStore.isLoggedIn, () => {
                         <div class="overline-s no-line">Antwortwahrscheinlichkeit</div>
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
-                                <div class="semiPieSvgContainer" ref="semiPie"
+                                <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
                                     :class="{ 'isInWishknowledge': isInWishknowledge }">
-                                </div>
+                                </svg>
                             </div>
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
@@ -904,7 +907,7 @@ watch(() => userStore.isLoggedIn, () => {
 
                         <div class="counterBody">
                             <div class="counterHalf">
-                                <div ref="personalCounter" style="min-width:50px"></div>
+                                <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="personalAnswerCount > 0" class="counterLabel">
                                     Von Dir: <br />
                                     <strong>{{ answerCount }}</strong> mal beantwortet <br />
@@ -920,7 +923,7 @@ watch(() => userStore.isLoggedIn, () => {
                                 </div>
                             </div>
                             <div class="counterHalf">
-                                <div ref="overallCounter" style="min-width:50px"></div>
+                                <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="overallAnswerCount > 0" class="counterLabel">
                                     Von allen Nutzern: <br />
                                     <strong>{{ allAnswerCount }}</strong> mal beantwortet <br />
