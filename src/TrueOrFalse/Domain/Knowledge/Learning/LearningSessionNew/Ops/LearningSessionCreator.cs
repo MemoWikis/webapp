@@ -32,7 +32,7 @@ public class LearningSessionCreator
 
     public static LearningSession BuildLearningSession(LearningSessionConfig config)
     {
-        var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache();
+        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache().Where(q => q.Id > 0).ToList();
 
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);

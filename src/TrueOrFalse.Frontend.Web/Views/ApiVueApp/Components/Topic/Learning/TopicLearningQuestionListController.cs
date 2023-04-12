@@ -8,7 +8,7 @@ public class TopicLearningQuestionListController: BaseController
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
     {
-        if (LearningSessionCache.GetLearningSession() == null)
+        if (LearningSessionCache.GetLearningSession() == null || topicId != LearningSessionCache.GetLearningSession().Config.CategoryId)
         {
             var config = new LearningSessionConfig
             {
