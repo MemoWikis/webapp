@@ -3,6 +3,7 @@ import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 import { Author } from '../author/author'
 import { SearchTopicItem } from '../search/searchHelper'
+import { ChartData } from '../chart/chartData'
 
 export class Topic {
 	CanAccess: boolean = false
@@ -25,6 +26,19 @@ export class Topic {
 	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
 	MetaDescription: string = ''
+	KnowledgeSummary: KnowledgeSummary = {
+		solid: 0,
+		needsConsolidation: 0,
+		needsLearning: 0,
+		notLearned: 0,
+	}
+}
+
+export interface KnowledgeSummary {
+	solid: number
+	needsConsolidation: number
+	needsLearning: number
+	notLearned: number
 }
 
 export interface FooterTopics {
@@ -60,7 +74,8 @@ export const useTopicStore = defineStore('topicStore', {
 			canBeDeleted: false,
 			authors: [] as Author[],
 			searchTopicItem: null as null | SearchTopicItem,
-			encodedName: '' as string
+			encodedName: '' as string,
+			knowledgeSummary: {} as KnowledgeSummary
 		}
 	},
 	actions: {
@@ -91,6 +106,7 @@ export const useTopicStore = defineStore('topicStore', {
 
 				this.authors = topic.Authors
 				this.searchTopicItem = topic.SearchTopicItem
+				this.knowledgeSummary = topic.KnowledgeSummary
 			}
 		},
 		async saveTopic() {
@@ -120,7 +136,10 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 
 		async refreshTopicImage() {
-			this.imgUrl = await $fetch(`/apiVue/TopicStore/GetTopicImageUrl?id=${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl?id=${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+		},
+		async reloadKnowledgeSummary() {
+			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary?id=${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 		}
 
 	},

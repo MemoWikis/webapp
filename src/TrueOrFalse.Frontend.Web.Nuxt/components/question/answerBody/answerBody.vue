@@ -16,6 +16,7 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const activityPointsStore = useActivityPointsStore()
+const topicStore = useTopicStore()
 
 interface Props {
     isLandingPage?: boolean
@@ -158,6 +159,7 @@ async function answer() {
         })
 
     if (result) {
+        topicStore.reloadKnowledgeSummary()
         if (result.correct) {
             activityPointsStore.addPoints(Activity.CorrectAnswer)
             learningSessionStore.markCurrentStepAsCorrect()

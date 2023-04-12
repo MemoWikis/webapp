@@ -42,5 +42,20 @@ public class TopicStoreController : BaseController
 
         return "";
     }
+
+
+    [HttpGet]
+    public JsonResult GetUpdatedKnowledgeSummary(int id)
+    {
+        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
+
+        return Json(new
+        {
+            notLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+            needsLearning = knowledgeSummary.NeedsLearning,
+            needsConsolidation = knowledgeSummary.NeedsConsolidation,
+            solid = knowledgeSummary.Solid,
+        });
+    }
 }
 

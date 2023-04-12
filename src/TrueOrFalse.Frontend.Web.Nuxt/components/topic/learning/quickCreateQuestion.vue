@@ -144,7 +144,7 @@ async function addFlashcard() {
         method: 'POST', body: json, mode: 'cors', credentials: 'include'
     })
 
-    if (data != null) {
+    if (data) {
         if (data.SessionIndex < 0)
             alertStore.openAlert(AlertType.Success, {
                 text: messages.success.question.created,
@@ -160,6 +160,7 @@ async function addFlashcard() {
         flashCardAnswer.value = ''
         flashCardEditor.value?.clearFlashCard()
         topicStore.questionCount++
+        topicStore.reloadKnowledgeSummary()
     }
 }
 
