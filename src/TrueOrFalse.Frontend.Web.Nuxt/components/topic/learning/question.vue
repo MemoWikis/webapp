@@ -209,7 +209,6 @@ onBeforeMount(() => {
 })
 
 async function getNewKnowledgeStatus() {
-    console.log('load')
     currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus?id=${props.question.Id}`, {
         mode: 'cors',
         credentials: 'include'
