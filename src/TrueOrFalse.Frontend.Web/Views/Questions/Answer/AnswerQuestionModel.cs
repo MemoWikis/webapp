@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -132,6 +133,7 @@ public class AnswerQuestionModel : BaseModel
     {
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
+
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
             AnswerHistory = new AnswerHistoryModel(question, valuationForUser),

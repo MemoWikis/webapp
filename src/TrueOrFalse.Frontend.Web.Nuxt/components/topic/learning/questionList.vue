@@ -98,10 +98,6 @@ async function loadNewQuestion(index: number) {
     spinnerStore.hideSpinner()
 }
 
-onMounted(() => {
-    if (learningSessionStore.currentStep != null)
-        loadQuestions(1)
-})
 
 </script>
 

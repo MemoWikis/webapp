@@ -21,6 +21,7 @@ function getWidth(e: VueElement) {
 const chartData = ref<ChartData[]>([])
 
 function setChartData() {
+
 	chartData.value = []
 	for (const [key, value] of Object.entries(topicStore.knowledgeSummary)) {
 		chartData.value.push({

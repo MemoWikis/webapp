@@ -41,6 +41,8 @@ public class QuestionListModel : BaseModel
         foreach (var step in stepsOfCurrentPage)
         {
             var q = step.Question;
+
+            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn;
             var question = new QuestionListJson.Question
             {
                 Id = q.Id,
@@ -53,6 +55,7 @@ public class QuestionListModel : BaseModel
                 CorrectnessProbability = q.CorrectnessProbability,
                 Visibility = q.Visibility,
                 SessionIndex = steps.IndexOf(step),
+                KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             };
 
             if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn)

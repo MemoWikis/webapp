@@ -191,6 +191,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         updateQuestionList(question: QuestionListItem) {
             return question
+        },
+        knowledgeStatusChanged(id: number) {
+            return id
         }
     },
 })

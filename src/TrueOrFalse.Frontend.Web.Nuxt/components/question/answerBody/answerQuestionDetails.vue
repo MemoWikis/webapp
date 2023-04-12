@@ -6,6 +6,7 @@ import { Tab, useTabsStore } from '~~/components/topic/tabs/tabsStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 import { dom } from '@fortawesome/fontawesome-svg-core'
+import { KnowledgeStatus } from '../knowledgeStatusEnum'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
@@ -39,6 +40,7 @@ const showTopBorder = ref(false)
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
 const overallCounterSvg = ref<any>({})
+const knowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
 
 const baseArcData = ref({
     startAngle: -0.55 * Math.PI,
@@ -55,7 +57,7 @@ const personalArcData = ref<{
     innerRadius: number,
     outerRadius: number,
     fill: string,
-    class: "personalArc",
+    class: string,
 }>({
     startAngle: -0.55 * Math.PI,
     endAngle: (-0.55 + personalProbability.value / 100 * 1.1) * Math.PI,
@@ -106,16 +108,19 @@ const questionIdHasChanged = ref(false)
 const topics = ref<TopicItem[]>([])
 
 function setPersonalProbability() {
-    if (personalAnswerCount.value <= 0) {
-        personalProbabilityText.value = "Nicht gelernt"
-        personalColor.value = "#999999"
+    switch (knowledgeStatus.value) {
+        case KnowledgeStatus.Solid:
+            personalProbabilityText.value = "Sicheres Wissen"
+            break
+        case KnowledgeStatus.NeedsConsolidation:
+            personalProbabilityText.value = "Zu festigen"
+            break
+        case KnowledgeStatus.NeedsLearning:
+            personalProbabilityText.value = "Zu lernen"
+            break
+        default:
+            personalProbabilityText.value = "Nicht gelernt"
     }
-    else if (personalProbability.value >= 80)
-        personalProbabilityText.value = "Sicheres Wissen"
-    else if (personalProbability.value < 80 && personalProbability.value >= 50)
-        personalProbabilityText.value = "Zu festigen"
-    else if (personalProbability.value < 50 && personalProbability.value > 0)
-        personalProbabilityText.value = "Zu lernen"
 }
 
 function setPersonalArcData() {
@@ -673,7 +678,7 @@ function drawArc() {
 
     arcLoaded.value = true
 }
-function initData(e: any) {
+async function initData(e: AnswerQuestionDetailsResult) {
     personalProbability.value = e.personalProbability
     isInWishknowledge.value = e.isInWishknowledge
     avgProbability.value = e.avgProbability
@@ -695,6 +700,7 @@ function initData(e: any) {
     totalViewCount.value = e.totalViewCount
     wishknowledgeCount.value = e.wishknowledgeCount
     license.value = e.license
+    knowledgeStatus.value = e.knowledgeStatus
 
     if (!learningSessionStore.isInTestMode)
         topics.value = e.topics
@@ -706,7 +712,7 @@ function initData(e: any) {
 
     setPersonalCounterData()
     setOverallCounterData()
-
+    await nextTick()
     if (arcLoaded.value) {
         updateArc()
         if (questionIdHasChanged.value)
@@ -719,8 +725,45 @@ function initData(e: any) {
     }
     questionIdHasChanged.value
 }
+
+interface AnswerQuestionDetailsResult {
+    knowledgeStatus: KnowledgeStatus,
+    personalProbability: number,
+    personalColor: string,
+    avgProbability: number,
+    personalAnswerCount: number,
+    personalAnsweredCorrectly: number,
+    personalAnsweredWrongly: number,
+    overallAnswerCount: number,
+    overallAnsweredCorrectly: number,
+    overallAnsweredWrongly: number,
+    isInWishknowledge: boolean,
+    topics: TopicItem[],
+
+    visibility: Visibility,
+    dateNow: number,
+    endTimer: number,
+    creator:
+    {
+        id: number,
+        name: string,
+        encodedName: string
+    },
+    creationDate: string,
+    totalViewCount: number,
+    wishknowledgeCount: number,
+    license:
+    {
+        isDefault: boolean,
+        shortText: string,
+        fullText: string
+    }
+}
 async function loadData() {
-    const result = await $fetch<any>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`)
+    const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
+        credentials: 'include',
+        mode: 'cors',
+    })
     initData(result)
 }
 
@@ -728,7 +771,6 @@ onMounted(async () => {
     dom.watch()
     await nextTick()
     props.landingPage ? initData(props.model) : loadData()
-
 })
 
 watch(() => props.id, () => loadData())
