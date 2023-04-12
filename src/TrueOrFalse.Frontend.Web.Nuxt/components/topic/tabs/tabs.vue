@@ -102,7 +102,8 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								<template v-if="!isMobile">
 									Analytics
 								</template>
-								<VTooltip class="tooltip-container">
+								<VTooltip class="tooltip-container"
+									v-if="chartData.length > 0 && chartData.some(d => d.value > 0)">
 									<div class="pie-container">
 										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
@@ -120,7 +121,8 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								<template v-if="!isMobile">
 									Analytics
 								</template>
-								<VTooltip class="tooltip-container">
+								<VTooltip class="tooltip-container"
+									v-if="chartData.length > 0 && chartData.some(d => d.value > 0)">
 									<div class="pie-container">
 										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
