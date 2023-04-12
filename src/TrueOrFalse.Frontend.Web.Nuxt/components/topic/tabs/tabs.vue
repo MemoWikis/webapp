@@ -2,6 +2,7 @@
 import { useTabsStore, Tab } from './tabsStore'
 import { useTopicStore } from '../topicStore'
 import { VueElement } from 'vue'
+import { ChartData } from '~~/components/chart/chartData'
 
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
@@ -17,6 +18,34 @@ function getWidth(e: VueElement) {
 	if (e != null)
 		return `width: ${e.clientWidth}px`
 }
+const chartData = ref<ChartData[]>([])
+
+function setChartData() {
+	chartData.value = []
+	for (const [key, value] of Object.entries(topicStore.knowledgeSummary)) {
+		chartData.value.push({
+			value: value,
+			class: key,
+		})
+	}
+}
+
+function getTooltipLabel(key: string, count: number) {
+	switch (key) {
+		case 'solid':
+			return `Sicheres Wissen: ${count} Fragen`
+		case 'needsConsolidation':
+			return `Solltest du festigen: ${count} Fragen`
+		case 'needsLearning':
+			return `Solltest du lernen: ${count} Fragen`
+		case 'notLearned':
+			return `Noch nicht gelernt: ${count} Fragen`
+	}
+}
+
+onBeforeMount(() => setChartData())
+watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
+
 </script>
 
 <template>
@@ -66,36 +95,45 @@ function getWidth(e: VueElement) {
 							</div>
 						</div>
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Feed">
-
-							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed"
-								:style="getWidth(feedLabelEl)">
-								Feed</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }"
-								ref="feedLabelEl">Feed
-							</div>
-
-							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
-							<div class="inactive-tab" v-else>
-								<div class="tab-border"></div>
-							</div>
-						</div>
-
 						<div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
 
-							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics"
+							<div class="tab-label active tab-analytics" v-if="tabsStore.activeTab == Tab.Analytics"
 								:style="getWidth(analyticsLabelEl)">
-								<font-awesome-icon :icon="['fas', 'chart-pie']" />
 								<template v-if="!isMobile">
 									Analytics
 								</template>
+								<VTooltip class="tooltip-container"
+									v-if="chartData.length > 0 && chartData.some(d => d.value > 0)">
+									<div class="pie-container">
+										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+									</div>
+									<template #popper>
+										<b>Dein Wissenstand:</b>
+										<div v-for="d in chartData">
+											<div class="color-container" :class="`color-${d.class}`"></div>
+											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+										</div>
+									</template>
+								</VTooltip>
 							</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
-								ref="analyticsLabelEl">
-								<font-awesome-icon :icon="['fas', 'chart-pie']" />
+							<div class="tab-label tab-analytics"
+								:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 								<template v-if="!isMobile">
 									Analytics
 								</template>
+								<VTooltip class="tooltip-container"
+									v-if="chartData.length > 0 && chartData.some(d => d.value > 0)">
+									<div class="pie-container">
+										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+									</div>
+									<template #popper>
+										<b>Dein Wissenstand:</b>
+										<div v-for="d in chartData" class="knowledgesummary-info">
+											<div class="color-container" :class="`color-${d.class}`"></div>
+											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+										</div>
+									</template>
+								</VTooltip>
 							</div>
 
 							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
@@ -117,7 +155,7 @@ function getWidth(e: VueElement) {
 		</div>
 
 		<template #fallback>
-			<div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
+			<div id="TopicTabBar" class="col-xs-12 fallback" :class="{ 'is-mobile': isMobile }">
 
 				<div class="tab">
 
@@ -161,34 +199,20 @@ function getWidth(e: VueElement) {
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed" :style="getWidth(feedLabelEl)">Feed
-					</div>
-					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }" ref="feedLabelEl">
-						Feed
-					</div>
-
-					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
-					<div class="inactive-tab" v-else>
-						<div class="tab-border"></div>
-					</div>
-				</div>
-
-				<div class="tab">
-
-					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Analytics"
+					<div class="tab-label active tab-analytics" v-if="tabsStore.activeTab == Tab.Analytics"
 						:style="getWidth(analyticsLabelEl)">
 
-						<font-awesome-icon :icon="['fas', 'chart-pie']" />
 						<template v-if="!isMobile">
 							Analytics
 						</template>
+						<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 					</div>
-					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
+					<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
 						ref="analyticsLabelEl">
-						<font-awesome-icon :icon="['fas', 'chart-pie']" />
 						<template v-if="!isMobile">
 							Analytics
 						</template>
+						<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
@@ -211,4 +235,66 @@ function getWidth(e: VueElement) {
 
 <style lang="less">
 @import '~~/assets/tabs-bar.less';
+</style>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.tab-analytics {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+
+	.tooltip-container {
+		width: 24px;
+		height: 24px;
+		margin-left: 4px;
+
+		.pie-container {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	.pie-chart {
+		height: 24px;
+		width: 24px;
+	}
+}
+
+.fallback {
+	.pie-chart {
+		margin-left: 4px;
+	}
+}
+
+.knowledgesummary-info {
+
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+
+	.color-container {
+		height: 12px;
+		width: 12px;
+		margin-right: 4px;
+
+		&.color-notLearned {
+			background: @memo-grey-light;
+		}
+
+		&.color-needsLearning {
+			background: @memo-salmon;
+		}
+
+		&.color-needsConsolidation {
+			background: @memo-yellow;
+		}
+
+		&.color-solid {
+			background: @memo-green;
+		}
+	}
+}
 </style>
