@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -20,7 +21,14 @@ public class AnswerQuestionDetailsController: BaseController
         var answerQuestionModel = new AnswerQuestionModel(question, true);
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
+
+        var userQuestionValuation = SessionUser.IsLoggedIn
+            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+            : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUser.IsLoggedIn;
+
         return new {
+            knowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             personalProbability = correctnessProbability.CPPersonal,
             personalColor = correctnessProbability.CPPColor,
             avgProbability = correctnessProbability.CPAll,

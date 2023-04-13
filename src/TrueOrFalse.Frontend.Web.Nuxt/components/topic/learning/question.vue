@@ -6,6 +6,7 @@ import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { PinState } from '~~/components/question/pin/pinStore'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
+import { KnowledgeStatus } from '~~/components/question/knowledgeStatusEnum'
 
 const commentsStore = useCommentsStore()
 
@@ -25,12 +26,7 @@ const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
 
 const questionTitleHtml = ref<any>()
 
-onBeforeMount(() => {
-    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
-    isInWishknowledge.value = props.question.IsInWishknowledge
-    hasPersonalAnswer.value = props.question.HasPersonalAnswer
-    setKnowledgebarData(props.question.CorrectnessProbability)
-})
+
 
 const allDataLoaded = ref(false)
 
@@ -173,28 +169,27 @@ watch(() => props.sessionIndex, (val) => {
         learningSessionStore.lastIndexInQuestionList = val
 })
 
-function setKnowledgebarData(val: number) {
-    if (isInWishknowledge.value) {
-        if (hasPersonalAnswer.value) {
-            if (val >= 80) {
-                backgroundColor.value = "solid"
-                correctnessProbabilityLabel.value = "Sicheres Wissen"
-            } else if (val < 80 && val >= 50) {
-                backgroundColor.value = "shouldConsolidate"
-                correctnessProbabilityLabel.value = "Zu festigen"
-            } else if (val < 50 && val >= 0) {
-                backgroundColor.value = "shouldLearn"
-                correctnessProbabilityLabel.value = "Zu lernen"
-            }
-        } else {
-            backgroundColor.value = "inWishknowledge"
-            correctnessProbabilityLabel.value = "Nicht gelernt"
-        }
-    } else {
-        backgroundColor.value = ""
-        correctnessProbabilityLabel.value = "Nicht im Wunschwissen"
-    }
+const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
+function setKnowledgebarData() {
 
+    switch (currentKnowledgeStatus.value) {
+        case KnowledgeStatus.Solid:
+            backgroundColor.value = "solid"
+            correctnessProbabilityLabel.value = "Sicheres Wissen"
+            break
+        case KnowledgeStatus.NeedsConsolidation:
+            backgroundColor.value = "needsConsolidation"
+            correctnessProbabilityLabel.value = "Zu festigen"
+            break
+        case KnowledgeStatus.NeedsLearning:
+            backgroundColor.value = "needsLearning"
+            correctnessProbabilityLabel.value = "Zu lernen"
+            break
+        default:
+            backgroundColor.value = "notLearned"
+            correctnessProbabilityLabel.value = "Nicht gelernt"
+            break
+    }
 }
 
 function setWuwiState(state: PinState) {
@@ -203,11 +198,30 @@ function setWuwiState(state: PinState) {
     else if (state == PinState.NotAdded)
         isInWishknowledge.value = false
 }
-
-watch(isInWishknowledge, () => {
-    setKnowledgebarData(props.question.CorrectnessProbability)
+watch(currentKnowledgeStatus, () => {
+    setKnowledgebarData()
+})
+onBeforeMount(() => {
+    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
+    isInWishknowledge.value = props.question.IsInWishknowledge
+    hasPersonalAnswer.value = props.question.HasPersonalAnswer
+    currentKnowledgeStatus.value = props.question.KnowledgeStatus
 })
 
+async function getNewKnowledgeStatus() {
+    currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus?id=${props.question.Id}`, {
+        mode: 'cors',
+        credentials: 'include'
+    })
+}
+learningSessionStore.$onAction(({ name, after }) => {
+    if (name == 'knowledgeStatusChanged')
+        after((result) => {
+            if (result == props.question.Id) {
+                getNewKnowledgeStatus()
+            }
+        })
+})
 </script>
 
 <template>
@@ -382,16 +396,16 @@ watch(isInWishknowledge, () => {
         background: linear-gradient(to right, @memo-green 0px, @memo-green 8px, #ffffffff 8px, #ffffffff 100%);
     }
 
-    &.shouldConsolidate {
+    &.needsConsolidation {
         background: linear-gradient(to right, @memo-yellow 0px, @memo-yellow 8px, #ffffffff 8px, #ffffffff 100%);
     }
 
-    &.shouldLearn {
+    &.needsLearning {
         background: linear-gradient(to right, @memo-salmon 0px, @memo-salmon 8px, #ffffffff 8px, #ffffffff 100%);
     }
 
-    &.inWishknowledge {
-        background: linear-gradient(to right, #949494 0px, #949494 8px, #ffffffff 8px, #ffffffff 100%);
+    &.notLearned {
+        background: linear-gradient(to right, @memo-grey-light 0px, @memo-grey-light 8px, #ffffffff 8px, #ffffffff 100%);
     }
 
     .knowledgeState {
@@ -613,16 +627,16 @@ watch(isInWishknowledge, () => {
                                     color: @memo-green;
                                 }
 
-                                &.shouldConsolidate {
-                                    color: #FDD648;
+                                &.needsConsolidation {
+                                    color: @memo-yellow;
                                 }
 
-                                &.shouldLearn {
+                                &.needsLearning {
                                     color: @memo-salmon;
                                 }
 
-                                &.inWishknowledge {
-                                    color: #949494;
+                                &.notLearned {
+                                    color: @memo-grey-light;
                                 }
                             }
 
@@ -637,17 +651,17 @@ watch(isInWishknowledge, () => {
                                     background: @memo-green;
                                 }
 
-                                &.shouldConsolidate {
-                                    background: #FDD648;
+                                &.needsConsolidation {
+                                    background: @memo-yellow;
                                 }
 
-                                &.shouldLearn {
+                                &.needsLearning {
                                     background: @memo-salmon;
                                 }
 
-                                &.inWishknowledge {
-                                    background: #949494;
-                                    color: white;
+                                &.notLearned {
+                                    background: @memo-grey-light;
+                                    color: @memo-grey-darker;
                                 }
                             }
                         }

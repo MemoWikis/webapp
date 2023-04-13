@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 
 namespace TrueOrFalse
 {
@@ -29,14 +30,21 @@ namespace TrueOrFalse
             else
                 CPDerivationSign = (CPPersonal < CPAll) ? "-" : "+";
 
-            if (CPPersonal >= 80)
-                CPPColor = "#AFD534";
-            else if (CPPersonal < 80 && CPPersonal >= 50)
-                CPPColor = "#FDD648";
-            else if (CPPersonal < 50 && CPPersonal >= 0)
-                CPPColor = "#FFA07A";
-            else
-                CPPColor = "#949494";
+            switch (questionValuationForUser.KnowledgeStatus)
+            {
+                case KnowledgeStatus.Solid:
+                    CPPColor = KnowledgeStatusColors.Solid;
+                    break;
+                case KnowledgeStatus.NeedsConsolidation:
+                    CPPColor = KnowledgeStatusColors.NeedsConsolidation;
+                    break;
+                case KnowledgeStatus.NeedsLearning:
+                    CPPColor = KnowledgeStatusColors.NeedsLearning;
+                    break;
+                default: 
+                    CPPColor = KnowledgeStatusColors.NotLearned;
+                    break;
+            }
         }
 
     }

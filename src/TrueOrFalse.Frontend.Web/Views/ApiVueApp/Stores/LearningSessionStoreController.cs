@@ -8,8 +8,11 @@ public class LearningSessionStoreController: BaseController
     [HttpPost]
     public JsonResult NewSession(LearningSessionConfig config)
     {
-        var learningSession = LearningSessionCreator.BuildLearningSession(config);
-        LearningSessionCache.AddOrUpdate(learningSession);
+        var newSession = LearningSessionCreator.BuildLearningSession(config);
+        LearningSessionCache.AddOrUpdate(newSession);
+
+        var learningSession = LearningSessionCache.GetLearningSession();
+
         if (learningSession is { Steps: { Count: > 0 } })
         {
             var firstStep = learningSession.Steps.First();

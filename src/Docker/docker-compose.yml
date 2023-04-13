@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  nuxt-${MEM_ENVIRONMENT}:
+    image: mem-nuxt:${BUILD_NUMBER}
+    ports:
+      - "${NUXT_PORT}:3000"
+      # Probably only needed in Development for Hot Module Reloading:
+      - "${NUXT_HMR_PORT}:24678"
+    networks:
+      - mem-${MEM_ENVIRONMENT}
+  nginx-${MEM_ENVIRONMENT}:
+    image: mem-nginx
+    networks:
+      - mem-${MEM_ENVIRONMENT}
+networks:
+  mem-${MEM_ENVIRONMENT}:
+    name: mem-${MEM_ENVIRONMENT}

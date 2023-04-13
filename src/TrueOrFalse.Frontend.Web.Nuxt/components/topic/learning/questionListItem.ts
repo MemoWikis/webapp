@@ -1,3 +1,5 @@
+import { KnowledgeStatus } from "~~/components/question/knowledgeStatusEnum"
+
 export interface QuestionListItem {
     CorrectnessProbability: number
     HasPersonalAnswer: boolean
@@ -15,4 +17,5 @@ export interface QuestionListItem {
     Visibility: number
     SessionIndex: number
     CreatorId: number
+    KnowledgeStatus: KnowledgeStatus
 }
