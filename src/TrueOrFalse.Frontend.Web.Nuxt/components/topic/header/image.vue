@@ -51,7 +51,7 @@ const hover = ref(false)
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: @memo-green;
+    color: @memo-blue;
     flex-direction: column;
     position: absolute;
     z-index: 2;
@@ -73,9 +73,10 @@ const hover = ref(false)
     }
 
     .edit-overlay-label {
-        line-height: 16px;
+        line-height: 18px;
         padding-top: 4px;
-        font-weight: 600;
+        font-weight: 400;
+        color: @memo-grey-dark;
     }
 }
 </style>

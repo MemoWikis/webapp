@@ -90,17 +90,17 @@ const navOptions = ref()
                             </div>
                             <div class="StickySearch">
                                 <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
-                                    placement="bottom-end" />
+                                    placement="bottom-end" :main-search="true" />
                             </div>
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
                                 <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon">
                                     <!-- <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
-                                                            <div class="unread-msg-badge-container">
-                                                                <div class="unread-msg-badge"></div>
-                                                            </div>
-                                                        </template> -->
+                                                                <div class="unread-msg-badge-container">
+                                                                    <div class="unread-msg-badge"></div>
+                                                                </div>
+                                                            </template> -->
                                 </Image>
                                 <div class="header-user-name">
                                     {{ userStore.name }}
@@ -144,15 +144,15 @@ const navOptions = ref()
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
                                         <!-- <NuxtLink to="/Nachrichten/" @click="hide">
-                                                                <div class="user-dropdown-label"
-                                                                    :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
-                                                                    Deine Nachrichten
-                                                                    <div class="counter-badge red-badge"
-                                                                        v-if="userStore.unreadMessagesCount > 0">{{
-                                                                            userStore.unreadMessagesCount }}
+                                                                    <div class="user-dropdown-label"
+                                                                        :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
+                                                                        Deine Nachrichten
+                                                                        <div class="counter-badge red-badge"
+                                                                            v-if="userStore.unreadMessagesCount > 0">{{
+                                                                                userStore.unreadMessagesCount }}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </NuxtLink> -->
+                                                                </NuxtLink> -->
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
                                             @click="hide">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
