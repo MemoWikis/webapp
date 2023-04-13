@@ -328,6 +328,7 @@
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverview.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\OverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Question\QuestionLandingPageController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\Membership\PriceController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserSettingsController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UsersController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\DeleteTopicStoreController.cs" />

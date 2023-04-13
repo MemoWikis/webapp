@@ -40,7 +40,7 @@
                         <div class="head-line">Plus</div>
                         <div class="price">5€</div>
                         <div class="first-text">pro Monat bei monatlicher Zahlung</div>
-                        <button>Auswählen</button>
+                        <button @click="monthlySubscription()">Auswählen</button>
                         <div class="second-text">
                             <p>Für einzelne Personen, die täglich Lernen und sich Wissen zu einer Vielzahl an Themen
                                 aneignen
@@ -113,54 +113,39 @@
 
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item1')">
-                            <div class="text">Wird Memucho teurer?</div>
+                            <div class="text">Wie kann ich bezahlen?</div>
                             <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
                         </div>
-                        <div :class="['answer-block', item1.isHidden ? 'answer' : '']">Ja Memucho
-                            wird sich mit der Zeit an die Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item1.isHidden ? 'answer' : '']">Kreditkarte und Vorabüberweisung
+                        </div>
                     </div>
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item2')">
-                            <div class="text">Wird Memucho teurer?</div>
+                            <div class="text">Kann ich jederzeit kündigen?</div>
                             <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
                         </div>
-                        <div :class="['answer-block', item2.isHidden ? 'answer' : '']">Ja Memucho wird sich mit der Zeit an
-                            die
-                            Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item2.isHidden ? 'answer' : '']">Ja du kannst jederzeit kündigen, dein
+                            Abo endet dann automatisch zum nächsten Abrechnungstermin </div>
                     </div>
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item3')">
-                            <div class="text">Wird Memucho teurer?</div>
+                            <div class="text">Wie uneingeschränkt sind uneingeschränkte Inhalte?</div>
                             <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
                         </div>
-                        <div :class="['answer-block', item3.isHidden ? 'answer' : '']">Ja Memucho wird sich mit der Zeit an
-                            die
-                            Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item3.isHidden ? 'answer' : '']">Genauso wie wir es sagen:
+                            Uneingeschränkt</div>
                     </div>
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item4')">
-                            <div class="text">Wird Memucho teurer?</div>
-                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
+                            <div class="text">Verlängert sich mein Abonnement automatisch?</div>
+                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" />Um es mit Goethes
+                                Faust, Teil 2, Vorspiel auf dem Theater, Vers 1265 zu sagen: Ja! </div>
                         </div>
-                        <div :class="['answer-block', item4.isHidden ? 'answer' : '']">Ja Memucho wird sich mit der Zeit an
-                            die
-                            Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item4.isHidden ? 'answer' : '']">Um </div>
                     </div>
                     <div id="NotFind">
                         <div class="not-found-header">Deine Frage nicht gefunden?</div>
-                        <div class="memucho-contact">memucho kontaktieren</div>
+                        <a class="memucho-contact" href="mailto:abc@example.com">memucho kontaktieren</a>
                         <div class="email">team@memucho.de</div>
                     </div>
                 </div>
@@ -170,11 +155,15 @@
 </template>
 
 <script setup lang="ts">
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const item1 = ref({ isHidden: true })
 const item2 = ref({ isHidden: true })
 const item3 = ref({ isHidden: true })
 const item4 = ref({ isHidden: true })
+
+//stripe
+const userName = ref("Dandor")
+const email = ref("daniel.majunke@gmx.de")
+const priceId = ref("price_1MqspiCAfoBJxQhotlUCv5Y4")
 
 const toggleVisibility = (item: string) => {
 
@@ -189,7 +178,10 @@ const toggleVisibility = (item: string) => {
     }
 }
 
+const monthlySubscription = async () => {
 
+    const response = await useFetch(`/apiVue/Price/MonthlySubscription?id=${encodeURIComponent(priceId.value)}`)
+}
 </script>
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
@@ -416,11 +408,6 @@ const toggleVisibility = (item: string) => {
         }
 
     }
-
-
-
-
-
 }
 </style> 
 
