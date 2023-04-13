@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  nginxreverse:
-    image: nginxreverse
+  mem-nginx-reverse-stage:
+    image: nginx:alpine
     build: .
     ports:
       - "3001:3001"
@@ -10,5 +10,14 @@ services:
       - SERVER_PORT=3001
       - HOST_VAR=https://stage.memucho.de
       - PORT_NUXT=3000
+    volumes:
+      - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
+      - ./robots.txt:/etc/nginx/html/robots.txt
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
+    networks:
+      - mem-stage
+
+networks:
+  mem-stage:
+    driver: bridge
