@@ -58,6 +58,7 @@ watch(() => userStore.isLoggedIn, () => {
         <div class="row topic-container main-page">
             <div class="col-xs-12 container">
                 <div class="error-page">
+                    <h1>ERROR</h1>
                     <Image src="/Images/Error/memo-500_german_600.png" class="error-image" />
 
                     <div class="button-container">
