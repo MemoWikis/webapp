@@ -161,6 +161,11 @@ const item2 = ref({ isHidden: true })
 const item3 = ref({ isHidden: true })
 const item4 = ref({ isHidden: true })
 
+//stripe
+const userName = ref("Dandor")
+const email = ref("daniel.majunke@gmx.de")
+const priceId = ref("price_1MqspiCAfoBJxQhotlUCv5Y4")
+
 const toggleVisibility = (item: string) => {
 
     if (item === 'item1') {
@@ -173,6 +178,16 @@ const toggleVisibility = (item: string) => {
         item4.value.isHidden = !item4.value.isHidden
     }
 }
+
+const sendDataAboMonth = async () => {
+    try {
+        const response = await fetch(
+            `/api/Charakter/CharakterDetails?userName=${encodeURIComponent(
+                userName.value
+            )}&email=${encodeURIComponent(email.value)}
+            &priceId=${encodeURIComponent(priceId.value)}`
+        )
+    }
 
 
 </script>
