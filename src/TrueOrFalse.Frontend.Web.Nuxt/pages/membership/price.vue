@@ -113,54 +113,39 @@
 
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item1')">
-                            <div class="text">Wird Memucho teurer?</div>
+                            <div class="text">Wie kann ich bezahlen?</div>
                             <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
                         </div>
-                        <div :class="['answer-block', item1.isHidden ? 'answer' : '']">Ja Memucho
-                            wird sich mit der Zeit an die Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item1.isHidden ? 'answer' : '']">Kreditkarte und Vorabüberweisung
+                        </div>
                     </div>
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item2')">
-                            <div class="text">Wird Memucho teurer?</div>
+                            <div class="text">Kann ich jederzeit kündigen?</div>
                             <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
                         </div>
-                        <div :class="['answer-block', item2.isHidden ? 'answer' : '']">Ja Memucho wird sich mit der Zeit an
-                            die
-                            Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item2.isHidden ? 'answer' : '']">Ja du kannst jederzeit kündigen, dein
+                            Abo endet dann automatisch zum nächsten Abrechnungstermin </div>
                     </div>
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item3')">
-                            <div class="text">Wird Memucho teurer?</div>
+                            <div class="text">Wie uneingeschränkt sind uneingeschränkte Inhalte?</div>
                             <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
                         </div>
-                        <div :class="['answer-block', item3.isHidden ? 'answer' : '']">Ja Memucho wird sich mit der Zeit an
-                            die
-                            Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item3.isHidden ? 'answer' : '']">Genauso wie wir es sagen:
+                            Uneingeschränkt</div>
                     </div>
                     <div class="question">
                         <div class="question-inner" @click="toggleVisibility('item4')">
-                            <div class="text">Wird Memucho teurer?</div>
-                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
+                            <div class="text">Verlängert sich mein Abonnement automatisch?</div>
+                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" />Um es mit Goethes
+                                Faust, Teil 2, Vorspiel auf dem Theater, Vers 1265 zu sagen: Ja! </div>
                         </div>
-                        <div :class="['answer-block', item4.isHidden ? 'answer' : '']">Ja Memucho wird sich mit der Zeit an
-                            die
-                            Gegebenheiten anpassen allerdings
-                            werden
-                            wir laufende
-                            Verträge nicht ehöhen</div>
+                        <div :class="['answer-block', item4.isHidden ? 'answer' : '']">Um </div>
                     </div>
                     <div id="NotFind">
                         <div class="not-found-header">Deine Frage nicht gefunden?</div>
-                        <div class="memucho-contact">memucho kontaktieren</div>
+                        <a class="memucho-contact" href="mailto:abc@example.com">memucho kontaktieren</a>
                         <div class="email">team@memucho.de</div>
                     </div>
                 </div>
@@ -416,11 +401,6 @@ const toggleVisibility = (item: string) => {
         }
 
     }
-
-
-
-
-
 }
 </style> 
 
