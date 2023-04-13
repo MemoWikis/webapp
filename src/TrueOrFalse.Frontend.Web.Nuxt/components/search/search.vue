@@ -12,6 +12,7 @@ interface Props {
     autoHide?: boolean
     placeholderLabel?: string
     showDefaultSearchIcon?: boolean
+    mainSearch?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -112,7 +113,7 @@ function hide() {
 
 <template>
     <div class="search-category-component" v-click-outside="hide">
-        <form v-on:submit.prevent>
+        <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
             <div class="form-group searchAutocomplete">
                 <div class="searchInputContainer">
                     <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
@@ -188,6 +189,16 @@ function hide() {
 .searchAutocomplete {
     z-index: 105;
     margin: 0;
+}
+
+.main-search {
+    position: relative;
+
+    .searchAutocomplete {
+        position: absolute;
+        right: 0;
+        top: -17px;
+    }
 }
 
 .searchDropdown {

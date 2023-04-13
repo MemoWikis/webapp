@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using static System.String;
@@ -36,6 +35,7 @@ public class UserCacheItem : IUserTinyModel
     public IList<int> FollowerIds { get; set; }
     /// <summary>Users I follow</summary>
     public IList<int> FollowingIds { get; set; }
+    public string StripeId { get; set; }
 
     public static UserCacheItem ToCacheUser(User user)
     {
@@ -73,6 +73,7 @@ public class UserCacheItem : IUserTinyModel
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
         FollowerIds = user.Followers.Select(f => f.Follower.Id).ToList();
         FollowingIds = user.Following.Select(f => f.User.Id).ToList();
+        StripeId = user.StripeId;
     }
 
     public virtual string WidgetHostsSpaceSeparated { get; set; }

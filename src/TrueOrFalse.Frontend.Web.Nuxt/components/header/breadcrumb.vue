@@ -358,7 +358,7 @@ watch(() => userStore.isLoggedIn, () => {
 	transition: opacity 0.5s;
 	visibility: visible;
 	overflow: hidden;
-	min-width: 240px;
+	min-width: 280px;
 	align-items: center;
 
 	.search-is-open {
@@ -387,6 +387,10 @@ watch(() => userStore.isLoggedIn, () => {
 		&.last {
 			max-width: 300px;
 			color: @memo-grey-darker;
+
+			@media (max-width: 479px) {
+				max-width: 140px;
+			}
 		}
 
 		&:hover {
