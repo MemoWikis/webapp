@@ -5,7 +5,7 @@ FROM node
 RUN mkdir -p /usr/src/nuxt-output
 
 # copy the app, note .dockerignore
-COPY ../TrueOrFalse.Frontend.Web.Nuxt/.output /usr/src/nuxt-output/
+COPY TrueOrFalse.Frontend.Web.Nuxt/.output /usr/src/nuxt-output/
 
 EXPOSE 3000
 
