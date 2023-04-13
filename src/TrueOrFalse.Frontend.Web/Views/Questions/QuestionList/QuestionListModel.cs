@@ -27,10 +27,11 @@ public class QuestionListModel : BaseModel
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
+        var learningSession = LearningSessionCache.GetLearningSession();
+
         var userQuestionValuation = SessionUser.IsLoggedIn 
             ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations 
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        var learningSession = LearningSessionCache.GetLearningSession();
 
         var steps = learningSession.Steps;
         var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
@@ -41,6 +42,8 @@ public class QuestionListModel : BaseModel
         foreach (var step in stepsOfCurrentPage)
         {
             var q = step.Question;
+
+            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn;
             var question = new QuestionListJson.Question
             {
                 Id = q.Id,
@@ -53,6 +56,7 @@ public class QuestionListModel : BaseModel
                 CorrectnessProbability = q.CorrectnessProbability,
                 Visibility = q.Visibility,
                 SessionIndex = steps.IndexOf(step),
+                KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             };
 
             if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn)

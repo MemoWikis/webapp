@@ -36,8 +36,7 @@ public class KnowledgeSummary
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
-        Options = options; 
-        
+        Options = options;
 
         PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {

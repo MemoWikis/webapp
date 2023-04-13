@@ -77,7 +77,6 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
-            learningSessionConfigurationStore.getQuestionCount()
 
             const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSession/', {
                 method: 'POST',
@@ -191,6 +190,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         updateQuestionList(question: QuestionListItem) {
             return question
+        },
+        knowledgeStatusChanged(id: number) {
+            return id
         }
     },
 })

@@ -239,7 +239,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 mode: 'cors',
                 credentials: 'include',
             })
-            this.setCounter(count)
+            if (count)
+                this.setCounter(count)
         },
 
         async loadCustomSession() {

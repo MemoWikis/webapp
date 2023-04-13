@@ -8,7 +8,7 @@ public class TopicLearningQuestionListController: BaseController
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
     {
-        if (LearningSessionCache.GetLearningSession() == null)
+        if (LearningSessionCache.GetLearningSession() == null || topicId != LearningSessionCache.GetLearningSession().Config.CategoryId)
         {
             var config = new LearningSessionConfig
             {
@@ -41,7 +41,8 @@ public class TopicLearningQuestionListController: BaseController
             LearningSessionStepCount = steps.Count,
             LinkToQuestionVersions = Links.QuestionHistory(question.Id),
             LinkToComment = Links.GetUrl(question) + "#JumpLabel",
-            CorrectnessProbability = question.CorrectnessProbability,
+            CorrectnessProbability = hasUserValuation ? userQuestionValuation[question.Id].CorrectnessProbability : question.CorrectnessProbability,
+            KnowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             Visibility = question.Visibility,
             SessionIndex = index,
             IsInWishknowledge = hasUserValuation && userQuestionValuation[question.Id].IsInWishKnowledge,

@@ -22,6 +22,7 @@ namespace QuestionListJson
         public int SessionIndex { get; set; }
         public QuestionVisibility Visibility { get; set; }
         public int CreatorId { get; set; } = 0;
+        public KnowledgeStatus KnowledgeStatus { get; set; } = KnowledgeStatus.NotLearned;
     }
 }
 

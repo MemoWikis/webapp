@@ -57,4 +57,16 @@ public class TopicLearningQuestionController: BaseController
 
         return json;
     }
+
+    [HttpGet]
+    public JsonResult GetKnowledgeStatus(int id)
+    {
+        var userQuestionValuation = SessionUser.IsLoggedIn
+            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+            : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+
+        var hasUserValuation = userQuestionValuation.ContainsKey(id) && SessionUser.IsLoggedIn;
+
+        return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned, JsonRequestBehavior.AllowGet);
+    }
 }

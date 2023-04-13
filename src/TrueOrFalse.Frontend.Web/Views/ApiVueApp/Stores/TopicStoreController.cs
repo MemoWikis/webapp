@@ -55,7 +55,7 @@ public class TopicStoreController : BaseController
             needsLearning = knowledgeSummary.NeedsLearning,
             needsConsolidation = knowledgeSummary.NeedsConsolidation,
             solid = knowledgeSummary.Solid,
-        });
+        }, JsonRequestBehavior.AllowGet);
     }
 }
 

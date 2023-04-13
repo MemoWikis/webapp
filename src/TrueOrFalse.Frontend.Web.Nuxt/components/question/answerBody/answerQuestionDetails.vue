@@ -6,6 +6,7 @@ import { Tab, useTabsStore } from '~~/components/topic/tabs/tabsStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 import { dom } from '@fortawesome/fontawesome-svg-core'
+import { KnowledgeStatus } from '../knowledgeStatusEnum'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
@@ -39,6 +40,7 @@ const showTopBorder = ref(false)
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
 const overallCounterSvg = ref<any>({})
+const knowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
 
 const baseArcData = ref({
     startAngle: -0.55 * Math.PI,
@@ -55,7 +57,7 @@ const personalArcData = ref<{
     innerRadius: number,
     outerRadius: number,
     fill: string,
-    class: "personalArc",
+    class: string,
 }>({
     startAngle: -0.55 * Math.PI,
     endAngle: (-0.55 + personalProbability.value / 100 * 1.1) * Math.PI,
@@ -106,16 +108,19 @@ const questionIdHasChanged = ref(false)
 const topics = ref<TopicItem[]>([])
 
 function setPersonalProbability() {
-    if (personalAnswerCount.value <= 0) {
-        personalProbabilityText.value = "Nicht gelernt"
-        personalColor.value = "#999999"
+    switch (knowledgeStatus.value) {
+        case KnowledgeStatus.Solid:
+            personalProbabilityText.value = "Sicheres Wissen"
+            break
+        case KnowledgeStatus.NeedsConsolidation:
+            personalProbabilityText.value = "Zu festigen"
+            break
+        case KnowledgeStatus.NeedsLearning:
+            personalProbabilityText.value = "Zu lernen"
+            break
+        default:
+            personalProbabilityText.value = "Nicht gelernt"
     }
-    else if (personalProbability.value >= 80)
-        personalProbabilityText.value = "Sicheres Wissen"
-    else if (personalProbability.value < 80 && personalProbability.value >= 50)
-        personalProbabilityText.value = "Zu festigen"
-    else if (personalProbability.value < 50 && personalProbability.value > 0)
-        personalProbabilityText.value = "Zu lernen"
 }
 
 function setPersonalArcData() {
@@ -350,10 +355,12 @@ function updateArc() {
         .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
 }
 
-const personalCounter = ref()
-const overallCounter = ref()
+const personalCounter = ref<SVGSVGElement | null>(null)
+const overallCounter = ref<SVGSVGElement | null>(null)
 
 function drawCounterArcs() {
+    if (!personalCounter.value || !overallCounter.value)
+        return
     var arc = d3.arc()
 
     var personalCounterData = [
@@ -362,17 +369,15 @@ function drawCounterArcs() {
         personalCorrectAnswerCountData.value
     ]
 
-    personalCounterSvg.value = d3.select(personalCounter.value).append("svg")
-        .attr("width", 50)
-        .attr("height", 50)
+    personalCounterSvg.value = d3.select(personalCounter.value)
         .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
 
     personalCounterSvg.value.selectAll("path")
         .data(personalCounterData)
         .enter()
         .append("path")
-        .style("fill", (d: any) => { return d.fill })
-        .attr("class", (d: any) => { return d.class })
+        .style("fill", (d: any) => d.fill)
+        .attr("class", (d: any) => d.class)
         .attr("d", arc);
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
@@ -395,17 +400,15 @@ function drawCounterArcs() {
         overallCorrectAnswerCountData.value
     ]
 
-    overallCounterSvg.value = d3.select(overallCounter.value).append("svg")
-        .attr("width", 50)
-        .attr("height", 50)
+    overallCounterSvg.value = d3.select(overallCounter.value)
         .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
 
     overallCounterSvg.value.selectAll("path")
         .data(overallCounterData)
         .enter()
         .append("path")
-        .style("fill", (d: any) => { return d.fill })
-        .attr("class", (d: any) => { return d.class })
+        .style("fill", (d: any) => d.fill)
+        .attr("class", (d: any) => d.class)
         .attr("d", arc)
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
@@ -644,10 +647,7 @@ function drawArc() {
     var width = 200
     var height = 130
 
-    arcSvg.value = d3.select(semiPie.value).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g").attr("transform", "translate(" + width / 2 + "," + (height - 50) + ")")
+    arcSvg.value = d3.select(semiPie.value).append("g").attr("transform", "translate(" + width / 2 + "," + (height - 50) + ")")
 
     var arc = d3.arc()
 
@@ -673,7 +673,14 @@ function drawArc() {
 
     arcLoaded.value = true
 }
-function initData(e: any) {
+
+watch(() => props.id, (o, n) => {
+    if (o != n)
+        questionIdHasChanged.value = true
+    else questionIdHasChanged.value = false
+})
+
+async function initData(e: AnswerQuestionDetailsResult) {
     personalProbability.value = e.personalProbability
     isInWishknowledge.value = e.isInWishknowledge
     avgProbability.value = e.avgProbability
@@ -695,6 +702,7 @@ function initData(e: any) {
     totalViewCount.value = e.totalViewCount
     wishknowledgeCount.value = e.wishknowledgeCount
     license.value = e.license
+    knowledgeStatus.value = e.knowledgeStatus
 
     if (!learningSessionStore.isInTestMode)
         topics.value = e.topics
@@ -706,7 +714,7 @@ function initData(e: any) {
 
     setPersonalCounterData()
     setOverallCounterData()
-
+    await nextTick()
     if (arcLoaded.value) {
         updateArc()
         if (questionIdHasChanged.value)
@@ -717,10 +725,48 @@ function initData(e: any) {
         drawArc()
         drawCounterArcs()
     }
-    questionIdHasChanged.value
+
+    questionIdHasChanged.value = false
+}
+
+interface AnswerQuestionDetailsResult {
+    knowledgeStatus: KnowledgeStatus,
+    personalProbability: number,
+    personalColor: string,
+    avgProbability: number,
+    personalAnswerCount: number,
+    personalAnsweredCorrectly: number,
+    personalAnsweredWrongly: number,
+    overallAnswerCount: number,
+    overallAnsweredCorrectly: number,
+    overallAnsweredWrongly: number,
+    isInWishknowledge: boolean,
+    topics: TopicItem[],
+
+    visibility: Visibility,
+    dateNow: number,
+    endTimer: number,
+    creator:
+    {
+        id: number,
+        name: string,
+        encodedName: string
+    },
+    creationDate: string,
+    totalViewCount: number,
+    wishknowledgeCount: number,
+    license:
+    {
+        isDefault: boolean,
+        shortText: string,
+        fullText: string
+    }
 }
 async function loadData() {
-    const result = await $fetch<any>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`)
+    const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
+        credentials: 'include',
+        mode: 'cors',
+    })
     initData(result)
 }
 
@@ -728,7 +774,6 @@ onMounted(async () => {
     dom.watch()
     await nextTick()
     props.landingPage ? initData(props.model) : loadData()
-
 })
 
 watch(() => props.id, () => loadData())
@@ -838,9 +883,9 @@ watch(() => userStore.isLoggedIn, () => {
                         <div class="overline-s no-line">Antwortwahrscheinlichkeit</div>
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
-                                <div class="semiPieSvgContainer" ref="semiPie"
+                                <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
                                     :class="{ 'isInWishknowledge': isInWishknowledge }">
-                                </div>
+                                </svg>
                             </div>
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
@@ -862,7 +907,7 @@ watch(() => userStore.isLoggedIn, () => {
 
                         <div class="counterBody">
                             <div class="counterHalf">
-                                <div ref="personalCounter" style="min-width:50px"></div>
+                                <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="personalAnswerCount > 0" class="counterLabel">
                                     Von Dir: <br />
                                     <strong>{{ answerCount }}</strong> mal beantwortet <br />
@@ -878,7 +923,7 @@ watch(() => userStore.isLoggedIn, () => {
                                 </div>
                             </div>
                             <div class="counterHalf">
-                                <div ref="overallCounter" style="min-width:50px"></div>
+                                <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="overallAnswerCount > 0" class="counterLabel">
                                     Von allen Nutzern: <br />
                                     <strong>{{ allAnswerCount }}</strong> mal beantwortet <br />

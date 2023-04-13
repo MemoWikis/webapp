@@ -159,6 +159,7 @@ async function answer() {
         })
 
     if (result) {
+        learningSessionStore.knowledgeStatusChanged(answerBodyModel.value!.id)
         topicStore.reloadKnowledgeSummary()
         if (result.correct) {
             activityPointsStore.addPoints(Activity.CorrectAnswer)
