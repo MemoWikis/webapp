@@ -40,7 +40,7 @@
                         <div class="head-line">Plus</div>
                         <div class="price">5€</div>
                         <div class="first-text">pro Monat bei monatlicher Zahlung</div>
-                        <button>Auswählen</button>
+                        <button @click="monthlySubscription()">Auswählen</button>
                         <div class="second-text">
                             <p>Für einzelne Personen, die täglich Lernen und sich Wissen zu einer Vielzahl an Themen
                                 aneignen
@@ -155,7 +155,6 @@
 </template>
 
 <script setup lang="ts">
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const item1 = ref({ isHidden: true })
 const item2 = ref({ isHidden: true })
 const item3 = ref({ isHidden: true })
@@ -179,17 +178,10 @@ const toggleVisibility = (item: string) => {
     }
 }
 
-const sendDataAboMonth = async () => {
-    try {
-        const response = await fetch(
-            `/api/Charakter/CharakterDetails?userName=${encodeURIComponent(
-                userName.value
-            )}&email=${encodeURIComponent(email.value)}
-            &priceId=${encodeURIComponent(priceId.value)}`
-        )
-    }
+const monthlySubscription = async () => {
 
-
+    const response = await useFetch(`/apiVue/Price/MonthlySubscription?id=${encodeURIComponent(priceId.value)}`)
+}
 </script>
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
