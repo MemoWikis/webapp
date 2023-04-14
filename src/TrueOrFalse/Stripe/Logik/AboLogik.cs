@@ -1,29 +1,23 @@
-﻿using Newtonsoft.Json;
-using Stripe.Checkout;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Stripe;
+using Stripe.Checkout;
 using Session = Stripe.Checkout.Session;
 
-namespace Stripe.ControllerLogiken;
+namespace TrueOrFalse.Stripe.Logik;
 
-public class AboControllerLogik
+public class AboLogik
 {
-    public async Task<Session> Init(string email, string username, string priceId )
+    public async Task<Session> InitiatePayment(string customerId,  string priceId )
     {
-        var domain = "http://localhost:5069";
-        var customer = await GetCustomer(email);
-
-        if (customer == null)
-        {
-            var optionsUser = new CustomerCreateOptions
-            {
-                Email = email,
-                Name = username
-            };
-            var serviceUser = new CustomerService();
-            customer = await serviceUser.CreateAsync(optionsUser);
-        };
+        var domain = "";
+#if DEBUG
+        domain = "http://memucho.local";
+#else
+        domain ="https://memucho.de";
+#endif
 
         var options = new SessionCreateOptions
         {
@@ -36,16 +30,33 @@ public class AboControllerLogik
                 },
             },
             Mode = "subscription",
-            SuccessUrl = domain + "/Home/Success?session_id={CHECKOUT_SESSION_ID}",
+            SuccessUrl = domain + "/Price/Success?session_id={CHECKOUT_SESSION_ID}",
             CancelUrl = domain + "/Home/Cancel",
-            Customer = customer.Id,
+            Customer = customerId,
         };
         var service = new SessionService();
         var session = service.Create(options);
         return session;
     }
 
-    private async Task<Customer?> GetCustomer(string email)
+    public async Task<string> CreateCustomer(string username, string email, int userId )
+    {
+            var optionsUser = new CustomerCreateOptions
+            {
+                Email = email,
+                Name = username
+            };
+            var serviceUser = new CustomerService();
+            var customer = await serviceUser.CreateAsync(optionsUser);
+
+            var user = Sl.UserRepo.GetById(userId);
+            user.StripeId = customer.Id; 
+            Sl.UserRepo.Update(user);
+
+            return customer.Id;
+
+    }
+    private async Task<Customer> GetCustomer(string email)
     {
         var service = new CustomerService();
         var options = new CustomerListOptions

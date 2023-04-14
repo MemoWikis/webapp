@@ -40,7 +40,7 @@
                         <div class="head-line">Plus</div>
                         <div class="price">5€</div>
                         <div class="first-text">pro Monat bei monatlicher Zahlung</div>
-                        <button @click="monthlySubscription()">Auswählen</button>
+                        <button @click="handleCheckout()">Auswählen</button>
                         <div class="second-text">
                             <p>Für einzelne Personen, die täglich Lernen und sich Wissen zu einer Vielzahl an Themen
                                 aneignen
@@ -155,14 +155,13 @@
 </template>
 
 <script setup lang="ts">
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 const item1 = ref({ isHidden: true })
 const item2 = ref({ isHidden: true })
 const item3 = ref({ isHidden: true })
 const item4 = ref({ isHidden: true })
 
 //stripe
-const userName = ref("Dandor")
-const email = ref("daniel.majunke@gmx.de")
 const priceId = ref("price_1MqspiCAfoBJxQhotlUCv5Y4")
 
 const toggleVisibility = (item: string) => {
@@ -178,10 +177,47 @@ const toggleVisibility = (item: string) => {
     }
 }
 
-const monthlySubscription = async () => {
+const stripePromise = loadStripe('pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2');
+const sessionId = ref<string>('');
 
-    const response = await useFetch(`/apiVue/Price/MonthlySubscription?id=${encodeURIComponent(priceId.value)}`)
+const createOrUpdateSubscription = async (
+    customerId: string,
+    priceId: string
+): Promise<string> => {
+    const response = await fetch('/apiVue/Price/CreateCheckoutSession', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            customerId,
+            priceId
+        }),
+    });
+
+    const { id } = await response.json();
+    return id;
 }
+
+const redirectToCheckout = async (sessionId: string): Promise<void> => {
+    const stripe: Stripe | null = await stripePromise;
+
+    if (stripe) {
+        const { error } = await stripe.redirectToCheckout({
+            sessionId,
+        });
+
+        if (error) {
+            console.log('Fehler beim Weiterleiten zur Checkout-Seite:', error);
+        }
+    }
+}
+
+const handleCheckout = async (): Promise<void> => {
+    sessionId.value = await createOrUpdateSubscription('cus_Ni5YT2yWPssGHD', 'price_1MqspiCAfoBJxQhotlUCv5Y4');
+    await redirectToCheckout(sessionId.value);
+}
+
 </script>
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';

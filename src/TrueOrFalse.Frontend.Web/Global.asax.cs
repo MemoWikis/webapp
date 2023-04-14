@@ -11,6 +11,7 @@ using Autofac.Integration.Mvc;
 using NHibernate;
 using Serilog;
 using StackExchange.Profiling;
+using Stripe;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
@@ -26,7 +27,7 @@ namespace TrueOrFalse.Frontend.Web
         protected void Application_Start()
         {
             Logg.r().Information("=== Application Start (start) ===============================");
-
+            StripeConfiguration.ApiKey = Settings.SecurityKeyStripe;
             IgnoreLog.Initialize();
             InitializeAutofac();
             
