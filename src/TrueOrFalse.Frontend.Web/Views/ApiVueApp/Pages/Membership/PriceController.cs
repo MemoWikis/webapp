@@ -12,29 +12,22 @@ using TrueOrFalse.Stripe.Logik;
 namespace VueApp;
 public class PriceController: BaseController
 {
-    
-   
-    public async Task<JsonResult> MonthlySubscription(string priceId)
+    [AccessOnlyAsLoggedIn]
+    public async Task<ActionResult> CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest request)
     {
         var sessionUser = SessionUser.User;
+        var abologik = new AboLogik();
         var customerId = "";
-        var abologik = new AboLogik(); 
         if (sessionUser.StripeId == null)
         {
-            customerId = await abologik.CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id); 
+            customerId = await abologik.CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
         }
         else
         {
             customerId = sessionUser.StripeId;
         }
 
-        var session = await abologik.InitiatePayment(customerId, priceId);
-        return Json(session.Id, JsonRequestBehavior.AllowGet); 
-    }
 
-    [AccessOnlyAsLoggedIn]
-    public async Task<ActionResult> CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest request)
-    {
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = new List<string> { "card" },
@@ -49,7 +42,7 @@ public class PriceController: BaseController
             },
             SuccessUrl = "https://example.com/success",
             CancelUrl = "https://example.com/cancel",
-            Customer = request.CustomerId
+            Customer = customerId,
         };
 
         try
@@ -68,6 +61,5 @@ public class PriceController: BaseController
 
 public class CreateCheckoutSessionRequest
 {
-    public string CustomerId { get; set; }
     public string PriceId { get; set; }
 }
