@@ -13,6 +13,16 @@ const props = withDefaults(defineProps<Props>(), {
     height: 40,
 })
 
+const chartData = ref<ChartData[]>([
+    {
+        value: 70,
+        class: 'placeholder-lighter'
+    },
+    {
+        value: 30,
+        class: 'placeholder-light'
+    }
+])
 
 const svg = ref<SVGSVGElement | null>(null)
 
@@ -32,7 +42,7 @@ function drawPie() {
         .sort(null)
         .value((d) => d.value)
 
-    const pieData = pie(props.data)
+    const pieData = pie(chartData.value)
 
     const g = d3
         .select(svg.value)
@@ -62,6 +72,11 @@ onMounted(() => {
 })
 
 watch(() => props.data, () => drawPie(), { deep: true })
+
+onBeforeMount(() => {
+    if (props.data.some(d => d.value > 0))
+        chartData.value = props.data
+})
 </script>
 
 <template>
@@ -70,6 +85,14 @@ watch(() => props.data, () => drawPie(), { deep: true })
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+.svg-color-placeholder-lighter {
+    fill: @memo-grey-lighter;
+}
+
+.svg-color-placeholder-light {
+    fill: @memo-grey-light;
+}
 
 .svg-color-notLearned {
     fill: @memo-grey-light;

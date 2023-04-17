@@ -1,117 +1,63 @@
 
 <template>
     <div class="container">
-        <div class="main-page">
-            <div class="row header">
-                <div class="col-md-12">
-                    <div class="first-header">MITGLID WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
-                    <div class="second-header">Öffentlich ist kostenlos – für immer und alle!</div>
-                    <div class="third-header">Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
-                        Freie
-                        Software! (open data open access)<br />
-                        Du möchtest memucho privat nutzen? Hier findest unsere Pläne:</div>
+        <div class="main-page row">
+            <div class="col-md-12 header">
+                <div class="top-label">MITGLID WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
+                <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
+                <div class="bottom-label">
+                    Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
+                    Freie
+                    Software! (open data open access)<br />
+                    Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
                 </div>
             </div>
             <div id="PricesOuter" class="row">
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="price-inner" id="Free">
-                        <div class="head-line">Kostenlos</div>
-                        <div class="price">0€</div>
-                        <div class="first-text">Kostenlos für immer!</div>
-                        <button>KOSTENLOS REGISTRIEREN</button>
-                        <div class="second-text">
-                            <p>Für einzelne Personen, die schnell und unkompliziert mit dem Lernen beginnen wollen.</p>
-                            <p> Erstelle Dein persönliches Wiki und verwalte erste persönliche Dokumente und kleine
-                                Lerneinheiten.</p>
-                        </div>
-                        <div class="enumeration">
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Unbeschränkt öffentliche
-                                Inhalte<br />
-                                <span class="second-row">(ansehen, erstellen und lernen)</span>
-                            </div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> 10 private Themen </div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> 50 private Fragen</div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> max 150 Fragen im Wunschwissen</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3 second-row">
-                    <div class="price-inner" id="Plus">
-                        <div class="head-line">Plus</div>
-                        <div class="price">5€</div>
-                        <div class="first-text">pro Monat bei monatlicher Zahlung</div>
-                        <button @click="handleCheckout(SubscriptionType.Plus)">Auswählen</button>
-                        <div class="second-text">
-                            <p>Für einzelne Personen, die täglich Lernen und sich Wissen zu einer Vielzahl an Themen
-                                aneignen
-                                wollen.</p>
-                            <p>Verwalten Sie unbegrenzt private Inhalte.</p>
-                        </div>
-                        <div class="enumeration">
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Unbeschränkt private Themen</div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Unbeschränkt private Fragen</div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Unbeschränktes Wunschwissen</div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Private Inhalte teilen </div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Gruppen Verwalten </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3 third-row">
-                    <div class="price-inner" id="Team">
-                        <div class="head-line">Team</div>
-                        <div class="price">7€</div>
-                        <div class="first-text">pro Monat bei monatlicher Zahlung</div>
-                        <button class="disabled" disabled>In Planung</button>
-                        <div class="second-text">
-                            <p>Für Lehrende und Lerngruppen, die sich gemeinsam Themen erarbeiten und gemeinsam Lernen
-                                wollen.
-                            </p>
-                            <p>Verwalten Sie Lerngruppen und unbegrenzt Inhalte.</p>
-                        </div>
-                        <div class="enumeration">
-                            <div>Alles aus Personal, plus: <br /></div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Private Inhalte im Team bearbeiten
-                            </div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Teams verwalten</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3 fourth-row">
-                    <div class="price-inner" id="Organisation">
-                        <div class="head-line">Organisation</div>
-                        <div class="price-organisation">Auf Anfrage</div>
-                        <div class="first-text">Individuelle Preise. Bitte Kontaktieren Sie uns für mehr Informationen.
-                        </div>
-                        <button class="contact">KONTAKTIEREN</button>
-                        <div class="second-text">
-                            <p>Für Unternehmen und Institutionen, die zusätzliche Unterstützung benötigen.</p>
-                            <p>Bringen Sie Ihr Team auf den neuesten Stand.</p>
-                        </div>
-                        <div class="enumeration">
-                            <div>Alles aus Team, plus: <br />
-                            </div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Individuelle Anbindung an
-                                Infrastruktur
-                            </div>
-                            <div><font-awesome-icon :icon="['fa-solid', 'fa-check']" /> Installation on premise oder
-                                gehostet
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <UserMembershipPriceCard :plan="Membership.plans.basic" :selected="false">
+                    <template v-slot:button>
+                        <NuxtLink to="/Registrieren">
+                            <button class="memo-button btn-primary btn">
+                                Kostenlos registrieren
+                            </button>
+                        </NuxtLink>
+                    </template>
+                </UserMembershipPriceCard>
+
+                <UserMembershipPriceCard :plan="Membership.plans.plus" :selected="false">
+                    <template v-slot:button>
+                        <button class="memo-button btn-primary btn" @click="handleCheckout(Membership.Type.Plus)">
+                            Auswählen
+                        </button>
+                    </template>
+                </UserMembershipPriceCard>
+
+                <UserMembershipPriceCard :plan="Membership.plans.team" :selected="false">
+                    <template v-slot:button>
+                        <button class="disabled memo-button btn-primary btn" disabled>
+                            In Planung
+                        </button>
+                    </template>
+                </UserMembershipPriceCard>
+
+                <UserMembershipPriceCard :plan="Membership.plans.organisation" :selected="false">
+                    <template v-slot:button>
+                        <button class="memo-button btn-link">Kontaktieren</button>
+                    </template>
+                </UserMembershipPriceCard>
             </div>
 
 
 
             <div class="full-width-row">
                 <div id="FaqHeaderOuter">
-                    <div class="faq-first-header">Häufig gestellte</div>
+                    <div class="faq-top-label">Häufig gestellte</div>
                     <div>Fragen</div>
                 </div>
 
                 <div id="QuestionsOuter">
 
-                    <FaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
+                    <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
 
                     <div id="NotFound">
                         <div class="not-found-header">Deine Frage nicht gefunden?</div>
@@ -126,6 +72,7 @@
 
 <script setup lang="ts">
 import { loadStripe, Stripe } from '@stripe/stripe-js';
+import * as Membership from '~~/components/user/membership/membership';
 import { useUserStore } from '~~/components/user/userStore';
 
 const userStore = useUserStore()
@@ -189,21 +136,17 @@ const redirectToCheckout = async (sessionId: string): Promise<void> => {
     }
 }
 
-enum SubscriptionType {
-    Plus,
-    Team
-}
 
-const handleCheckout = async (type: SubscriptionType): Promise<void> => {
+const handleCheckout = async (type: Membership.Type): Promise<void> => {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
         return
     }
     let priceId = '';
 
-    if (type == SubscriptionType.Plus)
+    if (type == Membership.Type.Plus)
         priceId = config.public.stripePlusPriceId
-    else if (type == SubscriptionType.Team)
+    else if (type == Membership.Type.Team)
         priceId = config.public.stripeTeamPriceId
 
     sessionId.value = await createOrUpdateSubscription(priceId);
@@ -235,23 +178,21 @@ onBeforeMount(() => {
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
-        margin-top: 100px;
 
-        color: #003264;
+        color: @memo-grey-darker;
 
-        .first-header {
+        .top-label {
             font-weight: 600;
-
-
         }
 
-        .second-header {
+        .title {
             margin-top: 20px;
             font-size: 45px;
             font-weight: 400;
+            color: @memo-blue;
         }
 
-        .third-header {
+        .bottom-label {
             margin-top: 20px;
             font-weight: 400;
             font-size: 18px;
@@ -320,12 +261,10 @@ onBeforeMount(() => {
             }
 
             button {
-                margin-top: 10px;
-                padding: 8px 16px 8px 16px;
-                background: #0065CA;
-                font-weight: 600;
-                font-size: 14px;
-                color: #FFFFFF;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
             .second-text {
@@ -361,7 +300,7 @@ onBeforeMount(() => {
     }
 
     .full-width-row {
-        margin-top: 725px;
+        margin-top: 60px;
         width: 100vw;
         position: relative;
         left: 50%;
