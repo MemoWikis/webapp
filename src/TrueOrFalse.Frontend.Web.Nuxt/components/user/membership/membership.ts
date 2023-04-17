@@ -41,7 +41,7 @@ export const plans: { basic: Plan, plus: Plan, team: Plan, organisation: Plan } 
     organisation: {
         name: 'Organisation',
         price: 'Auf Anfrage',
-        priceLabel: 'Individuelle Preise. Bitte Kontaktieren Sie uns für mehr Informationen.',
+        priceLabel: 'Individuelle Preise. <br/> Bitte Kontaktieren Sie uns für mehr Informationen.',
         description: ['Für Unternehmen und Institutionen, die zusätzliche Unterstützung benötigen.', 'Bringen Sie Ihr Team auf den neuesten Stand.'],
         listLabel: 'Alles aus Team, plus:',
         list: ['Individuelle Anbindung an Infrastruktur', 'Installation on premise oder gehostet'],

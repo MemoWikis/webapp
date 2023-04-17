@@ -11,7 +11,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <div class="col-sm-6 col-md-6 col-lg-3">
+    <div class="col-sm-6 col-md-4 col-lg-3 card">
         <div class="price-inner">
             <div class="header">
                 <div class="head-line">
@@ -26,8 +26,7 @@ const props = defineProps<Props>()
                     </span>
 
                 </div>
-                <div class="price-label">
-                    {{ props.plan.priceLabel }}
+                <div class="price-label" v-html="props.plan.priceLabel">
                 </div>
             </div>
             <div class="button-container">
@@ -39,11 +38,12 @@ const props = defineProps<Props>()
                 </p>
             </div>
             <div class="list-container">
-                <div v-if="props.plan.listLabel">{{ props.plan.listLabel }}</div>
+                <div v-if="props.plan.listLabel">
+                    <b>{{ props.plan.listLabel }}</b>
+                </div>
                 <div v-for="item in props.plan.list" class="list-item">
                     <div class="icon-container">
                         <font-awesome-icon :icon="['fa-solid', 'fa-check']" />
-
                     </div>
                     <div v-html="item">
                     </div>
@@ -56,9 +56,14 @@ const props = defineProps<Props>()
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.card {
+    margin-top: 20px;
+}
+
 .price-inner {
     border: #DDDDDD 1px solid;
     padding: 20px;
+    height: 700px;
 
     .head-line {
         font-size: 32px;
@@ -105,8 +110,9 @@ const props = defineProps<Props>()
     }
 
     .description {
-        margin-top: 50px;
-        color: #555555;
+        margin: 40px 0;
+        color: @memo-grey-darker;
+        height: 150px;
     }
 
     .list-container {
@@ -125,6 +131,7 @@ const props = defineProps<Props>()
                 .fa-check {
                     font-size: 18px;
                     font-weight: 900;
+                    color: @memo-blue-link;
                 }
             }
         }
