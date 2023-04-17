@@ -32,7 +32,7 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 	})
 
 if (question.value == null || question.value.answerBodyModel == null)
-	navigateTo('/Fehler/500')
+	throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
