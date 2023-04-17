@@ -6,9 +6,9 @@ using Stripe;
 using Stripe.Checkout;
 using Session = Stripe.Checkout.Session;
 
-namespace TrueOrFalse.Stripe.Logik;
+namespace TrueOrFalse.Stripe.Logic;
 
-public class AboLogik
+public class SubscriptionLogic
 {
     public async Task<Session> InitiatePayment(string customerId,  string priceId )
     {

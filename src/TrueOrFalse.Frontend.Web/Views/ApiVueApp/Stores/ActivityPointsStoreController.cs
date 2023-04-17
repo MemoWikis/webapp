@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 public class ActivityPointsStoreController : BaseController
 {
+    [HttpPost]
     public JsonResult Add(string activityTypeString, int points)
     {
         var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityTypeString);

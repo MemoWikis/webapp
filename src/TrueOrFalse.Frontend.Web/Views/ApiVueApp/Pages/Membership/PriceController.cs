@@ -5,16 +5,17 @@ using System.Web.Http;
 using System.Web.Mvc;
 using Stripe;
 using Stripe.Checkout;
-using TrueOrFalse.Stripe.Logik;
+using TrueOrFalse.Stripe.Logic;
 
 namespace VueApp;
 public class PriceController: BaseController
 {
+
     [AccessOnlyAsLoggedIn]
-    public async Task<ActionResult> CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest request)
+    public async Task<JsonResult> CreateCheckoutSession(string priceId)
     {
         var sessionUser = SessionUser.User;
-        var abologik = new AboLogik();
+        var abologik = new SubscriptionLogic();
         var customerId = "";
         if (sessionUser.StripeId == null)
         {
@@ -34,7 +35,7 @@ public class PriceController: BaseController
             {
                 new ()
                 {
-                    Price = request.PriceId,
+                    Price = priceId,
                     Quantity = 1,
                 },
             },
@@ -48,11 +49,14 @@ public class PriceController: BaseController
             var sessionService = new SessionService();
             var session = await sessionService.CreateAsync(options);
 
-            return Json(new { id = session.Id }); ;
+            return Json(new { success = true,id = session.Id }); ;
         }
         catch (StripeException e)
         {
-            return Json("fail");
+            return Json(new
+            {
+                success = false
+            });
         };
     }
 }
