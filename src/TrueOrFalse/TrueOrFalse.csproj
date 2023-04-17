@@ -314,7 +314,7 @@
     <Compile Include="Search\User\Model\MeiliSearchUserMap.cs" />
     <Compile Include="Search\User\MeiliSearchUsers.cs" />
     <Compile Include="Search\User\MeiliSearchUsersResult .cs" />
-    <Compile Include="Stripe\Logik\AboLogik.cs" />
+    <Compile Include="Stripe\Logik\SubscriptionLogic.cs" />
     <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />

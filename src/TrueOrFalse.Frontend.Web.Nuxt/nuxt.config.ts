@@ -7,7 +7,10 @@ export default defineNuxtConfig({
             clientBase: "http://memucho.local:3000",
             serverBase: "http://memucho.local",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
-            discord: "https://discord.com/invite/nXKwGrN"
+            discord: "https://discord.com/invite/nXKwGrN",
+            stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",
+            stripeTeamPriceId: "",
+            stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2"
         },
     },
     ssr: true,

@@ -22,7 +22,7 @@ export default <RouterConfig>{
             component: () => import('~/pages/imprint.vue')
         },
         {
-            name: 'preisePage',
+            name: 'pricePage',
             path: '/Preise',
             component: () => import('~/pages/membership/price.vue')
         },

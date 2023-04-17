@@ -46,7 +46,8 @@ export const useActivityPointsStore = defineStore('activityPointsStore', () => {
         const result = await $fetch<any>('/apiVue/ActivityPointsStore/Add', {
             method: 'POST',
             mode: 'cors',
-            body: data
+            body: data,
+            credentials: 'include'
         })
         if (result != null) {
             setData(result)

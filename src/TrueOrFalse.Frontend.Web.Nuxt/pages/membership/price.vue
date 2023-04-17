@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div id="PricesOuter" class="row">
-                <div class="col-sm-6 col-md-3 col-lg-3">
+                <div class="col-sm-6 col-md-6 col-lg-3">
                     <div class="price-inner" id="Free">
                         <div class="head-line">Kostenlos</div>
                         <div class="price">0€</div>
@@ -35,12 +35,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 second-row">
+                <div class="col-sm-6 col-md-6 col-lg-3 second-row">
                     <div class="price-inner" id="Plus">
                         <div class="head-line">Plus</div>
                         <div class="price">5€</div>
                         <div class="first-text">pro Monat bei monatlicher Zahlung</div>
-                        <button @click="handleCheckout()">Auswählen</button>
+                        <button @click="handleCheckout(SubscriptionType.Plus)">Auswählen</button>
                         <div class="second-text">
                             <p>Für einzelne Personen, die täglich Lernen und sich Wissen zu einer Vielzahl an Themen
                                 aneignen
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 third-row">
+                <div class="col-sm-6 col-md-6 col-lg-3 third-row">
                     <div class="price-inner" id="Team">
                         <div class="head-line">Team</div>
                         <div class="price">7€</div>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 fourth-row">
+                <div class="col-sm-6 col-md-6 col-lg-3 fourth-row">
                     <div class="price-inner" id="Organisation">
                         <div class="head-line">Organisation</div>
                         <div class="price-organisation">Auf Anfrage</div>
@@ -111,39 +111,9 @@
 
                 <div id="QuestionsOuter">
 
-                    <div class="question">
-                        <div class="question-inner" @click="toggleVisibility('item1')">
-                            <div class="text">Wie kann ich bezahlen?</div>
-                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
-                        </div>
-                        <div :class="['answer-block', item1.isHidden ? 'answer' : '']">Kreditkarte und Vorabüberweisung
-                        </div>
-                    </div>
-                    <div class="question">
-                        <div class="question-inner" @click="toggleVisibility('item2')">
-                            <div class="text">Kann ich jederzeit kündigen?</div>
-                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
-                        </div>
-                        <div :class="['answer-block', item2.isHidden ? 'answer' : '']">Ja du kannst jederzeit kündigen, dein
-                            Abo endet dann automatisch zum nächsten Abrechnungstermin </div>
-                    </div>
-                    <div class="question">
-                        <div class="question-inner" @click="toggleVisibility('item3')">
-                            <div class="text">Wie uneingeschränkt sind uneingeschränkte Inhalte?</div>
-                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" /></div>
-                        </div>
-                        <div :class="['answer-block', item3.isHidden ? 'answer' : '']">Genauso wie wir es sagen:
-                            Uneingeschränkt</div>
-                    </div>
-                    <div class="question">
-                        <div class="question-inner" @click="toggleVisibility('item4')">
-                            <div class="text">Verlängert sich mein Abonnement automatisch?</div>
-                            <div class="icon"><font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" />Um es mit Goethes
-                                Faust, Teil 2, Vorspiel auf dem Theater, Vers 1265 zu sagen: Ja! </div>
-                        </div>
-                        <div :class="['answer-block', item4.isHidden ? 'answer' : '']">Um </div>
-                    </div>
-                    <div id="NotFind">
+                    <FaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
+
+                    <div id="NotFound">
                         <div class="not-found-header">Deine Frage nicht gefunden?</div>
                         <a class="memucho-contact" href="mailto:abc@example.com">memucho kontaktieren</a>
                         <div class="email">team@memucho.de</div>
@@ -156,47 +126,54 @@
 
 <script setup lang="ts">
 import { loadStripe, Stripe } from '@stripe/stripe-js';
-const item1 = ref({ isHidden: true })
-const item2 = ref({ isHidden: true })
-const item3 = ref({ isHidden: true })
-const item4 = ref({ isHidden: true })
+import { useUserStore } from '~~/components/user/userStore';
+
+const userStore = useUserStore()
+interface FaqItem {
+    question: string
+    answer: string
+}
+const faqItems = ref<FaqItem[]>([
+    {
+        question: 'Wie kann ich bezahlen?',
+        answer: 'Kreditkarte und Vorabüberweisung'
+    },
+    {
+        question: 'Kann ich jederzeit kündigen?',
+        answer: 'Ja du kannst jederzeit kündigen, dein Abo endet dann automatisch zum nächsten Abrechnungstermin'
+    },
+    {
+        question: 'Wie uneingeschränkt sind uneingeschränkte Inhalte?',
+        answer: 'Genauso wie wir es sagen: Uneingeschränkt'
+    },
+    {
+        question: 'Verlängert sich mein Abonnement automatisch?',
+        answer: 'Um es mit Goethes Faust, Teil 2, Vorspiel auf dem Theater, Vers 1265 zu sagen: Ja!'
+    },
+])
 
 //stripe
-const priceId = ref("price_1MqspiCAfoBJxQhotlUCv5Y4")
+const config = useRuntimeConfig()
 
-const toggleVisibility = (item: string) => {
-
-    if (item === 'item1') {
-        item1.value.isHidden = !item1.value.isHidden
-    } else if (item === 'item2') {
-        item2.value.isHidden = !item2.value.isHidden
-    } else if (item === 'item3') {
-        item3.value.isHidden = !item3.value.isHidden
-    } else if (item === 'item4') {
-        item4.value.isHidden = !item4.value.isHidden
-    }
-}
-
-const stripePromise = loadStripe('pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2');
+const stripePromise = loadStripe(config.public.stripeKey);
 const sessionId = ref<string>('');
 
-const createOrUpdateSubscription = async (
-    customerId: string,
-    priceId: string
-): Promise<string> => {
-    const response = await fetch('/apiVue/Price/CreateCheckoutSession', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            priceId
-        }),
-    });
-
-    const { id } = await response.json();
-    return id;
+interface CheckoutSessionResult {
+    success: boolean
+    id?: string
 }
+const createOrUpdateSubscription = async (id: string): Promise<string> => {
+    const result = await $fetch<CheckoutSessionResult>('/apiVue/Price/CreateCheckoutSession', {
+        method: 'POST',
+        body: { priceId: id },
+        credentials: 'include'
+    });
+    if (result.success)
+        return result.id ? result.id : ''
+    else return ''
+}
+
+
 
 const redirectToCheckout = async (sessionId: string): Promise<void> => {
     const stripe: Stripe | null = await stripePromise;
@@ -212,10 +189,33 @@ const redirectToCheckout = async (sessionId: string): Promise<void> => {
     }
 }
 
-const handleCheckout = async (): Promise<void> => {
-    sessionId.value = await createOrUpdateSubscription('cus_Ni5YT2yWPssGHD', 'price_1MqspiCAfoBJxQhotlUCv5Y4');
-    await redirectToCheckout(sessionId.value);
+enum SubscriptionType {
+    Plus,
+    Team
 }
+
+const handleCheckout = async (type: SubscriptionType): Promise<void> => {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+    let priceId = '';
+
+    if (type == SubscriptionType.Plus)
+        priceId = config.public.stripePlusPriceId
+    else if (type == SubscriptionType.Team)
+        priceId = config.public.stripeTeamPriceId
+
+    sessionId.value = await createOrUpdateSubscription(priceId);
+    if (sessionId.value)
+        await redirectToCheckout(sessionId.value);
+}
+
+const emit = defineEmits(['setBreadcrumb'])
+
+onBeforeMount(() => {
+    emit('setBreadcrumb', [{ name: 'Preise', url: '/Preise' }])
+})
 
 </script>
 <style scoped lang="less">
@@ -380,33 +380,6 @@ const handleCheckout = async (): Promise<void> => {
             font-size: 16px;
             max-width: 1000px;
 
-
-            .question {
-                background-color: white;
-                margin-top: 19px;
-                padding: 20px;
-                margin-right: 30px;
-                margin-left: 30px;
-
-                .question-inner {
-                    display: flex;
-
-
-                    .icon {
-                        margin-left: auto;
-                    }
-                }
-
-                .answer {
-                    display: none;
-                }
-
-                .answer-block {
-                    margin-top: 20px;
-                }
-            }
-
-
             .not-find {
                 margin-top: 112px;
                 color: #074EE8;
@@ -415,7 +388,7 @@ const handleCheckout = async (): Promise<void> => {
         }
     }
 
-    #NotFind {
+    #NotFound {
         display: flex;
         flex-direction: column;
         align-items: center;
