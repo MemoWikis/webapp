@@ -35,7 +35,7 @@ public class VueUsersController : BaseController
         var wishQuestionCount = 0;
         var topicsWithWishQuestionCount = 0;
 
-        if (user.Id > 0 && user.ShowWishKnowledge || user.Id == SessionUser.UserId)
+        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == SessionUser.UserId))
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
