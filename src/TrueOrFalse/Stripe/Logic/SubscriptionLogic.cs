@@ -1,44 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
-using Session = Stripe.Checkout.Session;
+
 
 namespace TrueOrFalse.Stripe;
 
 public class SubscriptionLogic
 {
-    public async Task<Session> InitiatePayment(string customerId,  string priceId )
-    {
-        var domain = "";
-#if DEBUG
-        domain = "http://memucho.local";
-#else
-        domain ="https://memucho.de";
-#endif
-
-        var options = new SessionCreateOptions
-        {
-            LineItems = new List<SessionLineItemOptions>
-            {
-                new()
-                {
-                    Price = priceId,
-                    Quantity = 1
-                },
-            },
-            Mode = "subscription",
-            SuccessUrl = domain + "/Price/Success?session_id={CHECKOUT_SESSION_ID}",
-            CancelUrl = domain + "/Home/Cancel",
-            Customer = customerId,
-        };
-        var service = new SessionService();
-        var session = service.Create(options);
-        return session;
-    }
-
     public async Task<string> CreateCustomer(string username, string email, int userId )
     {
             var optionsUser = new CustomerCreateOptions
@@ -54,31 +26,6 @@ public class SubscriptionLogic
             Sl.UserRepo.Update(user);
 
             return customer.Id;
-
-    }
-    private async Task<Customer> GetCustomer(string email)
-    {
-        var service = new CustomerService();
-        var options = new CustomerListOptions
-        {
-            Email = email
-        };
-        var customers = await service.ListAsync(options);
-        var customer = customers.FirstOrDefault();
-
-        return customer;
-    }
-
-    public class SubscriptionCreateRequest
-    {
-        [JsonProperty("customerId")]
-        public string CustomerId { get; set; }
-
-        [JsonProperty("items")]
-        public List<SubscriptionItemOption> Items { get; set; }
-
-        [JsonProperty("paymentBehavior")]
-        public string PaymentBehavior { get; set; }
     }
 
     public class SubscriptionItemOption
@@ -90,5 +37,50 @@ public class SubscriptionLogic
         public int Quantity { get; set; }
     }
 
+    public async  Task<string> CreateStripeSession(string priceId)
+    {
+        var sessionUser = SessionUser.User;
+        var abologik = new SubscriptionLogic();
+        var customerId = "";
+        if (sessionUser.StripeId == null)
+        {
+            customerId = await abologik.CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
+        }
+        else
+        {
+            customerId = sessionUser.StripeId;
+        }
+
+
+        var options = new SessionCreateOptions
+        {
+            PaymentMethodTypes = new List<string> { "card" },
+            Mode = "subscription",
+            LineItems = new List<SessionLineItemOptions>
+            {
+                new ()
+                {
+                    Price = priceId,
+                    Quantity = 1,
+                },
+            },
+            SuccessUrl = "https://example.com/success",
+            CancelUrl = "https://example.com/cancel",
+            Customer = customerId,
+        };
+
+        try
+        {
+            var sessionService = new SessionService();
+            var session = await sessionService.CreateAsync(options);
+
+            return session.Id;
+        }
+        catch (StripeException e)
+        {
+            Logg.Error(e);
+            return "-1"; 
+        };
+    }
 
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using static System.String;
 
 public class Settings
 {
@@ -9,6 +8,8 @@ public class Settings
     [ThreadStatic]
     public static bool UseWebConfig;
     public static string SecurityKeyStripe { get; set; }
+    public static string WebhookKeyStripe { get; set; }
+
     public static string CanonicalHost;
 
     public static string SolrUrl;
@@ -133,8 +134,7 @@ public class Settings
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
         LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
         SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
+        WebhookKeyStripe = OverwrittenConfig.ValueString("WebhookKeyStripe");
         ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
     }
-
-   
 }
