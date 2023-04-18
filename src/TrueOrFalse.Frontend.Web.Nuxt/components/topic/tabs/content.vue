@@ -27,5 +27,10 @@ const { isMobile } = useDevice()
     p {
         min-height: 30px;
     }
+
+    ul,
+    pre {
+        margin-bottom: 20px;
+    }
 }
 </style>

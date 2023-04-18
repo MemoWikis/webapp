@@ -20,8 +20,7 @@ public class VueUserController : BaseController
             var isCurrentUser = SessionUser.UserId == user.Id;
             var allQuestionsCreatedByUser = EntityCache.GetAllQuestions().Where(q => q.Creator != null && q.CreatorId == user.Id);
             var allTopicsCreatedByUser = EntityCache.GetAllCategories().Where(c => c.Creator != null && c.CreatorId == user.Id);
-
-            return Json(new
+            var result = new
             {
                 user = new
                 {
@@ -45,13 +44,15 @@ public class VueUserController : BaseController
                         publicWishknowledges = reputation.ForPublicWishknowledge
                     },
                     publicQuestionsCount = allQuestionsCreatedByUser.Count(q => q.Visibility == QuestionVisibility.All),
-                    privateQuestionsCount = allQuestionsCreatedByUser.Count(q => q.Visibility != QuestionVisibility.All),
+                    privateQuestionsCount =
+                        allQuestionsCreatedByUser.Count(q => q.Visibility != QuestionVisibility.All),
                     publicTopicsCount = allTopicsCreatedByUser.Count(c => c.Visibility == CategoryVisibility.All),
                     privateTopicsCount = allTopicsCreatedByUser.Count(c => c.Visibility != CategoryVisibility.All),
                     wuwiCount = user.WishCountQuestions
                 },
                 isCurrentUser = isCurrentUser
-            }, JsonRequestBehavior.AllowGet);
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
 
 
         }

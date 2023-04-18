@@ -198,11 +198,11 @@ export default defineNuxtComponent({
                         </div>
                         <template #popper="{ hide }">
                             <!-- <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
-                                                                                                    <div class="dropdown-icon">
-                                                                                                        <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                                                                                    </div>
-                                                                                                    <div class="dropdown-label"> Unterthemen einblenden</div>
-                                                                                                </div> -->
+                                                                                                                <div class="dropdown-icon">
+                                                                                                                    <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
+                                                                                                                </div>
+                                                                                                                <div class="dropdown-label"> Unterthemen einblenden</div>
+                                                                                                            </div> -->
                             <div @click="removeParent(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
@@ -513,6 +513,7 @@ li {
         height: 24px;
         justify-content: center;
         border-radius: 15px;
+        font-size: 16px;
 
         .fa-unlock {
             display: none !important;
@@ -544,6 +545,7 @@ li {
 
     .segmentLock {
         height: 20px;
+
 
         i {
             font-size: 18px;

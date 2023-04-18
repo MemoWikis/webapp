@@ -1,5 +1,4 @@
-﻿using System.Web.Mvc;
-using FluentNHibernate.Conventions;
+﻿using TrueOrFalse.Stripe;
 
 namespace VueApp;
 
@@ -33,14 +32,15 @@ public class VueSessionUser
                 ReputationPos = SessionUser.User.ReputationPos,
                 PersonalWiki = new TopicController().GetTopicData(SessionUser.User.StartTopicId),
                 ActivityPoints = new
-                {
-                points = activityPoints,
-                level = activityLevel,
-                levelUp = false,
-                activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel) - activityPoints,
-                activityPointsPercentageOfNextLevel = activityPoints == 0 ? 0 : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
-                },
-                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId)
+                    {
+                    points = activityPoints,
+                    level = activityLevel,
+                    levelUp = false,
+                    activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel) - activityPoints,
+                    activityPointsPercentageOfNextLevel = activityPoints == 0 ? 0 : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
+                    },
+                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId),
+                SubscriptionType = SubscriptionType.Basic
             };
         }
 

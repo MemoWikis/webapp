@@ -111,6 +111,7 @@ export const useUserStore = defineStore('userStore', {
             if (!!result && result.Success) {
                 spinnerStore.hideSpinner()
                 refreshNuxtData()
+                this.$reset()
             }
             spinnerStore.hideSpinner()
         },

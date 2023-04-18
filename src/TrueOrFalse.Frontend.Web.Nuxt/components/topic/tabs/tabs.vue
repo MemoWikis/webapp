@@ -103,16 +103,18 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								<template v-if="!isMobile">
 									Analytics
 								</template>
-								<VTooltip class="tooltip-container"
-									v-if="chartData.length > 0 && chartData.some(d => d.value > 0)">
+								<VTooltip class="tooltip-container">
 									<div class="pie-container">
 										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
 									<template #popper>
 										<b>Dein Wissenstand:</b>
-										<div v-for="d in chartData">
+										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)">
 											<div class="color-container" :class="`color-${d.class}`"></div>
 											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+										</div>
+										<div v-else>
+											Du hast noch keine Fragen in diesem Thema
 										</div>
 									</template>
 								</VTooltip>
@@ -122,16 +124,20 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								<template v-if="!isMobile">
 									Analytics
 								</template>
-								<VTooltip class="tooltip-container"
-									v-if="chartData.length > 0 && chartData.some(d => d.value > 0)">
+								<VTooltip class="tooltip-container">
 									<div class="pie-container">
 										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
 									<template #popper>
 										<b>Dein Wissenstand:</b>
-										<div v-for="d in chartData" class="knowledgesummary-info">
+										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)">
 											<div class="color-container" :class="`color-${d.class}`"></div>
 											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+										</div>
+										<div v-else>
+											Du hast noch keine Fragen
+											<br />
+											in diesem Thema
 										</div>
 									</template>
 								</VTooltip>

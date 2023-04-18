@@ -5,7 +5,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using Stripe;
 using Stripe.Checkout;
-using TrueOrFalse.Stripe.Logic;
+using TrueOrFalse.Stripe;
 
 namespace VueApp;
 public class PriceController: BaseController

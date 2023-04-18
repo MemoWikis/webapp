@@ -1652,6 +1652,11 @@ h3 {
     color: white;
     outline: none !important;
 
+    &:active{
+        box-shadow: none;
+        filter: brightness(0.95);
+    }
+
     a {
         color: white;
         &:hover {
@@ -1692,6 +1697,7 @@ h3 {
 
     &.btn-default {
         color: @memo-grey-darker;
+        border: solid 1px @memo-grey-light;
     }
 }
 

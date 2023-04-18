@@ -6,7 +6,7 @@ using Stripe;
 using Stripe.Checkout;
 using Session = Stripe.Checkout.Session;
 
-namespace TrueOrFalse.Stripe.Logic;
+namespace TrueOrFalse.Stripe;
 
 public class SubscriptionLogic
 {

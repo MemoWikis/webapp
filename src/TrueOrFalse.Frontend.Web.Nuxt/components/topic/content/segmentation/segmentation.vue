@@ -68,11 +68,15 @@ export default defineNuxtComponent({
 
 
 	},
-
 	watch: {
 		hover(val) {
 			this.showHover = !!val;
 		},
+		'userStore.isLoggedIn': function () {
+			this.segments = []
+			this.categories = []
+			this.initSegments()
+		}
 	},
 	methods: {
 		async initSegments() {
