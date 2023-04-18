@@ -86,49 +86,49 @@ function handleError() {
                             </template>
 
                         </div>
-                        <div class="footer-group">
-                            <div class="overline-m no-line">Software</div>
-                            <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"
-                                :external="true">
-                                <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
-                            </NuxtLink>
-                            <br />
-                            <NuxtLink @click="handleError()"
-                                to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
-                                target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
-                            </NuxtLink>
-                            <br />
-                        </div>
+                    <div class="footer-group">
+                        <div class="overline-m no-line">Software</div>
+                        <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"
+                            :external="true">
+                            <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
+                        </NuxtLink>
+                        <br />
+                        <NuxtLink @click="handleError()"
+                            to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
+                            target="_blank" :external="true">
+                            <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
+                        </NuxtLink>
+                        <br />
                     </div>
-                    <div class="visible-xs visible-sm" style="clear: both"></div>
+                </div>
+                <div class="visible-xs visible-sm" style="clear: both"></div>
 
-                    <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
+                <!-- <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
                             <template v-for="(t, i) in props.footerTopics.HelpTopics" v-if="props.footerTopics?.HelpTopics">
                                 <NuxtLink @click="handleError()" :to="`/${t.Name.replaceAll(' ', '-')}/${t.Id}`">
                                     {{ t.Name }}
-                                </NuxtLink>
-                                <br v-if="i < props.footerTopics.HelpTopics.length - 1" />
-                            </template>
-                            <br />
+                                        </NuxtLink>
+                                        <br v-if="i < props.footerTopics.HelpTopics.length - 1" />
+                                    </template>
+                                    <br />
 
-                            <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
-                            </NuxtLink><br />
-                            <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank"
-                                :external="true">
-                                <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
-                            </NuxtLink><br />
-                        </div>
-                        <div class="footer-group">
-                            <div class="overline-m no-line">Mitgliedschaft</div>
-                            <LazyNuxtLink :to="'/Preise'">Preise</LazyNuxtLink>
-                            <br />
-                        </div>
-                    </div>
+                                    <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
+                                        <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
+                                    </NuxtLink><br />
+                                    <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank"
+                                        :external="true">
+                                        <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
+                                    </NuxtLink><br />
+                                </div>
+                                <div class="footer-group">
+                                    <div class="overline-m no-line">Mitgliedschaft</div>
+                                    <LazyNuxtLink :to="'/Preise'">Preise</LazyNuxtLink>
+                                    <br />
+                                </div> -->
+                    <!-- </div> -->
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">

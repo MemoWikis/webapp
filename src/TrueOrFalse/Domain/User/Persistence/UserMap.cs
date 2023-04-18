@@ -21,6 +21,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.LearningSessionOptions);
         Map(x => x.StripeId); 
         Map(x => x.StartTopicId);
+        Map(x => x.SubscriptionDuration).Nullable();
 
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);

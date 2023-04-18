@@ -85,6 +85,13 @@ public class UserRepo : RepositoryDbBase<User>
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(followerInfo.User));
     }
 
+    public User GetByStripeId(string stripId)
+    {
+        return _session.QueryOver<User>()
+            .Where(u=> u.StripeId == stripId )
+            .SingleOrDefault(); 
+    }
+
     public override void Update(User user)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
@@ -124,7 +131,6 @@ public class UserRepo : RepositoryDbBase<User>
         SessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
-
     }
 
     public override void Delete(int id)
@@ -139,7 +145,6 @@ public class UserRepo : RepositoryDbBase<User>
         SessionUserCache.Remove(user);
         EntityCache.RemoveUser(id);
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
-
     }
 
     public void DeleteFromAllTables(int userId)
