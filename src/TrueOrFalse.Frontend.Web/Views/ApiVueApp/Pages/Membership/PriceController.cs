@@ -18,8 +18,3 @@ public class PriceController: BaseController
         return Json(new { success = false, id = sessionId });
     }
 }
-
-public class CreateCheckoutSessionRequest
-{
-    public string PriceId { get; set; }
-}
