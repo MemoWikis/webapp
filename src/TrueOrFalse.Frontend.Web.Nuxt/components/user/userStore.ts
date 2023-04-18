@@ -3,6 +3,7 @@ import { UserType } from './userTypeEnum'
 import { useSpinnerStore } from '../spinner/spinnerStore'
 import { Topic } from '../topic/topicStore'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
+import * as Subscription from '~~/components/user/membership/subscription'
 
 export interface UserLoginResult {
     Success: boolean
@@ -30,6 +31,7 @@ export interface CurrentUser {
         activityPointsPercentageOfNextLevel?: number
     }
     UnreadMessagesCount?: number
+    SubscriptionType?: Subscription.Type
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -46,7 +48,8 @@ export const useUserStore = defineStore('userStore', {
             reputation: 0,
             reputationPos: 0,
             email: '',
-            unreadMessagesCount: 0
+            unreadMessagesCount: 0,
+            subscriptionType: null as Subscription.Type | null
         }
     },
     actions: {
@@ -62,6 +65,7 @@ export const useUserStore = defineStore('userStore', {
             this.personalWiki = currentUser.PersonalWiki
             this.email = currentUser.Email ? currentUser.Email : ''
             this.unreadMessagesCount = currentUser.UnreadMessagesCount ? currentUser.UnreadMessagesCount : 0
+            this.subscriptionType = currentUser.SubscriptionType != null ? currentUser.SubscriptionType : null
 
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.ActivityPoints)

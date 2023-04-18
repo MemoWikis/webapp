@@ -1658,12 +1658,16 @@ h3 {
     }
 
     a {
-        color: white;
-        &:hover {
-            text-decoration: none;
+        color: @memo-grey-dark;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    
+    &.register-btn {
+        a {
+            color: white;
         }
     }
-
     svg {
         font-size: 16px;
         margin-right: 6px;
@@ -1679,6 +1683,10 @@ h3 {
         transition: 0.2s ease-in-out;
         border: darken(@memo-salmon, 5%);
 
+        a {
+            color: white;
+        }
+
         &:hover {
             background-color: darken(@memo-salmon, 5%);
         }
@@ -1689,6 +1697,10 @@ h3 {
         background-color: @memo-green;
         transition: 0.2s ease-in-out;
         border: darken(@memo-green, 5%);
+
+        a {
+            color: white;
+        }
 
         &:hover {
             background-color: darken(@memo-green, 5%);

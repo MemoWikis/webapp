@@ -26,14 +26,14 @@ export const plans: { basic: Plan, plus: Plan, team: Plan, organisation: Plan } 
     plus: {
         name: 'Plus',
         price: 3,
-        priceLabel: 'pro Monat bei monatlicher Zahlung',
+        priceLabel: 'pro Monat',
         description: ['Für einzelne Personen, die täglich Lernen und sich Wissen zu einer Vielzahl an Themen aneignen wollen.', 'Verwalten Sie unbegrenzt private Inhalte.'],
         list: ['<b>Unbeschränkt</b> private Themen', '<b>Unbeschränkt</b> private Fragen', '<b>Unbeschränktes</b> Wunschwissen', 'Private Inhalte teilen', 'Gruppen Verwalten'],
     },
     team: {
         name: 'Team',
         price: 7,
-        priceLabel: 'pro Monat bei monatlicher Zahlung',
+        priceLabel: 'pro Monat & Nutzer',
         description: ['Für Lehrende und Lerngruppen, die sich gemeinsam Themen erarbeiten und gemeinsam Lernen wollen.', 'Verwalten Sie Lerngruppen und unbegrenzt Inhalte.'],
         listLabel: 'Alles aus Plus und zusätzlich:',
         list: ['Private Inhalte im Team bearbeiten', 'Teams verwalten'],
