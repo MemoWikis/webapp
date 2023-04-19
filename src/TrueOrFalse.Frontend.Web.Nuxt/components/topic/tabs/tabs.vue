@@ -109,7 +109,8 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 									</div>
 									<template #popper>
 										<b>Dein Wissenstand:</b>
-										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)">
+										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+											class="knowledgesummary-info">
 											<div class="color-container" :class="`color-${d.class}`"></div>
 											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
 										</div>
@@ -130,7 +131,8 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 									</div>
 									<template #popper>
 										<b>Dein Wissenstand:</b>
-										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)">
+										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+											class="knowledgesummary-info">
 											<div class="color-container" :class="`color-${d.class}`"></div>
 											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
 										</div>
