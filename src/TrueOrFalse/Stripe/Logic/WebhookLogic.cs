@@ -21,10 +21,10 @@ namespace TrueOrFalse.Stripe.Logic
             var endpointSecret = Settings.WebhookKeyStripe;
             try
             {
-                var stripeEvent = EventUtility.ParseEvent(json);
+               
                 var signatureHeader = baseRequest.Headers["Stripe-Signature"];
 
-                stripeEvent = EventUtility.ConstructEvent(json,
+                var stripeEvent = EventUtility.ConstructEvent(json,
                     signatureHeader, endpointSecret);
 
                 if (stripeEvent.Type == Events.PaymentIntentSucceeded)
