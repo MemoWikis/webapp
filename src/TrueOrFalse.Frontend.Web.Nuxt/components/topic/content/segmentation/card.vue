@@ -198,11 +198,11 @@ export default defineNuxtComponent({
                         </div>
                         <template #popper="{ hide }">
                             <!-- <div v-if="!isCustomSegment" @click="thisToSegment(hide)" class="dropdown-row">
-                                                                                                                <div class="dropdown-icon">
-                                                                                                                    <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
-                                                                                                                </div>
-                                                                                                                <div class="dropdown-label"> Unterthemen einblenden</div>
-                                                                                                            </div> -->
+                                                                                                                    <div class="dropdown-icon">
+                                                                                                                        <font-awesome-icon :icon="['fa-solid', 'sitemap']" />
+                                                                                                                    </div>
+                                                                                                                    <div class="dropdown-label"> Unterthemen einblenden</div>
+                                                                                                                </div> -->
                             <div @click="removeParent(hide)" class="dropdown-row">
                                 <div class="dropdown-icon">
                                     <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
@@ -284,9 +284,6 @@ li {
         flex-wrap: nowrap;
     }
 }
-
-@memo-blue-link: #18A0FB;
-@memo-blue: #203256;
 
 #Segmentation {
     margin-top: 80px;

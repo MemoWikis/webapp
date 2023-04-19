@@ -317,7 +317,7 @@ function hide() {
     }
 }
 
-.searchButton {
+.search-button {
     svg.fa-xmark {
         color: @memo-blue;
 

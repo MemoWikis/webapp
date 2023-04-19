@@ -309,13 +309,20 @@ useHead(() => ({
                 </Transition>
                 <Transition>
                     <div v-show="tab == Tab.Wishknowledge">
+                        <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
+                            <template v-if="profile.isCurrentUser">
+                                Dein Wunschwissen ist nicht öffentlich. <span @click="tab = Tab.Settings"
+                                    class="btn-link">Ändern</span>
+                            </template>
+                            <template v-else>
+                                <b>Nicht öffentlich</b> {{ profile.user.name }} hat ihr / sein Wunschwissen nicht
+                                veröffentlicht.
+                            </template>
+                        </div>
                         <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-                            <div v-if="!profile.user.showWuwi && profile.isCurrentUser">
-
-                            </div>
                             <UserTabsWishknowledge :questions="wuwi.questions" :topics="wuwi.topics" keep-alive />
                         </div>
-                        <div v-else></div>
+
                     </div>
                 </Transition>
                 <Transition>
@@ -428,5 +435,12 @@ useHead(() => ({
     .count-label {
         color: @memo-grey-dark;
     }
+}
+
+.wuwi-is-hidden {
+    border: solid 1px @memo-grey-lighter;
+    padding: 20px;
+    width: 100%;
+    margin-top: 20px;
 }
 </style>

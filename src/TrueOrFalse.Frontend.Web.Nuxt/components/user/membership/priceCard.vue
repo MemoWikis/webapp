@@ -1,6 +1,6 @@
 
 <script lang="ts" setup>
-import { Plan } from './membership'
+import { Plan } from './subscription'
 
 interface Props {
     plan: Plan,
@@ -11,22 +11,21 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <div class="col-sm-6 col-md-4 col-lg-3 card">
+    <div class="col-sm-6 col-md-6 col-lg-3 card">
         <div class="price-inner">
             <div class="header">
                 <div class="head-line">
                     {{ props.plan.name }}
                 </div>
-                <div class="price">
-                    <span v-if="typeof props.plan.price === 'number'">
+                <div class="price-container">
+                    <div class="price" v-if="typeof props.plan.price === 'number'">
                         {{ props.plan.price }}€
-                    </span>
-                    <span v-else class="on-request">
+                    </div>
+                    <div class="price text" v-else>
                         {{ props.plan.price }}
-                    </span>
-
-                </div>
-                <div class="price-label" v-html="props.plan.priceLabel">
+                    </div>
+                    <div class="price-label" v-html="props.plan.priceLabel">
+                    </div>
                 </div>
             </div>
             <div class="button-container">
@@ -60,36 +59,60 @@ const props = defineProps<Props>()
     margin-top: 20px;
 }
 
+.recommended {
+    .price-inner {
+        box-shadow: @memo-blue-link 0px 0px 0px 2px;
+        // border: solid 1px @memo-blue-link;
+    }
+}
+
+.selected {
+    .price-inner {
+        box-shadow: @memo-green 0px 0px 0px 2px;
+
+        // border: solid 1px @memo-green;
+    }
+}
+
 .price-inner {
-    border: #DDDDDD 1px solid;
+    box-shadow: @memo-grey-light 0px 0px 0px 1px;
+
     padding: 20px;
     height: 700px;
 
+    @media screen and (max-width: 768px) {
+        height: unset;
+        padding-bottom: 40px;
+    }
+
     .head-line {
         font-size: 32px;
-        margin-right: 20px;
         font-weight: 400;
+        height: 42px;
     }
 
     .contact {
         color: #0065CA;
         background: white;
         font-size: 14px;
-
     }
 
-    .disabled {
-        background: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), #0065CA;
-    }
-
-    .price {
-        font-size: 45px;
-        font-weight: 700;
+    .price-container {
         margin-top: 50px;
-        height: 64px;
+        height: 90px;
 
-        .on-request {
-            font-size: 32px;
+        .price {
+            font-size: 45px;
+            font-weight: 700;
+            height: 42px;
+            line-height: 42px;
+            margin-bottom: 10px;
+
+            &.text {
+                font-size: 18px;
+                line-height: 24px;
+                height: 24px;
+            }
         }
     }
 
@@ -107,12 +130,20 @@ const props = defineProps<Props>()
 
     .button-container {
         margin-top: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .description {
         margin: 40px 0;
         color: @memo-grey-darker;
         height: 150px;
+
+        @media screen and (min-width: 386px) and (max-width: 768px) {
+            height: 90px;
+        }
     }
 
     .list-container {
@@ -135,7 +166,6 @@ const props = defineProps<Props>()
                 }
             }
         }
-
     }
 }
 </style>

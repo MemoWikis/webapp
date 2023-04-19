@@ -389,8 +389,6 @@ export default defineNuxtComponent({
 
 <style scoped lang="less">
 @import (reference) "~~/assets/includes/imports.less";
-// @memo-blue-link: #18A0FB;
-// @memo-blue: #203256;
 
 #Segmentation {
 	margin-top: 80px;

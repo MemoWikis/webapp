@@ -83,7 +83,7 @@ const navOptions = ref()
                 <div class="partial end" ref="headerExtras">
                     <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
-                            <div class="searchButton" :class="{ 'showSearch': showSearch }"
+                            <div class="search-button" :class="{ 'showSearch': showSearch }"
                                 @click="showSearch = !showSearch">
                                 <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
@@ -97,10 +97,10 @@ const navOptions = ref()
                             <div class="header-btn">
                                 <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon">
                                     <!-- <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
-                                                                <div class="unread-msg-badge-container">
-                                                                    <div class="unread-msg-badge"></div>
-                                                                </div>
-                                                            </template> -->
+                                                                                                <div class="unread-msg-badge-container">
+                                                                                                    <div class="unread-msg-badge"></div>
+                                                                                                </div>
+                                                                                            </template> -->
                                 </Image>
                                 <div class="header-user-name">
                                     {{ userStore.name }}
@@ -144,15 +144,15 @@ const navOptions = ref()
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
                                         <!-- <NuxtLink to="/Nachrichten/" @click="hide">
-                                                                    <div class="user-dropdown-label"
-                                                                        :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
-                                                                        Deine Nachrichten
-                                                                        <div class="counter-badge red-badge"
-                                                                            v-if="userStore.unreadMessagesCount > 0">{{
-                                                                                userStore.unreadMessagesCount }}
-                                                                        </div>
-                                                                    </div>
-                                                                </NuxtLink> -->
+                                                                                                    <div class="user-dropdown-label"
+                                                                                                        :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
+                                                                                                        Deine Nachrichten
+                                                                                                        <div class="counter-badge red-badge"
+                                                                                                            v-if="userStore.unreadMessagesCount > 0">{{
+                                                                                                                userStore.unreadMessagesCount }}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </NuxtLink> -->
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
                                             @click="hide">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
@@ -184,7 +184,7 @@ const navOptions = ref()
                             :class="{ 'hide-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
-                                <div class="searchButton" :class="{ 'showSearch': showSearch }"
+                                <div class="search-button" :class="{ 'showSearch': showSearch }"
                                     @click="showSearch = !showSearch">
                                     <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                     <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
@@ -248,7 +248,7 @@ const navOptions = ref()
     z-index: 20;
     margin-right: 0;
 
-    .searchButton {
+    .search-button {
         align-items: center;
         display: flex;
         font-size: 20px;
@@ -264,6 +264,7 @@ const navOptions = ref()
         border-radius: 15px;
         height: 30px;
         margin-right: 2px;
+        color: @memo-grey-dark;
 
         &:hover {
             filter: brightness(0.95)
@@ -354,6 +355,7 @@ const navOptions = ref()
             background: white;
             border-radius: 20px;
             font-size: 20px;
+            color: @memo-grey-dark;
 
             &:hover {
                 filter: brightness(0.95)
@@ -623,7 +625,7 @@ const navOptions = ref()
         }
     }
 
-    .searchButton {
+    .search-button {
         height: 100%;
         display: flex;
         justify-content: center;

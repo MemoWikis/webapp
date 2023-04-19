@@ -57,7 +57,7 @@ function handleError() {
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
                     <div id="HeaderSearch" class="" v-if="!props.isError">
-                        <div class="searchButton" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
+                        <div class="search-button" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>

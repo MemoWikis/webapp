@@ -121,11 +121,12 @@ function handleError() {
                                     <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank"
                                         :external="true">
                                         <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
-                                    </NuxtLink><br />
+                            </NuxtLink>
+                            <br />
                                 </div>
                                 <div class="footer-group">
                                     <div class="overline-m no-line">Mitgliedschaft</div>
-                                    <LazyNuxtLink :to="'/Preise'">Preise</LazyNuxtLink>
+                            <LazyNuxtLink to="/Preise">Preise</LazyNuxtLink>
                                     <br />
                                 </div> -->
                     <!-- </div> -->
@@ -161,7 +162,7 @@ function handleError() {
                     </div>
 
 
-                    <div id="FooterEndContainer" class="col-xs-12 col-lg-12">
+                    <div id="FooterEndContainer" class="col-xs-12 col-lg-12 FooterCol">
                         <div id="FooterEnd">
                             <div>
                                 Entwickelt von:

@@ -1,82 +1,6 @@
-
-<template>
-    <div class="container">
-        <div class="main-page row">
-            <div class="col-md-12 header">
-                <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
-                <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
-                <div class="bottom-label">
-                    Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
-                    Freie
-                    Software! (open data open access)<br />
-                    Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
-                </div>
-            </div>
-            <div class="container">
-                <div id="PricesOuter" class="row">
-
-                    <UserMembershipPriceCard :plan="Membership.plans.basic" :selected="false">
-                        <template v-slot:button>
-                            <NuxtLink to="/Nutzer/Einstellungen" v-if="userStore.isLoggedIn">
-                                <button class="memo-button btn-default">
-                                    Downgrade
-                                </button>
-                            </NuxtLink>
-                            <NuxtLink to="/Registrieren" v-else>
-                                <button class="memo-button btn-default btn">
-                                    Kostenlos registrieren
-                                </button>
-                            </NuxtLink>
-                        </template>
-                    </UserMembershipPriceCard>
-
-                    <UserMembershipPriceCard :plan="Membership.plans.plus" :selected="false">
-                        <template v-slot:button>
-                            <button class="memo-button btn-primary btn" @click="handleCheckout(Membership.Type.Plus)">
-                                Auswählen
-                            </button>
-                        </template>
-                    </UserMembershipPriceCard>
-
-                    <UserMembershipPriceCard :plan="Membership.plans.team" :selected="false">
-                        <template v-slot:button>
-                            <button class="disabled memo-button btn-primary btn" disabled>
-                                In Planung
-                            </button>
-                        </template>
-                    </UserMembershipPriceCard>
-
-                    <UserMembershipPriceCard :plan="Membership.plans.organisation" :selected="false">
-                        <template v-slot:button>
-                            <button class="memo-button btn-link">Kontaktieren</button>
-                        </template>
-                    </UserMembershipPriceCard>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="full-width-row">
-        <div id="FaqHeaderOuter">
-            <div class="faq-top-label">Häufig gestellte</div>
-            <div>Fragen</div>
-        </div>
-
-        <div id="QuestionsOuter">
-
-            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
-
-            <div id="NotFound">
-                <div class="not-found-header">Deine Frage nicht gefunden?</div>
-                <a class="memucho-contact" href="mailto:abc@example.com">memucho kontaktieren</a>
-                <div class="email">team@memucho.de</div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { loadStripe, Stripe } from '@stripe/stripe-js';
-import * as Membership from '~~/components/user/membership/membership';
+import * as Subscription from '~~/components/user/membership/subscription';
 import { useUserStore } from '~~/components/user/userStore';
 
 const userStore = useUserStore()
@@ -141,16 +65,16 @@ const redirectToCheckout = async (sessionId: string): Promise<void> => {
 }
 
 
-const handleCheckout = async (type: Membership.Type): Promise<void> => {
+const handleCheckout = async (type: Subscription.Type): Promise<void> => {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
         return
     }
     let priceId = '';
 
-    if (type == Membership.Type.Plus)
+    if (type == Subscription.Type.Plus)
         priceId = config.public.stripePlusPriceId
-    else if (type == Membership.Type.Team)
+    else if (type == Subscription.Type.Team)
         priceId = config.public.stripeTeamPriceId
 
     sessionId.value = await createOrUpdateSubscription(priceId);
@@ -165,18 +89,97 @@ onBeforeMount(() => {
 })
 
 </script>
+
+<template>
+    <div class="container">
+        <div class="main-page row">
+            <div class="col-md-12 header">
+                <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
+                <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
+                <div class="bottom-label">
+                    Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
+                    Freie
+                    Software! (open data open access)<br />
+                    Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
+                </div>
+            </div>
+            <div class="container">
+                <div class="row subscription-plans">
+
+                    <UserMembershipPriceCard :plan="Subscription.plans.basic" :selected="false"
+                        :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic }">
+                        <template v-slot:button>
+                            <button class="memo-button btn-default"
+                                v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
+                                <NuxtLink to="/Nutzer/Einstellungen">
+                                    Downgrade
+                                </NuxtLink>
+                            </button>
+                            <button class="memo-button btn-success" disabled
+                                v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic">
+                                <NuxtLink to="/Registrieren">
+                                    Deine Mitgliedschaft
+                                </NuxtLink>
+                            </button>
+                            <button class="memo-button btn-default" v-else>
+                                <NuxtLink to="/Registrieren">
+                                    Kostenlos registrieren
+                                </NuxtLink>
+                            </button>
+
+
+                        </template>
+                    </UserMembershipPriceCard>
+
+                    <UserMembershipPriceCard :plan="Subscription.plans.plus" :selected="false"
+                        :class="{ 'recommended': !userStore.isLoggedIn }">
+                        <template v-slot:button>
+                            <button class="memo-button btn-primary btn" @click="handleCheckout(Subscription.Type.Plus)">
+                                Auswählen
+                            </button>
+                        </template>
+                    </UserMembershipPriceCard>
+
+                    <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false">
+                        <template v-slot:button>
+                            <button class="memo-button btn-primary btn" disabled>
+                                In Planung
+                            </button>
+                        </template>
+                    </UserMembershipPriceCard>
+
+                    <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false">
+                        <template v-slot:button>
+                            <button class="memo-button btn-link">Kontaktieren</button>
+                        </template>
+                    </UserMembershipPriceCard>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="full-width-row">
+        <div id="FaqHeaderOuter">
+            <div class="faq-top-label">Häufig gestellte</div>
+            <div>Fragen</div>
+        </div>
+
+        <div id="QuestionsOuter">
+
+            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
+
+            <div id="NotFound">
+                <div class="not-found-header">Deine Frage nicht gefunden?</div>
+                <a class="memucho-contact" href="mailto:abc@example.com">memucho kontaktieren</a>
+                <div class="email">team@memucho.de</div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-@media screen and (max-width: 768px) {
-    .second-row {
-        height: auto;
-    }
-}
-
 .container {
-
-
     .header {
 
         display: flex;
@@ -203,96 +206,14 @@ onBeforeMount(() => {
         }
     }
 
-    #PricesOuter {
-        .second-row {
-            height: 590px;
-        }
-
-        @media screen and (max-width: 768px) {
-            .second-row {
-                height: auto;
-                margin-top: 10px;
-            }
-
-            .third-row {
-                margin-top: 10px;
-            }
-
-            .fourth-row {
-                margin-top: 10px;
-            }
-
-
-        }
-
-        .price-inner {
-            border: #DDDDDD 1px solid;
-            padding: 20px;
-
-            .head-line {
-                font-size: 32px;
-                margin-right: 20px;
-                font-weight: 400;
-            }
-
-            .contact {
-                color: #0065CA;
-                background: white;
-                font-size: 14px;
-
-            }
-
-            .disabled {
-                background: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), #0065CA;
-            }
-
-            .price {
-                font-size: 45px;
-                font-weight: 700;
-                margin-top: 50px;
-            }
-
-            .price-organisation {
-                margin-top: 50px;
-                font-weight: 700;
-                font-size: 18px;
-
-            }
-
-            .first-text {
-                margin-top: 10px;
-            }
-
-            button {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .second-text {
-                margin-top: 50px;
-                color: #555555;
-            }
-
-            .enumeration {
-                font-weight: 400;
-                font-size: 14px;
-                color: #003264;
-
-                .fa-check {
-                    font-size: 18px;
-                    font-weight: 900;
-                }
-
-                .second-row {
-                    margin-left: 22px;
-                }
-            }
+    .subscription-plans {
+        button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
-
-
 }
 
 #FaqHeaderOuter {
