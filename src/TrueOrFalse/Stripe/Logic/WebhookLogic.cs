@@ -30,12 +30,11 @@ namespace TrueOrFalse.Stripe.Logic
                 if (stripeEvent.Type == Events.PaymentIntentSucceeded)
                 {
 
-                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                    var customerId = paymentIntent.CustomerId;
-                    var user = Sl.UserRepo.GetByStripeId(customerId);
+                    var paymentIntent = GetPaymentObjectAndUser<PaymentIntent>(stripeEvent);
+                    var user = paymentIntent.user; 
                     if (user == null)
                     {
-                        Logg.r().Error($"The user with the CustomerId:{customerId}  was not found");
+                        Logg.r().Error($"The user with the CustomerId:{paymentIntent.paymentObject.CustomerId}  was not found");
                     }
                     else
                     {
@@ -47,12 +46,12 @@ namespace TrueOrFalse.Stripe.Logic
                 }
                 else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
                 {
-                    var paymentIntent = stripeEvent.Data.Object as Subscription;
-                    var customerId = paymentIntent.CustomerId;
-                    var user = Sl.UserRepo.GetByStripeId(customerId);
-                    user.SubscriptionDuration = paymentIntent.CurrentPeriodEnd;
+                    var paymentDeleted = GetPaymentObjectAndUser<Subscription>(stripeEvent);
+                    var user = paymentDeleted.user;
+                    user.SubscriptionDuration = paymentDeleted.paymentObject.CurrentPeriodEnd;
                     Sl.UserRepo.Update(user);
-
+                    Logg.r().Information(
+                        $"{user.Name} with userId: {user.Id}  has deleted the plan.");
                 }
                 else if (stripeEvent.Type == Events.PaymentMethodAttached)
                 {
@@ -75,6 +74,21 @@ namespace TrueOrFalse.Stripe.Logic
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
+        }
+
+        public (T paymentObject, User user) GetPaymentObjectAndUser<T>(Event stripeEvent) where T : class
+        {
+            T paymentObject = stripeEvent.Data.Object as T;
+
+            if (paymentObject == null)
+            {
+                throw new ArgumentException("Invalid object type");
+            }
+
+            var customerId = ((dynamic)paymentObject).CustomerId;
+            var user = Sl.UserRepo.GetByStripeId(customerId);
+
+            return (paymentObject,user);
         }
     }
 }
