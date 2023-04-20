@@ -79,7 +79,6 @@ public class TopicController : BaseController
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            IconHtml = SearchApiController.GetIconHtml(topic),
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
@@ -161,7 +160,6 @@ public class TopicController : BaseController
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            IconHtml = SearchApiController.GetIconHtml(topic),
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility

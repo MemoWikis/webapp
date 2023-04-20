@@ -21,7 +21,6 @@
             imgHtml: null,
             linkToCategory: null,
             visibility: 0,
-            categoryTypeHtml: null,
             childCategoryCount: 0,
             questionCount: 0,
             categoryName: null,
