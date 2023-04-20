@@ -25,7 +25,6 @@ public class SearchHelper : BaseController
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            IconHtml = GetIconHtml(topic),
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
@@ -70,45 +69,6 @@ public class SearchHelper : BaseController
                 ImageUrl = new UserImageSettings(u.Id).GetUrl_50px_square(u).Url,
                 Url = Links.UserDetail(u)
             }));
-    }
-
-    public static string GetIconHtml(Category category)
-    {
-        var iconHTML = "";
-        switch (category.Type)
-        {
-            case CategoryType.Book:
-                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
-                break;
-            case CategoryType.VolumeChapter:
-                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
-                break;
-            case CategoryType.Magazine:
-                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
-                break;
-            case CategoryType.MagazineArticle:
-                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
-                break;
-            case CategoryType.MagazineIssue:
-                iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
-                break;
-            case CategoryType.WebsiteArticle:
-                iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
-                break;
-            case CategoryType.Daily:
-                iconHTML = "<i class=\"fa   \">&nbsp;</i>";
-                break;
-            case CategoryType.DailyIssue:
-                iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";
-                break;
-            case CategoryType.DailyArticle:
-                iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
-                break;
-        }
-        if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
-            iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
-
-        return iconHTML;
     }
 
     public static string GetIconHtml(CategoryCacheItem category)

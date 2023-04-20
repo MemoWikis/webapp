@@ -35,7 +35,7 @@ onBeforeMount(() => {
                     <img v-if="showImage" :src="topic.MiniImageUrl" />
 
                     <div class="category-chip-label">
-                        <i v-if="topic.IconHtml.length > 0" v-html="topic.IconHtml"></i>{{ name }}
+                        {{ name }}
                     </div>
                     <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>

@@ -17,7 +17,6 @@ export interface SearchTopicItem {
     QuestionCount: number
     ImageUrl: string
     MiniImageUrl: string
-    IconHtml: string
     Visibility: Visibility
 }
 
@@ -28,7 +27,6 @@ export interface TopicItem {
     QuestionCount: number
     ImageUrl: string
     MiniImageUrl: string
-    IconHtml: string
     Visibility: number
     IsSpoiler?: boolean
 }
