@@ -1,7 +1,27 @@
 version: '3'
+# Define the services that make up your application
 services:
-  my_service:
-    image: nuxt-lokal
+  mem-nuxt:
+    # Use the image named 'mem-nuxt' in the specified version
+    image: mem-nuxt:${MEM-NUXT_VERSION}
+    # Map port 3000 in the container to specified port on the host
     ports:
-      - "3000:3000"
-      - "24678:24678"
+      - "${NUXT_PORT}:3000"
+      # Probably only needed in Development for Hot Module Reloading:
+      - "${NUXT_HMR_PORT}:24678"
+    # Define the networks this service will be attached to
+    networks:
+      # Use an existing network named 'mynetwork'
+      # or create a new one if it doesn't exist
+      mynetwork:
+        # Specify that this service should use
+        # an external network if it exists
+        external: true
+
+# Define the networks that connect your services
+networks:
+  # Use an existing network named 'mynetwork'
+  # or create a new one if it doesn't exist
+  mynetwork:
+    external:
+      name: ${NETWORK_NAME}
