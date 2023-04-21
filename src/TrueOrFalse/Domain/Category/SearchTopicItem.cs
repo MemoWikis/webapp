@@ -6,6 +6,5 @@
     public int QuestionCount;
     public string ImageUrl;
     public string MiniImageUrl;
-    public string IconHtml;
     public int Visibility;
 }

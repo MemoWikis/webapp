@@ -31,9 +31,6 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 		}
 	})
 
-if (question.value == null || question.value.answerBodyModel == null)
-	navigateTo('/Fehler/500')
-
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
 	emit('setPage', Page.Question)
@@ -73,11 +70,16 @@ useHead(() => ({
 		}
 	]
 }))
+
+onBeforeMount(() => {
+	if (question.value == null || question.value.answerBodyModel == null)
+		throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+})
 </script>
 
 <template>
 	<div class="container">
-		<div class="question-page-container row  main-page">
+		<div class="question-page-container row main-page">
 			<template v-if="question && question.answerBodyModel != null">
 				<div class="col-lg-9 col-md-12 container">
 					<QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"

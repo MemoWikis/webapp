@@ -17,6 +17,7 @@ public class UserCacheItem : IUserTinyModel
     public int ReputationPos;
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
+    public DateTime? SubscriptionDuration { get; set; }
 
     public int StartTopicId;
     public int WishCountQuestions;
@@ -74,6 +75,7 @@ public class UserCacheItem : IUserTinyModel
         FollowerIds = user.Followers.Select(f => f.Follower.Id).ToList();
         FollowingIds = user.Following.Select(f => f.User.Id).ToList();
         StripeId = user.StripeId;
+        SubscriptionDuration = user.SubscriptionDuration;
     }
 
     public virtual string WidgetHostsSpaceSeparated { get; set; }

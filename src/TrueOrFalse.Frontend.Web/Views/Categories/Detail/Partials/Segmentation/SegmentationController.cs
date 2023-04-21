@@ -75,7 +75,6 @@ public class SegmentationController : BaseController
         if (!PermissionCheck.CanView(categoryCacheItem)) return null;
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
-        var categoryTypeHtml = categoryCacheItem.Type.GetCategoryTypeIconHtml();
 
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(categoryId, ImageType.Category);
         var imageFrontendData = new ImageFrontendData(imageMetaData);
@@ -104,7 +103,6 @@ public class SegmentationController : BaseController
             Name = categoryCacheItem.Name,
             Visibility = (int)categoryCacheItem.Visibility,
             LinkToCategory = linkToCategory,
-            CategoryTypeHtml = categoryTypeHtml,
             ImgHtml = imgHtml,
             KnowledgeBarHtml = knowledgeBarHtml,
             ChildCategoryCount = childCategoryCount,
@@ -122,7 +120,6 @@ public class SegmentationController : BaseController
         public string Name;
         public int Visibility;
         public string LinkToCategory;
-        public string CategoryTypeHtml;
         public string ImgHtml;
         public string KnowledgeBarHtml;
         public int ChildCategoryCount;

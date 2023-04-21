@@ -1,9 +1,24 @@
-﻿using System.Web.Http;
+﻿using Stripe.Checkout;
+using Stripe;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using TrueOrFalse.Stripe;
+
 namespace VueApp;
 public class PriceController: BaseController
 {
-    [HttpGet]
-    public string MonthlySubscription(string priceId)
-    { return ""; 
+
+    [AccessOnlyAsLoggedIn]
+    public async Task<JsonResult> CreateCheckoutSession(string priceId)
+    {
+        var sessionId = await new SubscriptionLogic().CreateStripeSession(priceId);
+        if (sessionId.Equals("-1"))
+        {
+            return Json(new { success = false });
+        }
+
+        return Json(new { success = true, id = sessionId });
+
     }
 }

@@ -65,8 +65,10 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
     }
 })
 
-if (profile.value == null || profile.value.user.id <= 0)
-    navigateTo('/Fehler/500')
+onBeforeMount(() => {
+    if (profile.value == null || profile.value.user.id <= 0)
+        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+})
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
@@ -97,7 +99,7 @@ const props = defineProps<Props>()
 const emit = defineEmits(['setBreadcrumb'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
-        history.pushState(null, 'Alle Nutzer', `/Nutzer`)
+        history.pushState(null, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
         const breadcrumbItem: BreadcrumbItem = {
             name: 'Einstellungen',
             url: `/Nutzer/Einstellungen`
@@ -105,6 +107,7 @@ function handleBreadcrumb(t: Tab) {
         emit('setBreadcrumb', [breadcrumbItem])
     }
     else if (profile.value?.user.id && profile.value.user.id > 0) {
+        history.pushState(null, `${profile.value?.user.name}`, `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/`)
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
@@ -112,7 +115,7 @@ function handleBreadcrumb(t: Tab) {
             },
             {
                 name: `${profile.value?.user.name}`,
-                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/Einstellungen`
+                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/`
             }]
         emit('setBreadcrumb', breadcrumbItems)
     } else {
@@ -123,7 +126,7 @@ onMounted(() => {
     tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
     handleBreadcrumb(tab.value)
     watch(tab, (t) => {
-        if (t)
+        if (t != undefined)
             handleBreadcrumb(t)
     })
 })
@@ -306,13 +309,20 @@ useHead(() => ({
                 </Transition>
                 <Transition>
                     <div v-show="tab == Tab.Wishknowledge">
+                        <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
+                            <template v-if="profile.isCurrentUser">
+                                Dein Wunschwissen ist nicht öffentlich. <span @click="tab = Tab.Settings"
+                                    class="btn-link">Ändern</span>
+                            </template>
+                            <template v-else>
+                                <b>Nicht öffentlich</b> {{ profile.user.name }} hat ihr / sein Wunschwissen nicht
+                                veröffentlicht.
+                            </template>
+                        </div>
                         <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-                            <div v-if="!profile.user.showWuwi && profile.isCurrentUser">
-
-                            </div>
                             <UserTabsWishknowledge :questions="wuwi.questions" :topics="wuwi.topics" keep-alive />
                         </div>
-                        <div v-else></div>
+
                     </div>
                 </Transition>
                 <Transition>
@@ -425,5 +435,12 @@ useHead(() => ({
     .count-label {
         color: @memo-grey-dark;
     }
+}
+
+.wuwi-is-hidden {
+    border: solid 1px @memo-grey-lighter;
+    padding: 20px;
+    width: 100%;
+    margin-top: 20px;
 }
 </style>

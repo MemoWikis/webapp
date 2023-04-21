@@ -6,7 +6,7 @@
                     <img v-if="showImage" :src="category.MiniImageUrl"/>
 
                     <div :href="category.Url" class="category-chip-label">
-                        <i v-if="category.IconHtml.length > 0" v-html="category.IconHtml"></i>{{name}}
+                        {{name}}
                     </div>
                     <i v-if="category.Visibility == 1" class="fas fa-lock"></i>
                 </div>

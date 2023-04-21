@@ -314,7 +314,9 @@
     <Compile Include="Search\User\Model\MeiliSearchUserMap.cs" />
     <Compile Include="Search\User\MeiliSearchUsers.cs" />
     <Compile Include="Search\User\MeiliSearchUsersResult .cs" />
-    <Compile Include="Stripe\Logik\AboControllerLogik.cs" />
+    <Compile Include="Stripe\Logic\SubscriptionLogic.cs" />
+    <Compile Include="Stripe\Logic\WebhookLogic.cs" />
+    <Compile Include="Stripe\SubscriptionType.cs" />
     <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />
     <Compile Include="Domain\Category\Crumbtrail\CrumbtrailItem.cs" />
@@ -893,6 +895,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs240.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs239.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs238 .cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />

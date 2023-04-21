@@ -623,6 +623,7 @@ export default defineNuxtComponent({
 		height: 24px;
 		justify-content: center;
 		border-radius: 15px;
+		font-size: 16px;
 
 		.fa-unlock {
 			display: none !important;
@@ -649,14 +650,6 @@ export default defineNuxtComponent({
 
 		&:active {
 			filter: brightness(0.85)
-		}
-	}
-
-	.segmentLock {
-		height: 20px;
-
-		i {
-			font-size: 18px;
 		}
 	}
 
