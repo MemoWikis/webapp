@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  mem-nuxt:
+    image: ghcr.io/memucho/mem-nuxt:${BUILD_NUMBER:-error}
+    # expose:
+      # - "3000"
+    ports:
+      - "${NUXT_PORT:-3000}:3000"
+      # Probably only needed in Development for Hot Module Reloading:
+      - "${NUXT_HMR_PORT:-24678}:24678"
+    networks:
+      - environment-specific-network
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-stage}
+    # Was already set up with nginx: 
+    external: true
+
+# Start nginx in network with name mem-stage first (see separate docker-compose), run command with -p mem-${MEM_ENVIRONMENT}
+# Run in bash like this:
+# $ export BUILD_NUMBER=5408
+# $ docker-compose -p mem-stage up -d
+# will recreate a running container
