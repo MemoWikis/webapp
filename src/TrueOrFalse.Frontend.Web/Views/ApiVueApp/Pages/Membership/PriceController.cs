@@ -19,6 +19,5 @@ public class PriceController: BaseController
         }
 
         return Json(new { success = true, id = sessionId });
-
     }
 }

@@ -24,21 +24,22 @@ public class WebhookLogic
 
         if (stripeEvent.Type == Events.PaymentIntentSucceeded)
         {
-            ProcessSuccessfulPayment(stripeEvent);
+            PaymentIntentSucceeded(stripeEvent);
         }
         else if (stripeEvent.Type == Events.CustomerSubscriptionDeleted)
         {
-            ProcessDeletedPayment(stripeEvent);
+            CustomerSubscriptionDeleted(stripeEvent);
+        }
+        else if (stripeEvent.Type == Events.InvoicePaymentFailed)
+        {
+            InvoicePaymentFailed(stripeEvent);
         }
         else if (stripeEvent.Type == Events.PaymentMethodAttached)
         {
             var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
             Logg.r().Error($"The user paid with an incorrect payment method,  the CustomerId is {paymentMethod.CustomerId}.");
         }
-        else
-        {
-            Logg.r().Error("Unhandled event type: {0}", stripeEvent.Type);
-        }
+
         return new HttpStatusCodeResult(HttpStatusCode.OK);
     }
 
@@ -79,39 +80,51 @@ public class WebhookLogic
         }
     }
 
-    public void ProcessSuccessfulPayment(Event stripeEvent)
+    public void PaymentIntentSucceeded(Event stripeEvent)
     {
         var paymentIntent = GetPaymentObjectAndUser<PaymentIntent>(stripeEvent);
         var user = paymentIntent.user;
-        if (user == null)
-        {
-            Logg.r().Error(
-                $"The user with the CustomerId:{paymentIntent.paymentObject.CustomerId}  was not found");
-        }
-        else
-        {
-            user.SubscriptionDuration = new DateTime(9999, 12, 31, 23, 59, 59);
-            Sl.UserRepo.Update(user);
-            Logg.r().Information(
-                $"{user.Name} with userId: {user.Id}  has successfully subscribed to a plan.");
-        }
+        LogErrorWhenUserNull(paymentIntent.paymentObject.CustomerId, user);
+
+        var log = $"{user.Name} with userId: {user.Id}  has successfully subscribed to a plan.";
+        SetNewSubscriptionDate(user, new DateTime(9999, 12, 31, 23, 59, 59), log);
     }
 
-    public void ProcessDeletedPayment(Event stripeEvent)
+    public void CustomerSubscriptionDeleted(Event stripeEvent)
     {
         var paymentDeleted = GetPaymentObjectAndUser<Subscription>(stripeEvent);
         var user = paymentDeleted.user;
+        LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
+
+        var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
+        SetNewSubscriptionDate(user, paymentDeleted.paymentObject.CurrentPeriodEnd, log);
+    }
+
+    public void InvoicePaymentFailed(Event stripeEvent)
+    {
+        var paymentFailed = GetPaymentObjectAndUser<Invoice>(stripeEvent);
+        var user = paymentFailed.user;
+        LogErrorWhenUserNull(paymentFailed.paymentObject.CustomerId, user);
+
+        var log = $"{user.Name} with userId: {user.Id}  has deleted the plan."; 
+        SetNewSubscriptionDate(user, DateTime.Now, log);
+    }
+
+    public void LogErrorWhenUserNull(string customerId, User user) 
+    {
+        if (user == null)
+        {
+            Logg.r().Error($"The user with the CustomerId:{customerId}  was not found");
+        }
+    }
+
+    public void SetNewSubscriptionDate(User user, DateTime date, string log)
+    {
         if (user != null)
         {
-            Logg.r().Error(
-                $"The user with the CustomerId:{paymentDeleted.paymentObject.CustomerId}  was not found");
-        }
-        else
-        {
-            user.SubscriptionDuration = paymentDeleted.paymentObject.CurrentPeriodEnd;
+            user.SubscriptionDuration = date;
             Sl.UserRepo.Update(user);
-            Logg.r().Information(
-                $"{user.Name} with userId: {user.Id}  has deleted the plan.");
+            Logg.r().Information(log);
         }
     }
 }
