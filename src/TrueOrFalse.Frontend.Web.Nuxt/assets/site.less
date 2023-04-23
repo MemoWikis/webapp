@@ -376,7 +376,6 @@ img {
 #MenuButton, #StickyMenuButton {
     .btn;
     display: inline-block;
-    float: left;
     font-size: 36px !important;
     padding-left: 0px !important;
     margin-top: -5px;
@@ -923,9 +922,6 @@ textarea.input-validation-error, input.input-validation-error {
     background-color: @color-error-light;
 }
 
-.input-validation-valid { /* Optional: you can set whatever style you want */
-}
-
 .field-validation-error {
     color: @color-error;
     background-color: @color-error-light;
@@ -1111,10 +1107,6 @@ div.search-container,
         padding-top: 6px;
     }
 
-    input[type=text] {
-        //float:left;
-        //margin-right: 3px;
-    }
 }
 /*CONTAINER
 ---------------------------------------------------------*/
@@ -1333,12 +1325,6 @@ ul.ui-autocomplete {
 ----------------------------------------------------------*/
 .cursor-hand {
     cursor: pointer;
-}
-/*Tooltips*/
-.fa-question-circle.show-tooltip {
-    //.hidden-xs;
-    //.hidden-sm;
-    //font-size: 20px; implement hiding/toggle
 }
 
 .tooltip-inner {
@@ -2243,6 +2229,7 @@ textarea, input {
     transition: opacity 0.3s ease;
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
     width: 100%;
     height: 100%;
 }
@@ -2618,6 +2605,7 @@ textarea, input {
                     padding-top: 5px;
                     right: 0px;
                     top: 0px;
+                    z-index: 2;
                 }
             }
         }
@@ -2742,6 +2730,7 @@ textarea, input {
                     right: 0px;
                     top: 0px;
                     padding-top: 5px;
+                    z-index: 2;
                 }
             }
         }
