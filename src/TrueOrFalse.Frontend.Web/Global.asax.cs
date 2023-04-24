@@ -13,6 +13,7 @@ using Serilog;
 using StackExchange.Profiling;
 using Stripe;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Stripe.Logic;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View;
@@ -53,9 +54,8 @@ namespace TrueOrFalse.Frontend.Web
             {
                 EntityCache.Init();
             }
-
+            new WebhookLogic().FetchFailedWebhookRequests();
             Sl.Resolve<ISession>().Close();
-
             Logg.r().Information("=== Application Start (end) ===============================");
         }
 

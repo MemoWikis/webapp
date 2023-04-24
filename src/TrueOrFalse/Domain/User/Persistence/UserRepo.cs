@@ -87,9 +87,15 @@ public class UserRepo : RepositoryDbBase<User>
 
     public User GetByStripeId(string stripId)
     {
+        
+        if(stripId == null)
+        {
+            return null;
+        }
+
         return _session.QueryOver<User>()
             .Where(u=> u.StripeId == stripId )
-            .SingleOrDefault(); 
+            .SingleOrDefault();
     }
 
     public override void Update(User user)
