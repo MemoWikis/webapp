@@ -269,7 +269,7 @@ watch(() => userStore.isLoggedIn, () => {
 			</template>
 		</template>
 
-		<V-Dropdown v-show="stackedBreadcrumbItems.length > 0" :distance="0">
+		<VDropdown v-show="stackedBreadcrumbItems.length > 0" :distance="0">
 			<div>
 				<font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -285,7 +285,7 @@ watch(() => userStore.isLoggedIn, () => {
 				</NuxtLink>
 				<div></div>
 			</template>
-		</V-Dropdown>
+		</VDropdown>
 
 		<template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
 			<NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name">

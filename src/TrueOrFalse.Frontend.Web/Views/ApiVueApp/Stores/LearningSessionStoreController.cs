@@ -61,16 +61,19 @@ public class LearningSessionStoreController: BaseController
                 message = "private"
             });
 
-        var learningSession = LearningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
+        var newSession = LearningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
 
-        if (learningSession == null)
+        if (newSession == null)
             return Json(new
             {
                 success = false,
                 message = "questionNotInFilter"
             });
 
-        LearningSessionCache.AddOrUpdate(learningSession);
+        LearningSessionCache.AddOrUpdate(newSession);
+
+        var learningSession = LearningSessionCache.GetLearningSession();
+
 
         var index = learningSession.Steps.IndexOf(s => s.Question.Id == id);
         learningSession.LoadSpecificQuestion(index);

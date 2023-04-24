@@ -10,9 +10,7 @@ import { Activity, useActivityPointsStore } from '~~/components/activityPoints/a
 import { random, handleNewLine } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { useTopicStore } from '~~/components/topic/topicStore'
-import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 
-const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const activityPointsStore = useActivityPointsStore()
@@ -212,7 +210,6 @@ const answerBodyModel = ref<AnswerBodyModel>()
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
-
     const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include'
@@ -294,19 +291,23 @@ async function loadSolution(answered: boolean = true) {
 
 }
 
-watch([() => learningSessionStore.currentStep?.index], () => {
-    loadAnswerBodyModel()
-})
-learningSessionStore.$onAction(({ name, after }) => {
-    if (name == 'startNewSession') {
-        after((newSession) => {
-            if (newSession)
-                loadAnswerBodyModel()
-        })
-    }
-})
+onMounted(() => {
+    watch([() => learningSessionStore.currentStep?.index], () => {
+        loadAnswerBodyModel()
+    })
 
-watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
+    learningSessionStore.$onAction(({ name, after }) => {
+        if (name == 'startNewSession') {
+
+            after((newSession) => {
+                if (newSession)
+                    loadAnswerBodyModel()
+            })
+        }
+    })
+
+    watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
+})
 
 function loadResult() {
     answerBodyModel.value = undefined
@@ -363,7 +364,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                 </div>
                 <div class="Button dropdown answerbody-btn">
                     <div class="answerbody-btn-inner">
-                        <V-Dropdown :distance="0">
+                        <VDropdown :distance="0">
                             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                             <template #popper>
 
@@ -412,7 +413,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                 </div>
 
                             </template>
-                        </V-Dropdown>
+                        </VDropdown>
 
                     </div>
                 </div>
@@ -448,22 +449,19 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                 </Transition>
                             </template>
 
-                            <Transition name="fade">
-                                <QuestionAnswerBodyFlashcard :key="answerBodyModel.id + 'flashcard'"
-                                    v-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
-                                    :solution="answerBodyModel.solution" :text="answerBodyModel.text"
-                                    :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
-                                <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'"
-                                    v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
-                                    :solution="answerBodyModel.solution" :show-answer="showAnswer"
-                                    @flipped="amountOfTries++" />
-                                <QuestionAnswerBodyMultipleChoice :key="answerBodyModel.id + 'multiplechoice'"
-                                    v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
-                                    :solution="answerBodyModel.solution" :show-answer="showAnswer" ref="multipleChoice" />
-                                <QuestionAnswerBodyText :key="answerBodyModel.id + 'text'"
-                                    v-else-if="answerBodyModel.solutionType == SolutionType.Text" ref="text"
-                                    :show-answer="showAnswer" />
-                            </Transition>
+                            <QuestionAnswerBodyFlashcard :key="answerBodyModel.id + 'flashcard'"
+                                v-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
+                                :solution="answerBodyModel.solution" :text="answerBodyModel.text"
+                                :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
+                            <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'"
+                                v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
+                                :solution="answerBodyModel.solution" :show-answer="showAnswer" @flipped="amountOfTries++" />
+                            <QuestionAnswerBodyMultipleChoice :key="answerBodyModel.id + 'multiplechoice'"
+                                v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
+                                :solution="answerBodyModel.solution" :show-answer="showAnswer" ref="multipleChoice" />
+                            <QuestionAnswerBodyText :key="answerBodyModel.id + 'text'"
+                                v-else-if="answerBodyModel.solutionType == SolutionType.Text" ref="text"
+                                :show-answer="showAnswer" />
 
                         </div>
                         <div id="ButtonsAndSolutionCol">

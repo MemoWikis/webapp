@@ -133,7 +133,7 @@ const getSelectedOrderLabel = computed(() => {
                             <font-awesome-icon icon="fa-solid fa-sort" />
                             <div class="sort-label">Sortieren nach: </div>
                             <div class="orderby-dropdown">
-                                <V-Dropdown :distance="0">
+                                <VDropdown :distance="0">
                                     <div class="orderby-select">
                                         <div>
                                             {{ getSelectedOrderLabel }}
@@ -149,25 +149,25 @@ const getSelectedOrderLabel = computed(() => {
                                                 Rang
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
-                                            :class="{ 'active': orderBy == SearchUsersOrderBy.WishCount }">
+                                        <div class="dropdown-row" @click=" orderBy = SearchUsersOrderBy.WishCount; hide() "
+                                            :class=" { 'active': orderBy == SearchUsersOrderBy.WishCount } ">
                                             <div class="dropdown-label select-option">
                                                 Wunschwissen
                                             </div>
                                         </div>
                                     </template>
-                                </V-Dropdown>
+                                </VDropdown>
                             </div>
                         </div>
                     </div>
 
                     <div class="row usercard-container">
                         <TransitionGroup name="usercard">
-                            <UsersCard v-for="u in pageData.users" :user="u" />
+                            <UsersCard v-for=" u  in  pageData.users " :user=" u " />
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                    <div class="col-xs-12 empty-page-container" v-if=" pageData.users.length <= 0 && searchTerm.length > 0 ">
                         <div class="empty-page">
                             Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
                         </div>
@@ -175,14 +175,14 @@ const getSelectedOrderLabel = computed(() => {
 
                     <div class="col-xs-12">
                         <div class="pagination hidden-xs">
-                            <vue-awesome-paginate :total-items="userCount" :items-per-page="20" :max-pages-shown="5"
-                                v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false"
+                            <vue-awesome-paginate :total-items=" userCount " :items-per-page=" 20 " :max-pages-shown=" 5 "
+                                v-model=" currentPage " :show-ending-buttons=" false " :show-breakpoint-buttons=" false "
                                 prev-button-content="Vorherige" next-button-content="Nächste" first-page-content="Erste"
                                 last-page-content="Letzte" />
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
-                            <vue-awesome-paginate :total-items="userCount" :items-per-page="20" :max-pages-shown="3"
-                                v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false" />
+                            <vue-awesome-paginate :total-items=" userCount " :items-per-page=" 20 " :max-pages-shown=" 3 "
+                                v-model=" currentPage " :show-ending-buttons=" false " :show-breakpoint-buttons=" false " />
                         </div>
                     </div>
                 </div>

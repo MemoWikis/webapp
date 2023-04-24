@@ -5,7 +5,6 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
-import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
@@ -37,11 +36,12 @@ async function loadQuestions(page: number) {
     }
     spinnerStore.hideSpinner()
 }
-const itemsPerPage = ref(24)
+const itemsPerPage = ref(25)
 function loadPageWithSpecificQuestion() {
     if (learningSessionStore.currentIndex == 0)
         loadQuestions(1)
-    const page = Math.ceil(learningSessionStore.currentIndex / itemsPerPage.value)
+    const page = Math.ceil((learningSessionStore.currentIndex + 1) / itemsPerPage.value)
+
     currentPage.value = page
     if (page == 1)
         loadQuestions(1)

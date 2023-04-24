@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <div class="row">
-    <TopicLearning />
-  </div>
+	<div class="row">
+		<ClientOnly>
+			<TopicLearning />
+		</ClientOnly>
+	</div>
 </template>

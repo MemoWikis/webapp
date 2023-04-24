@@ -17,6 +17,14 @@ public class LearningSessionCache
         );
     }
 
+    public static LearningSession TryRemove()
+    {
+        _learningSessions.TryRemove(
+            HttpContext.Current.Session.SessionID, out var learningSession
+        );
+        return GetLearningSession();
+    }
+
     public static LearningSession GetLearningSession()
     {
         _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);

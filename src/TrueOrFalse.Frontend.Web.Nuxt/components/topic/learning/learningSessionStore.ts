@@ -105,7 +105,6 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
-
             if (result != null && result.success) {
                 this.steps = result.steps!
                 this.activeQuestionCount = result.activeQuestionCount!

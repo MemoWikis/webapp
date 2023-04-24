@@ -22,7 +22,7 @@ const hoverLock = ref(false)
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <V-Dropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']" :arrow-padding="300"
+            <VDropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']" :arrow-padding="300"
                 placement="bottom-end">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
@@ -107,7 +107,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
                 </template>
-            </V-Dropdown>
+            </VDropdown>
         </div>
         <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true"
             @mouseleave="hoverLock = false">

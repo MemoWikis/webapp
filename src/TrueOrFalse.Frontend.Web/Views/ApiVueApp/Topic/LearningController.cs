@@ -33,7 +33,6 @@ public class LearningController : BaseController
             config.CurrentUserId = SessionUser.UserId;
 
         var learningSession = LearningSessionCreator.BuildLearningSession(config);
-        LearningSessionCache.AddOrUpdate(learningSession);
 
         return Json(learningSession.QuestionCounter);
     }

@@ -301,7 +301,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                         </div>
                         <div class="Button dropdown">
 
-                            <V-Dropdown :distance="0">
+                            <VDropdown :distance="0">
                                 <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
                                     class="btn btn-link btn-sm ButtonEllipsis" />
                                 <template #popper="{ hide }">
@@ -357,7 +357,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                     </div>
 
                                 </template>
-                            </V-Dropdown>
+                            </VDropdown>
                         </div>
                     </div>
                 </div>

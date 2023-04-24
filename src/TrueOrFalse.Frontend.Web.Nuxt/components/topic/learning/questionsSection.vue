@@ -48,92 +48,91 @@ function getClass(): string {
 <template>
     <div id="QuestionListSection" class="row" :class="getClass()">
         <div>
-            <ClientOnly>
-                <TopicLearningSessionConfiguration :is-in-question-list="true"
-                    v-if="learningSessionConfigurationStore.showFilter">
-                    <slot>
-                        <div class="drop-down-question-sort col-xs-12">
-                            <div class="session-config-header">
-                                <span class="hidden-xs">Du lernst </span>
-                                <template v-if="currentQuestionCount == allQuestionCount">
-                                    <b> alle </b>
-                                </template>
-                                <template v-else>
-                                    <b> {{ currentQuestionCount }} </b>
-                                </template>
-                                <template v-if="currentQuestionCount == 1"> Frage </template>
-                                <template v-else> Fragen </template>
-                                <span class="hidden-xs">aus diesem Thema</span>
-                                ({{ allQuestionCount }})
-                            </div>
-                            <div class="session-config-header" v-if="(topicHasNoQuestions && showError == true)">Leider
-                                hat
-                                dieses
-                                Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
-                            </div>
-
-
-
-                            <div id="ButtonAndDropdown">
-                                <div id="QuestionListHeaderDropDown" class="Button dropdown">
-                                    <V-Dropdown :distance="0">
-                                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
-                                            class="btn btn-link btn-sm ButtonEllipsis" />
-                                        <template #popper="{ hide }">
-
-                                            <div v-if="userStore.isLoggedIn" class="dropdown-row"
-                                                @click="editQuestionStore.create()">
-                                                <div class="dropdown-icon">
-                                                    <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                                                </div>
-                                                <div class="dropdown-label">Frage hinzufügen</div>
-
-                                            </div>
-
-                                            <div class="dropdown-row" @click="expandAllQuestions()"
-                                                v-if="questionsExpanded">
-                                                <div class="dropdown-icon">
-                                                    <font-awesome-icon icon="fa-solid fa-angles-up" />
-                                                </div>
-                                                <div class="dropdown-label">
-                                                    Alle Fragen zuklappen
-                                                </div>
-                                            </div>
-                                            <div class="dropdown-row" @click="expandAllQuestions()" v-else>
-                                                <div class="dropdown-icon">
-                                                    <font-awesome-icon icon="fa-solid fa-angles-down" />
-                                                </div>
-                                                <div class="dropdown-label">
-                                                    Alle Fragen erweitern
-                                                </div>
-                                            </div>
-
-                                            <div class="dropdown-row" @click="learningSessionStore.startNewSession()">
-                                                <div class="dropdown-icon">
-                                                    <font-awesome-icon icon="fa-solid fa-play" />
-                                                </div>
-                                                <div class="dropdown-label">
-                                                    Fragen jetzt lernen
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </V-Dropdown>
-
-                                </div>
-                            </div>
+            <TopicLearningSessionConfiguration :is-in-question-list="true"
+                v-if="learningSessionConfigurationStore.showFilter">
+                <slot>
+                    <div class="drop-down-question-sort col-xs-12">
+                        <div class="session-config-header">
+                            <span class="hidden-xs">Du lernst </span>
+                            <template v-if="currentQuestionCount == allQuestionCount">
+                                <b> alle </b>
+                            </template>
+                            <template v-else>
+                                <b> {{ currentQuestionCount }} </b>
+                            </template>
+                            <template v-if="currentQuestionCount == 1"> Frage </template>
+                            <template v-else> Fragen </template>
+                            <span class="hidden-xs">aus diesem Thema</span>
+                            ({{ allQuestionCount }})
                         </div>
-                    </slot>
-                </TopicLearningSessionConfiguration>
+                        <div class="session-config-header" v-if="(topicHasNoQuestions && showError == true)">Leider
+                            hat
+                            dieses
+                            Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                        </div>
 
-                <div class="session-configurator no-questions" v-if="!learningSessionConfigurationStore.showFilter">
-                    <div class="session-config-header">
-                        <div class="col-xs-12 drop-down-question-sort">
-                            Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+
+
+                        <div id="ButtonAndDropdown">
+                            <div id="QuestionListHeaderDropDown" class="Button dropdown">
+                                <VDropdown :distance="0">
+                                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
+                                        class="btn btn-link btn-sm ButtonEllipsis" />
+                                    <template #popper>
+
+                                        <div v-if="userStore.isLoggedIn" class="dropdown-row"
+                                            @click="editQuestionStore.create()">
+                                            <div class="dropdown-icon">
+                                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
+                                            </div>
+                                            <div class="dropdown-label">Frage hinzufügen</div>
+
+                                        </div>
+
+                                        <div class="dropdown-row" @click="expandAllQuestions()" v-if="questionsExpanded">
+                                            <div class="dropdown-icon">
+                                                <font-awesome-icon icon="fa-solid fa-angles-up" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Alle Fragen zuklappen
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-row" @click="expandAllQuestions()" v-else>
+                                            <div class="dropdown-icon">
+                                                <font-awesome-icon icon="fa-solid fa-angles-down" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Alle Fragen erweitern
+                                            </div>
+                                        </div>
+
+                                        <div class="dropdown-row" @click="learningSessionStore.startNewSession()">
+                                            <div class="dropdown-icon">
+                                                <font-awesome-icon icon="fa-solid fa-play" />
+                                            </div>
+                                            <div class="dropdown-label">
+                                                Fragen jetzt lernen
+                                            </div>
+                                        </div>
+                                    </template>
+                                </VDropdown>
+
+                            </div>
                         </div>
                     </div>
+                </slot>
+            </TopicLearningSessionConfiguration>
+
+            <div class="session-configurator no-questions" v-if="!learningSessionConfigurationStore.showFilter">
+                <div class="session-config-header">
+                    <div class="col-xs-12 drop-down-question-sort">
+                        Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                    </div>
                 </div>
-            </ClientOnly>
+            </div>
+
             <TopicLearningQuestionList :expand-question="questionsExpanded" />
+
         </div>
     </div>
 </template>

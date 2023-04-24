@@ -190,7 +190,7 @@ function resetModal() {
                     Eigene Bilder
                 </div>
             </div>
-            <Transition fade>
+            <Transition name="fade">
                 <div v-if="selectedImageUploadMode == ImageUploadMode.Wikimedia" class="content">
                     <p>
                         Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. Auf
