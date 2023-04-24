@@ -17,10 +17,6 @@ enum SearchUsersOrderBy {
 }
 const orderBy = ref(SearchUsersOrderBy.Rank)
 
-interface Network {
-    following: UserResult[]
-    followers: UserResult[]
-}
 interface UsersResult {
     users: UserResult[]
     totalItems: number
@@ -163,11 +159,12 @@ const getSelectedOrderLabel = computed(() => {
 
                     <div class="row usercard-container">
                         <TransitionGroup name="usercard">
-                            <UsersCard v-for=" u  in  pageData.users " :user=" u " />
+                            <UsersCard v-for="u in pageData.users" :user="u" />
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container" v-if=" pageData.users.length <= 0 && searchTerm.length > 0 ">
+                    <div class="col-xs-12 empty-page-container"
+                        v-if=" pageData.users.length <= 0 && searchTerm.length > 0 ">
                         <div class="empty-page">
                             Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
                         </div>
@@ -175,14 +172,16 @@ const getSelectedOrderLabel = computed(() => {
 
                     <div class="col-xs-12">
                         <div class="pagination hidden-xs">
-                            <vue-awesome-paginate :total-items=" userCount " :items-per-page=" 20 " :max-pages-shown=" 5 "
-                                v-model=" currentPage " :show-ending-buttons=" false " :show-breakpoint-buttons=" false "
-                                prev-button-content="Vorherige" next-button-content="Nächste" first-page-content="Erste"
-                                last-page-content="Letzte" />
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
+                                :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
+                                :show-breakpoint-buttons=" false " prev-button-content="Vorherige"
+                                next-button-content="Nächste" first-page-content="Erste" last-page-content="Letzte" />
+
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
-                            <vue-awesome-paginate :total-items=" userCount " :items-per-page=" 20 " :max-pages-shown=" 3 "
-                                v-model=" currentPage " :show-ending-buttons=" false " :show-breakpoint-buttons=" false " />
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page=" 20 "
+                                :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="false"
+                                :show-breakpoint-buttons="false" />
                         </div>
                     </div>
                 </div>
