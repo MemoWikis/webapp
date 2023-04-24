@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Stripe.Checkout;
+using Stripe;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TrueOrFalse.Stripe;
 
@@ -9,12 +12,12 @@ public class PriceController: BaseController
     [AccessOnlyAsLoggedIn]
     public async Task<JsonResult> CreateCheckoutSession(string priceId)
     {
-        var sessionId = await new SubscriptionLogic().CreateStripeSession(priceId); 
-        if(sessionId.Equals("-1"))
+        var sessionId = await new SubscriptionLogic().CreateStripeSession(priceId);
+        if (sessionId.Equals("-1"))
         {
-            return Json(new { success = false }); 
+            return Json(new { success = false });
         }
 
-        return Json(new { success = false, id = sessionId });
+        return Json(new { success = true, id = sessionId });
     }
 }

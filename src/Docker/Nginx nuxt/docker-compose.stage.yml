@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   mem-nginx-reverse-stage:
@@ -16,8 +16,9 @@ services:
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
-      - mem-stage
+      - environment-specific-network
 
 networks:
-  mem-stage:
+  environment-specific-network:
+    name: mem-stage
     driver: bridge

@@ -1,7 +1,0 @@
-version: '3'
-services:
-  my_service:
-    image: nuxt-lokal
-    ports:
-      - "3000:3000"
-      - "24678:24678"
