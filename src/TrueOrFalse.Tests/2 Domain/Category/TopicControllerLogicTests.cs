@@ -12,7 +12,7 @@ public class TopicControllerLogicTests : BaseTest
 {
 
     [Test(Description = "Test SaveTopic to many private Categories")]
-    public void SaveTopic()
+    public void SaveTopicTestToManyCategories()
     {
        var categoryContext = ContextCategory.New();
         var contextUser = ContextUser.New();
