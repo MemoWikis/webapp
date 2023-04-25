@@ -40,30 +40,33 @@ const forceShow = ref(false)
 
 <template>
     <div class="container">
-        <div class="row  messages-container main-page">
-            <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
-                <h1>
-                    <span class="ColoredUnderline Message">Nachrichten</span>
-                </h1>
-                <div id="messagesWrapper">
-                    <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages" :message="message"
-                        :force-show="forceShow" />
-                    <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length == 0">
-                        Du hast aktuell keine ungelesenen Nachrichten.
+        <div class="row messages-container main-page">
+            <div class="main-content row">
+                <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
+                    <h1>
+                        <span class="ColoredUnderline Message">Nachrichten</span>
+                    </h1>
+                    <div id="messagesWrapper">
+                        <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages" :message="message"
+                            :force-show="forceShow" />
+                        <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length == 0">
+                            Du hast aktuell keine ungelesenen Nachrichten.
+                        </div>
+
+                        <p v-if="model.readCount > 0">
+                            Du hast {{ model.readCount }} gelesene Nachricht{{
+                                model.readCount == 0 ||
+                                model.readCount > 1 ? 'en' : ''
+                            }}.
+                        <div v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</div>.
+                        </p>
+
                     </div>
 
-                    <p v-if="model.readCount > 0">
-                        Du hast {{ model.readCount }} gelesene Nachricht{{
-                            model.readCount == 0 ||
-                            model.readCount > 1 ? 'en' : ''
-                        }}.
-                    <div v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</div>.
-                    </p>
-
                 </div>
-
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
+
         </div>
     </div>
 </template>

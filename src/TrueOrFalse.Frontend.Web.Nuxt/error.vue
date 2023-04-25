@@ -56,7 +56,7 @@ watch(() => userStore.isLoggedIn, () => {
     <HeaderMain :page="Page.Error" :breadcrumb-items="[{ name: 'Fehler', url: '' }]" />
     <div class="container">
         <div class="row topic-container main-page">
-            <div class="col-xs-12 container">
+            <div class="col-xs-12 container main-content">
                 <div class="error-page">
                     <Image src="/Images/Error/memo-500_german_600.png" class="error-image" />
 

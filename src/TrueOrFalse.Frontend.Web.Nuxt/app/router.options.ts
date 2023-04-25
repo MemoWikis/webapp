@@ -118,6 +118,11 @@ export default <RouterConfig>{
             name: 'topicHistoryDetailWithPrevRev',
             path: '/Historie/Thema/:topicId/:currentRevisionId/',
             component: () => import('~/pages/history/topic/detail.vue'),
+        },
+        {
+            name: 'maintenantePace',
+            path: '/Maintenance',
+            component: () => import('~/pages/maintenance.vue'),
         }
     ],
 }

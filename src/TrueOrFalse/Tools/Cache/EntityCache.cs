@@ -371,6 +371,9 @@ public class EntityCache : BaseCache
 
         return descendants;
     }
+    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategories()
+        .Where(c => c.Creator.Id == userId)
+        .Select(c => c.Id);
 
     public static List<CategoryCacheItem> ParentCategories(int categoryId, bool visibleOnly = false)
     {

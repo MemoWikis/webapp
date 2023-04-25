@@ -13,7 +13,7 @@ function openEmail() {
 <template>
 	<div class="container">
 		<div class="row main-page">
-			<div class="form-horizontal col-md-12">
+			<div class="form-horizontal col-md-12 main-content">
 
 				<h1 class="PageHeader" id="Impressum">Impressum & Datenschutzerklärung</h1>
 

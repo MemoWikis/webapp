@@ -111,8 +111,10 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 		async saveTopic() {
 			const userStore = useUserStore()
-			if (!userStore.isLoggedIn)
+			if (!userStore.isLoggedIn) {
+				userStore.openLoginModal()
 				return
+			}
 
 			const json = {
 				id: this.id,

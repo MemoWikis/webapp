@@ -263,8 +263,9 @@ export default defineNuxtComponent({
 		hideChildren() {
 			this.filterChildren(this.selectedCategories);
 		},
-		openPublishModal(hide: any) {
-			hide()
+		openPublishModal() {
+			console.log('pcard')
+
 			const publishTopicStore = usePublishTopicStore();
 			publishTopicStore.openModal(this.categoryId);
 
@@ -279,8 +280,7 @@ export default defineNuxtComponent({
 				}
 			})
 		},
-		openMoveCategoryModal(hide: any) {
-			hide()
+		openMoveCategoryModal() {
 			const data = {
 				topicIdToRemove: this.parentId,
 				childId: this.categoryId,
@@ -289,8 +289,7 @@ export default defineNuxtComponent({
 			const editTopicRelationStore = useEditTopicRelationStore()
 			editTopicRelationStore.openModal(data)
 		},
-		openAddToWikiModal(hide: any) {
-			hide()
+		openAddToWikiModal() {
 			const data = {
 				childId: this.categoryId,
 				editCategoryRelation: EditTopicRelationType.AddToPersonalWiki,
@@ -315,6 +314,9 @@ export default defineNuxtComponent({
 			this.showHover = false
 
 		},
+		hide(popperProp: any) {
+			popperProp.hide()
+		}
 	},
 });
 </script>
@@ -343,26 +345,26 @@ export default defineNuxtComponent({
 						<div class="btn btn-link btn-sm ButtonEllipsis">
 							<font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
 						</div>
-						<template #popper="{ hide }">
+						<template #popper="p: any">
 							<div @click="removeSegment()" class="dropdown-row">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'sitemap']" />
 								</div>
 								<div class="dropdown-label"> Unterthema ausblenden</div>
 							</div>
-							<div @click="openPublishModal(hide)" class="dropdown-row" v-if="visibility == 1">
+							<div @click="openPublishModal(); p.hide() " class="dropdown-row" v-if="visibility == 1">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'unlock']" />
 								</div>
 								<div class="dropdown-label">Thema veröffentlichen</div>
 							</div>
-							<div @click="openMoveCategoryModal(hide)" class="dropdown-row">
+							<div @click="openMoveCategoryModal(); p.hide() " class="dropdown-row">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'circle-right']" />
 								</div>
 								<div class="dropdown-label">Thema verschieben</div>
 							</div>
-							<div @click="openAddToWikiModal(hide)" data-allowed="logged-in" class="dropdown-row">
+							<div @click="openAddToWikiModal(); p.hide() " data-allowed="logged-in" class="dropdown-row">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'plus']" />
 								</div>
@@ -378,12 +380,12 @@ export default defineNuxtComponent({
 			</div>
 		</div>
 		<div class="topicNavigation row" :key="cardsKey!">
-			<TopicContentSegmentationCard v-for="(category, index) in categories" @select-category="selectCategory"
-				@unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
-				:is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories"
-				:segment-id="segmentId!" hide="false" :key="index" :category="category" :is-historic="isHistoric"
-				@filter-children="filterChildren" :parent-topic-id="categoryId" @remove-category="removeCategory"
-				@add-category-card="addCategoryCardEvent" />
+			<TopicContentSegmentationCard v-for="(   category, index   ) in    categories   "
+				@select-category="selectCategory" @unselect-category="unselectCategory" inline-template
+				:ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id"
+				:selected-categories="selectedCategories" :segment-id="segmentId!" hide="false" :key="index"
+				:category="category" :is-historic="isHistoric" @filter-children="filterChildren"
+				:parent-topic-id="categoryId" @remove-category="removeCategory" @add-category-card="addCategoryCardEvent" />
 		</div>
 	</div>
 </template>

@@ -38,10 +38,6 @@ watch(() => userStore.isLoggedIn, async () => {
 
 watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {
     calculateProgress()
-
-    // if (learningSessionStore.currentStep && learningSessionStore.currentStep.id > 0) {
-    //     history.replaceState({}, '', route.fullPath + '/Lernen/' + learningSessionStore.currentStep.id)
-    // }
 }, { deep: true })
 
 const progressPercentage = ref(0)

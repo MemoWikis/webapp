@@ -87,6 +87,8 @@ const getSelectedOrderLabel = computed(() => {
             return 'Nicht ausgewählt'
     }
 })
+
+
 </script>
 
 <template>
@@ -137,16 +139,16 @@ const getSelectedOrderLabel = computed(() => {
                                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                     </div>
 
-                                    <template #popper="{ hide }">
+                                    <template #popper="p: any">
                                         <div class="dropdown-row select-row"
-                                            @click="orderBy = SearchUsersOrderBy.Rank; hide()"
+                                            @click="orderBy = SearchUsersOrderBy.Rank; p.hide() "
                                             :class="{ 'active': orderBy == SearchUsersOrderBy.Rank }">
                                             <div class="dropdown-label select-option">
                                                 Rang
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click=" orderBy = SearchUsersOrderBy.WishCount; hide() "
-                                            :class=" { 'active': orderBy == SearchUsersOrderBy.WishCount } ">
+                                        <div class="dropdown-row" @click="orderBy = SearchUsersOrderBy.WishCount; p.hide() "
+                                            :class="{ 'active': orderBy == SearchUsersOrderBy.WishCount }">
                                             <div class="dropdown-label select-option">
                                                 Wunschwissen
                                             </div>
@@ -163,8 +165,7 @@ const getSelectedOrderLabel = computed(() => {
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container"
-                        v-if=" pageData.users.length <= 0 && searchTerm.length > 0 ">
+                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
                             Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
                         </div>
@@ -174,12 +175,12 @@ const getSelectedOrderLabel = computed(() => {
                         <div class="pagination hidden-xs">
                             <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
                                 :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
-                                :show-breakpoint-buttons=" false " prev-button-content="Vorherige"
+                                :show-breakpoint-buttons="false" prev-button-content="Vorherige"
                                 next-button-content="Nächste" first-page-content="Erste" last-page-content="Letzte" />
 
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page=" 20 "
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
                                 :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="false"
                                 :show-breakpoint-buttons="false" />
                         </div>

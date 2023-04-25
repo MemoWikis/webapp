@@ -38,7 +38,7 @@ const { data: topic, refresh } = await useFetch<Topic>(getTopicUrl,
             }
         },
     })
-7
+
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 

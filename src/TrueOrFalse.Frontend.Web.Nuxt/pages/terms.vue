@@ -5,7 +5,7 @@
 <template>
     <div class="container">
         <div class="row main-page" style="padding-top:30px;">
-            <div class="form-horizontal col-md-12">
+            <div class="form-horizontal col-md-12 main-content">
 
                 <h2 class="PageHeader">Nutzungsbedingungen</h2>
 

@@ -7,9 +7,11 @@ import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
+import { useCommentsStore } from '~~/components/comment/commentsStore'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
+const commentsStore = useCommentsStore()
 
 interface Props {
     id: number,
@@ -838,7 +840,7 @@ const license = ref({
 })
 
 function openCommentModal() {
-
+    commentsStore.openModal(props.id)
 }
 const unsettledCommentCount = ref(0)
 
@@ -968,7 +970,7 @@ watch(() => userStore.isLoggedIn, () => {
                             </div>
                             Autor: <NuxtLink v-if="creator.id > 0" :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
                                 {{ creator.name }} </NuxtLink>
-                            {{ license.fullText }}
+                            <div v-html="license.fullText"></div>
                         </template>
                     </VTooltip>
 

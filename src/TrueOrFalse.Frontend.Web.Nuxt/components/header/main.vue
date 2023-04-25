@@ -67,12 +67,14 @@ onMounted(async () => {
 
 const partialLeft = ref()
 const navOptions = ref()
+
+
 </script>
 
 <template>
     <div id="Navigation">
-        <div class="container">
-            <div class="row">
+    <div class="container">
+        <div class="row">
             <div class="header-container col-xs-12" ref="headerContainer">
 
                 <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
@@ -80,8 +82,8 @@ const navOptions = ref()
                         :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
                         :partial-left="partialLeft" />
                 </div>
-                <div class="partial end" ref="headerExtras">
-                    <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
+                    <div class="partial end" ref="headerExtras">
+                        <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
                             <div class="search-button" :class="{ 'showSearch': showSearch }"
                                 @click="showSearch = !showSearch">
@@ -97,10 +99,10 @@ const navOptions = ref()
                             <div class="header-btn">
                                 <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon">
                                     <!-- <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
-                                                                                                <div class="unread-msg-badge-container">
-                                                                                                    <div class="unread-msg-badge"></div>
-                                                                                                </div>
-                                                                                            </template> -->
+                                                                                                                <div class="unread-msg-badge-container">
+                                                                                                                    <div class="unread-msg-badge"></div>
+                                                                                                                </div>
+                                                                                                            </template> -->
                                 </Image>
                                 <div class="header-user-name">
                                     {{ userStore.name }}
@@ -109,7 +111,7 @@ const navOptions = ref()
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" />
                                 </div>
                             </div>
-                            <template #popper="{ hide }">
+                            <template #popper="p: any">
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
@@ -143,36 +145,39 @@ const navOptions = ref()
                                     </div>
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
-                                        <!-- <NuxtLink to="/Nachrichten/" @click="hide">
-                                                                                                    <div class="user-dropdown-label"
-                                                                                                        :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
-                                                                                                        Deine Nachrichten
-                                                                                                        <div class="counter-badge red-badge"
-                                                                                                            v-if="userStore.unreadMessagesCount > 0">{{
-                                                                                                                userStore.unreadMessagesCount }}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </NuxtLink> -->
+                                        <!-- <NuxtLink to="/Nachrichten/" @click="p.hide()">
+                                                                                                                    <div class="user-dropdown-label"
+                                                                                                                        :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
+                                                                                                                        Deine Nachrichten
+                                                                                                                        <div class="counter-badge red-badge"
+                                                                                                                            v-if="userStore.unreadMessagesCount > 0">{{
+                                                                                                                                userStore.unreadMessagesCount }}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </NuxtLink> -->
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
-                                            @click="hide">
+                                            @click="p.hide()">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
                                     <div class="divider"></div>
 
                                     <div class="user-dropdown-managment">
-                                        <NuxtLink @click="hide"
+                                        <NuxtLink @click="p.hide()"
                                             :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
-                                        <div class="user-dropdown-label" @click="hide" v-if="userStore.isAdmin">
-                                            Administrativ
-                                        </div>
-                                        <div class="user-dropdown-label" @click="hide" v-if="userStore.isAdmin">
+
+                                        <LazyNuxtLink to="/Maintenance" @click="p.hide()">
+                                            <div class="user-dropdown-label" @click="p.hide()" v-if="userStore.isAdmin">
+                                                Administrativ
+                                            </div>
+                                        </LazyNuxtLink>
+                                        <div class="user-dropdown-label" @click="p.hide()" v-if="userStore.isAdmin">
                                             Adminrechte
                                             abgeben
                                         </div>
-                                        <div class="user-dropdown-label" @click="userStore.logout(), hide">
+                                        <div class="user-dropdown-label" @click="userStore.logout(), p.hide()">
                                             Ausloggen
                                         </div>
                                     </div>
@@ -181,7 +186,7 @@ const navOptions = ref()
                         </VDropdown>
 
                         <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                            :class="{ 'hide-nav': !showRegisterButton }">
+                            :class="{ 'p.hide()-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"

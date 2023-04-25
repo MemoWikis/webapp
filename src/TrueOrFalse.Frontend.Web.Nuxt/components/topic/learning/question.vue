@@ -139,25 +139,16 @@ const extendedAnswerId = ref('#eaId' + props.question.Id)
 const correctnessProbability = ref('')
 const correctnessProbabilityLabel = ref('')
 
-function showCommentModal(hide: any = undefined) {
-    if (hide)
-        hide()
+function showCommentModal() {
     commentsStore.openModal(props.question.Id)
 }
 
 const editQuestionStore = useEditQuestionStore()
-function editQuestion(hide: any) {
-    hide()
+function editQuestion() {
     editQuestionStore.editQuestion(props.question.Id, props.question.SessionIndex)
 }
 
-function deleteQuestion(hide: any) {
-    hide()
-}
-
-function publishQuestion(hide: any | null = null) {
-    if (hide)
-        hide()
+function deleteQuestion() {
 }
 
 const isInWishknowledge = ref(false)
@@ -222,6 +213,8 @@ learningSessionStore.$onAction(({ name, after }) => {
             }
         })
 })
+
+
 </script>
 
 <template>
@@ -239,10 +232,8 @@ learningSessionStore.$onAction(({ name, after }) => {
                                 <div v-html="questionTitleHtml" v-if="questionTitleHtml != null">
 
                                 </div>
-                                <div v-if="props.question.Visibility == 1" class="privateQuestionIcon question-lock"
-                                    @click.stop="publishQuestion()">
+                                <div v-if="props.question.Visibility == 1" class="privateQuestionIcon question-lock">
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
-                                    <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                 </div>
                             </div>
                             <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestion()">
@@ -304,9 +295,9 @@ learningSessionStore.$onAction(({ name, after }) => {
                             <VDropdown :distance="0">
                                 <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
                                     class="btn btn-link btn-sm ButtonEllipsis" />
-                                <template #popper="{ hide }">
+                                <template #popper="p: any">
 
-                                    <div v-if="userStore.isAdmin || isCreator" @click="editQuestion(hide)"
+                                    <div v-if=" userStore.isAdmin || isCreator " @click=" editQuestion(); p.hide() "
                                         class="dropdown-row">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-pen" />
@@ -314,7 +305,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
+                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestion ">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -325,7 +316,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
+                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestionVersions ">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -336,9 +327,9 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <div class="dropdown-row" @click="showCommentModal(hide)">
+                                    <div class="dropdown-row" @click=" showCommentModal(); p.hide() ">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fas', 'comment']" />
+                                            <font-awesome-icon :icon=" ['fas', 'comment'] " />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren
@@ -346,8 +337,8 @@ learningSessionStore.$onAction(({ name, after }) => {
                                     </div>
 
                                     <div class="dropdown-row"
-                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
-                                        @click="deleteQuestion(hide)">
+                                        v-if=" props.question.CreatorId == userStore.id || userStore.isAdmin "
+                                        @click=" deleteQuestion(); p.hide() ">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>

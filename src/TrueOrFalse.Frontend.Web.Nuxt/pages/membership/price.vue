@@ -92,69 +92,72 @@ onBeforeMount(() => {
 
 <template>
     <div class="container">
-        <div class="main-page row">
-            <div class="col-md-12 header">
-                <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
-                <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
-                <div class="bottom-label">
-                    Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
-                    Freie
-                    Software! (open data open access)<br />
-                    Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
+        <div class="row main-page">
+            <div class="main-content">
+                <div class="col-md-12 header">
+                    <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
+                    <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
+                    <div class="bottom-label">
+                        Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
+                        Freie
+                        Software! (open data open access)<br />
+                        Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row subscription-plans">
+
+                        <UserMembershipPriceCard :plan="Subscription.plans.basic" :selected="false"
+                            :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic }">
+                            <template v-slot:button>
+                                <button class="memo-button btn-default"
+                                    v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
+                                    <NuxtLink to="/Nutzer/Einstellungen">
+                                        Downgrade
+                                    </NuxtLink>
+                                </button>
+                                <button class="memo-button btn-success" disabled
+                                    v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic">
+                                    <NuxtLink to="/Registrieren">
+                                        Deine Mitgliedschaft
+                                    </NuxtLink>
+                                </button>
+                                <button class="memo-button btn-default" v-else>
+                                    <NuxtLink to="/Registrieren">
+                                        Kostenlos registrieren
+                                    </NuxtLink>
+                                </button>
+
+
+                            </template>
+                        </UserMembershipPriceCard>
+
+                        <UserMembershipPriceCard :plan="Subscription.plans.plus" :selected="false"
+                            :class="{ 'recommended': !userStore.isLoggedIn }">
+                            <template v-slot:button>
+                                <button class="memo-button btn-primary btn" @click="handleCheckout(Subscription.Type.Plus)">
+                                    Auswählen
+                                </button>
+                            </template>
+                        </UserMembershipPriceCard>
+
+                        <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false">
+                            <template v-slot:button>
+                                <button class="memo-button btn-primary btn" disabled>
+                                    In Planung
+                                </button>
+                            </template>
+                        </UserMembershipPriceCard>
+
+                        <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false">
+                            <template v-slot:button>
+                                <button class="memo-button btn-link">Kontaktieren</button>
+                            </template>
+                        </UserMembershipPriceCard>
+                    </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row subscription-plans">
 
-                    <UserMembershipPriceCard :plan="Subscription.plans.basic" :selected="false"
-                        :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic }">
-                        <template v-slot:button>
-                            <button class="memo-button btn-default"
-                                v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
-                                <NuxtLink to="/Nutzer/Einstellungen">
-                                    Downgrade
-                                </NuxtLink>
-                            </button>
-                            <button class="memo-button btn-success" disabled
-                                v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic">
-                                <NuxtLink to="/Registrieren">
-                                    Deine Mitgliedschaft
-                                </NuxtLink>
-                            </button>
-                            <button class="memo-button btn-default" v-else>
-                                <NuxtLink to="/Registrieren">
-                                    Kostenlos registrieren
-                                </NuxtLink>
-                            </button>
-
-
-                        </template>
-                    </UserMembershipPriceCard>
-
-                    <UserMembershipPriceCard :plan="Subscription.plans.plus" :selected="false"
-                        :class="{ 'recommended': !userStore.isLoggedIn }">
-                        <template v-slot:button>
-                            <button class="memo-button btn-primary btn" @click="handleCheckout(Subscription.Type.Plus)">
-                                Auswählen
-                            </button>
-                        </template>
-                    </UserMembershipPriceCard>
-
-                    <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false">
-                        <template v-slot:button>
-                            <button class="memo-button btn-primary btn" disabled>
-                                In Planung
-                            </button>
-                        </template>
-                    </UserMembershipPriceCard>
-
-                    <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false">
-                        <template v-slot:button>
-                            <button class="memo-button btn-link">Kontaktieren</button>
-                        </template>
-                    </UserMembershipPriceCard>
-                </div>
-            </div>
         </div>
     </div>
     <div class="full-width-row">
