@@ -13,7 +13,7 @@ namespace TrueOrFalse.Stripe.Logic;
 public class WebhookLogic
 {
 
-    private DateTime MaxValueMysql = new DateTime(9999, 12, 31, 23, 59, 59); 
+    private DateTime MaxValueMysql = new DateTime(9999, 12, 31, 23, 59, 59);
     public async Task<HttpStatusCodeResult> Create(HttpContextBase context, HttpRequestBase baseRequest)
     {
         var eventAndStatus = await GetEvent(context, baseRequest);
@@ -91,7 +91,7 @@ public class WebhookLogic
         if (user != null)
         {
             var log = $"{user.Name} with userId: {user.Id}  has successfully subscribed to a plan.";
-            SetNewSubscriptionDate(user, MaxValueMysql, log);
+            SetNewSubscriptionDate(user, MaxValueMysql, log, true);
         }
         LogErrorWhenUserNull(paymentIntent.paymentObject.CustomerId, user);
     }
@@ -114,8 +114,8 @@ public class WebhookLogic
         var user = paymentFailed.user;
         if (user != null)
         {
-            var subscriptionDate = paymentFailed.paymentObject.BillingReason == "subscription_create" ? DateTime.Now : MaxValueMysql; 
-          
+            var subscriptionDate = paymentFailed.paymentObject.BillingReason == "subscription_create" ? DateTime.Now : MaxValueMysql;
+
             var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
             SetNewSubscriptionDate(user, subscriptionDate, log);
         }
@@ -130,11 +130,15 @@ public class WebhookLogic
         }
     }
 
-    private void SetNewSubscriptionDate(User user, DateTime date, string log)
+    private void SetNewSubscriptionDate(User user, DateTime date, string log, bool isIntentSucceeded = false)
     {
-            user.SubscriptionDuration = date;
-            Sl.UserRepo.Update(user);
-            Logg.r().Information(log);
+        if (user.SubscriptionStartDate == null && isIntentSucceeded)
+        {
+            user.SubscriptionStartDate = DateTime.Now;
+        }
+        user.SubscriptionDuration = date;
+        Sl.UserRepo.Update(user);
+        Logg.r().Information(log);
     }
 
     public void FetchFailedWebhookRequests()
