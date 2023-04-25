@@ -1,4 +1,6 @@
 ﻿using FluentNHibernate.Mapping;
+using Stripe;
+using static SolrNet.StartOrCursor;
 
 public class UserMap : ClassMap<User>
 {
@@ -21,8 +23,8 @@ public class UserMap : ClassMap<User>
         Map(x => x.LearningSessionOptions);
         Map(x => x.StripeId); 
         Map(x => x.StartTopicId);
-        Map(x => x.SubscriptionDuration).Nullable();
-
+        Map(x => x.SubscriptionDuration).Nullable(); 
+        Map(x => x.SubscriptionStartDate).Nullable();
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
 

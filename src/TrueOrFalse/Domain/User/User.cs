@@ -38,6 +38,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string LearningSessionOptions { get; set; }
     public virtual int StartTopicId { get; set;  }
     public virtual DateTime? SubscriptionDuration { get; set; }
+    public virtual DateTime? SubscriptionStartDate { get; set; }
     public virtual string StripeId { get; set; }
     public virtual bool IsStartTopicTopicId(int categoryId)
     {
