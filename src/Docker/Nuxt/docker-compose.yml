@@ -2,6 +2,7 @@ version: "3.9"
 services:
   mem-nuxt:
     image: ghcr.io/memucho/mem-nuxt:${BUILD_NUMBER:-error}
+    command: npm run start
     # expose:
       # - "3000"
     ports:
