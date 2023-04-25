@@ -304,6 +304,7 @@
     <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\ApiVueApp\Middleware\AdminAuthController.cs" />
     <Compile Include="Views\ApiVueApp\StripeWebhookController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />

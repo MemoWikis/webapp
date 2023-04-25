@@ -52,6 +52,7 @@ function bounceDiscord() {
     display: flex;
     align-items: stretch;
     flex-grow: 1;
+    height: 100%;
 
     #SidebarDivider {
         margin-top: 20px;

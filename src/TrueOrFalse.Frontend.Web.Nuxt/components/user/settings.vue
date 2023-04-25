@@ -324,23 +324,23 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                     </div>
 
-                    <template #popper="{ hide }">
+                    <template #popper="p: any">
                         <div class="dropdown-row group-label">
                             Profil Informationen
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; hide()"
+                        <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; p.hide() "
                             :class="{ 'active': activeContent == Content.EditProfile }">
                             <div class="dropdown-label select-option">
                                 Profil bearbeiten
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; hide()"
+                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; p.hide() "
                             :class="{ 'active': activeContent == Content.Password }">
                             <div class="dropdown-label select-option">
                                 Passwort
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; hide()"
+                        <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; p.hide() "
                             :class="{ 'active': activeContent == Content.DeleteProfile }">
                             <div class="dropdown-label select-option">
                                 Profil löschen
@@ -350,13 +350,13 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <div class="dropdown-row group-label">
                             Einstellungen
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; hide()"
+                        <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; p.hide() "
                             :class="{ 'active': activeContent == Content.ShowWuwi }">
                             <div class="dropdown-label select-option">
                                 Wunschwissen anzeigen
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
+                        <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; p.hide() "
                             :class="{ 'active': activeContent == Content.SupportLogin }">
                             <div class="dropdown-label select-option">
                                 Support Login
@@ -366,7 +366,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <div class="dropdown-row group-label">
                             Benachrichtigungen
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; hide()"
+                        <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; p.hide() "
                             :class="{ 'active': activeContent == Content.KnowledgeReport }">
                             <div class="dropdown-label select-option">
                                 Wissensbericht
@@ -604,37 +604,37 @@ const getSelectedSettingsPageLabel = computed(() => {
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                 </div>
 
-                                <template #popper="{ hide }">
+                                <template #popper="p: any">
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; p.hide() "
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Quarterly }">
                                         <div class="dropdown-label select-option">
                                             Vierteljährlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; p.hide() "
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Monthly }">
                                         <div class="dropdown-label select-option">
                                             Monatlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; p.hide() "
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Weekly }">
                                         <div class="dropdown-label select-option">
                                             Wöchentlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; p.hide() "
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Daily }">
                                         <div class="dropdown-label select-option">
                                             Täglich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Never; p.hide() "
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Never }">
                                         <div class="dropdown-label select-option">
                                             Nie

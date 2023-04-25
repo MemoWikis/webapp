@@ -110,7 +110,7 @@ const hoverLock = ref(false)
             </VDropdown>
         </div>
         <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true"
-            @mouseleave="hoverLock = false">
+            @mouseleave="hoverLock = false" @click="topicToPrivateStore.openModal(topicStore.id)">
             <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
             <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>
