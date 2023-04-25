@@ -1,7 +1,6 @@
 ﻿
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -14,6 +13,10 @@ public class TopicControllerLogic
     {
         if (!PermissionCheck.CanEditCategory(id))
             return JsonConvert.SerializeObject("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
+
+        if(!PermissionCheck.CanSave())
+            return JsonConvert.SerializeObject("Möglicherweise sollten Sie einige private Themen öffentlich machen" +
+                                               " und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten.");
 
         var categoryCacheItem = EntityCache.GetCategory(id);
         var category = Sl.CategoryRepo.GetById(categoryCacheItem.Id);
