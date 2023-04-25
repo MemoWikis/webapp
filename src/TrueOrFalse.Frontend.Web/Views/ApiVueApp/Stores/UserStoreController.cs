@@ -129,7 +129,7 @@ public class UserStoreController : BaseController
                     : "",
                 Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
                 ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicController().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
             }
         });
     }
