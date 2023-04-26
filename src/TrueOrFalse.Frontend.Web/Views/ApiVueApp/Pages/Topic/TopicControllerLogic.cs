@@ -9,20 +9,16 @@ namespace VueApp;
 
 public class TopicControllerLogic 
 {
-    public string SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
+    public dynamic SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
     {
         if (!PermissionCheck.CanEditCategory(id))
-            return JsonConvert.SerializeObject("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
-
-        if(!PermissionCheck.CanSavePrivateCategory())
-            return JsonConvert.SerializeObject("Möglicherweise sollten Sie einige private Themen öffentlich machen" +
-                                               " und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten.");
+            return "Dir fehlen leider die Rechte um die Seite zu bearbeiten";
 
         var categoryCacheItem = EntityCache.GetCategory(id);
         var category = Sl.CategoryRepo.GetById(categoryCacheItem.Id);
 
         if (categoryCacheItem == null || category == null)
-            return JsonConvert.SerializeObject(false);
+            return false;
 
         if (saveName)
         {
@@ -38,7 +34,7 @@ public class TopicControllerLogic
         EntityCache.AddOrUpdate(categoryCacheItem);
         Sl.CategoryRepo.Update(category, SessionUser.User, type: CategoryChangeType.Text);
 
-        return JsonConvert.SerializeObject(true);
+        return true;
     }
 
     public dynamic GetTopicData(int id)
