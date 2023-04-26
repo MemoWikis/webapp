@@ -62,7 +62,7 @@ public class EditControllerLogic
             return new
             {
                 success = false,
-                message = "Möglicherweise sollten Sie einige private Themen öffentlich machen und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten"
+                message = "Möglicherweise sollten Sie einige private Themen öffentlich machen und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten."
             }; 
         }
 

@@ -26,14 +26,6 @@ public class TopicController : BaseController
         return false;
     }
 
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
-    {
-        var topicControllerLogic = new TopicControllerLogic();
-        return Json(topicControllerLogic.SaveTopic(id, name, saveName, content, saveContent));
-    }
-
     [HttpGet]
     public JsonResult LoadQuestionIds(int topicId)
     {
