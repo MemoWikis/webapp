@@ -21,7 +21,7 @@ public class TopicRelationEditController : BaseController
     public JsonResult ValidateName(string name)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin).ValidateName(name);
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -31,7 +31,7 @@ public class TopicRelationEditController : BaseController
         var data = new EditControllerLogic(_search, IsInstallationAdmin)
             .QuickCreate(name, parentTopicId); 
 
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -39,7 +39,7 @@ public class TopicRelationEditController : BaseController
     public async Task<JsonResult> SearchTopic(string term, int[] topicIdsToFilter = null)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin).SearchTopic(term, topicIdsToFilter);
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -47,7 +47,7 @@ public class TopicRelationEditController : BaseController
     public async Task<JsonResult> SearchTopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin).SearchTopicInPersonalWiki(term, topicIdsToFilter);
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -55,7 +55,7 @@ public class TopicRelationEditController : BaseController
     public JsonResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin).MoveChild(childId,parentIdToRemove,parentIdToAdd);
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -63,7 +63,7 @@ public class TopicRelationEditController : BaseController
     public JsonResult AddChild(int childId, int parentId, int parentIdToRemove = -1, bool redirectToParent = false, bool addIdToWikiHistory = false)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin).AddChild(childId,parentId,parentIdToRemove,redirectToParent,addIdToWikiHistory);
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -71,6 +71,6 @@ public class TopicRelationEditController : BaseController
     public JsonResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin).RemoveParent(parentIdToRemove,childId,affectedParentIdsByMove);
-        return Json(data);
+        return Json(data, JsonRequestBehavior.AllowGet);
     }
 }

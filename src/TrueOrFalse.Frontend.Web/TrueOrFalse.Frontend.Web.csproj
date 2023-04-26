@@ -304,6 +304,7 @@
     <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AdminAuthController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicControllerLogic.cs" />
