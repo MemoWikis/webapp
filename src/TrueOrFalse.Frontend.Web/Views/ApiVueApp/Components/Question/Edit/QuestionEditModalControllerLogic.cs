@@ -210,7 +210,6 @@ public class QuestionEditModalControllerLogic : BaseController
         return question;
     }
 
-    private List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) => GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var categories = new List<Category>();
