@@ -9,38 +9,6 @@ namespace VueApp;
 
 public class TopicControllerLogic 
 {
-    public string SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
-    {
-        if (!PermissionCheck.CanEditCategory(id))
-            return JsonConvert.SerializeObject("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
-
-        if(!PermissionCheck.CanSave())
-            return JsonConvert.SerializeObject("Möglicherweise sollten Sie einige private Themen öffentlich machen" +
-                                               " und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten.");
-
-        var categoryCacheItem = EntityCache.GetCategory(id);
-        var category = Sl.CategoryRepo.GetById(categoryCacheItem.Id);
-
-        if (categoryCacheItem == null || category == null)
-            return JsonConvert.SerializeObject(false);
-
-        if (saveName)
-        {
-            categoryCacheItem.Name = name;
-            category.Name = name;
-        }
-
-        if (saveContent)
-        {
-            categoryCacheItem.Content = content;
-            category.Content = content;
-        }
-        EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, SessionUser.User, type: CategoryChangeType.Text);
-
-        return JsonConvert.SerializeObject(true);
-    }
-
     public dynamic GetTopicData(int id)
     {
         var topic = EntityCache.GetCategory(id);
@@ -110,24 +78,6 @@ public class TopicControllerLogic
         };
 
         return miniTopicItem;
-    }
-
-    public SearchTopicItem FillBasicTopicItem(CategoryCacheItem topic)
-    {
-        var isVisible = PermissionCheck.CanView(topic);
-        var basicTopicItem = new SearchTopicItem
-        {
-            Id = topic.Id,
-            Name = topic.Name,
-            Url = Links.CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = topic.GetCountQuestionsAggregated(),
-            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
-                .GetImageUrl(30, true, false, ImageType.Category).Url,
-            Visibility = (int)topic.Visibility
-        };
-
-        return basicTopicItem;
     }
 }
 

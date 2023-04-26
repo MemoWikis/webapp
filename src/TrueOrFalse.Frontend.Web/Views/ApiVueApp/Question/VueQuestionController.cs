@@ -36,6 +36,7 @@ public class VueQuestionController : BaseController
         return Json(new { }, JsonRequestBehavior.AllowGet);
     }
 
+
     public JsonResult LoadQuestion(int questionId)
     {
         var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations : null;

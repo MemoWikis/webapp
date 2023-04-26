@@ -268,7 +268,7 @@
     <Compile Include="2 Domain\Category\GraphService_tests.cs" />
     <Compile Include="2 Domain\Category\ModifyRelationsForCategory_tests.cs" />
     <Compile Include="2 Domain\Category\Setup\TestHelper.cs" />
-    <Compile Include="2 Domain\Category\TopicControllerLogicTests.cs" />
+    <Compile Include="2 Domain\Category\EditControllerLogicTests.cs" />
     <Compile Include="2 Domain\User\AddToWiki_tests.cs" />
     <Compile Include="2 Domain\Visibility\CategoryVisibility.cs" />
     <Compile Include="MeiliSearch\GlobalSearchResultTest.cs" />

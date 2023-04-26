@@ -372,7 +372,7 @@ public class EntityCache : BaseCache
         return descendants;
     }
     public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategories()
-        .Where(c => c.Creator.Id == userId)
+        .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
     public static List<CategoryCacheItem> ParentCategories(int categoryId, bool visibleOnly = false)
@@ -425,7 +425,11 @@ public class EntityCache : BaseCache
         var allCategories = GetAllCategories();
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
-    
+
+    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
+        .Where(q => q.Creator.Id == userId && q.IsPrivate())
+        .Select(q => q.Id);
+
     public static QuestionCacheItem GetQuestion(int questionId)
     {
         Questions.TryGetValue(questionId, out var question);

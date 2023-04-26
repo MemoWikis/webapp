@@ -26,35 +26,6 @@ public class TopicController : BaseController
         return false;
     }
 
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
-    {
-        var topicControllerLogic = new TopicControllerLogic();
-        return Json(topicControllerLogic.SaveTopic(id, name, saveName, content, saveContent));
-    }
-
-    [HttpPost]
-    public JsonResult GetBasicTopicItem(int categoryId)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-
-        var json = new JsonResult
-        {
-            Data = new
-            {
-                Topic = new TopicControllerLogic().FillBasicTopicItem(category)
-            }
-        };
-        return json;
-    }
-
-    public SearchTopicItem FillBasicTopicItem(Category topic)
-    {
-        var cacheItem = EntityCache.GetCategory(topic.Id);
-        return new TopicControllerLogic().FillBasicTopicItem(cacheItem);
-    }
-
     [HttpGet]
     public JsonResult LoadQuestionIds(int topicId)
     {
