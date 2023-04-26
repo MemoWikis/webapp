@@ -14,7 +14,7 @@ public class TopicControllerLogic
         if (!PermissionCheck.CanEditCategory(id))
             return JsonConvert.SerializeObject("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
-        if(!PermissionCheck.CanSave())
+        if(!PermissionCheck.CanSavePrivateCategory())
             return JsonConvert.SerializeObject("Möglicherweise sollten Sie einige private Themen öffentlich machen" +
                                                " und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten.");
 

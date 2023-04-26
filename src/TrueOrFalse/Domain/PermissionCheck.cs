@@ -4,10 +4,16 @@ using System.Linq;
 public class PermissionCheck
 {
     //setter is for tests
-    private static int _privateTopics = 10; 
-        public static bool CanSave() => SessionUser.User.SubscriptionDuration != null &&
-                                        SessionUser.User.SubscriptionDuration > DateTime.Now ||
-                                        EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopics;
+    private static int _privateTopicsQuantity = 10;
+    private static int _privateQuestionsQuantity = 20;
+    private static int _knowledgeQuantity = 50;
+    public static bool CanSavePrivateCategory() => SessionUser.User.SubscriptionDuration != null &&
+                                             SessionUser.User.SubscriptionDuration > DateTime.Now ||
+                                             EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity;
+
+    public static bool CanSavePrivateQuestion() => SessionUser.User.SubscriptionDuration != null &&
+                                                   SessionUser.User.SubscriptionDuration > DateTime.Now ||
+                                                   EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity;
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
     public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.UserId, category);
@@ -94,7 +100,7 @@ public class PermissionCheck
         return false;
     }
 
- 
+
 
     public static bool CanEdit(Question question) => CanEdit(SessionUser.User, question);
 
