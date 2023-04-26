@@ -111,23 +111,5 @@ public class TopicControllerLogic
 
         return miniTopicItem;
     }
-
-    public SearchTopicItem FillBasicTopicItem(CategoryCacheItem topic)
-    {
-        var isVisible = PermissionCheck.CanView(topic);
-        var basicTopicItem = new SearchTopicItem
-        {
-            Id = topic.Id,
-            Name = topic.Name,
-            Url = Links.CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = topic.GetCountQuestionsAggregated(),
-            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
-                .GetImageUrl(30, true, false, ImageType.Category).Url,
-            Visibility = (int)topic.Visibility
-        };
-
-        return basicTopicItem;
-    }
 }
 
