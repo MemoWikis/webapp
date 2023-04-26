@@ -10,6 +10,8 @@ services:
       - "${NUXT_HMR_PORT:-24678}:24678"
     networks:
       - environment-specific-network
+    environment:
+      - NUXT_SERVER_BASE=${NUXT_SERVER_BASE:-error}
 networks:
   environment-specific-network:
     name: mem-${MEM_ENVIRONMENT:-stage}
