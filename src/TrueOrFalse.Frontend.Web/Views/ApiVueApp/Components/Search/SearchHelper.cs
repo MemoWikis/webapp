@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
 
-namespace VueApp;
+//todo: (DaMa) kann ausgelagert werden
 
 public class SearchHelper : BaseController
 {

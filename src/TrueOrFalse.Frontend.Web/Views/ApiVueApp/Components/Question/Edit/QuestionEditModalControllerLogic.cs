@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
+using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -19,9 +20,9 @@ public class QuestionEditModalControllerLogic : BaseController
 
     public dynamic Create(QuestionDataJson questionDataJson)
     {
-        if (!PermissionCheck.CanSavePrivateQuestion())
+        if (!PremiumCheck.CanSavePrivateQuestion())
         {
-            return null;
+            return new {success= false, key= "cantSavePrivateQuestion" };
         }
 
         var safeText = GetSafeText(questionDataJson.TextHtml);
