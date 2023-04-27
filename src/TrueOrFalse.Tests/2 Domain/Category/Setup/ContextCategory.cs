@@ -33,6 +33,12 @@ public class ContextCategory
         return this;
     }
 
+    public ContextCategory Add(Category category)
+    {
+        All.Add(category);
+        return this;
+    }
+
     public ContextCategory Add(
         string categoryName,
         CategoryType categoryType = CategoryType.Standard,

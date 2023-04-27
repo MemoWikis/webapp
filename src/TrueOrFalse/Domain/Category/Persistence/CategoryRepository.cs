@@ -148,12 +148,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
     }
 
-    private static IEnumerable<int> GetIdsToRemove(CategoryCacheItem oldCategoryCacheItem)
-    {
-        return oldCategoryCacheItem.CategoryRelations
-            .Select(cr => cr.RelatedCategoryId);
-    }
-
     public enum CreateDeleteUpdate
     {
         Create = 1,
@@ -192,25 +186,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
 
         Flush();
-        Sl.R<UpdateQuestionCountForCategory>().Run(category);
-        Task.Run(async () => { await new MeiliSearchCategoriesDatabaseOperations()
-            .UpdateAsync(category)
-            .ConfigureAwait(false); });
-    }
-
-    public void UpdateWithoutCaches(Category category, User author = null, bool imageWasUpdated = false,
-        bool isFromModifiyRelations = false)
-    {
-        if (!isFromModifiyRelations)
-            _solrSearchIndexCategory.Update(category);
-
-        base.Update(category);
-
-        if (author != null)
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated);
-
-        Flush();
-
         Sl.R<UpdateQuestionCountForCategory>().Run(category);
         Task.Run(async () => { await new MeiliSearchCategoriesDatabaseOperations()
             .UpdateAsync(category)
@@ -315,63 +290,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return query.Select(r => r.Category).List<Category>();
     }
 
-    public IList<Category> GetDescendants(int parentId)
-    {
-        var currentGeneration = EntityCache
-            .GetCategory(parentId)
-            .CachedData.ChildrenIds
-            .Select(id => Sl.CategoryRepo.GetByIdEager(id))
-            .ToList();
-
-        var nextGeneration = new List<Category>();
-        var descendants = new List<Category>();
-
-        while (currentGeneration.Count > 0)
-        {
-            descendants.AddRange(currentGeneration);
-
-            foreach (var category in currentGeneration)
-            {
-                var children = EntityCache.GetCategory(category.Id)
-                    .CachedData
-                    .ChildrenIds
-                    .Select(id => Sl.CategoryRepo.GetByIdEager(id))
-                    .ToList();
-
-                if (children.Count > 0)
-                {
-                    nextGeneration.AddRange(children);
-                }
-            }
-            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
-            nextGeneration = new List<Category>();
-        }
-        return descendants;
-    }
-
-    public int CountAggregatedQuestions(int categoryId)
-    {
-        var count = _session.CreateSQLQuery($@"
-        SELECT COUNT(DISTINCT(questionId)) FROM 
-        (
-	        SELECT DISTINCT(cq.Question_id) questionId
-            FROM categories_to_questions cq
-            WHERE cq.Category_id = {categoryId}
-
-	        UNION
-	
-	        SELECT DISTINCT(cq.Question_id) questionId 
-	        FROM relatedcategoriestorelatedcategories rc
-	        INNER JOIN category c
-	        ON rc.Related_Id = c.Id
-	        INNER JOIN categories_to_questions cq
-	        ON c.Id = cq.Category_id
-	        WHERE rc.Category_id = {categoryId}
-        ) c
-        ").UniqueResult<long>();//Union is distinct by default
-        return (int)count;
-    }
-
     public override IList<Category> GetByIds(params int[] categoryIds)
     {
         var resultTmp = base.GetByIds(categoryIds);
@@ -389,7 +307,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
     }
-
 
     public int TotalCategoryCount()
     {

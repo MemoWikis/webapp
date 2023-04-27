@@ -1,8 +1,19 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
-using System.Web.Razor.Tokenizer;
+﻿using System;
+using System.Linq;
 
 public class PermissionCheck
 {
+    //setter is for tests
+    private static int _privateTopicsQuantity = 10;
+    private static int _privateQuestionsQuantity = 20;
+    private static int _knowledgeQuantity = 50;
+    public static bool CanSavePrivateCategory() => SessionUser.User.SubscriptionDuration != null &&
+                                             SessionUser.User.SubscriptionDuration > DateTime.Now ||
+                                             EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity;
+
+    public static bool CanSavePrivateQuestion() => SessionUser.User.SubscriptionDuration != null &&
+                                                   SessionUser.User.SubscriptionDuration > DateTime.Now ||
+                                                   EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateQuestionsQuantity;
     public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
     public static bool CanView(CategoryCacheItem category) => CanView(SessionUser.UserId, category);
@@ -71,7 +82,6 @@ public class PermissionCheck
         return false;
     }
 
-
     public static bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
 
     public static bool CanView(QuestionCacheItem question) => CanView(SessionUser.UserId, question);
@@ -89,21 +99,8 @@ public class PermissionCheck
 
         return false;
     }
-    public static bool CanView(Question question) => CanView(SessionUser.UserId, question);
 
-    public static bool CanView(int userId, Question question)
-    {
-        if (question == null)
-            return false;
 
-        if (question.Visibility == QuestionVisibility.All)
-            return true;
-
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator?.Id == userId)
-            return true;
-
-        return false;
-    }
 
     public static bool CanEdit(Question question) => CanEdit(SessionUser.User, question);
 

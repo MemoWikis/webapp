@@ -30,7 +30,7 @@ public class VueSessionUser
                 ImgUrl =  new UserImageSettings(SessionUser.UserId).GetUrl_50px(SessionUser.User).Url,
                 Reputation = SessionUser.User.Reputation,
                 ReputationPos = SessionUser.User.ReputationPos,
-                PersonalWiki = new TopicController().GetTopicData(SessionUser.User.StartTopicId),
+                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUser.User.StartTopicId),
                 ActivityPoints = new
                     {
                     points = activityPoints,
@@ -56,7 +56,7 @@ public class VueSessionUser
             ImgUrl = "",
             Reputation =  0,
             ReputationPos =0,
-            PersonalWiki = new TopicController().GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = new TopicControllerLogic().GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = SessionUser.GetTotalActivityPoints(),

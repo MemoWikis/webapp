@@ -5,7 +5,7 @@ using System.Linq;
 [Serializable]
 public class CategoryCachedData
 {
-    private List<int> _childrenIds = new List<int>();
+    private List<int> _childrenIds = new();
 
     public IReadOnlyList<int> ChildrenIds => _childrenIds;
 
@@ -43,7 +43,4 @@ public class CategoryCachedData
     {
         return _childrenIds.First(cId => cId == id);
     }
-
-    public int CountVisibleChildrenIds =>
-        EntityCache.GetCategories(ChildrenIds).Where(PermissionCheck.CanView).Distinct().Count();
 }
