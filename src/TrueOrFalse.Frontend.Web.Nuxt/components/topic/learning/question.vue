@@ -294,7 +294,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                     class="btn btn-link btn-sm ButtonEllipsis" />
                                 <template #popper="p: any">
 
-                                    <div v-if="userStore.isAdmin || isCreator" @click="editQuestion(); p.hide()"
+                                    <div v-if=" userStore.isAdmin || isCreator " @click=" editQuestion(); p.hide() "
                                         class="dropdown-row">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-pen" />
@@ -302,7 +302,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
+                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestion ">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -313,7 +313,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
+                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestionVersions ">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -324,9 +324,9 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <div class="dropdown-row" @click="showCommentModal(); p.hide()">
+                                    <div class="dropdown-row" @click=" showCommentModal(); p.hide() ">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fas', 'comment']" />
+                                            <font-awesome-icon :icon=" ['fas', 'comment'] " />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren
@@ -334,8 +334,8 @@ learningSessionStore.$onAction(({ name, after }) => {
                                     </div>
 
                                     <div class="dropdown-row"
-                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
-                                        @click="deleteQuestionStore.openModal(props.question.Id); p.hide()">
+                                        v-if=" props.question.CreatorId == userStore.id || userStore.isAdmin "
+                                        @click=" deleteQuestionStore.openModal(props.question.Id); p.hide() ">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>
@@ -736,7 +736,7 @@ learningSessionStore.$onAction(({ name, after }) => {
     margin-left: 4px;
     background: white;
     width: 24px;
-    height: 24px;
+    height: 20px;
     justify-content: center;
     border-radius: 15px;
 
@@ -748,24 +748,24 @@ learningSessionStore.$onAction(({ name, after }) => {
         display: unset !important;
     }
 
-    &:hover {
+    // &:hover {
 
-        .fa-lock {
-            display: none !important;
-            color: @memo-blue;
-        }
+    //     .fa-lock {
+    //         display: none !important;
+    //         color: @memo-blue;
+    //     }
 
-        .fa-unlock {
-            display: unset !important;
-            color: @memo-blue;
-        }
+    //     .fa-unlock {
+    //         display: unset !important;
+    //         color: @memo-blue;
+    //     }
 
-        filter: brightness(0.95)
-    }
+    //     filter: brightness(0.95)
+    // }
 
-    &:active {
-        filter: brightness(0.85)
-    }
+    // &:active {
+    //     filter: brightness(0.85)
+    // }
 
 }
 
