@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { TopicChangeTypeEnum } from '~~/.nuxt/components'
 const props = defineProps(['item', 'model'])
 const relationChangeItem = ref(null)
 

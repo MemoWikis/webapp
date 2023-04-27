@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { CookieOptions } from '#app';
 import { useUserStore } from '~~/components/user/userStore'
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -8,8 +7,7 @@ const userStore = useUserStore()
 
 interface Result {
     isAdmin: boolean
-    antiForgeryFormToken?: string
-    antiForgeryCookieToken?: string
+    antiForgeryToken?: string
 }
 
 const { data: maintenanceData } = await useFetch<Result>('/apiVue/VueMaintenance/Get',
@@ -25,10 +23,6 @@ const { data: maintenanceData } = await useFetch<Result>('/apiVue/VueMaintenance
     })
 if (!maintenanceData.value?.isAdmin && !userStore.isAdmin)
     throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-if (maintenanceData.value?.antiForgeryCookieToken) {
-    debugger
-    document.cookie = `__RequestVerificationToken=${maintenanceData.value.antiForgeryCookieToken}`;
-}
 
 interface MethodData {
     url: string
@@ -65,13 +59,13 @@ const miscMethods = ref<MethodData[]>([
 
 async function handleClick(url: string) {
 
-    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryFormToken || !maintenanceData.value?.antiForgeryCookieToken)
+    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
     const data = new FormData()
-    data.append('__RequestVerificationToken', maintenanceData.value.antiForgeryFormToken)
+    data.append('__RequestVerificationToken', maintenanceData.value.antiForgeryToken)
 
-    const result = await $fetch<string>(url, {
+    const result = await $fetch<string>(`/apiVue/VueMaintenance/${url}`, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -79,13 +73,19 @@ async function handleClick(url: string) {
     })
     console.log(result)
 }
+
+const emit = defineEmits(['setBreadcrumb'])
+
+onBeforeMount(() => {
+    emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
+})
 </script>
 
 <template>
     <div class="container">
         <div class="row main-page">
             <div class="main-content">
-                <div class="col-xs-12">
+                <div class="col-xs-12" v-if="maintenanceData">
                     <h1>Adminseite</h1>
                     <div class="row">
                         <MaintenanceSection title="Fragen" :methods="questionMethods" @method-clicked="handleClick" />

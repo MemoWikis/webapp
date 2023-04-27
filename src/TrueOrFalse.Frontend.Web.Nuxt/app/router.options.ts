@@ -122,7 +122,10 @@ export default <RouterConfig>{
         {
             name: 'maintenantePage',
             path: '/Maintenance',
-            component: () => import('~/pages/maintenance.vue')
+            component: () => import('~/pages/maintenance.vue'),
+            meta: {
+                middleware: ['auth'],
+            },
         }
     ],
 }

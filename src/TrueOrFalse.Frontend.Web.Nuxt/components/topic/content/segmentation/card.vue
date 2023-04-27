@@ -140,7 +140,6 @@ export default defineNuxtComponent({
             this.$emit('filter-children', [this.categoryId])
         },
         openPublishModal() {
-            console.log('pcard')
             const publishTopicStore = usePublishTopicStore()
             publishTopicStore.openModal(this.categoryId)
         },
@@ -200,27 +199,27 @@ export default defineNuxtComponent({
                                                                                                                             </div>
                                                                                                                             <div class="dropdown-label"> Unterthemen einblenden</div>
                                                                                                                         </div> -->
-                            <div @click="removeParent(); p.hide()" class="dropdown-row">
+                            <div @click=" removeParent(); p.hide() " class="dropdown-row">
                                 <div class="dropdown-icon">
-                                    <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
+                                    <font-awesome-icon :icon=" ['fa-solid', 'link-slash'] " />
                                 </div>
                                 <div class="dropdown-label">Verknüpfung entfernen </div>
                             </div>
-                            <div v-if="visibility == 1" @click="openPublishModal(); p.hide()" class="dropdown-row">
+                            <div v-if=" visibility == 1 " @click=" openPublishModal(); p.hide() " class="dropdown-row">
                                 <div class="dropdown-icon">
-                                    <font-awesome-icon :icon="['fa-solid', 'unlock']" />
+                                    <font-awesome-icon :icon=" ['fa-solid', 'unlock'] " />
                                 </div>
                                 <div class="dropdown-label">Thema veröffentlichen</div>
                             </div>
-                            <div @click="openMoveCategoryModal(); p.hide()" class="dropdown-row">
+                            <div @click=" openMoveCategoryModal(); p.hide() " class="dropdown-row">
                                 <div class="dropdown-icon">
-                                    <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
+                                    <font-awesome-icon :icon=" ['fa-solid', 'circle-right'] " />
                                 </div>
                                 <div class="dropdown-label">Thema verschieben</div>
                             </div>
-                            <div @click="openAddToWikiModal(); p.hide()" data-allowed="logged-in" class="dropdown-row">
+                            <div @click=" openAddToWikiModal(); p.hide() " data-allowed="logged-in" class="dropdown-row">
                                 <div class="dropdown-icon">
-                                    <font-awesome-icon :icon="['fa-solid', 'plus']" />
+                                    <font-awesome-icon :icon=" ['fa-solid', 'plus'] " />
                                 </div>
                                 <div class="dropdown-label">Zu meinem Wiki hinzufügen</div>
                             </div>
@@ -229,38 +228,38 @@ export default defineNuxtComponent({
                 </div>
                 <div class="set-question-count">
 
-                    <NuxtLink :href="$props.category.LinkToCategory" class="sub-label">
-                        <template v-if="$props.category.ChildCategoryCount == 1">1 Unterthema </template>
-                        <template v-else-if="$props.category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
+                    <NuxtLink :href=" $props.category.LinkToCategory " class="sub-label">
+                        <template v-if=" $props.category.ChildCategoryCount == 1 ">1 Unterthema </template>
+                        <template v-else-if=" $props.category.ChildCategoryCount > 1 ">{{ category.ChildCategoryCount }}
                             Unterthemen </template>
-                        <span v-if="$props.category.QuestionCount > 0">
+                        <span v-if=" $props.category.QuestionCount > 0 ">
                             {{ category.QuestionCount + ' Frage' + ($props.category.QuestionCount == 1 ? '' : 'n') }}
                         </span>
                     </NuxtLink>
 
                 </div>
-                <div v-if="$props.category.QuestionCount > 0" class="KnowledgeBarWrapper">
+                <div v-if=" $props.category.QuestionCount > 0 " class="KnowledgeBarWrapper">
 
-                    <NuxtLink :href="$props.category.LinkToCategory">
+                    <NuxtLink :href=" $props.category.LinkToCategory ">
                         <div class="knowledge-bar">
-                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
-                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)'"
-                                :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
+                            <div v-if=" $props.category.KnowledgeBarData.NeedsLearningPercentage > 0 " class="needs-learning"
+                                v-tooltip=" 'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)' "
+                                :style=" { 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' } ">
                             </div>
 
-                            <div v-if="$props.category.KnowledgeBarData.NeedsConsolidationPercentage > 0"
+                            <div v-if=" $props.category.KnowledgeBarData.NeedsConsolidationPercentage > 0 "
                                 class="needs-consolidation"
-                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsConsolidation + ' Fragen (' + $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%)'"
-                                :style="{ 'width': $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%' }">
+                                v-tooltip=" 'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsConsolidation + ' Fragen (' + $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%)' "
+                                :style=" { 'width': $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%' } ">
                             </div>
 
-                            <div v-if="$props.category.KnowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
-                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.Solid + ' Fragen (' + $props.category.KnowledgeBarData.SolidPercentage + '%)'"
-                                :style="{ 'width': $props.category.KnowledgeBarData.SolidPercentage + '%' }"></div>
+                            <div v-if=" $props.category.KnowledgeBarData.SolidPercentage > 0 " class="solid-knowledge"
+                                v-tooltip=" 'Solltest du lernen:' + $props.category.KnowledgeBarData.Solid + ' Fragen (' + $props.category.KnowledgeBarData.SolidPercentage + '%)' "
+                                :style=" { 'width': $props.category.KnowledgeBarData.SolidPercentage + '%' } "></div>
 
-                            <div v-if="$props.category.KnowledgeBarData.NotLearnedPercentage > 0" class="not-learned"
-                                v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NotLearned + ' Fragen (' + $props.category.KnowledgeBarData.NotLearnedPercentage + '%)'"
-                                :style="{ 'width': $props.category.KnowledgeBarData.NotLearnedPercentage + '%' }"></div>
+                            <div v-if=" $props.category.KnowledgeBarData.NotLearnedPercentage > 0 " class="not-learned"
+                                v-tooltip=" 'Solltest du lernen:' + $props.category.KnowledgeBarData.NotLearned + ' Fragen (' + $props.category.KnowledgeBarData.NotLearnedPercentage + '%)' "
+                                :style=" { 'width': $props.category.KnowledgeBarData.NotLearnedPercentage + '%' } "></div>
                         </div>
                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                     </NuxtLink>

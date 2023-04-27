@@ -5,7 +5,7 @@ const props = defineProps(['aggregatedItem'])
 </script>
 
 <template>
-    <li class="list-group-item row">
+    <!-- <li class="list-group-item row">
         <div class="col-xs-3">
             <a class="history-link" href="<%= Links.UserDetail(ai.Author) %>">
                 <img class="history-author" src="<%= ai.AuthorImageUrl %>" height="20" />
@@ -32,6 +32,5 @@ const props = defineProps(['aggregatedItem'])
             <div class="change-detail-spacer">
             </div>
         </div>
-    </li>
-
+    </li> -->
 </template>

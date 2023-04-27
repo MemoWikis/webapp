@@ -8,7 +8,6 @@ import {
 } from "../../relation/editTopicRelationStore";
 import { CategoryCardData } from "./CategoryCardData";
 import { usePublishTopicStore } from "../../publish/publishTopicStore";
-import { Visibility } from "~~/components/shared/visibilityEnum";
 
 export default defineNuxtComponent({
 	props: {
@@ -258,13 +257,12 @@ export default defineNuxtComponent({
 				(c) => selectedCategoryIds.some((s) => s != c)
 			);
 			this.currentChildCategoryIds = filteredCurrentChildCategoryIds;
-			this.$nuxt.$emit("save-segments");
+			// this.$nuxt.$emit("save-segments");
 		},
 		hideChildren() {
 			this.filterChildren(this.selectedCategories);
 		},
 		openPublishModal() {
-			console.log('pcard')
 
 			const publishTopicStore = usePublishTopicStore();
 			publishTopicStore.openModal(this.categoryId);
@@ -346,27 +344,27 @@ export default defineNuxtComponent({
 							<font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
 						</div>
 						<template #popper="p: any">
-							<div @click="removeSegment()" class="dropdown-row">
+							<div @click=" removeSegment() " class="dropdown-row">
 								<div class="dropdown-icon">
-									<font-awesome-icon :icon="['fa-solid', 'sitemap']" />
+									<font-awesome-icon :icon=" ['fa-solid', 'sitemap'] " />
 								</div>
 								<div class="dropdown-label"> Unterthema ausblenden</div>
 							</div>
-							<div @click="openPublishModal(); p.hide() " class="dropdown-row" v-if="visibility == 1">
+							<div @click=" openPublishModal(); p.hide() " class="dropdown-row" v-if=" visibility == 1 ">
 								<div class="dropdown-icon">
-									<font-awesome-icon :icon="['fa-solid', 'unlock']" />
+									<font-awesome-icon :icon=" ['fa-solid', 'unlock'] " />
 								</div>
 								<div class="dropdown-label">Thema veröffentlichen</div>
 							</div>
-							<div @click="openMoveCategoryModal(); p.hide() " class="dropdown-row">
+							<div @click=" openMoveCategoryModal(); p.hide() " class="dropdown-row">
 								<div class="dropdown-icon">
-									<font-awesome-icon :icon="['fa-solid', 'circle-right']" />
+									<font-awesome-icon :icon=" ['fa-solid', 'circle-right'] " />
 								</div>
 								<div class="dropdown-label">Thema verschieben</div>
 							</div>
-							<div @click="openAddToWikiModal(); p.hide() " data-allowed="logged-in" class="dropdown-row">
+							<div @click=" openAddToWikiModal(); p.hide() " data-allowed="logged-in" class="dropdown-row">
 								<div class="dropdown-icon">
-									<font-awesome-icon :icon="['fa-solid', 'plus']" />
+									<font-awesome-icon :icon=" ['fa-solid', 'plus'] " />
 								</div>
 								<div class="dropdown-label">Zu meinem Wiki hinzufügen</div>
 							</div>
@@ -376,16 +374,17 @@ export default defineNuxtComponent({
 			</div>
 
 			<div class="segmentKnowledgeBar">
-				<div class="KnowledgeBarWrapper" v-html="knowledgeBarHtml"></div>
+				<div class="KnowledgeBarWrapper" v-html=" knowledgeBarHtml "></div>
 			</div>
 		</div>
-		<div class="topicNavigation row" :key="cardsKey!">
-			<TopicContentSegmentationCard v-for="(   category, index   ) in    categories   "
-				@select-category="selectCategory" @unselect-category="unselectCategory" inline-template
-				:ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id"
-				:selected-categories="selectedCategories" :segment-id="segmentId!" hide="false" :key="index"
-				:category="category" :is-historic="isHistoric" @filter-children="filterChildren"
-				:parent-topic-id="categoryId" @remove-category="removeCategory" @add-category-card="addCategoryCardEvent" />
+		<div class="topicNavigation row" :key=" cardsKey! ">
+			<TopicContentSegmentationCard v-for="(     category, index     ) in      categories     "
+				@select-category=" selectCategory " @unselect-category=" unselectCategory " inline-template
+				:ref=" 'card' + category.Id " :is-custom-segment=" isCustomSegment " :category-id=" category.Id "
+				:selected-categories=" selectedCategories " :segment-id=" segmentId! " hide="false" :key=" index "
+				:category=" category " :is-historic=" isHistoric " @filter-children=" filterChildren "
+				:parent-topic-id=" categoryId " @remove-category=" removeCategory "
+				@add-category-card=" addCategoryCardEvent " />
 		</div>
 	</div>
 </template>

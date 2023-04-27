@@ -4,9 +4,6 @@ import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
 import { useUserStore, CurrentUser } from '../user/userStore'
 
-const spinnerStore = useSpinnerStore()
-const alertStore = useAlertStore()
-const userStore = useUserStore()
 
 export class FacebookMemuchoUser {
 
@@ -28,6 +25,8 @@ export class FacebookMemuchoUser {
     }
 
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
+        const spinnerStore = useSpinnerStore()
+
         spinnerStore.showSpinner();
 
         var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/UserExists', {
@@ -45,6 +44,8 @@ export class FacebookMemuchoUser {
             spinnerStore.hideSpinner();
 
             if (result.Success) {
+                const userStore = useUserStore()
+
                 userStore.isLoggedIn = true
                 userStore.initUser(result.currentUser!)
                 if (window.location.pathname == '/Registrieren')
@@ -53,6 +54,8 @@ export class FacebookMemuchoUser {
             else {
                 Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
                 if (result.EmailAlreadyInUse) {
+                    const alertStore = useAlertStore()
+
                     alertStore.openAlert(AlertType.Error, {
                         text: messages.error.user.emailInUse
                     })
@@ -62,6 +65,7 @@ export class FacebookMemuchoUser {
     }
 
     static async Login(facebookId: string, facebookAccessToken: string, stayOnPage: boolean = true) {
+        const spinnerStore = useSpinnerStore()
 
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
         spinnerStore.showSpinner();
@@ -78,6 +82,8 @@ export class FacebookMemuchoUser {
             })
 
         if (!!result && result.success) {
+            const userStore = useUserStore()
+
             userStore.initUser(result.currentUser!)
             if (window.location.pathname == '/Registrieren')
                 navigateTo('/')
@@ -144,6 +150,7 @@ export class FacebookMemuchoUser {
             } else {
                 onLogout();
             }
+            const userStore = useUserStore()
             userStore.isLoggedIn = false
         });
     }

@@ -47,6 +47,12 @@ export default defineNuxtConfig({
             'underscore',
         ]
     },
+    components: [
+        {
+            path: '~/components',
+            extensions: ['.vue'],
+        }
+    ]
     //Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {
     //     client: false
