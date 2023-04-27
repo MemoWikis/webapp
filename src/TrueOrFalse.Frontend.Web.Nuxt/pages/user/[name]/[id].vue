@@ -67,7 +67,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 
 onBeforeMount(() => {
     if (profile.value == null || profile.value.user.id <= 0)
-        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {

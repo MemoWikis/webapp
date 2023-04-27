@@ -304,6 +304,7 @@
     <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AdminAuthController.cs" />
     <Compile Include="Views\ControllerModels\QuestionPinStoreControllerLogic.cs" />
@@ -4202,6 +4203,7 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="DynamicData\FieldTemplates\" />
+    <Folder Include="Views\ApiVueApp\Middleware\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

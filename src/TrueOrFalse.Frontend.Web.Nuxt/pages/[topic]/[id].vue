@@ -77,11 +77,11 @@ if (topic.value != null) {
             })
         })
     } else {
-        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         // navigateTo('/Fehler/500')
     }
 } else {
-    throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+    throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
 }
 function setTab() {
