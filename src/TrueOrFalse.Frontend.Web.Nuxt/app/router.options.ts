@@ -120,9 +120,9 @@ export default <RouterConfig>{
             component: () => import('~/pages/history/topic/detail.vue'),
         },
         {
-            name: 'maintenantePace',
+            name: 'maintenantePage',
             path: '/Maintenance',
-            component: () => import('~/pages/maintenance.vue'),
+            component: () => import('~/pages/maintenance.vue')
         }
     ],
 }

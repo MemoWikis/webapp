@@ -3,7 +3,6 @@ import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 import { Author } from '../author/author'
 import { SearchTopicItem } from '../search/searchHelper'
-import { ChartData } from '../chart/chartData'
 
 export class Topic {
 	CanAccess: boolean = false
