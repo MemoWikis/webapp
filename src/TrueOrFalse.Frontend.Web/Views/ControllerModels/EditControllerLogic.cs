@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -57,12 +58,12 @@ public class EditControllerLogic
 
     public dynamic QuickCreate(string name, int parentTopicId)
     {
-        if (!PermissionCheck.CanSavePrivateCategory())
+        if (!PremiumCheck.CanSavePrivateTopic())
         {
             return new
             {
                 success = false,
-                message = "Möglicherweise sollten Sie einige private Themen öffentlich machen und ein Abonnement in Betracht ziehen, um mehr Funktionen zu erhalten."
+                key = "cantSavePrivateTopic"
             }; 
         }
 

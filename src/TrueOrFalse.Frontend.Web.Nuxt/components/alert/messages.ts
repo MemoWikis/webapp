@@ -19,6 +19,11 @@ export const messages: any = {
         }
     },
     error: {
+        subscription: {
+            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen, ein Abonnement entfernt diese Funktionsbeschränkung.",
+            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen, ein Abonnement entfernt diese Funktionsbeschränkung",
+            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Topics mehr hinzufügen, ein Abonnement entfernt diese Funktionsbeschränkung"
+        },
         category: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
             publicChildCategories: "Dieses Thema hat öffentliche untergeordnete Themen.",
