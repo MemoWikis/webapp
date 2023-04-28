@@ -278,4 +278,11 @@ public class UserRepo : RepositoryDbBase<User>
         SessionUserCache.AddOrUpdate(updatedUser);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(updatedUser));
     }
+
+    public User GetUserById(int userId)
+    {
+        return _session.QueryOver<User>()
+            .Where(u => u.Id == userId)
+            .SingleOrDefault();
+    }
 }

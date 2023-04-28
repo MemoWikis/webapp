@@ -102,6 +102,14 @@ public static class QuestionInKnowledge
                 AND RelevancePersonal > 0) 
             WHERE Id = :userId";
         Sl.Resolve<ISession>().CreateSQLQuery(query).SetParameter("userId", userId).ExecuteUpdate();
+        query =
+            $@"Select WishCountQuestions From user
+            WHERE Id = :userId";
+
+        var wishKnowledgeCount = (int)Sl.Resolve<ISession>().CreateSQLQuery(query)
+            .SetParameter("userId", userId).UniqueResult();
+        SessionUser.User.WishCountQuestions = wishKnowledgeCount;
+
     }
 
     private static string GenerateQualityQuery(int questionId)
