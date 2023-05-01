@@ -73,15 +73,15 @@ const navOptions = ref()
 
 <template>
     <div id="Navigation">
-    <div class="container">
-        <div class="row">
-            <div class="header-container col-xs-12" ref="headerContainer">
+        <div class="container">
+            <div class="row">
+                <div class="header-container col-xs-12" ref="headerContainer">
 
-                <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
-                    <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
-                        :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
-                        :partial-left="partialLeft" />
-                </div>
+                    <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
+                        <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
+                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
+                            :partial-left="partialLeft" />
+                    </div>
                     <div class="partial end" ref="headerExtras">
                         <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
@@ -97,13 +97,7 @@ const navOptions = ref()
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon">
-                                    <!-- <template v-slot:top v-if="userStore.unreadMessagesCount > 0">
-                                                                                                                <div class="unread-msg-badge-container">
-                                                                                                                    <div class="unread-msg-badge"></div>
-                                                                                                                </div>
-                                                                                                            </template> -->
-                                </Image>
+                                <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon" />
                                 <div class="header-user-name">
                                     {{ userStore.name }}
                                 </div>
@@ -145,16 +139,6 @@ const navOptions = ref()
                                     </div>
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
-                                        <!-- <NuxtLink to="/Nachrichten/" @click="p.hide()">
-                                                                                                                    <div class="user-dropdown-label"
-                                                                                                                        :class="{ 'has-badge': userStore.unreadMessagesCount > 0 }">
-                                                                                                                        Deine Nachrichten
-                                                                                                                        <div class="counter-badge red-badge"
-                                                                                                                            v-if="userStore.unreadMessagesCount > 0">{{
-                                                                                                                                userStore.unreadMessagesCount }}
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </NuxtLink> -->
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
                                             @click="p.hide()">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
@@ -173,10 +157,6 @@ const navOptions = ref()
                                                 Administrativ
                                             </div>
                                         </LazyNuxtLink>
-                                        <div class="user-dropdown-label" @click="p.hide()" v-if="userStore.isAdmin">
-                                            Adminrechte
-                                            abgeben
-                                        </div>
                                         <div class="user-dropdown-label" @click="userStore.logout(), p.hide()">
                                             Ausloggen
                                         </div>

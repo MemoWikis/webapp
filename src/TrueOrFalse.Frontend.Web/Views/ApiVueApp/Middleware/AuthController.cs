@@ -11,4 +11,4 @@ public class MiddlewareAuthController : BaseController
     {
         return Json(SessionUser.IsInstallationAdmin, JsonRequestBehavior.AllowGet);
     }
-}
+}   

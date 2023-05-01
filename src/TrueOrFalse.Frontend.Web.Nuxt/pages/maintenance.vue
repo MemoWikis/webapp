@@ -21,8 +21,7 @@ const { data: maintenanceData } = await useFetch<Result>('/apiVue/VueMaintenance
             }
         },
     })
-if (!maintenanceData.value?.isAdmin && !userStore.isAdmin)
-    throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+
 
 interface MethodData {
     url: string
@@ -56,29 +55,78 @@ const userMethods = ref<MethodData[]>([
 const miscMethods = ref<MethodData[]>([
     { url: 'CheckForDuplicateInteractionNumbers', label: 'Auf Antworten mit selber Guid und InteractionNr checken' }
 ])
+const toolsMethods = ref<MethodData[]>([
+    { url: 'Throw500', label: 'Exception werfen' },
+    { url: 'ReloadListFromIgnoreCrawlers', label: 'List von den igniorierten Crawlers neu lade' },
+    { url: 'CleanUpWorkInProgressQuestions', label: 'Clean up work in progress questions' },
+    { url: 'Start100TestJobs', label: 'Start 100 test jobs' },
 
+])
+const resultMsg = ref('')
+interface Result {
+    success: boolean
+    result: string
+}
 async function handleClick(url: string) {
-
     if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', maintenanceData.value.antiForgeryToken)
 
-    const result = await $fetch<string>(`/apiVue/VueMaintenance/${url}`, {
+
+    const result = await $fetch<Result>(`/apiVue/VueMaintenance/${url}`, {
         body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
     })
-    console.log(result)
+
+    if (result.success)
+        resultMsg.value = result.result
 }
 
 const emit = defineEmits(['setBreadcrumb'])
 
 onBeforeMount(() => {
+    if (!maintenanceData.value?.isAdmin && !userStore.isAdmin)
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
     emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
+
 })
+
+const userIdToDelete = ref(0)
+async function deleteUser() {
+    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+
+    const result = await $fetch<Result>(`/apiVue/VueMaintenance/DeleteUser`, {
+        body: { userId: userIdToDelete.value },
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success)
+        resultMsg.value = result.result
+}
+
+async function removeAdminRights() {
+    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+
+    const result = await $fetch<Result>(`/apiVue/VueMaintenance/RemoveAdminRights`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success) {
+        userStore.isAdmin = false
+        maintenanceData.value = null
+        navigateTo('/')
+    }
+}
 </script>
 
 <template>
@@ -88,15 +136,48 @@ onBeforeMount(() => {
                 <div class="col-xs-12" v-if="maintenanceData">
                     <h1>Adminseite</h1>
                     <div class="row">
-                        <MaintenanceSection title="Fragen" :methods="questionMethods" @method-clicked="handleClick" />
-                        <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick" />
-                        <MaintenanceSection title="Themen" :methods="topicMethods" @method-clicked="handleClick" />
+
+                        <div class="alert alert-warning alert-dismissible" role="alert" v-if="resultMsg.length > 0">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
+                            {{ resultMsg }}
+                        </div>
+
+                        <MaintenanceSection title="Fragen" :methods="questionMethods" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']" />
+                        <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']" />
+                        <MaintenanceSection title="Themen" :methods="topicMethods" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Suche Solr" :methods="solrMethods"
-                            description="Alle für Suche neu indizieren:" @method-clicked="handleClick" />
+                            description="Alle für Suche neu indizieren:" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Suche MeiliSearch" :methods="meiliSearchMethods"
-                            description="Alle für Suche neu indizieren:" @method-clicked="handleClick" />
-                        <MaintenanceSection title="" :methods="userMethods" @method-clicked="handleClick" />
-                        <MaintenanceSection title="" :methods="miscMethods" @method-clicked="handleClick" />
+                            description="Alle für Suche neu indizieren:" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']" />
+                        <MaintenanceSection title="Nutzer" :methods="userMethods" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']">
+                            <div class="delete-user-container">
+                                <h4>Nutzer löschen (ID)</h4>
+
+                                <div class="delete-user-input">
+                                    <input type="number" v-model="userIdToDelete" placeholder="Nutzer Id" width="100%" />
+                                    <button @click="deleteUser" class="memo-button btn btn-primary">Nutzer löschen</button>
+                                </div>
+
+                            </div>
+                        </MaintenanceSection>
+                        <MaintenanceSection title="Sonstige" :methods="miscMethods" @method-clicked="handleClick"
+                            :icon="['fas', 'retweet']" />
+                        <MaintenanceSection title="Tools" :methods="toolsMethods" @method-clicked="handleClick"
+                            :icon="['fas', 'hammer']" />
+
+                        <div class="remove-admin-rights-section">
+                            <h3>Adminrechte abgeben</h3>
+                            <button @click="removeAdminRights" class="memo-button btn btn-primary">Adminrechte
+                                abgeben</button>
+
+                        </div>
                     </div>
 
                 </div>
@@ -105,5 +186,46 @@ onBeforeMount(() => {
         </div>
     </div>
 </template>
-  
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.alert {
+    position: relative;
+
+    .close-button {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        cursor: pointer;
+    }
+}
+
+.delete-user-container {
+    padding: 15px;
+
+    .delete-user-input {
+
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+
+        input {
+            border: solid 1px @memo-grey-light;
+            padding: 7px;
+            margin-right: 8px;
+        }
+    }
+}
+
+.remove-admin-rights-section {
+    border: solid 1px @memo-grey-lighter;
+    padding: 8px;
+    margin: 8px;
+
+    h3,
+    .description {
+        padding: 6px 12px;
+        margin-top: 0;
+    }
+}
+</style>

@@ -6,6 +6,8 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Search;
+using TrueOrFalse.Tools;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -29,7 +31,7 @@ public class VueMaintenanceController : BaseController
             return Json(new
             {
                 isAdmin = true,
-                antiForgeryFormToken = formToken
+                antiForgeryToken = formToken
             },JsonRequestBehavior.AllowGet);
         }
 
@@ -105,6 +107,23 @@ public class VueMaintenanceController : BaseController
             result = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
         });
     }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult DeleteUser(int userId)
+    {
+        Sl.UserRepo.DeleteFromAllTables(userId);
+
+        return Json(new
+        {
+            success = true,
+            result = "Der User wurde gelöscht"
+        });
+    }
+
+
+
+
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
@@ -205,4 +224,78 @@ public class VueMaintenanceController : BaseController
     }
 
     //Tools
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult Throw500()
+    {
+        throw new Exception("Some random exception");
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult CleanUpWorkInProgressQuestions()
+    {
+        return Json(new
+        {
+            success = true,
+            result = "Job: 'Cleanup work in progress' wird ausgeführt."
+        });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult ReloadListFromIgnoreCrawlers()
+    {
+        if (Request.IsLocal)
+        {
+            IgnoreLog.LoadNewList();
+
+            return Json(new
+            {
+                success = true,
+                result = "Die Liste wird neu geladen."
+            });
+        }
+
+        return Json(new
+        {
+            success = true,
+            result = "Sie sind nicht berechtigt die Liste neu zu laden."
+        });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult Start100TestJobs()
+    {
+        for (var i = 0; i < 1000; i++)
+            JobScheduler.StartImmediately<TestJob1>();
+
+        for (var i = 0; i < 1000; i++)
+            JobScheduler.StartImmediately<TestJob2>();
+
+        return Json(new
+        {
+            success = true,
+            result = "Started 100 test jobs."
+        });
+
+    }
+
+
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult RemoveAdminRights()
+    {
+        SessionUser.IsInstallationAdmin = false;
+
+        return Json(new
+        {
+            success = true,
+            result = ""
+        });
+    }
 }
