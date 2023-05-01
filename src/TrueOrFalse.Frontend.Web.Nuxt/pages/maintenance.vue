@@ -172,10 +172,14 @@ async function removeAdminRights() {
                         <MaintenanceSection title="Tools" :methods="toolsMethods" @method-clicked="handleClick"
                             :icon="['fas', 'hammer']" />
 
-                        <div class="remove-admin-rights-section">
+                        <div class="remove-admin-rights-section col-xs-12 col-lg-6">
                             <h3>Adminrechte abgeben</h3>
-                            <button @click="removeAdminRights" class="memo-button btn btn-primary">Adminrechte
-                                abgeben</button>
+                            <div>
+                                <button @click="removeAdminRights" class="memo-button btn btn-primary">
+                                    Adminrechte abgeben
+                                </button>
+                            </div>
+
 
                         </div>
                     </div>
