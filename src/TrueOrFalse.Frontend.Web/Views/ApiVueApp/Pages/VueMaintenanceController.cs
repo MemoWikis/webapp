@@ -30,12 +30,21 @@ public class VueMaintenanceController : BaseController
 
             return Json(new
             {
-                isAdmin = true,
-                antiForgeryToken = formToken
-            },JsonRequestBehavior.AllowGet);
+                success = true,
+                data = new {
+                    isAdmin = true,
+                    antiForgeryToken = formToken
+                }
+            }
+            ,JsonRequestBehavior.AllowGet);
         }
 
-        return Json(new { isAdmin = false }, JsonRequestBehavior.AllowGet);
+        return Json(new
+            {
+                success = false,
+                key = "notAllowed"
+            }
+            , JsonRequestBehavior.AllowGet);
     }
 
     [ValidateAntiForgeryToken]
@@ -50,7 +59,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
             {
                 success = true,
-                result = "Antwortwahrscheinlichkeiten wurden neu berechnet."
+                data = "Antwortwahrscheinlichkeiten wurden neu berechnet."
             });
     }
 
@@ -65,7 +74,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Aggregierte Werte wurden aktualisiert."
+            data = "Aggregierte Werte wurden aktualisiert."
         });
     }
 
@@ -78,7 +87,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Feld: AnzahlFragen für Themen wurde aktualisiert."
+            data = "Feld: AnzahlFragen für Themen wurde aktualisiert."
         });
     }
 
@@ -91,7 +100,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Reputation and Rankings wurden aktualisiert."
+            data = "Reputation and Rankings wurden aktualisiert."
         });
     }
 
@@ -104,7 +113,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
+            data = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
         });
     }
 
@@ -117,7 +126,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Der User wurde gelöscht"
+            data = "Der User wurde gelöscht"
         });
     }
 
@@ -134,7 +143,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Fragen wurden neu indiziert."
+            data = "Fragen wurden neu indiziert."
         });
     }
     //todo: Remove when Meilisearch is active
@@ -147,7 +156,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Themen wurden neu indiziert."
+            data = "Themen wurden neu indiziert."
         });
     }
     //todo: Remove when Meilisearch is active
@@ -160,7 +169,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Nutzer wurden neu indiziert."
+            data = "Nutzer wurden neu indiziert."
         });
     }
 
@@ -173,7 +182,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Fragen wurden neu indiziert."
+            data = "Fragen wurden neu indiziert."
         });
     }
 
@@ -186,7 +195,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Themen wurden neu indiziert.."
+            data = "Themen wurden neu indiziert.."
         });
     }
 
@@ -199,7 +208,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Nutzer wurden neu indiziert."
+            data = "Nutzer wurden neu indiziert."
         });
     }
 
@@ -219,7 +228,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = message
+            data = message
         });
     }
 
@@ -239,7 +248,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Job: 'Cleanup work in progress' wird ausgeführt."
+            data = "Job: 'Cleanup work in progress' wird ausgeführt."
         });
     }
 
@@ -254,14 +263,14 @@ public class VueMaintenanceController : BaseController
             return Json(new
             {
                 success = true,
-                result = "Die Liste wird neu geladen."
+                data = "Die Liste wird neu geladen."
             });
         }
 
         return Json(new
         {
             success = true,
-            result = "Sie sind nicht berechtigt die Liste neu zu laden."
+            data = "Sie sind nicht berechtigt die Liste neu zu laden."
         });
     }
 
@@ -278,7 +287,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Started 100 test jobs."
+            data = "Started 100 test jobs."
         });
 
     }
@@ -295,7 +304,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = ""
+            data = ""
         });
     }
 }

@@ -8,7 +8,11 @@ import { PinState } from '~~/components/question/pin/pinStore'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
 import { KnowledgeStatus } from '~~/components/question/knowledgeStatusEnum'
 import { useDeleteQuestionStore } from '~~/components/question/edit/delete/deleteQuestionStore'
+import { Visibility } from '~~/components/shared/visibilityEnum'
+import { useAlertStore, messages, AlertType } from '~/components/alert/alertStore'
+import { result } from 'underscore'
 
+const alertStore = useAlertStore()
 const commentsStore = useCommentsStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 
@@ -33,7 +37,6 @@ const allDataLoaded = ref(false)
 const answer = ref('')
 const extendedAnswer = ref('')
 
-const topics = ref({})
 const userStore = useUserStore()
 
 function abbreviateNumber(val: number): string {
@@ -49,17 +52,13 @@ function abbreviateNumber(val: number): string {
         return ''
 }
 
-const references = reactive({ value: [] })
-const author = ref('')
-const authorImage = ref('')
+const authorName = ref('')
+const authorImageUrl = ref('')
+const authorEncodedName = ref('')
 
 const extendedQuestion = ref('')
 const commentCount = ref(0)
 const isCreator = ref(false)
-
-const editUrl = ref('')
-const historyUrl = ref('')
-const authorUrl = ref('')
 
 const answerCount = ref('')
 const correctAnswers = ref('')
@@ -67,43 +66,58 @@ const wrongAnswers = ref('')
 
 const canBeEdited = ref(false)
 
-async function loadQuestionBody() {
+interface QuestionDataResult {
+    answer: string
+    extendedAnswer?: string
+    authorName: string
+    authorId: number
+    authorEncodedName: string
+    authorImageUrl: string
+    extendedQuestion: string
+    commentCount: number
+    isCreator: boolean
+    answerCount: number
+    correctAnswerCount: number
+    wrongAnswerCount: number
+    canBeEdited: boolean
+    title: string
+    visibility: Visibility
+}
+async function loadQuestionData() {
 
-    var data = await $fetch<any>('/apiVue/TopicLearningQuestion/LoadQuestionBody/', {
+    const data = await $fetch<FetchResult<QuestionDataResult>>('/apiVue/TopicLearningQuestion/LoadQuestionData/', {
         body: { questionId: props.question.Id },
         method: 'POST',
         credentials: 'include',
     })
 
-    if (data != null) {
-        if (data.answer == null || data.answer.length <= 0) {
-            if (data.extendedAnswer && data.extendedAnswer.length > 0)
-                answer.value = "<div>" + data.extendedAnswer + "</div>"
+    if (data?.success) {
+        if (data.data.answer == null || data.data.answer.length <= 0) {
+            if (data.data.extendedAnswer && data.data.extendedAnswer.length > 0)
+                answer.value = `<div>${data.data.extendedAnswer}</div>`
             else
                 answer.value = "<div> Fehler: Keine Antwort! </div>"
         } else {
-            answer.value = "<div>" + data.answer + "</div>"
-            if (data.extendedAnswer != null)
-                extendedAnswer.value = "<div>" + data.extendedAnswer + "</div>"
+            answer.value = `<div>${data.data.answer}</div>`
+            if (data.data.extendedAnswer != null)
+                extendedAnswer.value = `<div>${data.data.extendedAnswer}</div>`
         }
 
-        if (data.categories)
-            topics.value = data.categories
-
-        references.value = data.references
-        author.value = data.author
-        authorImage.value = data.authorImage
-        extendedQuestion.value = "<div>" + data.extendedQuestion + "</div>"
-        commentCount.value = data.commentCount
-        isCreator.value = data.isCreator && userStore.isLoggedIn
-        editUrl.value = data.editUrl
-        historyUrl.value = data.historyUrl
-        authorUrl.value = data.authorUrl
+        authorName.value = data.data.authorName
+        authorImageUrl.value = data.data.authorImageUrl
+        authorEncodedName.value = data.data.authorEncodedName
+        extendedQuestion.value = `<div>${data.data.extendedQuestion}</div>`
+        commentCount.value = data.data.commentCount
+        isCreator.value = data.data.isCreator && userStore.isLoggedIn
         allDataLoaded.value = true
-        answerCount.value = abbreviateNumber(data.answerCount)
-        correctAnswers.value = abbreviateNumber(data.correctAnswerCount)
-        wrongAnswers.value = abbreviateNumber(data.wrongAnswerCount)
-        canBeEdited.value = data.canBeEdited
+        answerCount.value = abbreviateNumber(data.data.answerCount)
+        correctAnswers.value = abbreviateNumber(data.data.correctAnswerCount)
+        wrongAnswers.value = abbreviateNumber(data.data.wrongAnswerCount)
+        canBeEdited.value = data.data.canBeEdited
+        setTitle(data.data.title)
+        showLock.value = data.data.visibility != Visibility.All
+    } else if (!data?.success) {
+        alertStore.openAlert(AlertType.Error, { text: messages.error.question[data.key] })
     }
 
 }
@@ -111,7 +125,7 @@ async function loadQuestionBody() {
 function expandQuestion() {
     showFullQuestion.value = !showFullQuestion.value
     if (allDataLoaded.value == false) {
-        loadQuestionBody()
+        loadQuestionData()
     }
 }
 
@@ -151,9 +165,8 @@ function editQuestion() {
 const isInWishknowledge = ref(false)
 const hasPersonalAnswer = ref(false)
 
-
 watch(() => props.sessionIndex, (val) => {
-    if (props.isLastItem)
+    if (props.isLastItem && val != undefined)
         learningSessionStore.lastIndexInQuestionList = val
 })
 
@@ -189,12 +202,20 @@ function setWuwiState(state: PinState) {
 watch(currentKnowledgeStatus, () => {
     setKnowledgebarData()
 })
+const showLock = ref(false)
 onBeforeMount(() => {
-    questionTitleHtml.value = "<div class='body-m bold margin-bottom-0'>" + props.question.Title + "</div>"
+    showLock.value = props.question.Visibility != Visibility.All
+
     isInWishknowledge.value = props.question.IsInWishknowledge
     hasPersonalAnswer.value = props.question.HasPersonalAnswer
     currentKnowledgeStatus.value = props.question.KnowledgeStatus
 })
+
+onMounted(() => setTitle(props.question.Title))
+
+function setTitle(title: string) {
+    questionTitleHtml.value = `<div class='body-m bold margin-bottom-0'>${title}</div>`
+}
 
 async function getNewKnowledgeStatus() {
     currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus?id=${props.question.Id}`, {
@@ -211,7 +232,14 @@ learningSessionStore.$onAction(({ name, after }) => {
         })
 })
 
-
+editQuestionStore.$onAction(({ name, after }) => {
+    if (name == 'questionEdited')
+        after((result) => {
+            if (result == props.question.Id) {
+                loadQuestionData()
+            }
+        })
+})
 </script>
 
 <template>
@@ -229,7 +257,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                 <div v-html="questionTitleHtml" v-if="questionTitleHtml != null">
 
                                 </div>
-                                <div v-if="props.question.Visibility == 1" class="privateQuestionIcon question-lock">
+                                <div v-if="showLock" class="privateQuestionIcon question-lock">
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
                                 </div>
                             </div>
@@ -294,15 +322,15 @@ learningSessionStore.$onAction(({ name, after }) => {
                                     class="btn btn-link btn-sm ButtonEllipsis" />
                                 <template #popper="p: any">
 
-                                    <div v-if=" userStore.isAdmin || isCreator " @click=" editQuestion(); p.hide() "
-                                        class="dropdown-row">
+                                    <div v-if="userStore.isAdmin || isCreator || canBeEdited"
+                                        @click="editQuestion(); p.hide()" class="dropdown-row">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-pen" />
                                         </div>
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestion ">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -313,7 +341,7 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestionVersions ">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -324,9 +352,9 @@ learningSessionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <div class="dropdown-row" @click=" showCommentModal(); p.hide() ">
+                                    <div class="dropdown-row" @click="showCommentModal(); p.hide()">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon :icon=" ['fas', 'comment'] " />
+                                            <font-awesome-icon :icon="['fas', 'comment']" />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren
@@ -334,8 +362,8 @@ learningSessionStore.$onAction(({ name, after }) => {
                                     </div>
 
                                     <div class="dropdown-row"
-                                        v-if=" props.question.CreatorId == userStore.id || userStore.isAdmin "
-                                        @click=" deleteQuestionStore.openModal(props.question.Id); p.hide() ">
+                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
+                                        @click="deleteQuestionStore.openModal(props.question.Id); p.hide()">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>

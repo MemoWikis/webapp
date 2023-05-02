@@ -54,6 +54,8 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 				userStore.openLoginModal()
 			}
 		},
-
+		questionEdited(id: number) {
+			return id;
+		}
 	},
 })

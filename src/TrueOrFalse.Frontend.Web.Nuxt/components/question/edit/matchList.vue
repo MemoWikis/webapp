@@ -11,7 +11,7 @@ const pairs = ref([{
 const rightElements = ref<{ [key: string]: string }[]>([])
 const solutionIsOrdered = ref(false)
 
-const emit = defineEmits(['setMatchListJson'])
+const emit = defineEmits(['setMatchlistJson'])
 
 function validateSolution() {
     const allDroppableAnswersAreValid = rightElements.value.every((e: { [key: string]: string }) => {
@@ -31,7 +31,7 @@ function solutionBuilder() {
         RightElements: rightElements.value,
         IsSolutionOrdered: solutionIsOrdered.value
     }
-    emit('setMatchListJson', { solution: JSON.stringify(solution), solutionIsValid: validateSolution() })
+    emit('setMatchlistJson', { solution: JSON.stringify(solution), solutionIsValid: validateSolution() })
 }
 
 function initSolution() {
@@ -47,9 +47,10 @@ function initSolution() {
 watch(() => props.solution, () => initSolution())
 onMounted(() => initSolution())
 
+watch([pairs, rightElements], () => { solutionBuilder() }, { deep: true })
+
 function deletePair(index: number) {
     pairs.value.splice(index, 1)
-    solutionBuilder()
 }
 
 function addPair() {
@@ -58,18 +59,15 @@ function addPair() {
         ElementLeft: { Text: "" }
     }
     pairs.value.push(placeHolder)
-    solutionBuilder()
 }
 
 function deleteRightElement(index: number) {
     rightElements.value.splice(index, 1)
-    solutionBuilder()
 }
 
 function addRightElement() {
     let rightElement = { Text: "" }
     rightElements.value.push(rightElement)
-    solutionBuilder()
 }
 
 </script>
@@ -102,7 +100,7 @@ function addRightElement() {
                     </template>
 
                 </select>
-                <div @click="deletePair(index)" class="btn grey-bg col-sm-2 col-spacer" v-if="pairs.length > 1">
+                <div @click="deletePair(index)" class="btn grey-bg col-sm-2 col-spacer delete-btn" v-if="pairs.length > 1">
                     <font-awesome-icon icon="fa-solid fa-trash" />
                 </div>
                 <div class="col-sm-2 col-spacer" v-else></div>
@@ -119,7 +117,7 @@ function addRightElement() {
                         <input type="text" class="form-control col-sm-10 matchlist-input" :id="i.toString()"
                             v-model="element.Text" placeholder="" v-on:change="solutionBuilder()"
                             :class="{ 'is-empty': i == 0 && element.Text.length <= 0 && props.highlightEmptyFields }">
-                        <div @click="deleteRightElement(i)" class="btn grey-bg col-sm-2 col-spacer">
+                        <div @click="deleteRightElement(i)" class="btn grey-bg col-sm-2 col-spacer delete-btn">
                             <font-awesome-icon icon="fa-solid fa-trash" />
                         </div>
                     </div>
@@ -187,6 +185,7 @@ function addRightElement() {
     .matchlist-pairs {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 8px;
 
         input,
         select,
@@ -201,6 +200,10 @@ function addRightElement() {
             .fa-icon {
                 box-sizing: border-box !important;
             }
+        }
+
+        .delete-btn {
+            height: 34px;
         }
     }
 

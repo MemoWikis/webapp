@@ -14,6 +14,7 @@ import { useLearningSessionStore } from '~~/components/topic/learning/learningSe
 import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 import { SearchType } from '../../search/searchHelper'
 import { QuestionListItem } from '~~/components/topic/learning/questionListItem'
+// import { FetchResult } from '~~/components/fetchResult'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
@@ -57,11 +58,6 @@ function setTextSolution(e: { textSolution: string, solutionMetaDataJson: string
 }
 
 const multipleChoiceJson = ref<string>()
-
-function setMultipleChoiceJson(e: { textSolution: string, solutionMetaDataJson: string }) {
-    textSolution.value = e.textSolution
-    solutionMetadataJson.value = e.solutionMetaDataJson
-}
 
 const matchListJson = ref<string>()
 const flashCardAnswer = ref<string>()
@@ -149,28 +145,28 @@ const disabled = computed(() => {
 const lockSaveButton = ref(false)
 
 function getSolution() {
-    let solution: string | undefined = ""
+    console.log(solutionType.value)
     switch (solutionType.value) {
         case SolutionType.Text:
             return textSolution.value
         case SolutionType.MultipleChoice:
-            solution = multipleChoiceJson.value
-            break
+            return multipleChoiceJson.value
         case SolutionType.MatchList:
-            solution = matchListJson.value
-            break
+            return matchListJson.value
         case SolutionType.FlashCard:
             return flashCardAnswer.value
+        default: return null
     }
-
-    return JSON.stringify(solution)
 }
 
 const solutionMetadataJson = ref('')
 
 function getSaveJson() {
-    let solution = getSolution()
-
+    const solution = getSolution()
+    if (solution == null) {
+        console.log('solution is null')
+        return
+    }
     if (solutionType.value == SolutionType.Numeric || solutionType.value == SolutionType.Date)
         solutionType.value = SolutionType.Text
 
@@ -224,10 +220,10 @@ async function save() {
     lockSaveButton.value = true
 
     spinnerStore.showSpinner()
-    var url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
-    var json = getSaveJson()
+    const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
+    const json = getSaveJson()
 
-    let result = await $fetch<QuestionListItem>(url, {
+    const fetchData = await $fetch<FetchResult<QuestionListItem>>(url, {
         body: json,
         method: 'POST',
         mode: 'cors',
@@ -238,16 +234,16 @@ async function save() {
         lockSaveButton.value = false
     })
 
-    if (result != null) {
+    if (fetchData?.success) {
         if (editQuestionStore.edit) {
-            learningSessionStore.updateQuestionList(result)
+            learningSessionStore.updateQuestionList(fetchData.data)
         } else {
-            learningSessionStore.lastIndexInQuestionList = result.SessionIndex
+            learningSessionStore.lastIndexInQuestionList = fetchData.data.SessionIndex
             learningSessionStore.getLastStepInQuestionList()
             learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
         }
 
-        if (result.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
+        if (fetchData.data.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
             alertStore.openAlert(AlertType.Success, {
                 text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
             })
@@ -262,6 +258,7 @@ async function save() {
         editQuestionStore.showModal = false
         lockSaveButton.value = false
         updateQuestionCount()
+        editQuestionStore.questionEdited(fetchData.data.Id)
     } else {
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
@@ -357,6 +354,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
 }
 
 function setMultipleChoiceContent(e: { solution: string, solutionIsValid: boolean }) {
+    console.log(e)
     multipleChoiceJson.value = e.solution
     solutionIsValid.value = e.solutionIsValid
 }
@@ -420,7 +418,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         :highlightEmptyFields="highlightEmptyFields" @set-solution="setTextSolution" />
                     <QuestionEditMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
                         :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields"
-                        @set-multiplechoice-json="setMultipleChoiceContent" />
+                        @set-multiple-choice-json="setMultipleChoiceContent" />
                     <QuestionEditMatchList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" @set-matchlist-json="setMatchlistContent" />
                     <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
@@ -446,25 +444,25 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                     placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
                                     @select-item="selectTopic" />
                                 <!-- <input ref="searchInput" class="form-control dropdown-toggle" type="text"
-                                                                                                                                                                                                v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
-                                                                                                                                                                                                @click="lockDropdown = false" aria-haspopup="true"
-                                                                                                                                                                                                placeholder="Bitte gib den Namen des Themas ein" />
-                                                                                                                                                                                            <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
-                                                                                                                                                                                                <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
-                                                                                                                                                                                                    data-toggle="tooltip" data-placement="top" :title="t.Name">
-                                                                                                                                                                                                    <img :src="t.ImageUrl" />
-                                                                                                                                                                                                    <div>
-                                                                                                                                                                                                        <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                                                                                                                                                                                        <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
-                                                                                                                                                                                                            Frage<template v-if="t.QuestionCount != 1">n</template></div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                                <li class="dropdownFooter body-m">
-                                                                                                                                                                                                    <b>{{ totalCount }}</b> Treffer. <br />
-                                                                                                                                                                                                    Deins ist nicht dabei? <span class="dropdownLink"
-                                                                                                                                                                                                        @click="createCategory = true">Erstelle hier dein Thema</span>
-                                                                                                                                                                                                </li>
-                                                                                                                                                                                            </ul> -->
+                                    v-model="searchTerm" id="questionCategoriesList" autocomplete="off"
+                                    @click="lockDropdown = false" aria-haspopup="true"
+                                    placeholder="Bitte gib den Namen des Themas ein" />
+                                <ul class="dropdown-menu" aria-labelledby="questionCategoriesList">
+                                    <li class="searchResultItem" v-for="t in topics" @click="selectTopic(t)"
+                                        data-toggle="tooltip" data-placement="top" :title="t.Name">
+                                        <img :src="t.ImageUrl" />
+                                        <div>
+                                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                            <div class="searchResultQuestionCount body-s">{{ t.QuestionCount }}
+                                                Frage<template v-if="t.QuestionCount != 1">n</template></div>
+                                        </div>
+                                    </li>
+                                    <li class="dropdownFooter body-m">
+                                        <b>{{ totalCount }}</b> Treffer. <br />
+                                        Deins ist nicht dabei? <span class="dropdownLink"
+                                            @click="createCategory = true">Erstelle hier dein Thema</span>
+                                    </li>
+                                </ul> -->
                             </div>
 
                         </form>
@@ -479,12 +477,11 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                     <label>
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
                                             class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
-                                            data-html="true"
-                                            data-original-title="
-                                                                                                                                                                                        <ul class='show-tooltip-ul'>
-                                                                                                                                                                                            <li>Die Frage kann nur von dir genutzt werden.</li>
-                                                                                                                                                                                            <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                                                                                                                                                                                        </ul>">
+                                            data-html="true" data-original-title="
+                                            <ul class='show-tooltip-ul'>
+                                                <li>Die Frage kann nur von dir genutzt werden.</li>
+                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                            </ul>">
                                         </i>
                                     </label>
                                 </div>
@@ -616,7 +613,7 @@ input,
     background: none;
 
     &.toggle-correctness {
-        min-width: 38px;
+        min-width: 43px;
 
         &.active {
             color: white;

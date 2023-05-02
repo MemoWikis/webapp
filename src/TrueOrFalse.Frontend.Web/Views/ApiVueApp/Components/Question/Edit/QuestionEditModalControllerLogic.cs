@@ -22,12 +22,14 @@ public class QuestionEditModalControllerLogic : BaseController
     {
         if (!PremiumCheck.CanSavePrivateQuestion())
         {
-            return new {success= false, key= "cantSavePrivateQuestion" };
+            return new { success = false, key = "cantSavePrivateQuestion" };
         }
 
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
-            return null;
+        {
+            return new { success = false, key = "missingText" };
+        }
 
         var question = new Question();
         question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
@@ -42,8 +44,7 @@ public class QuestionEditModalControllerLogic : BaseController
 
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
-
-        return LoadQuestion(question.Id);
+        return new { success = true, data = LoadQuestion(question.Id) };
     }
 
     private dynamic LoadQuestion(int questionId)
@@ -84,7 +85,9 @@ public class QuestionEditModalControllerLogic : BaseController
     {
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
-            return null;
+        {
+            return new { success = false, key = "missingText" };
+        }
 
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
@@ -94,19 +97,19 @@ public class QuestionEditModalControllerLogic : BaseController
         if (questionDataJson.IsLearningTab)
             LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return LoadQuestion(updatedQuestion.Id);
+        return new { success = true, data = LoadQuestion(updatedQuestion.Id) };
     }
 
     public dynamic GetData(int id)
     {
         var question = EntityCache.GetQuestionById(id);
-        var categoryController = new CategoryController();
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
         var topicsVisibleToCurrentUser =
             question.Categories.Where(PermissionCheck.CanView).Distinct();
 
         return new
         {
+            Id = id,
             SolutionType = (int)question.SolutionType,
             Solution = solution,
             SolutionMetadataJson = question.SolutionMetadataJson,
@@ -213,14 +216,14 @@ public class QuestionEditModalControllerLogic : BaseController
 
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var categories = new List<Category>();
-        var privateCategories = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
-        categories.AddRange(privateCategories);
+        var topics = new List<Category>();
+        var privateTopics = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
+        topics.AddRange(privateTopics);
 
         foreach (var categoryId in newCategoryIds)
-            categories.Add(Sl.CategoryRepo.GetById(categoryId));
+            topics.Add(Sl.CategoryRepo.GetById(categoryId));
 
-        return categories;
+        return topics;
     }
 
     [HttpGet]

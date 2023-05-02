@@ -5,12 +5,9 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 const userStore = useUserStore()
 
-interface Result {
-    isAdmin: boolean
-    antiForgeryToken?: string
-}
-
-const { data: maintenanceData } = await useFetch<Result>('/apiVue/VueMaintenance/Get',
+const isAdmin = ref(false)
+const antiForgeryToken = ref<string>()
+const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/apiVue/VueMaintenance/Get',
     {
         credentials: 'include',
         mode: 'cors',
@@ -22,6 +19,10 @@ const { data: maintenanceData } = await useFetch<Result>('/apiVue/VueMaintenance
         },
     })
 
+if (maintenanceDataResult.value?.success) {
+    isAdmin.value = true
+    antiForgeryToken.value = maintenanceDataResult.value.data
+}
 
 interface MethodData {
     url: string
@@ -63,33 +64,30 @@ const toolsMethods = ref<MethodData[]>([
 
 ])
 const resultMsg = ref('')
-interface Result {
-    success: boolean
-    result: string
-}
+
 async function handleClick(url: string) {
-    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
     const data = new FormData()
-    data.append('__RequestVerificationToken', maintenanceData.value.antiForgeryToken)
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
 
 
-    const result = await $fetch<Result>(`/apiVue/VueMaintenance/${url}`, {
+    const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/${url}`, {
         body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
     })
 
-    if (result.success)
-        resultMsg.value = result.result
+    if (result?.success)
+        resultMsg.value = result.data
 }
 
 const emit = defineEmits(['setBreadcrumb'])
 
 onBeforeMount(() => {
-    if (!maintenanceData.value?.isAdmin && !userStore.isAdmin)
+    if (!isAdmin.value && !userStore.isAdmin)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
     emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
 
@@ -97,10 +95,10 @@ onBeforeMount(() => {
 
 const userIdToDelete = ref(0)
 async function deleteUser() {
-    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
-    const result = await $fetch<Result>(`/apiVue/VueMaintenance/DeleteUser`, {
+    const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/DeleteUser`, {
         body: { userId: userIdToDelete.value },
         method: 'POST',
         mode: 'cors',
@@ -108,14 +106,14 @@ async function deleteUser() {
     })
 
     if (result.success)
-        resultMsg.value = result.result
+        resultMsg.value = result.data
 }
 
 async function removeAdminRights() {
-    if (!maintenanceData.value?.isAdmin || !userStore.isAdmin || !maintenanceData.value?.antiForgeryToken)
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
-    const result = await $fetch<Result>(`/apiVue/VueMaintenance/RemoveAdminRights`, {
+    const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/RemoveAdminRights`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
@@ -123,7 +121,7 @@ async function removeAdminRights() {
 
     if (result.success) {
         userStore.isAdmin = false
-        maintenanceData.value = null
+        antiForgeryToken.value = undefined
         navigateTo('/')
     }
 }
@@ -133,7 +131,8 @@ async function removeAdminRights() {
     <div class="container">
         <div class="row main-page">
             <div class="main-content">
-                <div class="col-xs-12" v-if="maintenanceData">
+                <div class="col-xs-12"
+                    v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0">
                     <h1>Adminseite</h1>
                     <div class="row">
 
