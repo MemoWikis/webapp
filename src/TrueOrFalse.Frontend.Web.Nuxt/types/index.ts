@@ -11,5 +11,5 @@ declare global {
         key: string
     }
 
-    type FetchResult<T> = SuccessResult<T> | FailureResult
+    type FetchResult<T> = SuccessResult<T>
 }

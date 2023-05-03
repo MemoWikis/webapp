@@ -1,43 +1,31 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
-
 
 namespace TrueOrFalse.Stripe;
 
 public class SubscriptionLogic
 {
-    public async Task<string> CreateCustomer(string username, string email, int userId )
+    public async Task<string> CreateCustomer(string username, string email, int userId)
     {
-            var optionsUser = new CustomerCreateOptions
-            {
-                Email = email,
-                Name = username
-            };
-            var serviceUser = new CustomerService();
-            var customer = await serviceUser.CreateAsync(optionsUser);
+        var optionsUser = new CustomerCreateOptions
+        {
+            Email = email,
+            Name = username
+        };
+        var serviceUser = new CustomerService();
+        var customer = await serviceUser.CreateAsync(optionsUser);
 
-            var user = Sl.UserRepo.GetById(userId);
-            user.StripeId = customer.Id; 
-            Sl.UserRepo.Update(user);
+        var user = Sl.UserRepo.GetById(userId);
+        user.StripeId = customer.Id;
+        Sl.UserRepo.Update(user);
 
-            return customer.Id;
+        return customer.Id;
     }
 
-    public class SubscriptionItemOption
-    {
-        [JsonProperty("price")]
-        public string PriceId { get; set; }
-
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
-    }
-
-    public async  Task<string> CreateStripeSession(string priceId)
+    public async Task<string> CreateStripeSession(string priceId)
     {
         var sessionUser = SessionUser.User;
         var abologik = new SubscriptionLogic();
@@ -58,15 +46,15 @@ public class SubscriptionLogic
             Mode = "subscription",
             LineItems = new List<SessionLineItemOptions>
             {
-                new ()
+                new()
                 {
                     Price = priceId,
-                    Quantity = 1,
-                },
+                    Quantity = 1
+                }
             },
-            SuccessUrl = "https://example.com/success",
-            CancelUrl = "https://example.com/cancel",
-            Customer = customerId,
+            SuccessUrl = CreateSiteLink("success"),
+            CancelUrl = CreateSiteLink("cancel"),
+            Customer = customerId
         };
 
         try
@@ -79,8 +67,36 @@ public class SubscriptionLogic
         catch (StripeException e)
         {
             Logg.Error(e);
-            return "-1"; 
-        };
+            return "-1";
+        }
     }
 
+    private string CreateSiteLink(string targetPath)
+    {
+        var server = Settings.Environment();
+        var url = "";
+        if (server.Equals("develop"))
+        {
+            url = $"http://localhost:3000/{targetPath}";
+        }
+        else if (server.Equals("stage"))
+        {
+            url = $"https://stage.memucho.de/{targetPath}";
+        }
+        else
+        {
+            url = $"https://memucho.de/{targetPath}";
+        }
+
+        return url;
+    }
+
+    public class SubscriptionItemOption
+    {
+        [JsonProperty("price")]
+        public string PriceId { get; set; }
+
+        [JsonProperty("quantity")]
+        public int Quantity { get; set; }
+    }
 }

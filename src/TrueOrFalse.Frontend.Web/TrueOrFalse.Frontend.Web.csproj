@@ -307,6 +307,7 @@
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
+    <Compile Include="Views\ApiVueApp\CancelController.cs" />
     <Compile Include="Views\ControllerModels\QuestionPinStoreControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\StripeWebhookController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
