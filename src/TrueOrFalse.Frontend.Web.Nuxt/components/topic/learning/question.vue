@@ -85,39 +85,39 @@ interface QuestionDataResult {
 }
 async function loadQuestionData() {
 
-    const data = await $fetch<FetchResult<QuestionDataResult>>('/apiVue/TopicLearningQuestion/LoadQuestionData/', {
+    const result = await $fetch<FetchResult<QuestionDataResult>>('/apiVue/TopicLearningQuestion/LoadQuestionData/', {
         body: { questionId: props.question.Id },
         method: 'POST',
         credentials: 'include',
     })
 
-    if (data?.success) {
-        if (data.data.answer == null || data.data.answer.length <= 0) {
-            if (data.data.extendedAnswer && data.data.extendedAnswer.length > 0)
-                answer.value = `<div>${data.data.extendedAnswer}</div>`
+    if (result?.success) {
+        if (result.data.answer == null || result.data.answer.length <= 0) {
+            if (result.data.extendedAnswer && result.data.extendedAnswer.length > 0)
+                answer.value = `<div>${result.data.extendedAnswer}</div>`
             else
                 answer.value = "<div> Fehler: Keine Antwort! </div>"
         } else {
-            answer.value = `<div>${data.data.answer}</div>`
-            if (data.data.extendedAnswer != null)
-                extendedAnswer.value = `<div>${data.data.extendedAnswer}</div>`
+            answer.value = `<div>${result.data.answer}</div>`
+            if (result.data.extendedAnswer != null)
+                extendedAnswer.value = `<div>${result.data.extendedAnswer}</div>`
         }
 
-        authorName.value = data.data.authorName
-        authorImageUrl.value = data.data.authorImageUrl
-        authorEncodedName.value = data.data.authorEncodedName
-        extendedQuestion.value = `<div>${data.data.extendedQuestion}</div>`
-        commentCount.value = data.data.commentCount
-        isCreator.value = data.data.isCreator && userStore.isLoggedIn
+        authorName.value = result.data.authorName
+        authorImageUrl.value = result.data.authorImageUrl
+        authorEncodedName.value = result.data.authorEncodedName
+        extendedQuestion.value = `<div>${result.data.extendedQuestion}</div>`
+        commentCount.value = result.data.commentCount
+        isCreator.value = result.data.isCreator && userStore.isLoggedIn
         allDataLoaded.value = true
-        answerCount.value = abbreviateNumber(data.data.answerCount)
-        correctAnswers.value = abbreviateNumber(data.data.correctAnswerCount)
-        wrongAnswers.value = abbreviateNumber(data.data.wrongAnswerCount)
-        canBeEdited.value = data.data.canBeEdited
-        setTitle(data.data.title)
-        showLock.value = data.data.visibility != Visibility.All
-    } else if (!data?.success) {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.question[data.key] })
+        answerCount.value = abbreviateNumber(result.data.answerCount)
+        correctAnswers.value = abbreviateNumber(result.data.correctAnswerCount)
+        wrongAnswers.value = abbreviateNumber(result.data.wrongAnswerCount)
+        canBeEdited.value = result.data.canBeEdited
+        setTitle(result.data.title)
+        showLock.value = result.data.visibility != Visibility.All
+    } else if (result?.success == false) {
+        alertStore.openAlert(AlertType.Error, { text: messages.error.question[result.key] })
     }
 
 }
@@ -322,15 +322,15 @@ editQuestionStore.$onAction(({ name, after }) => {
                                     class="btn btn-link btn-sm ButtonEllipsis" />
                                 <template #popper="p: any">
 
-                                    <div v-if="userStore.isAdmin || isCreator || canBeEdited"
-                                        @click="editQuestion(); p.hide()" class="dropdown-row">
+                                    <div v-if=" userStore.isAdmin || isCreator || canBeEdited "
+                                        @click=" editQuestion(); p.hide() " class="dropdown-row">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-pen" />
                                         </div>
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
+                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestion ">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -341,7 +341,7 @@ editQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
+                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestionVersions ">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -352,9 +352,9 @@ editQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <div class="dropdown-row" @click="showCommentModal(); p.hide()">
+                                    <div class="dropdown-row" @click=" showCommentModal(); p.hide() ">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon :icon="['fas', 'comment']" />
+                                            <font-awesome-icon :icon=" ['fas', 'comment'] " />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren
@@ -362,8 +362,8 @@ editQuestionStore.$onAction(({ name, after }) => {
                                     </div>
 
                                     <div class="dropdown-row"
-                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
-                                        @click="deleteQuestionStore.openModal(props.question.Id); p.hide()">
+                                        v-if=" props.question.CreatorId == userStore.id || userStore.isAdmin "
+                                        @click=" deleteQuestionStore.openModal(props.question.Id); p.hide() ">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>
