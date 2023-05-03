@@ -223,7 +223,7 @@ async function save() {
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const json = getSaveJson()
 
-    const fetchData = await $fetch<FetchResult<QuestionListItem>>(url, {
+    const result = await $fetch<FetchResult<QuestionListItem>>(url, {
         body: json,
         method: 'POST',
         mode: 'cors',
@@ -234,16 +234,16 @@ async function save() {
         lockSaveButton.value = false
     })
 
-    if (fetchData?.success) {
+    if (result?.success) {
         if (editQuestionStore.edit) {
-            learningSessionStore.updateQuestionList(fetchData.data)
-        } else {
-            learningSessionStore.lastIndexInQuestionList = fetchData.data.SessionIndex
+            learningSessionStore.updateQuestionList(result.data)
+        } else if (result.data.SessionIndex > 0) {
+            learningSessionStore.lastIndexInQuestionList = result.data.SessionIndex
             learningSessionStore.getLastStepInQuestionList()
             learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
         }
 
-        if (fetchData.data.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
+        if (result.data.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
             alertStore.openAlert(AlertType.Success, {
                 text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
             })
@@ -251,25 +251,36 @@ async function save() {
             alertStore.openAlert(AlertType.Success, {
                 text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created,
                 customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
-                customBtn: '<button class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</button>',
-            })
+                customBtn: `<button class="btn memo-button btn-link pull-right cancel-alert">Filter zurücksetzen</button>`,
+                customBtnKey: 'resetLearningSession'
+            }, 'Ok')
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
         editQuestionStore.showModal = false
         lockSaveButton.value = false
         updateQuestionCount()
-        editQuestionStore.questionEdited(fetchData.data.Id)
-    } else {
+        editQuestionStore.questionEdited(result.data.Id)
+    } else if (result?.success == false) {
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
         editQuestionStore.showModal = false
         lockSaveButton.value = false
 
         alertStore.openAlert(AlertType.Error, {
-            text: messages.error.question["missingText"]
+            text: messages.error.question[result.key]
         })
     }
 }
+
+onMounted(() => {
+    alertStore.$onAction(({ name, after }) => {
+        if (name == 'closeAlert')
+            after((result) => {
+                if (result.customKey == 'resetLearningSession')
+                    learningSessionConfigurationStore.reset()
+            })
+    })
+})
 
 type QuestionData = {
     SolutionType: SolutionType
