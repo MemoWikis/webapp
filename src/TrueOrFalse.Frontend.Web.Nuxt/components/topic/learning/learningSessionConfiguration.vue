@@ -30,6 +30,7 @@ onBeforeMount(() => {
     if (props.openFilter)
         showFilterDropdown.value = true
 })
+onMounted(() => learningSessionConfigurationStore.checkQuestionFilterSelection())
 watch(() => props.openFilter, (val) => {
     if (val)
         showFilterDropdown.value = true
