@@ -44,8 +44,11 @@ function deleteChoice(index: number) {
     choices.value.splice(index, 1)
 }
 
-function solutionBuilder() {
+watch(choices, (val) => {
+    solutionBuilder()
+}, { deep: true })
 
+function solutionBuilder() {
     const solution = {
         Choices: choices.value,
         IsSolutionOrdered: solutionIsOrdered.value
@@ -56,7 +59,6 @@ function solutionBuilder() {
 
 function toggleCorrectness(index: number) {
     choices.value[index].IsCorrect = !choices.value[index].IsCorrect
-    solutionBuilder()
 }
 </script>
 

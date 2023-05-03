@@ -1,6 +1,14 @@
+import { useUserStore } from "~/components/user/userStore"
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
+    const userStore = useUserStore()
+    if (!userStore.isLoggedIn) {
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+    }
+
     const headers = useRequestHeaders(['cookie']) as HeadersInit
     const { $config } = useNuxtApp()
+
     const isAdmin = await $fetch<boolean>('/apiVue/MiddlewareAuth/Get',
         {
             credentials: 'include',
@@ -11,11 +19,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                     options.baseURL = $config.public.serverBase
                 }
             },
+            onResponseError(context) {
+                throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+            },
         })
-    console.log(isAdmin)
     if (isAdmin)
         return true
     else (!isAdmin)
-    return false
-    throw abortNavigation()
+    throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })

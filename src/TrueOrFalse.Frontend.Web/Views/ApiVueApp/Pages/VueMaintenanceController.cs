@@ -6,6 +6,8 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Search;
+using TrueOrFalse.Tools;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -28,12 +30,21 @@ public class VueMaintenanceController : BaseController
 
             return Json(new
             {
-                isAdmin = true,
-                antiForgeryFormToken = formToken
-            },JsonRequestBehavior.AllowGet);
+                success = true,
+                data = new {
+                    isAdmin = true,
+                    antiForgeryToken = formToken
+                }
+            }
+            ,JsonRequestBehavior.AllowGet);
         }
 
-        return Json(new { isAdmin = false }, JsonRequestBehavior.AllowGet);
+        return Json(new
+            {
+                success = false,
+                key = "notAllowed"
+            }
+            , JsonRequestBehavior.AllowGet);
     }
 
     [ValidateAntiForgeryToken]
@@ -48,7 +59,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
             {
                 success = true,
-                result = "Antwortwahrscheinlichkeiten wurden neu berechnet."
+                data = "Antwortwahrscheinlichkeiten wurden neu berechnet."
             });
     }
 
@@ -63,7 +74,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Aggregierte Werte wurden aktualisiert."
+            data = "Aggregierte Werte wurden aktualisiert."
         });
     }
 
@@ -76,7 +87,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Feld: AnzahlFragen für Themen wurde aktualisiert."
+            data = "Feld: AnzahlFragen für Themen wurde aktualisiert."
         });
     }
 
@@ -89,7 +100,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Reputation and Rankings wurden aktualisiert."
+            data = "Reputation and Rankings wurden aktualisiert."
         });
     }
 
@@ -102,9 +113,26 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
+            data = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
         });
     }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult DeleteUser(int userId)
+    {
+        Sl.UserRepo.DeleteFromAllTables(userId);
+
+        return Json(new
+        {
+            success = true,
+            data = "Der User wurde gelöscht"
+        });
+    }
+
+
+
+
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
@@ -115,7 +143,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Fragen wurden neu indiziert."
+            data = "Fragen wurden neu indiziert."
         });
     }
     //todo: Remove when Meilisearch is active
@@ -128,7 +156,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Themen wurden neu indiziert."
+            data = "Themen wurden neu indiziert."
         });
     }
     //todo: Remove when Meilisearch is active
@@ -141,7 +169,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Nutzer wurden neu indiziert."
+            data = "Nutzer wurden neu indiziert."
         });
     }
 
@@ -154,7 +182,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Fragen wurden neu indiziert."
+            data = "Fragen wurden neu indiziert."
         });
     }
 
@@ -167,7 +195,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Themen wurden neu indiziert.."
+            data = "Themen wurden neu indiziert.."
         });
     }
 
@@ -180,7 +208,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = "Nutzer wurden neu indiziert."
+            data = "Nutzer wurden neu indiziert."
         });
     }
 
@@ -200,9 +228,83 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            result = message
+            data = message
         });
     }
 
     //Tools
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult Throw500()
+    {
+        throw new Exception("Some random exception");
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult CleanUpWorkInProgressQuestions()
+    {
+        return Json(new
+        {
+            success = true,
+            data = "Job: 'Cleanup work in progress' wird ausgeführt."
+        });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult ReloadListFromIgnoreCrawlers()
+    {
+        if (Request.IsLocal)
+        {
+            IgnoreLog.LoadNewList();
+
+            return Json(new
+            {
+                success = true,
+                data = "Die Liste wird neu geladen."
+            });
+        }
+
+        return Json(new
+        {
+            success = true,
+            data = "Sie sind nicht berechtigt die Liste neu zu laden."
+        });
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public JsonResult Start100TestJobs()
+    {
+        for (var i = 0; i < 1000; i++)
+            JobScheduler.StartImmediately<TestJob1>();
+
+        for (var i = 0; i < 1000; i++)
+            JobScheduler.StartImmediately<TestJob2>();
+
+        return Json(new
+        {
+            success = true,
+            data = "Started 100 test jobs."
+        });
+
+    }
+
+
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult RemoveAdminRights()
+    {
+        SessionUser.IsInstallationAdmin = false;
+
+        return Json(new
+        {
+            success = true,
+            data = ""
+        });
+    }
 }

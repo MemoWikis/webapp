@@ -67,7 +67,7 @@ function handleError() {
                         </div>
                     </div>
                     <div id="loginAndHelp">
-                        <div class="login-register-container">
+                        <div class="login-register-container" v-if="!props.isError">
                             <button class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" />
                                 <div class="login-btn-label hidden-xxs">

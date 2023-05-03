@@ -36,15 +36,17 @@ const alertStore = useAlertStore()
 
                 <div class="modal-footer">
                     <button class="btn memo-button pull-right" :class="{
-                        'btn-success': alertStore.type == AlertType.Success,
-                        'btn-error': alertStore.type == AlertType.Error,
-                        'btn-primary': alertStore.type == AlertType.Default
-                    }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
+                            'btn-success': alertStore.type == AlertType.Success,
+                            'btn-error': alertStore.type == AlertType.Error,
+                            'btn-primary': alertStore.type == AlertType.Default
+                        }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
                     <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
                         @click="alertStore.closeAlert(true)">
                         Abbrechen
                     </button>
-                    <div v-if="alertStore.msg != null" v-html="alertStore.msg.customBtn"></div>
+                    <div v-if="alertStore.msg != null && alertStore.msg.customBtn" v-html="alertStore.msg.customBtn"
+                        @click="alertStore.closeAlert(false, alertStore.msg.customBtnKey)">
+                    </div>
                 </div>
 
             </div>

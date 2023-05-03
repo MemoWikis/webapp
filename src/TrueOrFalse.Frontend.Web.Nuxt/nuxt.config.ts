@@ -61,28 +61,4 @@ export default defineNuxtConfig({
     // devServer: {
     //     host: 'memucho.local'
     // }
-    // hooks: {
-    //     'pages:extend'(pages) {
-    //         // add a route
-    //         pages.push({
-    //             file: '~/pages/maintenance.vue',
-    //             name: 'maintenantePace',
-    //             path: '/Maintenance',
-    //         })
-
-    //         async function auth() {
-    //             const isAdmin = await $fetch<any>('/apiVue/AdminAuth/Get',
-    //                 {
-    //                     credentials: 'include',
-    //                     mode: 'cors'
-    //                 })
-
-    //             if (isAdmin)
-    //                 return
-    //             else throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-    //         }
-
-    //         auth()
-    //     }
-    // }
 })

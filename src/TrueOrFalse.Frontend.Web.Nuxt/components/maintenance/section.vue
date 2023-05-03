@@ -9,23 +9,24 @@ interface Props {
     title: string
     description?: string
     methods: MethodData[]
+    icon?: string[]
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['methodClicked'])
 
 </script>
-
 <template>
     <div class="maintenance-section col-xs-12 col-lg-6">
         <h3>
             {{ props.title }}
         </h3>
-        <div v-if="props.description">
+        <div v-if="props.description" class="description">
             {{ props.description }}
         </div>
         <div class="maintenance-method-container">
             <div v-for="m in props.methods">
                 <button class="btn btn-link" @click="emit('methodClicked', m.url)">
+                    <font-awesome-icon :icon="props.icon" v-if="props.icon" />
                     {{ m.label }}
                 </button>
             </div>
@@ -41,5 +42,11 @@ const emit = defineEmits(['methodClicked'])
     border: solid 1px @memo-grey-lighter;
     padding: 8px;
     margin: 8px;
+
+    h3,
+    .description {
+        padding: 6px 12px;
+        margin-top: 0;
+    }
 }
 </style>
