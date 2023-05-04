@@ -376,9 +376,6 @@ useHead(() => ({
             margin-right: 4px;
         }
 
-        .link-to-all-users {
-            // font-size: 14px;
-        }
     }
 }
 

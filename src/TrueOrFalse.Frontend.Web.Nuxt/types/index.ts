@@ -1,6 +1,11 @@
 export { }
 
 declare global {
+    // interface Fetch<T> {
+    //     success: boolean
+    //     data?: T
+    //     key?: string
+    // }
     type SuccessResult<T> = {
         success: true
         data: T

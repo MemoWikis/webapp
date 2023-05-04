@@ -32,15 +32,19 @@ const { data: topic, refresh } = await useFetch<Topic>(getTopicUrl,
         credentials: 'include',
         mode: 'cors',
         onRequest({ options }) {
+            console.log(options)
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
         },
+        onResponse(context) {
+        },
+        onResponseError(context) {
+            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        },
+        server: true
     })
-
-const emit = defineEmits(['setPage'])
-emit('setPage', Page.Topic)
 
 if (topic.value != null) {
     if (topic.value.CanAccess) {
@@ -54,21 +58,21 @@ if (topic.value != null) {
                 spinnerStore.showSpinner()
         })
 
-        onMounted(() => {
-            useHead({
-                title: topic.value!.Name,
-            })
+        useHead({
+            title: topic.value.Name,
         })
 
         watch(() => tabsStore.activeTab, (t) => {
             preloadTopicTab.value = false
+            if (topic.value == null)
+                return
             if (t == Tab.Topic) {
-                history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}`)
+                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}`)
             }
             else if (t == Tab.Learning && route.params.questionId != null)
-                history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}/Lernen/${route.params.questionId}`)
+                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Lernen/${route.params.questionId}`)
             else if (t == Tab.Learning)
-                history.pushState(null, topic.value!.Name, `/${topic.value!.EncodedName}/${topic.value!.Id}/Lernen`)
+                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Lernen`)
         })
 
         watch(() => topicStore.name, () => {
@@ -80,10 +84,10 @@ if (topic.value != null) {
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         // navigateTo('/Fehler/500')
     }
-} else {
-    throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-
 }
+const emit = defineEmits(['setPage'])
+emit('setPage', Page.Topic)
+
 function setTab() {
     if (tabsStore != null) {
         switch (props.tab) {

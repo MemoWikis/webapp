@@ -11,8 +11,8 @@ public class TopicController : BaseController
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var topicControllerLogik = new TopicControllerLogic();
-        return Json(topicControllerLogik.GetTopicData(id), JsonRequestBehavior.AllowGet);
+        var topicControllerLogic = new TopicControllerLogic();
+        return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
