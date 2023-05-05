@@ -1,16 +1,14 @@
 ﻿using NHibernate;
 
-namespace TrueOrFalse.Updates
+namespace TrueOrFalse.Updates;
+
+internal class UpdateToVs241
 {
-    class UpdateToVs241
+    public static void Run()
     {
-        public static void Run()
-        {
-            Sl.Resolve<ISession>()
-                .CreateSQLQuery(
-                    @"ALTER TABLE user ADD COLUMN subscriptionStartDate DATETIME DEFAULT NULL;"
-                ).ExecuteUpdate();
-            CategoryAuthorUpdater.UpdateAll();
-        }
+        Sl.Resolve<ISession>()
+            .CreateSQLQuery(
+                @"ALTER TABLE user ADD COLUMN subscriptionStartDate DATETIME DEFAULT NULL;"
+            ).ExecuteUpdate();
     }
 }
