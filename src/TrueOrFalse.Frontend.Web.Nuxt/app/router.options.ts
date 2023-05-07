@@ -9,7 +9,10 @@ export default <RouterConfig>{
             name: 'welcomePage',
             path: '/',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Topic, redirectFromWelcomePage: true }
+            props: { tab: TopicTab.Topic, redirectFromWelcomePage: true },
+            meta: {
+                middleware: ['topic-loader'],
+            },
         },
         {
             name: 'termsPage',
@@ -73,31 +76,46 @@ export default <RouterConfig>{
             name: 'topicContentPage',
             path: '/:topic/:id(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Topic }
+            props: { tab: TopicTab.Topic },
+            meta: {
+                middleware: ['topic-loader'],
+            },
         },
         {
             name: 'topicLearningPage',
             path: '/:topic/:id(\\d+)/Lernen',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Learning }
+            props: { tab: TopicTab.Learning },
+            meta: {
+                middleware: ['topic-loader'],
+            },
         },
         {
             name: 'topicLearningPageWithQuestion',
             path: '/:topic/:id(\\d+)/Lernen/:questionId(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Learning }
+            props: { tab: TopicTab.Learning },
+            meta: {
+                middleware: ['topic-loader'],
+            },
         },
         {
             name: 'topicFeedPage',
             path: '/:topic/:id(\\d+)/Feed',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Feed }
+            props: { tab: TopicTab.Feed },
+            meta: {
+                middleware: ['topic-loader'],
+            },
         },
         {
             name: 'topicAnalyticsPage',
             path: '/:topic/:id(\\d+)/Analytics',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Analytics }
+            props: { tab: TopicTab.Analytics },
+            meta: {
+                middleware: ['topic-loader'],
+            },
         },
         {
             name: 'allTopicHistoryOverview',

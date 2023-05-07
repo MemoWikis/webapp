@@ -305,6 +305,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
+    <Compile Include="Views\ApiVueApp\Middleware\TopicLoaderController.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />

@@ -22,7 +22,7 @@ public class TopicController : BaseController
 
         if (PermissionCheck.CanView(c))
             return true;
-
+            
         return false;
     }
 
