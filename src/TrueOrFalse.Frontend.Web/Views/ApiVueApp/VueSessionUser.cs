@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TrueOrFalse.Stripe;
 
 namespace VueApp;
@@ -25,8 +26,9 @@ public class VueSessionUser
 
             var activityPoints = SessionUser.User.ActivityPoints;
             var activityLevel = SessionUser.User.ActivityLevel;
-
-
+            var subscriptionDate = SessionUser.User.SubscriptionDuration;
+            var settings = new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" };
+            var json = JsonConvert.SerializeObject(DateTime.Now, settings);
             return new
             {
                 SessionUser.IsLoggedIn,
@@ -55,11 +57,17 @@ public class VueSessionUser
                 SubscriptionType = SessionUser.User.SubscriptionDuration > DateTime.Now
                     ? SubscriptionType.Plus
                     : SubscriptionType.Basic,
-                SubscriptionDuration = SessionUser.User.SubscriptionDuration?.ToString("dd-MM-yy")
+                SubscriptionDuration = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                SubscriptionStartDate = SessionUser.User.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                IsSubscriptionCanceled = subscriptionDate is
+                {
+                    Year: < 9999
+                }
             };
         }
 
         var userLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
+
         return new
         {
             IsLoggedIn = false,

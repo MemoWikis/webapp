@@ -25,14 +25,28 @@ public class SubscriptionLogic
         return customer.Id;
     }
 
+    //public async Task<string> CreateDeletePlan(string customerId)
+    //{
+    //    var options = new Opt
+    //    {
+    //        Customer = customerId,
+    //        SuccessUrl = "http://localhost:3000"
+    //    };
+
+    //    var service = new Stripe.BillingPortal.SessionService();
+    //    var session = await service.CreateAsync(options);
+
+    //    return session.Url;
+    //}
+
     public async Task<string> CreateStripeSession(string priceId)
     {
         var sessionUser = SessionUser.User;
-        var abologik = new SubscriptionLogic();
+
         var customerId = "";
         if (sessionUser.StripeId == null)
         {
-            customerId = await abologik.CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
+            customerId = await CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
         }
         else
         {
