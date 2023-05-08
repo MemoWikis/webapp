@@ -58,7 +58,9 @@ function calculatePostingDate() {
         }
     }
 }
+function removeImage(){
 
+}
 function onFileChange(e: any) {
     var files = e.target.files || e.dataTransfer.files
     if (!files.length)
