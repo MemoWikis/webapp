@@ -38,7 +38,7 @@ function hideInfoBanner() {
 
 <template>
     <div id="MemuchoInfoBanner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }"
-        v-if="!userStore.isLoggedIn">
+        v-if="!userStore.isLoggedIn && props.documentation">
         <div id="InfoBannerContainer" class="container">
             <div id="BannerContainer" class="row">
                 <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">

@@ -373,12 +373,12 @@ const getSelectedSettingsPageLabel = computed(() => {
                             Profil Informationen
                         </div>
                         <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; p.hide()"
-                            :class="{ 'active': activeContent == Content.EditProfile }">
+                            :class="{'active': activeContent == Content.EditProfile}">
                             <div class="dropdown-label select-option">
                                 Profil bearbeiten
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; p.hide() "
+                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; p.hide()"
                             :class="{ 'active': activeContent == Content.Password }">
                             <div class="dropdown-label select-option">
                                 Passwort
@@ -646,8 +646,7 @@ const getSelectedSettingsPageLabel = computed(() => {
 
                 <div v-else-if="activeContent == Content.KnowledgeReport" class="content">
                     <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success" v-html="notificationIntervalChangeMsg">
-                        </div>
+                        <div class="alert alert-success" v-if="success" v-html="notificationIntervalChangeMsg"></div>
                         <div class="alert alert-danger" v-else v-html="notificationIntervalChangeMsg"></div>
                     </div>
                     <div class="settings-section">

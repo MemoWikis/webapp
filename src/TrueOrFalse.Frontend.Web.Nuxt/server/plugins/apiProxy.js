@@ -8,6 +8,9 @@ const apiProxy = httpProxy.createProxyServer({
 export default defineNitroPlugin(nitroApp => {
   nitroApp.h3App.stack.unshift({
     route: "/apiVue/",
-    handler: fromNodeMiddleware((req, res, _) => apiProxy.web(req, res))
+    handler: fromNodeMiddleware((req, res, _) => {
+      console.log("REQUEST ApiProxy", req.url, req.headers);
+      apiProxy.web(req, res)
+    })
   })
 })
