@@ -1,16 +1,13 @@
-﻿using Stripe.Checkout;
-using Stripe;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using TrueOrFalse.Stripe;
 
 namespace VueApp;
-public class PriceController: BaseController
-{
 
+public class StripeAdminstration : BaseController
+{
     [AccessOnlyAsLoggedIn]
-    public async Task<JsonResult> CreateCheckoutSession(string priceId)
+    public async Task<JsonResult> CompletedSubscription(string priceId)
     {
         var sessionId = await new SubscriptionLogic().CreateStripeSession(priceId);
         if (sessionId.Equals("-1"))
