@@ -17,6 +17,9 @@ const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/ap
                 options.baseURL = config.public.serverBase
             }
         },
+        onResponseError() {
+
+        }
     })
 
 if (maintenanceDataResult.value?.success) {

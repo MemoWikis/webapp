@@ -60,8 +60,8 @@ watch(() => props.openFilter, (val) => {
                     :class="{ 'is-open': showQuestionFilterOptionsDropdown }">
                     <div v-if="learningSessionConfigurationStore.allQuestionFilterOptionsAreSelected">Alle Fragen</div>
                     <div v-else-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay.length == 0"
-                        class="button-placeholder">Wähle
-                        deine Fragen aus</div>
+                        class="button-placeholder">
+                        Wähle deine Fragen aus</div>
                     <div v-else class="question-filter-options-icon-container">
                         <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay">
                             <font-awesome-icon v-if="o.isSelected" :icon="o.icon" class="filter-icon" />
@@ -443,10 +443,6 @@ watch(() => props.openFilter, (val) => {
         justify-content: space-between;
     }
 
-    .knowledge-summary-button,
-    .mode-change-button,
-    .question-filter-options-button {}
-
     .question-counter {
         display: flex;
         flex-wrap: nowrap;
@@ -607,6 +603,7 @@ watch(() => props.openFilter, (val) => {
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
+        appearance: textfield;
         border: none;
     }
 }

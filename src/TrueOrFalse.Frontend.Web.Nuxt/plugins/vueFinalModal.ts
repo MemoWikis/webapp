@@ -4,5 +4,4 @@ export default defineNuxtPlugin(({ vueApp }) => {
 
     vueApp.use(vfm)
     vueApp.component('VueFinalModal', VueFinalModal)
-
 })

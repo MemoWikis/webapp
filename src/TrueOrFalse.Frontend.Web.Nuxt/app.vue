@@ -20,8 +20,10 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 		}
 	}
 })
-if (currentUser.value)
+if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
+	useState('currentuser', () => currentUser.value)
+}
 
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
