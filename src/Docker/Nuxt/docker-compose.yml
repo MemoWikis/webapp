@@ -11,14 +11,14 @@ services:
     networks:
       - environment-specific-network
     environment:
-      - NUXT_SERVER_BASE=${NUXT_SERVER_BASE:-error}
+      - NUXT_PUBLIC_SERVER_BASE=${NUXT_PUBLIC_SERVER_BASE:-error}
 networks:
   environment-specific-network:
     name: mem-${MEM_ENVIRONMENT:-stage}
     # Was already set up with nginx: 
     external: true
 
-# Start nginx in network with name mem-stage first (see separate docker-compose), run command with -p mem-${MEM_ENVIRONMENT}
+# Start nginx in network with name mem-stage first (see separate docker-compose), run command with cd${MEM_ENVIRONMENT}
 # Run in bash like this:
 # $ export BUILD_NUMBER=5408
 # $ docker-compose -p mem-stage up -d
