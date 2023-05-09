@@ -12,7 +12,7 @@
     "@nuxtjs/device": "^3.0.0",
     "@types/jquery": "^3.5.14",
     "@types/winston": "^2.4.4",
-    "nuxt": "^3.4.3"
+    "nuxt": "3.0.0"
   },
   "dependencies": {
     "@datalust/winston-seq": "^2.0.0",

@@ -2,22 +2,11 @@ import { Logger } from 'winston';
 export { }
 
 declare global {
-    // interface Fetch<T> {
-    //     success: boolean
-    //     data?: T
-    //     key?: string
-    // }
-    type SuccessResult<T> = {
-        success: true
+    type FetchResult<T> = {
+        success: boolean
         data: T
-    }
-
-    type FailureResult = {
-        success: false
         key: string
     }
-
-    type FetchResult<T> = SuccessResult<T> | FailureResult
 }
 
 declare module '#app' {
