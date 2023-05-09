@@ -5,7 +5,6 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
-const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
 
@@ -19,34 +18,37 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-// const getTopicUrl = computed(() => {
-//     if (props.redirectFromWelcomePage)
-//         if (userStore.isLoggedIn)
-//             return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
-//         else return `/apiVue/Topic/GetTopic/1`
-//     else return `/apiVue/Topic/GetTopic/${route.params.id}`
-// })
+const getTopicUrl = computed(() => {
+    if (props.redirectFromWelcomePage)
+        if (userStore.isLoggedIn)
+            return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
+        else return `/apiVue/Topic/GetTopic/1`
+    else return `/apiVue/Topic/GetTopic/${route.params.id}`
+})
 
-// const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
-//     {
-//         credentials: 'include',
-//         mode: 'cors',
-//         onRequest({ options }) {
-//             if (process.server) {
-//                 options.headers = headers
-//                 options.baseURL = config.public.serverBase
-//             }
-//         },
-//         onResponse(context) {
-//         },
-//         onResponseError(context) {
-//             throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-//         },
-//         server: true
-//     })
-
-const topic = useState<Topic>('topic')
-
+const { data: topic, refresh } = await useFetch<Topic>(getTopicUrl,
+    {
+        credentials: 'include',
+        mode: 'cors',
+        onRequest({ options }) {
+            if (process.server) {
+                options.headers = headers
+                options.baseURL = config.public.serverBase
+            }
+        },
+        onResponse(context) {
+        },
+        onResponseError(context) {
+            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        },
+        server: true
+    })
+if (process.server)
+    console.log('server-----', topic.value)
+else
+    console.log('client-----    ', topic.value)
+// const topic = useState<Topic>('topic')
+const topicStore = useTopicStore()
 if (topic.value != null) {
     if (topic.value.CanAccess) {
 

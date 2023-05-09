@@ -1,3 +1,4 @@
+import { Logger } from 'winston';
 export { }
 
 declare global {
@@ -17,4 +18,15 @@ declare global {
     }
 
     type FetchResult<T> = SuccessResult<T> | FailureResult
+}
+
+declare module '#app' {
+    interface NuxtApp {
+        $logger: Logger
+    }
+}
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        $logger: Logger
+    }
 }
