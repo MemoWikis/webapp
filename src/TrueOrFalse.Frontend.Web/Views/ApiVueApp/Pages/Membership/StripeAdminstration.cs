@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Stripe.BillingPortal;
 using TrueOrFalse.Stripe;
+using TrueOrFalse.Stripe.Logic;
 
 namespace VueApp;
 
@@ -9,18 +9,9 @@ public class StripeAdminstrationController : BaseController
 {
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public ActionResult CancelPlan()
+    public async Task<JsonResult> CancelPlan()
     {
-        var stripeId = SessionUser.User.StripeId;
-        var options = new SessionCreateOptions
-        {
-            Customer = stripeId,
-            ReturnUrl = "https://example.com/account"
-        };
-        var service = new SessionService();
-        var session = service.Create(options);
-
-        return Json(session.Url, JsonRequestBehavior.AllowGet);
+        return Json(await new BillingLogic().DeletePlan(), JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]

@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
+using TrueOrFalse.Stripe.Logic;
 
 namespace TrueOrFalse.Stripe;
 
-public class SubscriptionLogic
+public class SubscriptionLogic : BaseStripeLogic
 {
     public async Task<string> CreateCustomer(string username, string email, int userId)
     {
@@ -24,20 +25,6 @@ public class SubscriptionLogic
 
         return customer.Id;
     }
-
-    //public async Task<string> CreateDeletePlan(string customerId)
-    //{
-    //    var options = new Opt
-    //    {
-    //        Customer = customerId,
-    //        SuccessUrl = "http://localhost:3000"
-    //    };
-
-    //    var service = new Stripe.BillingPortal.SessionService();
-    //    var session = await service.CreateAsync(options);
-
-    //    return session.Url;
-    //}
 
     public async Task<string> CreateStripeSession(string priceId)
     {
@@ -83,26 +70,6 @@ public class SubscriptionLogic
             Logg.Error(e);
             return "-1";
         }
-    }
-
-    private string CreateSiteLink(string targetPath)
-    {
-        var server = Settings.Environment();
-        var url = "";
-        if (server.Equals("develop"))
-        {
-            url = $"http://localhost:3000/{targetPath}";
-        }
-        else if (server.Equals("stage"))
-        {
-            url = $"https://stage.memucho.de/{targetPath}";
-        }
-        else
-        {
-            url = $"https://memucho.de/{targetPath}";
-        }
-
-        return url;
     }
 
     public class SubscriptionItemOption
