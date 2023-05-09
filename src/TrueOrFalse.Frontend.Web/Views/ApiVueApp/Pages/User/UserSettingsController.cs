@@ -162,7 +162,7 @@ public class VueUserSettingsController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public void DeleteUserImage()
+    public JsonResult DeleteUserImage()
     {
         var imageSettings = ImageSettings.InitByType(new ImageMetaData
         {
@@ -170,6 +170,7 @@ public class VueUserSettingsController : BaseController
             TypeId = SessionUser.User.Id
         });
         imageSettings.DeleteFiles();
+        return Json(new UserImageSettings().GetUrl_250px(SessionUser.User).Url, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]

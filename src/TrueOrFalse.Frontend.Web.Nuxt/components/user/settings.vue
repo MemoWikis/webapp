@@ -59,12 +59,14 @@ function calculatePostingDate() {
     }
 }
 async function removeImage(){
-    const response = await $fetch('/apiVue/VueUserSettings/DeleteUserImage', {
+    const fallbackImagaUrl = await $fetch<string>('/apiVue/VueUserSettings/DeleteUserImage', {
         mode: 'cors',
         method: 'GET',
     })
+    console.log(fallbackImagaUrl)
     imageUrl.value = ""
     emit('updateProfile')
+    userStore.imgUrl = fallbackImagaUrl
 }
 function onFileChange(e: any) {
     var files = e.target.files || e.dataTransfer.files
