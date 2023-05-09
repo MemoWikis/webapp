@@ -30,6 +30,16 @@ export default <RouterConfig>{
             component: () => import('~/pages/membership/price.vue')
         },
         {
+            name: 'cancel',
+            path: '/Abbruch',
+            component: () => import('~/pages/membership/cancel.vue')
+        },
+        {
+            name: 'success',
+            path: '/Erfolgreich',
+            component: () => import('~/pages/membership/success.vue')
+        },
+        {
             name: 'registerPage',
             path: '/Registrieren',
             component: () => import('~/pages/user/register.vue')

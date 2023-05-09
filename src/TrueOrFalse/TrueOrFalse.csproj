@@ -287,6 +287,7 @@
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\PremiumCheck.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+    <Compile Include="Infrastructure\StandardFetchResult.cs" />
     <Compile Include="Search\Category\ISearchCategoriesResult.cs" />
     <Compile Include="Search\Category\IndexOperations\MeiliSearchReIndexCategories.cs" />
     <Compile Include="Search\Category\Model\MeiliSearchCategoryMap.cs" />
@@ -315,6 +316,8 @@
     <Compile Include="Search\User\Model\MeiliSearchUserMap.cs" />
     <Compile Include="Search\User\MeiliSearchUsers.cs" />
     <Compile Include="Search\User\MeiliSearchUsersResult .cs" />
+    <Compile Include="Stripe\Logic\BaseStripeLogic.cs" />
+    <Compile Include="Stripe\Logic\BillingLogic.cs" />
     <Compile Include="Stripe\Logic\SubscriptionLogic.cs" />
     <Compile Include="Stripe\Logic\WebhookLogic.cs" />
     <Compile Include="Stripe\SubscriptionType.cs" />

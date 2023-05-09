@@ -1,30 +1,30 @@
-﻿namespace TrueOrFalse.Updates
+﻿namespace TrueOrFalse.Updates;
+
+public class Update : IRegisterAsInstancePerLifetime
 {
-    public class Update : IRegisterAsInstancePerLifetime
+    private readonly UpdateStepExecuter _updateStepExecuter;
+
+    public Update(UpdateStepExecuter updateStepExecuter)
     {
-        private readonly UpdateStepExecuter _updateStepExecuter;
+        _updateStepExecuter = updateStepExecuter;
+    }
 
-        public Update(UpdateStepExecuter updateStepExecuter){
-            _updateStepExecuter = updateStepExecuter;
-        }
-
-        public void Run()
-        {
-            _updateStepExecuter
-                .Add(UpdateToVs228.Run)
-                .Add(UpdateToVs229.Run)
-                .Add(UpdateToVs230.Run)
-                .Add(UpdateToVs231.Run)
-                .Add(UpdateToVs232.Run)
-                .Add(UpdateToVs234.Run)
-                .Add(UpdateToVs235.Run)
-                .Add(UpdateToVs236.Run)
-                .Add(UpdateToVs237.Run)
-                .Add(UpdateToVs238.Run)
-                .Add(UpdateToVs239.Run)
-                .Add(UpdateToVs240.Run)
-                .Add(UpdateToVs241.Run)
-                .Run();
-        }
+    public void Run()
+    {
+        _updateStepExecuter
+            .Add(UpdateToVs228.Run)
+            .Add(UpdateToVs229.Run)
+            .Add(UpdateToVs230.Run)
+            .Add(UpdateToVs231.Run)
+            .Add(UpdateToVs232.Run)
+            .Add(UpdateToVs234.Run)
+            .Add(UpdateToVs235.Run)
+            .Add(UpdateToVs236.Run)
+            .Add(UpdateToVs237.Run)
+            .Add(UpdateToVs238.Run)
+            .Add(UpdateToVs239.Run)
+            .Add(UpdateToVs240.Run)
+            .Add(UpdateToVs241.Run)
+            .Run();
     }
 }

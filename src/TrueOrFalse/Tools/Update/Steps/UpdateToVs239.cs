@@ -1,16 +1,14 @@
 ﻿using NHibernate;
 
-namespace TrueOrFalse.Updates
+namespace TrueOrFalse.Updates;
+
+internal class UpdateToVs239
 {
-    class UpdateToVs239
+    public static void Run()
     {
-        public static void Run()
-        {
-            Sl.Resolve<ISession>()
-                .CreateSQLQuery(
-                    @"ALTER TABLE user ADD stripeId VARCHAR(255);"
-                ).ExecuteUpdate();
-            CategoryAuthorUpdater.UpdateAll();
-        }
+        Sl.Resolve<ISession>()
+            .CreateSQLQuery(
+                @"ALTER TABLE user ADD stripeId VARCHAR(255);"
+            ).ExecuteUpdate();
     }
 }

@@ -11,22 +11,23 @@ public class PremiumCheck
 
     public static bool CanAddNewKnowledge()
     {
-        return SessionUser.User.SubscriptionDuration != null &&
-                     SessionUser.User.SubscriptionDuration > DateTime.Now ||
-                     SessionUser.User.WishCountQuestions < _wishCountKnowledge || SessionUser.IsInstallationAdmin;
+        var result = (SessionUser.User.SubscriptionDuration != null &&
+                      SessionUser.User.SubscriptionDuration > DateTime.Now) ||
+                     SessionUser.User.WishCountQuestions < _wishCountKnowledge;
+        return result;
     }
 
     public static bool CanSavePrivateQuestion()
     {
-        return SessionUser.User.SubscriptionDuration != null &&
-                SessionUser.User.SubscriptionDuration > DateTime.Now ||
-               EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateQuestionsQuantity || SessionUser.IsInstallationAdmin;
+        return (SessionUser.User.SubscriptionDuration != null &&
+                SessionUser.User.SubscriptionDuration > DateTime.Now) ||
+               EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateQuestionsQuantity;
     }
 
     public static bool CanSavePrivateTopic()
     {
-        return SessionUser.User.SubscriptionDuration != null &&
-                SessionUser.User.SubscriptionDuration > DateTime.Now ||
-               EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity || SessionUser.IsInstallationAdmin;
+        return (SessionUser.User.SubscriptionDuration != null &&
+                SessionUser.User.SubscriptionDuration > DateTime.Now) ||
+               EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity;
     }
 }

@@ -2,6 +2,8 @@
 import { useUserStore } from './userStore'
 import { ImageFormat } from '../image/imageFormatEnum'
 import { messages } from '../alert/messages'
+const config = useRuntimeConfig()
+const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 interface Props {
     imageUrl?: string
@@ -19,6 +21,7 @@ enum Content {
     //Settings
     ShowWuwi,
     SupportLogin,
+    Abonnement,
 
     //Notifications
     General,
@@ -35,7 +38,36 @@ const repeatedPassword = ref<string>('')
 
 const showWuwi = ref(false)
 const allowSupportLogin = ref(false)
+const postingDate = ref<Date>(new Date())
 
+function calculatePostingDate() {
+    if (userStore.isSubscriptionCanceled)
+        return
+
+    if (userStore.subscriptionStartDate !== null) {
+        let postingDateInner = new Date();
+        if (userStore.subscriptionStartDate.getDay() < new Date().getDay()) {
+            postingDateInner.setMonth(postingDateInner.getMonth() + 1);
+            postingDateInner.setDate(userStore.subscriptionStartDate.getDay())
+            postingDate.value = postingDateInner
+            return;
+        } else {
+            postingDateInner.setDate(userStore.subscriptionStartDate.getDay())
+            postingDate.value = postingDateInner
+            return
+        }
+    }
+}
+async function removeImage(){
+    const fallbackImagaUrl = await $fetch<string>('/apiVue/VueUserSettings/DeleteUserImage', {
+        mode: 'cors',
+        method: 'GET',
+    })
+    console.log(fallbackImagaUrl)
+    imageUrl.value = ""
+    emit('updateProfile')
+    userStore.imgUrl = fallbackImagaUrl
+}
 function onFileChange(e: any) {
     var files = e.target.files || e.dataTransfer.files
     if (!files.length)
@@ -47,16 +79,37 @@ const imageUrl = ref('')
 onBeforeMount(() => {
     if (props.imageUrl)
         imageUrl.value = props.imageUrl
+
+    calculatePostingDate()
 })
+
 function createImage(file: File) {
     imgFile.value = file
     const previewImgUrl = URL.createObjectURL(file)
     imageUrl.value = previewImgUrl
 }
 
-function removeImage() {
-
+async function  cancelPlan() {
+    const { data } = await useFetch<string>('/apiVue/StripeAdminstration/CancelPlan', {
+        method: 'GET',
+        credentials: 'include',
+        mode: 'no-cors',
+        onRequest({ options }) {
+            if (process.server) {
+                options.headers = headers
+                options.baseURL = config.public.serverBase
+            }
+        }
+    });
+    if (data.value) {
+        // Führen Sie die Umleitung im Browser durch.
+        window.location.href = data.value;
+    } else {
+        console.log("kein Ergebnis"); 
+    }
 }
+
+
 
 const showAlert = ref(false)
 const msg = ref('')
@@ -306,6 +359,7 @@ const getSelectedSettingsPageLabel = computed(() => {
             <div class="overline-s no-line">Einstellungen</div>
             <button @click="activeContent = Content.ShowWuwi">Wunschwissen anzeigen</button>
             <button @click="activeContent = Content.SupportLogin">Support Login</button>
+            <button @click="activeContent = Content.Abonnement">Abonnement</button>
 
             <div class="divider"></div>
             <div class="overline-s no-line">Benachrichtigungen</div>
@@ -328,19 +382,19 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <div class="dropdown-row group-label">
                             Profil Informationen
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; p.hide() "
-                            :class="{ 'active': activeContent == Content.EditProfile }">
+                        <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; p.hide()"
+                            :class="{'active': activeContent == Content.EditProfile}">
                             <div class="dropdown-label select-option">
                                 Profil bearbeiten
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; p.hide() "
+                        <div class="dropdown-row select-row" @click="activeContent = Content.Password; p.hide()"
                             :class="{ 'active': activeContent == Content.Password }">
                             <div class="dropdown-label select-option">
                                 Passwort
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; p.hide() "
+                        <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; p.hide()"
                             :class="{ 'active': activeContent == Content.DeleteProfile }">
                             <div class="dropdown-label select-option">
                                 Profil löschen
@@ -350,13 +404,13 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <div class="dropdown-row group-label">
                             Einstellungen
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; p.hide() "
+                        <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; p.hide()"
                             :class="{ 'active': activeContent == Content.ShowWuwi }">
                             <div class="dropdown-label select-option">
                                 Wunschwissen anzeigen
                             </div>
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; p.hide() "
+                        <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; p.hide()"
                             :class="{ 'active': activeContent == Content.SupportLogin }">
                             <div class="dropdown-label select-option">
                                 Support Login
@@ -366,7 +420,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <div class="dropdown-row group-label">
                             Benachrichtigungen
                         </div>
-                        <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; p.hide() "
+                        <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; p.hide()"
                             :class="{ 'active': activeContent == Content.KnowledgeReport }">
                             <div class="dropdown-label select-option">
                                 Wissensbericht
@@ -583,6 +637,20 @@ const getSelectedSettingsPageLabel = computed(() => {
                         </button>
                     </div>
                 </div>
+                <div v-else-if="activeContent == Content.Abonnement" class="content">
+
+
+                    <div>Abotyp {{userStore.subscriptionType}} AblaufDatum {{userStore.subscriptionDuration}}
+                        BuchungsDatum
+                        {{postingDate}}
+                    </div>
+                    <div class="settings-section" v-if="userStore.isSubscriptionCanceled == false">
+                        <button class="memo-button btn btn-primary" @click="cancelPlan()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Abo Kündigen
+                        </button>
+                    </div>
+                </div>
 
                 <div v-else-if="activeContent == Content.General" class="content"></div>
 
@@ -606,35 +674,35 @@ const getSelectedSettingsPageLabel = computed(() => {
 
                                 <template #popper="p: any">
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; p.hide() "
+                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; p.hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Quarterly }">
                                         <div class="dropdown-label select-option">
                                             Vierteljährlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; p.hide() "
+                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; p.hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Monthly }">
                                         <div class="dropdown-label select-option">
                                             Monatlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; p.hide() "
+                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; p.hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Weekly }">
                                         <div class="dropdown-label select-option">
                                             Wöchentlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; p.hide() "
+                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; p.hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Daily }">
                                         <div class="dropdown-label select-option">
                                             Täglich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Never; p.hide() "
+                                        @click="selectedNotificationInterval = NotifcationInterval.Never; p.hide()"
                                         :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Never }">
                                         <div class="dropdown-label select-option">
                                             Nie

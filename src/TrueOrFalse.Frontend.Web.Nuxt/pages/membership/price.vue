@@ -38,7 +38,7 @@ interface CheckoutSessionResult {
     id?: string
 }
 const createOrUpdateSubscription = async (id: string): Promise<string> => {
-    const result = await $fetch<CheckoutSessionResult>('/apiVue/Price/CreateCheckoutSession', {
+    const result = await $fetch<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
         method: 'POST',
         body: { priceId: id },
         credentials: 'include'
