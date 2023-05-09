@@ -6,7 +6,6 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import Blockquote from '@tiptap/extension-blockquote'
 import { lowlight } from 'lowlight/lib/core'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
@@ -15,9 +14,9 @@ import _ from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
 const alertStore = useAlertStore()
-
 const topicStore = useTopicStore()
 const editor = useEditor({
+
     content: topicStore.initialContent,
     extensions: [
         StarterKit.configure({
@@ -26,7 +25,8 @@ const editor = useEditor({
                 HTMLAttributes: {
                     class: 'inline-text-heading'
                 }
-            }
+            },
+            codeBlock: false,
         }),
         Link.configure({
             HTMLAttributes: {
@@ -48,8 +48,7 @@ const editor = useEditor({
         }),
         CodeBlockLowlight.configure({
             lowlight,
-        }),
-        Blockquote
+        })
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
