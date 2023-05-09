@@ -58,8 +58,13 @@ function calculatePostingDate() {
         }
     }
 }
-function removeImage(){
-
+async function removeImage(){
+    const response = await $fetch('/apiVue/VueUserSettings/DeleteUserImage', {
+        mode: 'cors',
+        method: 'GET',
+    })
+    imageUrl.value = ""
+    emit('updateProfile')
 }
 function onFileChange(e: any) {
     var files = e.target.files || e.dataTransfer.files
@@ -75,6 +80,7 @@ onBeforeMount(() => {
 
     calculatePostingDate()
 })
+
 function createImage(file: File) {
     imgFile.value = file
     const previewImgUrl = URL.createObjectURL(file)
