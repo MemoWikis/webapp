@@ -10,13 +10,15 @@ export default defineNuxtConfig({
             discord: "https://discord.com/invite/nXKwGrN",
             stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",
             stripeTeamPriceId: "",
-            stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2"
+            stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
+            seqServerUrl: "http://localhost:5341",
+            seqApiKey: ""
         },
     },
     ssr: true,
     modules: [
         '@pinia/nuxt',
-        '@nuxtjs/device'
+        '@nuxtjs/device',
     ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
@@ -52,11 +54,13 @@ export default defineNuxtConfig({
             path: '~/components',
             extensions: ['.vue'],
         }
-    ]
-    //Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
-    // sourcemap: {
-    //     client: false
-    // },
+    ],
+    // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
+    sourcemap: {
+        server: true,
+        client: true
+    },
+    debug: true
 
     // devServer: {
     //     host: 'memucho.local'

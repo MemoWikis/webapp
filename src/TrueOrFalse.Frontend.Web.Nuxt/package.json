@@ -2,18 +2,19 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --inspect node_modules/nuxt3/bin/nuxt3.js",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "start": "nuxt start"
+    "start": "nuxt start --inspect node_modules/nuxt3/bin/nuxt3.js"
   },
   "devDependencies": {
     "@nuxtjs/device": "^3.0.0",
     "@types/jquery": "^3.5.14",
-    "nuxt": "^3.0.0"
+    "nuxt": "3.0.0"
   },
   "dependencies": {
+    "@datalust/winston-seq": "^2.0.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
@@ -40,6 +41,8 @@
     "less-loader": "^11.1.0",
     "lowlight": "^2.7.0",
     "pinia": "^2.0.24",
+    "pino": "^8.14.1",
+    "pino-seq": "^1.0.0",
     "underscore": "^1.13.6",
     "v-code-diff": "^1.3.0",
     "vue": "^3.2.45",

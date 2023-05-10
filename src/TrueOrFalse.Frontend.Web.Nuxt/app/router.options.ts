@@ -136,6 +136,12 @@ export default <RouterConfig>{
             meta: {
                 middleware: ['auth'],
             },
-        }
+        },
+        {
+            name: 'catchAll',
+            path: '/:catchAll(.*)',
+            component: () => import('~/error.vue'),
+            hidden: true
+        },
     ],
 }

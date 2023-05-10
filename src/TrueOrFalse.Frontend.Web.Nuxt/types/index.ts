@@ -1,3 +1,4 @@
+
 export { }
 
 declare global {
@@ -19,3 +20,14 @@ declare global {
         key: string
     }
 }
+
+// declare module '#app' {
+//     interface NuxtApp {
+//         $log: LogLogger
+//     }
+// }
+// declare module 'vue' {
+//     interface ComponentCustomProperties {
+//         $log: LogLogger
+//     }
+// }

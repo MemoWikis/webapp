@@ -27,24 +27,10 @@ public class VueMaintenanceController : BaseController
             antiForgeryCookie.HttpOnly = true;
 
             Response.Cookies.Add(antiForgeryCookie);
-
-            return Json(new
-            {
-                success = true,
-                data = new {
-                    isAdmin = true,
-                    antiForgeryToken = formToken
-                }
-            }
-            ,JsonRequestBehavior.AllowGet);
+            return Fetch.Success(formToken, true);
         }
 
-        return Json(new
-            {
-                success = false,
-                key = "notAllowed"
-            }
-            , JsonRequestBehavior.AllowGet);
+        return Fetch.Error("notAllowed", true);
     }
 
     [ValidateAntiForgeryToken]

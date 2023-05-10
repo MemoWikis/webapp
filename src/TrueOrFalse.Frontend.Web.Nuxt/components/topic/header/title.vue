@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
-import { useTopicStore } from '../topicStore'
+import { Topic, useTopicStore } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { Author } from '~~/components/author/author'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
@@ -56,13 +56,18 @@ function scrollToChildTopics() {
 }
 
 const { isDesktopOrTablet, isMobile } = useDevice()
+
+const topic = useState<Topic>('topic')
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
             <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea" v-model="topicStore.name"
-                :readonly="readonly"></textarea>
+                v-if="topicStore" :readonly="readonly"></textarea>
+            <template v-else-if="topic">
+                {{ topic.Name }}
+            </template>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
             <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
