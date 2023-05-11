@@ -112,7 +112,7 @@ onBeforeMount(() => {
                             <template v-slot:button>
                                 <button class="memo-button btn-default"
                                     v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
-                                    <NuxtLink to="/Nutzer/Einstellungen">
+                                    <NuxtLink to="/Nutzer/Einstellungen/Subscription">
                                         Downgrade
                                     </NuxtLink>
                                 </button>
@@ -135,8 +135,13 @@ onBeforeMount(() => {
                         <UserMembershipPriceCard :plan="Subscription.plans.plus" :selected="false"
                             :class="{ 'recommended': !userStore.isLoggedIn }">
                             <template v-slot:button>
-                                <button class="memo-button btn-primary btn" @click="handleCheckout(Subscription.Type.Plus)">
+                                <button class="memo-button btn-primary btn" v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus" @click="handleCheckout(Subscription.Type.Plus)">
                                     Auswählen
+                                </button>
+                                <button class="memo-button btn-success" disabled v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Plus">
+                                    <NuxtLink to="/Registrieren">
+                                        Deine Mitgliedschaft
+                                    </NuxtLink>
                                 </button>
                             </template>
                         </UserMembershipPriceCard>

@@ -32,7 +32,7 @@ export interface CurrentUser {
     }
     UnreadMessagesCount?: number
     SubscriptionType?: Subscription.Type
-    SubscriptionDuration?: Date
+    EndDate?: Date
     SubscriptionStartDate?: Date
     IsSubscriptionCanceled: boolean
 }
@@ -53,7 +53,7 @@ export const useUserStore = defineStore('userStore', {
             email: '',
             unreadMessagesCount: 0,
             subscriptionType: null as Subscription.Type | null,
-            subscriptionDuration: null as Date | null,
+            EndDate: null as Date | null,
             isSubscriptionCanceled: false,
             subscriptionStartDate: null as Date | null
         }
@@ -72,7 +72,7 @@ export const useUserStore = defineStore('userStore', {
             this.email = currentUser.Email ? currentUser.Email : ''
             this.unreadMessagesCount = currentUser.UnreadMessagesCount ? currentUser.UnreadMessagesCount : 0
             this.subscriptionType = currentUser.SubscriptionType != null ? currentUser.SubscriptionType : null
-            this.subscriptionDuration = currentUser.SubscriptionDuration != null ? new Date(currentUser.SubscriptionDuration) : null
+            this.EndDate = currentUser.EndDate != null ? new Date(currentUser.EndDate) : null
             this.isSubscriptionCanceled = currentUser.IsSubscriptionCanceled
             this.subscriptionStartDate = currentUser.SubscriptionStartDate != null ? new Date(currentUser.SubscriptionStartDate) : null
             const activityPointsStore = useActivityPointsStore()

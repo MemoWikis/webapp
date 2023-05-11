@@ -2,11 +2,13 @@
 import { useUserStore } from './userStore'
 import { ImageFormat } from '../image/imageFormatEnum'
 import { messages } from '../alert/messages'
+import * as Subscription from '~~/components/user/membership/subscription';
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 interface Props {
     imageUrl?: string
+    activeContentProp: string
 }
 
 const props = defineProps<Props>()
@@ -21,7 +23,7 @@ enum Content {
     //Settings
     ShowWuwi,
     SupportLogin,
-    Abonnement,
+    Subscription,
 
     //Notifications
     General,
@@ -77,9 +79,13 @@ function onFileChange(e: any) {
 const imgFile = ref<File>()
 const imageUrl = ref('')
 onBeforeMount(() => {
-    if (props.imageUrl)
+    if (props.imageUrl) {
         imageUrl.value = props.imageUrl
-
+    }
+    console.log(props.activeContentProp);
+    if (props.activeContentProp == "Subscription") {
+         activeContent.value = Content.Subscription
+    }
     calculatePostingDate()
 })
 
@@ -359,7 +365,7 @@ const getSelectedSettingsPageLabel = computed(() => {
             <div class="overline-s no-line">Einstellungen</div>
             <button @click="activeContent = Content.ShowWuwi">Wunschwissen anzeigen</button>
             <button @click="activeContent = Content.SupportLogin">Support Login</button>
-            <button @click="activeContent = Content.Abonnement">Abonnement</button>
+            <button @click="activeContent = Content.Subscription">Abonnement</button>
 
             <div class="divider"></div>
             <div class="overline-s no-line">Benachrichtigungen</div>
@@ -637,17 +643,20 @@ const getSelectedSettingsPageLabel = computed(() => {
                         </button>
                     </div>
                 </div>
-                <div v-else-if="activeContent == Content.Abonnement" class="content">
-
-
-                    <div>Abotyp {{userStore.subscriptionType}} AblaufDatum {{userStore.subscriptionDuration}}
-                        BuchungsDatum
-                        {{postingDate}}
-                    </div>
-                    <div class="settings-section" v-if="userStore.isSubscriptionCanceled == false">
-                        <button class="memo-button btn btn-primary" @click="cancelPlan()">
+                <div v-else-if="activeContent == Content.Subscription" class="content">
+                    <div class="settings-section">
+                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled == false" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo Kündigen
+                        </button>
+                        <button class="memo-button btn btn-primary" v-else-if="userStore.isSubscriptionCanceled == true &&  userStore.subscriptionType == Subscription.Type.Plus" @click="cancelPlan()">
+                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            Abo wiederaufnehmen
+                        </button>
+                        <button class="memo-button btn-success" disabled v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic">
+                            <NuxtLink to="/Preise">
+                                Abo abschliessen
+                            </NuxtLink>
                         </button>
                     </div>
                 </div>

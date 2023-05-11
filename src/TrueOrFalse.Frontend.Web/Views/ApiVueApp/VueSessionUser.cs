@@ -26,7 +26,7 @@ public class VueSessionUser
 
             var activityPoints = SessionUser.User.ActivityPoints;
             var activityLevel = SessionUser.User.ActivityLevel;
-            var subscriptionDate = SessionUser.User.SubscriptionDuration;
+            var subscriptionDate = SessionUser.User.EndDate;
             var settings = new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" };
             var json = JsonConvert.SerializeObject(DateTime.Now, settings);
             return new
@@ -54,10 +54,10 @@ public class VueSessionUser
                         : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
                 },
                 UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId),
-                SubscriptionType = SessionUser.User.SubscriptionDuration > DateTime.Now
+                SubscriptionType = SessionUser.User.EndDate > DateTime.Now
                     ? SubscriptionType.Plus
                     : SubscriptionType.Basic,
-                SubscriptionDuration = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                EndDate = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 SubscriptionStartDate = SessionUser.User.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 IsSubscriptionCanceled = subscriptionDate is
                 {

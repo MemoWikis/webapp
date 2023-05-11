@@ -92,7 +92,9 @@ const badgeCount = ref(0)
 const maxBadgeCount = ref(0)
 
 interface Props {
-    isSettingsPage?: boolean
+    isSettingsPage?: boolean,
+    activeContentProp: string
+    
 }
 const props = defineProps<Props>()
 
@@ -331,7 +333,7 @@ useHead(() => ({
                     </div>
                 </Transition>
                 <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
-                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl" :active-content-prop="props.activeContentProp" 
                         @update-profile="refreshProfile" />
                 </Transition>
 

@@ -38,17 +38,17 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
 
         var result1 = new QuestionPinStoreControllerLogic().Pin(question1Id);
         var result2 = new QuestionPinStoreControllerLogic().Pin(question2Id);
-        var result3 = new QuestionPinStoreControllerLogic().Pin(question3Id); 
+        var result3 = new QuestionPinStoreControllerLogic().Pin(question3Id);
         result3 = JsonConvert.SerializeObject(result3);
-        var expectedResult = JsonConvert.SerializeObject(new{success= false, key= "cantAddKnowledge" });
+        var expectedResult = JsonConvert.SerializeObject(new { success = false, key = "cantAddKnowledge" });
 
         Assert.True(result1);
         Assert.True(result2);
-        Assert.AreEqual(expectedResult,result3);
+        Assert.AreEqual(expectedResult, result3);
     }
 
     [Test]
-    public void PinTestSubscriptionDurationValid()
+    public void PinTestSubscriptionEndDateValid()
     {
         var nameQuestion1 = "Question1";
         var nameQuestion2 = "Question2";
@@ -60,7 +60,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .AddQuestion(nameQuestion3)
             .Persist();
 
-        questionContext.Creator.SubscriptionDuration = DateTime.Now.AddDays(1);
+        questionContext.Creator.EndDate = DateTime.Now.AddDays(1);
         SessionUser.Login(questionContext.Creator);
 
 

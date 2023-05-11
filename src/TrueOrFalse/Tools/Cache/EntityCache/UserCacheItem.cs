@@ -5,6 +5,39 @@ using static System.String;
 
 public class UserCacheItem : IUserTinyModel
 {
+    public int ReputationPos;
+
+    public int StartTopicId;
+    public int WishCountQuestions;
+    public bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+
+    public virtual List<int> RecentlyUsedRelationTargetTopicIds => RecentlyUsedRelationTargetTopics?
+        .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => Convert.ToInt32(x)).Distinct()
+        .ToList();
+
+    public bool AllowsSupportiveLogin { get; set; }
+
+    public int CorrectnessProbability { get; set; }
+    public Membership CurrentMembership { get; set; }
+    public DateTime? EndDate { get; set; }
+
+    public IList<int> FollowerIds { get; set; }
+
+    /// <summary>Users I follow</summary>
+    public IList<int> FollowingIds { get; set; }
+
+    public bool IsMember { get; set; }
+
+    public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
+
+    public virtual string RecentlyUsedRelationTargetTopics { get; set; }
+    public string StripeId { get; set; }
+    public DateTime? SubscriptionStartDate { get; set; }
+
+    public int TotalInOthersWishknowledge { get; set; }
+
+    public virtual string WidgetHostsSpaceSeparated { get; set; }
     public int Id { get; set; }
     public string Name { get; set; }
     public string EmailAddress { get; set; }
@@ -12,44 +45,9 @@ public class UserCacheItem : IUserTinyModel
     public bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
     public string GoogleId { get; set; }
     public bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
-    public bool IsMemuchoUser => Settings.MemuchoUserId == Id;
     public int Reputation { get; set; }
-    public int ReputationPos;
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
-    public DateTime? SubscriptionDuration { get; set; }
-    public DateTime? SubscriptionStartDate { get; set; }
-
-    public int StartTopicId;
-    public int WishCountQuestions;
-
-    public bool AllowsSupportiveLogin { get; set; }
-
-    public int CorrectnessProbability { get; set; }
-
-    public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
-
-    public bool IsMember { get; set; }
-    public Membership CurrentMembership { get; set; }
-
-    public int TotalInOthersWishknowledge { get; set; }
-
-    public IList<int> FollowerIds { get; set; }
-    /// <summary>Users I follow</summary>
-    public IList<int> FollowingIds { get; set; }
-    public string StripeId { get; set; }
-
-    public static UserCacheItem ToCacheUser(User user)
-    {
-        var userCacheItem = new UserCacheItem();
-
-        if (user != null)
-        {
-            userCacheItem.AssignValues(user);
-        }
-
-        return userCacheItem;
-    }
 
     public void AssignValues(User user)
     {
@@ -76,27 +74,36 @@ public class UserCacheItem : IUserTinyModel
         FollowerIds = user.Followers.Select(f => f.Follower.Id).ToList();
         FollowingIds = user.Following.Select(f => f.User.Id).ToList();
         StripeId = user.StripeId;
-        SubscriptionDuration = user.SubscriptionDuration;
+        EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;
     }
 
-    public virtual string WidgetHostsSpaceSeparated { get; set; }
+    public static UserCacheItem ToCacheUser(User user)
+    {
+        var userCacheItem = new UserCacheItem();
+
+        if (user != null)
+        {
+            userCacheItem.AssignValues(user);
+        }
+
+        return userCacheItem;
+    }
+
+    public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users)
+    {
+        return users.Select(ToCacheUser);
+    }
 
     public virtual IList<string> WidgetHosts()
     {
-        if (string.IsNullOrEmpty(WidgetHostsSpaceSeparated))
+        if (IsNullOrEmpty(WidgetHostsSpaceSeparated))
+        {
             return new List<string>();
+        }
 
         return WidgetHostsSpaceSeparated
             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim()).ToList();
     }
-
-    public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users) => users.Select(ToCacheUser);
-
-    public virtual string RecentlyUsedRelationTargetTopics { get; set; }    
-    public virtual List<int> RecentlyUsedRelationTargetTopicIds => RecentlyUsedRelationTargetTopics?
-        .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-        .Select(x => Convert.ToInt32(x)).Distinct()
-        .ToList();
 }
