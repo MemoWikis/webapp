@@ -17,6 +17,12 @@ export default <RouterConfig>{
             component: () => import('~/pages/terms.vue')
         },
         {
+            name: 'userSettingsSubscription',
+            path: '/Nutzer/Einstellungen/Subscription',
+            component: () => import('~/pages/user/[name]/[id].vue'),
+            props: { isSettingsPage: true, activeContentProp: "Subscription" }
+        },
+        {
             name: 'imprintPage',
             path: '/Impressum',
             component: () => import('~/pages/imprint.vue')

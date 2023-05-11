@@ -112,7 +112,7 @@ onBeforeMount(() => {
                             <template v-slot:button>
                                 <button class="memo-button btn-default"
                                     v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
-                                    <NuxtLink to="/Nutzer/Einstellungen">
+                                    <NuxtLink to="/Nutzer/Einstellungen/Subscription">
                                         Downgrade
                                     </NuxtLink>
                                 </button>
