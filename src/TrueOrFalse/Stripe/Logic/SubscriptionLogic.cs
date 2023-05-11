@@ -53,7 +53,7 @@ public class SubscriptionLogic : BaseStripeLogic
                     Quantity = 1
                 }
             },
-            SuccessUrl = CreateSiteLink("success"),
+            SuccessUrl = CreateSiteLink("Preise"),
             CancelUrl = CreateSiteLink("cancel"),
             Customer = customerId
         };
