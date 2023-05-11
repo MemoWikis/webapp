@@ -4,6 +4,9 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+const { $logger } = useNuxtApp()
+
+$logger.info('nuxt: hellooo')
 
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
@@ -43,10 +46,6 @@ const { data: topic, refresh } = await useFetch<Topic>(getTopicUrl,
         },
         server: true
     })
-if (process.server)
-    console.log('server-----', topic.value)
-else
-    console.log('client-----    ', topic.value)
 // const topic = useState<Topic>('topic')
 const topicStore = useTopicStore()
 if (topic.value != null) {

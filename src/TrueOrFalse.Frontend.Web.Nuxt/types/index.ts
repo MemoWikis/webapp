@@ -1,4 +1,4 @@
-import { Logger } from 'winston';
+
 export { }
 
 declare global {
@@ -21,13 +21,13 @@ declare global {
     }
 }
 
-declare module '#app' {
-    interface NuxtApp {
-        $logger: Logger
-    }
-}
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        $logger: Logger
-    }
-}
+// declare module '#app' {
+//     interface NuxtApp {
+//         $log: LogLogger
+//     }
+// }
+// declare module 'vue' {
+//     interface ComponentCustomProperties {
+//         $log: LogLogger
+//     }
+// }
