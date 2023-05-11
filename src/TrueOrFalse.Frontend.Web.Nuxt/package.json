@@ -2,11 +2,11 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --inspect node_modules/nuxt3/bin/nuxt3.js",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "start": "nuxt start --inspect node_modules/nuxt3/bin/nuxt3.js"
+    "start": "nuxt start --inspect .output/server/index.mjs"
   },
   "devDependencies": {
     "@nuxtjs/device": "^3.0.0",

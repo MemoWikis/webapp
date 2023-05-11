@@ -60,7 +60,8 @@ export default defineNuxtConfig({
         server: true,
         client: true
     },
-    debug: true
+    debug: false,
+
 
     // devServer: {
     //     host: 'memucho.local'
