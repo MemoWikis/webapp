@@ -176,7 +176,7 @@ public class WebhookLogic
             user.SubscriptionStartDate = DateTime.Now;
         }
 
-        user.SubscriptionDuration = date;
+        user.EndDate = date;
         Sl.UserRepo.Update(user);
         Logg.r().Information(log);
     }

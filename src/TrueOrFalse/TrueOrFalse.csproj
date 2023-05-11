@@ -900,6 +900,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs242.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs240.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs239.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs238 .cs" />

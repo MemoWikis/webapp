@@ -21,7 +21,7 @@ public class EditControllerLogicTests : BaseTest
             {
                 Id = 1,
                 Name = "Daniel",
-                SubscriptionDuration = DateTime.Now.AddHours(-1),
+                EndDate = DateTime.Now.AddHours(-1),
                 IsInstallationAdmin = true
             })
             .Persist()
@@ -77,7 +77,7 @@ public class EditControllerLogicTests : BaseTest
             {
                 Id = 1,
                 Name = "Daniel",
-                SubscriptionDuration = DateTime.Now.AddHours(2),
+                EndDate = DateTime.Now.AddHours(2),
                 IsInstallationAdmin = true
             })
             .Persist()
@@ -130,7 +130,7 @@ public class EditControllerLogicTests : BaseTest
             {
                 Id = 1,
                 Name = "Daniel",
-                SubscriptionDuration = DateTime.Now.AddHours(-2),
+                EndDate = DateTime.Now.AddHours(-2),
                 IsInstallationAdmin = true
             })
             .Persist()

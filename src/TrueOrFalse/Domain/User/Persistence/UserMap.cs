@@ -1,6 +1,4 @@
 ﻿using FluentNHibernate.Mapping;
-using Stripe;
-using static SolrNet.StartOrCursor;
 
 public class UserMap : ClassMap<User>
 {
@@ -21,9 +19,9 @@ public class UserMap : ClassMap<User>
         Map(x => x.TotalInOthersWishknowledge);
         Map(x => x.FollowerCount);
         Map(x => x.LearningSessionOptions);
-        Map(x => x.StripeId); 
+        Map(x => x.StripeId);
         Map(x => x.StartTopicId);
-        Map(x => x.SubscriptionDuration).Nullable(); 
+        Map(x => x.EndDate).Nullable();
         Map(x => x.SubscriptionStartDate).Nullable();
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
@@ -41,7 +39,7 @@ public class UserMap : ClassMap<User>
         HasMany(x => x.Following)
             .KeyColumn("Follower_id")
             .Cascade.All();
-          
+
 
         Map(x => x.Reputation);
         Map(x => x.ReputationPos);
