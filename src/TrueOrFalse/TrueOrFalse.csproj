@@ -287,6 +287,7 @@
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\PremiumCheck.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+    <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
     <Compile Include="Infrastructure\StandardFetchResult.cs" />
     <Compile Include="Search\Category\ISearchCategoriesResult.cs" />
     <Compile Include="Search\Category\IndexOperations\MeiliSearchReIndexCategories.cs" />

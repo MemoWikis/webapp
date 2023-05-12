@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Stripe;
+using TrueOrFalse.Infrastructure.Logging;
 
 namespace TrueOrFalse.Stripe.Logic;
 
@@ -63,6 +64,7 @@ public class WebhookLogic
         {
             var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
             SetNewSubscriptionDate(user, paymentDeleted.paymentObject.CurrentPeriodEnd, log);
+            Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
         }
 
         LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
@@ -153,14 +155,16 @@ public class WebhookLogic
         if (user != null)
         {
             var log = $"{user.Name} with userId: {user.Id}  has successfully subscribed to a plan.";
-            var endDate = new DateTime();
+            DateTime endDate;
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
                 endDate = subscription.paymentObject.CanceledAt ?? MaxValueMysql;
+                Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
             }
             else
             {
                 endDate = MaxValueMysql;
+                Logg.SubscriptionLogger(StripePaymentEvents.Success, user.Id);
             }
 
             SetNewSubscriptionDate(user, endDate, log, true);
