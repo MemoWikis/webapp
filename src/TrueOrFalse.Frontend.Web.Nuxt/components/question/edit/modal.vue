@@ -145,7 +145,6 @@ const disabled = computed(() => {
 const lockSaveButton = ref(false)
 
 function getSolution() {
-    console.log(solutionType.value)
     switch (solutionType.value) {
         case SolutionType.Text:
             return textSolution.value
@@ -164,7 +163,6 @@ const solutionMetadataJson = ref('')
 function getSaveJson() {
     const solution = getSolution()
     if (solution == null) {
-        console.log('solution is null')
         return
     }
     if (solutionType.value == SolutionType.Numeric || solutionType.value == SolutionType.Date)
@@ -365,7 +363,6 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
 }
 
 function setMultipleChoiceContent(e: { solution: string, solutionIsValid: boolean }) {
-    console.log(e)
     multipleChoiceJson.value = e.solution
     solutionIsValid.value = e.solutionIsValid
 }

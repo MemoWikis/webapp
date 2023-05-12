@@ -150,4 +150,4 @@ export default <RouterConfig>{
             hidden: true
         },
     ],
-}
+}   
