@@ -1,18 +1,13 @@
-import { useUserStore } from "~/components/user/userStore"
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
-    if (process.client) {
-        const userStore = useUserStore()
-        if (userStore.isLoggedIn) {
-
-        }
-    }
-
     const headers = useRequestHeaders(['cookie']) as HeadersInit
     const { $config } = useNuxtApp()
-
-    const canView = await $fetch<boolean>('/apiVue/MiddlewareTopicAuth/Get',
+    interface Result {
+        encodedName: string
+        id: number
+    }
+    const result = await $fetch<Result>('/apiVue/MiddlewareStartpage/Get',
         {
             credentials: 'include',
             mode: 'cors',
@@ -26,8 +21,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
             },
         })
-    if (canView)
-        return true
-    else (!canView)
-    throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+    return navigateTo(`/${result.encodedName}/${result.id}`)
+
 })

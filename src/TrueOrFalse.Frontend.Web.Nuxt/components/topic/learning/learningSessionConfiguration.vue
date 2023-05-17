@@ -399,11 +399,6 @@ watch(() => props.openFilter, (val) => {
 @import (reference) '~~/assets/includes/imports.less';
 @import '~~/assets/shared/register.less';
 
-@radioSize: 17px;
-@borderColor: #949494;
-@activeSelection: #428BCA;
-@fontColor: @memo-blue;
-
 .close-alert-btn {
     background: none;
     margin-left: 6px;

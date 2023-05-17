@@ -4,9 +4,9 @@ import { useEditTopicRelationStore, EditTopicRelationType } from './editTopicRel
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { useTopicStore } from '../topicStore'
-import _ from 'underscore'
+import { debounce } from 'underscore'
 import { FullSearch, TopicItem, SearchType } from '~~/components/search/searchHelper'
-import { useAlertStore, AlertType, messages } from '~~/components/alert/alertStore'
+import { messages } from '~~/components/alert/alertStore'
 
 const spinnerStore = useSpinnerStore()
 const userStore = useUserStore()
@@ -202,7 +202,7 @@ watch(searchTerm, (term) => {
         showDropdown.value = false
 })
 
-const debounceSearch = _.debounce(() => {
+const debounceSearch = debounce(() => {
     search()
 }, 500)
 
@@ -282,7 +282,8 @@ function handleMainBtn() {
 
 <template>
     <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal"
-        :primary-btn-label="primaryBtnLabel" @primary-btn="handleMainBtn()" :show-cancel-btn="true">
+        v-if="editTopicRelationStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handleMainBtn()"
+        :show-cancel-btn="true">
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
                 erstellen

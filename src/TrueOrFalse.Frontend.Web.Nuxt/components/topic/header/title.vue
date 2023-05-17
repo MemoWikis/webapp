@@ -96,8 +96,10 @@ const topic = useState<Topic>('topic')
             <div v-if="isDesktopOrTablet" class="topic-detail-spacer"></div>
 
             <template v-for="author in firstAuthors">
-                <LazyNuxtLink v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name">
-                    <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
+                <LazyNuxtLink v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name"
+                    class="header-author-icon-link">
+                    <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="`${author.Name}'s profile picture'`" />
                 </LazyNuxtLink>
             </template>
 
@@ -199,13 +201,17 @@ const topic = useState<Topic>('topic')
             }
         }
 
+
+        .header-author-icon-link {
+            margin-right: 8px;
+        }
+
         .header-author-icon {
             height: 20px;
             width: 20px;
             min-height: 20px;
             min-width: 20px;
             margin-left: 0px;
-            margin-right: 8px;
         }
 
         .topic-detail {

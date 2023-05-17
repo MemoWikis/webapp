@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import _ from 'underscore'
+import { isEmpty } from 'underscore'
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
 

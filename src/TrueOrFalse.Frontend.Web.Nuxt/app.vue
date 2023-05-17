@@ -68,6 +68,9 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 </script>
 
 <template>
+	<Html lang="de">
+
+	</Html>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<BannerInfo :documentation="footerTopics?.Documentation!" />

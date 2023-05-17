@@ -51,11 +51,11 @@ if (result.value?.success == true) {
     display: flex;
     flex-direction: column;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 p {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
 }
 </style>

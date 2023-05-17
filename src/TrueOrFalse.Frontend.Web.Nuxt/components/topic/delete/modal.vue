@@ -25,7 +25,7 @@ function handlePrimaryAction() {
 
 <template>
     <LazyModal :show="deleteTopicStore.showModal" :show-cancel-btn="!deleteTopicStore.topicDeleted"
-        :primary-btn-label="primaryBtnLabel" @primary-btn="handlePrimaryAction()"
+        v-if="deleteTopicStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handlePrimaryAction()"
         @close="deleteTopicStore.showModal = false">
         <template v-slot:header>
             <template v-if="deleteTopicStore.topicDeleted">

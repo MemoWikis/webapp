@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { QuestionListItem } from './questionListItem'
-import _ from 'underscore'
+import { isEmpty } from 'underscore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { useTopicStore } from '../topicStore'

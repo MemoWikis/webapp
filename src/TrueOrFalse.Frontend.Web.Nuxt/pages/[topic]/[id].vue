@@ -4,16 +4,15 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-const { $logger } = useNuxtApp()
 
-$logger.info('nuxt: hellooo')
+const { $logger } = useNuxtApp()
 
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
+const topicStore = useTopicStore()
 
 interface Props {
     tab?: Tab,
-    redirectFromWelcomePage?: boolean
     documentation: Topic
 }
 const props = defineProps<Props>()
@@ -21,35 +20,28 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const getTopicUrl = computed(() => {
-    if (props.redirectFromWelcomePage)
-        if (userStore.isLoggedIn)
-            return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
-        else return `/apiVue/Topic/GetTopic/1`
-    else return `/apiVue/Topic/GetTopic/${route.params.id}`
-})
-
-const { data: topic, refresh } = await useFetch<Topic>(getTopicUrl,
+const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
-        onRequest({ options }) {
+        onRequest({ options, request }) {
+            $logger.info(`TopicRequest Id:${route.params.id} - Start`, [{ request: request }])
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
         },
         onResponse(context) {
+            $logger.info(`TopicRequest Id:${route.params.id} - End`, [{ context: context }])
         },
         onResponseError(context) {
             throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         },
         server: true
     })
-// const topic = useState<Topic>('topic')
-const topicStore = useTopicStore()
+
 if (topic.value != null) {
-    if (topic.value.CanAccess) {
+    if (topic.value?.CanAccess) {
 
         topicStore.setTopic(topic.value)
 
@@ -84,7 +76,6 @@ if (topic.value != null) {
         })
     } else {
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-        // navigateTo('/Fehler/500')
     }
 }
 const emit = defineEmits(['setPage'])
@@ -115,7 +106,7 @@ onBeforeMount(() => {
 })
 onMounted(() => setTab())
 watch(() => userStore.isLoggedIn, () => {
-    // refresh()
+    refresh()
 })
 
 useHead(() => ({
@@ -154,7 +145,7 @@ useHead(() => ({
 <template>
     <div class="container">
         <div class="row topic-container main-page">
-            <template v-if="topic && topic.CanAccess">
+            <template v-if="topic?.CanAccess">
                 <div class="col-lg-9 col-md-12 container">
                     <TopicHeader v-if="topicStore.id != 0" />
                     <TopicTabsContent v-if="topicStore.id != 0"
@@ -162,11 +153,12 @@ useHead(() => ({
                     <TopicContentSegmentation v-if="topicStore.id != 0"
                         v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
                     <TopicTabsQuestions v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
-                    <LazyTopicRelationEdit />
-                    <LazyQuestionEditModal />
-                    <LazyTopicPublishModal />
-                    <LazyTopicTopicToPrivateModal />
-                    <LazyTopicDeleteModal v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
+                    <TopicRelationEdit v-if="userStore.isLoggedIn" />
+                    <QuestionEditModal v-if="userStore.isLoggedIn" />
+                    <TopicPublishModal v-if="userStore.isLoggedIn" />
+                    <TopicToPrivateModal v-if="userStore.isLoggedIn" />
+                    <TopicDeleteModal
+                        v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin) && userStore.isLoggedIn" />
                 </div>
                 <Sidebar :documentation="props.documentation" />
             </template>

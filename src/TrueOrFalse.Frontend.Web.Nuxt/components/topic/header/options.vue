@@ -4,7 +4,7 @@ import { useTopicStore } from '../topicStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
-import { useTopicToPrivateStore } from '../topicToPrivate/topicToPrivateStore'
+import { useTopicToPrivateStore } from '../toPrivate/topicToPrivateStore'
 import { usePublishTopicStore } from '../publish/publishTopicStore'
 import { useDeleteTopicStore } from '../delete/deleteTopicStore'
 
@@ -110,7 +110,7 @@ const hoverLock = ref(false)
             </VDropdown>
         </div>
         <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true"
-            @mouseleave="hoverLock = false" @click="topicToPrivateStore.openModal(topicStore.id)">
+            @mouseleave="hoverLock = false" @click="publishTopicStore.openModal(topicStore.id)">
             <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
             <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>

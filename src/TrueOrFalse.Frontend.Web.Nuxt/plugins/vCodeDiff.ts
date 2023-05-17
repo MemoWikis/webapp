@@ -1,5 +1,5 @@
-import CodeDiff from 'v-code-diff'
+// import CodeDiff from 'v-code-diff'
 
 export default defineNuxtPlugin((nuxtApp) => {
-    nuxtApp.vueApp.use(CodeDiff)
+    // nuxtApp.vueApp.use(CodeDiff)
 })

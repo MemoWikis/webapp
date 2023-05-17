@@ -64,29 +64,6 @@ function getWidth(e: VueElement) {
                             </div>
                         </button>
 
-                        <button class="tab" @click="emit('setTab', Tab.Badges)">
-
-                            <div class="tab-label chip-tab active" v-if="props.tab == Tab.Badges"
-                                :style="getWidth(badgesLabelEl)">
-                                Badges
-                                <div class="chip" v-if="props.maxBadgeCount > 0">
-                                    {{ props.badgeCount }}/{{ props.maxBadgeCount }}
-                                </div>
-                            </div>
-                            <div class="tab-label chip-tab" :class="{ 'invisible-tab': props.tab == Tab.Badges }"
-                                ref="badgesLabelEl">
-                                Badges
-                                <div class="chip" v-if="props.maxBadgeCount > 0">
-                                    {{ props.badgeCount }}/{{ props.maxBadgeCount }}
-                                </div>
-                            </div>
-
-                            <div class="active-tab" v-if="props.tab == Tab.Badges"></div>
-                            <div class="inactive-tab" v-else>
-                                <div class="tab-border"></div>
-                            </div>
-                        </button>
-
                         <button class="tab" @click="emit('setTab', Tab.Settings)"
                             v-if="userStore.isLoggedIn && props.isCurrentUser">
                             <div class="tab-label active" v-if="props.tab == Tab.Settings"
@@ -144,28 +121,6 @@ function getWidth(e: VueElement) {
                     </div>
                 </button>
 
-                <button class="tab" @click="emit('setTab', Tab.Badges)">
-
-                    <div class="tab-label chip-tab active" v-if="props.tab == Tab.Badges" :style="getWidth(badgesLabelEl)">
-                        Badges
-                        <div class="chip" v-if="props.maxBadgeCount > 0">
-                            {{ props.badgeCount }}/{{ props.maxBadgeCount }}
-                        </div>
-                    </div>
-                    <div class="tab-label chip-tab" :class="{ 'invisible-tab': props.tab == Tab.Badges }"
-                        ref="badgesLabelEl">
-                        Badges
-                        <div class="chip" v-if="props.maxBadgeCount > 0">
-                            {{ props.badgeCount }}/{{ props.maxBadgeCount }}
-                        </div>
-                    </div>
-
-                    <div class="active-tab" v-if="props.tab == Tab.Badges"></div>
-                    <div class="inactive-tab" v-else>
-                        <div class="tab-border"></div>
-                    </div>
-                </button>
-
                 <button class="tab" @click="emit('setTab', Tab.Settings)"
                     v-if="userStore.isLoggedIn && props.isCurrentUser">
                     <div class="tab-label active" v-if="props.tab == Tab.Settings" :style="getWidth(settingsLabelEl)">
@@ -192,4 +147,6 @@ function getWidth(e: VueElement) {
     </ClientOnly>
 </template>
 
-<style lang="less">@import '~~/assets/tabs-bar.less';</style>
+<style lang="less">
+@import '~~/assets/tabs-bar.less';
+</style>

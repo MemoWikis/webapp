@@ -12,27 +12,20 @@ const userStore = useUserStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const editQuestionStore = useEditQuestionStore()
 
-const currentQuestionCount = ref(0)
-const allQuestionCount = ref(0)
-
 onBeforeMount(() => {
-    allQuestionCount.value = topicStore.questionCount
     if (topicStore.questionCount > 0)
         learningSessionConfigurationStore.showFilter = true
     else
         learningSessionConfigurationStore.showFilter = false
 })
-
-watch(() => learningSessionStore.steps.length, (v) => {
-    currentQuestionCount.value = learningSessionStore.steps.length
+watch(() => topicStore.questionCount, (count) => {
+    if (count > 0)
+        learningSessionConfigurationStore.showFilter = true
+    else
+        learningSessionConfigurationStore.showFilter = false
 })
-const topicHasNoQuestions = ref(true)
-const showError = ref(false)
-
 const questionsExpanded = ref(false)
-function expandAllQuestions() {
-    questionsExpanded.value = !questionsExpanded.value
-}
+
 const { isMobile } = useDevice()
 
 function getClass(): string {
@@ -54,24 +47,17 @@ function getClass(): string {
                     <div class="drop-down-question-sort col-xs-12">
                         <div class="session-config-header">
                             <span class="hidden-xs">Du lernst </span>
-                            <template v-if="currentQuestionCount == allQuestionCount">
+                            <template v-if="learningSessionStore.steps.length == topicStore.questionCount">
                                 <b> alle </b>
                             </template>
                             <template v-else>
-                                <b> {{ currentQuestionCount }} </b>
+                                <b> {{ learningSessionStore.steps.length }} </b>
                             </template>
-                            <template v-if="currentQuestionCount == 1"> Frage </template>
+                            <template v-if="learningSessionStore.steps.length == 1"> Frage </template>
                             <template v-else> Fragen </template>
                             <span class="hidden-xs">aus diesem Thema</span>
-                            ({{ allQuestionCount }})
+                            ({{ topicStore.questionCount }})
                         </div>
-                        <div class="session-config-header" v-if="(topicHasNoQuestions && showError == true)">Leider
-                            hat
-                            dieses
-                            Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
-                        </div>
-
-
 
                         <div id="ButtonAndDropdown">
                             <div id="QuestionListHeaderDropDown" class="Button dropdown">
@@ -89,7 +75,8 @@ function getClass(): string {
 
                                         </div>
 
-                                        <div class="dropdown-row" @click="expandAllQuestions()" v-if="questionsExpanded">
+                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
+                                            v-if="questionsExpanded">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-angles-up" />
                                             </div>
@@ -97,7 +84,7 @@ function getClass(): string {
                                                 Alle Fragen zuklappen
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click="expandAllQuestions()" v-else>
+                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded" v-else>
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-angles-down" />
                                             </div>
@@ -123,7 +110,7 @@ function getClass(): string {
                 </slot>
             </TopicLearningSessionConfiguration>
 
-            <div class="session-configurator no-questions" v-if="!learningSessionConfigurationStore.showFilter">
+            <div class="session-configurator no-questions" v-else-if="!learningSessionConfigurationStore.showFilter">
                 <div class="session-config-header">
                     <div class="col-xs-12 drop-down-question-sort">
                         Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.

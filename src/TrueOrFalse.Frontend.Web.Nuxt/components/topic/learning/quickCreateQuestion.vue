@@ -10,7 +10,7 @@ import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { lowlight } from 'lowlight/lib/core'
-import _ from 'underscore'
+import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
@@ -18,7 +18,11 @@ import { useLearningSessionConfigurationStore } from './learningSessionConfigura
 const highlightEmptyFields = ref(false)
 
 const userStore = useUserStore()
-
+const topicStore = useTopicStore()
+const editQuestionStore = useEditQuestionStore()
+const flashCardEditor = ref()
+const learningSessionStore = useLearningSessionStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const addToWishknowledge = ref(true)
 const questionJson = ref(null as null | JSONContent)
 const questionHtml = ref('')
@@ -66,7 +70,7 @@ const editor = useEditor({
         handlePaste: (view, pos, event) => {
             let eventContent = event.content as any
             let content = eventContent.content
-            if (content.length >= 1 && !_.isEmpty(content[0].attrs)) {
+            if (content.length >= 1 && !isEmpty(content[0].attrs)) {
                 let src = content[0].attrs.src
                 if (src.length > 1048576 && src.startsWith('data:image')) {
                     alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
@@ -95,11 +99,7 @@ watch([isPrivate, licenseConfirmation, flashCardAnswer], (isPrivate,) => {
     validateForm()
 })
 
-const topicStore = useTopicStore()
-const editQuestionStore = useEditQuestionStore()
-const flashCardEditor = ref()
-const learningSessionStore = useLearningSessionStore()
-const learningSessionConfigStore = useLearningSessionConfigurationStore()
+
 
 function createQuestion() {
     if (!userStore.isLoggedIn) {
@@ -129,9 +129,9 @@ async function addFlashcard() {
         return
     }
 
-    sessionConfigJson.value = learningSessionConfigStore.buildSessionConfigJson(topicStore.id)
+    sessionConfigJson.value = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
 
-    var json = {
+    const json = {
         TopicId: topicStore.id,
         TextHtml: questionHtml.value,
         Answer: flashCardAnswer.value,
@@ -141,20 +141,34 @@ async function addFlashcard() {
         SessionConfig: sessionConfigJson.value
     }
 
-    var data = await $fetch<any>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
+    const data = await $fetch<any>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
         method: 'POST', body: json, mode: 'cors', credentials: 'include'
     })
-
     if (data) {
-        if (data.SessionIndex < 0)
+        topicStore.questionCount++
+        if (data.SessionIndex < 0) {
             alertStore.openAlert(AlertType.Success, {
                 text: messages.success.question.created,
                 customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
-                customBtn: '<div class="btn memo-button col-xs-4 btn-link" data-dismiss="modal" onclick="eventBus.$emit(\'reset-session-config\')">Filter zurücksetzen</div>',
+                customBtn: '<div class="btn memo-button col-xs-4 btn-link">Filter zurücksetzen</div>',
+                customBtnKey: 'resetLearningSessionConfiguration'
             })
-        learningSessionStore.lastIndexInQuestionList = data.SessionIndex
-        learningSessionStore.getLastStepInQuestionList()
-        learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
+
+            alertStore.$onAction(({ name, after }) => {
+                if (name == 'closeAlert') {
+
+                    after((result) => {
+                        if (result.cancelled == false && result.customKey == 'resetLearningSessionConfiguration')
+                            learningSessionConfigurationStore.reset()
+                    })
+                }
+            })
+        }
+        else {
+            learningSessionStore.lastIndexInQuestionList = data.SessionIndex
+            learningSessionStore.getLastStepInQuestionList()
+            learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
+        }
         highlightEmptyFields.value = false
         editor.value?.commands.setContent('')
         questionHtml.value = ''

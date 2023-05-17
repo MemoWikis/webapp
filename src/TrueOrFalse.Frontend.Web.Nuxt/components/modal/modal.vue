@@ -98,7 +98,7 @@ const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
 
     </VueFinalModal>
 </template>
-
+    
 <style scoped lang="less">
 .no-close-button {
     padding-top: 24px;

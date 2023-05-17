@@ -169,7 +169,7 @@ export default defineNuxtComponent({
             <div class="col-xs-3 col-sm-3">
                 <NuxtLink :to="category.LinkToCategory">
                     <div class="ImageContainer">
-                        <Image :src="category.ImgUrl" />
+                        <Image :src="category.ImgUrl" :alt="`${category.Name}'s image'`" />
                     </div>
                 </NuxtLink>
             </div>
@@ -228,7 +228,8 @@ export default defineNuxtComponent({
                 </div>
                 <div class="set-question-count">
 
-                    <NuxtLink :href="$props.category.LinkToCategory" class="sub-label">
+                    <NuxtLink :href="$props.category.LinkToCategory" class="sub-label"
+                        :aria-label="`Erfahre mehr über ${$props.category.Name}`">
                         <template v-if="$props.category.ChildCategoryCount == 1">1 Unterthema </template>
                         <template v-else-if="$props.category.ChildCategoryCount > 1">{{ category.ChildCategoryCount }}
                             Unterthemen </template>
@@ -242,7 +243,8 @@ export default defineNuxtComponent({
 
                     <NuxtLink :href="$props.category.LinkToCategory">
                         <div class="knowledge-bar">
-                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
+                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0"
+                                class="needs-learning"
                                 v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)'"
                                 :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
                             </div>

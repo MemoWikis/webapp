@@ -96,7 +96,8 @@ const navOptions = ref()
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
-                                <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon" />
+                                <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                                    :alt="`${userStore.name}'s profile picture'`" />
                                 <div class="header-user-name">
                                     {{ userStore.name }}
                                 </div>
@@ -116,14 +117,14 @@ const navOptions = ref()
                                             <div class="progress-bar-container">
                                                 <div class="p-bar">
                                                     <div class="p-bar-a"
-                                                        :style=" `left: -${100 - activityPointsStore.activityPointsPercentageOfNextLevel}%` ">
+                                                        :style="`left: -${100 - activityPointsStore.activityPointsPercentageOfNextLevel}%`">
                                                     </div>
                                                     <div class="p-bar-label-grey"
-                                                        v-if=" activityPointsStore.activityPointsPercentageOfNextLevel < 30 ">
+                                                        v-if="activityPointsStore.activityPointsPercentageOfNextLevel < 30">
                                                         {{ activityPointsStore.activityPointsPercentageOfNextLevel }}%
                                                     </div>
                                                     <div class="p-bar-label" v-else
-                                                        :style=" `width: ${activityPointsStore.activityPointsPercentageOfNextLevel}%` ">
+                                                        :style="`width: ${activityPointsStore.activityPointsPercentageOfNextLevel}%`">
                                                         {{ activityPointsStore.activityPointsPercentageOfNextLevel }}%
                                                     </div>
 
@@ -138,25 +139,25 @@ const navOptions = ref()
                                     </div>
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
-                                        <NuxtLink :to=" `/Nutzer/${encodeURI(userStore.name)}/${userStore.id}` "
-                                            @click=" p.hide() ">
+                                        <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
+                                            @click="p.hide()">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
                                     <div class="divider"></div>
 
                                     <div class="user-dropdown-managment">
-                                        <NuxtLink @click=" p.hide() "
-                                            :to=" `/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen` ">
+                                        <NuxtLink @click="p.hide()"
+                                            :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
 
-                                        <LazyNuxtLink to="/Maintenance" @click=" p.hide() ">
-                                            <div class="user-dropdown-label" @click=" p.hide() " v-if=" userStore.isAdmin ">
+                                        <LazyNuxtLink to="/Maintenance" @click="p.hide()">
+                                            <div class="user-dropdown-label" @click="p.hide()" v-if="userStore.isAdmin">
                                                 Administrativ
                                             </div>
                                         </LazyNuxtLink>
-                                        <div class="user-dropdown-label" @click=" userStore.logout(), p.hide() ">
+                                        <div class="user-dropdown-label" @click="userStore.logout(), p.hide()">
                                             Ausloggen
                                         </div>
                                     </div>
@@ -164,24 +165,24 @@ const navOptions = ref()
                             </template>
                         </VDropdown>
 
-                        <div v-if=" !userStore.isLoggedIn " class="nav-options-container" ref="navOptions"
-                            :class=" { 'p.hide()-nav': !showRegisterButton } ">
+                        <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
+                            :class="{ 'p.hide()-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
-                                :class=" { 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet } ">
-                                <div class="search-button" :class=" { 'showSearch': showSearch } "
-                                    @click=" showSearch = !showSearch ">
-                                    <font-awesome-icon v-if=" showSearch " icon="fa-solid fa-xmark" />
+                                :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
+                                <div class="search-button" :class="{ 'showSearch': showSearch }"
+                                    @click="showSearch = !showSearch">
+                                    <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                                     <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                                 </div>
                                 <div class="StickySearch">
-                                    <Search :search-type=" SearchType.All " :show-search=" showSearch "
-                                        v-on:select-item=" openUrl " placement="bottom-end" />
+                                    <Search :search-type="SearchType.All" :show-search="showSearch"
+                                        v-on:select-item="openUrl" placement="bottom-end" />
                                 </div>
                             </div>
-                            <div class="login-btn" @click=" userStore.openLoginModal() ">
+                            <div class="login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                             </div>
-                            <div class="register-btn-container hidden-xs hidden-sm" v-if=" isDesktopOrTablet ">
+                            <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <div navigate class="btn memo-button register-btn">
                                     <NuxtLink to="/Registrieren">
                                         Kostenlos registrieren!

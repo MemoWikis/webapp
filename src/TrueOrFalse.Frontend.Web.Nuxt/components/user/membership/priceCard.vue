@@ -56,7 +56,9 @@ const props = defineProps<Props>()
 @import (reference) '~~/assets/includes/imports.less';
 
 .card {
-    margin-top: 20px;
+    margin-top: 10px;
+    min-width: 270px;
+    margin-bottom: 10px;
 }
 
 .recommended {
