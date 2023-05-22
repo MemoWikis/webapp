@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
 import { useTopicStore } from '../topic/topicStore'
-import _ from 'underscore'
 import { Page } from '../shared/pageEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'

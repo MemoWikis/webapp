@@ -24,7 +24,7 @@ function handleError() {
                     to="https://creativecommons.org/licenses/by/4.0/" :external="true">
                     <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
                 </NuxtLink>
-                <div class="Text">
+                <div class="Text cc-license-text">
                     Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
                         rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">Creative
                         Commons Namensnennung
@@ -50,7 +50,8 @@ function handleError() {
                             <NuxtLink
                                 :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'"
                                 id="MasterFooterLogo">
-                                <Image src="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img" />
+                                <Image src="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img"
+                                    alt="memucho logo" />
                             </NuxtLink>
 
                             <div class="overline-s no-line">
@@ -168,7 +169,7 @@ function handleError() {
                                 Entwickelt von:
                             </div>
                             <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
-                                <Image src="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" />
+                                <Image src="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" alt="bitwerke logo" />
                             </NuxtLink>
                             <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
                                 <div>
@@ -203,5 +204,9 @@ function handleError() {
 
 .bitwerke-logo {
     padding: 0 10px;
+}
+
+.cc-license-text {
+    color: @memo-grey-darker;
 }
 </style>

@@ -1,19 +1,13 @@
-// logger.ts
-import pino, { LoggerOptions, Level, LogFn } from 'pino'
-
+import pino, { Level, LogFn } from 'pino'
+interface Property {
+    [key: string]: any;
+}
 export class CustomPino {
-    private logger: pino.Logger
     private seqApiKey: string
     private seqServerUrl: string
 
-    constructor(seqApiKey: string, seqServerUrl: string) {
-        const options: LoggerOptions = {
-            level: 'info',
-            serializers: pino.stdSerializers,
-        }
-
-        this.logger = pino(options)
-        this.seqApiKey = seqApiKey
+    constructor(apiKey: string, seqServerUrl: string) {
+        this.seqApiKey = apiKey
         this.seqServerUrl = seqServerUrl
     }
 
@@ -21,19 +15,21 @@ export class CustomPino {
         return pino.levels.labels[parseInt(level as unknown as string, 10)]
     }
 
-    private async sendToSeq(level: Level, args: unknown[]): Promise<void> {
+    private async sendToSeq(level: Level, args: unknown[] = []): Promise<void> {
         const timestamp = new Date().toISOString()
         const message = args[0] as string
-        const additionalData = args[1] as Record<string, unknown>
+        const additionalData = args[1] as Property[]
+
+        let properties = {}
+        if (additionalData != undefined)
+            properties = Object.assign(properties, ...additionalData)
 
         const log = {
             Level: this.levelToLabel(level),
             MessageTemplate: message,
             Timestamp: timestamp,
-            ...additionalData,
+            Properties: properties
         }
-
-        this.logger[level](log)
 
         try {
             await $fetch(`${this.seqServerUrl}/api/events/raw`, {

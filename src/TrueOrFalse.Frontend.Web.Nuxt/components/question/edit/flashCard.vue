@@ -7,7 +7,7 @@ import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { lowlight } from 'lowlight/lib/core'
-import _ from 'underscore'
+import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 
 interface Props {
@@ -50,7 +50,7 @@ const editor = useEditor({
         handlePaste: (view, pos, event) => {
             let eventContent = event.content as any
             let content = eventContent.content
-            if (content.length >= 1 && !_.isEmpty(content[0].attrs)) {
+            if (content.length >= 1 && !isEmpty(content[0].attrs)) {
                 let src = content[0].attrs.src
                 if (src?.length > 1048576 && src.startsWith('data:image')) {
                     alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })

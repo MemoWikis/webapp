@@ -320,17 +320,17 @@ editQuestionStore.$onAction(({ name, after }) => {
                             <VDropdown :distance="0">
                                 <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
                                     class="btn btn-link btn-sm ButtonEllipsis" />
-                                <template #popper="p: any">
+                                <template #popper="{ hide } : { hide: any }">
 
-                                    <div v-if=" userStore.isAdmin || isCreator || canBeEdited "
-                                        @click=" editQuestion(); p.hide() " class="dropdown-row">
+                                    <div v-if="userStore.isAdmin || isCreator || canBeEdited"
+                                        @click="editQuestion(); hide()" class="dropdown-row">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-pen" />
                                         </div>
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestion ">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -341,7 +341,7 @@ editQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink v-if=" userStore.isAdmin " :to=" props.question.LinkToQuestionVersions ">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -352,9 +352,9 @@ editQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <div class="dropdown-row" @click=" showCommentModal(); p.hide() ">
+                                    <div class="dropdown-row" @click="showCommentModal(); hide()">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon :icon=" ['fas', 'comment'] " />
+                                            <font-awesome-icon :icon="['fas', 'comment']" />
                                         </div>
                                         <div class="dropdown-label">
                                             Frage kommentieren
@@ -362,8 +362,8 @@ editQuestionStore.$onAction(({ name, after }) => {
                                     </div>
 
                                     <div class="dropdown-row"
-                                        v-if=" props.question.CreatorId == userStore.id || userStore.isAdmin "
-                                        @click=" deleteQuestionStore.openModal(props.question.Id); p.hide() ">
+                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
+                                        @click="deleteQuestionStore.openModal(props.question.Id); hide()">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>

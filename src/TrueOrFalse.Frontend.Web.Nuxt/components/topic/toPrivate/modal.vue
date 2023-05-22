@@ -6,7 +6,7 @@ const userStore = useUserStore()
 </script>
 
 <template>
-    <LazyModal :show="topicToPrivateStore.showModal" :show-cancel-btn="true"
+    <LazyModal :show="topicToPrivateStore.showModal" :show-cancel-btn="true" v-if="topicToPrivateStore.showModal"
         @primary-btn="topicToPrivateStore.setToPrivate()" primary-btn-label="Thema auf Privat setzen"
         @close="topicToPrivateStore.showModal = false" @keydown.esc="topicToPrivateStore.showModal = false">
         <template v-slot:header>

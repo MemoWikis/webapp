@@ -11,23 +11,27 @@ public class PremiumCheck
 
     public static bool CanAddNewKnowledge()
     {
-        var result = (SessionUser.User.EndDate != null &&
-                      SessionUser.User.EndDate > DateTime.Now) ||
-                     SessionUser.User.WishCountQuestions < _wishCountKnowledge;
-        return result;
-    }
+        return SessionUser.IsInstallationAdmin ||
+               HasActiveSubscriptionPlan() ||
+               SessionUser.User.WishCountQuestions < _wishCountKnowledge;
+      }
 
     public static bool CanSavePrivateQuestion()
     {
-        return (SessionUser.User.EndDate != null &&
-                SessionUser.User.EndDate > DateTime.Now) ||
-               EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateQuestionsQuantity;
+        return SessionUser.IsInstallationAdmin ||
+               HasActiveSubscriptionPlan() ||
+               EntityCache.GetPrivateQuestionIdsFromUser(SessionUser.UserId).Count() < _privateQuestionsQuantity;
     }
 
     public static bool CanSavePrivateTopic()
     {
-        return (SessionUser.User.EndDate != null &&
-                SessionUser.User.EndDate > DateTime.Now) ||
+        return SessionUser.IsInstallationAdmin ||
+               HasActiveSubscriptionPlan() ||
                EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity;
+    }
+
+    private static bool HasActiveSubscriptionPlan()
+    {
+        return SessionUser.User.EndDate != null && SessionUser.User.EndDate > DateTime.Now;
     }
 }

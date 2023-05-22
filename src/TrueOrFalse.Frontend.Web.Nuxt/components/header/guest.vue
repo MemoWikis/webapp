@@ -48,10 +48,12 @@ function handleError() {
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
-                        :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'">
+                        :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'"
+                        alt="homepage">
                         <div id="Logo">
-                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" />
-                            <Image src="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small" />
+                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />
+                            <Image src="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small"
+                                alt="small memucho logo" />
                         </div>
                     </NuxtLink>
                 </div>

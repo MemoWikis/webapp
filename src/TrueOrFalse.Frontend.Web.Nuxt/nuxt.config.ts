@@ -3,6 +3,7 @@
 export default defineNuxtConfig({
 
     runtimeConfig: {
+        seqServerApiKey: "",
         public: {
             clientBase: "http://memucho.local:3000",
             serverBase: "http://memucho.local",
@@ -12,7 +13,7 @@ export default defineNuxtConfig({
             stripeTeamPriceId: "",
             stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
             seqServerUrl: "http://localhost:5341",
-            seqApiKey: ""
+            seqClientApiKey: ""
         },
     },
     ssr: true,
@@ -56,11 +57,12 @@ export default defineNuxtConfig({
         }
     ],
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
-    sourcemap: {
-        server: true,
-        client: true
-    },
-    debug: true
+    // sourcemap: {
+    //     server: true,
+    //     client: true
+    // },
+    // debug: true,
+
 
     // devServer: {
     //     host: 'memucho.local'

@@ -6,11 +6,15 @@ import { Google } from '~~/components/user/Google'
 import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { Topic } from '~~/components/topic/topicStore'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 const spinnerStore = useSpinnerStore()
-
+interface Props {
+    documentation: Topic
+}
+const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
     emit('setPage', Page.Register)
@@ -144,8 +148,8 @@ async function register() {
 
 <template>
     <div class="container">
-        <div class="row register-container main-page">
-            <div class="col-lg-9 col-md-12 container">
+        <div class="register-container row main-page">
+            <div class="col-lg-9 col-md-12 container main-content">
                 <div class="row login-register">
                     <div class="form-horizontal col-md-12">
                         <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
@@ -279,9 +283,7 @@ async function register() {
                     </div>
                 </div>
             </div>
-            <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container">
-                <div id="SidebarDivider"></div>
-            </div>
+            <Sidebar :documentation="props.documentation" />
         </div>
 
     </div>
@@ -291,7 +293,7 @@ async function register() {
 @import '~~/assets/shared/register.less';
 
 .register-container {
-    display: flex;
+    padding-bottom: 45px;
 }
 
 #Sidebar {

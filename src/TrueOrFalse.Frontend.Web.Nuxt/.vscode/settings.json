@@ -1,3 +1,4 @@
 {
-    "volar.inlayHints.eventArgumentInInlineHandlers": false
+    "volar.inlayHints.eventArgumentInInlineHandlers": false,
+    "volar.addSpaceBetweenDoubleCurlyBrackets": false,
 }

@@ -105,7 +105,7 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								</template>
 								<VTooltip class="tooltip-container">
 									<div class="pie-container">
-										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
 									<template #popper>
 										<b>Dein Wissenstand:</b>
@@ -127,7 +127,7 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								</template>
 								<VTooltip class="tooltip-container">
 									<div class="pie-container">
-										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
 									<template #popper>
 										<b>Dein Wissenstand:</b>
@@ -214,14 +214,14 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 						<template v-if="!isMobile">
 							Analytics
 						</template>
-						<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
 					<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
 						ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							Analytics
 						</template>
-						<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>

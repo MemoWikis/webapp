@@ -16,7 +16,7 @@ const hover = ref(false)
 <template>
     <div @mouseenter="hover = true" @mouseleave="hover = false" :class="{ 'editable': userStore.isLoggedIn }">
         <Image :src="topicStore.imgUrl" class="topic-header-image" :format="ImageFormat.Topic" :show-license="true"
-            :image-id="topicStore.imgId" :min-height="80" :min-width="80" />
+            :image-id="topicStore.imgId" :min-height="80" :min-width="80" :alt="`${topicStore.name}'s image'`" />
         <div v-if="userStore.isLoggedIn" class="edit-overlay" :class="{ 'show-overlay': hover }" @click="openUploadModal">
             <font-awesome-icon :icon="['fas', 'pen']" class="edit-overlay-icon" />
             <div class="edit-overlay-label">

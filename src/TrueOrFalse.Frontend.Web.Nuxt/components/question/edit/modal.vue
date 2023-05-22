@@ -5,7 +5,7 @@ import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from './editQuestionStore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { SearchTopicItem, TopicResult, TopicItem } from '../../search/searchHelper'
-import _ from 'underscore'
+import { debounce } from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
 import { useTopicStore } from '../../topic/topicStore'
@@ -96,7 +96,7 @@ async function search() {
     }
 }
 
-const debounceSearch = _.debounce(() => {
+const debounceSearch = debounce(() => {
     search()
 }, 500)
 
@@ -375,9 +375,9 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 </script>
 
 <template>
-    <Modal :primary-btn-label="editQuestionStore.edit ? ' Speichern' : 'Hinzufügen'" :is-full-size-buttons="false"
-        secondary-btn="Abbrechen" @close="editQuestionStore.showModal = false" @primary-btn="save()"
-        :show="editQuestionStore.showModal" :disabled="disabled" :show-cancel-btn="true">
+    <LazyModal :primary-btn-label="editQuestionStore.edit ? ' Speichern' : 'Hinzufügen'" :is-full-size-buttons="false"
+        v-if="editQuestionStore.showModal" secondary-btn="Abbrechen" @close="editQuestionStore.showModal = false"
+        @primary-btn="save()" :show="editQuestionStore.showModal" :disabled="disabled" :show-cancel-btn="true">
         <template v-slot:header>
 
         </template>
@@ -532,7 +532,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
         </template>
 
-    </Modal>
+    </LazyModal>
 </template>
 
 <style lang="less">

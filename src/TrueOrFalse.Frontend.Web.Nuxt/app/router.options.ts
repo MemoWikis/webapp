@@ -1,4 +1,5 @@
 import type { RouterConfig } from '@nuxt/schema'
+import { Content } from '~/components/user/settings/contentEnum'
 import { Tab as TopicTab } from '~~/components/topic/tabs/tabsStore'
 import { Tab as UsersTab } from '~~/components/users/tabsEnum'
 
@@ -9,7 +10,10 @@ export default <RouterConfig>{
             name: 'welcomePage',
             path: '/',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Topic, redirectFromWelcomePage: true }
+            props: { tab: TopicTab.Topic },
+            meta: {
+                middleware: ['startpage'],
+            },
         },
         {
             name: 'termsPage',
@@ -84,6 +88,12 @@ export default <RouterConfig>{
             path: '/Nutzer/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
             props: { isSettingsPage: true }
+        },
+        {
+            name: 'userSubscriptionPage',
+            path: '/Nutzer/Einstellungen/Mitgliedschaft',
+            component: () => import('~/pages/user/[name]/[id].vue'),
+            props: { isSettingsPage: true, content: Content.Membership }
         },
         {
             name: 'topicContentPage',

@@ -93,6 +93,6 @@ onBeforeMount(() => {
 
 <style scoped lang="less">
 .question-page-container {
-	padding-bottom: 80px;
+	padding-bottom: 45px;
 }
 </style>

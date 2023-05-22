@@ -304,7 +304,9 @@
     <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
+    <Compile Include="Views\ApiVueApp\Middleware\StartpageController.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
@@ -359,7 +361,7 @@
     <Compile Include="Views\ApiVueApp\Topic\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Header\BreadcrumbController.cs" />
     <Compile Include="Views\ApiVueApp\VueRegisterController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Segmentation\SegmentationLogic.cs" />
     <Compile Include="Views\ApiVueApp\AuthorController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\UserStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Footer\FooterController.cs" />

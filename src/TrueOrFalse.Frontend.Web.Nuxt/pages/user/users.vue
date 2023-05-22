@@ -139,15 +139,15 @@ const getSelectedOrderLabel = computed(() => {
                                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                     </div>
 
-                                    <template #popper="p: any">
+                                    <template #popper="{ hide }">
                                         <div class="dropdown-row select-row"
-                                            @click="orderBy = SearchUsersOrderBy.Rank; p.hide() "
+                                            @click="orderBy = SearchUsersOrderBy.Rank; hide()"
                                             :class="{ 'active': orderBy == SearchUsersOrderBy.Rank }">
                                             <div class="dropdown-label select-option">
                                                 Rang
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click="orderBy = SearchUsersOrderBy.WishCount; p.hide() "
+                                        <div class="dropdown-row" @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
                                             :class="{ 'active': orderBy == SearchUsersOrderBy.WishCount }">
                                             <div class="dropdown-label select-option">
                                                 Wunschwissen
@@ -161,11 +161,12 @@ const getSelectedOrderLabel = computed(() => {
 
                     <div class="row usercard-container">
                         <TransitionGroup name="usercard">
-                            <UsersCard v-for="u in pageData.users" :user="u" />
+                            <UsersCard v-for=" u  in  pageData.users " :user="u" />
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                    <div class="col-xs-12 empty-page-container"
+                        v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
                             Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
                         </div>

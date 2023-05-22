@@ -55,11 +55,17 @@ function bounceDiscord() {
     height: 100%;
 
     #SidebarDivider {
-        margin-top: 20px;
-        margin-bottom: 20px;
         border-left: 1px solid @memo-grey-light;
         top: 0;
         flex-grow: 0;
+    }
+
+    &.is-topic {
+        #SidebarDivider {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
     }
 
     #SidebarContent {

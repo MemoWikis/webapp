@@ -3,6 +3,7 @@ import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
+import { Content } from '~/components/user/settings/contentEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -93,8 +94,7 @@ const maxBadgeCount = ref(0)
 
 interface Props {
     isSettingsPage?: boolean,
-    activeContentProp: string
-    
+    content?: Content
 }
 const props = defineProps<Props>()
 
@@ -327,13 +327,8 @@ useHead(() => ({
 
                     </div>
                 </Transition>
-                <Transition>
-                    <div v-show="tab == Tab.Badges">
-
-                    </div>
-                </Transition>
                 <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
-                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl" :active-content-prop="props.activeContentProp" 
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content"
                         @update-profile="refreshProfile" />
                 </Transition>
 
@@ -348,6 +343,16 @@ useHead(() => ({
 .content {
     .overview-partial {
         padding-top: 50px;
+    }
+}
+
+.profile-header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h1 {
+        margin-top: 0px;
     }
 }
 

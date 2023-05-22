@@ -3,10 +3,12 @@ import { ref } from 'vue'
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
+import { useTopicStore } from '../topicStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+const topicStore = useTopicStore()
 
 const route = useRoute()
 const openFilter = ref(false)
@@ -53,7 +55,10 @@ function calculateProgress() {
     unansweredWidth.value = `width: ${100 - progressPercentage.value}%`
 }
 
-
+watch(() => topicStore.questionCount, (count) => {
+    if (count > 0)
+        learningSessionConfigurationStore.showFilter = true
+})
 </script>
 
 <template>
@@ -79,7 +84,6 @@ function calculateProgress() {
                 </div>
             </slot>
         </TopicLearningSessionConfiguration>
-
     </div>
 
     <div class="col-xs-12">
@@ -89,7 +93,6 @@ function calculateProgress() {
 
     <div class="col-xs-12" id="QuestionListContainer">
         <TopicLearningQuestionsSection />
-
     </div>
 </template>
 
