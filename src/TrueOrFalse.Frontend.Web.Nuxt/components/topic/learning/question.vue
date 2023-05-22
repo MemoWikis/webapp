@@ -146,6 +146,18 @@ const learningSessionStore = useLearningSessionStore()
 
 function loadSpecificQuestion() {
     learningSessionStore.changeActiveQuestion(props.sessionIndex)
+    const el = document.getElementById('AnswerBody')
+    if (el) {
+        const headerOffset = 120
+        const elementPosition = el.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        })
+    }
+
 }
 const extendedQuestionId = ref('#eqId-' + props.question.Id)
 const answerId = ref('#aId' + props.question.Id)
@@ -320,7 +332,7 @@ editQuestionStore.$onAction(({ name, after }) => {
                             <VDropdown :distance="0">
                                 <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
                                     class="btn btn-link btn-sm ButtonEllipsis" />
-                                <template #popper="{ hide } : { hide: any }">
+                                <template #popper="{ hide }">
 
                                     <div v-if="userStore.isAdmin || isCreator || canBeEdited"
                                         @click="editQuestion(); hide()" class="dropdown-row">
