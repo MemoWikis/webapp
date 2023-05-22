@@ -310,10 +310,6 @@ export default defineNuxtComponent({
 		},
 		mouseLeave() {
 			this.showHover = false
-
-		},
-		hide(popperProp: any) {
-			popperProhide()
 		}
 	},
 });
@@ -380,10 +376,9 @@ export default defineNuxtComponent({
 		<div class="topicNavigation row" :key="cardsKey!">
 			<TopicContentSegmentationCard v-for="( category, index ) in  categories " @select-category="selectCategory"
 				@unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
-				:is-custom-segment="isCustomSegment" :category-id="category.Id"
-				:selected-categories="selectedCategories" :segment-id="segmentId!" hide="false" :key="index"
-				:category="category" :is-historic="isHistoric" @filter-children="filterChildren"
-				:parent-topic-id="categoryId" @remove-category="removeCategory"
+				:is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories"
+				:segment-id="segmentId!" hide="false" :key="index" :category="category" :is-historic="isHistoric"
+				@filter-children="filterChildren" :parent-topic-id="categoryId" @remove-category="removeCategory"
 				@add-category-card="addCategoryCardEvent" />
 		</div>
 	</div>
