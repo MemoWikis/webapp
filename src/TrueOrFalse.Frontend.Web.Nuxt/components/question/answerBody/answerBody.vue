@@ -466,8 +466,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                 :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'"
                                 v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
-                                :solution="answerBodyModel.solution" :show-answer="showAnswer"
-                                @flipped="amountOfTries++" />
+                                :solution="answerBodyModel.solution" :show-answer="showAnswer" @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMultipleChoice :key="answerBodyModel.id + 'multiplechoice'"
                                 v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
                                 :solution="answerBodyModel.solution" :show-answer="showAnswer" ref="multipleChoice" />
@@ -586,8 +585,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                 </div>
 
                                 <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
-                                        id="AnswerFeedback">
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard" id="AnswerFeedback">
                                         <div id="divAnsweredCorrect" v-if="answerIsCorrect">
                                             <b class="correct-answer-label">Richtig! </b>
                                             <div v-html="wellDoneMsg" v-if="wellDoneMsg.length > 0"></div>
@@ -597,8 +595,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                             <div class="solution-label">
                                                 Richtige Antwort:
                                             </div>
-                                            <div class="Content body-m"
-                                                v-html="handleNewLine(solutionData?.answerAsHTML)">
+                                            <div class="Content body-m" v-html="handleNewLine(solutionData?.answerAsHTML)">
                                             </div>
                                         </div>
 
@@ -687,13 +684,13 @@ const allMultipleChoiceCombinationTried = computed(() => {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    margin-bottom: 24px;
 
     .answerbody-text {
         margin-right: 8px;
 
         h3 {
             margin-top: 0;
+            margin-bottom: 34px;
         }
     }
 
