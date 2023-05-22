@@ -250,6 +250,7 @@ public class CategoryCacheItem
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
+        var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
@@ -262,7 +263,7 @@ public class CategoryCacheItem
             CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
             CountQuestions = category.CountQuestions,
             CountQuestionsAggregated = category.CountQuestionsAggregated,
-            CreatorId = category.Creator == null ? -1 : category.Creator.Id,
+            CreatorId = creatorId,
             CustomSegments = category.CustomSegments,
             Description = category.Description,
             DisableLearningFunctions = category.DisableLearningFunctions,
@@ -279,7 +280,7 @@ public class CategoryCacheItem
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            AuthorIds = category.AuthorIdsInts ?? new[] { category.Creator.Id }
+            AuthorIds = category.AuthorIdsInts ?? new[] { creatorId }
         };
         return categoryCacheItem;
     }
