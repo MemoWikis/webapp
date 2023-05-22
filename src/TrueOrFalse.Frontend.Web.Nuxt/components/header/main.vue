@@ -105,7 +105,7 @@ const navOptions = ref()
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" />
                                 </div>
                             </div>
-                            <template #popper="p: any">
+                            <template #popper="{ hide }">
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
@@ -140,24 +140,24 @@ const navOptions = ref()
                                     <div class="divider"></div>
                                     <div class="user-dropdown-social">
                                         <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`"
-                                            @click="p.hide()">
+                                            @click="hide()">
                                             <div class="user-dropdown-label">Deine Profilseite</div>
                                         </NuxtLink>
                                     </div>
                                     <div class="divider"></div>
 
                                     <div class="user-dropdown-managment">
-                                        <NuxtLink @click="p.hide()"
+                                        <NuxtLink @click="hide()"
                                             :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
 
-                                        <LazyNuxtLink to="/Maintenance" @click="p.hide()">
-                                            <div class="user-dropdown-label" @click="p.hide()" v-if="userStore.isAdmin">
+                                        <LazyNuxtLink to="/Maintenance" @click="hide()">
+                                            <div class="user-dropdown-label" @click="hide()" v-if="userStore.isAdmin">
                                                 Administrativ
                                             </div>
                                         </LazyNuxtLink>
-                                        <div class="user-dropdown-label" @click="userStore.logout(), p.hide()">
+                                        <div class="user-dropdown-label" @click="userStore.logout(), hide()">
                                             Ausloggen
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@ const navOptions = ref()
                         </VDropdown>
 
                         <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                            :class="{ 'p.hide()-nav': !showRegisterButton }">
+                            :class="{ 'hide()-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"

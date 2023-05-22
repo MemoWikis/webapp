@@ -378,25 +378,25 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <font-awesome-icon :icon="['fas', 'bars']" />
                     </div>
 
-                    <template #popper="p: any">
+                    <template #popper="{ hide }">
                         <div class="mobile-dropdown">
                             <div class="dropdown-row  group-label">
                                 Profil Informationen
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; p.hide()"
-                                :class=" { 'active': activeContent == Content.EditProfile } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; hide()"
+                                :class="{ 'active': activeContent == Content.EditProfile }">
                                 <div class="dropdown-label select-option">
                                     Profil bearbeiten
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.Password; p.hide()"
-                                :class=" { 'active': activeContent == Content.Password } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.Password; hide()"
+                                :class="{ 'active': activeContent == Content.Password }">
                                 <div class="dropdown-label select-option">
                                     Passwort
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; p.hide()"
-                                :class=" { 'active': activeContent == Content.DeleteProfile } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; hide()"
+                                :class="{ 'active': activeContent == Content.DeleteProfile }">
                                 <div class="dropdown-label select-option">
                                     Profil löschen
                                 </div>
@@ -405,20 +405,20 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <div class="dropdown-row group-label">
                                 Einstellungen
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; p.hide()"
-                                :class=" { 'active': activeContent == Content.ShowWuwi } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; hide()"
+                                :class="{ 'active': activeContent == Content.ShowWuwi }">
                                 <div class="dropdown-label select-option">
                                     Wunschwissen anzeigen
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; p.hide()"
-                                :class=" { 'active': activeContent == Content.SupportLogin } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
+                                :class="{ 'active': activeContent == Content.SupportLogin }">
                                 <div class="dropdown-label select-option">
                                     Support Login
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.Membership; p.hide()"
-                                :class=" { 'active': activeContent == Content.Membership } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.Membership; hide()"
+                                :class="{ 'active': activeContent == Content.Membership }">
                                 <div class="dropdown-label select-option">
                                     Mitgliedschaft
                                 </div>
@@ -427,8 +427,8 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <div class="dropdown-row  group-label">
                                 Benachrichtigungen
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; p.hide()"
-                                :class=" { 'active': activeContent == Content.KnowledgeReport } ">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; hide()"
+                                :class="{ 'active': activeContent == Content.KnowledgeReport }">
                                 <div class="dropdown-label select-option">
                                     Wissensbericht
                                 </div>
@@ -442,20 +442,20 @@ const getSelectedSettingsPageLabel = computed(() => {
         </div>
         <div class="col-lg-9 col-sm-9 col-xs-12 settings-content">
             <Transition>
-                <div v-if=" activeContent == Content.EditProfile " class="content">
-                    <div class="settings-section" v-if=" showAlert ">
-                        <div class="alert alert-success" v-if=" success ">{{ msg }}</div>
+                <div v-if="activeContent == Content.EditProfile" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">Profilbild</div>
-                        <Image :src=" imageUrl " :format=" ImageFormat.Author " class="profile-picture" />
+                        <Image :src="imageUrl" :format="ImageFormat.Author" class="profile-picture" />
                         <div class="img-settings-btns">
 
                             <div>
                                 <label class="img-upload-btn" for="imageUpload">
                                     <input type="file" accept="image/*" name="file" id="imageUpload"
-                                        v-on:change=" onFileChange " />
+                                        v-on:change="onFileChange" />
                                     <font-awesome-icon icon="fa-solid fa-upload" />
                                     Bild hochladen
                                 </label>
@@ -476,7 +476,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input name="username" placeholder="" type="text" width="0" v-model=" userName "
+                                        <input name="username" placeholder="" type="text" width="0" v-model="userName"
                                             class="settings-input" id="username">
                                     </div>
                                 </div>
@@ -488,7 +488,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input name="email" placeholder="" type="email" width="0" v-model=" email "
+                                        <input name="email" placeholder="" type="email" width="0" v-model="email"
                                             class="settings-input" id="email">
                                     </div>
                                 </div>
@@ -503,9 +503,9 @@ const getSelectedSettingsPageLabel = computed(() => {
                     </div>
                 </div>
 
-                <div v-else-if=" activeContent == Content.Password " class="content">
-                    <div class="settings-section" v-if=" showAlert ">
-                        <div class="alert alert-success" v-if=" success ">{{ msg }}</div>
+                <div v-else-if="activeContent == Content.Password" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
                     </div>
                     <div class="settings-section">
@@ -514,7 +514,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model=" currentPassword "
+                                        <input placeholder="" type="password" width="0" v-model="currentPassword"
                                             class="settings-input">
                                     </div>
                                 </div>
@@ -526,7 +526,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model=" newPassword "
+                                        <input placeholder="" type="password" width="0" v-model="newPassword"
                                             class="settings-input">
                                     </div>
                                 </div>
@@ -538,7 +538,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model=" repeatedPassword "
+                                        <input placeholder="" type="password" width="0" v-model="repeatedPassword"
                                             class="settings-input">
                                     </div>
                                 </div>
@@ -558,32 +558,32 @@ const getSelectedSettingsPageLabel = computed(() => {
                     </div>
                 </div>
 
-                <div v-else-if=" activeContent == Content.DeleteProfile " class="content">
-                    <div class="settings-section" v-if=" showAlert ">
-                        <div class="alert alert-success" v-if=" success ">{{ msg }}</div>
+                <div v-else-if="activeContent == Content.DeleteProfile" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <div class="">
                             <p>
                                 Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink
-                                    to="mailto:team@memucho.de" :external=" true ">team@memucho.de</NuxtLink>
+                                    to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
                             </p>
                         </div>
 
                     </div>
                 </div>
 
-                <div v-else-if=" activeContent == Content.ShowWuwi " class="content">
-                    <div class="settings-section" v-if=" showAlert ">
-                        <div class="alert alert-success" v-if=" success ">{{ msg }}</div>
+                <div v-else-if="activeContent == Content.ShowWuwi" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
-                                <input type="checkbox" name="answer" :value=" true " v-model=" showWuwi " class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if=" showWuwi " class="checkbox-icon" />
+                                <input type="checkbox" name="answer" :value="true" v-model="showWuwi" class="hidden" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi" class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">
@@ -607,17 +607,17 @@ const getSelectedSettingsPageLabel = computed(() => {
                     </div>
                 </div>
 
-                <div v-else-if=" activeContent == Content.SupportLogin " class="content">
-                    <div class="settings-section" v-if=" showAlert ">
-                        <div class="alert alert-success" v-if=" success ">{{ msg }}</div>
+                <div v-else-if="activeContent == Content.SupportLogin" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
-                                <input type="checkbox" name="answer" :value=" true " v-model=" allowSupportLogin "
+                                <input type="checkbox" name="answer" :value="true" v-model="allowSupportLogin"
                                     class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if=" allowSupportLogin "
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="allowSupportLogin"
                                     class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
@@ -644,15 +644,15 @@ const getSelectedSettingsPageLabel = computed(() => {
                         </button>
                     </div>
                 </div>
-                <div v-else-if=" activeContent == Content.Membership " class="content">
-                    <div class="settings-section" v-if=" userStore.subscriptionType != Subscription.Type.Basic ">
-                        <button class="memo-button btn btn-primary" v-if=" userStore.isSubscriptionCanceled == false "
+                <div v-else-if="activeContent == Content.Membership" class="content">
+                    <div class="settings-section" v-if="userStore.subscriptionType != Subscription.Type.Basic">
+                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled == false"
                             @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo Kündigen
                         </button>
                         <button class="memo-button btn btn-primary"
-                            v-else-if=" userStore.isSubscriptionCanceled == true && userStore.subscriptionType == Subscription.Type.Plus "
+                            v-else-if="userStore.isSubscriptionCanceled == true && userStore.subscriptionType == Subscription.Type.Plus"
                             @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo wiederaufnehmen
@@ -664,19 +664,19 @@ const getSelectedSettingsPageLabel = computed(() => {
                     </div>
                 </div>
 
-                <div v-else-if=" activeContent == Content.General " class="content"></div>
+                <div v-else-if="activeContent == Content.General" class="content"></div>
 
-                <div v-else-if=" activeContent == Content.KnowledgeReport " class="content">
-                    <div class="settings-section" v-if=" showAlert ">
-                        <div class="alert alert-success" v-if=" success " v-html=" notificationIntervalChangeMsg "></div>
-                        <div class="alert alert-danger" v-else v-html=" notificationIntervalChangeMsg "></div>
+                <div v-else-if="activeContent == Content.KnowledgeReport" class="content">
+                    <div class="settings-section" v-if="showAlert">
+                        <div class="alert alert-success" v-if="success" v-html="notificationIntervalChangeMsg"></div>
+                        <div class="alert alert-danger" v-else v-html="notificationIntervalChangeMsg"></div>
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">
                             Wissensbericht per E-Mail:
                         </div>
                         <div class="interval-dropdown">
-                            <VDropdown :distance=" 0 ">
+                            <VDropdown :distance="0">
                                 <div class="interval-select">
                                     <div>
                                         {{ getNotificationIntervalText }}
@@ -684,38 +684,38 @@ const getSelectedSettingsPageLabel = computed(() => {
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                 </div>
 
-                                <template #popper=" p: any ">
+                                <template #popper="{ hide }">
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; p.hide()"
-                                        :class=" { 'active': selectedNotificationInterval == NotifcationInterval.Quarterly } ">
+                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Quarterly }">
                                         <div class="dropdown-label select-option">
                                             Vierteljährlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; p.hide()"
-                                        :class=" { 'active': selectedNotificationInterval == NotifcationInterval.Monthly } ">
+                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Monthly }">
                                         <div class="dropdown-label select-option">
                                             Monatlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; p.hide()"
-                                        :class=" { 'active': selectedNotificationInterval == NotifcationInterval.Weekly } ">
+                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Weekly }">
                                         <div class="dropdown-label select-option">
                                             Wöchentlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; p.hide()"
-                                        :class=" { 'active': selectedNotificationInterval == NotifcationInterval.Daily } ">
+                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Daily }">
                                         <div class="dropdown-label select-option">
                                             Täglich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Never; p.hide()"
-                                        :class=" { 'active': selectedNotificationInterval == NotifcationInterval.Never } ">
+                                        @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
+                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Never }">
                                         <div class="dropdown-label select-option">
                                             Nie
                                         </div>
@@ -760,6 +760,7 @@ const getSelectedSettingsPageLabel = computed(() => {
 
 .mobile-dropdown {
     width: calc(100vw - 20px);
+
 }
 
 

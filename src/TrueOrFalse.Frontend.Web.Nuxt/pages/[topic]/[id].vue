@@ -160,7 +160,7 @@ useHead(() => ({
                     <TopicDeleteModal
                         v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin) && userStore.isLoggedIn" />
                 </div>
-                <Sidebar :documentation="props.documentation" />
+                <Sidebar :documentation="props.documentation" class="is-topic"/>
             </template>
         </div>
     </div>

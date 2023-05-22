@@ -89,7 +89,7 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
             </UserMembershipPriceCard>
 
             <UserMembershipPriceCard :plan="Subscription.plans.plus" :selected="false"
-                :class="{ 'recommended': !userStore.isLoggedIn }">
+                :class="{ 'recommended': !userStore.isLoggedIn, 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Plus }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn"
                         v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus"
@@ -105,7 +105,8 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false">
+            <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false"
+                :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Team }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" disabled>
                         In Planung
@@ -113,7 +114,8 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false">
+            <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false"
+                :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Organisation }">
                 <template v-slot:button>
                     <button class="memo-button btn-link">Kontaktieren</button>
                 </template>

@@ -376,7 +376,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                     <div class="answerbody-btn-inner">
                         <VDropdown :distance="0">
                             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-                            <template #popper="p: any">
+                            <template #popper="{ hide }">
 
                                 <div class="dropdown-row"
                                     v-if="tabsStore.activeTab == Tab.Learning && (answerBodyModel.isCreator || userStore.isAdmin)"
@@ -408,7 +408,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     </div>
                                 </LazyNuxtLink>
 
-                                <div class="dropdown-row" @click="openCommentModal(); p.hide()">
+                                <div class="dropdown-row" @click="openCommentModal(); hide()">
                                     <div class="dropdown-icon">
                                         <font-awesome-icon icon="fa-solid fa-comment" />
                                     </div>
@@ -533,10 +533,9 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                         </div>
                                     </template>
 
-                                    <div v-if="
-                                        learningSessionStore.isLearningSession
-                                            && !learningSessionStore.isInTestMode && amountOfTries == 0 && !showAnswer
-                                   ">
+                                    <div v-if="learningSessionStore.isLearningSession
+                                        && !learningSessionStore.isInTestMode && amountOfTries == 0 && !showAnswer
+                                        ">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
@@ -616,7 +615,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                                     Deine {{ answersSoFar.length == 1 ? 'Antwort' : 'Antworten' }}:
                                                 </span>
                                                 <ul id="ulAnswerHistory">
-                                                    <li v-for="answers in answersSoFar" v-html="answers">
+                                                    <li v-for=" answers  in  answersSoFar " v-html="answers">
                                                     </li>
                                                 </ul>
                                             </div>

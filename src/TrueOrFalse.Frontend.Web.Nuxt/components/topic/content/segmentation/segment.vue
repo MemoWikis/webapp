@@ -313,7 +313,7 @@ export default defineNuxtComponent({
 
 		},
 		hide(popperProp: any) {
-			popperProp.hide()
+			popperProhide()
 		}
 	},
 });
@@ -343,26 +343,26 @@ export default defineNuxtComponent({
 						<div class="btn btn-link btn-sm ButtonEllipsis">
 							<font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
 						</div>
-						<template #popper="p: any">
+						<template #popper="{ hide }">
 							<div @click="removeSegment()" class="dropdown-row">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'sitemap']" />
 								</div>
 								<div class="dropdown-label"> Unterthema ausblenden</div>
 							</div>
-							<div @click="openPublishModal(); p.hide()" class="dropdown-row" v-if="visibility == 1">
+							<div @click="openPublishModal(); hide()" class="dropdown-row" v-if="visibility == 1">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'unlock']" />
 								</div>
 								<div class="dropdown-label">Thema veröffentlichen</div>
 							</div>
-							<div @click="openMoveCategoryModal(); p.hide()" class="dropdown-row">
+							<div @click="openMoveCategoryModal(); hide()" class="dropdown-row">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'circle-right']" />
 								</div>
 								<div class="dropdown-label">Thema verschieben</div>
 							</div>
-							<div @click="openAddToWikiModal(); p.hide()" data-allowed="logged-in" class="dropdown-row">
+							<div @click="openAddToWikiModal(); hide()" data-allowed="logged-in" class="dropdown-row">
 								<div class="dropdown-icon">
 									<font-awesome-icon :icon="['fa-solid', 'plus']" />
 								</div>
@@ -378,9 +378,9 @@ export default defineNuxtComponent({
 			</div>
 		</div>
 		<div class="topicNavigation row" :key="cardsKey!">
-			<TopicContentSegmentationCard v-for="(category, index) in categories"
-				@select-category="selectCategory" @unselect-category="unselectCategory" inline-template
-				:ref="'card' + category.Id" :is-custom-segment="isCustomSegment" :category-id="category.Id"
+			<TopicContentSegmentationCard v-for="( category, index ) in  categories " @select-category="selectCategory"
+				@unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
+				:is-custom-segment="isCustomSegment" :category-id="category.Id"
 				:selected-categories="selectedCategories" :segment-id="segmentId!" hide="false" :key="index"
 				:category="category" :is-historic="isHistoric" @filter-children="filterChildren"
 				:parent-topic-id="categoryId" @remove-category="removeCategory"

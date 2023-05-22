@@ -1305,6 +1305,9 @@ watch(() => userStore.isLoggedIn, () => {
                     }
 
                     #semiPieChart {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         .semiPieSvgContainer {
                             display: flex;
                             justify-content: center;
