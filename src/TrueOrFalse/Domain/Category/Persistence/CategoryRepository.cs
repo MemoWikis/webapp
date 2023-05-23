@@ -49,7 +49,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
 
         UserActivityAdd.CreatedCategory(category);
-        _solrSearchIndexCategory.Update(category);
+
+        if (IsSolrActive)
+        {
+            _solrSearchIndexCategory.Update(category);
+        }
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
@@ -86,13 +90,21 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         base.Create(category);
         Flush();
-        _solrSearchIndexCategory.Update(category);
+        if (IsSolrActive)
+        {
+            _solrSearchIndexCategory.Update(category);
+        }
+
         Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
     }
 
     public override void Delete(Category category)
     {
-        _solrSearchIndexCategory.Delete(category);
+        if (IsSolrActive)
+        {
+            _solrSearchIndexCategory.Delete(category);
+        }
+
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category));
         Task.Run(async () =>
@@ -105,7 +117,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void DeleteWithoutFlush(Category category)
     {
-        _solrSearchIndexCategory.Delete(category);
+        if (IsSolrActive)
+        {
+            _solrSearchIndexCategory.Delete(category);
+        }
+
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id));
         SessionUserCache.RemoveAllForCategory(category.Id);
