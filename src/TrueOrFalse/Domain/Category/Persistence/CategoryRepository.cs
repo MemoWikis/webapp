@@ -30,7 +30,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (IsSolrActive)
         {
             _solrSearchIndexCategory = solrSearchIndexCategory;
-            _solrSearchIndexCategory = solrSearchIndexCategory;
         }
     }
 
