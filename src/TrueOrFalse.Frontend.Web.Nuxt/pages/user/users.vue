@@ -34,7 +34,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/VueUsers/Ge
             options.baseURL = config.public.serverBase
         }
     },
-    default: () => 0
+    default: () => null
 })
 
 const url = computed(() => {
@@ -109,7 +109,7 @@ const getSelectedOrderLabel = computed(() => {
                             Ergebnisse für "{{ searchTerm }}" ({{ pageData.totalItems }})
                         </div>
                         <div class="overline-s no-line" v-else>
-                            Alle Nutzer ({{ totalUserCount }})
+                            Alle Nutzer <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 users-options">
@@ -165,8 +165,7 @@ const getSelectedOrderLabel = computed(() => {
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container"
-                        v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
                             Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
                         </div>

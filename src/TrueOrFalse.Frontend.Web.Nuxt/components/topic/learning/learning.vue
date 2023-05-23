@@ -88,7 +88,6 @@ watch(() => topicStore.questionCount, (count) => {
 
     <div class="col-xs-12">
         <QuestionAnswerBody />
-
     </div>
 
     <div class="col-xs-12" id="QuestionListContainer">

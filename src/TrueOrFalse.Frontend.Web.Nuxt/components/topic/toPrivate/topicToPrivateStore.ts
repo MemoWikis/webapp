@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { useAlertStore, AlertType, AlertMsg, messages } from "~~/components/alert/alertStore"
+import { useAlertStore, AlertType, messages } from "~~/components/alert/alertStore"
 import { Visibility } from "~~/components/shared/visibilityEnum"
 import { useTopicStore } from "../topicStore"
 interface TopicToPrivateData {
@@ -80,7 +80,7 @@ export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
             const data = {
                 questionIds: this.allQuestionsToPrivate ? this.allQuestionIds : this.personalQuestionIds,
             }
-            $fetch<any>('/apiVue/topicToPrivate/SetQuestionsToPrivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            $fetch<any>('/apiVue/TopicToPrivateStore/SetQuestionsToPrivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
         }
     }
 })
