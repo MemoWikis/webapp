@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 using NHibernate.Util;
 
 public class LeitnerSimulation
@@ -9,29 +7,10 @@ public class LeitnerSimulation
     public IList<LeitnerDay> Days = new List<LeitnerDay>();
     public static int InitialProbability { get; private set; }
 
-    public void Start(int numberOfDays = 10, int numberOfQuestions = 100, int initialProbability = 50)
-    {
-        var leitnerBoxes = LeitnerBox.CreateBoxes();
-        var leitnerQuestions = LeitnerQuestion.CreateQuestions(numberOfQuestions);
-        InitialProbability = initialProbability;
-
-        MoveToFirstBox(leitnerBoxes, leitnerQuestions);
-
-        for (var i = 0; i < numberOfDays; i++)
-            AdvanceDay(leitnerBoxes);
-    }
-
-    private static void MoveToFirstBox(IList<LeitnerBox> leitnerBoxes, IList<LeitnerQuestion> leitnerQuestions)
-    {
-        var box1 = leitnerBoxes.ByNumber(1);
-        leitnerQuestions.ForEach(q => q.Box = box1);
-        box1.Questions.AddRange(leitnerQuestions);
-    }
-
     public void AdvanceDay(IList<LeitnerBox> boxes)
     {
         var currentDay = Days.Count + 1;
-        boxes.ForEach(b => b.ToRepeat = false);        
+        boxes.ForEach(b => b.ToRepeat = false);
         var boxesToRepeat = boxes.GetBoxesToRepeat(currentDay);
         boxesToRepeat.ForEach(b => b.ToRepeat = true);
 
@@ -48,10 +27,15 @@ public class LeitnerSimulation
             foreach (var question in box.Questions)
             {
                 if (question.Answer(currentDay))
+                {
                     questionToMoveToNextBox.Add(question);
+                }
                 else
+                {
                     questionsToMoveToFirstBox.Add(question);
+                }
             }
+
             questionToMoveToNextBox.ForEach(q => q.Box.MoveToNextBox(q));
         }
 
@@ -63,5 +47,26 @@ public class LeitnerSimulation
             BoxesBefore = boxesBefore,
             BoxesAfter = boxes.DeepClone()
         });
+    }
+
+    public void Start(int numberOfDays = 10, int numberOfQuestions = 100, int initialProbability = 50)
+    {
+        var leitnerBoxes = LeitnerBox.CreateBoxes();
+        var leitnerQuestions = LeitnerQuestion.CreateQuestions(numberOfQuestions);
+        InitialProbability = initialProbability;
+
+        MoveToFirstBox(leitnerBoxes, leitnerQuestions);
+
+        for (var i = 0; i < numberOfDays; i++)
+        {
+            AdvanceDay(leitnerBoxes);
+        }
+    }
+
+    private static void MoveToFirstBox(IList<LeitnerBox> leitnerBoxes, IList<LeitnerQuestion> leitnerQuestions)
+    {
+        var box1 = leitnerBoxes.ByNumber(1);
+        leitnerQuestions.ForEach(q => q.Box = box1);
+        box1.Questions.AddRange(leitnerQuestions);
     }
 }
