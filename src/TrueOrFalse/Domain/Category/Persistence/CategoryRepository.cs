@@ -20,14 +20,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public const int StudiumId = 687;
     public const int ZertifikateId = 689;
     private readonly SolrSearchIndexCategory _solrSearchIndexCategory;
-    private readonly bool IsSolrActive;
+    private readonly bool _isSolrActive;
 
     public CategoryRepository(ISession session, SolrSearchIndexCategory solrSearchIndexCategory)
         : base(session)
     {
-        IsSolrActive = Settings.UseMeiliSearch() == false;
+        _isSolrActive = Settings.UseMeiliSearch() == false;
 
-        if (IsSolrActive)
+        if (_isSolrActive)
         {
             _solrSearchIndexCategory = solrSearchIndexCategory;
         }
@@ -49,7 +49,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         UserActivityAdd.CreatedCategory(category);
 
-        if (IsSolrActive)
+        if (_isSolrActive)
         {
             _solrSearchIndexCategory.Update(category);
         }
@@ -89,7 +89,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         base.Create(category);
         Flush();
-        if (IsSolrActive)
+        if (_isSolrActive)
         {
             _solrSearchIndexCategory.Update(category);
         }
@@ -99,7 +99,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Delete(Category category)
     {
-        if (IsSolrActive)
+        if (_isSolrActive)
         {
             _solrSearchIndexCategory.Delete(category);
         }
@@ -116,7 +116,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void DeleteWithoutFlush(Category category)
     {
-        if (IsSolrActive)
+        if (_isSolrActive)
         {
             _solrSearchIndexCategory.Delete(category);
         }
@@ -321,7 +321,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         bool createCategoryChange = true,
         int[] affectedParentIdsByMove = null)
     {
-        if (!isFromModifiyRelations)
+        if (!isFromModifiyRelations && _isSolrActive)
         {
             _solrSearchIndexCategory.Update(category);
         }
