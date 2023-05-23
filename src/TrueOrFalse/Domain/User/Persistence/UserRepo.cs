@@ -9,10 +9,15 @@ using TrueOrFalse.Search;
 public class UserRepo : RepositoryDbBase<User>
 {
     private readonly SearchIndexUser _searchIndexUser;
+    private readonly bool _isSolrActive;
 
     public UserRepo(ISession session, SearchIndexUser searchIndexUser) : base(session)
     {
-        _searchIndexUser = searchIndexUser;
+        _isSolrActive = Settings.UseMeiliSearch() == false;
+        if (_isSolrActive)
+        {
+            _searchIndexUser = searchIndexUser;
+        }
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -40,7 +45,11 @@ public class UserRepo : RepositoryDbBase<User>
             throw new InvalidAccessException();
         }
 
-        _searchIndexUser.Delete(user);
+        if (_isSolrActive)
+        {
+            _searchIndexUser.Delete(user);
+        }
+
         base.Delete(id);
         SessionUserCache.Remove(user);
         EntityCache.RemoveUser(id);
@@ -214,13 +223,6 @@ public class UserRepo : RepositoryDbBase<User>
     public User GetMemuchoUser()
     {
         return GetById(Settings.MemuchoUserId);
-    }
-
-    public User GetUserById(int userId)
-    {
-        return _session.QueryOver<User>()
-            .Where(u => u.Id == userId)
-            .SingleOrDefault();
     }
 
     public IList<User> GetWhereReputationIsBetween(int newReputation, int oldRepution)
