@@ -59,7 +59,6 @@ export default defineNuxtComponent({
 			this.currentChildCategoryIds = JSON.parse(this.segmentation?.childCategoryIds);
 		}
 		if (this.segmentation?.segments != null && this.segmentation?.segments.length > 0) {
-			console.log(this.segmentation.segments)
 			this.segments = this.segmentation.segments;
 			this.hasCustomSegment = true;
 		}

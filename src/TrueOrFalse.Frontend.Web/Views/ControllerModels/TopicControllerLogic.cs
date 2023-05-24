@@ -126,17 +126,20 @@ public class TopicControllerLogic
         var s = new SegmentationModel(category);
         var childTopics = segmentationLogic.GetCategoriesData(s.NotInSegmentCategoryList.GetIds().ToArray());
         var segments = new List<dynamic>();
-        foreach (var segment in s.Segments)
+        if (s.Segments != null && s.Segments.Count > 0)
         {
-            var segmentChildrenIds = segment.ChildCategories.GetIds().ToArray();
-            segments.Add(new 
+            foreach (var segment in s.Segments)
             {
-                Title = segment.Title,
-                CategoryId = segment.Item.Id,
-                ChildCategoryIds = segmentChildrenIds,
-                childTopics = segmentationLogic.GetCategoriesData(segmentChildrenIds),
-                segmentData = segmentationLogic.GetSegmentData(segment.Item.Id)
-            });
+                var segmentChildrenIds = segment.ChildCategories.GetIds().ToArray();
+                segments.Add(new
+                {
+                    Title = segment.Title,
+                    CategoryId = segment.Item.Id,
+                    ChildCategoryIds = segmentChildrenIds,
+                    childTopics = segmentationLogic.GetCategoriesData(segmentChildrenIds),
+                    segmentData = segmentationLogic.GetSegmentData(segment.Item.Id)
+                });
+            }
         }
         return new
         {
