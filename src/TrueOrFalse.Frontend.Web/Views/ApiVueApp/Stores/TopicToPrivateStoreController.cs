@@ -23,7 +23,8 @@ public class TopicToPrivateStoreController
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories()
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
-        var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(true).Where(q => q.Visibility == QuestionVisibility.All).ToList();
+        var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(true)
+            .Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
         {
@@ -36,7 +37,8 @@ public class TopicToPrivateStoreController
 
             foreach (var c in aggregatedTopics)
             {
-                bool childHasPublicParent = c.Value.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != topicId);
+                bool childHasPublicParent = c.Value.ParentCategories()
+                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != topicId);
                 if (!childHasPublicParent)
                     return Json(new
                     {
@@ -71,7 +73,8 @@ public class TopicToPrivateStoreController
             }
         }
 
-        var filteredAggregatedQuestions = publicAggregatedQuestions.Where(q => q.Creator != null && q.Creator.Id == userCacheItem.Id)
+        var filteredAggregatedQuestions = publicAggregatedQuestions
+            .Where(q => q.Creator != null && q.Creator.Id == userCacheItem.Id)
             .Select(q => q.Id).ToList();
 
         return Json(new
@@ -112,7 +115,8 @@ public class TopicToPrivateStoreController
 
             foreach (var c in aggregatedTopics)
             {
-                bool childHasPublicParent = c.Value.ParentCategories().Any(p => p.Visibility == CategoryVisibility.All && p.Id != topicId);
+                bool childHasPublicParent = c.Value.ParentCategories()
+                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != topicId);
                 if (!childHasPublicParent)
                     return Json(new
                     {
@@ -140,5 +144,26 @@ public class TopicToPrivateStoreController
             success = true,
             key = "setToPrivate"
         });
+    }
+
+    [HttpGet]
+    [AccessOnlyAsLoggedIn]
+    public void SetQuestionsToPrivate(List<int> questionIds)
+    {
+        foreach (var questionId in questionIds)
+        {
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            var otherUsersHaveQuestionInWuwi =
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
+            if ((questionCacheItem.Creator.Id == SessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
+                IsInstallationAdmin)
+            {
+                questionCacheItem.Visibility = QuestionVisibility.Owner;
+                EntityCache.AddOrUpdate(questionCacheItem);
+                var question = Sl.QuestionRepo.GetById(questionId);
+                question.Visibility = QuestionVisibility.Owner;
+                Sl.QuestionRepo.Update(question);
+            }
+        }
     }
 }

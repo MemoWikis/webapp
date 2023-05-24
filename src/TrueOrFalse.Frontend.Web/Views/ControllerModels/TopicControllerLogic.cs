@@ -1,6 +1,8 @@
 ﻿
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -62,7 +64,7 @@ public class TopicControllerLogic
 
         return new { };
     }
-    public dynamic GetTopicDataWithSegments(int id)
+    public dynamic GetTopicDataWithSegments(int id, ControllerContext context)
     {
         var topic = EntityCache.GetCategory(id);
 
@@ -70,11 +72,6 @@ public class TopicControllerLogic
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
-            var segmentationController = new VueSegmentationController();
-            var segments = new
-            {
-
-            };
             return new
             {
                 CanAccess = true,
@@ -114,11 +111,40 @@ public class TopicControllerLogic
                     needsConsolidation = knowledgeSummary.NeedsConsolidation,
                     solid = knowledgeSummary.Solid
                 },
-                Segmentation = segmentationController.GetSegmentation(id)
+                Segmentation = GetSegmentation(id, context)
             };
         }
 
         return new { };
+    }
+
+    private dynamic GetSegmentation(int id, ControllerContext context)
+    {
+        var segmentationLogic = new SegmentationLogic(context);
+
+        var category = EntityCache.GetCategory(id);
+        var s = new SegmentationModel(category);
+        var childTopics = segmentationLogic.GetCategoriesData(s.NotInSegmentCategoryList.GetIds().ToArray());
+        var segments = new List<dynamic>();
+        foreach (var segment in s.Segments)
+        {
+            var segmentChildrenIds = segment.ChildCategories.GetIds().ToArray();
+            segments.Add(new 
+            {
+                Title = segment.Title,
+                CategoryId = segment.Item.Id,
+                ChildCategoryIds = segmentChildrenIds,
+                childTopics = segmentationLogic.GetCategoriesData(segmentChildrenIds),
+                segmentData = segmentationLogic.GetSegmentData(segment.Item.Id)
+            });
+        }
+        return new
+        {
+            childCategoryIds = s.NotInSegmentCategoryIds,
+            segmentJson = s.SegmentJson,
+            childTopics = childTopics,
+            segments = segments
+        };
     }
 
     private SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)

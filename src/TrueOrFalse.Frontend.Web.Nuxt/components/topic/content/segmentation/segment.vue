@@ -8,21 +8,10 @@ import {
 } from "../../relation/editTopicRelationStore";
 import { CategoryCardData } from "./CategoryCardData";
 import { usePublishTopicStore } from "../../publish/publishTopicStore";
+import { handleNewLine } from "~/components/shared/utils";
 
 export default defineNuxtComponent({
-	props: {
-		title: String,
-		description: String,
-		childCategoryIds: [Array, String],
-		categoryId: {
-			type: Number,
-			required: true,
-		},
-		editMode: Boolean,
-		isHistoric: Boolean,
-		parentId: Number,
-	},
-
+	props: ['title', 'categoryId', 'childCategoryIds', 'editMode', 'isHistoric', 'parentId', 'childTopics', 'segmentData'],
 	data() {
 		return {
 			categories: [] as any[],
@@ -40,23 +29,22 @@ export default defineNuxtComponent({
 			linkToCategory: '',
 			visibility: 0,
 			segmentTitle: null as null | string,
-			knowledgeBarHtml: null,
+			knowledgeBarHtml: '',
 			disabled: true,
 			knowledgeBarData: null,
 		};
 	},
 	mounted() {
-		this.getSegmentData();
+		this.setSegmentData(this.segmentData);
 		this.segmentId = "Segment-" + this.categoryId;
 		if (this.childCategoryIds != null) {
+			this.childTopics?.forEach((c: any) => this.categories.push(c));
+
 			var baseChildCategoryIds = JSON.parse(this.childCategoryIds.toString());
 			this.currentChildCategoryIds = baseChildCategoryIds;
 		}
 		this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
 		this.dropdownId = this.segmentId + "-Dropdown";
-
-		if (this.currentChildCategoryIds.length > 0)
-			this.getCategoriesData();
 
 		const editTopicRelationStore = useEditTopicRelationStore()
 		const self = this;
@@ -87,9 +75,6 @@ export default defineNuxtComponent({
 			this.disabled = val.length <= 0;
 		},
 	},
-
-	updated() { },
-
 	methods: {
 		addCategoryCardEvent(e: any) {
 			if (this.categoryId == e.parentId)
@@ -147,13 +132,16 @@ export default defineNuxtComponent({
 				credentials: "include",
 			});
 			if (result) {
-				self.linkToCategory = result.linkToCategory;
-				self.visibility = result.visibility;
-				self.knowledgeBarHtml = result.knowledgeBarHtml;
-				self.knowledgeBarData = result.knowledgeBarData;
-				if (self.title) self.segmentTitle = self.title;
-				else self.segmentTitle = result.categoryName;
+				this.setSegmentData(result);
 			}
+		},
+		setSegmentData(data: any) {
+			this.linkToCategory = data.linkToCategory;
+			this.visibility = data.visibility;
+			this.knowledgeBarHtml = handleNewLine(data.knowledgeBarHtml);
+			this.knowledgeBarData = data.knowledgeBarData;
+			if (this.title) this.segmentTitle = this.title;
+			else this.segmentTitle = data.categoryName;
 		},
 		selectCategory(id: number) {
 			if (this.selectedCategories.includes(id)) return;

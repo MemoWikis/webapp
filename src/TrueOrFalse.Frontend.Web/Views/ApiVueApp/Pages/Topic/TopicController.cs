@@ -16,6 +16,13 @@ public class TopicController : BaseController
     }
 
     [HttpGet]
+    public JsonResult GetTopicWithSegments(int id)
+    {
+        var topicControllerLogic = new TopicControllerLogic();
+        return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpGet]
     public bool CanAccess(int id)
     {
         var c = EntityCache.GetCategory(id);

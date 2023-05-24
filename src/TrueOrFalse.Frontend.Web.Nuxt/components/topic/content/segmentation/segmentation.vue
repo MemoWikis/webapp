@@ -7,17 +7,21 @@ import {
 	EditRelationData,
 } from "../../relation/editTopicRelationStore";
 import _ from "underscore";
+import { CategoryCardData } from "./CategoryCardData";
 
 interface Segment {
 	CategoryId: number;
 	Title: string;
 	ChildCategoryIds: Array<number>;
+	childTopics: Array<CategoryCardData>;
+	segmentData: Object
 }
 
 export default defineNuxtComponent({
-	props: {
-		isHistoricString: String,
-	},
+	props: [
+		'isHistoricString',
+		'segmentation'
+	],
 
 	data() {
 		return {
@@ -49,8 +53,16 @@ export default defineNuxtComponent({
 	mounted() {
 		const topicStore = useTopicStore();
 		this.categoryId = topicStore.id;
-		this.initSegments();
 
+		if (this.segmentation?.childCategoryIds != null && this.segmentation?.childCategoryIds.length > 0 && this.segmentation?.childTopics != null) {
+			this.segmentation?.childTopics.forEach((c: any) => this.categories.push(c));
+			this.currentChildCategoryIds = JSON.parse(this.segmentation?.childCategoryIds);
+		}
+		if (this.segmentation?.segments != null && this.segmentation?.segments.length > 0) {
+			console.log(this.segmentation.segments)
+			this.segments = this.segmentation.segments;
+			this.hasCustomSegment = true;
+		}
 		const editTopicRelationStore = useEditTopicRelationStore()
 		const self = this;
 		editTopicRelationStore.$onAction(({
@@ -352,7 +364,8 @@ export default defineNuxtComponent({
 			<TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId"
 				:title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds"
 				:category-id="parseInt(s.CategoryId.toString())" :is-historic="isHistoric" :parent-id="categoryId"
-				@remove-segment="removeSegment(s.CategoryId)" @filter-children="filterChildren" />
+				@remove-segment="removeSegment(s.CategoryId)" @filter-children="filterChildren"
+				:child-topics="s.childTopics" :segment-data="s.segmentData" />
 		</div>
 		<div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"
 			:class="{ hover: showHover && !isHistoric }">

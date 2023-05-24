@@ -39,7 +39,7 @@ const showGooglePluginInfo = ref(false)
 const allowGooglePlugin = ref(false)
 
 function loadGooglePlugin() {
-    document.cookie = "allowGooglePlugin=true";
+    document.cookie = "allowGooglePlugin=true"
     allowGooglePlugin.value = true
     showLoginIsInProgress.value = true
     googleLoginComponent.value.loadPlugin()
@@ -297,7 +297,8 @@ onMounted(() => {
                 </div>
                 <div class="row" v-else-if="showFacebookPluginInfo">
                     <p>
-                        <button type="button" class="btn btn-primary pull-right memo-button" @click="loadFacebookPlugin()">
+                        <button type="button" class="btn btn-primary pull-right memo-button"
+                            @click="loadFacebookPlugin(true)">
                             Einverstanden
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"
