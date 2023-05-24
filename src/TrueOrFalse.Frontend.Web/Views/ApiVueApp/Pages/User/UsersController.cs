@@ -8,17 +8,15 @@ namespace VueApp;
 
 public class VueUsersController : BaseController
 {
-
     [HttpGet]
-    public JsonResult GetTotalUserCount()
+    public JsonResult Get(
+        int page,
+        int pageSize,
+        string searchTerm = "",
+        SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
     {
-        return Json(R<GetTotalUsers>().Run(), JsonRequestBehavior.AllowGet);
-    }
-
-    [HttpGet]
-    public JsonResult Get(int page, int pageSize, string searchTerm = "", SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
-    {
-        var solrResult = Sl.SolrSearchUsers.Run(searchTerm, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
+        var solrResult = Sl.SolrSearchUsers.Run(searchTerm,
+            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
 
         var users = EntityCache.GetUsersByIds(solrResult.UserIds);
         var usersResult = users.Select(GetUserResult);
@@ -26,8 +24,14 @@ public class VueUsersController : BaseController
         return Json(new
         {
             users = usersResult.ToArray(),
-            totalItems = solrResult.Pager.TotalItems,
-        },JsonRequestBehavior.AllowGet);
+            totalItems = solrResult.Pager.TotalItems
+        }, JsonRequestBehavior.AllowGet);
+    }
+
+    [HttpGet]
+    public JsonResult GetTotalUserCount()
+    {
+        return Json(R<GetTotalUsers>().Run(), JsonRequestBehavior.AllowGet);
     }
 
     public UserResult GetUserResult(UserCacheItem user)
@@ -65,17 +69,17 @@ public class VueUsersController : BaseController
 
     public class UserResult
     {
-        public string name { get; set; }
-        public int id { get; set; }
-        public string encodedName { get; set; }
-        public int reputationPoints { get; set; }
-        public int rank { get; set; }
         public int createdQuestionsCount { get; set; }
         public int createdTopicsCount { get; set; }
+        public string encodedName { get; set; }
+        public int id { get; set; }
+        public string imgUrl { get; set; }
+        public string name { get; set; }
+        public int rank { get; set; }
+        public int reputationPoints { get; set; }
         public bool showWuwi { get; set; }
+        public int wikiId { get; set; }
         public int wuwiQuestionsCount { get; set; }
         public int wuwiTopicsCount { get; set; }
-        public string imgUrl { get; set; }
-        public int wikiId { get; set; }
     }
 }
