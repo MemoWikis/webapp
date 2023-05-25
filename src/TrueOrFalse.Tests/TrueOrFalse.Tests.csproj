@@ -307,7 +307,6 @@
     <Compile Include="2 Domain\Question\Delete_question.cs" />
     <Compile Include="2 Domain\Question\History\ContextHistory.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_streak.cs" />
-    <Compile Include="2 Domain\Question\History\AnswerFeature_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\History\AnswerIntervals.cs" />
     <Compile Include="2 Domain\Question\History\PatternMatcher_test.cs" />
     <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />

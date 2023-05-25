@@ -791,12 +791,6 @@
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
-    <Compile Include="Domain\User\AppAccess\AppAccess.cs" />
-    <Compile Include="Domain\User\AppAccess\AppKey.cs" />
-    <Compile Include="Domain\User\AppAccess\Ops\GetAppAccessToken.cs" />
-    <Compile Include="Domain\User\AppAccess\Persistence\AppAccessRepo.cs" />
-    <Compile Include="Domain\User\AppAccess\Persistence\AppAccessMap.cs" />
-    <Compile Include="Domain\User\AppAccess\AppInfo.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
     <Compile Include="Domain\User\Membership\Invoice\InvoiceModel.cs" />
@@ -878,6 +872,8 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs244.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs248.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs247.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs246.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs245.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs243.cs" />

@@ -28,24 +28,6 @@ public class CurveDesc
 {
     public QuestionFeature QuestionFeature;
 
-    public string ColumnId => ColumnLabel.Replace(" ", "");
-
-    public string ColumnLabel
-    {
-        get
-        {
-            var result = "";
-            if (QuestionFeature != null && !string.IsNullOrEmpty(QuestionFeature.Name))
-            {
-                result += " " + QuestionFeature.Name;
-            }
-
-            return result;
-        }
-    }
-
-    public string AnswerFeatureId { get; set; }
-
     /// <summary>
     ///     Question category, possible values:
     ///     - nobrainer,
