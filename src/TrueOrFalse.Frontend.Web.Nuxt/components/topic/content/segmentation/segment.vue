@@ -371,7 +371,6 @@ export default defineNuxtComponent({
 		</div>
 	</div>
 </template>
-
 <style lang="less" scoped>
 @import (reference) "~~/assets/includes/imports.less";
 
@@ -380,8 +379,6 @@ export default defineNuxtComponent({
 		width: 100%;
 	}
 }
-
-
 
 #Segmentation {
 	margin-top: 80px;
@@ -766,5 +763,45 @@ export default defineNuxtComponent({
 		}
 	}
 }
+}
+</style>
+
+<style lang="less">
+@import (reference) "~~/assets/includes/imports.less";
+
+.segmentKnowledgeBar {
+	.category-knowledge-bar {
+		height: 10px;
+		width: 100%;
+
+		.solid-knowledge,
+		.needs-learning,
+		.needs-consolidation,
+		.not-learned,
+		.not-in-wish-knowledge {
+			height: inherit;
+			float: left;
+		}
+
+		.needs-learning {
+			background-color: @needs-learning-color;
+		}
+
+		.needs-consolidation {
+			background-color: @needs-consolidation-color;
+		}
+
+		.solid-knowledge {
+			background-color: @solid-knowledge-color;
+		}
+
+		.not-learned {
+			background-color: @not-learned-color;
+		}
+
+		.not-in-wish-knowledge {
+			background-color: @not-in-wish-knowledge-color;
+		}
+	}
 }
 </style>

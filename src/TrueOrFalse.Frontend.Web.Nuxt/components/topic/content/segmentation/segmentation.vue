@@ -8,6 +8,7 @@ import {
 } from "../../relation/editTopicRelationStore";
 import _ from "underscore";
 import { CategoryCardData } from "./CategoryCardData";
+import { useRootTopicChipStore } from "~/components/header/rootTopicChipStore";
 
 interface Segment {
 	CategoryId: number;
@@ -48,6 +49,7 @@ export default defineNuxtComponent({
 			childCategoryIds: "",
 			segmentJson: "",
 			categoryId: 0,
+			rootTopicChipStore: useRootTopicChipStore()
 		};
 	},
 	mounted() {
@@ -354,8 +356,18 @@ export default defineNuxtComponent({
 		<div class="segmentationHeader overline-m">
 			Untergeordnete Themen
 			<template v-if="categories.length > 0">({{ categories.length }})</template>
-			<div class="toRoot" id="SegmentationLinkToGlobalWiki" style="display: none">
-				<!-- <% Html.RenderPartial("CategoryLabel", RootCategory.Get); %> -->
+			<div class="toRoot" id="SegmentationLinkToGlobalWiki" v-if="rootTopicChipStore.showRootTopicChip">
+				<div class="category-chip-container">
+					<NuxtLink :href="`/${rootTopicChipStore.encodedName}/${rootTopicChipStore.id}`">
+						<div class="category-chip" v-tooltip="rootTopicChipStore.name">
+							<Image :src="rootTopicChipStore.imgUrl" />
+
+							<div class="category-chip-label">
+								{{ rootTopicChipStore.name }}
+							</div>
+						</div>
+					</NuxtLink>
+				</div>
 			</div>
 		</div>
 
@@ -656,6 +668,68 @@ export default defineNuxtComponent({
 		i {
 			font-size: 18px;
 		}
+	}
+}
+</style>
+
+<style lang="less">
+@import (reference) "~~/assets/includes/imports.less";
+
+.toRoot {
+	align-items: center;
+	color: @memo-grey-darker;
+
+	a {
+		text-decoration: none;
+	}
+
+	.category-chip-container {
+		padding: 4px 8px 4px 0;
+		font-size: 13px;
+		max-width: 100%;
+
+		.category-chip {
+			max-width: 100%;
+			height: 32px;
+			display: inline-flex;
+			border-radius: 16px;
+			background: @memo-grey-lighter;
+			padding: 0 12px;
+			white-space: nowrap;
+			line-height: 32px;
+			color: @memo-grey-darker;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-items: center;
+
+			img {
+				margin-left: -8px;
+				margin-right: 4px;
+				border-radius: 50%;
+				height: 26px;
+				width: 30px;
+			}
+
+			&:hover {
+				background: darken(@memo-grey-lighter, 10%);
+			}
+
+			.category-chip-label {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				text-decoration: none;
+
+			}
+		}
+	}
+
+	.category-chip-container {
+		margin-top: -10px;
+		margin-left: 4px;
+		text-transform: initial;
+		font-weight: initial;
+		letter-spacing: normal;
 	}
 }
 </style>
