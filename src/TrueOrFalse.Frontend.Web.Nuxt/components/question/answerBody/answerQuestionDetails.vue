@@ -38,7 +38,6 @@ const allAnswerCount = ref('0')
 const allCorrectAnswers = ref('0')
 const allWrongAnswers = ref('0')
 const isInWishknowledge = ref(false)
-const showTopBorder = ref(false)
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
 const overallCounterSvg = ref<any>({})
@@ -1308,6 +1307,7 @@ watch(() => userStore.isLoggedIn, () => {
                         display: flex;
                         justify-content: center;
                         align-items: center;
+
                         .semiPieSvgContainer {
                             display: flex;
                             justify-content: center;

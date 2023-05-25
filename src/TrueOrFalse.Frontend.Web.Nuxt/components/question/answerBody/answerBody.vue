@@ -653,10 +653,10 @@ const allMultipleChoiceCombinationTried = computed(() => {
             </div>
 
         </div>
-        <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyModel.id" />
+        <LazyQuestionAnswerBodyAnswerQuestionDetails :id="answerBodyModel.id" />
     </div>
     <div v-else-if="learningSessionStore.showResult">
-        <QuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
+        <LazyQuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
     </div>
 </template>
 

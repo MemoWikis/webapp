@@ -4,6 +4,7 @@ import { useTopicStore } from '../topic/topicStore'
 import { Page } from '../shared/pageEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
+import { useRootTopicChipStore } from './rootTopicChipStore'
 
 interface Props {
 	page: Page,
@@ -139,6 +140,7 @@ watch(() => props.page, (newPage, oldPage) => {
 	if (oldPage != newPage && (newPage == Page.Topic && topicStore.id > 0))
 		getBreadcrumb()
 })
+const rootTopicChipStore = useRootTopicChipStore()
 
 async function getBreadcrumb() {
 	breadcrumbItems.value = []
@@ -183,6 +185,10 @@ async function getBreadcrumb() {
 		personalWiki.value = result
 
 	}
+	if (personalWiki.value.Id == 1 || breadcrumbItems.value.some(i => i.Id == 1))
+		rootTopicChipStore.showRootTopicChip = false
+	else rootTopicChipStore.showRootTopicChip = true
+
 	setPageTitle()
 	updateBreadcrumb()
 }

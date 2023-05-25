@@ -20,7 +20,8 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+// GetTopic w/o Segments - GetTopicWithSegments with segments
+const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWithSegments/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -40,13 +41,16 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/$
         server: true
     })
 
+//preset segmentation
+const segmentation = ref()
 if (topic.value != null) {
     if (topic.value?.CanAccess) {
 
         topicStore.setTopic(topic.value)
 
         const spinnerStore = useSpinnerStore()
-
+        //preset segmentation
+        segmentation.value = topic.value.Segmentation
         watch(() => topicStore.id, (val) => {
             if (val != 0)
                 spinnerStore.showSpinner()
@@ -150,8 +154,8 @@ useHead(() => ({
                     <TopicHeader v-if="topicStore.id != 0" />
                     <TopicTabsContent v-if="topicStore.id != 0"
                         v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)" />
-                    <TopicContentSegmentation v-if="topicStore.id != 0"
-                        v-show="tabsStore != null && tabsStore.activeTab == Tab.Topic" />
+                    <TopicContentSegmentation v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Topic"
+                        :segmentation="segmentation" />
                     <TopicTabsQuestions v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
                     <TopicRelationEdit v-if="userStore.isLoggedIn" />
                     <QuestionEditModal v-if="userStore.isLoggedIn" />
