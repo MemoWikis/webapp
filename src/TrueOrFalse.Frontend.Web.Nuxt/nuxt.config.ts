@@ -13,7 +13,7 @@ export default defineNuxtConfig({
             stripeTeamPriceId: "",
             stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
             seqServerUrl: undefined,
-            seqServerPort: "5341",
+            seqServerPort: undefined,
             seqClientApiKey: "",
 
         },
