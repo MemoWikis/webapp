@@ -812,12 +812,9 @@
     <Compile Include="Domain\User\Membership\Invoice\InvoiceModel.cs" />
     <Compile Include="Domain\User\Ops\FollowerIAm.cs" />
     <Compile Include="Domain\User\Ops\FollowerCounts.cs" />
-    <Compile Include="Domain\User\Membership.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
     <Compile Include="Domain\User\Ops\TotalIFollow.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
-    <Compile Include="Domain\User\Persistence\MembershipMap.cs" />
-    <Compile Include="Domain\User\Persistence\MembershipRepository .cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordReset.cs" />
