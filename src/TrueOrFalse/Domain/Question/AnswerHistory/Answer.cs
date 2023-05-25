@@ -1,11 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
 public class Answer : IPersistable, WithDateCreated, IAnswered
 {
-    public virtual int Id { get; set; }
-    public virtual int UserId { get; set; }
+    public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
+    public virtual string AnswerText { get; set; }
+
+    public virtual int InteractionNumber { get; set; }
+
+    public virtual bool Migrated { get; set; }
+
+    /// <summary>Duration</summary>
+    public virtual int MillisecondsSinceQuestionView { get; set; }
+
     public virtual Question Question { get; set; }
 
     public virtual Guid QuestionViewGuid { get; set; }
@@ -25,27 +32,31 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
         }
     }
 
-    public virtual int InteractionNumber { get; set; }
+    public virtual int UserId { get; set; }
 
-    public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
-    public virtual string AnswerText { get; set; }
+    public virtual bool AnsweredCorrectly()
+    {
+        return AnswerredCorrectly == AnswerCorrectness.True || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
+    }
 
-    /// <summary>Duration</summary>
-    public virtual int MillisecondsSinceQuestionView { get; set; }
+    public virtual double GetAnswerOffsetInMinutes()
+    {
+        return (DateTimeX.Now() - DateCreated).TotalMinutes;
+    }
 
-    public virtual bool Migrated { get; set; }
+    public virtual int Id { get; set; }
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual IList<AnswerFeature> Features { get; set; }
+    public virtual User GetUser()
+    {
+        return Sl.R<UserRepo>().GetById(UserId);
+    }
 
-    public virtual User GetUser() => Sl.R<UserRepo>().GetById(UserId);
-
-    public virtual bool AnsweredCorrectly() => 
-        AnswerredCorrectly == AnswerCorrectness.True || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
-
-    public virtual double GetAnswerOffsetInMinutes() => (DateTimeX.Now() - DateCreated).TotalMinutes;
-    public virtual bool IsView() => AnswerredCorrectly == AnswerCorrectness.IsView;
+    public virtual bool IsView()
+    {
+        return AnswerredCorrectly == AnswerCorrectness.IsView;
+    }
 }
 
 public interface IAnswered
