@@ -42,8 +42,6 @@ public static class Links
     /*Learn*/
     public const string LearningSessionResultController = "LearningSessionResult";
     public const string Logout = "Logout";
-    public const string MembershipAction = "Membership";
-
     public const string NetworkAction = "Network";
 
     /* Images*/
@@ -442,11 +440,6 @@ public static class Links
         return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
     }
 
-    public static string Knowledge()
-    {
-        return GetUrlHelper().Action(KnowledgeAction, KnowledgeController);
-    }
-
     public static string LearningSession(LearningSession learningSession)
     {
         return "#";
@@ -458,22 +451,9 @@ public static class Links
     }
 
     /* Category Footer*/
-
     public static string LearningSessionFooter(int categoryId, string categoryName)
     {
         return "/" + categoryName + "/" + categoryId + "/Lernen";
-    }
-
-    public static string Membership()
-    {
-        return GetUrlHelper().Action(MembershipAction, AccountController);
-    }
-
-
-    /* Messages */
-    public static string Messages(UrlHelper url)
-    {
-        return url.Action("Messages", "Messages");
     }
 
     public static string MessageSetRead(UrlHelper url)
