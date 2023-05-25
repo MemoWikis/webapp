@@ -34,6 +34,7 @@ public class Update : IRegisterAsInstancePerLifetime
             .Add(UpdateToVs248.Run)
             .Add(UpdateToVs249.Run)
             .Add(UpdateToVs250.Run)
+            .Add(UpdateToVs251.Run)
             .Run();
     }
 }
