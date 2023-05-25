@@ -10,14 +10,13 @@ public class AnswerFeature_persistence_tests : BaseTest
     {
         ContextQuestion.New()
             .PersistImmediately()
-            .AddQuestion(questionText: "Q1", solutionText: "S1")
-                .AddAnswers(5, 0, DateTime.Now.AddDays(-1).Date.AddHours(3))
-            .AddQuestion(questionText: "Q2", solutionText: "S2")
-                .AddAnswers(3, 0, DateTime.Now.AddDays(-1).Date.AddHours(14))
+            .AddQuestion("Q1", "S1")
+            .AddAnswers(5, 0, DateTime.Now.AddDays(-1).Date.AddHours(3))
+            .AddQuestion("Q2", "S2")
+            .AddAnswers(3, 0, DateTime.Now.AddDays(-1).Date.AddHours(14))
             .Persist();
 
         GenerateAnswerFeatures.Run();
-        AssignAnswerFeatures.Run();
 
         RecycleContainer();
 
