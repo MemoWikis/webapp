@@ -12,6 +12,14 @@ public class UserController : BaseController
         _userRepo = userRepo;
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public ViewResult UploadPicture(HttpPostedFileBase file)
+    {
+        UserImageStore.Run(file, SessionUser.UserId);
+        return User(SessionUser.User.Name, SessionUser.UserId);
+    }
+
     [SetMainMenu(MainMenuEntry.UserDetail)]
     [SetUserMenu(UserMenuEntry.UserDetail)]
     public ViewResult User(string userName, int id)
@@ -19,24 +27,6 @@ public class UserController : BaseController
         var user = EntityCache.GetUserById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
-        return View(_viewLocation, new UserModel(user, isActiveTabKnowledge: true));
-    }
-
-    [SetMainMenu(MainMenuEntry.UserDetail)]
-    [SetUserMenu(UserMenuEntry.UserDetail)]
-    public ViewResult Badges(string userName, int id)
-    {
-        var user = EntityCache.GetUserById(id);
-        _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
-
-        return View(_viewLocation, new UserModel(user, isActiveTabBadges: true));
-    }
-
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public ViewResult UploadPicture(HttpPostedFileBase file)
-    {
-        UserImageStore.Run(file, SessionUser.UserId);
-        return User(SessionUser.User.Name, SessionUser.UserId);
+        return View(_viewLocation, new UserModel(user, true));
     }
 }

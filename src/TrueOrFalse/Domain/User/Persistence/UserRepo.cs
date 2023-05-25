@@ -89,8 +89,6 @@ public class UserRepo : RepositoryDbBase<User>
             .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("Update comment Set Creator_id  = null Where Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM badge WHERE User_Id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId")

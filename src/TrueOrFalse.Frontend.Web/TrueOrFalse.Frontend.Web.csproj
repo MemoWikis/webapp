@@ -2703,7 +2703,6 @@
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
-    <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
     <Compile Include="Views\Welcome\Login\LoginController.cs" />
@@ -3002,7 +3001,6 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\UserSearchResult.ascx" />
-    <Content Include="Views\Users\Detail\TabBadges.ascx" />
     <Content Include="Views\Users\Detail\User.css">
       <DependentUpon>User.less</DependentUpon>
     </Content>

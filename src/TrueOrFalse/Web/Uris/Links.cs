@@ -605,13 +605,6 @@ public static class Links
             new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
     }
 
-    public static string UserDetailBadges(UserCacheItem user)
-    {
-        var userTiny = new UserTinyModel(user);
-        return GetUrlHelper().Action("Badges", UserController,
-            new { name = UriSegmentFriendlyUser.Run(userTiny.Name), id = userTiny.Id }, null);
-    }
-
     public static string UserLoginAs(UrlHelper url, int userId)
     {
         return url.Action("LoginAs", "Users", new { userId });
