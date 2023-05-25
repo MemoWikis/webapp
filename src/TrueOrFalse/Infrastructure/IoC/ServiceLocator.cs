@@ -1,101 +1,88 @@
 ﻿using System.Collections.Concurrent;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
-using System.Threading;
 using TrueOrFalse.Search;
 
 public class Sl
 {
-    public static T Resolve<T>(){return ServiceLocator.Resolve<T>();}
-    public static T R<T>() { return ServiceLocator.Resolve<T>(); }
-
-    public static ISession Session => R<ISession>();
-    public static SessionUiData SessionUiData => R<SessionUiData>();
-
-    public static UserRepo UserRepo => R<UserRepo>();
+    public static bool IsUnitTest = false;
     public static ActivityPointsRepo ActivityPointsRepo => R<ActivityPointsRepo>();
 
-    public static CategoryRepository CategoryRepo => R<CategoryRepository>();
-    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
-    public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
-    public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
+    public static AnswerRepo AnswerRepo => R<AnswerRepo>();
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
     public static CategoryDeleter CategoryDeleter => R<CategoryDeleter>();
+    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
 
-    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
-    public static SetRepo SetRepo => R<SetRepo>();
-
-    public static QuestionRepo QuestionRepo => R<QuestionRepo>();
-    public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
-    public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
-
-    public static SolrSearchIndexCategory SolrSearchIndexCategory => R<SolrSearchIndexCategory>();
-
-    public static SolrSearchCategories SearchCategories => R<SolrSearchCategories>();
-    public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
-    public static SolrSearchQuestions SolrSearchQuestions => R<SolrSearchQuestions>();
-    public static SolrSearchUsers SolrSearchUsers => R<SolrSearchUsers>();
-
-    public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
-
-    public static AnswerRepo AnswerRepo => R<AnswerRepo>();
-
-    public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
-
-    public static UserActivityRepo UserActivityRepo => R<UserActivityRepo>();
-    
-    public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
+    public static CategoryRepository CategoryRepo => R<CategoryRepository>();
+    public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
+    public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 
     public static int CurrentUserId => SessionUser.UserId;
 
+    public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
+
     public static ImageStore ImageStore => R<ImageStore>();
 
-    public static MembershipRepo MembershipRepo => R<MembershipRepo>();
-    public static bool IsUnitTest = false;
+    public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
+    public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
+    public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
+
+    public static QuestionRepo QuestionRepo => R<QuestionRepo>();
+    public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
+
+    public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
+
+    public static SolrSearchCategories SearchCategories => R<SolrSearchCategories>();
+
+    public static ISession Session => R<ISession>();
+    public static SessionUiData SessionUiData => R<SessionUiData>();
+    public static SetRepo SetRepo => R<SetRepo>();
+
+    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
+
+    public static SolrSearchIndexCategory SolrSearchIndexCategory => R<SolrSearchIndexCategory>();
+    public static SolrSearchQuestions SolrSearchQuestions => R<SolrSearchQuestions>();
+    public static SolrSearchUsers SolrSearchUsers => R<SolrSearchUsers>();
+
+    public static UserActivityRepo UserActivityRepo => R<UserActivityRepo>();
+
+    public static UserRepo UserRepo => R<UserRepo>();
+
+    public static T R<T>()
+    {
+        return ServiceLocator.Resolve<T>();
+    }
+
+    public static T Resolve<T>()
+    {
+        return ServiceLocator.Resolve<T>();
+    }
 }
 
 public static class SlExt
 {
-    public static T R<T>(this object o) => Sl.R<T>();
+    public static T R<T>(this object o)
+    {
+        return Sl.R<T>();
+    }
 }
 
 public class ServiceLocator
 {
     private static IContainer _container;
-    private static readonly ConcurrentDictionary<int /*managed thread id*/, ILifetimeScope> _liftimeScopes = 
-        new ConcurrentDictionary<int, ILifetimeScope>();
 
-    public static void Init(IContainer container)
-    {
-        _container = container;
-    }
+    private static readonly ConcurrentDictionary<int /*managed thread id*/, ILifetimeScope> _liftimeScopes = new();
 
     public static void AddScopeForCurrentThread(ILifetimeScope lifetimeScope)
     {
-        if(!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope))
-            Logg.r().Error("Could not add lifetime scope");    
-
-    }
-
-    public static void RemoveScopeForCurrentThread()
-    {
-        if(!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out _))
-            Logg.r().Error("Could not remove lifetime scope");
-    }
-
-    public static T Resolve<T>()
-    {
-        var currentThreadId = Thread.CurrentThread.ManagedThreadId;
-        if (_liftimeScopes.ContainsKey(currentThreadId))
-            return _liftimeScopes[currentThreadId].Resolve<T>();
-
-        if (HttpContext.Current == null)
-            return _container.Resolve<T>();
-
-        return ((AutofacDependencyResolver) DependencyResolver.Current).RequestLifetimeScope.Resolve<T>();
+        if (!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope))
+        {
+            Logg.r().Error("Could not add lifetime scope");
+        }
     }
 
     public static IContainer GetContainer()
@@ -103,7 +90,37 @@ public class ServiceLocator
         return _container;
     }
 
-    public static T R<T>(){
+    public static void Init(IContainer container)
+    {
+        _container = container;
+    }
+
+    public static T R<T>()
+    {
         return Resolve<T>();
+    }
+
+    public static void RemoveScopeForCurrentThread()
+    {
+        if (!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out _))
+        {
+            Logg.r().Error("Could not remove lifetime scope");
+        }
+    }
+
+    public static T Resolve<T>()
+    {
+        var currentThreadId = Thread.CurrentThread.ManagedThreadId;
+        if (_liftimeScopes.ContainsKey(currentThreadId))
+        {
+            return _liftimeScopes[currentThreadId].Resolve<T>();
+        }
+
+        if (HttpContext.Current == null)
+        {
+            return _container.Resolve<T>();
+        }
+
+        return ((AutofacDependencyResolver)DependencyResolver.Current).RequestLifetimeScope.Resolve<T>();
     }
 }

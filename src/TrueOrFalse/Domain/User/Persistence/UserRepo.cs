@@ -63,8 +63,6 @@ public class UserRepo : RepositoryDbBase<User>
 
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId)
@@ -165,7 +163,6 @@ public class UserRepo : RepositoryDbBase<User>
         var user = _session
             .QueryOver<User>()
             .Where(u => u.EmailAddress == email)
-            .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
             .SingleOrDefault();
 
         _session

@@ -2698,7 +2698,6 @@
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
-    <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
@@ -3134,7 +3133,6 @@
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css">
       <DependentUpon>AnswerQuestionSolution.less</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
@@ -3797,9 +3795,6 @@
     <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
-    <Content Include="Views\Users\Account\Membership.css">
-      <DependentUpon>Membership.less</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Header.ascx" />
     <Content Include="Views\Users\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3929,10 +3924,6 @@
     </Content>
     <Content Include="Views\Users\Account\Settings\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\Membership.less" />
-    <Content Include="Views\Users\Account\Membership.css.map">
-      <DependentUpon>Membership.css</DependentUpon>
     </Content>
     <Content Include="Views\Users\Account\Js\Membership.js.map">
       <DependentUpon>Membership.ts</DependentUpon>

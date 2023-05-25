@@ -6,7 +6,7 @@ public class UserRowModel : BaseModel
 {
     public int Id;
     public string Name;
-    public string StartTopicUrl; 
+    public string StartTopicUrl;
     public int Rank;
     public int Reputation;
     public int WishCountQuestions;
@@ -28,15 +28,15 @@ public class UserRowModel : BaseModel
     public bool DoIFollow;
     public User User;
     public bool IsStartTopicModified;
-    public bool ShowWiki = false;
+    public bool ShowWiki;
 
     public UserRowModel(
-        User user, 
-        int indexInResultSet, 
+        User user,
+        int indexInResultSet,
         FollowerIAm followerIAm)
     {
         Id = user.Id;
-        User = user; 
+        User = user;
         Name = user.Name;
         Reputation = user.Reputation;
         Rank = user.ReputationPos;
@@ -48,17 +48,16 @@ public class UserRowModel : BaseModel
         IsInstallationLogin = SessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowlede = user.ShowWishKnowledge;
-        IsMember = user.IsMember();
         DescriptionShort = "";
         IndexInResult = indexInResultSet;
         UserLink = urlHelper => Links.UserDetail(user.Name, user.Id);
         ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url;
         DoIFollow = followerIAm.Of(user.Id);
-        var startTopic = EntityCache.GetCategory(user.StartTopicId); 
-        StartTopicUrl = Links.
-            CategoryFromNetwork(startTopic);
+        var startTopic = EntityCache.GetCategory(user.StartTopicId);
+        StartTopicUrl = Links.CategoryFromNetwork(startTopic);
 
-        IsStartTopicModified = startTopic.IsStartTopicModified() || startTopic.GetAggregatedQuestionIdsFromMemoryCache().Count > 0;
+        IsStartTopicModified = startTopic.IsStartTopicModified() ||
+                               startTopic.GetAggregatedQuestionIdsFromMemoryCache().Count > 0;
         var userWiki = Sl.CategoryRepo.GetById(user.StartTopicId);
         if (PermissionCheck.CanView(userWiki))
         {

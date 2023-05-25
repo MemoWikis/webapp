@@ -808,7 +808,6 @@
     <Compile Include="Domain\User\AppAccess\AppInfo.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
-    <Compile Include="Domain\User\Membership\Invoice\InvoiceCreate.cs" />
     <Compile Include="Domain\User\Membership\Invoice\InvoiceModel.cs" />
     <Compile Include="Domain\User\Ops\FollowerIAm.cs" />
     <Compile Include="Domain\User\Ops\FollowerCounts.cs" />
