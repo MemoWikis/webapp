@@ -9,16 +9,11 @@ public class LearningSession
     public IList<LearningSessionStep> Steps;
     public LearningSessionConfig Config;
     public int Pager;
-
-    public int CurrentIndex { get; private set; }
-    public bool IsLastStep { get; private set; }
-    public LearningSessionStep CurrentStep => Steps[CurrentIndex];
-    public string UrlName = "";
-
     public UserCacheItem User;
     public bool IsLoggedIn;
     public Guid QuestionViewGuid;
     public QuestionCounter QuestionCounter;
+
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
@@ -29,65 +24,28 @@ public class LearningSession
         Config.Category = EntityCache.GetCategory(Config.CategoryId);
     }
 
+    public LearningSessionStep CurrentStep => Steps[CurrentIndex];
+
+    public int CurrentIndex { get; private set; }
+    public bool IsLastStep { get; private set; }
+
     public bool AddAnswer(AnswerQuestionResult answer)
     {
         CurrentStep.AnswerState = answer.IsCorrect ? AnswerState.Correct : AnswerState.False;
         return ReAddCurrentStepToEnd();
     }
 
-    public void NextStep()
+    public void DeleteLastStep()
     {
-        IsLastStep = TestIsLastStep();
-
-        if (!IsLastStep)
-            CurrentIndex++;
-    }
-
-    public void SkipStep()
-    {
-        CurrentStep.AnswerState = AnswerState.Skipped;
-        IsLastStep = TestIsLastStep();
-
-        if (!IsLastStep)
-            CurrentIndex++;
-    }
-
-    public void LoadSpecificQuestion(int index)
-    {
-        if (index > CurrentIndex)
+        if (!Config.IsAnonymous() && !Config.IsInTestMode)
         {
-            for (int i = CurrentIndex; i < index; i++)
-            {
-                if (Steps[i].AnswerState == AnswerState.Unanswered)
-                    Steps[i].AnswerState = AnswerState.Skipped;
-            }
+            Steps.RemoveAt(Steps.Count - 1);
         }
-
-        CurrentIndex = index; 
     }
 
-    public void ShowSolution()
+    public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
     {
-        ReAddCurrentStepToEnd();
-    }
-
-    private bool ReAddCurrentStepToEnd()
-    {
-        if (LimitForThisQuestionHasBeenReached(CurrentStep) || 
-            LimitForNumberOfRepetitionsHasBeenReached() || 
-            Config.IsAnonymous() || 
-            CurrentStep.AnswerState == AnswerState.Correct || 
-            Config.Repetition == RepetitionType.None)
-            return false;
-
-        var step = new LearningSessionStep(CurrentStep.Question);
-        Steps.Add(step);
-        return true; 
-    }
-
-    public bool TestIsLastStep()
-    {
-        return CurrentIndex == Steps.Count - 1;
+        return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
     }
 
 
@@ -96,15 +54,30 @@ public class LearningSession
         return Steps.Count(s => s.Question == step.Question) >= 3;
     }
 
-    public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
+    public void LoadSpecificQuestion(int index)
     {
-        return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
+        if (index > CurrentIndex)
+        {
+            for (var i = CurrentIndex; i < index; i++)
+            {
+                if (Steps[i].AnswerState == AnswerState.Unanswered)
+                {
+                    Steps[i].AnswerState = AnswerState.Skipped;
+                }
+            }
+        }
+
+        CurrentIndex = index;
     }
 
-    public int TotalPossibleQuestions()
+    public void NextStep()
     {
-            return EntityCache.GetQuestionsForCategory(Config.CategoryId).Count;
-        throw new Exception("unknown session type");
+        IsLastStep = TestIsLastStep();
+
+        if (!IsLastStep)
+        {
+            CurrentIndex++;
+        }
     }
 
     public void SetCurrentStepAsCorrect()
@@ -112,10 +85,48 @@ public class LearningSession
         CurrentStep.AnswerState = AnswerState.Correct;
         DeleteLastStep();
     }
-    public void DeleteLastStep()
+
+    public void ShowSolution()
     {
-        if (!Config.IsAnonymous() && !Config.IsInTestMode)
-            Steps.RemoveAt(Steps.Count - 1);
+        ReAddCurrentStepToEnd();
+    }
+
+    public void SkipStep()
+    {
+        CurrentStep.AnswerState = AnswerState.Skipped;
+        IsLastStep = TestIsLastStep();
+
+        if (!IsLastStep)
+        {
+            CurrentIndex++;
+        }
+    }
+
+    public bool TestIsLastStep()
+    {
+        return CurrentIndex == Steps.Count - 1;
+    }
+
+    public int TotalPossibleQuestions()
+    {
+        return EntityCache.GetQuestionsForCategory(Config.CategoryId).Count;
+        throw new Exception("unknown session type");
+    }
+
+    private bool ReAddCurrentStepToEnd()
+    {
+        if (LimitForThisQuestionHasBeenReached(CurrentStep) ||
+            LimitForNumberOfRepetitionsHasBeenReached() ||
+            Config.IsAnonymous() ||
+            CurrentStep.AnswerState == AnswerState.Correct ||
+            Config.Repetition == RepetitionType.None)
+        {
+            return false;
+        }
+
+        var step = new LearningSessionStep(CurrentStep.Question);
+        Steps.Add(step);
+        return true;
     }
 }
 
