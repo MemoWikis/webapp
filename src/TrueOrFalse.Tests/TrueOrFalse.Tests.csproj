@@ -322,7 +322,6 @@
     <Compile Include="2 Domain\User\Activity\Write_activity_new_follower.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_following.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_question.cs" />
-    <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_awarder.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_params.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_persistence.cs" />

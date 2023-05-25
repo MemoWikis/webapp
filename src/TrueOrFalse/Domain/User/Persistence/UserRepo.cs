@@ -63,8 +63,6 @@ public class UserRepo : RepositoryDbBase<User>
 
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update setView Set User_id = null WHERE User_Id = :userId")
