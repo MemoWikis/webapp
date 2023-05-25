@@ -6,13 +6,15 @@ services:
       # - "3000"
     ports:
       - "${NUXT_PORT:-3000}:3000"
+      - "${NUXT_PUBLIC_SEQ_SERVER_PORT_HOST:-5341}:${NUXT_PUBLIC_SEQ_SERVER_PORT:-5341}"
       # Probably only needed in Development for Hot Module Reloading:
-      - "${NUXT_HMR_PORT:-24678}:24678"
+      - "${NUXT_HMR_PORT:-24678}:24678"   
     networks:
       - environment-specific-network
     environment:
       - NUXT_PUBLIC_SERVER_BASE=${NUXT_PUBLIC_SERVER_BASE:-error}
       - NUXT_PUBLIC_GSI_CLIENT_KEY=${NUXT_PUBLIC_GSI_CLIENT_KEY:-error}
+      - NUXT_PUPLIC_SEQ_SERVER_PORT=${NUXT_PUBLIC_SEQ_SERVER_PORT}
       - NUXT_PUBLIC_SEQ_SERVER_URL=${NUXT_PUBLIC_SEQ_SERVER_URL}
       - NUXT_SEQ_SERVER_API_KEY=${NUXT_SEQ_SERVER_API_KEY}
       - NUXT_PUBLIC_SEQ_CLIENT_API_KEY=${NUXT_PUBLIC_SEQ_CLIENT_API_KEY}
