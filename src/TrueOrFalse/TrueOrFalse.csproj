@@ -857,6 +857,8 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs244.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs253.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs252.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs251.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs250.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs249.cs" />
