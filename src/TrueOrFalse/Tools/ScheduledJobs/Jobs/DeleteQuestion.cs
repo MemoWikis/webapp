@@ -25,10 +25,6 @@ public class DeleteQuestion : IJob
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();
-        Sl.R<ISession>()
-            .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
-            .ExecuteUpdate(); //probably not necessary
-
         var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
 

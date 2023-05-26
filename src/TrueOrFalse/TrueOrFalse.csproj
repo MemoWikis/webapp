@@ -446,7 +446,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataCache.cs" />
@@ -598,20 +597,12 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\Info\AnswerPatternInfo.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\MaxStreak.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\XDaysExactly.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveJson\CurveDesc.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\AnswerPair.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\Intervalizer.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveLoader.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\IntervalizerResultItem.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\AnswerPairFromHistoryRows.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\Persistence\QuestionFeatureMap.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\Persistence\QuestionFeatureRepo.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureFilterParams.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\Ops\AssignQuestionFeatures.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\Ops\GenerateQuestionFeatures.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeature.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureFilter.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityCalc_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityUpdate_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityCalc_Question.cs" />
@@ -1108,7 +1099,10 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveJson\" />
+    <Folder Include="Domain\Knowledge\Probability\AlgoInsight\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />

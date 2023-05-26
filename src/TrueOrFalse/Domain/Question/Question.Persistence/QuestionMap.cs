@@ -20,10 +20,10 @@ public class QuestionMap : ClassMap<Question>
 
         Map(x => x.TotalQualityAvg);
         Map(x => x.TotalQualityEntries);
-            
+
         Map(x => x.TotalRelevanceForAllAvg);
         Map(x => x.TotalRelevanceForAllEntries);
-            
+
         Map(x => x.TotalRelevancePersonalAvg);
         Map(x => x.TotalRelevancePersonalEntries);
         Map(x => x.TotalViews);
@@ -41,11 +41,6 @@ public class QuestionMap : ClassMap<Question>
             .Cascade.SaveUpdate();
 
         Map(x => x.IsWorkInProgress);
-
-        //HasManyToMany(x => x.Features)
-        //    .Table("questionFeature_to_question")
-        //    .Inverse();
-
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
         Map(x => x.SkipMigration);
