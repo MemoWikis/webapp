@@ -19,7 +19,6 @@ public class UserCacheItem : IUserTinyModel
     public bool AllowsSupportiveLogin { get; set; }
 
     public int CorrectnessProbability { get; set; }
-    public Membership CurrentMembership { get; set; }
     public DateTime? EndDate { get; set; }
 
     public IList<int> FollowerIds { get; set; }
@@ -68,8 +67,6 @@ public class UserCacheItem : IUserTinyModel
         RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics;
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
-        IsMember = user.IsMember();
-        CurrentMembership = user.MembershipPeriods.FirstOrDefault(x => x.IsActive());
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
         FollowerIds = user.Followers.Select(f => f.Follower.Id).ToList();
         FollowingIds = user.Following.Select(f => f.User.Id).ToList();

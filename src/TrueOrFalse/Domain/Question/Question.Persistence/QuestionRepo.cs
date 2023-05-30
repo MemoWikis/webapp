@@ -16,65 +16,12 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion = searchIndexQuestion;
     }
 
-    /// <summary>
-    /// Basic update method, to be used to update only the internally used statistics.
-    /// No cross referencing or validation with other tables is happening here.
-    /// </summary>
-    public void UpdateFieldsOnly(Question question)
-    {
-        base.Update(question);
-    }
-
-    public new void Update(Question question)
-    {
-        UpdateOrMerge(question, merge: false);
-    }
-
-    public new void Merge(Question question)
-    {
-        UpdateOrMerge(question, merge: true);
-    }
-
-    private void UpdateOrMerge(Question question, bool merge)
-    {
-        var categoriesIds = _session
-            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
-            .List<int>();
-        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
-                    " AND Category_id is not null";
-        var categoriesReferences = _session
-            .CreateSQLQuery(query)
-            .List<int>();
-        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
-
-        _searchIndexQuestion.Update(question);
-
-        if (merge)
-            base.Merge(question);
-        else
-            base.Update(question);
-
-        Flush();
-
-        var categoriesToUpdateIds = categoriesBeforeUpdateIds
-            .Union(question.Categories.Select(c => c.Id))
-            .Union(question.References.Where(r => r.Category != null)
-            .Select(r => r.Category.Id))
-            .Distinct()
-            .ToList(); //All categories added or removed have to be updated
-
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
-        Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
-        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
-
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().UpdateAsync(question)); 
-    }
-
     public override void Create(Question question)
     {
         if (question.Creator == null)
+        {
             throw new Exception("no creator");
+        }
 
         base.Create(question);
         Flush();
@@ -87,17 +34,18 @@ public class QuestionRepo : RepositoryDbBase<Question>
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
+
         if (question.Visibility != QuestionVisibility.Owner)
         {
             UserActivityAdd.CreatedQuestion(question);
             ReputationUpdate.ForUser(question.Creator);
         }
+
         _searchIndexQuestion.Update(question);
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         Sl.QuestionChangeRepo.AddCreateEntry(question);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().CreateAsync(question));
-
     }
 
     public override void Delete(Question question)
@@ -108,41 +56,35 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().DeleteAsync(question));
     }
 
-    public IList<Question> GetForCategory(int categoryId)
+    public IList<Question> GetAllEager()
     {
-        return _session.QueryOver<Question>()
-            .Where(q => q.Visibility == QuestionVisibility.All)
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId)
-            .List<Question>();
-    }
+        var questions = _session.QueryOver<Question>()
+            .Future();
 
-    public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
-    {
-        var query = _session.QueryOver<QuestionValuation>()
-            .Where(q =>
-                q.RelevancePersonal != -1 &&
-                q.User.Id == userId)
-            .JoinQueryOver(q => q.Question)
-            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
-            .ThenBy(x => x.DateCreated).Desc
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId);
+        _session.QueryOver<Question>()
+            .Fetch(SelectMode.Fetch, x => x.Categories)
+            .Future();
 
-        return new PagedResult<Question>
+        _session.QueryOver<Question>()
+            .Fetch(SelectMode.Fetch, x => x.References)
+            .Future();
+
+
+        var result = questions.ToList();
+
+        foreach (var question in result)
         {
-            PageSize = resultCount,
-            Total = query.RowCount(),
-            Items = query
-                .Take(resultCount)
-                .List<QuestionValuation>()
-                .Select(qv => qv.Question)
-                .ToList()
-        };
+            NHibernateUtil.Initialize(question.Creator);
+            NHibernateUtil.Initialize(question.References);
+        }
+
+        return result;
     }
 
-    public IList<Question> GetByIds(List<int> questionIds) =>
-        GetByIds(questionIds.ToArray());
+    public IList<Question> GetByIds(List<int> questionIds)
+    {
+        return GetByIds(questionIds.ToArray());
+    }
 
     public override IList<Question> GetByIds(params int[] questionIds)
     {
@@ -183,19 +125,29 @@ public class QuestionRepo : RepositoryDbBase<Question>
         };
 
         if (isKnowledgeSolidFilter)
+        {
             knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.Solid);
+        }
 
         if (isKnowledgeShouldConsolidateFilter)
+        {
             knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.NeedsConsolidation);
+        }
 
         if (isKnowledgeShouldLearnFilter)
+        {
             knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.NeedsLearning);
+        }
 
         if (isKnowledgeNoneFilter)
+        {
             knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.NotLearned);
+        }
 
         if (knowledgeExpression != null)
+        {
             query.And(knowledgeExpression);
+        }
 
         return query
             .JoinQueryOver(q => q.Question)
@@ -203,8 +155,49 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<int>();
     }
 
+    public IList<Question> GetForCategory(int categoryId)
+    {
+        return _session.QueryOver<Question>()
+            .Where(q => q.Visibility == QuestionVisibility.All)
+            .JoinQueryOver<Category>(q => q.Categories)
+            .Where(c => c.Id == categoryId)
+            .List<Question>();
+    }
+
+    public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
+    {
+        var query = _session.QueryOver<QuestionValuation>()
+            .Where(q =>
+                q.RelevancePersonal != -1 &&
+                q.User.Id == userId)
+            .JoinQueryOver(q => q.Question)
+            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
+            .ThenBy(x => x.DateCreated).Desc
+            .JoinQueryOver<Category>(q => q.Categories)
+            .Where(c => c.Id == categoryId);
+
+        return new PagedResult<Question>
+        {
+            PageSize = resultCount,
+            Total = query.RowCount(),
+            Items = query
+                .Take(resultCount)
+                .List<QuestionValuation>()
+                .Select(qv => qv.Question)
+                .ToList()
+        };
+    }
+
+    public int HowManyNewPublicQuestionsCreatedSince(DateTime since)
+    {
+        return _session.QueryOver<Question>()
+            .Where(q => q.DateCreated > since)
+            .And(q => q.Visibility == QuestionVisibility.All)
+            .RowCount();
+    }
+
     /// <summary>
-    /// Return how often a question is in other peoples WuWi
+    ///     Return how often a question is in other peoples WuWi
     /// </summary>
     public int HowOftenInOtherPeoplesWuwi(int userId, int questionId)
     {
@@ -218,12 +211,9 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .RowCount();
     }
 
-    public int HowManyNewPublicQuestionsCreatedSince(DateTime since)
+    public new void Merge(Question question)
     {
-        return _session.QueryOver<Question>()
-            .Where(q => q.DateCreated > since)
-            .And(q => q.Visibility == QuestionVisibility.All)
-            .RowCount();
+        UpdateOrMerge(question, true);
     }
 
     public int TotalPublicQuestionCount()
@@ -233,33 +223,57 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .RowCount();
     }
 
-    public IList<Question> GetAllEager()
+    public new void Update(Question question)
     {
-        //warmup entity cache
-        var users = _session
-            .QueryOver<User>()
-            .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
-            .List();
+        UpdateOrMerge(question, false);
+    }
 
-        var questions = _session.QueryOver<Question>()
-            .Future();
+    /// <summary>
+    ///     Basic update method, to be used to update only the internally used statistics.
+    ///     No cross referencing or validation with other tables is happening here.
+    /// </summary>
+    public void UpdateFieldsOnly(Question question)
+    {
+        base.Update(question);
+    }
 
-        _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.Categories)
-            .Future();
+    private void UpdateOrMerge(Question question, bool merge)
+    {
+        var categoriesIds = _session
+            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
+            .List<int>();
+        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
+                    " AND Category_id is not null";
+        var categoriesReferences = _session
+            .CreateSQLQuery(query)
+            .List<int>();
+        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
 
-        _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.References)
-            .Future();
+        _searchIndexQuestion.Update(question);
 
-
-        var result = questions.ToList();
-
-        foreach (var question in result)
+        if (merge)
         {
-            NHibernateUtil.Initialize(question.Creator);
-            NHibernateUtil.Initialize(question.References);
+            base.Merge(question);
         }
-        return result;
+        else
+        {
+            base.Update(question);
+        }
+
+        Flush();
+
+        var categoriesToUpdateIds = categoriesBeforeUpdateIds
+            .Union(question.Categories.Select(c => c.Id))
+            .Union(question.References.Where(r => r.Category != null)
+                .Select(r => r.Category.Id))
+            .Distinct()
+            .ToList(); //All categories added or removed have to be updated
+
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
+        Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
+        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().UpdateAsync(question));
     }
 }

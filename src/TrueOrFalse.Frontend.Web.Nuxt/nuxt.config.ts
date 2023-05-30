@@ -18,8 +18,10 @@ export default defineNuxtConfig({
             stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",
             stripeTeamPriceId: "",
             stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
-            seqServerUrl: "http://localhost:5341",
-            seqClientApiKey: ""
+            seqServerUrl: undefined,
+            seqServerPort: undefined,
+            seqClientApiKey: "",
+
         },
     },
     ssr: true,

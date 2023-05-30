@@ -11,7 +11,7 @@ export default defineNitroPlugin(nitroApp => {
     route: "/apiVue/",
     handler: fromNodeMiddleware((req, res, _) => {
       const config = useRuntimeConfig()
-      const log = new CustomPino(process.server ? config.seqServerApiKey : config.public.seqClientApiKey, config.public.seqServerUrl)
+      const log = new CustomPino(process.server ? config.seqServerApiKey : config.public.seqClientApiKey, config.public.seqServerPort ? "http://localhost:" + config.public.seqServerPort : config.public.seqServerUrl)
 
       log.info(`REQUEST ApiProxy: ${req.url}`, [{ url: req.url }, { headers: req.headers }])
       apiProxy.web(req, res)

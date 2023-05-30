@@ -63,14 +63,8 @@ public class UserRepo : RepositoryDbBase<User>
 
         Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM membership WHERE User_Id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM appaccess WHERE User_Id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
-        Session.CreateSQLQuery("Update setView Set User_id = null WHERE User_Id = :userId")
-            .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update questionValuation SET Userid = null WHERE UserId = :userId")
@@ -85,16 +79,12 @@ public class UserRepo : RepositoryDbBase<User>
             .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId")
-            .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update imagemetadata Set userid  = null Where userid =  :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("Update comment Set Creator_id  = null Where Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("DELETE FROM badge WHERE User_Id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId")
@@ -114,13 +104,6 @@ public class UserRepo : RepositoryDbBase<User>
 
         Session.CreateSQLQuery(
                 "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
-
-        Session.CreateSQLQuery("Update questionSet Set creator_id  = null Where creator_Id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
-
-        Session.CreateSQLQuery(
-                "Delete qui.* FROM questionInSet qui LEFT JOIN question q ON q.id = qui.Question_id WHERE q.creator_id = :userid AND (q.visibility = 1 Or q.visibility = 2);")
             .SetParameter("userid", userId).ExecuteUpdate();
         Session.CreateSQLQuery(
                 "Delete ua.* From Useractivity ua  Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")
@@ -165,7 +148,6 @@ public class UserRepo : RepositoryDbBase<User>
         var user = _session
             .QueryOver<User>()
             .Where(u => u.EmailAddress == email)
-            .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
             .SingleOrDefault();
 
         _session

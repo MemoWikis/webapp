@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 
@@ -12,51 +11,48 @@ using TrueOrFalse;
 [Serializable]
 public class Question : DomainEntity, ICreator
 {
-    public virtual string Text { get; set; }
-    public virtual string TextExtended { get; set; }
+    public Question()
+    {
+        Categories = new List<Category>();
+        References = new List<Reference>();
+    }
+
+    public virtual IList<Category> Categories { get; set; }
+
+    public virtual int CorrectnessProbability { get; set; }
+    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
     public virtual string Description { get; set; }
-    public virtual int LicenseId { get; set; }
+    public virtual string DescriptionHtml { get; set; }
+
+    public virtual bool IsWorkInProgress { get; set; }
+
     public virtual LicenseQuestion License
     {
         get => LicenseQuestionRepo.GetById(LicenseId);
         set
         {
             if (value == null)
+            {
                 return;
+            }
 
             LicenseId = value.Id;
         }
     }
 
-    public virtual string Solution { get; set; }
-    public virtual SolutionType SolutionType { get; set; }
-    public virtual string SolutionMetadataJson { get; set; }
-
-    public virtual IList<Category> Categories { get; set; }
+    public virtual int LicenseId { get; set; }
     public virtual IList<Reference> References { get; set; }
-    public virtual QuestionVisibility Visibility { get; set; }
+    public virtual bool SkipMigration { get; set; }
 
-    public virtual User Creator { get; set; }
+    public virtual string Solution { get; set; }
+    public virtual string SolutionMetadataJson { get; set; }
+    public virtual SolutionType SolutionType { get; set; }
+    public virtual string Text { get; set; }
+    public virtual string TextExtended { get; set; }
+    public virtual string TextExtendedHtml { get; set; }
 
-    public virtual int TotalTrueAnswers { get; set; }
+    public virtual string TextHtml { get; set; }
     public virtual int TotalFalseAnswers { get; set; }
-
-    public virtual int CorrectnessProbability { get; set; }
-    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
-
-    public virtual int TotalAnswers() { return TotalFalseAnswers + TotalTrueAnswers; }
-    public virtual int TotalTrueAnswersPercentage()
-    {
-        if (TotalAnswers() == 0) return 0;
-        if (TotalTrueAnswers == 0) return 0;
-        return Convert.ToInt32(((decimal)TotalTrueAnswers / TotalAnswers()) * 100);
-    }
-    public virtual int TotalFalseAnswerPercentage()
-    {
-        if (TotalAnswers() == 0) return 0;
-        if (TotalFalseAnswers == 0) return 0;
-        return Convert.ToInt32(((decimal)TotalFalseAnswers / TotalAnswers()) * 100);
-    }
 
     public virtual int TotalQualityAvg { get; set; }
     public virtual int TotalQualityEntries { get; set; }
@@ -67,18 +63,70 @@ public class Question : DomainEntity, ICreator
     public virtual int TotalRelevancePersonalAvg { get; set; }
     public virtual int TotalRelevancePersonalEntries { get; set; }
 
+    public virtual int TotalTrueAnswers { get; set; }
+
     public virtual int TotalViews { get; set; }
+    public virtual QuestionVisibility Visibility { get; set; }
 
-    public virtual bool IsWorkInProgress { get; set; }
+    public virtual User Creator { get; set; }
 
-    public virtual IList<QuestionFeature> Features { get; set; } = new List<QuestionFeature>();
-
-    public virtual bool IsEasyQuestion()
+    public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
-        return false;
+        switch (solutionType)
+        {
+            case SolutionType.MatchList:
+
+                //Quick Fix: Prevent null reference exeption
+                if (answerText == "" || answerText == null)
+                {
+                    return "";
+                }
+
+                var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
+                if (answerObject.Pairs.Count == 0)
+                {
+                    return "(keine Auswahl)";
+                }
+
+                var formattedMatchListAnswer = answerObject.Pairs.Aggregate("</br><ul>",
+                    (current, pair) => current + "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text +
+                                       "</li>");
+                formattedMatchListAnswer += "</ul>";
+                return formattedMatchListAnswer;
+
+            case SolutionType.MultipleChoice:
+                if (answerText == "")
+                {
+                    return "(keine Auswahl)";
+                }
+
+                var builder = new StringBuilder(answerText);
+                var formattedMultipleChoiceAnswer = "</br> <ul> <li>" +
+                                                    builder.Replace("%seperate&xyz%", "</li><li>") +
+                                                    "</li> </ul>";
+                return formattedMultipleChoiceAnswer;
+        }
+
+        return answerText;
     }
 
-    public virtual bool IsMediumQuestion()
+    public virtual IEnumerable<Category> CategoriesVisibleToCurrentUser()
+    {
+        return Categories.Where(PermissionCheck.CanView);
+    }
+
+    public virtual string GetShortTitle(int length = 96)
+    {
+        var safeText = Regex.Replace(Text, "<.*?>", "");
+        return safeText.TruncateAtWord(length);
+    }
+
+    public virtual QuestionSolution GetSolution()
+    {
+        return GetQuestionSolution.Run(Id);
+    }
+
+    public virtual bool IsEasyQuestion()
     {
         return false;
     }
@@ -88,24 +136,65 @@ public class Question : DomainEntity, ICreator
         return false;
     }
 
+    public virtual bool IsInWishknowledge()
+    {
+        return SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
+    }
+
+    public virtual bool IsMediumQuestion()
+    {
+        return false;
+    }
+
     public virtual bool IsNobrainer()
     {
         return false;
     }
 
-    public Question()
+    public virtual bool IsPrivate()
     {
-        Categories = new List<Category>();
-        References = new List<Reference>();
+        return Visibility != QuestionVisibility.All;
     }
 
-    public virtual string GetShortTitle(int length = 96)
+    public virtual string ToLomXml()
     {
-        var safeText = Regex.Replace(Text, "<.*?>", "");
-        return safeText.TruncateAtWord(length);
+        return LomXml.From(this);
     }
 
-    public virtual bool IsPrivate() => Visibility != QuestionVisibility.All;
+    public virtual int TotalAnswers()
+    {
+        return TotalFalseAnswers + TotalTrueAnswers;
+    }
+
+    public virtual int TotalFalseAnswerPercentage()
+    {
+        if (TotalAnswers() == 0)
+        {
+            return 0;
+        }
+
+        if (TotalFalseAnswers == 0)
+        {
+            return 0;
+        }
+
+        return Convert.ToInt32((decimal)TotalFalseAnswers / TotalAnswers() * 100);
+    }
+
+    public virtual int TotalTrueAnswersPercentage()
+    {
+        if (TotalAnswers() == 0)
+        {
+            return 0;
+        }
+
+        if (TotalTrueAnswers == 0)
+        {
+            return 0;
+        }
+
+        return Convert.ToInt32((decimal)TotalTrueAnswers / TotalAnswers() * 100);
+    }
 
     public virtual void UpdateReferences(IList<ReferenceCacheItem> references)
     {
@@ -113,16 +202,17 @@ public class Question : DomainEntity, ICreator
         var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
         var existingReferences = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
 
-        newReferences.ToList().ForEach(r => { 
+        newReferences.ToList().ForEach(r =>
+        {
             r.DateCreated = DateTime.Now;
             r.DateModified = DateTime.Now;
         });
 
         for (var i = 0; i < newReferences.Count(); i++)
         {
-            newReferences[i].Id = default(Int32);
+            newReferences[i].Id = default;
             var currentReference = newReferences[i];
-            References.Add(new Reference()
+            References.Add(new Reference
             {
                 AdditionalInfo = currentReference.AdditionalInfo,
                 Category = Sl.CategoryRepo.GetByIdEager(currentReference.Category),
@@ -136,7 +226,9 @@ public class Question : DomainEntity, ICreator
         }
 
         for (var i = 0; i < removedReferences.Count(); i++)
+        {
             References.Remove(removedReferences[i]);
+        }
 
         for (var i = 0; i < existingReferences.Count(); i++)
         {
@@ -146,46 +238,4 @@ public class Question : DomainEntity, ICreator
             reference.ReferenceText = existingReferences[i].ReferenceText;
         }
     }
-
-    public static string AnswersAsHtml(string answerText, SolutionType solutionType)
-    {
-        switch (solutionType)
-        {
-            case SolutionType.MatchList:
-                
-                //Quick Fix: Prevent null reference exeption
-                if (answerText == "" || answerText == null)
-                    return "";
-
-                var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
-                if (answerObject.Pairs.Count == 0)
-                    return "(keine Auswahl)";
-                var formattedMatchListAnswer = answerObject.Pairs.Aggregate("</br><ul>", (current, pair) => current + "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>");
-                formattedMatchListAnswer += "</ul>";
-                return formattedMatchListAnswer;
-
-            case SolutionType.MultipleChoice:
-                if (answerText == "")
-                    return "(keine Auswahl)";
-                var builder = new StringBuilder(answerText);
-                var formattedMultipleChoiceAnswer = "</br> <ul> <li>" +
-                                                       builder.Replace("%seperate&xyz%", "</li><li>") +
-                                                       "</li> </ul>";
-                return formattedMultipleChoiceAnswer;
-        }
-
-        return answerText;
-    }
-
-    public virtual bool IsInWishknowledge() => SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id); 
-    public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(Id);
-
-    public virtual string ToLomXml() => LomXml.From(this);
-
-    public virtual string TextHtml { get; set; }
-    public virtual string TextExtendedHtml { get; set; }
-    public virtual string DescriptionHtml { get; set; }
-    public virtual bool SkipMigration { get; set; }
-
-    public virtual IEnumerable<Category> CategoriesVisibleToCurrentUser() => Categories.Where(PermissionCheck.CanView);
 }

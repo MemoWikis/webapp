@@ -47,7 +47,7 @@
                         </div>
                     </li>
                     <li class="divider"></li>
-                    <li>
+             <%--       <li>
                         <a class="messages,<%= Model.UserMenuActive(UserMenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>" style="display: flex;">
                             Deine Nachrichten
                             <% if (Model.SidebarModel.UnreadMessageCount != 0)
@@ -61,7 +61,7 @@
                             <% } %>
                         </a>
 
-                    </li>
+                    </li>--%>
                     <li>
                         <a class="<%= Model.UserMenuActive(UserMenuEntry.Network) %>" href="<%= Links.Network() %>">Dein Netzwerk</a>
                     </li>

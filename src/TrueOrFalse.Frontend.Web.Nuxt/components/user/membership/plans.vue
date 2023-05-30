@@ -92,6 +92,12 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                 :class="{ 'recommended': !userStore.isLoggedIn, 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Plus }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn"
+                        v-if="userStore.isLoggedIn == false">
+                        <NuxtLink to="/Registrieren">
+                            Kostenlos registrieren
+                        </NuxtLink>
+                    </button>
+                    <button class="memo-button btn-primary btn"
                         v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus"
                         @click="handleCheckout(Subscription.Type.Plus)">
                         Auswählen
@@ -104,7 +110,7 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                     </button>
                 </template>
             </UserMembershipPriceCard>
-
+            
             <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Team }">
                 <template v-slot:button>

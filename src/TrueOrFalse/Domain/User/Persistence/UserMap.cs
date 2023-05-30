@@ -25,16 +25,11 @@ public class UserMap : ClassMap<User>
         Map(x => x.SubscriptionStartDate).Nullable();
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
-
-        HasMany(x => x.MembershipPeriods)
-            .Cascade.All();
-
         Map(x => x.WidgetHostsSpaceSeparated);
 
         HasMany(x => x.Followers)
             .KeyColumn("User_id")
             .Cascade.All();
-
 
         HasMany(x => x.Following)
             .KeyColumn("Follower_id")

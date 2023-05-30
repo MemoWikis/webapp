@@ -89,19 +89,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="FormSection">
-                        <div class="form-group" style="padding-top: 20px;">
-                            <label class="columnLabel control-label">
-                                <% if (Model.IsMember) { %>
-                                    <span class="bold">Du bist Mitglied!</span><br/>
-                                    <a href="<%= Links.Membership() %>">Deine Mitgliedschaft</a> läuft bis zum <%= String.Format("{0:d}", Model.Membership.PeriodEnd) %>.
-                                <% } else { %>
-                                    <span class="bold">Du bist zur Zeit kein Mitglied.</span><br/>
-                                    <a class="btn btn-primary" href="<%= Links.Membership() %>" style="margin-top: 12px;"><i class="fa fa-thumbs-up">&nbsp;&nbsp;</i>Jetzt Mitglied werden</a>
-                                <% } %>
-                            </label>
-                        </div>
-                    </div>
                     <% if (Model.WidgetHosts.Any()) { %>
                         <div class="FormSection">
                             <h3>Widgets</h3>
