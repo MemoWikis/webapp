@@ -48,7 +48,10 @@ export class CustomPino {
                 body: { Events: [log] },
             })
         } catch (error) {
-            console.error('Error sending log to Seq:', error, loggingContent)
+            console.error('Error sending log to Seq:', error)
+            console.log(loggingContent)
+            console.log("Log: ", log)
+            console.log({...log});
         }
     }
 
