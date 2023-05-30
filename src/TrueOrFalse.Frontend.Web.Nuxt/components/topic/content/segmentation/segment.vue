@@ -39,9 +39,7 @@ export default defineNuxtComponent({
 		this.segmentId = "Segment-" + this.categoryId;
 		if (this.childCategoryIds != null) {
 			this.childTopics?.forEach((c: any) => this.categories.push(c));
-
-			var baseChildCategoryIds = JSON.parse(this.childCategoryIds.toString());
-			this.currentChildCategoryIds = baseChildCategoryIds;
+			this.currentChildCategoryIds = this.childCategoryIds;
 		}
 		this.addCategoryId = "AddCategoryTo-" + this.segmentId + "-Btn";
 		this.dropdownId = this.segmentId + "-Dropdown";
@@ -362,7 +360,7 @@ export default defineNuxtComponent({
 			</div>
 		</div>
 		<div class="topicNavigation row" :key="cardsKey!">
-			<TopicContentSegmentationCard v-for="( category, index ) in  categories " @select-category="selectCategory"
+			<TopicContentSegmentationCard v-for="(category, index) in categories" @select-category="selectCategory"
 				@unselect-category="unselectCategory" inline-template :ref="'card' + category.Id"
 				:is-custom-segment="isCustomSegment" :category-id="category.Id" :selected-categories="selectedCategories"
 				:segment-id="segmentId!" hide="false" :key="index" :category="category" :is-historic="isHistoric"

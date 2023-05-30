@@ -373,8 +373,7 @@ editQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </div>
 
-                                    <div class="dropdown-row"
-                                        v-if="props.question.CreatorId == userStore.id || userStore.isAdmin"
+                                    <div class="dropdown-row" v-if="isCreator || userStore.isAdmin"
                                         @click="deleteQuestionStore.openModal(props.question.Id); hide()">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />

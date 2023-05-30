@@ -389,9 +389,9 @@ export default defineNuxtComponent({
 			<div class="topicNavigation row">
 				<TopicContentSegmentationCard v-for="(category, index) in categories" :ref="'card' + category.Id"
 					:is-custom-segment="isCustomSegment" :category-id="category.Id"
-					:selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :key="index"
-					:category="category" :is-historic="isHistoric" @remove-card="removeCard(category.Id)"
-					:parent-topic-id="categoryId" @remove-category="removeCategory" @load-segment="loadSegment" />
+					:selected-categories="selectedCategories" :segment-id="segmentId" hide="false" :category="category"
+					:is-historic="isHistoric" @remove-card="removeCard(category.Id)" :parent-topic-id="categoryId"
+					@remove-category="removeCategory" @load-segment="loadSegment" />
 				<div v-if="!isHistoric" class="col-xs-6 topic">
 					<button class="add-category-card memo-button row" :id="addCategoryId">
 						<div class="col-xs-3"></div>

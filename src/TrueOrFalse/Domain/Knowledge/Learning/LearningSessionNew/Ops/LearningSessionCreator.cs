@@ -33,7 +33,7 @@ public class LearningSessionCreator
     public static LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache().Where(q => q.Id > 0).ToList();
-
+        allQuestions = allQuestions.Where(PermissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);
 
@@ -84,8 +84,7 @@ public class LearningSessionCreator
 
     public static LearningSession BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
     {
-        var ad = LearningSessionCache.TryRemove();
-
+        LearningSessionCache.TryRemove();
 
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);

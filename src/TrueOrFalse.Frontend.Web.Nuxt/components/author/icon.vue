@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ImageFormat } from '../image/imageFormatEnum';
+import { ImageFormat } from '../image/imageFormatEnum'
 import { Author } from './author'
 interface Props {
     author: Author

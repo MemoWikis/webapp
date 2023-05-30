@@ -47,6 +47,7 @@ public class LearningSessionStoreController: BaseController
     public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
     {
         var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache();
+        allQuestions = allQuestions.Where(PermissionCheck.CanView).ToList();
         if (allQuestions.IndexOf(q => q.Id == id) < 0)
             return Json(new
             {
