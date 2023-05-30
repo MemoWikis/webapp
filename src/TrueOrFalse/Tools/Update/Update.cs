@@ -46,6 +46,9 @@ public class Update : IRegisterAsInstancePerLifetime
             .Add(UpdateToVs260.Run)
             .Add(UpdateToVs261.Run)
             .Add(UpdateToVs262.Run)
+            .Add(UpdateToVs263.Run)
+            .Add(UpdateToVs264.Run)
+            .Add(UpdateToVs265.Run)
             .Run();
     }
 }

@@ -41,9 +41,6 @@ public class Sl
     public static ISession Session => R<ISession>();
     public static SessionUiData SessionUiData => R<SessionUiData>();
     public static SetRepo SetRepo => R<SetRepo>();
-
-    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
-
     public static SolrSearchIndexCategory SolrSearchIndexCategory => R<SolrSearchIndexCategory>();
     public static SolrSearchQuestions SolrSearchQuestions => R<SolrSearchQuestions>();
     public static SolrSearchUsers SolrSearchUsers => R<SolrSearchUsers>();

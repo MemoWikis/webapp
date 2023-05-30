@@ -65,8 +65,6 @@ public class UserRepo : RepositoryDbBase<User>
             .ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
-        Session.CreateSQLQuery("Update setView Set User_id = null WHERE User_Id = :userId")
-            .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update questionValuation SET Userid = null WHERE UserId = :userId")

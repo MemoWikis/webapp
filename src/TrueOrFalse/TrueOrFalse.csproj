@@ -461,10 +461,6 @@
     <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsgModel.cs" />
     <Compile Include="Domain\Message\MessageEmailTypes.cs" />
     <Compile Include="Domain\QuestionSet\Ops\Timecode.cs" />
-    <Compile Include="Domain\QuestionSet\SetView\Ops\SaveSetView.cs" />
-    <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewMap.cs" />
-    <Compile Include="Domain\QuestionSet\SetView\SetView.cs" />
-    <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMatchList.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionFlashCard.cs" />
@@ -845,6 +841,10 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs244.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs266.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs265.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs264.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs263.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs262.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs261.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs260.cs" />
