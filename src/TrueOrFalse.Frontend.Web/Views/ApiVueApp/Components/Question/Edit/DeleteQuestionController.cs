@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+﻿using System.Web.Mvc;
 
 namespace VueApp;
-public class DeleteQuestionController : BaseController
+public class QuestionEditDeleteController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
 
-    public DeleteQuestionController(QuestionRepo questionRepo)
+    public QuestionEditDeleteController(QuestionRepo questionRepo)
     {
         _questionRepo = questionRepo;
     }
 
-    [HttpPost]
+    [HttpGet]
     public JsonResult DeleteDetails(int questionId)
     {
         var question = _questionRepo.GetById(questionId);

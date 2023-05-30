@@ -372,7 +372,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                             :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                     </div>
                 </div>
-                <div class="Button dropdown answerbody-btn">
+                <div class="Button dropdown answerbody-btn" v-if="!isLandingPage">
                     <div class="answerbody-btn-inner">
                         <VDropdown :distance="0">
                             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
@@ -612,7 +612,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                                     Deine {{ answersSoFar.length == 1 ? 'Antwort' : 'Antworten' }}:
                                                 </span>
                                                 <ul id="ulAnswerHistory">
-                                                    <li v-for=" answers  in  answersSoFar " v-html="answers">
+                                                    <li v-for="answers in answersSoFar" v-html="answers">
                                                     </li>
                                                 </ul>
                                             </div>
