@@ -160,7 +160,7 @@ useHead(() => ({
         <div class="row profile-container  main-page">
             <div class="col-xs-12 container" v-if="profile && profile.user.id > 0">
                 <div class="row">
-                    <div class="col-xs-12 profile-header ">
+                    <div class="col-xs-12 profile-header">
                         <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
                             class="profile-picture hidden-xs" />
                         <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"

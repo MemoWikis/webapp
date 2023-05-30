@@ -159,6 +159,7 @@ useHead(() => ({
                     <TopicTabsQuestions v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
                     <TopicRelationEdit v-if="userStore.isLoggedIn" />
                     <QuestionEditModal v-if="userStore.isLoggedIn" />
+                    <QuestionEditDelete v-if="userStore.isLoggedIn" />
                     <TopicPublishModal v-if="userStore.isLoggedIn" />
                     <TopicToPrivateModal v-if="userStore.isLoggedIn" />
                     <TopicDeleteModal

@@ -16,6 +16,7 @@ export class CustomPino {
     }
 
     private async sendToSeq(level: Level, args: unknown[] = []): Promise<void> {
+
         const timestamp = new Date().toISOString()
         const message = args[0] as string
         const additionalData = args[1] as Property[]

@@ -100,7 +100,7 @@ const getSelectedOrderLabel = computed(() => {
                 </div>
 
                 <div class="row content" v-if="pageData">
-                    <div class="col-xs-12 col-sm-12 ">
+                    <div class="col-xs-12 col-sm-12">
 
                         <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
                             Kein Nutzer mit dem Namen "{{ searchTerm }}"
@@ -161,7 +161,7 @@ const getSelectedOrderLabel = computed(() => {
 
                     <div class="row usercard-container">
                         <TransitionGroup name="usercard">
-                            <UsersCard v-for=" u  in  pageData.users " :user="u" />
+                            <UsersCard v-for="u in pageData.users" :user="u" />
                         </TransitionGroup>
                     </div>
 
