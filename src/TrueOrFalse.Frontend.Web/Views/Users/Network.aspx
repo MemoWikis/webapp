@@ -77,7 +77,6 @@
                             <h4>Noch folgt dir niemand</h4>
                             <p style="padding-top: 5px;">
                                 Nutzer folgen dir, wenn du interessante Inhalte erstellst.<br/>
-                                Folgen dir viele Nutzer, erhältst du Badges.
                             </p>
                         </div>
                     

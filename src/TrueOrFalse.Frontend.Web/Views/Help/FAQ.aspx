@@ -220,9 +220,6 @@
                     <p>
                         Wenn du uns unterstützen möchtest, dann freuen wir uns sehr, dich als Unterstützer begrüßen zu dürfen!
                     </p>
-                    <p>
-                        <a href="<%= Links.Membership() %>" class="btn btn-primary">Jetzt Unterstützer werden</a>
-                    </p>
                 </div>
                     
             </div>

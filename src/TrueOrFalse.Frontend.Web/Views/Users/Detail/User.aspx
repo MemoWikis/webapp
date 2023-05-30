@@ -110,12 +110,6 @@
                                 Wunsch<span class="hidden-xxs">wissen</span>
                             </a>
                         </div>
-                    
-                        <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
-                            <a  href="<%= Links.UserDetailBadges(Model.User.User) %>" type="button" class="btn btn-default">
-                                Badges
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -130,19 +124,11 @@
                                 Wunschwissen
                             </a>
                         </li>
-                        <li class="<%= Html.IfTrue(Model.IsActiveTabBadges, "active") %>">
-                            <a href="<%= Links.UserDetailBadges(Model.User.User) %>">
-                                Badges (0 von <%= BadgeTypes.All().Count %>)
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 <div class="boxtainer-content">
                     <% if(Model.IsActiveTabKnowledge) { %>
                         <% Html.RenderPartial("~/Views/Users/Detail/TabKnowledge.ascx", new TabKnowledgeModel(Model)); %>
-                    <% } %>
-                    <% if(Model.IsActiveTabBadges) { %>
-                        <% Html.RenderPartial("~/Views/Users/Detail/TabBadges.ascx", new TabBadgesModel(Model)); %>
                     <% } %>
                 </div>
             </div>

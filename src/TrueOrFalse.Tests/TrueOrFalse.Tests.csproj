@@ -307,8 +307,6 @@
     <Compile Include="2 Domain\Question\Delete_question.cs" />
     <Compile Include="2 Domain\Question\History\ContextHistory.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_streak.cs" />
-    <Compile Include="2 Domain\Question\History\AnswerTest_AlgoTester.cs" />
-    <Compile Include="2 Domain\Question\History\AnswerFeature_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\History\AnswerIntervals.cs" />
     <Compile Include="2 Domain\Question\History\PatternMatcher_test.cs" />
     <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />
@@ -324,13 +322,7 @@
     <Compile Include="2 Domain\User\Activity\Write_activity_new_follower.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_following.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_question.cs" />
-    <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
-    <Compile Include="2 Domain\User\Badges\Badge_awarder.cs" />
-    <Compile Include="2 Domain\User\Badges\Badge_params.cs" />
-    <Compile Include="2 Domain\User\Badges\Badge_persistence.cs" />
     <Compile Include="2 Domain\User\Follower_persistence.cs" />
-    <Compile Include="2 Domain\User\Membership_invoice.cs" />
-    <Compile Include="2 Domain\User\Membership_is_active.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
     <Compile Include="2 Domain\Question\Answer\When_answering_question.cs" />
     <Compile Include="2 Domain\Question\History\History_persistence_tests.cs" />
@@ -341,7 +333,6 @@
     <Compile Include="2 Domain\Question\Spec_changing_question_categories.cs" />
     <Compile Include="2 Domain\User\Setup\ContextRegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
-    <Compile Include="2 Domain\User\Membership_persistence.cs" />
     <Compile Include="2 Domain\User\User_persistence.cs" />
     <Compile Include="3 Infrastructure\Autofac_should_export_all_registered_services.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />

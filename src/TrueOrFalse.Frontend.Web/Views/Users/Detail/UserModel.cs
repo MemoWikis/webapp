@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 public class UserModel : BaseModel
 {
-    public string Name { get; private set; }
-    
     public int AmountCreatedQuestions;
     public int AmountCreatedSets;
     public int AmountCreatedCategories;
@@ -23,19 +20,16 @@ public class UserModel : BaseModel
     public bool IsCurrentUser;
 
     public bool IsActiveTabKnowledge;
-    public bool IsActiveTabBadges;
-
     public UserTinyModel User;
     public int UserIdProfile;
     public bool DoIFollow;
     public CategoryCacheItem UserWiki;
-    public bool ShowWiki = false;
+    public bool ShowWiki;
 
-    public UserModel(UserCacheItem user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
+    public UserModel(UserCacheItem user, bool isActiveTabKnowledge = false)
     {
         User = new UserTinyModel(user);
         IsActiveTabKnowledge = isActiveTabKnowledge;
-        IsActiveTabBadges = isActiveTabBadges;
 
         Name = User.Name;
 
@@ -47,7 +41,6 @@ public class UserModel : BaseModel
         AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(User.Id);
 
         AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(User.Id);
-      //  AmountWishCountSets = Resolve<GetWishSetCount>().Run(User.Id);
 
         var imageResult = new UserImageSettings(User.Id).GetUrl_250px(User);
         ImageUrl_250 = imageResult.Url;
@@ -68,6 +61,7 @@ public class UserModel : BaseModel
             UserWiki = EntityCache.GetCategory(userWiki.Id);
             ShowWiki = true;
         }
-
     }
+
+    public string Name { get; }
 }

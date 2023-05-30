@@ -314,14 +314,6 @@
     <Compile Include="Views\ApiVueApp\CancelController.cs" />
     <Compile Include="Views\ControllerModels\QuestionPinStoreControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\StripeWebhookController.cs" />
-    <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
-    <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
-    <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
-    <Compile Include="Views\AlgoInsight\FeatureModel.cs" />
-    <Compile Include="Views\AlgoInsight\TabVariousModel.cs" />
-    <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
-    <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
-    <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\AddController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentController.cs" />
@@ -375,7 +367,6 @@
     <Compile Include="Views\Api\ActivityPointsApiController.cs" />
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
     <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
-    <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Api\Breadcrumb\BreadcrumbApiController.cs" />
     <Compile Include="Views\Api\CategoriesController.cs" />
     <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
@@ -2706,14 +2697,12 @@
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
-    <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
-    <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
     <Compile Include="Views\Welcome\Login\LoginController.cs" />
@@ -3005,15 +2994,6 @@
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
     <Content Include="Style\guidedTour\bootstrap-tour.css" />
-    <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
-    <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
-    <Content Include="Views\AlgoInsight\TabForgettingCurve_.js">
-      <DependentUpon>TabForgettingCurve_.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\AlgoInsight\TabVarious.ascx" />
-    <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
-    <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
-    <Content Include="Views\AlgoInsight\TabForecast.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
@@ -3021,7 +3001,6 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\UserSearchResult.ascx" />
-    <Content Include="Views\Users\Detail\TabBadges.ascx" />
     <Content Include="Views\Users\Detail\User.css">
       <DependentUpon>User.less</DependentUpon>
     </Content>
@@ -3057,7 +3036,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
-    <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
@@ -3152,7 +3130,6 @@
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css">
       <DependentUpon>AnswerQuestionSolution.less</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
@@ -3815,9 +3792,6 @@
     <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
-    <Content Include="Views\Users\Account\Membership.css">
-      <DependentUpon>Membership.less</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Header.ascx" />
     <Content Include="Views\Users\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3948,10 +3922,6 @@
     <Content Include="Views\Users\Account\Settings\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Account\Membership.less" />
-    <Content Include="Views\Users\Account\Membership.css.map">
-      <DependentUpon>Membership.css</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Account\Js\Membership.js.map">
       <DependentUpon>Membership.ts</DependentUpon>
     </Content>
@@ -3984,13 +3954,9 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
-    <Content Include="Views\AlgoInsight\AlgoInsight.less" />
     <Content Include="Views\Users\Detail\User.less" />
     <Content Include="Views\Users\Detail\User.css.map">
       <DependentUpon>User.css</DependentUpon>
-    </Content>
-    <Content Include="Views\AlgoInsight\TabForgettingCurve_.js.map">
-      <DependentUpon>TabForgettingCurve_.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />

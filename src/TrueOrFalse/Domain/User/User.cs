@@ -15,7 +15,6 @@ public class User : DomainEntity, IUserTinyModel
 
     public User()
     {
-        MembershipPeriods = new List<Membership>();
         Followers = new List<FollowerInfo>();
         Following = new List<FollowerInfo>();
     }
@@ -44,7 +43,6 @@ public class User : DomainEntity, IUserTinyModel
     public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
     public virtual string LearningSessionOptions { get; set; }
     public virtual string MailBounceReason { get; set; }
-    public virtual IList<Membership> MembershipPeriods { get; set; }
     public virtual string PasswordHashedAndSalted { get; set; }
 
     public virtual string RecentlyUsedRelationTargetTopics { get; set; }
@@ -78,11 +76,6 @@ public class User : DomainEntity, IUserTinyModel
         ReputationUpdate.ForUser(this);
     }
 
-    public virtual Membership CurrentMembership()
-    {
-        return MembershipPeriods.FirstOrDefault(x => x.IsActive());
-    }
-
     public virtual IList<int> FollowerIds()
     {
         return Followers.Select(f => f.Follower.Id).ToList();
@@ -91,16 +84,6 @@ public class User : DomainEntity, IUserTinyModel
     public virtual IList<int> FollowingIds()
     {
         return Following.Select(f => f.User.Id).ToList();
-    }
-
-    public virtual bool IsMember()
-    {
-        if (MembershipPeriods == null || MembershipPeriods.Count == 0)
-        {
-            return false;
-        }
-
-        return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
     }
 
     public virtual bool IsStartTopicTopicId(int categoryId)

@@ -180,14 +180,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         {
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
         }
-        else
-        {
-            //warmup entity cache
-            var users = _session
-                .QueryOver<User>()
-                .Fetch(SelectMode.Fetch, u => u.MembershipPeriods)
-                .List();
-        }
 
         var result = query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .Left.JoinQueryOver(x => x.RelatedCategory)

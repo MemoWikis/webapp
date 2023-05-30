@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
 
@@ -31,12 +30,17 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
         }
-        if (!isTestCase){
-            _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
-            _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
-            _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
-            _session.CreateSQLQuery("DELETE FROM categories_to_sets where Category_id = " + category.Id).ExecuteUpdate();
+
+        if (!isTestCase)
+        {
+            _session.CreateSQLQuery(
+                "DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " +
+                                    category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id)
+                .ExecuteUpdate();
         }
+
         Sl.UserActivityRepo.DeleteForCategory(category.Id);
         Sl.CategoryRepo.Delete(category);
 
@@ -50,16 +54,17 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         {
             EntityCache.GetCategory(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
         }
+
         EntityCache.Remove(categoryCacheItem);
         SessionUserCache.RemoveAllForCategory(category.Id);
         hasDeleted.DeletedSuccessful = true;
-        return hasDeleted; 
+        return hasDeleted;
     }
 
     public class HasDeleted
     {
-        public bool HasChildren { get;  set; }
-        public bool IsNotCreatorOrAdmin { get; set; }
         public bool DeletedSuccessful { get; set; }
+        public bool HasChildren { get; set; }
+        public bool IsNotCreatorOrAdmin { get; set; }
     }
 }
