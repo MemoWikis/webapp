@@ -81,8 +81,6 @@ public class UserRepo : RepositoryDbBase<User>
             .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("Update setValuation SET Userid = null WHERE UserId = :userId")
-            .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
         Session.CreateSQLQuery("Update imagemetadata Set userid  = null Where userid =  :userId")
@@ -108,13 +106,6 @@ public class UserRepo : RepositoryDbBase<User>
 
         Session.CreateSQLQuery(
                 "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
-
-        Session.CreateSQLQuery("Update questionSet Set creator_id  = null Where creator_Id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
-
-        Session.CreateSQLQuery(
-                "Delete qui.* FROM questionInSet qui LEFT JOIN question q ON q.id = qui.Question_id WHERE q.creator_id = :userid AND (q.visibility = 1 Or q.visibility = 2);")
             .SetParameter("userid", userId).ExecuteUpdate();
         Session.CreateSQLQuery(
                 "Delete ua.* From Useractivity ua  Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")

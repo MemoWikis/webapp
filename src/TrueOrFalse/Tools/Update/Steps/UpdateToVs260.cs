@@ -2,23 +2,23 @@
 
 namespace TrueOrFalse.Updates;
 
-internal class UpdateToVs251
+internal class UpdateToVs260
 {
     public static void Run()
     {
         Sl.Resolve<ISession>()
             .CreateSQLQuery(
-                @"ALTER TABLE categories_to_sets DROP FOREIGN KEY FK937EA8C2253EAD1B;"
+                @"ALTER TABLE questioninset DROP FOREIGN KEY FKD34040F20054BCB;"
             ).ExecuteUpdate();
 
         Sl.Resolve<ISession>()
             .CreateSQLQuery(
-                @"ALTER TABLE categories_to_sets DROP FOREIGN KEY FK937EA8C286903877;"
+                @"ALTER TABLE questioninset DROP FOREIGN KEY FKD34040F3A925A27;"
             ).ExecuteUpdate();
 
         Sl.Resolve<ISession>()
             .CreateSQLQuery(
-                @"DROP TABLE categories_to_sets;"
+                @"DROP TABLE questioninset;"
             ).ExecuteUpdate();
     }
 }

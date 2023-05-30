@@ -607,7 +607,6 @@
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityUpdate_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityCalc_Question.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityUpdate_Question.cs" />
-    <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityCalc_User.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityUpdate_User.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalcResult.cs" />
@@ -713,8 +712,6 @@
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
     <Compile Include="Domain\Category\Ops\GetCategoriesCount.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSet.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepo.cs">
@@ -848,6 +845,8 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs244.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs261.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs260.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs259.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs258.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs257.cs" />
