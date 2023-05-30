@@ -101,7 +101,6 @@ export class FacebookMemuchoUser {
         response: FB.LoginStatusResponse,
         stayOnPage = false,
         disallowRegistration = false) {
-
         if (response.status === 'connected') {
 
             FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
@@ -110,7 +109,7 @@ export class FacebookMemuchoUser {
 
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
-            FB.login(async response => {
+            FB.login((response) => {
 
                 var facebookId = response.authResponse!.userID
                 var facebookAccessToken = response.authResponse!.accessToken
@@ -118,26 +117,30 @@ export class FacebookMemuchoUser {
                 if (response.status !== "connected")
                     return;
 
-                if (await FacebookMemuchoUser.Exists(facebookId)) {
-                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage)
-
-                    return;
-                }
-
                 if (disallowRegistration) {
                     navigateTo('/Registrieren')
                     return
                 }
 
-                Facebook.GetUser(facebookId,
-                    facebookAccessToken,
-                    (user: FacebookUserFields) => {
-                        FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)
-                    })
-
+                this.handleResponse(facebookId, facebookAccessToken, stayOnPage)
             },
                 { scope: 'email' });
         }
+
+    }
+
+    private static async handleResponse(facebookId: string, facebookAccessToken: string, stayOnPage: boolean) {
+        if (await FacebookMemuchoUser.Exists(facebookId)) {
+            FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage)
+            return
+        } else {
+            Facebook.GetUser(facebookId,
+                facebookAccessToken,
+                (user: FacebookUserFields) => {
+                    FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)
+                })
+        }
+
 
     }
 
