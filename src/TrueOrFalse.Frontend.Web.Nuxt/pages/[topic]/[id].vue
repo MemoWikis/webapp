@@ -38,7 +38,8 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
         onResponseError(context) {
             throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         },
-        server: true
+        server: true,
+        retry: 3
     })
 
 //preset segmentation
