@@ -1,18 +1,17 @@
 <script lang="ts" setup>
 import { useUserStore } from '../userStore'
-import { loadStripe, Stripe } from '@stripe/stripe-js'
 import * as Subscription from '~~/components/user/membership/subscription'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 
-const stripePromise = loadStripe(config.public.stripeKey)
 const sessionId = ref<string>('');
 
 interface CheckoutSessionResult {
     success: boolean
     id?: string
 }
+
 const createOrUpdateSubscription = async (id: string): Promise<string> => {
     const result = await $fetch<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
         method: 'POST',
@@ -24,10 +23,10 @@ const createOrUpdateSubscription = async (id: string): Promise<string> => {
     else return ''
 }
 
-
-
 const redirectToCheckout = async (sessionId: string): Promise<void> => {
-    const stripe: Stripe | null = await stripePromise;
+    const { loadStripe } = await import('@stripe/stripe-js');
+
+    const stripe = await loadStripe(config.public.stripeKey);
 
     if (stripe) {
         const { error } = await stripe.redirectToCheckout({
@@ -39,7 +38,6 @@ const redirectToCheckout = async (sessionId: string): Promise<void> => {
         }
     }
 }
-
 
 const handleCheckout = async (type: Subscription.Type): Promise<void> => {
     if (!userStore.isLoggedIn) {
