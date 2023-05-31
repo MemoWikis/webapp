@@ -69,7 +69,7 @@ export default defineNuxtConfig({
     //     server: true,
     //     client: true
     // },
-    debug: true,
+    // debug: true,
 
 
     // devServer: {
