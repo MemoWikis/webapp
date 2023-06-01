@@ -1,18 +1,18 @@
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-    // nitro: {
-    //     routeRules: {
-    //         '/logger': { proxy: 'http://localhost:5341/api/events/raw' },
-    //         '/apiVue/**': { proxy: 'http://memucho.local/apiVue/**' },
-    //         '/Images/**': { proxy: 'http://memucho.local/Images/**' },
-    //     }
-    // },
+    nitro: {
+        routeRules: {
+            '/seqlog': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}:5341/api/events/raw` : 'http://localhost:5341/api/events/raw' },
+            // '/apiVueX/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/apiVue/**` : 'http://localhost/apiVue/**' },
+            // '/Images/**': { proxy: 'http://memucho.local/Images/**' },
+        }
+    },
     runtimeConfig: {
         seqServerApiKey: "",
         public: {
-            clientBase: "https://localhost:3000",
-            serverBase: "https://localhost",
+            clientBase: "http://localhost:3000",
+            serverBase: "http://localhost",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
             discord: "https://discord.com/invite/nXKwGrN",
             stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",

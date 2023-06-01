@@ -7,21 +7,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
     //     throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
     // }
     // console.log(to.params)
-    console.log(useState('currentuser').value)
     if (Object.keys(to.params).length == 0) {
 
         const userStore = useUserStore()
-        console.log(userStore.isLoggedIn)
         if (userStore.isLoggedIn)
             return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
         else return `/apiVue/Topic/GetTopic/1`
     }
-
-    console.log('To -----------------------------------------')
-    console.log(to)
-    console.log('From -----------------------------------------')
-    console.log(from)
-    console.log('-----------------------------------------')
 
     return
     // const headers = useRequestHeaders(['cookie']) as HeadersInit

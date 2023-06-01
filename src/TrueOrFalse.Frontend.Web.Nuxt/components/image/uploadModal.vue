@@ -35,6 +35,8 @@ interface WikimediaPreviewResult {
     imageThumbUrl: string
 }
 const wikiMediaPreviewUrl = ref('')
+const { $logger } = useNuxtApp()
+
 async function loadWikimediaImage() {
     const data = {
         url: wikimediaUrl.value
@@ -43,7 +45,11 @@ async function loadWikimediaImage() {
         mode: 'cors',
         credentials: 'include',
         method: 'POST',
-        body: data
+        body: data,
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result.imageFound) {
         wikiMediaPreviewUrl.value = result.imageThumbUrl
@@ -129,7 +135,11 @@ async function upload() {
         body: data,
         method: 'POST',
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (result) {

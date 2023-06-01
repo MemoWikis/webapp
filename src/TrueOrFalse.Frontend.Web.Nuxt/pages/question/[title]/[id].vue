@@ -28,7 +28,10 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 				options.headers = headers
 				options.baseURL = config.public.serverBase
 			}
-		}
+		},
+		onResponseError(context) {
+			throw createError({ statusMessage: context.error?.message })
+		},
 	})
 
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])

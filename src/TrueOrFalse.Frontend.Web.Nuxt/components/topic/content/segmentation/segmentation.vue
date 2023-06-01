@@ -704,8 +704,8 @@ export default defineNuxtComponent({
 			align-items: center;
 
 			img {
-				margin-left: -8px;
-				margin-right: 4px;
+				margin-left: -10px;
+				margin-right: 6px;
 				border-radius: 50%;
 				height: 26px;
 				width: 30px;

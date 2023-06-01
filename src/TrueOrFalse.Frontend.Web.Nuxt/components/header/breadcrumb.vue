@@ -167,12 +167,17 @@ async function getBreadcrumb() {
 				method: 'POST',
 				body: data,
 				credentials: 'include',
+				onResponseError(context) {
+					throw createError({ statusMessage: context.error?.message })
+				}
 			})
 
-		breadcrumb.value = result
-		personalWiki.value = result.personalWiki
-		breadcrumbItems.value = result.items
-		sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
+		if (result) {
+			breadcrumb.value = result
+			personalWiki.value = result.personalWiki
+			breadcrumbItems.value = result.items
+			sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
+		}
 	} else {
 		const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
 			{
@@ -180,12 +185,15 @@ async function getBreadcrumb() {
 				body: data,
 				credentials: 'include',
 				mode: 'no-cors',
+				onResponseError(context) {
+					throw createError({ statusMessage: context.error?.message })
+				}
 			})
 
 		personalWiki.value = result
 
 	}
-	if (personalWiki.value.Id == 1 || breadcrumbItems.value.some(i => i.Id == 1))
+	if (personalWiki.value?.Id == 1 || breadcrumbItems.value.some(i => i.Id == 1))
 		rootTopicChipStore.showRootTopicChip = false
 	else rootTopicChipStore.showRootTopicChip = true
 

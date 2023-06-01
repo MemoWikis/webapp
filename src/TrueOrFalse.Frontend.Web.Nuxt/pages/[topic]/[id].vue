@@ -36,7 +36,8 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
             $logger.info(`TopicRequest Id:${route.params.id} - End`, [{ context: context }])
         },
         onResponseError(context) {
-            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
         },
         server: true,
         retry: 3

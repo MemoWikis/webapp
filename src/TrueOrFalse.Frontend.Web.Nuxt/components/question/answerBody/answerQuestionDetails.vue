@@ -763,10 +763,16 @@ interface AnswerQuestionDetailsResult {
         fullText: string
     }
 }
+const { $logger } = useNuxtApp()
+
 async function loadData() {
     const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
         credentials: 'include',
         mode: 'cors',
+        onResponseError(context) {
+            const { $logger } = useNuxtApp()
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        }
     })
     initData(result)
 }

@@ -41,7 +41,8 @@ export class CustomPino {
         }
 
         try {
-            await $fetch(`${this.seqServerUrl}/api/events/raw`, {
+            // await $fetch(`${this.seqServerUrl}/api/events/raw`, {
+            await $fetch(`/seqlog`, {
                 method: 'POST',
                 headers: {
                     'X-Seq-ApiKey': this.seqApiKey,
@@ -52,7 +53,7 @@ export class CustomPino {
             console.error('Error sending log to Seq:', error)
             console.log(loggingContent)
             console.log("Log: ", log)
-            console.log({...log});
+            console.log({ ...log });
         }
     }
 

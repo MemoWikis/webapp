@@ -24,7 +24,7 @@ function getKeyFromValue(value: string): string | undefined {
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.config.errorHandler = (error, context, info) => {
         const config = useRuntimeConfig()
-        const logger = new CustomPino(process.server ? config.seqServerApiKey : config.public.seqClientApiKey, process.server ? config.public.seqServerUrl : '/logger')
+        const logger = new CustomPino(process.server ? config.seqServerApiKey : config.public.seqClientApiKey, process.server ? config.public.seqServerUrl : config.public.seqServerUrl)
         if (error instanceof SyntaxError) {
             const errorObject = {
                 name: error.name,

@@ -25,6 +25,8 @@ interface ChangeDetail {
     currentRelations?: string
     previousRelations?: string
 }
+const { $logger } = useNuxtApp()
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -36,6 +38,10 @@ const { data: changeDetail } = await useFetch<ChangeDetail>(`/apiVue/HistoryTopi
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
+    },
+    onResponseError(context) {
+        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
     },
 })
 

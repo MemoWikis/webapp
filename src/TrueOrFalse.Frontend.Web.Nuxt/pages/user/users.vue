@@ -36,6 +36,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/VueUsers/Ge
     },
     default: () => null
 })
+const { $logger } = useNuxtApp()
 
 const url = computed(() => {
     return `/apiVue/VueUsers/Get?page=${currentPage.value}&pageSize=${usersPerPageCount.value}&searchTerm=${searchTerm.value}&orderBy=${orderBy.value}`
@@ -50,7 +51,10 @@ const { data: pageData, pending: pageDataPending } = await useFetch<UsersResult>
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
-    }
+    },
+    onResponseError(context) {
+        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+    },
 })
 
 watch(pageData, (e) => {

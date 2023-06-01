@@ -21,6 +21,7 @@ interface DeleteDetails {
     wuwiCount: number
     hasRights: boolean
 }
+const { $logger } = useNuxtApp()
 
 async function getDeleteDetails(id: number) {
 
@@ -28,6 +29,10 @@ async function getDeleteDetails(id: number) {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (result) {
@@ -67,7 +72,11 @@ async function deleteQuestion() {
         method: 'POST',
         body: data,
         credentials: 'include',
-        mode: 'cors'
+        mode: 'cors',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (result) {

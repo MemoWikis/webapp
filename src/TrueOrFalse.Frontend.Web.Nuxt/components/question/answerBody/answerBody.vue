@@ -109,6 +109,7 @@ const _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well 
 const wellDoneMsg = ref('')
 
 const wrongAnswerMsg = ref('')
+const { $logger } = useNuxtApp()
 
 async function answer() {
     showWrongAnswers.value = false
@@ -156,6 +157,10 @@ async function answer() {
             body: data,
             credentials: 'include',
             mode: 'cors',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+            }
         })
 
     if (result) {
@@ -214,7 +219,11 @@ async function loadAnswerBodyModel() {
         return
     const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentIndex}`, {
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result != null) {
         flashCardAnswered.value = false
@@ -256,6 +265,10 @@ async function markAsCorrect() {
         method: 'POST',
         mode: 'cors',
         body: data,
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (result != null) {
@@ -285,7 +298,11 @@ async function loadSolution(answered: boolean = true) {
             method: 'POST',
             body: data,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+            }
         })
     if (solutionResult != null) {
         if (answerBodyModel.value!.solutionType == SolutionType.MultipleChoice && solutionResult.answer == null) {

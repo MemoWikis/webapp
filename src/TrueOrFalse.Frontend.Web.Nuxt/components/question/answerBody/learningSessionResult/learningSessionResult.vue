@@ -41,11 +41,16 @@ interface LearningSessionResult {
     topicId: number
     inWuwi: boolean
 }
+const { $logger } = useNuxtApp()
 
 onBeforeMount(async () => {
     learningSessionResult.value = await $fetch<LearningSessionResult>('/apiVue/VueLearningSessionResult/Get', {
         credentials: 'include',
-        mode: 'cors'
+        mode: 'cors',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 })
 
