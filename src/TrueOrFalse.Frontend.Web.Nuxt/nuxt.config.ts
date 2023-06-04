@@ -3,13 +3,13 @@
 export default defineNuxtConfig({
     nitro: {
         routeRules: {
-            '/seqlog': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}:5341/api/events/raw` : 'http://localhost:5341/api/events/raw' },
-            // '/apiVueX/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/apiVue/**` : 'http://localhost/apiVue/**' },
-            // '/Images/**': { proxy: 'http://memucho.local/Images/**' },
+            '/seqlog': { proxy: process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw' },
+            '/Images/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/Images/**` : 'http://localhost/Images/**' },
         }
     },
     runtimeConfig: {
         seqServerApiKey: "",
+        seqRawUrl: undefined,
         public: {
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",
@@ -18,8 +18,8 @@ export default defineNuxtConfig({
             stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",
             stripeTeamPriceId: "",
             stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
-            seqServerUrl: undefined,
             seqServerPort: undefined,
+            seqServerUrl: undefined,
             seqClientApiKey: "",
 
         },

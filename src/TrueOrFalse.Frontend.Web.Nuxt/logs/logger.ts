@@ -3,13 +3,6 @@ interface Property {
     [key: string]: any;
 }
 export class CustomPino {
-    private seqApiKey: string
-    private seqServerUrl: string
-
-    constructor(apiKey: string, seqServerUrl: string) {
-        this.seqApiKey = apiKey
-        this.seqServerUrl = seqServerUrl
-    }
 
     private levelToLabel(level: Level): string {
         return pino.levels.labels[parseInt(level as unknown as string, 10)]
@@ -32,20 +25,30 @@ export class CustomPino {
             Properties: properties
         }
 
+        let url = '/seqlog'
+        let apiKey = ''
+        if (process.server) {
+            url = process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw'
+            if (process.env.NUXT_SEQ_SERVER_API_KEY)
+                apiKey = process.env.NUXT_SEQ_SERVER_API_KEY
+        } else {
+            const config = useRuntimeConfig()
+            apiKey = config.public.seqClientApiKey
+        }
+
         const loggingContent = {
             method: 'POST',
             headers: {
-                'X-Seq-ApiKey': this.seqApiKey,
+                'X-Seq-ApiKey': apiKey,
             },
             body: { Events: [log] },
         }
 
         try {
-            // await $fetch(`${this.seqServerUrl}/api/events/raw`, {
-            await $fetch(`/seqlog`, {
+            await $fetch(url, {
                 method: 'POST',
                 headers: {
-                    'X-Seq-ApiKey': this.seqApiKey,
+                    'X-Seq-ApiKey': apiKey,
                 },
                 body: { Events: [log] },
             })
@@ -53,7 +56,7 @@ export class CustomPino {
             console.error('Error sending log to Seq:', error)
             console.log(loggingContent)
             console.log("Log: ", log)
-            console.log({ ...log });
+            console.log({ ...log })
         }
     }
 
