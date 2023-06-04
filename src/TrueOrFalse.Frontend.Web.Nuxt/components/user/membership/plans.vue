@@ -55,6 +55,10 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
     if (sessionId.value)
         await redirectToCheckout(sessionId.value);
 }
+
+function contact() {
+    window.location.href = "mailto:team@memucho.de"
+}
 </script>
 
 <template>
@@ -120,7 +124,7 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
             <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Organisation }">
                 <template v-slot:button>
-                    <button class="memo-button btn-link">Kontaktieren</button>
+                    <button @click="contact" class="memo-button btn-link">Kontaktieren</button>
                 </template>
             </UserMembershipPriceCard>
         </div>
