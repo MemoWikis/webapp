@@ -24,6 +24,7 @@ interface DeleteDetails {
 const { $logger } = useNuxtApp()
 
 async function getDeleteDetails(id: number) {
+    showDeleteInfo.value = true
 
     var result = await $fetch<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails?questionId=${id}`, {
         method: 'GET',
@@ -31,7 +32,6 @@ async function getDeleteDetails(id: number) {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 
@@ -43,7 +43,6 @@ async function getDeleteDetails(id: number) {
             else
                 errorMsg.value = messages.error.question.rights
 
-            showDeleteInfo.value = false
             showErrorMsg.value = false
         } else
             showDeleteBtn.value = true
@@ -62,6 +61,7 @@ async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
     spinnerStore.showSpinner()
+    showDeleteInfo.value = false
 
     var data = {
         questionId: deleteQuestionStore.id,
@@ -75,7 +75,6 @@ async function deleteQuestion() {
         mode: 'cors',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 
@@ -113,7 +112,7 @@ watch(() => deleteQuestionStore.showModal, (val) => {
 
             <div class="cardModalContent">
                 <div class="modalBody">
-                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "{{ name }}" unwiederbringlich löschen?
+                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "<b>{{ name }}</b>" unwiederbringlich löschen?
                         Alle damit verknüpften Daten werden entfernt!</div>
                     <div class="alert alert-danger" v-if="showErrorMsg">{{ errorMsg }}</div>
                     <div class="alert alert-info" v-if="deletionInProgress">Die Frage wird gelöscht... Bitte

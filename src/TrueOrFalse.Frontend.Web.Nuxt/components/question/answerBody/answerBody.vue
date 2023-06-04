@@ -432,7 +432,8 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     <div class="dropdown-label">Frage kommentieren</div>
                                 </div>
 
-                                <div class="dropdown-row" @click="deleteQuestionStore.openModal(answerBodyModel!.id)"
+                                <div class="dropdown-row"
+                                    @click="deleteQuestionStore.openModal(answerBodyModel!.id); hide()"
                                     v-if="userStore.isLoggedIn && answerBodyModel.isCreator || userStore.isAdmin">
                                     <div class="dropdown-icon">
                                         <font-awesome-icon icon="fa-solid fa-trash" />
