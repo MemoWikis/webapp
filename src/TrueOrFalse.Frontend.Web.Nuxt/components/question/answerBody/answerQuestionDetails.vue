@@ -763,10 +763,16 @@ interface AnswerQuestionDetailsResult {
         fullText: string
     }
 }
+const { $logger } = useNuxtApp()
+
 async function loadData() {
     const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
         credentials: 'include',
         mode: 'cors',
+        onResponseError(context) {
+            const { $logger } = useNuxtApp()
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        }
     })
     initData(result)
 }
@@ -954,7 +960,7 @@ watch(() => userStore.isLoggedIn, () => {
                 <div id="LicenseQuestion">
                     <VTooltip v-if="license.isDefault">
                         <div class="TextLinkWithIcon">
-                            <img src="/Images/Licenses/cc-by_88x31.png" width="60" />
+                            <Image src="/Images/Licenses/cc-by 88x31.png" width="60" />
                             <div class="TextDiv">
                                 <span class="TextSpan">
                                     {{ license.shortText }}
@@ -1447,5 +1453,15 @@ watch(() => userStore.isLoggedIn, () => {
 
 .detail-label {
     padding-left: 3px;
+}
+</style>
+
+<style lang="less">
+#LicenseQuestion {
+    img {
+        margin-right: 8px;
+        height: 23px;
+        width: 60px;
+    }
 }
 </style>

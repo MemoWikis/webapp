@@ -16,6 +16,15 @@
       "args": [
         "dev",
       ],
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "server: nuxtprod",
+      "program": "${workspaceFolder}/.output/server/index.mjs",
+      "args": [
+        "start",
+      ],
     }
   ],
   "compounds": [
@@ -25,6 +34,13 @@
         "server: nuxt",
         "client: chrome"
       ]
-    }
+    },
+	{
+		"name": "fullstack: nuxt prod",
+		"configurations": [
+		  "server: nuxtprod",
+		  "client: chrome"
+		]
+	  }
   ]
 }

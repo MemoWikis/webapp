@@ -18,10 +18,8 @@ const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Can
         }
     },
 });
-console.log(result.value);
 if (result.value?.success == true) {
     topicArray.value = result.value.data
-    console.log("drin");
 }
 
 </script>

@@ -79,6 +79,7 @@ function createImage(file: File) {
     const previewImgUrl = URL.createObjectURL(file)
     imageUrl.value = previewImgUrl
 }
+const { $logger } = useNuxtApp()
 
 async function cancelPlan() {
     const { data } = await useFetch<string>('/apiVue/StripeAdminstration/CancelPlan', {
@@ -90,7 +91,11 @@ async function cancelPlan() {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
-        }
+        },
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        },
     });
     if (data.value) {
         // Führen Sie die Umleitung im Browser durch.

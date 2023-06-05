@@ -75,6 +75,7 @@ function removeTopic(t: TopicItem) {
         topicIds.value.splice(topicIdIndex, 1)
     }
 }
+const { $logger } = useNuxtApp()
 
 const tabsStore = useTabsStore()
 async function search() {
@@ -87,7 +88,11 @@ async function search() {
         body: data,
         method: 'POST',
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (result != null) {
@@ -197,7 +202,11 @@ async function updateQuestionCount() {
     let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount?topicId=${topicStore.id}`, {
         method: 'GET',
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (count) {
@@ -225,7 +234,11 @@ async function save() {
         body: json,
         method: 'POST',
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     }).catch(error => {
         spinnerStore.hideSpinner()
         alertStore.openAlert(AlertType.Error, { text: editQuestionStore.edit ? messages.error.question.save : messages.error.question.creation })
@@ -317,7 +330,11 @@ async function getQuestionData(id: number) {
     const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result != null) {
         solutionType.value = result.SolutionType as SolutionType

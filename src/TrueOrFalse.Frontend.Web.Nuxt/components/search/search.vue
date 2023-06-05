@@ -70,11 +70,15 @@ const userSearchUrl = ref('')
 const topics = ref([] as TopicItem[])
 const questions = ref([] as QuestionItem[])
 const users = ref([] as UserItem[])
+const { $logger } = useNuxtApp()
 
 async function search() {
     var result = await $fetch<FullSearch>(`${searchUrl.value}?term=${encodeURIComponent(searchTerm.value)}`, {
         mode: 'no-cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        }
     })
     if (result != null) {
         if (result.topics) {

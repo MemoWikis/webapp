@@ -1,19 +1,25 @@
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-
+    nitro: {
+        routeRules: {
+            '/seqlog': { proxy: process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw' },
+            '/Images/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/Images/**` : 'http://localhost/Images/**' },
+        }
+    },
     runtimeConfig: {
         seqServerApiKey: "",
+        seqRawUrl: undefined,
         public: {
-            clientBase: "http://memucho.local:3000",
-            serverBase: "http://memucho.local",
+            clientBase: "http://localhost:3000",
+            serverBase: "http://localhost",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
             discord: "https://discord.com/invite/nXKwGrN",
             stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",
             stripeTeamPriceId: "",
             stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
-            seqServerUrl: undefined,
             seqServerPort: undefined,
+            seqServerUrl: undefined,
             seqClientApiKey: "",
 
         },
@@ -72,4 +78,11 @@ export default defineNuxtConfig({
     // devServer: {
     //     host: 'memucho.local'
     // }
+    // devServer: {
+    //     https: {
+    //         key: 'localhost-key.pem',
+    //         cert: 'localhost.pem'
+    //     }
+    // },
+
 })

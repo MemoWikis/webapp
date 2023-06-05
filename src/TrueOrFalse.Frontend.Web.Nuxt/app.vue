@@ -18,7 +18,10 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 			options.headers = headers
 			options.baseURL = config.public.serverBase
 		}
-	}
+	},
+	onResponseError(context) {
+		throw createError({ statusMessage: context.error?.message })
+	},
 })
 if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
@@ -32,7 +35,10 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFoot
 		if (process.server) {
 			options.baseURL = config.public.serverBase
 		}
-	}
+	},
+	onResponseError(context) {
+		throw createError({ statusMessage: context.error?.message })
+	},
 })
 
 const page = ref(Page.Default)
@@ -73,9 +79,9 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	</Html>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-	<BannerInfo :documentation="footerTopics?.Documentation!" />
+	<BannerInfo v-if="footerTopics" :documentation="footerTopics?.Documentation" />
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.Documentation!" />
+		:documentation="footerTopics?.Documentation" />
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

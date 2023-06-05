@@ -33,6 +33,8 @@ interface HistoryResult {
     topicNameEncoded: string
     days: Day[]
 }
+const { $logger } = useNuxtApp()
+
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { data: historyResult } = await useFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
@@ -43,6 +45,12 @@ const { data: historyResult } = await useFetch<HistoryResult>(`/apiVue/HistoryTo
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
+    },
+    onResponseError(context) {
+        const { $logger } = useNuxtApp()
+
+        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
     },
 })
 

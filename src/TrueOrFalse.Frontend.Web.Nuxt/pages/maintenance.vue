@@ -4,6 +4,7 @@ import { useUserStore } from '~~/components/user/userStore'
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 const userStore = useUserStore()
+const { $logger } = useNuxtApp()
 
 const isAdmin = ref(false)
 const antiForgeryToken = ref<string>()
@@ -17,9 +18,10 @@ const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/ap
                 options.baseURL = config.public.serverBase
             }
         },
-        onResponseError() {
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 
-        }
+        },
     })
 
 if (maintenanceDataResult.value?.success) {

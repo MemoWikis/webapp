@@ -36,9 +36,11 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
             $logger.info(`TopicRequest Id:${route.params.id} - End`, [{ context: context }])
         },
         onResponseError(context) {
-            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
         },
-        server: true
+        server: true,
+        retry: 3
     })
 
 //preset segmentation
@@ -105,6 +107,7 @@ function setTab() {
 const preloadTopicTab = ref(true)
 
 onBeforeMount(() => {
+    $logger.info('clienttest')
     if (props.tab != Tab.Topic)
         preloadTopicTab.value
 })
@@ -159,6 +162,7 @@ useHead(() => ({
                     <TopicTabsQuestions v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
                     <TopicRelationEdit v-if="userStore.isLoggedIn" />
                     <QuestionEditModal v-if="userStore.isLoggedIn" />
+                    <QuestionEditDelete v-if="userStore.isLoggedIn" />
                     <TopicPublishModal v-if="userStore.isLoggedIn" />
                     <TopicToPrivateModal v-if="userStore.isLoggedIn" />
                     <TopicDeleteModal

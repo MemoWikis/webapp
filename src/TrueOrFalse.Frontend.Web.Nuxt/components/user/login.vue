@@ -267,6 +267,7 @@ onMounted(() => {
                             @click="showLoginIsInProgress = false">
                             Zurück
                         </button>
+
                     </p>
                 </div>
                 <div v-else-if="showPasswordReset" class="footerText">

@@ -23,6 +23,7 @@ watch([commentText, commentTitle], ([text, title]) => {
     if (text.length >= 10)
         highlightEmptyComment.value = false
 })
+const { $logger } = useNuxtApp()
 
 async function saveComment() {
     if (commentTitle.value.length < 10 || commentText.value.length < 10) {
@@ -44,8 +45,14 @@ async function saveComment() {
         mode: 'cors',
         method: 'POST',
         body: data,
-        credentials: 'include'
-    })
+        credentials: 'include',
+        onResponseError(context) {
+
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
+    }
+    )
 
     if (result) {
         commentTitle.value = ''

@@ -10,7 +10,21 @@ interface LoginResult {
 
 export class Google {
     public static SignIn() {
-        window.google.accounts.id.prompt()
+        document.cookie = "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+        const config = useRuntimeConfig()
+
+        window.google?.accounts.id.prompt((res: any) => {
+            if (res.isNotDisplayed()) {
+                console.log('no prompt')
+                console.log(res.getNotDisplayedReason())
+                window.google.accounts.oauth2.initTokenClient({
+                    client_id: config.public.gsiClientKey,
+                    itp_support: false,
+                    scope: 'openid',
+                    callback: this.handleCredentialResponse,
+                })
+            }
+        });
     }
 
     public static loadGsiClient() {
@@ -24,6 +38,8 @@ export class Google {
             gsiClientScript.onload = () => {
                 window.google.accounts.id.initialize({
                     client_id: config.public.gsiClientKey,
+                    itp_support: false,
+                    scope: 'openid',
                     callback: this.handleCredentialResponse
                 });
                 this.SignIn()
@@ -48,3 +64,5 @@ export class Google {
         }
     }
 }
+
+window.handleGoogleCredentialResponse = Google.handleCredentialResponse

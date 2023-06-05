@@ -109,6 +109,7 @@ const _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well 
 const wellDoneMsg = ref('')
 
 const wrongAnswerMsg = ref('')
+const { $logger } = useNuxtApp()
 
 async function answer() {
     showWrongAnswers.value = false
@@ -156,6 +157,10 @@ async function answer() {
             body: data,
             credentials: 'include',
             mode: 'cors',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+            }
         })
 
     if (result) {
@@ -214,7 +219,11 @@ async function loadAnswerBodyModel() {
         return
     const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentIndex}`, {
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result != null) {
         flashCardAnswered.value = false
@@ -256,6 +265,10 @@ async function markAsCorrect() {
         method: 'POST',
         mode: 'cors',
         body: data,
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 
     if (result != null) {
@@ -285,7 +298,11 @@ async function loadSolution(answered: boolean = true) {
             method: 'POST',
             body: data,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+            }
         })
     if (solutionResult != null) {
         if (answerBodyModel.value!.solutionType == SolutionType.MultipleChoice && solutionResult.answer == null) {
@@ -372,7 +389,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                             :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                     </div>
                 </div>
-                <div class="Button dropdown answerbody-btn">
+                <div class="Button dropdown answerbody-btn" v-if="!isLandingPage">
                     <div class="answerbody-btn-inner">
                         <VDropdown :distance="0">
                             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
@@ -415,7 +432,8 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     <div class="dropdown-label">Frage kommentieren</div>
                                 </div>
 
-                                <div class="dropdown-row" @click="deleteQuestionStore.openModal(answerBodyModel!.id)"
+                                <div class="dropdown-row"
+                                    @click="deleteQuestionStore.openModal(answerBodyModel!.id); hide()"
                                     v-if="userStore.isLoggedIn && answerBodyModel.isCreator || userStore.isAdmin">
                                     <div class="dropdown-icon">
                                         <font-awesome-icon icon="fa-solid fa-trash" />
@@ -612,7 +630,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                                     Deine {{ answersSoFar.length == 1 ? 'Antwort' : 'Antworten' }}:
                                                 </span>
                                                 <ul id="ulAnswerHistory">
-                                                    <li v-for=" answers  in  answersSoFar " v-html="answers">
+                                                    <li v-for="answers in answersSoFar" v-html="answers">
                                                     </li>
                                                 </ul>
                                             </div>

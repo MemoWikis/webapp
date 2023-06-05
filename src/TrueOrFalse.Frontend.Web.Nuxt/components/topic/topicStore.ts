@@ -148,10 +148,22 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 
 		async refreshTopicImage() {
-			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl?id=${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl?id=${this.id}`, {
+				method: 'GET', mode: 'cors', credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
 		},
 		async reloadKnowledgeSummary() {
-			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary?id=${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary?id=${this.id}`, {
+				method: 'GET', mode: 'cors', credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
 		}
 
 	},

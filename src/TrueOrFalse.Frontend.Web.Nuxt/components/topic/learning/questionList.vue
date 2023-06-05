@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { QuestionListItem } from './questionListItem'
-import { isEmpty } from 'underscore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
+import { useDeleteQuestionStore } from '~/components/question/edit/delete/deleteQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 const spinnerStore = useSpinnerStore()
 const topicStore = useTopicStore()
+const deleteQuestionStore = useDeleteQuestionStore()
 
 interface Props {
     expandQuestion: boolean
@@ -82,6 +83,16 @@ learningSessionStore.$onAction(({ name, after }) => {
                 }
             })
         })
+})
+
+deleteQuestionStore.$onAction(({ name, after }) => {
+    if (name == 'questionDeleted') {
+        after((deletedQuestion) => {
+            questions.value = questions.value.filter((q) => {
+                return q.Id != deletedQuestion.id
+            })
+        })
+    }
 })
 
 async function loadNewQuestion(index: number) {

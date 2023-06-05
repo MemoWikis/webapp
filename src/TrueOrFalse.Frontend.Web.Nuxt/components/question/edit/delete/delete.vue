@@ -21,13 +21,18 @@ interface DeleteDetails {
     wuwiCount: number
     hasRights: boolean
 }
+const { $logger } = useNuxtApp()
 
 async function getDeleteDetails(id: number) {
+    showDeleteInfo.value = true
 
-    var result = await $fetch<DeleteDetails>(`/apiVue/DeleteQuestion/DeleteDetails?questionId=${id}`, {
+    var result = await $fetch<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails?questionId=${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        }
     })
 
     if (result) {
@@ -38,7 +43,6 @@ async function getDeleteDetails(id: number) {
             else
                 errorMsg.value = messages.error.question.rights
 
-            showDeleteInfo.value = false
             showErrorMsg.value = false
         } else
             showDeleteBtn.value = true
@@ -57,6 +61,7 @@ async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
     spinnerStore.showSpinner()
+    showDeleteInfo.value = false
 
     var data = {
         questionId: deleteQuestionStore.id,
@@ -67,7 +72,10 @@ async function deleteQuestion() {
         method: 'POST',
         body: data,
         credentials: 'include',
-        mode: 'cors'
+        mode: 'cors',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        }
     })
 
     if (result) {
@@ -94,29 +102,21 @@ watch(() => deleteQuestionStore.showModal, (val) => {
 </script>
 
 <template>
-    <LazyModal :show-close-button="true" primary-btn-label="Löschen" :is-full-size-buttons="true"
-        @close="deleteQuestionStore.showModal = false" @primary-btn="deleteQuestion()"
-        :show="deleteQuestionStore.showModal">
+    <LazyModal :show-close-button="true" :primary-btn-label="!deletionInProgress ? 'Frage löschen' : ''"
+        :is-full-size-buttons="false" :show-cancel-btn="!deletionInProgress" @close="deleteQuestionStore.showModal = false"
+        @primary-btn="deleteQuestion()" :show="deleteQuestionStore.showModal">
         <template v-slot:header>
             <h4 class="modal-title">Frage löschen</h4>
         </template>
         <template v-slot:body>
 
             <div class="cardModalContent">
-                <div class="modalHeader">
-                    <h4 class="modal-title">Frage löschen</h4>
-                </div>
                 <div class="modalBody">
-                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "{{ name }}" unwiederbringlich löschen?
+                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "<b>{{ name }}</b>" unwiederbringlich löschen?
                         Alle damit verknüpften Daten werden entfernt!</div>
                     <div class="alert alert-danger" v-if="showErrorMsg">{{ errorMsg }}</div>
                     <div class="alert alert-info" v-if="deletionInProgress">Die Frage wird gelöscht... Bitte
                         habe einen Moment Geduld.</div>
-                </div>
-                <div class="modalFooter" v-if="!deletionInProgress">
-                    <button @click="deleteQuestion()" class="btn btn-danger memo-button" v-if="showDeleteBtn">Frage
-                        Löschen</button>
-                    <button class="btn btn-link memo-button" data-dismiss="modal">Abbrechen</button>
                 </div>
             </div>
         </template>

@@ -12,11 +12,11 @@ function loadPlugin(toLogin = false) {
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '1789061994647406',
+                autoLogAppEvents: true,
                 xfbml: true,
-                version: 'v2.8'
-            })
+                version: 'v17.0'
+            });
         };
-
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0]
             if (d.getElementById(id)) { return }
@@ -34,12 +34,37 @@ function loadPlugin(toLogin = false) {
     }
 }
 
+function loadFbSdk(toLogin = false) {
+    const fbsdkElement = document.getElementById('facebook-jssdk')
+    if (fbsdkElement == null) {
+
+        const fbsdkScript = document.createElement('script')
+        fbsdkScript.setAttribute('id', 'facebook-jssdk')
+        fbsdkScript.setAttribute('crossorigin', 'anonymous')
+        fbsdkScript.src = '//connect.facebook.net/de_DE/sdk.js'
+        fbsdkScript.onload = () => {
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '1789061994647406',
+                    autoLogAppEvents: true,
+                    xfbml: true,
+                    version: 'v17.0'
+                });
+            };
+            if (toLogin) {
+                login()
+            }
+        }
+        document.head.appendChild(fbsdkScript)
+    }
+}
+
 defineExpose({
     loadPlugin,
-    login
+    login,
+    loadFbSdk
 })
 
 </script>
 
-<template>
-</template>
+<template></template>

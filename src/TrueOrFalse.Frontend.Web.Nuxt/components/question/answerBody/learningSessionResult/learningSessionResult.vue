@@ -41,11 +41,16 @@ interface LearningSessionResult {
     topicId: number
     inWuwi: boolean
 }
+const { $logger } = useNuxtApp()
 
 onBeforeMount(async () => {
     learningSessionResult.value = await $fetch<LearningSessionResult>('/apiVue/VueLearningSessionResult/Get', {
         credentials: 'include',
-        mode: 'cors'
+        mode: 'cors',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
 })
 
@@ -53,7 +58,6 @@ const tabsStore = useTabsStore()
 </script>
 
 <template>
-
     <div v-if="learningSessionResult">
         <h2 style="margin-bottom: 15px; margin-top: 0px;">
             Ergebnis
@@ -87,12 +91,11 @@ const tabsStore = useTabsStore()
                 <div class="buttonRow">
                     <template v-if="!userStore.isLoggedIn || !learningSessionResult.inWuwi">
                         <div v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Topic"
-                            class="btn btn-link ">
+                            class="btn btn-link">
                             Zum Thema
                         </div>
-                        <NuxtLink v-else
-                            :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
-                            class="btn btn-link " style="padding-right: 10px">Zum Thema</NuxtLink>
+                        <NuxtLink v-else :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
+                            class="btn btn-link" style="padding-right: 10px">Zum Thema</NuxtLink>
                         <button @click="emit('startNewSession')" class="btn btn-primary nextLearningSession memo-button"
                             style="padding-right: 10px">
                             Weiterlernen
@@ -114,7 +117,6 @@ const tabsStore = useTabsStore()
         </div>
 
     </div>
-
 </template>
 
 <style lang="less" scoped>

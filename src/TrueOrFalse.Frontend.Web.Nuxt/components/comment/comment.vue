@@ -16,13 +16,18 @@ const props = defineProps<Props>()
 const readMore = ref(false)
 const foldOut = ref(false)
 const showCommentAnswers = ref(false)
+const { $logger } = useNuxtApp()
 
 async function markAsSettled() {
     const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result)
         commentsStore.loadComments()
@@ -33,7 +38,11 @@ async function markAsUnsettled() {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result)
         commentsStore.loadComments()
@@ -66,7 +75,11 @@ async function saveAnswer() {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
-        body: data
+        body: data,
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+        }
     })
     if (result) {
         answerText.value = ''

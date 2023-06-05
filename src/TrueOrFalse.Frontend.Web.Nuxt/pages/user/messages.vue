@@ -22,6 +22,7 @@ interface MessageResult {
     messages?: Message[]
     readCount?: number
 }
+const { $logger } = useNuxtApp()
 
 const { data: model } = await useFetch<MessageResult>(`/apiVue/UserMessages/Get/`, {
     credentials: 'include',
@@ -31,7 +32,12 @@ const { data: model } = await useFetch<MessageResult>(`/apiVue/UserMessages/Get/
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
-    }
+    },
+    onResponseError(context) {
+        const { $logger } = useNuxtApp()
+        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+
+    },
 })
 
 const forceShow = ref(false)
