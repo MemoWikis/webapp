@@ -1,6 +1,5 @@
 import { CustomPino } from "~~/logs/logger"
 
-// proxy for client requests, use client keys
 export default eventHandler((event) => {
     const config = useRuntimeConfig()
 
