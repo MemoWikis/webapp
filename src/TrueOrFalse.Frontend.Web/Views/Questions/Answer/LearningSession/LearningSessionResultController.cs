@@ -10,7 +10,7 @@ public class LearningSessionResultController : BaseController
     {
         var learningSession = LearningSessionCache.GetLearningSession();
 
-        if (learningSession.User != SessionUser.User)
+        if (learningSession.User != SessionUserLegacy.User)
             throw new Exception("not logged in or not possessing user");
 
         return View(_viewLocation, new LearningSessionResultModel(learningSession));

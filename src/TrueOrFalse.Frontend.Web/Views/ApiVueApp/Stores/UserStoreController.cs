@@ -20,7 +20,7 @@ public class UserStoreController : BaseController
                 WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id);
             }
 
-            SessionUser.Login(credentialsAreValid.User);
+            SessionUserLegacy.Login(credentialsAreValid.User);
 
             TransferActivityPoints.FromSessionToUser();
             Sl.UserRepo.UpdateActivityPointsData();
@@ -45,11 +45,11 @@ public class UserStoreController : BaseController
     public JsonResult LogOut()
     {
         RemovePersistentLoginFromCookie.Run();
-        SessionUser.Logout();
+        SessionUserLegacy.Logout();
 
         return Json(new
         {
-            Success = !SessionUser.IsLoggedIn,
+            Success = !SessionUserLegacy.IsLoggedIn,
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -57,7 +57,7 @@ public class UserStoreController : BaseController
     [AccessOnlyAsLoggedIn]
     public int GetUnreadMessagesCount()
     {
-        return Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId);
+        return Sl.Resolve<GetUnreadMessageCount>().Run(SessionUserLegacy.UserId);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -93,7 +93,7 @@ public class UserStoreController : BaseController
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
@@ -103,11 +103,11 @@ public class UserStoreController : BaseController
         Sl.UserRepo.Update(user);
 
         var type = UserType.Anonymous;
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
-            if (SessionUser.User.IsGoogleUser)
+            if (SessionUserLegacy.User.IsGoogleUser)
                 type = UserType.Google;
-            else if (SessionUser.User.IsFacebookUser)
+            else if (SessionUserLegacy.User.IsFacebookUser)
                 type = UserType.Facebook;
             else type = UserType.Normal;
         }
@@ -118,18 +118,18 @@ public class UserStoreController : BaseController
             Message = "",
             CurrentUser = new
             {
-                IsLoggedIn = SessionUser.IsLoggedIn,
-                Id = SessionUser.UserId,
-                Name = SessionUser.IsLoggedIn ? SessionUser.User.Name : "",
-                IsAdmin = SessionUser.IsInstallationAdmin,
-                PersonalWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
+                IsLoggedIn = SessionUserLegacy.IsLoggedIn,
+                Id = SessionUserLegacy.UserId,
+                Name = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Name : "",
+                IsAdmin = SessionUserLegacy.IsInstallationAdmin,
+                PersonalWikiId = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1,
                 Type = type,
-                ImgUrl = SessionUser.IsLoggedIn
-                    ? new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url
+                ImgUrl = SessionUserLegacy.IsLoggedIn
+                    ? new UserImageSettings(SessionUserLegacy.UserId).GetUrl_20px(SessionUserLegacy.User).Url
                     : "",
-                Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
-                ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
+                Reputation = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Reputation : 0,
+                ReputationPos = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.ReputationPos : 0,
+                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
             }
         });
     }

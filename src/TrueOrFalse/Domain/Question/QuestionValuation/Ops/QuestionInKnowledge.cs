@@ -108,7 +108,7 @@ public static class QuestionInKnowledge
 
         var wishKnowledgeCount = (int)Sl.Resolve<ISession>().CreateSQLQuery(query)
             .SetParameter("userId", userId).UniqueResult();
-        SessionUser.User.WishCountQuestions = wishKnowledgeCount;
+        SessionUserLegacy.User.WishCountQuestions = wishKnowledgeCount;
 
     }
 

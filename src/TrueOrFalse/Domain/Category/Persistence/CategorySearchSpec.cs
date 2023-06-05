@@ -50,7 +50,7 @@ public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, Catego
         if (FilterByAll && !FilterByMe)
         {
             var condition = new ConditionInteger(Filter, "Creator.Id");
-            condition.IsNotEqualTo(SessionUser.UserId);
+            condition.IsNotEqualTo(SessionUserLegacy.UserId);
         }
         else if (FilterByAll && FilterByMe)
         {
@@ -62,7 +62,7 @@ public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, Catego
             condition.Add(FilterByUsers.ToArray());
             if (FilterByMe)
             {
-                condition.Add(SessionUser.UserId);
+                condition.Add(SessionUserLegacy.UserId);
             }
             if (condition.ItemCount == 0)
             {

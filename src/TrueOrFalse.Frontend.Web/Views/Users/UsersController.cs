@@ -69,8 +69,8 @@ public class UsersController : BaseController
     public ActionResult LoginAs(int userId)
     {
         var user = Resolve<UserRepo>().GetById(userId);
-        SessionUser.Login(user);
-        SessionUser.IsInstallationAdmin = true;
+        SessionUserLegacy.Login(user);
+        SessionUserLegacy.IsInstallationAdmin = true;
 
         var model = new UsersModel();
         model.Message = new SuccessMessage("Nun bist du eingeloggt als <b>\"" + user.Name +  "\"</b>");

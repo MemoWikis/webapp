@@ -50,14 +50,14 @@ public class SegmentationLogic
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
         var startTopicId = 1;
 
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(SessionUser.UserId).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(SessionUser.UserId).StartTopicId;
+            userValuation = SessionUserCache.GetItem(SessionUserLegacy.UserId).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(SessionUserLegacy.UserId).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
-            categoryId => SessionUser.IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
+            categoryId => SessionUserLegacy.IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
                 : GetCategoryCardData(categoryId)).Where(categoryCardData => categoryCardData != null)
             .ToList();
 
@@ -66,9 +66,9 @@ public class SegmentationLogic
 
     public dynamic GetCategoryData(int categoryId)
     {
-        var categoryCardData = SessionUser.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(SessionUser.UserId).CategoryValuations,
-                SessionUserCache.GetUser(SessionUser.UserId).StartTopicId)
+        var categoryCardData = SessionUserLegacy.IsLoggedIn
+            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(SessionUserLegacy.UserId).CategoryValuations,
+                SessionUserCache.GetUser(SessionUserLegacy.UserId).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }
@@ -92,7 +92,7 @@ public class SegmentationLogic
 
         var isInWishknowledge = false;
         var isPersonalHomepage = false;
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
             if (userValuation != null && userValuation.ContainsKey(categoryId))
                 isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();

@@ -120,7 +120,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(questionCacheItem, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, SessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, SessionUserLegacy.User);
 
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, questionCacheItem, activeSearchSpec));
     }
@@ -140,7 +140,7 @@ public class AnswerQuestionController : BaseController
         int? learningSessionId,
         string learningSessionStepGuid)
     {
-        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
     }
 
@@ -154,7 +154,7 @@ public class AnswerQuestionController : BaseController
         int? testSessionId,
         int? learningSessionId)
     {
-        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
     }
 
@@ -167,7 +167,7 @@ public class AnswerQuestionController : BaseController
         }
 
         var question = _questionRepo.GetById(id);
-        var isAuthor = IsLoggedIn && question.Creator != null && question.Creator.Id == SessionUser.UserId;
+        var isAuthor = IsLoggedIn && question.Creator != null && question.Creator.Id == SessionUserLegacy.UserId;
         if (IsInstallationAdmin || isAuthor)
         {
             return Links.EditQuestion(question.Text, id);
@@ -262,7 +262,7 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = LearningSessionCache.GetLearningSession();
 
-        if (learningSession.User != SessionUser.User)
+        if (learningSession.User != SessionUserLegacy.User)
         {
             throw new Exception("not logged in or not possessing user");
         }
@@ -285,7 +285,7 @@ public class AnswerQuestionController : BaseController
         Sl.SaveQuestionView.Run(
             questionViewGuid,
             learningSession.Steps[currentLearningStepIndex].Question,
-            SessionUser.User
+            SessionUserLegacy.User
         );
 
         return View(_viewLocation,
@@ -427,7 +427,7 @@ public class AnswerQuestionController : BaseController
 
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
-        var sessionUserId = IsLoggedIn ? SessionUser.UserId : -1;
+        var sessionUserId = IsLoggedIn ? SessionUserLegacy.UserId : -1;
 
         Sl.SaveQuestionView.Run(
             learningSession.QuestionViewGuid,
@@ -593,7 +593,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, SessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, SessionUserLegacy.User);
         var answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);

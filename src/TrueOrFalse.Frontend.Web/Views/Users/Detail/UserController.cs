@@ -16,8 +16,8 @@ public class UserController : BaseController
     [HttpPost]
     public ViewResult UploadPicture(HttpPostedFileBase file)
     {
-        UserImageStore.Run(file, SessionUser.UserId);
-        return User(SessionUser.User.Name, SessionUser.UserId);
+        UserImageStore.Run(file, SessionUserLegacy.UserId);
+        return User(SessionUserLegacy.User.Name, SessionUserLegacy.UserId);
     }
 
     [SetMainMenu(MainMenuEntry.UserDetail)]

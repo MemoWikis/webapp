@@ -39,7 +39,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
                     <li>
-                        <% if (SessionUser.IsLoggedIn)
+                        <% if (SessionUserLegacy.IsLoggedIn)
                            {
                                if (Model.NextRevExists)
                                { %>
@@ -59,7 +59,7 @@
             </div>
         </div>
         
-        <% if (SessionUser.IsLoggedIn && Model.NextRevExists) { %>
+        <% if (SessionUserLegacy.IsLoggedIn && Model.NextRevExists) { %>
             <div id="alertConfirmRestore" class="row" style="display: none">
                 <br/>
                 <div class="alert alert-warning" role="alert">

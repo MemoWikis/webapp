@@ -46,7 +46,7 @@ public class QuickCreateQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        question.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         question.Categories = new List<Category>
         {
             Sl.CategoryRepo.GetById(flashCardJson.TopicId)
@@ -59,7 +59,7 @@ public class QuickCreateQuestionController : BaseController
         questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(questionRepo);

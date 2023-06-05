@@ -19,10 +19,10 @@
     private SponsorModel _sponsorModel;
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
-    public bool IsLoggedIn => SessionUser.IsLoggedIn;
-    public bool IsInstallationAdmin => SessionUser.IsInstallationAdmin;
+    public bool IsLoggedIn => SessionUserLegacy.IsLoggedIn;
+    public bool IsInstallationAdmin => SessionUserLegacy.IsInstallationAdmin;
 
-    public int UserId => SessionUser.UserId;
+    public int UserId => SessionUserLegacy.UserId;
 
     public UserMenu UserMenu;
     

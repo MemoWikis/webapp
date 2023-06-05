@@ -4,10 +4,10 @@ public class AccessOnlyAsLoggedInAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        if (!SessionUser.IsLoggedIn)
+        if (!SessionUserLegacy.IsLoggedIn)
             throw new InvalidAccessException();
 
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(SessionUser.UserId);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(SessionUserLegacy.UserId);
 
         base.OnActionExecuting(filterContext);
     }

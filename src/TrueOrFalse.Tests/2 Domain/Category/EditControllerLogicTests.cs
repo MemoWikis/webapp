@@ -27,7 +27,7 @@ public class EditControllerLogicTests : BaseTest
             .Persist()
             .All
             .First();
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         categoryContext
             .Add(new Category
@@ -83,7 +83,7 @@ public class EditControllerLogicTests : BaseTest
             .Persist()
             .All
             .First();
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         categoryContext
             .Add(new Category
@@ -136,7 +136,7 @@ public class EditControllerLogicTests : BaseTest
             .Persist()
             .All
             .First();
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         categoryContext
             .Add(new Category

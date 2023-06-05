@@ -5,7 +5,7 @@ public class AccountController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult RemoveAdminRights()
     {
-        SessionUser.IsInstallationAdmin = false;
+        SessionUserLegacy.IsInstallationAdmin = false;
 
         if (Request.UrlReferrer == null)
         {

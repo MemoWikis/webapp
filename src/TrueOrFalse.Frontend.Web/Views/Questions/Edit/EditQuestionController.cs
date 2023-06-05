@@ -37,7 +37,7 @@ public class EditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        question.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -48,7 +48,7 @@ public class EditQuestionController : BaseController
             LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
         var questionController = new QuestionController(_questionRepo);
 
@@ -118,7 +118,7 @@ public class EditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        question.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;
@@ -127,7 +127,7 @@ public class EditQuestionController : BaseController
         _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_questionRepo);
@@ -251,7 +251,7 @@ public class EditQuestionController : BaseController
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+            question.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
             question.IsWorkInProgress = true;
             _questionRepo.Create(question);
 
@@ -266,13 +266,13 @@ public class EditQuestionController : BaseController
         if (imageSource == "wikimedia")
         {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, ImageType.Question, SessionUser.UserId);
+                wikiFileName, questionId, ImageType.Question, SessionUserLegacy.UserId);
         }
 
         if (imageSource == "upload")
         {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.UserId, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUserLegacy.UserId, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);
@@ -324,7 +324,7 @@ public class EditQuestionController : BaseController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator == SessionUser.User)
+            if (questionCacheItem.Creator == SessionUserLegacy.User)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
@@ -342,7 +342,7 @@ public class EditQuestionController : BaseController
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator == SessionUser.User && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
+            if ((questionCacheItem.Creator == SessionUserLegacy.User && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

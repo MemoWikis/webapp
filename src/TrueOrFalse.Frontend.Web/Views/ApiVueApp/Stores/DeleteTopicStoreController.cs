@@ -35,10 +35,10 @@ public class DeleteTopicStoreController : BaseController
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = Sl.CategoryRepo.GetByIds(parentIds);
 
-        var hasDeleted = Sl.CategoryDeleter.Run(topic, SessionUser.UserId);
+        var hasDeleted = Sl.CategoryDeleter.Run(topic, SessionUserLegacy.UserId);
         foreach (var parent in parentTopics)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(parent, SessionUser.UserId, false);
+            Sl.CategoryChangeRepo.AddUpdateEntry(parent, SessionUserLegacy.UserId, false);
         }
 
         return Json(new
@@ -53,7 +53,7 @@ public class DeleteTopicStoreController : BaseController
     private string GetRedirectTopic(int id)
     {
         var topic = EntityCache.GetCategory(id);
-        var currentWiki = EntityCache.GetCategory(SessionUser.CurrentWikiId);
+        var currentWiki = EntityCache.GetCategory(SessionUserLegacy.CurrentWikiId);
         var lastBreadcrumbItem = CrumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
         return "/" + UriSanitizer.Run(lastBreadcrumbItem.Text) + "/" + lastBreadcrumbItem.Category.Id;

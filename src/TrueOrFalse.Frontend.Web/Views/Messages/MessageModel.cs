@@ -13,7 +13,7 @@ public class MessageModel : BaseModel
 
     public MessageModel()
     {
-        if (!SessionUser.IsLoggedIn)
+        if (!SessionUserLegacy.IsLoggedIn)
         {
             Messages.Add(new MessageModelRow(new Message
             {
@@ -37,11 +37,11 @@ public class MessageModel : BaseModel
         else
         {
             Messages = Resolve<MessageRepo>()
-                .GetForUser(SessionUser.UserId, true)
+                .GetForUser(SessionUserLegacy.UserId, true)
                 .Select(m => new MessageModelRow(m))
                 .ToList();
 
-            ReadMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUser.UserId);
+            ReadMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUserLegacy.UserId);
         }
     }
 }

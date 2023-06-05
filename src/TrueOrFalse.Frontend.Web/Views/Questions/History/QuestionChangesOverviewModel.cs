@@ -18,7 +18,7 @@ public class QuestionChangesOverviewModel : BaseModel
 	            (SELECT Id FROM Question q WHERE q.Visibility = {(int)QuestionVisibility.All}))
             UNION
             (SELECT * FROM QuestionChange qc WHERE qc.Question_Id IN 
-	            (SELECT Id FROM Question q WHERE (q.Visibility = {(int)QuestionVisibility.Owner} OR q.Visibility = {(int)QuestionVisibility.OwnerAndFriends}) AND q.Creator_Id = {SessionUser.UserId}))
+	            (SELECT Id FROM Question q WHERE (q.Visibility = {(int)QuestionVisibility.Owner} OR q.Visibility = {(int)QuestionVisibility.OwnerAndFriends}) AND q.Creator_Id = {SessionUserLegacy.UserId}))
             ORDER BY DateCreated DESC
             LIMIT {revisionsToSkip},{revisionsToShow}
 

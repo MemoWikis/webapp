@@ -27,7 +27,7 @@ public class RegisterController : BaseController
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
@@ -42,7 +42,7 @@ public class RegisterController : BaseController
     [HttpPost]
     public string GetUserTopic()
     {
-        var userCategory = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+        var userCategory = EntityCache.GetCategory(SessionUserLegacy.User.StartTopicId);
         return Links.CategoryDetail(userCategory);
     }
 

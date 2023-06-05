@@ -6,8 +6,8 @@ public class UserCardBaseModel:BaseResolve
     public bool DoIFollow;
     public int AmountWishCountQuestions;
     public bool IsCurrentUser;
-    public bool IsLoggedIn => SessionUser.IsLoggedIn;
-    public SessionUserCacheItem User => SessionUser.User;
+    public bool IsLoggedIn => SessionUserLegacy.IsLoggedIn;
+    public SessionUserCacheItem User => SessionUserLegacy.User;
     public UserTinyModel Author;
 
 

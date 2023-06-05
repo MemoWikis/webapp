@@ -216,11 +216,11 @@ public class MaintenanceController : BaseController
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendKnowledgeReportMessage(MessagesModel model)
     {
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
+        var sessionUser = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         KnowledgeReportMsg.SendHtmlMail(sessionUser);
 
-        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + SessionUser.User.Name +
-                                           "</em> with email address <em>" + SessionUser.User.EmailAddress + "</em>.");
+        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + SessionUserLegacy.User.Name +
+                                           "</em> with email address <em>" + SessionUserLegacy.User.EmailAddress + "</em>.");
         return View("Messages", model);
     }
 

@@ -41,7 +41,7 @@ public class VueEditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
+        var sessionUser = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
@@ -123,7 +123,7 @@ public class VueEditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
+        var sessionUser = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         question.Creator =  sessionUser;
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
@@ -260,7 +260,7 @@ public class VueEditQuestionController : BaseController
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+            var creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
             question.Creator = creator;
             question.IsWorkInProgress = true;
             _questionRepo.Create(question);
@@ -276,13 +276,13 @@ public class VueEditQuestionController : BaseController
         if (imageSource == "wikimedia")
         {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, ImageType.Question, SessionUser.UserId);
+                wikiFileName, questionId, ImageType.Question, SessionUserLegacy.UserId);
         }
 
         if (imageSource == "upload")
         {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.UserId, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUserLegacy.UserId, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);
@@ -311,7 +311,7 @@ public class VueEditQuestionController : BaseController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator.Id == SessionUser.UserId)
+            if (questionCacheItem.Creator.Id == SessionUserLegacy.UserId)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
@@ -329,7 +329,7 @@ public class VueEditQuestionController : BaseController
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == SessionUser.UserId && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
+            if ((questionCacheItem.Creator.Id == SessionUserLegacy.UserId && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

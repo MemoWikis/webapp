@@ -17,7 +17,7 @@ public class LearningSession
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        var userId = config.CurrentUserId == 0 ? SessionUser.UserId : config.CurrentUserId;
+        var userId = config.CurrentUserId == 0 ? SessionUserLegacy.UserId : config.CurrentUserId;
         User = EntityCache.GetUserById(userId);
         IsLoggedIn = userId > 0;
         Config = config;

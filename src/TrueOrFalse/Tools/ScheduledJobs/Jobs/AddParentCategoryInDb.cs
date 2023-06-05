@@ -29,8 +29,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             ModifyRelationsForCategory.AddParentCategory(childCategory, parentCategoryId);
 
-            catRepo.Update(childCategory, SessionUser.User, type: CategoryChangeType.Relations);
-            catRepo.Update(parentCategory, SessionUser.User, type: CategoryChangeType.Relations);
+            catRepo.Update(childCategory, SessionUserLegacy.User, type: CategoryChangeType.Relations);
+            catRepo.Update(parentCategory, SessionUserLegacy.User, type: CategoryChangeType.Relations);
         }
     }
 }

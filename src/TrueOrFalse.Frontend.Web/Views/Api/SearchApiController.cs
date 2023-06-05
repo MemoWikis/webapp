@@ -71,7 +71,7 @@ public class SearchApiController : BaseController
         if (elements.Categories.Any())
             AddCategoryItems(items, elements);
 
-        var wikiChildren = EntityCache.GetAllChildren(SessionUser.User.StartTopicId);
+        var wikiChildren = EntityCache.GetAllChildren(SessionUserLegacy.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return Json(new
@@ -86,19 +86,19 @@ public class SearchApiController : BaseController
     public JsonResult GetPersonalWikiData(int id)
     {
 
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUser.User.StartTopicId))
+        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUserLegacy.User.StartTopicId))
             return Json(new
             {
                 success = false,
             });
 
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+        var personalWiki = EntityCache.GetCategory(SessionUserLegacy.User.StartTopicId);
         var personalWikiItem = FillSearchCategoryItem(personalWiki);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
 
-        if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds != null && SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var categoryId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
+            foreach (var categoryId in SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
                 recentlyUsedRelationTargetTopics.Add(FillSearchCategoryItem(c));

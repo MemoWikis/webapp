@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
 <% 
-    var user = SessionUser.User;
-    if (SessionUser.IsLoggedIn)
+    var user = SessionUserLegacy.User;
+    if (SessionUserLegacy.IsLoggedIn)
     {
         var activityLevel = user.ActivityLevel;
         var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);
@@ -12,8 +12,8 @@
 %>
     <div id="activity-popover-content">
         <div id="activity-popover-content-inner">
-            Mit <b><span id="UserActivityPoints"><%= SessionUser.User.ActivityPoints.ToString("N0") %></span> Lernpunkten</b> <br/> 
-            <span style="white-space: nowrap;  display: block;">bist du in <b>Level <%= SessionUser.User.ActivityLevel %></b>.</span>
+            Mit <b><span id="UserActivityPoints"><%= SessionUserLegacy.User.ActivityPoints.ToString("N0") %></span> Lernpunkten</b> <br/> 
+            <span style="white-space: nowrap;  display: block;">bist du in <b>Level <%= SessionUserLegacy.User.ActivityLevel %></b>.</span>
             <div class="NextLevelContainer">
                 <div class="ProgressBarContainer">
                     <div id="NextLevelProgressPercentageDone" <%if(activityPointsPercentageOfNextLevel == 0){%> style="border-right: none;" <%} %> class="ProgressBarSegment ProgressBarDone" style="width: <%= activityPointsPercentageOfNextLevel %>%;">
@@ -24,7 +24,7 @@
                     <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
                 </div>
             </div>
-            <div class="ProgressInfoText">Noch <span id="ProgressToNextLevel"><%= activityPointsTillNextLevel.ToString("N0") %> </span>Punkte <br/> bis Level <span id="NextActivityLevel"><%= SessionUser.User.ActivityLevel + 1 %></span></div>
+            <div class="ProgressInfoText">Noch <span id="ProgressToNextLevel"><%= activityPointsTillNextLevel.ToString("N0") %> </span>Punkte <br/> bis Level <span id="NextActivityLevel"><%= SessionUserLegacy.User.ActivityLevel + 1 %></span></div>
         </div>
     </div>
 <% } %> 

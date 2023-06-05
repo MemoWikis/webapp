@@ -39,7 +39,7 @@ public class CategoryRowModel : BaseModel
         HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
         QuestionCount = category.CountQuestionsAggregated;
 
-        UserCanEdit = SessionUser.IsInstallationAdmin;
+        UserCanEdit = SessionUserLegacy.IsInstallationAdmin;
 
         DetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id);
 

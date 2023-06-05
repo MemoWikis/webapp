@@ -39,12 +39,12 @@ public class SidebarModel : UserCardBaseModel
 
         MainMenu = sessionUiData.MainMenu;
 
-        if (SessionUser.User != null)
+        if (SessionUserLegacy.User != null)
         {
-            IsInstallationAdmin = SessionUser.IsInstallationAdmin;
+            IsInstallationAdmin = SessionUserLegacy.IsInstallationAdmin;
 
-            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(SessionUser.UserId);
-            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId);
+            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(SessionUserLegacy.UserId);
+            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(SessionUserLegacy.UserId);
         }
 
         var a = Authors.Any().ToString();

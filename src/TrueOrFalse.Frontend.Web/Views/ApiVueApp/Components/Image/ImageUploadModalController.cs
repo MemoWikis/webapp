@@ -26,7 +26,7 @@ public class ImageUploadModalController : BaseController
         if (url == null || !PermissionCheck.CanEditCategory(topicId))
             return false;
 
-        Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, SessionUser.UserId);
+        Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, SessionUserLegacy.UserId);
         return true;
     }
 
@@ -45,7 +45,7 @@ public class ImageUploadModalController : BaseController
         if (form.file == null || !PermissionCheck.CanEditCategory(form.topicId))
             return false;
 
-        Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(form.file, form.topicId, SessionUser.UserId, form.licenseGiverName);
+        Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(form.file, form.topicId, SessionUserLegacy.UserId, form.licenseGiverName);
 
         return true;
     }

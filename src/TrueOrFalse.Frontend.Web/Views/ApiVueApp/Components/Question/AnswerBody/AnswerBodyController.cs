@@ -42,8 +42,8 @@ public class AnswerBodyController : BaseController
             primaryTopicName = primaryTopic?.Name,
             solution = q.Solution,
 
-            isCreator = q.Creator.Id = SessionUser.UserId,
-            isInWishknowledge = SessionUser.IsLoggedIn && q.IsInWishknowledge(),
+            isCreator = q.Creator.Id = SessionUserLegacy.UserId,
+            isInWishknowledge = SessionUserLegacy.IsLoggedIn && q.IsInWishknowledge(),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
@@ -82,8 +82,8 @@ public class AnswerBodyController : BaseController
     public JsonResult MarkAsCorrect(int id, Guid questionViewGuid, int amountOfTries)
     {
         var result = amountOfTries == 0
-            ? _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, amountOfTries, true);
+            ? _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
+            : _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, amountOfTries, true);
         if (result != null)
         {
             return Json(true);
@@ -96,14 +96,14 @@ public class AnswerBodyController : BaseController
     [HttpPost]
     public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId,
         int? learningSessionId, string learningSessionStepGuid) =>
-        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
 
     [HttpPost]
     public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber,
         int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId,
         int? learningSessionId) =>
-        _answerQuestion.Run(id, SessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
 
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)

@@ -34,7 +34,7 @@ public class FacebookUsersController : BaseController
             });
         }
 
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         return Json(new
         {
@@ -52,11 +52,11 @@ public class FacebookUsersController : BaseController
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            SessionUser.Login(user);
+            SessionUserLegacy.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            SessionUser.User.StartTopicId = category.Id;
+            SessionUserLegacy.User.StartTopicId = category.Id;
 
             return Json(new
             {

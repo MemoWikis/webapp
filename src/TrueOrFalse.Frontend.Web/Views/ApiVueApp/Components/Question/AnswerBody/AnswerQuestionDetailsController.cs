@@ -22,10 +22,10 @@ public class AnswerQuestionDetailsController: BaseController
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
-        var userQuestionValuation = SessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+        var userQuestionValuation = SessionUserLegacy.IsLoggedIn
+            ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUserLegacy.IsLoggedIn;
 
         return new {
             knowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,

@@ -4,7 +4,7 @@
     var breadCrumbCategories = Model.BreadCrumbCategories.Items;
     breadCrumbCategories.Add(Model.BreadCrumbCategories.Current);
     var breadCrumbCategoriesCount = breadCrumbCategories.Count; 
-    var startTopicId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : RootCategory.RootCategoryId;
+    var startTopicId = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : RootCategory.RootCategoryId;
 %>
 
 <%

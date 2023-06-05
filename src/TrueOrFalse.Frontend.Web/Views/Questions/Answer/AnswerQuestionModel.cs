@@ -173,13 +173,13 @@ public class AnswerQuestionModel : BaseModel
         Creator = new UserTinyModel(question.Creator);
 
         if (question.Visibility != QuestionVisibility.All)
-            if(Creator.Id != SessionUser.UserId)
+            if(Creator.Id != SessionUserLegacy.UserId)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
         var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
 
         if(IsLoggedIn)
-            ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(SessionUser.User).Url;
+            ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(SessionUserLegacy.User).Url;
 
         Question = question;
 
@@ -198,7 +198,7 @@ public class AnswerQuestionModel : BaseModel
         CreatorName = Creator.Name;
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
-        IsOwner = SessionUser.IsLoggedInUserOrAdmin(Creator.Id);
+        IsOwner = SessionUserLegacy.IsLoggedInUserOrAdmin(Creator.Id);
 
         var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
 

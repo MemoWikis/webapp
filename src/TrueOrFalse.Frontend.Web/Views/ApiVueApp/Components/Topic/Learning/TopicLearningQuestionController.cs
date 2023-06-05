@@ -38,11 +38,11 @@ public class TopicLearningQuestionController: BaseController
                     .Select(c => new CommentModel(c))
                     .ToList()
                     .Count(),
-                isCreator = author.Id == SessionUser.UserId,
+                isCreator = author.Id == SessionUserLegacy.UserId,
                 answerCount = history.TimesAnsweredUser,
                 correctAnswerCount = history.TimesAnsweredUserTrue,
                 wrongAnswerCount = history.TimesAnsweredUserWrong,
-                canBeEdited = question.Creator?.Id == SessionUser.UserId || IsInstallationAdmin,
+                canBeEdited = question.Creator?.Id == SessionUserLegacy.UserId || IsInstallationAdmin,
                 title = question.Text,
                 visibility = question.Visibility
             }
@@ -54,11 +54,11 @@ public class TopicLearningQuestionController: BaseController
     [HttpGet]
     public JsonResult GetKnowledgeStatus(int id)
     {
-        var userQuestionValuation = SessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+        var userQuestionValuation = SessionUserLegacy.IsLoggedIn
+            ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-        var hasUserValuation = userQuestionValuation.ContainsKey(id) && SessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(id) && SessionUserLegacy.IsLoggedIn;
 
         return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned, JsonRequestBehavior.AllowGet);
     }

@@ -123,10 +123,10 @@ public class CategoryApiController : BaseController
     [HttpPost]
     public bool UnpinQuestionsInCategory(string categoryId)
     {
-        if (SessionUser.User == null)
+        if (SessionUserLegacy.User == null)
             return false;
 
-        CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), SessionUser.User);
+        CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), SessionUserLegacy.User);
         return true;
     }
 

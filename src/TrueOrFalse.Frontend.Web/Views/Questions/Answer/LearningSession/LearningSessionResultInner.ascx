@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%--    <% if (Model.IsLoggedIn)
-        Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(SessionUser.User)); %>--%>
+        Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(SessionUserLegacy.User)); %>--%>
 
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 

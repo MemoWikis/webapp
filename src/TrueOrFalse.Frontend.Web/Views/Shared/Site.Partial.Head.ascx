@@ -98,7 +98,7 @@
 
 </script>
 
-<%if(!Settings.DevelopOffline() && SessionUser.IsLoggedIn && SessionUser.User.IsFacebookUser) { %>
+<%if(!Settings.DevelopOffline() && SessionUserLegacy.IsLoggedIn && SessionUserLegacy.User.IsFacebookUser) { %>
     <script>
         window.fbAsyncInit = function() {
             FB.init({
@@ -118,7 +118,7 @@
     </script>
 <% } %>
 
-<%if(!Settings.DevelopOffline() && SessionUser.IsLoggedIn && SessionUser.User.IsGoogleUser) { %>
+<%if(!Settings.DevelopOffline() && SessionUserLegacy.IsLoggedIn && SessionUserLegacy.User.IsGoogleUser) { %>
     <script src="https://apis.google.com/js/api:client.js" type="text/javascript"></script>
     <script src="https://www.google.com/jsapi" type="text/javascript"></script>
 

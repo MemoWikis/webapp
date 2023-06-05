@@ -151,7 +151,7 @@ public class AnswerBodyModel : BaseModel
         SolutionTypeInt = (int)question.SolutionType;
         SolutionModel = GetQuestionSolution.Run(question);
 
-        TotalActivityPoints = IsLoggedIn ? SessionUser.User.ActivityPoints : SessionUser.GetTotalActivityPoints();
+        TotalActivityPoints = IsLoggedIn ? SessionUserLegacy.User.ActivityPoints : SessionUserLegacy.GetTotalActivityPoints();
 
         QuestionTitle = Regex.Replace(QuestionText, "<.*?>", String.Empty);
     }

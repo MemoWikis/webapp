@@ -25,7 +25,7 @@ public class CommentController : BaseController
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
         comment.Text = text;
-        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
 
         commentRepo.Create(comment);
 

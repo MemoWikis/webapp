@@ -14,7 +14,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = saveCommentJson.questionId;
         comment.Text = saveCommentJson.text;
         comment.Title = saveCommentJson.title;
-        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
 
 
         Resolve<CommentRepository>().Create(comment);
@@ -48,7 +48,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
         comment.Text = text;
-        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
 
         commentRepo.Create(comment);
 
@@ -87,10 +87,10 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public string GetCurrentUserImgUrl()
     {
-        if (SessionUser.User != null)
+        if (SessionUserLegacy.User != null)
         {
             var currentUserImageUrl =
-                new UserImageSettings(SessionUser.UserId).GetUrl_128px_square(SessionUser.User).Url;
+                new UserImageSettings(SessionUserLegacy.UserId).GetUrl_128px_square(SessionUserLegacy.User).Url;
             return currentUserImageUrl;
         }
 
@@ -100,9 +100,9 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public int GetCurrentUserId()
     {
-        if (SessionUser.User != null)
+        if (SessionUserLegacy.User != null)
         {
-            return SessionUser.UserId;
+            return SessionUserLegacy.UserId;
         }
         return -1;
     }
@@ -110,9 +110,9 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public string GetCurrentUserName()
     {
-        if (SessionUser.User != null)
+        if (SessionUserLegacy.User != null)
         {
-            return SessionUser.User.Name;
+            return SessionUserLegacy.User.Name;
         }
 
         return null;
@@ -121,7 +121,7 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public bool GetCurrentUserAdmin()
     {
-        if (SessionUser.User != null)
+        if (SessionUserLegacy.User != null)
         {
             return IsInstallationAdmin;
         }
@@ -132,7 +132,7 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public String GetUserImgUrl(int userId)
     {
-        if (SessionUser.User != null)
+        if (SessionUserLegacy.User != null)
         {
             var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
             return userImageUrl;

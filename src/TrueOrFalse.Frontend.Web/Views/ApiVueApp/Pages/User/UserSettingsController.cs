@@ -11,13 +11,13 @@ public class VueUserSettingsController : BaseController
     {
         var result = new UpdateKnowledgeReportIntervalResult();
         var updatedResult =
-            UpdateKnowledgeReportInterval.Run(Sl.UserRepo.GetById(SessionUser.UserId), notificationInterval, result);
+            UpdateKnowledgeReportInterval.Run(Sl.UserRepo.GetById(SessionUserLegacy.UserId), notificationInterval, result);
         var message = updatedResult.ResultMessage;
-        if (result.Success && SessionUser.User.Id == result.AffectedUser.Id)
+        if (result.Success && SessionUserLegacy.User.Id == result.AffectedUser.Id)
         {
-            SessionUser.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
-            EntityCache.AddOrUpdate(SessionUser.User);
-            Sl.UserRepo.Update(SessionUser.User);
+            SessionUserLegacy.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
+            EntityCache.AddOrUpdate(SessionUserLegacy.User);
+            Sl.UserRepo.Update(SessionUserLegacy.User);
             return Json(new
             {
                 success = true, message
@@ -37,7 +37,7 @@ public class VueUserSettingsController : BaseController
     {
         var credentialsAreValid = R<CredentialsAreValid>();
 
-        if (credentialsAreValid.Yes(SessionUser.User.EmailAddress, currentPassword))
+        if (credentialsAreValid.Yes(SessionUserLegacy.User.EmailAddress, currentPassword))
         {
             if (currentPassword == newPassword)
 
@@ -49,7 +49,7 @@ public class VueUserSettingsController : BaseController
                 });
             }
 
-            var user = Sl.UserRepo.GetById(SessionUser.User.Id);
+            var user = Sl.UserRepo.GetById(SessionUserLegacy.User.Id);
             SetUserPassword.Run(newPassword.Trim(), user);
 
             return Json(new
@@ -71,15 +71,15 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
-        if (form.id != SessionUser.User.Id)
+        if (form.id != SessionUserLegacy.User.Id)
         {
             return Json(null);
         }
 
-        if (form.email != null && form.email.Trim() != SessionUser.User.EmailAddress &&
+        if (form.email != null && form.email.Trim() != SessionUserLegacy.User.EmailAddress &&
             IsEmailAddressAvailable.Yes(form.email))
         {
-            SessionUser.User.EmailAddress = form.email.Trim();
+            SessionUserLegacy.User.EmailAddress = form.email.Trim();
         }
         else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email))
         {
@@ -91,10 +91,10 @@ public class VueUserSettingsController : BaseController
             );
         }
 
-        if (form.username != null && form.username.Trim() != SessionUser.User.Name &&
+        if (form.username != null && form.username.Trim() != SessionUserLegacy.User.Name &&
             IsUserNameAvailable.Yes(form.username))
         {
-            SessionUser.User.Name = form.username.Trim();
+            SessionUserLegacy.User.Name = form.username.Trim();
         }
         else if (form.username != null && !IsUserNameAvailable.Yes(form.username))
         {
@@ -108,20 +108,20 @@ public class VueUserSettingsController : BaseController
 
         if (form.file != null)
         {
-            UserImageStore.Run(form.file, SessionUser.UserId);
+            UserImageStore.Run(form.file, SessionUserLegacy.UserId);
         }
 
-        EntityCache.AddOrUpdate(SessionUser.User);
-        Sl.UserRepo.Update(SessionUser.User);
+        EntityCache.AddOrUpdate(SessionUserLegacy.User);
+        Sl.UserRepo.Update(SessionUserLegacy.User);
 
         return Json(new
         {
             success = true,
             message = "profileUpdate",
-            name = SessionUser.User.Name,
-            email = SessionUser.User.EmailAddress,
-            imgUrl = new UserImageSettings(SessionUser.UserId).GetUrl_250px(SessionUser.User).Url,
-            tinyImgUrl = new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url
+            name = SessionUserLegacy.User.Name,
+            email = SessionUserLegacy.User.EmailAddress,
+            imgUrl = new UserImageSettings(SessionUserLegacy.UserId).GetUrl_250px(SessionUserLegacy.User).Url,
+            tinyImgUrl = new UserImageSettings(SessionUserLegacy.UserId).GetUrl_20px(SessionUserLegacy.User).Url
         });
     }
 
@@ -129,10 +129,10 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangeSupportLoginRights(bool allowSupportiveLogin)
     {
-        SessionUser.User.AllowsSupportiveLogin = allowSupportiveLogin;
+        SessionUserLegacy.User.AllowsSupportiveLogin = allowSupportiveLogin;
 
-        EntityCache.AddOrUpdate(SessionUser.User);
-        Sl.UserRepo.Update(SessionUser.User);
+        EntityCache.AddOrUpdate(SessionUserLegacy.User);
+        Sl.UserRepo.Update(SessionUserLegacy.User);
 
         return Json(new
         {
@@ -146,11 +146,11 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangeWuwiVisibility(bool showWuwi)
     {
-        SessionUser.User.ShowWishKnowledge = showWuwi;
+        SessionUserLegacy.User.ShowWishKnowledge = showWuwi;
 
-        EntityCache.AddOrUpdate(SessionUser.User);
-        Sl.UserRepo.Update(SessionUser.User);
-        ReputationUpdate.ForUser(SessionUser
+        EntityCache.AddOrUpdate(SessionUserLegacy.User);
+        Sl.UserRepo.Update(SessionUserLegacy.User);
+        ReputationUpdate.ForUser(SessionUserLegacy
             .User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
         return Json(new
@@ -167,17 +167,17 @@ public class VueUserSettingsController : BaseController
         var imageSettings = ImageSettings.InitByType(new ImageMetaData
         {
             Type = ImageType.User,
-            TypeId = SessionUser.User.Id
+            TypeId = SessionUserLegacy.User.Id
         });
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings().GetUrl_250px(SessionUser.User).Url, JsonRequestBehavior.AllowGet);
+        return Json(new UserImageSettings().GetUrl_250px(SessionUserLegacy.User).Url, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ResetPassword()
     {
-        var passwordRecoveryResult = Sl.Resolve<PasswordRecovery>().Run(SessionUser.User.EmailAddress);
+        var passwordRecoveryResult = Sl.Resolve<PasswordRecovery>().Run(SessionUserLegacy.User.EmailAddress);
         return Json(passwordRecoveryResult.Success);
     }
 

@@ -16,19 +16,19 @@ public class ActivityPointsStoreController : BaseController
 
         if (IsLoggedIn)
         {
-            var oldUserLevel = SessionUser.User.ActivityLevel;
-            activityPoints.UserId = SessionUser.UserId;
+            var oldUserLevel = SessionUserLegacy.User.ActivityLevel;
+            activityPoints.UserId = SessionUserLegacy.UserId;
             Sl.ActivityPointsRepo.Create(activityPoints);
             Sl.UserRepo.UpdateActivityPointsData();
 
-            var activityLevel = SessionUser.User.ActivityLevel;
+            var activityLevel = SessionUserLegacy.User.ActivityLevel;
             var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);
-            var activityPointsTillNextLevel = activityPointsAtNextLevel - SessionUser.User.ActivityPoints;
-            var activityPointsPercentageOfNextLevel = SessionUser.User.ActivityPoints == 0 ? 0 : 100 * SessionUser.User.ActivityPoints / activityPointsAtNextLevel;
+            var activityPointsTillNextLevel = activityPointsAtNextLevel - SessionUserLegacy.User.ActivityPoints;
+            var activityPointsPercentageOfNextLevel = SessionUserLegacy.User.ActivityPoints == 0 ? 0 : 100 * SessionUserLegacy.User.ActivityPoints / activityPointsAtNextLevel;
 
             return Json(new 
                 {
-                    points = SessionUser.User.ActivityPoints,
+                    points = SessionUserLegacy.User.ActivityPoints,
                     level = activityLevel,
                     levelUp = oldUserLevel < activityLevel,
                     activityPointsTillNextLevel = activityPointsTillNextLevel,
@@ -37,13 +37,13 @@ public class ActivityPointsStoreController : BaseController
         } 
         else 
         {
-            var oldUserLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
-            SessionUser.AddPointActivity(activityPoints);
-            var newUserLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
+            var oldUserLevel = UserLevelCalculator.GetLevel(SessionUserLegacy.GetTotalActivityPoints());
+            SessionUserLegacy.AddPointActivity(activityPoints);
+            var newUserLevel = UserLevelCalculator.GetLevel(SessionUserLegacy.GetTotalActivityPoints());
 
             return Json(new
                 {
-                    points = SessionUser.GetTotalActivityPoints(),
+                    points = SessionUserLegacy.GetTotalActivityPoints(),
                     level = newUserLevel,
                     levelUp = oldUserLevel < newUserLevel,
                     activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(newUserLevel)

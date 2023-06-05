@@ -1,7 +1,7 @@
 ﻿<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Control Language="C#" AutoEventWireup="true"%>
 <%
-    var user = SessionUser.User;
+    var user = SessionUserLegacy.User;
     var isAdmin = user != null && user.IsInstallationAdmin;
 %>
 <div id="EditQuestionLoaderApp">

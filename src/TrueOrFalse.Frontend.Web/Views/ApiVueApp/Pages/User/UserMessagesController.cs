@@ -11,10 +11,10 @@ public class UserMessagesController : BaseController
     [HttpGet]
     public JsonResult Get()
     {
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
             var messages = Resolve<MessageRepo>()
-            .GetForUser(SessionUser.UserId, false)
+            .GetForUser(SessionUserLegacy.UserId, false)
             .Select(m => new 
             {
                 id = m.Id,
@@ -26,7 +26,7 @@ public class UserMessagesController : BaseController
             })
             .ToArray();
 
-            var readMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUser.UserId);
+            var readMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUserLegacy.UserId);
             return Json(new
             {
                 messages = messages,

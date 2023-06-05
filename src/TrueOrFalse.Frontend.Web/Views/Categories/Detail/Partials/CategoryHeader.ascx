@@ -9,9 +9,9 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%: Html.HiddenFor(m => m.ImageGuid) %>
 <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
 <% var buttonId = Guid.NewGuid();
-   var user = SessionUser.User; %>
+   var user = SessionUserLegacy.User; %>
 <div id="HeadingSection">
-    <% if (Model.Category.Creator == SessionUser.User || SessionUser.IsInstallationAdmin)
+    <% if (Model.Category.Creator == SessionUserLegacy.User || SessionUserLegacy.IsInstallationAdmin)
        { %>
         <category-image-component category-id="<%= Model.Category.Id %>" inline-template is-learning-tab="<%= Model.IsInLearningTab %>">
             <div class="ImageContainer">
@@ -38,7 +38,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
     <div id="HeadingContainer" data-category-name="<%= Server.HtmlEncode(Model.Name) %>">
         <h1 style="margin-bottom: 0">
 
-            <% if (Model.Category.Creator == SessionUser.User || SessionUser.IsInstallationAdmin)
+            <% if (Model.Category.Creator == SessionUserLegacy.User || SessionUserLegacy.IsInstallationAdmin)
                { %>
                 <category-name-component inline-template origin-category-name="<%= Server.HtmlEncode(Model.Name) %>" category-id="<%= Model.Category.Id %>" is-learning-tab="<%= Model.IsInLearningTab %>" v-if="isMounted">
                     <textarea-autosize
@@ -184,7 +184,7 @@ Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
                                 Unterthema verknüpfen
                             </a>
                         </li>
-                        <% if (SessionUser.IsLoggedIn && Model.Category.Id != SessionUser.User.StartTopicId)
+                        <% if (SessionUserLegacy.IsLoggedIn && Model.Category.Id != SessionUserLegacy.User.StartTopicId)
                            { %>
                             <li>
                                 <a onclick="eventBus.$emit('add-to-wiki', <%= Model.Category.Id %>)" data-allowed="logged-in">

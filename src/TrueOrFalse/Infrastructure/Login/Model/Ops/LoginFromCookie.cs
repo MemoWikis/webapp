@@ -20,7 +20,7 @@
         persistentLoginRepo.Delete(persistentLogin);
         WritePersistentLoginToCookie.Run(cookieValues.UserId);
 
-        SessionUser.Login(user);            
+        SessionUserLegacy.Login(user);            
 
         return true;
     }

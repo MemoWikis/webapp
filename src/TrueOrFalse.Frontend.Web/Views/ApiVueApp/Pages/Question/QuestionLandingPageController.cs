@@ -45,8 +45,8 @@ public class QuestionLandingPageController : BaseController
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = SessionUser.UserId,
-                isInWishknowledge = SessionUser.IsLoggedIn && q.IsInWishknowledge(),
+                isCreator = q.Creator.Id = SessionUserLegacy.UserId,
+                isInWishknowledge = SessionUserLegacy.IsLoggedIn && q.IsInWishknowledge(),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,

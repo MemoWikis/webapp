@@ -79,7 +79,7 @@ public class CategoryModel : BaseContentModule
         ShowSidebar = true;
         IsWiki = category.IsStartPage();
         var currentRootWiki = CrumbtrailService.GetWiki(category);
-        SessionUser.SetWikiId(currentRootWiki);
+        SessionUserLegacy.SetWikiId(currentRootWiki);
         TopNavMenu.BreadCrumbCategories = CrumbtrailService.BuildCrumbtrail(category, currentRootWiki);
         CategoryIsDeleted = isCategoryNull;
         AnalyticsFooterModel = new AnalyticsFooterModel(category, false, isCategoryNull);
@@ -117,7 +117,7 @@ public class CategoryModel : BaseContentModule
         {
             Authors = AuthorViewModel.Convert(Sl.UserRepo.GetByIds(category.AuthorIds.Distinct().ToList()));
         }
-        IsOwnerOrAdmin = Creator != null && SessionUser.IsLoggedInUserOrAdmin(Creator.Id);
+        IsOwnerOrAdmin = Creator != null && SessionUserLegacy.IsLoggedInUserOrAdmin(Creator.Id);
 
         var parentCategories = category.ParentCategories();
         if (parentCategories.All(c => !PermissionCheck.CanView(c)))
@@ -217,7 +217,7 @@ public class CategoryModel : BaseContentModule
     }
     public int GetTotalTopicCount(CategoryCacheItem category)
     {
-        var user = SessionUser.User;
+        var user = SessionUserLegacy.User;
         return EntityCache.GetChildren(category.Id).Count(PermissionCheck.CanView);
     }
 }

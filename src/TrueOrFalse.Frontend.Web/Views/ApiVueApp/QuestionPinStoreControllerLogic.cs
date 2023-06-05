@@ -9,23 +9,23 @@ public class QuestionPinStoreControllerLogic
             return new { success = false, key = "cantAddKnowledge" };
         }
 
-        if (SessionUser.User == null)
+        if (SessionUserLegacy.User == null)
         {
             return new { success = false, key = "" };
         }
 
-        QuestionInKnowledge.Pin(id, SessionUser.UserId);
+        QuestionInKnowledge.Pin(id, SessionUserLegacy.UserId);
         return true;
     }
 
     public dynamic Unpin(int id)
     {
-        if (SessionUser.User == null)
+        if (SessionUserLegacy.User == null)
         {
             return false;
         }
 
-        QuestionInKnowledge.Unpin(id, SessionUser.UserId);
+        QuestionInKnowledge.Unpin(id, SessionUserLegacy.UserId);
         return true;
     }
 }

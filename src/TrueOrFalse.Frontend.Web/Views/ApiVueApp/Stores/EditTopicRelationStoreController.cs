@@ -14,19 +14,19 @@ public class EditTopicRelationStoreController
     [HttpGet]
     public JsonResult GetPersonalWikiData(int id)
     {
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUser.User.StartTopicId))
+        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUserLegacy.User.StartTopicId))
             return Json(new
             {
                 success = false,
             });
 
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+        var personalWiki = EntityCache.GetCategory(SessionUserLegacy.User.StartTopicId);
         var personalWikiItem = SearchHelper.FillSearchCategoryItem(personalWiki);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
 
-        if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds != null && SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var topicId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
+            foreach (var topicId in SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
                 recentlyUsedRelationTargetTopics.Add(SearchHelper.FillSearchCategoryItem(topicCacheItem));

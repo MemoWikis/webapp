@@ -137,7 +137,7 @@ public class TopicToPrivateStoreController
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(topic, SessionUser.User, type: CategoryChangeType.Privatized);
+        Sl.CategoryRepo.Update(topic, SessionUserLegacy.User, type: CategoryChangeType.Privatized);
 
         return Json(new
         {
@@ -155,7 +155,7 @@ public class TopicToPrivateStoreController
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == SessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
+            if ((questionCacheItem.Creator.Id == SessionUserLegacy.UserId && !otherUsersHaveQuestionInWuwi) ||
                 IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;

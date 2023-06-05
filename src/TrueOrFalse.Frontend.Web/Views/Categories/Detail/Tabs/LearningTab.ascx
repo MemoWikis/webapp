@@ -33,7 +33,7 @@
 <div id="SessionHeader" class="row">
     <input id="SessionConfigQuestionChecker" type="hidden" data-category-has-no-questions="<%= Model.HasQuestions %>">
     <div v-show="showFilter">
-        <session-config-component :is-logged-in="'<%= SessionUser.IsLoggedIn %>' == 'True'">
+        <session-config-component :is-logged-in="'<%= SessionUserLegacy.IsLoggedIn %>' == 'True'">
             <session-progress-bar-component/>
         </session-config-component>
     </div>

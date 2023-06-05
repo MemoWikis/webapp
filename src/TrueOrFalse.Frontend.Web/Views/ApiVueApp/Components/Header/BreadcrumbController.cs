@@ -11,11 +11,11 @@ public class BreadcrumbController : BaseController
     [HttpPost]
     public JsonResult GetBreadcrumb(int wikiId, int currentCategoryId)
     {
-        var defaultWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1;
-        SessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
+        var defaultWikiId = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1;
+        SessionUserLegacy.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
         var currentWiki = CrumbtrailService.GetWiki(category);
-        SessionUser.SetWikiId(currentWiki);
+        SessionUserLegacy.SetWikiId(currentWiki);
 
         var breadcrumb = CrumbtrailService.BuildCrumbtrail(category, currentWiki);
 
@@ -32,9 +32,9 @@ public class BreadcrumbController : BaseController
         }
 
         var personalWiki = new BreadcrumbItem();
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
-            var personalWikiId = SessionUser.User.StartTopicId;
+            var personalWikiId = SessionUserLegacy.User.StartTopicId;
             personalWiki.Id = personalWikiId;
             personalWiki.Name = EntityCache.GetCategory(personalWikiId).Name;
         }
@@ -60,7 +60,7 @@ public class BreadcrumbController : BaseController
                 Id = breadcrumb.Current.Category.Id
             },
             breadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
-            isInPersonalWiki = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
+            isInPersonalWiki = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
         });
     }
 
@@ -68,7 +68,7 @@ public class BreadcrumbController : BaseController
     [HttpPost]
     public JsonResult GetPersonalWiki()
     {
-        var topic = SessionUser.IsLoggedIn ? EntityCache.GetCategory(SessionUser.User.StartTopicId) : RootCategory.Get;
+        var topic = SessionUserLegacy.IsLoggedIn ? EntityCache.GetCategory(SessionUserLegacy.User.StartTopicId) : RootCategory.Get;
         return Json(new BreadcrumbItem
         {
             Name = topic.Name,

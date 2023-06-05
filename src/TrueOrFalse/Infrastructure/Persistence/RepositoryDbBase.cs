@@ -3,9 +3,9 @@ using Seedworks.Lib.Persistence;
 
 public class RepositoryDbBase<T> : RepositoryDb<T> where T : class, IPersistable
 {
-    protected SessionUser _userSession
+    protected SessionUserLegacy UserLegacySession
     {
-        get { return Sl.R<SessionUser>(); }
+        get { return Sl.R<SessionUserLegacy>(); }
     }
 
     public RepositoryDbBase(ISession session) : base(session)

@@ -7,7 +7,7 @@ public class BillingLogic : BaseStripeLogic
 {
     public async Task<string> DeletePlan()
     {
-        var stripeId = SessionUser.User.StripeId;
+        var stripeId = SessionUserLegacy.User.StripeId;
         var options = new SessionCreateOptions
         {
             Customer = stripeId,

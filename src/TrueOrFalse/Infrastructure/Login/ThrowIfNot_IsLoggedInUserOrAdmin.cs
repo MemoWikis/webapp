@@ -2,7 +2,7 @@
 {
     public static void Run(int userId)
     {
-        if (!SessionUser.IsLoggedInUserOrAdmin(userId))
+        if (!SessionUserLegacy.IsLoggedInUserOrAdmin(userId))
             throw new InvalidAccessException();        
     }
 }

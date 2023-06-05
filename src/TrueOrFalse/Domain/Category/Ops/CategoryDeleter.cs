@@ -25,7 +25,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             return hasDeleted;
         }
 
-        if (!SessionUser.IsInstallationAdmin && Sl.CurrentUserId != categoryCacheItem.Creator.Id)
+        if (!SessionUserLegacy.IsInstallationAdmin && Sl.CurrentUserId != categoryCacheItem.Creator.Id)
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;

@@ -191,7 +191,7 @@ public class CategoryChangeDetailModel
     public int CreatorId;
     public bool IsVisibleToCurrentUser()
     {
-        return (CurrentVisibility == CategoryVisibility.All && Visibility == CategoryVisibility.All) || SessionUser.IsLoggedInUser(CreatorId);
+        return (CurrentVisibility == CategoryVisibility.All && Visibility == CategoryVisibility.All) || SessionUserLegacy.IsLoggedInUser(CreatorId);
     }
     public bool RelationIsVisibleToCurrentUser = true;
     public List<CategoryChangeDetailModel> AggregatedCategoryChangeDetailModel;

@@ -17,7 +17,7 @@ public class VueUserController : BaseController
         {
             var userWiki = EntityCache.GetCategory(user.StartTopicId);
             var reputation = Resolve<ReputationCalc>().RunWithQuestionCacheItems(user);
-            var isCurrentUser = SessionUser.UserId == user.Id;
+            var isCurrentUser = SessionUserLegacy.UserId == user.Id;
             var allQuestionsCreatedByUser = EntityCache.GetAllQuestions().Where(q => q.Creator != null && q.CreatorId == user.Id);
             var allTopicsCreatedByUser = EntityCache.GetAllCategories().Where(c => c.Creator != null && c.CreatorId == user.Id);
             var result = new
@@ -65,7 +65,7 @@ public class VueUserController : BaseController
     {
         var user = EntityCache.GetUserById(id);
 
-        if (user.ShowWishKnowledge || SessionUser.UserId == user.Id)
+        if (user.ShowWishKnowledge || SessionUserLegacy.UserId == user.Id)
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)

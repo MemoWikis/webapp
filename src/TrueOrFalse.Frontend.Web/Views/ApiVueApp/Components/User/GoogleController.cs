@@ -29,7 +29,7 @@ public class GoogleController : BaseController
                 return CreateAndLogin(newUser);
             }
 
-            SessionUser.Login(user);
+            SessionUserLegacy.Login(user);
             return Json(new
             {
                 success = true,
@@ -60,11 +60,11 @@ public class GoogleController : BaseController
             var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            SessionUser.Login(user);
+            SessionUserLegacy.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            SessionUser.User.StartTopicId = category.Id;
+            SessionUserLegacy.User.StartTopicId = category.Id;
         }
 
         return Json(new

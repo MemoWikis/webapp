@@ -19,7 +19,7 @@ public class VueMaintenanceController : BaseController
     [HttpGet]
     public JsonResult Get()
     {
-        if (SessionUser.IsInstallationAdmin)
+        if (SessionUserLegacy.IsInstallationAdmin)
         {
             AntiForgery.GetTokens(null, out string cookieToken, out string formToken);
             HttpCookie antiForgeryCookie = new HttpCookie("__RequestVerificationToken");
@@ -285,7 +285,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public ActionResult RemoveAdminRights()
     {
-        SessionUser.IsInstallationAdmin = false;
+        SessionUserLegacy.IsInstallationAdmin = false;
 
         return Json(new
         {

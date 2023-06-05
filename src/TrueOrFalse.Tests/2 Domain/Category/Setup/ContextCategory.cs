@@ -223,8 +223,8 @@ public class ContextCategory
 
         EntityCache.Init();
 
-        SessionUser.Login(user);
-        SessionUser.Logout();
+        SessionUserLegacy.Login(user);
+        SessionUserLegacy.Logout();
         return user;
     }
 

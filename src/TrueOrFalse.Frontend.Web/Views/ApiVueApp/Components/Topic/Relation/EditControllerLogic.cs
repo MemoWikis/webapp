@@ -70,7 +70,7 @@ public class EditControllerLogic
         var topic = new Category(name);
         ModifyRelationsForCategory.AddParentCategory(topic, parentTopicId);
 
-        topic.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        topic.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
@@ -106,7 +106,7 @@ public class EditControllerLogic
         if (elements.Categories.Any())
             SearchHelper.AddTopicItems(items, elements);
 
-        var wikiChildren = EntityCache.GetAllChildren(SessionUser.User.StartTopicId);
+        var wikiChildren = EntityCache.GetAllChildren(SessionUserLegacy.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new
@@ -172,7 +172,7 @@ public class EditControllerLogic
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(SessionUser.UserId, parentId);
+            RecentlyUsedRelationTargets.Add(SessionUserLegacy.UserId, parentId);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
@@ -207,12 +207,12 @@ public class EditControllerLogic
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
-        _categoryRepository.Update(parent, SessionUser.User, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, SessionUserLegacy.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childId);
         if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, SessionUserLegacy.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
-            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(child, SessionUserLegacy.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new

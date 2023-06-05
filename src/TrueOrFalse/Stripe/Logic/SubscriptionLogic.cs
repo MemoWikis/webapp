@@ -28,7 +28,7 @@ public class SubscriptionLogic : BaseStripeLogic
 
     public async Task<string> CreateStripeSession(string priceId)
     {
-        var sessionUser = SessionUser.User;
+        var sessionUser = SessionUserLegacy.User;
 
         var customerId = "";
         if (sessionUser.StripeId == null)

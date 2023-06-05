@@ -11,7 +11,7 @@ public class WelcomeController : BaseController
     public ActionResult Welcome()
     {
         CategoryCacheItem category;
-        category = IsLoggedIn ? EntityCache.GetCategory(SessionUser.User.StartTopicId) : RootCategory.Get; 
+        category = IsLoggedIn ? EntityCache.GetCategory(SessionUserLegacy.User.StartTopicId) : RootCategory.Get; 
 
         return Redirect(Links.CategoryDetail(category)); ;
     }
@@ -26,7 +26,7 @@ public class WelcomeController : BaseController
     public ActionResult Logout()
     {
         RemovePersistentLoginFromCookie.Run();
-        SessionUser.Logout();
+        SessionUserLegacy.Logout();
         return View(new BaseModel());
     }
 
@@ -86,7 +86,7 @@ public class WelcomeController : BaseController
         SetUserPassword.Run(model.NewPassword1, user);
         userRepo.Update(user);
 
-        SessionUser.Login(user);
+        SessionUserLegacy.Login(user);
 
         return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController, new {passwordSet = "true"});
     }

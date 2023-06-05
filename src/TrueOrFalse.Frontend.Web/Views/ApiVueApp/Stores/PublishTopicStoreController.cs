@@ -27,7 +27,7 @@ public class PublishTopicStoreController
             topicCacheItem.Visibility = CategoryVisibility.All;
             var topic = topicRepo.GetById(topicId);
             topic.Visibility = CategoryVisibility.All;
-            topicRepo.Update(topic, SessionUser.User, type: CategoryChangeType.Published);
+            topicRepo.Update(topic, SessionUserLegacy.User, type: CategoryChangeType.Published);
 
             return Json(new
             {
@@ -51,7 +51,7 @@ public class PublishTopicStoreController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator.Id == SessionUser.User.Id)
+            if (questionCacheItem.Creator.Id == SessionUserLegacy.User.Id)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);

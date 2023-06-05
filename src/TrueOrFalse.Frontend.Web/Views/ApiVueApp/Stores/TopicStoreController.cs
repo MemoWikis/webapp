@@ -29,7 +29,7 @@ public class TopicStoreController : BaseController
             category.Content = content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, SessionUser.User, type: CategoryChangeType.Text);
+        Sl.CategoryRepo.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Text);
 
         return Json(true);
     }
@@ -47,7 +47,7 @@ public class TopicStoreController : BaseController
     [HttpGet]
     public JsonResult GetUpdatedKnowledgeSummary(int id)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
+        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
 
         return Json(new
         {

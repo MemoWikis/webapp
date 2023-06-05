@@ -15,7 +15,7 @@ public class QuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
+        var user = SessionUserLegacy.User;
         var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();

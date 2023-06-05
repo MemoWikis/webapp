@@ -1,7 +1,7 @@
 ﻿
 public class BaseUtil
 {
-    protected SessionUser _sessionUser => Resolve<SessionUser>();
+    protected SessionUserLegacy SessionUserLegacy => Resolve<SessionUserLegacy>();
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
     protected T Resolve<T>() => ServiceLocator.Resolve<T>();

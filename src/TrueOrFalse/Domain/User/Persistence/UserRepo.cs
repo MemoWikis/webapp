@@ -40,7 +40,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         var user = GetById(id);
 
-        if (SessionUser.IsLoggedInUserOrAdmin(user.Id))
+        if (SessionUserLegacy.IsLoggedInUserOrAdmin(user.Id))
         {
             throw new InvalidAccessException();
         }
@@ -270,7 +270,7 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void UpdateActivityPointsData()
     {
-        if (!SessionUser.IsLoggedIn)
+        if (!SessionUserLegacy.IsLoggedIn)
         {
             return;
         }
@@ -283,7 +283,7 @@ public class UserRepo : RepositoryDbBase<User>
 
         var userLevel = UserLevelCalculator.GetLevel(totalPointCount);
 
-        var user = GetById(SessionUser.UserId);
+        var user = GetById(SessionUserLegacy.UserId);
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);

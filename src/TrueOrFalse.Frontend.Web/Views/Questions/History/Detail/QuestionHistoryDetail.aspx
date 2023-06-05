@@ -61,7 +61,7 @@
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonSetId %>">
                     <%--Vorübergehend rausgenommen, da es nicht richtig funktioniert (#)--%>
                     <%--<li>
-                        <% if (SessionUser.IsLoggedIn) {
+                        <% if (SessionUserLegacy.IsLoggedIn) {
                             if (Model.NextRevExists) { %>
                                 <a id="restoreButton" data-allowed="logged-in" onclick="$('#alertConfirmRestore').show();">
                                     <div class="dropdown-icon"><i class="fa fa-undo"></i></div>Wiederherstellen
@@ -82,7 +82,7 @@
             </div>
         </div>
         
-        <% if (SessionUser.IsLoggedIn && Model.NextRevExists) { %>
+        <% if (SessionUserLegacy.IsLoggedIn && Model.NextRevExists) { %>
             <div id="alertConfirmRestore" class="row" style="display: none">
                 <br/>
                 <div class="alert alert-warning" role="alert">

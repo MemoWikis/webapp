@@ -994,7 +994,7 @@
     <Compile Include="Web\Context\Menu\MainMenu.cs" />
     <Compile Include="Web\Context\Menu\TopNavMenu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
-    <Compile Include="Web\Context\SessionUser.cs" />
+    <Compile Include="Web\Context\SessionUserLegacz.cs" />
     <Compile Include="Web\Controls\ButtonIcon.cs" />
     <Compile Include="Web\Controls\Buttons.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageHtml.cs" />

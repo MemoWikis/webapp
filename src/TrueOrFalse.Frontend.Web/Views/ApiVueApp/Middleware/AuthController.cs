@@ -9,6 +9,6 @@ public class MiddlewareAuthController : BaseController
     [HttpGet]
     public JsonResult Get()
     {
-        return Json(SessionUser.IsInstallationAdmin, JsonRequestBehavior.AllowGet);
+        return Json(SessionUserLegacy.IsInstallationAdmin, JsonRequestBehavior.AllowGet);
     }
 }   

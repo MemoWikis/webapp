@@ -27,11 +27,11 @@ public class TopicLearningQuestionListController: BaseController
         var steps = LearningSessionCache.GetLearningSession().Steps;
         var question = steps[index].Question;
 
-        var userQuestionValuation = SessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+        var userQuestionValuation = SessionUserLegacy.IsLoggedIn
+            ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUserLegacy.IsLoggedIn;
 
         return Json( new {
             Id = question.Id,

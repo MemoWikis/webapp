@@ -35,12 +35,12 @@ public class LearningSessionCreator
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache().Where(q => q.Id > 0).ToList();
         allQuestions = allQuestions.Where(PermissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUserLegacy.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
 
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
             foreach (var q in allQuestions)
             {
@@ -87,12 +87,12 @@ public class LearningSessionCreator
         LearningSessionCache.TryRemove();
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUser.UserId);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUserLegacy.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
 
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
             foreach (var q in allQuestions)
             {
@@ -157,7 +157,7 @@ public class LearningSessionCreator
     private static void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
 
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
             knowledgeSummaryDetails.Add(new KnowledgeSummaryDetail
             {
                 PersonalCorrectnessProbability = questionDetail.PersonalCorrectnessProbability,
@@ -175,7 +175,7 @@ public class LearningSessionCreator
         if (config.QuestionOrder == QuestionOrder.SortByHardest)
             return questions.OrderBy(q => q.CorrectnessProbability).ToList();
 
-        if (SessionUser.IsLoggedIn && config.QuestionOrder == QuestionOrder.SortByPersonalHardest)
+        if (SessionUserLegacy.IsLoggedIn && config.QuestionOrder == QuestionOrder.SortByPersonalHardest)
         {
             var orderedKnowledgeSummaryDetails = knowledgeSummaryDetails.OrderBy(k => k.PersonalCorrectnessProbability).ToList();
             return questions.OrderBy(q => orderedKnowledgeSummaryDetails.IndexOf(o => q.Id == o.QuestionId)).ToList();
@@ -269,7 +269,7 @@ public class LearningSessionCreator
 
     private static QuestionDetail FilterByKnowledgeSummary(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail, IList<QuestionValuationCacheItem> allQuestionValuation)
     {
-        if (SessionUser.IsLoggedIn)
+        if (SessionUserLegacy.IsLoggedIn)
         {
             var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == q.Id);
 

@@ -7,7 +7,7 @@ public class SponsorModel : BaseResolve
 
     public SponsorModel()
     {
-        IsAdFree = !Settings.AdvertisementTurnedOn || (SessionUser.User != null && SessionUser.User.IsMember);
+        IsAdFree = !Settings.AdvertisementTurnedOn || (SessionUserLegacy.User != null && SessionUserLegacy.User.IsMember);
     }
 
     public SponsorModel(Sponsor sponsor) : this()

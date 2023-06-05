@@ -39,7 +39,7 @@ public class VueUsersController : BaseController
         var wishQuestionCount = 0;
         var topicsWithWishQuestionCount = 0;
 
-        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == SessionUser.UserId))
+        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == SessionUserLegacy.UserId))
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
@@ -57,8 +57,8 @@ public class VueUsersController : BaseController
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
-                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, SessionUser.UserId == user.Id),
-            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, SessionUser.UserId == user.Id),
+                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, SessionUserLegacy.UserId == user.Id),
+            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, SessionUserLegacy.UserId == user.Id),
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,

@@ -106,7 +106,7 @@ public class Global : HttpApplication
 
     protected void Session_Start()
     {
-        if (!SessionUser.IsLoggedIn)
+        if (!SessionUserLegacy.IsLoggedIn)
         {
             LoginFromCookie.Run();
         }

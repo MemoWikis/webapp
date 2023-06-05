@@ -18,7 +18,7 @@ public class TopicControllerLogic
         if (PermissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
+            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
 
             return new
             {
@@ -45,8 +45,8 @@ public class TopicControllerLogic
                     };
                 }).ToArray(),
                 IsWiki = topic.IsStartPage(),
-                CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == topic.Creator?.Id,
-                CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(topic),
+                CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
+                CanBeDeleted = SessionUserLegacy.User != null && PermissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
@@ -71,7 +71,7 @@ public class TopicControllerLogic
         if (PermissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
+            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
             return new
             {
                 CanAccess = true,
@@ -97,8 +97,8 @@ public class TopicControllerLogic
                     };
                 }).ToArray(),
                 IsWiki = topic.IsStartPage(),
-                CurrentUserIsCreator = SessionUser.User != null && SessionUser.UserId == topic.Creator?.Id,
-                CanBeDeleted = SessionUser.User != null && PermissionCheck.CanDelete(topic),
+                CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
+                CanBeDeleted = SessionUserLegacy.User != null && PermissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),

@@ -44,7 +44,7 @@ public class EditCategoryController : BaseController
         }
 
         var category = convertResult.Category;
-        var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        var creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         category.Creator = creator;
 
         var categoryNameAllowed = new CategoryNameAllowed();
@@ -130,7 +130,7 @@ public class EditCategoryController : BaseController
         var category = new Category(name);
         ModifyRelationsForCategory.AddParentCategory(category, parentCategoryId);
 
-        var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        var creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         category.Creator = creator;
         category.Type = CategoryType.Standard;
         category.Visibility = CategoryVisibility.Owner;
@@ -205,7 +205,7 @@ public class EditCategoryController : BaseController
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(SessionUser.UserId, parentCategoryId);
+            RecentlyUsedRelationTargets.Add(SessionUserLegacy.UserId, parentCategoryId);
 
         var child = EntityCache.GetCategory(childCategoryId);
         ModifyRelationsEntityCache.AddParent(child, parentCategoryId);
@@ -234,7 +234,7 @@ public class EditCategoryController : BaseController
     public JsonResult AddToPersonalWiki(int categoryId)
     {
 
-        var personalWikiId = SessionUser.User.StartTopicId;
+        var personalWikiId = SessionUserLegacy.User.StartTopicId;
 
         if (categoryId == personalWikiId)
             return Json(new
@@ -281,7 +281,7 @@ public class EditCategoryController : BaseController
     [HttpPost]
     public JsonResult QuickCreateWithCategories(string name, int parentCategoryId, int[] childCategoryIds)
     {
-        var category = new Category(name) { Creator = Sl.UserRepo.GetById(SessionUser.UserId) };
+        var category = new Category(name) { Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId) };
         category.Visibility = CategoryVisibility.Owner;
 
         var parentCategory = EntityCache.GetCategory(parentCategoryId);
@@ -317,7 +317,7 @@ public class EditCategoryController : BaseController
                 childCategory.Id,
                 related.Select(c => c.Id).ToList());
 
-            _categoryRepository.Update(childCategoryAsCategory, SessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(childCategoryAsCategory, SessionUserLegacy.User, type: CategoryChangeType.Relations);
         }
 
         return Json(new
@@ -357,7 +357,7 @@ public class EditCategoryController : BaseController
 
         var category = _categoryRepository.GetById(categoryCacheItem.Id);
         category.Content = model.Content;
-        _categoryRepository.Update(category, SessionUser.User, type: CategoryChangeType.Text);
+        _categoryRepository.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Text);
 
         return Json(true);
     }
@@ -380,7 +380,7 @@ public class EditCategoryController : BaseController
 
         var cacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(cacheItem);
-        _categoryRepository.Update(category, SessionUser.User, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Relations);
 
         return Json(true);
 
@@ -399,12 +399,12 @@ public class EditCategoryController : BaseController
             });
 
         var parent = _categoryRepository.GetById(parentCategoryIdToRemove);
-        _categoryRepository.Update(parent, SessionUser.User, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, SessionUserLegacy.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childCategoryId);
         if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, SessionUserLegacy.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
-            _categoryRepository.Update(child, SessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(child, SessionUserLegacy.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentCategoryIdToRemove).CachedData.RemoveChildId(childCategoryId);
         EntityCache.GetCategory(parentCategoryIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentCategoryIdToRemove).Select(cci => cci.Id).ToList();
         return Json(new
@@ -449,12 +449,12 @@ public class EditCategoryController : BaseController
             if (Request["ImageSource"] == "wikimedia")
             {
                 Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
-                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUser.UserId);
+                    Request["ImageWikiFileName"], categoryId, ImageType.Category, SessionUserLegacy.UserId);
             }
             if (Request["ImageSource"] == "upload")
             {
                 Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUser.UserId, Request["ImageLicenseOwner"]);
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, SessionUserLegacy.UserId, Request["ImageLicenseOwner"]);
             }
         }
     }
@@ -514,7 +514,7 @@ public class EditCategoryController : BaseController
             categoryCacheItem.Visibility = CategoryVisibility.All;
             var category = _categoryRepository.GetById(categoryId);
             category.Visibility = CategoryVisibility.All;
-            _categoryRepository.Update(category, SessionUser.User, type: CategoryChangeType.Published);
+            _categoryRepository.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Published);
 
             return Json(new
             {
@@ -578,7 +578,7 @@ public class EditCategoryController : BaseController
 
         categoryCacheItem.Visibility = CategoryVisibility.Owner;
         category.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Update(category, SessionUser.User, type: CategoryChangeType.Privatized);
+        _categoryRepository.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Privatized);
 
         return Json(new
         {
@@ -601,7 +601,7 @@ public class EditCategoryController : BaseController
             categoryCacheItem.Name = name;
             var category = _categoryRepository.GetById(categoryId);
             category.Name = name;
-            _categoryRepository.Update(category, SessionUser.User, type: CategoryChangeType.Renamed);
+            _categoryRepository.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Renamed);
             var newUrl = Links.CategoryDetail(categoryCacheItem);
 
             return Json(new
@@ -623,10 +623,10 @@ public class EditCategoryController : BaseController
     public void SaveImage(int categoryId, string source, string wikiFileName = null, string guid = null, string licenseOwner = null)
     {
         if (source == "wikimedia")
-            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUser.UserId);
+            Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(wikiFileName, categoryId, ImageType.Category, SessionUserLegacy.UserId);
         if (source == "upload")
             Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUser.UserId, licenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(guid), categoryId, SessionUserLegacy.UserId, licenseOwner);
     }
 
     [HttpGet]

@@ -22,7 +22,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .AddQuestion(nameQuestion3)
             .Persist();
 
-        SessionUser.Login(questionContext.Creator);
+        SessionUserLegacy.Login(questionContext.Creator);
 
 
         var question1Id = questionContext.All
@@ -61,7 +61,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .Persist();
 
         questionContext.Creator.EndDate = DateTime.Now.AddDays(1);
-        SessionUser.Login(questionContext.Creator);
+        SessionUserLegacy.Login(questionContext.Creator);
 
 
         var question1Id = questionContext.All

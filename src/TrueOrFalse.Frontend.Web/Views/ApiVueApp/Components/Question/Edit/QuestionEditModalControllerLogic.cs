@@ -32,7 +32,7 @@ public class QuestionEditModalControllerLogic : BaseController
         }
 
         var question = new Question();
-        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        question.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -43,13 +43,13 @@ public class QuestionEditModalControllerLogic : BaseController
         LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
         return new { success = true, data = LoadQuestion(question.Id) };
     }
 
     private dynamic LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
+        var user = SessionUserLegacy.User;
         var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();

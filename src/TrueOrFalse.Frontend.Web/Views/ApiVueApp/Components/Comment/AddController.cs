@@ -16,7 +16,7 @@ public class CommentAddController : BaseController
         comment.TypeId = id;
         comment.Text = text;
         comment.Title = title;
-        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
 
         Resolve<CommentRepository>().Create(comment);
         return true;
