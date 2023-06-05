@@ -7,28 +7,28 @@ public class SessionUserLegacy : SessionBase, IRegisterAsInstancePerLifetime
 {
     public static bool HasBetaAccess
     {
-        get => SessionData.Get("isBetaLogin", false);
-        set => SessionData.Set("isBetaLogin", value);
+        get => SessionDataLegacy.Get("isBetaLogin", false);
+        set => SessionDataLegacy.Set("isBetaLogin", value);
     }
 
     public static bool IsLoggedIn
     {
-        get => SessionData.Get("isLoggedIn", false);
-        private set => SessionData.Set("isLoggedIn", value);
+        get => SessionDataLegacy.Get("isLoggedIn", false);
+        private set => SessionDataLegacy.Set("isLoggedIn", value);
     }
 
     public static bool IsInstallationAdmin
     {
-        get => SessionData.Get("isAdministrativeLogin", false);
-        set => SessionData.Set("isAdministrativeLogin", value);
+        get => SessionDataLegacy.Get("isAdministrativeLogin", false);
+        set => SessionDataLegacy.Set("isAdministrativeLogin", value);
     }
 
     public static int UserId => _userId;
     
     private static int _userId
     {
-        get => SessionData.Get("userId", -1);
-        set => SessionData.Set("userId", value);
+        get => SessionDataLegacy.Get("userId", -1);
+        set => SessionDataLegacy.Set("userId", value);
     }
 
     public static SessionUserCacheItem User
@@ -83,7 +83,7 @@ public class SessionUserLegacy : SessionBase, IRegisterAsInstancePerLifetime
     }
 
 
-    public static List<ActivityPoints> ActivityPoints => SessionData.Get("pointActivities", new List<ActivityPoints>());
+    public static List<ActivityPoints> ActivityPoints => SessionDataLegacy.Get("pointActivities", new List<ActivityPoints>());
 
     public static void AddPointActivity(ActivityPoints activityPoints)
     {
@@ -102,8 +102,8 @@ public class SessionUserLegacy : SessionBase, IRegisterAsInstancePerLifetime
 
     public static int CurrentWikiId
     {
-        get => SessionData.Get("currentWikiId", 1);
-        private set => SessionData.Set("currentWikiId", value);
+        get => SessionDataLegacy.Get("currentWikiId", 1);
+        private set => SessionDataLegacy.Set("currentWikiId", value);
     }
 
     public static void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;

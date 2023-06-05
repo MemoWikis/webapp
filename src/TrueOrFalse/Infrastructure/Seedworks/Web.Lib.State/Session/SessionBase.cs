@@ -16,8 +16,8 @@ namespace Seedworks.Web.State
         }
 
 		/// <summary>
-		/// Calls Clear() on the encapsulated SessionData object.
+		/// Calls Clear() on the encapsulated SessionDataLegacy object.
 		/// </summary>
-		public static void Clear() => SessionData.Clear();
+		public static void Clear() => SessionDataLegacy.Clear();
     }
 }

@@ -8,6 +8,13 @@ namespace VueApp;
 
 public class TopicController : BaseController
 {
+    private readonly SessionUser _sessionUser;
+
+    public TopicController(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
+
     [HttpGet]
     public JsonResult GetTopic(int id)
     {

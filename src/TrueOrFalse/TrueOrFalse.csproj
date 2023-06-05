@@ -573,7 +573,7 @@
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandlerService.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\RequestData.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionBase.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionData.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionDataLegacy.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
@@ -872,6 +872,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
     <Compile Include="Tools\Update\WuwiMigration\WuwiMigration.cs" />
+    <Compile Include="Web\Context\SessionUser.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
