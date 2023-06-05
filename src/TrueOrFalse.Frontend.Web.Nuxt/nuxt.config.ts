@@ -23,6 +23,9 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxtjs/device',
     ],
+    nitro: {
+        preset: 'node-cluster'
+    },
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
         '~/assets/bootstrap/bootstrap.less',
