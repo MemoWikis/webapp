@@ -5,7 +5,8 @@ export default defineNuxtConfig({
         routeRules: {
             '/seqlog': { proxy: process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw' },
             '/Images/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/Images/**` : 'http://localhost/Images/**' },
-        }
+        },
+        preset: 'node-cluster'
     },
     runtimeConfig: {
         seqServerApiKey: "",
@@ -29,9 +30,6 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxtjs/device',
     ],
-    nitro: {
-        preset: 'node-cluster'
-    },
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
         '~/assets/bootstrap/bootstrap.less',
