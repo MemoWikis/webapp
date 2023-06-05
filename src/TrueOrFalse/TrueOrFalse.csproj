@@ -546,8 +546,6 @@
     <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\MediaSize\MediaLength.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\MediaSize\TimeCode.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib\Web\UriUtils.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Application\AppData.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Application\BaseAppState.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Cache.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheAnalyzer.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemTypeSummary.cs" />
