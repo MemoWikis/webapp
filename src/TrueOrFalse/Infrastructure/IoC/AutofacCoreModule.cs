@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Web;
 using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
@@ -72,17 +73,14 @@ namespace TrueOrFalse.Infrastructure
            
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
+
+            
+            builder.Register(context => HttpContext.Current).InstancePerDependency();
+
             if (!Settings.UseMeiliSearch())
-            {
-
-
                 builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();
-            }
             else
-            {
-
                 builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
-            }
         }
     }
 }
