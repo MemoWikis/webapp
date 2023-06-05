@@ -568,10 +568,6 @@
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\ResponseActionFilter.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\ResponseNoWeb.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\ResponseWeb.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandler.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandlerList.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandlerService.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\RequestData.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionBase.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionDataLegacy.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
