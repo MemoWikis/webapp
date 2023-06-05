@@ -312,7 +312,7 @@
     <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\CancelController.cs" />
-    <Compile Include="Views\ControllerModels\QuestionPinStoreControllerLogic.cs" />
+    <Compile Include="Views\ApiVueApp\QuestionPinStoreControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\StripeWebhookController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\CommentHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Comment\AddController.cs" />
@@ -364,18 +364,9 @@
     <Compile Include="Views\ApiVueApp\Question\VueQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserMessagesController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicController.cs" />
-    <Compile Include="Views\Api\ActivityPointsApiController.cs" />
-    <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
-    <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
-    <Compile Include="Views\Api\Breadcrumb\BreadcrumbApiController.cs" />
-    <Compile Include="Views\Api\CategoriesController.cs" />
-    <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
+    <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\EduSharingApiController.cs" />
-    <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
-    <Compile Include="Views\Api\Search\SearchApiController.cs" />
-    <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
-    <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
-    <Compile Include="Views\Api\User\Messages\MessageRowController.cs" />
+    <Compile Include="Views\Api\SearchApiController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
@@ -391,8 +382,8 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
     <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Categories\History\RelationChangeItem.cs" />
-    <Compile Include="Views\ControllerModels\EditControllerLogic.cs" />
-    <Compile Include="Views\ControllerModels\TopicControllerLogic.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditControllerLogic.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\Topic\TopicControllerLogic.cs" />
     <Compile Include="Views\Questions\AddQuestion\AddQuestionComponentModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>AnswerCommentsController.cs</DependentUpon>
@@ -2508,8 +2499,6 @@
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Api\ActivityPoints\ActivityLevelProgress.aspx" />
-    <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -2697,8 +2686,6 @@
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
-    <Compile Include="Views\Api\CategoryApiController.cs" />
-    <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
@@ -3544,8 +3531,6 @@
     <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Users\Account\AccountController.cs" />
-    <Compile Include="Views\Api\ExportController.cs" />
-    <Compile Include="Views\Api\ExportModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
@@ -4129,7 +4114,6 @@
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
     <Content Include="Views\Welcome\Logout.aspx" />
-    <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
