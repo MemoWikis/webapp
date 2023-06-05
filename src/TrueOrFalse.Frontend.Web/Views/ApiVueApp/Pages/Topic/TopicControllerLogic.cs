@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class TopicControllerLogic 
+public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 {
+    private readonly SessionUser _sessionUser;
+
+    public TopicControllerLogic(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
+
     public dynamic GetTopicData(int id)
     {
         var topic = EntityCache.GetCategory(id);
@@ -18,7 +24,7 @@ public class TopicControllerLogic
         if (PermissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
+            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
             return new
             {

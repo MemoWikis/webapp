@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -6,10 +7,17 @@ namespace VueApp;
 
 public class AppController : BaseController
 {
+    private readonly HttpContext _httpContext;
+
+
+    public AppController(HttpContext httpContext)
+    {
+        _httpContext = httpContext;
+    }
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        return Json(VueSessionUser.GetCurrentUserData(), JsonRequestBehavior.AllowGet);
+        return Json(new VueSessionUser(_httpContext).GetCurrentUserData(), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]

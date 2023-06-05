@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -18,14 +19,14 @@ public class TopicController : BaseController
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic();
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser);
         return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
     public JsonResult GetTopicWithSegments(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic();
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser);
         return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
     }
 

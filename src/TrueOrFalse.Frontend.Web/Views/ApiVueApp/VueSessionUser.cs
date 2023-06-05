@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Linq.Expressions;
+using System.Web;
 using Newtonsoft.Json;
 using TrueOrFalse.Stripe;
 
 namespace VueApp;
 
-public class VueSessionUser
+public class VueSessionUser : IRegisterAsInstancePerLifetime
 {
-    public static dynamic GetCurrentUserData()
+    private readonly HttpContext _httpContext;
+
+    public VueSessionUser(HttpContext httpContext)
+    {
+        _httpContext = httpContext;
+    }
+    public dynamic GetCurrentUserData()
     {
         var type = UserType.Anonymous;
         if (SessionUserLegacy.IsLoggedIn)
@@ -41,7 +49,7 @@ public class VueSessionUser
                 ImgUrl = new UserImageSettings(SessionUserLegacy.UserId).GetUrl_50px(SessionUserLegacy.User).Url,
                 SessionUserLegacy.User.Reputation,
                 SessionUserLegacy.User.ReputationPos,
-                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUserLegacy.User.StartTopicId),
+                PersonalWiki = new TopicControllerLogic(new SessionUser(_httpContext)).GetTopicData(SessionUserLegacy.User.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -79,7 +87,7 @@ public class VueSessionUser
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicControllerLogic().GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = new TopicControllerLogic(new SessionUser(_httpContext)).GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = SessionUserLegacy.GetTotalActivityPoints(),

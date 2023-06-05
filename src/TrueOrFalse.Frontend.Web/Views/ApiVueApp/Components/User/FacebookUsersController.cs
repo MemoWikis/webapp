@@ -2,6 +2,7 @@ using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,6 +12,13 @@ namespace VueApp;
 
 public class FacebookUsersController : BaseController
 {
+    private readonly HttpContext _httpContext;
+
+    public FacebookUsersController(HttpContext httpContext)
+    {
+        _httpContext = httpContext;
+    }
+
     [HttpPost]
     public JsonResult Login(string facebookUserId, string facebookAccessToken)
     {
@@ -39,7 +47,7 @@ public class FacebookUsersController : BaseController
         return Json(new
         {
             success = true,
-            currentUser = VueApp.VueSessionUser.GetCurrentUserData()
+            currentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
         });
     }
 
@@ -63,7 +71,7 @@ public class FacebookUsersController : BaseController
                 Success = true,
                 registerResult,
                 localHref = Links.CategoryDetail(category.Name, category.Id),
-                currentUser = VueApp.VueSessionUser.GetCurrentUserData(),
+                currentUser = new VueApp.VueSessionUser(_httpContext).GetCurrentUserData(),
             });
         }
 

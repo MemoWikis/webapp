@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Security;
 using System.Web;
+using System.Net.Http;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -14,107 +15,98 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public bool HasBetaAccess
     {
-        get => (bool)_httpContext.Session["isBetaLogin"];
-        set => SessionDataLegacy.Set("isBetaLogin", value);
+        get => _httpContext.Session["isBetaLogin"] as bool? ?? false;
+        set => _httpContext.Session.Add("isBetaLogin", value);
     }
 
     public bool IsLoggedIn
     {
-        get => SessionDataLegacy.Get("isLoggedIn", false);
-        private set => SessionDataLegacy.Set("isLoggedIn", value);
+        get => _httpContext.Session["isLoggedIn"] as bool? ?? false;
+        private set => _httpContext.Session.Add("isLoggedIn", value);
     }
 
-    //public bool IsInstallationAdmin
-    //{
-    //    get => SessionDataLegacy.Get("isAdministrativeLogin", false);
-    //    set => SessionDataLegacy.Set("isAdministrativeLogin", value);
-    //}
+    public bool IsInstallationAdmin
+    {
+        get => _httpContext.Session["isAdministrativeLogin"] as bool? ?? false;
+        set => _httpContext.Session.Add("isAdministrativeLogin", value);
+    }
 
-    //public int UserId => _userId;
+    public int UserId => _userId;
 
-    //private int _userId
-    //{
-    //    get => SessionDataLegacy.Get("userId", -1);
-    //    set => SessionDataLegacy.Set("userId", value);
-    //}
+    private int _userId
+    {
+        get => _httpContext.Session["userId"] as int? ?? -1;
+        set => _httpContext.Session.Add("userId", value);
+    }
 
-    //public SessionUserCacheItem User
-    //{
-    //    get
-    //    {
-    //        if (_userId < 0)
-    //            return null;
+    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId);
 
-    //        return SessionUserCache.GetUser(_userId);
-    //    }
-    //}
+    public bool IsLoggedInUser(int userId)
+    {
+        if (!IsLoggedIn)
+            return false;
 
-    //public static bool IsLoggedInUser(int userId)
-    //{
-    //    if (!IsLoggedIn)
-    //        return false;
+        return userId == UserId;
+    }
 
-    //    return userId == UserId;
-    //}
+    public bool IsLoggedInUserOrAdmin(int userId)
+    {
+        return IsLoggedInUser(userId) || IsInstallationAdmin;
+    }
 
-    //public static bool IsLoggedInUserOrAdmin(int userId)
-    //{
-    //    return IsLoggedInUser(userId) || IsInstallationAdmin;
-    //}
+    public void Login(User user)
+    {
+        HasBetaAccess = true;
+        IsLoggedIn = true;
+        _userId = user.Id;
+        CurrentWikiId = user.StartTopicId;
 
-    //public static void Login(User user)
-    //{
-    //    HasBetaAccess = true;
-    //    IsLoggedIn = true;
-    //    _userId = user.Id;
-    //    CurrentWikiId = user.StartTopicId;
+        if (user.IsInstallationAdmin)
+            IsInstallationAdmin = true;
 
-    //    if (user.IsInstallationAdmin)
-    //        IsInstallationAdmin = true;
+        if (_httpContext != null)
+            FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
-    //    if (HttpContext.Current != null)
-    //        FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+        SessionUserCache.CreateItemFromDatabase(user.Id);
+    }
 
-    //    SessionUserCache.CreateItemFromDatabase(user.Id);
-    //}
+    public void Logout()
+    {
+        IsLoggedIn = false;
+        IsInstallationAdmin = false;
+        _userId = -1;
+        CurrentWikiId = 1;
 
-    //public static void Logout()
-    //{
-    //    IsLoggedIn = false;
-    //    IsInstallationAdmin = false;
-    //    _userId = -1;
-    //    CurrentWikiId = 1;
-
-    //    if (HttpContext.Current != null)
-    //        FormsAuthentication.SignOut();
-    //}
+        if (HttpContext.Current != null)
+            FormsAuthentication.SignOut();
+    }
 
 
-    //public static List<ActivityPoints> ActivityPoints => SessionDataLegacy.Get("pointActivities", new List<ActivityPoints>());
+    public List<ActivityPoints> ActivityPoints => _httpContext.Session["pointActivities"] as List<ActivityPoints> ?? new List<ActivityPoints>();
 
-    //public static void AddPointActivity(ActivityPoints activityPoints)
-    //{
-    //    ActivityPoints.Add(activityPoints);
-    //}
+    public void AddPointActivity(ActivityPoints activityPoints)
+    {
+        ActivityPoints.Add(activityPoints);
+    }
 
-    //public static int GetTotalActivityPoints()
-    //{
-    //    int totalPoints = 0;
+    public int GetTotalActivityPoints()
+    {
+        int totalPoints = 0;
 
-    //    foreach (var activity in ActivityPoints)
-    //        totalPoints += activity.Amount;
+        foreach (var activity in ActivityPoints)
+            totalPoints += activity.Amount;
 
-    //    return totalPoints;
-    //}
+        return totalPoints;
+    }
 
-    //public static int CurrentWikiId
-    //{
-    //    get => SessionDataLegacy.Get("currentWikiId", 1);
-    //    private set => SessionDataLegacy.Set("currentWikiId", value);
-    //}
+    public int CurrentWikiId
+    {
+        get => _httpContext.Session["currentWikiId"] as int? ?? 1;
+        private set => _httpContext.Session.Add("currentWikiId", value);
+    }
 
-    //public static void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    //public static void SetWikiId(int id) => CurrentWikiId = id;
+    public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public void SetWikiId(int id) => CurrentWikiId = id;
 
-    //public static bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
+    public bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
 }

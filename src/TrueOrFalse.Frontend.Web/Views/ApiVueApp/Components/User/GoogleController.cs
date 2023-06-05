@@ -4,12 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace VueApp;
 
 public class GoogleController : BaseController
 {
+    private readonly HttpContext _httpContext;
+
+    public GoogleController(HttpContext httpContext)
+    {
+        _httpContext = httpContext;
+    }
+
     [HttpPost]
     public async Task<JsonResult> Login(string token)
     {
@@ -33,7 +41,7 @@ public class GoogleController : BaseController
             return Json(new
             {
                 success = true,
-                currentUser = VueSessionUser.GetCurrentUserData()
+                currentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
             });
         }
 
@@ -70,7 +78,7 @@ public class GoogleController : BaseController
         return Json(new
         {
             success = true,
-            CurrentUser = VueSessionUser.GetCurrentUserData()
+            CurrentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
         });
     }
 

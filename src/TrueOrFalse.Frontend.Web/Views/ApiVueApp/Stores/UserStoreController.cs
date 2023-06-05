@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Quartz;
 using Quartz.Impl;
@@ -7,6 +8,13 @@ namespace VueApp;
 
 public class UserStoreController : BaseController
 {
+    private readonly HttpContext _httpContext;
+
+
+    public UserStoreController(HttpContext httpContext)
+    {
+        _httpContext = httpContext;
+    }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
     {
@@ -29,7 +37,7 @@ public class UserStoreController : BaseController
             {
                 Success = true,
                 Message = "",
-                CurrentUser = VueSessionUser.GetCurrentUserData()
+                CurrentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
             });
         }
 
@@ -129,7 +137,7 @@ public class UserStoreController : BaseController
                     : "",
                 Reputation = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Reputation : 0,
                 ReputationPos = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(new SessionUser(_httpContext)).GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
             }
         });
     }
