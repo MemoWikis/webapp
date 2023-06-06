@@ -818,9 +818,5 @@ Vue.component('question-details-component', {
                 return arc(d);
             }
         },
-
-        openLogin() {
-            Login.OpenModal();
-        }
     },
 });

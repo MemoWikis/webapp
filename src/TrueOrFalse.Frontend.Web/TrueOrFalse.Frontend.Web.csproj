@@ -2191,8 +2191,6 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Login\LoginModalComponentTemplate.vue.ascx" />
-    <Content Include="Views\Welcome\Login\LoginModalLoader.ascx" />
     <Content Include="Views\Welcome\Registration\Register.css">
       <DependentUpon>Register.less</DependentUpon>
     </Content>
@@ -2694,7 +2692,6 @@
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
-    <Compile Include="Views\Welcome\Login\LoginController.cs" />
     <Compile Include="Views\Welcome\Partials\TopicOfWeekModel.cs" />
     <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
     <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
@@ -2969,10 +2966,6 @@
     <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\Welcome\Login\Login.ascx" />
-    <Content Include="Views\Welcome\Login\Login.js">
-      <DependentUpon>Login.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
     </Content>
@@ -3608,8 +3601,6 @@
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
     <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Login\LoginModalComponent.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
@@ -3961,9 +3952,6 @@
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Login\Login.js.map">
-      <DependentUpon>Login.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
