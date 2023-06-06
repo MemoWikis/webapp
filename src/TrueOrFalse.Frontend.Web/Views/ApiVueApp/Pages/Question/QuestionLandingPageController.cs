@@ -10,6 +10,10 @@ using TrueOrFalse.Web;
 namespace VueApp;
 public class QuestionLandingPageController : BaseController
 {
+    public QuestionLandingPageController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
         foreach (var reference in references)
@@ -45,8 +49,8 @@ public class QuestionLandingPageController : BaseController
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = SessionUserLegacy.UserId,
-                isInWishknowledge = SessionUserLegacy.IsLoggedIn && q.IsInWishknowledge(),
+                isCreator = q.Creator.Id = _sessionUser.UserId,
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,

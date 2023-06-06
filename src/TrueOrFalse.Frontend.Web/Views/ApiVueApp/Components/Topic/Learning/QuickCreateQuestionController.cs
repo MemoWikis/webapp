@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 using TrueOrFalse;
 
 namespace VueApp;
-public class QuickCreateQuestionController : BaseController
+public class QuickCreateQuestionController : Controller
 {
     [AccessOnlyAsLoggedIn]
     [HttpPost]

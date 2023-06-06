@@ -5,6 +5,11 @@ using TrueOrFalse.Frontend.Web.Code;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class TopicLearningQuestionListController: BaseController
 {
+
+    public TopicLearningQuestionListController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
     {

@@ -11,7 +11,7 @@ public class UserStoreController : BaseController
     private readonly HttpContext _httpContext;
 
 
-    public UserStoreController(HttpContext httpContext)
+    public UserStoreController(HttpContext httpContext, SessionUser sessionUser) : base(sessionUser) 
     {
         _httpContext = httpContext;
     }
@@ -28,7 +28,7 @@ public class UserStoreController : BaseController
                 WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id);
             }
 
-            SessionUserLegacy.Login(credentialsAreValid.User);
+            _sessionUser.Login(credentialsAreValid.User);
 
             TransferActivityPoints.FromSessionToUser();
             Sl.UserRepo.UpdateActivityPointsData();
@@ -53,11 +53,11 @@ public class UserStoreController : BaseController
     public JsonResult LogOut()
     {
         RemovePersistentLoginFromCookie.Run();
-        SessionUserLegacy.Logout();
+        _sessionUser.Logout();
 
         return Json(new
         {
-            Success = !SessionUserLegacy.IsLoggedIn,
+            Success = !_sessionUser.IsLoggedIn,
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -65,7 +65,7 @@ public class UserStoreController : BaseController
     [AccessOnlyAsLoggedIn]
     public int GetUnreadMessagesCount()
     {
-        return Sl.Resolve<GetUnreadMessageCount>().Run(SessionUserLegacy.UserId);
+        return Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -101,7 +101,7 @@ public class UserStoreController : BaseController
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 
-        SessionUserLegacy.Login(user);
+        _sessionUser.Login(user);
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
@@ -111,11 +111,11 @@ public class UserStoreController : BaseController
         Sl.UserRepo.Update(user);
 
         var type = UserType.Anonymous;
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
-            if (SessionUserLegacy.User.IsGoogleUser)
+            if (_sessionUser.User.IsGoogleUser)
                 type = UserType.Google;
-            else if (SessionUserLegacy.User.IsFacebookUser)
+            else if (_sessionUser.User.IsFacebookUser)
                 type = UserType.Facebook;
             else type = UserType.Normal;
         }
@@ -126,10 +126,10 @@ public class UserStoreController : BaseController
             Message = "",
             CurrentUser = new
             {
-                IsLoggedIn = SessionUserLegacy.IsLoggedIn,
-                Id = SessionUserLegacy.UserId,
-                Name = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Name : "",
-                IsAdmin = SessionUserLegacy.IsInstallationAdmin,
+                IsLoggedIn = _sessionUser.IsLoggedIn,
+                Id = _sessionUser.UserId,
+                Name = _sessionUser.IsLoggedIn ? SessionUserLegacy.User.Name : "",
+                IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1,
                 Type = type,
                 ImgUrl = SessionUserLegacy.IsLoggedIn

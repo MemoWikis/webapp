@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
 
 //todo: (DaMa) kann ausgelagert werden
 
-public class SearchHelper : BaseController
+public class SearchHelper : Controller
 {
     public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
     {

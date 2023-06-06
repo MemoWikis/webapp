@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 public class MessagesController : BaseController
 {
+    public MessagesController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
+
     [SetUserMenu(UserMenuEntry.Messages)]
 
     public ActionResult Messages()
@@ -14,13 +20,13 @@ public class MessagesController : BaseController
 
     public string RenderAllMessagesInclRead()
     {
-        if (!SessionUserLegacy.IsLoggedIn)
+        if (!_sessionUser.IsLoggedIn)
         {
             return "";
         }
 
         var messages = Resolve<MessageRepo>()
-            .GetForUser(SessionUserLegacy.UserId, false)
+            .GetForUser(_sessionUser.UserId, false)
             .Select(m => new MessageModelRow(m))
             .ToList();
 

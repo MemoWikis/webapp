@@ -8,7 +8,7 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class VueLearningSessionResultController: BaseController
+public class VueLearningSessionResultController: Controller
 {
     [HttpGet]
     public JsonResult Get()

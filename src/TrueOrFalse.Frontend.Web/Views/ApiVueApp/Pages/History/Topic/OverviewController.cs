@@ -10,7 +10,7 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class HistoryTopicOverviewController : BaseController
+public class HistoryTopicOverviewController : Controller
 {
     private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
 

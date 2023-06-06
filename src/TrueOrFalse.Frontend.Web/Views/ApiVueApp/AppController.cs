@@ -5,15 +5,15 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class AppController : BaseController
+public class AppController : Controller
 {
-    private readonly HttpContext _httpContext;
+    private HttpContext _httpContext; 
 
-
-    public AppController(HttpContext httpContext)
+    public AppController(HttpContext httpContext) 
     {
-        _httpContext = httpContext;
+       
     }
+
     [HttpGet]
     public JsonResult GetCurrentUser()
     {

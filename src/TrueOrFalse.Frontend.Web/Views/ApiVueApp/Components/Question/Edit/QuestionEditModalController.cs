@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 
 namespace VueApp;
-public class QuestionEditModalController : BaseController
+public class QuestionEditModalController : Controller
 {
     private readonly QuestionRepo _questionRepo;
 

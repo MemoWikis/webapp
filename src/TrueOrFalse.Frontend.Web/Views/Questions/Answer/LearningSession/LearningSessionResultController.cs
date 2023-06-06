@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-public class LearningSessionResultController : BaseController
+public class LearningSessionResultController : Controller
 {
     private const string _viewLocation = "~/Views/Questions/Answer/LearningSession/LearningSessionResult.aspx";
 

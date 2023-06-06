@@ -7,6 +7,10 @@ namespace VueApp;
 
 public class CommentAddController : BaseController
 {
+    public CommentAddController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveComment(int id, string text, string title)

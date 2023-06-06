@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class LearningSessionStoreController: BaseController
+public class LearningSessionStoreController: Controller
 {
     [HttpPost]
     public JsonResult NewSession(LearningSessionConfig config)

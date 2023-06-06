@@ -12,7 +12,7 @@ public class VueQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
 
-    public VueQuestionController(QuestionRepo questionRepo)
+    public VueQuestionController(QuestionRepo questionRepo, SessionUser sessionUser) : base(sessionUser)
     {
         _questionRepo = questionRepo;
     }
@@ -59,8 +59,8 @@ public class VueQuestionController : BaseController
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = SessionUserLegacy.UserId,
-                isInWishknowledge = SessionUserLegacy.IsLoggedIn && q.IsInWishknowledge(),
+                isCreator = q.Creator.Id = _sessionUser.UserId,
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
@@ -86,7 +86,7 @@ public class VueQuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations : null;
+        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations : null;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

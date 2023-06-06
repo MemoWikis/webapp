@@ -6,7 +6,7 @@ using FluentNHibernate.Utils;
 
 namespace VueApp;
 
-public class BreadcrumbController : BaseController
+public class BreadcrumbController : Controller
 {
     [HttpPost]
     public JsonResult GetBreadcrumb(int wikiId, int currentCategoryId)

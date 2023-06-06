@@ -14,7 +14,7 @@ public class FacebookUsersController : BaseController
 {
     private readonly HttpContext _httpContext;
 
-    public FacebookUsersController(HttpContext httpContext)
+    public FacebookUsersController(HttpContext httpContext, SessionUser sessionUser) :base(sessionUser)
     {
         _httpContext = httpContext;
     }

@@ -14,12 +14,16 @@ namespace VueApp;
 
 public class VueMaintenanceController : BaseController
 {
+    public VueMaintenanceController(SessionUser sessionUser):base(sessionUser)
+    {
+        
+    }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
     [HttpGet]
     public JsonResult Get()
     {
-        if (SessionUserLegacy.IsInstallationAdmin)
+        if (_sessionUser.IsInstallationAdmin)
         {
             AntiForgery.GetTokens(null, out string cookieToken, out string formToken);
             HttpCookie antiForgeryCookie = new HttpCookie("__RequestVerificationToken");
@@ -285,7 +289,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public ActionResult RemoveAdminRights()
     {
-        SessionUserLegacy.IsInstallationAdmin = false;
+        _sessionUser.IsInstallationAdmin = false;
 
         return Json(new
         {

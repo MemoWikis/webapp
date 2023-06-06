@@ -4,6 +4,10 @@ namespace VueApp;
 
 public class TopicStoreController : BaseController
 {
+    public TopicStoreController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
@@ -29,7 +33,7 @@ public class TopicStoreController : BaseController
             category.Content = content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, SessionUserLegacy.User, type: CategoryChangeType.Text);
+        Sl.CategoryRepo.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 
         return Json(true);
     }
@@ -47,7 +51,7 @@ public class TopicStoreController : BaseController
     [HttpGet]
     public JsonResult GetUpdatedKnowledgeSummary(int id)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
+        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
         return Json(new
         {

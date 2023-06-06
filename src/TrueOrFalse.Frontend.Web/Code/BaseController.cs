@@ -1,16 +1,19 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 
 public class BaseController : Controller
 {
+    protected SessionUser _sessionUser;
+    public BaseController(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser; 
+    }
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
-    public int UserId => SessionUserLegacy.UserId;
+    public int UserId => _sessionUser.UserId;
 
-    public bool IsLoggedIn => SessionUserLegacy.IsLoggedIn;
-    public bool IsInstallationAdmin => SessionUserLegacy.IsInstallationAdmin;
-    public bool IsMemuchoUser => IsLoggedIn && Settings.MemuchoUserId == UserId;
-    public bool IsFacebookUser => IsLoggedIn && SessionUserLegacy.User.IsFacebookUser;
-
+    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
+    public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
     /// <summary>The user fresh from the db</summary>
     public User User_() => R<UserRepo>().GetById(UserId);
     public User MemuchoUser() => Sl.UserRepo.GetMemuchoUser();

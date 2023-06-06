@@ -5,19 +5,23 @@ namespace VueApp;
 
 public class VueUserSettingsController : BaseController
 {
+    public VueUserSettingsController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ChangeNotificationIntervalPreferences(UserSettingNotificationInterval notificationInterval)
     {
         var result = new UpdateKnowledgeReportIntervalResult();
         var updatedResult =
-            UpdateKnowledgeReportInterval.Run(Sl.UserRepo.GetById(SessionUserLegacy.UserId), notificationInterval, result);
+            UpdateKnowledgeReportInterval.Run(Sl.UserRepo.GetById(_sessionUser.UserId), notificationInterval, result);
         var message = updatedResult.ResultMessage;
-        if (result.Success && SessionUserLegacy.User.Id == result.AffectedUser.Id)
+        if (result.Success && _sessionUser.User.Id == result.AffectedUser.Id)
         {
-            SessionUserLegacy.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
-            EntityCache.AddOrUpdate(SessionUserLegacy.User);
-            Sl.UserRepo.Update(SessionUserLegacy.User);
+            _sessionUser.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
+            EntityCache.AddOrUpdate(_sessionUser.User);
+            Sl.UserRepo.Update(_sessionUser.User);
             return Json(new
             {
                 success = true, message
@@ -37,7 +41,7 @@ public class VueUserSettingsController : BaseController
     {
         var credentialsAreValid = R<CredentialsAreValid>();
 
-        if (credentialsAreValid.Yes(SessionUserLegacy.User.EmailAddress, currentPassword))
+        if (credentialsAreValid.Yes(_sessionUser.User.EmailAddress, currentPassword))
         {
             if (currentPassword == newPassword)
 
@@ -49,7 +53,7 @@ public class VueUserSettingsController : BaseController
                 });
             }
 
-            var user = Sl.UserRepo.GetById(SessionUserLegacy.User.Id);
+            var user = Sl.UserRepo.GetById(_sessionUser.User.Id);
             SetUserPassword.Run(newPassword.Trim(), user);
 
             return Json(new
@@ -71,15 +75,15 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
-        if (form.id != SessionUserLegacy.User.Id)
+        if (form.id != _sessionUser.User.Id)
         {
             return Json(null);
         }
 
-        if (form.email != null && form.email.Trim() != SessionUserLegacy.User.EmailAddress &&
+        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
             IsEmailAddressAvailable.Yes(form.email))
         {
-            SessionUserLegacy.User.EmailAddress = form.email.Trim();
+            _sessionUser.User.EmailAddress = form.email.Trim();
         }
         else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email))
         {
@@ -91,10 +95,10 @@ public class VueUserSettingsController : BaseController
             );
         }
 
-        if (form.username != null && form.username.Trim() != SessionUserLegacy.User.Name &&
+        if (form.username != null && form.username.Trim() != _sessionUser.User.Name &&
             IsUserNameAvailable.Yes(form.username))
         {
-            SessionUserLegacy.User.Name = form.username.Trim();
+            _sessionUser.User.Name = form.username.Trim();
         }
         else if (form.username != null && !IsUserNameAvailable.Yes(form.username))
         {
@@ -108,20 +112,20 @@ public class VueUserSettingsController : BaseController
 
         if (form.file != null)
         {
-            UserImageStore.Run(form.file, SessionUserLegacy.UserId);
+            UserImageStore.Run(form.file, _sessionUser.UserId);
         }
 
-        EntityCache.AddOrUpdate(SessionUserLegacy.User);
-        Sl.UserRepo.Update(SessionUserLegacy.User);
+        EntityCache.AddOrUpdate(_sessionUser.User);
+        Sl.UserRepo.Update(_sessionUser.User);
 
         return Json(new
         {
             success = true,
             message = "profileUpdate",
-            name = SessionUserLegacy.User.Name,
-            email = SessionUserLegacy.User.EmailAddress,
-            imgUrl = new UserImageSettings(SessionUserLegacy.UserId).GetUrl_250px(SessionUserLegacy.User).Url,
-            tinyImgUrl = new UserImageSettings(SessionUserLegacy.UserId).GetUrl_20px(SessionUserLegacy.User).Url
+            name = _sessionUser.User.Name,
+            email = _sessionUser.User.EmailAddress,
+            imgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_250px(_sessionUser.User).Url,
+            tinyImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_20px(_sessionUser.User).Url
         });
     }
 
@@ -129,10 +133,10 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangeSupportLoginRights(bool allowSupportiveLogin)
     {
-        SessionUserLegacy.User.AllowsSupportiveLogin = allowSupportiveLogin;
+        _sessionUser.User.AllowsSupportiveLogin = allowSupportiveLogin;
 
-        EntityCache.AddOrUpdate(SessionUserLegacy.User);
-        Sl.UserRepo.Update(SessionUserLegacy.User);
+        EntityCache.AddOrUpdate(_sessionUser.User);
+        Sl.UserRepo.Update(_sessionUser.User);
 
         return Json(new
         {
@@ -146,11 +150,11 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangeWuwiVisibility(bool showWuwi)
     {
-        SessionUserLegacy.User.ShowWishKnowledge = showWuwi;
+        _sessionUser.User.ShowWishKnowledge = showWuwi;
 
-        EntityCache.AddOrUpdate(SessionUserLegacy.User);
-        Sl.UserRepo.Update(SessionUserLegacy.User);
-        ReputationUpdate.ForUser(SessionUserLegacy
+        EntityCache.AddOrUpdate(_sessionUser.User);
+        Sl.UserRepo.Update(_sessionUser.User);
+        ReputationUpdate.ForUser(_sessionUser
             .User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
         return Json(new
@@ -167,17 +171,17 @@ public class VueUserSettingsController : BaseController
         var imageSettings = ImageSettings.InitByType(new ImageMetaData
         {
             Type = ImageType.User,
-            TypeId = SessionUserLegacy.User.Id
+            TypeId = _sessionUser.User.Id
         });
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings().GetUrl_250px(SessionUserLegacy.User).Url, JsonRequestBehavior.AllowGet);
+        return Json(new UserImageSettings().GetUrl_250px(_sessionUser.User).Url, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ResetPassword()
     {
-        var passwordRecoveryResult = Sl.Resolve<PasswordRecovery>().Run(SessionUserLegacy.User.EmailAddress);
+        var passwordRecoveryResult = Sl.Resolve<PasswordRecovery>().Run(_sessionUser.User.EmailAddress);
         return Json(passwordRecoveryResult.Success);
     }
 

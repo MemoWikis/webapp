@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using NHibernate.Util;
 using TrueOrFalse;
@@ -17,6 +18,10 @@ using static System.String;
 [SetUserMenu(UserMenuEntry.None)]
 public class MaintenanceController : BaseController
 {
+    public MaintenanceController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult Maintenance()
     {
@@ -216,11 +221,11 @@ public class MaintenanceController : BaseController
     [SetMainMenu(MainMenuEntry.Maintenance)]
     public ActionResult SendKnowledgeReportMessage(MessagesModel model)
     {
-        var sessionUser = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
+        var sessionUser = Sl.UserRepo.GetById(_sessionUser.UserId);
         KnowledgeReportMsg.SendHtmlMail(sessionUser);
 
-        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + SessionUserLegacy.User.Name +
-                                           "</em> with email address <em>" + SessionUserLegacy.User.EmailAddress + "</em>.");
+        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + _sessionUser.User.Name +
+                                           "</em> with email address <em>" + _sessionUser.User.EmailAddress + "</em>.");
         return View("Messages", model);
     }
 

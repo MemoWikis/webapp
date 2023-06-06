@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.SessionState;
@@ -11,13 +12,13 @@ using TrueOrFalse.Web;
 using static System.String;
 
 [SessionState(SessionStateBehavior.ReadOnly)]
-public class AnswerQuestionController : BaseController
+public class AnswerQuestionController :BaseController
 {
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerQuestion _answerQuestion;
 
-    public AnswerQuestionController(QuestionRepo questionRepo, AnswerQuestion answerQuestion)
+    public AnswerQuestionController(QuestionRepo questionRepo, AnswerQuestion answerQuestion,SessionUser sessionUser): base(sessionUser)
     {
         _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
@@ -120,7 +121,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(questionCacheItem, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, SessionUserLegacy.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, _sessionUser.User);
 
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, questionCacheItem, activeSearchSpec));
     }
@@ -140,7 +141,7 @@ public class AnswerQuestionController : BaseController
         int? learningSessionId,
         string learningSessionStepGuid)
     {
-        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
     }
 
@@ -154,7 +155,7 @@ public class AnswerQuestionController : BaseController
         int? testSessionId,
         int? learningSessionId)
     {
-        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
     }
 
@@ -167,7 +168,7 @@ public class AnswerQuestionController : BaseController
         }
 
         var question = _questionRepo.GetById(id);
-        var isAuthor = IsLoggedIn && question.Creator != null && question.Creator.Id == SessionUserLegacy.UserId;
+        var isAuthor = IsLoggedIn && question.Creator != null && question.Creator.Id == _sessionUser.UserId;
         if (IsInstallationAdmin || isAuthor)
         {
             return Links.EditQuestion(question.Text, id);
@@ -262,7 +263,7 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = LearningSessionCache.GetLearningSession();
 
-        if (learningSession.User != SessionUserLegacy.User)
+        if (learningSession.User != _sessionUser.User)
         {
             throw new Exception("not logged in or not possessing user");
         }
@@ -285,7 +286,7 @@ public class AnswerQuestionController : BaseController
         Sl.SaveQuestionView.Run(
             questionViewGuid,
             learningSession.Steps[currentLearningStepIndex].Question,
-            SessionUserLegacy.User
+            _sessionUser.User
         );
 
         return View(_viewLocation,
@@ -427,7 +428,7 @@ public class AnswerQuestionController : BaseController
 
         var question = learningSession.Steps[learningSession.CurrentIndex].Question;
 
-        var sessionUserId = IsLoggedIn ? SessionUserLegacy.UserId : -1;
+        var sessionUserId = IsLoggedIn ? _sessionUser.UserId : -1;
 
         Sl.SaveQuestionView.Run(
             learningSession.QuestionViewGuid,
@@ -593,7 +594,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, SessionUserLegacy.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
         var answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);

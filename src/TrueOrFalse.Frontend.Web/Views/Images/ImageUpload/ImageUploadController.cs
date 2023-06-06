@@ -4,6 +4,12 @@ using TrueOrFalse;
 
 public class ImageUploadController : BaseController
 {
+
+    public ImageUploadController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
+
     [HttpPost]
     public JsonResult FromWikimedia()
     {   

@@ -12,7 +12,7 @@ public class TopicRelationEditController : BaseController
 {
     private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
     private readonly IGlobalSearch _search;
-    public TopicRelationEditController(IGlobalSearch search)
+    public TopicRelationEditController(IGlobalSearch search, SessionUser sessionUser) : base(sessionUser)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
     }

@@ -1,13 +1,15 @@
 ﻿using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using NHibernate;
-
 
 namespace VueApp;
 
 public class UserMessagesController : BaseController
 {
+    public UserMessagesController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
     [HttpGet]
     public JsonResult Get()
     {

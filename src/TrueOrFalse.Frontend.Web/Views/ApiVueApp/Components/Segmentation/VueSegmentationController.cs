@@ -8,7 +8,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class VueSegmentationController : BaseController
+public class VueSegmentationController : Controller
 {
 
     [HttpPost]

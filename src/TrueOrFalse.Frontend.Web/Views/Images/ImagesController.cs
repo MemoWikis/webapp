@@ -3,6 +3,11 @@ using System.Web;
 
 public class ImagesController : BaseController
 {
+    public ImagesController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    } 
+
     public string ImageDetailModal(int imgId)
     {
         var imageFrontendData = new ImageFrontendData(Resolve<ImageMetaDataRepo>().GetById(imgId));

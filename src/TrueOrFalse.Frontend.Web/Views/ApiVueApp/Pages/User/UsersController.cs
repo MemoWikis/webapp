@@ -8,6 +8,10 @@ namespace VueApp;
 
 public class VueUsersController : BaseController
 {
+    public VueUsersController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     [HttpGet]
     public JsonResult Get(
         int page,
@@ -39,7 +43,7 @@ public class VueUsersController : BaseController
         var wishQuestionCount = 0;
         var topicsWithWishQuestionCount = 0;
 
-        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == SessionUserLegacy.UserId))
+        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
@@ -57,8 +61,8 @@ public class VueUsersController : BaseController
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
-                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, SessionUserLegacy.UserId == user.Id),
-            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, SessionUserLegacy.UserId == user.Id),
+                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
+            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,

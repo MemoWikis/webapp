@@ -4,9 +4,13 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class TopicToPrivateStoreController
-    : BaseController
+public class TopicToPrivateStoreController : BaseController
 {
+    public TopicToPrivateStoreController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
+
     [HttpGet]
     [AccessOnlyAsLoggedIn]
     public JsonResult Get(int topicId)
@@ -137,7 +141,7 @@ public class TopicToPrivateStoreController
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(topic, SessionUserLegacy.User, type: CategoryChangeType.Privatized);
+        Sl.CategoryRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
 
         return Json(new
         {
@@ -155,7 +159,7 @@ public class TopicToPrivateStoreController
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == SessionUserLegacy.UserId && !otherUsersHaveQuestionInWuwi) ||
+            if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
                 IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;

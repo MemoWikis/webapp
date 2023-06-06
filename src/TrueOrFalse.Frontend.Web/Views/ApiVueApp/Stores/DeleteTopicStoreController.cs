@@ -5,6 +5,11 @@ using TrueOrFalse.Web;
 
 public class DeleteTopicStoreController : BaseController
 {
+    public DeleteTopicStoreController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public JsonResult GetDeleteData(int id)
@@ -35,10 +40,10 @@ public class DeleteTopicStoreController : BaseController
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = Sl.CategoryRepo.GetByIds(parentIds);
 
-        var hasDeleted = Sl.CategoryDeleter.Run(topic, SessionUserLegacy.UserId);
+        var hasDeleted = Sl.CategoryDeleter.Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(parent, SessionUserLegacy.UserId, false);
+            Sl.CategoryChangeRepo.AddUpdateEntry(parent, _sessionUser.UserId, false);
         }
 
         return Json(new
@@ -53,7 +58,7 @@ public class DeleteTopicStoreController : BaseController
     private string GetRedirectTopic(int id)
     {
         var topic = EntityCache.GetCategory(id);
-        var currentWiki = EntityCache.GetCategory(SessionUserLegacy.CurrentWikiId);
+        var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
         var lastBreadcrumbItem = CrumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
         return "/" + UriSanitizer.Run(lastBreadcrumbItem.Text) + "/" + lastBreadcrumbItem.Category.Id;

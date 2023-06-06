@@ -6,7 +6,7 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class HistoryAllTopicsOverviewController : BaseController
+public class HistoryAllTopicsOverviewController : Controller
 {
 
     [HttpGet]

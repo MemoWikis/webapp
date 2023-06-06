@@ -4,9 +4,12 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class PublishTopicStoreController
-    : BaseController
+public class PublishTopicStoreController : BaseController
 {
+    public PublishTopicStoreController(SessionUser sessionUser): base(sessionUser)
+    {
+        
+    }
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -27,7 +30,7 @@ public class PublishTopicStoreController
             topicCacheItem.Visibility = CategoryVisibility.All;
             var topic = topicRepo.GetById(topicId);
             topic.Visibility = CategoryVisibility.All;
-            topicRepo.Update(topic, SessionUserLegacy.User, type: CategoryChangeType.Published);
+            topicRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
 
             return Json(new
             {
@@ -51,7 +54,7 @@ public class PublishTopicStoreController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator.Id == SessionUserLegacy.User.Id)
+            if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);

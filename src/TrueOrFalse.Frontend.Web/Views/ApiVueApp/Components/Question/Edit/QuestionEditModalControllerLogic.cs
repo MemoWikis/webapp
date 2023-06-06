@@ -13,7 +13,7 @@ public class QuestionEditModalControllerLogic : BaseController
 {
     private readonly QuestionRepo _questionRepo;
 
-    public QuestionEditModalControllerLogic(QuestionRepo questionRepo)
+    public QuestionEditModalControllerLogic(QuestionRepo questionRepo, SessionUser sessionUser) :base(sessionUser)
     {
         _questionRepo = questionRepo;
     }

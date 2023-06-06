@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 
 namespace VueApp;
-public class QuestionEditDeleteController : BaseController
+public class QuestionEditDeleteController : Controller
 {
     private readonly QuestionRepo _questionRepo;
 

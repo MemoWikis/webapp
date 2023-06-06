@@ -8,6 +8,11 @@ namespace VueApp;
 
 public class ImageUploadModalController : BaseController
 {
+    public ImageUploadModalController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
+
     [HttpPost]
     public JsonResult GetWikimediaPreview(string url)
     {

@@ -1,19 +1,13 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
 public class TopicController : BaseController
 {
-    private readonly SessionUser _sessionUser;
 
-    public TopicController(SessionUser sessionUser)
+    public TopicController(SessionUser sessionUser) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
     }
 
     [HttpGet]
@@ -37,7 +31,7 @@ public class TopicController : BaseController
 
         if (PermissionCheck.CanView(c))
             return true;
-            
+
         return false;
     }
 

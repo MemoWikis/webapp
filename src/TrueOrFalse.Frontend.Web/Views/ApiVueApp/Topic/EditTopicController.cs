@@ -7,6 +7,7 @@ namespace VueApp;
 
 public class EditTopicController : BaseController
 {
+
     private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
 
 

@@ -7,7 +7,8 @@ namespace VueApp;
 
 public class CommentController : BaseController
 {
-
+    public CommentController(SessionUser sessionUser) :base(sessionUser){}
+  
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult SaveAnswer(int commentId, string text)

@@ -8,7 +8,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class SearchController : BaseController
+public class SearchController : Controller
 {
 
     private readonly IGlobalSearch _search;

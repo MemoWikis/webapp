@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class AnswerQuestionDetailsController: BaseController
+public class AnswerQuestionDetailsController: Controller
 {
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);

@@ -11,6 +11,11 @@ using TrueOrFalse.Web;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class TopicLearningQuestionController: BaseController
 {
+
+    public TopicLearningQuestionController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     [HttpPost]
     public JsonResult LoadQuestionData(int questionId)
     {

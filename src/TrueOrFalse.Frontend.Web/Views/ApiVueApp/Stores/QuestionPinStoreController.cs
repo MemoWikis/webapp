@@ -2,7 +2,7 @@
 using System.Web.SessionState;
 
 [SessionState(SessionStateBehavior.ReadOnly)]
-public class QuestionPinStoreController : BaseController
+public class QuestionPinStoreController : Controller
 {
     [HttpPost]
     public JsonResult Pin(int id)

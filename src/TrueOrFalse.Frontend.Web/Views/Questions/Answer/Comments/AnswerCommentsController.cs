@@ -5,6 +5,11 @@ using Newtonsoft.Json;
 
 public class AnswerCommentsController : BaseController
 {
+    public AnswerCommentsController(SessionUser sessionUser): base(sessionUser)
+    {
+        
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public CommentModel SaveComment(SaveCommentJson saveCommentJson)
@@ -14,7 +19,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = saveCommentJson.questionId;
         comment.Text = saveCommentJson.text;
         comment.Title = saveCommentJson.title;
-        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
+        comment.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
 
 
         Resolve<CommentRepository>().Create(comment);
@@ -48,7 +53,7 @@ public class AnswerCommentsController : BaseController
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
         comment.Text = text;
-        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
+        comment.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
 
         commentRepo.Create(comment);
 
@@ -87,10 +92,10 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public string GetCurrentUserImgUrl()
     {
-        if (SessionUserLegacy.User != null)
+        if (_sessionUser.User != null)
         {
             var currentUserImageUrl =
-                new UserImageSettings(SessionUserLegacy.UserId).GetUrl_128px_square(SessionUserLegacy.User).Url;
+                new UserImageSettings(_sessionUser.UserId).GetUrl_128px_square(_sessionUser.User).Url;
             return currentUserImageUrl;
         }
 
@@ -100,9 +105,9 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public int GetCurrentUserId()
     {
-        if (SessionUserLegacy.User != null)
+        if (_sessionUser.User != null)
         {
-            return SessionUserLegacy.UserId;
+            return _sessionUser.UserId;
         }
         return -1;
     }
@@ -110,9 +115,9 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public string GetCurrentUserName()
     {
-        if (SessionUserLegacy.User != null)
+        if (_sessionUser.User != null)
         {
-            return SessionUserLegacy.User.Name;
+            return _sessionUser.User.Name;
         }
 
         return null;
@@ -121,7 +126,7 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public bool GetCurrentUserAdmin()
     {
-        if (SessionUserLegacy.User != null)
+        if (_sessionUser.User != null)
         {
             return IsInstallationAdmin;
         }
@@ -132,7 +137,7 @@ public class AnswerCommentsController : BaseController
     [HttpPost]
     public String GetUserImgUrl(int userId)
     {
-        if (SessionUserLegacy.User != null)
+        if (_sessionUser.User != null)
         {
             var userImageUrl = new UserImageSettings(userId).GetUrl_128px_square(Sl.UserRepo.GetById(userId)).Url;
             return userImageUrl;

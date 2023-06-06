@@ -5,7 +5,7 @@ using TrueOrFalse.Stripe.Logic;
 
 namespace VueApp;
 
-public class StripeAdminstrationController : BaseController
+public class StripeAdminstrationController : Controller
 {
     [AccessOnlyAsLoggedIn]
     [HttpGet]

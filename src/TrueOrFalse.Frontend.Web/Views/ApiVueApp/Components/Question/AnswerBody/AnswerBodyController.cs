@@ -13,7 +13,7 @@ public class AnswerBodyController : BaseController
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerQuestion _answerQuestion;
 
-    public AnswerBodyController(QuestionRepo questionRepo, AnswerQuestion answerQuestion)
+    public AnswerBodyController(QuestionRepo questionRepo, AnswerQuestion answerQuestion,SessionUser sessionUser) : base(sessionUser)
     {
         _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
