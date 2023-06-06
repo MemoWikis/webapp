@@ -3,9 +3,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
-using TrueOrFalse.Stripe.Logic;
-
-namespace TrueOrFalse.Stripe;
 
 public class SubscriptionLogic : BaseStripeLogic
 {

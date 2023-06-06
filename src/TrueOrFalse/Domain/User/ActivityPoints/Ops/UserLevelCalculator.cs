@@ -1,6 +1,4 @@
-﻿using System;
-
-public class UserLevelCalculator
+﻿public class UserLevelCalculator
 {
     public static int GetLevel(int points)
     {

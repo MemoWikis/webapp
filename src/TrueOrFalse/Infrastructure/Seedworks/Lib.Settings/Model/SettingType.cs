@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Seedworks.Lib.Settings
+﻿namespace Seedworks.Lib.Settings
 {
     /// <summary>
     /// Convenience class for generating strings used as <see cref="SettingType"/>.

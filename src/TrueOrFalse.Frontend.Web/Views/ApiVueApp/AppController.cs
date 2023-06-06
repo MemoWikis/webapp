@@ -7,17 +7,17 @@ namespace VueApp;
 
 public class AppController : Controller
 {
-    private HttpContext _httpContext; 
+    private readonly VueSessionUser _vueSessionUser;
 
-    public AppController(HttpContext httpContext) 
+    public AppController(VueSessionUser vueSessionUser)
     {
-       
+        _vueSessionUser = vueSessionUser;
     }
 
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        return Json(new VueSessionUser(_httpContext).GetCurrentUserData(), JsonRequestBehavior.AllowGet);
+        return Json(_vueSessionUser.GetCurrentUserData(), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]

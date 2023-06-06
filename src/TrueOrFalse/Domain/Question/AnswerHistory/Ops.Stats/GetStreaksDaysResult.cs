@@ -1,6 +1,4 @@
-﻿using System;
-
-public class GetStreaksDaysResult
+﻿public class GetStreaksDaysResult
 {
     public DateTime LongestStart;
     public DateTime LongestEnd;

@@ -1,6 +1,4 @@
-﻿using System;
-
-public enum UserMenuEntry
+﻿public enum UserMenuEntry
 {
     None, Messages, 
     Network, UserDetail, 

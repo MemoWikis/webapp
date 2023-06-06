@@ -1,6 +1,4 @@
-﻿using System;
-
-public class TotalPerUser
+﻿public class TotalPerUser
 {
     public int QuestionId;
     public int TotalTrue;

@@ -1,5 +1,4 @@
-﻿using System;
-using SpeakFriend.Utilities.ValueObjects;
+﻿using SpeakFriend.Utilities.ValueObjects;
 
 namespace Seedworks.Web.State.Analysis
 {

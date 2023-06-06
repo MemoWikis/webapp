@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 using SolrNet;

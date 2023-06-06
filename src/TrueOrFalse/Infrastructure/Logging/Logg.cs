@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using RollbarSharp;
 using Serilog;
 using TrueOrFalse.Infrastructure.Logging;

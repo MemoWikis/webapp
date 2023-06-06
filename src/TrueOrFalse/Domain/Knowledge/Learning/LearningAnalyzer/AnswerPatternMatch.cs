@@ -1,6 +1,4 @@
-﻿using System;
-
-public class AnswerPatternMatch
+﻿public class AnswerPatternMatch
 {
     public string Name;
     public Type Type;

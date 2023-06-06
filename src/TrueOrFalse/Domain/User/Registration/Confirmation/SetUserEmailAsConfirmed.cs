@@ -1,6 +1,4 @@
-﻿using System;
-
-public class SetUserEmailAsConfirmed
+﻿public class SetUserEmailAsConfirmed
 {
     public void Run()
     {

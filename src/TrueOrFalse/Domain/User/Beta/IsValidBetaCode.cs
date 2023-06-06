@@ -1,6 +1,4 @@
-﻿using System;
-
-public class IsValidBetaCode
+﻿public class IsValidBetaCode
 {
     public static bool Yes(string betaCodeIn)
     {

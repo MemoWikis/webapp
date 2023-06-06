@@ -1,6 +1,4 @@
-﻿using System;
-
-public class DateTimeX
+﻿public class DateTimeX
 {
     public static int OffsetInSec { get; private set; }
 

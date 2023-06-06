@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 [Serializable]
 public class CategoryTypeSchoolSubject : CategoryTypeBase<CategoryTypeSchoolSubject>

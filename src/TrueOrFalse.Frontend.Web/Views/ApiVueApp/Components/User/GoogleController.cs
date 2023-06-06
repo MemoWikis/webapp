@@ -9,13 +9,15 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class GoogleController : BaseController
+public class GoogleController : Controller
 {
-    private readonly HttpContext _httpContext;
+    private readonly VueSessionUser _sessionUser;
+    private readonly UserRepo _userRepo;
 
-    public GoogleController(HttpContext httpContext,SessionUser sessionUser) :base(sessionUser)
+    public GoogleController(VueSessionUser sessionUser, UserRepo userRepo)
     {
-        _httpContext = httpContext;
+        _sessionUser = sessionUser;
+        _userRepo = userRepo;
     }
 
     [HttpPost]
@@ -24,7 +26,7 @@ public class GoogleController : BaseController
         var googleUser = await GetGoogleUser(token);
         if (googleUser != null)
         {
-            var user = R<UserRepo>().UserGetByGoogleId(googleUser.Subject);
+            var user = _userRepo.UserGetByGoogleId(googleUser.Subject);
 
             if (user == null)
             {
@@ -41,7 +43,7 @@ public class GoogleController : BaseController
             return Json(new
             {
                 success = true,
-                currentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
+                currentUser = _sessionUser.GetCurrentUserData()
             });
         }
 
@@ -78,7 +80,7 @@ public class GoogleController : BaseController
         return Json(new
         {
             success = true,
-            CurrentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
+            CurrentUser = _sessionUser.GetCurrentUserData()
         });
     }
 

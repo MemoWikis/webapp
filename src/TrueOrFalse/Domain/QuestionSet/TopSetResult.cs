@@ -1,6 +1,4 @@
-﻿using System;
-
-public class TopSetResult
+﻿public class TopSetResult
 {
     public Int64 QCount;
     public int SetId;

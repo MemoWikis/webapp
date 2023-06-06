@@ -2687,7 +2687,6 @@
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
-    <Compile Include="Views\VariousPublic\RedirectController.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2969,7 +2968,6 @@
       <DependentUpon>User.less</DependentUpon>
     </Content>
     <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
-    <Content Include="Views\VariousPublic\TermsAndConditions.aspx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -3529,7 +3527,6 @@
     <Compile Include="Views\Users\UsersController.cs" />
     <Compile Include="Views\Users\UsersControllerSearch.cs" />
     <Compile Include="Views\Users\UsersModel.cs" />
-    <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4063,7 +4060,6 @@
     <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />
     <Content Include="Views\Users\Users.aspx" />
-    <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />

@@ -1,6 +1,4 @@
-﻿using System;
-
-public class CreatePersistentLogin
+﻿public class CreatePersistentLogin
 {
     public static string Run(int userId)
     {

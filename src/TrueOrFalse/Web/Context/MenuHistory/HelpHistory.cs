@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 [Serializable]
 public class HelpHistory : HistoryBase<HelpHistoryItem>

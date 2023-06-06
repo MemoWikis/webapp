@@ -1,6 +1,5 @@
 ﻿//SEE: http://stackoverflow.com/questions/188120/can-i-specify-my-explicit-type-comparator-inline
 
-using System;
 using System.Collections.Generic;
 
 /// <summary>

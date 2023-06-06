@@ -2,7 +2,6 @@ using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,19 +9,21 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class FacebookUsersController : BaseController
+public class FacebookUsersController : Controller
 {
-    private readonly HttpContext _httpContext;
+    private readonly VueSessionUser _sessionUser;
+    private readonly UserRepo _userRepo;
 
-    public FacebookUsersController(HttpContext httpContext, SessionUser sessionUser) :base(sessionUser)
+    public FacebookUsersController(VueSessionUser sessionUser, UserRepo userRepo)
     {
-        _httpContext = httpContext;
+        _sessionUser = sessionUser;
+        _userRepo = userRepo;
     }
 
     [HttpPost]
     public JsonResult Login(string facebookUserId, string facebookAccessToken)
     {
-        var user = R<UserRepo>().UserGetByFacebookId(facebookUserId);
+        var user = _userRepo.UserGetByFacebookId(facebookUserId);
 
         if (user == null)
         {
@@ -47,7 +48,7 @@ public class FacebookUsersController : BaseController
         return Json(new
         {
             success = true,
-            currentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
+            currentUser = _sessionUser.GetCurrentUserData()
         });
     }
 
@@ -71,7 +72,7 @@ public class FacebookUsersController : BaseController
                 Success = true,
                 registerResult,
                 localHref = Links.CategoryDetail(category.Name, category.Id),
-                currentUser = new VueApp.VueSessionUser(_httpContext).GetCurrentUserData(),
+                currentUser = _sessionUser.GetCurrentUserData(),
             });
         }
 

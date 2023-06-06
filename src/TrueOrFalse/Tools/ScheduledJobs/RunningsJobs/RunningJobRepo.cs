@@ -1,4 +1,3 @@
-using System;
 using NHibernate;
 using Seedworks.Lib.Persistence;
 

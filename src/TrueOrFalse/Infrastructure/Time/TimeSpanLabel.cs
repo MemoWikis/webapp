@@ -1,6 +1,4 @@
-﻿using System;
-
-public class TimeSpanLabel
+﻿public class TimeSpanLabel
 {
     private readonly bool _showTimeUnit;
     public string Label;

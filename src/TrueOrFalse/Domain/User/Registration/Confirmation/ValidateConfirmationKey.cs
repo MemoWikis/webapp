@@ -1,6 +1,4 @@
-﻿using System;
-
-public class ValidateEmailConfirmationKey : IRegisterAsInstancePerLifetime
+﻿public class ValidateEmailConfirmationKey : IRegisterAsInstancePerLifetime
 {
     private readonly UserRepo _userRepo;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TrueOrFalse.WikiMarkup
+﻿namespace TrueOrFalse.WikiMarkup
 {
     public class ParseImageMarkupResult
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-[Serializable]
+﻿[Serializable]
 public class UserHistory : HistoryBase<UserHistoryItem>{}
 
 [Serializable]

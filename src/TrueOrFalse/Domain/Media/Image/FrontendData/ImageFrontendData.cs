@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using static System.String;
 
 public class ImageFrontendData

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Stripe.BillingPortal;
 
-namespace TrueOrFalse.Stripe.Logic;
 
 public class BillingLogic : BaseStripeLogic
 {

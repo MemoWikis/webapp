@@ -1,6 +1,4 @@
-﻿using System;
-
-public enum MainMenuEntry
+﻿public enum MainMenuEntry
 {
     None, Knowledge, 
     Questions, QuestionDetail, 

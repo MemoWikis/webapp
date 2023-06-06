@@ -1,24 +1,25 @@
-﻿using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Quartz;
 using Quartz.Impl;
 
 namespace VueApp;
 
-public class UserStoreController : BaseController
+public class UserStoreController : Controller
 {
-    private readonly HttpContext _httpContext;
+    private readonly VueSessionUser _vueSessionUser;
+    private readonly SessionUser _sessionUser;
+    private readonly CredentialsAreValid _credentialsAreValid;
 
-
-    public UserStoreController(HttpContext httpContext, SessionUser sessionUser) : base(sessionUser) 
+    public UserStoreController(VueSessionUser vueSessionUser,  SessionUser sessionUser, CredentialsAreValid credentialsAreValid)
     {
-        _httpContext = httpContext;
+        _vueSessionUser = vueSessionUser;
+        _sessionUser = sessionUser;
+        _credentialsAreValid = credentialsAreValid;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
     {
-        var credentialsAreValid = R<CredentialsAreValid>();
+        var credentialsAreValid = _credentialsAreValid;
 
         if (credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))
         {
@@ -37,7 +38,7 @@ public class UserStoreController : BaseController
             {
                 Success = true,
                 Message = "",
-                CurrentUser = new VueSessionUser(_httpContext).GetCurrentUserData()
+                CurrentUser = _vueSessionUser.GetCurrentUserData()
             });
         }
 
@@ -137,7 +138,7 @@ public class UserStoreController : BaseController
                     : "",
                 Reputation = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Reputation : 0,
                 ReputationPos = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(new SessionUser(_httpContext)).GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(_sessionUser).GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
             }
         });
     }

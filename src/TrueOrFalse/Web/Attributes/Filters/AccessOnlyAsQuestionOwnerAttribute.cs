@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 /// <summary>
 /// Allows access only if current user is the owner of the question addressed by the current action.

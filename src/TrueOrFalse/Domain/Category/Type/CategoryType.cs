@@ -1,6 +1,4 @@
-﻿using System;
-
-public enum CategoryType
+﻿public enum CategoryType
 {
     None = 0,
     Standard = 1,

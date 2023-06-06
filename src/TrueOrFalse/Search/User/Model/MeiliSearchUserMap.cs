@@ -1,5 +1,4 @@
-﻿using System;
-using SolrNet.Attributes;
+﻿using SolrNet.Attributes;
 
 namespace TrueOrFalse.Search
 {

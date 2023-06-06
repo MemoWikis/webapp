@@ -1,6 +1,4 @@
-﻿using System;
-
-public class Period
+﻿public class Period
 {
     public Period(Time start, Time end)
     {
