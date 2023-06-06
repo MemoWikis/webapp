@@ -7,8 +7,13 @@ using System.Web.Script.Serialization;
 using TrueOrFalse;
 
 namespace VueApp;
-public class QuickCreateQuestionController : Controller
+public class QuickCreateQuestionController : BaseController
 {
+    public QuickCreateQuestionController(SessionUser sessionUser): base(sessionUser)
+    {
+        
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
@@ -62,7 +67,7 @@ public class QuickCreateQuestionController : Controller
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(questionRepo);
+        var questionController = new QuestionController(questionRepo,_sessionUser);
 
         return questionController.LoadQuestion(question.Id);
     }

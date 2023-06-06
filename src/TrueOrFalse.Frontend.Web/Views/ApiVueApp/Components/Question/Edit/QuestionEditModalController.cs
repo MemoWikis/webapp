@@ -1,11 +1,11 @@
 ﻿using System.Web.Mvc;
 
 namespace VueApp;
-public class QuestionEditModalController : Controller
+public class QuestionEditModalController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
 
-    public QuestionEditModalController(QuestionRepo questionRepo)
+    public QuestionEditModalController(QuestionRepo questionRepo, SessionUser sessionUser) :base(sessionUser)
     {
         _questionRepo = questionRepo;
     }
@@ -14,7 +14,7 @@ public class QuestionEditModalController : Controller
     [HttpPost]
     public JsonResult Create(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo).Create(questionDataJson); 
+        var data = new QuestionEditModalControllerLogic(_questionRepo,_sessionUser).Create(questionDataJson); 
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 
@@ -22,7 +22,7 @@ public class QuestionEditModalController : Controller
     [HttpPost]
     public JsonResult Edit(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo).Edit(questionDataJson);
+        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser).Edit(questionDataJson);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 
@@ -30,7 +30,7 @@ public class QuestionEditModalController : Controller
     [HttpGet]
     public JsonResult GetData(int id)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo).GetData(id);
+        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser).GetData(id);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 

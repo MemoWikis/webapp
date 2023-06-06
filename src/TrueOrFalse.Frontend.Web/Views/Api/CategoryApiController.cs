@@ -9,9 +9,7 @@ public class CategoryApiController : BaseController
     private readonly SolrSearchCategories _searchCategories;
     private readonly CategoryRepository _categoryRepo;
 
-    public CategoryApiController(
-        SolrSearchCategories searchCategories,
-        CategoryRepository categoryRepo)
+    public CategoryApiController(SolrSearchCategories searchCategories, CategoryRepository categoryRepo, SessionUser sessionUser) : base(sessionUser)
     {
         _searchCategories = searchCategories;
         _categoryRepo = categoryRepo;

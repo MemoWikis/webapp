@@ -5,6 +5,10 @@ using TrueOrFalse.Web;
 
 public class UsersController : BaseController
 {
+    public UsersController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     private const string _viewLocationUsers = "~/Views/Users/Users.aspx";
     private const string _viewLocationNetwork = "~/Views/Users/Network.aspx";
 

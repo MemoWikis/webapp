@@ -5,6 +5,10 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class RegisterController : BaseController
 {
+    public RegisterController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     private string _viewRegisterPath = "~/Views/Welcome/Registration/Register.aspx";
     private string _viewCategoryDetailPath = "~/Views/Categories/Detail/Category.aspx"; 
 

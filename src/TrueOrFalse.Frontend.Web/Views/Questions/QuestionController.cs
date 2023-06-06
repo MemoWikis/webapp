@@ -8,7 +8,7 @@ public class QuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
 
-    public QuestionController(QuestionRepo questionRepo)
+    public QuestionController(QuestionRepo questionRepo, SessionUser sessionUser) : base(sessionUser)  
     {
         _questionRepo = questionRepo;
     }
@@ -51,7 +51,7 @@ public class QuestionController : BaseController
     public JsonResult GetData(int id)
     {
         var question = EntityCache.GetQuestionById(id);
-        var categoryController = new CategoryController();
+        var categoryController = new CategoryController(_sessionUser);
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
         var categoriesVisibleToCurrentUser =
             question.Categories.Where(PermissionCheck.CanView).Distinct();

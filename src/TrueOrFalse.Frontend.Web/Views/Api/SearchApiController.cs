@@ -10,7 +10,7 @@ using TrueOrFalse.Search;
 public class SearchApiController : BaseController
 {
     private  IGlobalSearch _search;
-    public SearchApiController(IGlobalSearch search)
+    public SearchApiController(IGlobalSearch search, SessionUser sessionUser) :base(sessionUser) 
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
     }

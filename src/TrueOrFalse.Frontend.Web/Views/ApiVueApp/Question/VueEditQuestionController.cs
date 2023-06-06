@@ -55,7 +55,7 @@ public class VueEditQuestionController : BaseController
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(_questionRepo, _sessionUser);
 
         return questionController.LoadQuestion(question.Id);
     }
@@ -83,7 +83,7 @@ public class VueEditQuestionController : BaseController
         if (questionDataJson.IsLearningTab)
             LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(_questionRepo, _sessionUser);
         return questionController.LoadQuestion(updatedQuestion.Id);
     }
 
@@ -136,7 +136,7 @@ public class VueEditQuestionController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(_questionRepo, _sessionUser);
 
         return questionController.LoadQuestion(question.Id);
     }

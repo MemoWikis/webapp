@@ -9,6 +9,10 @@ using TrueOrFalse.Frontend.Web.Code;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class SegmentationController : BaseController
 {
+    public SegmentationController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
 
     [HttpPost]
     public JsonResult GetSegmentation(int id)

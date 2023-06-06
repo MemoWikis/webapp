@@ -2,6 +2,11 @@
 
 public class AccountController : BaseController
 {
+    public AccountController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
+
     [AccessOnlyAsAdmin]
     public ActionResult RemoveAdminRights()
     {

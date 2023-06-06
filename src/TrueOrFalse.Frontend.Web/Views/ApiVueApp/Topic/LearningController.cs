@@ -9,6 +9,10 @@ namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningController : BaseController
 {
+    public LearningController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     private class SessionData
     {
         public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, int learningSessionId = -1)
