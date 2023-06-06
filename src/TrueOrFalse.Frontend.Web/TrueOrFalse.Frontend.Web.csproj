@@ -3572,7 +3572,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Welcome\LoginModel.cs" />
     <Compile Include="Views\Welcome\PasswordRecoveryModel.cs" />
     <Compile Include="Views\Welcome\PasswordResetModel.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterModel.cs">
