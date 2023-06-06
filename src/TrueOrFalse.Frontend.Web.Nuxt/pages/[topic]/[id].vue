@@ -107,7 +107,6 @@ function setTab() {
 const preloadTopicTab = ref(true)
 
 onBeforeMount(() => {
-    $logger.info('clienttest')
     if (props.tab != Tab.Topic)
         preloadTopicTab.value
 })

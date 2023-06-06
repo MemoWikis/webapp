@@ -87,9 +87,9 @@ learningSessionStore.$onAction(({ name, after }) => {
 
 deleteQuestionStore.$onAction(({ name, after }) => {
     if (name == 'questionDeleted') {
-        after((deletedQuestion) => {
+        after((id) => {
             questions.value = questions.value.filter((q) => {
-                return q.Id != deletedQuestion.id
+                return q.Id != id
             })
         })
     }
@@ -116,7 +116,7 @@ async function loadNewQuestion(index: number) {
     <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q" :is-last-item="index == (questions.length - 1)"
-            :session-index="q.SessionIndex" :expand-question="props.expandQuestion" :key="q.Id" />
+            :session-index="q.SessionIndex" :expand-question="props.expandQuestion" :key="`${index}-${q.Id}`" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 

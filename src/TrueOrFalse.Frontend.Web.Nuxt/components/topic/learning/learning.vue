@@ -4,11 +4,13 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 import { useTopicStore } from '../topicStore'
+import { useDeleteQuestionStore } from '~/components/question/edit/delete/deleteQuestionStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const topicStore = useTopicStore()
+const deleteQuestionStore = useDeleteQuestionStore()
 
 const route = useRoute()
 const openFilter = ref(false)
@@ -59,6 +61,7 @@ watch(() => topicStore.questionCount, (count) => {
     if (count > 0)
         learningSessionConfigurationStore.showFilter = true
 })
+
 </script>
 
 <template>

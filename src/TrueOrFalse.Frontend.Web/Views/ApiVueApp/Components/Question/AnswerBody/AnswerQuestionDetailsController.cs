@@ -13,11 +13,12 @@ public class AnswerQuestionDetailsController: BaseController
 
     public dynamic GetData(int id)
     {
-        if (!PermissionCheck.CanViewQuestion(id))
+        var question = EntityCache.GetQuestionById(id);
+
+        if (question.Id == 0 || !PermissionCheck.CanView(question))
             return Json(null);
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var question = EntityCache.GetQuestionById(id);
         var answerQuestionModel = new AnswerQuestionModel(question, true);
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;

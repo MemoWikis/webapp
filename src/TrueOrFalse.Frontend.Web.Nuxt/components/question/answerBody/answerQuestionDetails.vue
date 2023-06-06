@@ -8,10 +8,12 @@ import { useLearningSessionStore } from '~~/components/topic/learning/learningSe
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
+import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 const commentsStore = useCommentsStore()
+const deleteQuestionStore = useDeleteQuestionStore()
 
 interface Props {
     id: number,
@@ -766,15 +768,17 @@ interface AnswerQuestionDetailsResult {
 const { $logger } = useNuxtApp()
 
 async function loadData() {
+    if (props.id == deleteQuestionStore.deletedQuestionId)
+        return
     const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {
-            const { $logger } = useNuxtApp()
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     })
-    initData(result)
+    if (result)
+        initData(result)
 }
 
 onMounted(async () => {
@@ -784,7 +788,9 @@ onMounted(async () => {
 })
 
 watch(() => props.id, () => loadData())
-watch(() => learningSessionStore.currentStep?.state, () => loadData(), { deep: true })
+watch(() => learningSessionStore.currentStep?.state, () => {
+    loadData()
+}, { deep: true })
 
 function abbreviateNumber(val: number): string {
     var newVal

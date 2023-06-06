@@ -106,8 +106,11 @@ public class LearningSessionStoreController: BaseController
     public JsonResult GetLastStepInQuestionList(int index)
     {
         var learningSession = LearningSessionCache.GetLearningSession();
+
         if (learningSession != null)
         {
+            learningSession.LoadSpecificQuestion(index);
+
             return Json(new
             {
                 success = true,
@@ -232,4 +235,5 @@ public class LearningSessionStoreController: BaseController
         public int index;
         public bool isLastStep;
     }
+
 }
