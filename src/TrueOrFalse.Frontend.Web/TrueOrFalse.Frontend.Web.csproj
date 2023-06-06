@@ -416,7 +416,6 @@
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
-    <Compile Include="Views\Welcome\WelcomeController.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -2824,9 +2823,6 @@
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
-    <Content Include="Views\Welcome\Promoter.css">
-      <DependentUpon>Promoter.less</DependentUpon>
-    </Content>
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -3565,8 +3561,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Welcome\PasswordRecoveryModel.cs" />
-    <Compile Include="Views\Welcome\PasswordResetModel.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -3979,8 +3973,6 @@
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
       <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Promoter.aspx" />
-    <Content Include="Views\Welcome\Promoter.less" />
     <Content Include="Views\Shared\Spinner\Spinner.less" />
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.less" />
@@ -4102,7 +4094,6 @@
       <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
-    <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
@@ -4122,8 +4113,6 @@
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\Welcome\PasswordReset.aspx" />
-    <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
