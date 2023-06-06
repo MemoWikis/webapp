@@ -320,9 +320,10 @@ async function loadSolution(answered: boolean = true) {
 }
 
 onMounted(() => {
-    watch([() => learningSessionStore.currentStep], () => {
+
+    watch([() => learningSessionStore.currentStep?.index, () => learningSessionStore.currentStep?.id], () => {
         loadAnswerBodyModel()
-    }, { deep: true })
+    })
 
     learningSessionStore.$onAction(({ name, after }) => {
         if (name == 'startNewSession') {
