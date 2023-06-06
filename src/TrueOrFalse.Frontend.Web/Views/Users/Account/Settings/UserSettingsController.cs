@@ -11,7 +11,7 @@ public class UserSettingsController : BaseController
 
     private readonly UserRepo _userRepo;
 
-    public UserSettingsController(UserRepo userRepo){
+    public UserSettingsController(UserRepo userRepo, SessionUser sessionUser) : base(sessionUser){
         _userRepo = userRepo;
     }
 

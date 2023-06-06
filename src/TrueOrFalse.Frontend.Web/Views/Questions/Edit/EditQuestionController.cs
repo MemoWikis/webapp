@@ -50,7 +50,7 @@ public class EditQuestionController : BaseController
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(_questionRepo, _sessionUser);
 
         return questionController.LoadQuestion(question.Id);
     }
@@ -78,7 +78,7 @@ public class EditQuestionController : BaseController
         if (questionDataJson.IsLearningTab)
             LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(_questionRepo,_sessionUser);
         return questionController.LoadQuestion(updatedQuestion.Id);
     }
 
@@ -130,7 +130,7 @@ public class EditQuestionController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_questionRepo);
+        var questionController = new QuestionController(_questionRepo, _sessionUser);
 
         return questionController.LoadQuestion(question.Id);
     }

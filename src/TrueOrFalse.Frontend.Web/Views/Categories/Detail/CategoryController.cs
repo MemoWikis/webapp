@@ -11,6 +11,10 @@ using TrueOrFalse.Frontend.Web.Code;
 [SetUserMenu(UserMenuEntry.None)]
 public class CategoryController : BaseController
 {
+    public CategoryController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
     private const string _topicTab = "~/Views/Categories/Detail/Tabs/TopicTab.ascx";
 

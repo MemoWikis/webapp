@@ -9,6 +9,11 @@ using TrueOrFalse.Web;
 [SetUserMenu(UserMenuEntry.None)]
 public class MaintenanceImagesController : BaseController
 {
+    public MaintenanceImagesController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
+
     private const string _viewLocation = "~/Views/Maintenance/Images/Images.aspx";
     private const string _viewLocationMarkup = "~/Views/Maintenance/Images/Markup.ascx";
     private const string _viewLocationModal = "~/Views/Maintenance/Images/ImageMaintenanceModal.ascx";

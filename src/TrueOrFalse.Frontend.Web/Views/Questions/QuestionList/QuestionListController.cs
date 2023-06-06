@@ -10,6 +10,11 @@ using TrueOrFalse.Frontend.Web.Code;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class QuestionListController : BaseController
 {
+    public QuestionListController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
+
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber)
     {

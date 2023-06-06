@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class SetController : BaseController
+public class SetController : Controller
 {
     private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 

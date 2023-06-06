@@ -1,11 +1,15 @@
 ﻿using System;
-using System.Net.Mail;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class WelcomeController : BaseController
 {
+    public WelcomeController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
+
     [SetMainMenu(MainMenuEntry.None)]
     [SetThemeMenu]
     public ActionResult Welcome()

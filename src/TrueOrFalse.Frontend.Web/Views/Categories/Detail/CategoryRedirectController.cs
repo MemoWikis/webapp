@@ -9,6 +9,11 @@ using TrueOrFalse.Web;
 [SetUserMenu(UserMenuEntry.None)]
 public class CategoryRedirectController : BaseController
 {
+    public CategoryRedirectController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
+
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
     [SetMainMenu(MainMenuEntry.CategoryDetail)]

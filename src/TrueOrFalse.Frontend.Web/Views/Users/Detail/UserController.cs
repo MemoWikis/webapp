@@ -7,7 +7,7 @@ public class UserController : BaseController
 
     private readonly UserRepo _userRepo;
 
-    public UserController(UserRepo userRepo)
+    public UserController(UserRepo userRepo, SessionUser sessionUser) : base(sessionUser)
     {
         _userRepo = userRepo;
     }

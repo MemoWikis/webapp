@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using MarkdownSharp;
 
-public class TopicsController : BaseController
+public class TopicsController : Controller
 {
     [SetMainMenu(MainMenuEntry.None)]
     public ActionResult Topic(string topicName)

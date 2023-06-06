@@ -6,6 +6,10 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class EduSharingApiController : BaseController
 {
+    public EduSharingApiController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
 
     public JsonResult Topic(int id)
     {
