@@ -2190,9 +2190,6 @@
     <Content Include="Views\Shared\Search\StickySearch.js">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Registration\Register.css">
-      <DependentUpon>Register.less</DependentUpon>
-    </Content>
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <Content Include="Fonts\Lato\lato-v23-latin-regular.eot" />
@@ -2691,10 +2688,6 @@
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
-    <Compile Include="Views\Welcome\Partials\TopicOfWeekModel.cs" />
-    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
-    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
-    <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2819,10 +2812,6 @@
     <Content Include="Views\Shared\Switch\Switch.css">
       <DependentUpon>Switch.less</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Partials\TeamPics.ascx" />
-    <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
-    <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
-    <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -2962,9 +2951,6 @@
     <Content Include="Views\Shared\SidebarSponsor.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
-      <DependentUpon>FacebookRegistration.ts</DependentUpon>
-    </Content>
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
@@ -2984,18 +2970,6 @@
     </Content>
     <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
     <Content Include="Views\VariousPublic\TermsAndConditions.aspx" />
-    <Content Include="Views\Welcome\Js\Validation.js">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\ValidationPasswordRecovery.js">
-      <DependentUpon>ValidationPasswordRecovery.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\ValidationPasswordRecovery.js.map">
-      <DependentUpon>ValidationPasswordRecovery.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Js\ValidationPasswordReset.js">
-      <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -3561,12 +3535,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Welcome\Registration\RegisterModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\Welcome\Registration\RegisterModelToUser.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <TypeScriptCompile Include="Views\Questions\ActivityPoints\ActivityPoints.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ts" />
@@ -3595,10 +3563,6 @@
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
     <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -3932,21 +3896,11 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
-    <Content Include="Views\Welcome\Js\Validation.js.map">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Registration\Register.less" />
-    <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
-      <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
-    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
-      <DependentUpon>FacebookRegistration.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
@@ -3957,7 +3911,6 @@
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
-    <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Maintenance\Js\ContentStats.js.map">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
@@ -4113,7 +4066,6 @@
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\Welcome\Registration\Register.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
