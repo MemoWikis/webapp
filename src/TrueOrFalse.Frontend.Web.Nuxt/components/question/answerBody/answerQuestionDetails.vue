@@ -237,8 +237,9 @@ function calculateLabelWidth() {
 }
 
 function arcTween(d: any, newStartAngle: number, newEndAngle: number, newInnerRadius: number, newOuterRadius: number) {
+    if (d == null || isNaN(newStartAngle) || isNaN(newEndAngle) || isNaN(newInnerRadius) || isNaN(newOuterRadius))
+        return
     var arc = d3.arc()
-
     var interpolateStart = d3.interpolate(d.startAngle, newStartAngle)
     var interpolateRadiusStart = d3.interpolate(d.innerRadius, newInnerRadius)
     var interpolateEnd = d3.interpolate(d.endAngle, newEndAngle)
@@ -253,18 +254,19 @@ function arcTween(d: any, newStartAngle: number, newEndAngle: number, newInnerRa
 }
 
 function updateArc() {
-    var labelWidth = calculateLabelWidth()
 
+    const labelWidth = calculateLabelWidth()
     arcSvg.value.selectAll(".personalProbabilityLabel")
         .transition()
         .duration(800)
         .attr("dx", -(labelWidth / 2) - 5 + "px")
         .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
         .tween("text", function (this: any) {
-            var selection = d3.select(this)
-            var start = d3.select(this).text()
-            var end = personalProbability.value
-            var interpolator = d3.interpolateNumber(parseInt(start), end)
+            const selection = d3.select(this)
+            const start = d3.select(this).text()
+            const end = personalProbability.value
+            const interpolator = d3.interpolateNumber(parseInt(start), end)
+
             return (t: any) => {
                 selection.text(Math.round(interpolator(t)))
             }
@@ -275,7 +277,6 @@ function updateArc() {
         .outerRadius(55)
         .startAngle(avgAngle.value)
         .endAngle(avgAngle.value)
-
     arcSvg.value.select(".avgProbabilityLabel")
         .transition()
         .duration(400)
@@ -356,6 +357,7 @@ function updateArc() {
 
     arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
         .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
+
 }
 
 const personalCounter = ref<SVGSVGElement | null>(null)
