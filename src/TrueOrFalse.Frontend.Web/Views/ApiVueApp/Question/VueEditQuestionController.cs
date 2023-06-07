@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using FluentNHibernate.Data;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+
 
 namespace VueApp;
 
@@ -55,7 +50,7 @@ public class VueEditQuestionController : BaseController
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
-        var questionController = new QuestionController(_questionRepo, _sessionUser);
+        var questionController = new QuestionController();
 
         return questionController.LoadQuestion(question.Id);
     }
@@ -83,7 +78,7 @@ public class VueEditQuestionController : BaseController
         if (questionDataJson.IsLearningTab)
             LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        var questionController = new QuestionController(_questionRepo, _sessionUser);
+        var questionController = new QuestionController();
         return questionController.LoadQuestion(updatedQuestion.Id);
     }
 
@@ -136,8 +131,7 @@ public class VueEditQuestionController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_questionRepo, _sessionUser);
-
+        var questionController = new QuestionController();
         return questionController.LoadQuestion(question.Id);
     }
 

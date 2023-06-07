@@ -134,6 +134,11 @@ public class EntityCache : BaseCache
         return questions;
     }
 
+
+  
+
+
+
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
     public static QuestionCacheItem GetQuestionById(int questionId)

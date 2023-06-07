@@ -4,15 +4,8 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class QuestionController : BaseController
+public class QuestionController : Controller
 {
-    private readonly QuestionRepo _questionRepo;
-
-    public QuestionController(QuestionRepo questionRepo, SessionUser sessionUser) : base(sessionUser)  
-    {
-        _questionRepo = questionRepo;
-    }
-
     public JsonResult LoadQuestion(int questionId)
     {
         var user = SessionUserLegacy.User;
@@ -45,76 +38,5 @@ public class QuestionController : BaseController
         }
 
         return Json(question);
-    }
-
-    [HttpPost]
-    public JsonResult GetData(int id)
-    {
-        var question = EntityCache.GetQuestionById(id);
-        var categoryController = new CategoryController(_sessionUser);
-        var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
-        var categoriesVisibleToCurrentUser =
-            question.Categories.Where(PermissionCheck.CanView).Distinct();
-
-        var json = new JsonResult
-        {
-            Data = new
-            {
-                SolutionType = (int)question.SolutionType,
-                Solution = solution,
-                SolutionMetadataJson = question.SolutionMetadataJson,
-                Text = question.TextHtml,
-                TextExtended = question.TextExtendedHtml,
-                CategoryIds = categoriesVisibleToCurrentUser.Select(c => c.Id).ToList(),
-                DescriptionHtml = question.DescriptionHtml,
-                Categories = categoriesVisibleToCurrentUser.Select(c => categoryController.FillMiniCategoryItem(c)),
-                LicenseId = question.LicenseId,
-                Visibility = question.Visibility,
-            }
-        };
-
-        return json;
-    }
-
-    [HttpPost]
-    public JsonResult DeleteDetails(int questionId)
-    {
-        var question = _questionRepo.GetById(questionId);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator == null ? -1 : question.Creator.Id, question);
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                questionTitle = question.Text.TruncateAtWord(90),
-                totalAnswers = question.TotalAnswers(),
-                canNotBeDeleted = !canBeDeleted.Yes,
-                wuwiCount = canBeDeleted.WuwiCount,
-                hasRights = canBeDeleted.HasRights
-            }
-        };
-    }
-
-    [HttpPost]
-    public JsonResult Delete(int questionId, int sessionIndex)
-    {
-        QuestionDelete.Run(questionId);
-        LearningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
-        return new JsonResult
-        {
-            Data = new {
-                sessionIndex,
-                questionId
-            }
-        };
-    }
-
-    [RedirectToErrorPage_IfNotLoggedIn]
-    public ActionResult Restore(int questionId, int questionChangeId)
-    {
-        RestoreQuestion.Run(questionChangeId, this.User_());
-
-        var question = Sl.QuestionRepo.GetById(questionId);
-        return Redirect(Links.AnswerQuestion(question));
     }
 }

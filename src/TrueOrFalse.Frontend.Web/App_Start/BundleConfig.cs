@@ -128,12 +128,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
             .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));
 
-        bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
-            .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/CategoryToPrivate")
-            .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/CategoryToPrivate/", "*.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/FloatingActionButton")
             .Include("~/Scripts/npm/vue-material-design-ripple-build/vue-material-design-ripple-build.js")
             .Include("~/Views/Categories/Detail/FloatingActionButton/FloatingActionButton.js"));

@@ -67,7 +67,7 @@ public class QuickCreateQuestionController : BaseController
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
         LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(questionRepo,_sessionUser);
+        var questionController = new QuestionController();
 
         return questionController.LoadQuestion(question.Id);
     }
