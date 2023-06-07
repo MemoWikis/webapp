@@ -201,8 +201,6 @@ public class BundleConfig
             .Include("~/Views/Images/ImageUpload/ImageUpload.js")
             .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
-        bundles.Add(new StyleBundle("~/bundles/Users")
-            .IncludeDirectory("~/Views/Users/", "*.css"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
             .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")

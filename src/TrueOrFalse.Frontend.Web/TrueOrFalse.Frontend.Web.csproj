@@ -2153,7 +2153,6 @@
     <Content Include="Views\Questions\SessionConfig\SessionProgressBarComponent.vue.ascx" />
     <Content Include="Views\Questions\SessionConfig\SessionConfigComponentLoader.ascx" />
     <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
-    <Content Include="Views\Shared\MemuchoInfoBanner.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
@@ -2643,7 +2642,6 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js.map">
       <DependentUpon>SegmentComponent.ts</DependentUpon>
     </Content>
-    <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
@@ -2662,23 +2660,12 @@
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
-    <Content Include="Views\Shared\AddToWishknowledgeHeartbeat.ascx" />
-    <Content Include="Views\Shared\AddToWishknowledgeButtonQuestionDetail.ascx" />
-    <Content Include="Views\Shared\AnalyticsFooter.ascx" />
     <Content Include="Views\Shared\Cards\CardTutory.ascx" />
-    <Content Include="Views\Shared\CategoryLabel.css">
-      <DependentUpon>CategoryLabel.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Delete.ascx" />
-    <Content Include="Views\Shared\Delete.css">
-      <DependentUpon>Delete.less</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
-    <Compile Include="Views\StatisticsDashboard\StatisticsDashboardController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
@@ -2791,14 +2778,9 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigComponent.ts" />
-    <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Sidebar.ascx" />
-    <Content Include="Views\Shared\SidebarCards.ascx" />
-    <Content Include="Views\Shared\LinkToTop.ascx" />
-    <Content Include="Views\Shared\GlobalLicense.ascx" />
     <Content Include="Views\Shared\SidebarCards\CreateQuestion.ascx" />
     <Content Include="Views\Shared\Spinner\Spinner.ascx" />
     <Content Include="Views\Shared\Spinner\Spinner.css">
@@ -2940,12 +2922,7 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
-    <Content Include="Views\Shared\AddToWishknowledgeButton.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
-    <Content Include="Views\Shared\AddToWishknowledge.ascx" />
-    <Content Include="Views\Shared\SidebarSponsor.ascx" />
-    <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
-    <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
@@ -2955,7 +2932,6 @@
     <Content Include="Style\guidedTour\bootstrap-tour.css" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
-    <Content Include="Views\Shared\UnpinSetModal.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -3056,7 +3032,6 @@
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\CategoriesOfQuestion.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
@@ -3481,7 +3456,6 @@
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
@@ -3500,7 +3474,6 @@
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\SidebarModel.cs" />
-    <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3637,7 +3610,6 @@
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
     <Content Include="Views\Error\_404.aspx" />
-    <Content Include="Views\Shared\HistoryAndProbability.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -3685,18 +3657,13 @@
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
-    <Content Include="Views\Shared\AnswerHistory.ascx" />
-    <Content Include="Views\Shared\CorrectnessProbability.ascx" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
-    <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
-    <Content Include="Views\Shared\Site.Partial.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
@@ -3807,7 +3774,6 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
@@ -3819,7 +3785,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Maintenance\Js\ContentStats.js.map">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
@@ -3842,12 +3807,10 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
-    <Content Include="Views\Shared\CategoryLabel.less" />
     <Content Include="Views\Questions\SessionConfig\SessionConfig.less" />
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Delete.less" />
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js.map">
       <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
     </Content>
@@ -3962,16 +3925,11 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Scripts\JQueryExtensions.js" />
-    <Content Include="Views\Shared\Message.ascx" />
-    <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Error\_500.aspx" />
-    <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Sidebar.Master" />
     <None Include="Style\fonts\Candal.ttf" />
     <None Include="Style\fonts\OvertheRainbow.ttf" />
