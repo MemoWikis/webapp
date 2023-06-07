@@ -18,9 +18,6 @@ public class BundleConfig
             "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
             "~/Views/Shared/CategoryLabel.css"));
 
-        bundles.Add(new StyleBundle("~/bundles/message")
-            .Include("~/Views/Messages/*.css"));
-
         if (Settings.Environment() == "develop")
         {
             bundles.Add(new ScriptBundle("~/bundles/shared")
@@ -259,9 +256,6 @@ public class BundleConfig
 
         bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
             .Include("~/Views/Questions/Js/DeleteQuestionComponent.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/Messages")
-            .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
             .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
