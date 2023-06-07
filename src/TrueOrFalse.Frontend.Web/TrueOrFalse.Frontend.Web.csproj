@@ -2959,9 +2959,6 @@
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
-    <Content Include="Views\Users\Detail\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Detail\User.css">
       <DependentUpon>User.less</DependentUpon>
     </Content>
@@ -3551,7 +3548,6 @@
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
-    <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -3716,18 +3712,6 @@
     <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
-    <Content Include="Views\Users\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Js\UserRow.js">
-      <DependentUpon>UserRow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Js\UserRowFollow.js">
-      <DependentUpon>UserRowFollow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Js\Users.js">
-      <DependentUpon>Users.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Users\Account\Settings\UserSettings.css">
       <DependentUpon>UserSettings.less</DependentUpon>
     </Content>
@@ -3756,9 +3740,6 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowSelection.js.map">
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Js\users.js.map">
-      <DependentUpon>Users.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
       <DependentUpon>EditQuestion.ts</DependentUpon>
@@ -3847,15 +3828,6 @@
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css.map">
       <DependentUpon>AnswerQuestionSolution.css</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Js\UserRow.js.map">
-      <DependentUpon>UserRow.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Js\UserRowFollow.js.map">
-      <DependentUpon>UserRowFollow.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
@@ -3875,9 +3847,6 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
-    <Content Include="Views\Users\Detail\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
@@ -4035,10 +4004,6 @@
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
-    <TypeScriptCompile Include="Views\Users\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Users\Js\UserRow.ts" />
-    <TypeScriptCompile Include="Views\Users\Js\UserRowFollow.ts" />
-    <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
     <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
