@@ -198,18 +198,6 @@ public class BundleConfig
             .Include("~/Views/Images/ImageUpload/ImageUpload.js")
             .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
-
-        bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
-            .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-            .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-            .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
-            .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
-            .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js")
-            .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
-            .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
-            .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js")
-        );
-
         bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
             .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
             .IncludeDirectory("~/Views/Questions/Answer/Comments/", "*.js")
@@ -256,15 +244,6 @@ public class BundleConfig
 
         bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
             .Include("~/Views/Questions/Js/DeleteQuestionComponent.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
-            .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/WidgetQuestion")
-            .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-            .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-            .Include("~/Views/Widgets/WidgetQuestion.js")
-            .Include("~/Views/Widgets/AwesomeIframe.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
             .Include("~/Scripts/BootstrapCustomUtils.js"));
