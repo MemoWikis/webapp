@@ -375,8 +375,6 @@
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\Segment.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardModel.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Tokenizer.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateToHtml\TemplateToHtml.cs" />
     <Compile Include="Views\Categories\History\RelationChangeItem.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicControllerLogic.cs" />
@@ -389,17 +387,12 @@
     <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Document.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\MarkdownTokenizer.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\Token.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\Tokenizer\TokenType.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
     <Compile Include="Views\Categories\History\CategoryChangesOverviewController.cs" />
     <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
@@ -2438,7 +2431,6 @@
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.less" />
-    <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
@@ -2705,7 +2697,6 @@
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
@@ -3098,7 +3089,6 @@
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
-    <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />

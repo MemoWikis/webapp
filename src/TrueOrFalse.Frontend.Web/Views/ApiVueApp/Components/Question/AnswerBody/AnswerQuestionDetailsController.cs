@@ -8,9 +8,6 @@ using TrueOrFalse.Web;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionDetailsController: Controller
 {
-    [HttpGet]
-    public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
-
     public dynamic GetData(int id)
     {
         if (!PermissionCheck.CanViewQuestion(id))
@@ -72,6 +69,5 @@ public class AnswerQuestionDetailsController: Controller
                 fullText = question.License.DisplayTextFull
             }
         };
-
     }
 }

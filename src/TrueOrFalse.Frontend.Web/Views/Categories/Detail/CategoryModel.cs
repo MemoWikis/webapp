@@ -68,9 +68,6 @@ public class CategoryModel : BaseContentModule
 
     public EditQuestionModel EditQuestionModel;
 
-    public CategoryModel()
-    {
-    }
 
     public CategoryModel(CategoryCacheItem category, bool loadKnowledgeSummary = true, bool isCategoryNull = false)
     {
