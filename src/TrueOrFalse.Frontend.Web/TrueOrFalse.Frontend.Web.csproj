@@ -2679,13 +2679,10 @@
     <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\StatisticsDashboard\StatisticsDashboardController.cs" />
-    <Compile Include="Views\Topics\TopicModel.cs" />
-    <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
-    <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2959,10 +2956,6 @@
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
-    <Content Include="Views\Users\Detail\User.css">
-      <DependentUpon>User.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -3065,9 +3058,6 @@
     </Content>
     <Content Include="Views\Shared\CategoriesOfQuestion.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
-    <Content Include="Views\Users\Account\Js\Membership.js">
-      <DependentUpon>Membership.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
@@ -3488,7 +3478,6 @@
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
-    <Compile Include="Views\Users\Account\AccountController.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
@@ -3512,10 +3501,6 @@
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\SidebarModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
-    <Compile Include="Views\Users\Detail\UserController.cs" />
-    <Compile Include="Views\Users\Detail\UserModel.cs" />
-    <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
-    <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3544,8 +3529,6 @@
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
-    <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
-    <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
   </ItemGroup>
@@ -3712,12 +3695,6 @@
     <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
-    <Content Include="Views\Users\Account\Settings\UserSettings.css">
-      <DependentUpon>UserSettings.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\Settings\Validation.js">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
     <Content Include="Views\Shared\Site.Partial.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -3810,16 +3787,6 @@
     <Content Include="Views\Images\ImageDetail.js.map">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Account\Settings\UserSettings.less" />
-    <Content Include="Views\Users\Account\Settings\UserSettings.css.map">
-      <DependentUpon>UserSettings.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\Settings\Validation.js.map">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Account\Js\Membership.js.map">
-      <DependentUpon>Membership.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
@@ -3840,13 +3807,7 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Detail\User.less" />
-    <Content Include="Views\Users\Detail\User.css.map">
-      <DependentUpon>User.css</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
-    <Content Include="Views\Topics\Topic.aspx" />
-    <Content Include="Views\Topics\Docs\Unicode.md" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
@@ -4003,8 +3964,6 @@
     <Content Include="Scripts\JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Shared\Pager.ascx" />
-    <Content Include="Views\Users\Detail\User.aspx" />
-    <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />

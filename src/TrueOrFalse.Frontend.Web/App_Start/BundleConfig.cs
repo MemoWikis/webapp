@@ -85,13 +85,6 @@ public class BundleConfig
             .Include("~/Scripts/vendor.file-uploader/uploader.js")
             .Include("~/Scripts/vendor.file-uploader/jquery-plugin.js"));
 
-        bundles.Add(new ScriptBundle("~/bundles/Welcome")
-            .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/RegistrationJs")
-            .Include("~/Views/Welcome/Js/Validation.js")
-            .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/LoginModalComponent")
             .Include("~/Views/Welcome/Login/LoginModalComponent.js"));
 
@@ -208,18 +201,8 @@ public class BundleConfig
             .Include("~/Views/Images/ImageUpload/ImageUpload.js")
             .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
-        bundles.Add(new ScriptBundle("~/bundles/js/Users")
-            .IncludeDirectory("~/Views/Users/Js/", "*.js"));
-
         bundles.Add(new StyleBundle("~/bundles/Users")
             .IncludeDirectory("~/Views/Users/", "*.css"));
-
-        bundles.Add(new StyleBundle("~/bundles/User")
-            .IncludeDirectory("~/Views/Users/Detail/", "*.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/Js/User")
-            .IncludeDirectory("~/Views/Users/Detail/Js", "*.js")
-            .Include("~/Views/Users/Js/UserRowFollow.js").Include("~/Views/Users/Js/UserRow.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
             .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
