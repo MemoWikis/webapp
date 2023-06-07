@@ -470,11 +470,6 @@ public static class Links
         return GetUrlHelper().Action(NetworkAction, UsersController);
     }
 
-    public static string Promoter()
-    {
-        return GetUrlHelper().Action("Promoter", WelcomeController);
-    }
-
     public static string QuestionChangesOverview(int pageToShow)
     {
         return GetUrlHelper().Action("List", "QuestionChangesOverview", new { pageToShow });
@@ -602,11 +597,6 @@ public static class Links
     {
         return GetUrlHelper().Action(UserAction, UserController,
             new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
-    }
-
-    public static string UserLoginAs(UrlHelper url, int userId)
-    {
-        return url.Action("LoginAs", "Users", new { userId });
     }
 
     public static string Users()

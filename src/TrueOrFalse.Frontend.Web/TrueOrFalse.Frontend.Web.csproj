@@ -2681,7 +2681,6 @@
     <Compile Include="Views\StatisticsDashboard\StatisticsDashboardController.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
-    <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
@@ -2963,7 +2962,6 @@
     <Content Include="Views\Users\Detail\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Users\Detail\User.css">
       <DependentUpon>User.less</DependentUpon>
     </Content>
@@ -3521,12 +3519,6 @@
     <Compile Include="Views\Users\Detail\UserModel.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
-    <Compile Include="Views\Users\HeaderModel.cs" />
-    <Compile Include="Views\Users\NetworkModel.cs" />
-    <Compile Include="Views\Users\UserRowModel.cs" />
-    <Compile Include="Views\Users\UsersController.cs" />
-    <Compile Include="Views\Users\UsersControllerSearch.cs" />
-    <Compile Include="Views\Users\UsersModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3724,7 +3716,6 @@
     <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
-    <Content Include="Views\Users\Header.ascx" />
     <Content Include="Views\Users\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -3743,11 +3734,6 @@
     <Content Include="Views\Users\Account\Settings\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Network.aspx" />
-    <Content Include="Views\Users\HeaderMobile.ascx" />
-    <Content Include="Views\Users\Users.css">
-      <DependentUpon>Users.less</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
     <Content Include="Views\Shared\Site.Partial.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -3759,7 +3745,6 @@
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
-    <Content Include="Views\Users\Users.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
@@ -3795,9 +3780,6 @@
     </Content>
     <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
       <DependentUpon>ImageUpload.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Users\Users.css.map">
-      <DependentUpon>Users.css</DependentUpon>
     </Content>
     <Content Include="Views\Messages\Message.less" />
     <Content Include="Views\Messages\Js\Message.js.map">
@@ -4058,8 +4040,6 @@
     <TypeScriptCompile Include="Views\Users\Js\UserRowFollow.ts" />
     <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
     <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
-    <Content Include="Views\Users\UserRow.ascx" />
-    <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
