@@ -15,14 +15,14 @@ public class VueLearningSessionResultController: BaseController
     {
         var learningSession = LearningSessionCache.GetLearningSession();
         var model = new LearningSessionResultModel(learningSession);
-        var questions = model.AnsweredStepsGrouped.Select(g =>
+        var questions = model.AnsweredStepsGrouped.Where(g => g.First().Question.Id != 0).Select(g =>
         {
             var question = g.First().Question;
             return new {
                     correctAnswerHtml = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
                     id = question.Id,
                     imgUrl = GetQuestionImageFrontendData.Run(question).GetImageUrl(128, true,
-                        false, ImageType.Question),
+                        false, ImageType.Question).Url,
                     title = question.GetShortTitle(),
                     steps = g.Select(s => new {
                         answerState = s.AnswerState,

@@ -34,34 +34,39 @@ onBeforeMount(() => {
             <div class="QuestionLearned AnsweredRight">
                 <div @click="collapseTrackingArray[index] = !collapseTrackingArray[index]" class="detail-title">
 
-                    <font-awesome-icon icon="fa-solid fa-circle-check"
-                        v-if="question.steps[0].answerState == AnswerState.Correct && question.steps.length == 1"
-                        v-tooltip="'Beim 1. Versuch richtig beantwortet'" />
+                    <div>
+                        <font-awesome-icon icon="fa-solid fa-circle-check"
+                            v-if="question.steps[0].answerState == AnswerState.Correct && question.steps.length == 1"
+                            v-tooltip="'Beim 1. Versuch richtig beantwortet'" />
 
-                    <font-awesome-icon icon="fa-solid fa-circle-check"
-                        v-else-if="question.steps[0].answerState != AnswerState.Unanswered && question.steps.length > 1 && question.steps[question.steps.length - 1].answerState == AnswerState.Correct"
-                        v-tooltip="'Beim 2. oder 3. Versuch richtig beantwortet'" />
+                        <font-awesome-icon icon="fa-solid fa-circle-check"
+                            v-else-if="question.steps[0].answerState != AnswerState.Unanswered && question.steps.length > 1 && question.steps[question.steps.length - 1].answerState == AnswerState.Correct"
+                            v-tooltip="'Beim 2. oder 3. Versuch richtig beantwortet'" />
 
-                    <font-awesome-icon icon="fa-solid fa-circle"
-                        v-else-if="question.steps.every(s => s.answerState == AnswerState.Unanswered)"
-                        v-tooltip="'Nicht beantwortet'" />
+                        <font-awesome-icon icon="fa-solid fa-circle"
+                            v-else-if="question.steps.every(s => s.answerState == AnswerState.Unanswered)"
+                            v-tooltip="'Nicht beantwortet'" />
 
-                    <font-awesome-icon icon="fa-solid fa-circle-minus"
-                        v-else-if="question.steps.some(s => s.answerState == AnswerState.False) && question.steps.every(s => s.answerState != AnswerState.Correct)"
-                        v-tooltip="'Falsch beantwortet'" />
+                        <font-awesome-icon icon="fa-solid fa-circle-minus"
+                            v-else-if="question.steps.some(s => s.answerState == AnswerState.False) && question.steps.every(s => s.answerState != AnswerState.Correct)"
+                            v-tooltip="'Falsch beantwortet'" />
 
-                    {{ question.title }}
+                        {{ question.title }}
+                    </div>
+                    <div class="chevron-container">
+                        <font-awesome-icon icon="fa-solid fa-chevron-up" v-if="collapseTrackingArray[index]"
+                            class="pointer" />
+                        <font-awesome-icon icon="fa-solid fa-chevron-down" v-else class="pointer" />
+                    </div>
 
                 </div>
-
-                <br />
 
                 <Transition name="fade">
                     <div class="answerDetails" v-show="collapseTrackingArray[index]">
                         <div class="row">
                             <div class="col-xs-3 col-sm-2 answerDetailImage">
                                 <div class="ImageContainer ShortLicenseLinkText">
-                                    <img :src="question.imgUrl" />
+                                    <Image :src="question.imgUrl" />
                                 </div>
                             </div>
                             <div class="col-xs-9 col-sm-10">
@@ -112,12 +117,29 @@ onBeforeMount(() => {
 .detail-title {
     cursor: pointer;
     user-select: none;
+    padding: 10px 20px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+
+    &:hover {
+        filter: brightness(0.925);
+    }
+
+    &:active {
+        filter: brightness(0.85);
+    }
+
+    .chevron-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .QuestionLearned {
     margin-bottom: 7px;
     border: 1px solid lightgray;
-    padding: 5px 10px;
     background-color: @white;
     transition: all 0.2s ease-in;
 
@@ -166,7 +188,7 @@ onBeforeMount(() => {
 }
 
 .answerDetails {
-    padding-left: 30px;
+    padding: 10px 30px;
     margin-bottom: 2px;
 
     p {

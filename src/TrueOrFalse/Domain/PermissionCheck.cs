@@ -60,7 +60,7 @@ public class PermissionCheck
     public static bool CanDelete(CategoryCacheItem category) => CanDelete(SessionUser.User, category);
     public static bool CanDelete(SessionUserCacheItem user, CategoryCacheItem category)
     {
-        if (user == null || category == null)
+        if (user == null || category == null || user.Id == 0 || category.Id == 0)
             return false;
 
         if (category.IsStartPage())
@@ -78,7 +78,7 @@ public class PermissionCheck
 
     public static bool CanView(int userId, QuestionCacheItem question)
     {
-        if (question == null)
+        if (question == null || question.Id == 0)
             return false;
 
         if (question.Visibility == QuestionVisibility.All)
