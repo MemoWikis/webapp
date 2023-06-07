@@ -281,13 +281,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceImages")
             .Include("~/Views/Maintenance/Images/ImageMaintenance.js"));
 
-        bundles.Add(new StyleBundle("~/bundles/MaintenanceImages")
-            .Include("~/Views/Maintenance/Images/*.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceCMS")
-            .Include("~/Views/Maintenance/Js/CMS.js")
-            .Include("~/Views/Maintenance/Js/CmsCategoryNetworkNavigation.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/diff2html")
             .Include("~/Scripts/vendor/diff2html/*.js"));
 

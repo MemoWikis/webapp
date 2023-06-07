@@ -2522,15 +2522,6 @@
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
-    <Content Include="Views\Maintenance\Js\CMS.js">
-      <DependentUpon>CMS.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\Js\ContentStats.js">
-      <DependentUpon>ContentStats.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
@@ -2644,7 +2635,6 @@
     </Content>
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
-    <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
@@ -2664,7 +2654,6 @@
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
-    <Compile Include="Views\Shared\SharedController.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
@@ -2769,7 +2758,6 @@
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\History\Detail\Js\HistoryDetail.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
@@ -2903,11 +2891,6 @@
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Statistics.aspx" />
-    <Content Include="Views\Maintenance\ContentCreatedReport.aspx" />
-    <Content Include="Views\Maintenance\ContentCreatedReport.css">
-      <DependentUpon>ContentCreatedReport.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList_LayoutMobile.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
@@ -2930,8 +2913,6 @@
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
     <Content Include="Style\guidedTour\bootstrap-tour.css" />
-    <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
-    <Content Include="Views\Maintenance\CMS.aspx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -2952,9 +2933,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
@@ -3022,9 +3001,6 @@
     <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\Images\Images.css">
-      <DependentUpon>Images.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css">
       <DependentUpon>LearningSessionResult.less</DependentUpon>
@@ -3452,7 +3428,6 @@
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
-    <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
@@ -3563,19 +3538,10 @@
     <Content Include="Views\Images\ImageDetail.js">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images\ImageMaintenance.js">
-      <DependentUpon>ImageMaintenance.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Images\ImageDetailModal.ascx" />
-    <Content Include="Views\Maintenance\Images\ImageMaintenanceRow.ascx" />
-    <Content Include="Views\Maintenance\Images\ImageMaintenanceModal.ascx" />
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images\Markup.ascx" />
-    <Content Include="Views\Maintenance\Tools.aspx" />
-    <Content Include="Views\Maintenance\Messages.aspx" />
-    <Content Include="Views\Maintenance\Images\Images.aspx" />
     <Content Include="Views\Messages\Js\Message.js">
       <DependentUpon>Message.ts</DependentUpon>
     </Content>
@@ -3620,7 +3586,6 @@
       <DependentUpon>References.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\Images\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
@@ -3656,7 +3621,6 @@
     <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
-    <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.js">
@@ -3748,9 +3712,6 @@
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images\ImageMaintenance.js.map">
-      <DependentUpon>ImageMaintenance.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Images\ImageDetail.js.map">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
@@ -3768,14 +3729,12 @@
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js.map">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images\Images.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
     <Content Include="Views\Help\FAQ.less" />
-    <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
@@ -3785,17 +3744,8 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Js\ContentStats.js.map">
-      <DependentUpon>ContentStats.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\Js\CMS.js.map">
-      <DependentUpon>CMS.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
       <DependentUpon>AnswerBody.ts</DependentUpon>
