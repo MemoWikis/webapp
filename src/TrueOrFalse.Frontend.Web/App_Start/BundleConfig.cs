@@ -100,18 +100,6 @@ public class BundleConfig
         bundles.Add(new StyleBundle("~/bundles/Segmentation")
             .Include("~/Views/Categories/Detail/Partials/Segmentation/Segmentation.css"));
 
-        bundles.Add(new ScriptBundle("~/bundles/js/Category")
-            .Include("~/Views/Knowledge/KnowledgeBar.js")
-            .IncludeDirectory("~/Views/Categories/Detail/JsAnalyticsTab/", "*.js")
-            .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
-            .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
-            .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
-            .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryImageComponent.js")
-            .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryNameComponent.js")
-            .Include("~/Views/Categories/Detail/JsEditMode/CategoryHeader/CategoryHeaderApp.js")
-            .Include("~/Views/Categories/Edit/Js/DeleteCategory/DeleteCategoryComponent.js")
-            .Include("~/Views/Categories/Edit/Js/AddCategory/AddCategoryComponent.js")
-            .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/d3")
             .Include("~/Scripts/npm/d3/d3.js"));
@@ -139,15 +127,6 @@ public class BundleConfig
 
         bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
             .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/CategoryEditMode")
-            .Include("~/Scripts/npm/vue-select/vue-select.js")
-            .Include("~/Scripts/npm/vue-sticky-directive/vue-sticky-directive.js")
-            .Include("~/Scripts/npm/postscribe/postscribe.js")
-            .Include("~/Scripts/npm/vue-float-action-button/vue-fab.js")
-            .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/InlineEdit/", "*.js")
-            .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/Segmentation/", "*.js")
-            .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/", "*.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/PublishCategory")
             .IncludeDirectory("~/Views/Categories/Detail/JsEditMode/PublishCategory/", "*.js"));

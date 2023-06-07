@@ -2097,9 +2097,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js">
-      <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbFirstChevron.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbTrail.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryToPrivate\CategoryToPrivateLoader.ascx" />
@@ -2109,28 +2106,12 @@
     <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategoryLoader.ascx" />
     <Content Include="Views\Categories\Edit\AddToWikiComponentLoader.ascx" />
     <Content Include="Views\Categories\Edit\AddToWikiComponent.vue.ascx" />
-    <Content Include="Views\Questions\AnswerQuestionComponent.js" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js">
-      <DependentUpon>CommentComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.js.map">
-      <DependentUpon>CommentComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js">
-      <DependentUpon>CommentsSection.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Comments\CommentsSection.js.map">
-      <DependentUpon>CommentsSection.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentsSectionComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
-    <Content Include="Views\Questions\Js\DeleteQuestionComponent.js">
-      <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.js">
       <DependentUpon>QuestionCommentSectionModalComponentLoader.ts</DependentUpon>
@@ -2142,7 +2123,6 @@
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
     <Content Include="Views\Questions\SessionConfig\SessionProgressBarComponent.vue.ascx" />
     <Content Include="Views\Questions\SessionConfig\SessionConfigComponentLoader.ascx" />
-    <Content Include="Views\Shared\Editor\tiptapLoader.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
@@ -2165,9 +2145,6 @@
     </Content>
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Search\HeaderSearch.js">
-      <DependentUpon>HeaderSearch.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Search\Search.css">
       <DependentUpon>Search.less</DependentUpon>
     </Content>
@@ -2265,12 +2242,6 @@
     <Content Include="Scripts\npm\vue-textarea-autosize\vue-textarea-autosize.umd.js" />
     <Content Include="Scripts\npm\vue\vue.js" />
     <Content Include="Scripts\npm_builder\vue-material-design-ripple-build\index.js" />
-    <Content Include="Scripts\SidebarCards.js">
-      <DependentUpon>SidebarCards.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\SidebarCards.js.map">
-      <DependentUpon>SidebarCards.js</DependentUpon>
-    </Content>
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -2316,15 +2287,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js">
-      <DependentUpon>FloatingActionButton.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js">
-      <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js">
-      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js">
       <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
     </Content>
@@ -2334,35 +2296,8 @@
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js">
       <DependentUpon>CategoryNameComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js">
-      <DependentUpon>ContentModulesApp.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js">
-      <DependentUpon>InlineEditComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.js">
       <DependentUpon>PublishCategoryComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.js">
-      <DependentUpon>SegmentationCategoryCardComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.js">
-      <DependentUpon>SegmentationComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js">
-      <DependentUpon>SegmentComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\Category.js">
-      <DependentUpon>Category.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\Category.js.map">
-      <DependentUpon>Category.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
-      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\Tabbing.js">
-      <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeaderAuthors.ascx" />
@@ -2376,22 +2311,13 @@
     <Content Include="Views\Categories\Edit\DeleteCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
-    <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js">
-      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\PrivacySelector.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\BasicEditorMenubar.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.js">
-      <DependentUpon>EditQuestionLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionModalLoader.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.js">
-      <DependentUpon>FlashCardComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.js">
       <DependentUpon>MatchListComponent.ts</DependentUpon>
@@ -2409,14 +2335,6 @@
     <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\SessionConfig\SessionConfigComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
-    <Content Include="Views\Shared\CategoryChip\CategoryChipComponent.js">
-      <DependentUpon>CategoryChipComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\CategoryChip\CategoryChipComponent.vue.ascx" />
-    <Content Include="Views\Shared\Editor\EditorMenuBarComponent.js">
-      <DependentUpon>EditorMenuBarComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Editor\EditorMenuBarComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
     <Content Include="Views\Categories\History\CategoryHistory.css">
@@ -2424,9 +2342,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js">
       <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js">
-      <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
@@ -2469,13 +2384,9 @@
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Scripts\VueExtensions\VueDirectives.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.ts" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
@@ -2501,17 +2412,11 @@
     <Content Include="Views\Error\Error.less" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
-    <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
-      <DependentUpon>Tabbing.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js.map">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\NumbersCountUp.js.map">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
-      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
     <Content Include="Fonts\font-awesome-5.7.2\less\brands.less" />
     <Content Include="Fonts\font-awesome-5.7.2\less\fontawesome.less" />
@@ -2551,35 +2456,11 @@
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>
     <Content Include="Style\sidebar.less" />
-    <Content Include="Views\Categories\Detail\JsEditMode\InlineEdit\InlineEditComponent.js.map">
-      <DependentUpon>InlineEditComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsAnalyticsTab\KnowledgeGraph.js.map">
-      <DependentUpon>KnowledgeGraph.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\KnowledgeSummaryBar.js.map">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.js.map">
-      <DependentUpon>SegmentationCategoryCardComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js.map">
-      <DependentUpon>FloatingActionButton.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.js.map">
-      <DependentUpon>SegmentationComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.js.map">
-      <DependentUpon>FloatingActionButton.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\FloatingActionButton\TopicTabFABLoader.js.map">
-      <DependentUpon>TopicTabFABLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.less" />
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js.map">
-      <DependentUpon>SegmentComponent.ts</DependentUpon>
-    </Content>
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
@@ -2594,7 +2475,6 @@
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
-    <Content Include="Views\Shared\Cards\CardTutory.ascx" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
@@ -2644,42 +2524,22 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\SidebarCards.ts" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\FloatingActionButton\FloatingActionButton.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationCategoryCardComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\CategoryToPrivate\CategoryToPrivateComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.ts" />
     <TypeScriptCompile Include="Views\Categories\History\CategoryHistory.ts" />
     <TypeScriptCompile Include="Views\Knowledge\KnowledgeBar.ts" />
-    <TypeScriptCompile Include="Views\Questions\AnswerQuestionComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Comments\CommentsSection.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\DeleteQuestionComponent.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\History\Detail\Js\HistoryDetail.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
-    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js">
-      <DependentUpon>PinComponent.vue.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\SidebarCards\CreateQuestion.ascx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
@@ -2766,15 +2626,6 @@
     <Content Include="Scripts\socialLogins\Facebook.js">
       <DependentUpon>Facebook.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js">
-      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\socialLogins\Google.js">
-      <DependentUpon>Google.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\socialLogins\Google.js.map">
-      <DependentUpon>Google.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js">
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
@@ -2803,7 +2654,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
-    <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
@@ -2815,9 +2665,6 @@
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
-    <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
-    <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
-    <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
@@ -2836,9 +2683,7 @@
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
-    <TypeScriptCompile Include="Scripts\Site.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
-    <TypeScriptCompile Include="Scripts\Utils.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoryDelete.ts" />
@@ -2867,13 +2712,7 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\NotLoggedIn.js">
-      <DependentUpon>NotLoggedIn.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\vendor\jquery.countdown.js" />
-    <Content Include="Scripts\SearchInTabs.js">
-      <DependentUpon>SearchInTabs.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\SearchInTabsResult.js">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
     </Content>
@@ -2907,12 +2746,6 @@
     </Content>
     <Content Include="Scripts\QuestionsApi.js">
       <DependentUpon>QuestionsApi.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\Site.js">
-      <DependentUpon>Site.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\Utils.js">
-      <DependentUpon>Utils.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\bootstrapTooltip\bootstrap-tooltip.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
@@ -3137,12 +2970,6 @@
     <Content Include="Scripts\QuestionsApi.js.map">
       <DependentUpon>QuestionsApi.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\Site.js.map">
-      <DependentUpon>Site.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\Utils.js.map">
-      <DependentUpon>Utils.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\FormValidation.js.map">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
@@ -3172,9 +2999,6 @@
     <Content Include="Style\pages.css.map">
       <DependentUpon>pages.css</DependentUpon>
     </Content>
-    <Content Include="Scripts\SearchInTabs.js.map">
-      <DependentUpon>SearchInTabs.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\SearchInTabsResult.js.map">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
     </Content>
@@ -3184,9 +3008,6 @@
     <Content Include="Style\animate.less" />
     <Content Include="Style\animate.css.map">
       <DependentUpon>animate.css</DependentUpon>
-    </Content>
-    <Content Include="Scripts\NotLoggedIn.js.map">
-      <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
     <Content Include="Fonts\OpenSans\DXI1ORHCpsQm3Vp6mXoaTS3USBnSvpkopQaUR-2r7iU.ttf" />
     <Content Include="Fonts\OpenSans\EInbV5DfGHOiMmvb1Xr-hi3USBnSvpkopQaUR-2r7iU.ttf" />
@@ -3215,9 +3036,6 @@
     <Content Include="Style\cards.less" />
     <Content Include="Scripts\socialLogins\Facebook.js.map">
       <DependentUpon>Facebook.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js.map">
-      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js.map">
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
@@ -3326,17 +3144,12 @@
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.ts" />
-    <TypeScriptCompile Include="Views\Shared\CategoryChip\CategoryChipComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Editor\EditorMenuBarComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\PinComponentVue\PinComponent.vue.ts" />
-    <TypeScriptCompile Include="Views\Shared\Search\HeaderSearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
-    <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -3390,10 +3203,6 @@
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Category.aspx" />
-    <TypeScriptCompile Include="Views\Categories\Js\Categories.ts" />
-    <Content Include="Views\Categories\Js\Categories.js">
-      <DependentUpon>Categories.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Images\ImageDetail.js">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
@@ -3401,14 +3210,8 @@
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Scripts\RowPin.js">
-      <DependentUpon>RowPin.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionsSearch.js">
-      <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
     <Content Include="Views\Error\_404.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
@@ -3422,9 +3225,7 @@
     </Content>
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
-    <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionsSearch.ts" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
@@ -3435,18 +3236,10 @@
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
-    <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
-    <Content Include="Views\Questions\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionRowSelection.js">
-      <DependentUpon>QuestionRowSelection.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Images\ImageUpload\ImageUpload.js">
@@ -3463,20 +3256,11 @@
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
-    <Content Include="Views\Questions\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionRowSelection.js.map">
-      <DependentUpon>QuestionRowSelection.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js.map">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Js\Categories.js.map">
-      <DependentUpon>Categories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js.map">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
@@ -3493,9 +3277,6 @@
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\RowPin.js.map">
-      <DependentUpon>RowPin.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -3504,9 +3285,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
-      <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
     <Content Include="Style\Images.less" />
     <Content Include="Style\Images.css.map">
@@ -3546,17 +3324,8 @@
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js.map">
       <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsComponent.js.map">
-      <DependentUpon>AnswerQuestionDetailsComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js.map">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
-      <DependentUpon>PinComponent.vue.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\ContentModulesApp.js.map">
-      <DependentUpon>ContentModulesApp.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryHeaderApp.js.map">
       <DependentUpon>CategoryHeaderApp.ts</DependentUpon>
@@ -3564,17 +3333,11 @@
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryNameComponent.js.map">
       <DependentUpon>CategoryNameComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\Js\AddCategory\AddCategoryComponent.js.map">
-      <DependentUpon>AddCategoryComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\PublishCategory\PublishCategoryComponent.js.map">
       <DependentUpon>PublishCategoryComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js.map">
       <DependentUpon>CategoryImageComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.js.map">
-      <DependentUpon>FlashCardComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.js.map">
       <DependentUpon>MultipleChoiceComponent.ts</DependentUpon>
@@ -3582,20 +3345,11 @@
     <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.js.map">
       <DependentUpon>MatchListComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\CategoryChip\CategoryChipComponent.js.map">
-      <DependentUpon>CategoryChipComponent.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.js.map">
       <DependentUpon>TextSolutionComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionLoader.js.map">
-      <DependentUpon>EditQuestionLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js.map">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Editor\EditorMenuBarComponent.js.map">
-      <DependentUpon>EditorMenuBarComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Search\SearchComponent.js.map">
       <DependentUpon>SearchComponent.ts</DependentUpon>
@@ -3606,20 +3360,10 @@
     <Content Include="Views\Shared\Search\StickySearch.js.map">
       <DependentUpon>SearchComponent.js</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Search\HeaderSearch.js.map">
-      <DependentUpon>HeaderSearch.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Search\Search.less" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
       <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\DeleteQuestionComponent.js.map">
-      <DependentUpon>DeleteQuestionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentationPinComponent.js.map">
-      <DependentUpon>SegmentationPinComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
@@ -3645,6 +3389,8 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="DynamicData\FieldTemplates\" />
+    <Folder Include="Views\Categories\Detail\JsEditMode\InlineEdit\" />
+    <Folder Include="Views\Categories\Edit\Js\AddCategory\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
