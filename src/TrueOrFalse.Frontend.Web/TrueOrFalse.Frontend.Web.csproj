@@ -366,9 +366,6 @@
     <Compile Include="Views\ApiVueApp\Question\VueQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserMessagesController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicController.cs" />
-    <Compile Include="Views\Api\CategoryApiController.cs" />
-    <Compile Include="Views\Api\EduSharingApiController.cs" />
-    <Compile Include="Views\Api\SearchApiController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryRedirectController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
@@ -2395,12 +2392,6 @@
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Messages\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Messages\Js\ShowAllMessages.js">
-      <DependentUpon>ShowAllMessages.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\AddQuestion\AddQuestionComponent.vue.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.js">
@@ -2551,7 +2542,6 @@
       <DependentUpon>Error.less</DependentUpon>
     </Content>
     <Content Include="Views\Error\Error.less" />
-    <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
@@ -2633,9 +2623,6 @@
     <Content Include="Views\Categories\Detail\JsEditMode\Segmentation\SegmentComponent.js.map">
       <DependentUpon>SegmentComponent.ts</DependentUpon>
     </Content>
-    <Compile Include="Views\Maintenance\StatisticsModel.cs" />
-    <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
-    <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
@@ -2758,8 +2745,6 @@
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\History\Detail\Js\HistoryDetail.ts" />
-    <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
@@ -3429,17 +3414,12 @@
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
-    <Compile Include="Views\Maintenance\MessagesModel.cs" />
-    <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
-    <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
-    <Compile Include="Views\Messages\MessagesController.cs" />
-    <Compile Include="Views\Messages\MessageModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
@@ -3542,12 +3522,6 @@
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Messages\Js\Message.js">
-      <DependentUpon>Message.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Messages\Message.css">
-      <DependentUpon>Message.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
@@ -3586,7 +3560,6 @@
       <DependentUpon>References.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
-    <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ts" />
@@ -3669,13 +3642,6 @@
     </Content>
     <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
       <DependentUpon>ImageUpload.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Messages\Message.less" />
-    <Content Include="Views\Messages\Js\Message.js.map">
-      <DependentUpon>Message.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Messages\Message.css.map">
-      <DependentUpon>Message.css</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
@@ -3795,12 +3761,6 @@
     <Content Include="Views\Categories\Detail\JsEditMode\CategoryHeader\CategoryImageComponent.js.map">
       <DependentUpon>CategoryImageComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Messages\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Messages\Js\ShowAllMessages.js.map">
-      <DependentUpon>ShowAllMessages.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.js.map">
       <DependentUpon>LearningSessionResult.ts</DependentUpon>
     </Content>
@@ -3871,7 +3831,6 @@
     <Content Include="Views\Questions\AnswerQuestionComponent.js.map" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
-    <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Scripts\JQueryExtensions.js" />

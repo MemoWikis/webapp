@@ -402,7 +402,7 @@ public class CategoryController : BaseController
             Url = Links.CategoryDetail(category.Name, category.Id),
             QuestionCount = category.GetCountQuestionsAggregated(),
             ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px(asSquare: true).Url,
-            IconHtml = SearchApiController.GetIconHtml(category),
+            IconHtml = CategoryCachedData.GetIconHtml(category),
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int) category.Visibility

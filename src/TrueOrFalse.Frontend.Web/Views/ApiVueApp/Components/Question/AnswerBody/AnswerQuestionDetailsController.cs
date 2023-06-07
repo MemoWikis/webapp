@@ -46,7 +46,7 @@ public class AnswerQuestionDetailsController: Controller
                 Url = Links.CategoryDetail(t.Name, t.Id),
                 QuestionCount = t.GetCountQuestionsAggregated(),
                 ImageUrl = new CategoryImageSettings(t.Id).GetUrl_128px(asSquare: true).Url,
-                IconHtml = SearchApiController.GetIconHtml(t),
+                IconHtml = CategoryCachedData.GetIconHtml(t),
                 MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(t.Id, ImageType.Category))
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
                 Visibility = (int)t.Visibility,

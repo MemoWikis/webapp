@@ -275,12 +275,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
             .Include("~/Scripts/BootstrapCustomUtils.js"));
 
-        bundles.Add(new StyleBundle("~/bundles/Maintenance")
-            .Include("~/Views/Maintenance/*.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceImages")
-            .Include("~/Views/Maintenance/Images/ImageMaintenance.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/diff2html")
             .Include("~/Scripts/vendor/diff2html/*.js"));
 
