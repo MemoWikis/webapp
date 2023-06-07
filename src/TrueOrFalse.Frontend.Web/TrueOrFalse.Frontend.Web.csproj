@@ -368,13 +368,9 @@
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicController.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
     <Compile Include="Views\Categories\Detail\Partials\BreadCrumbModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\InlineText\InlineTextJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationController.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\Segment.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardModel.cs" />
     <Compile Include="Views\Categories\History\RelationChangeItem.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicControllerLogic.cs" />
@@ -384,13 +380,10 @@
     <Compile Include="Views\Questions\Answer\TopicToContinueLearningModel.cs" />
     <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraphModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
@@ -2089,9 +2082,6 @@
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbFirstChevron.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbTrail.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponentLoader.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\InlineText\InlineTextComponent.vue.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategoryLoader.ascx" />
     <Content Include="Views\Categories\Edit\AddToWikiComponentLoader.ascx" />
     <Content Include="Views\Categories\Edit\AddToWikiComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
@@ -2277,20 +2267,11 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeaderAuthors.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\PublishCategory\PublishCategory.vue.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.css">
-      <DependentUpon>Segmentation.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.Placeholder.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationCategoryCardComponent.vue.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.Placeholder.ascx" />
     <Content Include="Views\Categories\Edit\DeleteCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js">
       <DependentUpon>DeleteCategoryComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\SegmentationComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\PrivacySelector.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\BasicEditorMenubar.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionModalLoader.ascx" />
@@ -2326,9 +2307,7 @@
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\KnowledgeGraph\KnowledgeGraph.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\InlineText\InlineText.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
@@ -2430,7 +2409,6 @@
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
-    <Content Include="Views\Categories\Detail\Partials\Segmentation\Segmentation.less" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
@@ -2477,7 +2455,6 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
-    <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
     </Content>

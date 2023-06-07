@@ -10,7 +10,7 @@ public class SegmentationModel : BaseContentModule
 
     public string Title;
     public string Text;
-    public bool HasCustomSegments = false;
+    public bool HasCustomSegments;
 
     public List<CategoryCacheItem> CategoryList;
     public List<CategoryCacheItem> NotInSegmentCategoryList;
@@ -36,7 +36,9 @@ public class SegmentationModel : BaseContentModule
             NotInSegmentCategoryList = categoryList.OrderBy(c => c.Name).ToList();
 
         var childCategoryIds = NotInSegmentCategoryList.GetIds();
+        //benötigt 
         NotInSegmentCategoryIds = "[" + String.Join(",", childCategoryIds) + "]";
+
         if (Segments != null)
         {
             var filteredSegments = Segments.Select(s => new
@@ -48,9 +50,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
     }
-
-
-    public List<Segment> GetSegments(int id)
+    private List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
 
@@ -78,7 +78,7 @@ public class SegmentationModel : BaseContentModule
         return segments.Distinct().OrderBy(s => s.Title).ToList();
     }
 
-    public List<CategoryCacheItem> GetNotInSegmentCategoryList(List<Segment> segments, List<CategoryCacheItem> categoryList)
+    private List<CategoryCacheItem> GetNotInSegmentCategoryList(List<Segment> segments, List<CategoryCacheItem> categoryList)
     {
         var notInSegmentCategoryList = new List<CategoryCacheItem>();
         var inSegmentCategoryList = new List<CategoryCacheItem>();
