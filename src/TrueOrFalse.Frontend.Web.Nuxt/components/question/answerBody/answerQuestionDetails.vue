@@ -54,14 +54,16 @@ const baseArcData = ref({
     class: "baseArc",
 })
 
-const personalArcData = ref<{
+interface ArcData {
     startAngle: number,
     endAngle: number,
     innerRadius: number,
     outerRadius: number,
     fill: string,
-    class: string,
-}>({
+    class?: string,
+}
+
+const personalArcData = ref<ArcData>({
     startAngle: -0.55 * Math.PI,
     endAngle: (-0.55 + personalProbability.value / 100 * 1.1) * Math.PI,
     innerRadius: 40,
@@ -70,7 +72,7 @@ const personalArcData = ref<{
     class: "personalArc",
 })
 
-const avgArcData = ref({
+const avgArcData = ref<ArcData>({
     startAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI - 0.01,
     endAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI + 0.01,
     innerRadius: 37.5,
@@ -90,7 +92,7 @@ const showPersonalArc = ref(false)
 const personalStartAngle = ref(0)
 const overallStartAngle = ref(0)
 
-const baseCounterData = ref({
+const baseCounterData = ref<ArcData>({
     startAngle: 0,
     endAngle: 2 * Math.PI,
     innerRadius: 20,
@@ -98,14 +100,41 @@ const baseCounterData = ref({
     fill: "#DDDDDD",
 })
 
-const personalWrongAnswerCountData = ref<any>({})
-const personalCorrectAnswerCountData = ref<any>({})
+const personalWrongAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#FFA07A",
+    class: "personalWrongAnswerCounter",
+})
+const personalCorrectAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#AFD534",
+    class: "personalCorrectAnswerCounter",
+})
 
-const overallWrongAnswerCountData = ref<any>({})
-const overallCorrectAnswerCountData = ref<any>({})
+const overallWrongAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#FFA07A",
+    class: "overallWrongAnswerCounter",
+})
+const overallCorrectAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#AFD534",
+    class: "overallCorrectAnswerCounter",
+})
 
 const tabsStore = useTabsStore()
-const isLandingPage = ref(tabsStore.activeTab != Tab.Learning)
 const questionIdHasChanged = ref(false)
 
 const topics = ref<TopicItem[]>([])
@@ -236,7 +265,7 @@ function calculateLabelWidth() {
     return probabilityLabelWidth + percentageLabelWidth.value + 1
 }
 
-function arcTween(d: any, newStartAngle: number, newEndAngle: number, newInnerRadius: number, newOuterRadius: number) {
+function arcTween(d: any, newStartAngle: number = 0, newEndAngle: number = 0, newInnerRadius: number = 0, newOuterRadius: number = 0) {
     if (d == null || isNaN(newStartAngle) || isNaN(newEndAngle) || isNaN(newInnerRadius) || isNaN(newOuterRadius))
         return
     var arc = d3.arc()
@@ -363,12 +392,16 @@ function updateArc() {
 const personalCounter = ref<SVGSVGElement | null>(null)
 const overallCounter = ref<SVGSVGElement | null>(null)
 
-function drawCounterArcs() {
-    if (!personalCounter.value || !overallCounter.value)
-        return
-    var arc = d3.arc()
+function angleIsNaN(a: ArcData) {
+    return isNaN(a.startAngle) || isNaN(a.endAngle)
+}
 
-    var personalCounterData = [
+function drawCounterArcs() {
+    if (!personalCounter.value || !overallCounter.value || angleIsNaN(personalWrongAnswerCountData.value) || angleIsNaN(personalCorrectAnswerCountData.value))
+        return
+    const arc = d3.arc()
+
+    const personalCounterData = [
         baseCounterData.value,
         personalWrongAnswerCountData.value,
         personalCorrectAnswerCountData.value

@@ -133,7 +133,13 @@ export const useTopicStore = defineStore('topicStore', {
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
-			const result = await $fetch('/apiVue/TopicStore/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
+			const result = await $fetch('/apiVue/TopicStore/SaveTopic', {
+				method: 'POST', body: json, mode: 'cors', credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+				}
+			})
 			if (result == true)
 				this.contentHasChanged = false
 		},

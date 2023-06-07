@@ -91,7 +91,6 @@ async function search() {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 
@@ -205,7 +204,6 @@ async function updateQuestionCount() {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 
@@ -237,7 +235,6 @@ async function save() {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     }).catch(error => {
         spinnerStore.hideSpinner()
@@ -333,7 +330,6 @@ async function getQuestionData(id: number) {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
     if (result != null) {

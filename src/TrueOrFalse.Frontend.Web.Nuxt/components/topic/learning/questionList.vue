@@ -20,7 +20,7 @@ const props = defineProps<Props>()
 const questions = ref<QuestionListItem[]>([])
 
 const itemCountPerPage = ref(25)
-
+const { $logger } = useNuxtApp()
 async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
@@ -29,7 +29,12 @@ async function loadQuestions(page: number) {
             itemCountPerPage: itemCountPerPage.value,
             pageNumber: page,
             topicId: topicStore.id
-        }, mode: 'cors', credentials: 'include'
+        },
+        mode: 'cors',
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
     if (result != null) {
         questions.value = result
@@ -100,7 +105,10 @@ async function loadNewQuestion(index: number) {
 
     var result = await $fetch<any>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/?index=${index}`, {
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
     if (result != null) {
         questions.value.push(result)

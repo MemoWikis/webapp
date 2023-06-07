@@ -11,12 +11,15 @@ interface CheckoutSessionResult {
     success: boolean
     id?: string
 }
-
+const { $logger } = useNuxtApp()
 const createOrUpdateSubscription = async (id: string): Promise<string> => {
     const result = await $fetch<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
         method: 'POST',
         body: { priceId: id },
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     });
     if (result.success)
         return result.id ? result.id : ''

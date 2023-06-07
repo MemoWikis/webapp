@@ -83,12 +83,17 @@ interface QuestionDataResult {
     title: string
     visibility: Visibility
 }
+const { $logger } = useNuxtApp()
 async function loadQuestionData() {
 
     const result = await $fetch<FetchResult<QuestionDataResult>>('/apiVue/TopicLearningQuestion/LoadQuestionData/', {
         body: { questionId: props.question.Id },
         method: 'POST',
         credentials: 'include',
+
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 
     if (result?.success) {
@@ -232,7 +237,10 @@ function setTitle(title: string) {
 async function getNewKnowledgeStatus() {
     currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus?id=${props.question.Id}`, {
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 }
 learningSessionStore.$onAction(({ name, after }) => {
