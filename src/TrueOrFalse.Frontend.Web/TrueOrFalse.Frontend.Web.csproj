@@ -2681,13 +2681,6 @@
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\SidebarCards\CreateQuestion.ascx" />
-    <Content Include="Views\Shared\Spinner\Spinner.ascx" />
-    <Content Include="Views\Shared\Spinner\Spinner.css">
-      <DependentUpon>Spinner.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Switch\Switch.css">
-      <DependentUpon>Switch.less</DependentUpon>
-    </Content>
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -3343,7 +3336,6 @@
     <TypeScriptCompile Include="Views\Shared\Search\HeaderSearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
     <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Spinner\Js\Spinner.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
   </ItemGroup>
@@ -3542,7 +3534,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Spinner\Spinner.less" />
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3561,7 +3552,6 @@
     <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js.map">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Switch\Switch.less" />
     <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.js.map">
       <DependentUpon>PinComponent.vue.ts</DependentUpon>
     </Content>
