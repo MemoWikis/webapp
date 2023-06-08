@@ -166,7 +166,7 @@ const navOptions = ref()
                         </VDropdown>
 
                         <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                            :class="{ 'hide()-nav': !showRegisterButton }">
+                            :class="{ 'hide-nav': !showRegisterButton }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"
