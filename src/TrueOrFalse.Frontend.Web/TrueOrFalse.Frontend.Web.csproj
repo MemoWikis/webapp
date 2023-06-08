@@ -2064,17 +2064,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
-    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.js">
-      <DependentUpon>QuestionCommentSectionModalComponentLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.js.map">
-      <DependentUpon>QuestionCommentSectionModalComponentLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.vue.ascx" />
-    <Content Include="Views\Questions\Modals\QuestionCommentSectionModalTemplate.vue.ascx" />
-    <Content Include="Views\Questions\SessionConfig\SessionProgressBarComponent.vue.ascx" />
-    <Content Include="Views\Questions\SessionConfig\SessionConfigComponentLoader.ascx" />
     <Content Include="Views\Shared\Lazy\LazyComponent.js">
       <DependentUpon>LazyComponent.ts</DependentUpon>
     </Content>
@@ -2239,23 +2228,13 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
-    <Content Include="Views\Questions\SessionConfig\SessionConfigComponent.vue.ascx" />
-    <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
-    <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Scripts\VueExtensions\VueDirectives.ts" />
-    <Content Include="Views\Questions\SessionConfig\SessionConfig.css">
-      <DependentUpon>SessionConfig.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\QuestionList\QuestionList.css">
-      <DependentUpon>QuestionList.less</DependentUpon>
-    </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Scripts\header\ActivityPointsPopup.js.map">
@@ -2304,9 +2283,7 @@
     <Content Include="Scripts\KnowledgeSummaryBar.js.map">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\QuestionList\QuestionList.less" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
-    <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
     <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
@@ -2859,7 +2836,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <TypeScriptCompile Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
@@ -2921,7 +2897,6 @@
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -2940,7 +2915,6 @@
       <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
-    <Content Include="Views\Questions\SessionConfig\SessionConfig.less" />
     <Content Include="Views\Shared\Search\SearchComponent.js.map">
       <DependentUpon>SearchComponent.ts</DependentUpon>
     </Content>
