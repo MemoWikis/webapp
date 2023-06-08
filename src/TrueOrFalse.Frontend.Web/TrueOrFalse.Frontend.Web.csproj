@@ -2390,7 +2390,6 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
@@ -2502,12 +2501,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList_LayoutMobile.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">
-      <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="mstile-144x144.png" />
@@ -3021,11 +3014,6 @@
     </Content>
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js">
       <DependentUpon>EditQuestion.ts</DependentUpon>
@@ -3074,9 +3062,6 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
-      <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
