@@ -2263,9 +2263,6 @@
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js">
-      <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
     </Content>
@@ -2278,10 +2275,6 @@
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Scripts\VueExtensions\VueDirectives.ts" />
-    <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
-      <DependentUpon>QuestionFilter.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
     <Content Include="Views\Questions\SessionConfig\SessionConfig.css">
       <DependentUpon>SessionConfig.less</DependentUpon>
     </Content>
@@ -2343,7 +2336,6 @@
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
-    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
     <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailModel.cs" />
@@ -2393,14 +2385,12 @@
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigData.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
     <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
     <Content Include="Views\Shared\SidebarCards\CreateQuestion.ascx" />
     <Content Include="android-chrome-144x144.png" />
@@ -2564,9 +2554,6 @@
       <DependentUpon>pages.less</DependentUpon>
     </Content>
     <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
-    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css">
-      <DependentUpon>LearningSessionResult.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
@@ -3053,23 +3040,12 @@
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
-    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
-    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
-      <DependentUpon>LearningSessionResult.css</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
     <Content Include="Views\Questions\SessionConfig\SessionConfig.less" />
-    <Content Include="Views\Questions\Answer\Js\QuestionFilter.js.map">
-      <DependentUpon>QuestionFilter.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js.map">
-      <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js.map">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
     </Content>
