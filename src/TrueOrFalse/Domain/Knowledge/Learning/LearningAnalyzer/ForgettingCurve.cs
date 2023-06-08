@@ -10,7 +10,6 @@ public class ForgettingCurve
 
     public IList<IntervalizerResultItem> Intervals;
 
-    public TimeSpan IntervalsTimeSpan{ get { return Intervals.Last().TimePassedUpperBound; } }
     public TimeSpan TimeSpanLength { get { return Intervals.First().TimeIntervalLength; } }
 
     public ForgettingCurve(IList<IntervalizerResultItem> intervals)

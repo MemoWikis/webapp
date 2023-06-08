@@ -28,29 +28,5 @@ public class IntervalizerResultItem
         NumberOfPairs = PairsOfExaminedAndNextAnswer.Count;
         ProportionAnsweredCorrect = PairsOfExaminedAndNextAnswer.Count(p => p.Item2.AnsweredCorrectly()) / (double)NumberOfPairs;
     }
-
-    public int TimePassedUpperBoundNumeric()
-    {
-        if (TimeIntervalLength.Minutes >= 0 && TimeIntervalLength.Hours <= 0) return (int)TimePassedUpperBound.TotalMinutes;
-        if (TimeIntervalLength.Hours >= 0 && TimeIntervalLength.Days <= 0) return (int)TimePassedUpperBound.TotalHours;
-        if (TimeIntervalLength.Hours >= 0 && TimeIntervalLength.Days <= 0)
-            return (int)TimePassedUpperBound.TotalHours;
-
-        return -1;
-    }
-
-    public double NumberOfInterval(ForgettingCurveInterval interval)
-    {
-        switch (interval)
-        {
-            case ForgettingCurveInterval.Minutes: return Math.Round(TimePassedUpperBound.TotalMinutes, 0);
-            case ForgettingCurveInterval.Hours: return Math.Round(TimePassedUpperBound.TotalHours, 0);
-            case ForgettingCurveInterval.Days: return Math.Round(TimePassedUpperBound.TotalDays, 0);
-            case ForgettingCurveInterval.Week: return Math.Round(TimePassedUpperBound.TotalDays / 7, 0);
-            case ForgettingCurveInterval.Month: return Math.Round(TimePassedUpperBound.TotalDays / 30, 0);
-        }
-
-        throw new Exception("not implemented type");
-    }
 }
 
