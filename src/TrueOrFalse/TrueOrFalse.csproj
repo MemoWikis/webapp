@@ -385,7 +385,6 @@
     <Compile Include="Domain\Category\Ops\IsSpoilerCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
-    <Compile Include="Domain\Category\RelatedCategory\Ops\GetCategoryChildren.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />

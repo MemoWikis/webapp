@@ -7,38 +7,15 @@ using TrueOrFalse.Search;
 [Serializable]
 public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorytOrderBy>
 {
-    public string SearchTerm;
-
     public bool FilterByMe { get; private set; }
     public bool FilterByAll { get; private set; }
     public ReadOnlyCollection<int> FilterByUsers { get; private set; }
-
-    public SpellCheckResult SpellCheck;
-
-    public string GetSuggestion()
-    {
-        return SpellCheck.GetSuggestion();
-    }
 
     public CategorySearchSpec()
     {
         FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
         FilterByMe = true;
         FilterByAll = true;
-        UpdateUserFilter();
-    }
-
-    public void SetFilterByMe(bool? value)
-    {
-        if (!value.HasValue || value.Value == FilterByMe) return;
-        FilterByMe = value.Value;
-        UpdateUserFilter();
-    }
-
-    public void SetFilterByAll(bool? value)
-    {
-        if (!value.HasValue || value.Value == FilterByAll) return;
-        FilterByAll = value.Value;
         UpdateUserFilter();
     }
 

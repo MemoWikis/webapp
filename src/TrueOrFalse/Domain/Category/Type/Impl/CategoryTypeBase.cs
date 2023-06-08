@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using TrueOrFalse;
 
 [Serializable]
 public abstract class CategoryTypeBase<T> : ICategoryTypeBase where T : new()  
@@ -8,11 +7,6 @@ public abstract class CategoryTypeBase<T> : ICategoryTypeBase where T : new()
     public Category Category { get; set; }
 
     public abstract CategoryType Type { get; }
-
-    public string ToJson()
-    {
-        return JsonConvert.SerializeObject(this);
-    }
 
     public static T FromJson(Category category)
     {

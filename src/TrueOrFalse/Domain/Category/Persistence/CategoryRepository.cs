@@ -15,9 +15,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
     }
 
     public const int AllgemeinwissenId = 709;
-    public const int SchuleId = 682;
-    public const int StudiumId = 687;
-    public const int ZertifikateId = 689;
     private readonly SolrSearchIndexCategory _solrSearchIndexCategory;
     private readonly bool _isSolrActive;
 
@@ -225,15 +222,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
-
-    public IList<Category> GetChildren(int categoryId)
-    {
-        var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
-            FROM relatedcategoriestorelatedcategories
-            WHERE  Related_id = {categoryId}").List<int>();
-        return GetByIds(categoryIds.ToArray());
-    }
-
     public IList<Category> GetChildren(
         CategoryType parentType,
         CategoryType childrenType,
@@ -270,28 +258,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         return includingCategories;
-    }
-
-    public IEnumerable<int> GetRootCategoryInts()
-    {
-        return GetRootCategoryListIds();
-    }
-
-    public List<int> GetRootCategoryListIds()
-    {
-        return new List<int>
-        {
-            SchuleId,
-            StudiumId,
-            ZertifikateId,
-            AllgemeinwissenId
-        };
-    }
-
-    public int TotalCategoryCount()
-    {
-        return _session.QueryOver<Category>()
-            .RowCount();
     }
 
     /// <summary>

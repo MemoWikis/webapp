@@ -37,41 +37,6 @@ public enum CategoryTypeGroup
 }
 public static class CategoryTypeExts
 {
-    public static string GetName(this CategoryType e)
-    {
-        switch (e)
-        {
-            case CategoryType.Standard: return "Standard";
-
-            case CategoryType.Book: return "Buch";
-            case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
-            case CategoryType.Daily: return "Zeitung";
-            case CategoryType.DailyIssue: return "Ausgabe Zeitung";
-            case CategoryType.DailyArticle: return "Artikel in Zeitung";
-            case CategoryType.Magazine: return "Zeitschrift";
-            case CategoryType.MagazineIssue: return "Ausgabe Zeitschrift";
-            case CategoryType.MagazineArticle: return "Artikel in Zeitschrift";
-
-            case CategoryType.Website: return "Webseite";
-            case CategoryType.WebsiteArticle: return "Online-Artikel / Blog-Artikel";
-            case CategoryType.WebsiteVideo: return "Youtube-Video";
-            case CategoryType.WebsiteOther: return "Webseite: Artikel/Eintrag/Meldung/Kurs...";
-
-
-            case CategoryType.Movie: return "Film";
-            case CategoryType.TvShow: return "Fernsehen";
-            case CategoryType.TvShowEpisode: return "Fernsehen: Episode/Ausgabe";
-
-            case CategoryType.FieldOfStudy: return "Studienfach";
-            case CategoryType.FieldOfTraining: return "Ausbildungsberuf";
-            case CategoryType.SchoolSubject: return "Schulfach";
-            case CategoryType.Course: return "Kurs/Seminar";
-            case CategoryType.Certification: return "Zertifizierung";
-            case CategoryType.EducationProvider: return "Bildungsanbieter";
-        }
-        throw new Exception("invalid category type");
-    }
-
     public static CategoryTypeGroup GetCategoryTypeGroup(this CategoryType e)
     {
 
@@ -108,57 +73,5 @@ public static class CategoryTypeExts
         }
 
         throw new Exception("CategoryType isn't assigned to any CategoryTypeGroup.");
-
     }
-
-    public static string GetCategoryTypeIconHtml(this CategoryType e)
-    {
-
-        switch (e)
-        {
-            case CategoryType.Standard: return "";
-
-            case CategoryType.Book: 
-            case CategoryType.VolumeChapter: return "<i class=\"fa fa-book greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
-            case CategoryType.Daily: 
-            case CategoryType.DailyIssue: 
-            case CategoryType.DailyArticle: return "<i class=\"fa fa-newspaper-o greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
-            case CategoryType.Magazine: 
-            case CategoryType.MagazineIssue: 
-            case CategoryType.MagazineArticle: return "<i class=\"fa fa-newspaper-o greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
-
-            case CategoryType.WebsiteOther: 
-            case CategoryType.Website: 
-            case CategoryType.WebsiteArticle: return "<i class=\"fa fa-globe greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
-            case CategoryType.WebsiteVideo: return "<i class=\"fa fa-youtube-play greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
-
-            //case CategoryType.Movie: return "";
-            //case CategoryType.TvShow: return "";
-            //case CategoryType.TvShowEpisode: return "";
-
-            case CategoryType.FieldOfStudy:
-            case CategoryType.FieldOfTraining: 
-            case CategoryType.SchoolSubject: 
-            case CategoryType.Course: 
-            case CategoryType.Certification: 
-            case CategoryType.EducationProvider: return "<i class=\"fa fa-university greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
-        }
-
-        return "";
-    }
-
-    public static string GetShortName(this CategoryType e)
-    {
-        switch (e)
-        {
-            case CategoryType.DailyArticle:
-            case CategoryType.MagazineArticle:
-                return "Artikel";
-            case CategoryType.WebsiteArticle:
-                return "Online-Artikel";
-            default:
-                return e.GetName();
-        }
-    }
-
 }

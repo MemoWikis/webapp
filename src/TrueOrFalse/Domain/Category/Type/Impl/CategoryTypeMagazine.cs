@@ -8,8 +8,6 @@ using Newtonsoft.Json;
 public class CategoryTypeMagazine : CategoryTypeBase<CategoryTypeMagazine>
 {
     public string Title;
-    public string ISSN;
-    public string Publisher;
 
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.Magazine; } }
