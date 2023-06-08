@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Criterion;
-using NHibernate.Transform;
+
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
@@ -86,13 +86,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public IList<CategoryChange> GetAllEager()
-    {
-        return _session
-            .QueryOver<CategoryChange>()
-            .Left.JoinQueryOver(q => q.Category)
-            .List();
-    }
+ 
 
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
     {
@@ -147,31 +141,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             return true;
 
         return false;
-    }
-
-    public CategoryChange GetByIdEager(int categoryChangeId)
-    {
-        return _session
-            .QueryOver<CategoryChange>()
-            .Where(cc => cc.Id == categoryChangeId)
-            .Left.JoinQueryOver(q => q.Category)
-            .SingleOrDefault();
-    }
-
-    public virtual CategoryChange GetNextRevision(CategoryChange categoryChange)
-    {
-        var categoryId = categoryChange.Category.Id;
-        var currentRevisionDate = categoryChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
-        var query = $@"
-            
-            SELECT * FROM CategoryChange cc
-            WHERE cc.Category_id = {categoryId} and cc.DateCreated > '{currentRevisionDate}' 
-            ORDER BY cc.DateCreated 
-            LIMIT 1
-        ";
-
-        var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).UniqueResult<CategoryChange>();
-        return nextRevision;
     }
 
     public virtual int GetCategoryId(int version)
