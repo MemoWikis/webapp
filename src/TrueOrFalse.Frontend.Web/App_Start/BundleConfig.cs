@@ -104,56 +104,12 @@ public class BundleConfig
         bundles.Add(new StyleBundle("~/bundles/Login")
             .Include("~/Views/Welcome/Registration/Register.css"));
 
-        bundles.Add(new ScriptBundle("~/bundles/questions")
-            .IncludeDirectory("~/Views/Questions/Js/", "*.js")
-            .Include("~/Scripts/ValuationPerRow.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
-            .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
-            .IncludeDirectory("~/Views/Questions/Answer/Comments/", "*.js")
-        );
-
-        bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
-            .Include("~/Views/Questions/Answer/*.css"));
-
-        bundles.Add(new StyleBundle("~/bundles/SessionConfig")
-            .Include("~/Views/Questions/SessionConfig/*.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/QuestionDetailsApp")
-            .Include("~/Views/Questions/Answer/Js/QuestionDetails/AnswerQuestionDetailsApp.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/QuestionDetailsComponent")
-            .Include("~/Views/Questions/Answer/Js/QuestionDetails/AnswerQuestionDetailsComponent.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/QuestionListApp")
-            .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
-            .Include("~/Views/Questions/Js/QuestionList/QuestionListApp.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/QuestionListComponents")
-            .Include("~/Views/Questions/Js/AddQuestion/AddQuestion.js")
-            .Include("~/Scripts/npm/vue-slider-component/vue-slider-component.umd.js")
-            .Include("~/Views/Questions/Js/QuestionList/QuestionListComponent.js")
-            .Include("~/Views/Questions/Js/QuestionList/QuestionComponent.js")
-            .Include("~/Views/Shared/PinComponentVue/PinComponent.vue.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/SessionConfigComponent")
             .Include("~/Views/Questions/Js/SessionConfig/SessionProgressBarComponent.js")
             .Include("~/Views/Questions/Js/SessionConfig/SessionConfigComponent.js"));
 
         bundles.Add(new StyleBundle("~/bundles/QuestionList")
             .Include("~/Views/Questions/QuestionList/QuestionList.css"));
-
-        bundles.Add(new StyleBundle("~/bundles/QuestionHistory")
-            .Include("~/Views/Questions/History/*.css"));
-
-        bundles.Add(new StyleBundle("~/bundles/QuestionHistoryDetail")
-            .Include("~/Views/Questions/History/Detail/*.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/QuestionHistoryDetail")
-            .Include("~/Views/Questions/History/Detail/Js/*.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/DeleteQuestion")
-            .Include("~/Views/Questions/Js/DeleteQuestionComponent.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
             .Include("~/Scripts/BootstrapCustomUtils.js"));
