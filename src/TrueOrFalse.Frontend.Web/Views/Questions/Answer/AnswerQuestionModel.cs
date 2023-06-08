@@ -14,9 +14,7 @@ public class AnswerQuestionModel : BaseModel
     public QuestionVisibility Visibility { get; private set; }
     public IList<CategoryCacheItem> Categories;
     public HistoryAndProbabilityModel HistoryAndProbability;
-    public bool IsLearningSession => LearningSession != null;
     public LearningSession  LearningSession;
-    public ContentRecommendationResult ContentRecommendationResult;
     public AnswerQuestionModel(QuestionCacheItem question, bool isQuestionDetails)
     {
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
