@@ -13,19 +13,5 @@ public abstract class ProbabilityCalc_Abstract
         return Run(answers, question, user);
     }
 
-    public ProbabilityCalcResult Run(QuestionCacheItem question, UserCacheItem user, IList<Answer> answers)
-    {
-        if(question == null || user == null)
-            return new ProbabilityCalcResult {Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned};
-
-        answers = answers
-            .Where(x =>
-                x.Question.Id == question.Id &&
-                x.UserId == user.Id
-            ).ToList();
-
-        return Run(answers, question, user);
-    }
-
-	public abstract ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, QuestionCacheItem question, UserCacheItem user);
+    public abstract ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, QuestionCacheItem question, UserCacheItem user);
 }

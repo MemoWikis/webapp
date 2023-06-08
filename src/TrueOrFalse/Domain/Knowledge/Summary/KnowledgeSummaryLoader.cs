@@ -114,23 +114,6 @@ public class KnowledgeSummaryLoader
             solid: solid, 
             notInWishKnowledge: notInWishknowledge,
             options: options);
-    }
-
-    public static KnowledgeSummary Run(
-        bool beforeTraining = false, 
-        bool afterTraining = false)
-    {
-        if(beforeTraining && afterTraining)
-            throw new Exception();
-
-        if (!beforeTraining && !afterTraining)
-            throw new Exception();
-
-        var needsLearning = 0;
-        var needsConsolidation = 0;
-        var solid = 0;
-
-        return new KnowledgeSummary(needsLearning: needsLearning, needsConsolidation: needsConsolidation, solid: solid);
-    }
+    } 
 }
 

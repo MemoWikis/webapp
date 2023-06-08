@@ -11,7 +11,6 @@ public class LearningSessionConfig
     /// </summary>
     public int CurrentUserId { get; set; }
     public bool IsInTestMode { get; set; }
-    public bool IsInLearningTab { get; set; }
     public QuestionOrder QuestionOrder { get; set; } = QuestionOrder.SortByEasiest;
     public bool AnswerHelp { get; set; }
     public RepetitionType Repetition { get; set; } = RepetitionType.None;
@@ -38,12 +37,10 @@ public enum QuestionOrder
     SortByEasiest,
     SortByHardest,
     SortByPersonalHardest,
-    Random
 }
 
 public enum RepetitionType
 {
     None,
     Normal,
-    Leitner
 }
