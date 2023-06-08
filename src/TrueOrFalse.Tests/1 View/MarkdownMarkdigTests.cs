@@ -73,12 +73,5 @@ namespace TrueOrFalse.Tests
 
         }
 
-        [Ignore("")]
-        [Test]
-        public static void Serialize_template()
-        {
-            var templateJson = new TemplateJson {TemplateName = "Name"};
-            var json = JsonConvert.SerializeObject(templateJson);
-        }
     }
 }

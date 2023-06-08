@@ -380,7 +380,6 @@
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
-    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
     <Compile Include="Views\Categories\History\CategoryChangesOverviewController.cs" />
     <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
@@ -2298,9 +2297,6 @@
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
-    <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
-    <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
-    <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
       <DependentUpon>EditAggregation.ts</DependentUpon>
