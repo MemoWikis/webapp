@@ -332,9 +332,6 @@
     <Compile Include="Domain\Category\SearchUserItem.cs" />
     <Compile Include="Domain\Category\SearchQuestionItem.cs" />
     <Compile Include="Domain\Category\SearchCategoryItem.cs" />
-    <Compile Include="Domain\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
-    <Compile Include="Domain\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
-    <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />
     <Compile Include="Domain\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Category\CategoryValuation\CategoryInKnowledge.cs" />
@@ -385,9 +382,6 @@
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
     <Compile Include="Domain\Category\Ops\CategoryDeleter.cs" />
-    <Compile Include="Domain\Category\Ops\CategoryExists.cs" />
-    <Compile Include="Domain\Category\Ops\GetBreadCrumb.cs" />
-    <Compile Include="Domain\Category\Ops\GetQuestionsForCategory.cs" />
     <Compile Include="Domain\Category\Ops\IsSpoilerCategory.cs" />
     <Compile Include="Domain\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
@@ -677,7 +671,6 @@
     <Compile Include="Domain\Knowledge\History\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
-    <Compile Include="Domain\Category\Ops\GetCategoriesCount.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepo.cs">
