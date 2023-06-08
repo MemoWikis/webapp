@@ -2390,7 +2390,6 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
-    <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
@@ -2534,7 +2533,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
-    <TypeScriptCompile Include="Views\Images\Images.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
@@ -2586,9 +2584,6 @@
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
-    <Content Include="Views\Images\Images.js">
-      <DependentUpon>Images.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
     </Content>
@@ -2843,9 +2838,6 @@
     <Content Include="Style\includes\imports.css.map">
       <DependentUpon>imports.css</DependentUpon>
     </Content>
-    <Content Include="Views\Images\Images.js.map">
-      <DependentUpon>Images.ts</DependentUpon>
-    </Content>
     <Content Include="Style\pages.less" />
     <Content Include="Style\pages.css.map">
       <DependentUpon>pages.css</DependentUpon>
@@ -2939,7 +2931,6 @@
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\vendor\underscore-1.4.3.js" />
-    <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
@@ -2950,7 +2941,6 @@
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
-    <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\SidebarModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -3018,10 +3008,6 @@
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
-    <Content Include="Views\Images\ImageDetail.js">
-      <DependentUpon>ImageDetail.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Images\ImageDetailModal.ascx" />
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
@@ -3031,13 +3017,9 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\Js\References.js">
       <DependentUpon>References.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
@@ -3051,14 +3033,8 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
     <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
-    <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
-    <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
-    <Content Include="Views\Images\ImageUpload\ImageUpload.js">
-      <DependentUpon>ImageUpload.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -3072,14 +3048,8 @@
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js.map">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js.map">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
-      <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\References.js.map">
       <DependentUpon>References.ts</DependentUpon>
@@ -3096,9 +3066,6 @@
     <Content Include="Style\Images.less" />
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Images\ImageDetail.js.map">
-      <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">

@@ -7,7 +7,7 @@ public class BundleConfig
     public static void RegisterBundles(BundleCollection bundles)
     {
         BundleTable.EnableOptimizations = Settings.Environment() != "develop";
-
+        
         /* CSS */
         bundles.Add(new StyleBundle("~/bundles/css").Include(
             "~/Style/bootstrap/bootstrap.css",
@@ -17,31 +17,6 @@ public class BundleConfig
             "~/Fonts/font-awesome-5.7.2/css/all.css",
             "~/Fonts/font-awesome-5.7.2/css/v4-shims.css",
             "~/Views/Shared/CategoryLabel.css"));
-
-        if (Settings.Environment() == "develop")
-        {
-            bundles.Add(new ScriptBundle("~/bundles/shared")
-                .Include("~/Scripts/npm/jquery/jquery.js")
-                .IncludeDirectory("~/Scripts/", "*.js")
-                .IncludeDirectory("~/Scripts/vendor", "*.js")
-                .IncludeDirectory("~/Scripts/header", "*.js")
-                .IncludeDirectory("~/Scripts/socialLogins", "*.js")
-                .IncludeDirectory("~/Views/Images", "*.js")
-                .Include("~/Scripts/npm/vue/vue.js")
-                .IncludeDirectory("~/Scripts/VueExtensions/", "*.js"));
-        }
-        else
-        {
-            bundles.Add(new ScriptBundle("~/bundles/shared")
-                .Include("~/Scripts/npm/jquery/jquery.js")
-                .IncludeDirectory("~/Scripts/", "*.js")
-                .IncludeDirectory("~/Scripts/vendor", "*.js")
-                .IncludeDirectory("~/Scripts/header", "*.js")
-                .IncludeDirectory("~/Scripts/socialLogins", "*.js")
-                .IncludeDirectory("~/Views/Images", "*.js")
-                .Include("~/Scripts/npm/vue/vue.min.js")
-                .IncludeDirectory("~/Scripts/VueExtensions/", "*.js"));
-        }
 
         bundles.Add(new ScriptBundle("~/bundles/js/stageOverlay")
             .Include("~/Scripts/header/StageOverlay.js")
@@ -87,9 +62,6 @@ public class BundleConfig
 
         bundles.Add(new StyleBundle("~/bundles/Registration")
             .Include("~/Views/Welcome/Registration/Register.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/Help")
-            .IncludeDirectory("~/Views/Help/Js", "*.js"));
 
         bundles.Add(new StyleBundle("~/bundles/Category")
             .Include("~/Views/Shared/Spinner/Spinner.css")

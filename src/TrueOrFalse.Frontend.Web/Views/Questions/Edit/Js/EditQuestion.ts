@@ -3,7 +3,7 @@ class EditQuestionForm
 {
     constructor() {
 
-        new MarkdownQuestionExt();
+ 
         new MarkdownDescription();
 
         this.InitUpdateType();
