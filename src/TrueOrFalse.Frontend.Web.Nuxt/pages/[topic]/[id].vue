@@ -38,8 +38,10 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
         retry: 3
     })
 
-//preset segmentation
 const segmentation = ref()
+
+const tabSwitched = ref(false)
+
 if (topic.value != null) {
     if (topic.value?.CanAccess) {
 
@@ -58,7 +60,7 @@ if (topic.value != null) {
         })
 
         watch(() => tabsStore.activeTab, (t) => {
-            preloadTopicTab.value = false
+            tabSwitched.value = true
             if (topic.value == null)
                 return
             if (t == Tab.Topic) {
@@ -68,6 +70,8 @@ if (topic.value != null) {
                 history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Lernen/${route.params.questionId}`)
             else if (t == Tab.Learning)
                 history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Lernen`)
+            else if (t == Tab.Analytics)
+                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Analytics`)
         })
 
         watch(() => topicStore.name, () => {
@@ -99,12 +103,6 @@ function setTab() {
     }
 }
 
-const preloadTopicTab = ref(true)
-
-onBeforeMount(() => {
-    if (props.tab != Tab.Topic)
-        preloadTopicTab.value
-})
 onMounted(() => setTab())
 watch(() => userStore.isLoggedIn, () => {
     refresh()
@@ -148,20 +146,31 @@ useHead(() => ({
         <div class="row topic-container main-page">
             <template v-if="topic?.CanAccess">
                 <div class="col-lg-9 col-md-12 container">
-                    <TopicHeader v-if="topicStore.id != 0" />
-                    <TopicTabsContent v-if="topicStore.id != 0"
-                        v-show="tabsStore.activeTab == Tab.Topic || (preloadTopicTab && props.tab == Tab.Topic)" />
-                    <TopicContentSegmentation v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Topic"
-                        :segmentation="segmentation" />
-                    <TopicTabsQuestions v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
-                    <LazyTopicTabsAnalytics v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Analytics" />
-                    <TopicRelationEdit v-if="userStore.isLoggedIn" />
-                    <QuestionEditModal v-if="userStore.isLoggedIn" />
-                    <QuestionEditDelete v-if="userStore.isLoggedIn" />
-                    <TopicPublishModal v-if="userStore.isLoggedIn" />
-                    <TopicToPrivateModal v-if="userStore.isLoggedIn" />
-                    <TopicDeleteModal
-                        v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin) && userStore.isLoggedIn" />
+                    <template v-if="topicStore.id != 0">
+                        <TopicHeader />
+
+                        <TopicTabsContent
+                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                        <TopicContentSegmentation
+                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                            :segmentation="segmentation" />
+                        <TopicTabsQuestions
+                            v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                        <TopicTabsAnalytics
+                            v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
+
+                        <template v-if="userStore.isLoggedIn">
+                            <TopicRelationEdit />
+                            <QuestionEditModal />
+                            <QuestionEditDelete />
+                            <TopicPublishModal />
+                            <TopicToPrivateModal />
+
+                            <TopicDeleteModal
+                                v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
+                        </template>
+
+                    </template>
                 </div>
                 <Sidebar :documentation="props.documentation" class="is-topic" />
             </template>

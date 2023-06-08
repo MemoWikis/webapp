@@ -5,7 +5,7 @@ import { useTopicStore } from '../topicStore'
 const topicStore = useTopicStore()
 const knowledgeSummaryData = ref<ChartData[]>([])
 
-function setChartData() {
+function setKnowledgeSummaryData() {
 
     knowledgeSummaryData.value = []
     for (const [key, value] of Object.entries(topicStore.knowledgeSummary)) {
@@ -31,76 +31,74 @@ function getLabel(key: string) {
     }
 }
 
-onBeforeMount(() => setChartData())
+onBeforeMount(() => setKnowledgeSummaryData())
 
 </script>
 
 <template>
     <div class="row">
-        <ClientOnly>
-            <div class="col-xs-12">
-                <div class="topicdata-section">
-                    <h3>Daten zum Thema</h3>
-                    <div class="topicdata-container">
-                        <div class="topicdata-sub-label">
-                            Fragen:
-                        </div>
-                        <div class="topicdata-content">
-                            <ul>
-                                <li>
-                                    <b>{{ topicStore.questionCount }}</b> eingeschlossene Fragen
-                                </li>
-                                <li>
-                                    <b>{{ topicStore.directQuestionCount }}</b> direkt verknüpfte Fragen
-                                </li>
-                            </ul>
-                        </div>
-
+        <div class="col-xs-12">
+            <div class="topicdata-section">
+                <h3>Daten zum Thema</h3>
+                <div class="topicdata-container">
+                    <div class="topicdata-sub-label">
+                        Fragen:
                     </div>
-                    <div class="topicdata-container">
-                        <div class="topicdata-sub-label">
-                            Themen:
-                        </div>
-                        <div class="topicdata-content">
-                            <ul>
-                                <li>
-                                    <b>{{ topicStore.childTopicCount }} </b> eingeschlossene Themen
-                                </li>
-                                <li>
-                                    <b>{{ topicStore.directChildTopicCount }}</b> direkt verknüpfte Unterthemen
-                                </li>
-                                <li>
-                                    <b> {{ topicStore.parentTopicCount }} </b> übergeordnete Themen
-                                </li>
-                            </ul>
-                        </div>
-
+                    <div class="topicdata-content">
+                        <ul>
+                            <li>
+                                <b>{{ topicStore.questionCount }}</b> eingeschlossene Fragen
+                            </li>
+                            <li>
+                                <b>{{ topicStore.directQuestionCount }}</b> direkt verknüpfte Fragen
+                            </li>
+                        </ul>
                     </div>
+
                 </div>
-                <div class="knowledgesummary-section">
-                    <h3>Dein Wissenstand</h3>
-                    <div class="knowledgesummary-container">
-                        <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
-                            <div class="knowledgesummary-sub-label">
-                                Fragen nach Status gruppiert
-                            </div>
-                            <div class="knowledgesummary-content">
-                                <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info">
-                                    <div class="color-container" :class="`color-${d.class}`"></div>
-                                    <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div v-else>
-                            Du hast noch keine Fragen in diesem Thema
-                        </div>
+                <div class="topicdata-container">
+                    <div class="topicdata-sub-label">
+                        Themen:
                     </div>
-                </div>
+                    <div class="topicdata-content">
+                        <ul>
+                            <li>
+                                <b>{{ topicStore.childTopicCount }} </b> eingeschlossene Themen
+                            </li>
+                            <li>
+                                <b>{{ topicStore.directChildTopicCount }}</b> direkt verknüpfte Unterthemen
+                            </li>
+                            <li>
+                                <b> {{ topicStore.parentTopicCount }} </b> übergeordnete Themen
+                            </li>
+                        </ul>
+                    </div>
 
+                </div>
             </div>
-        </ClientOnly>
+            <div class="knowledgesummary-section">
+                <h3>Dein Wissenstand</h3>
+                <div class="knowledgesummary-container">
+                    <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
+                        <div class="knowledgesummary-sub-label">
+                            Fragen nach Status gruppiert
+                        </div>
+                        <div class="knowledgesummary-content">
+                            <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info">
+                                <div class="color-container" :class="`color-${d.class}`"></div>
+                                <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div v-else>
+                        Du hast noch keine Fragen in diesem Thema
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
