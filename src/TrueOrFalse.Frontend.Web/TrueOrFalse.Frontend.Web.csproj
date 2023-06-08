@@ -2064,7 +2064,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.js">
       <DependentUpon>QuestionCommentSectionModalComponentLoader.ts</DependentUpon>
@@ -2240,23 +2239,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\PrivacySelector.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\BasicEditorMenubar.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionModalLoader.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\FlashCard\FlashCardComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.js">
-      <DependentUpon>MatchListComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.js">
-      <DependentUpon>MultipleChoiceComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.js">
-      <DependentUpon>TextSolutionComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.vue.ascx" />
-    <Content Include="Views\Questions\Edit\EditComponents\EditQuestionModal.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionComponent.vue.ascx" />
     <Content Include="Views\Questions\SessionConfig\SessionConfigComponent.vue.ascx" />
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
@@ -2384,9 +2366,6 @@
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigData.ts" />
@@ -3046,15 +3025,6 @@
     <Content Include="Views\Questions\SessionConfig\SessionConfig.less" />
     <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js.map">
       <DependentUpon>SessionConfigData.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.js.map">
-      <DependentUpon>MultipleChoiceComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.js.map">
-      <DependentUpon>MatchListComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.js.map">
-      <DependentUpon>TextSolutionComponent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Search\SearchComponent.js.map">
       <DependentUpon>SearchComponent.ts</DependentUpon>
