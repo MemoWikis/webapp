@@ -2056,14 +2056,6 @@
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\jqueryUi\jquery-ui.js" />
-    <Content Include="Style\jquery-ui\images\ui-icons_444444_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_555555_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_777620_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_777777_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
-    <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <Content Include="Fonts\Lato\lato-v23-latin-regular.eot" />
@@ -2180,21 +2172,6 @@
     <Content Include="Scripts\NumbersCountUp.js">
       <DependentUpon>NumbersCountUp.ts</DependentUpon>
     </Content>
-    <Content Include="Style\includes\shared.css">
-      <DependentUpon>shared.less</DependentUpon>
-    </Content>
-    <Content Include="Style\sidebar.css">
-      <DependentUpon>sidebar.less</DependentUpon>
-    </Content>
-    <Content Include="Style\tabs.css">
-      <DependentUpon>tabs.less</DependentUpon>
-    </Content>
-    <Content Include="Style\top-header.css">
-      <DependentUpon>top-header.less</DependentUpon>
-    </Content>
-    <Content Include="Style\z_variables_2.3.2.css">
-      <DependentUpon>z_variables_2.3.2.less</DependentUpon>
-    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
@@ -2239,12 +2216,9 @@
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff" />
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff2" />
     <None Include="Log.ignore" />
-    <Content Include="Style\tabs.less" />
-    <Content Include="Style\top-header.less" />
     <Content Include="Scripts\header\StickyHeader.js.map">
       <DependentUpon>StickyHeader.ts</DependentUpon>
     </Content>
-    <Content Include="Style\sidebar.less" />
     <Content Include="Scripts\KnowledgeSummaryBar.js.map">
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
@@ -2365,17 +2339,12 @@
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
-    <Content Include="Style\cards.css">
-      <DependentUpon>cards.less</DependentUpon>
-    </Content>
-    <Content Include="Style\vendor\bootstrap2-toggle.css" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
-    <Content Include="Style\guidedTour\bootstrap-tour.css" />
     <TypeScriptCompile Include="Scripts\header\ActivityPointsPopup.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
@@ -2423,12 +2392,6 @@
       <DependentUpon>Validations.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
-    <Content Include="Style\animate.css">
-      <DependentUpon>animate.less</DependentUpon>
-    </Content>
-    <Content Include="Style\pages.css">
-      <DependentUpon>pages.less</DependentUpon>
-    </Content>
     <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
@@ -2447,208 +2410,9 @@
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
     <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
     <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
-    <Content Include="Style\bootstrap\bootstrap.css">
-      <DependentUpon>bootstrap.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\alerts.css">
-      <DependentUpon>alerts.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\badges.css">
-      <DependentUpon>badges.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\bootstrap.css">
-      <DependentUpon>bootstrap.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.css">
-      <DependentUpon>breadcrumbs.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\button-groups.css">
-      <DependentUpon>button-groups.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\buttons.css">
-      <DependentUpon>buttons.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\carousel.css">
-      <DependentUpon>carousel.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\mixins.css">
-      <DependentUpon>mixins.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\pager.css">
-      <DependentUpon>pager.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Style\bootstrap\memucho_overrides.css">
-      <DependentUpon>memucho_overrides.less</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\variables_custom.css">
-      <DependentUpon>variables_custom.less</DependentUpon>
-    </Content>
-    <Content Include="Style\drafts.css">
-      <DependentUpon>drafts.less</DependentUpon>
-    </Content>
-    <Content Include="Style\grid.css">
-      <DependentUpon>grid.less</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\extends.css">
-      <DependentUpon>extends.less</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\imports.css">
-      <DependentUpon>imports.less</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Style\components.css">
-      <DependentUpon>components.less</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\colors.css">
-      <DependentUpon>colors.less</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\colors.less" />
-    <Content Include="Style\includes\shared.less" />
-    <Content Include="Style\logo.css">
-      <DependentUpon>logo.less</DependentUpon>
-    </Content>
-    <Content Include="Style\temp.css">
-      <DependentUpon>temp.less</DependentUpon>
-    </Content>
-    <Content Include="Style\utils.css">
-      <DependentUpon>utils.less</DependentUpon>
-    </Content>
-    <Content Include="Style\z_buttons_2.3.2.css">
-      <DependentUpon>z_buttons_2.3.2.less</DependentUpon>
-    </Content>
-    <Content Include="Style\z_buttons_2.3.2.less" />
-    <Content Include="Style\utils.less" />
-    <Content Include="Style\includes\variables.less" />
     <Content Include="Scripts\app.config" />
-    <Content Include="Style\grid.less" />
     <Content Include="Scripts\SolutionMetaData.js.map">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
-    </Content>
-    <Content Include="Style\site.css.map">
-      <DependentUpon>site.css</DependentUpon>
-    </Content>
-    <Content Include="Style\grid.css.map">
-      <DependentUpon>grid.css</DependentUpon>
-    </Content>
-    <Content Include="Style\components.css.map">
-      <DependentUpon>components.css</DependentUpon>
-    </Content>
-    <Content Include="Style\form.css.map">
-      <DependentUpon>form.css</DependentUpon>
-    </Content>
-    <Content Include="Style\menu.css.map">
-      <DependentUpon>menu.css</DependentUpon>
-    </Content>
-    <Content Include="Style\site-debug.css.map">
-      <DependentUpon>site-debug.css</DependentUpon>
-    </Content>
-    <Content Include="Style\utils.css.map">
-      <DependentUpon>utils.css</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\colors.css.map">
-      <DependentUpon>colors.css</DependentUpon>
-    </Content>
-    <Content Include="Style\z_buttons_2.3.2.css.map">
-      <DependentUpon>z_buttons_2.3.2.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\alerts.css.map">
-      <DependentUpon>alerts.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\alerts.less" />
-    <Content Include="Style\bootstrap\bootstrap\badges.css.map">
-      <DependentUpon>badges.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\badges.less" />
-    <Content Include="Style\bootstrap\bootstrap\bootstrap.less" />
-    <Content Include="Style\bootstrap\bootstrap\bootstrap.css.map">
-      <DependentUpon>bootstrap.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.css.map">
-      <DependentUpon>breadcrumbs.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.less" />
-    <Content Include="Style\bootstrap\bootstrap\button-groups.css.map">
-      <DependentUpon>button-groups.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\button-groups.less" />
-    <Content Include="Style\bootstrap\bootstrap\buttons.css.map">
-      <DependentUpon>buttons.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\buttons.less" />
-    <Content Include="Style\bootstrap\bootstrap\carousel.css.map">
-      <DependentUpon>carousel.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\carousel.less" />
-    <Content Include="Style\bootstrap\bootstrap\close.less" />
-    <Content Include="Style\bootstrap\bootstrap\code.less" />
-    <Content Include="Style\bootstrap\bootstrap\component-animations.less" />
-    <Content Include="Style\bootstrap\bootstrap\dropdowns.less" />
-    <Content Include="Style\bootstrap\bootstrap\forms.less" />
-    <Content Include="Style\bootstrap\bootstrap\glyphicons.less" />
-    <Content Include="Style\bootstrap\bootstrap\grid.less" />
-    <Content Include="Style\bootstrap\bootstrap\input-groups.less" />
-    <Content Include="Style\bootstrap\bootstrap\jumbotron.less" />
-    <Content Include="Style\bootstrap\bootstrap\labels.less" />
-    <Content Include="Style\bootstrap\bootstrap\list-group.less" />
-    <Content Include="Style\bootstrap\bootstrap\media.less" />
-    <Content Include="Style\bootstrap\bootstrap\mixins.less" />
-    <Content Include="Style\bootstrap\bootstrap\modals.less" />
-    <Content Include="Style\bootstrap\bootstrap\navbar.less" />
-    <Content Include="Style\bootstrap\bootstrap\navs.less" />
-    <Content Include="Style\bootstrap\bootstrap\normalize.less" />
-    <Content Include="Style\bootstrap\bootstrap\pager.css.map">
-      <DependentUpon>pager.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\pager.less" />
-    <Content Include="Style\bootstrap\bootstrap\pagination.less" />
-    <Content Include="Style\bootstrap\bootstrap\panels.less" />
-    <Content Include="Style\bootstrap\bootstrap\popovers.less" />
-    <Content Include="Style\bootstrap\bootstrap\print.less" />
-    <Content Include="Style\bootstrap\bootstrap\progress-bars.less" />
-    <Content Include="Style\bootstrap\bootstrap\responsive-utilities.less" />
-    <Content Include="Style\bootstrap\bootstrap\scaffolding.less" />
-    <Content Include="Style\bootstrap\bootstrap\tables.less" />
-    <Content Include="Style\bootstrap\bootstrap\theme.less" />
-    <Content Include="Style\bootstrap\bootstrap\thumbnails.less" />
-    <Content Include="Style\bootstrap\bootstrap\tooltip.less" />
-    <Content Include="Style\bootstrap\bootstrap\type.less" />
-    <Content Include="Style\bootstrap\bootstrap\utilities.less" />
-    <Content Include="Style\bootstrap\bootstrap\variables.less" />
-    <Content Include="Style\bootstrap\bootstrap\wells.less" />
-    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Style\bootstrap\bootstrap.less" />
-    <Content Include="Style\bootstrap\bootstrap.css.map">
-      <DependentUpon>bootstrap.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\variables_custom.less" />
-    <Content Include="Style\bootstrap\variables_custom.css.map">
-      <DependentUpon>variables_custom.css</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\variables.css.map">
-      <DependentUpon>variables.css</DependentUpon>
-    </Content>
-    <Content Include="Style\temp.less" />
-    <Content Include="Style\temp.css.map">
-      <DependentUpon>temp.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\memucho_overrides.less" />
-    <Content Include="Style\bootstrap\memucho_overrides.css.map">
-      <DependentUpon>memucho_overrides.css</DependentUpon>
-    </Content>
-    <Content Include="Style\drafts.less" />
-    <Content Include="Style\z_mixins_2.3.2.css.map">
-      <DependentUpon>z_mixins_2.3.2.css</DependentUpon>
-    </Content>
-    <Content Include="Style\drafts.css.map">
-      <DependentUpon>drafts.css</DependentUpon>
     </Content>
     <Content Include="Scripts\DateParser.js.map">
       <DependentUpon>DateParser.ts</DependentUpon>
@@ -2662,32 +2426,11 @@
     <Content Include="Scripts\Menu.js.map">
       <DependentUpon>Menu.ts</DependentUpon>
     </Content>
-    <Content Include="Style\includes\imports.less" />
-    <Content Include="Style\z_mixins_for_buttons_2.3.2.css">
-      <DependentUpon>z_mixins_for_buttons_2.3.2.less</DependentUpon>
-    </Content>
-    <Content Include="Style\z_mixins_for_buttons_2.3.2.less" />
-    <Content Include="Style\logo.less" />
-    <Content Include="Style\logo.css.map">
-      <DependentUpon>logo.css</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\extends.less" />
-    <Content Include="Style\includes\imports.css.map">
-      <DependentUpon>imports.css</DependentUpon>
-    </Content>
-    <Content Include="Style\pages.less" />
-    <Content Include="Style\pages.css.map">
-      <DependentUpon>pages.css</DependentUpon>
-    </Content>
     <Content Include="Scripts\SearchInTabsResult.js.map">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Validations.js.map">
       <DependentUpon>Validations.ts</DependentUpon>
-    </Content>
-    <Content Include="Style\animate.less" />
-    <Content Include="Style\animate.css.map">
-      <DependentUpon>animate.css</DependentUpon>
     </Content>
     <Content Include="Fonts\OpenSans\DXI1ORHCpsQm3Vp6mXoaTS3USBnSvpkopQaUR-2r7iU.ttf" />
     <Content Include="Fonts\OpenSans\EInbV5DfGHOiMmvb1Xr-hi3USBnSvpkopQaUR-2r7iU.ttf" />
@@ -2703,17 +2446,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
-    <Content Include="Style\bootstrap\bootstrap\mixins.css.map">
-      <DependentUpon>mixins.css</DependentUpon>
-    </Content>
-    <Content Include="Style\bootstrap\bootstrap\variables.css.map">
-      <DependentUpon>variables.css</DependentUpon>
-    </Content>
-    <Content Include="Style\includes\extends.css.map">
-      <DependentUpon>extends.css</DependentUpon>
-    </Content>
     <Content Include="manifest.json" />
-    <Content Include="Style\cards.less" />
     <Content Include="Scripts\socialLogins\Facebook.js.map">
       <DependentUpon>Facebook.ts</DependentUpon>
     </Content>
@@ -2722,17 +2455,6 @@
     </Content>
     <Content Include="Scripts\Pollyfills.js.map">
       <DependentUpon>Pollyfills.ts</DependentUpon>
-    </Content>
-    <None Include="Style\z_mixins_2.3.2.less" />
-    <None Include="Style\site.less" />
-    <Content Include="Style\menu.css">
-      <DependentUpon>menu.less</DependentUpon>
-    </Content>
-    <Content Include="Style\site.css">
-      <DependentUpon>site.less</DependentUpon>
-    </Content>
-    <Content Include="Style\z_mixins_2.3.2.css">
-      <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
@@ -2820,37 +2542,12 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
-    <Content Include="Style\fonts\OFL.txt" />
-    <Content Include="Style\form.css">
-      <DependentUpon>form.less</DependentUpon>
-    </Content>
-    <Content Include="Style\markdown-editor.css" />
-    <Content Include="Style\site-debug.css">
-      <DependentUpon>site-debug.less</DependentUpon>
-    </Content>
-    <Content Include="Style\Images.css">
-      <DependentUpon>Images.less</DependentUpon>
-    </Content>
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
-    <Content Include="Style\form.less" />
-    <Content Include="Style\components.less" />
-    <Content Include="Style\menu.less" />
-    <None Include="Style\site-debug.less" />
-    <Content Include="Style\z_variables_2.3.2.less" />
-    <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
-      <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
-    </Content>
-    <Content Include="Style\Images.less" />
-    <Content Include="Style\Images.css.map">
-      <DependentUpon>Images.css</DependentUpon>
-    </Content>
     <Content Include="Scripts\JQueryExtensions.js" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Style\fonts\Candal.ttf" />
-    <None Include="Style\fonts\OvertheRainbow.ttf" />
     <None Include="Views\Web.config">
       <SubType>Designer</SubType>
     </None>

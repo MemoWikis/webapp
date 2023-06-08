@@ -72,7 +72,6 @@ public class Global : HttpApplication
 
         AreaRegistration.RegisterAllAreas();
 
-        BundleConfig.RegisterBundles(BundleTable.Bundles);
         RouteConfig.RegisterRoutes(RouteTable.Routes);
 
         ViewEngines.Engines.Clear();
