@@ -2064,39 +2064,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Shared\Lazy\LazyComponent.js">
-      <DependentUpon>LazyComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Lazy\LazyLoader.ascx" />
-    <Content Include="Views\Shared\Lazy\LazyComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js">
-      <DependentUpon>AlertModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js">
-      <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.js.map">
-      <DependentUpon>AlertModalComponentLoader.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js">
-      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.js.map">
-      <DependentUpon>DefaultModalComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\DefaultModal\DefaultModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Search\Search.css">
-      <DependentUpon>Search.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Search\SearchTemplateLoader.ascx" />
-    <Content Include="Views\Shared\Search\SearchComponent.js">
-      <DependentUpon>SearchComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Search\SearchComponent.vue.ascx" />
-    <Content Include="Views\Shared\Search\StickySearch.js">
-      <DependentUpon>SearchComponent.js</DependentUpon>
-    </Content>
     <Content Include="webpack.config.js" />
     <Content Include="img\Thumbs.db" />
     <Content Include="Fonts\Lato\lato-v23-latin-regular.eot" />
@@ -2228,8 +2195,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
@@ -2287,9 +2252,6 @@
     <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
-    <Content Include="Views\Shared\PinComponentVue\PinComponent.vue.ascx" />
-    <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
-    <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2317,7 +2279,6 @@
     <Content Include="Scripts\vendor\modernizr-custom.js" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
-    <Content Include="Views\Shared\SidebarCards\CreateQuestion.ascx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -2421,7 +2382,6 @@
     <TypeScriptCompile Include="Scripts\header\ActivityPointsPopup.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
-    <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
@@ -2435,7 +2395,6 @@
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
-    <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
     <Content Include="Images\Licenses\cc-by-sa.png" />
     <Content Include="Images\Licenses\cc-by.png" />
@@ -2453,9 +2412,6 @@
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
     <Content Include="Scripts\BootstrapCustomUtils.js" />
-    <Content Include="Scripts\CategoryApi.js">
-      <DependentUpon>CategoryApi.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\DateParser.js">
       <DependentUpon>DateParser.ts</DependentUpon>
     </Content>
@@ -2477,15 +2433,11 @@
       <DependentUpon>pages.less</DependentUpon>
     </Content>
     <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
-    <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Menu.js">
       <DependentUpon>Menu.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\QuestionsApi.js">
-      <DependentUpon>QuestionsApi.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\bootstrapTooltip\bootstrap-tooltip.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
@@ -2707,17 +2659,11 @@
     <Content Include="Scripts\Log.js.map">
       <DependentUpon>Log.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\QuestionsApi.js.map">
-      <DependentUpon>QuestionsApi.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\FormValidation.js.map">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Menu.js.map">
       <DependentUpon>Menu.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\CategoryApi.js.map">
-      <DependentUpon>CategoryApi.ts</DependentUpon>
     </Content>
     <Content Include="Style\includes\imports.less" />
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css">
@@ -2833,12 +2779,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Modals\DefaultModal\DefaultModalComponent.ts" />
-    <TypeScriptCompile Include="Views\Shared\Search\StickySearch.ts" />
-    <TypeScriptCompile Include="Views\Shared\Search\SearchComponent.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -2894,8 +2834,6 @@
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
-    <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
     <Content Include="Style\form.less" />
@@ -2909,19 +2847,6 @@
     <Content Include="Style\Images.less" />
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Search\SearchComponent.js.map">
-      <DependentUpon>SearchComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Lazy\LazyComponent.js.map">
-      <DependentUpon>LazyComponent.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Search\StickySearch.js.map">
-      <DependentUpon>SearchComponent.js</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\Search\Search.less" />
-    <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
-      <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\JQueryExtensions.js" />
     <None Include="Web.config">
