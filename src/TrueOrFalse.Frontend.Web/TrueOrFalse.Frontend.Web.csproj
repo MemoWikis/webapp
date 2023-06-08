@@ -369,7 +369,6 @@
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\Segment.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
-    <Compile Include="Views\Categories\History\RelationChangeItem.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicControllerLogic.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
@@ -380,14 +379,7 @@
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
-    <Compile Include="Views\Categories\History\CategoryChangesOverviewController.cs" />
-    <Compile Include="Views\Categories\History\CategoryHistoryController.cs" />
-    <Compile Include="Views\Categories\History\CategoryChangesOverviewModel.cs" />
-    <Compile Include="Views\Categories\History\CategoryHistoryModel.cs" />
-    <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailController.cs" />
     <Compile Include="Views\Categories\History\Detail\CategoryHistoryDetailModel.cs" />
-    <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
-    <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -2276,9 +2268,6 @@
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
-    <Content Include="Views\Categories\History\CategoryHistory.css">
-      <DependentUpon>CategoryHistory.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.js">
       <DependentUpon>AnswerQuestionDetailsApp.ts</DependentUpon>
     </Content>
@@ -2289,16 +2278,11 @@
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
-    <Content Include="Views\Categories\History\CategoryChangesOverview.aspx" />
-    <Content Include="Views\Categories\History\CategoryHistory.aspx" />
-    <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <TypeScriptCompile Include="Scripts\header\StageOverlay.ts" />
     <TypeScriptCompile Include="Scripts\KnowledgeSummaryBar.ts" />
     <TypeScriptCompile Include="Scripts\VueExtensions\VueDirectives.ts" />
-    <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
-    <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
     <Content Include="Views\Questions\Answer\Js\QuestionFilter.js">
       <DependentUpon>QuestionFilter.ts</DependentUpon>
     </Content>
@@ -2315,10 +2299,6 @@
     <Content Include="Views\Questions\QuestionList\QuestionList.css">
       <DependentUpon>QuestionList.less</DependentUpon>
     </Content>
-    <Content Include="Views\Error\Error.css">
-      <DependentUpon>Error.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Error\Error.less" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Scripts\header\ActivityPointsPopup.js.map">
@@ -2358,7 +2338,6 @@
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff" />
     <Content Include="Fonts\font-awesome-5.7.2\webfonts\fa-solid-900.woff2" />
     <None Include="Log.ignore" />
-    <Content Include="Views\Categories\History\CategoryHistory.less" />
     <Content Include="Style\tabs.less" />
     <Content Include="Style\top-header.less" />
     <Content Include="Scripts\header\StickyHeader.js.map">
@@ -2386,8 +2365,6 @@
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
-    <Compile Include="Views\Error\ErrorController.cs" />
-    <Compile Include="Views\Help\HelpController.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
@@ -2413,12 +2390,6 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
-    <Content Include="Views\Help\Js\WidgetPricing.js">
-      <DependentUpon>WidgetPricing.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Help\Js\WidgetPricing.js.map">
-      <DependentUpon>WidgetPricing.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
@@ -2429,14 +2400,12 @@
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
-    <TypeScriptCompile Include="Views\Categories\History\CategoryHistory.ts" />
     <TypeScriptCompile Include="Views\Knowledge\KnowledgeBar.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionDetails\AnswerQuestionDetailsApp.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MatchList\MatchListComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\MultipleChoice\MultipleChoiceComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditComponents\Text\TextSolutionComponent.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
-    <TypeScriptCompile Include="Views\Categories\History\Detail\Js\HistoryDetail.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigData.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\QuestionFilter.ts" />
@@ -2535,13 +2504,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\Categories\Js\CategoryDelete.js">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Error\_NotLoggedIn.aspx" />
-    <Content Include="Views\Help\FAQ.css">
-      <DependentUpon>FAQ.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList_LayoutMobile.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
@@ -2569,7 +2531,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
-    <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
@@ -2578,7 +2539,6 @@
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
-    <TypeScriptCompile Include="Views\Categories\Js\CategoryDelete.ts" />
     <Content Include="Images\Licenses\cc-by-sa.png" />
     <Content Include="Images\Licenses\cc-by.png" />
     <Content Include="Images\Licenses\publicdomain.png" />
@@ -2948,8 +2908,6 @@
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Error\Test.aspx" />
-    <Content Include="Views\Help\FAQ.aspx" />
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Fonts\glyphicons-halflings-regular.woff" />
@@ -2981,9 +2939,7 @@
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\vendor\underscore-1.4.3.js" />
-    <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
-    <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
@@ -3072,7 +3028,6 @@
     <Content Include="Views\Questions\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Error\_404.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -3154,13 +3109,6 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
-    <Content Include="Views\Help\FAQ.less" />
-    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
@@ -3201,7 +3149,6 @@
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
       <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\CategoryRow.ascx" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
@@ -3209,7 +3156,6 @@
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Error\_500.aspx" />
     <Content Include="Views\Shared\Site.Sidebar.Master" />
     <None Include="Style\fonts\Candal.ttf" />
     <None Include="Style\fonts\OvertheRainbow.ttf" />

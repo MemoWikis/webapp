@@ -138,19 +138,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionModalLoader")
             .Include("~/Views/Questions/Js/EditQuestionModalLoader/EditQuestionModalLoader.js"));
 
-
-        bundles.Add(new StyleBundle("~/bundles/CategoryHistory")
-            .Include("~/Views/Categories/History/*.css"));
-
-        bundles.Add(new StyleBundle("~/bundles/CategoryHistoryDetail")
-            .Include("~/Views/Categories/History/Detail/*.css"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistoryDetail")
-            .Include("~/Views/Categories/History/Detail/Js/*.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/js/CategoryHistory")
-            .Include("~/Views/Categories/History/*.js"));
-
         bundles.Add(new StyleBundle("~/bundles/Login")
             .Include("~/Views/Welcome/Registration/Register.css"));
 
@@ -161,9 +148,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/questionEdit")
             .Include("~/Views/Images/ImageUpload/ImageUpload.js")
             .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
-
-        bundles.Add(new ScriptBundle("~/bundles/Categories")
-            .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 
         bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
             .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")

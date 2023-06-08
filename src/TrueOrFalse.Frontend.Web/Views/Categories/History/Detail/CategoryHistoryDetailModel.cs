@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using FluentNHibernate.Conventions;
-using NHibernate.Id;
-using NHibernate.Transform;
-using Serilog;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel : BaseModel
