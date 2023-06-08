@@ -2249,9 +2249,6 @@
       <DependentUpon>KnowledgeSummaryBar.ts</DependentUpon>
     </Content>
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
-    <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
-    <Compile Include="Views\Shared\AuthorViewModel.cs" />
-    <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />

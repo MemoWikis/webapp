@@ -9,7 +9,6 @@ public class AnswerQuestionModel : BaseModel
     public QuestionCacheItem Question;
     public UserTinyModel Creator;
     public string CreatorId { get; private set; }
-    public string SolutionType;
     public string QuestionText { get; private set; }
     public QuestionVisibility Visibility { get; private set; }
     public IList<CategoryCacheItem> Categories;
