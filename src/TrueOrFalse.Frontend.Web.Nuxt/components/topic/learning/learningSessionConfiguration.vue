@@ -6,6 +6,7 @@ const userStore = useUserStore()
 interface Props {
     isInQuestionList?: boolean
     openFilter?: boolean
+    cookieName: string
 }
 const props = defineProps<Props>()
 
@@ -34,6 +35,10 @@ onMounted(() => learningSessionConfigurationStore.checkQuestionFilterSelection()
 watch(() => props.openFilter, (val) => {
     if (val)
         showFilterDropdown.value = true
+})
+watch(showFilterDropdown, (val) => {
+    const cookie = useCookie(props.cookieName)
+    cookie.value = val.toString()
 })
 </script>
 

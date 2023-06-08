@@ -12,12 +12,20 @@ const userStore = useUserStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const editQuestionStore = useEditQuestionStore()
 
+const openFilter = ref(false)
+const filterOpened = useCookie('show-bottom-dropdown')
 onBeforeMount(() => {
+    if (filterOpened.value?.toString() == 'false' || filterOpened.value == undefined)
+        openFilter.value = false
+    else if (filterOpened.value?.toString() == 'true')
+        openFilter.value = true
+
     if (topicStore.questionCount > 0)
         learningSessionConfigurationStore.showFilter = true
     else
         learningSessionConfigurationStore.showFilter = false
 })
+
 watch(() => topicStore.questionCount, (count) => {
     if (count > 0)
         learningSessionConfigurationStore.showFilter = true
@@ -41,8 +49,8 @@ function getClass(): string {
 <template>
     <div id="QuestionListSection" class="row" :class="getClass()">
         <div>
-            <TopicLearningSessionConfiguration :is-in-question-list="true"
-                v-if="learningSessionConfigurationStore.showFilter">
+            <TopicLearningSessionConfiguration :is-in-question-list="true" cookie-name="show-bottom-dropdown"
+                v-if="learningSessionConfigurationStore.showFilter" :open-filter="openFilter">
                 <slot>
                     <div class="drop-down-question-sort col-xs-12">
                         <div class="session-config-header">
