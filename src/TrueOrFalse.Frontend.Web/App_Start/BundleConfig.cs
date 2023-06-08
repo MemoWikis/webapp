@@ -165,12 +165,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/Categories")
             .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 
-        bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
-            .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
-            .Include("~/Views/Categories/Js/CategoryDelete.js")
-            .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-            .Include("~/Scripts/vendor.somewhere/d3v3.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
             .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
             .IncludeDirectory("~/Views/Questions/Answer/Comments/", "*.js")

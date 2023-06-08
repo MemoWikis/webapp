@@ -490,13 +490,6 @@ public class EditCategoryController : BaseController
         catRepo.Update(category);
     }
 
-
-    public string GetCategoryGraphDisplay(int categoryId)
-    {
-        var category = EntityCache.GetCategory(categoryId);
-        return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
-    }
-
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public JsonResult PublishCategory(int categoryId)
