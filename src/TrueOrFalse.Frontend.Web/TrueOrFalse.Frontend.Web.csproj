@@ -2873,12 +2873,9 @@
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
-    <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
-    <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Shared\SidebarModel.cs" />
-    <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

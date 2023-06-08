@@ -6,24 +6,6 @@ using TrueOrFalse.Frontend.Web.Code;
 public class QuestionListModel : BaseModel
 {
     public int CategoryId;
-    public int ItemCount;
-    public int AllQuestionsInCategory;
-    public bool IsSessionNoteFadeIn { get; set; }
-
-    public EditQuestionModel EditQuestionModel;
-
-
-    public QuestionListModel(int categoryId, bool isSessionNoteFadeIn = true)
-    {
-        CategoryId = categoryId;
-        AllQuestionsInCategory = EntityCache.GetCategory(categoryId).GetCountQuestionsAggregated();
-        IsSessionNoteFadeIn = isSessionNoteFadeIn;
-
-        var editQuestionModel = new EditQuestionModel();
-        editQuestionModel.Categories.Add(EntityCache.GetCategory((int)categoryId));
-
-        EditQuestionModel = editQuestionModel;
-    }
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
