@@ -108,10 +108,6 @@ public class BundleConfig
             .IncludeDirectory("~/Views/Questions/Js/", "*.js")
             .Include("~/Scripts/ValuationPerRow.js"));
 
-        bundles.Add(new ScriptBundle("~/bundles/questionEdit")
-            .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-            .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/CommentsSection")
             .Include("~/Views/Questions/Modals/QuestionCommentSectionModalComponentLoader.js")
             .IncludeDirectory("~/Views/Questions/Answer/Comments/", "*.js")
