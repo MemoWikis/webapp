@@ -2073,8 +2073,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Categories\Edit\AddToWikiComponentLoader.ascx" />
-    <Content Include="Views\Categories\Edit\AddToWikiComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
@@ -2256,8 +2254,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\DeleteCategoryComponent.vue.ascx" />
-    <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\PrivacySelector.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditorPartials\BasicEditorMenubar.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionModalLoader.ascx" />
@@ -2293,7 +2289,6 @@
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
     <Content Include="Views\Categories\History\CategoryChangesOverview.aspx" />
     <Content Include="Views\Categories\History\CategoryHistory.aspx" />
     <Content Include="Views\Categories\History\Detail\CategoryHistoryDetail.aspx" />
@@ -2391,8 +2386,6 @@
     <Content Include="Views\Shared\Modals\ForTheTimeToDeleteModal.ascx" />
     <Compile Include="Views\Shared\Cards\UserCardBaseModel.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
-    <Compile Include="Views\Categories\Edit\CssJs.cs" />
-    <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
@@ -2955,27 +2948,6 @@
     <Content Include="Scripts\autocompletes\AutocompleteCategories.js">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\TypeControls\VolumeChapter.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\BookChapter.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Certification.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Course.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\FieldOfTraining.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\SchoolSubject.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Magazine.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\MagazineArticle.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\DailyArticle.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\MagazineIssue.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\DailyIssue.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\FieldOfStudy.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\TvShowEpisode.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\TvShow.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Movie.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Standard.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Daily.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
     <Content Include="Views\Error\Test.aspx" />
     <Content Include="Views\Help\FAQ.aspx" />
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
@@ -3016,8 +2988,6 @@
     <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
-    <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
-    <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
