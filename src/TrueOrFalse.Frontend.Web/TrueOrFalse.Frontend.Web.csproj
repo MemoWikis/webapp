@@ -321,7 +321,7 @@
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerQuestionDetailsController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\LearningSessionResultController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\Question\Edit\DeleteQuestionController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Question\Edit\DeleteController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Search\SearchHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />

@@ -8,10 +8,12 @@ import { useLearningSessionStore } from '~~/components/topic/learning/learningSe
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
+import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 const commentsStore = useCommentsStore()
+const deleteQuestionStore = useDeleteQuestionStore()
 
 interface Props {
     id: number,
@@ -52,14 +54,16 @@ const baseArcData = ref({
     class: "baseArc",
 })
 
-const personalArcData = ref<{
+interface ArcData {
     startAngle: number,
     endAngle: number,
     innerRadius: number,
     outerRadius: number,
     fill: string,
-    class: string,
-}>({
+    class?: string,
+}
+
+const personalArcData = ref<ArcData>({
     startAngle: -0.55 * Math.PI,
     endAngle: (-0.55 + personalProbability.value / 100 * 1.1) * Math.PI,
     innerRadius: 40,
@@ -68,7 +72,7 @@ const personalArcData = ref<{
     class: "personalArc",
 })
 
-const avgArcData = ref({
+const avgArcData = ref<ArcData>({
     startAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI - 0.01,
     endAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI + 0.01,
     innerRadius: 37.5,
@@ -88,7 +92,7 @@ const showPersonalArc = ref(false)
 const personalStartAngle = ref(0)
 const overallStartAngle = ref(0)
 
-const baseCounterData = ref({
+const baseCounterData = ref<ArcData>({
     startAngle: 0,
     endAngle: 2 * Math.PI,
     innerRadius: 20,
@@ -96,14 +100,41 @@ const baseCounterData = ref({
     fill: "#DDDDDD",
 })
 
-const personalWrongAnswerCountData = ref<any>({})
-const personalCorrectAnswerCountData = ref<any>({})
+const personalWrongAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#FFA07A",
+    class: "personalWrongAnswerCounter",
+})
+const personalCorrectAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#AFD534",
+    class: "personalCorrectAnswerCounter",
+})
 
-const overallWrongAnswerCountData = ref<any>({})
-const overallCorrectAnswerCountData = ref<any>({})
+const overallWrongAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#FFA07A",
+    class: "overallWrongAnswerCounter",
+})
+const overallCorrectAnswerCountData = ref<ArcData>({
+    startAngle: 0,
+    endAngle: 2 * Math.PI,
+    innerRadius: 20,
+    outerRadius: 25,
+    fill: "#AFD534",
+    class: "overallCorrectAnswerCounter",
+})
 
 const tabsStore = useTabsStore()
-const isLandingPage = ref(tabsStore.activeTab != Tab.Learning)
 const questionIdHasChanged = ref(false)
 
 const topics = ref<TopicItem[]>([])
@@ -234,9 +265,10 @@ function calculateLabelWidth() {
     return probabilityLabelWidth + percentageLabelWidth.value + 1
 }
 
-function arcTween(d: any, newStartAngle: number, newEndAngle: number, newInnerRadius: number, newOuterRadius: number) {
+function arcTween(d: any, newStartAngle: number = 0, newEndAngle: number = 0, newInnerRadius: number = 0, newOuterRadius: number = 0) {
+    if (d == null || isNaN(newStartAngle) || isNaN(newEndAngle) || isNaN(newInnerRadius) || isNaN(newOuterRadius))
+        return
     var arc = d3.arc()
-
     var interpolateStart = d3.interpolate(d.startAngle, newStartAngle)
     var interpolateRadiusStart = d3.interpolate(d.innerRadius, newInnerRadius)
     var interpolateEnd = d3.interpolate(d.endAngle, newEndAngle)
@@ -251,18 +283,19 @@ function arcTween(d: any, newStartAngle: number, newEndAngle: number, newInnerRa
 }
 
 function updateArc() {
-    var labelWidth = calculateLabelWidth()
 
+    const labelWidth = calculateLabelWidth()
     arcSvg.value.selectAll(".personalProbabilityLabel")
         .transition()
         .duration(800)
         .attr("dx", -(labelWidth / 2) - 5 + "px")
         .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
         .tween("text", function (this: any) {
-            var selection = d3.select(this)
-            var start = d3.select(this).text()
-            var end = personalProbability.value
-            var interpolator = d3.interpolateNumber(parseInt(start), end)
+            const selection = d3.select(this)
+            const start = d3.select(this).text()
+            const end = personalProbability.value
+            const interpolator = d3.interpolateNumber(parseInt(start), end)
+
             return (t: any) => {
                 selection.text(Math.round(interpolator(t)))
             }
@@ -273,7 +306,6 @@ function updateArc() {
         .outerRadius(55)
         .startAngle(avgAngle.value)
         .endAngle(avgAngle.value)
-
     arcSvg.value.select(".avgProbabilityLabel")
         .transition()
         .duration(400)
@@ -354,17 +386,22 @@ function updateArc() {
 
     arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
         .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
+
 }
 
 const personalCounter = ref<SVGSVGElement | null>(null)
 const overallCounter = ref<SVGSVGElement | null>(null)
 
-function drawCounterArcs() {
-    if (!personalCounter.value || !overallCounter.value)
-        return
-    var arc = d3.arc()
+function angleIsNaN(a: ArcData) {
+    return isNaN(a.startAngle) || isNaN(a.endAngle)
+}
 
-    var personalCounterData = [
+function drawCounterArcs() {
+    if (!personalCounter.value || !overallCounter.value || angleIsNaN(personalWrongAnswerCountData.value) || angleIsNaN(personalCorrectAnswerCountData.value))
+        return
+    const arc = d3.arc()
+
+    const personalCounterData = [
         baseCounterData.value,
         personalWrongAnswerCountData.value,
         personalCorrectAnswerCountData.value
@@ -766,15 +803,17 @@ interface AnswerQuestionDetailsResult {
 const { $logger } = useNuxtApp()
 
 async function loadData() {
+    if (props.id == deleteQuestionStore.deletedQuestionId)
+        return
     const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {
-            const { $logger } = useNuxtApp()
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     })
-    initData(result)
+    if (result)
+        initData(result)
 }
 
 onMounted(async () => {
@@ -784,7 +823,9 @@ onMounted(async () => {
 })
 
 watch(() => props.id, () => loadData())
-watch(() => learningSessionStore.currentStep?.state, () => loadData(), { deep: true })
+watch(() => learningSessionStore.currentStep?.state, () => {
+    loadData()
+}, { deep: true })
 
 function abbreviateNumber(val: number): string {
     var newVal

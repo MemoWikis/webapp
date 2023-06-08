@@ -411,7 +411,6 @@ watch(() => userStore.isLoggedIn, () => {
 		}
 
 		&.is-in-root-topic {
-			padding-left: 0px;
 			padding-right: 0px;
 			display: block;
 

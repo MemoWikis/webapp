@@ -27,14 +27,16 @@ public class QuestionEditDeleteController : BaseController
     }
 
     [HttpPost]
-    public JsonResult Delete(int questionId, int sessionIndex)
+    public JsonResult Delete(int questionId)
     {
+        var updatedLearningSessionResult = LearningSessionCache.RemoveQuestionFromLearningSession(questionId);
+
         QuestionDelete.Run(questionId);
-        LearningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
         return Json(new
         {
-            sessionIndex,
-            questionId
+            reloadAnswerBody = updatedLearningSessionResult.reloadAnswerBody,
+            sessionIndex = updatedLearningSessionResult.sessionIndex,
+            id = questionId
         });
     }
 }

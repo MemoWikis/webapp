@@ -101,9 +101,10 @@ export default defineNuxtComponent({
                 childId: self.categoryId,
             };
 
+
             var result = await $fetch<any>('/apiVue/TopicRelationEdit/RemoveParent', {
                 method: 'POST',
-                body: data,
+                body: data
             })
             if (result) {
                 const alertStore = useAlertStore()
@@ -243,8 +244,7 @@ export default defineNuxtComponent({
 
                     <NuxtLink :href="$props.category.LinkToCategory">
                         <div class="knowledge-bar">
-                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0"
-                                class="needs-learning"
+                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
                                 v-tooltip="'Solltest du lernen:' + $props.category.KnowledgeBarData.NeedsLearning + ' Fragen (' + $props.category.KnowledgeBarData.NeedsLearningPercentage + '%)'"
                                 :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
                             </div>

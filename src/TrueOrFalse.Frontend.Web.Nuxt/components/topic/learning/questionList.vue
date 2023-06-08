@@ -20,7 +20,7 @@ const props = defineProps<Props>()
 const questions = ref<QuestionListItem[]>([])
 
 const itemCountPerPage = ref(25)
-
+const { $logger } = useNuxtApp()
 async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
@@ -29,7 +29,12 @@ async function loadQuestions(page: number) {
             itemCountPerPage: itemCountPerPage.value,
             pageNumber: page,
             topicId: topicStore.id
-        }, mode: 'cors', credentials: 'include'
+        },
+        mode: 'cors',
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
     if (result != null) {
         questions.value = result
@@ -87,9 +92,9 @@ learningSessionStore.$onAction(({ name, after }) => {
 
 deleteQuestionStore.$onAction(({ name, after }) => {
     if (name == 'questionDeleted') {
-        after((deletedQuestion) => {
+        after((id) => {
             questions.value = questions.value.filter((q) => {
-                return q.Id != deletedQuestion.id
+                return q.Id != id
             })
         })
     }
@@ -100,7 +105,10 @@ async function loadNewQuestion(index: number) {
 
     var result = await $fetch<any>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/?index=${index}`, {
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
     if (result != null) {
         questions.value.push(result)
@@ -116,7 +124,7 @@ async function loadNewQuestion(index: number) {
     <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q" :is-last-item="index == (questions.length - 1)"
-            :session-index="q.SessionIndex" :expand-question="props.expandQuestion" :key="q.Id" />
+            :session-index="q.SessionIndex" :expand-question="props.expandQuestion" :key="`${index}-${q.Id}`" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 

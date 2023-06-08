@@ -320,7 +320,8 @@ async function loadSolution(answered: boolean = true) {
 }
 
 onMounted(() => {
-    watch([() => learningSessionStore.currentStep?.index], () => {
+
+    watch([() => learningSessionStore.currentStep?.index, () => learningSessionStore.currentStep?.id], () => {
         loadAnswerBodyModel()
     })
 

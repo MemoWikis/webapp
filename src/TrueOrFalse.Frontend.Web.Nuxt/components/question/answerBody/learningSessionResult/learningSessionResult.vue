@@ -49,7 +49,6 @@ onBeforeMount(async () => {
         mode: 'cors',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 })
@@ -88,18 +87,51 @@ const tabsStore = useTabsStore()
                     </div>
                 </div>
 
+                <div class="result-legend">
+                    <div v-if="learningSessionResult.correct.count > 0" class="result-info">
+                        <div class="color-container" :class="`color-correct`"></div>
+                        <div class="result-label">Fragen richtig beantwortet:
+                            <b>{{ learningSessionResult.correct.count }}</b>
+                        </div>
+                    </div>
+                    <div v-if="learningSessionResult.correctAfterRepetition.count > 0" class="result-info">
+                        <div class="color-container" :class="`color-correctAfterRepetition`"></div>
+                        <div class="result-label">Fragen beim Wiederholen richtig beantwortet:
+
+                            <b>{{ learningSessionResult.correctAfterRepetition.count }}</b>
+                        </div>
+                    </div>
+                    <div v-if="learningSessionResult.wrong.count > 0" class="result-info">
+                        <div class="color-container" :class="`color-wrong`"></div>
+                        <div class="result-label">Fragen falsch beantwortet:
+                            <b>{{ learningSessionResult.wrong.count }}</b>
+                        </div>
+                    </div>
+                    <div v-if="learningSessionResult.notAnswered.count > 0" class="result-info">
+                        <div class="color-container" :class="`color-notAnswered`"></div>
+                        <div class="result-label">Fragen übersprungen:
+                            <b>{{ learningSessionResult.notAnswered.count }}</b>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="buttonRow">
                     <template v-if="!userStore.isLoggedIn || !learningSessionResult.inWuwi">
-                        <div v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Topic"
-                            class="btn btn-link">
-                            Zum Thema
-                        </div>
-                        <NuxtLink v-else :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
-                            class="btn btn-link" style="padding-right: 10px">Zum Thema</NuxtLink>
+
                         <button @click="emit('startNewSession')" class="btn btn-primary nextLearningSession memo-button"
                             style="padding-right: 10px">
                             Weiterlernen
                         </button>
+                        <button v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Topic"
+                            class="memo-button btn btn-link">
+                            Zum Thema
+                        </button>
+                        <NuxtLink v-else :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
+                            class="memo-button btn btn-link" style="padding-right: 10px">
+                            <button class="memo-button btn btn-link">
+                                Zum Thema
+                            </button>
+                        </NuxtLink>
                     </template>
                     <button v-else class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px"
                         @click="emit('startNewSession')">
@@ -107,11 +139,12 @@ const tabsStore = useTabsStore()
                     </button>
                 </div>
 
-                <QuestionDetail v-if="learningSessionResult.questions" :questions="learningSessionResult.questions" />
+                <QuestionAnswerBodyLearningSessionResultQuestionDetail v-if="learningSessionResult.questions"
+                    :questions="learningSessionResult.questions" />
 
-                <div v-if="learningSessionResult.questions.length > 300">Es werden nicht mehr als 300 Fragen in der
-                    Auswertung
-                    angezeigt</div>
+                <div v-if="learningSessionResult.questions.length > 300">
+                    Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt
+                </div>
             </div>
 
         </div>
@@ -292,9 +325,48 @@ const tabsStore = useTabsStore()
     text-align: right;
     margin-top: 40px;
     margin-bottom: 40px;
+    display: flex;
+    flex-direction: row-reverse;
 
     .nextLearningTestSession {
         background: @memo-blue-link;
+    }
+
+    .nextLearningSession {
+        margin-left: 0px;
+    }
+}
+
+.result-legend {
+    .result-info {
+        display: flex;
+        align-items: center;
+        padding: 4px 0;
+
+        .color-container {
+            width: 24px;
+            height: 24px;
+
+            &.color-correct {
+                background: @memo-green;
+            }
+
+            &.color-correctAfterRepetition {
+                background: @memo-yellow;
+            }
+
+            &.color-wrong {
+                background: @memo-salmon;
+            }
+
+            &.color-notAnswered {
+                background: @memo-grey-lighter;
+            }
+        }
+
+        .result-label {
+            padding-left: 8px;
+        }
     }
 }
 </style>

@@ -25,19 +25,14 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
     {
         credentials: 'include',
         mode: 'cors',
-        onRequest({ options, request }) {
-            $logger.info(`TopicRequest Id:${route.params.id} - Start`, [{ request: request }])
+        onRequest({ options }) {
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
         },
-        onResponse(context) {
-            $logger.info(`TopicRequest Id:${route.params.id} - End`, [{ context: context }])
-        },
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         },
         server: true,
         retry: 3
@@ -107,7 +102,6 @@ function setTab() {
 const preloadTopicTab = ref(true)
 
 onBeforeMount(() => {
-    $logger.info('clienttest')
     if (props.tab != Tab.Topic)
         preloadTopicTab.value
 })
