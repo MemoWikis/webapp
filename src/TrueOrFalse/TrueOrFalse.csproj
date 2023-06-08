@@ -329,6 +329,8 @@
     <Compile Include="Domain\Category\History\EditData\CategoryEditData_V2.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V2.cs" />
+    <Compile Include="Domain\Category\History\Ops\InitializeCategoryChanges.cs" />
+    <Compile Include="Domain\Category\History\Ops\RestoreCategory.cs" />
     <Compile Include="Domain\Category\SearchUserItem.cs" />
     <Compile Include="Domain\Category\SearchQuestionItem.cs" />
     <Compile Include="Domain\Category\SearchCategoryItem.cs" />
@@ -338,9 +340,14 @@
     <Compile Include="Domain\Category\CategoryValuation\CategoryValuation.cs" />
     <Compile Include="Domain\Category\CategoryValuation\Persistence\CategoryValuationMap.cs" />
     <Compile Include="Domain\Category\CategoryValuation\Persistence\CategoryValuationRepo.cs" />
+    <Compile Include="Domain\Category\Graph\CategoryGraph.cs" />
+    <Compile Include="Domain\Category\Graph\CategoryLink.cs" />
+    <Compile Include="Domain\Category\Graph\CategoryNode.cs" />
+    <Compile Include="Domain\Category\Graph\GraphJsonDtos.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData_V1.cs" />
     <Compile Include="Domain\Category\History\CategoryChange.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V1.cs" />
+    <Compile Include="Domain\Category\History\Persistence\CategoryChangeMap.cs" />
     <Compile Include="Domain\Category\History\Persistence\CategoryChangeRepo.cs" />
     <Compile Include="Domain\Category\CategoryVisibility.cs" />
     <Compile Include="Domain\Category\ReleaseDate.cs" />

@@ -48,6 +48,11 @@ public class CategoryChange : Entity, WithDateCreated
                 throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
         }
     }
+
+    public virtual Category ToHistoricCategory(bool haveVersionData = true)
+    {
+        return haveVersionData ? GetCategoryChangeData().ToCategory(Category.Id) : new Category();
+    }
 }
 
 public enum CategoryChangeType
