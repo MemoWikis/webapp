@@ -2065,11 +2065,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAddComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentAnswerComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentComponent.vue.ascx" />
-    <Content Include="Views\Questions\Answer\Comments\CommentsSectionComponent.vue.ascx" />
     <Content Include="Views\Questions\Edit\EditComponents\EditQuestionTemplateLoader.ascx" />
     <Content Include="Views\Questions\Modals\DeleteQuestionModalTemplateLoader.ascx" />
     <Content Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.js">
