@@ -154,6 +154,7 @@ useHead(() => ({
                     <TopicContentSegmentation v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Topic"
                         :segmentation="segmentation" />
                     <TopicTabsQuestions v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Learning" />
+                    <LazyTopicTabsAnalytics v-if="topicStore.id != 0" v-show="tabsStore.activeTab == Tab.Analytics" />
                     <TopicRelationEdit v-if="userStore.isLoggedIn" />
                     <QuestionEditModal v-if="userStore.isLoggedIn" />
                     <QuestionEditDelete v-if="userStore.isLoggedIn" />

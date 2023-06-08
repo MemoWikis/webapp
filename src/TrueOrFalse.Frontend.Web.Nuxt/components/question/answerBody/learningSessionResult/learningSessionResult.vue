@@ -346,6 +346,7 @@ const tabsStore = useTabsStore()
         .color-container {
             width: 24px;
             height: 24px;
+            border-radius: 50%;
 
             &.color-correct {
                 background: @memo-green;

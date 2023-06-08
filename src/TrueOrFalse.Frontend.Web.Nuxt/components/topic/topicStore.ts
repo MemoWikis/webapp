@@ -13,6 +13,7 @@ export class Topic {
 	Content: string = ''
 	ParentTopicCount: number = 0
 	ChildTopicCount: number = 0
+	DirectChildTopicCount: number = 0
 	Views: number = 0
 	CommentCount: number = 0
 	Visibility: Visibility = Visibility.Owner
@@ -21,6 +22,7 @@ export class Topic {
 	CurrentUserIsCreator: boolean = false
 	CanBeDeleted: boolean = false
 	QuestionCount: number = 0
+	DirectQuestionCount: number = 0
 	Authors: Author[] = []
 	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
@@ -70,11 +72,13 @@ export const useTopicStore = defineStore('topicStore', {
 			imgUrl: '',
 			imgId: 0,
 			questionCount: 0,
+			directQuestionCount: 0,
 			content: '',
 			initialContent: '',
 			contentHasChanged: false,
 			parentTopicCount: 0,
 			childTopicCount: 0,
+			directChildTopicCount: 0,
 			views: 0,
 			commentCount: 0,
 			visibility: null as Visibility | null,
@@ -85,7 +89,7 @@ export const useTopicStore = defineStore('topicStore', {
 			authors: [] as Author[],
 			searchTopicItem: null as null | SearchTopicItem,
 			encodedName: '' as string,
-			knowledgeSummary: {} as KnowledgeSummary
+			knowledgeSummary: {} as KnowledgeSummary,
 		}
 	},
 	actions: {
@@ -102,6 +106,7 @@ export const useTopicStore = defineStore('topicStore', {
 
 				this.parentTopicCount = topic.ParentTopicCount
 				this.childTopicCount = topic.ChildTopicCount
+				this.directChildTopicCount = topic.DirectChildTopicCount
 
 				this.views = topic.Views
 				this.commentCount = topic.CommentCount
@@ -113,6 +118,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.canBeDeleted = topic.CanBeDeleted
 
 				this.questionCount = topic.QuestionCount
+				this.directQuestionCount = topic.DirectQuestionCount
 
 				this.authors = topic.Authors
 				this.searchTopicItem = topic.SearchTopicItem

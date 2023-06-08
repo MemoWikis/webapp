@@ -29,6 +29,7 @@ function setChartData() {
 			class: key,
 		})
 	}
+	chartData.value = chartData.value.slice().reverse()
 }
 
 function getTooltipLabel(key: string, count: number) {
@@ -288,6 +289,7 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 		height: 12px;
 		width: 12px;
 		margin-right: 4px;
+		border-radius: 50%;
 
 		&.color-notLearned {
 			background: @memo-grey-light;
