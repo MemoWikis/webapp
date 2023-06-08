@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-public class SegmentationModel : BaseContentModule
+public class SegmentationModel 
 {
     public CategoryCacheItem Category;
 

@@ -366,8 +366,6 @@
     <Compile Include="Views\ApiVueApp\Question\VueQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserMessagesController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Topic\TopicController.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\BaseContentModule.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\BreadCrumbModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\Segment.cs" />
     <Compile Include="Views\Categories\Detail\Partials\Segmentation\SegmentationModel.cs" />
@@ -381,9 +379,6 @@
     <Compile Include="Views\Questions\QuestionController.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionJson.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerJson.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\Spacer\SpacerModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
@@ -2080,8 +2075,6 @@
     <Content Include="Style\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
     <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
-    <Content Include="Views\Categories\Detail\Partials\BreadCrumbFirstChevron.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\BreadCrumbTrail.ascx" />
     <Content Include="Views\Categories\Edit\AddToWikiComponentLoader.ascx" />
     <Content Include="Views\Categories\Edit\AddToWikiComponent.vue.ascx" />
     <Content Include="Views\Questions\Answer\Comments\AddCommentComponent.vue.ascx" />
@@ -2265,8 +2258,6 @@
     <Content Include="Style\z_variables_2.3.2.css">
       <DependentUpon>z_variables_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\CategoryHeaderAuthors.ascx" />
     <Content Include="Views\Categories\Edit\DeleteCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\AddCategoryComponent.vue.ascx" />
     <Content Include="Views\Categories\Edit\Js\DeleteCategory\DeleteCategoryComponent.js">
@@ -2307,11 +2298,6 @@
       <DependentUpon>QuestionHistory.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Alert.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\Spacer\Spacer.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
@@ -2578,7 +2564,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
     <Content Include="Views\Categories\Js\CategoryDelete.js">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
@@ -3056,7 +3041,6 @@
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\vendor\underscore-1.4.3.js" />
-    <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
