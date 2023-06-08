@@ -2358,13 +2358,6 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\modernizr-custom.js" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
-      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
-      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
@@ -2464,8 +2457,6 @@
       <DependentUpon>cards.less</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
@@ -2532,9 +2523,6 @@
       <DependentUpon>pages.less</DependentUpon>
     </Content>
     <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
-    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
-      <DependentUpon>MarkdownDescription.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
@@ -2849,9 +2837,6 @@
     <Content Include="Style\z_mixins_2.3.2.css">
       <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
-    <Content Include="Scripts\autocompletes\AutocompleteCategories.js">
-      <DependentUpon>AutocompleteCategories.ts</DependentUpon>
-    </Content>
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Fonts\glyphicons-halflings-regular.woff" />
@@ -2898,8 +2883,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Questions\Modals\QuestionCommentSectionModalComponentLoader.ts" />
     <TypeScriptCompile Include="Views\Shared\Lazy\LazyComponent.ts" />
     <TypeScriptCompile Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ts" />
@@ -2962,23 +2945,6 @@
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Edit\Js\Validation.js">
-      <DependentUpon>Validation.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
-      <DependentUpon>SolutionTypeText.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\References.js">
-      <DependentUpon>References.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
-    <Content Include="Views\Questions\Edit\Js\EditQuestion.js">
-      <DependentUpon>EditQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
@@ -2991,32 +2957,14 @@
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
-    <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
-      <DependentUpon>EditQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js.map">
-      <DependentUpon>SolutionTypeText.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\References.js.map">
-      <DependentUpon>References.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
-      <DependentUpon>AutocompleteCategories.ts</DependentUpon>
-    </Content>
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
       <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\Validation.js.map">
-      <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <Content Include="Style\Images.less" />
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
-    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
-      <DependentUpon>MarkdownDescription.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\History\QuestionHistory.less" />
     <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
@@ -3039,9 +2987,6 @@
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.js.map">
       <DependentUpon>AlertModalComponent.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Scripts\JQueryExtensions.js" />
     <None Include="Web.config">
       <SubType>Designer</SubType>

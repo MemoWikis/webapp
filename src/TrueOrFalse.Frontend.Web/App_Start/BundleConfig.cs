@@ -88,15 +88,6 @@ public class BundleConfig
         bundles.Add(new ScriptBundle("~/bundles/js/Editor")
             .Include("~/Views/Shared/Editor/EditorMenuBarComponent.js"));
 
-        bundles.Add(new ScriptBundle("~/bundles/js/EditQuestion")
-            .IncludeDirectory("~/Views/Questions/Edit/EditComponents/FlashCard/", "*.js")
-            .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MatchList/", "*.js")
-            .IncludeDirectory("~/Views/Questions/Edit/EditComponents/MultipleChoice/", "*.js")
-            .IncludeDirectory("~/Views/Questions/Edit/EditComponents/Text/", "*.js")
-            .Include("~/Scripts/npm/vue-textarea-autosize/vue-textarea-autosize.umd.js")
-            .Include("~/Views/Shared/CategoryChip/CategoryChipComponent.js")
-            .Include("~/Views/Questions/Edit/EditComponents/EditQuestionComponent.js"));
-
         bundles.Add(new ScriptBundle("~/bundles/js/EditQuestionLoader")
             .Include("~//Views/Questions/Edit/EditComponents/EditQuestionLoader.js"));
 
@@ -176,12 +167,6 @@ public class BundleConfig
 
         bundles.Add(new ScriptBundle("~/bundles/mailto")
             .Include("~/Scripts/various/mailto.js"));
-
-        //-------------------------------------- KnowledgeCentral----------------------------------------
-
-        bundles.Add(new StyleBundle("~/bundles/Knowledge")
-            .IncludeDirectory("~/Views/Knowledge/", "*.css")
-            .Include("~/Views/Shared/Spinner/Spinner.css "));
 
         bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
             .Include("~/Views/Knowledge/Js/Page.js")
