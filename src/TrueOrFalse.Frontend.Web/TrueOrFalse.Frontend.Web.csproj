@@ -2244,12 +2244,6 @@
     <Content Include="Views\Questions\QuestionList\QuestionListComponent.vue.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponentLoader.ascx" />
     <Content Include="Views\Shared\Modals\AlertModal\AlertModalComponent.vue.ascx" />
-    <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js">
-      <DependentUpon>SessionConfigData.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\History\QuestionHistory.css">
-      <DependentUpon>QuestionHistory.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.ascx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
@@ -2259,12 +2253,6 @@
     <Content Include="Views\Questions\SessionConfig\SessionConfig.css">
       <DependentUpon>SessionConfig.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\History\Detail\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.aspx" />
-    <Content Include="Views\Questions\History\QuestionChangesOverview.aspx" />
-    <Content Include="Views\Questions\History\QuestionHistory.aspx" />
     <Content Include="Views\Questions\QuestionList\QuestionList.css">
       <DependentUpon>QuestionList.less</DependentUpon>
     </Content>
@@ -2318,12 +2306,6 @@
     </Content>
     <Content Include="Views\Questions\QuestionList\QuestionList.less" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
-    <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailController.cs" />
-    <Compile Include="Views\Questions\History\Detail\QuestionHistoryDetailModel.cs" />
-    <Compile Include="Views\Questions\History\QuestionChangesOverviewController.cs" />
-    <Compile Include="Views\Questions\History\QuestionChangesOverviewModel.cs" />
-    <Compile Include="Views\Questions\History\QuestionHistoryController.cs" />
-    <Compile Include="Views\Questions\History\QuestionHistoryModel.cs" />
     <Compile Include="Views\Questions\QuestionList\QuestionListController.cs" />
     <Compile Include="Views\Shared\AnalyticsFooterModel.cs" />
     <Compile Include="Views\Shared\AuthorViewModel.cs" />
@@ -2360,9 +2342,6 @@
     <Content Include="Scripts\vendor\modernizr-custom.js" />
     <TypeScriptCompile Include="Scripts\NumbersCountUp.ts" />
     <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionProgressBarComponent.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\SessionConfig\SessionConfigData.ts" />
-    <TypeScriptCompile Include="Views\Questions\History\Detail\Js\Page.ts" />
     <Content Include="Views\Shared\SidebarCards\CreateQuestion.ascx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
@@ -2943,7 +2922,6 @@
       <DependentUpon>Images.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestionModalComponent.vue.ascx" />
-    <Content Include="Views\Questions\Js\Questions.js" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -2962,15 +2940,7 @@
       <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
-    <Content Include="Views\Questions\History\QuestionHistory.less" />
-    <Content Include="Views\Questions\History\Detail\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\History\Detail\QuestionHistoryDetail.less" />
     <Content Include="Views\Questions\SessionConfig\SessionConfig.less" />
-    <Content Include="Views\Questions\Js\SessionConfig\SessionConfigData.js.map">
-      <DependentUpon>SessionConfigData.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Search\SearchComponent.js.map">
       <DependentUpon>SearchComponent.ts</DependentUpon>
     </Content>
