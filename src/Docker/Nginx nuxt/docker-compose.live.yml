@@ -1,15 +1,15 @@
 version: '3.9'
 
 services:
-  mem-nginx-reverse-stage:
+  mem-nginx-reverse-live:
     image: nginx:alpine
     build: .
     ports:
-      - "5002:5002"
+      - "5001:5001"
     environment:
-      - SERVER_PORT=5002
-      - HOST_VAR=https://stage.memucho.de
-      - PORT_NUXT=3002
+      - SERVER_PORT=5001
+      - HOST_VAR=https://live.memucho.de
+      - PORT_NUXT=3001
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
       - ./robots.txt:/etc/nginx/html/robots.txt
@@ -20,8 +20,8 @@ services:
 
 networks:
   environment-specific-network:
-    name: mem-stage
+    name: mem-live
     driver: bridge
 
 # Start like this:
-# docker-compose -f docker-compose.stage.yml -p mem-stage up -d
+# docker-compose -f docker-compose.live.yml -p mem-live up -d
