@@ -18,7 +18,7 @@ export default defineNuxtConfig({
             seqServerPort: undefined,
             seqServerUrl: undefined,
             seqClientApiKey: "",
-
+            showTestLogButton: false
         },
     },
     ssr: true,
