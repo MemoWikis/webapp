@@ -1,12 +1,10 @@
-import pino, { Level, LogFn } from 'pino'
+import { LogFn } from 'pino'
 interface Property {
     [key: string]: any;
 }
-export class CustomPino {
 
-    private levelToLabel(level: Level): string {
-        return pino.levels.labels[parseInt(level as unknown as string, 10)]
-    }
+type Level = 'Verbose' | 'Debug' | 'Information' | 'Warning' | 'Error' | 'Fatal'
+export class CustomPino {
 
     private async sendToSeq(level: Level, args: unknown[] = []): Promise<void> {
 
@@ -17,9 +15,8 @@ export class CustomPino {
         let properties = {}
         if (additionalData != undefined)
             properties = Object.assign(properties, ...additionalData)
-
         const log = {
-            Level: this.levelToLabel(level),
+            Level: level,
             MessageTemplate: message,
             Timestamp: timestamp,
             Properties: properties
@@ -65,26 +62,26 @@ export class CustomPino {
     }
 
     info: LogFn = (...args: any[]) => {
-        this.sendToSeq('info', args)
+        this.sendToSeq('Information', args)
     }
 
     error: LogFn = (...args: any[]) => {
-        this.sendToSeq('error', args)
+        this.sendToSeq('Error', args)
     }
 
     warn: LogFn = (...args: any[]) => {
-        this.sendToSeq('warn', args)
+        this.sendToSeq('Warning', args)
     }
 
     debug: LogFn = (...args: any[]) => {
-        this.sendToSeq('debug', args)
+        this.sendToSeq('Debug', args)
     }
 
     fatal: LogFn = (...args: any[]) => {
-        this.sendToSeq('fatal', args)
+        this.sendToSeq('Fatal', args)
     }
 
-    trace: LogFn = (...args: any[]) => {
-        this.sendToSeq('trace', args)
+    verbose: LogFn = (...args: any[]) => {
+        this.sendToSeq('Verbose', args)
     }
 }

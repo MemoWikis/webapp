@@ -30,6 +30,7 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
+            $logger.warn('test')
         },
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])

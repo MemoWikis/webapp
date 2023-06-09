@@ -2,15 +2,11 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     nitro: {
-        routeRules: {
-            '/seqlog': { proxy: process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw' },
-            '/Images/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/Images/**` : 'http://localhost/Images/**' },
-        },
         preset: 'node-cluster'
     },
     runtimeConfig: {
         seqServerApiKey: "",
-        seqRawUrl: undefined,
+        seqRawUrl: "http://localhost:5341/api/events/raw",
         public: {
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",
