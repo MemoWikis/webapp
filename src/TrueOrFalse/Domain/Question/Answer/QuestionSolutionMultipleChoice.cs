@@ -7,37 +7,6 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 {
     private const string AnswerListDelimiter = "</br>";
     public List<Choice> Choices = new List<Choice>();
-    public bool IsSolutionOrdered;
-
-    public void FillFromPostData(NameValueCollection postData)
-    {
-        List<string> choices =
-        (
-                from key in postData.AllKeys
-                where key.StartsWith("choice-")
-                select postData.Get(key)
-        )
-        .ToList();
-
-        List<string> choicesCorrect =
-        (
-            from key in postData.AllKeys
-            where key.StartsWith("choice_correct-")
-            select postData.Get(key)
-        )
-        .ToList();
-
-        for (int i = 0; i < choices.Count; i++)
-        {
-            Choices.Add(new Choice
-            {
-                IsCorrect = choicesCorrect[i] == "Richtige Antwort",
-                Text = choices[i]
-            });
-        }
-
-        IsSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
-    }
 
     public override bool IsCorrect(string answer)
     {
@@ -83,13 +52,5 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
         }
 
         return $"<ul>{htmlListItems}</ul>";
-    }
-
-    public override string GetAnswerForSEO()
-    {
-        return CorrectAnswer()
-            .Split(new [] {AnswerListDelimiter}, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => $"{x}, ")
-            .Aggregate((a, b) => a + b);
     }
 }

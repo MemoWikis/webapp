@@ -20,13 +20,6 @@ public class AnswerRepo : RepositoryDb<Answer>
             .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public IList<Answer> GetAllEager(bool includingSolutionViews = false)
-    {
-        return Query(includingSolutionViews)
-            .Fetch(x => x.Question).Eager
-            .List();
-    }
-
     public IList<Answer> GetByCategories(int categoryId, bool includingSolutionViews = false)
     {
         var query = @"

@@ -118,14 +118,6 @@ public class QuestionSolutionMatchList : QuestionSolution
         return $"<ul>{htmlListItems}</ul>";
     }
 
-    public override string GetAnswerForSEO()
-    {
-        return CorrectAnswer()
-            .Split(new [] {PairSeperator}, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => $"{String.Join(" - ", x.Split(new []{ElementSeperator}, StringSplitOptions.RemoveEmptyEntries))}, ")
-            .Aggregate((a, b) => a + b);
-    }
-
     public void TrimElementTexts()
     {
         foreach (var pair in Pairs)
@@ -138,25 +130,6 @@ public class QuestionSolutionMatchList : QuestionSolution
         {
             rightElement.Text = rightElement.Text.Trim();
         }
-    }
-
-    public void EscapeSolutionChars()
-    {
-        foreach (var rightElement in RightElements)
-        {
-            rightElement.Text = EscapeSolutionChars(rightElement.Text);
-        }
-        foreach (var pair in Pairs)
-        {
-            pair.ElementLeft.Text = EscapeSolutionChars(pair.ElementLeft.Text);
-            pair.ElementRight.Text = EscapeSolutionChars(pair.ElementRight.Text);
-            pair.ElementRight.Text = pair.ElementRight.Text.Replace(" ", " "); //Replace normal spaces with non-breaking-spaces
-        }
-    }
-
-    private string EscapeSolutionChars(string textInput)
-    {
-        return textInput.Replace("'", "\\'").Replace("\"", "\\\"");
     }
 }
 

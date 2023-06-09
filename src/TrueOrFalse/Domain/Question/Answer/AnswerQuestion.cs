@@ -1,5 +1,4 @@
-﻿using System.IO.Pipes;
-using System.Linq;
+﻿using System.Linq;
 using TrueOrFalse;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
@@ -159,44 +158,6 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             IsCorrect = solution.IsCorrect(answer),
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer
-        };
-
-        action(question, result);
-
-        ProbabilityUpdate_Question.Run(question);
-        if (countLastAnswerAsCorrect)
-            Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
-        else
-            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
-
-        ProbabilityUpdate_Valuation.Run(questionId, userId);
-
-        return result;
-    }
-
-
-    public AnswerQuestionResult Run(
-        int? learningSessionId,
-        string learningSessionStepGuid,
-        int questionId,
-        string answer,
-        int userId,
-        Action<Question, AnswerQuestionResult> action,
-        bool countLastAnswerAsCorrect = false,
-        bool countUnansweredAsCorrect = false)
-    {
-        var question = _questionRepo.GetById(questionId);
-        var questionCacheItem = EntityCache.GetQuestion(questionId);
-
-        var solution = GetQuestionSolution.Run(questionCacheItem);
-
-        var result = new AnswerQuestionResult
-        {
-            IsCorrect = solution.IsCorrect(answer),
-            CorrectAnswer = solution.CorrectAnswer(),
-            AnswerGiven = answer,
-            LearningSessionId = learningSessionId,
-            LearningSessionStepGuid = learningSessionStepGuid,
         };
 
         action(question, result);

@@ -354,7 +354,6 @@
     <Compile Include="Domain\Question\History\QuestionChange.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData.cs" />
     <Compile Include="Domain\Question\History\EditData\QuestionEditData_V1.cs" />
-    <Compile Include="Domain\Question\History\Ops\InitializeQuestionChanges.cs" />
     <Compile Include="Domain\Question\History\Ops\RestoreQuestion.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeMap.cs" />
     <Compile Include="Domain\Question\History\Persistence\QuestionChangeRepo.cs" />
@@ -590,7 +589,6 @@
     <Compile Include="Domain\Message\Types\CommentMsg.cs" />
     <Compile Include="Domain\Message\Types\CustomMsg.cs" />
     <Compile Include="Domain\Message\Types\WelcomeMsg.cs" />
-    <Compile Include="Domain\Message\Types\IsNowPrivateMsg.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
     <Compile Include="Domain\Message\Persistence\MessageRepo.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
@@ -602,8 +600,6 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectnessResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDaysResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDays.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectness.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\AnswerExt.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityTools.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityUpdate.cs" />
@@ -666,7 +662,6 @@
     <Compile Include="Domain\Question\Question.Ops\QuestionGetCount.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpecSession.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\QuestionInKnowledge.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepo.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
@@ -937,7 +932,6 @@
     <Compile Include="Web\Attributes\Filters\SetMainMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
-    <Compile Include="Domain\Question\Question.Image\DeleteUnusedImages.cs" />
     <Compile Include="Web\InvalidAccessException.cs" />
     <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />

@@ -163,30 +163,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<Question>();
     }
 
-    public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
-    {
-        var query = _session.QueryOver<QuestionValuation>()
-            .Where(q =>
-                q.RelevancePersonal != -1 &&
-                q.User.Id == userId)
-            .JoinQueryOver(q => q.Question)
-            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
-            .ThenBy(x => x.DateCreated).Desc
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId);
-
-        return new PagedResult<Question>
-        {
-            PageSize = resultCount,
-            Total = query.RowCount(),
-            Items = query
-                .Take(resultCount)
-                .List<QuestionValuation>()
-                .Select(qv => qv.Question)
-                .ToList()
-        };
-    }
-
     public int HowManyNewPublicQuestionsCreatedSince(DateTime since)
     {
         return _session.QueryOver<Question>()

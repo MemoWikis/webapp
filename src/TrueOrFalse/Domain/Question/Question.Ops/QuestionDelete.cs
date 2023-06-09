@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using NHibernate;
-using TrueOrFalse.Utilities.ScheduledJobs;
+﻿using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class QuestionDelete
 {
