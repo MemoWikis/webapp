@@ -11,7 +11,7 @@ export class CustomPino {
     private async sendToSeq(level: Level, args: unknown[] = []): Promise<void> {
 
         const timestamp = new Date().toISOString()
-        const message = args[0] as string
+        const message = (args[0] ?? 'no message specified') as string
         const additionalData = args[1] as Property[]
 
         let properties = {}
@@ -27,8 +27,10 @@ export class CustomPino {
 
         let url = '/seqlog'
         let apiKey = ''
+        console.log("process.server: ", process.server)
         if (process.server) {
-            url = process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw'
+            url = process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/rawLOGGER'
+            console.log("ServerUrl: ", url)
             if (process.env.NUXT_SEQ_SERVER_API_KEY)
                 apiKey = process.env.NUXT_SEQ_SERVER_API_KEY
         } else {
@@ -44,6 +46,14 @@ export class CustomPino {
             body: { Events: [log] },
         }
 
+        function logLogging(log: any, loggingContent: any, url: string){
+            console.log("loggingContent", loggingContent)
+            console.log("Log: ", log)
+            console.log("LoggingUrl: " + url)
+            console.log("process.env.NUXT_SEQ_RAW_URL", process.env.NUXT_SEQ_RAW_URL)
+        }
+        logLogging(log, loggingContent, url)
+
         try {
             await $fetch(url, {
                 method: 'POST',
@@ -54,9 +64,7 @@ export class CustomPino {
             })
         } catch (error) {
             console.error('Error sending log to Seq:', error)
-            console.log(loggingContent)
-            console.log("Log: ", log)
-            console.log({ ...log })
+            logLogging(log, loggingContent, url)
         }
     }
 

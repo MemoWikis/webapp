@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { CustomPino } from '~/logs/logger';
 import { Topic } from '../topic/topicStore'
 
 const { isDesktop } = useDevice()
@@ -12,6 +13,14 @@ const discordBounce = ref(false)
 function bounceDiscord() {
 
 }
+
+function doTestLog(){
+    const logger = new CustomPino()
+    logger.log("Logging Test from Sidebar")
+}
+
+const showTestLogButton = config.public.showTestLogButton
+
 </script>
 
 <template>
@@ -38,6 +47,11 @@ function bounceDiscord() {
                     <br />
                     Dann triff dich mit uns auf Discord!
 
+                </template>
+            </SidebarCard>
+            <SidebarCard v-if="showTestLogButton">
+                <template v-slot:body>
+                    <button class="memo-button btn-link" @click="doTestLog">Logging-Test</button>
                 </template>
             </SidebarCard>
         </div>
