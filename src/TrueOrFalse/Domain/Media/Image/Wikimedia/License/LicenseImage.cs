@@ -25,8 +25,6 @@ public class LicenseImage
 
     public LicenseRequirementsType LicenseRequirementsType;
     
-    public List<string> WikipediaTemplateNames;
-
     public void InitLicenseSettings()
     {
         //Init requirements settings
@@ -99,30 +97,6 @@ public class LicenseImage
             CopyOfLicenseTextRequired = true;
             ChangesNotAllowed = true;
         }
-    }
-
-    public LicenseRequirementsType ParseLicenseRequirementsType()
-    {
-        if (String.IsNullOrEmpty(WikiSearchString))
-            return LicenseRequirementsType.NoCategory;
-
-        if (WikiSearchString.ToLower().StartsWith("cc-by-sa-")
-            || WikiSearchString.ToLower().StartsWith("cc-by-"))
-            return LicenseRequirementsType.Cc_By_Sa;
-
-        if (WikiSearchString.ToLower().StartsWith("cc-sa-"))
-            return LicenseRequirementsType.Cc_Sa;
-
-        if (WikiSearchString.ToLower().StartsWith("cc-zero"))
-            return LicenseRequirementsType.Cc0;
-
-        if (WikiSearchString.ToLower().StartsWith("pd"))
-            return LicenseRequirementsType.PD;
-
-        if (WikiSearchString.ToLower().StartsWith("gfdl"))
-            return LicenseRequirementsType.GFDL;
-
-        return LicenseRequirementsType.NoCategory;
     }
 
     public static List<LicenseImage> FromLicenseIdList(string idList)

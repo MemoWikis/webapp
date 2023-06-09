@@ -34,12 +34,10 @@ public class UserImageSettings : ImageSettings, IImageSettings
         throw new NotImplementedException();
     }
 
-    public ImageUrl GetUrl_30px_square(IUserTinyModel user) { return GetUrl(user, 30, isSquare: true); }
     public ImageUrl GetUrl_128px_square(IUserTinyModel user) { return GetUrl(user, 128, isSquare: true);}
     public ImageUrl GetUrl_85px_square(IUserTinyModel user) { return GetUrl(user, 85, isSquare: true); }
     public ImageUrl GetUrl_50px_square(IUserTinyModel user) { return GetUrl(user, 50, isSquare: true); }
     public ImageUrl GetUrl_50px(IUserTinyModel user) { return GetUrl(user, 50);}
-    public ImageUrl GetUrl_200px(IUserTinyModel user) { return GetUrl(user, 200); }
     public ImageUrl GetUrl_250px(IUserTinyModel user) { return GetUrl(user, 250); }
     public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
 
@@ -53,32 +51,6 @@ public class UserImageSettings : ImageSettings, IImageSettings
         return HttpContext.Current.Request.Url.Scheme + "://" +
                HttpContext.Current.Request.Url.Host +
                HttpContext.Current.Request.ApplicationPath + BaseDummyUrl + width + ".png";
-    }
-
-    public string GetImage(string url)
-    {
-        var results = "";
-        var contentType = "";
-
-        try
-        {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-            var reader = new BinaryReader(resp.GetResponseStream());
-            Byte[] byteArray = reader.ReadBytes(1 * 1024 * 1024 * 10);
-
-            contentType = resp.ContentType;
-            var base64 = Convert.ToBase64String(byteArray);
-            var imgSrc = Format("data:" + contentType + ";base64,{0}", base64);
-            return imgSrc;
-        }
-        catch (Exception ex)
-        {
-            results = ex.Message;
-        }
-
-        return "";
     }
 }
 

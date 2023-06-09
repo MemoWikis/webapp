@@ -94,24 +94,6 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
             Create(imageMeta);
     }
 
-    public static void SetMainLicenseInfo(ImageMetaData imageMetaData, int MainLicenseId)
-    {
-        if (imageMetaData == null) return;
-        if (LicenseImageRepo.GetAllAuthorizedLicenses().All(x => x.Id != MainLicenseId)) return;
-        if (!LicenseParser.CheckLicenseRequirementsWithDb(LicenseImageRepo.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
-        var manualEntries = imageMetaData.ManualEntriesFromJson();
-        var mainLicenseInfo = new MainLicenseInfo
-        {
-            MainLicenseId = MainLicenseId,
-            Author = !String.IsNullOrEmpty(manualEntries.AuthorManuallyAdded) ?
-                manualEntries.AuthorManuallyAdded :
-                imageMetaData.AuthorParsed,
-            Markup = imageMetaData.Markup,
-            MarkupDownloadDate = imageMetaData.MarkupDownloadDate,
-        };
-        imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
-    }
-
     public void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)
     {
         var imageMeta = GetBy(typeId, imageType);

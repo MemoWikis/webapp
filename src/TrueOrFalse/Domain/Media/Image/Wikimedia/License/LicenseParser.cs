@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SolrNet.Utils;
 using TrueOrFalse.WikiMarkup;
 using static System.String;
 
@@ -31,11 +30,6 @@ public class LicenseParser
                 .Where(license => allLicenses.Any(x => x.Id == license.Id))
                 .ToList()
         );
-    }
-
-    public static IList<LicenseImage> GetNonAuthorizedParsedLicenses(string wikiMarkup)
-    {
-        return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
     }
 
     public static LicenseImage SuggestMainLicenseFromMarkup(ImageMetaData imageMetaData)

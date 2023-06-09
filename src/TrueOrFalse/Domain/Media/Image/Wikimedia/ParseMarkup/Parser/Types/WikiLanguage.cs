@@ -32,9 +32,4 @@ public class WikiLanguage
 
         return allLanguages;
     }
-
-    public static string GetLanguageNameByToken(string languageToken)
-    {
-        return GetAllLanguages().Where(l => l.LanguageToken == languageToken).Select(l => l.LanguageName).FirstOrDefault();
-    }
 }

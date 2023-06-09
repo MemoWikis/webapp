@@ -6,26 +6,9 @@ using Newtonsoft.Json.Linq;
 [Serializable]
 public class ImageParsingNotifications
 {
-    public List<Notification> InfoTemplate = new List<Notification>(); 
-    public List<Notification> Author = new List<Notification>();
-    public List<Notification> Description = new List<Notification>();
-
-    public List<Notification> GetAllNotifications()
-    {
-        var allNotifications = new List<Notification>();
-        var fields = GetType().GetFields();
-
-        foreach (FieldInfo field in fields)
-        {
-            if (field.FieldType == typeof(List<Notification>))
-            {
-                var notifications = (List<Notification>)field.GetValue(this);
-                notifications.ForEach(notification => allNotifications.Add(notification));
-            }
-        }
-
-        return allNotifications;
-    }
+    public List<Notification> InfoTemplate = new(); 
+    public List<Notification> Author = new();
+    public List<Notification> Description = new();
 
     public string ToJson()
     {

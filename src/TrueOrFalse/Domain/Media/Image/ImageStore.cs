@@ -14,12 +14,6 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         _imgMetaRepo = imgMetaRepo;
     }
 
-    public void ReloadWikipediaImage(ImageMetaData imageMetaData)
-    {
-        var imageSettings = ImageSettings.InitByType(imageMetaData);
-        RunWikimedia(imageMetaData.SourceUrl, imageMetaData.TypeId, imageMetaData.Type, imageMetaData.UserId, imageSettings);
-    }
-
     public void RunWikimedia(
         string imageWikiFileName,
         int typeId, 
@@ -86,11 +80,5 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         SaveImageToFile.Run(imagefile.InputStream, imageSettings);
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
-    }
-
-    public void Delete(ImageMetaData imageMetaData)
-    {
-        imageMetaData.GetSettings().DeleteFiles();
-        _imgMetaRepo.Delete(imageMetaData.Id);
     }
 }
