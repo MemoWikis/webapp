@@ -126,11 +126,6 @@ public static class QuestionInKnowledge
             GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
     }
 
-    private static void UpdateTotalRelevancePersonalInCache(QuestionCacheItem question)
-    {
-        UpdateTotalRelevancePersonalInCache(new List<QuestionCacheItem>{ question });
-    }
-
     public static void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)
     {
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsFromCache(questions);

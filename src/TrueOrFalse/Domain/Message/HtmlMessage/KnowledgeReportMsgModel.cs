@@ -5,8 +5,6 @@ public class KnowledgeReportMsgModel
     public DateTime ShowStatsForPeriodSince;
     public string ShowStatsForPeriodSinceString;
 
-    public string EmailTitle = "Dein wöchentlicher Wissensbericht";
-
     public string QuestionCountWish;
     public string SetCountWish;
 
@@ -19,22 +17,15 @@ public class KnowledgeReportMsgModel
     public string KnowledgeNotLearned;
     public string KnowledgeNotLearnedPercentage;
 
-    public string KnowledgeLastLearnedDate;
-    public string KnowledgeLastLearnedDateAsDistance;
-
     public string DaysLearnedSinceCount;
     public string PossibleLearningDaysSince;
     public string AnsweredQuestionsSinceCount;
     public string AnsweredQuestionsCorrectSinceCount;
-    public string AnsweredQuestionsCorrectSincePercentage;
     public string StreakSince;
     public string TopStreak;
-    public string TopStreakPeriod;
 
     public string NewQuestions;
-    public string NewSets;
     public string TotalAvailableQuestions;
-    public string TotalAvailableSets;
 
     public string UnreadMessagesCount;
     public string FollowerIAm;
@@ -47,7 +38,6 @@ public class KnowledgeReportMsgModel
     public string LinkToTechInfo;
 
     public string UtmSourceFullString;
-    public string UtmCampaignFullString = "";
 
     public KnowledgeReportMsgModel(User user, string utmSource)
     {
@@ -123,9 +113,7 @@ public class KnowledgeReportMsgModel
         /* Stats on new content */
 
         NewQuestions = Sl.R<QuestionRepo>().HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
-        NewSets = Sl.R<SetRepo>().HowManyNewSetsCreatedSince(ShowStatsForPeriodSince).ToString();
         TotalAvailableQuestions = Sl.R<QuestionRepo>().TotalPublicQuestionCount().ToString();
-        TotalAvailableSets = Sl.R<SetRepo>().TotalSetCount().ToString();
 
         /* User's additional status & infos */
 

@@ -48,24 +48,4 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
     }
-
-    public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)
-    {
-        if (guid == Guid.Empty)
-        {
-            Logg.r().Warning("Trying to log time for question view with empty guid");
-            return;
-        }
-
-        var questionView = Sl.R<QuestionViewRepository>().GetByGuid(guid);
-
-        if (questionView == null)
-        {
-            Logg.r().Warning("Trying to log time for unknown question view (guid unknown)");
-            return;
-        }
-
-        questionView.Milliseconds = millisencondsSinceQuestionView;
-        _questionViewRepo.Update(questionView);
-    }
 }

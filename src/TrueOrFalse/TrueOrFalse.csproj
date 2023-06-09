@@ -432,7 +432,6 @@
     <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsg.cs" />
     <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsgModel.cs" />
     <Compile Include="Domain\Message\MessageEmailTypes.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\Timecode.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMatchList.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionFlashCard.cs" />
@@ -537,7 +536,6 @@
     <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
-    <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\AsyncExe.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
     <Compile Include="Infrastructure\Time\DateTimeX.cs" />
@@ -591,7 +589,6 @@
     <Compile Include="Domain\Message\Types\WelcomeMsg.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
     <Compile Include="Domain\Message\Persistence\MessageRepo.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Category\Ops\UpdateQuestionCountForCategory.cs" />
     <Compile Include="Domain\QuestionSet\SetComparerIdEquals.cs" />
     <Compile Include="Domain\QuestionSet\TopSetResult.cs" />
@@ -636,7 +633,6 @@
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
     <Compile Include="Domain\QuestionSet\SetListExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
@@ -809,7 +805,6 @@
     <Compile Include="Domain\Question\QuestionListExt.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionMap.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionRepo.cs" />
-    <Compile Include="Domain\Question\QuestionCharacter.cs" />
     <Compile Include="Domain\Question\QuestionVisibility.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionType.cs" />
     <Compile Include="Domain\User\Registration\Login\CredentialsAreValid.cs" />

@@ -25,10 +25,6 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<QuestionSearchSpec> SearchSpecQuestions => SessionDataLegacy.Get("searchSpecQuestions", new List<QuestionSearchSpec>());
 
-    public SetSearchSpec SearchSpecSetsAll => SessionDataLegacy.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 });
-    public SetSearchSpec SearchSpecSetMine => SessionDataLegacy.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 });
-    public SetSearchSpec SearchSpecSetWish => SessionDataLegacy.Get("searchSpecSetWish", new SetSearchSpec { PageSize = 10 });
-
     public CategorySearchSpec SearchSpecCategory => SessionDataLegacy.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 });
     public CategorySearchSpec SearchSpecCategoryWish => SessionDataLegacy.Get("searchSpecCategoryWish", new CategorySearchSpec { PageSize = 10 });
 
