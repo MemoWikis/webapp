@@ -21,23 +21,6 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanView(int creatorId, CategoryVisibility visibility)
-    {
-        if (visibility == CategoryVisibility.All)
-            return true;
-
-        if (visibility == CategoryVisibility.Owner && creatorId == SessionUserLegacy.UserId)
-            return true;
-
-        return false;
-    }
-
-    public static bool CanView(int creatorId, CategoryVisibility previousVisibility,
-        CategoryVisibility selectedVisibility)
-    {
-        return CanView(creatorId, previousVisibility) && CanView(creatorId, selectedVisibility);
-    }
-
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
     public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(SessionUserLegacy.User, category);
@@ -55,7 +38,6 @@ public class PermissionCheck
         return SessionUserLegacy.IsLoggedIn;
     }
 
-    public static bool CanDelete(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanDelete(CategoryCacheItem category) => CanDelete(SessionUserLegacy.User, category);
     public static bool CanDelete(SessionUserCacheItem user, CategoryCacheItem category)
     {
@@ -89,8 +71,6 @@ public class PermissionCheck
         return false;
     }
 
-
-
     public static bool CanEdit(Question question) => CanEdit(SessionUserLegacy.User, question);
 
     public static bool CanEdit(SessionUserCacheItem user, Question question)
@@ -121,15 +101,5 @@ public class PermissionCheck
             return true;
 
         return false;
-    }
-    public static bool IsAuthorOrAdmin(UserTinyModel author)
-    {
-        if (author == null)
-            return IsAuthorOrAdmin((int?)null);
-        return IsAuthorOrAdmin(author.Id);
-    }
-    public static bool IsAuthorOrAdmin(int? creatorId)
-    {
-        return SessionUserLegacy.IsInstallationAdmin || SessionUserLegacy.UserId == creatorId;
     }
 }

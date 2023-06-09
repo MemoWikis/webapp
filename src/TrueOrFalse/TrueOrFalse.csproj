@@ -441,8 +441,6 @@
     <Compile Include="Domain\Question\SolutionType\MatchList\Pair.cs" />
     <Compile Include="Domain\Question\SolutionType\MatchList\ElementRight.cs" />
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
-    <Compile Include="Domain\Sponsor\Sponsor.cs" />
-    <Compile Include="Domain\Sponsor\SponsorRepo.cs" />
     <Compile Include="Domain\User\ActivityPoints\Ops\TransferActivityPoints.cs" />
     <Compile Include="Domain\User\ActivityPoints\Persistence\ActivityPointsMap.cs" />
     <Compile Include="Domain\User\ActivityPoints\Persistence\ActivityPointsRepo.cs" />
@@ -455,8 +453,6 @@
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
     <Compile Include="Infrastructure\PercentageShares.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\ISessionManager.cs" />
-    <Compile Include="Domain\Welcome\TopicOfWeek.cs" />
-    <Compile Include="Domain\Welcome\TopicOfWeekRepo.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\NHibernateHelper.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\RepositoryDb.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\SessionFactoryContainer.cs" />
@@ -531,9 +527,7 @@
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
-    <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />
-    <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
     <Compile Include="Infrastructure\AsyncExe.cs" />
@@ -590,15 +584,11 @@
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
     <Compile Include="Domain\Message\Persistence\MessageRepo.cs" />
     <Compile Include="Domain\Category\Ops\UpdateQuestionCountForCategory.cs" />
-    <Compile Include="Domain\QuestionSet\SetComparerIdEquals.cs" />
-    <Compile Include="Domain\QuestionSet\TopSetResult.cs" />
-    <Compile Include="Domain\QuestionSet\UserListExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerCorrectness.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectnessResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDaysResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDays.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
-    <Compile Include="Domain\User\Activity\Ops\UserActivityTools.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityUpdate.cs" />
     <Compile Include="Domain\User\Activity\Persistence\UserActivityRepo.cs" />
     <Compile Include="Domain\User\Activity\Persistence\UserActivityMap.cs" />
@@ -678,9 +668,6 @@
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
-    <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
-    <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
-    <Compile Include="Domain\User\Membership\Invoice\InvoiceModel.cs" />
     <Compile Include="Domain\User\Ops\FollowerIAm.cs" />
     <Compile Include="Domain\User\Ops\FollowerCounts.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
@@ -688,7 +675,6 @@
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
-    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordReset.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordResetPrepare.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordResetPrepareResult.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryToken.cs" />
@@ -699,10 +685,8 @@
     <Compile Include="Domain\User\Ops\TotalFollowers.cs" />
     <Compile Include="Infrastructure\DoubleExtensions.cs" />
     <Compile Include="Infrastructure\IoC\AutofacWebInitializer.cs" />
-    <Compile Include="Infrastructure\Language\Language.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\Logg.cs" />
-    <Compile Include="Infrastructure\Logging\Loggly.cs" />
     <Compile Include="Infrastructure\Login\MEMuchOCookie.cs" />
     <Compile Include="Infrastructure\Login\ThrowIfNot_IsLoggedInUserOrAdmin.cs" />
     <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
@@ -809,8 +793,6 @@
     <Compile Include="Domain\Question\SolutionType\SolutionType.cs" />
     <Compile Include="Domain\User\Registration\Login\CredentialsAreValid.cs" />
     <Compile Include="Domain\User\Registration\Confirmation\CreateConfirmationLink.cs" />
-    <Compile Include="Domain\User\Registration\Confirmation\SetUserEmailAsConfirmed.cs" />
-    <Compile Include="Domain\User\Registration\Confirmation\ValidateConfirmationKey.cs" />
     <Compile Include="Domain\User\Registration\Flow\_ RegisterUser.cs" />
     <Compile Include="Domain\User\Registration\Flow\1 CheckRegistrationData.cs" />
     <Compile Include="Domain\User\Registration\Flow\2 SendRegistrationEmail.cs" />
@@ -841,7 +823,6 @@
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepo.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
-    <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\EnumConvention.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -963,9 +944,6 @@
     </None>
     <None Include="packages.config" />
     <None Include="Web\Crawlers\list-of-crawlers.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Domain\User\Membership\Invoice\InvoiceTemplate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.hbm.xml" />

@@ -16,15 +16,6 @@ public class UserSummary : IRegisterAsInstancePerLifetime
         return query.FutureValue<int>().Value;
     }
 
-    public int AmountCreatedSets(int creatorId)
-    {
-        return Sl.Resolve<ISession>()
-            .QueryOver<Set>()
-            .Select(Projections.RowCount())
-            .Where(s => s.Creator != null && s.Creator.Id == creatorId)
-            .FutureValue<int>().Value;            
-    }
-
     public int AmountCreatedCategories(int creatorId, bool inclPrivateCategories = true)
     {
         var query = Sl.Resolve<ISession>()
