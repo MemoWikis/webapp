@@ -627,7 +627,6 @@
     <Compile Include="Domain\Question\Question.Ops\QuestionDelete.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionGetCount.cs" />
-    <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpecSession.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\QuestionInKnowledge.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepo.cs" />
@@ -848,14 +847,6 @@
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
-    <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
-    <Compile Include="Web\Context\MenuHistory\HelpHistory.cs" />
-    <Compile Include="Web\Context\MenuHistory\HistoryBase.cs" />
-    <Compile Include="Web\Context\MenuHistory\HistoryItemBase.cs" />
-    <Compile Include="Web\Context\MenuHistory\QuestionHistory.cs" />
-    <Compile Include="Web\Context\MenuHistory\QuestionSetHistory.cs" />
-    <Compile Include="Web\Context\MenuHistory\ThemeMenuHistoryOps.cs" />
-    <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
     <Compile Include="Web\Context\SessionUserLegacz.cs" />

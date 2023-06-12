@@ -16,7 +16,6 @@ public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, Questi
     public SearchTabType SearchTab;
     public SpellCheckResult SpellCheck;
 
-    public QuestionHistoryItem HistoryItem;
 
     public string GetSuggestion()
     {
