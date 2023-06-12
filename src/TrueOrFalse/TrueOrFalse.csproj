@@ -865,10 +865,6 @@
     <Compile Include="Web\Seo\SeoUtils.cs" />
     <Compile Include="Web\Uris\UrlHelperExtensions.cs" />
     <Compile Include="Web\UserAgent.cs" />
-    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
-    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
-    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />
-    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptViewEngine.cs" />
     <Compile Include="Web\ViewEngine\PartialSubDirectoriesViewEngine.cs" />
     <Compile Include="Web\Uris\Links.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />

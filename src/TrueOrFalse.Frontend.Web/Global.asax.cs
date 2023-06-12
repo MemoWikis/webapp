@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
 using NHibernate;
@@ -16,7 +15,6 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
-using TrueOrFalse.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web;
 
@@ -74,7 +72,6 @@ public class Global : HttpApplication
         RouteConfig.RegisterRoutes(RouteTable.Routes);
 
         ViewEngines.Engines.Clear();
-        ViewEngines.Engines.Add(new JavaScriptViewEngine());
         ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
         if (!Settings.DisableAllJobs())
