@@ -856,10 +856,7 @@
     <Compile Include="Web\Attributes\Filters\RedirectToErrorPage_IfNotLoggedInAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyAsLoggedInAttribute.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyAsAdminAttribute.cs" />
-    <Compile Include="Web\HtmlLabelExtensions.cs" />
-    <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Web\InvalidAccessException.cs" />
-    <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />
     <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
     <Compile Include="Web\Seo\SeoUtils.cs" />
