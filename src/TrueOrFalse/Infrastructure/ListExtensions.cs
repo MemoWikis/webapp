@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using Seedworks.Lib.Persistence;
 
 public static class ListExtensions
 {
@@ -51,10 +50,6 @@ public static class ListExtensions
         return -1;
     }
 
-    public static ConcurrentDictionary<int, T> ToConcurrentDictionary<T>(this IList<T> list) where T : DomainEntity
-    {
-        return new ConcurrentDictionary<int, T>(list.Select(i => new KeyValuePair<int, T>(i.Id, i)));
-    }
     public static ConcurrentDictionary<int, UserCacheItem> ToConcurrentDictionary(this IList<UserCacheItem> list)
     {
         return new ConcurrentDictionary<int, UserCacheItem>(list.Select(user => new KeyValuePair<int, UserCacheItem>(user.Id, user)));

@@ -90,16 +90,4 @@ public class UserCacheItem : IUserTinyModel
     {
         return users.Select(ToCacheUser);
     }
-
-    public virtual IList<string> WidgetHosts()
-    {
-        if (IsNullOrEmpty(WidgetHostsSpaceSeparated))
-        {
-            return new List<string>();
-        }
-
-        return WidgetHostsSpaceSeparated
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim()).ToList();
-    }
 }

@@ -366,8 +366,6 @@
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
-    <Compile Include="Tools\Cache\CacheClearer.cs" />
-    <Compile Include="Tools\Cache\CacheUpdater.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
     <Compile Include="Tools\Cache\EntityCache\QuestionCacheItem.cs" />
@@ -511,7 +509,6 @@
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
-    <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
@@ -677,7 +674,6 @@
     <Compile Include="Infrastructure\Persistence\Conventions\InMemoryEngine_StringPropertyConvention.cs" />
     <Compile Include="Infrastructure\Persistence\Session\NHConfigurationFileCache.cs" />
     <Compile Include="Infrastructure\ProjectionEqualityComparer.cs" />
-    <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Infrastructure\StringUtils.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
     <Compile Include="Search\Category\IndexOperations\SolrReIndexAllCategories.cs" />
@@ -715,7 +711,6 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
     <Compile Include="Tools\Update\PathTo.cs" />
-    <Compile Include="Tools\Update\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs229.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />

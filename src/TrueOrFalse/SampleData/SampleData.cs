@@ -40,18 +40,5 @@ namespace TrueOrFalse
 
             return new List<User> {stefan, robert, jule};
         }
-
-        public void Import(string xmlFile)
-        {
-            var importerResult = _importer.Run(System.IO.File.ReadAllText(xmlFile));
-
-            foreach (var category in importerResult.Categories){
-                _categoryRepository.Create(Sl.CategoryRepo.GetByIdEager(category.Id));
-            }
-            foreach (var question in importerResult.Questions)
-            {
-                _questionRepo.Create(question);
-            }
-        }
     }
 }

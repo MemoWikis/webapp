@@ -94,14 +94,6 @@ public class SessionUserCache
     public static IList<CategoryValuation> GetCategoryValuations(int userId) =>
         GetItem(userId).CategoryValuations.Values.ToList();
 
-    public static CategoryValuation GetCategoryValuation(int userId, int categoryId)
-    {
-        var categoryValuations = GetItem(userId)?.CategoryValuations;
-        return categoryValuations != null && categoryValuations.Any()
-            ? categoryValuations.Values.FirstOrDefault(cv => cv.CategoryId == categoryId)
-            : null;
-    }
-
     public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);

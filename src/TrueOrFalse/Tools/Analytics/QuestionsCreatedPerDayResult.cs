@@ -7,7 +7,6 @@ public class QuestionsCreatedPerDayResult
 
     public int CountByMemucho;
     public int CountByOthers;
-    public int TotalCount { get { return CountByMemucho + CountByOthers; } }
 
     public static List<QuestionsCreatedPerDayResult> FillUpListWithZeros(List<QuestionsCreatedPerDayResult> list, DateTime from, DateTime to)
     {
