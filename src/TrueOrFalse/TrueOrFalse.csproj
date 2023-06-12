@@ -453,9 +453,7 @@
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
     <Compile Include="Infrastructure\PercentageShares.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\ISessionManager.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\NHibernateHelper.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\RepositoryDb.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\SessionFactoryContainer.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\CategoryAttributes.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Condition.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\ConditionComparisonType.cs" />
@@ -485,7 +483,6 @@
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\OrderBy\OrderDirection.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Pager\IPager.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Pager\Pager.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\QueryBatcher.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\SearchSpecificationBase.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Setup\BaseSetup.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\BaseTypes\DomainEntity.cs" />
@@ -494,10 +491,7 @@
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IPersistable.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithDateCreated.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithDateModified.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithVersion.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\TypeExtensions.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\SettingType.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Types\SettingBoolean.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Types\SettingInteger.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Types\SettingString.cs" />
@@ -506,18 +500,9 @@
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingSearchDesc.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingSearchFilter.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingStorage.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib.Settings\SettingBag.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib\ExtensionMethods\CollectionExtensions.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib\ExtensionMethods\StringExtensions.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\BinarySize.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\MediaSize\MediaLength.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\MediaSize\TimeCode.cs" />
-    <Compile Include="Infrastructure\Seedworks\Lib\Web\UriUtils.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Cache.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheAnalyzer.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemTypeSummary.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemTypeSummaryList.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemWrapper.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\CacheAspNet.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\ICache.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\ContextUtil.cs" />
@@ -533,7 +518,6 @@
     <Compile Include="Infrastructure\AsyncExe.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
     <Compile Include="Infrastructure\Time\DateTimeX.cs" />
-    <Compile Include="Infrastructure\Time\Period.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.FollowingAnswer\FollowingAnswer.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityCalc_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityUpdate_Category.cs" />
@@ -683,13 +667,11 @@
     <Compile Include="Domain\User\Ops\UserSummary.cs" />
     <Compile Include="Domain\User\Activity\UserActivity.cs" />
     <Compile Include="Domain\User\Ops\TotalFollowers.cs" />
-    <Compile Include="Infrastructure\DoubleExtensions.cs" />
     <Compile Include="Infrastructure\IoC\AutofacWebInitializer.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\Logg.cs" />
     <Compile Include="Infrastructure\Login\MEMuchOCookie.cs" />
     <Compile Include="Infrastructure\Login\ThrowIfNot_IsLoggedInUserOrAdmin.cs" />
-    <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
     <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
     <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\InMemoryEngine_StringPropertyConvention.cs" />
@@ -698,7 +680,6 @@
     <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Infrastructure\StringUtils.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
-    <Compile Include="Infrastructure\Time\TimeSpanLabel.cs" />
     <Compile Include="Search\Category\IndexOperations\SolrReIndexAllCategories.cs" />
     <Compile Include="Search\Category\IndexOperations\SolrSearchIndexCategory.cs" />
     <Compile Include="Search\Category\Model\CategorySolrMap.cs" />
@@ -822,7 +803,6 @@
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepo.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
-    <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\EnumConvention.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -831,9 +811,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\Persistence\Session\SessionManager.cs" />
-    <Compile Include="Infrastructure\Persistence\Spec\SpecFilterBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Infrastructure\Persistence\Spec\SpecOrderByBase.cs">
       <SubType>Code</SubType>
     </Compile>

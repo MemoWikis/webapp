@@ -51,10 +51,5 @@ namespace Seedworks.Web.State
         {
             return _cache.Get(key) != null;
         }
-
-        public static IDictionaryEnumerator GetEnumerator()
-        {
-            return _cache.GetEnumerator();
-        }
     }
 }

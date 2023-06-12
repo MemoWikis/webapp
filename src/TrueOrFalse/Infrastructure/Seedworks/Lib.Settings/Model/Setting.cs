@@ -62,16 +62,16 @@ namespace Seedworks.Lib.Settings
         protected T Clone<T>() where T : Setting, new()
         {
             return new T
-                       {
-                           _default = _default,
-                           DateCreated = DateCreated,
-                           Id = Id,
-                           Key = Key,
-                           DateModified = DateModified,
-                           SettingType = SettingType,
-                           SettingTypeId = SettingTypeId,
-                           ValueStr = ValueStr
-                       };
+            {
+                _default = _default,
+                DateCreated = DateCreated,
+                Id = Id,
+                Key = Key,
+                DateModified = DateModified,
+                SettingType = SettingType,
+                SettingTypeId = SettingTypeId,
+                ValueStr = ValueStr
+            };
         }
     }
 }

@@ -8,17 +8,6 @@ namespace Seedworks.Web.State
     {
         public static bool UseWebConfig => Settings.UseWebConfig;
 
-        public static bool IsLocal
-        {
-            get
-            {
-                if (!IsWebContext) // helps unit testing
-                    return false;
-
-                return HttpContext.Current.Request.IsLocal;
-            }
-        }
-
         public static bool IsWebContext => HttpContext.Current != null;    
 
 

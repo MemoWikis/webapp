@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace Seedworks.Lib.Persistence
 {
@@ -265,13 +262,7 @@ namespace Seedworks.Lib.Persistence
             return result;
 		}
 
-		public Pager SetItemsPerPage(int itemsPerPage)
-		{
-			PageSize = itemsPerPage;
-			return this;
-		}
-
-		public bool HasNextPage()
+        public bool HasNextPage()
 		{
 			return !IsLastPage;
 		}          

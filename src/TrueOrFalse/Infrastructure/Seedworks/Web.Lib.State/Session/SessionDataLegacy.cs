@@ -38,19 +38,6 @@ namespace Seedworks.Web.State
             _appDomainInsertedKeys.Add(key);
 		}
 
-		/// <summary>
-		/// Use only if truly necessary; else simply use <see cref="Get{T}(string,System.Func{T})"/>.
-		/// </summary>
-		public static bool Exists(string key) => Get(key) != null;
-
-        /// <summary>
-		/// Returns the typed item for the given key. May be <b>null</b>.
-		/// Cannot use this for value types because an exception would be thrown if the value does not exist.
-		/// <br/>
-		/// Consider using <see cref="Get{T}(string,T)"/> for value types, or e.g. Get(key, (int?) null) for nullables.
-		/// </summary>
-		public static T Get<T>(string key) where T : class => (T)Get(key);
-
         /// <summary>
 		/// Returns the item for the given key. 
 		/// <br/>
@@ -94,18 +81,5 @@ namespace Seedworks.Web.State
 
 			_appDomainInsertedKeys.Clear();
 		}
-
-		public static void Remove(string key)
-		{
-			if (ContextUtil.IsWebContext)
-			{
-				HttpContext.Current.Session.Remove(key);
-			}
-			else
-			{
-				AppDomain.CurrentDomain.SetData(key, null);
-				_appDomainInsertedKeys.Remove(key);
-			}
-		}
-	}
+    }
 }

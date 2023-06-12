@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Seedworks.Lib.Persistence
 {
