@@ -500,11 +500,6 @@ public static class Links
         return "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
     }
 
-    public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem)
-    {
-        return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
-    }
-
     public static string QuestionWithCategoryFilter(UrlHelper url, Category category)
     {
         return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;

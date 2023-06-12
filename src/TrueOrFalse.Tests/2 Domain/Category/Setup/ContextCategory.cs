@@ -162,19 +162,6 @@ public class ContextCategory
         return this;
     }
 
-    public ContextCategory Delete(Category category)
-    {
-        _categoryRepository.Delete(category);
-        return this;
-    }
-
-    public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
-    {
-        category.CategoryRelations = categoryRelations;
-        _categoryRepository.Update(category);
-        return this;
-    }
-
     public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
     {
         //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing

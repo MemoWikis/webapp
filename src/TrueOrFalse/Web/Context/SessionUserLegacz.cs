@@ -85,21 +85,6 @@ public class SessionUserLegacy : SessionBase, IRegisterAsInstancePerLifetime
 
     public static List<ActivityPoints> ActivityPoints => SessionDataLegacy.Get("pointActivities", new List<ActivityPoints>());
 
-    public static void AddPointActivity(ActivityPoints activityPoints)
-    {
-        ActivityPoints.Add(activityPoints);
-    }
-
-    public static int GetTotalActivityPoints()
-    {
-        int totalPoints = 0;
-
-        foreach (var activity in ActivityPoints)
-            totalPoints += activity.Amount;
-
-        return totalPoints;
-    }
-
     public static int CurrentWikiId
     {
         get => SessionDataLegacy.Get("currentWikiId", 1);
@@ -108,6 +93,4 @@ public class SessionUserLegacy : SessionBase, IRegisterAsInstancePerLifetime
 
     public static void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
     public static void SetWikiId(int id) => CurrentWikiId = id;
-
-    public static bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
 }

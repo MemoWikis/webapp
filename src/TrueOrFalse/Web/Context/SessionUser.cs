@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web.Security;
 using System.Web;
-using System.Net.Http;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -47,11 +46,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             return false;
 
         return userId == UserId;
-    }
-
-    public bool IsLoggedInUserOrAdmin(int userId)
-    {
-        return IsLoggedInUser(userId) || IsInstallationAdmin;
     }
 
     public void Login(User user)
@@ -104,9 +98,4 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         get => _httpContext.Session["currentWikiId"] as int? ?? 1;
         private set => _httpContext.Session.Add("currentWikiId", value);
     }
-
-    public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    public void SetWikiId(int id) => CurrentWikiId = id;
-
-    public bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
 }

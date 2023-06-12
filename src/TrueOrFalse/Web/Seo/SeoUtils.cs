@@ -8,23 +8,5 @@ public class SeoUtils
         IsNullOrEmpty(value) 
             ? "" 
             : value.Replace("\"", "'").Replace("„", "'").Replace("“", "'");
-
-
-    public static bool HasUnderscores(string term) => term.Contains("_");
-
-    public static ActionResult RedirectToHyphendVersion(Func<string, RedirectResult> redirect, int setIdValue, int questionId) 
-        => redirect(Links.AnswerQuestion(Sl.QuestionRepo.GetById(questionId), Sl.SetRepo.GetById(setIdValue)));
-
-    public static ActionResult RedirectToHyphendVersion(Func<string, RedirectResult> redirect, int questionId)
-        => redirect(Links.AnswerQuestion(Sl.QuestionRepo.GetById(questionId)));
-
-    public static ActionResult RedirectToHyphendVersion_Set(Func<string, RedirectResult> redirect, string text, int setId)
-        => redirect(Links.SetDetail(text, setId));
-
-    public static ActionResult RedirectToHyphendVersion_Category(Func<string, RedirectResult> redirect, string text, int categoryId)
-        => redirect(Links.CategoryDetail(text, categoryId));
-
-    public static ActionResult RedirectToNewCategory(Func<string, RedirectResult> redirect, string text, int categoryId)
-        => redirect(Links.CategoryDetailRedirect(text, categoryId));
 }
 
