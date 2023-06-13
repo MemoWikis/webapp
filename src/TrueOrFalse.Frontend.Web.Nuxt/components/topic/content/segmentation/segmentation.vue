@@ -354,33 +354,35 @@ export default defineNuxtComponent({
 </script>
 
 <template>
-	<div id="Segmentation" class="col-xs-12">
-		<div class="segmentationHeader overline-m">
-			Untergeordnete Themen
-			<template v-if="categories.length > 0">({{ categories.length }})</template>
-			<div class="toRoot" id="SegmentationLinkToGlobalWiki" v-if="rootTopicChipStore.showRootTopicChip">
-				<div class="category-chip-container">
-					<NuxtLink :to="rootTopicUrl">
-						<div class="category-chip" v-tooltip="rootTopicChipStore.name">
-							<Image :src="rootTopicChipStore.imgUrl" />
+	<div id="Segmentation" class="row">
+		<div class="col-xs-12">
+			<div class="segmentationHeader overline-m">
+				Untergeordnete Themen
+				<template v-if="categories.length > 0">({{ categories.length }})</template>
+				<div class="toRoot" id="SegmentationLinkToGlobalWiki" v-if="rootTopicChipStore.showRootTopicChip">
+					<div class="category-chip-container">
+						<NuxtLink :to="rootTopicUrl">
+							<div class="category-chip" v-tooltip="rootTopicChipStore.name">
+								<Image :src="rootTopicChipStore.imgUrl" />
 
-							<div class="category-chip-label">
-								{{ rootTopicChipStore.name }}
+								<div class="category-chip-label">
+									{{ rootTopicChipStore.name }}
+								</div>
 							</div>
-						</div>
-					</NuxtLink>
+						</NuxtLink>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div id="CustomSegmentSection">
+		<div id="CustomSegmentSection" class=" col-xs-12">
 			<TopicContentSegmentationSegment v-for="s in segments" :ref="'segment' + s.CategoryId"
 				:title="s.Title.toString()" :child-category-ids="s.ChildCategoryIds"
 				:category-id="parseInt(s.CategoryId.toString())" :is-historic="isHistoric" :parent-id="categoryId"
 				@remove-segment="removeSegment(s.CategoryId)" @filter-children="filterChildren"
 				:child-topics="s.childTopics" :segment-data="s.segmentData" />
 		</div>
-		<div id="GeneratedSegmentSection" @mouseover="hover = true" @mouseleave="hover = false"
+		<div id="GeneratedSegmentSection" class=" col-xs-12" @mouseover="hover = true" @mouseleave="hover = false"
 			:class="{ hover: showHover && !isHistoric }">
 			<div class="segmentHeader" v-if="hasCustomSegment">
 				<div class="segmentTitle">
