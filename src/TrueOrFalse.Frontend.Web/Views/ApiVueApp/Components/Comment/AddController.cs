@@ -1,7 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -20,7 +17,7 @@ public class CommentAddController : BaseController
         comment.TypeId = id;
         comment.Text = text;
         comment.Title = title;
-        comment.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
+        comment.Creator = Sl.UserRepo.GetById(UserId);
 
         Resolve<CommentRepository>().Create(comment);
         return true;

@@ -66,7 +66,7 @@ public class QuickCreateQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
-        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        LearningSessionCacheLegacy.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController();
 
         return questionController.LoadQuestion(question.Id);

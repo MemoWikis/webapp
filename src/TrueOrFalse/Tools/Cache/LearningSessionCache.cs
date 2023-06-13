@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public class LearningSessionCache
+public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
-    private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions =
-        new ConcurrentDictionary<string, LearningSession>();
+    private readonly HttpContext _context;
 
-    public static void AddOrUpdate(LearningSession learningSession)
+    private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
+
+    public LearningSessionCache(HttpContext context)
+    {
+        _context = context;
+    }
+
+    public void AddOrUpdate(LearningSession learningSession)
     {
         _learningSessions.AddOrUpdate(
             HttpContext.Current.Session.SessionID,
@@ -17,7 +23,7 @@ public class LearningSessionCache
         );
     }
 
-    public static LearningSession TryRemove()
+    public  LearningSession TryRemove()
     {
         _learningSessions.TryRemove(
             HttpContext.Current.Session.SessionID, out var learningSession
@@ -25,14 +31,14 @@ public class LearningSessionCache
         return GetLearningSession();
     }
 
-    public static LearningSession GetLearningSession()
+    public  LearningSession GetLearningSession()
     {
         _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
         AddOrUpdate(learningSession);
         return learningSession;
     }
 
-    public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex, LearningSessionConfig config)
+    public  void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex, LearningSessionConfig config)
     {
         var learningSession = GetLearningSession();
         var step = new LearningSessionStep(question);
@@ -59,7 +65,7 @@ public class LearningSessionCache
         }
     }
 
-    public static void EditQuestionInLearningSession(QuestionCacheItem question)
+    public void EditQuestionInLearningSession(QuestionCacheItem question)
     {
         var learningSession = GetLearningSession();
 
@@ -68,7 +74,7 @@ public class LearningSessionCache
                 step.Question = question;
     }
 
-    public static int RemoveQuestionFromLearningSession(int sessionIndex, int questionId)
+    public int RemoveQuestionFromLearningSession(int sessionIndex, int questionId)
     {
         var learningSession = GetLearningSession();
         learningSession.Steps = learningSession.Steps.Where(s => s.Question.Id != questionId).ToList();

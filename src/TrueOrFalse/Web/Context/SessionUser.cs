@@ -98,4 +98,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         get => _httpContext.Session["currentWikiId"] as int? ?? 1;
         private set => _httpContext.Session.Add("currentWikiId", value);
     }
+
+    public  void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public  void SetWikiId(int id) => CurrentWikiId = id;
 }

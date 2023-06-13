@@ -8,15 +8,19 @@ namespace VueApp;
 
 public class ImageUploadModalController : BaseController
 {
-    public ImageUploadModalController(SessionUser sessionUser) : base(sessionUser)
+    private readonly ImageStore _imagestore;
+    private readonly WikiImageMetaLoader _wikiImageMetaLoader;
+
+    public ImageUploadModalController(SessionUser sessionUser, ImageStore imagestore,WikiImageMetaLoader wikiImageMetaLoader) : base(sessionUser)
     {
-        
+        _imagestore = imagestore;
+        _wikiImageMetaLoader = wikiImageMetaLoader;
     }
 
     [HttpPost]
     public JsonResult GetWikimediaPreview(string url)
     {
-        var result = Resolve<WikiImageMetaLoader>().Run(url, 200);
+        var result = _wikiImageMetaLoader.Run(url, 200);
         return Json(new
         {
             imageFound = !result.ImageNotFound,
@@ -31,7 +35,7 @@ public class ImageUploadModalController : BaseController
         if (url == null || !PermissionCheck.CanEditCategory(topicId))
             return false;
 
-        Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, SessionUserLegacy.UserId);
+        _imagestore.RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, _sessionUser.UserId);
         return true;
     }
 
@@ -50,7 +54,7 @@ public class ImageUploadModalController : BaseController
         if (form.file == null || !PermissionCheck.CanEditCategory(form.topicId))
             return false;
 
-        Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(form.file, form.topicId, SessionUserLegacy.UserId, form.licenseGiverName);
+        _imagestore.RunUploaded<CategoryImageSettings>(form.file, form.topicId, _sessionUser.UserId, form.licenseGiverName);
 
         return true;
     }

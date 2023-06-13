@@ -13,14 +13,14 @@ public class TopicLearningQuestionListController: BaseController
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
     {
-        if (LearningSessionCache.GetLearningSession() == null || topicId != LearningSessionCache.GetLearningSession().Config.CategoryId)
+        if (LearningSessionCacheLegacy.GetLearningSession() == null || topicId != LearningSessionCacheLegacy.GetLearningSession().Config.CategoryId)
         {
             var config = new LearningSessionConfig
             {
                 CategoryId = topicId,
                 CurrentUserId = IsLoggedIn ? UserId : default
             };
-            LearningSessionCache.AddOrUpdate(LearningSessionCreator.BuildLearningSession(config));
+            LearningSessionCacheLegacy.AddOrUpdate(LearningSessionCreator.BuildLearningSession(config));
         }
 
         return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
@@ -29,7 +29,7 @@ public class TopicLearningQuestionListController: BaseController
     [HttpGet]
     public JsonResult LoadNewQuestion(int index)
     {
-        var steps = LearningSessionCache.GetLearningSession().Steps;
+        var steps = LearningSessionCacheLegacy.GetLearningSession().Steps;
         var question = steps[index].Question;
 
         var userQuestionValuation = SessionUserLegacy.IsLoggedIn

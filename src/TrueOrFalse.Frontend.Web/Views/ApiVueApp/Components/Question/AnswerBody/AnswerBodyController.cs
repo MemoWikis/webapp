@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using TrueOrFalse;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerBodyController : BaseController
 {
-    private readonly QuestionRepo _questionRepo;
     private readonly AnswerQuestion _answerQuestion;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public AnswerBodyController(QuestionRepo questionRepo, AnswerQuestion answerQuestion,SessionUser sessionUser) : base(sessionUser)
+    public AnswerBodyController(AnswerQuestion answerQuestion,SessionUser sessionUser, LearningSessionCache learningSessionCache) : base(sessionUser)
     {
-        _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
+        _learningSessionCache = learningSessionCache;
     }
 
     [HttpGet]
     public JsonResult Get(int index)
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         var step = learningSession.Steps[index];
 
         var q = step.Question;
@@ -42,8 +40,8 @@ public class AnswerBodyController : BaseController
             primaryTopicName = primaryTopic?.Name,
             solution = q.Solution,
 
-            isCreator = q.Creator.Id = SessionUserLegacy.UserId,
-            isInWishknowledge = SessionUserLegacy.IsLoggedIn && q.IsInWishknowledge(),
+            isCreator = q.Creator.Id = _sessionUser.UserId,
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
@@ -58,7 +56,7 @@ public class AnswerBodyController : BaseController
         string answer = "",
         bool inTestMode = false)
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession =  _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, 0,
@@ -82,8 +80,8 @@ public class AnswerBodyController : BaseController
     public JsonResult MarkAsCorrect(int id, Guid questionViewGuid, int amountOfTries)
     {
         var result = amountOfTries == 0
-            ? _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, amountOfTries, true);
+            ? _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
+            : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, amountOfTries, true);
         if (result != null)
         {
             return Json(true);
@@ -96,14 +94,14 @@ public class AnswerBodyController : BaseController
     [HttpPost]
     public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId,
         int? learningSessionId, string learningSessionStepGuid) =>
-        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
 
     [HttpPost]
     public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber,
         int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId,
         int? learningSessionId) =>
-        _answerQuestion.Run(id, SessionUserLegacy.UserId, questionViewGuid, interactionNumber, testSessionId,
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
 
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)

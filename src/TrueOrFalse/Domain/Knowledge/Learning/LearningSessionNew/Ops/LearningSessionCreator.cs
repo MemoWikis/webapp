@@ -84,7 +84,7 @@ public class LearningSessionCreator
 
     public static LearningSession BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
     {
-        LearningSessionCache.TryRemove();
+        LearningSessionCacheLegacy.TryRemove();
 
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUserLegacy.UserId);

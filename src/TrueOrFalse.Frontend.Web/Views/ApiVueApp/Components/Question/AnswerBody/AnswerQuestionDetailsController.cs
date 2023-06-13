@@ -6,8 +6,12 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class AnswerQuestionDetailsController: Controller
+public class AnswerQuestionDetailsController: BaseController
 {
+    public AnswerQuestionDetailsController(SessionUser sessionUser):base(sessionUser)
+    {
+        
+    }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
 
@@ -22,10 +26,10 @@ public class AnswerQuestionDetailsController: Controller
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
-        var userQuestionValuation = SessionUserLegacy.IsLoggedIn
-            ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations
+        var userQuestionValuation = _sessionUser.IsLoggedIn
+            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUserLegacy.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 
         return new {
             knowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,

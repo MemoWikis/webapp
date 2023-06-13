@@ -43,7 +43,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        bool inTestMode = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
 
         var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
@@ -102,7 +102,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
-            var learningSession = LearningSessionCache.GetLearningSession();
+            var learningSession = LearningSessionCacheLegacy.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
             var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
@@ -128,7 +128,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
-            var learningSession = LearningSessionCache.GetLearningSession();
+            var learningSession = LearningSessionCacheLegacy.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
             var answer = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();

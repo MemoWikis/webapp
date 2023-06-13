@@ -22,7 +22,7 @@ public class QuestionController : Controller
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;

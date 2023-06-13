@@ -9,7 +9,7 @@ public class QuestionListModel : BaseModel
 
     public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
 
         var userQuestionValuation = SessionUserLegacy.IsLoggedIn 
             ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations 

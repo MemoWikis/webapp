@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -70,7 +68,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController().GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

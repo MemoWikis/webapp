@@ -12,10 +12,12 @@ namespace VueApp;
 public class QuestionEditModalControllerLogic : BaseController
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public QuestionEditModalControllerLogic(QuestionRepo questionRepo, SessionUser sessionUser) :base(sessionUser)
+    public QuestionEditModalControllerLogic(QuestionRepo questionRepo, SessionUser sessionUser, LearningSessionCache lerLearningSessioncache) :base(sessionUser)
     {
         _questionRepo = questionRepo;
+        _learningSessionCache = lerLearningSessioncache;
     }
 
     public dynamic Create(QuestionDataJson questionDataJson)
@@ -32,7 +34,7 @@ public class QuestionEditModalControllerLogic : BaseController
         }
 
         var question = new Question();
-        question.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
+        question.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -40,16 +42,16 @@ public class QuestionEditModalControllerLogic : BaseController
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         if (questionDataJson.IsLearningTab) { }
-        LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
+        _learningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
+            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
         return new { success = true, data = LoadQuestion(question.Id) };
     }
 
     private dynamic LoadQuestion(int questionId)
     {
-        var user = SessionUserLegacy.User;
+        var user = _sessionUser.User;
         var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
@@ -63,7 +65,7 @@ public class QuestionEditModalControllerLogic : BaseController
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
@@ -95,7 +97,7 @@ public class QuestionEditModalControllerLogic : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         return new { success = true, data = LoadQuestion(updatedQuestion.Id) };
     }

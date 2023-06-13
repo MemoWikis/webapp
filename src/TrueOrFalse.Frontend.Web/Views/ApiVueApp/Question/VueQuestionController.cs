@@ -79,7 +79,7 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController().GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -101,7 +101,7 @@ public class VueQuestionController : BaseController
         question.Visibility = q.Visibility;
         question.CreatorId = q.CreatorId;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;

@@ -1,19 +1,22 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class VueLearningSessionResultController: Controller
 {
+    private readonly LearningSessionCache _learningSessionCache;
+
+    public VueLearningSessionResultController(LearningSessionCache learningSessionCache)
+    {
+        _learningSessionCache = learningSessionCache;
+    }
+
     [HttpGet]
     public JsonResult Get()
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        
+        var learningSession = _learningSessionCache.GetLearningSession();
         var model = new LearningSessionResultModel(learningSession);
         var questions = model.AnsweredStepsGrouped.Select(g =>
         {

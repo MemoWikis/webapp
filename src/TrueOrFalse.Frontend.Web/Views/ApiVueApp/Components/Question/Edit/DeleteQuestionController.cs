@@ -30,7 +30,7 @@ public class QuestionEditDeleteController : Controller
     public JsonResult Delete(int questionId, int sessionIndex)
     {
         QuestionDelete.Run(questionId);
-        LearningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
+        LearningSessionCacheLegacy.RemoveQuestionFromLearningSession(sessionIndex, questionId);
         return Json(new
         {
             sessionIndex,
