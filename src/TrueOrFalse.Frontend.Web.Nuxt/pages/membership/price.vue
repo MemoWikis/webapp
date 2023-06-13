@@ -38,15 +38,13 @@ onBeforeMount(() => {
                     <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
                     <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
                     <div class="bottom-label">
-                        Öffentlichen Inhalte sind auf memucho uneingeschränkter nutzbar – Freie Daten!
-                        Freie
-                        Software! (open data open access)<br />
+                        Öffentliche Inhalte sind auf memucho uneingeschränkt nutzbar – freie Daten!
+                        Freie Software! (open data open access)<br />
                         Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
                     </div>
                 </div>
                 <div class="col-xs-12">
                     <UserMembershipPlans class="plans-container"/>
-
                 </div>
             </div>
 
