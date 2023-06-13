@@ -53,7 +53,6 @@ public class VueUsersController : BaseController
         {
             name = user.Name,
             id = user.Id,
-            encodedName = UriSanitizer.Run(user.Name, 12),
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
@@ -71,7 +70,6 @@ public class VueUsersController : BaseController
     {
         public int createdQuestionsCount { get; set; }
         public int createdTopicsCount { get; set; }
-        public string encodedName { get; set; }
         public int id { get; set; }
         public string imgUrl { get; set; }
         public string name { get; set; }

@@ -787,8 +787,7 @@ interface AnswerQuestionDetailsResult {
     creator:
     {
         id: number,
-        name: string,
-        encodedName: string
+        name: string
     },
     creationDate: string,
     totalViewCount: number,
@@ -873,8 +872,7 @@ watch(overallAnsweredWrongly, (val) => {
 
 const creator = ref({
     name: '',
-    id: 0,
-    encodedName: ''
+    id: 0
 })
 const creationDate = ref('')
 const wishknowledgeCount = ref(0)
@@ -1014,7 +1012,7 @@ watch(() => userStore.isLoggedIn, () => {
                             <div class="tooltip-header">
                                 Infos zur Lizenz: {{ license.shortText }}
                             </div>
-                            Autor: <NuxtLink v-if="creator.id > 0" :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
+                            Autor: <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
                                 {{ creator.name }} </NuxtLink>
                             <div v-html="license.fullText"></div>
                         </template>
@@ -1036,7 +1034,7 @@ watch(() => userStore.isLoggedIn, () => {
                     </VTooltip>
                 </div>
                 <div class="created"> Erstellt von:
-                    <NuxtLink v-if="creator.id > 0" :to="`/Nutzer/${creator.encodedName}/${creator.id}`">
+                    <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
                         &nbsp;{{ creator.name }}&nbsp;
                     </NuxtLink>
                     vor {{ creationDate }}

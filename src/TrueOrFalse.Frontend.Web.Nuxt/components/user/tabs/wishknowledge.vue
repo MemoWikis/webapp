@@ -3,13 +3,12 @@
 interface Props {
     questions?: {
         title: string
-        encodedPrimaryTopicName: string
+        primaryTopicName: string
         primaryTopicId: number
         id: number
     }[],
     topics?: {
         name: string
-        encodedName: string
         id: number
         questionCount: number
     }[]
@@ -50,6 +49,8 @@ const filteredTopicsOnPage = computed(() => {
     const rangeEnd = currentTopicPage.value * topicsPerPage.value - 1
     return filteredTopics.value?.slice(rangeStart, rangeEnd)
 })
+
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -68,7 +69,7 @@ const filteredTopicsOnPage = computed(() => {
         </div>
         <div class="wuwi-list">
             <div v-for="q in filteredQuestionsOnPage" class="wuwi-link">
-                <NuxtLink :to="`/${q.encodedPrimaryTopicName}/${q.primaryTopicId}/Lernen/${q.id}`">
+                <NuxtLink :to="`${$urlHelper.getTopicUrl(q.primaryTopicName, q.primaryTopicId)}/Lernen/${q.id}`">
                     {{ q.title }}
                 </NuxtLink>
             </div>

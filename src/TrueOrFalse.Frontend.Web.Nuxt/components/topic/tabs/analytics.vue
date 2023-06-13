@@ -105,6 +105,10 @@ onBeforeMount(() => setKnowledgeSummaryData())
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.col-xs-12 {
+    width: 100%;
+}
+
 .topicdata-section {
     margin-top: 36px;
 }
@@ -113,6 +117,7 @@ onBeforeMount(() => setKnowledgeSummaryData())
 .topicdata-section {
     margin-bottom: 40px;
     font-size: 18px;
+    width: 100%;
 
     .knowledgesummary-container,
     .topicdata-container {

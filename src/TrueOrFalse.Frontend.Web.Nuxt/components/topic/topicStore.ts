@@ -24,7 +24,6 @@ export class Topic {
 	QuestionCount: number = 0
 	DirectQuestionCount: number = 0
 	Authors: Author[] = []
-	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
 	MetaDescription: string = ''
 	KnowledgeSummary: KnowledgeSummary = {
@@ -88,7 +87,6 @@ export const useTopicStore = defineStore('topicStore', {
 			canBeDeleted: false,
 			authors: [] as Author[],
 			searchTopicItem: null as null | SearchTopicItem,
-			encodedName: '' as string,
 			knowledgeSummary: {} as KnowledgeSummary,
 		}
 	},
@@ -97,7 +95,6 @@ export const useTopicStore = defineStore('topicStore', {
 			if (topic != null) {
 				this.id = topic.Id
 				this.name = topic.Name
-				this.encodedName = topic.EncodedName
 				this.initialName = topic.Name
 				this.imgUrl = topic.ImageUrl
 				this.imgId = topic.ImageId

@@ -50,7 +50,7 @@ public class AppController : BaseController
             Documentation = new
             {
                 Id = RootCategory.IntroCategoryId,
-                EncodedName = UriSanitizer.Run(EntityCache.GetCategory(RootCategory.IntroCategoryId).Name)
+                Name = EntityCache.GetCategory(RootCategory.IntroCategoryId).Name
             }
         }, JsonRequestBehavior.AllowGet);
     }

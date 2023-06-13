@@ -49,7 +49,8 @@ export default defineNuxtComponent({
 			childCategoryIds: "",
 			segmentJson: "",
 			categoryId: 0,
-			rootTopicChipStore: useRootTopicChipStore()
+			rootTopicChipStore: useRootTopicChipStore(),
+			rootTopicUrl: ""
 		};
 	},
 	mounted() {
@@ -78,7 +79,8 @@ export default defineNuxtComponent({
 				})
 			}
 		})
-
+		const { $urlHelper } = useNuxtApp()
+		this.rootTopicUrl = $urlHelper.getTopicUrl(this.rootTopicChipStore.name, this.rootTopicChipStore.id)
 
 	},
 	watch: {
@@ -358,7 +360,7 @@ export default defineNuxtComponent({
 			<template v-if="categories.length > 0">({{ categories.length }})</template>
 			<div class="toRoot" id="SegmentationLinkToGlobalWiki" v-if="rootTopicChipStore.showRootTopicChip">
 				<div class="category-chip-container">
-					<NuxtLink :href="`/${rootTopicChipStore.encodedName}/${rootTopicChipStore.id}`">
+					<NuxtLink :to="rootTopicUrl">
 						<div class="category-chip" v-tooltip="rootTopicChipStore.name">
 							<Image :src="rootTopicChipStore.imgUrl" />
 

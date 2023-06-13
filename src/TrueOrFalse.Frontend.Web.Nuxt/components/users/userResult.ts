@@ -1,7 +1,6 @@
 export interface UserResult {
     name: string
     id: number
-    encodedName: string
     reputationPoints: number
     rank: number
     createdQuestionsCount: number

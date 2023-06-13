@@ -242,14 +242,16 @@ watch(() => props.showSearch, (val) => {
 watch(() => userStore.isLoggedIn, () => {
 	getBreadcrumb()
 })
+
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
 	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768 }" v-show="!shrinkBreadcrumb">
 
-		<NuxtLink :to="`/${encodeURI(breadcrumb.personalWiki.Name.replaceAll(' ', '-'))}/${breadcrumb.personalWiki.Id}`"
-			class="breadcrumb-item" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki"
+		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.Name, breadcrumb.personalWiki.Id)"
+			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki"
 			:class="{ 'is-in-root-topic': topicStore.id == personalWiki?.Id }">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
@@ -270,8 +272,7 @@ watch(() => userStore.isLoggedIn, () => {
 				v-else-if="breadcrumb.personalWiki && breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
 				<div class="breadcrumb-divider"></div>
 				<template v-if="topicStore.id != breadcrumb.rootTopic.Id && !rootWikiIsStacked">
-					<NuxtLink
-						:to="`/${encodeURI(breadcrumb.rootTopic.Name.replaceAll(' ', '-'))}/${breadcrumb.rootTopic.Id}`"
+					<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.rootTopic.Name, breadcrumb.rootTopic.Id)"
 						class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name">
 						{{ breadcrumb.rootTopic.Name }}
 					</NuxtLink>
@@ -290,8 +291,8 @@ watch(() => userStore.isLoggedIn, () => {
 
 			<template #popper>
 
-				<NuxtLink v-for="(s, i) in stackedBreadcrumbItems"
-					:to="`/${encodeURI(s.Name.replaceAll(' ', '-'))}/${s.Id}`" v-tooltip="s.Name">
+				<NuxtLink v-for="(s, i) in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.Name, s.Id)"
+					v-tooltip="s.Name">
 					<div class="dropdown-row">
 						{{ s.Name }}
 					</div>
@@ -301,7 +302,7 @@ watch(() => userStore.isLoggedIn, () => {
 		</VDropdown>
 
 		<template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
-			<NuxtLink :to="`/${encodeURI(b.Name.replaceAll(' ', '-'))}/${b.Id}`" class="breadcrumb-item" v-tooltip="b.Name">
+			<NuxtLink :to="$urlHelper.getTopicUrl(b.Name, b.Id)" class="breadcrumb-item" v-tooltip="b.Name">
 				{{ b.Name }}
 			</NuxtLink>
 			<div>
@@ -314,7 +315,7 @@ watch(() => userStore.isLoggedIn, () => {
 		</div>
 	</div>
 	<div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
-		<NuxtLink :to="`/${encodeURI(personalWiki.Name.replaceAll(' ', '-'))}/${personalWiki.Id}`" class="breadcrumb-item"
+		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.Name, personalWiki.Id)" class="breadcrumb-item"
 			v-tooltip="personalWiki.Name">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
@@ -396,6 +397,10 @@ watch(() => userStore.isLoggedIn, () => {
 		transition: all 0.1s ease-in-out;
 
 		flex-shrink: 1;
+
+		&.root-topic {
+			padding-left: 0px;
+		}
 
 		&.last {
 			max-width: 300px;

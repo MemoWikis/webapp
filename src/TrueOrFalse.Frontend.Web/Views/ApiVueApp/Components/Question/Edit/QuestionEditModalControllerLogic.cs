@@ -9,7 +9,7 @@ using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
-public class QuestionEditModalControllerLogic : BaseController
+public class QuestionEditModalControllerLogic
 {
     private readonly QuestionRepo _questionRepo;
 
@@ -20,12 +20,12 @@ public class QuestionEditModalControllerLogic : BaseController
 
     public dynamic Create(QuestionDataJson questionDataJson)
     {
-        if (!PremiumCheck.CanSavePrivateQuestion())
+        if (!LimitCheck.CanSavePrivateQuestion())
         {
             return new { success = false, key = "cantSavePrivateQuestion" };
         }
 
-        var safeText = GetSafeText(questionDataJson.TextHtml);
+        var safeText = RemoveHtmlTags(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
         {
             return new { success = false, key = "missingText" };
@@ -83,7 +83,7 @@ public class QuestionEditModalControllerLogic : BaseController
 
     public dynamic Edit(QuestionDataJson questionDataJson)
     {
-        var safeText = GetSafeText(questionDataJson.TextHtml);
+        var safeText = RemoveHtmlTags(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
         {
             return new { success = false, key = "missingText" };
@@ -140,10 +140,11 @@ public class QuestionEditModalControllerLogic : BaseController
         return miniTopicItem;
     }
 
-    private string GetSafeText(string text)
+    private string RemoveHtmlTags(string text)
     {
         return Regex.Replace(text, "<.*?>", "");
     }
+
     public class QuestionDataJson
     {
         public int[] CategoryIds { get; set; }
@@ -205,7 +206,7 @@ public class QuestionEditModalControllerLogic : BaseController
             }
         }
 
-        question.License = IsInstallationAdmin
+        question.License = SessionUser.IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);

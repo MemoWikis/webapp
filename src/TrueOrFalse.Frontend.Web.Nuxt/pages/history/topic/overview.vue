@@ -7,7 +7,6 @@ const route = useRoute()
 interface Author {
     id: number
     name: string
-    encodedName: string
     imgUrl: string
 }
 
@@ -84,7 +83,7 @@ function getChangeTypeText(change: Change) {
         default: return 'Update'
     }
 }
-
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -102,7 +101,7 @@ function getChangeTypeText(change: Change) {
                         v-if="change.topicId == parseInt(route.params.id.toString())">
                         <div class="col-xs-3">
                             <NuxtLink v-if="change.author.id > 0"
-                                :to="`/Nutzer/${change.author.encodedName}/${change.author.id}`"
+                                :to="$urlHelper.getUserUrl(change.author.name, change.author.id)"
                                 class="category-change-author">
                                 <Image :src="change.author.imgUrl" :format="ImageFormat.Author"
                                     class="category-change-author-img" />

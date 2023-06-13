@@ -26,13 +26,12 @@ interface Overview {
 }
 interface Question {
     title: string
-    encodedPrimaryTopicName: string
+    primaryTopicName: string
     primaryTopicId: number
     id: number
 }
 interface Topic {
     name: string
-    encodedName: string
     id: number
     questionCount: number
 }
@@ -48,7 +47,6 @@ interface User {
     reputationPoints: number
     rank: number
     showWuwi: boolean
-    encodedName: string
 }
 interface ProfileData {
     user: User
@@ -148,18 +146,18 @@ watch(() => userStore.isLoggedIn, () => {
     refreshWuwi()
     refreshProfile()
 })
-
+const { $urlHelper } = useNuxtApp()
 useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: `${config.public.serverBase}/${profile.value?.user.encodedName}/${profile.value?.user.id}`,
+            href: profile.value ? `${config.public.serverBase}${$urlHelper.getUserUrl(profile.value.user.name, profile.value?.user.id)}` : '',
         },
     ],
     meta: [
         {
             property: 'og:title',
-            content: profile.value?.user.encodedName
+            content: profile.value ? $urlHelper.sanitizeUri(profile.value.user.name) : ''
         },
     ]
 }))

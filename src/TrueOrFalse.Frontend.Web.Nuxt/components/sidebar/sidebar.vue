@@ -10,17 +10,14 @@ const props = defineProps<Props>()
 const config = useRuntimeConfig()
 
 const discordBounce = ref(false)
-function bounceDiscord() {
 
-}
-
-function doTestLog(){
+function doTestLog() {
     const logger = new CustomPino()
     logger.log("Logging Test from Sidebar")
 }
 
 const showTestLogButton = config.public.showTestLogButton
-
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -30,7 +27,8 @@ const showTestLogButton = config.public.showTestLogButton
             <div id="SidebarSpacer"></div>
             <SidebarCard>
                 <template v-slot:header>
-                    <NuxtLink :to="`/${props.documentation.EncodedName}/${props.documentation.Id}`" class="sidebar-link">
+                    <NuxtLink :to="$urlHelper.getTopicUrl(props.documentation.Name, props.documentation.Id)"
+                        class="sidebar-link">
                         Zur Dokumentation
                     </NuxtLink>
                 </template>

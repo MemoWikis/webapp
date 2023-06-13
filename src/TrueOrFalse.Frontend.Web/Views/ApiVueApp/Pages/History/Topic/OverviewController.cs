@@ -70,7 +70,6 @@ public class HistoryTopicOverviewController : BaseController
         {
             id = author.Id,
             name = author.Name,
-            encodedName = UriSanitizer.Run(author.Name),
             imgUrl = new UserImageSettings(author.Id).GetUrl_50px_square(author).Url,
         };
     }
@@ -140,7 +139,6 @@ public class HistoryTopicOverviewController : BaseController
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string encodedName { get; set; }
         public string imgUrl { get; set; }
     }
 
