@@ -285,7 +285,7 @@
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
-    <Compile Include="Domain\PremiumCheck.cs" />
+    <Compile Include="Domain\LimitCheck.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
     <Compile Include="Infrastructure\StandardFetchResult.cs" />

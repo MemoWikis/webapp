@@ -45,7 +45,7 @@ onBeforeMount(() => {
                     </div>
                 </div>
                 <div class="col-xs-12">
-                    <UserMembershipPlans class="plans-container"/>
+                    <UserMembershipPlans class="plans-container" />
 
                 </div>
             </div>
@@ -73,9 +73,11 @@ onBeforeMount(() => {
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
 .plans-container {
     margin: 0 -10px;
 }
+
 .container {
     .header {
 
