@@ -134,7 +134,7 @@ class GraphService_tests : BaseTest
 
         SessionUserLegacy.Login(user);
         EntityCache.Clear();
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
 
         var userRootCache = EntityCache.GetCategory(user.StartTopicId);
 

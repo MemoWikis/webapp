@@ -68,7 +68,7 @@ public class ContextQuestion
     public ContextQuestion AddCategory(string categoryName)
     {
         _contextCategory.Add(categoryName).Persist();
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
         All.Last().Categories.Add(_contextCategory.All.Last());
         return this;
     }

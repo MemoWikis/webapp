@@ -4,7 +4,7 @@ using System.Web.Caching;
 
  public class BaseCache
     {
-        protected static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
+        public static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
         {
             HttpRuntime.Cache.Insert(
                 key,

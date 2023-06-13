@@ -27,7 +27,7 @@ class CategoryVisibilityTests : BaseTest
         context
             .Add(subCategories.ByName("GrandChild").Name, parent: subCategories.ByName("Child"));
             
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
 
         subCategories.ByName("Child").Visibility = global::CategoryVisibility.Owner;
         subCategories.ByName("GrandChild").Visibility = global::CategoryVisibility.All;
@@ -36,7 +36,7 @@ class CategoryVisibilityTests : BaseTest
             categoriesQuestions: subCategories.Where(sc => sc.Name == "GrandChild").ToList(), 
             persistImmediately: true);
             
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
 
         Assert.That(EntityCache.GetCategory(subCategories.ByName("GrandChild").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));
         Assert.That(EntityCache.GetCategory(subCategories.ByName("Child").Id).GetCountQuestionsAggregated(), Is.EqualTo(15));

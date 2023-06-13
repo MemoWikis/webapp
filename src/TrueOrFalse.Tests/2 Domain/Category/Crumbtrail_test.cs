@@ -174,7 +174,7 @@ public class Crumbtrail_test : BaseTest
 
 
 
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
 
         var beforeSettingId = SessionUserLegacy.CurrentWikiId;
 

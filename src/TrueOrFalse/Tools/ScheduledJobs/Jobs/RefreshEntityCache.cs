@@ -12,7 +12,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope => 
             {
-                EntityCache.Init(" (in JobScheduler) ");
+                EntityCacheInitializer.Init(" (in JobScheduler) ");
             }, "RefreshEntityCache");
         }
 

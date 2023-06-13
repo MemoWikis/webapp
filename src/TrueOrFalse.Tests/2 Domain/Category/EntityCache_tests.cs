@@ -85,7 +85,7 @@ class EntityCache_tests : BaseTest
 
         RecycleContainer();
 
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
 
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
@@ -130,7 +130,7 @@ class EntityCache_tests : BaseTest
         context.AddCaseThreeToCache();
         var categories = context.All;
 
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
         
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X3"), Is.EqualTo(true));
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X2"), Is.EqualTo(true));

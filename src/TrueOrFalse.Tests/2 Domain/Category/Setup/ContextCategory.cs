@@ -208,7 +208,7 @@ public class ContextCategory
         }
 
 
-        EntityCache.Init();
+        EntityCacheInitializer.Init();
 
         SessionUserLegacy.Login(user);
         SessionUserLegacy.Logout();

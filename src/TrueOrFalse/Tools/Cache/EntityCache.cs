@@ -5,25 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
-public class EntityCache : BaseCache
+public class EntityCacheInitializer : BaseCache
 {
-    private const string _cacheKeyUsers = "allUsers_EntityCache";
-    private const string _cacheKeyQuestions = "allQuestions_EntityCache";
-    private const string _cacheKeyCategories = "allCategories_EntityCache";
-    private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
-
-    public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[_cacheKeyUsers];
-
-    private static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[_cacheKeyQuestions];
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
-
-    /// <summary>
-    /// Dictionary(key:categoryId, value:questions)
-    /// </summary>
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
-        (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionsList];
-
     public static void Init(string customMessage = "")
     {
         var stopWatch = Stopwatch.StartNew();
@@ -34,14 +17,14 @@ public class EntityCache : BaseCache
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Logg.r().Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(_cacheKeyUsers, users.ToConcurrentDictionary());
+        IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
 
         var allCategories = Sl.CategoryRepo.GetAllEager();
         Logg.r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
         Logg.r().Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
+        IntoForeverCache(EntityCache.CacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
 
         var allQuestions = Sl.QuestionRepo.GetAllEager();
         Logg.r().Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
@@ -51,17 +34,37 @@ public class EntityCache : BaseCache
 
         Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
+        IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
+        IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions));
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {
-            Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
+            EntityCache.Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
                 ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
         }
         Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        IsFirstStart = false;
+        EntityCache.IsFirstStart = false;
     }
+}
+
+public class EntityCache : BaseCache
+{
+    public const string CacheKeyUsers = "allUsers_EntityCache";
+    public const string CacheKeyQuestions = "allQuestions_EntityCache";
+    public const string CacheKeyCategories = "allCategories_EntityCache";
+    public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
+
+    public static bool IsFirstStart = true;
+    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[CacheKeyUsers];
+
+    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[CacheKeyQuestions];
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[CacheKeyCategories];
+
+    /// <summary>
+    /// Dictionary(key:categoryId, value:questions)
+    /// </summary>
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
+        (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[CacheKeyCategoryQuestionsList];
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
     public static UserCacheItem GetUserById(int userId)
@@ -73,7 +76,7 @@ public class EntityCache : BaseCache
         return new UserCacheItem();
     }
 
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
@@ -93,7 +96,7 @@ public class EntityCache : BaseCache
     {
         if (CategoryQuestionsList == null)
         {
-            Init();
+            EntityCacheInitializer.Init();
         }
 
         var questionIds = CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
