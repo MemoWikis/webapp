@@ -153,6 +153,13 @@ function getClass(): string {
         padding-right: 0;
     }
 
+    @media(min-width: @screen-xs-min) and (max-width: @screen-sm-min) {
+        margin-left: -10px;
+        margin-right: -10px;
+
+    }
+
+
     &.no-questions {
         margin-top: 20px;
 
