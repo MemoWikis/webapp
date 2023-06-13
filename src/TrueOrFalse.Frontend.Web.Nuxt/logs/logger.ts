@@ -24,10 +24,8 @@ export class CustomPino {
 
         let url = '/seqlog'
         let apiKey = ''
-        console.log("process.server: ", process.server)
         if (process.server) {
-            url = process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/rawLOGGER'
-            console.log("ServerUrl: ", url)
+            url = process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw'
             if (process.env.NUXT_SEQ_SERVER_API_KEY)
                 apiKey = process.env.NUXT_SEQ_SERVER_API_KEY
         } else {
@@ -43,14 +41,6 @@ export class CustomPino {
             body: { Events: [log] },
         }
 
-        function logLogging(log: any, loggingContent: any, url: string){
-            console.log("loggingContent", loggingContent)
-            console.log("Log: ", log)
-            console.log("LoggingUrl: " + url)
-            console.log("process.env.NUXT_SEQ_RAW_URL", process.env.NUXT_SEQ_RAW_URL)
-        }
-        logLogging(log, loggingContent, url)
-
         try {
             await $fetch(url, {
                 method: 'POST',
@@ -61,7 +51,9 @@ export class CustomPino {
             })
         } catch (error) {
             console.error('Error sending log to Seq:', error)
-            logLogging(log, loggingContent, url)
+            console.log(loggingContent)
+            console.log("Log: ", log)
+            console.log({ ...log })
         }
     }
 

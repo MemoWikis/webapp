@@ -42,6 +42,8 @@ public class Settings
     public static string MeiliSearchUrl;
     public static string MeiliSearcMasterKey;
 
+    public static string StripeBaseUrl;
+
     public static bool DevelopOffline()
     {
         if (_developOffline != null)
@@ -136,5 +138,6 @@ public class Settings
         SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
         WebhookKeyStripe = OverwrittenConfig.ValueString("WebhookKeyStripe");
         ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
+        StripeBaseUrl = OverwrittenConfig.ValueString("StripeBaseUrl");
     }
 }

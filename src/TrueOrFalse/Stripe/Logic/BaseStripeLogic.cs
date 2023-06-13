@@ -1,4 +1,7 @@
-﻿namespace TrueOrFalse.Stripe.Logic;
+﻿using System;
+using Seedworks.Lib.Settings;
+
+namespace TrueOrFalse.Stripe.Logic;
 
 public class BaseStripeLogic
 {
@@ -6,7 +9,11 @@ public class BaseStripeLogic
     {
         var server = Settings.Environment();
         var url = "";
-        if (server.Equals("develop"))
+        if (!string.IsNullOrEmpty(Settings.StripeBaseUrl))
+        {
+            url = $"{Settings.StripeBaseUrl}/{targetPath}";
+        }
+        else if (server.Equals("develop"))
         {
             url = $"http://localhost:3000/{targetPath}";
         }
