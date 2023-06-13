@@ -19,7 +19,7 @@ public class CommentAddController : BaseController
         comment.Title = title;
         comment.Creator = Sl.UserRepo.GetById(UserId);
 
-        Resolve<CommentRepository>().Create(comment);
+        CommentRepository.Create(comment);
         return true;
     }
 }
