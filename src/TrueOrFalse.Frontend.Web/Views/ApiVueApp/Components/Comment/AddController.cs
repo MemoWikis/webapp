@@ -4,22 +4,18 @@ namespace VueApp;
 
 public class CommentAddController : BaseController
 {
-    public CommentAddController(SessionUser sessionUser) :base(sessionUser)
+    private readonly CommentHelper _commentHelper;
+
+    public CommentAddController(SessionUser sessionUser, CommentHelper commentHelper) :base(sessionUser)
     {
-        
+        _commentHelper = commentHelper;
     }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveComment(int id, string text, string title)
     {
-        var comment = new Comment();
-        comment.Type = CommentType.AnswerQuestion;
-        comment.TypeId = id;
-        comment.Text = text;
-        comment.Title = title;
-        comment.Creator = Sl.UserRepo.GetById(UserId);
-
-        CommentRepository.Create(comment);
+        _commentHelper.SaveComment(CommentType.AnswerQuestion, id, text,title, UserId);
         return true;
     }
 }
