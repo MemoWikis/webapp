@@ -3,44 +3,6 @@ using System.Linq;
 
 public class CrumbtrailService
 {
-    public static Crumbtrail Get(CategoryCacheItem category, CategoryCacheItem root)
-    {
-        var result = new Crumbtrail(category, root);
-        if (!category.IsStartPage())
-        {
-            var parents = category.ParentCategories();
-            var rootWikiParent = parents.FirstOrDefault(c => c == root);
-            if (rootWikiParent != null)
-                AddParent(result, rootWikiParent, root);
-            else
-                foreach (var parent in parents)
-                    AddParent(result, parent, root);
-        }
-
-        result.Items = result.Items.Reverse().ToList();
-
-        return result;
-    }
-
-    private static void AddParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
-    {
-        if (crumbtrail.Rootfound)
-            return;
-
-        crumbtrail.Add(categoryCacheItem);
-        var parents = categoryCacheItem.ParentCategories();
-        if (parents.Any(c => c == root))
-            AddParent(crumbtrail, root, root);
-        else
-            foreach (var currentCategory in parents)
-            {
-                if (crumbtrail.AlreadyAdded(currentCategory))
-                    return;
-
-                AddParent(crumbtrail, currentCategory, root);
-            }
-    }
-
     public static Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
@@ -141,9 +103,9 @@ public class CrumbtrailService
         return orderedParents;
     }
 
-    public static CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem)
+    public CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem, SessionUser sessionUser)
     {
-        var currentWikiId = SessionUserLegacy.CurrentWikiId;
+        var currentWikiId = sessionUser.CurrentWikiId;
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
@@ -161,9 +123,9 @@ public class CrumbtrailService
                         return newWiki;
                     }
 
-                    if (SessionUserLegacy.IsLoggedIn)
+                    if (sessionUser.IsLoggedIn)
                     {
-                        var userWikiId = SessionUserCache.GetUser(SessionUserLegacy.UserId).StartTopicId;
+                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

@@ -14,8 +14,6 @@ public class Sl
 
     public static AnswerRepo AnswerRepo => R<AnswerRepo>();
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
-    public static CategoryDeleter CategoryDeleter => R<CategoryDeleter>();
-    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();

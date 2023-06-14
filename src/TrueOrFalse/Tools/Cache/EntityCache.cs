@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using static CategoryRepository;
 
 public class EntityCache : BaseCache
 {
@@ -89,10 +90,58 @@ public class EntityCache : BaseCache
         return questions;
     }
 
+    public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
+    {
+        //Create
+        if (createDeleteUpdate == CreateDeleteUpdate.Create)
+        {
+            //Update EntityCache
+            var parents = EntityCache.GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
+            foreach (var parent in parents)
+            {
+                parent.CachedData.AddChildId(categoryCacheItem.Id);
+            }
+        }
 
-  
+        //Update
+        if (createDeleteUpdate == CreateDeleteUpdate.Update)
+        {
+            var oldCategoryCacheItem1 = GetCategory(categoryCacheItem.Id);
 
+            var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
+                .Select(cr => cr.RelatedCategoryId).ToList();
 
+            var parentIdsOldCategoryCacheItem1 = oldCategoryCacheItem1.CategoryRelations
+                .Select(cr => cr.RelatedCategoryId).ToList();
+
+            var exceptIdsToDelete1 = parentIdsOldCategoryCacheItem1.Except(parentIdsCacheItem1).ToList();
+            var exceptIdsToAdd1 = parentIdsCacheItem1.Except(parentIdsOldCategoryCacheItem1).ToList();
+
+            if (exceptIdsToAdd1.Any() || exceptIdsToDelete1.Any())
+            {
+                foreach (var id in exceptIdsToAdd1)
+                {
+                    GetCategory(id).CachedData
+                        .AddChildId(categoryCacheItem.Id);
+                }
+
+                foreach (var id in exceptIdsToDelete1)
+                {
+                    GetCategory(id).CachedData.RemoveChildId(categoryCacheItem.Id);
+                }
+            }
+        }
+
+        //Delete
+        if (createDeleteUpdate == CreateDeleteUpdate.Delete)
+        {
+            //EntityCache
+            foreach (var parent in categoryCacheItem.ParentCategories(true))
+            {
+                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
+            }
+        }
+    }
 
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
@@ -128,7 +177,6 @@ public class EntityCache : BaseCache
             }
         }
     }
-
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,

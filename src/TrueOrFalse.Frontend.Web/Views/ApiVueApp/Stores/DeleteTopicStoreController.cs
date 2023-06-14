@@ -5,9 +5,11 @@ using TrueOrFalse.Web;
 
 public class DeleteTopicStoreController : BaseController
 {
-    public DeleteTopicStoreController(SessionUser sessionUser) :base(sessionUser)
+    private readonly CategoryDeleter _categoryDeleter;
+
+    public DeleteTopicStoreController(SessionUser sessionUser,CategoryDeleter categoryDeleter) :base(sessionUser)
     {
-        
+        _categoryDeleter = categoryDeleter;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -40,7 +42,7 @@ public class DeleteTopicStoreController : BaseController
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = Sl.CategoryRepo.GetByIds(parentIds);
 
-        var hasDeleted = Sl.CategoryDeleter.Run(topic, _sessionUser.UserId);
+        var hasDeleted = _categoryDeleter.Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)
         {
             Sl.CategoryChangeRepo.AddUpdateEntry(parent, _sessionUser.UserId, false);

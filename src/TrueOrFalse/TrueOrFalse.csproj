@@ -578,7 +578,6 @@
     <Compile Include="Domain\Question\References\Persistence\ReferenceMap.cs" />
     <Compile Include="Domain\Category\Category.cs" />
     <Compile Include="Domain\Category\Persistence\CategoryRepository.cs" />
-    <Compile Include="Domain\Category\Persistence\CategorySearchSpec.cs" />
     <Compile Include="Domain\Media\Image\ImageMetaData.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Category\CategoryImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\IImageSettings.cs" />

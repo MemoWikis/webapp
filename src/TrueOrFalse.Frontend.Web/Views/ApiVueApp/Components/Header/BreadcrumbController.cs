@@ -16,7 +16,7 @@ public class BreadcrumbController : BaseController
         var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
-        var currentWiki = CrumbtrailService.GetWiki(category);
+        var currentWiki = new CrumbtrailService().GetWiki(category,_sessionUser);
         _sessionUser.SetWikiId(currentWiki);
 
         var breadcrumb = CrumbtrailService.BuildCrumbtrail(category, currentWiki);
