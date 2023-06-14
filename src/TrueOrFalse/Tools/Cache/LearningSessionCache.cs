@@ -5,13 +5,12 @@ using System.Web;
 
 public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
-    private readonly HttpContext _context;
-
+    private readonly LearningSessionCreator _learningSessionCreator;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
 
-    public LearningSessionCache(HttpContext context)
+    public LearningSessionCache(LearningSessionCreator learningSessionCreator)
     {
-        _context = context;
+        _learningSessionCreator = learningSessionCreator;
     }
 
     public void AddOrUpdate(LearningSession learningSession)
@@ -46,7 +45,7 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
         if (learningSession != null)
         {
             var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId);
-            var questionDetail = LearningSessionCreator.BuildQuestionDetail(config, question, allQuestionValuation);
+            var questionDetail = _learningSessionCreator.BuildQuestionDetail(config, question, allQuestionValuation);
 
             learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
 

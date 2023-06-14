@@ -5,10 +5,16 @@ using Microsoft.Ajax.Utilities;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningSessionStoreController: Controller
 {
+    private readonly LearningSessionCreator _learningSessionCreator;
+
+    public LearningSessionStoreController(LearningSessionCreator learningSessionCreator)
+    {
+        _learningSessionCreator = learningSessionCreator;
+    }
     [HttpPost]
     public JsonResult NewSession(LearningSessionConfig config)
     {
-        var newSession = LearningSessionCreator.BuildLearningSession(config);
+        var newSession = _learningSessionCreator.BuildLearningSession(config);
         LearningSessionCacheLegacy.AddOrUpdate(newSession);
 
         var learningSession = LearningSessionCacheLegacy.GetLearningSession();
@@ -62,7 +68,7 @@ public class LearningSessionStoreController: Controller
                 message = "private"
             });
 
-        var newSession = LearningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
+        var newSession = _learningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
 
         if (newSession == null)
             return Json(new

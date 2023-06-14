@@ -82,11 +82,13 @@ public class Global : HttpApplication
         if (Settings.InitEntityCacheViaJobScheduler())
         {
             JobScheduler
-                .StartImmediately_RefreshEntityCache(); //Is a lot faster (for unknown reasons) than direct init but bears the risk of EntityCache not being filled before first request
+                .StartImmediately_RefreshEntityCache(); 
+            Logg.r().Error("Ich glaube wir sind ein wenig dumm");
         }
         else
         {
-            Sl.Resolve<EntityCacheInitializer>().Init();
+            JobScheduler
+                .StartImmediately_RefreshEntityCache();
         }
 
         Sl.Resolve<ISession>().Close();

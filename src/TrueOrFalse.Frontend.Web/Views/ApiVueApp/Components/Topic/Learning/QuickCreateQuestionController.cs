@@ -9,9 +9,11 @@ using TrueOrFalse;
 namespace VueApp;
 public class QuickCreateQuestionController : BaseController
 {
-    public QuickCreateQuestionController(SessionUser sessionUser): base(sessionUser)
+    private readonly LearningSessionCache _learningSessionCache;
+
+    public QuickCreateQuestionController(SessionUser sessionUser, LearningSessionCache learningSessionCache): base(sessionUser)
     {
-        
+        _learningSessionCache = learningSessionCache;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -66,7 +68,7 @@ public class QuickCreateQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
-        LearningSessionCacheLegacy.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        _learningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController();
 
         return questionController.LoadQuestion(question.Id);

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 
-public class LearningSessionCreator
+public class LearningSessionCreator :IRegisterAsInstancePerLifetime
 {
+    private readonly SessionUser _sessionUser;
+    private readonly LearningSessionCache _learningSessionCache;
+
     public struct QuestionDetail
     {
         public bool NotLearned;
@@ -30,17 +31,23 @@ public class LearningSessionCreator
         public int PersonalCorrectnessProbability;
     }
 
-    public static LearningSession BuildLearningSession(LearningSessionConfig config)
+    public LearningSessionCreator(SessionUser sessionUser, LearningSessionCache learningSessionCache)
+    {
+        _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
+    }
+
+    public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache().Where(q => q.Id > 0).ToList();
         allQuestions = allQuestions.Where(PermissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUserLegacy.UserId);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
 
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             foreach (var q in allQuestions)
             {
@@ -76,23 +83,23 @@ public class LearningSessionCreator
             .Select(q => new LearningSessionStep(q))
             .ToList();
 
-        return new LearningSession(learningSessionSteps, config)
+        return new LearningSession(learningSessionSteps, config,_sessionUser)
         {
             QuestionCounter = questionCounter
         };
     }
 
-    public static LearningSession BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
+    public LearningSession BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
     {
-        LearningSessionCacheLegacy.TryRemove();
+        _learningSessionCache.TryRemove();
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(SessionUserLegacy.UserId);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
 
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             foreach (var q in allQuestions)
             {
@@ -136,14 +143,14 @@ public class LearningSessionCreator
             .Select(q => new LearningSessionStep(q))
             .ToList();
 
-        return new LearningSession(learningSessionSteps, config)
+        return new LearningSession(learningSessionSteps, config,_sessionUser)
         {
             QuestionCounter = questionCounter
         };
     }
 
 
-    public static QuestionDetail BuildQuestionDetail(LearningSessionConfig config, QuestionCacheItem q,
+    public QuestionDetail BuildQuestionDetail(LearningSessionConfig config, QuestionCacheItem q,
         IList<QuestionValuationCacheItem> allQuestionValuation)
     {
         var questionDetail = new QuestionDetail();
@@ -154,10 +161,10 @@ public class LearningSessionCreator
         return questionDetail;
     }
 
-    private static void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
+    private void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
 
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
             knowledgeSummaryDetails.Add(new KnowledgeSummaryDetail
             {
                 PersonalCorrectnessProbability = questionDetail.PersonalCorrectnessProbability,
@@ -167,7 +174,7 @@ public class LearningSessionCreator
         filteredQuestions.Add(question);
     }
 
-    private static IList<QuestionCacheItem> SetQuestionOrder(IList<QuestionCacheItem> questions, LearningSessionConfig config, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
+    private IList<QuestionCacheItem> SetQuestionOrder(IList<QuestionCacheItem> questions, LearningSessionConfig config, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
         if (config.QuestionOrder == QuestionOrder.SortByEasiest)
             return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
@@ -175,7 +182,7 @@ public class LearningSessionCreator
         if (config.QuestionOrder == QuestionOrder.SortByHardest)
             return questions.OrderBy(q => q.CorrectnessProbability).ToList();
 
-        if (SessionUserLegacy.IsLoggedIn && config.QuestionOrder == QuestionOrder.SortByPersonalHardest)
+        if (_sessionUser.IsLoggedIn && config.QuestionOrder == QuestionOrder.SortByPersonalHardest)
         {
             var orderedKnowledgeSummaryDetails = knowledgeSummaryDetails.OrderBy(k => k.PersonalCorrectnessProbability).ToList();
             return questions.OrderBy(q => orderedKnowledgeSummaryDetails.IndexOf(o => q.Id == o.QuestionId)).ToList();
@@ -267,9 +274,9 @@ public class LearningSessionCreator
         return questionDetail;
     }
 
-    private static QuestionDetail FilterByKnowledgeSummary(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail, IList<QuestionValuationCacheItem> allQuestionValuation)
+    private QuestionDetail FilterByKnowledgeSummary(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail, IList<QuestionValuationCacheItem> allQuestionValuation)
     {
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == q.Id);
 

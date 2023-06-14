@@ -5,11 +5,15 @@ using System.Web;
 
 public class LearningSessionCacheLegacy : IRegisterAsInstancePerLifetime
 {
+    private readonly LearningSessionCreator _learningSessionCreator;
     private readonly HttpContext _context;
 
-    private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions =
-        new ConcurrentDictionary<string, LearningSession>();
+    private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
 
+    public LearningSessionCacheLegacy(LearningSessionCreator learningSessionCreator)
+    {
+        _learningSessionCreator = learningSessionCreator;
+    }
     public static void AddOrUpdate(LearningSession learningSession)
     {
         _learningSessions.AddOrUpdate(
@@ -19,14 +23,6 @@ public class LearningSessionCacheLegacy : IRegisterAsInstancePerLifetime
         );
     }
 
-    public static LearningSession TryRemove()
-    {
-        _learningSessions.TryRemove(
-            HttpContext.Current.Session.SessionID, out var learningSession
-        );
-        return GetLearningSession();
-    }
-
     public static LearningSession GetLearningSession()
     {
         _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
@@ -34,7 +30,7 @@ public class LearningSessionCacheLegacy : IRegisterAsInstancePerLifetime
         return learningSession;
     }
 
-    public static void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex, LearningSessionConfig config)
+    public void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex, LearningSessionConfig config)
     {
         var learningSession = GetLearningSession();
         var step = new LearningSessionStep(question);
@@ -42,7 +38,7 @@ public class LearningSessionCacheLegacy : IRegisterAsInstancePerLifetime
         if (learningSession != null)
         {
             var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId);
-            var questionDetail = LearningSessionCreator.BuildQuestionDetail(config, question, allQuestionValuation);
+            var questionDetail = _learningSessionCreator.BuildQuestionDetail(config, question, allQuestionValuation);
 
             learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
 

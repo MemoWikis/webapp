@@ -9,9 +9,11 @@ namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningController : BaseController
 {
-    public LearningController(SessionUser sessionUser) : base(sessionUser)
+    private readonly LearningSessionCreator _learningSessionCreator;
+
+    public LearningController(SessionUser sessionUser,LearningSessionCreator learningSessionCreator) : base(sessionUser)
     {
-        
+        _learningSessionCreator = learningSessionCreator;
     }
     private class SessionData
     {
@@ -36,7 +38,7 @@ public class LearningController : BaseController
         if (config.CurrentUserId == 0 && SessionUserLegacy.IsLoggedIn)
             config.CurrentUserId = SessionUserLegacy.UserId;
 
-        var learningSession = LearningSessionCreator.BuildLearningSession(config);
+        var learningSession = _learningSessionCreator.BuildLearningSession(config);
         
         return Json(learningSession.QuestionCounter);
     }

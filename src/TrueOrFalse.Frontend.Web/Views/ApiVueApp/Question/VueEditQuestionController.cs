@@ -13,10 +13,12 @@ namespace VueApp;
 public class VueEditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public VueEditQuestionController(QuestionRepo questionRepo, SessionUser sessionUser) :base(sessionUser)
+    public VueEditQuestionController(QuestionRepo questionRepo, SessionUser sessionUser,LearningSessionCache learningSessionCache) :base(sessionUser)
     {
         _questionRepo = questionRepo;
+        _learningSessionCache = learningSessionCache;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -45,7 +47,7 @@ public class VueEditQuestionController : BaseController
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         if (questionDataJson.IsLearningTab) { }
-        LearningSessionCacheLegacy.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
+        _learningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
@@ -76,7 +78,7 @@ public class VueEditQuestionController : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCacheLegacy.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         var questionController = new QuestionController();
         return questionController.LoadQuestion(updatedQuestion.Id);
@@ -130,7 +132,7 @@ public class VueEditQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
-        LearningSessionCacheLegacy.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        _learningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController();
         return questionController.LoadQuestion(question.Id);
     }

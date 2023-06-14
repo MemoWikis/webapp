@@ -5,10 +5,11 @@ using TrueOrFalse.Frontend.Web.Code;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class TopicLearningQuestionListController: BaseController
 {
+    private readonly LearningSessionCreator _learningSessionCreator;
 
-    public TopicLearningQuestionListController(SessionUser sessionUser) : base(sessionUser)
+    public TopicLearningQuestionListController(SessionUser sessionUser,LearningSessionCreator learningSessionCreator) : base(sessionUser)
     {
-        
+        _learningSessionCreator = learningSessionCreator;
     }
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
@@ -20,7 +21,7 @@ public class TopicLearningQuestionListController: BaseController
                 CategoryId = topicId,
                 CurrentUserId = IsLoggedIn ? UserId : default
             };
-            LearningSessionCacheLegacy.AddOrUpdate(LearningSessionCreator.BuildLearningSession(config));
+            LearningSessionCacheLegacy.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
         return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage));

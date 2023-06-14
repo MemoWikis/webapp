@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NHibernate.Mapping;
 using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;

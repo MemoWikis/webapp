@@ -267,11 +267,13 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult Start100TestJobs()
     {
-        for (var i = 0; i < 1000; i++)
-            JobScheduler.StartImmediately<TestJob1>();
+        //for (var i = 0; i < 1000; i++)
+        //    JobScheduler.StartImmediately<TestJob1>();
 
-        for (var i = 0; i < 1000; i++)
-            JobScheduler.StartImmediately<TestJob2>();
+        //for (var i = 0; i < 1000; i++)
+        //    JobScheduler.StartImmediately<TestJob2>();
+
+        JobScheduler.StartImmediately<TestJobCacheInitializer>();
 
         return Json(new
         {
