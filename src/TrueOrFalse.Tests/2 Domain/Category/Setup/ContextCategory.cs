@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ubiety.Dns.Core;
 
 namespace TrueOrFalse.Tests;
 
-public class ContextCategory
+public class ContextCategory: BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ContextUser _contextUser = ContextUser.New();
@@ -206,9 +207,7 @@ public class ContextCategory
         {
             category.Visibility = CategoryVisibility.All;
         }
-
-
-        EntityCacheInitializer.Init();
+        Resolve<EntityCacheInitializer>().Init();
 
         SessionUserLegacy.Login(user);
         SessionUserLegacy.Logout();

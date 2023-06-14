@@ -1,18 +1,22 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using Autofac;
-using NHibernate.Util;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RefreshEntityCache : IJob
     {
+        private readonly EntityCacheInitializer _entityCacheInitializer;
+
+        public RefreshEntityCache(EntityCacheInitializer entityCacheInitializer)
+        {
+            _entityCacheInitializer = entityCacheInitializer;
+        }
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
-                EntityCacheInitializer.Init(" (in JobScheduler) ");
+                _entityCacheInitializer.Init(" (in JobScheduler) ");
             }, "RefreshEntityCache");
         }
 

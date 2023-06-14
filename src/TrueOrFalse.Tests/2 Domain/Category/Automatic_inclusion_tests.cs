@@ -23,7 +23,7 @@ class Automatic_inclusion_tests : BaseTest
             .All;
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
-        EntityCacheInitializer.Init();
+        Resolve<EntityCacheInitializer>().Init();
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(EntityCache.GetCategoryByName("Sub1").First());
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
@@ -49,7 +49,7 @@ class Automatic_inclusion_tests : BaseTest
             .All;
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
-        EntityCacheInitializer.Init();
+        Resolve<EntityCacheInitializer>().Init();
 
 
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
@@ -76,7 +76,7 @@ class Automatic_inclusion_tests : BaseTest
             .Persist()
             .All;
 
-        EntityCacheInitializer.Init();
+        Resolve<EntityCacheInitializer>().Init();
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
 
         EntityCache.Remove(context.All.ByName("Sub1").Id);

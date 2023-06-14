@@ -15,7 +15,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             var container = AutofacWebInitializer.Run();
 
-            _scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            _scheduler =  StdSchedulerFactory.GetDefaultScheduler();
             _scheduler.JobFactory = new AutofacJobFactory(container);
             _scheduler.Start();
         }

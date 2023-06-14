@@ -86,7 +86,7 @@ public class Global : HttpApplication
         }
         else
         {
-            EntityCacheInitializer.Init();
+            Sl.Resolve<EntityCacheInitializer>().Init();
         }
 
         Sl.Resolve<ISession>().Close();

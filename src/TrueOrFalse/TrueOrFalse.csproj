@@ -366,6 +366,7 @@
     <Compile Include="Infrastructure\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Persistence\Session\SqlDebugOutputInterceptor.cs" />
     <Compile Include="Tools\Cache\BaseCache.cs" />
+    <Compile Include="Tools\Cache\EntityCache\EntityCacheInitializer.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
     <Compile Include="Tools\Cache\LearningSessionCacheLegacy.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />

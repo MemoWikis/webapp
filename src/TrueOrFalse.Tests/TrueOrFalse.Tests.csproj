@@ -270,7 +270,7 @@
     <Compile Include="2 Domain\Category\EditControllerLogicTests.cs" />
     <Compile Include="2 Domain\Knowledge\QuestionPinStoreControllerLogic_Tests.cs" />
     <Compile Include="2 Domain\User\AddToWiki_tests.cs" />
-    <Compile Include="2 Domain\Visibility\CategoryVisibility.cs" />
+    <Compile Include="2 Domain\Visibility\CategoryVisibilityTests.cs" />
     <Compile Include="MeiliSearch\GlobalSearchResultTest.cs" />
     <Compile Include="MeiliSearch\MeiliSearchBaseTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchCategoriesDatabaseOperationsTests.cs" />

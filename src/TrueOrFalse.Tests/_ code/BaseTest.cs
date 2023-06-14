@@ -27,7 +27,7 @@ public class BaseTest
         CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
 
-        EntityCacheInitializer.Init(" (started in unit test) ");
+        Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
     }
 

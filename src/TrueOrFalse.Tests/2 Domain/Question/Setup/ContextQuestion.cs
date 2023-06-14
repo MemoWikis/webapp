@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TrueOrFalse.Tests;
 
-public class ContextQuestion
+public class ContextQuestion :BaseTest
 {
     private readonly ContextUser _contextUser = ContextUser.New();
     private readonly ContextCategory _contextCategory = ContextCategory.New();
@@ -68,7 +68,7 @@ public class ContextQuestion
     public ContextQuestion AddCategory(string categoryName)
     {
         _contextCategory.Add(categoryName).Persist();
-        EntityCacheInitializer.Init();
+        Resolve<EntityCacheInitializer>().Init();
         All.Last().Categories.Add(_contextCategory.All.Last());
         return this;
     }
