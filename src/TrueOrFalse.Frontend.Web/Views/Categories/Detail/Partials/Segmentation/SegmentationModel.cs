@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 public class SegmentationModel 
 {
     public CategoryCacheItem Category;
+    private readonly PermissionCheck _permissionCheck;
 
     public string Title;
     public string Text;
@@ -18,11 +19,12 @@ public class SegmentationModel
     public string NotInSegmentCategoryIds;
     public string SegmentJson;
 
-    public SegmentationModel(CategoryCacheItem category)
+    public SegmentationModel(CategoryCacheItem category, PermissionCheck permissionCheck)
     {
         Category = category;
-        
-        var categoryList = EntityCache.GetChildren(category.Id).Where(PermissionCheck.CanView);
+        _permissionCheck = permissionCheck;
+
+        var categoryList = EntityCache.GetChildren(category.Id).Where(_permissionCheck.CanView);
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
@@ -60,7 +62,7 @@ public class SegmentationModel
         {
             var segment = new Segment();
             var segmentItem = EntityCache.GetCategory(s.CategoryId);
-            if (!PermissionCheck.CanView(segmentItem))
+            if (!_permissionCheck.CanView(segmentItem))
                 continue;
             segment.Item = EntityCache.GetCategory(s.CategoryId);
             segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;
@@ -68,9 +70,9 @@ public class SegmentationModel
             var childCategories = new List<CategoryCacheItem>();
                 
             if (s.ChildCategoryIds != null)
-                childCategories = EntityCache.GetCategories(s.ChildCategoryIds).Where(PermissionCheck.CanView).ToList();
+                childCategories = EntityCache.GetCategories(s.ChildCategoryIds).Where(_permissionCheck.CanView).ToList();
             else
-                childCategories = EntityCache.GetChildren(s.CategoryId).Where(PermissionCheck.CanView).ToList();
+                childCategories = EntityCache.GetChildren(s.CategoryId).Where(_permissionCheck.CanView).ToList();
             segment.ChildCategories = childCategories;
             segments.Add(segment);
         }

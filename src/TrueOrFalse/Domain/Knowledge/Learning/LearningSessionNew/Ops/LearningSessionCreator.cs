@@ -5,6 +5,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly PermissionCheck _permissionCheck;
 
     public struct QuestionDetail
     {
@@ -31,16 +32,17 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         public int PersonalCorrectnessProbability;
     }
 
-    public LearningSessionCreator(SessionUser sessionUser, LearningSessionCache learningSessionCache)
+    public LearningSessionCreator(SessionUser sessionUser, LearningSessionCache learningSessionCache,PermissionCheck permissionCheck)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
+        _permissionCheck = permissionCheck;
     }
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache().Where(q => q.Id > 0).ToList();
-        allQuestions = allQuestions.Where(PermissionCheck.CanView).ToList();
+        allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId);
 

@@ -109,11 +109,6 @@ public class Question : DomainEntity, ICreator
         return answerText;
     }
 
-    public virtual IEnumerable<Category> CategoriesVisibleToCurrentUser()
-    {
-        return Categories.Where(PermissionCheck.CanView);
-    }
-
     public virtual string GetShortTitle(int length = 96)
     {
         var safeText = Regex.Replace(Text, "<.*?>", "");

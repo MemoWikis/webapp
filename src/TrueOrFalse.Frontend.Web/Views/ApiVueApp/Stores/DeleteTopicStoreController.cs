@@ -6,10 +6,12 @@ using TrueOrFalse.Web;
 public class DeleteTopicStoreController : BaseController
 {
     private readonly CategoryDeleter _categoryDeleter;
+    private readonly CrumbtrailService _crumbtrailService;
 
-    public DeleteTopicStoreController(SessionUser sessionUser,CategoryDeleter categoryDeleter) :base(sessionUser)
+    public DeleteTopicStoreController(SessionUser sessionUser,CategoryDeleter categoryDeleter,CrumbtrailService crumbtrailService) :base(sessionUser)
     {
         _categoryDeleter = categoryDeleter;
+        _crumbtrailService = crumbtrailService;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -61,7 +63,7 @@ public class DeleteTopicStoreController : BaseController
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
-        var lastBreadcrumbItem = CrumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
+        var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
         return "/" + UriSanitizer.Run(lastBreadcrumbItem.Text) + "/" + lastBreadcrumbItem.Category.Id;
     }

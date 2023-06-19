@@ -150,7 +150,7 @@ public class CategoryCacheItem
 
         if (onlyVisible)
         {
-            questions = questions.Where(PermissionCheck.CanView).ToList();
+            questions = questions.Where(new PermissionCheck().CanView).ToList();
         }
 
         if (questions.Any(q => q.Id == 0))

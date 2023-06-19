@@ -1,13 +1,19 @@
 ﻿using System.Linq;
 
-public class PermissionCheck
+public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
-    //setter is for tests
-    public static bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
-    public static bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public static bool CanView(CategoryCacheItem category) => CanView(SessionUserLegacy.UserId, category);
+    private readonly SessionUser _sessionUser;
 
-    public static bool CanView(int userId, CategoryCacheItem category)
+    public PermissionCheck(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
+    //setter is for tests
+    public bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
+    public  bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
+    public bool CanView(CategoryCacheItem category) => CanView(_sessionUser.UserId, category);
+
+    public bool CanView(int userId, CategoryCacheItem category)
     {
         if (category == null)
             return false;
@@ -21,10 +27,10 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
-    public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
-    public static bool CanEdit(CategoryCacheItem category) => CanEdit(SessionUserLegacy.User, category);
-    public static bool CanEdit(SessionUserCacheItem user, CategoryCacheItem category)
+    public  bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
+    public  bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
+    public  bool CanEdit(CategoryCacheItem category) => CanEdit(_sessionUser, category);
+    public  bool CanEdit(SessionUser user, CategoryCacheItem category)
     {
         if (user == null || category == null)
             return false;
@@ -35,10 +41,10 @@ public class PermissionCheck
         if (!CanView(category))
             return false;
 
-        return SessionUserLegacy.IsLoggedIn;
+        return _sessionUser.IsLoggedIn;
     }
 
-    public static bool CanDelete(CategoryCacheItem category) => CanDelete(SessionUserLegacy.User, category);
+    public bool CanDelete(CategoryCacheItem category) => CanDelete(_sessionUser.User, category);
     public static bool CanDelete(SessionUserCacheItem user, CategoryCacheItem category)
     {
         if (user == null || category == null)
@@ -53,9 +59,9 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
+    public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
 
-    public static bool CanView(QuestionCacheItem question) => CanView(SessionUserLegacy.UserId, question);
+    public bool CanView(QuestionCacheItem question) => CanView(_sessionUser.UserId, question);
 
     public static bool CanView(int userId, QuestionCacheItem question)
     {
@@ -71,26 +77,26 @@ public class PermissionCheck
         return false;
     }
 
-    public static bool CanEdit(Question question) => CanEdit(SessionUserLegacy.User, question);
+    public bool CanEdit(Question question) => CanEdit(_sessionUser.User, question);
 
-    public static bool CanEdit(SessionUserCacheItem user, Question question)
+    public  bool CanEdit(SessionUserCacheItem user, Question question)
     {
         if (user == null || question == null)
             return false;
 
-        return SessionUserLegacy.IsLoggedIn;
+        return _sessionUser.IsLoggedIn;
     }
-    public static bool CanEdit(QuestionCacheItem question) => CanEdit(SessionUserLegacy.User, question);
+    public  bool CanEdit(QuestionCacheItem question) => CanEdit(_sessionUser.User, question);
 
-    public static bool CanEdit(SessionUserCacheItem user, QuestionCacheItem question)
+    public bool CanEdit(SessionUserCacheItem user, QuestionCacheItem question)
     {
         if (user == null || question == null)
             return false;
 
-        return SessionUserLegacy.IsLoggedIn;
+        return _sessionUser.IsLoggedIn;
     }
 
-    public static bool CanDelete(Question question) => CanDelete(SessionUserLegacy.User, question);
+    public bool CanDelete(Question question) => CanDelete(_sessionUser.User, question);
 
     public static bool CanDelete(SessionUserCacheItem user, Question question)
     {

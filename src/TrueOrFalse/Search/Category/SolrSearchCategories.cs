@@ -13,9 +13,12 @@ namespace TrueOrFalse.Search
     public class SolrSearchCategories : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<CategorySolrMap> _searchOperations;
+        private readonly PermissionCheck _permissionCheck;
 
-        public SolrSearchCategories(ISolrOperations<CategorySolrMap> searchOperations){
+        public SolrSearchCategories(ISolrOperations<CategorySolrMap> searchOperations, PermissionCheck permissionCheck)
+        {
             _searchOperations = searchOperations;
+            _permissionCheck = permissionCheck;
         }
 
         public SolrSearchCategoriesResult Run(
@@ -97,7 +100,7 @@ namespace TrueOrFalse.Search
             {
                 if (categoriesToFilter != null && categoriesToFilter.Any(id => id == resultItem.Id))
                     continue;
-                if (PermissionCheck.CanViewCategory(resultItem.Id))
+                if (_permissionCheck.CanViewCategory(resultItem.Id))
                     result.CategoryIds.Add(resultItem.Id);
             }
             result.Count = result.CategoryIds.Count;

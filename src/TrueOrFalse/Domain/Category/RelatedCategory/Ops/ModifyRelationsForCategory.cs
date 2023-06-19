@@ -56,7 +56,7 @@ public class ModifyRelationsForCategory
         }
     }
 
-    public static bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId)
+    public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
         var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
@@ -65,7 +65,7 @@ public class ModifyRelationsForCategory
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
 
-        if (!PermissionCheck.CanEdit(childCategory))
+        if (!permissionCheck.CanEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = Sl.CategoryRepo.GetById(childCategory.Id);

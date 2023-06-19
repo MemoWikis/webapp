@@ -11,17 +11,19 @@ namespace VueApp;
 public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
+    private readonly PermissionCheck _permissionCheck;
 
-    public TopicControllerLogic(SessionUser sessionUser)
+    public TopicControllerLogic(SessionUser sessionUser, PermissionCheck permissionCheck)
     {
         _sessionUser = sessionUser;
+        _permissionCheck = permissionCheck;
     }
 
     public dynamic GetTopicData(int id)
     {
         var topic = EntityCache.GetCategory(id);
 
-        if (PermissionCheck.CanView(topic))
+        if (_permissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
@@ -52,7 +54,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 }).ToArray(),
                 IsWiki = topic.IsStartPage(),
                 CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
-                CanBeDeleted = SessionUserLegacy.User != null && PermissionCheck.CanDelete(topic),
+                CanBeDeleted = SessionUserLegacy.User != null && _permissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
@@ -74,7 +76,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     {
         var topic = EntityCache.GetCategory(id);
 
-        if (PermissionCheck.CanView(topic))
+        if (_permissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
@@ -104,7 +106,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 }).ToArray(),
                 IsWiki = topic.IsStartPage(),
                 CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
-                CanBeDeleted = SessionUserLegacy.User != null && PermissionCheck.CanDelete(topic),
+                CanBeDeleted = SessionUserLegacy.User != null && _permissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
@@ -126,10 +128,10 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic GetSegmentation(int id, ControllerContext context)
     {
-        var segmentationLogic = new SegmentationLogic(context);
+        var segmentationLogic = new SegmentationLogic(context,_permissionCheck);
 
         var category = EntityCache.GetCategory(id);
-        var s = new SegmentationModel(category);
+        var s = new SegmentationModel(category,_permissionCheck);
         var childTopics = segmentationLogic.GetCategoriesData(s.NotInSegmentCategoryList.GetIds().ToArray());
         var segments = new List<dynamic>();
         if (s.Segments != null && s.Segments.Count > 0)

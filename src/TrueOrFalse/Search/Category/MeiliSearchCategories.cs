@@ -9,15 +9,18 @@ namespace TrueOrFalse.Search
     {
         private List<CategoryCacheItem> _categories = new();
         private MeiliSearchCategoriesResult _result;
+        private readonly PermissionCheck _permissionCheck;
         private int _size;
 
         /// <summary>
         /// Construktor with optional Parameter size = 5
         /// </summary>
+        /// <param name="permissionCheck"></param>
         /// <param name="size"></param>
-        public MeiliSearchCategories(int size = 5)
+        public MeiliSearchCategories(PermissionCheck permissionCheck, int size = 5)
         {
-            _size = size; 
+            _permissionCheck = permissionCheck;
+            _size = size;
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace TrueOrFalse.Search
         {
             var categoriesTemp = EntityCache.GetCategories(
                     categoryMaps.Select(c => c.Id))
-                .Where(PermissionCheck.CanView)
+                .Where(_permissionCheck.CanView)
                 .ToList();
             _categories.AddRange(categoriesTemp);
            _categories = _categories

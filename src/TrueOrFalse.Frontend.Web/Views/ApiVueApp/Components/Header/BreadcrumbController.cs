@@ -6,9 +6,11 @@ namespace VueApp;
 
 public class BreadcrumbController : BaseController
 {
-    public BreadcrumbController(SessionUser sessionUser) : base(sessionUser)
+    private readonly CrumbtrailService _crumbtrailService;
+
+    public BreadcrumbController(SessionUser sessionUser, CrumbtrailService crumbtrailService) : base(sessionUser)
     {
-        
+        _crumbtrailService = crumbtrailService;
     }
     [HttpPost]
     public JsonResult GetBreadcrumb(int wikiId, int currentCategoryId) 
@@ -16,10 +18,10 @@ public class BreadcrumbController : BaseController
         var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
-        var currentWiki = new CrumbtrailService().GetWiki(category,_sessionUser);
+        var currentWiki = _crumbtrailService.GetWiki(category,_sessionUser);
         _sessionUser.SetWikiId(currentWiki);
 
-        var breadcrumb = CrumbtrailService.BuildCrumbtrail(category, currentWiki);
+        var breadcrumb = _crumbtrailService.BuildCrumbtrail(category, currentWiki);
 
         var breadcrumbItems = new List<BreadcrumbItem>();
 

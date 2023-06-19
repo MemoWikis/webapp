@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Utilities.ScheduledJobs;
@@ -14,11 +12,14 @@ public class EditControllerLogic
 {
     private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
     private readonly IGlobalSearch _search;
-    private readonly bool _isInstallationAdmin; 
-    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin)
+    private readonly bool _isInstallationAdmin;
+    private readonly PermissionCheck _permissionCheck;
+
+    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
         _isInstallationAdmin = isInstallationAdmin;
+        _permissionCheck = permissionCheck;
     }
 
     public dynamic ValidateName(string name)
@@ -198,7 +199,7 @@ public class EditControllerLogic
 
     public dynamic RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
-        var parentHasBeenRemoved = ModifyRelationsForCategory.RemoveChildCategoryRelation(parentIdToRemove, childId);
+        var parentHasBeenRemoved = new ModifyRelationsForCategory().RemoveChildCategoryRelation(parentIdToRemove, childId,_permissionCheck);
         if (!parentHasBeenRemoved)
             return new
             {

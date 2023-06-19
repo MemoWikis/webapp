@@ -11,14 +11,17 @@ namespace VueApp;
 public class SegmentationLogic
 {
     private ControllerContext _controllerContext;
-    public SegmentationLogic(ControllerContext controllerContext)
+    private readonly PermissionCheck _permissionCheck;
+
+    public SegmentationLogic(ControllerContext controllerContext,PermissionCheck permissionCheck)
     {
         _controllerContext = controllerContext;
+        _permissionCheck = permissionCheck;
     }
     public dynamic GetSegmentation(int id)
     {
         var category = EntityCache.GetCategory(id);
-        var s = new SegmentationModel(category);
+        var s = new SegmentationModel(category,_permissionCheck);
         return new
         {
             childCategoryIds = s.NotInSegmentCategoryIds,
@@ -76,7 +79,7 @@ public class SegmentationLogic
     private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null, int? startTopicId = null)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
-        if (!PermissionCheck.CanView(categoryCacheItem)) return null;
+        if (!_permissionCheck.CanView(categoryCacheItem)) return null;
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
@@ -85,7 +88,7 @@ public class SegmentationLogic
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
-        var childCategoryCount = EntityCache.GetChildren(categoryId).Where(PermissionCheck.CanView).Distinct().Count();
+        var childCategoryCount = EntityCache.GetChildren(categoryId).Where(_permissionCheck.CanView).Distinct().Count();
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
 
         var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;

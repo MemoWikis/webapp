@@ -9,12 +9,18 @@ public class UserStoreController : Controller
     private readonly VueSessionUser _vueSessionUser;
     private readonly SessionUser _sessionUser;
     private readonly CredentialsAreValid _credentialsAreValid;
+    private readonly PermissionCheck _permissionCheck;
 
-    public UserStoreController(VueSessionUser vueSessionUser,  SessionUser sessionUser, CredentialsAreValid credentialsAreValid)
+    public UserStoreController(
+        VueSessionUser vueSessionUser,
+        SessionUser sessionUser,
+        CredentialsAreValid credentialsAreValid,
+        PermissionCheck permissionCheck)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
         _credentialsAreValid = credentialsAreValid;
+        _permissionCheck = permissionCheck;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -138,7 +144,7 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Reputation : 0,
                 ReputationPos = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser).GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(_sessionUser,_permissionCheck).GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
             }
         });
     }

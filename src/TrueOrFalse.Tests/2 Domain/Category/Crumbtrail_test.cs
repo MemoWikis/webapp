@@ -54,19 +54,19 @@ public class Crumbtrail_test : BaseTest
         var globalRootAsCache = CategoryCacheItem.ToCacheCategory(globalRoot);
 
 
-        var crumbtrail_1_2_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.2.1.1")), firstRootAsCache);
+        var crumbtrail_1_2_1_1 = Resolve<CrumbtrailService>().BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.2.1.1")), firstRootAsCache);
         Assert.That(crumbtrail_1_2_1_1.ToDebugString(), Is.EqualTo("first => 1.2 => 1.2.1 => [1.2.1.1]"));
 
-        var crumbtrail_x_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("x.1.1.1")), secondRootAsCache);
+        var crumbtrail_x_1_1_1 = Resolve<CrumbtrailService>().BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("x.1.1.1")), secondRootAsCache);
         Assert.That(crumbtrail_x_1_1_1.ToDebugString(), Is.EqualTo("second => x.1.1 => [x.1.1.1]"));
 
-        var crumbtrail_xg_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("xg.1.1.1")), secondRootAsCache);
+        var crumbtrail_xg_1_1_1 = Resolve<CrumbtrailService>().BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("xg.1.1.1")), secondRootAsCache);
         Assert.That(crumbtrail_xg_1_1_1.ToDebugString(), Is.EqualTo("second => g.1.1 => [xg.1.1.1]"));
 
-        var crumbtrail_1_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), firstRootAsCache);
+        var crumbtrail_1_1_1_1 = Resolve<CrumbtrailService>().BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), firstRootAsCache);
         Assert.That(crumbtrail_1_1_1_1.ToDebugString(), Is.EqualTo("first => 1.1 => 1.1.1 => [1.1.1.1]"));
 
-        var crumbtrail_rofr_1_1_1_1 = CrumbtrailService.BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), rootOfFirstRootAsCache);
+        var crumbtrail_rofr_1_1_1_1 = Resolve<CrumbtrailService>().BuildCrumbtrail(CategoryCacheItem.ToCacheCategory(thirdLevelChildren.ByName("1.1.1.1")), rootOfFirstRootAsCache);
         Assert.That(crumbtrail_rofr_1_1_1_1.ToDebugString(), Is.EqualTo("rofr => first => 1.1 => 1.1.1 => [1.1.1.1]"));
     }
 
@@ -136,7 +136,7 @@ public class Crumbtrail_test : BaseTest
         Assert.That(beforeSettingId, Is.EqualTo(1));
         Assert.That(wikiIdShouldBe3, Is.EqualTo(3));
         
-        var newWikiId = new CrumbtrailService().GetWiki(childOf5Cache,sessionUser).Id;
+        var newWikiId = Resolve<CrumbtrailService>().GetWiki(childOf5Cache,sessionUser).Id;
 
         Assert.That(newWikiId, Is.EqualTo(5));
     }

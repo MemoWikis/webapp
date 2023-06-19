@@ -113,10 +113,7 @@ public class QuestionCacheItem
         return answerText;
     }
 
-    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser()
-    {
-        return Categories.Where(PermissionCheck.CanView);
-    }
+   
 
     public virtual string GetShortTitle(int length = 96)
     {

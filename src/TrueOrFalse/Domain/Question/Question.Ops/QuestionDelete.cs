@@ -1,8 +1,14 @@
 ﻿using TrueOrFalse.Utilities.ScheduledJobs;
 
-public class QuestionDelete
+public class QuestionDelete : IRegisterAsInstancePerLifetime
 {
-    public static void Run(int questionId)
+    private readonly PermissionCheck _permissionCheck;
+
+    public QuestionDelete(PermissionCheck permissionCheck )
+    {
+        _permissionCheck = permissionCheck;
+    }
+    public void Run(int questionId)
     {
         var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
@@ -20,10 +26,10 @@ public class QuestionDelete
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 
-    public static CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
+    public CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
     {
         var questionCreator = question.Creator;
-        if (PermissionCheck.CanDelete(question))
+        if (_permissionCheck.CanDelete(question))
         {
             var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
             if (howOftenInOtherPeopleWuwi > 0)
