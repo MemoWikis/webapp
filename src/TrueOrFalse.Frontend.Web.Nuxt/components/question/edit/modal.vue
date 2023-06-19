@@ -275,7 +275,7 @@ async function save() {
         lockSaveButton.value = false
 
         alertStore.openAlert(AlertType.Error, {
-            text: messages.error.question[result.key]
+            text: messages.getByCompositeKey(result.messageKey)
         })
     }
 }

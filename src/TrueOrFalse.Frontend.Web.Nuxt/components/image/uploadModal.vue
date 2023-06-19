@@ -148,7 +148,7 @@ async function upload() {
         topicStore.refreshTopicImage()
         resetModal()
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.category.saveImage })
+        alertStore.openAlert(AlertType.Error, { text: messages.error.category.saveImageError })
     }
 }
 

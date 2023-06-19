@@ -18,17 +18,17 @@ public class QuestionEditModalControllerLogic
         _questionRepo = questionRepo;
     }
 
-    public dynamic Create(QuestionDataJson questionDataJson)
+    public RequestResult Create(QuestionDataJson questionDataJson)
     {
         if (!LimitCheck.CanSavePrivateQuestion())
         {
-            return new { success = false, key = "cantSavePrivateQuestion" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
 
         var safeText = RemoveHtmlTags(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new { success = false, key = "missingText" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -44,7 +44,8 @@ public class QuestionEditModalControllerLogic
 
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
-        return new { success = true, data = LoadQuestion(question.Id) };
+
+        return new RequestResult { success = true, data = LoadQuestion(question.Id) };
     }
 
     private dynamic LoadQuestion(int questionId)
@@ -81,12 +82,12 @@ public class QuestionEditModalControllerLogic
         return question;
     }
 
-    public dynamic Edit(QuestionDataJson questionDataJson)
+    public RequestResult Edit(QuestionDataJson questionDataJson)
     {
         var safeText = RemoveHtmlTags(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new { success = false, key = "missingText" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
@@ -97,7 +98,7 @@ public class QuestionEditModalControllerLogic
         if (questionDataJson.IsLearningTab)
             LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return new { success = true, data = LoadQuestion(updatedQuestion.Id) };
+        return new RequestResult { success = true, data = LoadQuestion(updatedQuestion.Id) };
     }
 
     public dynamic GetData(int id)

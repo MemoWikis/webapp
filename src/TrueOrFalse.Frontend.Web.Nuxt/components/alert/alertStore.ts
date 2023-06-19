@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { messages } from './messages'
 export { messages } from './messages'
 
 export interface AlertMsg {
@@ -44,7 +45,11 @@ export const useAlertStore = defineStore('alertStore', {
 	},
 	getters: {
 		text(): string {
-			return !!this.msg ? this.msg.text : ''
+			const text = this.msg?.text ?? ""
+			if(text=="" || !text && this.type == AlertType.Error){
+				return messages.error.default
+			}
+			return text;
 		},
 	}
 })
