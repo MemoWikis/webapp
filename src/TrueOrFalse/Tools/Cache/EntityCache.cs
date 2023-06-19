@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Web;
 using static CategoryRepository;
 
@@ -384,23 +383,23 @@ public class EntityCache : BaseCache
         .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
-    public static List<CategoryCacheItem> ParentCategories(int categoryId,PermissionCheck permissionCheck, bool visibleOnly = false)
+    public static List<CategoryCacheItem> ParentCategories(int categoryId, bool visibleOnly = false)
     {
         var allCategories = GetAllCategories();
         if (visibleOnly)
         {
            return allCategories.SelectMany(c =>
-                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId && permissionCheck.CanViewCategory(cr.RelatedCategoryId))
+                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId && PermissionCheck.CanViewCategory(cr.RelatedCategoryId))
                     .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
         }
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryId == categoryId)
                 .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
     }
- 
-    public static IList<CategoryCacheItem> GetAllParents(int childId, PermissionCheck permissionCheck,  bool getFromEntityCache = false,bool visibleOnly = false)
+
+    public static IList<CategoryCacheItem> GetAllParents(int childId, bool getFromEntityCache = false,bool visibleOnly = false)
     {
-        var currentGeneration = ParentCategories(childId, permissionCheck ,visibleOnly);
+        var currentGeneration = ParentCategories(childId, visibleOnly);
         var nextGeneration = new List<CategoryCacheItem>();
         var ascendants = new List<CategoryCacheItem>();
 
