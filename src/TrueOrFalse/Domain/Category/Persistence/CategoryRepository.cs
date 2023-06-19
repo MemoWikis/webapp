@@ -96,7 +96,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
     }
 
-    public override void Delete(Category category)
+    public void Delete(Category category, int userId)
     {
         if (_isSolrActive)
         {
@@ -104,7 +104,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         }
 
         base.Delete(category);
-        EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck);
+        EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck, userId);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -113,7 +113,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         });
     }
 
-    public override void DeleteWithoutFlush(Category category)
+    public void DeleteWithoutFlush(Category category, int userId)
     {
         if (_isSolrActive)
         {
@@ -121,7 +121,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         }
 
         base.DeleteWithoutFlush(category);
-        EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck);
+        EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
         SessionUserCache.RemoveAllForCategory(category.Id);
         Task.Run(async () =>
         {

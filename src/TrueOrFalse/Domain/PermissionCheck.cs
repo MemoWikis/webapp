@@ -2,16 +2,32 @@
 
 public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
+    //private readonly SessionUser _sessionUser;
+
+    private readonly int _userId;
+    private readonly bool _isInstallationAdmin;
 
     public PermissionCheck(SessionUser sessionUser)
     {
-        _sessionUser = sessionUser;
+        _userId = sessionUser.UserId;
+        _isInstallationAdmin = sessionUser.IsInstallationAdmin;
     }
+
+    public PermissionCheck(UserCacheItem userCacheItem)
+    {
+        _userId = userCacheItem.Id;
+        _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
+    }
+
+    public static PermissionCheck Instance(int userId)
+    {
+        return new PermissionCheck(EntityCache.GetUserById(userId));
+    }
+
     //setter is for tests
     public bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public  bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public bool CanView(CategoryCacheItem category) => CanView(_sessionUser.UserId, category);
+    public bool CanView(CategoryCacheItem category) => CanView(_userId, category);
 
     public bool CanView(int userId, CategoryCacheItem category)
     {
@@ -27,33 +43,32 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public  bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
+    public  bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetCategory(categoryId));
     public  bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
-    public  bool CanEdit(CategoryCacheItem category) => CanEdit(_sessionUser, category);
-    public  bool CanEdit(SessionUser user, CategoryCacheItem category)
+
+    public  bool CanEdit(CategoryCacheItem category)
     {
-        if (user == null || category == null)
+        if (category == null)
             return false;
 
-        if (RootCategory.LockedCategory(category.Id) && !user.IsInstallationAdmin)
+        if (RootCategory.LockedCategory(category.Id) && !_isInstallationAdmin)
             return false;
 
         if (!CanView(category))
             return false;
 
-        return _sessionUser.IsLoggedIn;
+        return true;
     }
 
-    public bool CanDelete(CategoryCacheItem category) => CanDelete(_sessionUser.User, category);
-    public static bool CanDelete(SessionUserCacheItem user, CategoryCacheItem category)
+    public bool CanDelete(CategoryCacheItem category)
     {
-        if (user == null || category == null)
+        if (category == null)
             return false;
 
         if (category.IsStartPage())
             return false;
 
-        if (category.Creator.Id == user.Id || user.IsInstallationAdmin)
+        if (category.Creator.Id == _userId || _isInstallationAdmin)
             return true;
 
         return false;
@@ -61,9 +76,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
 
-    public bool CanView(QuestionCacheItem question) => CanView(_sessionUser.UserId, question);
-
-    public static bool CanView(int userId, QuestionCacheItem question)
+    public bool CanView(QuestionCacheItem question)
     {
         if (question == null)
             return false;
@@ -71,39 +84,40 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == userId)
+        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == _userId)
             return true;
 
         return false;
     }
 
-    public bool CanEdit(Question question) => CanEdit(_sessionUser.User, question);
-
-    public  bool CanEdit(SessionUserCacheItem user, Question question)
+    public bool CanEdit(Question question)
     {
-        if (user == null || question == null)
+        if (question == null)
             return false;
 
-        return _sessionUser.IsLoggedIn;
-    }
-    public  bool CanEdit(QuestionCacheItem question) => CanEdit(_sessionUser.User, question);
-
-    public bool CanEdit(SessionUserCacheItem user, QuestionCacheItem question)
-    {
-        if (user == null || question == null)
+        if (question.IsCreator(_userId) || _isInstallationAdmin)
             return false;
 
-        return _sessionUser.IsLoggedIn;
+        return false;
     }
 
-    public bool CanDelete(Question question) => CanDelete(_sessionUser.User, question);
-
-    public static bool CanDelete(SessionUserCacheItem user, Question question)
+    public bool CanEdit(QuestionCacheItem question)
     {
-        if (user == null || question == null)
+        if (question == null)
             return false;
 
-        if (question.Creator?.Id == user.Id || user.IsInstallationAdmin)
+        if (question.IsCreator(_userId) || _isInstallationAdmin)
+            return false;
+
+        return false;
+    }
+
+    public bool CanDelete(Question question)
+    {
+        if (question == null)
+            return false;
+
+        if (question.IsCreator(_userId) || _isInstallationAdmin)
             return true;
 
         return false;

@@ -46,6 +46,7 @@ public class UserCacheItem : IUserTinyModel
     public int Reputation { get; set; }
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
+    public bool IsInstallationAdmin { get; set;  }
 
     public void AssignValues(User user)
     {
@@ -58,6 +59,7 @@ public class UserCacheItem : IUserTinyModel
         ReputationPos = user.ReputationPos;
         FollowerCount = user.FollowerCount;
         ShowWishKnowledge = user.ShowWishKnowledge;
+        IsInstallationAdmin = user.IsInstallationAdmin;
 
         StartTopicId = user.StartTopicId;
         WishCountQuestions = user.WishCountQuestions;

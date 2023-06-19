@@ -273,11 +273,11 @@ public class EntityCache : BaseCache
         }
     }
 
-    public static void Remove(int id,PermissionCheck permissionCheck) => Remove(GetCategory(id),permissionCheck);
-    public static void Remove(CategoryCacheItem category,PermissionCheck permissionCheck)
+    public static void Remove(int id,PermissionCheck permissionCheck,int userId) => Remove(GetCategory(id),permissionCheck,userId);
+    public static void Remove(CategoryCacheItem category,PermissionCheck permissionCheck, int userId)
     {
         Remove(Categories, category);
-        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
+        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId);
         foreach (var connectedQuestion in connectedQuestions)
         {
             var categoryInQuestion = connectedQuestion.Categories.FirstOrDefault(c => c.Id == category.Id);

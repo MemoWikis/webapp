@@ -22,7 +22,7 @@ public class CategoryInKnowledge
 
                 return category == null ? 
                     new List<QuestionCacheItem>() : 
-                    category.GetAggregatedQuestionsFromMemoryCache();
+                    category.GetAggregatedQuestionsFromMemoryCache(userId);
             })
             .GetIds()
             .Distinct()
@@ -34,7 +34,7 @@ public class CategoryInKnowledge
     public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
     {
         var user = Sl.UserRepo.GetByIds(userId).First();
-        var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId);
         var questionIds = questionsInCategory.GetIds();
 
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user.Id, questionIds, exeptCategoryId: categoryId);

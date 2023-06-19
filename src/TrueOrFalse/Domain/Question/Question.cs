@@ -232,4 +232,9 @@ public class Question : DomainEntity, ICreator
             reference.ReferenceText = existingReferences[i].ReferenceText;
         }
     }
+
+    public virtual bool IsCreator(int userId)
+    {
+        return userId == Creator?.Id;
+    }
 }

@@ -130,6 +130,7 @@ public class CategoryCacheItem
 
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
+        int userId,
         bool onlyVisible = true,
         bool fullList = true,
         int categoryId = 0)
@@ -138,7 +139,8 @@ public class CategoryCacheItem
 
         if (fullList)
         {
-            questions = AggregatedCategories()
+            
+            questions = AggregatedCategories(PermissionCheck.Instance(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
                 .Distinct().ToList();
         }
@@ -150,6 +152,8 @@ public class CategoryCacheItem
 
         if (onlyVisible)
         {
+            var user = EntityCache.GetUserById(userId);
+            var permissionCheck = new PermissionCheck(user);
             questions = questions.Where(permissionCheck.CanView).ToList();
         }
 
@@ -162,14 +166,14 @@ public class CategoryCacheItem
         return questions.ToList();
     }
 
-    public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
+    public virtual int GetCountQuestionsAggregated(int userId, bool inCategoryOnly = false, int categoryId = 0)
     {
         if (inCategoryOnly)
         {
-            return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
+            return GetAggregatedQuestionsFromMemoryCache(userId, true, false, categoryId).Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache().Count;
+        return GetAggregatedQuestionsFromMemoryCache(userId).Count;
     }
 
     public virtual bool HasPublicParent()
@@ -312,9 +316,9 @@ public class CategoryCacheItem
         return categories;
     }
 
-    public void UpdateCountQuestionsAggregated()
+    public void UpdateCountQuestionsAggregated(int userId)
     {
-        CountQuestionsAggregated = GetCountQuestionsAggregated();
+        CountQuestionsAggregated = GetCountQuestionsAggregated(userId);
     }
 
     private Dictionary<int, CategoryCacheItem> VisibleChildCategories(

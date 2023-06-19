@@ -12,9 +12,11 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
+    private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, PermissionCheck permissionCheck)
     {
+        _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
     }
@@ -55,7 +57,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 IsWiki = topic.IsStartPage(),
                 CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
                 CanBeDeleted = SessionUserLegacy.User != null && _permissionCheck.CanDelete(topic),
-                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
+                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
                 SearchTopicItem = FillMiniTopicItem(topic),
@@ -107,7 +109,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 IsWiki = topic.IsStartPage(),
                 CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
                 CanBeDeleted = SessionUserLegacy.User != null && _permissionCheck.CanDelete(topic),
-                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
+                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
                 SearchTopicItem = FillMiniTopicItem(topic),
@@ -128,7 +130,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic GetSegmentation(int id, ControllerContext context)
     {
-        var segmentationLogic = new SegmentationLogic(context,_permissionCheck);
+        var segmentationLogic = new SegmentationLogic(context,_permissionCheck,_sessionUser);
 
         var category = EntityCache.GetCategory(id);
         var s = new SegmentationModel(category,_permissionCheck);
@@ -165,7 +167,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             Id = topic.Id,
             Name = topic.Name,
             Url = Links.CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = topic.GetCountQuestionsAggregated(),
+            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,

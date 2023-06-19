@@ -187,9 +187,9 @@ namespace Seedworks.Lib.Persistence
             ClearAllItemCache();
             Flush();
 
-			if (OnItemDeleted != null)
-				OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
-		}
+            if (OnItemDeleted != null)
+                OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
+        }
 
         public virtual void DeleteWithoutFlush(TDomainObject domainObject)
         {

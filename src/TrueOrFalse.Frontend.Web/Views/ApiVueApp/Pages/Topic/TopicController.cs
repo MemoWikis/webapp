@@ -45,7 +45,7 @@ public class TopicController : BaseController
         {
             var userCacheItem = SessionUserCache.GetItem(User_().Id);
             return Json(topicCacheItem
-                .GetAggregatedQuestionsFromMemoryCache()
+                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>
                     q.Creator.Id == userCacheItem.Id &&
                     q.IsPrivate() &&

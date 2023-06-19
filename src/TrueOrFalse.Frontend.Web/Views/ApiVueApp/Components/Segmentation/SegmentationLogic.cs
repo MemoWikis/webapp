@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -12,11 +10,15 @@ public class SegmentationLogic
 {
     private ControllerContext _controllerContext;
     private readonly PermissionCheck _permissionCheck;
+    private readonly int _sessionUserId;
+    private readonly SessionUser _sessionUser;
 
-    public SegmentationLogic(ControllerContext controllerContext,PermissionCheck permissionCheck)
+    public SegmentationLogic(ControllerContext controllerContext,PermissionCheck permissionCheck, SessionUser sessionUser)
     {
         _controllerContext = controllerContext;
         _permissionCheck = permissionCheck;
+        _sessionUserId = sessionUser.UserId;
+        _sessionUser = sessionUser;
     }
     public dynamic GetSegmentation(int id)
     {
@@ -70,7 +72,7 @@ public class SegmentationLogic
     public dynamic GetCategoryData(int categoryId)
     {
         var categoryCardData = SessionUserLegacy.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(SessionUserLegacy.UserId).CategoryValuations,
+            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId).CategoryValuations,
                 SessionUserCache.GetUser(SessionUserLegacy.UserId).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
@@ -89,7 +91,7 @@ public class SegmentationLogic
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
         var childCategoryCount = EntityCache.GetChildren(categoryId).Where(_permissionCheck.CanView).Distinct().Count();
-        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
+        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
 
         var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;
 
@@ -150,7 +152,7 @@ public class SegmentationLogic
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
-        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
+        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
         var knowledgeBarHtml = "";
         if (questionCount > 0)
             knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), _controllerContext);
