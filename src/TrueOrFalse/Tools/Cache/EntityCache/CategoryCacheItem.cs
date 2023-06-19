@@ -66,9 +66,9 @@ public class CategoryCacheItem
 
     public virtual string WikipediaURL { get; set; }
 
-    public Dictionary<int, CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
+    public Dictionary<int, CategoryCacheItem> AggregatedCategories(PermissionCheck permissionCheck, bool includingSelf = true)
     {
-        var visibleVisited = VisibleChildCategories(this);
+        var visibleVisited = VisibleChildCategories(this, permissionCheck);
 
         if (includingSelf && !visibleVisited.ContainsKey(Id))
         {
@@ -120,9 +120,9 @@ public class CategoryCacheItem
         );
     }
 
-    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
+    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache(PermissionCheck permissionCheck)
     {
-        return AggregatedCategories()
+        return AggregatedCategories(permissionCheck)
             .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Key))
             .Distinct()
             .ToList();
@@ -150,7 +150,7 @@ public class CategoryCacheItem
 
         if (onlyVisible)
         {
-            questions = questions.Where(new PermissionCheck().CanView).ToList();
+            questions = questions.Where(permissionCheck.CanView).ToList();
         }
 
         if (questions.Any(q => q.Id == 0))
@@ -319,6 +319,7 @@ public class CategoryCacheItem
 
     private Dictionary<int, CategoryCacheItem> VisibleChildCategories(
         CategoryCacheItem parentCacheItem,
+        PermissionCheck permissionCheck,
         Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
     {
         var visibleVisited = new Dictionary<int, CategoryCacheItem>();
@@ -340,10 +341,10 @@ public class CategoryCacheItem
                 if (!visibleVisited.ContainsKey(childId))
                 {
                     var child = EntityCache.GetCategory(childId);
-                    if (PermissionCheck.CanView(child))
+                    if (permissionCheck.CanView(child))
                     {
                         visibleVisited.Add(childId, child);
-                        VisibleChildCategories(child, visibleVisited);
+                        VisibleChildCategories(child,permissionCheck, visibleVisited);
                     }
                 }
             }

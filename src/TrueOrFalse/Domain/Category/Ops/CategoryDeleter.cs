@@ -10,6 +10,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly PermissionCheck _permissionCheck;
 
     public CategoryDeleter(
         ISession session,
@@ -18,7 +19,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         UserActivityRepo userActivityRepo,
         CategoryRepository categoryRepository,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        PermissionCheck permissionCheck)
     {
         _session = session;
         _sessionUser = sessionUser;
@@ -26,6 +28,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _categoryRepository = categoryRepository;
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
+        _permissionCheck = permissionCheck;
     }
 
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
@@ -63,13 +66,13 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
         EntityCache.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
-        var parentIds = EntityCache.ParentCategories(category.Id).Select(cci => cci.Id).ToList();
+        var parentIds = EntityCache.ParentCategories(category.Id, _permissionCheck).Select(cci => cci.Id).ToList();
         foreach (var parentId in parentIds)
         {
             EntityCache.GetCategory(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
         }
 
-        EntityCache.Remove(categoryCacheItem);
+        EntityCache.Remove(categoryCacheItem, _permissionCheck);
         SessionUserCache.RemoveAllForCategory(category.Id);
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;

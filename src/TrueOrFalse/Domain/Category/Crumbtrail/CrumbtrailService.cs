@@ -57,9 +57,9 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
         }
     }
 
-    private static bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
+    private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
     {
-        var isLinkedToRoot = EntityCache.GetAllParents(category.Id, visibleOnly:true).Any(c => c == root);
+        var isLinkedToRoot = EntityCache.GetAllParents(category.Id,_permissionCheck,visibleOnly:true).Any(c => c == root);
         if (isLinkedToRoot)
             return true;
         return false;
@@ -74,7 +74,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
         if (root == categoryCacheItem)
             return;
 
-        var parents = EntityCache.ParentCategories(categoryCacheItem.Id, visibleOnly:true);
+        var parents = EntityCache.ParentCategories(categoryCacheItem.Id,_permissionCheck, visibleOnly:true);
         parents = OrderParentList(parents, root.Creator.Id);
         
         if (parents.Any(c => c.Id == root.Id))
@@ -115,7 +115,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
-        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true, true);
+        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, _permissionCheck, true, true);
         if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !_permissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)

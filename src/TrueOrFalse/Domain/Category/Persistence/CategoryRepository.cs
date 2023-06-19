@@ -5,8 +5,10 @@ using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>
+public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstancePerLifetime
 {
+    private readonly PermissionCheck _permissionCheck;
+
     public enum CreateDeleteUpdate
     {
         Create = 1,
@@ -18,9 +20,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly SolrSearchIndexCategory _solrSearchIndexCategory;
     private readonly bool _isSolrActive;
 
-    public CategoryRepository(ISession session, SolrSearchIndexCategory solrSearchIndexCategory)
+    public CategoryRepository(ISession session, SolrSearchIndexCategory solrSearchIndexCategory,PermissionCheck permissionCheck)
         : base(session)
     {
+        _permissionCheck = permissionCheck;
         _isSolrActive = Settings.UseMeiliSearch() == false;
 
         if (_isSolrActive)
@@ -101,7 +104,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         base.Delete(category);
-        EntityCache.Remove(EntityCache.GetCategory(category));
+        EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -118,7 +121,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         base.DeleteWithoutFlush(category);
-        EntityCache.Remove(EntityCache.GetCategory(category.Id));
+        EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck);
         SessionUserCache.RemoveAllForCategory(category.Id);
         Task.Run(async () =>
         {

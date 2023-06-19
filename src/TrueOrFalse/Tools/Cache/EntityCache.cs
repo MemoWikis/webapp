@@ -273,8 +273,8 @@ public class EntityCache : BaseCache
         }
     }
 
-    public static void Remove(int id) => Remove(GetCategory(id));
-    public static void Remove(CategoryCacheItem category)
+    public static void Remove(int id,PermissionCheck permissionCheck) => Remove(GetCategory(id),permissionCheck);
+    public static void Remove(CategoryCacheItem category,PermissionCheck permissionCheck)
     {
         Remove(Categories, category);
         var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
@@ -284,7 +284,7 @@ public class EntityCache : BaseCache
             connectedQuestion.Categories.Remove(categoryInQuestion);
         }
 
-        var parentCategories = GetAllParents(category.Id);
+        var parentCategories = GetAllParents(category.Id,permissionCheck);
         foreach (var parent in parentCategories)
         {
             parent.CachedData.RemoveChildId(category.Id);
@@ -383,13 +383,14 @@ public class EntityCache : BaseCache
         .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
-    public static List<CategoryCacheItem> ParentCategories(int categoryId, bool visibleOnly = false)
+    public static List<CategoryCacheItem> ParentCategories(int categoryId,PermissionCheck permissionCheck, bool visibleOnly = false)
     {
         var allCategories = GetAllCategories();
         if (visibleOnly)
         {
            return allCategories.SelectMany(c =>
-                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId && PermissionCheck.CanViewCategory(cr.RelatedCategoryId))
+                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId &&
+                                                permissionCheck.CanViewCategory(cr.RelatedCategoryId))
                     .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
         }
         return allCategories.SelectMany(c =>
@@ -397,9 +398,9 @@ public class EntityCache : BaseCache
                 .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
     }
 
-    public static IList<CategoryCacheItem> GetAllParents(int childId, bool getFromEntityCache = false,bool visibleOnly = false)
+    public static IList<CategoryCacheItem> GetAllParents(int childId,PermissionCheck permissionCheck, bool getFromEntityCache = false,bool visibleOnly = false)
     {
-        var currentGeneration = ParentCategories(childId, visibleOnly);
+        var currentGeneration = ParentCategories(childId, permissionCheck, visibleOnly);
         var nextGeneration = new List<CategoryCacheItem>();
         var ascendants = new List<CategoryCacheItem>();
 
@@ -409,7 +410,7 @@ public class EntityCache : BaseCache
 
             foreach (var parent in currentGeneration)
             {
-                var parents = ParentCategories(parent.Id, visibleOnly);
+                var parents = ParentCategories(parent.Id, permissionCheck, visibleOnly);
                 if (parents.Count > 0)
                 {
                     nextGeneration.AddRange(parents);
