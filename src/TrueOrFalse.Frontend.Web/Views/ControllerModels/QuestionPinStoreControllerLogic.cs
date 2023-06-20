@@ -4,7 +4,7 @@ public class QuestionPinStoreControllerLogic
 {
     public dynamic Pin(int id)
     {
-        if (SessionUser.IsLoggedIn)
+        if (!SessionUser.IsLoggedIn)
         {
             return new { success = false, key = "notLoggedIn" };
         }
