@@ -72,7 +72,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             EntityCache.GetCategory(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
         }
 
-        EntityCache.Remove(categoryCacheItem, _permissionCheck);
+        EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
         SessionUserCache.RemoveAllForCategory(category.Id);
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;
