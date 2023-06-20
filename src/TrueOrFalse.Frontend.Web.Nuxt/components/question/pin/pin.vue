@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { usePinStore, PinState } from './pinStore'
 import { useUserStore } from '~~/components/user/userStore'
+import { PinData } from '~~/components/question/pin/pinStore'
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore';
 
 const pinStore = usePinStore()
 const userStore = useUserStore()
@@ -11,17 +13,17 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const state = ref<PinState>(PinState.Loading)
+const pinState = ref<PinState>(PinState.Loading)
 watch(() => props.isInWishknowledge, (val) => {
     if (val)
-        state.value = PinState.Added
-    else state.value = PinState.NotAdded
+        pinState.value = PinState.Added
+    else pinState.value = PinState.NotAdded
 })
 
 onBeforeMount(() => {
     if (props.isInWishknowledge)
-        state.value = PinState.Added
-    else state.value = PinState.NotAdded
+        pinState.value = PinState.Added
+    else pinState.value = PinState.NotAdded
 })
 
 const showLabel = ref(false)
@@ -29,10 +31,16 @@ const emit = defineEmits(['set-wuwi-state'])
 
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
-        after((result) => {
-            if (result != null && result.id == props.questionId) {
-                state.value = result.state
-                emit('set-wuwi-state', result.state)
+        after((result: FetchResult<PinData>) => {
+            if (result.success) { 
+                if(result.data?.id == props.questionId) {
+                    pinState.value = result.data?.state
+                    emit('set-wuwi-state', result.data?.state)
+                }
+            } else {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+                pinState.value = props.isInWishknowledge ? PinState.Added : PinState.NotAdded;
             }
         })
     })
@@ -40,22 +48,20 @@ onMounted(() => {
 
 function pin() {
     if (userStore.isLoggedIn) {
-        state.value = PinState.Loading
+        pinState.value = PinState.Loading
         pinStore.pin(props.questionId)
     } else {
         userStore.openLoginModal()
     }
-
 }
 
 function unpin() {
     if (userStore.isLoggedIn) {
-        state.value = PinState.Loading
+        pinState.value = PinState.Loading
         pinStore.unpin(props.questionId)
     } else {
         userStore.openLoginModal()
     }
-
 }
 
 </script>
@@ -63,10 +69,10 @@ function unpin() {
 <template>
     <div>
 
-        <span v-if="state == PinState.Added" @click="unpin()" v-tooltip="'Aus deinem Wunschwissen entfernen'">
+        <span v-if="pinState == PinState.Added" @click="unpin()" v-tooltip="'Aus deinem Wunschwissen entfernen'">
             <font-awesome-icon icon="fa-solid fa-heart" class="pin-icon" />
         </span>
-        <span v-else-if="state == PinState.Loading">
+        <span v-else-if="pinState == PinState.Loading">
             <font-awesome-icon icon="fa-solid fa-spinner fa-spin" class="pin-icon" />
         </span>
         <span v-else v-tooltip="'Zu deinem Wunschwissen hinzuzufügen'" @click="pin()">
