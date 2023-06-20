@@ -11,17 +11,21 @@ namespace VueApp;
 public class VueQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly PermissionCheck _permissionCheck;
 
-    public VueQuestionController(QuestionRepo questionRepo, SessionUser sessionUser) : base(sessionUser)
+    public VueQuestionController(QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck) : base(sessionUser)
     {
         _questionRepo = questionRepo;
+        _permissionCheck = permissionCheck;
     }
 
     [HttpGet]
     public JsonResult GetQuestion(int id)
     {
         var q = EntityCache.GetQuestionById(id);
-        if (PermissionCheck.CanView(q))
+        if (_permissionCheck.CanView(q))
         {
             return Json(new
             {
@@ -79,7 +83,7 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 

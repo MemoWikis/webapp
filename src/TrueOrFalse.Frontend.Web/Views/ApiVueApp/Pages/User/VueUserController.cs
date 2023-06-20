@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -8,9 +6,11 @@ namespace VueApp;
 
 public class VueUserController : BaseController
 {
-    public VueUserController(SessionUser sessionUser) :base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public VueUserController(SessionUser sessionUser, PermissionCheck permissionCheck) :base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
     [HttpGet]
     public JsonResult Get(int id)
@@ -30,7 +30,7 @@ public class VueUserController : BaseController
                 {
                     id = user.Id,
                     name = user.Name,
-                    wikiUrl = PermissionCheck.CanView(userWiki)
+                    wikiUrl = _permissionCheck.CanView(userWiki)
                         ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId
                         : null,
                     imageUrl = new UserImageSettings(user.Id).GetUrl_250px(user).Url,
@@ -74,7 +74,7 @@ public class VueUserController : BaseController
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(PermissionCheck.CanView);
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);
 
             return Json(new
             {
@@ -82,8 +82,8 @@ public class VueUserController : BaseController
                 {
                     title = q.GetShortTitle(200),
                     encodedPrimaryTopicName =
-                        UriSanitizer.Run(q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Name),
-                    primaryTopicId = q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Id,
+                        UriSanitizer.Run(q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Name),
+                    primaryTopicId = q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Id,
                     id = q.Id
 
                 }).ToArray(),

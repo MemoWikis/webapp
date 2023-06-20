@@ -30,7 +30,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         foreach (var category in question.Categories.ToList())
         {
-            category.UpdateCountQuestionsAggregated();
+            category.UpdateCountQuestionsAggregated(question.Creator.Id);
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }

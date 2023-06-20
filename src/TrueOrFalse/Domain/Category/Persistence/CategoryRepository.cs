@@ -58,7 +58,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator?.Id ?? -1);
 
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem, category.Creator.Id);
         EntityCache.UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
 
         if (category.ParentCategories().Count != 1)

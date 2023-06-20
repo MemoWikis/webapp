@@ -24,7 +24,7 @@ class Automatic_inclusion_tests : BaseTest
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
         Resolve<EntityCacheInitializer>().Init();
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(EntityCache.GetCategoryByName("Sub1").First());
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(EntityCache.GetCategoryByName("Sub1").First(),Resolve<SessionUser>().UserId);
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
@@ -78,8 +78,8 @@ class Automatic_inclusion_tests : BaseTest
 
         Resolve<EntityCacheInitializer>().Init();
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
-
-        EntityCache.Remove(context.All.ByName("Sub1").Id);
+         
+        EntityCache.Remove(context.All.ByName("Sub1").Id,Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
         Sl.CategoryRepo.Delete(context.All.ByName("Sub1"));
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 

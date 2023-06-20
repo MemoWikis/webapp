@@ -3,13 +3,17 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class LearningSessionStoreController: Controller
+public class LearningSessionStoreController: BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly PermissionCheck _permissionCheck;
 
-    public LearningSessionStoreController(LearningSessionCreator learningSessionCreator)
+    public LearningSessionStoreController(LearningSessionCreator learningSessionCreator,
+        PermissionCheck permissionCheck,
+        SessionUser sessionUser) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
+        _permissionCheck = permissionCheck;
     }
     [HttpPost]
     public JsonResult NewSession(LearningSessionConfig config)
@@ -52,8 +56,8 @@ public class LearningSessionStoreController: Controller
     [HttpPost]
     public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
     {
-        var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache();
-        allQuestions = allQuestions.Where(PermissionCheck.CanView).ToList();
+        var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
+        allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
         if (allQuestions.IndexOf(q => q.Id == id) < 0)
             return Json(new
             {
@@ -61,7 +65,7 @@ public class LearningSessionStoreController: Controller
                 message = "questionDoesntExistInTopic"
             });
 
-        if (!PermissionCheck.CanViewQuestion(id))
+        if (!_permissionCheck.CanViewQuestion(id))
             return Json(new
             {
                 success = false,

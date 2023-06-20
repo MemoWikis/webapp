@@ -13,11 +13,16 @@ public class QuestionEditModalControllerLogic : BaseController
 {
     private readonly QuestionRepo _questionRepo;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly PermissionCheck _permissionCheck;
 
-    public QuestionEditModalControllerLogic(QuestionRepo questionRepo, SessionUser sessionUser, LearningSessionCache lerLearningSessioncache) :base(sessionUser)
+    public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        LearningSessionCache lerLearningSessioncache, 
+        PermissionCheck permissionCheck) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = lerLearningSessioncache;
+        _permissionCheck = permissionCheck;
     }
 
     public dynamic Create(QuestionDataJson questionDataJson)
@@ -107,7 +112,7 @@ public class QuestionEditModalControllerLogic : BaseController
         var question = EntityCache.GetQuestionById(id);
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
         var topicsVisibleToCurrentUser =
-            question.Categories.Where(PermissionCheck.CanView).Distinct();
+            question.Categories.Where(_permissionCheck.CanView).Distinct();
 
         return new
         {
@@ -132,7 +137,7 @@ public class QuestionEditModalControllerLogic : BaseController
             Id = topic.Id,
             Name = topic.Name,
             Url = Links.CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = topic.GetCountQuestionsAggregated(),
+            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
@@ -177,7 +182,7 @@ public class QuestionEditModalControllerLogic : BaseController
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
         foreach (var categoryId in categoriesToRemove)
-            if (!PermissionCheck.CanViewCategory(categoryId))
+            if (!_permissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
         question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
@@ -219,7 +224,7 @@ public class QuestionEditModalControllerLogic : BaseController
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var topics = new List<Category>();
-        var privateTopics = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
+        var privateTopics = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         topics.AddRange(privateTopics);
 
         foreach (var categoryId in newCategoryIds)
@@ -229,5 +234,5 @@ public class QuestionEditModalControllerLogic : BaseController
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache().Count;
+    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 }

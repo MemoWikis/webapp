@@ -8,9 +8,11 @@ using TrueOrFalse.Web;
 namespace VueApp;
 public class QuestionLandingPageController : BaseController
 {
-    public QuestionLandingPageController(SessionUser sessionUser) : base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public QuestionLandingPageController(SessionUser sessionUser, PermissionCheck permissionCheck) : base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -68,7 +70,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

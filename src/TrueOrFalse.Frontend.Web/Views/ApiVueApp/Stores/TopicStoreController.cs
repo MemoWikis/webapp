@@ -4,15 +4,17 @@ namespace VueApp;
 
 public class TopicStoreController : BaseController
 {
-    public TopicStoreController(SessionUser sessionUser) : base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public TopicStoreController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
     {
-        if (!PermissionCheck.CanEditCategory(id))
+        if (!_permissionCheck.CanEditCategory(id))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
         var categoryCacheItem = EntityCache.GetCategory(id);
@@ -41,7 +43,7 @@ public class TopicStoreController : BaseController
     [HttpGet]
     public string GetTopicImageUrl(int id)
     {
-        if (PermissionCheck.CanViewCategory(id))
+        if (_permissionCheck.CanViewCategory(id))
             return new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url;
 
         return "";

@@ -6,9 +6,11 @@ namespace VueApp;
 
 public class PublishTopicStoreController : BaseController
 {
-    public PublishTopicStoreController(SessionUser sessionUser): base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public PublishTopicStoreController(SessionUser sessionUser, PermissionCheck permissionCheck): base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
 
     [HttpPost]
@@ -79,12 +81,12 @@ public class PublishTopicStoreController : BaseController
             }, JsonRequestBehavior.AllowGet);
 
         var filteredAggregatedQuestions = topicCacheItem
-            .GetAggregatedQuestionsFromMemoryCache()
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
             .Where(q =>
                 q.Creator != null &&
                 q.Creator.Id == userCacheItem.Id &&
                 q.IsPrivate() &&
-                PermissionCheck.CanEdit(q))
+                _permissionCheck.CanEdit(q))
             .Select(q => q.Id).ToList();
 
         return Json(new

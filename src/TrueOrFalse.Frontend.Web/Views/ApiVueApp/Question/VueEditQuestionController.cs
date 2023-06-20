@@ -14,11 +14,16 @@ public class VueEditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly PermissionCheck _permissionCheck;
 
-    public VueEditQuestionController(QuestionRepo questionRepo, SessionUser sessionUser,LearningSessionCache learningSessionCache) :base(sessionUser)
+    public VueEditQuestionController(QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        LearningSessionCache learningSessionCache,
+        PermissionCheck permissionCheck) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
+        _permissionCheck = permissionCheck;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -165,7 +170,7 @@ public class VueEditQuestionController : BaseController
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
         foreach (var categoryId in categoriesToRemove)
-            if (!PermissionCheck.CanViewCategory(categoryId))
+            if (!_permissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
         question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
@@ -205,7 +210,7 @@ public class VueEditQuestionController : BaseController
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache().Count;
+    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     public class QuestionDataJson
     {
@@ -229,7 +234,7 @@ public class VueEditQuestionController : BaseController
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var categories = new List<Category>();
-        var privateCategories = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
+        var privateCategories = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         categories.AddRange(privateCategories);
 
         foreach (var categoryId in newCategoryIds)
@@ -265,7 +270,7 @@ public class VueEditQuestionController : BaseController
         }
         else
         {
-            if (!PermissionCheck.CanEdit(_questionRepo.GetById(questionId)))
+            if (!_permissionCheck.CanEdit(_questionRepo.GetById(questionId)))
                 throw new SecurityException("Not allowed to edit question");
         }
 

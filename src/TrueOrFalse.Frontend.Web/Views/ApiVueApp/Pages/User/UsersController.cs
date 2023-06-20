@@ -8,9 +8,11 @@ namespace VueApp;
 
 public class VueUsersController : BaseController
 {
-    public VueUsersController(SessionUser sessionUser) : base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public VueUsersController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
     [HttpGet]
     public JsonResult Get(
@@ -48,7 +50,7 @@ public class VueUsersController : BaseController
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(PermissionCheck.CanView);
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);
             wishQuestionCount = wishQuestions.Count();
             topicsWithWishQuestionCount = wishQuestions.QuestionsInCategories().Count();
         }
@@ -67,7 +69,7 @@ public class VueUsersController : BaseController
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,
             imgUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url,
-            wikiId = PermissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
+            wikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
         };
     }
 

@@ -8,16 +8,18 @@ using TrueOrFalse.Web;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionDetailsController: BaseController
 {
-    public AnswerQuestionDetailsController(SessionUser sessionUser):base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public AnswerQuestionDetailsController(SessionUser sessionUser, PermissionCheck permissionCheck):base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
 
     public dynamic GetData(int id)
     {
-        if (!PermissionCheck.CanViewQuestion(id))
+        if (!_permissionCheck.CanViewQuestion(id))
             return Json(null);
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -43,12 +45,12 @@ public class AnswerQuestionDetailsController: BaseController
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
-            topics = question.CategoriesVisibleToCurrentUser().Select(t => new
+            topics = question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t => new
             {
                 Id = t.Id,
                 Name = t.Name,
                 Url = Links.CategoryDetail(t.Name, t.Id),
-                QuestionCount = t.GetCountQuestionsAggregated(),
+                QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
                 ImageUrl = new CategoryImageSettings(t.Id).GetUrl_128px(asSquare: true).Url,
                 IconHtml = CategoryCachedData.GetIconHtml(t),
                 MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(t.Id, ImageType.Category))

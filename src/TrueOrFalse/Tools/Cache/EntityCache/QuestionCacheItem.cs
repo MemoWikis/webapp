@@ -135,7 +135,10 @@ public class QuestionCacheItem
     {
         return false;
     }
-
+    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser(PermissionCheck permissionCheck)
+    {
+        return Categories.Where(permissionCheck.CanView);
+    }
     public virtual bool IsInWishknowledge()
     {
         return SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
