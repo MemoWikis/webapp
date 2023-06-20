@@ -8,16 +8,12 @@ using TrueOrFalse.Search;
 
 public class UserRepo : RepositoryDbBase<User>
 {
-    private readonly SearchIndexUser _searchIndexUser;
+  
     private readonly bool _isSolrActive;
 
-    public UserRepo(ISession session, SearchIndexUser searchIndexUser) : base(session)
+    public UserRepo(ISession session) : base(session)
     {
         _isSolrActive = Settings.UseMeiliSearch() == false;
-        if (_isSolrActive)
-        {
-            _searchIndexUser = searchIndexUser;
-        }
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -43,11 +39,6 @@ public class UserRepo : RepositoryDbBase<User>
         if (SessionUser.IsLoggedInUserOrAdmin(user.Id))
         {
             throw new InvalidAccessException();
-        }
-
-        if (_isSolrActive)
-        {
-            _searchIndexUser.Delete(user);
         }
 
         base.Delete(id);
@@ -177,7 +168,7 @@ public class UserRepo : RepositoryDbBase<User>
         {
             var missingUsersIds = userIds.Where(id => !users.Any(u => id == u.Id)).ToList();
             Logg.r().Error(
-                $"Following user ids from solr not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
+                $"Following user ids from meilisearch not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
         }
 
         return userIds.Select(t => users.FirstOrDefault(u => u.Id == t)).Where(x => x != null).ToList();

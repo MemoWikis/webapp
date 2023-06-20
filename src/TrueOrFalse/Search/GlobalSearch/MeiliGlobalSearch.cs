@@ -19,4 +19,11 @@ public class MeiliGlobalSearch : IGlobalSearch
         result.CategoriesResult = await new MeiliSearchCategories(10).RunAsync(term);
         return result;
     }
+
+    public async Task<GlobalSearchResult> GoAllCategories(string term, int size)
+    {
+        var result = new GlobalSearchResult();
+        result.CategoriesResult = await new MeiliSearchCategories(size).RunAsync(term);
+        return result;
+    }
 }

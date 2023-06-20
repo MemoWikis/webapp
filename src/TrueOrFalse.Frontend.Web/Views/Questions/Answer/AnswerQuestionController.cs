@@ -45,86 +45,6 @@ public class AnswerQuestionController : BaseController
             }
         };
     }
-
-    [SetMainMenu(MainMenuEntry.None)]
-    [SetThemeMenu(isQuestionPage: true)]
-    public ActionResult Answer(
-        string text,
-        int? id,
-        int? elementOnPage,
-        string pager,
-        int? setId,
-        int? questionId,
-        string category)
-    {
-        if (id.HasValue && SeoUtils.HasUnderscores(text))
-        {
-            return SeoUtils.RedirectToHyphendVersion(RedirectPermanent, id.Value);
-        }
-
-        return AnswerQuestion(text, id, elementOnPage, pager, category);
-    }
-
-    public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
-    {
-        if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))
-        {
-            if (id == null)
-            {
-                throw new Exception("AnswerQuestionController: No id for question provided.");
-            }
-
-            var question2 = EntityCache.GetQuestionById((int)id);
-
-            if (question2 == null)
-            {
-                throw new Exception("question not found");
-            }
-
-            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
-
-            return View(_viewLocation, new AnswerQuestionModel(question2));
-        }
-
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-
-        if (!IsNullOrEmpty(category))
-        {
-            var categoryDb = R<CategoryRepository>().GetByName(category).FirstOrDefault();
-            if (categoryDb != null)
-            {
-                activeSearchSpec.Filter.Categories.Clear();
-                activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
-                activeSearchSpec.OrderBy.PersonalRelevance.Desc();
-                activeSearchSpec.PageSize = 1;
-
-                //set total count
-                Sl.R<SolrSearchQuestions>().Run(activeSearchSpec);
-            }
-        }
-
-        if (text == null && id == null && elementOnPage == null)
-        {
-            return GetViewBySearchSpec(activeSearchSpec);
-        }
-
-        var question = _questionRepo.GetById((int)id);
-        var questionCacheItem = EntityCache.GetQuestion((int)id);
-
-        activeSearchSpec.PageSize = 1;
-        if ((int)elementOnPage != -1)
-        {
-            activeSearchSpec.CurrentPage = (int)elementOnPage;
-        }
-
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(questionCacheItem, activeSearchSpec));
-
-        var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, questionCacheItem, SessionUser.User);
-
-        return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, questionCacheItem, activeSearchSpec));
-    }
-
     public EmptyResult ClearHistory()
     {
         _sessionUiData.VisitedQuestions = new QuestionHistory();
@@ -298,19 +218,19 @@ public class AnswerQuestionController : BaseController
         Sl.SaveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
     }
 
-    public ActionResult Next(string pager)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.NextPage(1);
-        return GetViewBySearchSpec(activeSearchSpec);
-    }
+    //public ActionResult Next(string pager)
+    //{
+    //    var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+    //    activeSearchSpec.NextPage(1);
+    //    return GetViewBySearchSpec(activeSearchSpec);
+    //}
 
-    public ActionResult Previous(string pager)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.PreviousPage(1);
-        return GetViewBySearchSpec(activeSearchSpec);
-    }
+    //public ActionResult Previous(string pager)
+    //{
+    //    var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+    //    activeSearchSpec.PreviousPage(1);
+    //    return GetViewBySearchSpec(activeSearchSpec);
+    //}
 
     //For MatchList Questions
     public string RenderAnswerBody(
@@ -451,19 +371,19 @@ public class AnswerQuestionController : BaseController
             isInLearningTab: config.IsInLearningTab, isInTestMode: config.IsInTestMode, counter: counter);
     }
 
-    public string RenderAnswerBodyByNextQuestion(string pager)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.NextPage(1);
-        return GetAnswerBodyBySearchSpec(activeSearchSpec);
-    }
+    //public string RenderAnswerBodyByNextQuestion(string pager)
+    //{
+    //    var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+    //    activeSearchSpec.NextPage(1);
+    //    return GetAnswerBodyBySearchSpec(activeSearchSpec);
+    //}
 
-    public string RenderAnswerBodyByPreviousQuestion(string pager)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.PreviousPage(1);
-        return GetAnswerBodyBySearchSpec(activeSearchSpec);
-    }
+    //public string RenderAnswerBodyByPreviousQuestion(string pager)
+    //{
+    //    var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+    //    activeSearchSpec.PreviousPage(1);
+    //    return GetAnswerBodyBySearchSpec(activeSearchSpec);
+    //}
 
     [SetThemeMenu(isLearningSessionPage: true)]
     public string RenderLearningSessionResult(LearningSession learningSession, bool isInTestMode = false)
@@ -561,44 +481,44 @@ public class AnswerQuestionController : BaseController
         }
     }
 
-    private string GetAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
-    {
-        QuestionCacheItem question;
+    //private string GetAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
+    //{
+    //    QuestionCacheItem question;
 
-        using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
-        {
-            question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
+    //    using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
+    //    {
+    //        question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
 
-            if (activeSearchSpec.HistoryItem != null)
-            {
-                if (activeSearchSpec.HistoryItem.Question != null)
-                {
-                    if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
-                    {
-                        question = EntityCache.GetQuestion(activeSearchSpec.HistoryItem.Question.Id);
-                    }
-                }
+    //        if (activeSearchSpec.HistoryItem != null)
+    //        {
+    //            if (activeSearchSpec.HistoryItem.Question != null)
+    //            {
+    //                if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
+    //                {
+    //                    question = EntityCache.GetQuestion(activeSearchSpec.HistoryItem.Question.Id);
+    //                }
+    //            }
 
-                activeSearchSpec.HistoryItem = null;
-            }
-        }
+    //            activeSearchSpec.HistoryItem = null;
+    //        }
+    //    }
 
-        var elementOnPage = activeSearchSpec.CurrentPage;
-        activeSearchSpec.PageSize = 1;
-        if (elementOnPage != -1)
-        {
-            activeSearchSpec.CurrentPage = elementOnPage;
-        }
+    //    var elementOnPage = activeSearchSpec.CurrentPage;
+    //    activeSearchSpec.PageSize = 1;
+    //    if (elementOnPage != -1)
+    //    {
+    //        activeSearchSpec.CurrentPage = elementOnPage;
+    //    }
 
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+    //    _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
-        var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, SessionUser.User);
-        var answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
+    //    var questionViewGuid = Guid.NewGuid();
+    //    Sl.SaveQuestionView.Run(questionViewGuid, question, SessionUser.User);
+    //    var answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
-        var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return GetQuestionPageData(answerQuestionModel, currentUrl, new SessionData());
-    }
+    //    var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
+    //    return GetQuestionPageData(answerQuestionModel, currentUrl, new SessionData());
+    //}
 
     private string GetQuestionPageData(
         AnswerQuestionModel answerQuestionModel,
@@ -672,36 +592,36 @@ public class AnswerQuestionController : BaseController
         return serializedPageData;
     }
 
-    private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
-    {
-        using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
-        {
-            var question = AnswerQuestionControllerSearch.Run(searchSpec);
+    //private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
+    //{
+    //    using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
+    //    {
+    //        var question = AnswerQuestionControllerSearch.Run(searchSpec);
 
-            if (searchSpec.HistoryItem != null)
-            {
-                if (searchSpec.HistoryItem.Question != null)
-                {
-                    if (searchSpec.HistoryItem.Question.Id != question.Id)
-                    {
-                        question = EntityCache.GetQuestion(searchSpec.HistoryItem.Question.Id);
-                    }
-                }
+    //        if (searchSpec.HistoryItem != null)
+    //        {
+    //            if (searchSpec.HistoryItem.Question != null)
+    //            {
+    //                if (searchSpec.HistoryItem.Question.Id != question.Id)
+    //                {
+    //                    question = EntityCache.GetQuestion(searchSpec.HistoryItem.Question.Id);
+    //                }
+    //            }
 
-                searchSpec.HistoryItem = null;
-            }
+    //            searchSpec.HistoryItem = null;
+    //        }
 
-            return RedirectToAction("Answer", Links.AnswerQuestionController,
-                new
-                {
-                    text = UriSegmentFriendlyQuestion.Run(question.Text),
-                    id = question.Id,
-                    elementOnPage = searchSpec.CurrentPage,
-                    pager = searchSpec.Key,
-                    category = ""
-                });
-        }
-    }
+    //        return RedirectToAction("Answer", Links.AnswerQuestionController,
+    //            new
+    //            {
+    //                text = UriSegmentFriendlyQuestion.Run(question.Text),
+    //                id = question.Id,
+    //                elementOnPage = searchSpec.CurrentPage,
+    //                pager = searchSpec.Key,
+    //                category = ""
+    //            });
+    //    }
+    //}
 
     public class SessionData
     {

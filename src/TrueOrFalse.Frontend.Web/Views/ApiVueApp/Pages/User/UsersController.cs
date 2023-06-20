@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
@@ -9,22 +10,22 @@ namespace VueApp;
 public class VueUsersController : BaseController
 {
     [HttpGet]
-    public JsonResult Get(
+    public async Task<JsonResult> Get(
         int page,
         int pageSize,
         string searchTerm = "",
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
     {
-        var solrResult = Sl.SolrSearchUsers.Run(searchTerm,
-            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
+        var result = await Sl.MeiliSearchUsers.GetUsersByPagerAsync(searchTerm,
+            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page },orderBy);
 
-        var users = EntityCache.GetUsersByIds(solrResult.UserIds);
+        var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
         var usersResult = users.Select(GetUserResult);
 
         return Json(new
         {
             users = usersResult.ToArray(),
-            totalItems = solrResult.Pager.TotalItems
+            totalItems = result.pager.TotalItems
         }, JsonRequestBehavior.AllowGet);
     }
 

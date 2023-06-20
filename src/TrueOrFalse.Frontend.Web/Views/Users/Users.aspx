@@ -36,11 +36,11 @@
                     <div class="row">
                         <div class="col-md-6">                    
                             <div class="pull-left form-group search-container">
-                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                                <% if(!String.IsNullOrEmpty("")){ %> 
                                     <div style="padding-bottom: 10px; font-size: large">
                                         Oder suchst du: 
-                                        <a href="<%= "/Nutzer/Suche/" + Model.Suggestion %>">
-                                            <%= Model.Suggestion %>
+                                        <a href="<%= "/Nutzer/Suche/" +"" %>">
+                                            <%= "" %>
                                         </a> ?
                                     </div>
                                 <% } %>

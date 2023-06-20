@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using NHibernate;
 using NHibernate.Criterion;
-using SolrNet.Impl.FacetQuerySerializers;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 

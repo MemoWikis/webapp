@@ -1,12 +1,7 @@
 ﻿using Autofac;
-using Autofac.Core;
-using AutofacContrib.SolrNet;
-using AutofacContrib.SolrNet.Config;
 using NHibernate;
 using NUnit.Framework;
 using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
-using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 [TestFixture]
@@ -59,28 +54,6 @@ public class BaseTest
         JobScheduler.EmptyMethodToCallConstructor();//Call here to have container with default solr cores registered (not suitable for unit testing) built first and overwritten afterwards 
 
         var builder = new ContainerBuilder();
-        builder.RegisterModule<AutofacCoreModule>();
-
-        var solrUrl = Settings.SolrUrl;
-        var cores = new SolrServers {
-            new SolrServerElement {
-                    Id = "question",
-                    DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
-                    Url = solrUrl + "tofQuestionTest"
-                },
-            new SolrServerElement {
-                    Id = "category",
-                    DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
-                    Url = solrUrl + "tofCategoryTest"
-                },
-            new SolrServerElement {
-                    Id = "users",
-                    DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
-                    Url = solrUrl + "tofUserTest"
-                }
-        };
-
-        builder.RegisterModule(new SolrNetModule(cores));
         _container = builder.Build();
         ServiceLocator.Init(_container);
         Sl.IsUnitTest = true;

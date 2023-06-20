@@ -48,7 +48,7 @@ public class UsersModel : BaseModel
 
         SearchResultModel = new UserSearchResultModel(this);
 
-        Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
+      
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
 
         TotalInResult = _sessionUiData.SearchSpecUser.TotalItems;
