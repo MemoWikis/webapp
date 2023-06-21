@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Seedworks.Lib.Persistence;
-using SolrNet.Impl;
 
 namespace TrueOrFalse.Search
 {//Todo: Mark to Delete

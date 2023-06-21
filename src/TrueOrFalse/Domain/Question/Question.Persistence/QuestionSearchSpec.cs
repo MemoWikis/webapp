@@ -19,13 +19,6 @@ public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, Questi
 
     public QuestionHistoryItem HistoryItem;
 
-    public string GetSuggestion()
-    {
-        if (SpellCheck == null)
-            return "";
-
-        return SpellCheck.GetSuggestion();
-    }
 }
 
 [Serializable]

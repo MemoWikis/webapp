@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using NHibernate.Mapping;
 using TrueOrFalse.Search;
 
 public class UsersControllerSearch
 {
     public IList<User> Run()
     {
-        var solrResult = Sl.SolrSearchUsers.Run(Sl.SessionUiData.SearchSpecUser);
-        return Sl.UserRepo.GetByIds(solrResult.UserIds.ToArray());
+      //is outdatet
+       return new List<User>(); 
     }
 }

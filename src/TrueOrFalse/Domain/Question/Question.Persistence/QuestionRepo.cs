@@ -9,11 +9,11 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class QuestionRepo : RepositoryDbBase<Question>
 {
-    private readonly SearchIndexQuestion _searchIndexQuestion;
 
-    public QuestionRepo(ISession session, SearchIndexQuestion searchIndexQuestion) : base(session)
+
+    public QuestionRepo(ISession session) : base(session)
     {
-        _searchIndexQuestion = searchIndexQuestion;
+       
     }
 
     public override void Create(Question question)
@@ -41,7 +41,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             ReputationUpdate.ForUser(question.Creator);
         }
 
-        _searchIndexQuestion.Update(question);
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         Sl.QuestionChangeRepo.AddCreateEntry(question);
@@ -50,7 +49,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public override void Delete(Question question)
     {
-        _searchIndexQuestion.Delete(question);
         base.Delete(question);
         Sl.QuestionChangeRepo.AddDeleteEntry(question);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().DeleteAsync(question));
@@ -248,8 +246,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .CreateSQLQuery(query)
             .List<int>();
         var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
-
-        _searchIndexQuestion.Update(question);
 
         if (merge)
         {
