@@ -7,13 +7,18 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class SearchController : Controller
+public class SearchController : BaseController
 {
 
     private readonly IGlobalSearch _search;
-    public SearchController(IGlobalSearch search)
+    private readonly PermissionCheck _permissionCheck;
+
+    public SearchController(IGlobalSearch search,
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck) :base(sessionUser)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
+        _permissionCheck = permissionCheck;
     }
 
     [HttpGet]
@@ -25,10 +30,10 @@ public class SearchController : Controller
         var elements = await _search.Go(term, type);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(topicItems, elements);
+            SearchHelper.AddTopicItems(topicItems, elements,_permissionCheck, UserId);
 
         if (elements.Questions.Any())
-            SearchHelper.AddQuestionItems(questionItems, elements);
+            SearchHelper.AddQuestionItems(questionItems, elements,_permissionCheck);
 
         if (elements.Users.Any())
             SearchHelper.AddUserItems(userItems, elements);
@@ -52,7 +57,7 @@ public class SearchController : Controller
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements);
+            SearchHelper.AddTopicItems(items, elements,_permissionCheck, UserId);
 
         return Json(new
         {
@@ -78,7 +83,7 @@ public class SearchController : Controller
             foreach (var categoryId in SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
-                recentlyUsedRelationTargetTopicIds.Add(SearchHelper.FillSearchCategoryItem(c));
+                recentlyUsedRelationTargetTopicIds.Add(SearchHelper.FillSearchCategoryItem(c, UserId));
             }
         }
 
@@ -87,7 +92,7 @@ public class SearchController : Controller
         return Json(new
         {
             success = true,
-            personalWiki = SearchHelper.FillSearchCategoryItem(personalWiki),
+            personalWiki = SearchHelper.FillSearchCategoryItem(personalWiki, UserId),
             addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
         });
     }

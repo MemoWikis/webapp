@@ -8,6 +8,12 @@ namespace VueApp;
 
 public class HistoryTopicDetailController : Controller
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public HistoryTopicDetailController(PermissionCheck permissionCheck)
+    {
+        _permissionCheck = permissionCheck;
+    }
 
     [HttpGet]
     public JsonResult Get(int topicId, int currentRevisionId, int firstEditId = 0)
@@ -19,7 +25,7 @@ public class HistoryTopicDetailController : Controller
 
         var previousRevision = firstEditId <= 0 ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId) : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > currentRevisionId);
-        var topicHistoryDetailModel = new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
+        var topicHistoryDetailModel = new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted,_permissionCheck);
 
         var result = new ChangeDetailResult
         {
@@ -97,7 +103,7 @@ public class HistoryTopicDetailController : Controller
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == selectedRevId);
         var previousRevision = listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > selectedRevId);
-        return new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
+        return new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted, _permissionCheck);
     }
 
 }

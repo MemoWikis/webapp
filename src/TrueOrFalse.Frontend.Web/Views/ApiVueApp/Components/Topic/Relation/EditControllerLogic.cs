@@ -14,12 +14,14 @@ public class EditControllerLogic
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
+    private readonly int _sessionUserId;
 
-    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck)
+    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck,int sessionUserId)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
         _isInstallationAdmin = isInstallationAdmin;
         _permissionCheck = permissionCheck;
+        _sessionUserId = sessionUserId;
     }
 
     public dynamic ValidateName(string name)
@@ -90,7 +92,7 @@ public class EditControllerLogic
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements);
+            SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         return new
         {
@@ -105,7 +107,7 @@ public class EditControllerLogic
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements);
+            SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         var wikiChildren = EntityCache.GetAllChildren(SessionUserLegacy.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();

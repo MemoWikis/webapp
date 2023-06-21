@@ -6,9 +6,11 @@ namespace VueApp;
 
 public class TopicToPrivateStoreController : BaseController
 {
-    public TopicToPrivateStoreController(SessionUser sessionUser) :base(sessionUser)
+    private readonly PermissionCheck _permissionCheck;
+
+    public TopicToPrivateStoreController(SessionUser sessionUser, PermissionCheck permissionCheck) :base(sessionUser)
     {
-        
+        _permissionCheck = permissionCheck;
     }
 
     [HttpGet]
@@ -18,16 +20,16 @@ public class TopicToPrivateStoreController : BaseController
         var topicCacheItem = EntityCache.GetCategory(topicId);
         var userCacheItem = SessionUserCache.GetItem(User_().Id);
 
-        if (!PermissionCheck.CanEdit(topicCacheItem))
+        if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
             {
                 success = false,
                 key = "missingRights"
             }, JsonRequestBehavior.AllowGet);
 
-        var aggregatedTopics = topicCacheItem.AggregatedCategories()
+        var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
-        var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(true)
+        var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
             .Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
@@ -97,14 +99,14 @@ public class TopicToPrivateStoreController : BaseController
     public JsonResult Set(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        if (!PermissionCheck.CanEdit(topicCacheItem))
+        if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
             {
                 success = false,
                 key = "missingRights"
             });
 
-        var aggregatedTopics = topicCacheItem.AggregatedCategories(false)
+        var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var topic = Sl.CategoryRepo.GetById(topicId);
         var pinCount = topic.TotalRelevancePersonalEntries;

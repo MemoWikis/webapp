@@ -9,6 +9,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel : BaseModel
 {
+    private readonly PermissionCheck _permissionCheck;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -46,8 +47,14 @@ public class CategoryHistoryDetailModel : BaseModel
 
     public CategoryChangeType ChangeType;
 
-    public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
+    public CategoryHistoryDetailModel(
+        CategoryChange currentRevision,
+        CategoryChange previousRevision,
+        CategoryChange nextRevision,
+        bool isCategoryDeleted,
+        PermissionCheck permissionCheck)
     {
+        _permissionCheck = permissionCheck;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
@@ -147,7 +154,7 @@ public class CategoryHistoryDetailModel : BaseModel
         }
 
         if (category != null && relatedCategory != null)
-            return PermissionCheck.CanView(category) && PermissionCheck.CanView(relatedCategory);
+            return _permissionCheck.CanView(category) && _permissionCheck.CanView(relatedCategory);
 
         return false;
     }

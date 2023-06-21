@@ -25,7 +25,7 @@ public class EditTopicRelationStoreController : BaseController
             });
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
-        var personalWikiItem = SearchHelper.FillSearchCategoryItem(personalWiki);
+        var personalWikiItem = SearchHelper.FillSearchCategoryItem(personalWiki,UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
 
         if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
@@ -33,7 +33,7 @@ public class EditTopicRelationStoreController : BaseController
             foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
-                recentlyUsedRelationTargetTopics.Add(SearchHelper.FillSearchCategoryItem(topicCacheItem));
+                recentlyUsedRelationTargetTopics.Add(SearchHelper.FillSearchCategoryItem(topicCacheItem, UserId));
             }
         }
 

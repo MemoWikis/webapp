@@ -4,24 +4,22 @@ using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
 
-//todo: (DaMa) kann ausgelagert werden
-
 public class SearchHelper : Controller
 {
-    public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck, int userId)
     {
         items.AddRange(
-            elements.Categories.Where(PermissionCheck.CanView).Select(FillSearchTopicItem));
+            elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
     }
 
-    public static SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic)
+    public static SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic, int userId)
     {
         return new SearchTopicItem
         {
             Id = topic.Id,
             Name = topic.Name,
             Url = Links.CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(),
+            QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
@@ -29,14 +27,14 @@ public class SearchHelper : Controller
         };
     }
 
-    public static SearchCategoryItem FillSearchCategoryItem(CategoryCacheItem c)
+    public static SearchCategoryItem FillSearchCategoryItem(CategoryCacheItem c, int userId)
     {
         return new SearchCategoryItem
         {
             Id = c.Id,
             Name = c.Name,
             Url = Links.CategoryDetail(c.Name, c.Id),
-            QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(),
+            QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
             IconHtml = GetIconHtml(c),
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category))
@@ -45,10 +43,10 @@ public class SearchHelper : Controller
         };
     }
 
-    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck)
     {
         items.AddRange(
-            elements.Questions.Where(q => PermissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
+            elements.Questions.Where(q => permissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
             {
                 Id = q.Id,
                 Name = q.Text.Wrap(200),
