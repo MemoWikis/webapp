@@ -88,7 +88,7 @@ public class CategoryApiController : BaseController
         }
         else
         {
-            var categoryIds = (await _globalSearch.GoAllCategories(term,5)).Categories.Select(c => c.Id);
+            var categoryIds = (await _globalSearch.GoNumberOfCategories(term,5)).Categories.Select(c => c.Id);
             categories = _categoryRepo.GetByIds(categoryIds.ToArray());
         }
 

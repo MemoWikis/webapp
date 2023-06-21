@@ -6,5 +6,5 @@ public interface IGlobalSearch
 {
     Task<GlobalSearchResult> Go(string term, string type);
     Task<GlobalSearchResult> GoAllCategories(string term, int[] categoriesToFilter = null);
-    Task<GlobalSearchResult> GoAllCategories(string term, int size = 5);
+    Task<GlobalSearchResult> GoNumberOfCategories(string term, int size = 5);
 }
