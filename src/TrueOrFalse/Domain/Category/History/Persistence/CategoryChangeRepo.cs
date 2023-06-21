@@ -127,6 +127,37 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
         return categoryChangeList;
     }
+
+    public IList<CategoryChange> GetForTopic(int categoryId, bool filterUsersForSidebar = false)
+    {
+        Category aliasCategory = null;
+        var categoryCacheItem = EntityCache.GetCategory(categoryId);
+
+        var query = _session
+            .QueryOver<CategoryChange>()
+            .Where(c => c.Category.Id == categoryId);
+
+        if (filterUsersForSidebar)
+            query.And(c => c.ShowInSidebar);
+
+        query
+            .Left.JoinAlias(c => c.Category, () => aliasCategory);
+
+        var categoryChangeList = query
+            .List();
+
+        categoryChangeList = categoryChangeList.Where(cc =>
+                cc.Category.Id == categoryId ||
+                cc.Type != CategoryChangeType.Text &&
+                cc.Type != CategoryChangeType.Image &&
+                cc.Type != CategoryChangeType.Restore &&
+                cc.Type != CategoryChangeType.Update &&
+                cc.Type != CategoryChangeType.Relations)
+            .ToList();
+
+        return categoryChangeList;
+    }
+
     public IList<int> GetAuthorsOfCategory(int categoryId)
     {
         var sb = "SELECT Author_id FROM categorychange " +

@@ -328,7 +328,7 @@
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\GoogleController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\DetailController.cs" />
-    <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverview.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\OverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Question\QuestionLandingPageController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Membership\StripeAdminstration.cs" />

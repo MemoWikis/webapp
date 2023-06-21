@@ -65,7 +65,7 @@ public class VueUserController : BaseController
     {
         var user = EntityCache.GetUserById(id);
 
-        if (user.ShowWishKnowledge || SessionUser.UserId == user.Id)
+        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == SessionUser.UserId))
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)

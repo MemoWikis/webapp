@@ -1,29 +1,17 @@
 <script lang="ts" setup>
-import { ImageFormat } from '~~/components/image/imageFormatEnum.js';
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
+import { Change } from '~~/components/topic/history/change.vue'
 
 const route = useRoute()
 
-interface Author {
-    id: number
-    name: string
-    imgUrl: string
-}
-
-interface Change {
-    topicId: number
-    author: Author
-    elapsedTime: string
-    topicChangeType: TopicChangeType
-    revisionId: number
-    relationAdded?: boolean
-    affectedTopicId?: number
-    affectedTopicName?: string
-    affectedTopicNameEncoded?: string
-}
-
 interface Day {
     date: string
+    changes: Change[]
+    groupedChanges?: GroupedChanges[]
+}
+
+interface GroupedChanges {
+    collapsed: boolean
     changes: Change[]
 }
 
@@ -36,7 +24,7 @@ const { $logger } = useNuxtApp()
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: historyResult } = await useFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
+const { data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
@@ -46,44 +34,53 @@ const { data: historyResult } = await useFetch<HistoryResult>(`/apiVue/HistoryTo
         }
     },
     onResponseError(context) {
-        const { $logger } = useNuxtApp()
-
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
     },
 })
 
-function getChangeTypeText(change: Change) {
-    switch (change.topicChangeType) {
-        case TopicChangeType.Create:
-            return 'Erstellt'
-        case TopicChangeType.Delete:
-            return 'Gelöscht'
-        case TopicChangeType.Image:
-            return 'Bild Update'
-        case TopicChangeType.Moved:
-            return 'Verschoben'
-        case TopicChangeType.Privatized:
-            return 'Auf Privat gestellt'
-        case TopicChangeType.Published:
-            return 'Veröffentlicht'
-        case TopicChangeType.Relations:
-            if (change.relationAdded)
-                return 'Verknüpfung hinzugefügt'
-            else
-                return 'Verknüpfung entfernt'
-        case TopicChangeType.Renamed:
-            return 'Umbenannt'
-        case TopicChangeType.Restore:
-            return 'Wiederhergestellt'
-        case TopicChangeType.Text:
-            return 'Inhalt'
-        case TopicChangeType.Update:
-            return 'Update'
-        default: return 'Update'
+onMounted(() => {
+    if (historyResult.value != null) {
+        if (historyResult.value.days.length > 0)
+            buildGroupedChanges(historyResult.value.days)
     }
+})
+
+function buildGroupedChanges(days: Day[]) {
+    days.forEach((d) => {
+        let currentGroupIndex = 0
+        const newGroupedChange = {
+            collapsed: true,
+            changes: []
+        }
+        d.groupedChanges = [newGroupedChange]
+        d.changes.forEach((c) => {
+            if (d.groupedChanges != null && d.groupedChanges.length) {
+                let currentGroupChanges = d.groupedChanges[currentGroupIndex].changes
+
+                if (currentGroupChanges.length == 0) {
+                    currentGroupChanges.push(c)
+
+                } else {
+                    if (currentGroupChanges[0].topicId == c.topicId &&
+                        currentGroupChanges[0].topicChangeType == TopicChangeType.Text &&
+                        currentGroupChanges[0].author.id == c.author.id) {
+                        currentGroupChanges.push(c)
+                    } else {
+                        currentGroupIndex++
+                        d.groupedChanges.push(newGroupedChange)
+                    }
+                }
+            }
+        })
+    })
 }
-const { $urlHelper } = useNuxtApp()
+
+
+watch(historyResult, (val) => {
+    if (val != null && val.days.length > 0)
+        buildGroupedChanges(val.days)
+}, { deep: true })
+
 </script>
 
 <template>
@@ -91,37 +88,41 @@ const { $urlHelper } = useNuxtApp()
         <div class="row main-page">
             <div class="col-xs-12" v-if="historyResult">
                 <h1>{{ historyResult.topicName }}</h1>
-            </div>
-            <div class="category-change-day col-xs-12 row" v-if="historyResult" v-for="day in historyResult.days">
-                <div class="col-xs-12">
-                    <h3>{{ day.date }}</h3>
+                <div>
+                    <button class="memo-button btn btn-link link-to-all">
+                        <NuxtLink to="/Historie/Themen">
+                            Bearbeitungshistorie aller Themen
+                        </NuxtLink>
+                    </button>
                 </div>
-                <template v-for="change, i in day.changes">
-                    <div class="col-xs-12 row change-detail-model" :class="{ 'last-detail': i == day.changes.length - 1 }"
-                        v-if="change.topicId == parseInt(route.params.id.toString())">
-                        <div class="col-xs-3">
-                            <NuxtLink v-if="change.author.id > 0"
-                                :to="$urlHelper.getUserUrl(change.author.name, change.author.id)"
-                                class="category-change-author">
-                                <Image :src="change.author.imgUrl" :format="ImageFormat.Author"
-                                    class="category-change-author-img" />
-                                {{ change.author.name }}
-                            </NuxtLink>
-                        </div>
-                        <div class="col-xs-3">
-                            {{ change.elapsedTime }}
-                        </div>
-
-                        <div class="col-xs-6 change-detail">
-                            <div class="change-detail-label">{{ getChangeTypeText(change) }}</div>
-                            <div v-if="change.topicChangeType == TopicChangeType.Relations">
-                                {{ change.affectedTopicName }}
-                            </div>
-                        </div>
-
+            </div>
+            <div class="col-xs-12">
+                <div class="category-change-day row" v-if="historyResult" v-for="day, dIndex in historyResult.days">
+                    <div class="col-xs-12">
+                        <h3>{{ day.date }}</h3>
                     </div>
-                </template>
+                    <div class="col-xs-12">
+                        <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
 
+                            <TopicHistoryChange :change="g.changes[0]" :group-index="gcIndex"
+                                :class="{ 'is-group': g.changes.length > 1 }"
+                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
+                                @click="g.collapsed = !g.collapsed"
+                                :first-edit-id="g.changes[g.changes.length - 1].revisionId">
+                                <template v-slot:extras v-if="g.changes.length > 1">
+                                    <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
+                                    <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
+                                </template>
+                            </TopicHistoryChange>
+                            <div v-if="g.changes.length > 1 && !g.collapsed">
+                                <TopicHistoryChange v-for="c, i in g.changes" :change="c" :group-index="i"
+                                    :is-last="i == g.changes.length - 1" />
+                            </div>
+
+                        </template>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -130,260 +131,21 @@ const { $urlHelper } = useNuxtApp()
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.change-detail-model {
-    border: 1px solid silver;
-    margin: 0px;
-    padding: 10px;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    color: @memo-grey-dark;
-    flex-wrap: wrap;
-    border-bottom: none;
+.is-group {
+    cursor: pointer;
+    background: white;
 
-    &.last-detail {
-        border-bottom: 1px solid silver;
+    &:hover {
+        filter: brightness(0.95)
     }
 
-    .col-xs-3 {
-        height: 100%;
-        display: flex;
-        align-items: center;
-
-        a {
-            margin-right: 4px;
-        }
+    &:active {
+        filter: brightness(0.85)
     }
+}
 
-    .allThemesHistory {
-        margin-top: 10px;
-    }
-
-    .editing-history {
-        margin-top: 10px;
-    }
-
-    @media screen and (max-width: 1199px) {
-        .c-changes-overview {
-            margin-top: 10px;
-        }
-    }
-
-
-    @media screen and (max-width: 650px) {
-        .col-xs-4 {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .c-changes-overview,
-        .editing-history {
-            margin-top: 0px;
-        }
-    }
-
-    @media screen and (max-width: 603px) {
-        .editing-history {
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (max-width: 733px) {
-        .display-changes {
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (max-width: 550px) {
-
-        .col-xs-3,
-        .col-xs-6 {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .display-changes {
-            margin-top: 0px;
-        }
-    }
-
-    @media screen and (max-width: 406px) {
-        .c-changes-overview {
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (max-width: 401px) {
-        .display-changes {
-            margin-top: 10px;
-        }
-    }
-
-    .is-deleted {
-        background-color: #ccc;
-    }
-
-    .btn {
-        margin-left: auto;
-        margin-right: 10px;
-    }
-
-    #Typ {
-        color: #2C5FB2;
-        font-weight: 900;
-        padding-top: 10px;
-    }
-
-    .change-detail {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-
-        .change-detail-sub {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            padding-right: 10px;
-        }
-
-        .change-detail-label {
-            background: @memo-grey-lighter;
-            font-size: 12px;
-            text-align: center;
-            font-weight: 600;
-            padding: 4px 12px;
-            justify-self: flex-start;
-            white-space: nowrap;
-            margin-right: 8px;
-        }
-
-        .change-detail-additional-info {
-            min-width: 0;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        .change-detail-spacer {
-            min-width: 22px;
-        }
-
-        &.relation-detail {
-            flex-wrap: wrap-reverse;
-
-            .related-category-name {
-                display: flex;
-                align-items: center;
-                padding: 4px 0;
-
-                .history-link {
-                    margin-right: 4px;
-                }
-            }
-
-            .history-link {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-                display: inline-block;
-            }
-        }
-    }
-
-    &.panel-group {
-        padding: 0px;
-
-        .panel {
-            border: none;
-            border-bottom: none;
-            border-radius: 0;
-            box-shadow: none;
-            width: 100%;
-            overflow: visible;
-
-            .panel-heading {
-                border: none;
-                background: none;
-                border-radius: 0;
-                cursor: pointer;
-                min-height: 60px;
-                display: flex;
-                align-items: center;
-                color: @memo-grey-dark;
-                transition: background-color ease-in-out 0.2s;
-                flex-wrap: wrap;
-
-                &:hover {
-                    background-color: fade(@memo-grey-lighter, 20%);
-                }
-
-                &.collapsed {
-                    .fa-chevron-up {
-                        display: none;
-                    }
-
-                    .fa-chevron-down {
-                        display: block;
-                    }
-                }
-
-                .fa-chevron-up {
-                    display: block;
-                }
-
-                .fa-chevron-down {
-                    display: none;
-                }
-
-                .chevron-container {
-                    width: 27px;
-                    text-align: center;
-                    align-items: center;
-                    justify-content: center;
-                    display: flex;
-                }
-            }
-
-            img.history-author,
-            img.history-category {
-                margin-left: 5px;
-                width: 20px;
-                min-width: 20px;
-            }
-
-            .list-group {
-                overflow: hidden;
-
-                .list-group-item {
-                    min-height: 60px;
-                    border-radius: 0 !important;
-                    display: flex;
-                    align-items: center;
-
-                    &:last-child {
-                        border-bottom: none;
-                        border-radius: 0;
-                    }
-
-                    .change-detail-spacer {
-                        width: 26px;
-                    }
-                }
-            }
-        }
-    }
-
-    .history-date {
-        flex-wrap: wrap;
-    }
-
-    .history-link {
-
-        .history-author,
-        .history-category {
-            border-radius: 10px;
-            width: 20px;
-            min-width: 20px;
-        }
-    }
+.link-to-all {
+    border: 1px solid @memo-grey-lighter;
+    text-decoration: none;
 }
 </style>

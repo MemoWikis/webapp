@@ -1,42 +1,32 @@
 <script lang="ts" setup>
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
-import { Change } from '~~/components/topic/history/all/change.vue'
+import { ImageFormat } from '~/components/image/imageFormatEnum'
 
-interface Day {
-    date: string
-    changes: Change[]
-    groupedChanges?: GroupedChanges[]
+export interface Change {
+    topicId: number
+    topicName: string
+    author: Author
+    elapsedTime: string
+    topicChangeType: TopicChangeType
+    revisionId: number
+    relationAdded?: boolean
+    affectedTopicId?: number
+    affectedTopicName?: string
+    affectedTopicNameEncoded?: string
 }
 
-interface GroupedChanges {
-    collapsed: boolean
-    changes: Change[]
+interface Author {
+    id: number
+    name: string
+    imgUrl: string
 }
-
-const page = ref(1)
-const url = computed(() => {
-    return `/apiVue/HistoryTopicAllTopicsOverview/Get?page=${page.value}`
-})
-const config = useRuntimeConfig()
-const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { $logger, $urlHelper } = useNuxtApp()
-const { data: days } = await useLazyFetch<Day[]>(url, {
-    mode: 'cors',
-    credentials: 'include',
-    onRequest({ options }) {
-        if (process.server) {
-            options.headers = headers
-            options.baseURL = config.public.serverBase
-        }
-    },
-    onResponse(result) {
-        console.log(result.response._data)
-    },
-    onResponseError(context) {
-        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-    },
-})
-
+interface Props {
+    change: Change
+    groupIndex: number
+    isLast: boolean
+    firstEditId?: number
+}
+const props = defineProps<Props>()
 
 function getChangeTypeText(change: Change) {
     switch (change.topicChangeType) {
@@ -68,83 +58,46 @@ function getChangeTypeText(change: Change) {
         default: return 'Update'
     }
 }
-onMounted(() => {
-    if (days.value != null) {
-        if (days.value.length > 0)
-            buildGroupedChanges(days.value)
-    }
-})
 
-function buildGroupedChanges(days: Day[]) {
-    days.forEach((d) => {
-        let currentGroupIndex = 0
-        const newGroupedChange = {
-            collapsed: true,
-            changes: []
-        }
-        d.groupedChanges = [newGroupedChange]
-        d.changes.forEach((c) => {
-            if (d.groupedChanges != null && d.groupedChanges.length) {
-                let currentGroupChanges = d.groupedChanges[currentGroupIndex].changes
-
-                if (currentGroupChanges.length == 0) {
-                    currentGroupChanges.push(c)
-
-                } else {
-                    if (currentGroupChanges[0].topicId == c.topicId &&
-                        currentGroupChanges[0].topicChangeType == TopicChangeType.Text &&
-                        currentGroupChanges[0].author.id == c.author.id) {
-                        currentGroupChanges.push(c)
-                    } else {
-                        currentGroupIndex++
-                        d.groupedChanges.push(newGroupedChange)
-                    }
-                }
-            }
-        })
-    })
-}
-
-
-watch(days, (val) => {
-    if (val != null && val.length > 0)
-        buildGroupedChanges(val)
-}, { deep: true })
-
+const route = useRoute()
+const { $urlHelper } = useNuxtApp()
+const slots = useSlots()
 
 </script>
 
 <template>
-    <div class="container">
-        <div class="main-page row">
-            <h1>Bearbeitungshistorie aller Themen</h1>
-            <div class="category-change-day col-xs-12 row" v-if="days" v-for="day, dIndex in days">
-                <div class="col-xs-12">
-                    <h3>{{ day.date }}</h3>
-                </div>
-                <div class="colx-xs-12">
+    <div class="row change-detail-model" :class="{ 'last-detail': isLast }">
+        <div class="col-xs-3">
+            <NuxtLink v-if="change.author.id > 0" :to="$urlHelper.getTopicUrl(change.topicName, change.topicId)"
+                class="category-change-author">
+                <Image :src="change.topicImgUrl" :format="ImageFormat.Topic" class="category-change-author-img" />
+                {{ change.topicName }}
+            </NuxtLink>
+        </div>
+        <div class="col-xs-3">
+            <NuxtLink v-if="change.author.id > 0" :to="$urlHelper.getUserUrl(change.author.name, change.author.id)"
+                class="category-change-author">
+                {{ change.author.name }}
+            </NuxtLink>
+            um {{ change.timeCreated }}
+        </div>
 
-                    <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
-
-                        <TopicHistoryAllChange :change="g.changes[0]" :group-index="gcIndex"
-                            :class="{ 'is-group': g.changes.length > 1 }"
-                            :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
-                            @click="g.collapsed = !g.collapsed" :first-edit-id="g.changes[g.changes.length - 1].revisionId">
-                            <template v-slot:extras v-if="g.changes.length > 1">
-                                <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
-                                <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
-                            </template>
-                        </TopicHistoryAllChange>
-                        <div v-if="g.changes.length > 1 && !g.collapsed">
-                            <TopicHistoryAllChange v-for="c, i in g.changes" :change="c" :group-index="i"
-                                :is-last="i == g.changes.length - 1" />
-                        </div>
-
-                    </template>
-                </div>
-
-
+        <div class="col-xs-6 change-detail">
+            <div class="change-detail-label">{{ getChangeTypeText(change) }}</div>
+            <div v-if="change.topicChangeType == TopicChangeType.Relations">
+                {{ change.affectedTopicName }}
             </div>
+
+            <button class="memo-button btn btn-primary" v-if="change.topicChangeType == TopicChangeType.Text">
+                <NuxtLink v-if="change.previousRevisionId > 0"
+                    :to="`/Historie/Thema/${change.topicId}/${change.revisionId}/${change.previousRevisionId}`">
+                    Ansehen
+                </NuxtLink>
+                <NuxtLink v-else :to="`/Historie/Thema/${change.topicId}/${change.revisionId}`">
+                    Ansehen
+                </NuxtLink>
+            </button>
+
         </div>
 
     </div>
@@ -408,5 +361,13 @@ watch(days, (val) => {
             min-width: 20px;
         }
     }
+}
+
+.extras {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

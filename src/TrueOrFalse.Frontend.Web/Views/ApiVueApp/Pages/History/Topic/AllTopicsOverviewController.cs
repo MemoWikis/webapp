@@ -1,44 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web.Mvc;
-using Seedworks.Lib.Persistence;
-using TrueOrFalse;
-using TrueOrFalse.Search;
+using NHibernate;
 using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class HistoryTopicOverviewController : BaseController
+public class HistoryTopicAllTopicsOverviewController : BaseController
 {
-    private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
+    private IOrderedEnumerable<CategoryChange> _orderedTopicChangesOnPage;
 
     [HttpGet]
-    public JsonResult Get(int id)
+    public JsonResult Get(int page)
     {
-        var topic = EntityCache.GetCategory(id);
 
-        if (PermissionCheck.CanView(topic))
-        {
-            _allOrderedTopicChanges = Sl.CategoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
+        const int revisionsToShow = 100;
+        var revisionsToSkip = (page - 1) * revisionsToShow;
+        var query = $@"SELECT * FROM CategoryChange cc ORDER BY cc.DateCreated DESC LIMIT {revisionsToSkip},{revisionsToShow}";
+        _orderedTopicChangesOnPage = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange)).List<CategoryChange>().OrderBy(c => c.Id);
+            
+        var days = _orderedTopicChangesOnPage
+            .Where(ChangeVisibilityCheck)
+            .GroupBy(change => change.DateCreated.Date)
+            .OrderByDescending(group => group.Key)
+            .Select(group => GetDay(
+                group.Key,
+                group.OrderByDescending(g => g.DateCreated).ToList()))
+            .ToArray();
 
-            var days = _allOrderedTopicChanges
-                .GroupBy(change => change.DateCreated.Date)
-                .OrderByDescending(group => group.Key)
-                .Select(group => GetDay(
-                    group.Key,
-                    group.OrderByDescending(g => g.DateCreated).ToList())).ToArray();
 
-            return Json(new
-            {
-                topicName = topic.Name,
-                topicNameEncoded = UriSanitizer.Run(topic.Name),
-                days = days
-            }, JsonRequestBehavior.AllowGet);
-        }
+        return Json(days, JsonRequestBehavior.AllowGet);
+    }
 
-        return Json(null, JsonRequestBehavior.AllowGet);
+    private bool ChangeVisibilityCheck(CategoryChange change)
+    {
+        return change.Category.Id > 0 && 
+               PermissionCheck.CanView(change.Category) &&
+               PermissionCheck.CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
     }
 
     public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
@@ -71,25 +70,27 @@ public class HistoryTopicOverviewController : BaseController
         return new Author
         {
             id = author.Id,
-            name = author.Name,
-            imgUrl = new UserImageSettings(author.Id).GetUrl_50px_square(author).Url,
+            name = author.Name
         };
     }
 
     public Change SetChange(CategoryChange topicChange)
     {
+        
         var change = new Change
         {
             topicId = topicChange.Category.Id,
+            topicName = topicChange.Category.Name,
+            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id).GetUrl_50px().Url,
             author = SetAuthor(topicChange),
-            elapsedTime = TimeElapsedAsText.Run(topicChange.DateCreated),
+            timeCreated = topicChange.DateCreated.ToString("HH:mm"),
             topicChangeType = topicChange.Type,
-            revisionId = topicChange.Id
+            revisionId = topicChange.Id,
         };
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
-            var previousChange = _allOrderedTopicChanges.LastOrDefault(c => c.Id < topicChange.Id);
+            var previousChange = _orderedTopicChangesOnPage.LastOrDefault(c => c.Id < topicChange.Id && topicChange.Category.Id == c.Category.Id);
             if (previousChange != null)
             {
                 var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data).CategoryRelations;
@@ -141,14 +142,15 @@ public class HistoryTopicOverviewController : BaseController
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string imgUrl { get; set; }
     }
 
     public class Change
     {
         public int topicId { get; set; }
+        public string topicName { get; set; }
+        public string topicImgUrl { get; set; }
         public Author author { get; set; }
-        public string elapsedTime { get; set; }
+        public string timeCreated { get; set; }
         public CategoryChangeType topicChangeType { get; set; } = CategoryChangeType.Update;
         public int revisionId { get; set; }
         public bool relationAdded { get; set; }
