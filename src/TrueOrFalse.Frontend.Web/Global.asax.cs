@@ -91,7 +91,11 @@ public class Global : HttpApplication
         }
         else
         {
+            var stopwatch = Stopwatch.StartNew();
+            Logg.r().Information("=== Init EntityCache (start) ===============================");
             EntityCache.Init();
+            Logg.r().Information($"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
+            stopwatch.Stop();
         }
 
         Sl.Resolve<ISession>().Close();
