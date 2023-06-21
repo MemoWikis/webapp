@@ -60,8 +60,7 @@ public class AnswerQuestionDetailsController: BaseController
             creator = new
             {
                 id = question.CreatorId,
-                name = question.Creator.Name,
-                encodedName = UriSanitizer.Run(question.Creator.Name)
+                name = question.Creator.Name
             },
             creationDate = DateTimeUtils.TimeElapsedAsText(question.DateCreated),
             totalViewCount = question.TotalViews,

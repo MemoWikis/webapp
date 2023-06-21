@@ -5,7 +5,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
-const { $logger } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp()
 
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
@@ -65,14 +65,14 @@ if (topic.value != null) {
             if (topic.value == null)
                 return
             if (t == Tab.Topic) {
-                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}`)
+                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
             }
             else if (t == Tab.Learning && route.params.questionId != null)
-                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Lernen/${route.params.questionId}`)
+                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
             else if (t == Tab.Learning)
-                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Lernen`)
+                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
             else if (t == Tab.Analytics)
-                history.pushState(null, topic.value.Name, `/${topic.value.EncodedName}/${topic.value.Id}/Analytics`)
+                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
         })
 
         watch(() => topicStore.name, () => {
@@ -113,7 +113,7 @@ useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: `${config.public.serverBase}/${topic.value?.EncodedName}/${topic.value?.Id}`,
+            href: `${config.public.serverBase}/${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
         },
     ],
     meta: [
@@ -127,7 +127,7 @@ useHead(() => ({
         },
         {
             property: 'og:url',
-            content: `${config.public.serverBase}/${topic.value?.EncodedName}/${topic.value?.Id}`
+            content: `${config.public.serverBase}/${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
         },
         {
             property: 'og:type',

@@ -51,7 +51,6 @@ public class TopicControllerLogic
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 DirectQuestionCount = topic.GetCountQuestionsAggregated(true),
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-                EncodedName = UriSanitizer.Run(topic.Name),
                 SearchTopicItem = FillMiniTopicItem(topic),
                 MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
                 KnowledgeSummary = new
@@ -105,7 +104,6 @@ public class TopicControllerLogic
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache().Count,
                 DirectQuestionCount = topic.GetCountQuestionsAggregated(true),
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-                EncodedName = UriSanitizer.Run(topic.Name),
                 SearchTopicItem = FillMiniTopicItem(topic),
                 MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
                 KnowledgeSummary = new

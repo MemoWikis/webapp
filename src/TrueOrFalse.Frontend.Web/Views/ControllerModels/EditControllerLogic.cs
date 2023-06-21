@@ -58,7 +58,7 @@ public class EditControllerLogic
 
     public dynamic QuickCreate(string name, int parentTopicId)
     {
-        if (!PremiumCheck.CanSavePrivateTopic())
+        if (!LimitCheck.CanSavePrivateTopic())
         {
             return new
             {

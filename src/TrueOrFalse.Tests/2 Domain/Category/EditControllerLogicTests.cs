@@ -50,7 +50,7 @@ public class EditControllerLogicTests : BaseTest
             })
             .Persist();
 
-        var field = typeof(PremiumCheck)
+        var field = typeof(LimitCheck)
             .GetField("_privateTopicsQuantity", BindingFlags.Static | BindingFlags.NonPublic);
         field.SetValue(null, 2);
 
@@ -106,7 +106,7 @@ public class EditControllerLogicTests : BaseTest
             })
             .Persist();
 
-        var field = typeof(PremiumCheck).GetField("_privateTopicsQuantity",
+        var field = typeof(LimitCheck).GetField("_privateTopicsQuantity",
             BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
 
@@ -147,7 +147,7 @@ public class EditControllerLogicTests : BaseTest
             })
             .Persist();
 
-        var field = typeof(PremiumCheck).GetField("_privateTopicsQuantity",
+        var field = typeof(LimitCheck).GetField("_privateTopicsQuantity",
             BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
 

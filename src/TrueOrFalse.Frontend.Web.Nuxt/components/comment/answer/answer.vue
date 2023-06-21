@@ -11,6 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const readMore = ref(false)
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const readMore = ref(false)
         <div class="col-sm-2 hidden-xs"></div>
         <div class="col-xs-12 col-sm-10 answerUserDetails" v-bind:class="{ commentUserDetails: props.lastAnswer }">
             <div>
-                <NuxtLink :to="`/Nutzer/${props.answer.creatorEncodedName}/${props.answer.creatorId}`"
+                <NuxtLink :to="$urlHelper.getUserUrl(props.answer.creatorName, props.answer.creatorId)"
                     class="comment-header">
                     <Image class="commentUserImg" :src="props.answer.creatorImgUrl" :format="ImageFormat.Author" />
                     <span class="commentUserName">{{ props.answer.creatorName }}</span>

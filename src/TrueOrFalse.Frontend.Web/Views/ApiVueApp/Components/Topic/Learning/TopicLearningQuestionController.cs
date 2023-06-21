@@ -30,7 +30,6 @@ public class TopicLearningQuestionController: BaseController
                 extendedAnswer = question.DescriptionHtml ?? "",
                 authorName = author.Name,
                 authorId = author.Id,
-                authorEncodedName = UriSanitizer.Run(author.Name, 50),
                 authorImageUrl = authorImage.Url,
                 extendedQuestion = question.TextExtendedHtml ?? "",
                 commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)

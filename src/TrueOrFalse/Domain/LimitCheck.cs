@@ -3,11 +3,21 @@ using System.Linq;
 
 namespace TrueOrFalse.Domain;
 
-public class PremiumCheck
+public class LimitCheck
 {
     private static readonly int _privateQuestionsQuantity = 20;
     private static readonly int _privateTopicsQuantity = 10;
     private static readonly int _wishCountKnowledge = 50;
+
+    public static dynamic GetBasicLimits()
+    {
+        return new
+        {
+            maxPrivateTopicCount = _privateTopicsQuantity,
+            maxPrivateQuestionCount = _privateQuestionsQuantity,
+            maxWishknowledgeCount = _wishCountKnowledge
+        };
+    }
 
     public static bool CanAddNewKnowledge()
     {

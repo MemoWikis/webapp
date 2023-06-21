@@ -33,7 +33,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .First(q => q.Text.Equals(nameQuestion3)).Id;
 
 
-        var field = typeof(PremiumCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
+        var field = typeof(LimitCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
 
         var result1 = new QuestionPinStoreControllerLogic().Pin(question1Id);
@@ -72,7 +72,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .First(q => q.Text.Equals(nameQuestion3)).Id;
 
 
-        var field = typeof(PremiumCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
+        var field = typeof(LimitCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
 
         var result1 = new QuestionPinStoreControllerLogic().Pin(question1Id);

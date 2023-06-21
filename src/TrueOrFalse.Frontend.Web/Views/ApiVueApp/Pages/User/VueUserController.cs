@@ -77,8 +77,7 @@ public class VueUserController : BaseController
                 questions = wishQuestions.Select(q => new
                 {
                     title = q.GetShortTitle(200),
-                    encodedPrimaryTopicName =
-                        UriSanitizer.Run(q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Name),
+                    primaryTopicName =q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Name,
                     primaryTopicId = q.CategoriesVisibleToCurrentUser().LastOrDefault()?.Id,
                     id = q.Id
 
@@ -86,7 +85,6 @@ public class VueUserController : BaseController
                 topics = wishQuestions.QuestionsInCategories().Select(t => new
                 {
                     name = t.CategoryCacheItem.Name,
-                    encodedName = UriSanitizer.Run(t.CategoryCacheItem.Name),
                     id = t.CategoryCacheItem.Id,
                     questionCount = t.CategoryCacheItem.CountQuestions
                 }).ToArray()

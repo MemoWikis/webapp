@@ -54,7 +54,6 @@ function abbreviateNumber(val: number): string {
 
 const authorName = ref('')
 const authorImageUrl = ref('')
-const authorEncodedName = ref('')
 
 const extendedQuestion = ref('')
 const commentCount = ref(0)
@@ -71,7 +70,6 @@ interface QuestionDataResult {
     extendedAnswer?: string
     authorName: string
     authorId: number
-    authorEncodedName: string
     authorImageUrl: string
     extendedQuestion: string
     commentCount: number
@@ -110,7 +108,6 @@ async function loadQuestionData() {
 
         authorName.value = result.data.authorName
         authorImageUrl.value = result.data.authorImageUrl
-        authorEncodedName.value = result.data.authorEncodedName
         extendedQuestion.value = `<div>${result.data.extendedQuestion}</div>`
         commentCount.value = result.data.commentCount
         isCreator.value = result.data.isCreator && userStore.isLoggedIn

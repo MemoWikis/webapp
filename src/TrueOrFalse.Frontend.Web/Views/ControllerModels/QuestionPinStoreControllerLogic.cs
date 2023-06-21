@@ -4,14 +4,14 @@ public class QuestionPinStoreControllerLogic
 {
     public dynamic Pin(int id)
     {
-        if (!PremiumCheck.CanAddNewKnowledge())
+        if (SessionUser.IsLoggedIn)
         {
-            return new { success = false, key = "cantAddKnowledge" };
+            return new { success = false, key = "notLoggedIn" };
         }
 
-        if (SessionUser.User == null)
+        if (!LimitCheck.CanAddNewKnowledge())
         {
-            return new { success = false, key = "" };
+            return new { success = false, key = "cantAddKnowledge" };
         }
 
         QuestionInKnowledge.Pin(id, SessionUser.UserId);

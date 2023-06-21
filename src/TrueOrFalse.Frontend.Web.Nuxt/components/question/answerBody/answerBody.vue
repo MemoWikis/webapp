@@ -109,7 +109,7 @@ const _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well 
 const wellDoneMsg = ref('')
 
 const wrongAnswerMsg = ref('')
-const { $logger } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp()
 
 async function answer() {
     showWrongAnswers.value = false
@@ -245,7 +245,7 @@ async function loadAnswerBodyModel() {
 }
 function handleUrl() {
     if (!props.isLandingPage && tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
-        history.pushState(null, topicStore.name, `/${topicStore.encodedName}/${topicStore.id}/Lernen/${answerBodyModel.value?.id}`)
+        history.pushState(null, topicStore.name, $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id))
     }
 }
 watch(() => tabsStore.activeTab, (tab) => {
@@ -266,7 +266,7 @@ async function markAsCorrect() {
         mode: 'cors',
         body: data,
         onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
 
         }
     })
@@ -300,7 +300,7 @@ async function loadSolution(answered: boolean = true) {
             mode: 'cors',
             credentials: 'include',
             onResponseError(context) {
-                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+                $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
 
             }
         })
