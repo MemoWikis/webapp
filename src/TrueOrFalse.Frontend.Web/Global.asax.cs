@@ -83,12 +83,12 @@ public class Global : HttpApplication
         {
             JobScheduler
                 .StartImmediately_RefreshEntityCache(); 
-            Logg.r().Error("Ich glaube wir sind ein wenig dumm");
         }
         else
         {
-            JobScheduler
-                .StartImmediately_RefreshEntityCache();
+            Logg.r().Information("=== Entity ===============================");
+            new EntityCacheInitializer().Init();
+            Logg.r().Information("=== EntityEnd ===============================");
         }
 
         Sl.Resolve<ISession>().Close();
