@@ -41,7 +41,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
-        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(config.CurrentUserId).Where(q => q.Id > 0).ToList();
+        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Where(q => q.Id > 0).ToList();
         allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId);
