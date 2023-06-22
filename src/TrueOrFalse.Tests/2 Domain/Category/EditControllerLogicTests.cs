@@ -11,7 +11,7 @@ namespace TrueOrFalse.Tests;
 
 public class EditControllerLogicTests : BaseTest
 {
-    [Test(Description = "Test SaveTopic Date to Low")]
+    [Test(Description = "Test SaveTopic after premium period past.")]
     public void SaveTopicTestDateToLow()
     {
         var categoryContext = ContextCategory.New();
@@ -55,7 +55,7 @@ public class EditControllerLogicTests : BaseTest
         field.SetValue(null, 2);
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search, true, Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
+        var logik = new EditControllerLogic(search, isInstallationAdmin: true, Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
         var result = logik.QuickCreate("private4", -1);
         var resultJson = JsonConvert.SerializeObject(result);
 
@@ -157,7 +157,7 @@ public class EditControllerLogicTests : BaseTest
         var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id));
 
         var expectedValue =
-            JsonConvert.SerializeObject(new { success = true, url = "", id = 2 });
+JsonConvert.SerializeObject(new { success = true, url = "", id = 2 });
         Assert.AreEqual(expectedValue, result);
     }
 }

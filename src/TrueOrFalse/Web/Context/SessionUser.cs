@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using System.Web;
 
-public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
+public class SessionUser : SessionBase,IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
 
@@ -11,6 +11,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         _httpContext = httpContext;
     }
+
+    public bool IsSesionActive () => _httpContext.Session is not null;
 
     public bool HasBetaAccess
     {
@@ -34,7 +36,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     private int _userId
     {
-        get => _httpContext.Session["userId"] as int? ?? -1;
+        get => _httpContext.Session["userId"] as int? ?? 0;
         set => _httpContext.Session.Add("userId", value);
     }
 

@@ -20,7 +20,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     private readonly SolrSearchIndexCategory _solrSearchIndexCategory;
     private readonly bool _isSolrActive;
 
-    public CategoryRepository(ISession session, SolrSearchIndexCategory solrSearchIndexCategory,PermissionCheck permissionCheck)
+    public CategoryRepository(ISession session, SolrSearchIndexCategory solrSearchIndexCategory, PermissionCheck permissionCheck)
         : base(session)
     {
         _permissionCheck = permissionCheck;

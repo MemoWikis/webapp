@@ -1,16 +1,12 @@
-﻿using System.Linq;
-
-public class PermissionCheck : IRegisterAsInstancePerLifetime
+﻿public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
-    //private readonly SessionUser _sessionUser;
-
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
 
     public PermissionCheck(SessionUser sessionUser)
     {
-        _userId = sessionUser.UserId;
-        _isInstallationAdmin = sessionUser.IsInstallationAdmin;
+        _userId = sessionUser.IsSesionActive() ? sessionUser.UserId : default;
+        _isInstallationAdmin = sessionUser.IsSesionActive() && sessionUser.IsInstallationAdmin;
     }
 
     public PermissionCheck(UserCacheItem userCacheItem)
@@ -26,7 +22,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     //setter is for tests
     public bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
-    public  bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
+    public bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
     public bool CanView(CategoryCacheItem category) => CanView(_userId, category);
 
     public bool CanView(int userId, CategoryCacheItem category)
@@ -43,11 +39,14 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public  bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetCategory(categoryId));
-    public  bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
+    public bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetCategory(categoryId));
+    public bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
 
-    public  bool CanEdit(CategoryCacheItem category)
+    public bool CanEdit(CategoryCacheItem category)
     {
+        if (_userId == default)
+            return false;
+
         if (category == null)
             return false;
 
@@ -62,6 +61,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanDelete(CategoryCacheItem category)
     {
+        if (_userId == default)
+            return false;
+
         if (category == null)
             return false;
 
@@ -92,6 +94,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanEdit(Question question)
     {
+        if (_userId == default)
+            return false;
+
         if (question == null)
             return false;
 
@@ -103,6 +108,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanEdit(QuestionCacheItem question)
     {
+        if (_userId == default)
+            return false;
+
         if (question == null)
             return false;
 
@@ -114,6 +122,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanDelete(Question question)
     {
+        if (_userId == default)
+            return false;
+
         if (question == null)
             return false;
 

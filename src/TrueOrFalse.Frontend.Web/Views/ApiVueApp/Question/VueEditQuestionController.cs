@@ -15,15 +15,18 @@ public class VueEditQuestionController : BaseController
     private readonly QuestionRepo _questionRepo;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
+    private readonly LearningSessionCreator _learningSessionCreator;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
-        PermissionCheck permissionCheck) :base(sessionUser)
+        PermissionCheck permissionCheck,
+        LearningSessionCreator learningSessionCreator) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
+        _learningSessionCreator = learningSessionCreator;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -52,7 +55,7 @@ public class VueEditQuestionController : BaseController
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         if (questionDataJson.IsLearningTab) { }
-        _learningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
@@ -137,7 +140,7 @@ public class VueEditQuestionController : BaseController
         if (flashCardJson.AddToWishknowledge)
             QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
-        _learningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController();
         return questionController.LoadQuestion(question.Id);
     }

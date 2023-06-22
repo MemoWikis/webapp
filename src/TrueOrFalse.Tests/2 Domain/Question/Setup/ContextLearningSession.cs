@@ -26,7 +26,7 @@ internal class ContextLearningSession : BaseTest
     public static LearningSession GetLearningSessionWithUser(LearningSessionConfig config)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(config.MaxQuestionCount);
-        return new LearningSession(GetSteps(config.MaxQuestionCount), config,Resolve<SessionUser>());
+        return new LearningSession(GetSteps(config.MaxQuestionCount), config);
     }
 
     public static LearningSession GetLearningSession(LearningSessionConfig config )

@@ -16,8 +16,10 @@ namespace TrueOrFalse.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.Register(context => HttpContext.Current).InstancePerLifetimeScope();
+
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
-                   .AssignableTo<IRegisterAsInstancePerLifetime>();
+                               .AssignableTo<IRegisterAsInstancePerLifetime>();
 
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
@@ -69,12 +71,10 @@ namespace TrueOrFalse.Infrastructure
 
                 throw new Exception(sb.ToString());
             }
-           
+
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
 
-            
-            builder.Register(context => HttpContext.Current).InstancePerDependency();
 
             if (!Settings.UseMeiliSearch())
                 builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();

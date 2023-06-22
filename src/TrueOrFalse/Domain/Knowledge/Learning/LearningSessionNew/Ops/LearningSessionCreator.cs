@@ -85,7 +85,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
             .Select(q => new LearningSessionStep(q))
             .ToList();
 
-        return new LearningSession(learningSessionSteps, config,_sessionUser)
+        return new LearningSession(learningSessionSteps, config)
         {
             QuestionCounter = questionCounter
         };
@@ -145,7 +145,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
             .Select(q => new LearningSessionStep(q))
             .ToList();
 
-        return new LearningSession(learningSessionSteps, config,_sessionUser)
+        return new LearningSession(learningSessionSteps, config)
         {
             QuestionCounter = questionCounter
         };
@@ -161,6 +161,33 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         questionDetail = FilterByVisibility(config, q, questionDetail);
         questionDetail = FilterByKnowledgeSummary(config, q, questionDetail, allQuestionValuation);
         return questionDetail;
+    }
+
+    public void InsertNewQuestionToLearningSession(QuestionCacheItem question, int sessionIndex, LearningSessionConfig config)
+    {
+        var learningSession = _learningSessionCache.GetLearningSession();
+        var step = new LearningSessionStep(question);
+
+        if (learningSession != null)
+        {
+            var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId);
+            var questionDetail = BuildQuestionDetail(config, question, allQuestionValuation);
+
+            learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
+
+            if (questionDetail.AddByWuwi &&
+                questionDetail.AddByCreator &&
+                questionDetail.AddByVisibility &&
+                questionDetail.FilterByKnowledgeSummary)
+            {
+                if (learningSession.Steps.Count > sessionIndex + 1)
+                    learningSession.Steps.Insert(sessionIndex + 1, step);
+                else learningSession.Steps.Add(step);
+            }
+
+            learningSession.QuestionCounter.Max += 1;
+            _learningSessionCache.AddOrUpdate(learningSession);
+        }
     }
 
     private void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)

@@ -7,19 +7,14 @@ public class LearningSession
 {
     public IList<LearningSessionStep> Steps;
     public LearningSessionConfig Config;
-    private readonly SessionUser _sessionUser;
-    public UserCacheItem User;
-    public bool IsLoggedIn;
+
+
     public QuestionCounter QuestionCounter;
 
-    public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config, SessionUser sessionUser)
+    public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        var userId = config.CurrentUserId == 0 ? _sessionUser.UserId : config.CurrentUserId;
-        User = EntityCache.GetUserById(userId);
-        IsLoggedIn = userId > 0;
         Config = config;
-        _sessionUser = sessionUser;
         Config.Category = EntityCache.GetCategory(Config.CategoryId);
     }
 

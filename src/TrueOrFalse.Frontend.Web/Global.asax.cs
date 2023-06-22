@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.SessionState;
 using Autofac.Integration.Mvc;
 using NHibernate;
 using Serilog;
