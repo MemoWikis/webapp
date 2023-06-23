@@ -89,7 +89,8 @@ export const messages: any = {
             } else {
                 console.error(`Unknown key: ${messageKey}`)
                 const { $logger } = useNuxtApp()
-                $logger.error(`Unknown key: ${messageKey}`)
+                const err = new Error()
+                $logger.error(`Unknown key: ${messageKey}`, [{ stack: err.stack}])
                 return undefined; // Key part not found in the messages structure
             }
         }
