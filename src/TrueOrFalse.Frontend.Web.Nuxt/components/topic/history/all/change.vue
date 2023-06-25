@@ -5,8 +5,9 @@ import { ImageFormat } from '~/components/image/imageFormatEnum'
 export interface Change {
     topicId: number
     topicName: string
+    topicImgUrl: string
     author: Author
-    elapsedTime: string
+    timeCreated: string
     topicChangeType: TopicChangeType
     revisionId: number
     relationAdded?: boolean
@@ -89,15 +90,16 @@ const slots = useSlots()
             </div>
 
             <button class="memo-button btn btn-primary" v-if="change.topicChangeType == TopicChangeType.Text">
-                <NuxtLink v-if="change.previousRevisionId > 0"
-                    :to="`/Historie/Thema/${change.topicId}/${change.revisionId}/${change.previousRevisionId}`">
+                <NuxtLink v-if="firstEditId" :to="`/Historie/Thema/${change.topicId}/${change.revisionId}/${firstEditId}`">
                     Ansehen
                 </NuxtLink>
                 <NuxtLink v-else :to="`/Historie/Thema/${change.topicId}/${change.revisionId}`">
                     Ansehen
                 </NuxtLink>
             </button>
-
+            <div class="extras" v-if="slots['extras']">
+                <slot name="extras"></slot>
+            </div>
         </div>
 
     </div>

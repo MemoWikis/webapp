@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
 import { Change } from '~~/components/topic/history/change.vue'
+import { Page } from '~/components/shared/pageEnum'
+import { useSpinnerStore } from '~/components/spinner/spinnerStore'
 
 const route = useRoute()
 
@@ -24,7 +26,7 @@ const { $logger } = useNuxtApp()
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
+const { pending, data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
@@ -37,12 +39,27 @@ const { data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/Histo
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     },
 })
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
+watch(historyResult, (val) => {
+    if (val)
+        emit('setBreadcrumb', [{ name: `Bearbeitungshistorie von ${val.topicName}`, url: `/Historie/Thema/${route.params.id}` }])
 
-onMounted(() => {
+})
+const spinnerStore = useSpinnerStore()
+watch(pending, (val) => {
+    if (val)
+        spinnerStore.showSpinner()
+    else spinnerStore.hideSpinner()
+})
+onMounted(async () => {
+    emit('setPage', Page.Default)
+
     if (historyResult.value != null) {
         if (historyResult.value.days.length > 0)
             buildGroupedChanges(historyResult.value.days)
     }
+    if (await historyResult.value != null)
+        emit('setBreadcrumb', [{ name: `Bearbeitungshistorie von ${historyResult.value?.topicName}`, url: `/Historie/Thema/${route.params.id}` }])
 })
 
 function buildGroupedChanges(days: Day[]) {
@@ -80,7 +97,10 @@ watch(historyResult, (val) => {
     if (val != null && val.days.length > 0)
         buildGroupedChanges(val.days)
 }, { deep: true })
-
+function handleClick(g: GroupedChanges) {
+    if (g.changes.length > 1)
+        g.collapsed = !g.collapsed
+}
 </script>
 
 <template>
@@ -106,8 +126,7 @@ watch(historyResult, (val) => {
 
                             <TopicHistoryChange :change="g.changes[0]" :group-index="gcIndex"
                                 :class="{ 'is-group': g.changes.length > 1 }"
-                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
-                                @click="g.collapsed = !g.collapsed"
+                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed" @click="handleClick(g)"
                                 :first-edit-id="g.changes[g.changes.length - 1].revisionId">
                                 <template v-slot:extras v-if="g.changes.length > 1">
                                     <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
@@ -145,7 +164,7 @@ watch(historyResult, (val) => {
 }
 
 .link-to-all {
-    border: 1px solid @memo-grey-lighter;
+    border: 1px solid @memo-grey-light;
     text-decoration: none;
 }
 </style>

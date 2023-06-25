@@ -74,7 +74,7 @@ const slots = useSlots()
             </NuxtLink>
         </div>
         <div class="col-xs-3">
-            {{ change.elapsedTime }}
+            vor {{ change.elapsedTime }}
         </div>
 
         <div class="col-xs-6 change-detail">

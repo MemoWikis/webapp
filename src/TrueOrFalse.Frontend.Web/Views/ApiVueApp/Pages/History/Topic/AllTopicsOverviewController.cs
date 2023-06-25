@@ -35,7 +35,8 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
     private bool ChangeVisibilityCheck(CategoryChange change)
     {
-        return change.Category.Id > 0 && 
+        return change.Category != null &&
+               change.Category.Id > 0 && 
                PermissionCheck.CanView(change.Category) &&
                PermissionCheck.CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
     }
@@ -90,7 +91,8 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
-            var previousChange = _orderedTopicChangesOnPage.LastOrDefault(c => c.Id < topicChange.Id && topicChange.Category.Id == c.Category.Id);
+
+            var previousChange = Sl.CategoryChangeRepo.GetForTopic(topicChange.Category.Id).OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
             if (previousChange != null)
             {
                 var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data).CategoryRelations;

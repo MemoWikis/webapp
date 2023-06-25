@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
+import { Page } from '~/components/shared/pageEnum'
+import { useSpinnerStore } from '~/components/spinner/spinnerStore'
+import { TopicChangeType } from '~/components/topic/history/topicChangeTypeEnum'
 import { Change } from '~~/components/topic/history/all/change.vue'
 
+const spinnerStore = useSpinnerStore()
 interface Day {
     date: string
     changes: Change[]
@@ -12,15 +15,26 @@ interface GroupedChanges {
     collapsed: boolean
     changes: Change[]
 }
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
 const page = ref(1)
+watch(page, (page) => {
+    history.pushState(null, `Bearbeitungshistorie aller Themen - Seite ${page}`, `/Historie/Themen/${page}`)
+    emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${page}`, url: `/Historie/Themen/${page}` }])
+})
+
 const url = computed(() => {
     return `/apiVue/HistoryTopicAllTopicsOverview/Get?page=${page.value}`
 })
+const route = useRoute()
+onBeforeMount(() => {
+    if (route.params.page != null)
+        page.value = parseInt(route.params.page.toString())
+})
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { $logger, $urlHelper } = useNuxtApp()
-const { data: days } = await useLazyFetch<Day[]>(url, {
+const { $logger } = useNuxtApp()
+const { pending, data: days } = await useLazyFetch<Day[]>(url, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
@@ -29,50 +43,23 @@ const { data: days } = await useLazyFetch<Day[]>(url, {
             options.baseURL = config.public.serverBase
         }
     },
-    onResponse(result) {
-        console.log(result.response._data)
-    },
     onResponseError(context) {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     },
 })
-
-
-function getChangeTypeText(change: Change) {
-    switch (change.topicChangeType) {
-        case TopicChangeType.Create:
-            return 'Erstellt'
-        case TopicChangeType.Delete:
-            return 'Gelöscht'
-        case TopicChangeType.Image:
-            return 'Bild Update'
-        case TopicChangeType.Moved:
-            return 'Verschoben'
-        case TopicChangeType.Privatized:
-            return 'Auf Privat gestellt'
-        case TopicChangeType.Published:
-            return 'Veröffentlicht'
-        case TopicChangeType.Relations:
-            if (change.relationAdded)
-                return 'Verknüpfung hinzugefügt'
-            else
-                return 'Verknüpfung entfernt'
-        case TopicChangeType.Renamed:
-            return 'Umbenannt'
-        case TopicChangeType.Restore:
-            return 'Wiederhergestellt'
-        case TopicChangeType.Text:
-            return 'Inhalt'
-        case TopicChangeType.Update:
-            return 'Update'
-        default: return 'Update'
-    }
-}
+watch(pending, (val) => {
+    if (val)
+        spinnerStore.showSpinner()
+    else spinnerStore.hideSpinner()
+})
 onMounted(() => {
+    emit('setPage', Page.Default)
+
     if (days.value != null) {
         if (days.value.length > 0)
             buildGroupedChanges(days.value)
     }
+    emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${page.value}`, url: `/Historie/Themen/${page.value}` }])
 })
 
 function buildGroupedChanges(days: Day[]) {
@@ -110,40 +97,51 @@ watch(days, (val) => {
     if (val != null && val.length > 0)
         buildGroupedChanges(val)
 }, { deep: true })
-
-
+function handleClick(g: GroupedChanges) {
+    if (g.changes.length > 1)
+        g.collapsed = !g.collapsed
+}
 </script>
 
 <template>
     <div class="container">
         <div class="main-page row">
-            <h1>Bearbeitungshistorie aller Themen</h1>
-            <div class="category-change-day col-xs-12 row" v-if="days" v-for="day, dIndex in days">
-                <div class="col-xs-12">
-                    <h3>{{ day.date }}</h3>
+            <div class="col-xs-12">
+                <h1>Bearbeitungshistorie aller Themen</h1>
+            </div>
+            <div class="col-xs-12">
+                <div class="category-change-day row" v-if="days" v-for="day, dIndex in days">
+                    <div class="col-xs-12">
+                        <h3>{{ day.date }}</h3>
+                    </div>
+                    <div class="colx-xs-12">
+
+                        <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
+
+                            <TopicHistoryAllChange :change="g.changes[0]" :group-index="gcIndex"
+                                :class="{ 'is-group': g.changes.length > 1 }"
+                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed" @click="handleClick(g)"
+                                :first-edit-id="g.changes[g.changes.length - 1].revisionId">
+                                <template v-slot:extras v-if="g.changes.length > 1">
+                                    <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
+                                    <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
+                                </template>
+                            </TopicHistoryAllChange>
+                            <div v-if="g.changes.length > 1 && !g.collapsed">
+                                <TopicHistoryAllChange v-for="c, i in g.changes" :change="c" :group-index="i"
+                                    :is-last="i == g.changes.length - 1" />
+                            </div>
+
+                        </template>
+                    </div>
                 </div>
-                <div class="colx-xs-12">
+            </div>
+            <div class="col-xs-12">
+                <div class="pager">
+                    <button :disabled="page == 1" class="pager-btn" @click="page--">Neuere Revisionen</button>
+                    <button class="pager-btn" @click="page++">Ältere Revisionen</button>
 
-                    <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
-
-                        <TopicHistoryAllChange :change="g.changes[0]" :group-index="gcIndex"
-                            :class="{ 'is-group': g.changes.length > 1 }"
-                            :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
-                            @click="g.collapsed = !g.collapsed" :first-edit-id="g.changes[g.changes.length - 1].revisionId">
-                            <template v-slot:extras v-if="g.changes.length > 1">
-                                <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
-                                <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
-                            </template>
-                        </TopicHistoryAllChange>
-                        <div v-if="g.changes.length > 1 && !g.collapsed">
-                            <TopicHistoryAllChange v-for="c, i in g.changes" :change="c" :group-index="i"
-                                :is-last="i == g.changes.length - 1" />
-                        </div>
-
-                    </template>
                 </div>
-
-
             </div>
         </div>
 
@@ -153,260 +151,26 @@ watch(days, (val) => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.change-detail-model {
-    border: 1px solid silver;
-    margin: 0px;
-    padding: 10px;
-    min-height: 60px;
+.is-group {
+    cursor: pointer;
+    background: white;
+
+    &:hover {
+        filter: brightness(0.95)
+    }
+
+    &:active {
+        filter: brightness(0.85)
+    }
+}
+
+.pager {
     display: flex;
+    justify-content: center;
     align-items: center;
-    color: @memo-grey-dark;
-    flex-wrap: wrap;
-    border-bottom: none;
 
-    &.last-detail {
-        border-bottom: 1px solid silver;
-    }
-
-    .col-xs-3 {
-        height: 100%;
-        display: flex;
-        align-items: center;
-
-        a {
-            margin-right: 4px;
-        }
-    }
-
-    .allThemesHistory {
-        margin-top: 10px;
-    }
-
-    .editing-history {
-        margin-top: 10px;
-    }
-
-    @media screen and (max-width: 1199px) {
-        .c-changes-overview {
-            margin-top: 10px;
-        }
-    }
-
-
-    @media screen and (max-width: 650px) {
-        .col-xs-4 {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .c-changes-overview,
-        .editing-history {
-            margin-top: 0px;
-        }
-    }
-
-    @media screen and (max-width: 603px) {
-        .editing-history {
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (max-width: 733px) {
-        .display-changes {
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (max-width: 550px) {
-
-        .col-xs-3,
-        .col-xs-6 {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .display-changes {
-            margin-top: 0px;
-        }
-    }
-
-    @media screen and (max-width: 406px) {
-        .c-changes-overview {
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (max-width: 401px) {
-        .display-changes {
-            margin-top: 10px;
-        }
-    }
-
-    .is-deleted {
-        background-color: #ccc;
-    }
-
-    .btn {
-        margin-left: auto;
-        margin-right: 10px;
-    }
-
-    #Typ {
-        color: #2C5FB2;
-        font-weight: 900;
-        padding-top: 10px;
-    }
-
-    .change-detail {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-
-        .change-detail-sub {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            padding-right: 10px;
-        }
-
-        .change-detail-label {
-            background: @memo-grey-lighter;
-            font-size: 12px;
-            text-align: center;
-            font-weight: 600;
-            padding: 4px 12px;
-            justify-self: flex-start;
-            white-space: nowrap;
-            margin-right: 8px;
-        }
-
-        .change-detail-additional-info {
-            min-width: 0;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        .change-detail-spacer {
-            min-width: 22px;
-        }
-
-        &.relation-detail {
-            flex-wrap: wrap-reverse;
-
-            .related-category-name {
-                display: flex;
-                align-items: center;
-                padding: 4px 0;
-
-                .history-link {
-                    margin-right: 4px;
-                }
-            }
-
-            .history-link {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-                display: inline-block;
-            }
-        }
-    }
-
-    &.panel-group {
-        padding: 0px;
-
-        .panel {
-            border: none;
-            border-bottom: none;
-            border-radius: 0;
-            box-shadow: none;
-            width: 100%;
-            overflow: visible;
-
-            .panel-heading {
-                border: none;
-                background: none;
-                border-radius: 0;
-                cursor: pointer;
-                min-height: 60px;
-                display: flex;
-                align-items: center;
-                color: @memo-grey-dark;
-                transition: background-color ease-in-out 0.2s;
-                flex-wrap: wrap;
-
-                &:hover {
-                    background-color: fade(@memo-grey-lighter, 20%);
-                }
-
-                &.collapsed {
-                    .fa-chevron-up {
-                        display: none;
-                    }
-
-                    .fa-chevron-down {
-                        display: block;
-                    }
-                }
-
-                .fa-chevron-up {
-                    display: block;
-                }
-
-                .fa-chevron-down {
-                    display: none;
-                }
-
-                .chevron-container {
-                    width: 27px;
-                    text-align: center;
-                    align-items: center;
-                    justify-content: center;
-                    display: flex;
-                }
-            }
-
-            img.history-author,
-            img.history-category {
-                margin-left: 5px;
-                width: 20px;
-                min-width: 20px;
-            }
-
-            .list-group {
-                overflow: hidden;
-
-                .list-group-item {
-                    min-height: 60px;
-                    border-radius: 0 !important;
-                    display: flex;
-                    align-items: center;
-
-                    &:last-child {
-                        border-bottom: none;
-                        border-radius: 0;
-                    }
-
-                    .change-detail-spacer {
-                        width: 26px;
-                    }
-                }
-            }
-        }
-    }
-
-    .history-date {
-        flex-wrap: wrap;
-    }
-
-    .history-link {
-
-        .history-author,
-        .history-category {
-            border-radius: 10px;
-            width: 20px;
-            min-width: 20px;
-        }
+    .pager-btn {
+        border: solid 1px @memo-grey-light;
     }
 }
 </style>
