@@ -9,9 +9,12 @@ namespace TrueOrFalse.Search
     public class SolrSearchQuestions : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<QuestionSolrMap> _searchOperations;
+        private readonly int _sessionUserId;
 
-        public SolrSearchQuestions(ISolrOperations<QuestionSolrMap> searchOperations){
+        public SolrSearchQuestions(ISolrOperations<QuestionSolrMap> searchOperations, SessionUser sessionUser)
+        {
             _searchOperations = searchOperations;
+            _sessionUserId = sessionUser.UserId;
         }
 
         public SolrSearchQuestionsResult Run(QuestionSearchSpec searchSpec)
@@ -29,7 +32,7 @@ namespace TrueOrFalse.Search
                 searchSpec.Filter.CreatorId,
                 searchSpec.Filter.IgnorePrivates,
                 searchSpec.Filter.Categories,
-                searchSpec.Filter.GetKnowledgeQuestionIds(),
+                searchSpec.Filter.GetKnowledgeQuestionIds(_sessionUserId),
                 searchSpec.Filter.QuestionIdsToExclude,
                 orderBy: orderBy
             );

@@ -1,8 +1,15 @@
 ﻿using System.Net.Mail;
 
-public class RestoreCategory
+public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
-    public static void Run(int categoryChangeId, User author)
+    private readonly int _sessionUserId;
+
+    public RestoreCategory(SessionUser sessionUser)
+    {
+        _sessionUserId = sessionUser.UserId;
+    }
+
+    public void Run(int categoryChangeId, User author)
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
@@ -21,10 +28,10 @@ public class RestoreCategory
         NotifyAboutRestore(categoryChange);
     }
 
-    private static void NotifyAboutRestore(CategoryChange categoryChange)
+    private void NotifyAboutRestore(CategoryChange categoryChange)
     {
         var category = categoryChange.Category;
-        var currentUser = Sl.UserRepo.GetById(Sl.CurrentUserId);
+        var currentUser = Sl.UserRepo.GetById(_sessionUserId);
         var subject = $"Kategorie {category.Name} zurückgesetzt";
         var body = $"Die Kategorie '{category.Name}' wurde gerade zurückgesetzt.\n" +
                    $"Zurückgesetzt auf Revision: vom {categoryChange.DateCreated} (Id {categoryChange.Id})\n" +

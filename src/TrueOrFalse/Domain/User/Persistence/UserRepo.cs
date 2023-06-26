@@ -7,11 +7,13 @@ using TrueOrFalse.Search;
 
 public class UserRepo : RepositoryDbBase<User>
 {
+    private readonly SessionUser _sessionUser;
     private readonly SearchIndexUser _searchIndexUser;
     private readonly bool _isSolrActive;
 
-    public UserRepo(ISession session, SearchIndexUser searchIndexUser) : base(session)
+    public UserRepo(ISession session, SearchIndexUser searchIndexUser,SessionUser sessionUser) : base(session)
     {
+        _sessionUser = sessionUser;
         _isSolrActive = Settings.UseMeiliSearch() == false;
         if (_isSolrActive)
         {
@@ -39,7 +41,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         var user = GetById(id);
 
-        if (SessionUserLegacy.IsLoggedInUserOrAdmin(user.Id))
+        if (_sessionUser.IsLoggedInUserOrAdmin(user.Id))
         {
             throw new InvalidAccessException();
         }
@@ -252,20 +254,20 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void UpdateActivityPointsData()
     {
-        if (!SessionUserLegacy.IsLoggedIn)
+        if (!_sessionUser.IsLoggedIn)
         {
             return;
         }
 
         var totalPointCount = 0;
-        foreach (var activityPoints in Sl.ActivityPointsRepo.GetActivtyPointsByUser(Sl.CurrentUserId))
+        foreach (var activityPoints in Sl.ActivityPointsRepo.GetActivtyPointsByUser(_sessionUser.UserId))
         {
             totalPointCount += activityPoints.Amount;
         }
 
         var userLevel = UserLevelCalculator.GetLevel(totalPointCount);
 
-        var user = GetById(SessionUserLegacy.UserId);
+        var user = GetById(_sessionUser.UserId);
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);

@@ -194,10 +194,8 @@ public class CategoryCacheItem
         return false;
     }
 
-    public virtual bool IsInWishknowledge()
-    {
-        return SessionUserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
-    }
+    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsInWishknowledge(userId, Id);
+
 
     public virtual bool IsSpoiler(QuestionCacheItem question)
     {

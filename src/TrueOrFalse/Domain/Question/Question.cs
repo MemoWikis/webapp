@@ -130,10 +130,8 @@ public class Question : DomainEntity, ICreator
         return false;
     }
 
-    public virtual bool IsInWishknowledge()
-    {
-        return SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
-    }
+    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsQuestionInWishknowledge(userId, Id);
+   
 
     public virtual bool IsMediumQuestion()
     {

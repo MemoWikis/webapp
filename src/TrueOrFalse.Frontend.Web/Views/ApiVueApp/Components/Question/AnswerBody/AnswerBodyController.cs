@@ -41,7 +41,7 @@ public class AnswerBodyController : BaseController
             solution = q.Solution,
 
             isCreator = q.Creator.Id = _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step

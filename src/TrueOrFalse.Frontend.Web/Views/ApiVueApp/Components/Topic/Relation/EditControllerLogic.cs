@@ -70,7 +70,7 @@ public class EditControllerLogic
             }; 
         }
 
-        var topic = new Category(name);
+        var topic = new Category(name,_sessionUserId);
         ModifyRelationsForCategory.AddParentCategory(topic, parentTopicId);
 
         topic.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);

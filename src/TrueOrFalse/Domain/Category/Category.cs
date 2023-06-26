@@ -97,7 +97,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual bool IsHistoric { get; set; }
 
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual bool IsInWishknowledge() => SessionUserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
+    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsInWishknowledge(userId, Id);
 
     public Category()
     {
@@ -105,10 +105,10 @@ public class Category : DomainEntity, ICreator, ICloneable
         Type = CategoryType.Standard;
     }
 
-    public Category(string name) : this()
+    public Category(string name, int userId) : this()
     {
         Name = name;
-        AuthorIds = Sl.CurrentUserId + ",";
+        AuthorIds = userId + ",";
     }
 
     public virtual bool IsSpoiler(QuestionCacheItem question) =>

@@ -49,14 +49,14 @@ public class QuestionFilter : ConditionContainer
         !Knowledge_Solid && !Knowledge_ShouldConsolidate &&
         !Knowledge_ShouldLearn && !Knowledge_None;
 
-    public IList<int> GetKnowledgeQuestionIds()
+    public IList<int> GetKnowledgeQuestionIds(int userId)
     {
         if(!Knowledge_FilterIsSet)
             return null;
 
         return Sl.R<QuestionRepo>()
             .GetByKnowledge(
-                Sl.CurrentUserId,
+                userId,
                 isKnowledgeSolidFilter: Knowledge_Solid,
                 isKnowledgeShouldConsolidateFilter: Knowledge_ShouldConsolidate,
                 isKnowledgeShouldLearnFilter: Knowledge_ShouldLearn,

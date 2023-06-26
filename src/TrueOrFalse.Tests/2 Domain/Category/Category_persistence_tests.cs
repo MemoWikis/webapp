@@ -11,12 +11,14 @@ public class Category_persistence_tests : BaseTest
     [Test]
     public void Category_should_be_persisted()
     {
-        var categoryRepo = Resolve<CategoryRepository>();
-
         var user = new User { Name = "Some user" };
         Resolve<UserRepo>().Create(user);
+        var sessionUser = Resolve<SessionUser>(); 
+        var categoryRepo = Resolve<CategoryRepository>();
 
-        var category = new Category("Sports")
+       
+
+        var category = new Category("Sports",sessionUser.UserId)
         {
             Creator = user,
             Type = CategoryType.Standard

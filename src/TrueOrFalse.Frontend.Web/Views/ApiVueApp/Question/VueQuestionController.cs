@@ -12,13 +12,16 @@ public class VueQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
     private readonly PermissionCheck _permissionCheck;
+    private readonly RestoreQuestion _restoreQuestion;
 
     public VueQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
-        PermissionCheck permissionCheck) : base(sessionUser)
+        PermissionCheck permissionCheck,
+        RestoreQuestion restoreQuestion) : base(sessionUser)
     {
         _questionRepo = questionRepo;
         _permissionCheck = permissionCheck;
+        _restoreQuestion = restoreQuestion;
     }
 
     [HttpGet]
@@ -64,7 +67,7 @@ public class VueQuestionController : BaseController
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
@@ -126,7 +129,7 @@ public class VueQuestionController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int questionId, int questionChangeId)
     {
-        RestoreQuestion.Run(questionChangeId, User_());
+        _restoreQuestion.Run(questionChangeId, User_());
 
         var question = Sl.QuestionRepo.GetById(questionId);
         return Redirect(Links.AnswerQuestion(question));

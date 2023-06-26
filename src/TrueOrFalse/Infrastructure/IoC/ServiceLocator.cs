@@ -19,8 +19,6 @@ public class Sl
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 
-    public static int CurrentUserId => SessionUserLegacy.UserId;
-
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
 
     public static ImageStore ImageStore => R<ImageStore>();

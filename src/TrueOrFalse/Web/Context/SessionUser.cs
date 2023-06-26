@@ -94,7 +94,10 @@ public class SessionUser : SessionBase,IRegisterAsInstancePerLifetime
 
         return totalPoints;
     }
-
+    public bool IsLoggedInUserOrAdmin(int userId)
+    {
+        return IsLoggedInUser(userId) || IsInstallationAdmin;
+    }
     public int CurrentWikiId
     {
         get => _httpContext.Session["currentWikiId"] as int? ?? 1;

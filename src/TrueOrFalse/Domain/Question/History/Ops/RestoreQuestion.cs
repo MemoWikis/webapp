@@ -1,8 +1,15 @@
 ﻿using System.Net.Mail;
 
-public class RestoreQuestion
+public class RestoreQuestion : IRegisterAsInstancePerLifetime
 {
-    public static void Run(int questionChangeId, User author)
+    private readonly int _currentUserId;
+
+    public RestoreQuestion(int currentUserId)
+    {
+        _currentUserId = currentUserId;
+    }
+
+    public void Run(int questionChangeId, User author)
     {
         var questionChange = Sl.QuestionChangeRepo.GetByIdEager(questionChangeId);
         var historicQuestion = questionChange.ToHistoricQuestion();
@@ -13,10 +20,10 @@ public class RestoreQuestion
         NotifyAboutRestore(questionChange);
     }
 
-    private static void NotifyAboutRestore(QuestionChange questionChange)
+    private void NotifyAboutRestore(QuestionChange questionChange)
     {
         var question = questionChange.Question;
-        var currentUser = Sl.UserRepo.GetById(Sl.CurrentUserId);
+        var currentUser = Sl.UserRepo.GetById(_currentUserId);
         var subject = $"Frage {question.Text} zurückgesetzt";
         var body = $"Die Frage '{question.Text}' mit Id {question.Id} wurde gerade zurückgesetzt.\n" +
                    $"Zurückgesetzt auf Revision: vom {questionChange.DateCreated} (Id {questionChange.Id})\n" +
