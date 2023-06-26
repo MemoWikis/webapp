@@ -1,6 +1,6 @@
 ﻿public class LoginFromCookie
 {
-    public static bool Run()
+    public static bool Run(SessionUser sessionUser)
     {
         var cookieValues = GetPersistentLoginCookieValues.Run();
 
@@ -20,7 +20,7 @@
         persistentLoginRepo.Delete(persistentLogin);
         WritePersistentLoginToCookie.Run(cookieValues.UserId);
 
-        SessionUserLegacy.Login(user);            
+        sessionUser.Login(user);            
 
         return true;
     }

@@ -4,6 +4,7 @@ using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using NHibernate;
 using NUnit.Framework;
+using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
@@ -35,7 +36,7 @@ public class BaseTest
     public void RecycleContainer()
     {
         EntityCache.Clear();
-        SessionUserLegacy.Clear();
+        Resolve<SessionData>().Clear();
         R<ISession>().Flush();
         _container.Dispose();
         BuildContainer();

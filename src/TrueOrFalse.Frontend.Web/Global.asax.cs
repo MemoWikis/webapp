@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.SessionState;
+using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
 using Serilog;
@@ -104,9 +105,15 @@ public class Global : HttpApplication
 
     protected void Session_Start()
     {
-        if (!SessionUserLegacy.IsLoggedIn)
+        var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
+        using (var scope = container.BeginLifetimeScope())
         {
-            LoginFromCookie.Run();
+            var sessionUser = scope.Resolve<SessionUser>();
+
+            if (!sessionUser.IsLoggedIn)
+            {
+                LoginFromCookie.Run(sessionUser);
+            }
         }
     }
 

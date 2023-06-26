@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
 
-public class SessionUserLegacy : SessionBase, IRegisterAsInstancePerLifetime
+public class SessionUserLegacy : IRegisterAsInstancePerLifetime
 {
     public static bool HasBetaAccess
     {

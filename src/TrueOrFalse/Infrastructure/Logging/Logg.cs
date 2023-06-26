@@ -81,7 +81,7 @@ public class Logg
     {
         if (userId == -1)
         {
-            _subscriptionLogger.Error(new NullReferenceException("SessionUser null"), "SessionUserLegacy null");
+            _subscriptionLogger.Error(new NullReferenceException("SessionUser null"), "SessionUser null");
             return;
         }
 

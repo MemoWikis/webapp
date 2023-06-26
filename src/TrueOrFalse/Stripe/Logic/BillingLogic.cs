@@ -4,9 +4,9 @@ using Stripe.BillingPortal;
 
 public class BillingLogic : BaseStripeLogic
 {
-    public async Task<string> DeletePlan()
+    public async Task<string> DeletePlan(SessionUser sessionUser)
     {
-        var stripeId = SessionUserLegacy.User.StripeId;
+        var stripeId = sessionUser.User.StripeId;
         var options = new SessionCreateOptions
         {
             Customer = stripeId,

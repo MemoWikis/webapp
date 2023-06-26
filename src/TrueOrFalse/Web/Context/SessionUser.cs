@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using System.Web;
 
-public class SessionUser : SessionBase,IRegisterAsInstancePerLifetime
+public class SessionUser :IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
 

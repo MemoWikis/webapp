@@ -6,6 +6,13 @@ using Stripe.Checkout;
 
 public class SubscriptionLogic : BaseStripeLogic
 {
+    private readonly SessionUser _sessionUser;
+
+    public SubscriptionLogic(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
+
     public async Task<string> CreateCustomer(string username, string email, int userId)
     {
         var optionsUser = new CustomerCreateOptions
@@ -25,7 +32,7 @@ public class SubscriptionLogic : BaseStripeLogic
 
     public async Task<string> CreateStripeSession(string priceId)
     {
-        var sessionUser = SessionUserLegacy.User;
+        var sessionUser = _sessionUser.User;
 
         var customerId = "";
         if (sessionUser.StripeId == null)

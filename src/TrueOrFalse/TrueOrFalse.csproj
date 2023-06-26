@@ -286,6 +286,7 @@
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="GlobalUsings.cs" />
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionData.cs" />
     <Compile Include="Infrastructure\StandardFetchResult.cs" />
     <Compile Include="Search\Category\ISearchCategoriesResult.cs" />
     <Compile Include="Search\Category\IndexOperations\MeiliSearchReIndexCategories.cs" />
@@ -506,7 +507,6 @@
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\CacheAspNet.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\ICache.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\ContextUtil.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionBase.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionDataLegacy.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
