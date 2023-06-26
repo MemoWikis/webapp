@@ -3,10 +3,12 @@
 public class QuestionDelete : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly SessionUser _sessionUser;
 
-    public QuestionDelete(PermissionCheck permissionCheck )
+    public QuestionDelete(PermissionCheck permissionCheck, SessionUser sessionUser )
     {
         _permissionCheck = permissionCheck;
+        _sessionUser = sessionUser;
     }
     public void Run(int questionId)
     {
@@ -15,14 +17,14 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator?.Id ?? -1);
 
-        var canBeDeletedResult = CanBeDeleted(SessionUserLegacy.UserId, question);
+        var canBeDeletedResult = CanBeDeleted(_sessionUser.UserId, question);
         if (!canBeDeletedResult.Yes)
         {
             throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionValuationForUser(SessionUserLegacy.UserId, questionId);
+        SessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 

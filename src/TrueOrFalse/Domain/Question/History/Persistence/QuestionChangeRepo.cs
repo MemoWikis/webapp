@@ -1,15 +1,19 @@
 ﻿using NHibernate;
 
-public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
+public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsInstancePerLifetime
 {
-    public QuestionChangeRepo(ISession session) : base(session){}
+    private readonly SessionUser _sessionUser;
+    public QuestionChangeRepo(ISession session, SessionUser sessionUser) : base(session)
+    {
+        _sessionUser = sessionUser;
+    }
 
     public void AddDeleteEntry(Question question)
     {
         var QuestionChange = new QuestionChange
         {
             Question = question,
-            AuthorId = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.UserId : default,
+            AuthorId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default,
             Type = QuestionChangeType.Delete,
             DataVersion = 1
         };
@@ -25,7 +29,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         {
             Question = question,
             Type = questionChangeType,
-            AuthorId = author != null ? author.Id : SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.UserId : default,
+            AuthorId = author != null ? author.Id : _sessionUser.IsLoggedIn ? _sessionUser.UserId : default,
             DataVersion = 1
         };
 

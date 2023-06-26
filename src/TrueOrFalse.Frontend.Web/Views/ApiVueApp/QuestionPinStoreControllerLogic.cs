@@ -2,6 +2,12 @@
 
 public class QuestionPinStoreControllerLogic
 {
+    private readonly QuestionInKnowledge _questionInKnowledge;
+
+    public QuestionPinStoreControllerLogic(QuestionInKnowledge questionInKnowledge)
+    {
+        _questionInKnowledge = questionInKnowledge;
+    }
     public dynamic Pin(int id, SessionUser sessionUser)
     {
         if (!PremiumCheck.CanAddNewKnowledge(sessionUser))
@@ -14,7 +20,7 @@ public class QuestionPinStoreControllerLogic
             return new { success = false, key = "" };
         }
 
-        QuestionInKnowledge.Pin(id, sessionUser.UserId);
+        _questionInKnowledge.Pin(id, sessionUser.UserId);
         return true;
     }
 
@@ -25,7 +31,7 @@ public class QuestionPinStoreControllerLogic
             return false;
         }
 
-        QuestionInKnowledge.Unpin(id, sessionUser.UserId);
+        _questionInKnowledge.Unpin(id, sessionUser.UserId);
         return true;
     }
 }

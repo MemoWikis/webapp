@@ -43,7 +43,7 @@ class Delete_question : BaseTest
         Assert.That(ex.Message, Contains.Substring("Question cannot be deleted"));
 
         //now user2 removes the question from his WishKnowledge, so user1 can delete his question
-        QuestionInKnowledge.Unpin(question1.Id, user2.Id);
+        Resolve<QuestionInKnowledge>().Unpin(question1.Id, user2.Id);
         Resolve<QuestionDelete>().Run(question1.Id);
         Assert.That(Resolve<QuestionGetCount>().Run(user1.Id), Is.EqualTo(0));
     }

@@ -37,7 +37,7 @@ public class UserStoreController : Controller
 
             _sessionUser.Login(credentialsAreValid.User);
 
-            TransferActivityPoints.FromSessionToUser();
+            TransferActivityPoints.FromSessionToUser(_sessionUser);
             Sl.UserRepo.UpdateActivityPointsData();
 
             return Json(new

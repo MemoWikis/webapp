@@ -5,11 +5,13 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerLog _answerLog;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public AnswerQuestion(QuestionRepo questionRepo, AnswerLog answerLog)
+    public AnswerQuestion(QuestionRepo questionRepo, AnswerLog answerLog, LearningSessionCache learningSessionCache)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
+        _learningSessionCache = learningSessionCache;
     }
 
     public AnswerQuestionResult Run(
@@ -43,7 +45,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        bool inTestMode = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
 
         var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
@@ -102,7 +104,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
-            var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+            var learningSession = _learningSessionCache.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
             var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
@@ -128,7 +130,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
-            var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+            var learningSession = _learningSessionCache.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
             var answer = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();

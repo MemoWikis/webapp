@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Autofac;
@@ -10,8 +11,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class EditCategoryInWishKnowledge : IJob
     {
+        private readonly SessionUser _sessionUser;
+        private readonly CategoryInKnowledge _categoryInKnowledge;
+
         public const int IntervalInSeconds = 2;
 
+        public EditCategoryInWishKnowledge(SessionUser sessionUser, CategoryInKnowledge categoryInKnowledge )
+        {
+            _sessionUser = sessionUser;
+            _categoryInKnowledge = categoryInKnowledge;
+        }
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
@@ -26,20 +35,20 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     {
 
                         case JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge:
-                            RemoveQuestionsInCategoryFromWishKnowledge(job, scope);
+                            RemoveQuestionsInCategoryFromWishKnowledge(job, scope, _sessionUser);
                             break;
                     }
                 }
             }, "EditCategoryInWishKnowledge");
         }
 
-        private static void RemoveQuestionsInCategoryFromWishKnowledge(JobQueue job, ILifetimeScope scope)
+        private void RemoveQuestionsInCategoryFromWishKnowledge(JobQueue job, ILifetimeScope scope,SessionUser sessionUser)
         {
             var categoryUserPair = new CategoryUserPair();
             try
             { 
                 categoryUserPair = GetCategoryUserPair(job);
-                CategoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+                _categoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId, sessionUser);
                 
                 scope.R<JobQueueRepo>().Delete(job.Id);
                 Logg.r().Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");

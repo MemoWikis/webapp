@@ -7,24 +7,27 @@ public class QuestionEditModalController : BaseController
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
 
     public QuestionEditModalController(QuestionRepo questionRepo,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
-        LearningSessionCreator learningSessionCreator) :base(sessionUser)
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult Create(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo,_sessionUser,_learningSessionCache,_permissionCheck,_learningSessionCreator).Create(questionDataJson); 
+        var data = new QuestionEditModalControllerLogic(_questionRepo,_sessionUser,_learningSessionCache,_permissionCheck,_learningSessionCreator,_questionInKnowledge).Create(questionDataJson); 
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 
@@ -32,7 +35,7 @@ public class QuestionEditModalController : BaseController
     [HttpPost]
     public JsonResult Edit(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator).Edit(questionDataJson);
+        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator, _questionInKnowledge).Edit(questionDataJson);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 
@@ -40,7 +43,7 @@ public class QuestionEditModalController : BaseController
     [HttpGet]
     public JsonResult GetData(int id)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator).GetData(id);
+        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator, _questionInKnowledge).GetData(id);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 

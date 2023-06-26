@@ -131,8 +131,7 @@ public class ContextQuestion :BaseTest
     public ContextQuestion AddToWishknowledge(User user)
     {
         var lastQuestion = All.Last();
-
-        QuestionInKnowledge.Pin(lastQuestion.Id, user.Id);
+        Resolve<QuestionInKnowledge>().Pin(lastQuestion.Id, user.Id);
 
         return this;
     }

@@ -10,10 +10,14 @@ namespace VueApp;
 public class QuickCreateQuestionController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
 
-    public QuickCreateQuestionController(SessionUser sessionUser, LearningSessionCreator learningSessionCreator): base(sessionUser)
+    public QuickCreateQuestionController(SessionUser sessionUser,
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge): base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -66,7 +70,7 @@ public class QuickCreateQuestionController : BaseController
         questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
+            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUserLegacy.UserId);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController();

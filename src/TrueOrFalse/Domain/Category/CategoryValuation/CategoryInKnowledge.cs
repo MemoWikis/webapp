@@ -1,9 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions;
+using MySqlX.XDevAPI;
 
-public class CategoryInKnowledge
+public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
 {
+    private readonly QuestionInKnowledge _questionInKnowledge;
+
+    public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge)
+    {
+        _questionInKnowledge = questionInKnowledge;
+    }
+
     private static IList<int> QuestionsInValuatedCategories(int userId, IList<int> questionIds, int exeptCategoryId = -1)
     {
         if (questionIds.IsEmpty())
@@ -31,7 +39,7 @@ public class CategoryInKnowledge
         return questionsInOtherValuatedCategories;
     }
 
-    public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
+    public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId, SessionUser sessionUser)
     {
         var user = Sl.UserRepo.GetByIds(userId).First();
         var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId);
@@ -43,9 +51,9 @@ public class CategoryInKnowledge
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
         foreach (var question in questionsToUnpin)
-            QuestionInKnowledge.Unpin(question.Id, user.Id);
+            _questionInKnowledge.Unpin(question.Id, user.Id);
 
         QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
-        QuestionInKnowledge.SetUserWishCountQuestions(user.Id);
+        QuestionInKnowledge.SetUserWishCountQuestions(user.Id, sessionUser);
     }
 }

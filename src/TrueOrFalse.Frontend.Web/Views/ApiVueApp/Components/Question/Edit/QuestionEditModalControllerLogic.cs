@@ -15,17 +15,20 @@ public class QuestionEditModalControllerLogic : BaseController
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
         LearningSessionCache lerLearningSessioncache, 
         PermissionCheck permissionCheck,
-        LearningSessionCreator learningSessionCreator) :base(sessionUser)
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = lerLearningSessioncache;
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
     }
 
     public dynamic Create(QuestionDataJson questionDataJson)
@@ -53,7 +56,7 @@ public class QuestionEditModalControllerLogic : BaseController
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
+           _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
         return new { success = true, data = LoadQuestion(question.Id) };
     }
 

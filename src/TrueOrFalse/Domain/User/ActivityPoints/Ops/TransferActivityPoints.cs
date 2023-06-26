@@ -1,17 +1,17 @@
 ﻿public class TransferActivityPoints
 {
-    public static void FromSessionToUser()
+    public static void FromSessionToUser(SessionUser sessionUser)
     {
-        if (SessionUserLegacy.ActivityPoints.Count > 0)
+        if (sessionUser.ActivityPoints.Count > 0)
         {
-            foreach (var activityPoints in SessionUserLegacy.ActivityPoints)
+            foreach (var activityPoints in sessionUser.ActivityPoints)
             {
-                activityPoints.UserId = SessionUserLegacy.UserId;
+                activityPoints.UserId = sessionUser.UserId;
                 if(activityPoints.UserId <= 0) 
                     continue;
                 Sl.ActivityPointsRepo.Create(activityPoints);
             }
-            SessionUserLegacy.ActivityPoints.Clear();
+            sessionUser.ActivityPoints.Clear();
         }
     }
 }

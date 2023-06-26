@@ -16,17 +16,20 @@ public class VueEditQuestionController : BaseController
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
-        LearningSessionCreator learningSessionCreator) :base(sessionUser)
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -58,7 +61,7 @@ public class VueEditQuestionController : BaseController
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
+            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         var questionController = new QuestionController();
 
@@ -138,7 +141,7 @@ public class VueEditQuestionController : BaseController
         _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
+            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController();

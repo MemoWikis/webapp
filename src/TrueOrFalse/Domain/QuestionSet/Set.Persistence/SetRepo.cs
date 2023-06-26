@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using NHibernate.Criterion;
-using NHibernate.Transform;
 
 public class SetRepo : RepositoryDbBase<Set>
 {
