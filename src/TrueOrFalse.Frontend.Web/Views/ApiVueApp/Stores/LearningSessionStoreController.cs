@@ -7,21 +7,23 @@ public class LearningSessionStoreController: BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly PermissionCheck _permissionCheck;
+    private readonly LearningSessionCache _learningSessionCache;
 
     public LearningSessionStoreController(LearningSessionCreator learningSessionCreator,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser) : base(sessionUser)
+        SessionUser sessionUser, LearningSessionCache learningSessionCache) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _permissionCheck = permissionCheck;
+        _learningSessionCache = learningSessionCache;
     }
     [HttpPost]
     public JsonResult NewSession(LearningSessionConfig config)
     {
         var newSession = _learningSessionCreator.BuildLearningSession(config);
-        LearningSessionCacheLegacy.AddOrUpdate(newSession);
+        _learningSessionCache.AddOrUpdate(newSession);
 
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
 
         if (learningSession is { Steps: { Count: > 0 } })
         {
@@ -81,9 +83,9 @@ public class LearningSessionStoreController: BaseController
                 message = "questionNotInFilter"
             });
 
-        LearningSessionCacheLegacy.AddOrUpdate(newSession);
+        _learningSessionCache.AddOrUpdate(newSession);
 
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
 
 
         var index = learningSession.Steps.IndexOf(s => s.Question.Id == id);
@@ -115,7 +117,7 @@ public class LearningSessionStoreController: BaseController
     [HttpGet]
     public JsonResult GetLastStepInQuestionList(int index)
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             return Json(new
@@ -146,7 +148,7 @@ public class LearningSessionStoreController: BaseController
     [HttpGet]
     public JsonResult GetCurrentSession()
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var firstUnansweredStep = learningSession.Steps.First(s => s.AnswerState != AnswerState.Unanswered);
@@ -181,7 +183,7 @@ public class LearningSessionStoreController: BaseController
     [HttpPost]
     public JsonResult LoadSpecificQuestion(int index)
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.LoadSpecificQuestion(index);
 
         return Json(new
@@ -206,7 +208,7 @@ public class LearningSessionStoreController: BaseController
     [HttpPost]
     public JsonResult SkipStep(int index)
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession.CurrentIndex == index)
         {
             learningSession.SkipStep();
@@ -225,7 +227,7 @@ public class LearningSessionStoreController: BaseController
     [HttpGet]
     public JsonResult LoadSteps()
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         return Json(learningSession.Steps.Select((s, index) => new StepResult
         {
             id = s.Question.Id,

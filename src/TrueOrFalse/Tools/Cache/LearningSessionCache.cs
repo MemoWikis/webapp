@@ -4,8 +4,13 @@ using System.Web;
 
 public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
+    private readonly string _sessionId;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
 
+    public LearningSessionCache(HttpContext httpContext)
+    {
+        _sessionId = httpContext.Session.SessionID;
+    }
     public void AddOrUpdate(LearningSession learningSession)
     {
         _learningSessions.AddOrUpdate(
@@ -17,15 +22,16 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
 
     public  LearningSession TryRemove()
     {
-        _learningSessions.TryRemove(
-            HttpContext.Current.Session.SessionID, out var learningSession
-        );
+
+        _learningSessions.TryRemove(_sessionId, out var learningSession);
         return GetLearningSession();
     }
 
     public  LearningSession GetLearningSession()
     {
-        _learningSessions.TryGetValue(HttpContext.Current.Session.SessionID, out var learningSession);
+        var context = HttpContext.Current.Session.SessionID;
+
+        _learningSessions.TryGetValue(_sessionId, out var learningSession);
         AddOrUpdate(learningSession);
         return learningSession;
     }
