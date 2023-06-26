@@ -127,12 +127,14 @@ export const useUserStore = defineStore('userStore', {
             }
             spinnerStore.hideSpinner()
         },
-        async resetPassword(email: string) {
-            const result = await $fetch<boolean>('/apiVue/VueUserSettings/ResetPassword', {
+        async resetPassword(email: string): Promise<FetchResult<void>> {
+            const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
                 mode: 'cors',
                 method: 'POST',
+                body: {email: email},
                 credentials: 'include'
             })
+            return result;
         },
         async getUnreadMessagesCount() {
             this.unreadMessagesCount = await $fetch<number>('/apiVue/UserStore/GetUnreadMessagesCount', {
