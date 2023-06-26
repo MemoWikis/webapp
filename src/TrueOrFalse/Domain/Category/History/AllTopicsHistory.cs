@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using TrueOrFalse.Web;
 
 public class AllTopicsHistory : IRegisterAsInstancePerLifetime
 {
-    public IOrderedEnumerable<IGrouping<DateTime, CategoryChange>> GetDays(int page, int revisionsToShow)
+    public IOrderedEnumerable<IGrouping<DateTime, CategoryChange>> GetGroupedChanges(int page, int revisionsToShow)
     {
         var revisionsToSkip = (page - 1) * revisionsToShow;
         var query =
@@ -14,12 +12,12 @@ public class AllTopicsHistory : IRegisterAsInstancePerLifetime
         var orderedTopicChangesOnPage = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange))
             .List<CategoryChange>().OrderBy(c => c.Id);
 
-        var days = orderedTopicChangesOnPage
+        var groupedChanges = orderedTopicChangesOnPage
             .Where(ChangeVisibilityCheck)
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => @group.Key);
 
-        return days;
+        return groupedChanges;
     }
     
 
