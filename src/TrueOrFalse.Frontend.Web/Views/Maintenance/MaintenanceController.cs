@@ -150,17 +150,17 @@ public class MaintenanceController : BaseController
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult ReIndexAllQuestions()
+    public async Task<ActionResult> ReIndexAllQuestions()
     {
-        Resolve<ReIndexAllQuestions>().Run();
+        await Resolve<MeiliSearchReIndexAllQuestions>().Go();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ViewResult ReIndexAllCategories()
+    public async Task<ViewResult> ReIndexAllCategories()
     {
-        Resolve<SolrReIndexAllCategories>().Run();
+        await Resolve<MeiliSearchReIndexCategories>().Go();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
     }
     //todo: Remove when Meilisearch is active
@@ -168,7 +168,7 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult ReIndexAllUsers()
     {
-        Resolve<ReIndexAllUsers>().Run();
+        Resolve<MeiliSearchReIndexAllUsers>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 

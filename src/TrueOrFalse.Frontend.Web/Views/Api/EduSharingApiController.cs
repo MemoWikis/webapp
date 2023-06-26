@@ -26,28 +26,28 @@ public class EduSharingApiController : BaseController
     }
 
 
-    public JsonResult Search(string term, int pageSize = 5, int page = 1)
-    {
-        var result = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page});
-        var jsonResult = new JsonResult();
-        jsonResult = Json(new
-        {
-            ResultCount = result.Count,
-            Items = result
-                .GetCategories()
-                .Select(category => new
-                {
-                    TopicId = category.Id,
-                    Name = category.Name,
-                    ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url,
-                    ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
-                    Licence = "CC_BY",
-                    Author = new UserTinyModel(EntityCache.GetUserById(category.Creator != null ? category.Creator.Id : -1)).Name,
-                })
-        }, JsonRequestBehavior.AllowGet);
-        jsonResult.MaxJsonLength = Int32.MaxValue;
-        return jsonResult;
-    }
+    //public JsonResult Search(string term, int pageSize = 5, int page = 1)
+    //{
+    //    var result = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page});
+    //    var jsonResult = new JsonResult();
+    //    jsonResult = Json(new
+    //    {
+    //        ResultCount = result.Count,
+    //        Items = result
+    //            .GetCategories()
+    //            .Select(category => new
+    //            {
+    //                TopicId = category.Id,
+    //                Name = category.Name,
+    //                ImageUrl = Settings.CanonicalHost + new CategoryImageSettings(category.Id).GetUrl_350px_square().Url,
+    //                ItemUrl = Settings.CanonicalHost + Links.CategoryDetail(category.Name, category.Id),
+    //                Licence = "CC_BY",
+    //                Author = new UserTinyModel(EntityCache.GetUserById(category.Creator != null ? category.Creator.Id : -1)).Name,
+    //            })
+    //    }, JsonRequestBehavior.AllowGet);
+    //    jsonResult.MaxJsonLength = Int32.MaxValue;
+    //    return jsonResult;
+    //}
 
     public JsonResult Info()
     {

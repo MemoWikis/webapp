@@ -16,10 +16,7 @@ public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, Catego
 
     public SpellCheckResult SpellCheck;
 
-    public string GetSuggestion()
-    {
-        return SpellCheck.GetSuggestion();
-    }
+ 
 
     public CategorySearchSpec()
     {

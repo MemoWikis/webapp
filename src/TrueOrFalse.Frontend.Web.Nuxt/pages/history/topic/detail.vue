@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Page } from '~/components/shared/pageEnum'
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
 
 interface ChangeDetail {
@@ -46,6 +47,16 @@ const { data: changeDetail } = await useFetch<ChangeDetail>(`/apiVue/HistoryTopi
 })
 
 const outputFormat = ref('side-by-side')
+
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
+
+onMounted(() => {
+    emit('setPage', Page.Default)
+    if (changeDetail.value != null)
+        emit('setBreadcrumb', [{ name: `Änderungen für ${changeDetail.value.topicName}`, url: route.fullPath }])
+
+})
+
 </script>
 
 <template>

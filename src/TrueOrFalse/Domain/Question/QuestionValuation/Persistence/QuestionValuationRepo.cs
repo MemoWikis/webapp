@@ -7,15 +7,13 @@ using TrueOrFalse.Search;
 
 public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 {
-    private readonly SearchIndexQuestion _searchIndexQuestion;
+ 
     private readonly QuestionRepo _questionRepo;
 
     public QuestionValuationRepo(
         ISession session,
-        SearchIndexQuestion searchIndexQuestion,
         QuestionRepo questionRepo) : base(session)
     {
-        _searchIndexQuestion = searchIndexQuestion;
         _questionRepo = questionRepo;
     }
 
@@ -54,7 +52,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public void CreateOrUpdateInDatabase(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
-        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 
     public void DeleteForQuestion(int questionId)
@@ -192,7 +189,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public override void Update(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
-        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
         SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
@@ -200,6 +196,5 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public void UpdateInDatabase(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
-        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 }

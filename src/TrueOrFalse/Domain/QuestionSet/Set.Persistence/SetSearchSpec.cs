@@ -7,16 +7,6 @@ using TrueOrFalse.Search;
 public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
 {
     public string SearchTerm;
-
-    public SpellCheckResult SpellCheck;
-
-    public string GetSuggestion()
-    {
-        if (SpellCheck == null)
-            return "";
-
-        return SpellCheck.GetSuggestion();
-    }
 }
 
 [Serializable]

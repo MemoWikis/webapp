@@ -122,9 +122,9 @@ public class VueMaintenanceController : BaseController
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult ReIndexAllQuestions()
+    public async Task<JsonResult> ReIndexAllQuestions()
     {
-        Resolve<ReIndexAllQuestions>().Run();
+       await  Resolve<MeiliSearchReIndexAllQuestions>().Go();
 
         return Json(new
         {
@@ -135,9 +135,9 @@ public class VueMaintenanceController : BaseController
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult ReIndexAllTopics()
+    public async Task<JsonResult> ReIndexAllTopics()
     {
-        Resolve<SolrReIndexAllCategories>().Run();
+        await Resolve<MeiliSearchReIndexCategories>().Go();
 
         return Json(new
         {
@@ -148,9 +148,9 @@ public class VueMaintenanceController : BaseController
     //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult ReIndexAllUsers()
+    public async Task<JsonResult> ReIndexAllUsers()
     {
-        Resolve<ReIndexAllUsers>().Run();
+        await Resolve<MeiliSearchReIndexAllUsers>().Run();
 
         return Json(new
         {

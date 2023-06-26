@@ -131,6 +131,11 @@ export default <RouterConfig>{
             component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
         },
         {
+            name: 'allTopicHistoryOverviewWithPage',
+            path: '/Historie/Themen/:page(\\d+)',
+            component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
+        },
+        {
             name: 'topicHistoryOverview',
             path: '/Historie/Thema/:id(\\d+)',
             component: () => import('~~/pages/history/topic/overview.vue'),

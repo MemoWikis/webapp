@@ -12,10 +12,6 @@ public class Settings
 
     public static string CanonicalHost;
 
-    public static string SolrUrl;
-
-    public static string SolrPath;
-    public static string SolrCoresSuffix;
    // public static bool GoogleKeyIsSet = false;
 
    // public static string GoogleAnalyticsKey;
@@ -127,9 +123,6 @@ public class Settings
     static Settings()
     {
         GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
-        SolrCoresSuffix = GetValue(OverwrittenConfig.Value("solrCoresSuffix"), "SolrCoresSuffix");
-        SolrPath = GetValue(OverwrittenConfig.Value("pathToSolr"), "SolrPath");
-        SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
         MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
         MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
         CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");

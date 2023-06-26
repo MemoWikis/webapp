@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TrueOrFalse.Search;
 
 public class CategoryApiController : BaseController
 {
-    private readonly SolrSearchCategories _searchCategories;
+    private readonly MeiliSearchCategories _searchCategories;
     private readonly CategoryRepository _categoryRepo;
+    private readonly IGlobalSearch _globalSearch;
 
     public CategoryApiController(
-        SolrSearchCategories searchCategories,
-        CategoryRepository categoryRepo)
+        CategoryRepository categoryRepo,
+        IGlobalSearch globalSearch)
     {
-        _searchCategories = searchCategories;
         _categoryRepo = categoryRepo;
+        _globalSearch = globalSearch;
     }
 
-    public JsonResult ByName(string term, string type, int? parentId)
+    public async Task<JsonResult> ByName(string term, string type, int? parentId)
     {
         IList<Category> categories;
 
@@ -86,7 +88,7 @@ public class CategoryApiController : BaseController
         }
         else
         {
-            var categoryIds = _searchCategories.Run(term, searchOnlyWithStartingWith: true, pageSize: 5).CategoryIds;
+            var categoryIds = (await _globalSearch.GoNumberOfCategories(term,5)).Categories.Select(c => c.Id);
             categories = _categoryRepo.GetByIds(categoryIds.ToArray());
         }
 

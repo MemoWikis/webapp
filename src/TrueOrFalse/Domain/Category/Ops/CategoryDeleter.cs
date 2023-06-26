@@ -6,9 +6,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
 
-    public CategoryDeleter(
-        ISession session,
-        SolrSearchIndexCategory solrSearchIndexCategory)
+    public CategoryDeleter(ISession session)
     {
         _session = session;
     }

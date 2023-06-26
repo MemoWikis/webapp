@@ -32,6 +32,7 @@ onMounted(() => {
 
 function hideInfoBanner() {
     document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
+    skipAnimation.value = false
     showBanner.value = false
 }
 
@@ -60,8 +61,7 @@ const { $urlHelper } = useNuxtApp()
                         :to="$urlHelper.getTopicUrl(props.documentation.Name, props.documentation.Id)">
                         Zur Dokumentation
                     </NuxtLink>
-                    <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
-                        class="hidden-xs close-banner" />
+                    <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()" class="hidden-xs close-banner" />
                 </div>
             </div>
         </div>
@@ -77,5 +77,13 @@ const { $urlHelper } = useNuxtApp()
     // &:hover {
     //     color: @memo-grey-darker;
     // }
+}
+
+#BannerRedirectBtn {
+    justify-content: flex-end;
+
+    .close-banner {
+        margin-left: 34px;
+    }
 }
 </style>

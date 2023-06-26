@@ -71,9 +71,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     public override void Update(CategoryValuation categoryValuation)
     {
         categoryValuation.UpdateKnowledgeSummary();
-
         base.Update(categoryValuation);
-        Sl.SolrSearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
     public void DeleteCategoryValuation( int categoryId)
