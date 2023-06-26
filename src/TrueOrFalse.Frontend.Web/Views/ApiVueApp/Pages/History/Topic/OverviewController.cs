@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web.Mvc;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
-using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
 namespace VueApp;

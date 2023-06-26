@@ -26,7 +26,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
     private Day[] GetDays(int page, int revisionsToShow)
     {
-        return _allTopicsHistory.GetDays(page, revisionsToShow).Select(group => GetDay(
+        return _allTopicsHistory.GetGroupedChanges(page, revisionsToShow).Select(group => GetDay(
                 @group.Key,
                 @group.OrderByDescending(g => g.DateCreated).ToList()))
             .ToArray();
