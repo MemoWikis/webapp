@@ -2,30 +2,30 @@
 
 public class QuestionPinStoreControllerLogic
 {
-    public dynamic Pin(int id)
+    public dynamic Pin(int id, SessionUser sessionUser)
     {
-        if (!PremiumCheck.CanAddNewKnowledge())
+        if (!PremiumCheck.CanAddNewKnowledge(sessionUser))
         {
             return new { success = false, key = "cantAddKnowledge" };
         }
 
-        if (SessionUserLegacy.User == null)
+        if (sessionUser.User == null)
         {
             return new { success = false, key = "" };
         }
 
-        QuestionInKnowledge.Pin(id, SessionUserLegacy.UserId);
+        QuestionInKnowledge.Pin(id, sessionUser.UserId);
         return true;
     }
 
-    public dynamic Unpin(int id)
+    public dynamic Unpin(int id, SessionUser sessionUser)
     {
-        if (SessionUserLegacy.User == null)
+        if (sessionUser.User == null)
         {
             return false;
         }
 
-        QuestionInKnowledge.Unpin(id, SessionUserLegacy.UserId);
+        QuestionInKnowledge.Unpin(id, sessionUser.UserId);
         return true;
     }
 }

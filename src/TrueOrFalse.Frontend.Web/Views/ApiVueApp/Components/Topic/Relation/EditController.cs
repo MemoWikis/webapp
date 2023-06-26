@@ -27,7 +27,7 @@ public class TopicRelationEditController : BaseController
     public JsonResult QuickCreate(string name, int parentTopicId)
     {
         var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, UserId)            
-            .QuickCreate(name, parentTopicId); 
+            .QuickCreate(name, parentTopicId,_sessionUser); 
 
         return Json(data, JsonRequestBehavior.AllowGet);
     }

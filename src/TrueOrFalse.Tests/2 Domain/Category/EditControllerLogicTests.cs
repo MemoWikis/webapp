@@ -27,7 +27,8 @@ public class EditControllerLogicTests : BaseTest
             .Persist()
             .All
             .First();
-        SessionUserLegacy.Login(user);
+        var sessionUser = Resolve<SessionUser>(); 
+        sessionUser.Login(user);
 
         categoryContext
             .Add(new Category
@@ -56,7 +57,7 @@ public class EditControllerLogicTests : BaseTest
 
         var search = A.Fake<IGlobalSearch>();
         var logik = new EditControllerLogic(search, isInstallationAdmin: true, Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
-        var result = logik.QuickCreate("private4", -1);
+        var result = logik.QuickCreate("private4", -1, sessionUser);
         var resultJson = JsonConvert.SerializeObject(result);
 
         var expectedValue = JsonConvert.SerializeObject(new
@@ -83,7 +84,8 @@ public class EditControllerLogicTests : BaseTest
             .Persist()
             .All
             .First();
-        SessionUserLegacy.Login(user);
+        var sessionUser = Resolve<SessionUser>();
+        sessionUser.Login(user);
 
         categoryContext
             .Add(new Category
@@ -113,7 +115,7 @@ public class EditControllerLogicTests : BaseTest
 
         var search = A.Fake<IGlobalSearch>();
         var logik = new EditControllerLogic(search, true, Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
-        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id));
+        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
 
         var expectedValue =
             JsonConvert.SerializeObject(new { success = true, url = "", id = 4 });
@@ -136,7 +138,8 @@ public class EditControllerLogicTests : BaseTest
             .Persist()
             .All
             .First();
-        SessionUserLegacy.Login(user);
+        var sessionUser = Resolve<SessionUser>(); 
+        sessionUser.Login(user);
 
         categoryContext
             .Add(new Category
@@ -154,7 +157,7 @@ public class EditControllerLogicTests : BaseTest
 
         var search = A.Fake<IGlobalSearch>();
         var logik = new EditControllerLogic(search, true, Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
-        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id));
+        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
 
         var expectedValue =
 JsonConvert.SerializeObject(new { success = true, url = "", id = 2 });

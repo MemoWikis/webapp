@@ -59,9 +59,9 @@ public class EditControllerLogic
         };
     }
 
-    public dynamic QuickCreate(string name, int parentTopicId)
+    public dynamic QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
-        if (!PremiumCheck.CanSavePrivateTopic())
+        if (!PremiumCheck.CanSavePrivateTopic(sessionUser))
         {
             return new
             {

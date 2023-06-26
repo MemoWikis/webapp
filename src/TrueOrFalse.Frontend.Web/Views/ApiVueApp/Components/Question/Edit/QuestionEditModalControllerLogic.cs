@@ -30,7 +30,7 @@ public class QuestionEditModalControllerLogic : BaseController
 
     public dynamic Create(QuestionDataJson questionDataJson)
     {
-        if (!PremiumCheck.CanSavePrivateQuestion())
+        if (!PremiumCheck.CanSavePrivateQuestion(_sessionUser))
         {
             return new { success = false, key = "cantSavePrivateQuestion" };
         }
