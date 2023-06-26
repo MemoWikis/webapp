@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
@@ -12,6 +13,9 @@ public class HistoryTopicDetailController : BaseController
     [HttpGet]
     public JsonResult Get(int topicId, int currentRevisionId, int firstEditId = 0)
     {
+        if(!PermissionCheck.CanViewCategory(topicId))
+            throw new Exception("not allowed");
+
         var listWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(topicId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
 

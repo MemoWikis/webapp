@@ -106,43 +106,49 @@ function handleClick(g: GroupedChanges) {
 <template>
     <div class="container">
         <div class="row main-page">
-            <div class="col-xs-12" v-if="historyResult">
-                <h1>{{ historyResult.topicName }}</h1>
-                <div>
-                    <button class="memo-button btn btn-link link-to-all">
-                        <NuxtLink to="/Historie/Themen">
-                            Bearbeitungshistorie aller Themen
-                        </NuxtLink>
-                    </button>
-                </div>
+            <div class="col-xs-12" v-if="pending">
+                Seite lädt
             </div>
-            <div class="col-xs-12">
-                <div class="category-change-day row" v-if="historyResult" v-for="day, dIndex in historyResult.days">
-                    <div class="col-xs-12">
-                        <h3>{{ day.date }}</h3>
+            <template v-else-if="historyResult">
+                <div class="col-xs-12">
+                    <h1>{{ historyResult.topicName }}</h1>
+                    <div>
+                        <button class="memo-button btn btn-link link-to-all">
+                            <NuxtLink to="/Historie/Themen">
+                                Bearbeitungshistorie aller Themen
+                            </NuxtLink>
+                        </button>
                     </div>
-                    <div class="col-xs-12">
-                        <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
-
-                            <TopicHistoryChange :change="g.changes[0]" :group-index="gcIndex"
-                                :class="{ 'is-group': g.changes.length > 1 }"
-                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed" @click="handleClick(g)"
-                                :first-edit-id="g.changes[g.changes.length - 1].revisionId">
-                                <template v-slot:extras v-if="g.changes.length > 1">
-                                    <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
-                                    <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
-                                </template>
-                            </TopicHistoryChange>
-                            <div v-if="g.changes.length > 1 && !g.collapsed">
-                                <TopicHistoryChange v-for="c, i in g.changes" :change="c" :group-index="i"
-                                    :is-last="i == g.changes.length - 1" />
-                            </div>
-
-                        </template>
-                    </div>
-
                 </div>
-            </div>
+                <div class="col-xs-12">
+                    <div class="category-change-day row" v-for="day, dIndex in historyResult.days">
+                        <div class="col-xs-12">
+                            <h3>{{ day.date }}</h3>
+                        </div>
+                        <div class="col-xs-12">
+                            <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
+
+                                <TopicHistoryChange :change="g.changes[0]" :group-index="gcIndex"
+                                    :class="{ 'is-group': g.changes.length > 1 }"
+                                    :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
+                                    @click="handleClick(g)" :first-edit-id="g.changes[g.changes.length - 1].revisionId">
+                                    <template v-slot:extras v-if="g.changes.length > 1">
+                                        <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
+                                        <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
+                                    </template>
+                                </TopicHistoryChange>
+                                <div v-if="g.changes.length > 1 && !g.collapsed">
+                                    <TopicHistoryChange v-for="c, i in g.changes" :change="c" :group-index="i"
+                                        :is-last="i == g.changes.length - 1" />
+                                </div>
+
+                            </template>
+                        </div>
+
+                    </div>
+                </div>
+            </template>
+
         </div>
     </div>
 </template>
