@@ -41,7 +41,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         var user = GetById(id);
 
-        if (_sessionUser.IsLoggedInUserOrAdmin(user.Id))
+        if (_sessionUser.IsLoggedInUserOrAdmin())
         {
             throw new InvalidAccessException();
         }

@@ -1,8 +1,8 @@
 ﻿public static class ThrowIfNot_IsLoggedInUserOrAdmin
 {
-    public static void Run(int userId)
+    public static void Run(SessionUser sessionUser)
     {
-        if (!SessionUserLegacy.IsLoggedInUserOrAdmin(userId))
+        if (!sessionUser.IsLoggedInUserOrAdmin())
             throw new InvalidAccessException();        
     }
 }

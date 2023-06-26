@@ -94,9 +94,9 @@ public class SessionUser : SessionBase,IRegisterAsInstancePerLifetime
 
         return totalPoints;
     }
-    public bool IsLoggedInUserOrAdmin(int userId)
+    public bool IsLoggedInUserOrAdmin()
     {
-        return IsLoggedInUser(userId) || IsInstallationAdmin;
+        return IsLoggedInUser(UserId) || IsInstallationAdmin;
     }
     public int CurrentWikiId
     {

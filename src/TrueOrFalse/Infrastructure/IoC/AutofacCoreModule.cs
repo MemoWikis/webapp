@@ -26,6 +26,8 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
+         
+
 
             try
             {

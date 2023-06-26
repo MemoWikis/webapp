@@ -15,7 +15,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator?.Id ?? -1);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
 
         var canBeDeletedResult = CanBeDeleted(_sessionUser.UserId, question);
         if (!canBeDeletedResult.Yes)
