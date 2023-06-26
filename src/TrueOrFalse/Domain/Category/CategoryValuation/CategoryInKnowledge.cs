@@ -54,6 +54,6 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
             _questionInKnowledge.Unpin(question.Id, user.Id);
 
         QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
-        QuestionInKnowledge.SetUserWishCountQuestions(user.Id, sessionUser);
+        _questionInKnowledge.SetUserWishCountQuestions(user.Id, sessionUser);
     }
 }

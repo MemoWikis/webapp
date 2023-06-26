@@ -96,7 +96,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             ProbabilityUpdate_Valuation.Run(questionId, userId);
     }
 
-    public static void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
+    public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
     {
         var query =
             $@"
@@ -114,7 +114,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
         var wishKnowledgeCount = (int)Sl.Resolve<ISession>().CreateSQLQuery(query)
             .SetParameter("userId", userId).UniqueResult();
-        SessionUserLegacy.User.WishCountQuestions = wishKnowledgeCount;
+        _sessionUser.User.WishCountQuestions = wishKnowledgeCount;
 
     }
 
