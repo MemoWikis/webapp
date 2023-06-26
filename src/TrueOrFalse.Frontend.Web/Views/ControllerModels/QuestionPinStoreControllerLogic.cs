@@ -4,7 +4,7 @@ using TrueOrFalse.Domain;
 
 public class QuestionPinStoreControllerLogic
 {
-    public dynamic Pin(int id)
+    public RequestResult Pin(int id)
     {
         if (!SessionUser.IsLoggedIn)
         {
@@ -30,7 +30,7 @@ public class QuestionPinStoreControllerLogic
         return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 
-    public dynamic Unpin(int id)
+    public RequestResult Unpin(int id)
     {
         if (!SessionUser.IsLoggedIn)
         {
