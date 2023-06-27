@@ -119,7 +119,7 @@ public class HistoryTopicDetailController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public static void RestoreTopic(int topicChangeId)
+    public void RestoreTopic(int topicChangeId)
     {
         var topicChange = Sl.CategoryChangeRepo.GetByIdEager(topicChangeId);
 
