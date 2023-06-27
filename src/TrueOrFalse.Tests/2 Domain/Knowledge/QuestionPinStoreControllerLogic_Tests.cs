@@ -39,11 +39,10 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
         var result1 = new QuestionPinStoreControllerLogic().Pin(question1Id);
         var result2 = new QuestionPinStoreControllerLogic().Pin(question2Id);
         var result3 = new QuestionPinStoreControllerLogic().Pin(question3Id);
-        result3 = JsonConvert.SerializeObject(result3);
-        var expectedResult = JsonConvert.SerializeObject(new { success = false, key = "cantAddKnowledge" });
+        var expectedResult = new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
 
-        Assert.True(result1);
-        Assert.True(result2);
+        Assert.True(result1.success);
+        Assert.True(result2.success);
         Assert.AreEqual(expectedResult, result3);
     }
 
@@ -79,8 +78,8 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
         var result2 = new QuestionPinStoreControllerLogic().Pin(question2Id);
         var result3 = new QuestionPinStoreControllerLogic().Pin(question3Id);
 
-        Assert.True(result1);
-        Assert.True(result2);
-        Assert.True(result3);
+        Assert.True(result1.success);
+        Assert.True(result2.success);
+        Assert.True(result3.success);
     }
 }

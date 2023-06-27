@@ -173,7 +173,6 @@ public class VueUserSettingsController : BaseController
         return Json(new UserImageSettings().GetUrl_250px(SessionUser.User).Url, JsonRequestBehavior.AllowGet);
     }
 
-    [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ResetPassword()
     {

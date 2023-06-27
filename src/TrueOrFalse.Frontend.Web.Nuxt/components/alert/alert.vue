@@ -45,7 +45,7 @@ const alertStore = useAlertStore()
                         Abbrechen
                     </button>
                     <div v-if="alertStore.msg != null && alertStore.msg.customBtn" v-html="alertStore.msg.customBtn"
-                        @click="alertStore.closeAlert(false, alertStore.msg.customBtnKey)">
+                        @click="alertStore.closeAlert(false, alertStore.msg!.customBtnKey)">
                     </div>
                 </div>
 

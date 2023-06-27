@@ -119,7 +119,7 @@ async function loadQuestionData() {
         setTitle(result.data.title)
         showLock.value = result.data.visibility != Visibility.All
     } else if (result?.success == false) {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.question[result.key] })
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) ?? messages.error.default })
     }
 
 }

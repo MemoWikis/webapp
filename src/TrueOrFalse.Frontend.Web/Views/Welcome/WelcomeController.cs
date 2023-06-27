@@ -39,7 +39,7 @@ public class WelcomeController : BaseController
     public ActionResult PasswordRecovery(PasswordRecoveryModel model)
     {
         var result = Sl.Resolve<PasswordRecovery>().Run(model.Email);
-        if (result.TheEmailDoesNotExist)
+        if (result.EmailDoesNotExist)
             model.Message = new ErrorMessage("Diese E-Mail-Adresse ist uns unbekannt.");
         else if (result.Success)
             model.Message = new SuccessMessage("Wir haben an " + model.Email + " eine E-Mail verschickt (überprüfe gegebenenfalls auch deinen Spam-Ordner). Klicke dort auf den Link, um ein neues Passwort zu setzen.");

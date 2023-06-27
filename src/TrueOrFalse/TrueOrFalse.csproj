@@ -989,7 +989,9 @@
     <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />
     <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
+    <Compile Include="Web\Messages\FrontendMessages.cs" />
     <Compile Include="Web\Seo\SeoUtils.cs" />
+    <Compile Include="Web\Types\RequestResult.cs" />
     <Compile Include="Web\Uris\UrlHelperExtensions.cs" />
     <Compile Include="Web\UserAgent.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />

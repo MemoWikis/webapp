@@ -21,7 +21,7 @@ public class TopicLearningQuestionController: BaseController
         var answerQuestionModel = new AnswerQuestionModel(question, true);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
-        var json = Json(new
+        var json = Json(new RequestResult
         {
             success = true,
             data = new

@@ -20,9 +20,9 @@ export const messages: any = {
     },
     error: {
         subscription: {
-            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen, ein Abonnement entfernt diese Funktionsbeschränkung.",
-            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen, ein Abonnement entfernt diese Funktionsbeschränkung",
-            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Topics mehr hinzufügen, ein Abonnement entfernt diese Funktionsbeschränkung"
+            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenztes Wunschwissen zu erhalten.",
+            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenzt private Fragen zu erstellen.",
+            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenzt private Themen zu erstellen."
         },
         category: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
@@ -40,7 +40,7 @@ export const messages: any = {
             rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden.",
             missingRights: "Dir fehlen die notwendigen Rechte.",
             tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
-            saveImage: "Das Bild konnte nicht gespeichert werden."
+            saveImageError: "Das Bild konnte nicht gespeichert werden."
         },
         question: {
             missingText: "Der Fragetext fehlt.",
@@ -53,6 +53,7 @@ export const messages: any = {
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
         },
         user: {
+            notLoggedIn: "Bitte logge dich ein.",
             emailInUse: "Die Email-Adresse ist bereits in Verwendung.",
             userNameInUse: "Dieser Benutzername ist bereits vergeben.",
             passwordIsWrong: "Falsches Passwort. Gib das Passwort erneut ein.",
@@ -60,12 +61,12 @@ export const messages: any = {
             passwordNotCorrectlyRepeated: "Das wiederholte Passwort gleicht nicht deiner neuen Passworteingabe.",
             inputError: "Bitte überprüfe deine Eingaben."
         } as { [key: string]: string },
-        default: "Leider ist ein unerwarteter Fehler aufgetreten, wiederhole den Vorgang zu einem späteren Zeitpunkt durch.",
+        default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
         },
         learningSession: {
-            noQuestionsAvailableWithCurrentConfig: 'Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.'
+            noQuestionsAvailableWithCurrentConfig: 'Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.',
         },
     },
     info: {
@@ -78,4 +79,22 @@ export const messages: any = {
         questionNotInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',
         passwordResetRequested: (email: string) => `Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an ${email} geschickt.`
     },
+    getByCompositeKey(messageKey: string): string | undefined {
+        const keyParts = messageKey?.split('_');
+        let currentLevel = messages;
+      
+        for (const part of (keyParts ?? ["WillReturnUndefined"])) {
+            if (currentLevel.hasOwnProperty(part)) {
+                currentLevel = currentLevel[part];
+            } else {
+                console.error(`Unknown key: ${messageKey}`)
+                const { $logger } = useNuxtApp()
+                const err = new Error()
+                $logger.error(`Unknown key: ${messageKey}`, [{ stack: err.stack}])
+                return undefined; // Key part not found in the messages structure
+            }
+        }
+        console.log(`MessageKey: ${messageKey}, Message: ${currentLevel}`)
+        return currentLevel as string;
+    }
 }

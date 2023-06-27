@@ -11,7 +11,7 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <div class="col-md-6 col-sm-12 user-card-container">
+    <div class="col-md-6 col-xs-12 user-card-container">
         <div class="user-card">
             <Image :src="props.user.imgUrl" :format="ImageFormat.Author" class="user-image" />
             <div class="user-content">
