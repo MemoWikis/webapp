@@ -17,6 +17,8 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
+   
+
     public virtual CategoryEditData GetCategoryChangeData()
     {
         switch (DataVersion)

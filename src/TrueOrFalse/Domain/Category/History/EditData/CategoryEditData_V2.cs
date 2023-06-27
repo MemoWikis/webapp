@@ -7,7 +7,6 @@ public class CategoryEditData_V2 : CategoryEditData
 {
     public IList<CategoryRelation_EditData_V2> CategoryRelations;
     public bool ImageWasUpdated;
-    private readonly ISession _nhibernateSession;
 
     public CategoryEditData_V2(){}
 
@@ -26,7 +25,6 @@ public class CategoryEditData_V2 : CategoryEditData
             .Select(cr => new CategoryRelation_EditData_V2(cr))
             .ToList();
         ImageWasUpdated = imageWasUpdated;
-        _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;
         AffectedParentIds = affectedParentIdsByMove ?? new int[]{};
     }
@@ -45,7 +43,7 @@ public class CategoryEditData_V2 : CategoryEditData
     public override Category ToCategory(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
-        _nhibernateSession.Evict(category);
+        Sl.Session.Evict(category);
 
         category = category == null ? new Category() : category;
         category.IsHistoric = true;

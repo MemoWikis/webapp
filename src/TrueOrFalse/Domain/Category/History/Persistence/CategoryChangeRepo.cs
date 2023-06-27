@@ -59,6 +59,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
+
     private void SetData(Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
     {
         switch (categoryChange.DataVersion)
