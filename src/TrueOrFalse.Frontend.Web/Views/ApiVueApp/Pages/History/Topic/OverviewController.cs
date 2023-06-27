@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using FluentNHibernate.Conventions;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
@@ -30,7 +32,6 @@ public class HistoryTopicOverviewController : BaseController
             return Json(new
             {
                 topicName = topic.Name,
-                topicNameEncoded = UriSanitizer.Run(topic.Name),
                 days = days
             }, JsonRequestBehavior.AllowGet);
         }
@@ -55,9 +56,54 @@ public class HistoryTopicOverviewController : BaseController
             changes.Add(SetChange(change));
         }
 
-        day.changes = changes.ToArray();
+        day.groupedChanges = BuildGroupedChanges(changes);
 
         return day;
+    }
+
+    public class GroupedChange
+    {
+        public bool collapsed = true;
+        public Change[] changes;
+    }
+
+    public class TempGroup
+    {
+        public IList<Change> changes;
+    }
+
+    private GroupedChange[] BuildGroupedChanges(List<Change> changes)
+    {
+        var tempGroupChanges = new List<TempGroup>();
+        foreach (var change in changes)
+        {
+            if (tempGroupChanges.IsEmpty() || !ChangeCanBeGrouped(tempGroupChanges.LastOrDefault(), change))
+            {
+                var newGroup = new TempGroup
+                {
+                    changes = new List<Change> { change }
+                };
+                tempGroupChanges.Add(newGroup);
+                continue;
+            }
+            tempGroupChanges.LastOrDefault()?.changes.Add(change);
+        }
+
+        var g = new List<GroupedChange>();
+        foreach (var group in tempGroupChanges)
+            g.Add(new GroupedChange
+            {
+                changes = group.changes.ToArray()
+            });
+
+        return g.ToArray();
+    }
+
+    private bool ChangeCanBeGrouped(TempGroup tempGroup, Change change)
+    {
+        var currentGroup = tempGroup.changes.LastOrDefault();
+        return currentGroup != null && currentGroup.topicId == change.topicId && change.topicChangeType == CategoryChangeType.Text &&
+               currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
     }
 
     public Author SetAuthor(CategoryChange change)
@@ -101,6 +147,7 @@ public class HistoryTopicOverviewController : BaseController
                         change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
                     else if (PermissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                         change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                    else return null;
                 }
                 else if (previousRelations.Count < currentRelations.Count)
                 {
@@ -111,6 +158,7 @@ public class HistoryTopicOverviewController : BaseController
                         change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
                     else if (PermissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                         change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                    else return null;
                 }
             }
         }
@@ -122,7 +170,6 @@ public class HistoryTopicOverviewController : BaseController
     {
         var affectedTopic = EntityCache.GetCategory(id);
         change.affectedTopicId = affectedTopic.Id;
-        change.affectedTopicNameEncoded = UriSanitizer.Run(affectedTopic.Name);
         change.affectedTopicName = affectedTopic.Name;
 
         return change;
@@ -131,7 +178,7 @@ public class HistoryTopicOverviewController : BaseController
     public class Day
     {
         public string date { get; set; }
-        public Change[] changes { get; set; }
+        public GroupedChange[] groupedChanges { get; set; }
     }
 
     public class Author

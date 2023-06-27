@@ -1,35 +1,40 @@
 <script lang="ts" setup>
 import { Page } from '~/components/shared/pageEnum'
 import { useSpinnerStore } from '~/components/spinner/spinnerStore'
-import { TopicChangeType } from '~/components/topic/history/topicChangeTypeEnum'
 import { Change } from '~~/components/topic/history/all/change.vue'
 
 const spinnerStore = useSpinnerStore()
+
 interface Day {
     date: string
-    changes: Change[]
-    groupedChanges?: GroupedChanges[]
+    groupedChanges: GroupedChanges[]
 }
 
 interface GroupedChanges {
     collapsed: boolean
     changes: Change[]
 }
-const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-const page = ref(1)
-watch(page, (page) => {
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
+const pageNumber = ref(1)
+watch(pageNumber, (page) => {
     history.pushState(null, `Bearbeitungshistorie aller Themen - Seite ${page}`, `/Historie/Themen/${page}`)
     emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${page}`, url: `/Historie/Themen/${page}` }])
 })
 
-const url = computed(() => {
-    return `/apiVue/HistoryTopicAllTopicsOverview/Get?page=${page.value}`
-})
 const route = useRoute()
+
 onBeforeMount(() => {
-    if (route.params.page != null)
-        page.value = parseInt(route.params.page.toString())
+    if (route.params.page != null) {
+        pageNumber.value = parseInt(route.params.page.toString())
+    }
+})
+
+if (route.params.page != null)
+    pageNumber.value = parseInt(route.params.page.toString())
+
+const url = computed(() => {
+    return `/apiVue/HistoryTopicAllTopicsOverview/Get?page=${pageNumber.value}`
 })
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -47,60 +52,28 @@ const { pending, data: days } = await useLazyFetch<Day[]>(url, {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     },
 })
+
 watch(pending, (val) => {
     if (val)
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
+
 onMounted(() => {
     emit('setPage', Page.Default)
+    if (pending.value)
+        spinnerStore.showSpinner()
+    else spinnerStore.hideSpinner()
 
-    if (days.value != null) {
-        if (days.value.length > 0)
-            buildGroupedChanges(days.value)
-    }
-    emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${page.value}`, url: `/Historie/Themen/${page.value}` }])
+    emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${pageNumber.value}`, url: `/Historie/Themen/${pageNumber.value}` }])
 })
 
-function buildGroupedChanges(days: Day[]) {
-    days.forEach((d) => {
-        let currentGroupIndex = 0
-        const newGroupedChange = {
-            collapsed: true,
-            changes: []
-        }
-        d.groupedChanges = [newGroupedChange]
-        d.changes.forEach((c) => {
-            if (d.groupedChanges != null && d.groupedChanges.length) {
-                let currentGroupChanges = d.groupedChanges[currentGroupIndex].changes
 
-                if (currentGroupChanges.length == 0) {
-                    currentGroupChanges.push(c)
-
-                } else {
-                    if (currentGroupChanges[0].topicId == c.topicId &&
-                        currentGroupChanges[0].topicChangeType == TopicChangeType.Text &&
-                        currentGroupChanges[0].author.id == c.author.id) {
-                        currentGroupChanges.push(c)
-                    } else {
-                        currentGroupIndex++
-                        d.groupedChanges.push(newGroupedChange)
-                    }
-                }
-            }
-        })
-    })
-}
-
-
-watch(days, (val) => {
-    if (val != null && val.length > 0)
-        buildGroupedChanges(val)
-}, { deep: true })
 function handleClick(g: GroupedChanges) {
     if (g.changes.length > 1)
         g.collapsed = !g.collapsed
 }
+
 </script>
 
 <template>
@@ -138,9 +111,9 @@ function handleClick(g: GroupedChanges) {
             </div>
             <div class="col-xs-12">
                 <div class="pager">
-                    <button :disabled="page == 1" class="memo-button btn btn-default" @click="page--">Neuere
+                    <button :disabled="pageNumber == 1" class="memo-button btn btn-default" @click="pageNumber--">Neuere
                         Revisionen</button>
-                    <button class="memo-button btn btn-default" @click="page++">Ältere Revisionen</button>
+                    <button class="memo-button btn btn-default" @click="pageNumber++">Ältere Revisionen</button>
 
                 </div>
             </div>
