@@ -39,6 +39,14 @@ public class PermissionCheck
         return CanView(creatorId, previousVisibility) && CanView(creatorId, selectedVisibility);
     }
 
+    public static bool CanView(CategoryChange change)
+    {
+        return change.Category != null &&
+               change.Category.Id > 0 &&
+               CanView(change.Category) &&
+               CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
+    }
+
     public static bool CanEditCategory(int id) => CanEdit(EntityCache.GetCategory(id));
     public static bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
     public static bool CanEdit(CategoryCacheItem category) => CanEdit(SessionUser.User, category);
@@ -89,8 +97,6 @@ public class PermissionCheck
 
         return false;
     }
-
-
 
     public static bool CanEdit(Question question) => CanEdit(SessionUser.User, question);
 

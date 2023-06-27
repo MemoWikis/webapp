@@ -13,21 +13,12 @@ public class AllTopicsHistory : IRegisterAsInstancePerLifetime
             .List<CategoryChange>().OrderBy(c => c.Id);
 
         var groupedChanges = orderedTopicChangesOnPage
-            .Where(ChangeVisibilityCheck)
+            .Where(PermissionCheck.CanView)
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => @group.Key);
 
         return groupedChanges;
     }
     
-
-    private bool ChangeVisibilityCheck(CategoryChange change)
-    {
-        return change.Category != null && 
-               change.Category.Id > 0 &&
-               PermissionCheck.CanView(change.Category) &&
-               PermissionCheck.CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
-    }
-
 }
 
