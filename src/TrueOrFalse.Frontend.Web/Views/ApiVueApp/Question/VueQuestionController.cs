@@ -13,15 +13,18 @@ public class VueQuestionController : BaseController
     private readonly QuestionRepo _questionRepo;
     private readonly PermissionCheck _permissionCheck;
     private readonly RestoreQuestion _restoreQuestion;
+    private readonly LearningSessionCache _learningSessionCache;
 
     public VueQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        RestoreQuestion restoreQuestion) : base(sessionUser)
+        RestoreQuestion restoreQuestion,
+        LearningSessionCache learningSessionCache) : base(sessionUser)
     {
         _questionRepo = questionRepo;
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
+        _learningSessionCache = learningSessionCache;
     }
 
     [HttpGet]
@@ -108,7 +111,7 @@ public class VueQuestionController : BaseController
         question.Visibility = q.Visibility;
         question.CreatorId = q.CreatorId;
 
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
@@ -131,7 +134,7 @@ public class VueQuestionController : BaseController
     {
         _restoreQuestion.Run(questionChangeId, User_());
 
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = _questionRepo.GetById(questionId);
         return Redirect(Links.AnswerQuestion(question));
     }
 

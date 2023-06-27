@@ -11,13 +11,16 @@ public class QuickCreateQuestionController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
+    private readonly LearningSessionCache _learningSessionCache;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
-        QuestionInKnowledge questionInKnowledge): base(sessionUser)
+        QuestionInKnowledge questionInKnowledge,
+        LearningSessionCache learningSessionCache): base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
+        _learningSessionCache = learningSessionCache;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -73,7 +76,7 @@ public class QuickCreateQuestionController : BaseController
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_sessionUser);
+        var questionController = new QuestionController(_sessionUser,_learningSessionCache);
 
         return questionController.LoadQuestion(question.Id);
     }

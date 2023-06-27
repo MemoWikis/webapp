@@ -7,10 +7,12 @@ using TrueOrFalse.Frontend.Web.Code;
 public class QuestionController : Controller
 {
     private readonly SessionUser _sessionUser;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public QuestionController(SessionUser sessionUser)
+    public QuestionController(SessionUser sessionUser,LearningSessionCache learningSessionCache)
     {
         _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
     }
     public JsonResult LoadQuestion(int questionId)
     {
@@ -28,7 +30,7 @@ public class QuestionController : Controller
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;

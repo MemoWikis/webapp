@@ -28,7 +28,8 @@ public class TopicLearningQuestionListController: BaseController
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage,_sessionUser));
+        return Json(new QuestionListModel(_learningSessionCache,_sessionUser)
+            .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
     [HttpGet]

@@ -5,14 +5,22 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListModel
 {
+    private SessionUser _sessionUser { get; }
+    private readonly LearningSessionCache _learningSessionCache;
     public int CategoryId;
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage,SessionUser sessionUser)
+    public QuestionListModel(LearningSessionCache learningSessionCache, SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
+    }
+
+    public List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
         var learningSession = LearningSessionCacheLegacy.GetLearningSession();
 
-        var userQuestionValuation = sessionUser.IsLoggedIn 
-            ? SessionUserCache.GetItem(sessionUser.UserId).QuestionValuations 
+        var userQuestionValuation = _sessionUser.IsLoggedIn 
+            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations 
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;
@@ -25,7 +33,7 @@ public class QuestionListModel
         {
             var q = step.Question;
 
-            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && sessionUser.IsLoggedIn;
+            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn;
             var question = new QuestionListJson.Question
             {
                 Id = q.Id,
@@ -41,7 +49,7 @@ public class QuestionListModel
                 KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             };
 
-            if (userQuestionValuation.ContainsKey(q.Id) && sessionUser.IsLoggedIn)
+            if (userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
                 question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
