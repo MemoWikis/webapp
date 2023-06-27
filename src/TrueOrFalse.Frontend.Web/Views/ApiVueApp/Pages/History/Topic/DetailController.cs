@@ -123,7 +123,7 @@ public class HistoryTopicDetailController : BaseController
     {
         var topicChange = Sl.CategoryChangeRepo.GetByIdEager(topicChangeId);
 
-        if (!PermissionCheck.CanViewCategory(topicChange.Category.Id) || PermissionCheck.CanEditCategory(topicChange.Category.Id))
+        if (!PermissionCheck.CanViewCategory(topicChange.Category.Id) || !PermissionCheck.CanEditCategory(topicChange.Category.Id))
             throw new Exception("not allowed");
 
         RestoreCategory.Run(topicChangeId, SessionUser.User);
