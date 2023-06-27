@@ -14,7 +14,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly int _sessionUserId;
 
-    public TopicControllerLogic(SessionUser sessionUser, PermissionCheck permissionCheck)
+    public TopicControllerLogic(SessionUser sessionUser, 
+        PermissionCheck permissionCheck)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
@@ -37,9 +38,9 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 Name = topic.Name,
                 ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
                 Content = topic.Content,
-                ParentTopicCount = topic.ParentCategories().Where(PermissionCheck.CanView).ToList().Count,
+                ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
                 ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
-                DirectChildTopicCount = topic.DirectChildrenIds.Where(PermissionCheck.CanViewCategory).ToList().Count,
+                DirectChildTopicCount = topic.DirectChildrenIds.ToList().Count,
                 Views = Sl.CategoryViewRepo.GetViewCount(id),
                 Visibility = topic.Visibility,
                 AuthorIds = topic.AuthorIds,
@@ -59,7 +60,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
                 CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
-                DirectQuestionCount = topic.GetCountQuestionsAggregated(true),
+                DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId, true),
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 SearchTopicItem = FillMiniTopicItem(topic),
                 MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
@@ -90,9 +91,9 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 Name = topic.Name,
                 ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
                 Content = topic.Content,
-                ParentTopicCount = topic.ParentCategories().Where(PermissionCheck.CanView).ToList().Count,
+                ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
                 ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
-                DirectChildTopicCount = topic.DirectChildrenIds.Where(PermissionCheck.CanViewCategory).ToList().Count,
+                DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
                 Views = Sl.CategoryViewRepo.GetViewCount(id),
                 Visibility = topic.Visibility,
                 AuthorIds = topic.AuthorIds,
@@ -112,7 +113,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
                 CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
-                DirectQuestionCount = topic.GetCountQuestionsAggregated(true),
+                DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId, true),
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 SearchTopicItem = FillMiniTopicItem(topic),
                 MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),

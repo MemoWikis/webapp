@@ -28,7 +28,7 @@ public class MeiliGlobalSearch : IGlobalSearch
     public async Task<GlobalSearchResult> GoNumberOfCategories(string term, int size)
     {
         var result = new GlobalSearchResult();
-        result.CategoriesResult = await new MeiliSearchCategories(size).RunAsync(term);
+        result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck, size).RunAsync(term);
         return result;
     }
 }

@@ -39,6 +39,17 @@
         return false;
     }
 
+    public bool CanView(int creatorId, CategoryVisibility visibility)
+    {
+        if (visibility == CategoryVisibility.All)
+            return true;
+
+        if (visibility == CategoryVisibility.Owner && creatorId == _userId)
+            return true;
+
+        return false;
+    }
+
     public bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetCategory(categoryId));
     public bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
 

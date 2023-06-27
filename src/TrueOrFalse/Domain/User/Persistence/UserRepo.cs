@@ -10,16 +10,13 @@ public class UserRepo : RepositoryDbBase<User>
     private readonly SessionUser _sessionUser;
   
     private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly bool _isSolrActive;
 
     public UserRepo(ISession session,
-        SearchIndexUser searchIndexUser,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo) : base(session)
     {
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
-        _isSolrActive = Settings.UseMeiliSearch() == false;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)

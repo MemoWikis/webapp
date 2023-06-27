@@ -12,6 +12,7 @@ namespace VueApp;
 public class QuestionEditModalControllerLogic
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
@@ -19,13 +20,14 @@ public class QuestionEditModalControllerLogic
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
-        LearningSessionCache lerLearningSessioncache, 
+        LearningSessionCache learningSessionCache, 
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
-        QuestionInKnowledge questionInKnowledge) :base(sessionUser)
+        QuestionInKnowledge questionInKnowledge) 
     {
         _questionRepo = questionRepo;
-        _learningSessionCache = lerLearningSessioncache;
+        _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
@@ -220,7 +222,7 @@ public class QuestionEditModalControllerLogic
             }
         }
 
-        question.License = SessionUser.IsInstallationAdmin
+        question.License = _sessionUser.IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);

@@ -61,7 +61,7 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
         public bool reloadAnswerBody;
         public int sessionIndex;
     }
-    public static RemovalResult RemoveQuestionFromLearningSession(int questionId)
+    public RemovalResult RemoveQuestionFromLearningSession(int questionId)
     {
         var learningSession = GetLearningSession();
         var reloadAnswerBody = learningSession.CurrentStep.Question.Id == questionId;

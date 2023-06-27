@@ -10,7 +10,7 @@ public class QuestionPinStoreControllerLogic
     }
     public dynamic Pin(int id, SessionUser sessionUser)
     {
-        if (!PremiumCheck.CanAddNewKnowledge(sessionUser))
+        if (!LimitCheck.CanAddNewKnowledge(sessionUser))
         {
             return new { success = false, key = "cantAddKnowledge" };
         }

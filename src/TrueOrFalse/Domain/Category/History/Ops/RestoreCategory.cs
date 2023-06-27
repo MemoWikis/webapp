@@ -28,7 +28,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         NotifyAboutRestore(categoryChange);
     }
 
-    public static void Run(int categoryChangeId, SessionUserCacheItem author)
+    public void Run(int categoryChangeId, SessionUserCacheItem author)
     {
         var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();

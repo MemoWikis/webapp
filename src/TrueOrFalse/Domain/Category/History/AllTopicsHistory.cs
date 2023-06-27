@@ -4,6 +4,12 @@ using NHibernate;
 
 public class AllTopicsHistory : IRegisterAsInstancePerLifetime
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public AllTopicsHistory(PermissionCheck permissionCheck)
+    {
+        _permissionCheck = permissionCheck;
+    }
     public IOrderedEnumerable<IGrouping<DateTime, CategoryChange>> GetGroupedChanges(int page, int revisionsToShow)
     {
         var revisionsToSkip = (page - 1) * revisionsToShow;
@@ -25,8 +31,8 @@ public class AllTopicsHistory : IRegisterAsInstancePerLifetime
     {
         return change.Category != null && 
                change.Category.Id > 0 &&
-               PermissionCheck.CanView(change.Category) &&
-               PermissionCheck.CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
+               _permissionCheck.CanView(change.Category) &&
+               _permissionCheck.CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
     }
 
 }

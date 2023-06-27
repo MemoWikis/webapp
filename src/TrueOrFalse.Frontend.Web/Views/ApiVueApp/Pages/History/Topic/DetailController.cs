@@ -13,17 +13,24 @@ public class HistoryTopicDetailController : Controller
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly ISession _nhibernatesession;
+    private readonly SessionUser _sessionUser;
+    private readonly RestoreCategory _restoreCategory;
 
-    public HistoryTopicDetailController(PermissionCheck permissionCheck, ISession nhibernatesession )
+    public HistoryTopicDetailController(PermissionCheck permissionCheck,
+        ISession nhibernatesession,
+        SessionUser sessionUser,
+        RestoreCategory restoreCategory)
     {
         _permissionCheck = permissionCheck;
         _nhibernatesession = nhibernatesession;
+        _sessionUser = sessionUser;
+        _restoreCategory = restoreCategory;
     }
 
     [HttpGet]
     public JsonResult Get(int topicId, int currentRevisionId, int firstEditId = 0)
     {
-        if(!PermissionCheck.CanViewCategory(topicId))
+        if(!_permissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
 
         var listWithAllVersions = Sl.CategoryChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
@@ -132,9 +139,9 @@ public class HistoryTopicDetailController : Controller
     {
         var topicChange = Sl.CategoryChangeRepo.GetByIdEager(topicChangeId);
 
-        if (!PermissionCheck.CanViewCategory(topicChange.Category.Id) || !PermissionCheck.CanEditCategory(topicChange.Category.Id))
+        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) || !_permissionCheck.CanEditCategory(topicChange.Category.Id))
             throw new Exception("not allowed");
 
-        RestoreCategory.Run(topicChangeId, SessionUser.User);
+        _restoreCategory.Run(topicChangeId, _sessionUser.User);
     }
 }

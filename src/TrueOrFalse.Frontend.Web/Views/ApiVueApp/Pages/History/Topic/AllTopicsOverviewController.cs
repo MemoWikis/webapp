@@ -6,13 +6,15 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class HistoryTopicAllTopicsOverviewController : BaseController
+public class HistoryTopicAllTopicsOverviewController : Controller
 {
     private readonly AllTopicsHistory _allTopicsHistory;
+    private readonly PermissionCheck _permissionCheck;
 
-    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory)
+    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory, PermissionCheck permissionCheck)
     {
         _allTopicsHistory = allTopicsHistory;
+        _permissionCheck = permissionCheck;
     }
 
     [HttpGet]
@@ -74,7 +76,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
         {
             topicId = topicChange.Category.Id,
             topicName = topicChange.Category.Name,
-            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id).GetUrl_50px().Url,
+            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id).GetUrl(50).Url,
             author = SetAuthor(topicChange),
             timeCreated = topicChange.DateCreated.ToString("HH:mm"),
             topicChangeType = topicChange.Type,
@@ -96,9 +98,9 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
                 change.relationAdded = false;
                 var lastRelationDifference = previousRelations.Except(currentRelations).LastOrDefault();
 
-                if (PermissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
+                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
                     change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
-                else if (PermissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
+                else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                     change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
             }
             else if (previousRelations.Count < currentRelations.Count)
@@ -106,9 +108,9 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
                 change.relationAdded = true;
                 var lastRelationDifference = currentRelations.Except(previousRelations).LastOrDefault();
 
-                if (PermissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
+                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
                     change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
-                else if (PermissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
+                else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                     change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
             }
         }
