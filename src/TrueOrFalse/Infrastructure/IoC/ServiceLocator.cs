@@ -20,20 +20,13 @@ public class Sl
 
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
 
-    public static ImageStore ImageStore => R<ImageStore>();
-
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
-    public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
     public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
-
-    public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
-
     public static SolrSearchCategories SearchCategories => R<SolrSearchCategories>();
 
-    public static ISession Session => R<ISession>();
     public static SessionUiData SessionUiData => R<SessionUiData>();
     public static SetRepo SetRepo => R<SetRepo>();
     public static SolrSearchIndexCategory SolrSearchIndexCategory => R<SolrSearchIndexCategory>();

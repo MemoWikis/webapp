@@ -14,12 +14,16 @@ public class FacebookUsersController : Controller
     private readonly VueSessionUser _vueSessionUser;
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
+    private readonly RegisterUser _registerUser;
 
-    public FacebookUsersController(VueSessionUser vueSessionUser, UserRepo userRepo,SessionUser sessionUser)
+    public FacebookUsersController(VueSessionUser vueSessionUser,
+        UserRepo userRepo,
+        SessionUser sessionUser,RegisterUser registerUser)
     {
         _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
+        _registerUser = registerUser;
     }
 
     [HttpPost]
@@ -57,7 +61,7 @@ public class FacebookUsersController : Controller
     [HttpPost]
     public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
     {
-        var registerResult = RegisterUser.Run(facebookUser);
+        var registerResult = _registerUser.Run(facebookUser);
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);

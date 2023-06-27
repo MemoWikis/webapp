@@ -55,8 +55,25 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             EntityCache.AddOrUpdate(categoryCacheItem);
             Sl.CategoryRepo.Update(category);
         }
-        categoryChange.SetData(category, imageWasUpdated, affectedParentIdsByMove);
+        SetData(category, imageWasUpdated, affectedParentIdsByMove,categoryChange);
         base.Create(categoryChange);
+    }
+
+    private void SetData(Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
+    {
+        switch (categoryChange.DataVersion)
+        {
+            case 1:
+                categoryChange.Data = new CategoryEditData_V1(category).ToJson();
+                break;
+
+            case 2:
+                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds,_session).ToJson();
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {categoryChange.DataVersion} for category change id {categoryChange.Id}");
+        }
     }
 
     private void AddUpdateOrCreateEntryDbOnly(Category category,
@@ -81,7 +98,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             category.AuthorIds += ", " + author.Id;
             Sl.CategoryRepo.Update(category);
         }
-        categoryChange.SetData(category, imageWasUpdated, affectedParentIdsByMove);
+        SetData(category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
         base.Create(categoryChange);
     }
 

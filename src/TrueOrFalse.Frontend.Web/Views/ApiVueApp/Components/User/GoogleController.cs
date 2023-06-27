@@ -1,10 +1,6 @@
 ﻿using Google.Apis.Auth;
-using Google.Apis.Auth.OAuth2;
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace VueApp;
@@ -12,13 +8,17 @@ namespace VueApp;
 public class GoogleController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
+    private readonly RegisterUser _registerUser;
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
 
     public GoogleController(SessionUser sessionUser,
-        UserRepo userRepo, VueSessionUser vueSessionUser)
+        UserRepo userRepo, 
+        VueSessionUser vueSessionUser,
+        RegisterUser registerUser)
     {
         _vueSessionUser = vueSessionUser;
+        _registerUser = registerUser;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
     }
@@ -66,7 +66,7 @@ public class GoogleController : Controller
     [HttpPost]
     public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var registerResult = RegisterUser.Run(googleUser);
+        var registerResult = _registerUser.Run(googleUser);
 
         if (registerResult.Success)
         {

@@ -11,19 +11,22 @@ public class UserStoreController : Controller
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly PermissionCheck _permissionCheck;
     private readonly ActivityPointsRepo _activityPointsRepo;
+    private readonly RegisterUser _registerUser;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
         SessionUser sessionUser,
         CredentialsAreValid credentialsAreValid,
         PermissionCheck permissionCheck,
-        ActivityPointsRepo activityPointsRepo)
+        ActivityPointsRepo activityPointsRepo,
+        RegisterUser registerUser)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
         _credentialsAreValid = credentialsAreValid;
         _permissionCheck = permissionCheck;
         _activityPointsRepo = activityPointsRepo;
+        _registerUser = registerUser;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -107,7 +110,7 @@ public class UserStoreController : Controller
 
         var user = SetUser(json);
 
-        RegisterUser.Run(user);
+        _registerUser.Run(user);
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 

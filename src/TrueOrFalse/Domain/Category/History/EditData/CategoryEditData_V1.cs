@@ -27,30 +27,5 @@ public class CategoryEditData_V1 : CategoryEditData
 
     public static CategoryEditData_V1 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
 
-    public override Category ToCategory(int categoryId)
-    {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        
-        Sl.Session.Evict(category);
-        var categoryIsNull = category == null;
-        category = categoryIsNull ? new Category() : category;
-
-        category.IsHistoric = true;
-        category.Name = this.Name;
-        category.Description = this.Description;
-        category.TopicMarkdown = this.TopicMardkown;
-        category.CustomSegments = this.CustomSegments;
-        category.Content = this.Content;
-        category.WikipediaURL = this.WikipediaURL;
-        category.DisableLearningFunctions = this.DisableLearningFunctions;
-        category.Visibility = this.Visibility;
-
-        // Historic CategoryRelations cannot be loaded for DataVersion 1 because there
-        // was a bug where data didn't get written properly so correct relation data
-        // simply do not exist for V1.
-        // Also they cannot be loaded because we do not have archive data and
-        // loading them leads to nasty conflicts and nuisance with NHibernate.
-
-        return category;
-    }
+  
 }
