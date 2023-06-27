@@ -37,7 +37,7 @@ interface LearningSessionResult {
         imgUrl: string
         id: number
     }[]
-    encodedTopicName: string
+    topicName: string
     topicId: number
     inWuwi: boolean
 }
@@ -126,7 +126,8 @@ const tabsStore = useTabsStore()
                             class="memo-button btn btn-link">
                             Zum Thema
                         </button>
-                        <NuxtLink v-else :to="`/${learningSessionResult.encodedTopicName}/${learningSessionResult.topicId}`"
+                        <NuxtLink v-else
+                            :to="$urlHelper.getTopicUrl(learningSessionResult.topicName, learningSessionResult.topicId)"
                             class="memo-button btn btn-link" style="padding-right: 10px">
                             <button class="memo-button btn btn-link">
                                 Zum Thema

@@ -54,7 +54,7 @@ public class VueLearningSessionResultController: BaseController
                 percentage = model.NumberNotAnsweredPercentage,
                 count = model.NumberNotAnswered
             },
-            encodedTopicName = UriSanitizer.Run(learningSession.Config.Category.Name),
+            topicName = learningSession.Config.Category.Name,
             topicId = learningSession.Config.Category.Id,
             inWuwi = learningSession.Config.InWuwi,
             questions = questions,
