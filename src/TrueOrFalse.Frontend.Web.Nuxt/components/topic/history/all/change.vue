@@ -13,7 +13,6 @@ export interface Change {
     relationAdded?: boolean
     affectedTopicId?: number
     affectedTopicName?: string
-    affectedTopicNameEncoded?: string
 }
 
 interface Author {
@@ -60,7 +59,6 @@ function getChangeTypeText(change: Change) {
     }
 }
 
-const route = useRoute()
 const { $urlHelper } = useNuxtApp()
 const slots = useSlots()
 
@@ -366,7 +364,7 @@ const slots = useSlots()
 }
 
 .extras {
-    width: 40px;
+    width: 18px;
     height: 100%;
     display: flex;
     justify-content: center;
