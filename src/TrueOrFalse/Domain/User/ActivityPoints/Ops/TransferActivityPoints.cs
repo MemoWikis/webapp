@@ -1,6 +1,6 @@
 ﻿public class TransferActivityPoints
 {
-    public static void FromSessionToUser(SessionUser sessionUser)
+    public static void FromSessionToUser(SessionUser sessionUser, ActivityPointsRepo activityPointsRepo)
     {
         if (sessionUser.ActivityPoints.Count > 0)
         {
@@ -9,7 +9,7 @@
                 activityPoints.UserId = sessionUser.UserId;
                 if(activityPoints.UserId <= 0) 
                     continue;
-                Sl.ActivityPointsRepo.Create(activityPoints);
+                activityPointsRepo.Create(activityPoints);
             }
             sessionUser.ActivityPoints.Clear();
         }

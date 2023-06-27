@@ -10,7 +10,6 @@ using TrueOrFalse.Search;
 public class Sl
 {
     public static bool IsUnitTest = false;
-    public static ActivityPointsRepo ActivityPointsRepo => R<ActivityPointsRepo>();
 
     public static AnswerRepo AnswerRepo => R<AnswerRepo>();
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();

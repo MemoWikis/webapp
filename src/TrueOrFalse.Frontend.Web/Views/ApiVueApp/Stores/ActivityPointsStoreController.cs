@@ -3,9 +3,11 @@ using System.Web.Mvc;
 
 public class ActivityPointsStoreController : BaseController
 {
-    public ActivityPointsStoreController(SessionUser sessionUser): base(sessionUser)
+    private readonly ActivityPointsRepo _activityPointsRepo;
+
+    public ActivityPointsStoreController(SessionUser sessionUser, ActivityPointsRepo activityPointsRepo): base(sessionUser)
     {
-        
+        _activityPointsRepo = activityPointsRepo;
     }
     [HttpPost]
     public JsonResult Add(string activityTypeString, int points)
@@ -22,7 +24,7 @@ public class ActivityPointsStoreController : BaseController
         {
             var oldUserLevel = _sessionUser.User.ActivityLevel;
             activityPoints.UserId = _sessionUser.UserId;
-            Sl.ActivityPointsRepo.Create(activityPoints);
+            _activityPointsRepo.Create(activityPoints);
             Sl.UserRepo.UpdateActivityPointsData();
 
             var activityLevel = _sessionUser.User.ActivityLevel;

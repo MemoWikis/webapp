@@ -10,17 +10,20 @@ public class UserStoreController : Controller
     private readonly SessionUser _sessionUser;
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly PermissionCheck _permissionCheck;
+    private readonly ActivityPointsRepo _activityPointsRepo;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
         SessionUser sessionUser,
         CredentialsAreValid credentialsAreValid,
-        PermissionCheck permissionCheck)
+        PermissionCheck permissionCheck,
+        ActivityPointsRepo activityPointsRepo)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
         _credentialsAreValid = credentialsAreValid;
         _permissionCheck = permissionCheck;
+        _activityPointsRepo = activityPointsRepo;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -37,7 +40,7 @@ public class UserStoreController : Controller
 
             _sessionUser.Login(credentialsAreValid.User);
 
-            TransferActivityPoints.FromSessionToUser(_sessionUser);
+            TransferActivityPoints.FromSessionToUser(_sessionUser,_activityPointsRepo);
             Sl.UserRepo.UpdateActivityPointsData();
 
             return Json(new

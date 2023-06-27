@@ -8,12 +8,17 @@ using TrueOrFalse.Search;
 public class UserRepo : RepositoryDbBase<User>
 {
     private readonly SessionUser _sessionUser;
+    private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly SearchIndexUser _searchIndexUser;
     private readonly bool _isSolrActive;
 
-    public UserRepo(ISession session, SearchIndexUser searchIndexUser,SessionUser sessionUser) : base(session)
+    public UserRepo(ISession session,
+        SearchIndexUser searchIndexUser,
+        SessionUser sessionUser,
+        ActivityPointsRepo activityPointsRepo) : base(session)
     {
         _sessionUser = sessionUser;
+        _activityPointsRepo = activityPointsRepo;
         _isSolrActive = Settings.UseMeiliSearch() == false;
         if (_isSolrActive)
         {
@@ -260,7 +265,7 @@ public class UserRepo : RepositoryDbBase<User>
         }
 
         var totalPointCount = 0;
-        foreach (var activityPoints in Sl.ActivityPointsRepo.GetActivtyPointsByUser(_sessionUser.UserId))
+        foreach (var activityPoints in _activityPointsRepo.GetActivtyPointsByUser(_sessionUser.UserId))
         {
             totalPointCount += activityPoints.Amount;
         }
