@@ -55,14 +55,14 @@ public class SegmentationLogic
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
         var startTopicId = 1;
 
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(SessionUserLegacy.UserId).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(SessionUserLegacy.UserId).StartTopicId;
+            userValuation = SessionUserCache.GetItem(_sessionUser.UserId).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
-            categoryId => SessionUserLegacy.IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
+            categoryId => _sessionUser.IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
                 : GetCategoryCardData(categoryId)).Where(categoryCardData => categoryCardData != null)
             .ToList();
 
@@ -71,9 +71,9 @@ public class SegmentationLogic
 
     public dynamic GetCategoryData(int categoryId)
     {
-        var categoryCardData = SessionUserLegacy.IsLoggedIn
+        var categoryCardData = _sessionUser.IsLoggedIn
             ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId).CategoryValuations,
-                SessionUserCache.GetUser(SessionUserLegacy.UserId).StartTopicId)
+                SessionUserCache.GetUser(_sessionUser.UserId).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }
@@ -93,11 +93,11 @@ public class SegmentationLogic
         var childCategoryCount = EntityCache.GetChildren(categoryId).Where(_permissionCheck.CanView).Distinct().Count();
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
 
-        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem,_sessionUserId).CategoryKnowledgeSummary;
 
         var isInWishknowledge = false;
         var isPersonalHomepage = false;
-        if (SessionUserLegacy.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             if (userValuation != null && userValuation.ContainsKey(categoryId))
                 isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
@@ -155,7 +155,7 @@ public class SegmentationLogic
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
         var knowledgeBarHtml = "";
         if (questionCount > 0)
-            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), _controllerContext);
+            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem, _sessionUserId), _controllerContext);
         return new
         {
             categoryId = categoryCacheItem.Id,

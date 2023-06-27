@@ -11,13 +11,16 @@ namespace VueApp;
 
 public class GoogleController : Controller
 {
-    private readonly VueSessionUser _sessionUser;
+    private readonly VueSessionUser _vueSessionUser;
     private readonly UserRepo _userRepo;
+    private readonly SessionUser _sessionUser;
 
-    public GoogleController(VueSessionUser sessionUser, UserRepo userRepo)
+    public GoogleController(SessionUser sessionUser,
+        UserRepo userRepo, VueSessionUser vueSessionUser)
     {
-        _sessionUser = sessionUser;
+        _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
+        _sessionUser = sessionUser;
     }
 
     [HttpPost]
@@ -39,11 +42,11 @@ public class GoogleController : Controller
                 return CreateAndLogin(newUser);
             }
 
-            SessionUserLegacy.Login(user);
+            _sessionUser.Login(user);
             return Json(new
             {
                 success = true,
-                currentUser = _sessionUser.GetCurrentUserData()
+                currentUser = _vueSessionUser.GetCurrentUserData()
             });
         }
 
@@ -70,17 +73,17 @@ public class GoogleController : Controller
             var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            SessionUserLegacy.Login(user);
+            _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            SessionUserLegacy.User.StartTopicId = category.Id;
+            _sessionUser.User.StartTopicId = category.Id;
         }
 
         return Json(new
         {
             success = true,
-            CurrentUser = _sessionUser.GetCurrentUserData()
+            CurrentUser = _vueSessionUser.GetCurrentUserData()
         });
     }
 

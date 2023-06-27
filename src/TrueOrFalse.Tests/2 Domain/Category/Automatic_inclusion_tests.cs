@@ -53,7 +53,7 @@ class Automatic_inclusion_tests : BaseTest
 
 
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
-        SessionUserLegacy.Login(user);
+        Resolve<SessionUser>().Login(user);
 
         context
             .Add("SubSub1", parent: subCategories.ByName("Sub1"))

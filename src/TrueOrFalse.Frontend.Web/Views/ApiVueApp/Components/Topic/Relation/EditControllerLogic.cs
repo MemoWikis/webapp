@@ -15,13 +15,15 @@ public class EditControllerLogic
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
     private readonly int _sessionUserId;
+    private readonly SessionUser _sessionUser;
 
-    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck,int sessionUserId)
+    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck,SessionUser sessionUser)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
         _isInstallationAdmin = isInstallationAdmin;
         _permissionCheck = permissionCheck;
-        _sessionUserId = sessionUserId;
+        _sessionUserId = sessionUser.UserId;
+        _sessionUser = sessionUser;
     }
 
     public dynamic ValidateName(string name)
@@ -73,7 +75,7 @@ public class EditControllerLogic
         var topic = new Category(name,_sessionUserId);
         ModifyRelationsForCategory.AddParentCategory(topic, parentTopicId);
 
-        topic.Creator = Sl.UserRepo.GetById(SessionUserLegacy.UserId);
+        topic.Creator = Sl.UserRepo.GetById(_sessionUserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
@@ -109,7 +111,7 @@ public class EditControllerLogic
         if (elements.Categories.Any())
             SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
-        var wikiChildren = EntityCache.GetAllChildren(SessionUserLegacy.User.StartTopicId);
+        var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new
@@ -175,7 +177,7 @@ public class EditControllerLogic
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(SessionUserLegacy.UserId, parentId);
+            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
@@ -210,12 +212,12 @@ public class EditControllerLogic
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
-        _categoryRepository.Update(parent, SessionUserLegacy.User, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childId);
         if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, SessionUserLegacy.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
-            _categoryRepository.Update(child, SessionUserLegacy.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new

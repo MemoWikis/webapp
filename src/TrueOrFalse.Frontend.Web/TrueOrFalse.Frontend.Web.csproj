@@ -298,7 +298,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\BaseController.cs" />
-    <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\FacebookUsersController.cs" />

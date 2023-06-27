@@ -11,13 +11,15 @@ namespace VueApp;
 
 public class FacebookUsersController : Controller
 {
-    private readonly VueSessionUser _sessionUser;
+    private readonly VueSessionUser _vueSessionUser;
     private readonly UserRepo _userRepo;
+    private readonly SessionUser _sessionUser;
 
-    public FacebookUsersController(VueSessionUser sessionUser, UserRepo userRepo)
+    public FacebookUsersController(VueSessionUser vueSessionUser, UserRepo userRepo,SessionUser sessionUser)
     {
-        _sessionUser = sessionUser;
+        _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
+        _sessionUser = sessionUser;
     }
 
     [HttpPost]
@@ -43,12 +45,12 @@ public class FacebookUsersController : Controller
             });
         }
 
-        SessionUserLegacy.Login(user);
+        _sessionUser.Login(user);
 
         return Json(new
         {
             success = true,
-            currentUser = _sessionUser.GetCurrentUserData()
+            currentUser = _vueSessionUser.GetCurrentUserData()
         });
     }
 
@@ -61,18 +63,18 @@ public class FacebookUsersController : Controller
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            SessionUserLegacy.Login(user);
+            _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            SessionUserLegacy.User.StartTopicId = category.Id;
+            _sessionUser.User.StartTopicId = category.Id;
 
             return Json(new
             {
                 Success = true,
                 registerResult,
                 localHref = Links.CategoryDetail(category.Name, category.Id),
-                currentUser = _sessionUser.GetCurrentUserData(),
+                currentUser = _vueSessionUser.GetCurrentUserData(),
             });
         }
 

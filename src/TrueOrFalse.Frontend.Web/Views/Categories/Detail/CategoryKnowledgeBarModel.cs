@@ -1,12 +1,12 @@
-﻿public class CategoryKnowledgeBarModel : BaseModel
+﻿public class CategoryKnowledgeBarModel
 {
     public CategoryCacheItem Category;
 
     public KnowledgeSummary CategoryKnowledgeSummary;
 
-    public CategoryKnowledgeBarModel(CategoryCacheItem category)
+    public CategoryKnowledgeBarModel(CategoryCacheItem category, int userId)
     {
         Category = category;
-        CategoryKnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, SessionUserLegacy.UserId);
+        CategoryKnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, userId);
     }
 }

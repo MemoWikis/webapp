@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class QuestionListModel : BaseModel
+public class QuestionListModel
 {
     public int CategoryId;
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
+    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage,SessionUser sessionUser)
     {
         var learningSession = LearningSessionCacheLegacy.GetLearningSession();
 
-        var userQuestionValuation = SessionUserLegacy.IsLoggedIn 
-            ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations 
+        var userQuestionValuation = sessionUser.IsLoggedIn 
+            ? SessionUserCache.GetItem(sessionUser.UserId).QuestionValuations 
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;
@@ -25,7 +25,7 @@ public class QuestionListModel : BaseModel
         {
             var q = step.Question;
 
-            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && SessionUserLegacy.IsLoggedIn;
+            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && sessionUser.IsLoggedIn;
             var question = new QuestionListJson.Question
             {
                 Id = q.Id,
@@ -41,7 +41,7 @@ public class QuestionListModel : BaseModel
                 KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             };
 
-            if (userQuestionValuation.ContainsKey(q.Id) && SessionUserLegacy.IsLoggedIn)
+            if (userQuestionValuation.ContainsKey(q.Id) && sessionUser.IsLoggedIn)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
                 question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;

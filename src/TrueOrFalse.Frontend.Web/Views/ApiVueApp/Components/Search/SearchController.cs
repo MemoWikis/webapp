@@ -70,7 +70,7 @@ public class SearchController : BaseController
     [HttpPost]
     public JsonResult GetPersonalWikiData(int id)
     {
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUserLegacy.User.StartTopicId))
+        if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new
             {
                 success = false,
@@ -78,16 +78,16 @@ public class SearchController : BaseController
 
         var recentlyUsedRelationTargetTopicIds = new List<SearchCategoryItem>();
 
-        if (SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds != null && SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var categoryId in SessionUserLegacy.User.RecentlyUsedRelationTargetTopicIds)
+            foreach (var categoryId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
                 recentlyUsedRelationTargetTopicIds.Add(SearchHelper.FillSearchCategoryItem(c, UserId));
             }
         }
 
-        var personalWiki = EntityCache.GetCategory(SessionUserLegacy.User.StartTopicId);
+        var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
         return Json(new
         {

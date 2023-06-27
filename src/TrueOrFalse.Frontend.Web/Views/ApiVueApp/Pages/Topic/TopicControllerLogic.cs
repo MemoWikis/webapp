@@ -55,8 +55,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                     };
                 }).ToArray(),
                 IsWiki = topic.IsStartPage(),
-                CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
-                CanBeDeleted = SessionUserLegacy.User != null && _permissionCheck.CanDelete(topic),
+                CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
+                CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),
@@ -81,7 +81,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         if (_permissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUserLegacy.UserId);
+            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
             return new
             {
                 CanAccess = true,
@@ -107,8 +107,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                     };
                 }).ToArray(),
                 IsWiki = topic.IsStartPage(),
-                CurrentUserIsCreator = SessionUserLegacy.User != null && SessionUserLegacy.UserId == topic.Creator?.Id,
-                CanBeDeleted = SessionUserLegacy.User != null && _permissionCheck.CanDelete(topic),
+                CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
+                CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
                 QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
                 ImageId = imageMetaData != null ? imageMetaData.Id : 0,
                 EncodedName = UriSanitizer.Run(topic.Name),

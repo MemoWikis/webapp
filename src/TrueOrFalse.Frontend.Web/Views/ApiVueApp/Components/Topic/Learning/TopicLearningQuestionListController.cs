@@ -6,38 +6,42 @@ using TrueOrFalse.Frontend.Web.Code;
 public class TopicLearningQuestionListController: BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public TopicLearningQuestionListController(SessionUser sessionUser,LearningSessionCreator learningSessionCreator) : base(sessionUser)
+    public TopicLearningQuestionListController(SessionUser sessionUser,
+        LearningSessionCreator learningSessionCreator,
+        LearningSessionCache learningSessionCache) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
+        _learningSessionCache = learningSessionCache;
     }
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
     {
-        if (LearningSessionCacheLegacy.GetLearningSession() == null || topicId != LearningSessionCacheLegacy.GetLearningSession().Config.CategoryId)
+        if (_learningSessionCache.GetLearningSession() == null || topicId != _learningSessionCache.GetLearningSession().Config.CategoryId)
         {
             var config = new LearningSessionConfig
             {
                 CategoryId = topicId,
                 CurrentUserId = IsLoggedIn ? UserId : default
             };
-            LearningSessionCacheLegacy.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
+            _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
+        return Json(QuestionListModel.PopulateQuestionsOnPage(pageNumber, itemCountPerPage,_sessionUser));
     }
 
     [HttpGet]
     public JsonResult LoadNewQuestion(int index)
     {
-        var steps = LearningSessionCacheLegacy.GetLearningSession().Steps;
+        var steps = _learningSessionCache.GetLearningSession().Steps;
         var question = steps[index].Question;
 
-        var userQuestionValuation = SessionUserLegacy.IsLoggedIn
-            ? SessionUserCache.GetItem(SessionUserLegacy.UserId).QuestionValuations
+        var userQuestionValuation = _sessionUser.IsLoggedIn
+            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUserLegacy.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 
         return Json( new {
             Id = question.Id,

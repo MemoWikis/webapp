@@ -6,10 +6,16 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionController : Controller
 {
+    private readonly SessionUser _sessionUser;
+
+    public QuestionController(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUserLegacy.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
+        var user = _sessionUser;
+        var userQuestionValuation = SessionUserCache.GetItem(user.UserId).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

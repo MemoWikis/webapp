@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class LearningSessionResultModel : BaseModel
+public class LearningSessionResultModel
 {
     public LearningSession LearningSession;
     public int NumberSteps;

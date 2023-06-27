@@ -10,7 +10,7 @@ class Delete_question : BaseTest
     public void Delete_question_right_after_creation()
     {
         var user1 = ContextUser.New().Add("User1").Persist().All.First();
-        SessionUserLegacy.Login(user1);
+        Resolve<SessionUser>().Login(user1);
 
         var contextQuestion = ContextQuestion.New().AddQuestion(creator: user1).Persist();
         var question1 = contextQuestion.All[0];
@@ -34,7 +34,7 @@ class Delete_question : BaseTest
         RecycleContainer();
         user2 = R<UserRepo>().GetById(user2.Id);
         question1 = R<QuestionRepo>().GetById(question1.Id);
-        SessionUserLegacy.Login(user1);
+        Resolve<SessionUser>().Login(user1);
 
         Assert.That(user2.WishCountQuestions, Is.EqualTo(1));
         Assert.That(question1.TotalRelevancePersonalEntries, Is.EqualTo(1));
@@ -55,7 +55,7 @@ class Delete_question : BaseTest
         var contextUser = ContextUser.New().Add("User1").Add("User2").Persist();
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
-        SessionUserLegacy.Login(user1);
+        Resolve<SessionUser>().Login(user1);
         var contextQuestion = ContextQuestion.New()
             .PersistImmediately()
             .AddQuestion(creator: user1);

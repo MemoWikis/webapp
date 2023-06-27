@@ -10,7 +10,7 @@ public class AccessOnlyAsLoggedInFilter : ActionFilterAttribute,IRegisterAsInsta
     }
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        if (!SessionUserLegacy.IsLoggedIn)
+        if (!_sessionUser.IsLoggedIn)
             throw new InvalidAccessException();
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);

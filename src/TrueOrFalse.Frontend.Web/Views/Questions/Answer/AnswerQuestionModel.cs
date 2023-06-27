@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse;
 
-public class AnswerQuestionModel : BaseModel
+public class AnswerQuestionModel :  BaseResolve
 {
+    private readonly int _sessionUserId;
+
+    public AnswerQuestionModel(int sessionUserId)
+    {
+        _sessionUserId = sessionUserId;
+    }
+
     public int QuestionId;
     public QuestionCacheItem Question;
     public UserTinyModel Creator;
@@ -16,8 +23,8 @@ public class AnswerQuestionModel : BaseModel
     public LearningSession  LearningSession;
     public AnswerQuestionModel(QuestionCacheItem question, bool isQuestionDetails)
     {
-        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
-        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUserId, question.Id);
+        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, _sessionUserId));
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

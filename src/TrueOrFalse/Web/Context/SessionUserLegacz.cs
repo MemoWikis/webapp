@@ -5,33 +5,41 @@ using Seedworks.Web.State;
 
 public class SessionUserLegacy : IRegisterAsInstancePerLifetime
 {
-    public static bool HasBetaAccess
+    private readonly SessionData _sessionData;
+
+
+    public SessionUserLegacy(SessionData sessionData)
     {
-        get => SessionDataLegacy.Get("isBetaLogin", false);
-        set => SessionDataLegacy.Set("isBetaLogin", value);
+        _sessionData = sessionData;
     }
 
-    public static bool IsLoggedIn
+    public bool HasBetaAccess
     {
-        get => SessionDataLegacy.Get("isLoggedIn", false);
-        private set => SessionDataLegacy.Set("isLoggedIn", value);
+        get => _sessionData.Get("isBetaLogin", false);
+        set => _sessionData.Set("isBetaLogin", value);
     }
 
-    public static bool IsInstallationAdmin
+    public bool IsLoggedIn
     {
-        get => SessionDataLegacy.Get("isAdministrativeLogin", false);
-        set => SessionDataLegacy.Set("isAdministrativeLogin", value);
+        get => _sessionData.Get("isLoggedIn", false);
+        private set => _sessionData.Set("isLoggedIn", value);
     }
 
-    public static int UserId => _userId;
+    public bool IsInstallationAdmin
+    {
+        get => _sessionData.Get("isAdministrativeLogin", false);
+        set => _sessionData.Set("isAdministrativeLogin", value);
+    }
+
+    public int UserId => _userId;
     
-    private static int _userId
+    private int _userId
     {
-        get => SessionDataLegacy.Get("userId", -1);
-        set => SessionDataLegacy.Set("userId", value);
+        get => _sessionData.Get("userId", -1);
+        set => _sessionData.Set("userId", value);
     }
 
-    public static SessionUserCacheItem User
+    public SessionUserCacheItem User
     {
         get
         {
@@ -42,7 +50,7 @@ public class SessionUserLegacy : IRegisterAsInstancePerLifetime
         }
     }
 
-    public static bool IsLoggedInUser(int userId)
+    public bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
             return false;
@@ -50,12 +58,12 @@ public class SessionUserLegacy : IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    public static bool IsLoggedInUserOrAdmin(int userId)
+    public bool IsLoggedInUserOrAdmin(int userId)
     {
         return IsLoggedInUser(userId) || IsInstallationAdmin;
     }
 
-    public static void Login(User user)
+    public void Login(User user)
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
@@ -71,7 +79,7 @@ public class SessionUserLegacy : IRegisterAsInstancePerLifetime
         SessionUserCache.CreateItemFromDatabase(user.Id);
     }
 
-    public static void Logout()
+    public void Logout()
     {
         IsLoggedIn = false;
         IsInstallationAdmin = false;
@@ -83,14 +91,14 @@ public class SessionUserLegacy : IRegisterAsInstancePerLifetime
     }
 
 
-    public static List<ActivityPoints> ActivityPoints => SessionDataLegacy.Get("pointActivities", new List<ActivityPoints>());
+    public List<ActivityPoints> ActivityPoints => _sessionData.Get("pointActivities", new List<ActivityPoints>());
 
-    public static int CurrentWikiId
+    public int CurrentWikiId
     {
-        get => SessionDataLegacy.Get("currentWikiId", 1);
-        private set => SessionDataLegacy.Set("currentWikiId", value);
+        get => _sessionData.Get("currentWikiId", 1);
+        private set => _sessionData.Set("currentWikiId", value);
     }
 
-    public static void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    public static void SetWikiId(int id) => CurrentWikiId = id;
+    public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public void SetWikiId(int id) => CurrentWikiId = id;
 }

@@ -1,10 +1,17 @@
 ﻿using System.Web.Mvc;
+public class AccessOnlyAsAdminAttribute : Attribute{}
 
-public class AccessOnlyAsAdminAttribute : ActionFilterAttribute
+public class AccessOnlyAsAdminAttributeFilter : ActionFilterAttribute
 {
+    private readonly SessionUser _sessionUser;
+
+    public AccessOnlyAsAdminAttributeFilter(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        if (!SessionUserLegacy.IsInstallationAdmin)
+        if (!_sessionUser.IsInstallationAdmin)
             throw new InvalidAccessException();
 
         base.OnActionExecuting(filterContext);

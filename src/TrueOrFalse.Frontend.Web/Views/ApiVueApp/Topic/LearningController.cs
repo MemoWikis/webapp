@@ -35,8 +35,8 @@ public class LearningController : BaseController
     [HttpPost]
     public JsonResult GetCount(LearningSessionConfig config)
     {
-        if (config.CurrentUserId == 0 && SessionUserLegacy.IsLoggedIn)
-            config.CurrentUserId = SessionUserLegacy.UserId;
+        if (config.CurrentUserId == 0 && _sessionUser.IsLoggedIn)
+            config.CurrentUserId = _sessionUser.UserId;
 
         var learningSession = _learningSessionCreator.BuildLearningSession(config);
         

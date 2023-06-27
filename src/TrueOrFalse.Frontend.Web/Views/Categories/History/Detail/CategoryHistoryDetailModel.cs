@@ -7,7 +7,7 @@ using AngleSharp.Html.Parser;
 using FluentNHibernate.Conventions;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class CategoryHistoryDetailModel : BaseModel
+public class CategoryHistoryDetailModel
 {
     private readonly PermissionCheck _permissionCheck;
     public int CategoryId;

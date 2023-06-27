@@ -209,8 +209,8 @@ public class ContextCategory: BaseTest
         }
         Resolve<EntityCacheInitializer>().Init();
 
-        SessionUserLegacy.Login(user);
-        SessionUserLegacy.Logout();
+        Resolve<SessionUser>().Login(user);
+        Resolve<SessionUser>().Logout();
         return user;
     }
 

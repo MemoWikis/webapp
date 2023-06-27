@@ -5,11 +5,15 @@ public class QuestionEditDeleteController : Controller
 {
     private readonly QuestionRepo _questionRepo;
     private readonly QuestionDelete _questionDelete;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public QuestionEditDeleteController(QuestionRepo questionRepo, QuestionDelete questionDelete)
+    public QuestionEditDeleteController(QuestionRepo questionRepo,
+        QuestionDelete questionDelete,
+        LearningSessionCache learningSessionCache)
     {
         _questionRepo = questionRepo;
         _questionDelete = questionDelete;
+        _learningSessionCache = learningSessionCache;
     }
 
     [HttpGet]
@@ -32,7 +36,7 @@ public class QuestionEditDeleteController : Controller
     public JsonResult Delete(int questionId, int sessionIndex)
     {
         _questionDelete.Run(questionId);
-        LearningSessionCacheLegacy.RemoveQuestionFromLearningSession(sessionIndex, questionId);
+        _learningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
         return Json(new
         {
             sessionIndex,

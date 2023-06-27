@@ -3,12 +3,14 @@ using Seedworks.Web.State;
 
 public class SessionUiData : IRegisterAsInstancePerLifetime
 {
-    public SessionUiData(SessionUser sessionUser)
-    {
-        
-    }
-    public QuestionSearchSpec SearchSpecQuestionSearchBox => SessionDataLegacy.Get("searchSpecQuestionSearchBox", new QuestionSearchSpec{Key = "searchbox"});
+    private readonly SessionData _sessionData;
 
-    public List<QuestionSearchSpec> SearchSpecQuestions => SessionDataLegacy.Get("searchSpecQuestions", new List<QuestionSearchSpec>());
-    public TmpImageStore TmpImagesStore => SessionDataLegacy.Get("tmpImageStore", new TmpImageStore());
+    public SessionUiData(SessionData sessionData)
+    {
+        _sessionData = sessionData;
+    }
+    public QuestionSearchSpec SearchSpecQuestionSearchBox => _sessionData.Get("searchSpecQuestionSearchBox", new QuestionSearchSpec{Key = "searchbox"});
+
+    public List<QuestionSearchSpec> SearchSpecQuestions => _sessionData.Get("searchSpecQuestions", new List<QuestionSearchSpec>());
+    public TmpImageStore TmpImagesStore => _sessionData.Get("tmpImageStore", new TmpImageStore());
 }

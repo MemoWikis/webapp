@@ -132,7 +132,7 @@ class GraphService_tests : BaseTest
         var parent = context.Add("parent").Persist().All.First();
         var user = ContextUser.New().Add("User").Persist(true, context).All[0];
 
-        SessionUserLegacy.Login(user);
+        Resolve<SessionUser>().Login(user);
         EntityCache.Clear();
         Resolve<EntityCacheInitializer>().Init();
 

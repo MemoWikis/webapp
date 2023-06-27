@@ -135,16 +135,16 @@ public class UserStoreController : Controller
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
-                Name = _sessionUser.IsLoggedIn ? SessionUserLegacy.User.Name : "",
+                Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
                 IsAdmin = _sessionUser.IsInstallationAdmin,
-                PersonalWikiId = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1,
+                PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
                 Type = type,
-                ImgUrl = SessionUserLegacy.IsLoggedIn
-                    ? new UserImageSettings(SessionUserLegacy.UserId).GetUrl_20px(SessionUserLegacy.User).Url
+                ImgUrl = _sessionUser.IsLoggedIn
+                    ? new UserImageSettings(_sessionUser.UserId).GetUrl_20px(_sessionUser.User).Url
                     : "",
-                Reputation = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.Reputation : 0,
-                ReputationPos = SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser,_permissionCheck).GetTopicData(SessionUserLegacy.IsLoggedIn ? SessionUserLegacy.User.StartTopicId : 1)
+                Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
+                ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
+                PersonalWiki = new TopicControllerLogic(_sessionUser,_permissionCheck).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }
