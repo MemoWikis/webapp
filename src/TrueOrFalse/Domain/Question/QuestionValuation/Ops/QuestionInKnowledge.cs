@@ -7,10 +7,12 @@ using TrueOrFalse;
 public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
+    private readonly ISession _nhibernateSession;
 
-    public QuestionInKnowledge(SessionUser sessionUser)
+    public QuestionInKnowledge(SessionUser sessionUser, ISession nhibernateSession)
     {
         _sessionUser = sessionUser;
+        _nhibernateSession = nhibernateSession;
     }
     public void Pin(int questionId, int userId)
     {
@@ -66,9 +68,9 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user.Id, relevance);
             ChangeTotalInOthersWishknowledge(relevance==50, user.Id, question);
-            Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+            _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            ProbabilityUpdate_Valuation.Run(question, user);
+            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession);
         }
         UpdateTotalRelevancePersonalInCache(questions);
         SetUserWishCountQuestions(user.Id,_sessionUser);
@@ -93,7 +95,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         ReputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId);
+            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
     }
 
     public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)

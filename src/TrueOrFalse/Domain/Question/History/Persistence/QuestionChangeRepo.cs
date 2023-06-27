@@ -21,6 +21,19 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
         base.Create(QuestionChange);
     }
 
+    public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange)
+    {
+        switch (questionChange.DataVersion)
+        {
+            case 1:
+                questionChange.Data = new QuestionEditData_V1(question, imageWasChanged, _session).ToJson();
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {questionChange.DataVersion} for question change id {questionChange.Id}");
+        }
+    }
+
     public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
     private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
@@ -33,7 +46,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
             DataVersion = 1
         };
 
-        questionChange.SetData(question, imageWasChanged);
+        SetData(question, imageWasChanged, questionChange);
 
         base.Create(questionChange);
     }
@@ -48,7 +61,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
             DataVersion = 1
         };
 
-        questionChange.SetData(question, true);
+        SetData(question, true, questionChange);
 
         base.Create(questionChange);
     }

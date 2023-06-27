@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NHibernate;
 using TrueOrFalse;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
@@ -6,12 +7,17 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerLog _answerLog;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly ISession _nhibernateSession;
 
-    public AnswerQuestion(QuestionRepo questionRepo, AnswerLog answerLog, LearningSessionCache learningSessionCache)
+    public AnswerQuestion(QuestionRepo questionRepo,
+        AnswerLog answerLog,
+        LearningSessionCache learningSessionCache,
+        ISession nhibernateSession)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
         _learningSessionCache = learningSessionCache;
+        _nhibernateSession = nhibernateSession;
     }
 
     public AnswerQuestionResult Run(
@@ -170,7 +176,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId);
+        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
 
         return result;
     }

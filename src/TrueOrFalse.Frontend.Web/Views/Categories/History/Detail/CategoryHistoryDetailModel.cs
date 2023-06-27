@@ -5,11 +5,13 @@ using System.Linq;
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using FluentNHibernate.Conventions;
+using NHibernate;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly ISession _nhibernateSession;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -52,9 +54,11 @@ public class CategoryHistoryDetailModel
         CategoryChange previousRevision,
         CategoryChange nextRevision,
         bool isCategoryDeleted,
-        PermissionCheck permissionCheck)
+        PermissionCheck permissionCheck,
+        ISession nhibernateSession)
     {
         _permissionCheck = permissionCheck;
+        _nhibernateSession = nhibernateSession;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 

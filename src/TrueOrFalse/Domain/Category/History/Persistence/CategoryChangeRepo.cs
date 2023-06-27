@@ -7,7 +7,8 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
     public CategoryChangeRepo(ISession session) : base(session) { }
 
-    public void AddDeleteEntry(Category category, int userId)
+    public void AddDeleteEntry(Category category,
+        int userId)
     {
         var categoryChange = new CategoryChange
         {
@@ -58,14 +59,14 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         SetData(category, imageWasUpdated, affectedParentIdsByMove,categoryChange);
         base.Create(categoryChange);
     }
-
+ 
 
     private void SetData(Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
     {
         switch (categoryChange.DataVersion)
         {
             case 1:
-                categoryChange.Data = new CategoryEditData_V1(category).ToJson();
+                categoryChange.Data = new CategoryEditData_V1(category,_session).ToJson();
                 break;
 
             case 2:

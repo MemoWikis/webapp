@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate;
 
 namespace TrueOrFalse.Tests;
 
@@ -214,7 +215,7 @@ public class ContextQuestion :BaseTest
 
         if (valuation == null)
         {
-            ProbabilityUpdate_Valuation.Run(lastQuestion.Id, learner.Id);
+            ProbabilityUpdate_Valuation.Run(lastQuestion.Id, learner.Id, Resolve<ISession>());
             valuation = questionValutionRepo.GetBy(lastQuestion.Id, learner.Id);
         }
 
