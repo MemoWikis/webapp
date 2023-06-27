@@ -97,10 +97,12 @@ async function restore() {
                             </div>
                         </div>
                         <div>
-                            <button class="memo-button btn btn-default" @click="restore">Wiederherstellen</button>
+                            <button class="memo-button btn btn-default" @click="restore"
+                                v-if="changeDetail.changeType == TopicChangeType.Renamed || changeDetail.changeType == TopicChangeType.Text">
+                                Wiederherstellen
+                            </button>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-xs-12">
@@ -111,7 +113,6 @@ async function restore() {
                         <code-diff v-if="changeDetail.currentContent != null" :old-string="changeDetail.previousContent"
                             :new-string="changeDetail.currentContent" :output-format="outputFormat" language="html" />
                     </ClientOnly>
-
                 </div>
             </template>
 
