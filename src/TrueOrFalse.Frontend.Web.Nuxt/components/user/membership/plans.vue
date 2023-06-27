@@ -11,12 +11,15 @@ interface CheckoutSessionResult {
     success: boolean
     id?: string
 }
-
+const { $logger } = useNuxtApp()
 const createOrUpdateSubscription = async (id: string): Promise<string> => {
     const result = await $fetch<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
         method: 'POST',
         body: { priceId: id },
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     });
     if (result.success)
         return result.id ? result.id : ''
@@ -55,13 +58,35 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
     if (sessionId.value)
         await redirectToCheckout(sessionId.value);
 }
+
+function contact() {
+    window.location.href = "mailto:team@memucho.de"
+}
+
+const plans = ref()
+
+async function setPlanData() {
+    const limit = await $fetch<Subscription.BasicLimits>(`/apiVue/UserMembershipPlans/GetBasicLimits`, {
+        method: 'GET', mode: 'cors', credentials: 'include',
+        onResponseError(context) {
+            const { $logger } = useNuxtApp()
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+        }
+    })
+    if (limit != null)
+        plans.value = Subscription.plans(limit)
+}
+
+onBeforeMount(() => {
+    setPlanData()
+})
 </script>
 
 <template>
     <div class="">
-        <div class="subscription-plans">
+        <div class="subscription-plans" v-if="plans">
 
-            <UserMembershipPriceCard :plan="Subscription.plans.basic" :selected="false"
+            <UserMembershipPriceCard :plan="plans.basic" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Basic }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn"
@@ -86,7 +111,7 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="Subscription.plans.plus" :selected="false"
+            <UserMembershipPriceCard :plan="plans.plus" :selected="false"
                 :class="{ 'recommended': !userStore.isLoggedIn, 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Plus }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" v-if="userStore.isLoggedIn == false">
@@ -108,7 +133,7 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="Subscription.plans.team" :selected="false"
+            <UserMembershipPriceCard :plan="plans.team" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Team }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" disabled>
@@ -117,10 +142,10 @@ const handleCheckout = async (type: Subscription.Type): Promise<void> => {
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="Subscription.plans.organisation" :selected="false"
+            <UserMembershipPriceCard :plan="plans.organisation" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Organisation }">
                 <template v-slot:button>
-                    <button class="memo-button btn-link">Kontaktieren</button>
+                    <button @click="contact" class="memo-button btn-link">Kontaktieren</button>
                 </template>
             </UserMembershipPriceCard>
         </div>

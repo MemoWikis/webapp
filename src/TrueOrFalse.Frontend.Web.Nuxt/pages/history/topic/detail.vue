@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ImageFormat } from '~/components/image/imageFormatEnum'
+import { Page } from '~/components/shared/pageEnum'
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
 
 interface ChangeDetail {
@@ -6,6 +8,11 @@ interface ChangeDetail {
     imageWasUpdated: boolean
     isCurrent: boolean
     changeType: TopicChangeType
+    changeDate: string
+
+    authorName: string
+    authorId: number
+    authorImgUrl: string
 
     currentName?: string
     previousName?: string
@@ -25,7 +32,7 @@ interface ChangeDetail {
     currentRelations?: string
     previousRelations?: string
 }
-const { $logger } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp()
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -41,11 +48,32 @@ const { data: changeDetail } = await useFetch<ChangeDetail>(`/apiVue/HistoryTopi
     },
     onResponseError(context) {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
     },
 })
 
-const outputFormat = ref('side-by-side')
+const outputFormat = ref('line-by-line')
+
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
+
+onMounted(() => {
+    emit('setPage', Page.Default)
+    if (changeDetail.value != null)
+        emit('setBreadcrumb', [{ name: `Bearbeitungshistorie für ${changeDetail.value.topicName}`, url: `/Historie/Thema/${route.params.topicId}` }, { name: `Änderungen vom ${changeDetail.value.changeDate}`, url: route.fullPath }])
+
+})
+
+async function restore() {
+    await $fetch(`/apiVue/HistoryTopicDetail/RestoreTopic?topicChangeId=${route.params.currentRevisionId}`, {
+        method: 'GET',
+        credentials: 'include',
+        mode: 'cors',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
+    })
+}
+
+
 </script>
 
 <template>
@@ -54,20 +82,58 @@ const outputFormat = ref('side-by-side')
             <div class="col-xs-12">
                 <h1>Änderungen für '{{ changeDetail?.topicName }}'</h1>
             </div>
-            <div class="col-xs-12"></div>
 
-            <div class="col-xs-12" v-if="changeDetail">
-                <ClientOnly>
-                    <code-diff v-if="changeDetail.currentName != null" :old-string="changeDetail.previousName"
-                        :new-string="changeDetail.currentName" :output-format="outputFormat" language="plaintext" />
+            <template v-if="changeDetail">
+                <div class="col-xs-12">
+                    <div class="header">
+                        <div>
+                            <NuxtLink :to="$urlHelper.getUserUrl(changeDetail.authorName, changeDetail.authorId)"
+                                class="author">
+                                <Image :src="changeDetail.authorImgUrl" :format="ImageFormat.Author" class="author-img" />
+                                {{ changeDetail.authorName }}
+                            </NuxtLink>
+                            <div>
+                                vom {{ changeDetail.changeDate }}
+                            </div>
+                        </div>
+                        <div>
+                            <button class="memo-button btn btn-default" @click="restore">Wiederherstellen</button>
+                        </div>
+                    </div>
 
-                    <code-diff v-if="changeDetail.currentContent != null" :old-string="changeDetail.previousContent"
-                        :new-string="changeDetail.currentContent" :output-format="outputFormat" language="html"
-                        maxHeight="300px" />
-                </ClientOnly>
+                </div>
 
-            </div>
+                <div class="col-xs-12">
+                    <ClientOnly>
+                        <code-diff v-if="changeDetail.currentName != null" :old-string="changeDetail.previousName"
+                            :new-string="changeDetail.currentName" :output-format="outputFormat" language="plaintext" />
+
+                        <code-diff v-if="changeDetail.currentContent != null" :old-string="changeDetail.previousContent"
+                            :new-string="changeDetail.currentContent" :output-format="outputFormat" language="html" />
+                    </ClientOnly>
+
+                </div>
+            </template>
+
 
         </div>
     </div>
 </template>
+
+<style lang="less" scoped>
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .author {
+        display: flex;
+
+        .author-img {
+            height: 20px;
+            width: 20px;
+            margin-right: 8px;
+        }
+    }
+}
+</style>

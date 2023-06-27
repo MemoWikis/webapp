@@ -55,4 +55,23 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
 
         return learningSession.Steps.Count - 1;
     }
+
+    public class RemovalResult
+    {
+        public bool reloadAnswerBody;
+        public int sessionIndex;
+    }
+    public static RemovalResult RemoveQuestionFromLearningSession(int questionId)
+    {
+        var learningSession = GetLearningSession();
+        var reloadAnswerBody = learningSession.CurrentStep.Question.Id == questionId;
+
+        learningSession.Steps = learningSession.Steps.Where(s => s.Question.Id != questionId).ToList();
+
+        return new RemovalResult
+        {
+            reloadAnswerBody = reloadAnswerBody,
+            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ? learningSession.CurrentIndex : learningSession.Steps.Count - 1
+        };
+    }
 }

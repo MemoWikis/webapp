@@ -1,5 +1,4 @@
-﻿using SolrNet.Attributes;
-
+﻿
 namespace TrueOrFalse.Search
 {
     public class MeiliSearchUserMap

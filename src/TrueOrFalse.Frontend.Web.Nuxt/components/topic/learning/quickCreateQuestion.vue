@@ -117,7 +117,7 @@ function createQuestion() {
     flashCardEditor.value?.clearFlashCard()
 }
 
-
+const { $logger } = useNuxtApp()
 async function addFlashcard() {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
@@ -142,7 +142,10 @@ async function addFlashcard() {
     }
 
     const data = await $fetch<any>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
-        method: 'POST', body: json, mode: 'cors', credentials: 'include'
+        method: 'POST', body: json, mode: 'cors', credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
     if (data) {
         topicStore.questionCount++

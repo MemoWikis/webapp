@@ -12,13 +12,21 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
     public PasswordRecoveryResult Run(string email)
     {
         if (IsEmailAddressAvailable.Yes(email))
-            return new PasswordRecoveryResult { TheEmailDoesNotExist = true, Success = false };
+            return new PasswordRecoveryResult { EmailDoesNotExist = true, Success = false };
 
-        var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-        var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
+        try
+        {
+            var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
+            var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
-        _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
-        SendEmail.Run(GetMailMessage(email, passwortResetUrl), MailMessagePriority.High);
+            _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
+            SendEmail.Run(GetMailMessage(email, passwortResetUrl), MailMessagePriority.High);
+        }
+        catch(Exception e)
+        {
+            Logg.r().Error(e, $"Error while trying to reset password for email: {email}");
+            return new PasswordRecoveryResult { Success = false };
+        }
 
         return new PasswordRecoveryResult { Success = true };
     }

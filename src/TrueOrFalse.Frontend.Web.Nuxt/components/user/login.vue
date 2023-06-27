@@ -72,13 +72,17 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo, show
     else primaryBtnLabel.value = 'Anmelden'
 })
 
-function primaryAction() {
+async function primaryAction() {
     if (showLoginIsInProgress.value || showGooglePluginInfo.value || showFacebookPluginInfo.value)
         return
     else if (showPasswordReset.value) {
-        userStore.resetPassword(eMail.value)
+        const result = await userStore.resetPassword(eMail.value)
         userStore.showLoginModal = false
-        alertStore.openAlert(AlertType.Default, { text: messages.info.passwordResetRequested(eMail.value) })
+        if(result.success){
+            alertStore.openAlert(AlertType.Default, { text: messages.info.passwordResetRequested(eMail.value) })
+        } else {
+            alertStore.openAlert(AlertType.Error, { text: messages.error.default})
+        }
     }
     else login()
 }

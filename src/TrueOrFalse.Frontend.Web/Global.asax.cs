@@ -88,9 +88,11 @@ public class Global : HttpApplication
         }
         else
         {
-            Logg.r().Information("=== Entity ===============================");
+            var stopwatch = Stopwatch.StartNew();
+            Logg.r().Information("=== Init EntityCache (start) ===============================");
             new EntityCacheInitializer().Init();
-            Logg.r().Information("=== EntityEnd ===============================");
+            Logg.r().Information($"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
+            stopwatch.Stop();
         }
 
         Sl.Resolve<ISession>().Close();

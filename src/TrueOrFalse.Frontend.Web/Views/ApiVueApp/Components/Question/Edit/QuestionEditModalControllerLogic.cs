@@ -9,7 +9,7 @@ using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
-public class QuestionEditModalControllerLogic : BaseController
+public class QuestionEditModalControllerLogic
 {
     private readonly QuestionRepo _questionRepo;
     private readonly LearningSessionCache _learningSessionCache;
@@ -31,17 +31,17 @@ public class QuestionEditModalControllerLogic : BaseController
         _questionInKnowledge = questionInKnowledge;
     }
 
-    public dynamic Create(QuestionDataJson questionDataJson)
+    public RequestResult Create(QuestionDataJson questionDataJson)
     {
-        if (!PremiumCheck.CanSavePrivateQuestion(_sessionUser))
+        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser))
         {
-            return new { success = false, key = "cantSavePrivateQuestion" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
 
-        var safeText = GetSafeText(questionDataJson.TextHtml);
+        var safeText = RemoveHtmlTags(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new { success = false, key = "missingText" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -57,7 +57,8 @@ public class QuestionEditModalControllerLogic : BaseController
 
         if (questionDataJson.AddToWishknowledge)
            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
-        return new { success = true, data = LoadQuestion(question.Id) };
+
+        return new RequestResult { success = true, data = LoadQuestion(question.Id) };
     }
 
     private dynamic LoadQuestion(int questionId)
@@ -94,12 +95,12 @@ public class QuestionEditModalControllerLogic : BaseController
         return question;
     }
 
-    public dynamic Edit(QuestionDataJson questionDataJson)
+    public RequestResult Edit(QuestionDataJson questionDataJson)
     {
-        var safeText = GetSafeText(questionDataJson.TextHtml);
+        var safeText = RemoveHtmlTags(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new { success = false, key = "missingText" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
@@ -110,7 +111,7 @@ public class QuestionEditModalControllerLogic : BaseController
         if (questionDataJson.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return new { success = true, data = LoadQuestion(updatedQuestion.Id) };
+        return new RequestResult { success = true, data = LoadQuestion(updatedQuestion.Id) };
     }
 
     public dynamic GetData(int id)
@@ -153,10 +154,11 @@ public class QuestionEditModalControllerLogic : BaseController
         return miniTopicItem;
     }
 
-    private string GetSafeText(string text)
+    private string RemoveHtmlTags(string text)
     {
         return Regex.Replace(text, "<.*?>", "");
     }
+
     public class QuestionDataJson
     {
         public int[] CategoryIds { get; set; }
@@ -218,7 +220,7 @@ public class QuestionEditModalControllerLogic : BaseController
             }
         }
 
-        question.License = IsInstallationAdmin
+        question.License = SessionUser.IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);

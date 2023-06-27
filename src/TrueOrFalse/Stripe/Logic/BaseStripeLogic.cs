@@ -1,11 +1,18 @@
-﻿
+﻿using System;
+using Seedworks.Lib.Settings;
+
+
 public class BaseStripeLogic
 {
     protected static string CreateSiteLink(string targetPath)
     {
         var server = Settings.Environment();
         var url = "";
-        if (server.Equals("develop"))
+        if (!string.IsNullOrEmpty(Settings.StripeBaseUrl))
+        {
+            url = $"{Settings.StripeBaseUrl}/{targetPath}";
+        }
+        else if (server.Equals("develop"))
         {
             url = $"http://localhost:3000/{targetPath}";
         }

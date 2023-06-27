@@ -15,7 +15,6 @@ public class MeiliGlobalSearch : IGlobalSearch
         result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck).RunAsync(term);
         result.QuestionsResult = await new MeiliSearchQuestions(_permissionCheck).RunAsync(term);
         result.UsersResult = await new MeiliSearchUsers().RunAsync(term);
-
         return result;
     }
 
@@ -23,6 +22,13 @@ public class MeiliGlobalSearch : IGlobalSearch
     {
         var result = new GlobalSearchResult();
         result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck, 10).RunAsync(term);
+        return result;
+    }
+
+    public async Task<GlobalSearchResult> GoNumberOfCategories(string term, int size)
+    {
+        var result = new GlobalSearchResult();
+        result.CategoriesResult = await new MeiliSearchCategories(size).RunAsync(term);
         return result;
     }
 }

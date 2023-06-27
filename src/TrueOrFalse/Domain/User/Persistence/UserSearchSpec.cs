@@ -6,12 +6,6 @@ public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
 {
     public string SearchTerm;
 
-    public SpellCheckResult SpellCheck;
-
-    public string GetSuggestion()
-    {
-        return SpellCheck.GetSuggestion();
-    }
 }
 
 [Serializable]

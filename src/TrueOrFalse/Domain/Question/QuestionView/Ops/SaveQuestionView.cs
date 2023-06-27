@@ -5,16 +5,15 @@ using TrueOrFalse.Search;
 public class SaveQuestionView : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionViewRepository _questionViewRepo;
-    private readonly SearchIndexQuestion _searchIndexQuestion;
     private readonly ISession _session;
 
     public SaveQuestionView(
         QuestionViewRepository questionViewRepo, 
-        SearchIndexQuestion searchIndexQuestion,
+       
         ISession session)
     {
         _questionViewRepo = questionViewRepo;
-        _searchIndexQuestion = searchIndexQuestion;
+        
         _session = session;
     }
 

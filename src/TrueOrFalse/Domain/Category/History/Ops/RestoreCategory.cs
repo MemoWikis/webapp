@@ -28,6 +28,24 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         NotifyAboutRestore(categoryChange);
     }
 
+    public static void Run(int categoryChangeId, SessionUserCacheItem author)
+    {
+        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
+        var historicCategory = categoryChange.ToHistoricCategory();
+        var category = Sl.CategoryRepo.GetById(historicCategory.Id);
+        var categoryCacheItem = EntityCache.GetCategory(category.Id);
+
+        category.Name = historicCategory.Name;
+        category.Content = historicCategory.Content;
+        categoryCacheItem.Name = historicCategory.Name;
+        categoryCacheItem.Content = historicCategory.Content;
+
+        EntityCache.AddOrUpdate(categoryCacheItem);
+        Sl.CategoryRepo.Update(category, author, type: CategoryChangeType.Restore);
+
+        NotifyAboutRestore(categoryChange);
+    }
+
     private void NotifyAboutRestore(CategoryChange categoryChange)
     {
         var category = categoryChange.Category;

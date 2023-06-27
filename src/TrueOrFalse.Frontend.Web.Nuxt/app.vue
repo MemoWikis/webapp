@@ -79,7 +79,9 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	</Html>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-	<BannerInfo v-if="footerTopics" :documentation="footerTopics?.Documentation" />
+	<ClientOnly>
+		<BannerInfo v-if="footerTopics" :documentation="footerTopics?.Documentation" />
+	</ClientOnly>
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
 		:documentation="footerTopics?.Documentation" />
 	<ClientOnly>

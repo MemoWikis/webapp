@@ -5,7 +5,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useDeleteQuestionStore } from './deleteQuestionStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
 
-const showDeleteInfo = ref(true)
+const showDeleteInfo = ref(false)
 
 const errorMsg = ref('')
 const showErrorMsg = ref(false)
@@ -25,13 +25,14 @@ const { $logger } = useNuxtApp()
 
 async function getDeleteDetails(id: number) {
 
+    showErrorMsg.value = false
+
     var result = await $fetch<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails?questionId=${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 
@@ -42,11 +43,12 @@ async function getDeleteDetails(id: number) {
                 errorMsg.value = messages.error.question.isInWuwi(result.wuwiCount)
             else
                 errorMsg.value = messages.error.question.rights
-
-            showDeleteInfo.value = false
-            showErrorMsg.value = false
-        } else
+            showErrorMsg.value = true
+        } else {
+            showDeleteInfo.value = true
             showDeleteBtn.value = true
+
+        }
     } else
         alertStore.openAlert(AlertType.Error, { text: errorMsg.value })
 
@@ -62,27 +64,28 @@ async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
     spinnerStore.showSpinner()
+    showDeleteInfo.value = false
 
-    var data = {
-        questionId: deleteQuestionStore.id,
-        sessionIndex: learningSessionStore.currentIndex
+    const data = {
+        questionId: deleteQuestionStore.id
     }
 
-    var result = await $fetch<any>('/apVue/DeleteQuestion/Delete', {
+    const result = await $fetch<{ id: number, sessionIndex: number, reloadAnswerBody: boolean }>('/apiVue/QuestionEditDelete/Delete', {
         method: 'POST',
         body: data,
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
 
     if (result) {
         spinnerStore.hideSpinner()
         deletionInProgress.value = false
-        deleteQuestionStore.questionDeleted(result.questionId, result.sessionIndex - 1)
+        deleteQuestionStore.questionDeleted(result.id)
+        if (result.reloadAnswerBody)
+            learningSessionStore.changeActiveQuestion(result.sessionIndex)
         topicStore.questionCount--
         alertStore.openAlert(AlertType.Success, { text: messages.success.question.delete })
         deleteQuestionStore.showModal = false
@@ -103,7 +106,7 @@ watch(() => deleteQuestionStore.showModal, (val) => {
 </script>
 
 <template>
-    <LazyModal :show-close-button="true" :primary-btn-label="!deletionInProgress ? 'Frage löschen' : ''"
+    <LazyModal :show-close-button="true" :primary-btn-label="!deletionInProgress && showDeleteBtn ? 'Frage löschen' : ''"
         :is-full-size-buttons="false" :show-cancel-btn="!deletionInProgress" @close="deleteQuestionStore.showModal = false"
         @primary-btn="deleteQuestion()" :show="deleteQuestionStore.showModal">
         <template v-slot:header>
@@ -113,16 +116,22 @@ watch(() => deleteQuestionStore.showModal, (val) => {
 
             <div class="cardModalContent">
                 <div class="modalBody">
-                    <div class="body-m" v-if="showDeleteInfo">Möchtest Du "{{ name }}" unwiederbringlich löschen?
-                        Alle damit verknüpften Daten werden entfernt!</div>
-                    <div class="alert alert-danger" v-if="showErrorMsg">{{ errorMsg }}</div>
-                    <div class="alert alert-info" v-if="deletionInProgress">Die Frage wird gelöscht... Bitte
-                        habe einen Moment Geduld.</div>
+                    <div class="body-m" v-if="showDeleteInfo">
+                        Möchtest Du "<b>{{ name }}</b>" unwiederbringlich löschen?
+                        Alle damit verknüpften Daten werden entfernt!
+                    </div>
+                    <div class="alert alert-danger" v-if="showErrorMsg">
+                        {{ errorMsg }}
+                    </div>
+                    <div class="alert alert-info" v-if="deletionInProgress">
+                        Die Frage wird gelöscht...
+                        Bitte habe einen Moment Geduld.
+                    </div>
                 </div>
             </div>
         </template>
 
-        <template v-slot:footer> </template>
+        <template v-slot:footer></template>
     </LazyModal>
 </template>
 

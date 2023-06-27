@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const headers = useRequestHeaders(['cookie']) as HeadersInit
     const { $config } = useNuxtApp()
     interface Result {
-        encodedName: string
+        name: string
         id: number
     }
     const result = await $fetch<Result>('/apiVue/MiddlewareStartpage/Get',
@@ -21,6 +21,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
             },
         })
-    return navigateTo(`/${result.encodedName}/${result.id}`)
+    return navigateTo(`/${result.name}/${result.id}`)
 
 })

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web.Mvc;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
-using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -27,7 +24,7 @@ public class HistoryTopicOverviewController : Controller
 
         if (_permissionCheck.CanView(topic))
         {
-            _allOrderedTopicChanges = Sl.CategoryChangeRepo.GetForCategory(id).OrderBy(c => c.Id);
+            _allOrderedTopicChanges = Sl.CategoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
 
             var days = _allOrderedTopicChanges
                 .GroupBy(change => change.DateCreated.Date)
@@ -71,12 +68,13 @@ public class HistoryTopicOverviewController : Controller
 
     public Author SetAuthor(CategoryChange change)
     {
+        if (change.AuthorId < 1)
+            return null;
         var author = SessionUserCache.GetItem(change.AuthorId);
         return new Author
         {
             id = author.Id,
             name = author.Name,
-            encodedName = UriSanitizer.Run(author.Name),
             imgUrl = new UserImageSettings(author.Id).GetUrl_50px_square(author).Url,
         };
     }
@@ -146,7 +144,6 @@ public class HistoryTopicOverviewController : Controller
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string encodedName { get; set; }
         public string imgUrl { get; set; }
     }
 

@@ -14,6 +14,6 @@ public class MiddlewareStartpageController : BaseController
     public JsonResult Get()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
-        return Json(new { encodedName = UriSanitizer.Run(topic.Name), id = topic.Id }, JsonRequestBehavior.AllowGet);
+        return Json(new { name = topic.Name, id = topic.Id }, JsonRequestBehavior.AllowGet);
     }
 }   

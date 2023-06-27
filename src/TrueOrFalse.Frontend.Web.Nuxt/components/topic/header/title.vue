@@ -49,7 +49,12 @@ onUnmounted(() => {
     window.removeEventListener('resize', resize);
 })
 
-function scrollToChildTopics() {
+async function scrollToChildTopics() {
+    if (tabsStore.activeTab != Tab.Topic) {
+        tabsStore.activeTab = Tab.Topic
+        await nextTick()
+        await nextTick()
+    }
     const s = document.getElementById('Segmentation')
     if (s)
         s.scrollIntoView({ behavior: 'smooth' })

@@ -59,7 +59,7 @@ public class LearningSessionStoreController: BaseController
     public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
     {
         var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
-        allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
+        allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
         if (allQuestions.IndexOf(q => q.Id == id) < 0)
             return Json(new
             {
@@ -86,7 +86,6 @@ public class LearningSessionStoreController: BaseController
         _learningSessionCache.AddOrUpdate(newSession);
 
         var learningSession = _learningSessionCache.GetLearningSession();
-
 
         var index = learningSession.Steps.IndexOf(s => s.Question.Id == id);
         learningSession.LoadSpecificQuestion(index);
@@ -118,8 +117,11 @@ public class LearningSessionStoreController: BaseController
     public JsonResult GetLastStepInQuestionList(int index)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
+
         if (learningSession != null)
         {
+            learningSession.LoadSpecificQuestion(index);
+
             return Json(new
             {
                 success = true,
@@ -244,4 +246,5 @@ public class LearningSessionStoreController: BaseController
         public int index;
         public bool isLastStep;
     }
+
 }

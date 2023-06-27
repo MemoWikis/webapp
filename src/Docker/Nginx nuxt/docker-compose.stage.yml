@@ -5,11 +5,11 @@ services:
     image: nginx:alpine
     build: .
     ports:
-      - "3001:3001"
+      - "5002:5002"
     environment:
-      - SERVER_PORT=3001
+      - SERVER_PORT=5002
       - HOST_VAR=https://stage.memucho.de
-      - PORT_NUXT=3000
+      - PORT_NUXT=3002
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
       - ./robots.txt:/etc/nginx/html/robots.txt
@@ -22,3 +22,6 @@ networks:
   environment-specific-network:
     name: mem-stage
     driver: bridge
+
+# Start like this:
+# docker-compose -f docker-compose.stage.yml -p mem-stage up -d

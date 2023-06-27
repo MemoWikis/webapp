@@ -1,5 +1,5 @@
 ﻿public class PasswordRecoveryResult
 {
-    public bool TheEmailDoesNotExist;
+    public bool EmailDoesNotExist;
     public bool Success;
 }

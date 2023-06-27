@@ -81,9 +81,13 @@ public class UserStoreController : Controller
         return Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId);
     }
 
-    [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public void ResetPassword(string email) => Sl.Resolve<PasswordRecovery>().Run(email);
+    public JsonResult ResetPassword(string email)
+    {
+        var result = Sl.Resolve<PasswordRecovery>().Run(email);
+        //Don't reveal if email exists 
+        return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
+    } 
 
     [HttpPost]
     public JsonResult Register(RegisterJson json)

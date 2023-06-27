@@ -13,6 +13,7 @@ export class Topic {
 	Content: string = ''
 	ParentTopicCount: number = 0
 	ChildTopicCount: number = 0
+	DirectChildTopicCount: number = 0
 	Views: number = 0
 	CommentCount: number = 0
 	Visibility: Visibility = Visibility.Owner
@@ -21,8 +22,8 @@ export class Topic {
 	CurrentUserIsCreator: boolean = false
 	CanBeDeleted: boolean = false
 	QuestionCount: number = 0
+	DirectQuestionCount: number = 0
 	Authors: Author[] = []
-	EncodedName: string = ''
 	SearchTopicItem: SearchTopicItem | null = null
 	MetaDescription: string = ''
 	KnowledgeSummary: KnowledgeSummary = {
@@ -70,11 +71,13 @@ export const useTopicStore = defineStore('topicStore', {
 			imgUrl: '',
 			imgId: 0,
 			questionCount: 0,
+			directQuestionCount: 0,
 			content: '',
 			initialContent: '',
 			contentHasChanged: false,
 			parentTopicCount: 0,
 			childTopicCount: 0,
+			directChildTopicCount: 0,
 			views: 0,
 			commentCount: 0,
 			visibility: null as Visibility | null,
@@ -84,8 +87,7 @@ export const useTopicStore = defineStore('topicStore', {
 			canBeDeleted: false,
 			authors: [] as Author[],
 			searchTopicItem: null as null | SearchTopicItem,
-			encodedName: '' as string,
-			knowledgeSummary: {} as KnowledgeSummary
+			knowledgeSummary: {} as KnowledgeSummary,
 		}
 	},
 	actions: {
@@ -93,7 +95,6 @@ export const useTopicStore = defineStore('topicStore', {
 			if (topic != null) {
 				this.id = topic.Id
 				this.name = topic.Name
-				this.encodedName = topic.EncodedName
 				this.initialName = topic.Name
 				this.imgUrl = topic.ImageUrl
 				this.imgId = topic.ImageId
@@ -102,6 +103,7 @@ export const useTopicStore = defineStore('topicStore', {
 
 				this.parentTopicCount = topic.ParentTopicCount
 				this.childTopicCount = topic.ChildTopicCount
+				this.directChildTopicCount = topic.DirectChildTopicCount
 
 				this.views = topic.Views
 				this.commentCount = topic.CommentCount
@@ -113,6 +115,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.canBeDeleted = topic.CanBeDeleted
 
 				this.questionCount = topic.QuestionCount
+				this.directQuestionCount = topic.DirectQuestionCount
 
 				this.authors = topic.Authors
 				this.searchTopicItem = topic.SearchTopicItem
@@ -133,7 +136,13 @@ export const useTopicStore = defineStore('topicStore', {
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
-			const result = await $fetch('/apiVue/TopicStore/SaveTopic', { method: 'POST', body: json, mode: 'cors', credentials: 'include' })
+			const result = await $fetch('/apiVue/TopicStore/SaveTopic', {
+				method: 'POST', body: json, mode: 'cors', credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+				}
+			})
 			if (result == true)
 				this.contentHasChanged = false
 		},

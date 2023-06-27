@@ -301,6 +301,7 @@
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\FacebookUsersController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\User\Membership\PlansController.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\StartpageController.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
@@ -315,13 +316,13 @@
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerQuestionDetailsController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\LearningSessionResultController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\AnswerBody\AnswerBodyController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\Question\Edit\DeleteQuestionController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Question\Edit\DeleteController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Search\SearchHelper.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\QuickCreateQuestionController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\GoogleController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\DetailController.cs" />
-    <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverview.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\OverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Question\QuestionLandingPageController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Membership\StripeAdminstration.cs" />

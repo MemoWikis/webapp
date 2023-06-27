@@ -26,7 +26,7 @@ public class TopicLearningQuestionController: BaseController
         var answerQuestionModel = new AnswerQuestionModel(question, true);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
-        var json = Json(new
+        var json = Json(new RequestResult
         {
             success = true,
             data = new
@@ -35,7 +35,6 @@ public class TopicLearningQuestionController: BaseController
                 extendedAnswer = question.DescriptionHtml ?? "",
                 authorName = author.Name,
                 authorId = author.Id,
-                authorEncodedName = UriSanitizer.Run(author.Name, 50),
                 authorImageUrl = authorImage.Url,
                 extendedQuestion = question.TextExtendedHtml ?? "",
                 commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)

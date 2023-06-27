@@ -7,15 +7,13 @@ using TrueOrFalse.Search;
 
 public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 {
-    private readonly SearchIndexQuestion _searchIndexQuestion;
+ 
     private readonly QuestionRepo _questionRepo;
 
     public QuestionValuationRepo(
         ISession session,
-        SearchIndexQuestion searchIndexQuestion,
         QuestionRepo questionRepo) : base(session)
     {
-        _searchIndexQuestion = searchIndexQuestion;
         _questionRepo = questionRepo;
     }
 
@@ -144,7 +142,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public override void Update(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
-        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
         SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }

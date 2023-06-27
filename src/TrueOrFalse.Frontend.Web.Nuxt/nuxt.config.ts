@@ -2,24 +2,21 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     nitro: {
-        routeRules: {
-            '/seqlog': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}:5341/api/events/raw` : 'http://localhost:5341/api/events/raw' },
-            // '/apiVueX/**': { proxy: process.env.NUXT_PUBLIC_SERVER_BASE ? `${process.env.NUXT_PUBLIC_SERVER_BASE}/apiVue/**` : 'http://localhost/apiVue/**' },
-            // '/Images/**': { proxy: 'http://memucho.local/Images/**' },
-        }
+        preset: 'node-cluster'
     },
     runtimeConfig: {
         seqServerApiKey: "",
+        seqRawUrl: "http://localhost:5341/api/events/raw",
         public: {
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
             discord: "https://discord.com/invite/nXKwGrN",
-            stripePlusPriceId: "price_1MqspiCAfoBJxQhotlUCv5Y4",
+            stripePlusPriceId: "price_1NI9weCrH8zPItlldHVfhAKI",
             stripeTeamPriceId: "",
-            stripeKey: "pk_test_51MoR45CAfoBJxQhoJL2c0l4Z1Xghwfu7fgD67EGce4zLn8Nm5s1XN4XvDHOVMBIWIF7z2UOXYY0yoGNoF8eCMT6700yChY9qA2",
-            seqServerUrl: undefined,
+            stripeKey: "pk_test_51NFyR9CrH8zPItllWP8mWb9Atsp0NfnFsthj0JPzFWsbfj7VXKKj2kcPoTQLnacJv6ODEVAWf7g0OS6spaGuZYz400m7JmdUZW",
             seqServerPort: undefined,
+            seqServerUrl: undefined,
             seqClientApiKey: "",
 
         },

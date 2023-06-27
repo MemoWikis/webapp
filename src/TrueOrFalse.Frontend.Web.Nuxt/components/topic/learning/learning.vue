@@ -4,6 +4,7 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 import { useTopicStore } from '../topicStore'
+import { useDeleteQuestionStore } from '~/components/question/edit/delete/deleteQuestionStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
@@ -11,7 +12,7 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const topicStore = useTopicStore()
 
 const route = useRoute()
-const openFilter = ref(false)
+const openFilter = ref(true)
 
 onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
@@ -21,6 +22,13 @@ onBeforeMount(async () => {
         await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
     else
         await learningSessionStore.startNewSession()
+})
+const filterOpened = useCookie('show-top-dropdown')
+onBeforeMount(() => {
+    if (filterOpened.value?.toString() == 'true' || filterOpened.value == undefined)
+        openFilter.value = true
+    else if (filterOpened.value?.toString() == 'false')
+        openFilter.value = false
 })
 onMounted(() => {
     watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
@@ -59,11 +67,12 @@ watch(() => topicStore.questionCount, (count) => {
     if (count > 0)
         learningSessionConfigurationStore.showFilter = true
 })
+
 </script>
 
 <template>
     <div class="col-xs-12" v-if="learningSessionConfigurationStore.showFilter">
-        <TopicLearningSessionConfiguration :open-filter="openFilter">
+        <TopicLearningSessionConfiguration :open-filter="openFilter" cookie-name="show-top-dropdown">
             <slot>
                 <div class="session-progress-bar">
                     <div class="session-progress">

@@ -32,8 +32,11 @@ onMounted(() => {
 
 function hideInfoBanner() {
     document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
+    skipAnimation.value = false
     showBanner.value = false
 }
+
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -55,7 +58,7 @@ function hideInfoBanner() {
                 </div>
                 <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
                     <NuxtLink class="memo-button btn btn-primary"
-                        :to="`/${props.documentation.EncodedName}/${props.documentation.Id}`">
+                        :to="$urlHelper.getTopicUrl(props.documentation.Name, props.documentation.Id)">
                         Zur Dokumentation
                     </NuxtLink>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()" class="hidden-xs close-banner" />
@@ -74,5 +77,13 @@ function hideInfoBanner() {
     // &:hover {
     //     color: @memo-grey-darker;
     // }
+}
+
+#BannerRedirectBtn {
+    justify-content: flex-end;
+
+    .close-banner {
+        margin-left: 34px;
+    }
 }
 </style>

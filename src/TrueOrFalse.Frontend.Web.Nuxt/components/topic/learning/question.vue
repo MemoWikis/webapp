@@ -54,7 +54,6 @@ function abbreviateNumber(val: number): string {
 
 const authorName = ref('')
 const authorImageUrl = ref('')
-const authorEncodedName = ref('')
 
 const extendedQuestion = ref('')
 const commentCount = ref(0)
@@ -71,7 +70,6 @@ interface QuestionDataResult {
     extendedAnswer?: string
     authorName: string
     authorId: number
-    authorEncodedName: string
     authorImageUrl: string
     extendedQuestion: string
     commentCount: number
@@ -83,12 +81,17 @@ interface QuestionDataResult {
     title: string
     visibility: Visibility
 }
+const { $logger } = useNuxtApp()
 async function loadQuestionData() {
 
     const result = await $fetch<FetchResult<QuestionDataResult>>('/apiVue/TopicLearningQuestion/LoadQuestionData/', {
         body: { questionId: props.question.Id },
         method: 'POST',
         credentials: 'include',
+
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 
     if (result?.success) {
@@ -105,7 +108,6 @@ async function loadQuestionData() {
 
         authorName.value = result.data.authorName
         authorImageUrl.value = result.data.authorImageUrl
-        authorEncodedName.value = result.data.authorEncodedName
         extendedQuestion.value = `<div>${result.data.extendedQuestion}</div>`
         commentCount.value = result.data.commentCount
         isCreator.value = result.data.isCreator && userStore.isLoggedIn
@@ -117,7 +119,7 @@ async function loadQuestionData() {
         setTitle(result.data.title)
         showLock.value = result.data.visibility != Visibility.All
     } else if (result?.success == false) {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.question[result.key] })
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) ?? messages.error.default })
     }
 
 }
@@ -232,7 +234,10 @@ function setTitle(title: string) {
 async function getNewKnowledgeStatus() {
     currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus?id=${props.question.Id}`, {
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 }
 learningSessionStore.$onAction(({ name, after }) => {

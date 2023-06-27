@@ -17,22 +17,16 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     }
 
     public const int AllgemeinwissenId = 709;
-    private readonly SolrSearchIndexCategory _solrSearchIndexCategory;
     private readonly bool _isSolrActive;
 
-    public CategoryRepository(ISession session,
-        SolrSearchIndexCategory solrSearchIndexCategory,
+    public CategoryRepository(
+        ISession session,
         PermissionCheck permissionCheck,
         SessionUser sessionUser)
         : base(session)
     {
         _permissionCheck = permissionCheck;
         _isSolrActive = Settings.UseMeiliSearch() == false;
-
-        if (_isSolrActive)
-        {
-            _solrSearchIndexCategory = solrSearchIndexCategory;
-        }
     }
 
     /// <summary>
@@ -50,11 +44,6 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         Flush();
 
         UserActivityAdd.CreatedCategory(category);
-
-        if (_isSolrActive)
-        {
-            _solrSearchIndexCategory.Update(category);
-        }
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
@@ -82,6 +71,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
             .ConfigureAwait(false));
     }
 
+    //todo (Meili) die Stelle nochmal anschauen
     public void CreateOnlyDb(Category category)
     {
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
@@ -91,20 +81,12 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         base.Create(category);
         Flush();
-        if (_isSolrActive)
-        {
-            _solrSearchIndexCategory.Update(category);
-        }
 
         Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
     }
 
     public void Delete(Category category, int userId)
     {
-        if (_isSolrActive)
-        {
-            _solrSearchIndexCategory.Delete(category);
-        }
 
         base.Delete(category);
         EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck, userId);
@@ -118,11 +100,6 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
     public void DeleteWithoutFlush(Category category, int userId)
     {
-        if (_isSolrActive)
-        {
-            _solrSearchIndexCategory.Delete(category);
-        }
-
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
         SessionUserCache.RemoveAllForCategory(category.Id);
@@ -283,11 +260,6 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         bool createCategoryChange = true,
         int[] affectedParentIdsByMove = null)
     {
-        if (!isFromModifiyRelations && _isSolrActive)
-        {
-            _solrSearchIndexCategory.Update(category);
-        }
-
         base.Update(category);
 
         if (author != null && createCategoryChange)

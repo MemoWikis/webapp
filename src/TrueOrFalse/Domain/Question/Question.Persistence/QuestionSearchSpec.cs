@@ -17,13 +17,6 @@ public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, Questi
     public SpellCheckResult SpellCheck;
 
 
-    public string GetSuggestion()
-    {
-        if (SpellCheck == null)
-            return "";
-
-        return SpellCheck.GetSuggestion();
-    }
 }
 
 [Serializable]

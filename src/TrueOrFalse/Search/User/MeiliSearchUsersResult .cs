@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Seedworks.Lib.Persistence;
-using SolrNet.Impl;
 
 namespace TrueOrFalse.Search
 {

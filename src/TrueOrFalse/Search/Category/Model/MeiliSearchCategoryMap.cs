@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using SolrNet.Attributes;
-
+﻿
 namespace TrueOrFalse.Search
 {
     public class MeiliSearchCategoryMap

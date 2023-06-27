@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import urlHelper from '~/plugins/urlHelper';
 import { ImageFormat } from '../image/imageFormatEnum'
 import { UserResult } from './userResult'
 
@@ -6,17 +7,17 @@ interface Props {
     user: UserResult
 }
 const props = defineProps<Props>()
-
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <div class="col-md-6 col-sm-12 user-card-container">
+    <div class="col-md-6 col-xs-12 user-card-container">
         <div class="user-card">
             <Image :src="props.user.imgUrl" :format="ImageFormat.Author" class="user-image" />
             <div class="user-content">
                 <div class="user-header">
                     <div class="user-name">
-                        <NuxtLink v-if="props.user.id > 0" :to="`/Nutzer/${props.user.encodedName}/${props.user.id}`">
+                        <NuxtLink v-if="props.user.id > 0" :to="$urlHelper.getUserUrl(props.user.name, props.user.id)">
                             {{ props.user.name }}
                         </NuxtLink>
                     </div>
@@ -39,7 +40,7 @@ const props = defineProps<Props>()
                     </div>
 
                     <div v-if="props.user.wikiId != -1">
-                        <NuxtLink :to="`/${props.user.encodedName}s-Wiki/${props.user.wikiId}`">
+                        <NuxtLink :to="$urlHelper.getTopicUrl(`${props.user.name}s-Wiki`, props.user.wikiId)">
                             Zu {{ props.user.name }}s Wiki
                         </NuxtLink>
                     </div>

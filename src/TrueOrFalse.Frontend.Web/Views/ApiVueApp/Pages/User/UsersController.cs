@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -15,22 +15,22 @@ public class VueUsersController : BaseController
         _permissionCheck = permissionCheck;
     }
     [HttpGet]
-    public JsonResult Get(
+    public async Task<JsonResult> Get(
         int page,
         int pageSize,
         string searchTerm = "",
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
     {
-        var solrResult = Sl.SolrSearchUsers.Run(searchTerm,
-            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
+        var result = await Sl.MeiliSearchUsers.GetUsersByPagerAsync(searchTerm,
+            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page },orderBy);
 
-        var users = EntityCache.GetUsersByIds(solrResult.UserIds);
+        var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
         var usersResult = users.Select(GetUserResult);
 
         return Json(new
         {
             users = usersResult.ToArray(),
-            totalItems = solrResult.Pager.TotalItems
+            totalItems = result.pager.TotalItems
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -59,7 +59,6 @@ public class VueUsersController : BaseController
         {
             name = user.Name,
             id = user.Id,
-            encodedName = UriSanitizer.Run(user.Name, 12),
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
@@ -77,7 +76,6 @@ public class VueUsersController : BaseController
     {
         public int createdQuestionsCount { get; set; }
         public int createdTopicsCount { get; set; }
-        public string encodedName { get; set; }
         public int id { get; set; }
         public string imgUrl { get; set; }
         public string name { get; set; }

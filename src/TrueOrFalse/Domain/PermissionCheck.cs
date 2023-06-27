@@ -61,10 +61,8 @@
 
     public bool CanDelete(CategoryCacheItem category)
     {
-        if (_userId == default)
-            return false;
-
-        if (category == null)
+     
+        if (_userId == default || category == null || category.Id == 0)
             return false;
 
         if (category.IsStartPage())
@@ -80,7 +78,7 @@
 
     public bool CanView(QuestionCacheItem question)
     {
-        if (question == null)
+        if (question == null || question.Id == 0)
             return false;
 
         if (question.Visibility == QuestionVisibility.All)

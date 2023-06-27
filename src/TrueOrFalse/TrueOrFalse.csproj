@@ -177,9 +177,6 @@
     <Reference Include="Serilog.Sinks.Seq, Version=5.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.Seq.5.0.1\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
     </Reference>
-    <Reference Include="SolrNet, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SolrNet.Core.1.1.1\lib\net46\SolrNet.dll</HintPath>
-    </Reference>
     <Reference Include="Stripe.net, Version=41.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Stripe.net.41.10.0\lib\net461\Stripe.net.dll</HintPath>
     </Reference>
@@ -281,8 +278,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
+    <Compile Include="Domain\Category\History\AllTopicsHistory.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
-    <Compile Include="Domain\PremiumCheck.cs" />
+    <Compile Include="Domain\LimitCheck.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="GlobalUsings.cs" />
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
@@ -294,7 +292,6 @@
     <Compile Include="Search\Category\MeiliSearchCategories.cs" />
     <Compile Include="Search\Category\MeiliSearchCategoriesResult.cs" />
     <Compile Include="Search\GlobalSearch\MeiliGlobalSearch.cs" />
-    <Compile Include="Search\GlobalSearch\SolrGlobalSearch.cs" />
     <Compile Include="Search\GlobalSearch\GlobalSearchResult.cs" />
     <Compile Include="Search\GlobalSearch\IGlobalSearch.cs" />
     <Compile Include="Search\MeiliSearch.cs" />
@@ -674,30 +671,9 @@
     <Compile Include="Infrastructure\ProjectionEqualityComparer.cs" />
     <Compile Include="Infrastructure\StringUtils.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
-    <Compile Include="Search\Category\IndexOperations\SolrReIndexAllCategories.cs" />
-    <Compile Include="Search\Category\IndexOperations\SolrSearchIndexCategory.cs" />
-    <Compile Include="Search\Category\Model\CategorySolrMap.cs" />
-    <Compile Include="Search\Category\Model\ToCategorytSolrMap.cs" />
-    <Compile Include="Search\Category\SolrSearchCategories.cs" />
-    <Compile Include="Search\Category\SearchCategoriesOrderBy.cs" />
-    <Compile Include="Search\Category\SolrSearchCategoriesResult.cs" />
-    <Compile Include="Search\Question\IndexOperations\SearchIndexQuestion.cs" />
-    <Compile Include="Search\Question\Model\QuestionSolrMap.cs" />
-    <Compile Include="Search\Question\IndexOperations\ReIndexAllQuestions.cs" />
-    <Compile Include="Search\Question\Model\ToQuestionSolrMap.cs" />
-    <Compile Include="Search\Question\SolrSearchQuestions.cs" />
     <Compile Include="Search\Question\SearchQuestionsOrderBy.cs" />
-    <Compile Include="Search\Question\SolrSearchQuestionsResult.cs" />
-    <Compile Include="Search\InputToSearchExpression.cs" />
-    <Compile Include="Search\SolrSearchQueryBuilder.cs" />
     <Compile Include="Search\SpellCheckResult.cs" />
-    <Compile Include="Search\User\IndexOperations\ReIndexAllUsers.cs" />
-    <Compile Include="Search\User\IndexOperations\SearchIndexUser.cs" />
-    <Compile Include="Search\User\Model\UserSolrMap.cs" />
-    <Compile Include="Search\User\Model\ToUserSolrMap.cs" />
     <Compile Include="Search\User\SearchUsersOrderBy.cs" />
-    <Compile Include="Search\User\SolrSearchUsers.cs" />
-    <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
     <Compile Include="Tools\Cache\EntityCache.cs" />
     <Compile Include="Tools\Cache\SessionUserCache\SessionUserCache.cs" />
@@ -857,7 +833,9 @@
     <Compile Include="Web\InvalidAccessException.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />
     <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
+    <Compile Include="Web\Messages\FrontendMessages.cs" />
     <Compile Include="Web\Seo\SeoUtils.cs" />
+    <Compile Include="Web\Types\RequestResult.cs" />
     <Compile Include="Web\Uris\UrlHelperExtensions.cs" />
     <Compile Include="Web\UserAgent.cs" />
     <Compile Include="Web\ViewEngine\PartialSubDirectoriesViewEngine.cs" />
@@ -887,34 +865,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.hbm.xml" />
-    <Content Include="Infrastructure\SolrSchemas\schemaCategory.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\schemaQuestion.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\schemaSet.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\schemaUser.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\solr.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\solrconfigUser.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\solrconfigSet.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\solrconfigQuestion.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Infrastructure\SolrSchemas\solrconfigCategory.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

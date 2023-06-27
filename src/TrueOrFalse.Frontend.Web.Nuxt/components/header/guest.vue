@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
+import { useRootTopicChipStore } from './rootTopicChipStore'
 
 interface Props {
     isError?: boolean
@@ -40,6 +41,8 @@ function handleError() {
         clearError()
 }
 
+const { $urlHelper } = useNuxtApp()
+const rootTopicChipStore = useRootTopicChipStore()
 </script>
 
 <template>
@@ -48,7 +51,7 @@ function handleError() {
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
-                        :to="userStore.isLoggedIn ? `/${userStore.personalWiki?.EncodedName}/${userStore.personalWiki?.Id}` : '/Globales-Wiki/1'"
+                        :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.Name!, userStore.personalWiki?.Id!) : $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)"
                         alt="homepage">
                         <div id="Logo">
                             <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />

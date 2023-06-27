@@ -18,7 +18,7 @@ const showErrorMsg = ref(false)
 const errorMsg = ref('')
 const forbbidenTopicName = ref('')
 const existingTopicUrl = ref('')
-
+const { $logger } = useNuxtApp()
 async function addTopic() {
 
     if (!userStore.isLoggedIn) {
@@ -34,7 +34,12 @@ async function addTopic() {
         key: string
     }
 
-    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/TopicRelationEdit/ValidateName', { method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include' })
+    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/TopicRelationEdit/ValidateName', {
+        method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
+    })
 
     if (nameValidationResult.categoryNameAllowed) {
         type QuickCreateResult = {
@@ -48,7 +53,12 @@ async function addTopic() {
             parentTopicId: editTopicRelationStore.parentId,
         }
 
-        const result = await $fetch<QuickCreateResult>('/apiVue/TopicRelationEdit/QuickCreate', { method: 'POST', body: topicData, mode: 'cors', credentials: 'include' })
+        const result = await $fetch<QuickCreateResult>('/apiVue/TopicRelationEdit/QuickCreate', {
+            method: 'POST', body: topicData, mode: 'cors', credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            },
+        })
         if (result.success) {
             if (editTopicRelationStore.redirect)
                 navigateTo(result.url)
@@ -130,6 +140,9 @@ async function moveTopicToNewParent() {
     var data = await $fetch<any>('/apiVue/TopicRelationEdit/MoveChild', {
         body: topicData,
         method: 'POST',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 
     if (data.success) {
@@ -174,6 +187,9 @@ async function addExistingTopic() {
         mode: 'cors',
         method: 'POST',
         body: data,
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 
     if (result.success) {
@@ -220,7 +236,10 @@ async function search() {
         body: data,
         method: 'POST',
         mode: 'cors',
-        credentials: 'include'
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
     })
 
     if (result != null) {

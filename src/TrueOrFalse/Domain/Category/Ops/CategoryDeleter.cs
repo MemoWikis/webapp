@@ -14,7 +14,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
     public CategoryDeleter(
         ISession session,
-        SolrSearchIndexCategory solrSearchIndexCategory,
+
         SessionUser sessionUser,
         UserActivityRepo userActivityRepo,
         CategoryRepository categoryRepository,

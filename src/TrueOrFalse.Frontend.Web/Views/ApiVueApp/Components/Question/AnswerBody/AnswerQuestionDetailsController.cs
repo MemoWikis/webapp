@@ -19,11 +19,12 @@ public class AnswerQuestionDetailsController: BaseController
 
     public dynamic GetData(int id)
     {
-        if (!_permissionCheck.CanViewQuestion(id))
+        var question = EntityCache.GetQuestionById(id);
+
+        if (question.Id == 0 || !_permissionCheck.CanView(question))
             return Json(null);
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var question = EntityCache.GetQuestionById(id);
         var answerQuestionModel = new AnswerQuestionModel(question, true);
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
@@ -65,8 +66,7 @@ public class AnswerQuestionDetailsController: BaseController
             creator = new
             {
                 id = question.CreatorId,
-                name = question.Creator.Name,
-                encodedName = UriSanitizer.Run(question.Creator.Name)
+                name = question.Creator.Name
             },
             creationDate = DateTimeUtils.TimeElapsedAsText(question.DateCreated),
             totalViewCount = question.TotalViews,

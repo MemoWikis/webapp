@@ -26,7 +26,6 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
             text = c.Text,
 
             creatorName = c.Creator.Name,
-            creatorEncodedName = UriSanitizer.Run(c.Creator.Name),
             creatorId = c.Creator.Id,
             creatorImgUrl = new UserImageSettings(c.Creator.Id).GetUrl_128px_square(c.Creator).Url,
 
@@ -81,7 +80,6 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
         public string text { get; set; }
 
         public string creatorName { get; set; }
-        public string creatorEncodedName { get; set; }
         public int creatorId { get; set; }
         public string creatorImgUrl { get; set; }
 

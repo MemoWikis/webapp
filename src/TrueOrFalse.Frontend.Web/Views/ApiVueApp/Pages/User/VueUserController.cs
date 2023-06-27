@@ -69,7 +69,7 @@ public class VueUserController : BaseController
     {
         var user = EntityCache.GetUserById(id);
 
-        if (user.ShowWishKnowledge || _sessionUser.UserId == user.Id)
+        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
@@ -81,8 +81,7 @@ public class VueUserController : BaseController
                 questions = wishQuestions.Select(q => new
                 {
                     title = q.GetShortTitle(200),
-                    encodedPrimaryTopicName =
-                        UriSanitizer.Run(q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Name),
+                    primaryTopicName =q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Name,
                     primaryTopicId = q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Id,
                     id = q.Id
 
@@ -90,7 +89,6 @@ public class VueUserController : BaseController
                 topics = wishQuestions.QuestionsInCategories().Select(t => new
                 {
                     name = t.CategoryCacheItem.Name,
-                    encodedName = UriSanitizer.Run(t.CategoryCacheItem.Name),
                     id = t.CategoryCacheItem.Id,
                     questionCount = t.CategoryCacheItem.CountQuestions
                 }).ToArray()

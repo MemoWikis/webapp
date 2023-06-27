@@ -16,7 +16,7 @@ const props = defineProps<Props>()
 const readMore = ref(false)
 const foldOut = ref(false)
 const showCommentAnswers = ref(false)
-const { $logger } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp()
 
 async function markAsSettled() {
     const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
@@ -171,7 +171,7 @@ async function saveAnswer() {
                     </div>
                     <div class="commentUserDetails">
                         <NuxtLink class="pointer comment-header" v-if="props.comment.creatorId > 0"
-                            :to="`/Nutzer/${props.comment.creatorEncodedName}/${props.comment.creatorId}`">
+                            :to="$urlHelper.getUserUrl(props.comment.creatorName, props.comment.creatorId)">
                             <img class="commentUserImg" :src="props.comment.creatorImgUrl">
                             <span class="commentUserName">{{ props.comment.creatorName }}</span>
                         </NuxtLink>

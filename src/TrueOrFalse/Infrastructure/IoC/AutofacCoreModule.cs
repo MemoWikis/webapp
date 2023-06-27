@@ -3,12 +3,9 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using Autofac;
-using Autofac.Integration.Mvc;
 using NHibernate;
 using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
-using TrueOrFalse.Search;
-using TrueOrFalse.Search.GlobalSearch;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -76,12 +73,8 @@ namespace TrueOrFalse.Infrastructure
 
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
-
-
             if (!Settings.UseMeiliSearch())
-                builder.RegisterType<SolrGlobalSearch>().As<IGlobalSearch>();
-            else
-                builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
+            builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
         }
     }
 }

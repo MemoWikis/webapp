@@ -33,17 +33,16 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .First(q => q.Text.Equals(nameQuestion3)).Id;
 
 
-        var field = typeof(PremiumCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
+        var field = typeof(LimitCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
         var questionInKnowledge = Resolve<QuestionInKnowledge>(); 
         var result1 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question1Id, sessionUser);
         var result2 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question2Id, sessionUser);
         var result3 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question3Id, sessionUser);
-        result3 = JsonConvert.SerializeObject(result3);
-        var expectedResult = JsonConvert.SerializeObject(new { success = false, key = "cantAddKnowledge" });
+        var expectedResult = new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
 
-        Assert.True(result1);
-        Assert.True(result2);
+        Assert.True(result1.success);
+        Assert.True(result2.success);
         Assert.AreEqual(expectedResult, result3);
     }
 
@@ -73,7 +72,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .First(q => q.Text.Equals(nameQuestion3)).Id;
 
 
-        var field = typeof(PremiumCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
+        var field = typeof(LimitCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
 
         var questionInKnowledge = Resolve<QuestionInKnowledge>(); 
@@ -81,8 +80,8 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
         var result2 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question2Id, sessionUser);
         var result3 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question3Id, sessionUser);
 
-        Assert.True(result1);
-        Assert.True(result2);
-        Assert.True(result3);
+        Assert.True(result1.success);
+        Assert.True(result2.success);
+        Assert.True(result3.success);
     }
 }
