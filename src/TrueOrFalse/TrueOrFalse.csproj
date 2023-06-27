@@ -369,7 +369,6 @@
     <Compile Include="Tools\Cache\BaseCache.cs" />
     <Compile Include="Tools\Cache\EntityCache\EntityCacheInitializer.cs" />
     <Compile Include="Tools\Cache\LearningSessionCache.cs" />
-    <Compile Include="Tools\Cache\LearningSessionCacheLegacy.cs" />
     <Compile Include="Tools\Cache\ModifyRelationsEntityCache.cs" />
     <Compile Include="Tools\Cache\EntityCache\QuestionCacheItem.cs" />
     <Compile Include="Tools\Cache\EntityCache\ReferenceCacheItem.cs" />
@@ -507,7 +506,6 @@
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\CacheAspNet.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\ICache.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\ContextUtil.cs" />
-    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionDataLegacy.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
@@ -849,7 +847,6 @@
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
-    <Compile Include="Web\Context\SessionUserLegacz.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
     <Compile Include="Web\Controls\UserMessage\UIMessage.cs" />
     <Compile Include="Web\Crawlers\CrawlerRepo.cs" />

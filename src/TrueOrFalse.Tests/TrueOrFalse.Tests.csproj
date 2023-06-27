@@ -262,7 +262,6 @@
     <Compile Include="2 Domain\Category\Automatic_inclusion_tests.cs" />
     <Compile Include="2 Domain\Category\SessionUser_test.cs" />
     <Compile Include="2 Domain\Category\Crumbtrail_test.cs" />
-    <Compile Include="2 Domain\Category\Edit_category_tests.cs" />
     <Compile Include="2 Domain\Category\EntityCache_tests.cs" />
     <Compile Include="2 Domain\Category\GraphService_tests.cs" />
     <Compile Include="2 Domain\Category\ModifyRelationsForCategory_tests.cs" />

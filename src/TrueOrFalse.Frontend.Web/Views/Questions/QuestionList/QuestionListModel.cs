@@ -17,7 +17,7 @@ public class QuestionListModel
 
     public List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
-        var learningSession = LearningSessionCacheLegacy.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
 
         var userQuestionValuation = _sessionUser.IsLoggedIn 
             ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations 
