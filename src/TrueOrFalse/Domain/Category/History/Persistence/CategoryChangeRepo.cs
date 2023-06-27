@@ -131,7 +131,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     public IList<CategoryChange> GetForTopic(int categoryId, bool filterUsersForSidebar = false)
     {
         Category aliasCategory = null;
-        var categoryCacheItem = EntityCache.GetCategory(categoryId);
 
         var query = _session
             .QueryOver<CategoryChange>()
@@ -140,8 +139,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
 
-        query
-            .Left.JoinAlias(c => c.Category, () => aliasCategory);
+        query.Left.JoinAlias(c => c.Category, () => aliasCategory);
 
         var categoryChangeList = query
             .List();

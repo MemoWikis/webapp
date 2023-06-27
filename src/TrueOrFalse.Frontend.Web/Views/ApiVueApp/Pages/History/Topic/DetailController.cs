@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Domain;
 using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
@@ -16,12 +17,16 @@ public class HistoryTopicDetailController : BaseController
         if(!PermissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
 
-        var listWithAllVersions = Sl.CategoryChangeRepo.GetForCategory(topicId).OrderBy(c => c.Id);
+        var listWithAllVersions = Sl.CategoryChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == currentRevisionId);
 
         var previousRevision = firstEditId <= 0 ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId) : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
+
+        if (currentRevision.Category.Id != previousRevision.Category.Id)
+            throw new Exception("different topic ids");
+
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > currentRevisionId);
         var topicHistoryDetailModel = new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
 
@@ -31,6 +36,10 @@ public class HistoryTopicDetailController : BaseController
             imageWasUpdated = topicHistoryDetailModel.ImageWasUpdated,
             isCurrent = !topicHistoryDetailModel.NextRevExists,
             changeType = topicHistoryDetailModel.ChangeType,
+            changeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            authorName = currentRevision.Author.Name,
+            authorId = currentRevision.Author.Id,
+            authorImgUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_20px(currentRevision.Author).Url
         };
 
         if (topicHistoryDetailModel.CurrentName != topicHistoryDetailModel.PrevName)
@@ -78,6 +87,10 @@ public class HistoryTopicDetailController : BaseController
         public bool imageWasUpdated { get; set; }
         public bool isCurrent { get; set; }
         public CategoryChangeType changeType { get; set; }
+        public string authorName { get; set; }
+        public int authorId { get; set; }
+        public string authorImgUrl { get; set; }
+        public string changeDate { get; set; }
         public string currentName { get; set; }
         public string previousName { get; set; }
         public string currentMarkdown { get; set; }
@@ -104,4 +117,15 @@ public class HistoryTopicDetailController : BaseController
         return new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpGet]
+    public static void RestoreTopic(int topicChangeId)
+    {
+        var topicChange = Sl.CategoryChangeRepo.GetByIdEager(topicChangeId);
+
+        if (!PermissionCheck.CanViewCategory(topicChange.Category.Id) || PermissionCheck.CanEditCategory(topicChange.Category.Id))
+            throw new Exception("not allowed");
+
+        RestoreCategory.Run(topicChangeId, SessionUser.User);
+    }
 }

@@ -47,6 +47,7 @@ watch(historyResult, (val) => {
 })
 const spinnerStore = useSpinnerStore()
 watch(pending, (val) => {
+    console.log(val)
     if (val)
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
@@ -111,9 +112,9 @@ function handleClick(g: GroupedChanges) {
             </div>
             <template v-else-if="historyResult">
                 <div class="col-xs-12">
-                    <h1>{{ historyResult.topicName }}</h1>
+                    <h1>Bearbeitungshistorie '{{ historyResult.topicName }}'</h1>
                     <div>
-                        <button class="memo-button btn btn-link link-to-all">
+                        <button class="memo-button btn btn-default link-to-all">
                             <NuxtLink to="/Historie/Themen">
                                 Bearbeitungshistorie aller Themen
                             </NuxtLink>
@@ -126,6 +127,7 @@ function handleClick(g: GroupedChanges) {
                             <h3>{{ day.date }}</h3>
                         </div>
                         <div class="col-xs-12">
+
                             <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
 
                                 <TopicHistoryChange :change="g.changes[0]" :group-index="gcIndex"
@@ -141,8 +143,12 @@ function handleClick(g: GroupedChanges) {
                                     <TopicHistoryChange v-for="c, i in g.changes" :change="c" :group-index="i"
                                         :is-last="i == g.changes.length - 1" />
                                 </div>
-
                             </template>
+
+                            <div v-else class="placeholder">
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -155,6 +161,13 @@ function handleClick(g: GroupedChanges) {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+
+.placeholder {
+    height: 60px;
+    width: 100%;
+    border: solid 1px @memo-grey-light;
+}
 
 .is-group {
     cursor: pointer;
@@ -169,8 +182,8 @@ function handleClick(g: GroupedChanges) {
     }
 }
 
-.link-to-all {
-    border: 1px solid @memo-grey-light;
-    text-decoration: none;
-}
+// .link-to-all {
+//     border: 1px solid @memo-grey-light;
+//     text-decoration: none;
+// }
 </style>

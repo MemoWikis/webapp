@@ -138,8 +138,9 @@ function handleClick(g: GroupedChanges) {
             </div>
             <div class="col-xs-12">
                 <div class="pager">
-                    <button :disabled="page == 1" class="pager-btn" @click="page--">Neuere Revisionen</button>
-                    <button class="pager-btn" @click="page++">Ältere Revisionen</button>
+                    <button :disabled="page == 1" class="memo-button btn btn-default" @click="page--">Neuere
+                        Revisionen</button>
+                    <button class="memo-button btn btn-default" @click="page++">Ältere Revisionen</button>
 
                 </div>
             </div>
@@ -168,9 +169,5 @@ function handleClick(g: GroupedChanges) {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    .pager-btn {
-        border: solid 1px @memo-grey-light;
-    }
 }
 </style>
