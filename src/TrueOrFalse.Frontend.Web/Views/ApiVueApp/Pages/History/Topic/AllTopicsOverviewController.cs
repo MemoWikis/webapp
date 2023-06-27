@@ -82,14 +82,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
             tempGroupChanges.LastOrDefault()?.changes.Add(change);
         }
 
-        var g = new List<GroupedChange>();
-        foreach (var group in tempGroupChanges)
-            g.Add(new GroupedChange
-            {
-                changes = group.changes.ToArray()
-            });
-
-        return g.ToArray();
+        return tempGroupChanges.Select(@group => new GroupedChange { changes = @group.changes.ToArray() }).ToArray();
     }
 
     private bool ChangeCanBeGrouped(TempGroup tempGroup, Change change)

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ImageFormat } from '~/components/image/imageFormatEnum'
 import { Page } from '~/components/shared/pageEnum'
+import { useUserStore } from '~/components/user/userStore'
 import { TopicChangeType } from '~~/components/topic/history/topicChangeTypeEnum'
 
+const userStore = useUserStore()
 interface ChangeDetail {
     topicName: string
     imageWasUpdated: boolean
@@ -63,6 +65,10 @@ onMounted(() => {
 })
 
 async function restore() {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
     await $fetch(`/apiVue/HistoryTopicDetail/RestoreTopic?topicChangeId=${route.params.currentRevisionId}`, {
         method: 'GET',
         credentials: 'include',
