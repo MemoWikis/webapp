@@ -3,9 +3,16 @@ using System.Linq;
 
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
-    public static KnowledgeSummary RunFromDbCache(Category category, int userId)
+    private readonly CategoryValuationRepo _categoryValuationRepo;
+
+    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo)
     {
-        var categoryValuation = Sl.CategoryValuationRepo.GetBy(category.Id, userId);
+        _categoryValuationRepo = categoryValuationRepo;
+    }
+
+    public KnowledgeSummary RunFromDbCache(Category category, int userId)
+    {
+        var categoryValuation = _categoryValuationRepo.GetBy(category.Id, userId);
 
         if (categoryValuation == null)
         {
@@ -24,17 +31,17 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         );
     }
 
-    public static KnowledgeSummary RunFromDbCache(int categoryId, int userId)
+    public KnowledgeSummary RunFromDbCache(int categoryId, int userId)
     {
         return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
     }
 
-    public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    public KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
     {
         return RunFromMemoryCache(EntityCache.GetCategory(categoryId), userId);
     }
 
-    public static KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
+    public KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
         var aggregatedCategories = categoryCacheItem.AggregatedCategories(PermissionCheck.Instance(userId), includingSelf: true);
@@ -45,7 +52,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SessionUserCache.GetItem(userId)?.QuestionValuations;
+        var userValuations = SessionUserCache.GetItem(userId, _categoryValuationRepo)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 

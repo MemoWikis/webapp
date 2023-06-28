@@ -7,10 +7,14 @@ namespace VueApp;
 public class PublishTopicStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public PublishTopicStoreController(SessionUser sessionUser, PermissionCheck permissionCheck): base(sessionUser)
+    public PublishTopicStoreController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        CategoryValuationRepo categoryValuationRepo): base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     [HttpPost]
@@ -72,7 +76,7 @@ public class PublishTopicStoreController : BaseController
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(User_().Id);
+        var userCacheItem = SessionUserCache.GetItem(User_().Id, _categoryValuationRepo);
 
         if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
             return Json(new

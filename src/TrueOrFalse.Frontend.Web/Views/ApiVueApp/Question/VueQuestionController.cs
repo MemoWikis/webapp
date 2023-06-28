@@ -14,17 +14,20 @@ public class VueQuestionController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly RestoreQuestion _restoreQuestion;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public VueQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
         PermissionCheck permissionCheck,
         RestoreQuestion restoreQuestion,
-        LearningSessionCache learningSessionCache) : base(sessionUser)
+        LearningSessionCache learningSessionCache,
+        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
     {
         _questionRepo = questionRepo;
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
         _learningSessionCache = learningSessionCache;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     [HttpGet]
@@ -70,7 +73,7 @@ public class VueQuestionController : BaseController
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
@@ -89,14 +92,14 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations : null;
+        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).QuestionValuations : null;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

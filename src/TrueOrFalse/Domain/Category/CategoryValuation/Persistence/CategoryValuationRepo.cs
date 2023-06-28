@@ -40,7 +40,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
             .List<CategoryValuation>();
 
     public bool IsInWishKnowledge(int categoryId, int userId) =>
-        Sl.CategoryValuationRepo.GetBy(categoryId, userId)?.IsInWishKnowledge() ?? false;
+        GetBy(categoryId, userId)?.IsInWishKnowledge() ?? false;
 
     public IList<CategoryValuation> GetBy(IList<int> categoryIds, int userId)
     {

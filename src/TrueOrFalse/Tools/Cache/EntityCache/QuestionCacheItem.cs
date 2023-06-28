@@ -139,9 +139,9 @@ public class QuestionCacheItem
     {
         return Categories.Where(permissionCheck.CanView);
     }
-    public virtual bool IsInWishknowledge(int userId)
+    public virtual bool IsInWishknowledge(int userId, CategoryValuationRepo categoryValuationRepo)
     {
-        return SessionUserCache.IsQuestionInWishknowledge(userId, Id);
+        return SessionUserCache.IsQuestionInWishknowledge(userId, Id, categoryValuationRepo);
     }
 
     public virtual bool IsMediumQuestion()

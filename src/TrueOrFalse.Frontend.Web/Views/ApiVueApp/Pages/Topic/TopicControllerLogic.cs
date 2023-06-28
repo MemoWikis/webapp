@@ -12,14 +12,20 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, 
-        PermissionCheck permissionCheck)
+        PermissionCheck permissionCheck,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        CategoryValuationRepo categoryValuationRepo)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     public dynamic GetTopicData(int id)
@@ -29,7 +35,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         if (_permissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+            var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
             return new
             {
@@ -83,7 +89,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         if (_permissionCheck.CanView(topic))
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+            var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
             return new
             {
                 CanAccess = true,
@@ -133,7 +139,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic GetSegmentation(int id, ControllerContext context)
     {
-        var segmentationLogic = new SegmentationLogic(context,_permissionCheck,_sessionUser);
+        var segmentationLogic = new SegmentationLogic(context, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader);
 
         var category = EntityCache.GetCategory(id);
         var s = new SegmentationModel(category,_permissionCheck);

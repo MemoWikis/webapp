@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class TopicLearningQuestionController: BaseController
 {
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public TopicLearningQuestionController(SessionUser sessionUser) : base(sessionUser)
+    public TopicLearningQuestionController(SessionUser sessionUser,
+        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
     {
-        
+        _categoryValuationRepo = categoryValuationRepo;
     }
     [HttpPost]
     public JsonResult LoadQuestionData(int questionId)
@@ -59,7 +55,7 @@ public class TopicLearningQuestionController: BaseController
     public JsonResult GetKnowledgeStatus(int id)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;

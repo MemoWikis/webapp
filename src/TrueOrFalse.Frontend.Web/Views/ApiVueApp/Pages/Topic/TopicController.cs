@@ -6,23 +6,32 @@ namespace VueApp;
 public class TopicController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
 
-    public TopicController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    public TopicController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        CategoryValuationRepo categoryValuationRepo,
+        KnowledgeSummaryLoader knowledgeSummaryLoader) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryValuationRepo = categoryValuationRepo;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
     }
 
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck);
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader,
+            _categoryValuationRepo);
         return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
     public JsonResult GetTopicWithSegments(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck);
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, _knowledgeSummaryLoader,
+            _categoryValuationRepo );
         return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
     }
 
@@ -43,7 +52,7 @@ public class TopicController : BaseController
         var topicCacheItem = EntityCache.GetCategory(topicId);
         if (_permissionCheck.CanView(topicCacheItem))
         {
-            var userCacheItem = SessionUserCache.GetItem(User_().Id);
+            var userCacheItem = SessionUserCache.GetItem(User_().Id, _categoryValuationRepo);
             return Json(topicCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>

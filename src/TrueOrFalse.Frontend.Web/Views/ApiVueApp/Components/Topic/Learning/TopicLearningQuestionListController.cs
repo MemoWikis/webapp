@@ -7,13 +7,16 @@ public class TopicLearningQuestionListController: BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public TopicLearningQuestionListController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
-        LearningSessionCache learningSessionCache) : base(sessionUser)
+        LearningSessionCache learningSessionCache,
+        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _learningSessionCache = learningSessionCache;
+        _categoryValuationRepo = categoryValuationRepo;
     }
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
@@ -28,7 +31,7 @@ public class TopicLearningQuestionListController: BaseController
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(new QuestionListModel(_learningSessionCache,_sessionUser)
+        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationRepo)
             .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
@@ -39,7 +42,7 @@ public class TopicLearningQuestionListController: BaseController
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;

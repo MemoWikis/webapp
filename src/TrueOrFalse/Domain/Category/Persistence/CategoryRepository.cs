@@ -9,6 +9,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public enum CreateDeleteUpdate
     {
@@ -23,11 +24,14 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     public CategoryRepository(
         ISession session,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser, CategoryChangeRepo categoryChangeRepo)
+        SessionUser sessionUser, 
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryValuationRepo categoryValuationRepo)
         : base(session)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     /// <summary>
@@ -103,7 +107,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     {
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id);
+        SessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationRepo);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()

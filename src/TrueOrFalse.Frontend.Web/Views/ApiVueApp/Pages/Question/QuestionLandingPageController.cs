@@ -9,10 +9,14 @@ namespace VueApp;
 public class QuestionLandingPageController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public QuestionLandingPageController(SessionUser sessionUser, PermissionCheck permissionCheck) : base(sessionUser)
+    public QuestionLandingPageController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryValuationRepo = categoryValuationRepo;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -50,7 +54,7 @@ public class QuestionLandingPageController : BaseController
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
@@ -70,7 +74,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

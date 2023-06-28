@@ -12,13 +12,21 @@ public class SegmentationLogic
     private readonly PermissionCheck _permissionCheck;
     private readonly int _sessionUserId;
     private readonly SessionUser _sessionUser;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
 
-    public SegmentationLogic(ControllerContext controllerContext,PermissionCheck permissionCheck, SessionUser sessionUser)
+    public SegmentationLogic(ControllerContext controllerContext,
+        PermissionCheck permissionCheck, 
+        SessionUser sessionUser,
+        CategoryValuationRepo categoryValuationRepo,
+        KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
         _controllerContext = controllerContext;
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
+        _categoryValuationRepo = categoryValuationRepo;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
     }
     public dynamic GetSegmentation(int id)
     {
@@ -57,8 +65,8 @@ public class SegmentationLogic
 
         if (_sessionUser.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(_sessionUser.UserId).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId).StartTopicId;
+            userValuation = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationRepo).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
@@ -72,8 +80,8 @@ public class SegmentationLogic
     public dynamic GetCategoryData(int categoryId)
     {
         var categoryCardData = _sessionUser.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId).CategoryValuations,
-                SessionUserCache.GetUser(_sessionUser.UserId).StartTopicId)
+            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId, _categoryValuationRepo).CategoryValuations,
+                SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationRepo).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }
@@ -93,7 +101,7 @@ public class SegmentationLogic
         var childCategoryCount = EntityCache.GetChildren(categoryId).Where(_permissionCheck.CanView).Distinct().Count();
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
 
-        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem,_sessionUserId).CategoryKnowledgeSummary;
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem,_sessionUserId, _knowledgeSummaryLoader).CategoryKnowledgeSummary;
 
         var isInWishknowledge = false;
         var isPersonalHomepage = false;
@@ -155,7 +163,7 @@ public class SegmentationLogic
         var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
         var knowledgeBarHtml = "";
         if (questionCount > 0)
-            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem, _sessionUserId), _controllerContext);
+            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem, _sessionUserId, _knowledgeSummaryLoader), _controllerContext);
         return new
         {
             categoryId = categoryCacheItem.Id,

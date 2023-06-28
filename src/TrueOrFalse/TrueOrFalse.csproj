@@ -712,7 +712,6 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs242.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs240.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs239.cs" />
-    <Compile Include="Tools\Update\WuwiMigration\WuwiMigration.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />

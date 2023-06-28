@@ -31,13 +31,13 @@ public class UserValuationCache_tests : BaseTest
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));
         Assert.That(Cache.Count, Is.EqualTo(0));
 
-        var cacheItem = SessionUserCache.GetItem(user.Id);
+        var cacheItem = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationRepo>());
 
         Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
 
         cacheItem.CategoryValuations.TryRemove(cacheItem.CategoryValuations.Keys.First(), out var catValout);
 
-        var cacheItem2 = SessionUserCache.GetItem(user.Id);
+        var cacheItem2 = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationRepo>());
 
         Assert.That(cacheItem2.CategoryValuations.Count, Is.EqualTo(2));
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));
@@ -47,6 +47,6 @@ public class UserValuationCache_tests : BaseTest
     [Ignore("failing")]
     public void Foo()
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromDbCache(-1, -1);
+        var knowledgeSummary = Resolve<KnowledgeSummaryLoader>().RunFromDbCache(-1, -1);
     }
 }

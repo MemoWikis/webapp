@@ -100,7 +100,7 @@ public class Category_persistence_tests : BaseTest
         }
         categories = EntityCache.GetAllCategories();
             
-        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories( permissionCheck,true).Where(cci => SessionUserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
+        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories( permissionCheck,true).Where(cci => SessionUserCache.IsInWishknowledge(user.Id,cci.Key, Resolve<CategoryValuationRepo>())).Count, Is.EqualTo(6));
         Assert.That(categories.ByName("A").AggregatedCategories(permissionCheck, true).Count, Is.EqualTo(13));
     }
 }

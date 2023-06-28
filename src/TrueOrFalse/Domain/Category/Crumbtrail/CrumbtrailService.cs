@@ -4,10 +4,12 @@ using System.Linq;
 public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public CrumbtrailService(PermissionCheck permissionCheck)
+    public CrumbtrailService(PermissionCheck permissionCheck, CategoryValuationRepo categoryValuationRepo)
     {
         _permissionCheck = permissionCheck;
+        _categoryValuationRepo = categoryValuationRepo;
     }
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
@@ -131,7 +133,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
 
                     if (sessionUser.IsLoggedIn)
                     {
-                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId).StartTopicId;
+                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId, _categoryValuationRepo).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

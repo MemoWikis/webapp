@@ -10,11 +10,16 @@ public class AnswerBodyController : BaseController
 {
     private readonly AnswerQuestion _answerQuestion;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public AnswerBodyController(AnswerQuestion answerQuestion,SessionUser sessionUser, LearningSessionCache learningSessionCache) : base(sessionUser)
+    public AnswerBodyController(AnswerQuestion answerQuestion,
+        SessionUser sessionUser,
+        LearningSessionCache learningSessionCache,
+        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
     {
         _answerQuestion = answerQuestion;
         _learningSessionCache = learningSessionCache;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     [HttpGet]
@@ -41,7 +46,7 @@ public class AnswerBodyController : BaseController
             solution = q.Solution,
 
             isCreator = q.Creator.Id = _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step

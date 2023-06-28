@@ -5,10 +5,14 @@ namespace VueApp;
 public class TopicStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
 
-    public TopicStoreController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    public TopicStoreController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        KnowledgeSummaryLoader knowledgeSummaryLoader) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
     }
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -53,7 +57,7 @@ public class TopicStoreController : BaseController
     [HttpGet]
     public JsonResult GetUpdatedKnowledgeSummary(int id)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
         return Json(new
         {

@@ -235,11 +235,11 @@ public class ContextQuestion :BaseTest
 
         var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => Sl.UserRepo.Create(u));
-        SessionUserCache.AddOrUpdate(users.FirstOrDefault());
+        SessionUserCache.AddOrUpdate(users.FirstOrDefault(),Resolve<CategoryValuationRepo>());
 
         PutQuestionValuationsIntoUserCache(questions, users);
 
-        return SessionUserCache.GetAllCacheItems();
+        return SessionUserCache.GetAllCacheItems(Resolve<CategoryValuationRepo>());
     }
 
     public ContextQuestion TotalQualityAvg(int totalQualityAvg)
@@ -279,8 +279,8 @@ public class ContextQuestion :BaseTest
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
 
-            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id);
-            SessionUserCache.AddOrUpdate(questionValuation);
+            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, Resolve<CategoryValuationRepo>());
+            SessionUserCache.AddOrUpdate(questionValuation, Resolve<CategoryValuationRepo>());
         }
     }
 }

@@ -12,6 +12,8 @@ public class UserStoreController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly RegisterUser _registerUser;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -19,7 +21,9 @@ public class UserStoreController : Controller
         CredentialsAreValid credentialsAreValid,
         PermissionCheck permissionCheck,
         ActivityPointsRepo activityPointsRepo,
-        RegisterUser registerUser)
+        RegisterUser registerUser,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        CategoryValuationRepo categoryValuationRepo)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -27,6 +31,8 @@ public class UserStoreController : Controller
         _permissionCheck = permissionCheck;
         _activityPointsRepo = activityPointsRepo;
         _registerUser = registerUser;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _categoryValuationRepo = categoryValuationRepo;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -154,7 +160,7 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser,_permissionCheck).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

@@ -12,18 +12,21 @@ public class HistoryTopicDetailController : Controller
     private readonly SessionUser _sessionUser;
     private readonly RestoreCategory _restoreCategory;
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public HistoryTopicDetailController(PermissionCheck permissionCheck,
         ISession nhibernatesession,
         SessionUser sessionUser,
         RestoreCategory restoreCategory,
-        CategoryChangeRepo categoryChangeRepo)
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryValuationRepo categoryValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernatesession = nhibernatesession;
         _sessionUser = sessionUser;
         _restoreCategory = restoreCategory;
         _categoryChangeRepo = categoryChangeRepo;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     [HttpGet]
@@ -49,7 +52,8 @@ public class HistoryTopicDetailController : Controller
             isCategoryDeleted,
             _permissionCheck,
             _nhibernatesession,
-            _categoryChangeRepo);
+            _categoryChangeRepo,
+            _categoryValuationRepo);
 
         var result = new ChangeDetailResult
         {
@@ -58,9 +62,9 @@ public class HistoryTopicDetailController : Controller
             isCurrent = !topicHistoryDetailModel.NextRevExists,
             changeType = topicHistoryDetailModel.ChangeType,
             changeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
-            authorName = currentRevision.Author.Name,
-            authorId = currentRevision.Author.Id,
-            authorImgUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_20px(currentRevision.Author).Url
+            authorName = currentRevision.Author(_categoryValuationRepo).Name,
+            authorId = currentRevision.Author(_categoryValuationRepo).Id,
+            authorImgUrl = new UserImageSettings(currentRevision.Author(_categoryValuationRepo).Id).GetUrl_20px(currentRevision.Author(_categoryValuationRepo)).Url
         };
 
         if (topicHistoryDetailModel.CurrentName != topicHistoryDetailModel.PrevName)
@@ -141,7 +145,8 @@ public class HistoryTopicDetailController : Controller
             isCategoryDeleted,
             _permissionCheck,
             _nhibernatesession,
-            _categoryChangeRepo);
+            _categoryChangeRepo,
+            _categoryValuationRepo);
     }
 
     [AccessOnlyAsLoggedIn]

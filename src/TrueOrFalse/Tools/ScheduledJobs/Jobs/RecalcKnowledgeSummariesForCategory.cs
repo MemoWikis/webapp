@@ -8,7 +8,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcKnowledgeSummariesForCategory : IJob
     {
+        private readonly CategoryValuationRepo _categoryValuationRepo;
         public const int IntervalInSeconds = 5;
+
+        public RecalcKnowledgeSummariesForCategory(CategoryValuationRepo categoryValuationRepo)
+        {
+            _categoryValuationRepo = categoryValuationRepo;
+        }
 
         public void Execute(IJobExecutionContext context)
         {
@@ -21,7 +27,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     try
                     {
-                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key));
+                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key), _categoryValuationRepo);
                         successfullJobIds.AddRange(grouping.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)

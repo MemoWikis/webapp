@@ -6,10 +6,12 @@ using System.Web;
 public class SessionUser :IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public SessionUser(HttpContext httpContext)
+    public SessionUser(HttpContext httpContext, CategoryValuationRepo categoryValuationRepo)
     {
         _httpContext = httpContext;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     public bool IsSesionActive () => _httpContext.Session is not null;
@@ -40,7 +42,7 @@ public class SessionUser :IRegisterAsInstancePerLifetime
         set => _httpContext.Session.Add("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId);
+    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId, _categoryValuationRepo);
 
     public bool IsLoggedInUser(int userId)
     {
@@ -63,7 +65,7 @@ public class SessionUser :IRegisterAsInstancePerLifetime
         if (_httpContext != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
-        SessionUserCache.CreateItemFromDatabase(user.Id);
+        SessionUserCache.CreateItemFromDatabase(user.Id, _categoryValuationRepo);
     }
 
     public void Logout()

@@ -13,6 +13,7 @@ public class CategoryHistoryDetailModel
     private readonly PermissionCheck _permissionCheck;
     private readonly ISession _nhibernateSession;
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -57,11 +58,13 @@ public class CategoryHistoryDetailModel
         bool isCategoryDeleted,
         PermissionCheck permissionCheck,
         ISession nhibernateSession,
-        CategoryChangeRepo categoryChangeRepo)
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryValuationRepo categoryValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernateSession = nhibernateSession;
         _categoryChangeRepo = categoryChangeRepo;
+        _categoryValuationRepo = categoryValuationRepo;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
@@ -83,9 +86,9 @@ public class CategoryHistoryDetailModel
         else
             CategoryName = currentRevision.Category.Name;
 
-        Author = new UserTinyModel(currentRevision.Author);
-        AuthorName = new UserTinyModel(currentRevision.Author).Name;
-        AuthorImageUrl = new UserImageSettings(new UserTinyModel(currentRevision.Author).Id).GetUrl_85px_square(new UserTinyModel(currentRevision.Author)).Url;
+        Author = new UserTinyModel(currentRevision.Author(_categoryValuationRepo));
+        AuthorName = new UserTinyModel(currentRevision.Author(_categoryValuationRepo)).Name;
+        AuthorImageUrl = new UserImageSettings(new UserTinyModel(currentRevision.Author(_categoryValuationRepo)).Id).GetUrl_85px_square(new UserTinyModel(currentRevision.Author(_categoryValuationRepo))).Url;
         CategoryUrl = isCategoryDeleted ? "" : Links.CategoryDetail(CategoryName, CategoryId);
        
         CurrentId = currentRevision.Id;

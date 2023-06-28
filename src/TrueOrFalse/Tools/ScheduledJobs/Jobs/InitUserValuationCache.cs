@@ -6,6 +6,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class InitUserValuationCache : IJob
     {
+        private readonly CategoryValuationRepo _categoryValuationRepo;
+
+        public InitUserValuationCache(CategoryValuationRepo categoryValuationRepo)
+        {
+            _categoryValuationRepo = categoryValuationRepo;
+        }
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
@@ -14,7 +20,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 var dataMap = context.JobDetail.JobDataMap;
 
-                SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"));
+                SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"), _categoryValuationRepo);
 
             }, "InitUserValuationCache");
         }

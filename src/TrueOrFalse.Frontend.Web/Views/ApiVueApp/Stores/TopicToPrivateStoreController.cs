@@ -7,10 +7,14 @@ namespace VueApp;
 public class TopicToPrivateStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public TopicToPrivateStoreController(SessionUser sessionUser, PermissionCheck permissionCheck) :base(sessionUser)
+    public TopicToPrivateStoreController(SessionUser sessionUser,
+        PermissionCheck permissionCheck, 
+        CategoryValuationRepo categoryValuationRepo) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     [HttpGet]
@@ -18,7 +22,7 @@ public class TopicToPrivateStoreController : BaseController
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(User_().Id);
+        var userCacheItem = SessionUserCache.GetItem(User_().Id, _categoryValuationRepo);
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
@@ -160,7 +164,7 @@ public class TopicToPrivateStoreController : BaseController
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
                 IsInstallationAdmin)
             {

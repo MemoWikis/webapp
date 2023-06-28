@@ -7,10 +7,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class RecalcKnowledgeStati : IJob
     {
         private readonly ISession _nhibernateSession;
+        private readonly CategoryValuationRepo _categoryValuationRepo;
 
-        public RecalcKnowledgeStati(ISession nhibernateSession)
+        public RecalcKnowledgeStati(ISession nhibernateSession, CategoryValuationRepo categoryValuationRepo )
         {
             _nhibernateSession = nhibernateSession;
+            _categoryValuationRepo = categoryValuationRepo;
         }
         public void Execute(IJobExecutionContext context)
         {
@@ -19,7 +21,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var user in scope.Resolve<UserRepo>().GetAll())
                 {
                     ProbabilityUpdate_Valuation.Run(user.Id, _nhibernateSession);
-                    KnowledgeSummaryUpdate.RunForUser(user.Id);
+                    KnowledgeSummaryUpdate.RunForUser(user.Id, _categoryValuationRepo);
                 }
             }, "RecalcKnowledgeStati");
         }

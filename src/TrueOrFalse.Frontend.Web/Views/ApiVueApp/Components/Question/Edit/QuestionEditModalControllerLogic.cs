@@ -17,13 +17,15 @@ public class QuestionEditModalControllerLogic
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache, 
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
-        QuestionInKnowledge questionInKnowledge) 
+        QuestionInKnowledge questionInKnowledge,
+        CategoryValuationRepo categoryValuationRepo) 
     {
         _questionRepo = questionRepo;
         _sessionUser = sessionUser;
@@ -31,6 +33,7 @@ public class QuestionEditModalControllerLogic
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
@@ -66,7 +69,7 @@ public class QuestionEditModalControllerLogic
     private dynamic LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

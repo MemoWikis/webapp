@@ -6,13 +6,19 @@ namespace TrueOrFalse.Utilities.ScheduledJobs;
 
 public class DeleteQuestion : IJob
 {
+    private readonly CategoryValuationRepo _categoryValuationRepo;
+
+    public DeleteQuestion(CategoryValuationRepo categoryValuationRepo)
+    {
+        _categoryValuationRepo = categoryValuationRepo;
+    }
     public void Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
         Logg.r().Information("Job started - DeleteQuestion {id}", questionId);
 
-        SessionUserCache.RemoveQuestionForAllUsers(questionId);
+        SessionUserCache.RemoveQuestionForAllUsers(questionId, _categoryValuationRepo);
 
         //delete connected db-entries
         Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);

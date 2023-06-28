@@ -11,12 +11,16 @@ public class HistoryTopicOverviewController : Controller
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
     private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
 
-    public HistoryTopicOverviewController(PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo)
+    public HistoryTopicOverviewController(PermissionCheck permissionCheck,
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryValuationRepo categoryValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     [HttpGet]
@@ -109,7 +113,7 @@ public class HistoryTopicOverviewController : Controller
     {
         if (change.AuthorId < 1)
             return null;
-        var author = SessionUserCache.GetItem(change.AuthorId);
+        var author = SessionUserCache.GetItem(change.AuthorId, _categoryValuationRepo);
         return new Author
         {
             id = author.Id,

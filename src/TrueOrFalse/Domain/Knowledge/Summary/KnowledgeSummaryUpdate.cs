@@ -1,26 +1,22 @@
 ﻿class KnowledgeSummaryUpdate
 {
-    public static void RunForCategory(int catgoryId)
+    public static void RunForCategory(int catgoryId, CategoryValuationRepo categoryValuationRepo)
     {
-        var catValuationRepo = Sl.CategoryValuationRepo;
-
-        foreach (var categoryValuation in catValuationRepo.GetByCategory(catgoryId))
+        foreach (var categoryValuation in categoryValuationRepo.GetByCategory(catgoryId))
         {
-            Run(categoryValuation);
+            Run(categoryValuation, categoryValuationRepo);
         }
     }
 
-    public static void RunForUser(int userId)
+    public static void RunForUser(int userId, CategoryValuationRepo categoryValuationRepo)
     {
-        var catValuationRepo = Sl.CategoryValuationRepo;
-
-        foreach (var categoryValuation in catValuationRepo.GetByUser(userId))
+        foreach (var categoryValuation in categoryValuationRepo.GetByUser(userId))
         {
-            Run(categoryValuation);
+            Run(categoryValuation, categoryValuationRepo);
         }
     }
 
-    public static void Run(CategoryValuation categoryValuation, bool persist = true)
+    private static void Run(CategoryValuation categoryValuation, CategoryValuationRepo categoryValuationRepo)
     {
         var knowledgeSummary = KnowledgeSummaryLoader.Run(categoryValuation.UserId, categoryValuation.CategoryId, false);
         categoryValuation.CountNotLearned = knowledgeSummary.NotLearned;
@@ -28,11 +24,9 @@
         categoryValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
         categoryValuation.CountSolid = knowledgeSummary.Solid;
 
-        if(!persist) return;
-
-        Sl.CategoryValuationRepo.Update(categoryValuation);
+        categoryValuationRepo.Update(categoryValuation);
     }
 
-    public static void ScheduleForCategory(int categoryId) 
+    public static void ScheduleForCategory(int categoryId)
         => Sl.JobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForCategory, categoryId.ToString());
 }

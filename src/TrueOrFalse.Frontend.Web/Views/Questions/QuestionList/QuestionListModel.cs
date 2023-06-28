@@ -7,12 +7,16 @@ public class QuestionListModel
 {
     private SessionUser _sessionUser { get; }
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
     public int CategoryId;
 
-    public QuestionListModel(LearningSessionCache learningSessionCache, SessionUser sessionUser)
+    public QuestionListModel(LearningSessionCache learningSessionCache,
+        SessionUser sessionUser,
+        CategoryValuationRepo categoryValuationRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     public List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
@@ -20,7 +24,7 @@ public class QuestionListModel
         var learningSession = _learningSessionCache.GetLearningSession();
 
         var userQuestionValuation = _sessionUser.IsLoggedIn 
-            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations 
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).QuestionValuations 
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;

@@ -3,16 +3,19 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionDetailsController: BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
-    public AnswerQuestionDetailsController(SessionUser sessionUser, PermissionCheck permissionCheck):base(sessionUser)
+    public AnswerQuestionDetailsController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        CategoryValuationRepo categoryValuationRepo):base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryValuationRepo = categoryValuationRepo;
     }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
@@ -30,7 +33,7 @@ public class AnswerQuestionDetailsController: BaseController
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 

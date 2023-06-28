@@ -10,13 +10,16 @@ public class UserRepo : RepositoryDbBase<User>
     private readonly SessionUser _sessionUser;
   
     private readonly ActivityPointsRepo _activityPointsRepo;
+    private readonly CategoryValuationRepo _categoryValuationRepo;
 
     public UserRepo(ISession session,
         SessionUser sessionUser,
-        ActivityPointsRepo activityPointsRepo) : base(session)
+        ActivityPointsRepo activityPointsRepo,
+        CategoryValuationRepo categoryValuationRepo) : base(session)
     {
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
+        _categoryValuationRepo = categoryValuationRepo;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -30,7 +33,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
-        SessionUserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
     }
@@ -224,7 +227,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
-        SessionUserCache.AddOrUpdate(user);
+        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user));
     }
