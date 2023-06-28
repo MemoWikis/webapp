@@ -354,7 +354,6 @@
     <Compile Include="Views\ApiVueApp\Pages\User\VueUserController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Header\BreadcrumbController.cs" />
-    <Compile Include="Views\ApiVueApp\VueRegisterController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\SegmentationLogic.cs" />
     <Compile Include="Views\ApiVueApp\AuthorController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\UserStoreController.cs" />
