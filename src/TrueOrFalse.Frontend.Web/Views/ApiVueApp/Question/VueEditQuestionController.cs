@@ -63,9 +63,7 @@ public class VueEditQuestionController : BaseController
         if (questionDataJson.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
-        var questionController = new QuestionController(_sessionUser, _learningSessionCache);
-
-        return questionController.LoadQuestion(question.Id);
+        return LoadQuestion(question.Id);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -91,8 +89,7 @@ public class VueEditQuestionController : BaseController
         if (questionDataJson.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        var questionController = new QuestionController(_sessionUser, _learningSessionCache);
-        return questionController.LoadQuestion(updatedQuestion.Id);
+        return LoadQuestion(updatedQuestion.Id);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -144,8 +141,7 @@ public class VueEditQuestionController : BaseController
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_sessionUser, _learningSessionCache);
-        return questionController.LoadQuestion(question.Id);
+        return LoadQuestion(question.Id);
     }
 
     private string GetSafeText(string text)
@@ -213,6 +209,40 @@ public class VueEditQuestionController : BaseController
         EntityCache.AddOrUpdate(questionCacheItem);
 
         return question;
+    }
+
+    public JsonResult LoadQuestion(int questionId)
+    {
+        var user = SessionUser.User;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
+        var q = EntityCache.GetQuestionById(questionId);
+        var question = new QuestionListJson.Question();
+        question.Id = q.Id;
+        question.Title = q.Text;
+        question.LinkToQuestion = Links.GetUrl(q);
+        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.LinkToQuestion = Links.GetUrl(q);
+        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
+        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
+        question.CorrectnessProbability = q.CorrectnessProbability;
+        question.Visibility = q.Visibility;
+
+        var learningSession = LearningSessionCache.GetLearningSession();
+        if (learningSession != null)
+        {
+            var steps = learningSession.Steps;
+            var index = steps.IndexOf(s => s.Question.Id == q.Id);
+            question.SessionIndex = index;
+        }
+
+        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
+        {
+            question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
+            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+        }
+
+        return Json(question);
     }
 
     [HttpGet]

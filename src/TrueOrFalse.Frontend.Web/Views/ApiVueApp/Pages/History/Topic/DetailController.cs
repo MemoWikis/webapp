@@ -138,6 +138,7 @@ public class HistoryTopicDetailController : Controller
     public void RestoreTopic(int topicChangeId)
     {
         var topicChange = Sl.CategoryChangeRepo.GetByIdEager(topicChangeId);
+        var isCorrectType = topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
 
         if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) || !_permissionCheck.CanEditCategory(topicChange.Category.Id))
             throw new Exception("not allowed");

@@ -361,7 +361,7 @@ const slots = useSlots()
 }
 
 .extras {
-    width: 40px;
+    width: 18px;
     height: 100%;
     display: flex;
     justify-content: center;

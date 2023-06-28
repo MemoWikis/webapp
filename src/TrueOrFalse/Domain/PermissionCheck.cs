@@ -53,7 +53,14 @@
     public bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetCategory(categoryId));
     public bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
 
-    public bool CanEdit(CategoryCacheItem category)
+    public static bool CanView(CategoryChange change)
+    {
+        return change.Category != null &&
+               change.Category.Id > 0 &&
+               CanView(change.Category) &&
+               CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
+    }
+
     {
         if (_userId == default)
             return false;
@@ -105,10 +112,8 @@
     {
         if (_userId == default)
             return false;
-
         if (question == null)
             return false;
-
         if (question.IsCreator(_userId) || _isInstallationAdmin)
             return false;
 

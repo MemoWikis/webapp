@@ -8,8 +8,7 @@ const route = useRoute()
 
 interface Day {
     date: string
-    changes: Change[]
-    groupedChanges?: GroupedChanges[]
+    groupedChanges: GroupedChanges[]
 }
 
 interface GroupedChanges {
@@ -19,7 +18,6 @@ interface GroupedChanges {
 
 interface HistoryResult {
     topicName: string
-    topicNameEncoded: string
     days: Day[]
 }
 const { $logger } = useNuxtApp()
@@ -47,57 +45,20 @@ watch(historyResult, (val) => {
 })
 const spinnerStore = useSpinnerStore()
 watch(pending, (val) => {
-    console.log(val)
     if (val)
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
 onMounted(async () => {
+    if (pending.value)
+        spinnerStore.showSpinner()
+    else spinnerStore.hideSpinner()
     emit('setPage', Page.Default)
 
-    if (historyResult.value != null) {
-        if (historyResult.value.days.length > 0)
-            buildGroupedChanges(historyResult.value.days)
-    }
     if (await historyResult.value != null)
         emit('setBreadcrumb', [{ name: `Bearbeitungshistorie von ${historyResult.value?.topicName}`, url: `/Historie/Thema/${route.params.id}` }])
 })
 
-function buildGroupedChanges(days: Day[]) {
-    days.forEach((d) => {
-        let currentGroupIndex = 0
-        const newGroupedChange = {
-            collapsed: true,
-            changes: []
-        }
-        d.groupedChanges = [newGroupedChange]
-        d.changes.forEach((c) => {
-            if (d.groupedChanges != null && d.groupedChanges.length) {
-                let currentGroupChanges = d.groupedChanges[currentGroupIndex].changes
-
-                if (currentGroupChanges.length == 0) {
-                    currentGroupChanges.push(c)
-
-                } else {
-                    if (currentGroupChanges[0].topicId == c.topicId &&
-                        currentGroupChanges[0].topicChangeType == TopicChangeType.Text &&
-                        currentGroupChanges[0].author.id == c.author.id) {
-                        currentGroupChanges.push(c)
-                    } else {
-                        currentGroupIndex++
-                        d.groupedChanges.push(newGroupedChange)
-                    }
-                }
-            }
-        })
-    })
-}
-
-
-watch(historyResult, (val) => {
-    if (val != null && val.days.length > 0)
-        buildGroupedChanges(val.days)
-}, { deep: true })
 function handleClick(g: GroupedChanges) {
     if (g.changes.length > 1)
         g.collapsed = !g.collapsed
@@ -107,10 +68,7 @@ function handleClick(g: GroupedChanges) {
 <template>
     <div class="container">
         <div class="row main-page">
-            <div class="col-xs-12" v-if="pending">
-                Seite lädt
-            </div>
-            <template v-else-if="historyResult">
+            <template v-if="historyResult">
                 <div class="col-xs-12">
                     <h1>Bearbeitungshistorie '{{ historyResult.topicName }}'</h1>
                     <div>
@@ -122,13 +80,12 @@ function handleClick(g: GroupedChanges) {
                     </div>
                 </div>
                 <div class="col-xs-12">
-                    <div class="category-change-day row" v-for="day, dIndex in historyResult.days">
+                    <div class="category-change-day row" v-for="day in historyResult.days">
                         <div class="col-xs-12">
                             <h3>{{ day.date }}</h3>
                         </div>
                         <div class="col-xs-12">
-
-                            <template v-if="day.groupedChanges != null" v-for="g, gcIndex in day.groupedChanges">
+                            <template v-for="g, gcIndex in day.groupedChanges">
 
                                 <TopicHistoryChange :change="g.changes[0]" :group-index="gcIndex"
                                     :class="{ 'is-group': g.changes.length > 1 }"
@@ -145,12 +102,7 @@ function handleClick(g: GroupedChanges) {
                                 </div>
                             </template>
 
-                            <div v-else class="placeholder">
-
-                            </div>
-
                         </div>
-
                     </div>
                 </div>
             </template>
