@@ -8,16 +8,21 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly AnswerLog _answerLog;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly ISession _nhibernateSession;
+    private readonly AnswerRepo _answerRepo;
+    private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
 
     public AnswerQuestion(QuestionRepo questionRepo,
         AnswerLog answerLog,
         LearningSessionCache learningSessionCache,
-        ISession nhibernateSession)
+        ISession nhibernateSession,
+        AnswerRepo answerRepo, ProbabilityUpdate_Question probabilityUpdateQuestion)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
         _learningSessionCache = learningSessionCache;
         _nhibernateSession = nhibernateSession;
+        _answerRepo = answerRepo;
+        _probabilityUpdateQuestion = probabilityUpdateQuestion;
     }
 
     public AnswerQuestionResult Run(
@@ -113,7 +118,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var learningSession = _learningSessionCache.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
-            var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
+            var answer =   _answerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
             answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                     _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
@@ -139,7 +144,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var learningSession = _learningSessionCache.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
-            var answer = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
+            var answer = _answerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
             answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
@@ -170,7 +175,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         action(question, result);
 
-        ProbabilityUpdate_Question.Run(question);
+        _probabilityUpdateQuestion.Run(question);
         if (countLastAnswerAsCorrect)
             Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
         else

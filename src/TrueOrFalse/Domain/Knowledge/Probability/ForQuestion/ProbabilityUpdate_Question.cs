@@ -3,7 +3,13 @@ using NHibernate.Util;
 
 public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 {
-    public static void Run()
+    private readonly AnswerRepo _ansewRepo;
+
+    public ProbabilityUpdate_Question(AnswerRepo ansewRepo)
+    {
+        _ansewRepo = ansewRepo;
+    }
+    public  void Run()
     {
         var sp = Stopwatch.StartNew();
 
@@ -13,9 +19,9 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         Logg.r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
     }
 
-    public static void Run(Question question)
+    public  void Run(Question question)
     {
-        var answers = Sl.AnswerRepo.GetByQuestion(question.Id);
+        var answers = _ansewRepo.GetByQuestion(question.Id);
 
         question.CorrectnessProbability = ProbabilityCalc_Question.Run(answers);
         question.CorrectnessProbabilityAnswerCount = answers.Count;

@@ -14,11 +14,14 @@ namespace VueApp;
 public class VueMaintenanceController : BaseController
 {
     private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
+    private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
 
     public VueMaintenanceController(SessionUser sessionUser,
-        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll) :base(sessionUser)
+        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
+        ProbabilityUpdate_Question probabilityUpdateQuestion) :base(sessionUser)
     {
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
+        _probabilityUpdateQuestion = probabilityUpdateQuestion;
     }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
@@ -44,7 +47,7 @@ public class VueMaintenanceController : BaseController
     public JsonResult RecalculateAllKnowledgeItems()
     {
         _probabilityUpdateValuationAll.Run();
-        ProbabilityUpdate_Question.Run();
+        _probabilityUpdateQuestion.Run();
         ProbabilityUpdate_Category.Run();
         ProbabilityUpdate_User.Run();
 

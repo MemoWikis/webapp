@@ -10,7 +10,6 @@ public class Sl
 {
     public static bool IsUnitTest = false;
 
-    public static AnswerRepo AnswerRepo => R<AnswerRepo>();
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
