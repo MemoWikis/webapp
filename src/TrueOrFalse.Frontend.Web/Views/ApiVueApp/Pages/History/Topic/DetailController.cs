@@ -36,7 +36,8 @@ public class HistoryTopicDetailController : BaseController
             imageWasUpdated = topicHistoryDetailModel.ImageWasUpdated,
             isCurrent = !topicHistoryDetailModel.NextRevExists,
             changeType = topicHistoryDetailModel.ChangeType,
-            changeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            currentChangeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            previousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
             authorName = currentRevision.Author.Name,
             authorId = currentRevision.Author.Id,
             authorImgUrl = new UserImageSettings(currentRevision.Author.Id).GetUrl_20px(currentRevision.Author).Url
@@ -90,7 +91,8 @@ public class HistoryTopicDetailController : BaseController
         public string authorName { get; set; }
         public int authorId { get; set; }
         public string authorImgUrl { get; set; }
-        public string changeDate { get; set; }
+        public string currentChangeDate { get; set; }
+        public string previousChangeDate { get; set; }
         public string currentName { get; set; }
         public string previousName { get; set; }
         public string currentMarkdown { get; set; }
@@ -103,6 +105,7 @@ public class HistoryTopicDetailController : BaseController
         public string previousRelations { get; set; }
         public string currentDescription { get; set; }
         public string previousDescription { get; set; }
+
     }
 
 
