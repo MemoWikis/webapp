@@ -1,8 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 
 namespace VueApp;
 
-public class AuthorController : BaseController
+public class AuthorController :Controller
 {
     [HttpPost]
     public JsonResult GetAuthor(int id)

@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using FluentNHibernate.Conventions;
-using NHibernate.Id;
-using NHibernate.Transform;
-using Serilog;
+using NHibernate;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class CategoryHistoryDetailModel : BaseModel
+public class CategoryHistoryDetailModel
 {
+    private readonly PermissionCheck _permissionCheck;
+    private readonly ISession _nhibernateSession;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -51,8 +49,16 @@ public class CategoryHistoryDetailModel : BaseModel
 
     public CategoryChangeType ChangeType;
 
-    public CategoryHistoryDetailModel(CategoryChange currentRevision, CategoryChange previousRevision, CategoryChange nextRevision, bool isCategoryDeleted)
+    public CategoryHistoryDetailModel(
+        CategoryChange currentRevision,
+        CategoryChange previousRevision,
+        CategoryChange nextRevision,
+        bool isCategoryDeleted,
+        PermissionCheck permissionCheck,
+        ISession nhibernateSession)
     {
+        _permissionCheck = permissionCheck;
+        _nhibernateSession = nhibernateSession;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
@@ -152,7 +158,7 @@ public class CategoryHistoryDetailModel : BaseModel
         }
 
         if (category != null && relatedCategory != null)
-            return PermissionCheck.CanView(category) && PermissionCheck.CanView(relatedCategory);
+            return _permissionCheck.CanView(category) && _permissionCheck.CanView(relatedCategory);
 
         return false;
     }

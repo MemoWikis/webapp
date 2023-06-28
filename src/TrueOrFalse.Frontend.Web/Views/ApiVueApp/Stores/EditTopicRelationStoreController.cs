@@ -7,29 +7,33 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class EditTopicRelationStoreController
-    : BaseController
+public class EditTopicRelationStoreController : BaseController
 {
+    public EditTopicRelationStoreController( SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public JsonResult GetPersonalWikiData(int id)
     {
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUser.User.StartTopicId))
+        if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new
             {
                 success = false,
             });
 
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
-        var personalWikiItem = SearchHelper.FillSearchCategoryItem(personalWiki);
+        var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+        var personalWikiItem = SearchHelper.FillSearchCategoryItem(personalWiki,UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
 
-        if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var topicId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
+            foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
-                recentlyUsedRelationTargetTopics.Add(SearchHelper.FillSearchCategoryItem(topicCacheItem));
+                recentlyUsedRelationTargetTopics.Add(SearchHelper.FillSearchCategoryItem(topicCacheItem, UserId));
             }
         }
 

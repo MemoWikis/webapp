@@ -1,10 +1,17 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
+using NHibernate;
 using NHibernate.Criterion;
 
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
-    public static void Run(User user)
+    private readonly ISession _nhibernateSession;
+
+    public RegisterUser(ISession nhibernateSession)
+    {
+        _nhibernateSession = nhibernateSession;
+    }
+
+    public void Run(User user)
     {
         InitializeReputation(user);
 
@@ -27,7 +34,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user);
     }
 
-    public static UserCreateResult Run(FacebookUserCreateParameter facebookUser)
+    public UserCreateResult Run(FacebookUserCreateParameter facebookUser)
     {
         var user = new User
         {
@@ -39,7 +46,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         return Register(user);
     }
 
-    public static UserCreateResult Run(GoogleUserCreateParameter googleUser)
+    public UserCreateResult Run(GoogleUserCreateParameter googleUser)
     {
         var user = new User
         {
@@ -51,7 +58,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         return Register(user);
     }
 
-    private static UserCreateResult Register(User user)
+    private UserCreateResult Register(User user)
     {
         if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
             return new UserCreateResult { Success = false, EmailAlreadyInUse = true};
@@ -65,11 +72,11 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         return new UserCreateResult { Success = true };
     }
 
-    private static void InitializeReputation(User user)
+    private void InitializeReputation(User user)
     {
         user.Reputation = 0;
         user.ReputationPos =
-            Sl.Session.QueryOver<User>()
+            _nhibernateSession.QueryOver<User>()
                 .Select(
                     Projections.ProjectionList()
                         .Add(Projections.Max<User>(u => u.ReputationPos)))

@@ -1,5 +1,4 @@
-﻿using System;
-using TrueOrFalse;
+﻿using TrueOrFalse;
 
 public static class DateTimeUtils
 {
@@ -31,10 +30,6 @@ public static class DateTimeUtils
     {
         return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
     }
-    public static string TimeElapsedAsText(DateTime dateTimeBegin, DateTime dateTimeEnd)
-    {
-        return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin, dateTimeEnd);
-    }
 
     public static DateTime RoundUp(DateTime dateTime, TimeSpan roundToNextFull)
     {
@@ -51,18 +46,6 @@ public static class DateTimeUtils
             roundedTime = roundedTime - roundToPreviousFull;
 
         return roundedTime;
-    }
-
-    public static DateTime RoundToNearestMinutes(DateTime dateTime, int roundToNearestMinutes, bool toLower = false)
-    {
-        var roundedDownTime = RoundDown(dateTime, TimeSpan.FromMinutes(roundToNearestMinutes));
-
-        var differenceInMinutes = (dateTime - roundedDownTime).TotalMinutes;
-
-        return
-            toLower || (differenceInMinutes < (double)roundToNearestMinutes / 2)
-            ? roundedDownTime
-            : RoundUp(dateTime, TimeSpan.FromMinutes(roundToNearestMinutes));
     }
 }
 

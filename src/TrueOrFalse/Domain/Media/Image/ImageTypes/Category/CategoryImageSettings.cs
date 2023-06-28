@@ -20,14 +20,7 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
         Id = categoryId;
     }
 
-    public ImageUrl GetUrl_50px(bool asSquare = false) { return GetUrl(50, asSquare); }
     public ImageUrl GetUrl_128px(bool asSquare = false) { return GetUrl(128, asSquare); }
-    public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
-
-    public ImageUrl GetUrl_206px_square() { return GetUrl(206, isSquare: true); }
-
-    public ImageUrl GetUrl_350px_square() { return GetUrl(350, isSquare: true); }
-
     public ImageUrl GetUrl(int width, bool isSquare = false)
     {
         return ImageUrl.Get(this, width, isSquare, GetFallbackImage);

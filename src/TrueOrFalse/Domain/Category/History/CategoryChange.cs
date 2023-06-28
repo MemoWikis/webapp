@@ -1,5 +1,4 @@
 ﻿using Seedworks.Lib.Persistence;
-using System;
 
 public class CategoryChange : Entity, WithDateCreated
 {
@@ -18,22 +17,7 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual void SetData(Category category, bool imageWasUpdated, int[] affectedParentIds)
-    {
-        switch (DataVersion)
-        {
-            case 1:
-                Data = new CategoryEditData_V1(category).ToJson();
-                break;
-
-            case 2:
-                Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds).ToJson();
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
-        }
-    }
+   
 
     public virtual CategoryEditData GetCategoryChangeData()
     {

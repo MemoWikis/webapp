@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 
 namespace TrueOrFalse.Web
@@ -44,11 +43,6 @@ namespace TrueOrFalse.Web
         {
             Text = message;
             Type = messageType;
-        }
-
-        public bool IsErrorMessage()
-        {
-            return this is ErrorMessage;
         }
     }
 }

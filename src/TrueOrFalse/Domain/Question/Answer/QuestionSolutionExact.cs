@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -59,17 +58,5 @@ public class QuestionSolutionExact : QuestionSolution
     public override string CorrectAnswer()
     {
         return Text;
-    }
-
-    public void FillFromPostData(NameValueCollection postData)
-    {
-        Text = postData["Text"];
-        MetadataSolutionJson = postData["MetadataSolutionJson"];
-    }
-
-    public void FillFromPostData(string text, string metadataSolutionJson)
-    {
-        Text = text;
-        MetadataSolutionJson = metadataSolutionJson;
     }
 }

@@ -9,6 +9,20 @@ using TrueOrFalse;
 namespace VueApp;
 public class QuickCreateQuestionController : BaseController
 {
+    private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
+    private readonly LearningSessionCache _learningSessionCache;
+
+    public QuickCreateQuestionController(SessionUser sessionUser,
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge,
+        LearningSessionCache learningSessionCache): base(sessionUser)
+    {
+        _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
+        _learningSessionCache = learningSessionCache;
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
@@ -46,7 +60,7 @@ public class QuickCreateQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        question.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
         question.Categories = new List<Category>
         {
             Sl.CategoryRepo.GetById(flashCardJson.TopicId)
@@ -59,10 +73,10 @@ public class QuickCreateQuestionController : BaseController
         questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
+            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(questionRepo);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        var questionController = new QuestionController(_sessionUser,_learningSessionCache);
 
         return questionController.LoadQuestion(question.Id);
     }

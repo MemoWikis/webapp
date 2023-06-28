@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-public class SegmentationModel : BaseContentModule
+public class SegmentationModel 
 {
     public CategoryCacheItem Category;
+    private readonly PermissionCheck _permissionCheck;
 
     public string Title;
     public string Text;
-    public bool HasCustomSegments = false;
+    public bool HasCustomSegments;
 
     public List<CategoryCacheItem> CategoryList;
     public List<CategoryCacheItem> NotInSegmentCategoryList;
@@ -18,11 +19,12 @@ public class SegmentationModel : BaseContentModule
     public string NotInSegmentCategoryIds;
     public string SegmentJson;
 
-    public SegmentationModel(CategoryCacheItem category)
+    public SegmentationModel(CategoryCacheItem category, PermissionCheck permissionCheck)
     {
         Category = category;
-        
-        var categoryList = EntityCache.GetChildren(category.Id).Where(PermissionCheck.CanView);
+        _permissionCheck = permissionCheck;
+
+        var categoryList = EntityCache.GetChildren(category.Id).Where(_permissionCheck.CanView);
         CategoryList = categoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
 
         var segments = new List<Segment>();
@@ -36,7 +38,9 @@ public class SegmentationModel : BaseContentModule
             NotInSegmentCategoryList = categoryList.OrderBy(c => c.Name).ToList();
 
         var childCategoryIds = NotInSegmentCategoryList.GetIds();
+        //benötigt 
         NotInSegmentCategoryIds = "[" + String.Join(",", childCategoryIds) + "]";
+
         if (Segments != null)
         {
             var filteredSegments = Segments.Select(s => new
@@ -48,9 +52,7 @@ public class SegmentationModel : BaseContentModule
             SegmentJson = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(filteredSegments));
         }
     }
-
-
-    public List<Segment> GetSegments(int id)
+    private List<Segment> GetSegments(int id)
     {
         var segments = new List<Segment>();
 
@@ -60,7 +62,7 @@ public class SegmentationModel : BaseContentModule
         {
             var segment = new Segment();
             var segmentItem = EntityCache.GetCategory(s.CategoryId);
-            if (!PermissionCheck.CanView(segmentItem))
+            if (!_permissionCheck.CanView(segmentItem))
                 continue;
             segment.Item = EntityCache.GetCategory(s.CategoryId);
             segment.Title = String.IsNullOrEmpty(s.Title) ? segment.Item.Name : s.Title;
@@ -68,9 +70,9 @@ public class SegmentationModel : BaseContentModule
             var childCategories = new List<CategoryCacheItem>();
                 
             if (s.ChildCategoryIds != null)
-                childCategories = EntityCache.GetCategories(s.ChildCategoryIds).Where(PermissionCheck.CanView).ToList();
+                childCategories = EntityCache.GetCategories(s.ChildCategoryIds).Where(_permissionCheck.CanView).ToList();
             else
-                childCategories = EntityCache.GetChildren(s.CategoryId).Where(PermissionCheck.CanView).ToList();
+                childCategories = EntityCache.GetChildren(s.CategoryId).Where(_permissionCheck.CanView).ToList();
             segment.ChildCategories = childCategories;
             segments.Add(segment);
         }
@@ -78,7 +80,7 @@ public class SegmentationModel : BaseContentModule
         return segments.Distinct().OrderBy(s => s.Title).ToList();
     }
 
-    public List<CategoryCacheItem> GetNotInSegmentCategoryList(List<Segment> segments, List<CategoryCacheItem> categoryList)
+    private List<CategoryCacheItem> GetNotInSegmentCategoryList(List<Segment> segments, List<CategoryCacheItem> categoryList)
     {
         var notInSegmentCategoryList = new List<CategoryCacheItem>();
         var inSegmentCategoryList = new List<CategoryCacheItem>();

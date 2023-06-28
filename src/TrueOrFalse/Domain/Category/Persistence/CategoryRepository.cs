@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>
+public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstancePerLifetime
 {
+    private readonly PermissionCheck _permissionCheck;
+
     public enum CreateDeleteUpdate
     {
         Create = 1,
@@ -16,15 +17,15 @@ public class CategoryRepository : RepositoryDbBase<Category>
     }
 
     public const int AllgemeinwissenId = 709;
-    public const int SchuleId = 682;
-    public const int StudiumId = 687;
-    public const int ZertifikateId = 689;
     private readonly bool _isSolrActive;
 
-    public CategoryRepository(ISession session)
+    public CategoryRepository(
+        ISession session,
+        PermissionCheck permissionCheck,
+        SessionUser sessionUser)
         : base(session)
     {
-        _isSolrActive = Settings.UseMeiliSearch() == false;
+        _permissionCheck = permissionCheck;
     }
 
     /// <summary>
@@ -48,8 +49,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator?.Id ?? -1);
 
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem);
-        UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem, category.Creator.Id);
+        EntityCache.UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
 
         if (category.ParentCategories().Count != 1)
         {
@@ -83,11 +84,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
     }
 
-    public override void Delete(Category category)
+    public void Delete(Category category, int userId)
     {
 
         base.Delete(category);
-        EntityCache.Remove(EntityCache.GetCategory(category));
+        EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck, userId);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -96,10 +97,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
         });
     }
 
-    public override void DeleteWithoutFlush(Category category)
+    public void DeleteWithoutFlush(Category category, int userId)
     {
         base.DeleteWithoutFlush(category);
-        EntityCache.Remove(EntityCache.GetCategory(category.Id));
+        EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
         SessionUserCache.RemoveAllForCategory(category.Id);
         Task.Run(async () =>
         {
@@ -146,7 +147,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
             }
         }
-
         return result;
     }
 
@@ -203,15 +203,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
-
-    public IList<Category> GetChildren(int categoryId)
-    {
-        var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
-            FROM relatedcategoriestorelatedcategories
-            WHERE  Related_id = {categoryId}").List<int>();
-        return GetByIds(categoryIds.ToArray());
-    }
-
     public IList<Category> GetChildren(
         CategoryType parentType,
         CategoryType childrenType,
@@ -248,28 +239,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         return includingCategories;
-    }
-
-    public IEnumerable<int> GetRootCategoryInts()
-    {
-        return GetRootCategoryListIds();
-    }
-
-    public List<int> GetRootCategoryListIds()
-    {
-        return new List<int>
-        {
-            SchuleId,
-            StudiumId,
-            ZertifikateId,
-            AllgemeinwissenId
-        };
-    }
-
-    public int TotalCategoryCount()
-    {
-        return _session.QueryOver<Category>()
-            .RowCount();
     }
 
     /// <summary>
@@ -315,56 +284,5 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _session.CreateSQLQuery(sql).ExecuteUpdate();
     }
 
-    public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
-    {
-        //Create
-        if (createDeleteUpdate == CreateDeleteUpdate.Create)
-        {
-            //Update EntityCache
-            var parents = EntityCache.GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
-            foreach (var parent in parents)
-            {
-                parent.CachedData.AddChildId(categoryCacheItem.Id);
-            }
-        }
-
-        //Update
-        if (createDeleteUpdate == CreateDeleteUpdate.Update)
-        {
-            var oldCategoryCacheItem1 = EntityCache.GetCategory(categoryCacheItem.Id);
-
-            var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
-                .Select(cr => cr.RelatedCategoryId).ToList();
-
-            var parentIdsOldCategoryCacheItem1 = oldCategoryCacheItem1.CategoryRelations
-                .Select(cr => cr.RelatedCategoryId).ToList();
-
-            var exceptIdsToDelete1 = parentIdsOldCategoryCacheItem1.Except(parentIdsCacheItem1).ToList();
-            var exceptIdsToAdd1 = parentIdsCacheItem1.Except(parentIdsOldCategoryCacheItem1).ToList();
-
-            if (exceptIdsToAdd1.Any() || exceptIdsToDelete1.Any())
-            {
-                foreach (var id in exceptIdsToAdd1)
-                {
-                    EntityCache.GetCategory(id).CachedData
-                        .AddChildId(categoryCacheItem.Id);
-                }
-
-                foreach (var id in exceptIdsToDelete1)
-                {
-                    EntityCache.GetCategory(id).CachedData.RemoveChildId(categoryCacheItem.Id);
-                }
-            }
-        }
-
-        //Delete
-        if (createDeleteUpdate == CreateDeleteUpdate.Delete)
-        {
-            //EntityCache
-            foreach (var parent in categoryCacheItem.ParentCategories(true))
-            {
-                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
-            }
-        }
-    }
+   
 }

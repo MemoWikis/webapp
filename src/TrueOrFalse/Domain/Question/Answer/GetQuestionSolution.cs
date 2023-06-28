@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
-using TrueOrFalse.MultipleChoice;
 
 public class GetQuestionSolution
 {

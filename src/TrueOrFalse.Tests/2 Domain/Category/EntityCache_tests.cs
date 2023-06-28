@@ -85,13 +85,13 @@ class EntityCache_tests : BaseTest
 
         RecycleContainer();
 
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
 
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
 
         ObjectExtensions.DeepClone(EntityCache.GetAllCategories().First());
-        FluentNHibernate.Utils.Extensions.DeepClone(EntityCache.GetAllCategories().First());  
+        FluentNHibernate.Utils.Extensions.DeepClone(EntityCache.GetAllCategories().First());
     }
 
     [Test]
@@ -130,7 +130,7 @@ class EntityCache_tests : BaseTest
         context.AddCaseThreeToCache();
         var categories = context.All;
 
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
         
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X3"), Is.EqualTo(true));
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X2"), Is.EqualTo(true));

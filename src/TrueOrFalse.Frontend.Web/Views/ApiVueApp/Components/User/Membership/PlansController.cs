@@ -4,7 +4,7 @@ using TrueOrFalse.Domain;
 
 namespace VueApp;
 
-public class UserMembershipPlansController : BaseController
+public class UserMembershipPlansController : Controller
 {
     [HttpGet]
     public JsonResult GetBasicLimits()

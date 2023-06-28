@@ -1,5 +1,4 @@
-﻿using System;
-using Meilisearch;
+﻿using Meilisearch;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

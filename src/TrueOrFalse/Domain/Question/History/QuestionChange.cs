@@ -1,5 +1,4 @@
-﻿using System;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
 public class QuestionChange : Entity, WithDateCreated
 {
@@ -20,18 +19,6 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual void SetData(Question question, bool imageWasChanged)
-    {
-        switch (DataVersion)
-        {
-            case 1:
-                Data = new QuestionEditData_V1(question, imageWasChanged).ToJson();
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for question change id {Id}");
-        }
-    }
 
     public virtual QuestionEditData GetQuestionChangeData()
     {

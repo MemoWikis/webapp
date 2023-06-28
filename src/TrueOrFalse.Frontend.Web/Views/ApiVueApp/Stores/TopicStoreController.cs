@@ -4,11 +4,17 @@ namespace VueApp;
 
 public class TopicStoreController : BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public TopicStoreController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
     {
-        if (!PermissionCheck.CanEditCategory(id))
+        if (!_permissionCheck.CanEditCategory(id))
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
         var categoryCacheItem = EntityCache.GetCategory(id);
@@ -29,7 +35,7 @@ public class TopicStoreController : BaseController
             category.Content = content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, SessionUser.User, type: CategoryChangeType.Text);
+        Sl.CategoryRepo.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 
         return Json(true);
     }
@@ -37,7 +43,7 @@ public class TopicStoreController : BaseController
     [HttpGet]
     public string GetTopicImageUrl(int id)
     {
-        if (PermissionCheck.CanViewCategory(id))
+        if (_permissionCheck.CanViewCategory(id))
             return new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url;
 
         return "";
@@ -47,7 +53,7 @@ public class TopicStoreController : BaseController
     [HttpGet]
     public JsonResult GetUpdatedKnowledgeSummary(int id)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, SessionUser.UserId);
+        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
         return Json(new
         {

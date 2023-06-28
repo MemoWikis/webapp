@@ -8,18 +8,24 @@ using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
 using TrueOrFalse.Utilities.ScheduledJobs;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
 public class VueMaintenanceController : BaseController
 {
+    private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
+
+    public VueMaintenanceController(SessionUser sessionUser,
+        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll) :base(sessionUser)
+    {
+        _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
+    }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
     [HttpGet]
     public JsonResult Get()
     {
-        if (SessionUser.IsInstallationAdmin)
+        if (_sessionUser.IsInstallationAdmin)
         {
             AntiForgery.GetTokens(null, out string cookieToken, out string formToken);
             HttpCookie antiForgeryCookie = new HttpCookie("__RequestVerificationToken");
@@ -37,7 +43,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult RecalculateAllKnowledgeItems()
     {
-        ProbabilityUpdate_ValuationAll.Run();
+        _probabilityUpdateValuationAll.Run();
         ProbabilityUpdate_Question.Run();
         ProbabilityUpdate_Category.Run();
         ProbabilityUpdate_User.Run();
@@ -264,11 +270,13 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult Start100TestJobs()
     {
-        for (var i = 0; i < 1000; i++)
-            JobScheduler.StartImmediately<TestJob1>();
+        //for (var i = 0; i < 1000; i++)
+        //    JobScheduler.StartImmediately<TestJob1>();
 
-        for (var i = 0; i < 1000; i++)
-            JobScheduler.StartImmediately<TestJob2>();
+        //for (var i = 0; i < 1000; i++)
+        //    JobScheduler.StartImmediately<TestJob2>();
+
+        JobScheduler.StartImmediately<TestJobCacheInitializer>();
 
         return Json(new
         {
@@ -285,7 +293,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public ActionResult RemoveAdminRights()
     {
-        SessionUser.IsInstallationAdmin = false;
+        _sessionUser.IsInstallationAdmin = false;
 
         return Json(new
         {

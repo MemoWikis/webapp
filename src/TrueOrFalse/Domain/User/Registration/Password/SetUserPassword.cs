@@ -1,6 +1,4 @@
-﻿using System;
-
-public class SetUserPassword
+﻿public class SetUserPassword
 {
     public static void Run(string password, User user)
     {

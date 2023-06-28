@@ -1,5 +1,3 @@
-﻿using System;
-
-public class InvalidAccessException : Exception
+﻿public class InvalidAccessException : Exception
 {
 }

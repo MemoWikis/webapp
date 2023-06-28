@@ -1,11 +1,6 @@
 ﻿public class PersonalTopic 
 {
-        public static void CreatePersonalCategory(User user)
-        {
-            Sl.CategoryRepo.Create(GetPersonalCategory(user));
-        }
-
-        public static Category GetPersonalCategory(User user)
+    public static Category GetPersonalCategory(User user)
         {
             return new Category
             {

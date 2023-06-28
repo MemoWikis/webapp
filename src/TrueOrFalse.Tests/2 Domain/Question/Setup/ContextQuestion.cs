@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate;
 
 namespace TrueOrFalse.Tests;
 
-public class ContextQuestion
+public class ContextQuestion :BaseTest
 {
     private readonly ContextUser _contextUser = ContextUser.New();
     private readonly ContextCategory _contextCategory = ContextCategory.New();
@@ -68,7 +69,7 @@ public class ContextQuestion
     public ContextQuestion AddCategory(string categoryName)
     {
         _contextCategory.Add(categoryName).Persist();
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
         All.Last().Categories.Add(_contextCategory.All.Last());
         return this;
     }
@@ -131,8 +132,7 @@ public class ContextQuestion
     public ContextQuestion AddToWishknowledge(User user)
     {
         var lastQuestion = All.Last();
-
-        QuestionInKnowledge.Pin(lastQuestion.Id, user.Id);
+        Resolve<QuestionInKnowledge>().Pin(lastQuestion.Id, user.Id);
 
         return this;
     }
@@ -215,7 +215,7 @@ public class ContextQuestion
 
         if (valuation == null)
         {
-            ProbabilityUpdate_Valuation.Run(lastQuestion.Id, learner.Id);
+            ProbabilityUpdate_Valuation.Run(lastQuestion.Id, learner.Id, Resolve<ISession>());
             valuation = questionValutionRepo.GetBy(lastQuestion.Id, learner.Id);
         }
 

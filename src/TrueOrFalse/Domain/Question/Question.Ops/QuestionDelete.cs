@@ -1,33 +1,37 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using NHibernate;
-using TrueOrFalse.Utilities.ScheduledJobs;
+﻿using TrueOrFalse.Utilities.ScheduledJobs;
 
-public class QuestionDelete
+public class QuestionDelete : IRegisterAsInstancePerLifetime
 {
-    public static void Run(int questionId)
+    private readonly PermissionCheck _permissionCheck;
+    private readonly SessionUser _sessionUser;
+
+    public QuestionDelete(PermissionCheck permissionCheck, SessionUser sessionUser )
+    {
+        _permissionCheck = permissionCheck;
+        _sessionUser = sessionUser;
+    }
+    public void Run(int questionId)
     {
         var questionRepo = Sl.QuestionRepo;
         var question = questionRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator?.Id ?? -1);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
 
-        var canBeDeletedResult = CanBeDeleted(SessionUser.UserId, question);
+        var canBeDeletedResult = CanBeDeleted(_sessionUser.UserId, question);
         if (!canBeDeletedResult.Yes)
         {
             throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionValuationForUser(SessionUser.UserId, questionId);
+        SessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 
-    public static CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
+    public CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
     {
         var questionCreator = question.Creator;
-        if (PermissionCheck.CanDelete(question))
+        if (_permissionCheck.CanDelete(question))
         {
             var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
             if (howOftenInOtherPeopleWuwi > 0)

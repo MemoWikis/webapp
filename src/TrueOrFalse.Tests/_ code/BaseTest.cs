@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using NHibernate;
 using NUnit.Framework;
+using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -22,7 +23,7 @@ public class BaseTest
         CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
 
-        EntityCache.Init(" (started in unit test) ");
+        Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
     }
 
@@ -30,7 +31,7 @@ public class BaseTest
     public void RecycleContainer()
     {
         EntityCache.Clear();
-        SessionUser.Clear();
+        Resolve<SessionData>().Clear();
         R<ISession>().Flush();
         _container.Dispose();
         BuildContainer();

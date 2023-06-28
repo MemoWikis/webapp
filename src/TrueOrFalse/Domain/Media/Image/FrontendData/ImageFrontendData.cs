@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using static System.String;
 
 public class ImageFrontendData
@@ -80,9 +79,6 @@ public class ImageFrontendData
                 : ImageMetaData.AuthorParsed;
         }
     }
-
-    public static ImageFrontendData Create(Question question) => new ImageFrontendData(question.Id, ImageType.Question);
-    public static ImageFrontendData Create(Set set) => new ImageFrontendData(set.Id, ImageType.QuestionSet);
 
     private bool IsAuthorizedLicense()
     {

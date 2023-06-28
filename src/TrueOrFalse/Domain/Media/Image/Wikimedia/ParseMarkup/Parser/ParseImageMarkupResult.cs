@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TrueOrFalse.WikiMarkup
+﻿namespace TrueOrFalse.WikiMarkup
 {
     public class ParseImageMarkupResult
     {
@@ -19,8 +17,5 @@ namespace TrueOrFalse.WikiMarkup
         public string AllRegisteredLicenses;
 
         public string Notifications;
-
-        public bool HasDescription(){ return !String.IsNullOrEmpty(Description_Raw); }
-        public bool HasAuthorname() { return !String.IsNullOrEmpty(AuthorName); }
     }
 }

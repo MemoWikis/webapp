@@ -3,6 +3,12 @@ using System.Web.Mvc;
 
 public class ActivityPointsStoreController : BaseController
 {
+    private readonly ActivityPointsRepo _activityPointsRepo;
+
+    public ActivityPointsStoreController(SessionUser sessionUser, ActivityPointsRepo activityPointsRepo): base(sessionUser)
+    {
+        _activityPointsRepo = activityPointsRepo;
+    }
     [HttpPost]
     public JsonResult Add(string activityTypeString, int points)
     {
@@ -16,19 +22,19 @@ public class ActivityPointsStoreController : BaseController
 
         if (IsLoggedIn)
         {
-            var oldUserLevel = SessionUser.User.ActivityLevel;
-            activityPoints.UserId = SessionUser.UserId;
-            Sl.ActivityPointsRepo.Create(activityPoints);
+            var oldUserLevel = _sessionUser.User.ActivityLevel;
+            activityPoints.UserId = _sessionUser.UserId;
+            _activityPointsRepo.Create(activityPoints);
             Sl.UserRepo.UpdateActivityPointsData();
 
-            var activityLevel = SessionUser.User.ActivityLevel;
+            var activityLevel = _sessionUser.User.ActivityLevel;
             var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);
-            var activityPointsTillNextLevel = activityPointsAtNextLevel - SessionUser.User.ActivityPoints;
-            var activityPointsPercentageOfNextLevel = SessionUser.User.ActivityPoints == 0 ? 0 : 100 * SessionUser.User.ActivityPoints / activityPointsAtNextLevel;
+            var activityPointsTillNextLevel = activityPointsAtNextLevel - _sessionUser.User.ActivityPoints;
+            var activityPointsPercentageOfNextLevel = _sessionUser.User.ActivityPoints == 0 ? 0 : 100 * _sessionUser.User.ActivityPoints / activityPointsAtNextLevel;
 
             return Json(new 
                 {
-                    points = SessionUser.User.ActivityPoints,
+                    points = _sessionUser.User.ActivityPoints,
                     level = activityLevel,
                     levelUp = oldUserLevel < activityLevel,
                     activityPointsTillNextLevel = activityPointsTillNextLevel,
@@ -37,13 +43,13 @@ public class ActivityPointsStoreController : BaseController
         } 
         else 
         {
-            var oldUserLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
-            SessionUser.AddPointActivity(activityPoints);
-            var newUserLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
+            var oldUserLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
+            _sessionUser.AddPointActivity(activityPoints);
+            var newUserLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
 
             return Json(new
                 {
-                    points = SessionUser.GetTotalActivityPoints(),
+                    points = _sessionUser.GetTotalActivityPoints(),
                     level = newUserLevel,
                     levelUp = oldUserLevel < newUserLevel,
                     activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(newUserLevel)

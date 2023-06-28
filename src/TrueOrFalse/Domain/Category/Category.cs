@@ -1,5 +1,4 @@
 ﻿using Seedworks.Lib.Persistence;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -74,11 +73,11 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual int CountQuestionsAggregated { get; set; }
 
-    public virtual void UpdateCountQuestionsAggregated()
+    public virtual void UpdateCountQuestionsAggregated(int userId)
     {
         var categoryCacheItem = EntityCache.GetCategory(Id);
         if (categoryCacheItem != null)
-            CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated();
+            CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated(userId);
     }
 
     public virtual int CountQuestions { get; set; }
@@ -98,7 +97,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual bool IsHistoric { get; set; }
 
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual bool IsInWishknowledge() => SessionUserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
+    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsInWishknowledge(userId, Id);
 
     public Category()
     {
@@ -106,10 +105,10 @@ public class Category : DomainEntity, ICreator, ICloneable
         Type = CategoryType.Standard;
     }
 
-    public Category(string name) : this()
+    public Category(string name, int userId) : this()
     {
         Name = name;
-        AuthorIds = Sl.CurrentUserId + ",";
+        AuthorIds = userId + ",";
     }
 
     public virtual bool IsSpoiler(QuestionCacheItem question) =>

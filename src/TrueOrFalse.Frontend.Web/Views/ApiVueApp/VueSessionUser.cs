@@ -1,47 +1,49 @@
 ﻿using System;
-using Newtonsoft.Json;
-using TrueOrFalse.Stripe;
 
 namespace VueApp;
 
-public class VueSessionUser
+public class VueSessionUser : IRegisterAsInstancePerLifetime
 {
-    public static dynamic GetCurrentUserData()
+    private readonly SessionUser _sessionUser;
+    private readonly PermissionCheck _permissionCheck;
+
+    public VueSessionUser(SessionUser sessionUser,PermissionCheck permissionCheck)
+    {
+        _sessionUser = sessionUser;
+        _permissionCheck = permissionCheck;
+    }
+
+    public dynamic GetCurrentUserData()
     {
         var type = UserType.Anonymous;
-        if (SessionUser.IsLoggedIn)
-        {
-            if (SessionUser.User.IsGoogleUser)
-            {
-                type = UserType.Google;
-            }
-            else if (SessionUser.User.IsFacebookUser)
-            {
-                type = UserType.Facebook;
-            }
-            else
-            {
-                type = UserType.Normal;
-            }
+        var user = _sessionUser.User;
 
-            var activityPoints = SessionUser.User.ActivityPoints;
-            var activityLevel = SessionUser.User.ActivityLevel;
-            var subscriptionDate = SessionUser.User.EndDate;
-            var settings = new JsonSerializerSettings { DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffZ" };
-            var json = JsonConvert.SerializeObject(DateTime.Now, settings);
+        if (_sessionUser.IsLoggedIn)
+        {
+            if (user.IsGoogleUser)
+                type = UserType.Google;
+            else if (user.IsFacebookUser)
+                type = UserType.Facebook;
+            else
+                type = UserType.Normal;
+
+            var activityPoints = user.ActivityPoints;
+            var activityLevel = user.ActivityLevel;
+            var subscriptionDate = user.EndDate;
+
             return new
             {
-                SessionUser.IsLoggedIn,
-                Id = SessionUser.UserId,
-                SessionUser.User.Name,
-                Email = SessionUser.User.EmailAddress,
-                IsAdmin = SessionUser.IsInstallationAdmin,
-                PersonalWikiId = SessionUser.User.StartTopicId,
+                _sessionUser.IsLoggedIn,
+                Id = _sessionUser.UserId,
+                user.Name,
+                Email = user.EmailAddress,
+                IsAdmin = _sessionUser.IsInstallationAdmin,
+                PersonalWikiId = user.StartTopicId,
                 Type = type,
-                ImgUrl = new UserImageSettings(SessionUser.UserId).GetUrl_50px(SessionUser.User).Url,
-                SessionUser.User.Reputation,
-                SessionUser.User.ReputationPos,
-                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUser.User.StartTopicId),
+                ImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_50px(_sessionUser.User).Url,
+                user.Reputation,
+                user.ReputationPos,
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck).GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -53,12 +55,12 @@ public class VueSessionUser
                         ? 0
                         : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
                 },
-                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId),
-                SubscriptionType = SessionUser.User.EndDate > DateTime.Now
+                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId),
+                SubscriptionType = user.EndDate > DateTime.Now
                     ? SubscriptionType.Plus
                     : SubscriptionType.Basic,
                 EndDate = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
-                SubscriptionStartDate = SessionUser.User.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                SubscriptionStartDate = user.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 IsSubscriptionCanceled = subscriptionDate is
                 {
                     Year: < 9999
@@ -66,7 +68,7 @@ public class VueSessionUser
             };
         }
 
-        var userLevel = UserLevelCalculator.GetLevel(SessionUser.GetTotalActivityPoints());
+        var userLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
 
         return new
         {
@@ -79,10 +81,10 @@ public class VueSessionUser
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicControllerLogic().GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck).GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
-                points = SessionUser.GetTotalActivityPoints(),
+                points = _sessionUser.GetTotalActivityPoints(),
                 level = userLevel,
                 levelUp = false,
                 activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)

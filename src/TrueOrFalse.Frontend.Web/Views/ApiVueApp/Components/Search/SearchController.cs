@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -12,9 +11,14 @@ public class SearchController : BaseController
 {
 
     private readonly IGlobalSearch _search;
-    public SearchController(IGlobalSearch search)
+    private readonly PermissionCheck _permissionCheck;
+
+    public SearchController(IGlobalSearch search,
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck) :base(sessionUser)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
+        _permissionCheck = permissionCheck;
     }
 
     [HttpGet]
@@ -26,10 +30,10 @@ public class SearchController : BaseController
         var elements = await _search.Go(term, type);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(topicItems, elements);
+            SearchHelper.AddTopicItems(topicItems, elements,_permissionCheck, UserId);
 
         if (elements.Questions.Any())
-            SearchHelper.AddQuestionItems(questionItems, elements);
+            SearchHelper.AddQuestionItems(questionItems, elements,_permissionCheck);
 
         if (elements.Users.Any())
             SearchHelper.AddUserItems(userItems, elements);
@@ -53,7 +57,7 @@ public class SearchController : BaseController
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements);
+            SearchHelper.AddTopicItems(items, elements,_permissionCheck, UserId);
 
         return Json(new
         {
@@ -66,7 +70,7 @@ public class SearchController : BaseController
     [HttpPost]
     public JsonResult GetPersonalWikiData(int id)
     {
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == SessionUser.User.StartTopicId))
+        if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new
             {
                 success = false,
@@ -74,21 +78,21 @@ public class SearchController : BaseController
 
         var recentlyUsedRelationTargetTopicIds = new List<SearchCategoryItem>();
 
-        if (SessionUser.User.RecentlyUsedRelationTargetTopicIds != null && SessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
-            foreach (var categoryId in SessionUser.User.RecentlyUsedRelationTargetTopicIds)
+            foreach (var categoryId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
-                recentlyUsedRelationTargetTopicIds.Add(SearchHelper.FillSearchCategoryItem(c));
+                recentlyUsedRelationTargetTopicIds.Add(SearchHelper.FillSearchCategoryItem(c, UserId));
             }
         }
 
-        var personalWiki = EntityCache.GetCategory(SessionUser.User.StartTopicId);
+        var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
         return Json(new
         {
             success = true,
-            personalWiki = SearchHelper.FillSearchCategoryItem(personalWiki),
+            personalWiki = SearchHelper.FillSearchCategoryItem(personalWiki, UserId),
             addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
         });
     }

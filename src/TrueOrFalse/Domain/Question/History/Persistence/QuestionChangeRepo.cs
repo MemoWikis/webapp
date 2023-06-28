@@ -1,21 +1,37 @@
-﻿using System.Collections.Generic;
-using NHibernate;
+﻿using NHibernate;
 
-public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
+public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsInstancePerLifetime
 {
-    public QuestionChangeRepo(ISession session) : base(session){}
+    private readonly SessionUser _sessionUser;
+    public QuestionChangeRepo(ISession session, SessionUser sessionUser) : base(session)
+    {
+        _sessionUser = sessionUser;
+    }
 
     public void AddDeleteEntry(Question question)
     {
         var QuestionChange = new QuestionChange
         {
             Question = question,
-            AuthorId = SessionUser.IsLoggedIn ? SessionUser.UserId : default,
+            AuthorId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default,
             Type = QuestionChangeType.Delete,
             DataVersion = 1
         };
 
         base.Create(QuestionChange);
+    }
+
+    public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange)
+    {
+        switch (questionChange.DataVersion)
+        {
+            case 1:
+                questionChange.Data = new QuestionEditData_V1(question, imageWasChanged, _session).ToJson();
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid data version number {questionChange.DataVersion} for question change id {questionChange.Id}");
+        }
     }
 
     public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
@@ -26,11 +42,11 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         {
             Question = question,
             Type = questionChangeType,
-            AuthorId = author != null ? author.Id : SessionUser.IsLoggedIn ? SessionUser.UserId : default,
+            AuthorId = author != null ? author.Id : _sessionUser.IsLoggedIn ? _sessionUser.UserId : default,
             DataVersion = 1
         };
 
-        questionChange.SetData(question, imageWasChanged);
+        SetData(question, imageWasChanged, questionChange);
 
         base.Create(questionChange);
     }
@@ -45,33 +61,9 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             DataVersion = 1
         };
 
-        questionChange.SetData(question, true);
+        SetData(question, true, questionChange);
 
         base.Create(questionChange);
-    }
-
-    public IList<QuestionChange> GetAllEager()
-    {
-        return _session
-            .QueryOver<QuestionChange>()
-            .Left.JoinQueryOver(q => q.Question)
-            .List();
-    }
-
-    public IList<QuestionChange> GetForQuestion(int questionId, bool filterUsersForSidebar = false)
-    {
-        Question aliasQuestion = null;
-
-        var query = _session
-            .QueryOver<QuestionChange>()
-            .Where(c => c.Question.Id == questionId);
-
-        if (filterUsersForSidebar)
-            query.And(c => c.ShowInSidebar);
-
-        query.Left.JoinAlias(c => c.Question, () => aliasQuestion);
-
-        return query.List();
     }
 
     public QuestionChange GetByIdEager(int questionChangeId)
@@ -81,37 +73,5 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             .Where(cc => cc.Id == questionChangeId)
             .Left.JoinQueryOver(q => q.Question)
             .SingleOrDefault();
-    }
-
-    public virtual QuestionChange GetNextRevision(QuestionChange questionChange)
-    {
-        var questionId = questionChange.Question.Id;
-        var currentRevisionDate = questionChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
-        var query = $@"
-
-            SELECT * FROM QuestionChange qc
-            WHERE qc.Question_Id = {questionId} and qc.DateCreated > '{currentRevisionDate}' 
-            ORDER BY qc.DateCreated 
-            LIMIT 1
-
-            ";
-        var nextRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(QuestionChange)).UniqueResult<QuestionChange>();
-        return nextRevision;
-    }
-
-    public virtual QuestionChange GetPreviousRevision(QuestionChange questionChange)
-    {
-        var questionId = questionChange.Question.Id;
-        var currentRevisionDate = questionChange.DateCreated.ToString("yyyy-MM-dd HH-mm-ss");
-        var query = $@"
-
-            SELECT * FROM QuestionChange qc
-            WHERE qc.Question_Id = {questionId} and qc.DateCreated < '{currentRevisionDate}' 
-            ORDER BY qc.DateCreated DESC 
-            LIMIT 1
-
-            ";
-        var previousRevision = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(QuestionChange)).UniqueResult<QuestionChange>();
-        return previousRevision;
     }
 }

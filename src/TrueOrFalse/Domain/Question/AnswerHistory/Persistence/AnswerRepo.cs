@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
@@ -19,13 +18,6 @@ public class AnswerRepo : RepositoryDb<Answer>
     {
         Session.CreateSQLQuery("DELETE FROM answer WHERE answer.QuestionId = :questionId")
             .SetParameter("questionId", questionId).ExecuteUpdate();
-    }
-
-    public IList<Answer> GetAllEager(bool includingSolutionViews = false)
-    {
-        return Query(includingSolutionViews)
-            .Fetch(x => x.Question).Eager
-            .List();
     }
 
     public IList<Answer> GetByCategories(int categoryId, bool includingSolutionViews = false)

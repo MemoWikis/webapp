@@ -8,6 +8,12 @@ namespace VueApp;
 
 public class VueUsersController : BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public VueUsersController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
     [HttpGet]
     public async Task<JsonResult> Get(
         int page,
@@ -39,12 +45,12 @@ public class VueUsersController : BaseController
         var wishQuestionCount = 0;
         var topicsWithWishQuestionCount = 0;
 
-        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == SessionUser.UserId))
+        if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(PermissionCheck.CanView);
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);
             wishQuestionCount = wishQuestions.Count();
             topicsWithWishQuestionCount = wishQuestions.QuestionsInCategories().Count();
         }
@@ -56,13 +62,13 @@ public class VueUsersController : BaseController
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
-                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, SessionUser.UserId == user.Id),
-            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, SessionUser.UserId == user.Id),
+                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
+            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,
             imgUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url,
-            wikiId = PermissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
+            wikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
         };
     }
 

@@ -132,9 +132,9 @@ class GraphService_tests : BaseTest
         var parent = context.Add("parent").Persist().All.First();
         var user = ContextUser.New().Add("User").Persist(true, context).All[0];
 
-        SessionUser.Login(user);
+        Resolve<SessionUser>().Login(user);
         EntityCache.Clear();
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
 
         var userRootCache = EntityCache.GetCategory(user.StartTopicId);
 

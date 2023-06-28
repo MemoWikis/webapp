@@ -51,6 +51,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,6 +62,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -252,15 +254,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1 View\CategoryApiControllerTests.cs" />
-    <Compile Include="1 View\GetNodeLevelsTests.cs" />
     <Compile Include="1 View\MarkdownMarkdigTests.cs" />
     <Compile Include="1 View\MarkdownSharpTests.cs" />
     <Compile Include="2 Domain\Category\Automatic_inclusion_tests.cs" />
-    <Compile Include="2 Domain\Category\CategoryRelationsPersistence.cs" />
     <Compile Include="2 Domain\Category\SessionUser_test.cs" />
     <Compile Include="2 Domain\Category\Crumbtrail_test.cs" />
-    <Compile Include="2 Domain\Category\Edit_category_tests.cs" />
     <Compile Include="2 Domain\Category\EntityCache_tests.cs" />
     <Compile Include="2 Domain\Category\GraphService_tests.cs" />
     <Compile Include="2 Domain\Category\ModifyRelationsForCategory_tests.cs" />
@@ -268,7 +266,7 @@
     <Compile Include="2 Domain\Category\EditControllerLogicTests.cs" />
     <Compile Include="2 Domain\Knowledge\QuestionPinStoreControllerLogic_Tests.cs" />
     <Compile Include="2 Domain\User\AddToWiki_tests.cs" />
-    <Compile Include="2 Domain\Visibility\CategoryVisibility.cs" />
+    <Compile Include="2 Domain\Visibility\CategoryVisibilityTests.cs" />
     <Compile Include="MeiliSearch\GlobalSearchResultTest.cs" />
     <Compile Include="MeiliSearch\MeiliSearchBaseTests.cs" />
     <Compile Include="MeiliSearch\MeiliSearchCategoriesDatabaseOperationsTests.cs" />
@@ -284,7 +282,6 @@
     <Compile Include="2 Domain\Question\LearnSession\Get_wuwi_from_category.cs" />
     <Compile Include="2 Domain\Question\LearnSession\Test_learning_session_steps.cs" />
     <Compile Include="1 View\TemplateParserTest.cs" />
-    <Compile Include="1 View\UserNavigationModelListTest.cs" />
     <Compile Include="2 Domain\Category\CategoryChange_tests.cs" />
     <Compile Include="2 Domain\Category\UserValuationCache_tests.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
@@ -304,8 +301,6 @@
     <Compile Include="2 Domain\Question\Delete_question.cs" />
     <Compile Include="2 Domain\Question\History\ContextHistory.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_streak.cs" />
-    <Compile Include="2 Domain\Question\History\AnswerIntervals.cs" />
-    <Compile Include="2 Domain\Question\History\PatternMatcher_test.cs" />
     <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_stats_in_time_period.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
@@ -356,7 +351,6 @@
     <Compile Include="_ code\Email\OneEmailWasSend.cs" />
     <Compile Include="_ code\Email\GetEmailsFromPickupDirectory.cs" />
     <Compile Include="_ code\GlobalTest.cs" />
-    <Compile Include="_ code\Setup\EntityCacheSetup.cs" />
     <Compile Include="_ leitner simulation\LeitnerAnswer.cs" />
     <Compile Include="_ leitner simulation\LeitnerBox.cs" />
     <Compile Include="_ leitner simulation\LeitnerBoxListExts.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +7,16 @@ using TrueOrFalse.Search;
 
 public class UserRepo : RepositoryDbBase<User>
 {
+    private readonly SessionUser _sessionUser;
   
-    private readonly bool _isSolrActive;
+    private readonly ActivityPointsRepo _activityPointsRepo;
 
-    public UserRepo(ISession session) : base(session)
+    public UserRepo(ISession session,
+        SessionUser sessionUser,
+        ActivityPointsRepo activityPointsRepo) : base(session)
     {
-        _isSolrActive = Settings.UseMeiliSearch() == false;
+        _sessionUser = sessionUser;
+        _activityPointsRepo = activityPointsRepo;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -36,7 +39,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         var user = GetById(id);
 
-        if (SessionUser.IsLoggedInUserOrAdmin(user.Id))
+        if (_sessionUser.IsLoggedInUserOrAdmin())
         {
             throw new InvalidAccessException();
         }
@@ -155,11 +158,6 @@ public class UserRepo : RepositoryDbBase<User>
         return user;
     }
 
-    public IList<User> GetByIds(List<int> userIds)
-    {
-        return GetByIds(userIds.ToArray());
-    }
-
     public override IList<User> GetByIds(params int[] userIds)
     {
         var users = base.GetByIds(userIds);
@@ -222,18 +220,6 @@ public class UserRepo : RepositoryDbBase<User>
             .RowCount() == 1;
     }
 
-    public void RemoveFollowerInfo(FollowerInfo followerInfo)
-    {
-        _session
-            .CreateSQLQuery("DELETE FROM user_to_follower WHERE Id =" + followerInfo.Id)
-            .ExecuteUpdate();
-        _session.Flush();
-        ReputationUpdate.ForUser(followerInfo.User);
-
-        SessionUserCache.AddOrUpdate(followerInfo.User);
-        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(followerInfo.User));
-    }
-
     public override void Update(User user)
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
@@ -261,38 +247,23 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void UpdateActivityPointsData()
     {
-        if (!SessionUser.IsLoggedIn)
+        if (!_sessionUser.IsLoggedIn)
         {
             return;
         }
 
         var totalPointCount = 0;
-        foreach (var activityPoints in Sl.ActivityPointsRepo.GetActivtyPointsByUser(Sl.CurrentUserId))
+        foreach (var activityPoints in _activityPointsRepo.GetActivtyPointsByUser(_sessionUser.UserId))
         {
             totalPointCount += activityPoints.Amount;
         }
 
         var userLevel = UserLevelCalculator.GetLevel(totalPointCount);
 
-        var user = GetById(SessionUser.UserId);
+        var user = GetById(_sessionUser.UserId);
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);
-    }
-
-    public void UpdateUserFollowerCount(int userid)
-    {
-        var session = Sl.Resolve<ISession>();
-        session
-            .CreateSQLQuery(
-                @"UPDATE user u SET FollowerCount = (
-                        SELECT count(*) FROM  user_to_follower uf
-                        WHERE uf.User_id =u.id)
-                Where u.id =" + userid + ";"
-            ).ExecuteUpdate();
-        var updatedUser = GetById(userid);
-        SessionUserCache.AddOrUpdate(updatedUser);
-        EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(updatedUser));
     }
 
     public User UserGetByFacebookId(string facebookId)

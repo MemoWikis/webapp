@@ -1,5 +1,4 @@
-﻿using System;
-using TrueOrFalse.Web;
+﻿using TrueOrFalse.Web;
 
 public class UpdateKnowledgeReportInterval
 {

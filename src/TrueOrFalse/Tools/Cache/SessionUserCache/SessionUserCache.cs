@@ -1,5 +1,4 @@
 ﻿using Seedworks.Web.State;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ public class SessionUserCache
     private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
     private static string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
 
-    public static List<SessionUserCacheItem> GetAllCacheItems()
+    public static List<SessionUserCacheItem> GetAllCacheItems() //todo: Wir haben zum abgleichen des Caches einen Job, den benötigen wir nicht wenn wir manuell abgleichen
     {
         var allUserIds = Sl.UserRepo.GetAllIds();
         return allUserIds.Select(GetItem).ToList();
@@ -28,7 +27,7 @@ public class SessionUserCache
         if (cacheItem != null)
             return cacheItem;
 
-        lock (_createItemLockKey)
+        lock (_createItemLockKey)                                                                   //todo: Wenn das Item Null ist, ist doch irgendwas schiefgegangen
         {
             //recheck if the cache item exists
             Log.Information("GetUserCacheItem: {userId}", userId);
@@ -94,14 +93,6 @@ public class SessionUserCache
 
     public static IList<CategoryValuation> GetCategoryValuations(int userId) =>
         GetItem(userId).CategoryValuations.Values.ToList();
-
-    public static CategoryValuation GetCategoryValuation(int userId, int categoryId)
-    {
-        var categoryValuations = GetItem(userId)?.CategoryValuations;
-        return categoryValuations != null && categoryValuations.Any()
-            ? categoryValuations.Values.FirstOrDefault(cv => cv.CategoryId == categoryId)
-            : null;
-    }
 
     public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {

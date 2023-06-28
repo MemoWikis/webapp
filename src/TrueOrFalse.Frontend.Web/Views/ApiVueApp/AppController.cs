@@ -1,15 +1,23 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class AppController : BaseController
+public class AppController : Controller
 {
+    private readonly VueSessionUser _vueSessionUser;
+
+    public AppController(VueSessionUser vueSessionUser)
+    {
+        _vueSessionUser = vueSessionUser;
+    }
+
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        return Json(VueSessionUser.GetCurrentUserData(), JsonRequestBehavior.AllowGet);
+        return Json(_vueSessionUser.GetCurrentUserData(), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]

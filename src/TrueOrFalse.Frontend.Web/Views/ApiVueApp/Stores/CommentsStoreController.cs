@@ -1,12 +1,15 @@
 ﻿using System.Web.Mvc;
-using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
 public class CommentsStoreController : BaseController
 {
+    public CommentsStoreController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
+
     [HttpGet]
     public JsonResult GetAllComments(int questionId)
     {

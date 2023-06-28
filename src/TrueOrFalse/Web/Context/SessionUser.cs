@@ -1,48 +1,48 @@
-﻿using System.Collections.Generic;
-using System.Web;
+﻿using Seedworks.Web.State;
+using System.Collections.Generic;
 using System.Web.Security;
-using Seedworks.Web.State;
+using System.Web;
 
-public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
+public class SessionUser :IRegisterAsInstancePerLifetime
 {
-    public static bool HasBetaAccess
+    private readonly HttpContext _httpContext;
+
+    public SessionUser(HttpContext httpContext)
     {
-        get => SessionData.Get("isBetaLogin", false);
-        set => SessionData.Set("isBetaLogin", value);
+        _httpContext = httpContext;
     }
 
-    public static bool IsLoggedIn
+    public bool IsSesionActive () => _httpContext.Session is not null;
+
+    public bool HasBetaAccess
     {
-        get => SessionData.Get("isLoggedIn", false);
-        private set => SessionData.Set("isLoggedIn", value);
+        get => _httpContext.Session["isBetaLogin"] as bool? ?? false;
+        set => _httpContext.Session.Add("isBetaLogin", value);
     }
 
-    public static bool IsInstallationAdmin
+    public bool IsLoggedIn
     {
-        get => SessionData.Get("isAdministrativeLogin", false);
-        set => SessionData.Set("isAdministrativeLogin", value);
+        get => _httpContext.Session["isLoggedIn"] as bool? ?? false;
+        private set => _httpContext.Session.Add("isLoggedIn", value);
     }
 
-    public static int UserId => _userId;
-    
-    private static int _userId
+    public bool IsInstallationAdmin
     {
-        get => SessionData.Get("userId", -1);
-        set => SessionData.Set("userId", value);
+        get => _httpContext.Session["isAdministrativeLogin"] as bool? ?? false;
+        set => _httpContext.Session.Add("isAdministrativeLogin", value);
     }
 
-    public static SessionUserCacheItem User
-    {
-        get
-        {
-            if (_userId < 0) 
-                return null;
+    public int UserId => _userId;
 
-            return SessionUserCache.GetUser(_userId);
-        }
+    private int _userId
+    {
+        get => _httpContext.Session["userId"] as int? ?? 0;
+        set => _httpContext.Session.Add("userId", value);
     }
 
-    public static bool IsLoggedInUser(int userId)
+    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId);
+
+    public bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
             return false;
@@ -50,12 +50,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    public static bool IsLoggedInUserOrAdmin(int userId)
-    {
-        return IsLoggedInUser(userId) || IsInstallationAdmin;
-    }
-
-    public static void Login(User user)
+    public void Login(User user)
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
@@ -65,13 +60,13 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
 
-        if (HttpContext.Current != null)
+        if (_httpContext != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
         SessionUserCache.CreateItemFromDatabase(user.Id);
     }
 
-    public static void Logout()
+    public void Logout()
     {
         IsLoggedIn = false;
         IsInstallationAdmin = false;
@@ -83,14 +78,14 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     }
 
 
-    public static List<ActivityPoints> ActivityPoints => SessionData.Get("pointActivities", new List<ActivityPoints>());
+    public List<ActivityPoints> ActivityPoints => _httpContext.Session["pointActivities"] as List<ActivityPoints> ?? new List<ActivityPoints>();
 
-    public static void AddPointActivity(ActivityPoints activityPoints)
+    public void AddPointActivity(ActivityPoints activityPoints)
     {
         ActivityPoints.Add(activityPoints);
     }
 
-    public static int GetTotalActivityPoints()
+    public int GetTotalActivityPoints()
     {
         int totalPoints = 0;
 
@@ -99,15 +94,16 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         return totalPoints;
     }
-
-    public static int CurrentWikiId
+    public bool IsLoggedInUserOrAdmin()
     {
-        get => SessionData.Get("currentWikiId", 1);
-        private set => SessionData.Set("currentWikiId", value);
+        return IsLoggedInUser(UserId) || IsInstallationAdmin;
+    }
+    public int CurrentWikiId
+    {
+        get => _httpContext.Session["currentWikiId"] as int? ?? 1;
+        private set => _httpContext.Session.Add("currentWikiId", value);
     }
 
-    public static void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    public static void SetWikiId(int id) => CurrentWikiId = id;
-
-    public static bool IsInOwnWiki() => IsLoggedIn ? CurrentWikiId == User.StartTopicId : CurrentWikiId == RootCategory.RootCategoryId;
+    public  void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public  void SetWikiId(int id) => CurrentWikiId = id;
 }

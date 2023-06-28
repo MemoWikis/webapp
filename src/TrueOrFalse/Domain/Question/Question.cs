@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -110,11 +109,6 @@ public class Question : DomainEntity, ICreator
         return answerText;
     }
 
-    public virtual IEnumerable<Category> CategoriesVisibleToCurrentUser()
-    {
-        return Categories.Where(PermissionCheck.CanView);
-    }
-
     public virtual string GetShortTitle(int length = 96)
     {
         var safeText = Regex.Replace(Text, "<.*?>", "");
@@ -136,10 +130,8 @@ public class Question : DomainEntity, ICreator
         return false;
     }
 
-    public virtual bool IsInWishknowledge()
-    {
-        return SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
-    }
+    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsQuestionInWishknowledge(userId, Id);
+   
 
     public virtual bool IsMediumQuestion()
     {
@@ -237,5 +229,10 @@ public class Question : DomainEntity, ICreator
             reference.AdditionalInfo = existingReferences[i].AdditionalInfo;
             reference.ReferenceText = existingReferences[i].ReferenceText;
         }
+    }
+
+    public virtual bool IsCreator(int userId)
+    {
+        return userId == Creator?.Id;
     }
 }

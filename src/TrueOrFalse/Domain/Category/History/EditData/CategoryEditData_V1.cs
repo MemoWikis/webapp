@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using NHibernate;
 
 public class CategoryEditData_V1 : CategoryEditData
 {
+    private readonly ISession _nhibernateSession;
     public IList<CategoryRelation_EditData_V1> CategoryRelations;
 
-    public CategoryEditData_V1(){}
-
-    public CategoryEditData_V1(Category category)
+    public CategoryEditData_V1(Category category, ISession nhibernateSession)
     {
+        _nhibernateSession = nhibernateSession;
         Name = category.Name;
         Description = category.Description;
         TopicMardkown = category.TopicMarkdown;
@@ -23,15 +24,11 @@ public class CategoryEditData_V1 : CategoryEditData
         Visibility = category.Visibility;
     }
 
-    public override string ToJson() => JsonConvert.SerializeObject(this);
-
-    public static CategoryEditData_V1 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
-
     public override Category ToCategory(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
-        
-        Sl.Session.Evict(category);
+
+        _nhibernateSession.Evict(category);
         var categoryIsNull = category == null;
         category = categoryIsNull ? new Category() : category;
 
@@ -53,4 +50,10 @@ public class CategoryEditData_V1 : CategoryEditData
 
         return category;
     }
+
+    public override string ToJson() => JsonConvert.SerializeObject(this);
+
+    public static CategoryEditData_V1 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
+
+  
 }

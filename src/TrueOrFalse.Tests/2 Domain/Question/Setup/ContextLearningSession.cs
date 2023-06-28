@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Tests;
 
-internal static class ContextLearningSession
+internal class ContextLearningSession : BaseTest
 {
     public static List<LearningSessionStep> GetSteps(int amountQuestionInMemory, int amountQuestions = 20)
     {
@@ -14,7 +14,7 @@ internal static class ContextLearningSession
     public static LearningSession GetLearningSessionForAnonymusUser(int amountQuestions, int amountQuestionInMemory = 20)
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(amountQuestionInMemory);
-        var learningSession = LearningSessionCreator.BuildLearningSession(
+        var learningSession =Resolve<LearningSessionCreator>().BuildLearningSession(
             new LearningSessionConfig
             {
                 CategoryId = 1,
@@ -32,6 +32,6 @@ internal static class ContextLearningSession
     public static LearningSession GetLearningSession(LearningSessionConfig config )
     {
         ContextQuestion.PutQuestionsIntoMemoryCache();
-        return LearningSessionCreator.BuildLearningSession(config);
+        return Resolve<LearningSessionCreator>().BuildLearningSession(config);
     }
 }

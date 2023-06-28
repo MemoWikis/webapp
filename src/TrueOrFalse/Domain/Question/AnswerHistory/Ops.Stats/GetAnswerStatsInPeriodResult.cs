@@ -1,6 +1,4 @@
-﻿using System;
-
-public class GetAnswerStatsInPeriodResult
+﻿public class GetAnswerStatsInPeriodResult
 {
     public int TotalAnswers;
     public int TotalTrueAnswers;

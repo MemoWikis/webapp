@@ -31,27 +31,6 @@ public class ImageMetaDataCache
         return null;
     }
 
-    private static void SetRequestItemsCache(IList<int> ids , string itemsKey, ImageType imageType)
-    {
-        ids = ids.Distinct().ToList();
-
-        var items = Sl.Resolve<ImageMetaDataRepo>()
-            .GetBy(ids, imageType)
-            .ToDictionary(r => r.TypeId);
-
-        var dictionary = new Dictionary<int, ImageMetaData>();
-        
-        foreach (var id in ids)
-        {
-            if(items.ContainsKey(id))
-                dictionary.Add(id, items[id]);
-            else
-                dictionary.Add(id, null);
-        }
-
-        HttpContext.Current.Items[itemsKey] = dictionary;
-    }
-
     private static IDictionary<int, ImageMetaData> GetRequestItemsCache(string itemsKey)
     {
         var result = HttpContext.Current.Items[itemsKey];

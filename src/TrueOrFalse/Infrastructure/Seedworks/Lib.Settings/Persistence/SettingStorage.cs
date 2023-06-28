@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
@@ -26,12 +25,6 @@ namespace Seedworks.Lib.Settings
             _repository.Create(list);
         }
 
-        public void CreateOrUpdate(IList<Setting> settings)
-        {
-            foreach (var setting in settings)
-                CreateOrUpdate(setting);
-        }
-
         public void Update(Setting setting)
         {
             setting.DateModified = DateTime.Now;
@@ -42,16 +35,6 @@ namespace Seedworks.Lib.Settings
         {
             foreach(var setting in settings)
                 Update(setting);
-        }
-
-        public void CreateOrUpdate(Setting setting)
-        {
-            if (setting.DateCreated == DateTime.MinValue)
-                setting.DateCreated = DateTime.Now;
-
-            setting.DateModified = DateTime.Now;
-
-            _repository.CreateOrUpdate(setting);
         }
 
         public void Delete(int id)
@@ -79,37 +62,14 @@ namespace Seedworks.Lib.Settings
             _repository.Delete(setting);
         }
 
-        public void Delete(IList<Setting> settings)
-        {
-            foreach (var setting in settings)
-                Delete(setting);
-        }
-
         public IList<Setting> GetAll()
         {
             return _repository.GetAll();
-        }
-
-        private IList<Setting> _allSettings;
-        public IList<Setting> GetAllCached()
-        {
-            if (_allSettings == null) _allSettings = GetAll();
-            return _allSettings;
         }
 
         public IList<Setting> GetBy(SettingSearchDesc searchDesc)
         {
             return _repository.GetBy(searchDesc);
         }
-
-		/// <summary>
-		/// Convenience method to get a single setting.
-		/// </summary>
-		/// <param name="settingSearchDesc"></param>
-		/// <returns></returns>
-		public T GetUnique<T>(SettingSearchDesc settingSearchDesc) where T : Setting, new()
-		{
-			return _repository.GetUnique(settingSearchDesc) as T;
-		}
     }
 }

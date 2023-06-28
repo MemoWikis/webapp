@@ -5,8 +5,9 @@ using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.SessionState;
+using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
 using Serilog;
@@ -16,8 +17,6 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
-using TrueOrFalse.View;
-using TrueOrFalse.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web;
 
@@ -72,11 +71,9 @@ public class Global : HttpApplication
 
         AreaRegistration.RegisterAllAreas();
 
-        BundleConfig.RegisterBundles(BundleTable.Bundles);
         RouteConfig.RegisterRoutes(RouteTable.Routes);
 
         ViewEngines.Engines.Clear();
-        ViewEngines.Engines.Add(new JavaScriptViewEngine());
         ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
         if (!Settings.DisableAllJobs())
@@ -87,13 +84,13 @@ public class Global : HttpApplication
         if (Settings.InitEntityCacheViaJobScheduler())
         {
             JobScheduler
-                .StartImmediately_RefreshEntityCache(); //Is a lot faster (for unknown reasons) than direct init but bears the risk of EntityCache not being filled before first request
+                .StartImmediately_RefreshEntityCache(); 
         }
         else
         {
             var stopwatch = Stopwatch.StartNew();
             Logg.r().Information("=== Init EntityCache (start) ===============================");
-            EntityCache.Init();
+            new EntityCacheInitializer().Init();
             Logg.r().Information($"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
             stopwatch.Stop();
         }
@@ -110,9 +107,15 @@ public class Global : HttpApplication
 
     protected void Session_Start()
     {
-        if (!SessionUser.IsLoggedIn)
+        var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
+        using (var scope = container.BeginLifetimeScope())
         {
-            LoginFromCookie.Run();
+            var sessionUser = scope.Resolve<SessionUser>();
+
+            if (!sessionUser.IsLoggedIn)
+            {
+                LoginFromCookie.Run(sessionUser);
+            }
         }
     }
 

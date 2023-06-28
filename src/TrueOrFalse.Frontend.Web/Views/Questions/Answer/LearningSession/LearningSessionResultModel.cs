@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class LearningSessionResultModel : BaseModel
+public class LearningSessionResultModel
 {
     public LearningSession LearningSession;
     public int NumberSteps;
@@ -17,11 +17,8 @@ public class LearningSessionResultModel : BaseModel
     public int NumberNotAnsweredPercentage;
 
     public IEnumerable<IGrouping<int, LearningSessionStep>> AnsweredStepsGrouped;
-
-    public int WishCountQuestions;
     public bool ShowSummaryText;
     public int PercentageAverageRightAnswers;
-    public int CounterSteps { get; set; }
 
     public LearningSessionResultModel(LearningSession learningSession, bool isInTestMode = false)
     {

@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Stripe;
 using TrueOrFalse.Infrastructure.Logging;
-
-namespace TrueOrFalse.Stripe.Logic;
 
 public class WebhookLogic
 {

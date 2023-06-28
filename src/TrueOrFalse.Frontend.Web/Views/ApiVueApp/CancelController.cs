@@ -5,7 +5,7 @@ using TrueOrFalse.Infrastructure;
 
 namespace VueApp;
 
-public class CancelController : BaseController
+public class CancelController : Controller
 {
     [HttpGet]
     public JsonResult GetHelperTopics()

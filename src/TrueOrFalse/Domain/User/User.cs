@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
@@ -31,6 +30,10 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
+    
+    /// <summary>
+    /// End of premium period
+    /// </summary>
     public virtual DateTime? EndDate { get; set; }
 
     public virtual IList<FollowerInfo> Followers { get; set; }

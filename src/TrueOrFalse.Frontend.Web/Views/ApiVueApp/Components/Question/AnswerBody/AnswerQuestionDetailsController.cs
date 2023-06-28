@@ -8,6 +8,12 @@ using TrueOrFalse.Web;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class AnswerQuestionDetailsController: BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public AnswerQuestionDetailsController(SessionUser sessionUser, PermissionCheck permissionCheck):base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
 
@@ -15,7 +21,7 @@ public class AnswerQuestionDetailsController: BaseController
     {
         var question = EntityCache.GetQuestionById(id);
 
-        if (question.Id == 0 || !PermissionCheck.CanView(question))
+        if (question.Id == 0 || !_permissionCheck.CanView(question))
             return Json(null);
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -23,10 +29,10 @@ public class AnswerQuestionDetailsController: BaseController
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
-        var userQuestionValuation = SessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations
+        var userQuestionValuation = _sessionUser.IsLoggedIn
+            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && SessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 
         return new {
             knowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
@@ -40,14 +46,14 @@ public class AnswerQuestionDetailsController: BaseController
             overallAnsweredCorrectly = history.TimesAnsweredCorrect,
             overallAnsweredWrongly = history.TimesAnsweredWrongTotal,
             isInWishknowledge = answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
-            topics = question.CategoriesVisibleToCurrentUser().Select(t => new
+            topics = question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t => new
             {
                 Id = t.Id,
                 Name = t.Name,
                 Url = Links.CategoryDetail(t.Name, t.Id),
-                QuestionCount = t.GetCountQuestionsAggregated(),
+                QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
                 ImageUrl = new CategoryImageSettings(t.Id).GetUrl_128px(asSquare: true).Url,
-                IconHtml = SearchApiController.GetIconHtml(t),
+                IconHtml = CategoryCachedData.GetIconHtml(t),
                 MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(t.Id, ImageType.Category))
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
                 Visibility = (int)t.Visibility,
@@ -72,6 +78,5 @@ public class AnswerQuestionDetailsController: BaseController
                 fullText = question.License.DisplayTextFull
             }
         };
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-public class WelcomeMsg
+﻿public class WelcomeMsg
 {
     public static void Send(int receiverId)
     {

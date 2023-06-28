@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using TrueOrFalse.Infrastructure;
-
-namespace TrueOrFalse.Web.Uris
+﻿namespace TrueOrFalse.Web.Uris
 {
     public static class UriSegmentFriendlyUser
     {

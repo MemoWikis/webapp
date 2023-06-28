@@ -12,13 +12,6 @@ namespace TrueOrFalse
             _session = session;
         }
 
-        public List<ImageMaintenanceInfo> Run(ImageMetaDataSearchSpec searchSpec)
-        {
-            var imageMetaDatas = Sl.R<ImageMetaDataRepo>().GetBy(searchSpec);
-
-            return imageMetaDatas.Select(imageMetaData => new ImageMaintenanceInfo(imageMetaData)).ToList();
-        }
-
         public List<ImageMaintenanceInfo> Run()
         {
             var imageMetaDatas = _session.QueryOver<ImageMetaData>().List();

@@ -1,24 +1,21 @@
 ﻿using System.Web.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
 public class CommentAddController : BaseController
 {
+    private readonly CommentHelper _commentHelper;
+
+    public CommentAddController(SessionUser sessionUser, CommentHelper commentHelper) :base(sessionUser)
+    {
+        _commentHelper = commentHelper;
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveComment(int id, string text, string title)
     {
-        var comment = new Comment();
-        comment.Type = CommentType.AnswerQuestion;
-        comment.TypeId = id;
-        comment.Text = text;
-        comment.Title = title;
-        comment.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
-
-        Resolve<CommentRepository>().Create(comment);
+        _commentHelper.SaveComment(CommentType.AnswerQuestion, id, text,title, UserId);
         return true;
     }
 }

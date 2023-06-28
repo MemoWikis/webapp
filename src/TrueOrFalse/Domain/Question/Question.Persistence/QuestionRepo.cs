@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
+using Org.BouncyCastle.Bcpg;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -30,7 +30,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         foreach (var category in question.Categories.ToList())
         {
-            category.UpdateCountQuestionsAggregated();
+            category.UpdateCountQuestionsAggregated(question.Creator.Id);
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
@@ -160,30 +160,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .JoinQueryOver<Category>(q => q.Categories)
             .Where(c => c.Id == categoryId)
             .List<Question>();
-    }
-
-    public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
-    {
-        var query = _session.QueryOver<QuestionValuation>()
-            .Where(q =>
-                q.RelevancePersonal != -1 &&
-                q.User.Id == userId)
-            .JoinQueryOver(q => q.Question)
-            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
-            .ThenBy(x => x.DateCreated).Desc
-            .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId);
-
-        return new PagedResult<Question>
-        {
-            PageSize = resultCount,
-            Total = query.RowCount(),
-            Items = query
-                .Take(resultCount)
-                .List<QuestionValuation>()
-                .Select(qv => qv.Question)
-                .ToList()
-        };
     }
 
     public int HowManyNewPublicQuestionsCreatedSince(DateTime since)

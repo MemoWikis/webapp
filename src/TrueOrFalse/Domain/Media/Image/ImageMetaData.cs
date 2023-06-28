@@ -1,5 +1,4 @@
-﻿using System;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
 public class ImageMetaData : DomainEntity
 {

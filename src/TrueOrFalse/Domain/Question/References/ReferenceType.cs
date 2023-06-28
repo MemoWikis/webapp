@@ -1,6 +1,4 @@
-﻿using System;
-
-public enum ReferenceType
+﻿public enum ReferenceType
 {
     MediaCategoryReference = 1,
     FreeTextreference = 2,

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using NHibernate;
 
 namespace Seedworks.Lib.Persistence
@@ -17,17 +14,7 @@ namespace Seedworks.Lib.Persistence
 			return (T)_andOrderByCriteria;
 		}
 
-//		public OrderByCriteria AndOrderBy
-//		{
-//			get
-//			{
-//				_andOrderBy.BeginAdding();
-//				return _andOrderBy;
-//			}
-//			set { _andOrderBy = value; }
-//		}
-
-		public OrderByExtender(OrderByCriteria orderByCriteria)
+        public OrderByExtender(OrderByCriteria orderByCriteria)
 		{
 			_andOrderByCriteria = orderByCriteria;
 		}

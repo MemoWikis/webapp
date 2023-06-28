@@ -4,19 +4,27 @@ using System.Text;
 using NHibernate;
 using TrueOrFalse;
 
-public static class QuestionInKnowledge
+public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 {
-    public static void Pin(int questionId, int userId)
+    private readonly SessionUser _sessionUser;
+    private readonly ISession _nhibernateSession;
+
+    public QuestionInKnowledge(SessionUser sessionUser, ISession nhibernateSession)
+    {
+        _sessionUser = sessionUser;
+        _nhibernateSession = nhibernateSession;
+    }
+    public void Pin(int questionId, int userId)
     {
         UpdateRelevancePersonal(questionId, userId);
     }
 
-    public static void Pin(IList<QuestionCacheItem> questions, User user)
+    public void Pin(IList<QuestionCacheItem> questions, User user)
     {
         UpdateRelevancePersonal(questions, user, 50);
     }
 
-    public static void Unpin(int questionId, int userId)
+    public void Unpin(int questionId, int userId)
     {
         UpdateRelevancePersonal(questionId, userId, -1);
     }
@@ -52,7 +60,7 @@ public static class QuestionInKnowledge
                     .ExecuteUpdate();
     }
 
-    private static void UpdateRelevancePersonal(IList<QuestionCacheItem> questions, User user, int relevance = 50)
+    private void UpdateRelevancePersonal(IList<QuestionCacheItem> questions, User user, int relevance = 50)
     {
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);
 
@@ -60,25 +68,25 @@ public static class QuestionInKnowledge
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user.Id, relevance);
             ChangeTotalInOthersWishknowledge(relevance==50, user.Id, question);
-            Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+            _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            ProbabilityUpdate_Valuation.Run(question, user);
+            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession);
         }
         UpdateTotalRelevancePersonalInCache(questions);
-        SetUserWishCountQuestions(user.Id);
+        SetUserWishCountQuestions(user.Id,_sessionUser);
 
         var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
             ReputationUpdate.ForUser(creator.First());
     }
 
-    private static void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
+    private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
     {
         var question = EntityCache.GetQuestionById(questionId);
         ChangeTotalInOthersWishknowledge(relevance == 50, userId, question);
         CreateOrUpdateValuation(questionId, userId, relevance);
 
-        SetUserWishCountQuestions(userId);
+        SetUserWishCountQuestions(userId, _sessionUser);
 
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
@@ -87,10 +95,10 @@ public static class QuestionInKnowledge
         ReputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId);
+            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
     }
 
-    public static void SetUserWishCountQuestions(int userId)
+    public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
     {
         var query =
             $@"
@@ -108,7 +116,7 @@ public static class QuestionInKnowledge
 
         var wishKnowledgeCount = (int)Sl.Resolve<ISession>().CreateSQLQuery(query)
             .SetParameter("userId", userId).UniqueResult();
-        SessionUser.User.WishCountQuestions = wishKnowledgeCount;
+        _sessionUser.User.WishCountQuestions = wishKnowledgeCount;
 
     }
 
@@ -124,11 +132,6 @@ public static class QuestionInKnowledge
         return
             GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionId) + " " +
             GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
-    }
-
-    private static void UpdateTotalRelevancePersonalInCache(QuestionCacheItem question)
-    {
-        UpdateTotalRelevancePersonalInCache(new List<QuestionCacheItem>{ question });
     }
 
     public static void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)

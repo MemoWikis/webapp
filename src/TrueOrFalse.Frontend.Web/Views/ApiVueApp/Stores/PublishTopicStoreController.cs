@@ -4,9 +4,14 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class PublishTopicStoreController
-    : BaseController
+public class PublishTopicStoreController : BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public PublishTopicStoreController(SessionUser sessionUser, PermissionCheck permissionCheck): base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -27,7 +32,7 @@ public class PublishTopicStoreController
             topicCacheItem.Visibility = CategoryVisibility.All;
             var topic = topicRepo.GetById(topicId);
             topic.Visibility = CategoryVisibility.All;
-            topicRepo.Update(topic, SessionUser.User, type: CategoryChangeType.Published);
+            topicRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
 
             return Json(new
             {
@@ -51,7 +56,7 @@ public class PublishTopicStoreController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator.Id == SessionUser.User.Id)
+            if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
@@ -76,12 +81,12 @@ public class PublishTopicStoreController
             }, JsonRequestBehavior.AllowGet);
 
         var filteredAggregatedQuestions = topicCacheItem
-            .GetAggregatedQuestionsFromMemoryCache()
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
             .Where(q =>
                 q.Creator != null &&
                 q.Creator.Id == userCacheItem.Id &&
                 q.IsPrivate() &&
-                PermissionCheck.CanEdit(q))
+                _permissionCheck.CanEdit(q))
             .Select(q => q.Id).ToList();
 
         return Json(new

@@ -1,24 +1,28 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
 public class TopicController : BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public TopicController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
+
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic();
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck);
         return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
     public JsonResult GetTopicWithSegments(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic();
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck);
         return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
     }
 
@@ -27,9 +31,9 @@ public class TopicController : BaseController
     {
         var c = EntityCache.GetCategory(id);
 
-        if (PermissionCheck.CanView(c))
+        if (_permissionCheck.CanView(c))
             return true;
-            
+
         return false;
     }
 
@@ -37,15 +41,15 @@ public class TopicController : BaseController
     public JsonResult LoadQuestionIds(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        if (PermissionCheck.CanView(topicCacheItem))
+        if (_permissionCheck.CanView(topicCacheItem))
         {
             var userCacheItem = SessionUserCache.GetItem(User_().Id);
             return Json(topicCacheItem
-                .GetAggregatedQuestionsFromMemoryCache()
+                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>
                     q.Creator.Id == userCacheItem.Id &&
                     q.IsPrivate() &&
-                    PermissionCheck.CanEdit(q))
+                    _permissionCheck.CanEdit(q))
                 .Select(q => q.Id).ToList(), JsonRequestBehavior.AllowGet);
         }
         return Json(new { }, JsonRequestBehavior.DenyGet);

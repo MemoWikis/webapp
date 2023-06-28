@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 namespace VueApp;
 public class QuestionLandingPageController : BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public QuestionLandingPageController(SessionUser sessionUser, PermissionCheck permissionCheck) : base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
         foreach (var reference in references)
@@ -45,8 +49,8 @@ public class QuestionLandingPageController : BaseController
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = SessionUser.UserId,
-                isInWishknowledge = SessionUser.IsLoggedIn && q.IsInWishknowledge(),
+                isCreator = q.Creator.Id = _sessionUser.UserId,
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
@@ -66,7 +70,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController().GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

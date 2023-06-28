@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using TrueOrFalse;
 
 public class ImageStore : IRegisterAsInstancePerLifetime
@@ -13,12 +12,6 @@ public class ImageStore : IRegisterAsInstancePerLifetime
     {
         _metaLoader = metaLoader;
         _imgMetaRepo = imgMetaRepo;
-    }
-
-    public void ReloadWikipediaImage(ImageMetaData imageMetaData)
-    {
-        var imageSettings = ImageSettings.InitByType(imageMetaData);
-        RunWikimedia(imageMetaData.SourceUrl, imageMetaData.TypeId, imageMetaData.Type, imageMetaData.UserId, imageSettings);
     }
 
     public void RunWikimedia(
@@ -87,11 +80,5 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         SaveImageToFile.Run(imagefile.InputStream, imageSettings);
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
-    }
-
-    public void Delete(ImageMetaData imageMetaData)
-    {
-        imageMetaData.GetSettings().DeleteFiles();
-        _imgMetaRepo.Delete(imageMetaData.Id);
     }
 }

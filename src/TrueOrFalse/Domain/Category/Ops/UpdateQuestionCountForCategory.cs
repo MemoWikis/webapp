@@ -6,11 +6,13 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionRepo _questionRepository;
+    private readonly SessionUser _sessionUser;
 
-    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository, QuestionRepo questionRepo)
+    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository, QuestionRepo questionRepo, SessionUser sessionUser)
     {
         _categoryRepository = categoryRepository;
         _questionRepository = questionRepo;
+        _sessionUser = sessionUser;
     }
 
     public void All()
@@ -21,7 +23,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
     public void Run(Category category)
     {
         category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
-        category.UpdateCountQuestionsAggregated();
+        category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
     }
 
     public void Run(IList<Category> categories)

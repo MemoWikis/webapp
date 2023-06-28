@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using NHibernate;
@@ -17,24 +16,6 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
             return ImageMetaDataCache.FromCache(typeId, imageType);
 
         var metaData = GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
-
-        if (metaData == null && imageType == ImageType.QuestionSet)
-        {
-            var youtubeUrl = Sl.SetRepo.GetYoutbeUrl(typeId);
-            if (!String.IsNullOrEmpty(youtubeUrl))
-            {
-                metaData = new ImageMetaData();
-                metaData.TypeId = typeId;
-                metaData.Type = imageType;
-                metaData.IsYoutubePreviewImage = true;
-                metaData.YoutubeKey = YoutubeVideo.GetVideoKeyFromUrl(youtubeUrl);
-                metaData.MainLicenseInfo = new MainLicenseInfo
-                {
-                    MainLicenseId = 555,
-                    Author = $"Youtube Vorschaubild: <a href='{youtubeUrl}'>gehe zu Youtube</a>"
-                }.ToJson();
-            }
-        }
         return metaData;
     }
 
@@ -92,24 +73,6 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
             Update(imageMeta);
         else
             Create(imageMeta);
-    }
-
-    public static void SetMainLicenseInfo(ImageMetaData imageMetaData, int MainLicenseId)
-    {
-        if (imageMetaData == null) return;
-        if (LicenseImageRepo.GetAllAuthorizedLicenses().All(x => x.Id != MainLicenseId)) return;
-        if (!LicenseParser.CheckLicenseRequirementsWithDb(LicenseImageRepo.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
-        var manualEntries = imageMetaData.ManualEntriesFromJson();
-        var mainLicenseInfo = new MainLicenseInfo
-        {
-            MainLicenseId = MainLicenseId,
-            Author = !String.IsNullOrEmpty(manualEntries.AuthorManuallyAdded) ?
-                manualEntries.AuthorManuallyAdded :
-                imageMetaData.AuthorParsed,
-            Markup = imageMetaData.Markup,
-            MarkupDownloadDate = imageMetaData.MarkupDownloadDate,
-        };
-        imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
     }
 
     public void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)

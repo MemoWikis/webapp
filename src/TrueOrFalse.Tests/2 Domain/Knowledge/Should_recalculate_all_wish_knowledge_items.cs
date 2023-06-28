@@ -21,7 +21,7 @@ public class Should_recalculate_all_wish_knowledge_items : BaseTest
 
         Resolve<ISession>().Flush();
 
-        ProbabilityUpdate_ValuationAll.Run();
+        Resolve<ProbabilityUpdate_ValuationAll>().Run();
         Assert.That(Resolve<GetWishQuestionCount>().Run(context.Creator.Id), Is.EqualTo(2));
 
         Resolve<ISession>().Flush();
