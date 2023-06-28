@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using FluentNHibernate.Conventions;
 using TrueOrFalse;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
 public class HistoryTopicOverviewController : Controller
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
     private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
 
-    public HistoryTopicOverviewController(PermissionCheck permissionCheck)
+    public HistoryTopicOverviewController(PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo)
     {
         _permissionCheck = permissionCheck;
+        _categoryChangeRepo = categoryChangeRepo;
     }
 
     [HttpGet]
@@ -26,7 +26,7 @@ public class HistoryTopicOverviewController : Controller
 
         if (_permissionCheck.CanView(topic))
         {
-            _allOrderedTopicChanges = Sl.CategoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
+            _allOrderedTopicChanges = _categoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
 
             var days = _allOrderedTopicChanges
                 .GroupBy(change => change.DateCreated.Date)

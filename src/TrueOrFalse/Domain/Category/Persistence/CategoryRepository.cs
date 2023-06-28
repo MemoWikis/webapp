@@ -8,6 +8,7 @@ using TrueOrFalse.Search;
 public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
 
     public enum CreateDeleteUpdate
     {
@@ -22,10 +23,11 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     public CategoryRepository(
         ISession session,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser)
+        SessionUser sessionUser, CategoryChangeRepo categoryChangeRepo)
         : base(session)
     {
         _permissionCheck = permissionCheck;
+        _categoryChangeRepo = categoryChangeRepo;
     }
 
     /// <summary>
@@ -47,7 +49,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator?.Id ?? -1);
+        _categoryChangeRepo.AddCreateEntry(category, category.Creator?.Id ?? -1);
 
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem, category.Creator.Id);
         EntityCache.UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
@@ -61,7 +63,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         if (parentCategories.Count != 0)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false,
+           _categoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false,
                 CategoryChangeType.Relations);
         }
 
@@ -81,7 +83,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         base.Create(category);
         Flush();
 
-        Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
+        _categoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
     }
 
     public void Delete(Category category, int userId)
@@ -263,7 +265,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         if (author != null && createCategoryChange)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();

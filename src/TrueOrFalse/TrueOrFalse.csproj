@@ -277,7 +277,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Category\CategoryAuthorUpdater.cs" />
     <Compile Include="Domain\Category\History\AllTopicsHistory.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\LimitCheck.cs" />
@@ -685,12 +684,6 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
     <Compile Include="Tools\Update\PathTo.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs229.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs231.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs232.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs235.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs244.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs266.cs" />
@@ -719,10 +712,6 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs242.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs240.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs239.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs238 .cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs237.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs236.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs234.cs" />
     <Compile Include="Tools\Update\WuwiMigration\WuwiMigration.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
     <Compile Include="Web\IgnoreLog.cs" />

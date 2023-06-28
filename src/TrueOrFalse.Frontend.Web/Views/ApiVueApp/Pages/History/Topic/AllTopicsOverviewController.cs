@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using FluentNHibernate.Conventions;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -12,11 +10,14 @@ public class HistoryTopicAllTopicsOverviewController : Controller
 {
     private readonly AllTopicsHistory _allTopicsHistory;
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
 
-    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory, PermissionCheck permissionCheck)
+    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
+        PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo)
     {
         _allTopicsHistory = allTopicsHistory;
         _permissionCheck = permissionCheck;
+        _categoryChangeRepo = categoryChangeRepo;
     }
 
     [HttpGet]
@@ -124,7 +125,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
-            var previousChange = Sl.CategoryChangeRepo.GetForTopic(topicChange.Category.Id).OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
+            var previousChange = _categoryChangeRepo.GetForTopic(topicChange.Category.Id).OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
             
             if (previousChange == null) 
                 return change;

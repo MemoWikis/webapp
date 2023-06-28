@@ -2,16 +2,19 @@
 
 public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
+    private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly int _sessionUserId;
 
-    public RestoreCategory(SessionUser sessionUser)
+    public RestoreCategory(SessionUser sessionUser,
+        CategoryChangeRepo categoryChangeRepo)
     {
+        _categoryChangeRepo = categoryChangeRepo;
         _sessionUserId = sessionUser.UserId;
     }
 
     public void Run(int categoryChangeId, User author)
     {
-        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
+        var categoryChange = _categoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
         var category = Sl.CategoryRepo.GetById(historicCategory.Id);
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
@@ -30,7 +33,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 
     public void Run(int categoryChangeId, SessionUserCacheItem author)
     {
-        var categoryChange = Sl.CategoryChangeRepo.GetByIdEager(categoryChangeId);
+        var categoryChange = _categoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
         var category = Sl.CategoryRepo.GetById(historicCategory.Id);
         var categoryCacheItem = EntityCache.GetCategory(category.Id);

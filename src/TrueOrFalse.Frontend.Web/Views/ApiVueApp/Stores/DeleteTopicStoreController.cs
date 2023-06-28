@@ -7,11 +7,16 @@ public class DeleteTopicStoreController : BaseController
 {
     private readonly CategoryDeleter _categoryDeleter;
     private readonly CrumbtrailService _crumbtrailService;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
 
-    public DeleteTopicStoreController(SessionUser sessionUser,CategoryDeleter categoryDeleter,CrumbtrailService crumbtrailService) :base(sessionUser)
+    public DeleteTopicStoreController(SessionUser sessionUser,
+        CategoryDeleter categoryDeleter,
+        CrumbtrailService crumbtrailService,
+        CategoryChangeRepo categoryChangeRepo) :base(sessionUser)
     {
         _categoryDeleter = categoryDeleter;
         _crumbtrailService = crumbtrailService;
+        _categoryChangeRepo = categoryChangeRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -47,7 +52,7 @@ public class DeleteTopicStoreController : BaseController
         var hasDeleted = _categoryDeleter.Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(parent, _sessionUser.UserId, false);
+            _categoryChangeRepo.AddUpdateEntry(parent, _sessionUser.UserId, false);
         }
 
         return Json(new

@@ -12,6 +12,7 @@ public class CategoryHistoryDetailModel
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly ISession _nhibernateSession;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -55,10 +56,12 @@ public class CategoryHistoryDetailModel
         CategoryChange nextRevision,
         bool isCategoryDeleted,
         PermissionCheck permissionCheck,
-        ISession nhibernateSession)
+        ISession nhibernateSession,
+        CategoryChangeRepo categoryChangeRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernateSession = nhibernateSession;
+        _categoryChangeRepo = categoryChangeRepo;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
@@ -70,7 +73,7 @@ public class CategoryHistoryDetailModel
         currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
 
         CategoryId = currentRevision.Category == null ? 
-            Sl.CategoryChangeRepo.GetCategoryId(currentRevision.Id) :  
+            _categoryChangeRepo.GetCategoryId(currentRevision.Id) :  
             currentRevision.Category.Id;
 
         if (currentVersionTypeDelete) // is currentVersion deleted then is too category deleted
@@ -171,7 +174,7 @@ public class CategoryHistoryDetailModel
         var name = ""; 
         if (isRelatedCategoryNull) // then is category deleted
         {
-           var  prevVersion = Sl.CategoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
+           var  prevVersion = _categoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
                 .Where(cc => cc.Type != CategoryChangeType.Delete).OrderByDescending(cc => cc.DateCreated).Select(cc => CategoryEditData_V2.CreateFromJson( cc.Data)).First();
            name = prevVersion.Name; 
         }

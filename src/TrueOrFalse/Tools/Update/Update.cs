@@ -12,16 +12,6 @@ public class Update : IRegisterAsInstancePerLifetime
     public void Run()
     {
         _updateStepExecuter
-            .Add(UpdateToVs228.Run)
-            .Add(UpdateToVs229.Run)
-            .Add(UpdateToVs230.Run)
-            .Add(UpdateToVs231.Run)
-            .Add(UpdateToVs232.Run)
-            .Add(UpdateToVs234.Run)
-            .Add(UpdateToVs235.Run)
-            .Add(UpdateToVs236.Run)
-            .Add(UpdateToVs237.Run)
-            .Add(UpdateToVs238.Run)
             .Add(UpdateToVs239.Run)
             .Add(UpdateToVs240.Run)
             .Add(UpdateToVs241.Run)
