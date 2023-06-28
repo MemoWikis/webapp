@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 
 
 namespace VueApp;
@@ -213,7 +214,7 @@ public class VueEditQuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
+        var user = _sessionUser.User;
         var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
@@ -227,7 +228,7 @@ public class VueEditQuestionController : BaseController
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
