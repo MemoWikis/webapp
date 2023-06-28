@@ -26,7 +26,6 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         : base(session)
     {
         _permissionCheck = permissionCheck;
-        _isSolrActive = Settings.UseMeiliSearch() == false;
     }
 
     /// <summary>

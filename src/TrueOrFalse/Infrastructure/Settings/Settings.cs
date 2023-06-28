@@ -33,26 +33,10 @@ public class Settings
 
     private static bool? _developOffline;
 
-    private static bool? _useMeiliSearch;
     public static string MeiliSearchUrl;
     public static string MeiliSearcMasterKey;
 
     public static string StripeBaseUrl;
-
-    public static bool UseMeiliSearch()
-    {
-        if (_useMeiliSearch != null)
-            return _useMeiliSearch.Value;
-
-        var result = OverwrittenConfig.Value("useMeiliSearch");
-
-        if (result.HasValue)
-            _useMeiliSearch = Boolean.Parse(result.Value);
-        else
-            _useMeiliSearch = false;
-
-        return _useMeiliSearch.Value;
-    }
 
     public static bool InitEntityCacheViaJobScheduler()
     {

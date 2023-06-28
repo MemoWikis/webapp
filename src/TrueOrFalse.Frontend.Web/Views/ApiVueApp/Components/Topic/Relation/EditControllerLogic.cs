@@ -19,7 +19,7 @@ public class EditControllerLogic
 
     public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck,SessionUser sessionUser)
     {
-        _search = search ?? throw new ArgumentNullException(nameof(search));
+        _search = search; 
         _isInstallationAdmin = isInstallationAdmin;
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;

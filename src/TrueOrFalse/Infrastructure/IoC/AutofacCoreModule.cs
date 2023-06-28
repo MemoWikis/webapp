@@ -73,7 +73,6 @@ namespace TrueOrFalse.Infrastructure
 
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
-            if (!Settings.UseMeiliSearch())
             builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
         }
     }

@@ -4,15 +4,20 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class TopicRelationEditController : BaseController
+public class TopicRelationEditController : Controller
 {
     private readonly IGlobalSearch _search;
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
+    private readonly bool IsInstallationAdmin;
 
-    public TopicRelationEditController(IGlobalSearch search, SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    public TopicRelationEditController(IGlobalSearch search,SessionUser sessionUser, PermissionCheck permissionCheck) 
     {
-        _search = search ?? throw new ArgumentNullException(nameof(search));
+        _search = search;
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
+        IsInstallationAdmin = _sessionUser.IsInstallationAdmin;
+
     }
 
     [HttpPost]
