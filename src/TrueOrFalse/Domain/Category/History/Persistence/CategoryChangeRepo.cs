@@ -166,20 +166,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         return categoryChangeList;
     }
 
-    public IList<int> GetAuthorsOfCategory(int categoryId)
-    {
-        var sb = "SELECT Author_id FROM categorychange " +
-                 "where category_id = " + categoryId +
-                 " and (Type = 0 or Type = 1 or Type = 6) " +
-                 "and Author_id > 0 " +
-                 "Group By Author_id";
-
-        var authorIds = _session.CreateSQLQuery(sb)
-            .List<int>();
-
-        return authorIds;
-    }
-
     public bool AuthorWorthyChangeCheck(CategoryChangeType type)
     {
         if (type != CategoryChangeType.Privatized && type != CategoryChangeType.Relations && type != CategoryChangeType.Restore && type != CategoryChangeType.Moved)
@@ -197,7 +183,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .SingleOrDefault();
     }
 
-    public virtual int GetCategoryId(int version)
+    public int GetCategoryId(int version)
     {
         return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
     }
