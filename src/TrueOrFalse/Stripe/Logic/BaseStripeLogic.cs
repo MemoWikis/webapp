@@ -1,11 +1,10 @@
 ﻿using System;
 using Seedworks.Lib.Settings;
 
-namespace TrueOrFalse.Stripe.Logic;
 
 public class BaseStripeLogic
 {
-    protected string CreateSiteLink(string targetPath)
+    protected static string CreateSiteLink(string targetPath)
     {
         var server = Settings.Environment();
         var url = "";

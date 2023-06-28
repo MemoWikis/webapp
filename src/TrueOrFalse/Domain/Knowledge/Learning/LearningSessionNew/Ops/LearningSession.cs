@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 [Serializable]
@@ -8,18 +7,13 @@ public class LearningSession
 {
     public IList<LearningSessionStep> Steps;
     public LearningSessionConfig Config;
-    public int Pager;
-    public UserCacheItem User;
-    public bool IsLoggedIn;
-    public Guid QuestionViewGuid;
+
+
     public QuestionCounter QuestionCounter;
 
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
         Steps = learningSessionSteps;
-        var userId = config.CurrentUserId == 0 ? SessionUser.UserId : config.CurrentUserId;
-        User = EntityCache.GetUserById(userId);
-        IsLoggedIn = userId > 0;
         Config = config;
         Config.Category = EntityCache.GetCategory(Config.CategoryId);
     }
@@ -86,11 +80,6 @@ public class LearningSession
         DeleteLastStep();
     }
 
-    public void ShowSolution()
-    {
-        ReAddCurrentStepToEnd();
-    }
-
     public void SkipStep()
     {
         CurrentStep.AnswerState = AnswerState.Skipped;
@@ -105,12 +94,6 @@ public class LearningSession
     public bool TestIsLastStep()
     {
         return CurrentIndex == Steps.Count - 1;
-    }
-
-    public int TotalPossibleQuestions()
-    {
-        return EntityCache.GetQuestionsForCategory(Config.CategoryId).Count;
-        throw new Exception("unknown session type");
     }
 
     private bool ReAddCurrentStepToEnd()

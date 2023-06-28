@@ -1,16 +1,37 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Quartz;
 using Quartz.Impl;
 
 namespace VueApp;
 
-public class UserStoreController : BaseController
+public class UserStoreController : Controller
 {
+    private readonly VueSessionUser _vueSessionUser;
+    private readonly SessionUser _sessionUser;
+    private readonly CredentialsAreValid _credentialsAreValid;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly ActivityPointsRepo _activityPointsRepo;
+    private readonly RegisterUser _registerUser;
+
+    public UserStoreController(
+        VueSessionUser vueSessionUser,
+        SessionUser sessionUser,
+        CredentialsAreValid credentialsAreValid,
+        PermissionCheck permissionCheck,
+        ActivityPointsRepo activityPointsRepo,
+        RegisterUser registerUser)
+    {
+        _vueSessionUser = vueSessionUser;
+        _sessionUser = sessionUser;
+        _credentialsAreValid = credentialsAreValid;
+        _permissionCheck = permissionCheck;
+        _activityPointsRepo = activityPointsRepo;
+        _registerUser = registerUser;
+    }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
     {
-        var credentialsAreValid = R<CredentialsAreValid>();
+        var credentialsAreValid = _credentialsAreValid;
 
         if (credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))
         {
@@ -20,16 +41,16 @@ public class UserStoreController : BaseController
                 WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id);
             }
 
-            SessionUser.Login(credentialsAreValid.User);
+            _sessionUser.Login(credentialsAreValid.User);
 
-            TransferActivityPoints.FromSessionToUser();
+            TransferActivityPoints.FromSessionToUser(_sessionUser,_activityPointsRepo);
             Sl.UserRepo.UpdateActivityPointsData();
 
             return Json(new
             {
                 Success = true,
                 Message = "",
-                CurrentUser = VueSessionUser.GetCurrentUserData()
+                CurrentUser = _vueSessionUser.GetCurrentUserData()
             });
         }
 
@@ -45,11 +66,11 @@ public class UserStoreController : BaseController
     public JsonResult LogOut()
     {
         RemovePersistentLoginFromCookie.Run();
-        SessionUser.Logout();
+        _sessionUser.Logout();
 
         return Json(new
         {
-            Success = !SessionUser.IsLoggedIn,
+            Success = !_sessionUser.IsLoggedIn,
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -57,7 +78,7 @@ public class UserStoreController : BaseController
     [AccessOnlyAsLoggedIn]
     public int GetUnreadMessagesCount()
     {
-        return Sl.Resolve<GetUnreadMessageCount>().Run(SessionUser.UserId);
+        return Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId);
     }
 
     [HttpPost]
@@ -93,11 +114,11 @@ public class UserStoreController : BaseController
 
         var user = SetUser(json);
 
-        RegisterUser.Run(user);
+        _registerUser.Run(user);
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 
-        SessionUser.Login(user);
+        _sessionUser.Login(user);
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
@@ -107,11 +128,11 @@ public class UserStoreController : BaseController
         Sl.UserRepo.Update(user);
 
         var type = UserType.Anonymous;
-        if (SessionUser.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
-            if (SessionUser.User.IsGoogleUser)
+            if (_sessionUser.User.IsGoogleUser)
                 type = UserType.Google;
-            else if (SessionUser.User.IsFacebookUser)
+            else if (_sessionUser.User.IsFacebookUser)
                 type = UserType.Facebook;
             else type = UserType.Normal;
         }
@@ -122,18 +143,18 @@ public class UserStoreController : BaseController
             Message = "",
             CurrentUser = new
             {
-                IsLoggedIn = SessionUser.IsLoggedIn,
-                Id = SessionUser.UserId,
-                Name = SessionUser.IsLoggedIn ? SessionUser.User.Name : "",
-                IsAdmin = SessionUser.IsInstallationAdmin,
-                PersonalWikiId = SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1,
+                IsLoggedIn = _sessionUser.IsLoggedIn,
+                Id = _sessionUser.UserId,
+                Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
+                IsAdmin = _sessionUser.IsInstallationAdmin,
+                PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
                 Type = type,
-                ImgUrl = SessionUser.IsLoggedIn
-                    ? new UserImageSettings(SessionUser.UserId).GetUrl_20px(SessionUser.User).Url
+                ImgUrl = _sessionUser.IsLoggedIn
+                    ? new UserImageSettings(_sessionUser.UserId).GetUrl_20px(_sessionUser.User).Url
                     : "",
-                Reputation = SessionUser.IsLoggedIn ? SessionUser.User.Reputation : 0,
-                ReputationPos = SessionUser.IsLoggedIn ? SessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic().GetTopicData(SessionUser.IsLoggedIn ? SessionUser.User.StartTopicId : 1)
+                Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
+                ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
+                PersonalWiki = new TopicControllerLogic(_sessionUser,_permissionCheck).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

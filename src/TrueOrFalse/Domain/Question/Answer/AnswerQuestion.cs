@@ -1,17 +1,23 @@
-﻿using System;
-using System.IO.Pipes;
-using System.Linq;
+﻿using System.Linq;
+using NHibernate;
 using TrueOrFalse;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerLog _answerLog;
+    private readonly LearningSessionCache _learningSessionCache;
+    private readonly ISession _nhibernateSession;
 
-    public AnswerQuestion(QuestionRepo questionRepo, AnswerLog answerLog)
+    public AnswerQuestion(QuestionRepo questionRepo,
+        AnswerLog answerLog,
+        LearningSessionCache learningSessionCache,
+        ISession nhibernateSession)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
+        _learningSessionCache = learningSessionCache;
+        _nhibernateSession = nhibernateSession;
     }
 
     public AnswerQuestionResult Run(
@@ -45,7 +51,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        bool inTestMode = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
 
         var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
@@ -104,7 +110,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
-            var learningSession = LearningSessionCache.GetLearningSession();
+            var learningSession = _learningSessionCache.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
             var answer =   Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
@@ -130,7 +136,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
-            var learningSession = LearningSessionCache.GetLearningSession();
+            var learningSession = _learningSessionCache.GetLearningSession();
             learningSession.SetCurrentStepAsCorrect();
 
             var answer = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
@@ -170,45 +176,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId);
-
-        return result;
-    }
-
-
-    public AnswerQuestionResult Run(
-        int? learningSessionId,
-        string learningSessionStepGuid,
-        int questionId,
-        string answer,
-        int userId,
-        Action<Question, AnswerQuestionResult> action,
-        bool countLastAnswerAsCorrect = false,
-        bool countUnansweredAsCorrect = false)
-    {
-        var question = _questionRepo.GetById(questionId);
-        var questionCacheItem = EntityCache.GetQuestion(questionId);
-
-        var solution = GetQuestionSolution.Run(questionCacheItem);
-
-        var result = new AnswerQuestionResult
-        {
-            IsCorrect = solution.IsCorrect(answer),
-            CorrectAnswer = solution.CorrectAnswer(),
-            AnswerGiven = answer,
-            LearningSessionId = learningSessionId,
-            LearningSessionStepGuid = learningSessionStepGuid,
-        };
-
-        action(question, result);
-
-        ProbabilityUpdate_Question.Run(question);
-        if (countLastAnswerAsCorrect)
-            Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
-        else
-            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
-
-        ProbabilityUpdate_Valuation.Run(questionId, userId);
+        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
 
         return result;
     }

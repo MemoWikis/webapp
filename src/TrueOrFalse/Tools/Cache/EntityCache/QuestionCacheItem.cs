@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -114,10 +113,7 @@ public class QuestionCacheItem
         return answerText;
     }
 
-    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser()
-    {
-        return Categories.Where(PermissionCheck.CanView);
-    }
+   
 
     public virtual string GetShortTitle(int length = 96)
     {
@@ -139,10 +135,13 @@ public class QuestionCacheItem
     {
         return false;
     }
-
-    public virtual bool IsInWishknowledge()
+    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser(PermissionCheck permissionCheck)
     {
-        return SessionUserCache.IsQuestionInWishknowledge(Sl.CurrentUserId, Id);
+        return Categories.Where(permissionCheck.CanView);
+    }
+    public virtual bool IsInWishknowledge(int userId)
+    {
+        return SessionUserCache.IsQuestionInWishknowledge(userId, Id);
     }
 
     public virtual bool IsMediumQuestion()
@@ -289,5 +288,9 @@ public class QuestionCacheItem
             reference.AdditionalInfo = existingReferenes[i].AdditionalInfo;
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
+    }
+    public virtual bool IsCreator(int userId)
+    {
+        return userId == Creator?.Id;
     }
 }

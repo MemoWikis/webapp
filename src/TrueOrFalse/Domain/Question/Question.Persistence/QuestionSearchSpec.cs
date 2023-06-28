@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Seedworks.Lib.Persistence;
 using static System.String;
@@ -17,7 +16,6 @@ public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, Questi
     public SearchTabType SearchTab;
     public SpellCheckResult SpellCheck;
 
-    public QuestionHistoryItem HistoryItem;
 
 }
 
@@ -44,14 +42,14 @@ public class QuestionFilter : ConditionContainer
         !Knowledge_Solid && !Knowledge_ShouldConsolidate &&
         !Knowledge_ShouldLearn && !Knowledge_None;
 
-    public IList<int> GetKnowledgeQuestionIds()
+    public IList<int> GetKnowledgeQuestionIds(int userId)
     {
         if(!Knowledge_FilterIsSet)
             return null;
 
         return Sl.R<QuestionRepo>()
             .GetByKnowledge(
-                Sl.CurrentUserId,
+                userId,
                 isKnowledgeSolidFilter: Knowledge_Solid,
                 isKnowledgeShouldConsolidateFilter: Knowledge_ShouldConsolidate,
                 isKnowledgeShouldLearnFilter: Knowledge_ShouldLearn,

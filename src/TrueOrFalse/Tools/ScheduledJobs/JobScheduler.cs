@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NHibernate.Mapping;
 using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
@@ -15,7 +14,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             var container = AutofacWebInitializer.Run();
 
-            _scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            _scheduler =  StdSchedulerFactory.GetDefaultScheduler();
             _scheduler.JobFactory = new AutofacJobFactory(container);
             _scheduler.Start();
         }

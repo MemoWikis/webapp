@@ -20,10 +20,7 @@ public class SetImageSettings : ImageSettings, IImageSettings
         Id = setId;
     }
 
-    public ImageUrl GetUrl_50px_square() { return GetUrl(50, isSquare: true); }
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
-    public ImageUrl GetUrl_206px_square() { return GetUrl(206, isSquare:true); }
-    public ImageUrl GetUrl_350px_square() { return GetUrl(350, isSquare: true); }
 
     public ImageUrl GetUrl(int width, bool isSquare = false)
     {

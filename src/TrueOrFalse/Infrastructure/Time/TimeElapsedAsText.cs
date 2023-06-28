@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TrueOrFalse
+﻿namespace TrueOrFalse
 {
     public class TimeElapsedAsText
     {

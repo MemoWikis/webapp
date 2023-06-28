@@ -8,7 +8,7 @@ class ModifyRelationsForCategory_tests : BaseTest
     public void UpdateCategoryRelationsOfType()
     {
         ContextCategory.New().AddCaseThreeToCache();
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
             EntityCache.GetCategoryByName("X3").FirstOrDefault().Id, 
             EntityCache.GetCategoryByName("B").GetIds().ToList());

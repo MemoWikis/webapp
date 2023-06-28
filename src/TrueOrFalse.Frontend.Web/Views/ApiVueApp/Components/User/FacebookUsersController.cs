@@ -9,12 +9,27 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class FacebookUsersController : BaseController
+public class FacebookUsersController : Controller
 {
+    private readonly VueSessionUser _vueSessionUser;
+    private readonly UserRepo _userRepo;
+    private readonly SessionUser _sessionUser;
+    private readonly RegisterUser _registerUser;
+
+    public FacebookUsersController(VueSessionUser vueSessionUser,
+        UserRepo userRepo,
+        SessionUser sessionUser,RegisterUser registerUser)
+    {
+        _vueSessionUser = vueSessionUser;
+        _userRepo = userRepo;
+        _sessionUser = sessionUser;
+        _registerUser = registerUser;
+    }
+
     [HttpPost]
     public JsonResult Login(string facebookUserId, string facebookAccessToken)
     {
-        var user = R<UserRepo>().UserGetByFacebookId(facebookUserId);
+        var user = _userRepo.UserGetByFacebookId(facebookUserId);
 
         if (user == null)
         {
@@ -34,36 +49,36 @@ public class FacebookUsersController : BaseController
             });
         }
 
-        SessionUser.Login(user);
+        _sessionUser.Login(user);
 
         return Json(new
         {
             success = true,
-            currentUser = VueApp.VueSessionUser.GetCurrentUserData()
+            currentUser = _vueSessionUser.GetCurrentUserData()
         });
     }
 
     [HttpPost]
     public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
     {
-        var registerResult = RegisterUser.Run(facebookUser);
+        var registerResult = _registerUser.Run(facebookUser);
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            SessionUser.Login(user);
+            _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            SessionUser.User.StartTopicId = category.Id;
+            _sessionUser.User.StartTopicId = category.Id;
 
             return Json(new
             {
                 Success = true,
                 registerResult,
                 localHref = Links.CategoryDetail(category.Name, category.Id),
-                currentUser = VueApp.VueSessionUser.GetCurrentUserData(),
+                currentUser = _vueSessionUser.GetCurrentUserData(),
             });
         }
 

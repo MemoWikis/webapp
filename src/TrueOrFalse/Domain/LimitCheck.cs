@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace TrueOrFalse.Domain;
 
@@ -19,29 +18,29 @@ public class LimitCheck
         };
     }
 
-    public static bool CanAddNewKnowledge()
+    public static bool CanAddNewKnowledge(SessionUser sessionUser)
     {
-        return SessionUser.IsInstallationAdmin ||
-               HasActiveSubscriptionPlan() ||
-               SessionUser.User.WishCountQuestions < _wishCountKnowledge;
+        return sessionUser.IsInstallationAdmin ||
+               HasActiveSubscriptionPlan(sessionUser) ||
+               sessionUser.User.WishCountQuestions < _wishCountKnowledge;
       }
 
-    public static bool CanSavePrivateQuestion()
+    public static bool CanSavePrivateQuestion(SessionUser sessionUser)
     {
-        return SessionUser.IsInstallationAdmin ||
-               HasActiveSubscriptionPlan() ||
-               EntityCache.GetPrivateQuestionIdsFromUser(SessionUser.UserId).Count() < _privateQuestionsQuantity;
+        return sessionUser.IsInstallationAdmin ||
+               HasActiveSubscriptionPlan(sessionUser) ||
+               EntityCache.GetPrivateQuestionIdsFromUser(sessionUser.UserId).Count() < _privateQuestionsQuantity;
     }
 
-    public static bool CanSavePrivateTopic()
+    public static bool CanSavePrivateTopic(SessionUser sessionUser)
     {
-        return SessionUser.IsInstallationAdmin ||
-               HasActiveSubscriptionPlan() ||
-               EntityCache.GetPrivateCategoryIdsFromUser(SessionUser.UserId).Count() < _privateTopicsQuantity;
+        return sessionUser.IsInstallationAdmin ||
+               HasActiveSubscriptionPlan(sessionUser) ||
+               EntityCache.GetPrivateCategoryIdsFromUser(sessionUser.UserId).Count() < _privateTopicsQuantity;
     }
 
-    private static bool HasActiveSubscriptionPlan()
+    private static bool HasActiveSubscriptionPlan(SessionUser sessionUser)
     {
-        return SessionUser.User.EndDate != null && SessionUser.User.EndDate > DateTime.Now;
+        return sessionUser.User.EndDate != null && sessionUser.User.EndDate > DateTime.Now;
     }
 }

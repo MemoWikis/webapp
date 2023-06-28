@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
+﻿
 
 namespace VueApp;
 
 public class FooterController : BaseController
 {
+    public FooterController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
 }

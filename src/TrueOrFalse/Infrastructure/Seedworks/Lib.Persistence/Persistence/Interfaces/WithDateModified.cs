@@ -1,5 +1,3 @@
-using System;
-
 namespace Seedworks.Lib.Persistence
 {
     public interface WithDateModified 

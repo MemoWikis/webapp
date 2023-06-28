@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ubiety.Dns.Core;
 
 namespace TrueOrFalse.Tests;
 
-public class ContextCategory
+public class ContextCategory: BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ContextUser _contextUser = ContextUser.New();
@@ -162,19 +163,6 @@ public class ContextCategory
         return this;
     }
 
-    public ContextCategory Delete(Category category)
-    {
-        _categoryRepository.Delete(category);
-        return this;
-    }
-
-    public ContextCategory AddRelationsToCategory(Category category, List<CategoryRelation> categoryRelations)
-    {
-        category.CategoryRelations = categoryRelations;
-        _categoryRepository.Update(category);
-        return this;
-    }
-
     public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
     {
         //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
@@ -219,12 +207,10 @@ public class ContextCategory
         {
             category.Visibility = CategoryVisibility.All;
         }
+        Resolve<EntityCacheInitializer>().Init();
 
-
-        EntityCache.Init();
-
-        SessionUser.Login(user);
-        SessionUser.Logout();
+        Resolve<SessionUser>().Login(user);
+        Resolve<SessionUser>().Logout();
         return user;
     }
 

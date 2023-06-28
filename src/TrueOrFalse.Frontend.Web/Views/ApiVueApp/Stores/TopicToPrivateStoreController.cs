@@ -4,9 +4,15 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class TopicToPrivateStoreController
-    : BaseController
+public class TopicToPrivateStoreController : BaseController
 {
+    private readonly PermissionCheck _permissionCheck;
+
+    public TopicToPrivateStoreController(SessionUser sessionUser, PermissionCheck permissionCheck) :base(sessionUser)
+    {
+        _permissionCheck = permissionCheck;
+    }
+
     [HttpGet]
     [AccessOnlyAsLoggedIn]
     public JsonResult Get(int topicId)
@@ -14,16 +20,16 @@ public class TopicToPrivateStoreController
         var topicCacheItem = EntityCache.GetCategory(topicId);
         var userCacheItem = SessionUserCache.GetItem(User_().Id);
 
-        if (!PermissionCheck.CanEdit(topicCacheItem))
+        if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
             {
                 success = false,
                 key = "missingRights"
             }, JsonRequestBehavior.AllowGet);
 
-        var aggregatedTopics = topicCacheItem.AggregatedCategories()
+        var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
-        var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(true)
+        var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
             .Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
@@ -93,14 +99,14 @@ public class TopicToPrivateStoreController
     public JsonResult Set(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        if (!PermissionCheck.CanEdit(topicCacheItem))
+        if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
             {
                 success = false,
                 key = "missingRights"
             });
 
-        var aggregatedTopics = topicCacheItem.AggregatedCategories(false)
+        var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var topic = Sl.CategoryRepo.GetById(topicId);
         var pinCount = topic.TotalRelevancePersonalEntries;
@@ -137,7 +143,7 @@ public class TopicToPrivateStoreController
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(topic, SessionUser.User, type: CategoryChangeType.Privatized);
+        Sl.CategoryRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
 
         return Json(new
         {
@@ -154,8 +160,8 @@ public class TopicToPrivateStoreController
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == SessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId) ? 1 : 0);
+            if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
                 IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;

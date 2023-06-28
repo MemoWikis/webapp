@@ -15,6 +15,23 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }, "TestJob1");
         }
     }
+    public class TestJobCacheInitializer : IJob
+    {
+        private readonly EntityCacheInitializer _entityCacheInitializer;
+
+        public TestJobCacheInitializer(EntityCacheInitializer entityCacheInitializer)
+        {
+            _entityCacheInitializer = entityCacheInitializer;
+        }
+        public void Execute(IJobExecutionContext context)
+        {
+            JobExecute.Run(scope =>
+            {
+                _entityCacheInitializer.Init(" (in JobScheduler) ");
+            }, "RefreshEntityCache");
+        }
+    }
+
 
     public class TestJob2 : IJob
     {

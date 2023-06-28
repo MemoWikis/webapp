@@ -11,12 +11,14 @@ public class Category_persistence_tests : BaseTest
     [Test]
     public void Category_should_be_persisted()
     {
-        var categoryRepo = Resolve<CategoryRepository>();
-
         var user = new User { Name = "Some user" };
         Resolve<UserRepo>().Create(user);
+        var sessionUser = Resolve<SessionUser>(); 
+        var categoryRepo = Resolve<CategoryRepository>();
 
-        var category = new Category("Sports")
+       
+
+        var category = new Category("Sports",sessionUser.UserId)
         {
             Creator = user,
             Type = CategoryType.Standard
@@ -76,6 +78,7 @@ public class Category_persistence_tests : BaseTest
     {
         var context = ContextCategory.New();
         var user = context.AddCaseThreeToCache();
+        var permissionCheck = Resolve<PermissionCheck>(); 
 
         var categories = EntityCache.GetAllCategories();
 
@@ -97,7 +100,7 @@ public class Category_persistence_tests : BaseTest
         }
         categories = EntityCache.GetAllCategories();
             
-        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories(true).Where(cci => SessionUserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
-        Assert.That(categories.ByName("A").AggregatedCategories(true).Count, Is.EqualTo(13));
+        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories( permissionCheck,true).Where(cci => SessionUserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
+        Assert.That(categories.ByName("A").AggregatedCategories(permissionCheck, true).Count, Is.EqualTo(13));
     }
 }

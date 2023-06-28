@@ -1,27 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using FluentNHibernate.Data;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+
 
 namespace VueApp;
 
 public class VueEditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly LearningSessionCache _learningSessionCache;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
 
-    public VueEditQuestionController(QuestionRepo questionRepo)
+    public VueEditQuestionController(QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        LearningSessionCache learningSessionCache,
+        PermissionCheck permissionCheck,
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge) :base(sessionUser)
     {
         _questionRepo = questionRepo;
+        _learningSessionCache = learningSessionCache;
+        _permissionCheck = permissionCheck;
+        _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -41,7 +50,7 @@ public class VueEditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
+        var sessionUser = Sl.UserRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
@@ -50,10 +59,10 @@ public class VueEditQuestionController : BaseController
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         if (questionDataJson.IsLearningTab) { }
-        LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
+            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
         return LoadQuestion(question.Id);
     }
@@ -79,7 +88,7 @@ public class VueEditQuestionController : BaseController
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         return LoadQuestion(updatedQuestion.Id);
     }
@@ -120,7 +129,7 @@ public class VueEditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        var sessionUser = Sl.UserRepo.GetById(SessionUser.UserId);
+        var sessionUser = Sl.UserRepo.GetById(_sessionUser.UserId);
         question.Creator =  sessionUser;
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
@@ -130,10 +139,9 @@ public class VueEditQuestionController : BaseController
         _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
+            _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
 
-        LearningSessionCache.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-
+        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         return LoadQuestion(question.Id);
     }
 
@@ -165,7 +173,7 @@ public class VueEditQuestionController : BaseController
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
         foreach (var categoryId in categoriesToRemove)
-            if (!PermissionCheck.CanViewCategory(categoryId))
+            if (!_permissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
         question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
@@ -206,7 +214,7 @@ public class VueEditQuestionController : BaseController
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
+        var user = _sessionUser.User;
         var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
@@ -220,7 +228,7 @@ public class VueEditQuestionController : BaseController
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
@@ -239,7 +247,7 @@ public class VueEditQuestionController : BaseController
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache().Count;
+    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     public class QuestionDataJson
     {
@@ -263,7 +271,7 @@ public class VueEditQuestionController : BaseController
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var categories = new List<Category>();
-        var privateCategories = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
+        var privateCategories = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         categories.AddRange(privateCategories);
 
         foreach (var categoryId in newCategoryIds)
@@ -290,7 +298,7 @@ public class VueEditQuestionController : BaseController
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            var creator = Sl.UserRepo.GetById(SessionUser.UserId);
+            var creator = Sl.UserRepo.GetById(_sessionUser.UserId);
             question.Creator = creator;
             question.IsWorkInProgress = true;
             _questionRepo.Create(question);
@@ -299,20 +307,20 @@ public class VueEditQuestionController : BaseController
         }
         else
         {
-            if (!PermissionCheck.CanEdit(_questionRepo.GetById(questionId)))
+            if (!_permissionCheck.CanEdit(_questionRepo.GetById(questionId)))
                 throw new SecurityException("Not allowed to edit question");
         }
 
         if (imageSource == "wikimedia")
         {
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, ImageType.Question, SessionUser.UserId);
+                wikiFileName, questionId, ImageType.Question, _sessionUser.UserId);
         }
 
         if (imageSource == "upload")
         {
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, SessionUser.UserId, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.UserId, uploadImageLicenseOwner);
         }
 
         question = Sl.QuestionRepo.GetById(questionId);
@@ -329,7 +337,7 @@ public class VueEditQuestionController : BaseController
             }
         };
     }
-
+    //todo: (DaMa) mit Jun schauen scheint nicht benötigt zu werden 
     public ActionResult ReferencePartial(int catId)
     {
         var category = R<CategoryRepository>().GetById(catId);
@@ -341,7 +349,7 @@ public class VueEditQuestionController : BaseController
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            if (questionCacheItem.Creator.Id == SessionUser.UserId)
+            if (questionCacheItem.Creator.Id == _sessionUser.UserId)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
@@ -358,8 +366,8 @@ public class VueEditQuestionController : BaseController
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge() ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == SessionUser.UserId && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId) ? 1 : 0);
+            if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

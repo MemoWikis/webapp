@@ -32,11 +32,6 @@ public class LicenseParser
         );
     }
 
-    public static IList<LicenseImage> GetNonAuthorizedParsedLicenses(string wikiMarkup)
-    {
-        return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
-    }
-
     public static LicenseImage SuggestMainLicenseFromMarkup(ImageMetaData imageMetaData)
     {
         return GetAuthorizedParsedLicenses(imageMetaData.Markup)

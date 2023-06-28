@@ -4,19 +4,20 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class QuestionController : BaseController
+public class QuestionController : Controller
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly SessionUser _sessionUser;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public QuestionController(QuestionRepo questionRepo)
+    public QuestionController(SessionUser sessionUser,LearningSessionCache learningSessionCache)
     {
-        _questionRepo = questionRepo;
+        _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
     }
-
     public JsonResult LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
+        var user = _sessionUser;
+        var userQuestionValuation = SessionUserCache.GetItem(user.UserId).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -29,7 +30,7 @@ public class QuestionController : BaseController
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
@@ -45,76 +46,5 @@ public class QuestionController : BaseController
         }
 
         return Json(question);
-    }
-
-    [HttpPost]
-    public JsonResult GetData(int id)
-    {
-        var question = EntityCache.GetQuestionById(id);
-        var categoryController = new CategoryController();
-        var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
-        var categoriesVisibleToCurrentUser =
-            question.Categories.Where(PermissionCheck.CanView).Distinct();
-
-        var json = new JsonResult
-        {
-            Data = new
-            {
-                SolutionType = (int)question.SolutionType,
-                Solution = solution,
-                SolutionMetadataJson = question.SolutionMetadataJson,
-                Text = question.TextHtml,
-                TextExtended = question.TextExtendedHtml,
-                CategoryIds = categoriesVisibleToCurrentUser.Select(c => c.Id).ToList(),
-                DescriptionHtml = question.DescriptionHtml,
-                Categories = categoriesVisibleToCurrentUser.Select(c => categoryController.FillMiniCategoryItem(c)),
-                LicenseId = question.LicenseId,
-                Visibility = question.Visibility,
-            }
-        };
-
-        return json;
-    }
-
-    [HttpPost]
-    public JsonResult DeleteDetails(int questionId)
-    {
-        var question = _questionRepo.GetById(questionId);
-        var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator == null ? -1 : question.Creator.Id, question);
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                questionTitle = question.Text.TruncateAtWord(90),
-                totalAnswers = question.TotalAnswers(),
-                canNotBeDeleted = !canBeDeleted.Yes,
-                wuwiCount = canBeDeleted.WuwiCount,
-                hasRights = canBeDeleted.HasRights
-            }
-        };
-    }
-
-    [HttpPost]
-    public JsonResult Delete(int questionId, int sessionIndex)
-    {
-        QuestionDelete.Run(questionId);
-        LearningSessionCache.RemoveQuestionFromLearningSession(sessionIndex, questionId);
-        return new JsonResult
-        {
-            Data = new {
-                sessionIndex,
-                questionId
-            }
-        };
-    }
-
-    [RedirectToErrorPage_IfNotLoggedIn]
-    public ActionResult Restore(int questionId, int questionChangeId)
-    {
-        RestoreQuestion.Run(questionChangeId, this.User_());
-
-        var question = Sl.QuestionRepo.GetById(questionId);
-        return Redirect(Links.AnswerQuestion(question));
     }
 }

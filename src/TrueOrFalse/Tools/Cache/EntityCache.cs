@@ -1,67 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using static CategoryRepository;
 
 public class EntityCache : BaseCache
 {
-    private const string _cacheKeyUsers = "allUsers_EntityCache";
-    private const string _cacheKeyQuestions = "allQuestions_EntityCache";
-    private const string _cacheKeyCategories = "allCategories_EntityCache";
-    private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
+    public const string CacheKeyUsers = "allUsers_EntityCache";
+    public const string CacheKeyQuestions = "allQuestions_EntityCache";
+    public const string CacheKeyCategories = "allCategories_EntityCache";
+    public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[_cacheKeyUsers];
+    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[CacheKeyUsers];
 
-    private static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[_cacheKeyQuestions];
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[_cacheKeyCategories];
+    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[CacheKeyQuestions];
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[CacheKeyCategories];
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
-        (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionsList];
-
-    public static void Init(string customMessage = "")
-    {
-        var stopWatch = Stopwatch.StartNew();
-
-        Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var allUsers = Sl.UserRepo.GetAll();
-        Logg.r().Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
-        Logg.r().Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
-        IntoForeverCache(_cacheKeyUsers, users.ToConcurrentDictionary());
-
-        var allCategories = Sl.CategoryRepo.GetAllEager();
-        Logg.r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
-        Logg.r().Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
-        IntoForeverCache(_cacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
-
-        var allQuestions = Sl.QuestionRepo.GetAllEager();
-        Logg.r().Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();
-        Logg.r().Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
-
-        Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
-        IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
-
-        foreach (var question in allQuestions.Where(q => q.References.Any()))
-        {
-            Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
-                ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
-        }
-        Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        IsFirstStart = false;
-    }
+        (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[CacheKeyCategoryQuestionsList];
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
     public static UserCacheItem GetUserById(int userId)
@@ -73,7 +34,7 @@ public class EntityCache : BaseCache
         return new UserCacheItem();
     }
 
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
@@ -91,11 +52,6 @@ public class EntityCache : BaseCache
 
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
     {
-        if (CategoryQuestionsList == null)
-        {
-            Init();
-        }
-
         var questionIds = CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
         return questionIds;
     }
@@ -134,6 +90,59 @@ public class EntityCache : BaseCache
         return questions;
     }
 
+    public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
+    {
+        //Create
+        if (createDeleteUpdate == CreateDeleteUpdate.Create)
+        {
+            //Update EntityCache
+            var parents = EntityCache.GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
+            foreach (var parent in parents)
+            {
+                parent.CachedData.AddChildId(categoryCacheItem.Id);
+            }
+        }
+
+        //Update
+        if (createDeleteUpdate == CreateDeleteUpdate.Update)
+        {
+            var oldCategoryCacheItem1 = GetCategory(categoryCacheItem.Id);
+
+            var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
+                .Select(cr => cr.RelatedCategoryId).ToList();
+
+            var parentIdsOldCategoryCacheItem1 = oldCategoryCacheItem1.CategoryRelations
+                .Select(cr => cr.RelatedCategoryId).ToList();
+
+            var exceptIdsToDelete1 = parentIdsOldCategoryCacheItem1.Except(parentIdsCacheItem1).ToList();
+            var exceptIdsToAdd1 = parentIdsCacheItem1.Except(parentIdsOldCategoryCacheItem1).ToList();
+
+            if (exceptIdsToAdd1.Any() || exceptIdsToDelete1.Any())
+            {
+                foreach (var id in exceptIdsToAdd1)
+                {
+                    GetCategory(id).CachedData
+                        .AddChildId(categoryCacheItem.Id);
+                }
+
+                foreach (var id in exceptIdsToDelete1)
+                {
+                    GetCategory(id).CachedData.RemoveChildId(categoryCacheItem.Id);
+                }
+            }
+        }
+
+        //Delete
+        if (createDeleteUpdate == CreateDeleteUpdate.Delete)
+        {
+            //EntityCache
+            foreach (var parent in categoryCacheItem.ParentCategories(true))
+            {
+                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
+            }
+        }
+    }
+
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
     public static QuestionCacheItem GetQuestionById(int questionId)
@@ -168,7 +177,6 @@ public class EntityCache : BaseCache
             }
         }
     }
-
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
@@ -265,18 +273,18 @@ public class EntityCache : BaseCache
         }
     }
 
-    public static void Remove(int id) => Remove(GetCategory(id));
-    public static void Remove(CategoryCacheItem category)
+    public static void Remove(int id,PermissionCheck permissionCheck,int userId) => Remove(GetCategory(id),permissionCheck,userId);
+    public static void Remove(CategoryCacheItem category,PermissionCheck permissionCheck, int userId)
     {
         Remove(Categories, category);
-        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
+        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId);
         foreach (var connectedQuestion in connectedQuestions)
         {
             var categoryInQuestion = connectedQuestion.Categories.FirstOrDefault(c => c.Id == category.Id);
             connectedQuestion.Categories.Remove(categoryInQuestion);
         }
 
-        var parentCategories = GetAllParents(category.Id);
+        var parentCategories = GetAllParents(category.Id,permissionCheck);
         foreach (var parent in parentCategories)
         {
             parent.CachedData.RemoveChildId(category.Id);
@@ -375,13 +383,14 @@ public class EntityCache : BaseCache
         .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
-    public static List<CategoryCacheItem> ParentCategories(int categoryId, bool visibleOnly = false)
+    public static List<CategoryCacheItem> ParentCategories(int categoryId,PermissionCheck permissionCheck, bool visibleOnly = false)
     {
         var allCategories = GetAllCategories();
         if (visibleOnly)
         {
            return allCategories.SelectMany(c =>
-                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId && PermissionCheck.CanViewCategory(cr.RelatedCategoryId))
+                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId &&
+                                                permissionCheck.CanViewCategory(cr.RelatedCategoryId))
                     .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
         }
         return allCategories.SelectMany(c =>
@@ -389,9 +398,9 @@ public class EntityCache : BaseCache
                 .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
     }
 
-    public static IList<CategoryCacheItem> GetAllParents(int childId, bool getFromEntityCache = false, bool visibleOnly = false)
+    public static IList<CategoryCacheItem> GetAllParents(int childId,PermissionCheck permissionCheck, bool getFromEntityCache = false,bool visibleOnly = false)
     {
-        var currentGeneration = ParentCategories(childId, visibleOnly);
+        var currentGeneration = ParentCategories(childId, permissionCheck, visibleOnly);
         var nextGeneration = new List<CategoryCacheItem>();
         var ascendants = new List<CategoryCacheItem>();
 
@@ -401,7 +410,7 @@ public class EntityCache : BaseCache
 
             foreach (var parent in currentGeneration)
             {
-                var parents = ParentCategories(parent.Id, visibleOnly);
+                var parents = ParentCategories(parent.Id, permissionCheck, visibleOnly);
                 if (parents.Count > 0)
                 {
                     nextGeneration.AddRange(parents);

@@ -15,10 +15,10 @@ public class SessionUser_test : BaseTest
 
         var category3 = categories[2];
 
-        var beforeSettingId = SessionUser.CurrentWikiId;
-        SessionUser.SetWikiId(category3);
+        var beforeSettingId = Resolve<SessionUser>().CurrentWikiId;
+        Resolve<SessionUser>().SetWikiId(category3);
 
         Assert.That(beforeSettingId, Is.EqualTo(1));
-        Assert.That(SessionUser.CurrentWikiId, Is.EqualTo(3));
+        Assert.That(Resolve<SessionUser>().CurrentWikiId, Is.EqualTo(3));
     }
 }

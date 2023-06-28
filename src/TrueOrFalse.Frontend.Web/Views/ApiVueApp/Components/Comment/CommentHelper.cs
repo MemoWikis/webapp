@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Web;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace VueApp;
 
-public static class CommentHelper
+public class CommentHelper : IRegisterAsInstancePerLifetime
 {
+    private readonly CommentRepository _commentRepository;
+    private readonly UserRepo _userRepo;
+
+    public CommentHelper(CommentRepository commentRepository, UserRepo userRepo)
+    {
+        _commentRepository = commentRepository;
+        _userRepo = userRepo;
+    }
+
     public static CommentJson GetComment(Comment c, bool showSettled = false)
     {
         var comment = new CommentJson
@@ -49,6 +59,19 @@ public static class CommentHelper
         }
         return comment;
     }
+
+    public void SaveComment(CommentType type,int typeId, string text, string title, int userId )
+    {
+        var comment = new Comment();
+        comment.Type = type;
+        comment.TypeId = typeId;
+        comment.Text = text;
+        comment.Title = title;
+        comment.Creator = _userRepo.GetById(userId);
+
+        _commentRepository.Create(comment);
+    }
+
 
     public class CommentJson
     {

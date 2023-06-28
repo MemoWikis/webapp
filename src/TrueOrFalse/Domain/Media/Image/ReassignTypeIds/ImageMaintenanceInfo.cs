@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,16 +35,10 @@ public class ImageMaintenanceInfo
     public string GlobalLicenseStateMessage;
     public string LicenseStateCssClass;
     public string LicenseStateHtmlList;
-
-    public string MaintenanceRowMessage;
-
     public ImageFrontendData FrontendData;
-
     private readonly List<LicenseImage> _offeredLicenses;
-
     public int SelectedMainLicenseId { get; set; }
 
-    public IEnumerable<SelectListItem> ParsedLicenses => new SelectList(_offeredLicenses, "Id", "WikiSearchString");
 
     public ImageMaintenanceInfo(int typeId, ImageType imageType)
         : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType))
@@ -295,20 +288,6 @@ public class ImageMaintenanceInfo
     public bool IsNotClear()
     {
         return GetAmountMatches() > 1;
-    }
-
-    public string GetCssClass()
-    {
-        if (IsClear())
-            return "success";
-
-        if (IsNothing())
-            return "warning";
-
-        if (IsNotClear())
-            return "danger";
-
-        return "";
     }
 
     public ImageType GetImageType()

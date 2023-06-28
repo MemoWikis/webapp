@@ -12,15 +12,30 @@ namespace VueApp;
 public class QuestionEditModalControllerLogic
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly SessionUser _sessionUser;
+    private readonly LearningSessionCache _learningSessionCache;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly LearningSessionCreator _learningSessionCreator;
+    private readonly QuestionInKnowledge _questionInKnowledge;
 
-    public QuestionEditModalControllerLogic(QuestionRepo questionRepo)
+    public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        LearningSessionCache learningSessionCache, 
+        PermissionCheck permissionCheck,
+        LearningSessionCreator learningSessionCreator,
+        QuestionInKnowledge questionInKnowledge) 
     {
         _questionRepo = questionRepo;
+        _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
+        _permissionCheck = permissionCheck;
+        _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
     {
-        if (!LimitCheck.CanSavePrivateQuestion())
+        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser))
         {
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
@@ -32,7 +47,7 @@ public class QuestionEditModalControllerLogic
         }
 
         var question = new Question();
-        question.Creator = Sl.UserRepo.GetById(SessionUser.UserId);
+        question.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -40,17 +55,17 @@ public class QuestionEditModalControllerLogic
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         if (questionDataJson.IsLearningTab) { }
-        LearningSessionCache.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
 
         if (questionDataJson.AddToWishknowledge)
-            QuestionInKnowledge.Pin(Convert.ToInt32(question.Id), SessionUser.UserId);
+           _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return new RequestResult { success = true, data = LoadQuestion(question.Id) };
     }
 
     private dynamic LoadQuestion(int questionId)
     {
-        var user = SessionUser.User;
+        var user = _sessionUser.User;
         var userQuestionValuation = SessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
@@ -64,7 +79,7 @@ public class QuestionEditModalControllerLogic
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
@@ -96,7 +111,7 @@ public class QuestionEditModalControllerLogic
         _questionRepo.Update(updatedQuestion);
 
         if (questionDataJson.IsLearningTab)
-            LearningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         return new RequestResult { success = true, data = LoadQuestion(updatedQuestion.Id) };
     }
@@ -106,7 +121,7 @@ public class QuestionEditModalControllerLogic
         var question = EntityCache.GetQuestionById(id);
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
         var topicsVisibleToCurrentUser =
-            question.Categories.Where(PermissionCheck.CanView).Distinct();
+            question.Categories.Where(_permissionCheck.CanView).Distinct();
 
         return new
         {
@@ -131,7 +146,7 @@ public class QuestionEditModalControllerLogic
             Id = topic.Id,
             Name = topic.Name,
             Url = Links.CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = topic.GetCountQuestionsAggregated(),
+            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
@@ -177,7 +192,7 @@ public class QuestionEditModalControllerLogic
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
         foreach (var categoryId in categoriesToRemove)
-            if (!PermissionCheck.CanViewCategory(categoryId))
+            if (!_permissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
         question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
@@ -207,7 +222,7 @@ public class QuestionEditModalControllerLogic
             }
         }
 
-        question.License = SessionUser.IsInstallationAdmin
+        question.License = _sessionUser.IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
@@ -219,7 +234,7 @@ public class QuestionEditModalControllerLogic
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var topics = new List<Category>();
-        var privateTopics = question.Categories.Where(c => !PermissionCheck.CanEdit(c)).ToList();
+        var privateTopics = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         topics.AddRange(privateTopics);
 
         foreach (var categoryId in newCategoryIds)
@@ -229,5 +244,5 @@ public class QuestionEditModalControllerLogic
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache().Count;
+    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 }

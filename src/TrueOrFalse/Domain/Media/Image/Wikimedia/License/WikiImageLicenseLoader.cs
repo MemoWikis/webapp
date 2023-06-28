@@ -1,5 +1,3 @@
-using System;
-
 namespace TrueOrFalse
 {
     public class WikiImageLicenseLoader : IRegisterAsInstancePerLifetime

@@ -64,13 +64,13 @@ public class GraphService
         return categories;
     }
 
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category)
+    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category, int userId)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
 
         foreach (var parent in parentsFromParentCategories)
         {
-            parent.UpdateCountQuestionsAggregated();
+            parent.UpdateCountQuestionsAggregated(userId);
         }
     }
 }

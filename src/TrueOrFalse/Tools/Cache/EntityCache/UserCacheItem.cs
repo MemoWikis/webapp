@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.String;
@@ -47,6 +46,7 @@ public class UserCacheItem : IUserTinyModel
     public int Reputation { get; set; }
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
+    public bool IsInstallationAdmin { get; set;  }
 
     public void AssignValues(User user)
     {
@@ -59,6 +59,7 @@ public class UserCacheItem : IUserTinyModel
         ReputationPos = user.ReputationPos;
         FollowerCount = user.FollowerCount;
         ShowWishKnowledge = user.ShowWishKnowledge;
+        IsInstallationAdmin = user.IsInstallationAdmin;
 
         StartTopicId = user.StartTopicId;
         WishCountQuestions = user.WishCountQuestions;
@@ -90,17 +91,5 @@ public class UserCacheItem : IUserTinyModel
     public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users)
     {
         return users.Select(ToCacheUser);
-    }
-
-    public virtual IList<string> WidgetHosts()
-    {
-        if (IsNullOrEmpty(WidgetHostsSpaceSeparated))
-        {
-            return new List<string>();
-        }
-
-        return WidgetHostsSpaceSeparated
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim()).ToList();
     }
 }

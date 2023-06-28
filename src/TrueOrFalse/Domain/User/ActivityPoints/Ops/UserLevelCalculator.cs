@@ -1,6 +1,4 @@
-﻿using System;
-
-public class UserLevelCalculator
+﻿public class UserLevelCalculator
 {
     public static int GetLevel(int points)
     {
@@ -13,7 +11,6 @@ public class UserLevelCalculator
         return 100;
     }
 
-    public static int GetPointsToNextLevel(int level, int actualPoints) => CalculateUpperLevelBound(level) - actualPoints;
     public static int GetUpperLevelBound(int level) => CalculateUpperLevelBound(level);
 
     private static int CalculateUpperLevelBound(int level)
@@ -45,16 +42,4 @@ public class UserLevelCalculator
         }
         return (int)Math.Round(Math.Pow(level - 5, 1.9) * 2000);
     }
-
-    //public static int GetlevelProgressPercentage(int totalPoints)
-    //{
-    //    var level = GetLevel(totalPoints);
-    //    var lowerLevelBound = CalculateLowerLevelBound(level);
-    //    var pointsInLevel = totalPoints - (lowerLevelBound - 1);
-
-    //    var totalInLevel = CalculateUpperLevelBound(level) - (lowerLevelBound - 1);
-
-    //    return (pointsInLevel/totalInLevel) * 100;
-    //}
-
 }

@@ -21,8 +21,8 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .AddQuestion(nameQuestion2)
             .AddQuestion(nameQuestion3)
             .Persist();
-
-        SessionUser.Login(questionContext.Creator);
+        var sessionUser = Resolve<SessionUser>(); 
+        sessionUser.Login(questionContext.Creator);
 
 
         var question1Id = questionContext.All
@@ -35,10 +35,10 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
 
         var field = typeof(LimitCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
-
-        var result1 = new QuestionPinStoreControllerLogic().Pin(question1Id);
-        var result2 = new QuestionPinStoreControllerLogic().Pin(question2Id);
-        var result3 = new QuestionPinStoreControllerLogic().Pin(question3Id);
+        var questionInKnowledge = Resolve<QuestionInKnowledge>(); 
+        var result1 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question1Id, sessionUser);
+        var result2 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question2Id, sessionUser);
+        var result3 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question3Id, sessionUser);
         var expectedResult = new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
 
         Assert.True(result1.success);
@@ -60,7 +60,8 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
             .Persist();
 
         questionContext.Creator.EndDate = DateTime.Now.AddDays(1);
-        SessionUser.Login(questionContext.Creator);
+        var sessionUser = Resolve<SessionUser>(); 
+        sessionUser.Login(questionContext.Creator);
 
 
         var question1Id = questionContext.All
@@ -74,9 +75,10 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
         var field = typeof(LimitCheck).GetField("_wishCountKnowledge", BindingFlags.NonPublic | BindingFlags.Static);
         field.SetValue(null, 2);
 
-        var result1 = new QuestionPinStoreControllerLogic().Pin(question1Id);
-        var result2 = new QuestionPinStoreControllerLogic().Pin(question2Id);
-        var result3 = new QuestionPinStoreControllerLogic().Pin(question3Id);
+        var questionInKnowledge = Resolve<QuestionInKnowledge>(); 
+        var result1 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question1Id, sessionUser);
+        var result2 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question2Id, sessionUser);
+        var result3 = new QuestionPinStoreControllerLogic(questionInKnowledge).Pin(question3Id, sessionUser);
 
         Assert.True(result1.success);
         Assert.True(result2.success);

@@ -1,6 +1,4 @@
-﻿using System;
-
-public struct Time : IComparable<Time>
+﻿public struct Time : IComparable<Time>
 {
     public int Hours;
     public int Minutes;

@@ -4,6 +4,7 @@ using TrueOrFalse.Tests;
 
 class Automatic_inclusion_tests : BaseTest
 {
+
     [Test]
     public void Test_Subcategory_add_correct_to_parent()
     {
@@ -22,8 +23,8 @@ class Automatic_inclusion_tests : BaseTest
             .All;
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
-        EntityCache.Init();
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(EntityCache.GetCategoryByName("Sub1").First());
+        Resolve<EntityCacheInitializer>().Init();
+        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(EntityCache.GetCategoryByName("Sub1").First(),Resolve<SessionUser>().UserId);
 
         Assert.That(Sl.CategoryRepo.GetById(subCategories.ByName("Sub1").Id).ParentCategories().Count, Is.EqualTo(2));
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
@@ -48,11 +49,11 @@ class Automatic_inclusion_tests : BaseTest
             .All;
 
         context.Add(subCategories.ByName("Sub1").Name, subCategories[0].Type, parent: subCategories.ByName("Sub3"));
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
 
 
         var user = ContextUser.New().Add("Dandor").Persist().All.First();
-        SessionUser.Login(user);
+        Resolve<SessionUser>().Login(user);
 
         context
             .Add("SubSub1", parent: subCategories.ByName("Sub1"))
@@ -75,10 +76,10 @@ class Automatic_inclusion_tests : BaseTest
             .Persist()
             .All;
 
-        EntityCache.Init();
+        Resolve<EntityCacheInitializer>().Init();
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
-
-        EntityCache.Remove(context.All.ByName("Sub1").Id);
+         
+        EntityCache.Remove(context.All.ByName("Sub1").Id,Resolve<PermissionCheck>(), Resolve<SessionUser>().UserId);
         Sl.CategoryRepo.Delete(context.All.ByName("Sub1"));
         Assert.That(EntityCache.GetCategoryByName("Category").First().CachedData.ChildrenIds.Count, Is.EqualTo(2));
 

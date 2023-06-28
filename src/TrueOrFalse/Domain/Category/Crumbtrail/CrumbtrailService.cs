@@ -1,47 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CrumbtrailService
+public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
-    public static Crumbtrail Get(CategoryCacheItem category, CategoryCacheItem root)
+    private readonly PermissionCheck _permissionCheck;
+
+    public CrumbtrailService(PermissionCheck permissionCheck)
     {
-        var result = new Crumbtrail(category, root);
-        if (!category.IsStartPage())
-        {
-            var parents = category.ParentCategories();
-            var rootWikiParent = parents.FirstOrDefault(c => c == root);
-            if (rootWikiParent != null)
-                AddParent(result, rootWikiParent, root);
-            else
-                foreach (var parent in parents)
-                    AddParent(result, parent, root);
-        }
-
-        result.Items = result.Items.Reverse().ToList();
-
-        return result;
+        _permissionCheck = permissionCheck;
     }
-
-    private static void AddParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
-    {
-        if (crumbtrail.Rootfound)
-            return;
-
-        crumbtrail.Add(categoryCacheItem);
-        var parents = categoryCacheItem.ParentCategories();
-        if (parents.Any(c => c == root))
-            AddParent(crumbtrail, root, root);
-        else
-            foreach (var currentCategory in parents)
-            {
-                if (crumbtrail.AlreadyAdded(currentCategory))
-                    return;
-
-                AddParent(crumbtrail, currentCategory, root);
-            }
-    }
-
-    public static Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
+    public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
         if (!category.IsStartPage())
@@ -68,7 +36,7 @@ public class CrumbtrailService
         return result;
     }
 
-    private static void BreadCrumbtrailCorrectnessCheck(IList<CrumbtrailItem> crumbtrailItems, CategoryCacheItem category)
+    private void BreadCrumbtrailCorrectnessCheck(IList<CrumbtrailItem> crumbtrailItems, CategoryCacheItem category)
     {
         if (crumbtrailItems == null || crumbtrailItems.Count == 0)
             return;
@@ -81,7 +49,7 @@ public class CrumbtrailService
             var categoryCacheItem = crumbtrailItems[i].Category;
             var nextItemId = crumbtrailItems[i + 1].Category.Id;
 
-            if (!PermissionCheck.CanView(categoryCacheItem))
+            if (!_permissionCheck.CanView(categoryCacheItem))
                 Logg.r().Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
 
             if (categoryCacheItem.ParentCategories().All(c => c.Id != nextItemId))
@@ -89,24 +57,24 @@ public class CrumbtrailService
         }
     }
 
-    private static bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
+    private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
     {
-        var isLinkedToRoot = EntityCache.GetAllParents(category.Id, visibleOnly:true).Any(c => c == root);
+        var isLinkedToRoot = EntityCache.GetAllParents(category.Id,_permissionCheck,visibleOnly:true).Any(c => c == root);
         if (isLinkedToRoot)
             return true;
         return false;
     }
 
-    private static void AddBreadcrumbParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
+    private void AddBreadcrumbParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
     {
-        if (PermissionCheck.CanView(categoryCacheItem))
+        if (_permissionCheck.CanView(categoryCacheItem))
             crumbtrail.Add(categoryCacheItem);
         else return;
 
         if (root == categoryCacheItem)
             return;
 
-        var parents = EntityCache.ParentCategories(categoryCacheItem.Id, visibleOnly:true);
+        var parents = EntityCache.ParentCategories(categoryCacheItem.Id,_permissionCheck, visibleOnly:true);
         parents = OrderParentList(parents, root.Creator.Id);
         
         if (parents.Any(c => c.Id == root.Id))
@@ -119,7 +87,7 @@ public class CrumbtrailService
 
                 if (parent == root)
                 {
-                    if (PermissionCheck.CanView(parent))
+                    if (_permissionCheck.CanView(parent))
                         crumbtrail.Add(parent);
                     break;
                 }
@@ -141,19 +109,19 @@ public class CrumbtrailService
         return orderedParents;
     }
 
-    public static CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem)
+    public CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem, SessionUser sessionUser)
     {
-        var currentWikiId = SessionUser.CurrentWikiId;
+        var currentWikiId = sessionUser.CurrentWikiId;
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
-        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, true, true);
-        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !PermissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
+        var parents = EntityCache.GetAllParents(categoryCacheItem.Id, _permissionCheck, true, true);
+        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !_permissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)
             {
                 var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
-                if (PermissionCheck.CanView(EntityCache.GetCategory(creatorWikiId)))
+                if (_permissionCheck.CanView(EntityCache.GetCategory(creatorWikiId)))
                 {
                     if (parents.Any(c => c.Id == creatorWikiId))
                     {
@@ -161,9 +129,9 @@ public class CrumbtrailService
                         return newWiki;
                     }
 
-                    if (SessionUser.IsLoggedIn)
+                    if (sessionUser.IsLoggedIn)
                     {
-                        var userWikiId = SessionUserCache.GetUser(SessionUser.UserId).StartTopicId;
+                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

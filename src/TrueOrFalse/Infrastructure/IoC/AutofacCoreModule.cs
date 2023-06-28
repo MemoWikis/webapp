@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Web;
 using Autofac;
 using NHibernate;
 using Quartz;
@@ -13,14 +13,18 @@ namespace TrueOrFalse.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.Register(context => HttpContext.Current).InstancePerLifetimeScope();
+
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
-                   .AssignableTo<IRegisterAsInstancePerLifetime>();
+                               .AssignableTo<IRegisterAsInstancePerLifetime>();
 
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
+         
+
 
             try
             {

@@ -6,6 +6,10 @@ namespace VueApp;
 
 public class ImageLicenseStoreController : BaseController
 {
+    public ImageLicenseStoreController(SessionUser sessionUser) : base(sessionUser)
+    {
+        
+    }
     [HttpGet]
     public JsonResult GetLicenseInfo(int id)
     {

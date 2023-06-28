@@ -9,6 +9,12 @@ namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningController : BaseController
 {
+    private readonly LearningSessionCreator _learningSessionCreator;
+
+    public LearningController(SessionUser sessionUser,LearningSessionCreator learningSessionCreator) : base(sessionUser)
+    {
+        _learningSessionCreator = learningSessionCreator;
+    }
     private class SessionData
     {
         public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, int learningSessionId = -1)
@@ -29,10 +35,10 @@ public class LearningController : BaseController
     [HttpPost]
     public JsonResult GetCount(LearningSessionConfig config)
     {
-        if (config.CurrentUserId == 0 && SessionUser.IsLoggedIn)
-            config.CurrentUserId = SessionUser.UserId;
+        if (config.CurrentUserId == 0 && _sessionUser.IsLoggedIn)
+            config.CurrentUserId = _sessionUser.UserId;
 
-        var learningSession = LearningSessionCreator.BuildLearningSession(config);
+        var learningSession = _learningSessionCreator.BuildLearningSession(config);
         
         return Json(learningSession.QuestionCounter);
     }

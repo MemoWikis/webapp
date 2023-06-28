@@ -1,9 +1,8 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
 public class Settings
 {
-    private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
+    private static readonly AppSettingsReader _settingReader = new();
 
     [ThreadStatic]
     public static bool UseWebConfig;
@@ -34,41 +33,10 @@ public class Settings
 
     private static bool? _developOffline;
 
-    private static bool? _useMeiliSearch;
     public static string MeiliSearchUrl;
     public static string MeiliSearcMasterKey;
 
     public static string StripeBaseUrl;
-
-    public static bool DevelopOffline()
-    {
-        if (_developOffline != null)
-            return _developOffline.Value;
-
-        var result = OverwrittenConfig.Value("developOffline");
-
-        if (result.HasValue)
-            _developOffline = Boolean.Parse(result.Value);
-        else
-            _developOffline = false;
-
-        return _developOffline.Value;
-    }
-
-    public static bool UseMeiliSearch()
-    {
-        if (_useMeiliSearch != null)
-            return _useMeiliSearch.Value;
-
-        var result = OverwrittenConfig.Value("useMeiliSearch");
-
-        if (result.HasValue)
-            _useMeiliSearch = Boolean.Parse(result.Value);
-        else
-            _useMeiliSearch = false;
-
-        return _useMeiliSearch.Value;
-    }
 
     public static bool InitEntityCacheViaJobScheduler()
     {
@@ -79,14 +47,7 @@ public class Settings
 
     /// <summary>Develop / Stage / Live</summary>
     public static string Environment() => OverwrittenConfig.ValueString("environment");
-
-    public static string LogglyKey() => OverwrittenConfig.ValueString("logglyKey");
-    public static string BetaCode() => OverwrittenConfig.ValueString("betaCode");
-
     public static string UpdateUserSettingsKey() => OverwrittenConfig.ValueString("updateUserSettingsKey");
-
-    public static string InvoiceFolder() => OverwrittenConfig.ValueString("invoiceFolderPath");
-    public static string WkHtmlToPdfFolder() => OverwrittenConfig.ValueString("wkHtmlToPdfFolder");
     public static bool DebugEnableMiniProfiler() => OverwrittenConfig.ValueBool("debugEnableMiniProfiler");
 
     public static bool DisableAllJobs() => OverwrittenConfig.ValueBool("disableAllJobs");

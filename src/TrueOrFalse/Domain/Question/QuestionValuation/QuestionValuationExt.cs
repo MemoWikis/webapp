@@ -8,13 +8,6 @@ public static class QuestionValuationExt
         return questionValuations.FirstOrDefault(x => x.Question.Id == questionId);
     }
 
-    public static QuestionValuationCacheItem ByQuestionId(
-        this IEnumerable<QuestionValuationCacheItem> questionValuations,
-        int questionId)
-    {
-        return questionValuations.FirstOrDefault(x => x.Question.Id == questionId);
-    }
-
     public static IList<int>
         QuestionIds(
             this IEnumerable<QuestionValuationCacheItem>

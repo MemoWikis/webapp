@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 
 namespace Seedworks.Web.State
@@ -51,11 +50,6 @@ namespace Seedworks.Web.State
         public static bool Contains(string key)
         {
             return _cache.Get(key) != null;
-        }
-
-        public static IDictionaryEnumerator GetEnumerator()
-        {
-            return _cache.GetEnumerator();
         }
     }
 }

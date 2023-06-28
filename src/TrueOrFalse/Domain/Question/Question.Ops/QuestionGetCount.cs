@@ -1,5 +1,4 @@
-﻿using System;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
 
 public class QuestionGetCount : IRegisterAsInstancePerLifetime

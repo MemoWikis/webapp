@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Web;
 
@@ -8,17 +7,6 @@ namespace Seedworks.Web.State
     public static class ContextUtil
     {
         public static bool UseWebConfig => Settings.UseWebConfig;
-
-        public static bool IsLocal
-        {
-            get
-            {
-                if (!IsWebContext) // helps unit testing
-                    return false;
-
-                return HttpContext.Current.Request.IsLocal;
-            }
-        }
 
         public static bool IsWebContext => HttpContext.Current != null;    
 

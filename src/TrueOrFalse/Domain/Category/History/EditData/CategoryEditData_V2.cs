@@ -1,15 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using NHibernate;
 
 public class CategoryEditData_V2 : CategoryEditData
 {
     public IList<CategoryRelation_EditData_V2> CategoryRelations;
     public bool ImageWasUpdated;
+    private readonly ISession _nhibernateSession;
 
-    public CategoryEditData_V2(){}
-
-    public CategoryEditData_V2(Category category, bool imageWasUpdated, int[] affectedParentIdsByMove)
+    public CategoryEditData_V2()
+    {
+        
+    }
+    public CategoryEditData_V2(Category category, bool imageWasUpdated, 
+        int[] affectedParentIdsByMove,
+        ISession nhibernateSession)
     {
         Name = category.Name;
         Description = category.Description;
@@ -22,6 +28,7 @@ public class CategoryEditData_V2 : CategoryEditData
             .Select(cr => new CategoryRelation_EditData_V2(cr))
             .ToList();
         ImageWasUpdated = imageWasUpdated;
+        _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;
         AffectedParentIds = affectedParentIdsByMove ?? new int[]{};
     }
@@ -40,7 +47,7 @@ public class CategoryEditData_V2 : CategoryEditData
     public override Category ToCategory(int categoryId)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
-        Sl.Session.Evict(category);
+        _nhibernateSession.Evict(category);
 
         category = category == null ? new Category() : category;
         category.IsHistoric = true;

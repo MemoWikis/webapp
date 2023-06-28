@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -67,9 +66,9 @@ public class CategoryCacheItem
 
     public virtual string WikipediaURL { get; set; }
 
-    public Dictionary<int, CategoryCacheItem> AggregatedCategories(bool includingSelf = true)
+    public Dictionary<int, CategoryCacheItem> AggregatedCategories(PermissionCheck permissionCheck, bool includingSelf = true)
     {
-        var visibleVisited = VisibleChildCategories(this);
+        var visibleVisited = VisibleChildCategories(this, permissionCheck);
 
         if (includingSelf && !visibleVisited.ContainsKey(Id))
         {
@@ -121,9 +120,9 @@ public class CategoryCacheItem
         );
     }
 
-    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
+    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache(PermissionCheck permissionCheck)
     {
-        return AggregatedCategories()
+        return AggregatedCategories(permissionCheck)
             .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Key))
             .Distinct()
             .ToList();
@@ -131,6 +130,7 @@ public class CategoryCacheItem
 
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
+        int userId,
         bool onlyVisible = true,
         bool fullList = true,
         int categoryId = 0)
@@ -139,7 +139,8 @@ public class CategoryCacheItem
 
         if (fullList)
         {
-            questions = AggregatedCategories()
+            
+            questions = AggregatedCategories(PermissionCheck.Instance(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
                 .Distinct().ToList();
         }
@@ -151,7 +152,9 @@ public class CategoryCacheItem
 
         if (onlyVisible)
         {
-            questions = questions.Where(PermissionCheck.CanView).ToList();
+            var user = EntityCache.GetUserById(userId);
+            var permissionCheck = new PermissionCheck(user);
+            questions = questions.Where(permissionCheck.CanView).ToList();
         }
 
         if (questions.Any(q => q.Id == 0))
@@ -163,14 +166,14 @@ public class CategoryCacheItem
         return questions.ToList();
     }
 
-    public virtual int GetCountQuestionsAggregated(bool inCategoryOnly = false, int categoryId = 0)
+    public virtual int GetCountQuestionsAggregated(int userId, bool inCategoryOnly = false, int categoryId = 0)
     {
         if (inCategoryOnly)
         {
-            return GetAggregatedQuestionsFromMemoryCache(true, false, categoryId).Count;
+            return GetAggregatedQuestionsFromMemoryCache(userId, true, false, categoryId).Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache().Count;
+        return GetAggregatedQuestionsFromMemoryCache(userId).Count;
     }
 
     public virtual bool HasPublicParent()
@@ -191,10 +194,8 @@ public class CategoryCacheItem
         return false;
     }
 
-    public virtual bool IsInWishknowledge()
-    {
-        return SessionUserCache.IsInWishknowledge(Sl.CurrentUserId, Id);
-    }
+    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsInWishknowledge(userId, Id);
+
 
     public virtual bool IsSpoiler(QuestionCacheItem question)
     {
@@ -313,13 +314,14 @@ public class CategoryCacheItem
         return categories;
     }
 
-    public void UpdateCountQuestionsAggregated()
+    public void UpdateCountQuestionsAggregated(int userId)
     {
-        CountQuestionsAggregated = GetCountQuestionsAggregated();
+        CountQuestionsAggregated = GetCountQuestionsAggregated(userId);
     }
 
     private Dictionary<int, CategoryCacheItem> VisibleChildCategories(
         CategoryCacheItem parentCacheItem,
+        PermissionCheck permissionCheck,
         Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
     {
         var visibleVisited = new Dictionary<int, CategoryCacheItem>();
@@ -341,10 +343,10 @@ public class CategoryCacheItem
                 if (!visibleVisited.ContainsKey(childId))
                 {
                     var child = EntityCache.GetCategory(childId);
-                    if (PermissionCheck.CanView(child))
+                    if (permissionCheck.CanView(child))
                     {
                         visibleVisited.Add(childId, child);
-                        VisibleChildCategories(child, visibleVisited);
+                        VisibleChildCategories(child,permissionCheck, visibleVisited);
                     }
                 }
             }

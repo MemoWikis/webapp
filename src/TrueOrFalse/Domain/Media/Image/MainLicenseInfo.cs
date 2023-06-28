@@ -1,13 +1,10 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 [Serializable]
 public class MainLicenseInfo
 {
     public int MainLicenseId;
     public string Author;
-    public string Markup;
-    public DateTime MarkupDownloadDate;
 
     public LicenseImage GetMainLicense()
     {

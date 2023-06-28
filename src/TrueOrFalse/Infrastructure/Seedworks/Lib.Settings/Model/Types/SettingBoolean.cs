@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Seedworks.Lib.Settings
+﻿namespace Seedworks.Lib.Settings
 {
     [Serializable]
     public class SettingBoolean : Setting

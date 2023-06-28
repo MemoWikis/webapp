@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-public class KnowledgeSummaryLoader
+public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
     public static KnowledgeSummary RunFromDbCache(Category category, int userId)
     {
@@ -38,8 +37,7 @@ public class KnowledgeSummaryLoader
     public static KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
-
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(includingSelf: true);
+        var aggregatedCategories = categoryCacheItem.AggregatedCategories(PermissionCheck.Instance(userId), includingSelf: true);
 
         foreach (var currentCategory in aggregatedCategories)
         {
@@ -80,7 +78,7 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
         => Run(userId, 
-            EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache().GetIds(),
+            EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId).GetIds(),
             onlyValuated);
 
     public static KnowledgeSummary Run(
@@ -115,23 +113,6 @@ public class KnowledgeSummaryLoader
             solid: solid, 
             notInWishKnowledge: notInWishknowledge,
             options: options);
-    }
-
-    public static KnowledgeSummary Run(
-        bool beforeTraining = false, 
-        bool afterTraining = false)
-    {
-        if(beforeTraining && afterTraining)
-            throw new Exception();
-
-        if (!beforeTraining && !afterTraining)
-            throw new Exception();
-
-        var needsLearning = 0;
-        var needsConsolidation = 0;
-        var solid = 0;
-
-        return new KnowledgeSummary(needsLearning: needsLearning, needsConsolidation: needsConsolidation, solid: solid);
-    }
+    } 
 }
 

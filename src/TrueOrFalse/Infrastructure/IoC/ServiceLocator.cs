@@ -4,40 +4,28 @@ using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
-using NHibernate;
 using TrueOrFalse.Search;
 
 public class Sl
 {
     public static bool IsUnitTest = false;
-    public static ActivityPointsRepo ActivityPointsRepo => R<ActivityPointsRepo>();
 
     public static AnswerRepo AnswerRepo => R<AnswerRepo>();
     public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
-    public static CategoryDeleter CategoryDeleter => R<CategoryDeleter>();
-    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 
-    public static int CurrentUserId => SessionUser.UserId;
-
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
 
-    public static ImageStore ImageStore => R<ImageStore>();
-
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
-    public static MeiliSearchCategories MeiliSearchCategories => R<MeiliSearchCategories>();
     public static MeiliSearchQuestions MeilieMeiliSearchQuestions => R<MeiliSearchQuestions>();
     public static MeiliSearchUsers MeiliSearchUsers => R<MeiliSearchUsers>();
     public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
-
-    public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
-    public static ISession Session => R<ISession>();
     public static SessionUiData SessionUiData => R<SessionUiData>();
     public static SetRepo SetRepo => R<SetRepo>();
     public static UserActivityRepo UserActivityRepo => R<UserActivityRepo>();

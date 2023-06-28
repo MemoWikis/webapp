@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using NHibernate;
 using NHibernate.Impl;
 using NHibernate.SqlCommand;

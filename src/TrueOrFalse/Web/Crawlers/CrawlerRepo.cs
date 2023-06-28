@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using NHibernate.Util;
 
 
 //https://github.com/monperrus/crawler-user-agents/blob/master/crawler-user-agents.json file for actually crawlers

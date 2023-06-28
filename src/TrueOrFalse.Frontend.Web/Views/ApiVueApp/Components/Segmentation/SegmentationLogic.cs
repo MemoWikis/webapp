@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using FluentNHibernate.Data;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -11,14 +9,21 @@ namespace VueApp;
 public class SegmentationLogic
 {
     private ControllerContext _controllerContext;
-    public SegmentationLogic(ControllerContext controllerContext)
+    private readonly PermissionCheck _permissionCheck;
+    private readonly int _sessionUserId;
+    private readonly SessionUser _sessionUser;
+
+    public SegmentationLogic(ControllerContext controllerContext,PermissionCheck permissionCheck, SessionUser sessionUser)
     {
         _controllerContext = controllerContext;
+        _permissionCheck = permissionCheck;
+        _sessionUserId = sessionUser.UserId;
+        _sessionUser = sessionUser;
     }
     public dynamic GetSegmentation(int id)
     {
         var category = EntityCache.GetCategory(id);
-        var s = new SegmentationModel(category);
+        var s = new SegmentationModel(category,_permissionCheck);
         return new
         {
             childCategoryIds = s.NotInSegmentCategoryIds,
@@ -50,14 +55,14 @@ public class SegmentationLogic
         ConcurrentDictionary<int, CategoryValuation> userValuation = null;
         var startTopicId = 1;
 
-        if (SessionUser.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(SessionUser.UserId).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(SessionUser.UserId).StartTopicId;
+            userValuation = SessionUserCache.GetItem(_sessionUser.UserId).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
-            categoryId => SessionUser.IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
+            categoryId => _sessionUser.IsLoggedIn ? GetCategoryCardData(categoryId, userValuation, startTopicId)
                 : GetCategoryCardData(categoryId)).Where(categoryCardData => categoryCardData != null)
             .ToList();
 
@@ -66,9 +71,9 @@ public class SegmentationLogic
 
     public dynamic GetCategoryData(int categoryId)
     {
-        var categoryCardData = SessionUser.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(SessionUser.UserId).CategoryValuations,
-                SessionUserCache.GetUser(SessionUser.UserId).StartTopicId)
+        var categoryCardData = _sessionUser.IsLoggedIn
+            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId).CategoryValuations,
+                SessionUserCache.GetUser(_sessionUser.UserId).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }
@@ -76,7 +81,7 @@ public class SegmentationLogic
     private CategoryCardData GetCategoryCardData(int categoryId, ConcurrentDictionary<int, CategoryValuation> userValuation = null, int? startTopicId = null)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
-        if (!PermissionCheck.CanView(categoryCacheItem)) return null;
+        if (!_permissionCheck.CanView(categoryCacheItem)) return null;
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
@@ -85,14 +90,14 @@ public class SegmentationLogic
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
-        var childCategoryCount = EntityCache.GetChildren(categoryId).Where(PermissionCheck.CanView).Distinct().Count();
-        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
+        var childCategoryCount = EntityCache.GetChildren(categoryId).Where(_permissionCheck.CanView).Distinct().Count();
+        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
 
-        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem).CategoryKnowledgeSummary;
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(categoryCacheItem,_sessionUserId).CategoryKnowledgeSummary;
 
         var isInWishknowledge = false;
         var isPersonalHomepage = false;
-        if (SessionUser.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             if (userValuation != null && userValuation.ContainsKey(categoryId))
                 isInWishknowledge = userValuation[categoryId].IsInWishKnowledge();
@@ -147,10 +152,10 @@ public class SegmentationLogic
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
-        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache().Count;
+        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
         var knowledgeBarHtml = "";
         if (questionCount > 0)
-            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem), _controllerContext);
+            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem, _sessionUserId), _controllerContext);
         return new
         {
             categoryId = categoryCacheItem.Id,

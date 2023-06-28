@@ -1,24 +1,28 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using TrueOrFalse.Stripe;
-using TrueOrFalse.Stripe.Logic;
 
 namespace VueApp;
 
-public class StripeAdminstrationController : BaseController
+public class StripeAdminstrationController : Controller
 {
+    private readonly SessionUser _sessionUser;
+
+    public StripeAdminstrationController(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public async Task<JsonResult> CancelPlan()
     {
-        return Json(await new BillingLogic().DeletePlan(), JsonRequestBehavior.AllowGet);
+        return Json(await new BillingLogic().DeletePlan(_sessionUser), JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public async Task<JsonResult> CompletedSubscription(string priceId)
     {
-        var sessionId = await new SubscriptionLogic().CreateStripeSession(priceId);
+        var sessionId = await new SubscriptionLogic(_sessionUser).CreateStripeSession(priceId);
         if (sessionId.Equals("-1"))
         {
             return Json(new { success = false });

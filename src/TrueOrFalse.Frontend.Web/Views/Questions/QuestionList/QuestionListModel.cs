@@ -3,34 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class QuestionListModel : BaseModel
+public class QuestionListModel
 {
+    private SessionUser _sessionUser { get; }
+    private readonly LearningSessionCache _learningSessionCache;
     public int CategoryId;
-    public int ItemCount;
-    public int AllQuestionsInCategory;
-    public bool IsSessionNoteFadeIn { get; set; }
 
-    public EditQuestionModel EditQuestionModel;
-
-
-    public QuestionListModel(int categoryId, bool isSessionNoteFadeIn = true)
+    public QuestionListModel(LearningSessionCache learningSessionCache, SessionUser sessionUser)
     {
-        CategoryId = categoryId;
-        AllQuestionsInCategory = EntityCache.GetCategory(categoryId).GetCountQuestionsAggregated();
-        IsSessionNoteFadeIn = isSessionNoteFadeIn;
-
-        var editQuestionModel = new EditQuestionModel();
-        editQuestionModel.Categories.Add(EntityCache.GetCategory((int)categoryId));
-
-        EditQuestionModel = editQuestionModel;
+        _sessionUser = sessionUser;
+        _learningSessionCache = learningSessionCache;
     }
 
-    public static List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
+    public List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
     {
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
 
-        var userQuestionValuation = SessionUser.IsLoggedIn 
-            ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations 
+        var userQuestionValuation = _sessionUser.IsLoggedIn 
+            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations 
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;
@@ -43,7 +33,7 @@ public class QuestionListModel : BaseModel
         {
             var q = step.Question;
 
-            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn;
+            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn;
             var question = new QuestionListJson.Question
             {
                 Id = q.Id,
@@ -59,7 +49,7 @@ public class QuestionListModel : BaseModel
                 KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             };
 
-            if (userQuestionValuation.ContainsKey(q.Id) && SessionUser.IsLoggedIn)
+            if (userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
                 question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;

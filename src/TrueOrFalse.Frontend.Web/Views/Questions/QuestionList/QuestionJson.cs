@@ -2,11 +2,6 @@
 
 namespace QuestionListJson
 {
-    public class QuestionList
-    {
-        public int Page;
-        public IList<Question> Questions;
-    }
     public class Question
     {
         public int Id { get; set; }

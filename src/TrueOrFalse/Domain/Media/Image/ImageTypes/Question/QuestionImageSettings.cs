@@ -52,10 +52,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     }
 
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
-    public ImageUrl GetUrl_128px() { return GetUrl(128); }
     public ImageUrl GetUrl_435px() { return GetUrl(435); }
-    public ImageUrl GetUrl_500px() { return GetUrl(500); }
-
     private ImageUrl GetUrl(int width, bool isSquare = false){
         return ImageUrl.Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
     }

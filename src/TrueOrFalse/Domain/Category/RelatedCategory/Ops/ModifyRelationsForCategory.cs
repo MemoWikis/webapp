@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 
@@ -36,68 +35,11 @@ public class ModifyRelationsForCategory
         }
     }
 
-
-    public static void AddParentCategories(Category category, List<int> relatedCategoryIds)
-    {
-        foreach (var relatedId in relatedCategoryIds)
-        {
-            AddParentCategory(category, relatedId);
-        }
-    }
-
     public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)
     {
         return category.CategoryRelations.Any()
             ? category.CategoryRelations?.Where(r => r.RelatedCategory.Id == category.Id).ToList()
             : new List<CategoryRelation>();
-    }
-
-    private static IEnumerable<CategoryRelation> GetRelationsToRemove(IList<Category> relatedCategoriesAsCategories, IEnumerable<CategoryRelation> existingRelationsOfType)
-    {
-        var relationsToRemove = new List<CategoryRelation>();
-        var relatedCategoriesDictionary = relatedCategoriesAsCategories.ToConcurrentDictionary();
-
-        foreach (var categoryRelation in existingRelationsOfType)
-            if (!relatedCategoriesDictionary.ContainsKey(categoryRelation.RelatedCategory.Id))
-                relationsToRemove.Add(categoryRelation);
-
-        return relationsToRemove;
-    }
-
-    public static void CreateIncludeContentOf(Category category, IEnumerable<CategoryRelation> relationsToAdd)
-    {
-        foreach (var relation in relationsToAdd)
-        {
-            category.CategoryRelations.Add(relation);
-            var categoryCacheItem = EntityCache.GetCategory(category.Id);
-            categoryCacheItem.CategoryRelations.Add(new CategoryCacheRelation
-            {
-                CategoryId = relation.Category.Id,
-                RelatedCategoryId = relation.RelatedCategory.Id
-            });
-        }
-    }
-
-    public static void RemoveIncludeContentOf(Category category, IEnumerable<CategoryRelation> relationsToRemove)
-    {
-        var relationsToRemoveList = relationsToRemove.ToList();
-
-        if (category.CategoryRelations.Count < 2)
-            return;
-
-        for (var i = 0; i < relationsToRemoveList.Count; i++)
-        {
-            for (int j = 0; j < category.CategoryRelations.Count; j++)
-            {
-                if (relationsToRemoveList[i] == category.CategoryRelations[j])
-                {
-                    category.CategoryRelations.RemoveAt(j);
-                    var categoryCacheItem = EntityCache.GetCategory(category.Id);
-                    if (categoryCacheItem.CategoryRelations.Count >= j)
-                        categoryCacheItem.CategoryRelations.RemoveAt(j);
-                }
-            }
-        }
     }
 
     public static void RemoveRelation(Category category, Category relatedCategory)
@@ -114,7 +56,7 @@ public class ModifyRelationsForCategory
         }
     }
 
-    public static bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId)
+    public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
         var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
@@ -123,7 +65,7 @@ public class ModifyRelationsForCategory
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
 
-        if (!PermissionCheck.CanEdit(childCategory))
+        if (!permissionCheck.CanEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = Sl.CategoryRepo.GetById(childCategory.Id);

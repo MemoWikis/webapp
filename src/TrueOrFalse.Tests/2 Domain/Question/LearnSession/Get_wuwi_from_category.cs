@@ -19,7 +19,7 @@ class Get_wuwi_from_category : BaseTest
             .Where(qv=> qv.IsInWishKnowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
             .ToList();
 
-        var wuwisFromLearningSession = LearningSessionCreator.BuildLearningSession(new LearningSessionConfig
+        var wuwisFromLearningSession = Resolve<LearningSessionCreator>().BuildLearningSession(new LearningSessionConfig
             { InWuwi = true, CategoryId = categoryId, CurrentUserId = userCacheItem.Id});
 
         Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));

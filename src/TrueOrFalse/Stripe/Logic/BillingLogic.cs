@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Stripe.BillingPortal;
 
-namespace TrueOrFalse.Stripe.Logic;
 
 public class BillingLogic : BaseStripeLogic
 {
-    public async Task<string> DeletePlan()
+    public async Task<string> DeletePlan(SessionUser sessionUser)
     {
-        var stripeId = SessionUser.User.StripeId;
+        var stripeId = sessionUser.User.StripeId;
         var options = new SessionCreateOptions
         {
             Customer = stripeId,

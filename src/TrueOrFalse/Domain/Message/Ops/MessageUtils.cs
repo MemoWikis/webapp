@@ -1,6 +1,4 @@
-﻿using System;
-
-public class MessageUtils
+﻿public class MessageUtils
 {
     public static User LoadUser(int receiverId)
     {

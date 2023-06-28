@@ -1,6 +1,4 @@
-﻿using System;
-
-[Serializable]
+﻿[Serializable]
 public class LearningSessionStep
 {
     public QuestionCacheItem Question;

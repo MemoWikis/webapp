@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace TrueOrFalse.Search
 {
     public class MeiliSearchCategoryMap

@@ -1,10 +1,6 @@
-﻿
-namespace TrueOrFalse.Stripe;
-
-public enum SubscriptionType
+﻿public enum SubscriptionType
 {
     Basic,
     Plus,
-    Team,
-    Organisation
+    Team
 }

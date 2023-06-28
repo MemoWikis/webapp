@@ -11,17 +11,27 @@ namespace VueApp;
 public class VueQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly RestoreQuestion _restoreQuestion;
+    private readonly LearningSessionCache _learningSessionCache;
 
-    public VueQuestionController(QuestionRepo questionRepo)
+    public VueQuestionController(QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        RestoreQuestion restoreQuestion,
+        LearningSessionCache learningSessionCache) : base(sessionUser)
     {
         _questionRepo = questionRepo;
+        _permissionCheck = permissionCheck;
+        _restoreQuestion = restoreQuestion;
+        _learningSessionCache = learningSessionCache;
     }
 
     [HttpGet]
     public JsonResult GetQuestion(int id)
     {
         var q = EntityCache.GetQuestionById(id);
-        if (PermissionCheck.CanView(q))
+        if (_permissionCheck.CanView(q))
         {
             return Json(new
             {
@@ -59,8 +69,8 @@ public class VueQuestionController : BaseController
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = SessionUser.UserId,
-                isInWishknowledge = SessionUser.IsLoggedIn && q.IsInWishknowledge(),
+                isCreator = q.Creator.Id = _sessionUser.UserId,
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
@@ -79,14 +89,14 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController().GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(SessionUser.UserId).QuestionValuations : null;
+        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations : null;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -101,7 +111,7 @@ public class VueQuestionController : BaseController
         question.Visibility = q.Visibility;
         question.CreatorId = q.CreatorId;
 
-        var learningSession = LearningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
@@ -122,9 +132,9 @@ public class VueQuestionController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int questionId, int questionChangeId)
     {
-        RestoreQuestion.Run(questionChangeId, User_());
+        _restoreQuestion.Run(questionChangeId, User_());
 
-        var question = Sl.QuestionRepo.GetById(questionId);
+        var question = _questionRepo.GetById(questionId);
         return Redirect(Links.AnswerQuestion(question));
     }
 

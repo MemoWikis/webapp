@@ -1,5 +1,3 @@
-using System;
-
 public class UserActivityAdd
 {
     public static void CreatedQuestion(Question question)

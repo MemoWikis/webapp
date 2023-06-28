@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Web;
-using System.Web.Configuration;
 using NHibernate.Cfg;
 using Seedworks.Web.State;
 
@@ -17,12 +14,6 @@ public class NHConfigurationFileCache
     {
         _definitionsAssembly = definitionsAssembly;
         _cacheFile = ContextUtil.GetFilePath("bin/nh.cfg");
-    }
-
-    public void DeleteCacheFile()
-    {
-        if (File.Exists(_cacheFile))
-            File.Delete(_cacheFile);
     }
 
     public bool IsConfigurationFileValid

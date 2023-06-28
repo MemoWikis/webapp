@@ -1,22 +1,35 @@
 ﻿using Google.Apis.Auth;
-using Google.Apis.Auth.OAuth2;
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace VueApp;
 
-public class GoogleController : BaseController
+public class GoogleController : Controller
 {
+    private readonly VueSessionUser _vueSessionUser;
+    private readonly RegisterUser _registerUser;
+    private readonly UserRepo _userRepo;
+    private readonly SessionUser _sessionUser;
+
+    public GoogleController(SessionUser sessionUser,
+        UserRepo userRepo, 
+        VueSessionUser vueSessionUser,
+        RegisterUser registerUser)
+    {
+        _vueSessionUser = vueSessionUser;
+        _registerUser = registerUser;
+        _userRepo = userRepo;
+        _sessionUser = sessionUser;
+    }
+
     [HttpPost]
     public async Task<JsonResult> Login(string token)
     {
         var googleUser = await GetGoogleUser(token);
         if (googleUser != null)
         {
-            var user = R<UserRepo>().UserGetByGoogleId(googleUser.Subject);
+            var user = _userRepo.UserGetByGoogleId(googleUser.Subject);
 
             if (user == null)
             {
@@ -29,11 +42,11 @@ public class GoogleController : BaseController
                 return CreateAndLogin(newUser);
             }
 
-            SessionUser.Login(user);
+            _sessionUser.Login(user);
             return Json(new
             {
                 success = true,
-                currentUser = VueSessionUser.GetCurrentUserData()
+                currentUser = _vueSessionUser.GetCurrentUserData()
             });
         }
 
@@ -53,24 +66,24 @@ public class GoogleController : BaseController
     [HttpPost]
     public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var registerResult = RegisterUser.Run(googleUser);
+        var registerResult = _registerUser.Run(googleUser);
 
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
-            SessionUser.Login(user);
+            _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
             Sl.CategoryRepo.Create(category);
-            SessionUser.User.StartTopicId = category.Id;
+            _sessionUser.User.StartTopicId = category.Id;
         }
 
         return Json(new
         {
             success = true,
-            CurrentUser = VueSessionUser.GetCurrentUserData()
+            CurrentUser = _vueSessionUser.GetCurrentUserData()
         });
     }
 

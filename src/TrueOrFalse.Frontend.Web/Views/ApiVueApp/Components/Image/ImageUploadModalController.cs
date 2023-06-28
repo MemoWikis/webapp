@@ -8,10 +8,24 @@ namespace VueApp;
 
 public class ImageUploadModalController : BaseController
 {
+    private readonly ImageStore _imagestore;
+    private readonly WikiImageMetaLoader _wikiImageMetaLoader;
+    private readonly PermissionCheck _permissionCheck;
+
+    public ImageUploadModalController(SessionUser sessionUser,
+        ImageStore imagestore,
+        WikiImageMetaLoader wikiImageMetaLoader,
+        PermissionCheck permissionCheck) : base(sessionUser)
+    {
+        _imagestore = imagestore;
+        _wikiImageMetaLoader = wikiImageMetaLoader;
+        _permissionCheck = permissionCheck;
+    }
+
     [HttpPost]
     public JsonResult GetWikimediaPreview(string url)
     {
-        var result = Resolve<WikiImageMetaLoader>().Run(url, 200);
+        var result = _wikiImageMetaLoader.Run(url, 200);
         return Json(new
         {
             imageFound = !result.ImageNotFound,
@@ -23,10 +37,10 @@ public class ImageUploadModalController : BaseController
     [HttpPost]
     public bool SaveWikimediaImage(int topicId, string url)
     {
-        if (url == null || !PermissionCheck.CanEditCategory(topicId))
+        if (url == null || !_permissionCheck.CanEditCategory(topicId))
             return false;
 
-        Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, SessionUser.UserId);
+        _imagestore.RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, _sessionUser.UserId);
         return true;
     }
 
@@ -42,10 +56,10 @@ public class ImageUploadModalController : BaseController
     [HttpPost]
     public bool SaveCustomImage(CustomImageFormdata form)
     {
-        if (form.file == null || !PermissionCheck.CanEditCategory(form.topicId))
+        if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
             return false;
 
-        Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(form.file, form.topicId, SessionUser.UserId, form.licenseGiverName);
+        _imagestore.RunUploaded<CategoryImageSettings>(form.file, form.topicId, _sessionUser.UserId, form.licenseGiverName);
 
         return true;
     }

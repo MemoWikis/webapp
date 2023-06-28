@@ -1,20 +1,22 @@
 ﻿using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using NHibernate;
-
 
 namespace VueApp;
 
 public class UserMessagesController : BaseController
 {
+    public UserMessagesController(SessionUser sessionUser) :base(sessionUser)
+    {
+        
+    }
     [HttpGet]
     public JsonResult Get()
     {
-        if (SessionUser.IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             var messages = Resolve<MessageRepo>()
-            .GetForUser(SessionUser.UserId, false)
+            .GetForUser(_sessionUser.UserId, false)
             .Select(m => new 
             {
                 id = m.Id,
@@ -26,7 +28,7 @@ public class UserMessagesController : BaseController
             })
             .ToArray();
 
-            var readMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(SessionUser.UserId);
+            var readMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(_sessionUser.UserId);
             return Json(new
             {
                 messages = messages,

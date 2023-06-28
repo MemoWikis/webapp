@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Domain;
 using TrueOrFalse.Search;
@@ -8,13 +9,28 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class HistoryTopicDetailController : BaseController
+public class HistoryTopicDetailController : Controller
 {
+    private readonly PermissionCheck _permissionCheck;
+    private readonly ISession _nhibernatesession;
+    private readonly SessionUser _sessionUser;
+    private readonly RestoreCategory _restoreCategory;
+
+    public HistoryTopicDetailController(PermissionCheck permissionCheck,
+        ISession nhibernatesession,
+        SessionUser sessionUser,
+        RestoreCategory restoreCategory)
+    {
+        _permissionCheck = permissionCheck;
+        _nhibernatesession = nhibernatesession;
+        _sessionUser = sessionUser;
+        _restoreCategory = restoreCategory;
+    }
 
     [HttpGet]
     public JsonResult Get(int topicId, int currentRevisionId, int firstEditId = 0)
     {
-        if(!PermissionCheck.CanViewCategory(topicId))
+        if(!_permissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
 
         var listWithAllVersions = Sl.CategoryChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
@@ -28,7 +44,7 @@ public class HistoryTopicDetailController : BaseController
             throw new Exception("different topic ids");
 
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > currentRevisionId);
-        var topicHistoryDetailModel = new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
+        var topicHistoryDetailModel = new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted,_permissionCheck, _nhibernatesession);
 
         var result = new ChangeDetailResult
         {
@@ -117,7 +133,7 @@ public class HistoryTopicDetailController : BaseController
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == selectedRevId);
         var previousRevision = listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > selectedRevId);
-        return new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted);
+        return new CategoryHistoryDetailModel(currentRevision, previousRevision, nextRevision, isCategoryDeleted, _permissionCheck, _nhibernatesession);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -127,9 +143,9 @@ public class HistoryTopicDetailController : BaseController
         var topicChange = Sl.CategoryChangeRepo.GetByIdEager(topicChangeId);
         var isCorrectType = topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
 
-        if (!PermissionCheck.CanViewCategory(topicChange.Category.Id) || !PermissionCheck.CanEditCategory(topicChange.Category.Id) || !isCorrectType)
+        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) || !_permissionCheck.CanEditCategory(topicChange.Category.Id))
             throw new Exception("not allowed");
 
-        RestoreCategory.Run(topicChangeId, SessionUser.User);
+        _restoreCategory.Run(topicChangeId, _sessionUser.User);
     }
 }
