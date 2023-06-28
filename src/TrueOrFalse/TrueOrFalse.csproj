@@ -285,6 +285,7 @@
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\LimitCheck.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenValidator.cs" />
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
     <Compile Include="Infrastructure\StandardFetchResult.cs" />
     <Compile Include="Search\Category\ISearchCategoriesResult.cs" />

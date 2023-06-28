@@ -52,6 +52,11 @@ export default <RouterConfig>{
             component: () => import('~/pages/user/register.vue')
         },
         {
+            name: 'resetPasswordPage',
+            path: '/PasswortZuruecksetzen/:token',
+            component: () => import('~/pages/user/resetPassword.vue')
+        },
+        {
             name: 'messagesPage',
             path: '/Nachrichten',
             component: () => import('~/pages/user/messages.vue')

@@ -209,6 +209,9 @@ function setPageTitle() {
 		case Page.Register:
 			pageTitle.value = 'Registrieren'
 			break
+		case Page.ResetPassword:
+			pageTitle.value = 'Passwort zurücksetzen'
+			break
 		case Page.Welcome:
 			pageTitle.value = 'Willkommen'
 			break
