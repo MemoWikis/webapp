@@ -64,5 +64,5 @@ export class Google {
         }
     }
 }
-
-window.handleGoogleCredentialResponse = Google.handleCredentialResponse
+if (process.client)
+    window.handleGoogleCredentialResponse = Google.handleCredentialResponse
