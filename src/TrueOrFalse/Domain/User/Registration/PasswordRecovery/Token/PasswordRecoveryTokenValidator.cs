@@ -1,6 +1,4 @@
-﻿using System;
-using NHibernate;
-using Seedworks.Lib.Persistence;
+﻿using NHibernate;
 
 public class PasswordRecoveryTokenValidator : IRegisterAsInstancePerLifetime
 {

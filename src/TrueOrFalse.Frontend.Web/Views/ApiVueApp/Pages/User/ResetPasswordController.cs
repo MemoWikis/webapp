@@ -7,6 +7,7 @@ namespace VueApp;
 public class ResetPasswordController : BaseController
 {
     private readonly PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator;
+
     public ResetPasswordController(PasswordRecoveryTokenValidator passwordRecoveryTokenValidator)
     {
         _passwordRecoveryTokenValidator = passwordRecoveryTokenValidator;
@@ -59,7 +60,7 @@ public class ResetPasswordController : BaseController
         SetUserPassword.Run(newPassword, user);
         userRepo.Update(user);
 
-        SessionUser.Login(user);
+        _sessionUser.Login(user);
         return Json(new RequestResult
         {
             success = true,
