@@ -78,7 +78,7 @@ const emit = defineEmits(['setBreadcrumb', 'setPage'])
 onMounted(() => {
     emit('setPage', Page.Default)
     const breadcrumbItem: BreadcrumbItem = {
-        name: 'Nutzer',
+        name: 'Alle Nutzer',
         url: '/Nutzer'
     }
     emit('setBreadcrumb', [breadcrumbItem])
