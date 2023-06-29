@@ -59,6 +59,10 @@ async function saveNewPassword() {
 
     if (result.success) {
         userStore.initUser(result.data)
+        await nextTick()
+        if (userStore.isLoggedIn)
+            navigateTo('/')
+
     } else {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
     }
