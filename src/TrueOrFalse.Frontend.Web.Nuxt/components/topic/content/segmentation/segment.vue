@@ -439,140 +439,139 @@ export default defineNuxtComponent({
 		}
 	}
 
-	.segment,
-	{
-	transition: 0.2s;
+	.segment {
+		transition: 0.2s;
 
-	.row {
-		margin-bottom: 25px;
-	}
-
-	&.hover {
-		cursor: pointer;
-	}
-}
-
-.topicNavigation {
-	margin-top: 0px;
-
-	.segmentCategoryCard {
-
-		.ButtonEllipsis {
-			font-size: 18px;
-			color: @memo-grey-dark;
-			border-radius: 24px;
-			height: 30px;
-			width: 30px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background: white;
-			border-radius: 15px;
-
-			&:hover {
-				filter: brightness(0.85);
-			}
-
-			&:active {
-				filter: brightness(0.7);
-			}
+		.row {
+			margin-bottom: 25px;
 		}
 
-		.topic-name {
-			padding: 0;
+		&.hover {
+			cursor: pointer;
 		}
+	}
 
-		.checkBox {
-			position: absolute;
-			z-index: 3;
-			line-height: 0;
-			background: white;
-			color: @memo-green;
-			opacity: 0;
-			transition: opacity .1s ease-in-out;
-			transition: color .1s ease-in-out;
+	.topicNavigation {
+		margin-top: 0px;
 
+		.segmentCategoryCard {
 
-			&.show {
-				opacity: 1;
+			.ButtonEllipsis {
+				font-size: 18px;
+				color: @memo-grey-dark;
+				border-radius: 24px;
+				height: 30px;
+				width: 30px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: white;
+				border-radius: 15px;
+
+				&:hover {
+					filter: brightness(0.85);
+				}
+
+				&:active {
+					filter: brightness(0.7);
+				}
+			}
+
+			.topic-name {
+				padding: 0;
+			}
+
+			.checkBox {
+				position: absolute;
+				z-index: 3;
+				line-height: 0;
+				background: white;
+				color: @memo-green;
+				opacity: 0;
 				transition: opacity .1s ease-in-out;
 				transition: color .1s ease-in-out;
-			}
 
 
-			&.selected {
-				color: @memo-green;
-				opacity: 1;
-				transition: opacity .1s ease-in-out;
-			}
-		}
-	}
-}
-
-.segment {
-	.segmentSubHeader {
-		.segmentKnowledgeBar {
-			max-width: 420px;
-
-			.knowledge-bar {
-				display: inline-flex;
-				margin-top: 15px;
-				height: 10px;
-				min-width: 150px;
-				width: 100%;
-
-				.solid-knowledge,
-				.needs-learning,
-				.needs-consolidation,
-				.not-learned,
-				.not-in-wish-knowledge {
-					height: inherit;
-					float: left;
-				}
-
-				.needs-learning {
-					background-color: @needs-learning-color;
-				}
-
-				.needs-consolidation {
-					background-color: @needs-consolidation-color;
-				}
-
-				.solid-knowledge {
-					background-color: @solid-knowledge-color;
-				}
-
-				.not-learned {
-					background-color: @not-learned-color;
-				}
-
-				.not-in-wish-knowledge {
-					background-color: @not-in-wish-knowledge-color;
-				}
-			}
-
-			.KnowledgeBarLegend {
-				.greyed;
-				font-size: 12px;
-				line-height: 1.5em;
-				//text-transform: uppercase;
-				opacity: 0;
-				transition: opacity 0.2s linear;
-
-				.media-below-sm ({
+				&.show {
 					opacity: 1;
-				});
-		}
+					transition: opacity .1s ease-in-out;
+					transition: color .1s ease-in-out;
+				}
 
-		&:hover {
 
-			//show on hover over navigation tile
-			.KnowledgeBarLegend {
-				opacity: 1;
+				&.selected {
+					color: @memo-green;
+					opacity: 1;
+					transition: opacity .1s ease-in-out;
+				}
 			}
 		}
 	}
-}
+
+	.segment {
+		.segmentSubHeader {
+			.segmentKnowledgeBar {
+				max-width: 420px;
+
+				.knowledge-bar {
+					display: inline-flex;
+					margin-top: 15px;
+					height: 10px;
+					min-width: 150px;
+					width: 100%;
+
+					.solid-knowledge,
+					.needs-learning,
+					.needs-consolidation,
+					.not-learned,
+					.not-in-wish-knowledge {
+						height: inherit;
+						float: left;
+					}
+
+					.needs-learning {
+						background-color: @needs-learning-color;
+					}
+
+					.needs-consolidation {
+						background-color: @needs-consolidation-color;
+					}
+
+					.solid-knowledge {
+						background-color: @solid-knowledge-color;
+					}
+
+					.not-learned {
+						background-color: @not-learned-color;
+					}
+
+					.not-in-wish-knowledge {
+						background-color: @not-in-wish-knowledge-color;
+					}
+				}
+
+				.KnowledgeBarLegend {
+					.greyed;
+					font-size: 12px;
+					line-height: 1.5em;
+					//text-transform: uppercase;
+					opacity: 0;
+					transition: opacity 0.2s linear;
+
+					.media-below-sm ({
+						opacity: 1;
+					});
+			}
+
+			&:hover {
+
+				//show on hover over navigation tile
+				.KnowledgeBarLegend {
+					opacity: 1;
+				}
+			}
+		}
+	}
 }
 }
 
