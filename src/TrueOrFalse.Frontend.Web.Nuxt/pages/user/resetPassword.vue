@@ -28,21 +28,27 @@ const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVu
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     },
 })
-const errorMessage = ref<string>()
+const errorMessage = ref<string>('')
 
 if (tokenValidationResult.value?.success == false) {
     errorMessage.value = messages.getByCompositeKey(tokenValidationResult.value?.messageKey)
 }
 
-const newPassword = ref<string>()
+const newPassword = ref<string>('')
 const newPasswordInputType = ref<string>('password')
 
-const repeatedPassword = ref<string>()
+const repeatedPassword = ref<string>('')
 const repeatedPasswordInputType = ref<string>('password')
 
 async function saveNewPassword() {
-    if (newPassword.value != repeatedPassword.value) {
+    errorMessage.value = ''
 
+    if (newPassword.value != repeatedPassword.value) {
+        errorMessage.value = 'Die Passwörter stimmen nicht überein'
+        return
+    }
+    if (newPassword.value.length < 5) {
+        errorMessage.value = 'Bitte gib mindestens 5 Zeichen'
         return
     }
 
@@ -83,15 +89,19 @@ async function saveNewPassword() {
                             </h1>
                         </div>
                         <fieldset v-if="tokenValidationResult?.success">
+                            <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
+                                {{ errorMessage }}
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-8">
                                     <div class="overline-s no-line">Passwort</div>
                                 </div>
 
                                 <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="password" placeholder="" :type="newPasswordInputType" width="100%"
-                                        class="password-inputs" v-model="newPassword" @keydown.enter="saveNewPassword()"
-                                        @click="errorMessage = ''" />
+                                    <input name="password" placeholder="min. 5 Zeichen" :type="newPasswordInputType"
+                                        width="100%" class="password-inputs" v-model="newPassword"
+                                        @keydown.enter="saveNewPassword()" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
                                         v-if="newPasswordInputType == 'password'" @click="newPasswordInputType = 'text'" />
                                     <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
@@ -107,7 +117,7 @@ async function saveNewPassword() {
                                 <div class="col-sm-offset-2 col-sm-8">
                                     <input name="password" placeholder="" :type="repeatedPasswordInputType" width="100%"
                                         class="password-inputs" v-model="repeatedPassword"
-                                        @keydown.enter="saveNewPassword()" @click="errorMessage = ''" />
+                                        @keydown.enter="saveNewPassword()" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
                                         v-if="repeatedPasswordInputType == 'password'"
                                         @click="repeatedPasswordInputType = 'text'" />
@@ -152,6 +162,10 @@ async function saveNewPassword() {
 
 <style lang="less" scoped>
 @import (reference) '~/assets/includes/imports.less';
+
+.main-page {
+    padding-bottom: 45px;
+}
 
 .reset-title {
     padding-left: 7px;
