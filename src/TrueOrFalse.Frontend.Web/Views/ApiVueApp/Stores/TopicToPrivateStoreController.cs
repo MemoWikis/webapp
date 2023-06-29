@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse.Domain;
 
 namespace VueApp;
 
@@ -8,13 +9,15 @@ public class TopicToPrivateStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
     public TopicToPrivateStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck, 
-        CategoryValuationRepo categoryValuationRepo) :base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo, CategoryRepository categoryRepository ) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
 
     [HttpGet]
@@ -112,7 +115,7 @@ public class TopicToPrivateStoreController : BaseController
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
-        var topic = Sl.CategoryRepo.GetById(topicId);
+        var topic = _categoryRepository.GetById(topicId);
         var pinCount = topic.TotalRelevancePersonalEntries;
         if (!IsInstallationAdmin)
         {
@@ -147,7 +150,7 @@ public class TopicToPrivateStoreController : BaseController
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
+        _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
 
         return Json(new
         {

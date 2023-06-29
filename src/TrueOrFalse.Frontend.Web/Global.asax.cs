@@ -90,7 +90,14 @@ public class Global : HttpApplication
         {
             var stopwatch = Stopwatch.StartNew();
             Logg.r().Information("=== Init EntityCache (start) ===============================");
-            new EntityCacheInitializer().Init();
+
+            var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var categoryRepo = scope.Resolve<CategoryRepository>();
+                new EntityCacheInitializer(categoryRepo).Init();
+            }
+            
             Logg.r().Information($"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
             stopwatch.Stop();
         }

@@ -18,6 +18,7 @@ public class QuestionEditModalControllerLogic
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -25,7 +26,8 @@ public class QuestionEditModalControllerLogic
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
-        CategoryValuationRepo categoryValuationRepo) 
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryRepository categoryRepository) 
     {
         _questionRepo = questionRepo;
         _sessionUser = sessionUser;
@@ -34,6 +36,7 @@ public class QuestionEditModalControllerLogic
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
@@ -241,7 +244,7 @@ public class QuestionEditModalControllerLogic
         topics.AddRange(privateTopics);
 
         foreach (var categoryId in newCategoryIds)
-            topics.Add(Sl.CategoryRepo.GetById(categoryId));
+            topics.Add(_categoryRepository.GetById(categoryId));
 
         return topics;
     }

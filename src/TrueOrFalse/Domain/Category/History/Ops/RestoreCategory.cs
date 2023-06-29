@@ -1,14 +1,17 @@
 ﻿using System.Net.Mail;
+using TrueOrFalse.Domain;
 
 public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryRepository _categoryRepository;
     private readonly int _sessionUserId;
 
     public RestoreCategory(SessionUser sessionUser,
-        CategoryChangeRepo categoryChangeRepo)
+        CategoryRepository categoryRepository, CategoryChangeRepo categoryChangeRepo)
     {
         _categoryChangeRepo = categoryChangeRepo;
+        _categoryRepository = categoryRepository; 
         _sessionUserId = sessionUser.UserId;
     }
 
@@ -16,7 +19,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
     {
         var categoryChange = _categoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
-        var category = Sl.CategoryRepo.GetById(historicCategory.Id);
+        var category = _categoryRepository.GetById(historicCategory.Id);
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
 
         category.Name = historicCategory.Name;
@@ -26,7 +29,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 
         EntityCache.AddOrUpdate(categoryCacheItem);
         var authorSessionUserCacheItem = SessionUserCacheItem.CreateCacheItem(author);
-        Sl.CategoryRepo.Update(category, authorSessionUserCacheItem, type: CategoryChangeType.Restore);
+        _categoryRepository.Update(category, authorSessionUserCacheItem, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }
@@ -35,7 +38,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
     {
         var categoryChange = _categoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
-        var category = Sl.CategoryRepo.GetById(historicCategory.Id);
+        var category = _categoryRepository.GetById(historicCategory.Id);
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
 
         category.Name = historicCategory.Name;
@@ -44,7 +47,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         categoryCacheItem.Content = historicCategory.Content;
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, author, type: CategoryChangeType.Restore);
+        _categoryRepository.Update(category, author, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }

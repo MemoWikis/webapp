@@ -4,6 +4,12 @@ using System.Linq;
 
 public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
 {
+    private readonly CategoryRepository _categoryRepository;
+
+    public EntityCacheInitializer(CategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+    }
     public void Init(string customMessage = "")
     {
         var stopWatch = Stopwatch.StartNew();
@@ -16,7 +22,7 @@ public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
 
         IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
 
-        var allCategories = Sl.CategoryRepo.GetAllEager();
+        var allCategories = _categoryRepository.GetAllEager();
         Logg.r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
         Logg.r().Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);

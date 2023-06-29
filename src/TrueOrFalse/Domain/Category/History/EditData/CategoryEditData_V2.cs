@@ -5,13 +5,14 @@ using NHibernate;
 
 public class CategoryEditData_V2 : CategoryEditData
 {
+    private readonly CategoryRepository _categoryRepository;
     public IList<CategoryRelation_EditData_V2> CategoryRelations;
     public bool ImageWasUpdated;
     private readonly ISession _nhibernateSession;
 
-    public CategoryEditData_V2()
+    public CategoryEditData_V2(CategoryRepository categoryRepository)
     {
-        
+        _categoryRepository = categoryRepository;
     }
     public CategoryEditData_V2(Category category, bool imageWasUpdated, 
         int[] affectedParentIdsByMove,
@@ -46,7 +47,7 @@ public class CategoryEditData_V2 : CategoryEditData
 
     public override Category ToCategory(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = _categoryRepository.GetById(categoryId);
         _nhibernateSession.Evict(category);
 
         category = category == null ? new Category() : category;

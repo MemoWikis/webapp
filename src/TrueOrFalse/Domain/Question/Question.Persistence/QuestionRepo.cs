@@ -9,11 +9,12 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class QuestionRepo : RepositoryDbBase<Question>
 {
+    private readonly CategoryRepository _categoryRepository;
 
 
-    public QuestionRepo(ISession session) : base(session)
+    public QuestionRepo(ISession session, CategoryRepository categoryRepository) : base(session)
     {
-       
+        _categoryRepository = categoryRepository;
     }
 
     public override void Create(Question question)
@@ -31,7 +32,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         foreach (var category in question.Categories.ToList())
         {
             category.UpdateCountQuestionsAggregated(question.Creator.Id);
-            Sl.CategoryRepo.Update(category);
+            _categoryRepository.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
 

@@ -14,6 +14,7 @@ public class UserStoreController : Controller
     private readonly RegisterUser _registerUser;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -23,7 +24,8 @@ public class UserStoreController : Controller
         ActivityPointsRepo activityPointsRepo,
         RegisterUser registerUser,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryRepository categoryRepository)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -33,6 +35,7 @@ public class UserStoreController : Controller
         _registerUser = registerUser;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -128,7 +131,7 @@ public class UserStoreController : Controller
 
         var category = PersonalTopic.GetPersonalCategory(user);
         category.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Create(category);
+        _categoryRepository.Create(category);
         user.StartTopicId = category.Id;
 
         Sl.UserRepo.Update(user);

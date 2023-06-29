@@ -8,13 +8,16 @@ public class PublishTopicStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
     public PublishTopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo): base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryRepository categoryRepository): base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
 
     [HttpPost]
@@ -32,11 +35,11 @@ public class PublishTopicStoreController : BaseController
                     key = "parentIsRoot"
                 });
 
-            var topicRepo = Sl.CategoryRepo;
+            
             topicCacheItem.Visibility = CategoryVisibility.All;
-            var topic = topicRepo.GetById(topicId);
+            var topic = _categoryRepository.GetById(topicId);
             topic.Visibility = CategoryVisibility.All;
-            topicRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
+            _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
 
             return Json(new
             {

@@ -9,10 +9,12 @@ namespace TrueOrFalse
     public class Importer : IRegisterAsInstancePerLifetime
     {
         private readonly UserRepo _userRepo;
+        private readonly CategoryRepository _categoryRepository;
 
-        public Importer(UserRepo userRepo)
+        public Importer(UserRepo userRepo, CategoryRepository categoryRepository)
         {
             _userRepo = userRepo;
+            _categoryRepository = categoryRepository;
         }
 
         public ImporterResult Run(string xml)
@@ -29,7 +31,7 @@ namespace TrueOrFalse
                 var categoryElement = document.Root.Elements("category").Single(x => x.Element("name").Value == category.Name);
                 var parentCategories = (from relatedElementId in categoryElement.Element("relatedCategories").Elements("id")
                                               select result.Categories.Single(x => x.Id == Convert.ToInt32(relatedElementId.Value))).ToList();
-                ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category.Id, parentCategories.Select(c => c.Id).ToList());
+                new ModifyRelationsForCategory(_categoryRepository).UpdateCategoryRelationsOfType(category.Id, parentCategories.Select(c => c.Id).ToList());
             }
 
             result.Questions = from questionElement in document.Root.Elements("question")
@@ -40,7 +42,7 @@ namespace TrueOrFalse
                                    Visibility = (QuestionVisibility) Enum.Parse(typeof(QuestionVisibility), questionElement.Element("visibility").Value),
                                    Creator = _userRepo.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
                                    Solution = questionElement.Element("solution").Value,
-                                   Categories = Sl.CategoryRepo.GetByIds((from categoryIdElement in questionElement.Element("categories").Elements("id")
+                                   Categories = _categoryRepository.GetByIds((from categoryIdElement in questionElement.Element("categories").Elements("id")
                                                  select result.Categories.SingleOrDefault(x => x.Id == Convert.ToInt32(categoryIdElement.Value))).Select(c => c.Id).ToList()) 
                                };
 

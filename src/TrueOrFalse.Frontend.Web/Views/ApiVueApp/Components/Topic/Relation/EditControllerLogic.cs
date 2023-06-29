@@ -10,20 +10,25 @@ namespace VueApp;
 
 public class EditControllerLogic
 {
-    private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
+    private readonly CategoryRepository _categoryRepository; 
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
     private readonly int _sessionUserId;
     private readonly SessionUser _sessionUser;
 
-    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck,SessionUser sessionUser)
+    public EditControllerLogic(IGlobalSearch search,
+        bool isInstallationAdmin,
+        PermissionCheck permissionCheck,
+        SessionUser sessionUser,
+        CategoryRepository categoryRepository)
     {
         _search = search; 
         _isInstallationAdmin = isInstallationAdmin;
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
+        _categoryRepository = categoryRepository;
     }
 
     public dynamic ValidateName(string name)
@@ -73,7 +78,7 @@ public class EditControllerLogic
         }
 
         var topic = new Category(name,_sessionUserId);
-        ModifyRelationsForCategory.AddParentCategory(topic, parentTopicId);
+        new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
 
         topic.Creator = Sl.UserRepo.GetById(_sessionUserId);
         topic.Type = CategoryType.Standard;
@@ -203,7 +208,7 @@ public class EditControllerLogic
 
     public dynamic RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
-        var parentHasBeenRemoved = new ModifyRelationsForCategory().RemoveChildCategoryRelation(parentIdToRemove, childId,_permissionCheck);
+        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId,_permissionCheck);
         if (!parentHasBeenRemoved)
             return new
             {

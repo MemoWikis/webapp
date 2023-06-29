@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse.Domain;
 using TrueOrFalse.Web;
 
 public class DeleteTopicStoreController : BaseController
@@ -8,15 +9,18 @@ public class DeleteTopicStoreController : BaseController
     private readonly CategoryDeleter _categoryDeleter;
     private readonly CrumbtrailService _crumbtrailService;
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryRepository _categoryRepo;
 
     public DeleteTopicStoreController(SessionUser sessionUser,
         CategoryDeleter categoryDeleter,
         CrumbtrailService crumbtrailService,
-        CategoryChangeRepo categoryChangeRepo) :base(sessionUser)
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryRepository categoryRepository) :base(sessionUser)
     {
         _categoryDeleter = categoryDeleter;
         _crumbtrailService = crumbtrailService;
         _categoryChangeRepo = categoryChangeRepo;
+        _categoryRepo = categoryRepository;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -40,14 +44,14 @@ public class DeleteTopicStoreController : BaseController
     public JsonResult Delete(int id)
     {
         var redirectURL = GetRedirectTopic(id);
-        var topic = Sl.CategoryRepo.GetById(id);
+        var topic = _categoryRepo.GetById(id);
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
         var parentIds =
             EntityCache.GetCategory(id).ParentCategories().Select(c => c.Id)
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
-        var parentTopics = Sl.CategoryRepo.GetByIds(parentIds);
+        var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = _categoryDeleter.Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)

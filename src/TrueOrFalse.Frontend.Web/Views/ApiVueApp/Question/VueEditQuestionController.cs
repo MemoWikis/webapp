@@ -19,6 +19,7 @@ public class VueEditQuestionController : BaseController
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -26,7 +27,8 @@ public class VueEditQuestionController : BaseController
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
-        CategoryValuationRepo categoryValuationRepo) :base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryRepository categoryRepository) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
@@ -34,6 +36,7 @@ public class VueEditQuestionController : BaseController
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -278,7 +281,7 @@ public class VueEditQuestionController : BaseController
         categories.AddRange(privateCategories);
 
         foreach (var categoryId in newCategoryIds)
-            categories.Add(Sl.CategoryRepo.GetById(categoryId));
+            categories.Add(_categoryRepository.GetById(categoryId));
 
         return categories;
     }

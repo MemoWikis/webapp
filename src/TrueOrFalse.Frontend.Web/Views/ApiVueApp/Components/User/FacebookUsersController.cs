@@ -15,15 +15,19 @@ public class FacebookUsersController : Controller
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
+    private readonly CategoryRepository _categoryRepository;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
         UserRepo userRepo,
-        SessionUser sessionUser,RegisterUser registerUser)
+        SessionUser sessionUser,
+        RegisterUser registerUser,
+        CategoryRepository categoryRepository)
     {
         _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
         _registerUser = registerUser;
+        _categoryRepository = categoryRepository;
     }
 
     [HttpPost]
@@ -70,7 +74,7 @@ public class FacebookUsersController : Controller
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
-            Sl.CategoryRepo.Create(category);
+            _categoryRepository.Create(category);
             _sessionUser.User.StartTopicId = category.Id;
 
             return Json(new

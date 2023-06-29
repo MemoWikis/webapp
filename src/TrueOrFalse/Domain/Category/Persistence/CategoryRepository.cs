@@ -18,9 +18,6 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         Update = 3
     }
 
-    public const int AllgemeinwissenId = 709;
-    private readonly bool _isSolrActive;
-
     public CategoryRepository(
         ISession session,
         PermissionCheck permissionCheck,
@@ -53,7 +50,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        _categoryChangeRepo.AddCreateEntry(category, category.Creator?.Id ?? -1);
+        _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
 
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem, category.Creator.Id);
         EntityCache.UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
@@ -67,7 +64,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         if (parentCategories.Count != 0)
         {
-           _categoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false,
+           _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
                 CategoryChangeType.Relations);
         }
 
@@ -87,7 +84,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         base.Create(category);
         Flush();
 
-        _categoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
+        _categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
     }
 
     public void Delete(Category category, int userId)

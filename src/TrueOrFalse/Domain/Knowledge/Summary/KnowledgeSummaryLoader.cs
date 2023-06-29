@@ -4,10 +4,12 @@ using System.Linq;
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
-    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo)
+    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo, CategoryRepository categoryRepository)
     {
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
 
     public KnowledgeSummary RunFromDbCache(Category category, int userId)
@@ -33,7 +35,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 
     public KnowledgeSummary RunFromDbCache(int categoryId, int userId)
     {
-        return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
+        return RunFromDbCache(_categoryRepository.GetById(categoryId), userId);
     }
 
     public KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)

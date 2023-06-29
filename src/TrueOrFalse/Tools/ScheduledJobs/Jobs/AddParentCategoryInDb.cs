@@ -6,10 +6,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class AddParentCategoryInDb : IJob
     {
         private readonly SessionUser _sessionUser;
+        private readonly CategoryRepository _categoryRepository;
 
-        public AddParentCategoryInDb(SessionUser sessionUser)
+        public AddParentCategoryInDb(SessionUser sessionUser, CategoryRepository categoryRepository)
         {
             _sessionUser = sessionUser;
+            _categoryRepository = categoryRepository;
         }
         public void Execute(IJobExecutionContext context)
         {
@@ -23,15 +25,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private void Run(int childCategoryId, int parentCategoryId)
         {
-            var catRepo = Sl.CategoryRepo;
+            var childCategory = _categoryRepository.GetById(childCategoryId);
+            var parentCategory = _categoryRepository.GetById(parentCategoryId);
 
-            var childCategory = catRepo.GetById(childCategoryId);
-            var parentCategory = catRepo.GetById(parentCategoryId);
+            new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(childCategory, parentCategoryId);
 
-            ModifyRelationsForCategory.AddParentCategory(childCategory, parentCategoryId);
-
-            catRepo.Update(childCategory, _sessionUser.User, type: CategoryChangeType.Relations);
-            catRepo.Update(parentCategory, _sessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(childCategory, _sessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(parentCategory, _sessionUser.User, type: CategoryChangeType.Relations);
         }
     }
 }

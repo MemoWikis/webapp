@@ -61,13 +61,6 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                         .List<CategoryValuation>();
     }
 
-    public void UpdateKnowledgeSummary(CategoryValuation categoryValuation)
-    {
-        categoryValuation.UpdateKnowledgeSummary();
-
-        Update(categoryValuation);
-    }
-
     public override void Update(CategoryValuation categoryValuation)
     {
         categoryValuation.UpdateKnowledgeSummary();

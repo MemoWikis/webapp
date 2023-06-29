@@ -149,9 +149,9 @@ public class Question : DomainEntity, ICreator
         return Visibility != QuestionVisibility.All;
     }
 
-    public virtual string ToLomXml()
+    public virtual string ToLomXml(CategoryRepository categoryRepository)
     {
-        return LomXml.From(this);
+        return LomXml.From(this, categoryRepository);
     }
 
     public virtual int TotalAnswers()
@@ -189,7 +189,7 @@ public class Question : DomainEntity, ICreator
         return Convert.ToInt32((decimal)TotalTrueAnswers / TotalAnswers() * 100);
     }
 
-    public virtual void UpdateReferences(IList<ReferenceCacheItem> references)
+    public virtual void UpdateReferences(IList<ReferenceCacheItem> references, CategoryRepository categoryRepository)
     {
         var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
         var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
@@ -208,7 +208,7 @@ public class Question : DomainEntity, ICreator
             References.Add(new Reference
             {
                 AdditionalInfo = currentReference.AdditionalInfo,
-                Category = Sl.CategoryRepo.GetByIdEager(currentReference.Category),
+                Category = categoryRepository.GetByIdEager(currentReference.Category),
                 Id = currentReference.Id,
                 DateCreated = currentReference.DateCreated,
                 DateModified = currentReference.DateModified,

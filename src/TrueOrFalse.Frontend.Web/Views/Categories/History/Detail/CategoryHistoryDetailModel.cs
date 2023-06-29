@@ -14,6 +14,7 @@ public class CategoryHistoryDetailModel
     private readonly ISession _nhibernateSession;
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -59,12 +60,14 @@ public class CategoryHistoryDetailModel
         PermissionCheck permissionCheck,
         ISession nhibernateSession,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo, 
+        CategoryRepository categoryRepository)
     {
         _permissionCheck = permissionCheck;
         _nhibernateSession = nhibernateSession;
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
@@ -73,7 +76,7 @@ public class CategoryHistoryDetailModel
 
         var previousRevisionData = !PrevRevExists ? null : previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
-        currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2() : currentRevisionData;
+        currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2(_categoryRepository) : currentRevisionData;
 
         CategoryId = currentRevision.Category == null ? 
             _categoryChangeRepo.GetCategoryId(currentRevision.Id) :  
@@ -171,7 +174,7 @@ public class CategoryHistoryDetailModel
 
     private string Relation2String(CategoryRelation_EditData relation)
     {
-        var relatedCategory = Sl.CategoryRepo.GetById(relation.RelatedCategoryId);
+        var relatedCategory = _categoryRepository.GetById(relation.RelatedCategoryId);
         var isRelatedCategoryNull = relatedCategory == null;
         
         var name = ""; 

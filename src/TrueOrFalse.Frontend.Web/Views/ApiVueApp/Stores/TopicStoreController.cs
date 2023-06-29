@@ -6,13 +6,16 @@ public class TopicStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly CategoryRepository _categoryRepository;
 
     public TopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        KnowledgeSummaryLoader knowledgeSummaryLoader) : base(sessionUser)
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+         CategoryRepository categoryRepository) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _categoryRepository = categoryRepository;
     }
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -22,7 +25,7 @@ public class TopicStoreController : BaseController
             return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
 
         var categoryCacheItem = EntityCache.GetCategory(id);
-        var category = Sl.CategoryRepo.GetById(categoryCacheItem.Id);
+        var category = _categoryRepository.GetById(categoryCacheItem.Id);
 
         if (categoryCacheItem == null || category == null)
             return Json(false);
@@ -39,7 +42,7 @@ public class TopicStoreController : BaseController
             category.Content = content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
+        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 
         return Json(true);
     }

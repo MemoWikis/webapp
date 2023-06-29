@@ -13,17 +13,20 @@ public class QuickCreateQuestionController : BaseController
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryRepository _categoryRepository;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo): base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryRepository categoryRepository): base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryRepository = categoryRepository;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -66,7 +69,7 @@ public class QuickCreateQuestionController : BaseController
         question.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
         question.Categories = new List<Category>
         {
-            Sl.CategoryRepo.GetById(flashCardJson.TopicId)
+            _categoryRepository.GetById(flashCardJson.TopicId)
         };
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
         question.Visibility = visibility;

@@ -2,15 +2,15 @@
 
 public class LomExporter
 {
-    public static void AllToFileSystem()
+    public static void AllToFileSystem(CategoryRepository categoryRepository)
     {
         lock ("c6fc2ccc-bf87-4b6f-b286-d2438e117cc1")
         {
-            AllToFileSystem_();
+            AllToFileSystem_(categoryRepository);
         }    
     }
 
-    private static void AllToFileSystem_()
+    private static void AllToFileSystem_(CategoryRepository categoryRepository)
     {
         var exportPath = Settings.LomExportPath;
 
@@ -20,14 +20,14 @@ public class LomExporter
         foreach (FileInfo file in new DirectoryInfo(exportPath).GetFiles())
             file.Delete();
 
-        ExportCategories(exportPath);
-        ExportQuestions(exportPath);
+        ExportCategories(exportPath, categoryRepository);
+        ExportQuestions(exportPath, categoryRepository);
     }
 
-    private static void ExportCategories(string exportPath)
+    private static void ExportCategories(string exportPath, CategoryRepository categoryRepository)
     {
         var listOfSelectedCategories = new[] {84, 724, 725, 841, 264, 265, 285, 606, 615, 618, 619, 607, 635, 644};
-        var categories = Sl.CategoryRepo.GetByIds(listOfSelectedCategories);
+        var categories = categoryRepository.GetByIds(listOfSelectedCategories);
 
         foreach (var category in categories)
         {
@@ -36,7 +36,7 @@ public class LomExporter
 
             try
             {
-                File.WriteAllText(Path.Combine(exportPath, $"topic-{category.Id}.xml"), LomXml.From(EntityCache.GetCategory(category.Id)));
+                File.WriteAllText(Path.Combine(exportPath, $"topic-{category.Id}.xml"), LomXml.From(EntityCache.GetCategory(category.Id), categoryRepository));
             }
             catch (Exception e)
             {
@@ -45,7 +45,7 @@ public class LomExporter
         }        
     }
 
-    private static void ExportQuestions(string exportPath)
+    private static void ExportQuestions(string exportPath, CategoryRepository categoryRepository)
     {
         var allQuestions = Sl.QuestionRepo.GetAll();
 
@@ -56,7 +56,7 @@ public class LomExporter
 
             try
             {
-                File.WriteAllText(Path.Combine(exportPath, $"question-{question.Id}.xml"), LomXml.From(question));
+                File.WriteAllText(Path.Combine(exportPath, $"question-{question.Id}.xml"), LomXml.From(question, categoryRepository));
             }
             catch (Exception e)
             {

@@ -217,9 +217,9 @@ public class QuestionCacheItem
         return questions.Select(q => ToCacheQuestion(q));
     }
 
-    public virtual string ToLomXml()
+    public virtual string ToLomXml(CategoryRepository categoryRepository)
     {
-        return LomXml.From(this);
+        return LomXml.From(this, categoryRepository);
     }
 
     public virtual int TotalAnswers()
