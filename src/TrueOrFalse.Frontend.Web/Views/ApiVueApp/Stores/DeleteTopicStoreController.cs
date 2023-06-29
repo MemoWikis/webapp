@@ -56,7 +56,7 @@ public class DeleteTopicStoreController : BaseController
         var hasDeleted = _categoryDeleter.Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)
         {
-            _categoryChangeRepo.AddUpdateEntry(parent, _sessionUser.UserId, false);
+            _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
         }
 
         return Json(new

@@ -266,7 +266,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         if (author != null && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();
