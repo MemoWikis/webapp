@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -8,9 +9,10 @@ public class History_totals_per_user_tests : BaseTest
     public void Run()
     {
         var contextUsers = ContextRegisteredUser.New().Add().Add().Persist();
+        var entityCacheInitilizer = LifetimeScope.Resolve<EntityCacheInitializer>(); 
         var contextQuestion = ContextQuestion.New()
-            .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
-            .AddQuestion(questionText: "QuestionB", solutionText: "QuestionB").AddCategory("A").
+            .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", entityCacheInitilizer)
+            .AddQuestion(questionText: "QuestionB", solutionText: "QuestionB").AddCategory("A", entityCacheInitilizer).
             Persist();
 
         var createdQuestion1 = contextQuestion.All[0];

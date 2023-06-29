@@ -7,11 +7,12 @@ public class Spec_changing_question_categories : BaseTest
     [Test]
     public void Should_change_categories()
     {
+        var entityCacheInitilizer = R<EntityCacheInitializer>(); 
         var questionContext =
             ContextQuestion.New().AddQuestion(questionText: "Question", solutionText: "Answer")
-                .AddCategory("A")
-                .AddCategory("B")
-                .AddCategory("C")
+                .AddCategory("A", entityCacheInitilizer)
+                .AddCategory("B", entityCacheInitilizer)
+                .AddCategory("C", entityCacheInitilizer)
                 .Persist();
 
         var question = questionContext.All[0];

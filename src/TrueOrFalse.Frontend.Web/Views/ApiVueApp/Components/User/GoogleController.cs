@@ -9,16 +9,19 @@ public class GoogleController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
     private readonly RegisterUser _registerUser;
+    private readonly CategoryRepository _categoryRepository;
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
 
     public GoogleController(SessionUser sessionUser,
         UserRepo userRepo, 
         VueSessionUser vueSessionUser,
-        RegisterUser registerUser)
+        RegisterUser registerUser,
+        CategoryRepository categoryRepository)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
+        _categoryRepository = categoryRepository;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
     }
@@ -76,7 +79,7 @@ public class GoogleController : Controller
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
-            Sl.CategoryRepo.Create(category);
+            _categoryRepository.Create(category);
             _sessionUser.User.StartTopicId = category.Id;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests;
@@ -12,7 +13,7 @@ public class When_answering_question : BaseTest
         var contextUsers = ContextRegisteredUser.New().Add().Persist();
         var contextQuestion = ContextQuestion.New()
             .AddQuestion(questionText: "Some Question", solutionText: "Some answer")
-            .AddCategory("A").
+            .AddCategory("A", LifetimeScope.Resolve<EntityCacheInitializer>()).
             Persist();
 
         var createdQuestion = contextQuestion.All[0];

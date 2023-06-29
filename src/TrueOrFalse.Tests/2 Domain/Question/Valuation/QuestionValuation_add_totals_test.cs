@@ -11,7 +11,7 @@ public class QuestionValuation_add_totals_test : BaseTest
     public void Should_update_question_totals()
     {
         var contextQuestion = ContextQuestion.New()
-            .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
+            .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", R<EntityCacheInitializer>())
             .Persist();
 
         var questionVal1 = new QuestionValuation{

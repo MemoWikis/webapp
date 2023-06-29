@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using NHibernate.Util;
 using NUnit.Framework;
 
@@ -58,7 +59,7 @@ public class Category_persistence_tests : BaseTest
                 parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
                 parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
 
-                ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id,
+                new ModifyRelationsForCategory(LifetimeScope.Resolve<CategoryRepository>()).UpdateCategoryRelationsOfType(c.Id,
                     parentCategories.Select(cat => cat.Id).ToList());
             });
 
@@ -95,7 +96,7 @@ public class Category_persistence_tests : BaseTest
                         RelatedCategoryId = categories[i].Id
                     });
                 EntityCache.AddOrUpdate(category);
-                context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
+                context.Update(LifetimeScope.Resolve<CategoryRepository>().GetByIdEager(category.Id));
             }
         }
         categories = EntityCache.GetAllCategories();

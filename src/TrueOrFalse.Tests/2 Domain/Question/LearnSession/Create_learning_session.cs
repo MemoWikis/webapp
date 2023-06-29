@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Autofac;
+using NUnit.Framework;
 using TrueOrFalse.Tests;
 
 class Create_learning_session : BaseTest
@@ -6,7 +7,7 @@ class Create_learning_session : BaseTest
     [Test]
     public void GetCorrectProbabilityQuestions()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(20);
+        ContextQuestion.PutQuestionsIntoMemoryCache( LifetimeScope.Resolve<CategoryRepository>());
         var learningSession = ContextLearningSession.GetLearningSession(
             new LearningSessionConfig
             {

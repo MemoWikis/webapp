@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Autofac;
+using NUnit.Framework;
 
 namespace TrueOrFalse.Tests;
 
@@ -7,7 +8,7 @@ class Get_questions_from_memory_cache : BaseTest
     [Test]
     public void Should_store_questions_into_memory_cache()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(5000);
+        ContextQuestion.PutQuestionsIntoMemoryCache(LifetimeScope.Resolve<CategoryRepository>(),5000);
         Assert.That(EntityCache.GetAllQuestions().Count, Is.GreaterThan(4999));
     }
 

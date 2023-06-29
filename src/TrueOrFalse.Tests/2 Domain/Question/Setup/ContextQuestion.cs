@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using NHibernate;
 
 namespace TrueOrFalse.Tests;
 
-public class ContextQuestion :BaseTest
+public class ContextQuestion
 {
     private readonly ContextUser _contextUser = ContextUser.New();
     private readonly ContextCategory _contextCategory = ContextCategory.New();
@@ -66,10 +67,10 @@ public class ContextQuestion :BaseTest
         return this;
     }
 
-    public ContextQuestion AddCategory(string categoryName)
+    public ContextQuestion AddCategory(string categoryName, EntityCacheInitializer entityCacheInitializer)
     {
         _contextCategory.Add(categoryName).Persist();
-        Resolve<EntityCacheInitializer>().Init();
+        entityCacheInitializer.Init();
         All.Last().Categories.Add(_contextCategory.All.Last());
         return this;
     }
@@ -129,10 +130,10 @@ public class ContextQuestion :BaseTest
         return this;
     }
 
-    public ContextQuestion AddToWishknowledge(User user)
+    public ContextQuestion AddToWishknowledge(User user, QuestionInKnowledge questionInKnowledge)
     {
         var lastQuestion = All.Last();
-        Resolve<QuestionInKnowledge>().Pin(lastQuestion.Id, user.Id);
+        questionInKnowledge.Pin(lastQuestion.Id, user.Id);
 
         return this;
     }
@@ -172,10 +173,10 @@ public class ContextQuestion :BaseTest
         return this;
     }
 
-    public static void PutQuestionIntoMemoryCache(int answerProbability, int id)
+    public static void PutQuestionIntoMemoryCache(int answerProbability, int id, CategoryRepository categoryRepository)
     {
         ContextCategory.New(false).AddToEntityCache("Category name").Persist();
-        var categories = Sl.CategoryRepo.GetAllEager();
+        var categories = categoryRepository.GetAllEager();
 
         var questions = New().AddQuestion("", "", id, true, null, categories, answerProbability).All;
 
@@ -184,10 +185,10 @@ public class ContextQuestion :BaseTest
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(questions[0]), categoryIds);
     }
 
-    public static void PutQuestionsIntoMemoryCache(int amount = 20)
+    public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository, int amount = 20)
     {
         ContextCategory.New(false).AddToEntityCache("Category name").Persist();
-        var categories = Sl.CategoryRepo.GetAllEager();
+        var categories = categoryRepository.GetAllEager();
 
         var questions = New().AddQuestions(amount, null, true, categories).All;
 
@@ -199,34 +200,7 @@ public class ContextQuestion :BaseTest
         }
     }
 
-    public ContextQuestion SetLearner(User learner)
-    {
-        _learner = learner;
-        return this;
-    }
-
-    public ContextQuestion SetProbability(int probability, User learner)
-    {
-        var lastQuestion = All.Last();
-
-        var questionValutionRepo = Sl.Resolve<QuestionValuationRepo>();
-
-        var valuation = questionValutionRepo.GetBy(lastQuestion.Id, learner.Id);
-
-        if (valuation == null)
-        {
-            ProbabilityUpdate_Valuation.Run(lastQuestion.Id, learner.Id, Resolve<ISession>());
-            valuation = questionValutionRepo.GetBy(lastQuestion.Id, learner.Id);
-        }
-
-        valuation.CorrectnessProbability = probability;
-        questionValutionRepo.Update(valuation);
-
-        return this;
-    }
-
-
-    public static List<SessionUserCacheItem> SetWuwi(int amountQuestion)
+    public static List<SessionUserCacheItem> SetWuwi(int amountQuestion, CategoryValuationRepo categoryValuationRepo)
     {
         var contextUser = ContextUser.New();
         var users = contextUser.Add().All;
@@ -235,32 +209,14 @@ public class ContextQuestion :BaseTest
 
         var questions = New().AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => Sl.UserRepo.Create(u));
-        SessionUserCache.AddOrUpdate(users.FirstOrDefault(),Resolve<CategoryValuationRepo>());
+        SessionUserCache.AddOrUpdate(users.FirstOrDefault(),categoryValuationRepo);
 
-        PutQuestionValuationsIntoUserCache(questions, users);
+        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationRepo);
 
-        return SessionUserCache.GetAllCacheItems(Resolve<CategoryValuationRepo>());
+        return SessionUserCache.GetAllCacheItems(categoryValuationRepo);
     }
 
-    public ContextQuestion TotalQualityAvg(int totalQualityAvg)
-    {
-        All.Last().TotalQualityAvg = totalQualityAvg;
-        return this;
-    }
-
-    public ContextQuestion TotalQualityEntries(int totalQualityEntries)
-    {
-        All.Last().TotalQualityEntries = totalQualityEntries;
-        return this;
-    }
-
-    public ContextQuestion TotalValuationAvg(int totalValuationAvg)
-    {
-        All.Last().TotalRelevancePersonalAvg = totalValuationAvg;
-        return this;
-    }
-
-    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users)
+    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationRepo categoryValuationRepo)
     {
         var rand = new Random();
         for (var i = 0; i < questions.Count; i++)
@@ -279,8 +235,8 @@ public class ContextQuestion :BaseTest
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
 
-            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, Resolve<CategoryValuationRepo>());
-            SessionUserCache.AddOrUpdate(questionValuation, Resolve<CategoryValuationRepo>());
+            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationRepo);
+            SessionUserCache.AddOrUpdate(questionValuation, categoryValuationRepo);
         }
     }
 }

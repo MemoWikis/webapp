@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autofac;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests;
@@ -8,8 +9,8 @@ class Get_wuwi_from_category : BaseTest
     [Test]
     public void GetWuwiSession()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache();
-        ContextQuestion.SetWuwi(20);
+        ContextQuestion.PutQuestionsIntoMemoryCache(LifetimeScope.Resolve<CategoryRepository>());
+        ContextQuestion.SetWuwi(20, LifetimeScope.Resolve<CategoryValuationRepo>());
             
         var categoryId = 1;
         var userCacheItem = SessionUserCache.GetAllCacheItems(Resolve<CategoryValuationRepo>()).First(uci => uci.Name == "Daniel" );

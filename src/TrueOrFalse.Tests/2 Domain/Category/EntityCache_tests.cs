@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Autofac;
 using NHibernate;
 using NHibernate.Collection.Generic;
 using NHibernate.Engine;
@@ -63,9 +64,9 @@ class EntityCache_tests : BaseTest
         var allCacheCategories = EntityCache.GetAllCategories();
         var deleteCategory = allCacheCategories.ByName("E");
         var idFromDeleteCategory = deleteCategory.Id;
-        var catRepo = Sl.CategoryRepo; 
+        var catRepo = LifetimeScope.Resolve<CategoryRepository>(); 
 
-        Sl.CategoryRepo.Delete( catRepo.GetByIdEager(deleteCategory));
+        catRepo.Delete( catRepo.GetByIdEager(deleteCategory));
 
         var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategoryId == idFromDeleteCategory && cr.CategoryId == idFromDeleteCategory)).ToList();
         Assert.That(relatedCategories.Count, Is.EqualTo(0));
@@ -88,7 +89,7 @@ class EntityCache_tests : BaseTest
         Resolve<EntityCacheInitializer>().Init();
 
         var questions = Sl.QuestionRepo.GetAll();
-        var categories = Sl.CategoryRepo.GetAllEager();
+        var categories = LifetimeScope.Resolve<CategoryRepository>().GetAllEager();
 
         ObjectExtensions.DeepClone(EntityCache.GetAllCategories().First());
         FluentNHibernate.Utils.Extensions.DeepClone(EntityCache.GetAllCategories().First());

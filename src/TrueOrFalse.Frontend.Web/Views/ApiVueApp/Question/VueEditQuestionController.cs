@@ -200,7 +200,7 @@ public class VueEditQuestionController : BaseController
 
         if (!String.IsNullOrEmpty(questionDataJson.ReferencesJson))
         {
-            var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question);
+            var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question, _categoryRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;

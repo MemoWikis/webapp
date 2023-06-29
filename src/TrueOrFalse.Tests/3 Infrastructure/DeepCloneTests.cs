@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests;
@@ -45,7 +46,7 @@ public class DeepCloneTests : BaseTest
         ContextCategory.New().AddCaseThreeToCache();
         RecycleContainer();
 
-        var categoriesThird = Sl.CategoryRepo.GetAll();
+        var categoriesThird = LifetimeScope.Resolve<CategoryRepository>().GetAll();
         RecycleContainer();
         foreach (var category in categoriesThird)
         {

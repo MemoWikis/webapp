@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests;
@@ -28,7 +29,7 @@ class Delete_question : BaseTest
         var contextQuestion = ContextQuestion.New()
             .PersistImmediately()
             .AddQuestion(creator: user1)
-            .AddToWishknowledge(user2);
+            .AddToWishknowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
         var question1 = contextQuestion.All[0];
 
         RecycleContainer();

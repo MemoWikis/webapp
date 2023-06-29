@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -10,7 +11,7 @@ public class Should_retrieve_stats_in_time_period : BaseTest
         var contextUsers = ContextRegisteredUser.New().Add().Persist();
         var contextQuestion = ContextQuestion.New()
                 .AddQuestion(questionText: "Question", solutionText: "Answer")
-                .AddCategory("A").
+                .AddCategory("A", LifetimeScope.Resolve<EntityCacheInitializer>()).
             Persist();
 
         var createdQuestion = contextQuestion.All[0];

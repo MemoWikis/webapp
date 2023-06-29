@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using NHibernate;
 using NUnit.Framework;
 using SharpTestsEx;
@@ -12,10 +13,11 @@ public class Question_persistence : BaseTest
     [Test]
     public void Questions_should_be_persisted()
     {
+        var entityCacheInitilizer = LifetimeScope.Resolve<EntityCacheInitializer>(); 
         var context = ContextQuestion.New().AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
-            .AddCategory("A")
-            .AddCategory("B")
-            .AddCategory("C")
+            .AddCategory("A", entityCacheInitilizer)
+            .AddCategory("B", entityCacheInitilizer)
+            .AddCategory("C", entityCacheInitilizer)
             .AddQuestion(questionText: "Another Question", solutionText: "Some answer")
             .Persist();
             
@@ -35,7 +37,7 @@ public class Question_persistence : BaseTest
         //Arrange
         var context = ContextQuestion.New()
             .AddQuestion(questionText: "Q")
-            .AddCategory("C")
+            .AddCategory("C", LifetimeScope.Resolve<EntityCacheInitializer>())
             .Persist();
             
         RecycleContainer();

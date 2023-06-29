@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Autofac;
 using FakeItEasy;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -56,7 +57,12 @@ public class EditControllerLogicTests : BaseTest
         field.SetValue(null, 2);
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search, isInstallationAdmin: true, Resolve<PermissionCheck>(), Resolve<SessionUser>());
+        var logik = new EditControllerLogic(search,
+            isInstallationAdmin: true,
+            Resolve<PermissionCheck>(),
+            Resolve<SessionUser>(),
+            LifetimeScope.Resolve<CategoryRepository>());
+
         var result = logik.QuickCreate("private4", -1, sessionUser);
         var resultJson = JsonConvert.SerializeObject(result);
 
@@ -114,8 +120,15 @@ public class EditControllerLogicTests : BaseTest
 
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search, true, Resolve<PermissionCheck>(), Resolve<SessionUser>());
-        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
+        var logik = new EditControllerLogic(search, 
+            true, 
+            LifetimeScope.Resolve<PermissionCheck>(),
+            LifetimeScope.Resolve<SessionUser>(),
+            LifetimeScope.Resolve<CategoryRepository>());
+
+        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4",
+            categoryContext.All.First().Id,
+            sessionUser));
 
         var expectedValue =
             JsonConvert.SerializeObject(new { success = true, url = "", id = 4 });
@@ -156,7 +169,11 @@ public class EditControllerLogicTests : BaseTest
 
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search, true, Resolve<PermissionCheck>(), Resolve<SessionUser>());
+        var logik = new EditControllerLogic(search,
+            true,
+            Resolve<PermissionCheck>(),
+            Resolve<SessionUser>(),
+            LifetimeScope.Resolve<CategoryRepository>());
         var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
 
         var expectedValue =

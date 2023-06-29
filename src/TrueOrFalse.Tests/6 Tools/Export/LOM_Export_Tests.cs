@@ -10,19 +10,17 @@ public class LOM_Export_Tests : BaseTest
     [Test]
     public void Should_export_LOM()
     {
-        using (var scope = _container.BeginLifetimeScope())
-        {
+        
             var category = ContextCategory.New().Add("Example category").Persist().All.First();
-            var lomXmlCategory = category.ToLomXml(scope.Resolve<CategoryRepository>());
+            var lomXmlCategory = category.ToLomXml(LifetimeScope.Resolve<CategoryRepository>());
 
             Console.Write(lomXmlCategory);
 
-            var question = ContextQuestion.New().AddQuestion("Example question").AddCategory("cat 1").Persist().All
+            var question = ContextQuestion.New().AddQuestion("Example question").AddCategory("cat 1", LifetimeScope.Resolve<EntityCacheInitializer>()).Persist().All
                 .First();
-            var lomXmlQuestion = question.ToLomXml(scope.Resolve<CategoryRepository>());
+            var lomXmlQuestion = question.ToLomXml(LifetimeScope.Resolve<CategoryRepository>());
 
             Console.Write(lomXmlQuestion);
-        }
     }
 }
 

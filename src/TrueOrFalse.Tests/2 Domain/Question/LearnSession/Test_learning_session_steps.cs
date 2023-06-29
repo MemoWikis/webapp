@@ -16,7 +16,7 @@ class Test_learning_session_steps : BaseTest
             MaxQuestionCount = 5,
             CategoryId = 1,
             Repetition = RepetitionType.Normal
-        });
+        }, R<CategoryRepository>());
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
@@ -40,7 +40,7 @@ class Test_learning_session_steps : BaseTest
     [Test]
     public void Test_answer_should_correct_added_or_not_added_for_not_logged_in_user()
     {
-        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5);
+        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5, R<CategoryRepository>(), R<LearningSessionCreator>());
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
@@ -58,12 +58,14 @@ class Test_learning_session_steps : BaseTest
     [Test]
     public void Test_is_last_step()
     {
-        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1);
+        var catRepo = R<CategoryRepository>();
+        var leraningSessionCreator = R<LearningSessionCreator>(); 
+        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1, catRepo, leraningSessionCreator);
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         learningSession.NextStep();
         Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
 
-        learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1);
+        learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1, catRepo, leraningSessionCreator);
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
         learningSession.NextStep();
         Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
@@ -74,7 +76,7 @@ class Test_learning_session_steps : BaseTest
             MaxQuestionCount = 1,
             CategoryId = 1,
             Repetition = RepetitionType.None
-        });
+        },R<CategoryRepository>());
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
         learningSession.NextStep();

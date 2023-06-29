@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -7,7 +8,7 @@ class Count_answer_as_correct : BaseTest
     [Test]
     public void SetAnswerAsCorrectAnonymus()
     {
-        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5);
+        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5, R<CategoryRepository>(), R<LearningSessionCreator>());
         learningSession.SetCurrentStepAsCorrect();
         Assert.That(learningSession.CurrentStep.AnswerState, Is.EqualTo(AnswerState.Correct));
         Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
@@ -21,7 +22,7 @@ class Count_answer_as_correct : BaseTest
             CurrentUserId = 1,
             MaxQuestionCount = 5,
             CategoryId = 1
-        });
+        }, R<CategoryRepository>());
         learningSession.SetCurrentStepAsCorrect();
         Assert.That(learningSession.Steps.Count, Is.EqualTo(4));
 
@@ -41,7 +42,7 @@ class Count_answer_as_correct : BaseTest
     [Test]
     public void SetAnswerAsCorrectTestModeAndWishSession()
     {
-        var lastUserCacheItem =  ContextQuestion.SetWuwi(1000).Last();
+        var lastUserCacheItem =  ContextQuestion.SetWuwi(1000, R<CategoryValuationRepo>()).Last();
         var learningSession = ContextLearningSession.GetLearningSession(
             new LearningSessionConfig
             {
@@ -58,7 +59,7 @@ class Count_answer_as_correct : BaseTest
 
     [Test]
     public void SetAnswerAsCorrectWishSession(){
-        var lastUserCacheItem = ContextQuestion.SetWuwi(10).Last();
+        var lastUserCacheItem = ContextQuestion.SetWuwi(10,LifetimeScope.Resolve<CategoryValuationRepo>()).Last();
         var learningSession = ContextLearningSession.GetLearningSession(
             new LearningSessionConfig
             {
