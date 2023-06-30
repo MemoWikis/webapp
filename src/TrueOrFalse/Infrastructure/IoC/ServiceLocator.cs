@@ -8,10 +8,6 @@ using TrueOrFalse.Search;
 
 public class Sl
 {
-    public static bool IsUnitTest = false;
-
-    public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
-
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
 
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();

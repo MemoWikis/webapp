@@ -8,22 +8,25 @@ public class TopicController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly CategoryViewRepo _categoryViewRepo;
 
     public TopicController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader) : base(sessionUser)
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        CategoryViewRepo categoryViewRepo) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _categoryViewRepo = categoryViewRepo;
     }
 
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
         var topicControllerLogic = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader,
-            _categoryValuationRepo);
+            _categoryValuationRepo, _categoryViewRepo);
         return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
@@ -31,7 +34,7 @@ public class TopicController : BaseController
     public JsonResult GetTopicWithSegments(int id)
     {
         var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, _knowledgeSummaryLoader,
-            _categoryValuationRepo );
+            _categoryValuationRepo,_categoryViewRepo );
         return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
     }
 

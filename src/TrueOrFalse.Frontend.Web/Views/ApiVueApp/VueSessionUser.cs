@@ -8,16 +8,19 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly CategoryViewRepo _categoryViewRepo;
 
     public VueSessionUser(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        CategoryViewRepo categoryViewRepo)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _categoryViewRepo = categoryViewRepo;
     }
 
     public dynamic GetCurrentUserData()
@@ -50,7 +53,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 ImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_50px(_sessionUser.User).Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo).GetTopicData(user.StartTopicId),
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo).GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -88,7 +91,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo).GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo).GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = _sessionUser.GetTotalActivityPoints(),

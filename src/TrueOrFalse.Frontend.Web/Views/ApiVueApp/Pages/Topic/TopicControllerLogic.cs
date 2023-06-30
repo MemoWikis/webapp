@@ -14,18 +14,21 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryViewRepo _categoryViewRepo;
     private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, 
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryViewRepo categoryViewRepo)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryValuationRepo = categoryValuationRepo;
+        _categoryViewRepo = categoryViewRepo;
     }
 
     public dynamic GetTopicData(int id)
@@ -47,7 +50,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
                 ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
                 DirectChildTopicCount = topic.DirectChildrenIds.ToList().Count,
-                Views = Sl.CategoryViewRepo.GetViewCount(id),
+                Views = _categoryViewRepo.GetViewCount(id),
                 Visibility = topic.Visibility,
                 AuthorIds = topic.AuthorIds,
                 Authors = topic.AuthorIds.Select(id =>
@@ -100,7 +103,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
                 ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
                 DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
-                Views = Sl.CategoryViewRepo.GetViewCount(id),
+                Views = _categoryViewRepo.GetViewCount(id),
                 Visibility = topic.Visibility,
                 AuthorIds = topic.AuthorIds,
                 Authors = topic.AuthorIds.Select(id =>
