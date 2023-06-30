@@ -10,14 +10,18 @@ public class TopicToPrivateStoreController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly QuestionRepo _questionRepo;
 
     public TopicToPrivateStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck, 
-        CategoryValuationRepo categoryValuationRepo, CategoryRepository categoryRepository ) :base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        CategoryRepository categoryRepository,
+        QuestionRepo questionRepo) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _questionRepo = questionRepo;
     }
 
     [HttpGet]
@@ -173,9 +177,9 @@ public class TopicToPrivateStoreController : BaseController
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = Sl.QuestionRepo.GetById(questionId);
+                var question = _questionRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
-                Sl.QuestionRepo.Update(question);
+                _questionRepo.Update(question);
             }
         }
     }

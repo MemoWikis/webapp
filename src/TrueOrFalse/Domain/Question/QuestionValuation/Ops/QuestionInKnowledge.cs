@@ -9,14 +9,17 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly ISession _nhibernateSession;
     private readonly ReputationUpdate _reputationUpdate;
+    private readonly QuestionRepo _questionRepo;
 
     public QuestionInKnowledge(SessionUser sessionUser,
         ISession nhibernateSession,
-        ReputationUpdate reputationUpdate)
+        ReputationUpdate reputationUpdate,
+        QuestionRepo questionRepo)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
         _reputationUpdate = reputationUpdate;
+        _questionRepo = questionRepo;
     }
     public void Pin(int questionId, int userId)
     {
@@ -74,7 +77,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             ChangeTotalInOthersWishknowledge(relevance==50, user.Id, question);
             _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession);
+            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession, _questionRepo);
         }
         UpdateTotalRelevancePersonalInCache(questions);
         SetUserWishCountQuestions(user.Id,_sessionUser);
@@ -99,7 +102,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _reputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
+            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionRepo);
     }
 
     public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
@@ -171,7 +174,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 "WHERE Id = " + questionId + ";";
     }
 
-    private static void CreateOrUpdateValuation(int questionId, int userId, int relevancePersonal = -2)
+    private void CreateOrUpdateValuation(int questionId, int userId, int relevancePersonal = -2)
     {
         var questionValuation = Sl.QuestionValuationRepo.GetBy(questionId, userId);
         var question = EntityCache.GetQuestion(questionId);
@@ -179,7 +182,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         CreateOrUpdateValuation(question, questionValuation, userId, relevancePersonal);
     }
 
-    private static void CreateOrUpdateValuation(
+    private void CreateOrUpdateValuation(
         QuestionCacheItem question, 
         QuestionValuation questionValuation, 
         int userId, 
@@ -191,7 +194,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = Sl.QuestionRepo.GetById(question.Id),
+                Question = _questionRepo.GetById(question.Id),
                 User = Sl.UserRepo.GetById(userId),
                 RelevancePersonal = relevancePersonal,
                 CorrectnessProbability = question.CorrectnessProbability

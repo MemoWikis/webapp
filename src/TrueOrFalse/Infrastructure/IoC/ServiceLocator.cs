@@ -10,7 +10,6 @@ public class Sl
 {
     public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 
-    public static QuestionRepo QuestionRepo => R<QuestionRepo>();
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
     public static UserRepo UserRepo => R<UserRepo>();
 

@@ -189,7 +189,7 @@ public class Question : DomainEntity, ICreator
         return Convert.ToInt32((decimal)TotalTrueAnswers / TotalAnswers() * 100);
     }
 
-    public virtual void UpdateReferences(IList<ReferenceCacheItem> references, CategoryRepository categoryRepository)
+    public virtual void UpdateReferences(IList<ReferenceCacheItem> references, CategoryRepository categoryRepository, QuestionRepo questionRepo)
     {
         var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
         var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
@@ -212,7 +212,7 @@ public class Question : DomainEntity, ICreator
                 Id = currentReference.Id,
                 DateCreated = currentReference.DateCreated,
                 DateModified = currentReference.DateModified,
-                Question = Sl.QuestionRepo.GetById(currentReference.Question.Id),
+                Question = questionRepo.GetById(currentReference.Question.Id),
                 ReferenceText = currentReference.ReferenceText,
                 ReferenceType = currentReference.ReferenceType
             });

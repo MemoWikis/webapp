@@ -21,12 +21,12 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
         base.Create(QuestionChange);
     }
 
-    public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange)
+    public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange, QuestionRepo questionRepo)
     {
         switch (questionChange.DataVersion)
         {
             case 1:
-                questionChange.Data = new QuestionEditData_V1(question, imageWasChanged, _session).ToJson();
+                questionChange.Data = new QuestionEditData_V1(question, imageWasChanged, _session, questionRepo).ToJson();
                 break;
 
             default:
@@ -34,9 +34,13 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
         }
     }
 
-    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
-    public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
-    private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
+    public void AddCreateEntry(Question question, QuestionRepo questionRepo) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true, questionRepo);
+    public void AddUpdateEntry(Question question, QuestionRepo questionRepo, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged, questionRepo);
+    private void AddUpdateOrCreateEntry(Question question,
+        QuestionChangeType questionChangeType,
+        User author,
+        bool imageWasChanged,
+        QuestionRepo questionRepo)
     {
         var questionChange = new QuestionChange
         {
@@ -46,12 +50,12 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
             DataVersion = 1
         };
 
-        SetData(question, imageWasChanged, questionChange);
+        SetData(question, imageWasChanged, questionChange, questionRepo);
 
         base.Create(questionChange);
     }
 
-    public void Create(Question question)
+    public void Create(Question question, QuestionRepo questionRepo)
     {
         var questionChange = new QuestionChange
         {
@@ -61,7 +65,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
             DataVersion = 1
         };
 
-        SetData(question, true, questionChange);
+        SetData(question, true, questionChange,questionRepo);
 
         base.Create(questionChange);
     }

@@ -21,23 +21,23 @@ namespace TrueOrFalse
             //Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
         }
 
-        public static void Run(int questionId, int userId, ISession nhibernateSession)
+        public static void Run(int questionId, int userId, ISession nhibernateSession, QuestionRepo questionRepo)
         {
             var user = Sl.UserRepo.GetById(userId);
 
             if(user == null)
                 return;
 
-            Run(EntityCache.GetQuestion(questionId), user, nhibernateSession);
+            Run(EntityCache.GetQuestion(questionId), user, nhibernateSession, questionRepo);
         }
 
-        public static void Run(QuestionCacheItem question, User user, ISession nhibernateSession)
+        public static void Run(QuestionCacheItem question, User user, ISession nhibernateSession, QuestionRepo questionRepo)
         {
             var questionValuation =
                 Sl.QuestionValuationRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
-                        Question = Sl.QuestionRepo.GetById(question.Id),
+                        Question = questionRepo.GetById(question.Id),
                         User = user
                     };
 

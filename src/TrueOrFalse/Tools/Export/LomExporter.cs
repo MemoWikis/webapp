@@ -2,15 +2,15 @@
 
 public class LomExporter
 {
-    public static void AllToFileSystem(CategoryRepository categoryRepository)
+    public static void AllToFileSystem(CategoryRepository categoryRepository, QuestionRepo questionRepo)
     {
         lock ("c6fc2ccc-bf87-4b6f-b286-d2438e117cc1")
         {
-            AllToFileSystem_(categoryRepository);
+            AllToFileSystem_(categoryRepository, questionRepo);
         }    
     }
 
-    private static void AllToFileSystem_(CategoryRepository categoryRepository)
+    private static void AllToFileSystem_(CategoryRepository categoryRepository, QuestionRepo questionRepo)
     {
         var exportPath = Settings.LomExportPath;
 
@@ -21,7 +21,7 @@ public class LomExporter
             file.Delete();
 
         ExportCategories(exportPath, categoryRepository);
-        ExportQuestions(exportPath, categoryRepository);
+        ExportQuestions(exportPath, categoryRepository, questionRepo);
     }
 
     private static void ExportCategories(string exportPath, CategoryRepository categoryRepository)
@@ -45,9 +45,9 @@ public class LomExporter
         }        
     }
 
-    private static void ExportQuestions(string exportPath, CategoryRepository categoryRepository)
+    private static void ExportQuestions(string exportPath, CategoryRepository categoryRepository, QuestionRepo questionRepo)
     {
-        var allQuestions = Sl.QuestionRepo.GetAll();
+        var allQuestions = questionRepo.GetAll();
 
         foreach (var question in allQuestions)
         {

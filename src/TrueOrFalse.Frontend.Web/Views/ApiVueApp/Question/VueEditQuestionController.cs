@@ -91,7 +91,7 @@ public class VueEditQuestionController : BaseController
                 }
             };
 
-        var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
+        var question =_questionRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Update(updatedQuestion);
@@ -332,8 +332,8 @@ public class VueEditQuestionController : BaseController
                 _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.UserId, uploadImageLicenseOwner);
         }
 
-        question = Sl.QuestionRepo.GetById(questionId);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question, imageWasChanged: true);
+        question = _questionRepo.GetById(questionId);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question, _questionRepo, imageWasChanged: true);
 
         var imageSettings = new QuestionImageSettings(questionId);
 
@@ -362,7 +362,7 @@ public class VueEditQuestionController : BaseController
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = Sl.QuestionRepo.GetById(questionId);
+                var question = _questionRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
                 _questionRepo.Update(question);
             }
@@ -380,7 +380,7 @@ public class VueEditQuestionController : BaseController
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = Sl.QuestionRepo.GetById(questionId);
+                var question = _questionRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
                 _questionRepo.Update(question);
             }

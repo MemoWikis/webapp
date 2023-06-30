@@ -5,14 +5,17 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 {
     private readonly AnswerRepo _ansewRepo;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly QuestionRepo _questionRepo;
 
     public ProbabilityUpdate_Question(AnswerRepo ansewRepo,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo,
+        QuestionRepo questionRepo)
     {
         _ansewRepo = ansewRepo;
         _jobQueueRepo = jobQueueRepo;
+        _questionRepo = questionRepo;
     }
-    public  void Run()
+    public void Run()
     {
         var sp = Stopwatch.StartNew();
 
@@ -22,14 +25,14 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         Logg.r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
     }
 
-    public  void Run(Question question)
+    public void Run(Question question)
     {
         var answers = _ansewRepo.GetByQuestion(question.Id);
 
         question.CorrectnessProbability = ProbabilityCalc_Question.Run(answers);
         question.CorrectnessProbabilityAnswerCount = answers.Count;
 
-        Sl.QuestionRepo.UpdateFieldsOnly(question);
+        _questionRepo.UpdateFieldsOnly(question);
 
         question.Categories
             .ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id, _jobQueueRepo));

@@ -7,10 +7,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs;
 public class DeleteQuestion : IJob
 {
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly QuestionRepo _questionRepo;
 
-    public DeleteQuestion(CategoryValuationRepo categoryValuationRepo)
+    public DeleteQuestion(CategoryValuationRepo categoryValuationRepo, QuestionRepo questionRepo)
     {
         _categoryValuationRepo = categoryValuationRepo;
+        _questionRepo = questionRepo;
     }
     public void Execute(IJobExecutionContext context)
     {
@@ -31,10 +33,10 @@ public class DeleteQuestion : IJob
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();
-        var questionRepo = Sl.QuestionRepo;
-        var question = questionRepo.GetById(questionId);
+        
+        var question = _questionRepo.GetById(questionId);
 
-        questionRepo.Delete(question);
+        _questionRepo.Delete(question);
 
         var categoriesToUpdateIds = question.Categories.Select(c => c.Id).ToList();
 

@@ -114,7 +114,7 @@ public class QuestionEditModalControllerLogic
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
-        var question = Sl.QuestionRepo.GetById(questionDataJson.QuestionId);
+        var question = _questionRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Update(updatedQuestion);

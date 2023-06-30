@@ -8,7 +8,13 @@ using TrueOrFalse.Maintenance;
 
 public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
 {
-    public ImageMetaDataRepo(ISession session) : base(session){}
+    private readonly QuestionRepo _questionRepo;
+
+    public ImageMetaDataRepo(ISession session,
+        QuestionRepo questionRepo) : base(session)
+    {
+        _questionRepo = questionRepo;
+    }
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
@@ -104,7 +110,7 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
     public override void Create(ImageMetaData imageMetaData)
     {
         if(HttpContext.Current != null)
-            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionRepo).LicenseState;
 
         base.Create(imageMetaData);
     }
@@ -112,7 +118,7 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
     public override void Update(ImageMetaData imageMetaData)
     {
         if (HttpContext.Current != null)
-            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionRepo).LicenseState;
 
         base.Update(imageMetaData);
     }

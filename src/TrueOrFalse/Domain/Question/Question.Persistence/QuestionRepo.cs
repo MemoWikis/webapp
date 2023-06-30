@@ -51,7 +51,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
-        Sl.QuestionChangeRepo.AddCreateEntry(question);
+        Sl.QuestionChangeRepo.AddCreateEntry(question, this);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().CreateAsync(question));
     }
 
@@ -252,7 +252,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question);
+        Sl.QuestionChangeRepo.AddUpdateEntry(question, this);
 
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().UpdateAsync(question));
     }

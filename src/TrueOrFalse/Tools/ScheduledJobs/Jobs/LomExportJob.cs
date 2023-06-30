@@ -5,14 +5,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class LomExportJob : IJob
     {
         private readonly CategoryRepository _categoryRepository;
+        private readonly QuestionRepo _questionRepo;
 
-        public LomExportJob(CategoryRepository categoryRepository)
+        public LomExportJob(CategoryRepository categoryRepository, QuestionRepo questionRepo)
         {
             _categoryRepository = categoryRepository;
+            _questionRepo = questionRepo;
         }
         public void Execute(IJobExecutionContext context)
         {
-            JobExecute.Run(scope => LomExporter.AllToFileSystem(_categoryRepository), nameof(LomExportJob));
+            JobExecute.Run(scope => LomExporter.AllToFileSystem(_categoryRepository, _questionRepo), nameof(LomExportJob));
         }
     }
 }

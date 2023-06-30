@@ -95,7 +95,8 @@ public class Global : HttpApplication
             using (var scope = container.BeginLifetimeScope())
             {
                 var categoryRepo = scope.Resolve<CategoryRepository>();
-                new EntityCacheInitializer(categoryRepo).Init();
+                var questionRepo = scope.Resolve<QuestionRepo>();
+                new EntityCacheInitializer(categoryRepo, questionRepo).Init();
             }
             
             Logg.r().Information($"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");

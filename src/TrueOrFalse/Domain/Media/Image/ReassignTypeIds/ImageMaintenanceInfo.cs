@@ -39,15 +39,15 @@ public class ImageMaintenanceInfo
     public int SelectedMainLicenseId { get; set; }
 
 
-    public ImageMaintenanceInfo(int typeId, ImageType imageType)
-        : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType))
+    public ImageMaintenanceInfo(int typeId, ImageType imageType, QuestionRepo questionRepo)
+        : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType), questionRepo)
     {
     }
 
-    public ImageMaintenanceInfo(ImageMetaData imageMetaData)
+    public ImageMaintenanceInfo(ImageMetaData imageMetaData, QuestionRepo questionRepo)
     {
         var categoryImgBasePath = new CategoryImageSettings().BasePath;
-        var questionImgBasePath = new QuestionImageSettings().BasePath;
+        var questionImgBasePath = new QuestionImageSettings(questionRepo).BasePath;
         var setImgBasePath = new SetImageSettings().BasePath;
 
         ImageId = imageMetaData.Id;

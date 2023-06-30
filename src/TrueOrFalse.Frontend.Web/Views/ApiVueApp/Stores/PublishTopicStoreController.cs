@@ -9,15 +9,18 @@ public class PublishTopicStoreController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly QuestionRepo _questionRepo;
 
     public PublishTopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
-        CategoryRepository categoryRepository): base(sessionUser)
+        CategoryRepository categoryRepository,
+        QuestionRepo questionRepo): base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _questionRepo = questionRepo;
     }
 
     [HttpPost]
@@ -59,7 +62,6 @@ public class PublishTopicStoreController : BaseController
     [AccessOnlyAsLoggedIn]
     public void PublishQuestions(List<int> questionIds)
     {
-        var questionRepo = Sl.QuestionRepo;
         foreach (var questionId in questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
@@ -67,9 +69,9 @@ public class PublishTopicStoreController : BaseController
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = questionRepo.GetById(questionId);
+                var question = _questionRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
-                questionRepo.Update(question);
+                _questionRepo.Update(question);
             }
         }
     }

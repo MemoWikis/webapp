@@ -15,6 +15,7 @@ public class QuickCreateQuestionController : BaseController
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly QuestionRepo _questionRepo;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
@@ -22,7 +23,8 @@ public class QuickCreateQuestionController : BaseController
         LearningSessionCache learningSessionCache,
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo): base(sessionUser)
+        ImageMetaDataRepo imageMetaDataRepo,
+        QuestionRepo questionRepo): base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
@@ -30,6 +32,7 @@ public class QuickCreateQuestionController : BaseController
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _questionRepo = questionRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -78,8 +81,7 @@ public class QuickCreateQuestionController : BaseController
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        var questionRepo = Sl.QuestionRepo;
-        questionRepo.Create(question);
+        _questionRepo.Create(question);
 
         if (flashCardJson.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);

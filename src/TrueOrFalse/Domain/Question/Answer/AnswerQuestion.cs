@@ -15,7 +15,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         AnswerLog answerLog,
         LearningSessionCache learningSessionCache,
         ISession nhibernateSession,
-        AnswerRepo answerRepo, ProbabilityUpdate_Question probabilityUpdateQuestion)
+        AnswerRepo answerRepo,
+        ProbabilityUpdate_Question probabilityUpdateQuestion)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
@@ -181,7 +182,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
+        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionRepo);
 
         return result;
     }

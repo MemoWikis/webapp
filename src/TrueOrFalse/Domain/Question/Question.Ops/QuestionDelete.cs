@@ -5,19 +5,22 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUser _sessionUser;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly QuestionRepo _questionRepo;
 
     public QuestionDelete(PermissionCheck permissionCheck,
         SessionUser sessionUser,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        QuestionRepo questionRepo)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
         _categoryValuationRepo = categoryValuationRepo;
+        _questionRepo = questionRepo;
     }
     public void Run(int questionId)
     {
-        var questionRepo = Sl.QuestionRepo;
-        var question = questionRepo.GetById(questionId);
+        
+        var question = _questionRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
 

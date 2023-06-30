@@ -82,13 +82,15 @@ class EntityCache_tests : BaseTest
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
         question1.Categories.Add(rootCategory);
-        Sl.QuestionRepo.Update(question1);
+
+        var questionRepo = R<QuestionRepo>(); 
+       questionRepo.Update(question1);
 
         RecycleContainer();
 
         Resolve<EntityCacheInitializer>().Init();
 
-        var questions = Sl.QuestionRepo.GetAll();
+        var questions = questionRepo.GetAll();
         var categories = LifetimeScope.Resolve<CategoryRepository>().GetAllEager();
 
         ObjectExtensions.DeepClone(EntityCache.GetAllCategories().First());
@@ -106,7 +108,9 @@ class EntityCache_tests : BaseTest
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
         question1.Categories.Add(rootCategory);
-        Sl.QuestionRepo.Update(question1);
+
+        var questionRepo = R<QuestionRepo>();
+        questionRepo.Update(question1);
 
         var session = typeof(PersistentGenericBag<Category>).GetField("session", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(question1.Categories);
         var session2 = question1.Categories.GetFieldValue<object>("session");
@@ -117,7 +121,7 @@ class EntityCache_tests : BaseTest
         Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
 
 
-        Sl.QuestionRepo.Session.Evict(question1.Categories);
+        questionRepo.Session.Evict(question1.Categories);
 
         RecycleContainer();
 
