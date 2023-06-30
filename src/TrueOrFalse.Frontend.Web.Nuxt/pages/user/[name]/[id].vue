@@ -4,6 +4,7 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
+import { Page } from '~/components/shared/pageEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -107,7 +108,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-const emit = defineEmits(['setBreadcrumb'])
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
         history.pushState(null, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
@@ -118,7 +119,6 @@ function handleBreadcrumb(t: Tab) {
         emit('setBreadcrumb', [breadcrumbItem])
     }
     else if (profile.value?.user.id && profile.value.user.id > 0) {
-        history.pushState(null, `${profile.value?.user.name}`, `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/`)
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
@@ -126,7 +126,7 @@ function handleBreadcrumb(t: Tab) {
             },
             {
                 name: `${profile.value?.user.name}`,
-                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/`
+                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}`
             }]
         emit('setBreadcrumb', breadcrumbItems)
     } else {
@@ -134,6 +134,7 @@ function handleBreadcrumb(t: Tab) {
     }
 }
 onMounted(() => {
+    emit('setPage', Page.User)
     tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
     handleBreadcrumb(tab.value)
     watch(tab, (t) => {

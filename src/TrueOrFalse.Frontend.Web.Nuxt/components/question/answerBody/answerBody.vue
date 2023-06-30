@@ -214,6 +214,9 @@ function highlightCode() {
         })
 }
 const answerBodyModel = ref<AnswerBodyModel>()
+
+const route = useRoute()
+
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
@@ -245,7 +248,9 @@ async function loadAnswerBodyModel() {
 }
 function handleUrl() {
     if (!props.isLandingPage && tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
-        history.pushState(null, topicStore.name, $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id))
+        const newUrl = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
+        if (newUrl != route.fullPath)
+            history.pushState(null, topicStore.name, $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id))
     }
 }
 watch(() => tabsStore.activeTab, (tab) => {
