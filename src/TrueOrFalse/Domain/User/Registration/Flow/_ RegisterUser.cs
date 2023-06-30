@@ -5,10 +5,13 @@ using NHibernate.Criterion;
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _nhibernateSession;
+    private readonly JobQueueRepo _jobQueueRepo;
 
-    public RegisterUser(ISession nhibernateSession)
+    public RegisterUser(ISession nhibernateSession,
+        JobQueueRepo jobQueueRepo)
     {
         _nhibernateSession = nhibernateSession;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     public void Run(User user)
@@ -30,7 +33,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             transaction.Commit();
         }
 
-        SendRegistrationEmail.Run(user);
+        SendRegistrationEmail.Run(user, _jobQueueRepo);
         WelcomeMsg.Send(user);
     }
 

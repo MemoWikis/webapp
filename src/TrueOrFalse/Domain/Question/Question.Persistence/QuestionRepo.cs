@@ -10,11 +10,18 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 public class QuestionRepo : RepositoryDbBase<Question>
 {
     private readonly CategoryRepository _categoryRepository;
+    private readonly ReputationUpdate _reputationUpdate;
+    private readonly JobQueueRepo _jobQueueRepo;
 
 
-    public QuestionRepo(ISession session, CategoryRepository categoryRepository) : base(session)
+    public QuestionRepo(ISession session,
+        CategoryRepository categoryRepository,
+        ReputationUpdate reputationUpdate,
+        JobQueueRepo jobQueueRepo) : base(session)
     {
         _categoryRepository = categoryRepository;
+        _reputationUpdate = reputationUpdate;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     public override void Create(Question question)
@@ -33,13 +40,13 @@ public class QuestionRepo : RepositoryDbBase<Question>
         {
             category.UpdateCountQuestionsAggregated(question.Creator.Id);
             _categoryRepository.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
         }
 
         if (question.Visibility != QuestionVisibility.Owner)
         {
             UserActivityAdd.CreatedQuestion(question);
-            ReputationUpdate.ForUser(question.Creator);
+            _reputationUpdate.ForUser(question.Creator);
         }
 
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));

@@ -7,6 +7,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcTotalWishInOthersPeople : IJob
     {
+        private readonly JobQueueRepo _jobQueueRepo;
+
+        public RecalcTotalWishInOthersPeople(JobQueueRepo jobQueueRepo)
+        {
+            _jobQueueRepo = jobQueueRepo;
+        }
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
@@ -63,7 +69,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             SendEmail.Run(new MailMessage("daniel.majunke@googlemail.com", to,
                 "Report TotalWishKnowledge in other people",
-                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), MailMessagePriority.Medium);
+                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), _jobQueueRepo);
         }
     }
 }

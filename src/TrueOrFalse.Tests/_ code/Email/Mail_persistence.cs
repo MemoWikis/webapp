@@ -18,9 +18,9 @@ class Mail_persistence : BaseTest
         CleanEmailsFromPickupDirectory.Run();
 
         var user = ContextUser.New().AddWithEmail("ab@c.de").Persist().All.Last();
-
-        SendEmail.Run(CreateLowPriorityMails(user));
-        SendEmail.Run(GetHighPriorityMail(user), MailMessagePriority.High);
+        var jqr = R<JobQueueRepo>(); 
+        SendEmail.Run(CreateLowPriorityMails(user),jqr);
+        SendEmail.Run(GetHighPriorityMail(user), jqr, MailMessagePriority.High);
 
         JobScheduler.Start();
         Thread.Sleep(1000);

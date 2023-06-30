@@ -3,10 +3,13 @@
 public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
     private readonly PasswordRecoveryTokenRepository _tokenRepository;
+    private readonly JobQueueRepo _jobQueueRepo;
 
-    public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository)
+    public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository,
+        JobQueueRepo jobQueueRepo)
     {
         _tokenRepository = tokenRepository;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     public PasswordRecoveryResult Run(string email)
@@ -20,7 +23,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
             var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
-            SendEmail.Run(GetMailMessage(email, passwortResetUrl), MailMessagePriority.High);
+            SendEmail.Run(GetMailMessage(email, passwortResetUrl), _jobQueueRepo, MailMessagePriority.High);
         }
         catch(Exception e)
         {

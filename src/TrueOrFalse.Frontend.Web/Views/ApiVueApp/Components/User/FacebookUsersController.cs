@@ -16,18 +16,21 @@ public class FacebookUsersController : Controller
     private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
         UserRepo userRepo,
         SessionUser sessionUser,
         RegisterUser registerUser,
-        CategoryRepository categoryRepository)
+        CategoryRepository categoryRepository,
+        JobQueueRepo jobQueueRepo)
     {
         _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
         _registerUser = registerUser;
         _categoryRepository = categoryRepository;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     [HttpPost]
@@ -69,7 +72,7 @@ public class FacebookUsersController : Controller
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
-            SendRegistrationEmail.Run(user);
+            SendRegistrationEmail.Run(user, _jobQueueRepo);
             WelcomeMsg.Send(user);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
@@ -113,7 +116,7 @@ public class FacebookUsersController : Controller
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "Facebook Data Deletion Callback",
-            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."), MailMessagePriority.High);
+            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."), _jobQueueRepo, MailMessagePriority.High );
         var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
         return JsonConvert.SerializeObject(requestAnswer); ;
     }

@@ -10,6 +10,7 @@ public class GoogleController : Controller
     private readonly VueSessionUser _vueSessionUser;
     private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
+    private readonly JobQueueRepo _jobQueueRepo;
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
 
@@ -17,11 +18,13 @@ public class GoogleController : Controller
         UserRepo userRepo, 
         VueSessionUser vueSessionUser,
         RegisterUser registerUser,
-        CategoryRepository categoryRepository)
+        CategoryRepository categoryRepository,
+        JobQueueRepo jobQueueRepo)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
         _categoryRepository = categoryRepository;
+        _jobQueueRepo = jobQueueRepo;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
     }
@@ -74,7 +77,7 @@ public class GoogleController : Controller
         if (registerResult.Success)
         {
             var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
-            SendRegistrationEmail.Run(user);
+            SendRegistrationEmail.Run(user, _jobQueueRepo);
             WelcomeMsg.Send(user);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);

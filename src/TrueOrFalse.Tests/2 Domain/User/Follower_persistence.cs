@@ -18,15 +18,16 @@ public class Follower_persistence : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        user1.AddFollower(user2);
-        user1.AddFollower(user3);
-        user1.AddFollower(user4);
+        var userRepo = R<UserRepo>();
+        userRepo.AddFollower(user1, user1);
+        userRepo.AddFollower(user1, user1);
+        userRepo.AddFollower(user1, user1);
 
         R<UserRepo>().Update(user1);
 
         RecycleContainer();
 
-        var userRepo = R<UserRepo>();
+       
         var userFromDb1 = userRepo.GetById(user1.Id);
         var userFromDb2 = userRepo.GetById(user2.Id);
 

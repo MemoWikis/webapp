@@ -8,7 +8,6 @@ using TrueOrFalse.Search;
 
 public class Sl
 {
-    public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
     public static MeiliSearchUsers MeiliSearchUsers => R<MeiliSearchUsers>();
     public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 

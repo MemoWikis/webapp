@@ -7,9 +7,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class UpdateAggregatedCategoriesForQuestion : IJob
     {
+        private readonly JobQueueRepo _jobQueueRepo;
         private readonly SessionUser _sessionUser;
         private readonly CategoryRepository _categoryRepository;
 
+        public UpdateAggregatedCategoriesForQuestion(JobQueueRepo jobQueueRepo)
+        {
+            _jobQueueRepo = jobQueueRepo;
+        }
         public UpdateAggregatedCategoriesForQuestion(SessionUser sessionUser, CategoryRepository categoryRepository)
         {
             _sessionUser = sessionUser;
@@ -29,7 +34,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
                 _categoryRepository.Update(category);
-                KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+                KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
                 Logg.r().Information("Update Category from Update Question - {id}", category.Id);
             }
         }

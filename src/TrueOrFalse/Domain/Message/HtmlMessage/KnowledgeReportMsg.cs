@@ -6,7 +6,7 @@ public class KnowledgeReportMsg
     public const string UtmSource = "knowledgeReportEmail";
     public const string UtmCampaignFullString = "";
 
-    public static void SendHtmlMail(User user)
+    public static void SendHtmlMail(User user, JobQueueRepo jobQueueRepo)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_KnowledgeReport()),
@@ -37,7 +37,8 @@ public class KnowledgeReportMsg
             { UserName = user.Name},
             messageTitle: messageTitle,
             signOutMessage: signOutMessage,
-            utmSource: UtmSource);
+            utmSource: UtmSource,
+            jobQueueRepo: jobQueueRepo);
 
         Sl.R<MessageEmailRepo>().Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
         Logg.r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");

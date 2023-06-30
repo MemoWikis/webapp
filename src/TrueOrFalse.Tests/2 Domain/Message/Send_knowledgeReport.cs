@@ -18,8 +18,6 @@ public class Send_knowledgeReport : BaseTest
         QuestionInKnowledge.Create(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[1], User = user });
         QuestionInKnowledge.Create(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[2], User = user });
 
-        //add sets to WishKnowledge
-
-        KnowledgeReportMsg.SendHtmlMail(user);
+        KnowledgeReportMsg.SendHtmlMail(user, R<JobQueueRepo>());
     }
 }

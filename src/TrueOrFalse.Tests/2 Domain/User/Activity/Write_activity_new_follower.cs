@@ -33,14 +33,14 @@ public class Write_activity_new_follower : BaseTest
             .Persist();
         //User3 creates one category
         ContextCategory.New().Add("Cat 1", creator: user3).Persist();
-        
+        var userRepo = R<UserRepo>(); 
         //User6 follows User7
-        user7.AddFollower(user6);
+        userRepo.AddFollower(user6, user7);
 
         RecycleContainer();
 
         //NEW FOLLOWER I: Now User1 follows User2
-        user2.AddFollower(user1);
+        userRepo.AddFollower(user1, user2);
 
         //User1 should see activity: User2 created two questions
         var activitiesUser1 = R<UserActivityRepo>().GetByUser(user1);
@@ -49,10 +49,10 @@ public class Write_activity_new_follower : BaseTest
         Assert.That(activitiesUser1[0].UserCauser, Is.EqualTo(user2));
  
         //NEW FOLLOWER II: Now User1 also follows User3 through User6
-        user3.AddFollower(user1);
-        user4.AddFollower(user1);
-        user5.AddFollower(user1);
-        user6.AddFollower(user1);
+        userRepo.AddFollower(user1, user3);
+        userRepo.AddFollower(user1, user4);
+        userRepo.AddFollower(user1, user5);
+        userRepo.AddFollower(user1, user6);
 
         RecycleContainer();
 

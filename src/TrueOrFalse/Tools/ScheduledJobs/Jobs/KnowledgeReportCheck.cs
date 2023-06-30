@@ -9,7 +9,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class KnowledgeReportCheck : IJob
     {
+        private readonly JobQueueRepo _jobQueueRepo;
 
+        public KnowledgeReportCheck(JobQueueRepo jobQueueRepo)
+        {
+            _jobQueueRepo = jobQueueRepo;
+        }
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
@@ -20,7 +25,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     if (KnowledgeReportMsg.ShouldSendToUser(user))
                     {
                         Logg.r().Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
-                        KnowledgeReportMsg.SendHtmlMail(user);
+                        KnowledgeReportMsg.SendHtmlMail(user, _jobQueueRepo);
                     }
                 }
 

@@ -8,11 +8,15 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly ISession _nhibernateSession;
+    private readonly ReputationUpdate _reputationUpdate;
 
-    public QuestionInKnowledge(SessionUser sessionUser, ISession nhibernateSession)
+    public QuestionInKnowledge(SessionUser sessionUser,
+        ISession nhibernateSession,
+        ReputationUpdate reputationUpdate)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
+        _reputationUpdate = reputationUpdate;
     }
     public void Pin(int questionId, int userId)
     {
@@ -77,7 +81,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
         var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
-            ReputationUpdate.ForUser(creator.First());
+            _reputationUpdate.ForUser(creator.First());
     }
 
     private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
@@ -92,7 +96,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
 
-        ReputationUpdate.ForQuestion(questionId);
+        _reputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
             ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);

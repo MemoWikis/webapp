@@ -4,10 +4,13 @@ using NHibernate.Util;
 public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 {
     private readonly AnswerRepo _ansewRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
 
-    public ProbabilityUpdate_Question(AnswerRepo ansewRepo)
+    public ProbabilityUpdate_Question(AnswerRepo ansewRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _ansewRepo = ansewRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
     public  void Run()
     {
@@ -29,6 +32,6 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         Sl.QuestionRepo.UpdateFieldsOnly(question);
 
         question.Categories
-            .ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id));
+            .ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id, _jobQueueRepo));
     }
 }

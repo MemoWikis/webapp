@@ -4,13 +4,17 @@ using TrueOrFalse.Domain;
 public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly int _sessionUserId;
 
     public RestoreCategory(SessionUser sessionUser,
-        CategoryRepository categoryRepository, CategoryChangeRepo categoryChangeRepo)
+        CategoryRepository categoryRepository,
+        CategoryChangeRepo categoryChangeRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _categoryChangeRepo = categoryChangeRepo;
+        _jobQueueRepo = jobQueueRepo;
         _categoryRepository = categoryRepository; 
         _sessionUserId = sessionUser.UserId;
     }
@@ -66,7 +70,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
             SendEmail(category.Creator.Id, subject, body);
     }
 
-    private static void SendEmail(int receiverId, string subject, string body)
+    private void SendEmail(int receiverId, string subject, string body)
     {
         CustomMsg.Send(receiverId, subject, body);
 
@@ -76,6 +80,6 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         mail.From = new MailAddress(Settings.EmailFrom);
         mail.Subject = subject;
         mail.Body = body;
-        global::SendEmail.Run(mail, MailMessagePriority.Low);
+        global::SendEmail.Run(mail, _jobQueueRepo, MailMessagePriority.Low);
     }
 }

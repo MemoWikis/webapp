@@ -5,10 +5,13 @@ namespace VueApp;
 
 public class VueUserSettingsController : BaseController
 {
-    public VueUserSettingsController(SessionUser sessionUser) : base(sessionUser)
+    private readonly ReputationUpdate _reputationUpdate;
+
+    public VueUserSettingsController(SessionUser sessionUser, ReputationUpdate reputationUpdate) : base(sessionUser)
     {
-        
+        _reputationUpdate = reputationUpdate;
     }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ChangeNotificationIntervalPreferences(UserSettingNotificationInterval notificationInterval)
@@ -154,7 +157,7 @@ public class VueUserSettingsController : BaseController
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         Sl.UserRepo.Update(_sessionUser.User);
-        ReputationUpdate.ForUser(_sessionUser
+        _reputationUpdate.ForUser(_sessionUser
             .User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
         return Json(new

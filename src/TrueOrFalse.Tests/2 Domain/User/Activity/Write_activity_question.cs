@@ -23,12 +23,14 @@ public class Write_activity_question : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        user4.AddFollower(user3);
-        user4.AddFollower(user1);
-        user2.AddFollower(user1);
+        var userRepo = R<UserRepo>();
 
-        R<UserRepo>().Update(user4);
-        R<UserRepo>().Update(user3);
+        userRepo.AddFollower(user3, user4);
+        userRepo.AddFollower(user1, user4);
+        userRepo.AddFollower(user1, user2);
+
+        userRepo.Update(user4);
+        userRepo.Update(user3);
 
         //User4 creates one question
         System.Threading.Thread.Sleep(50); // to much commits without sleep
@@ -38,7 +40,7 @@ public class Write_activity_question : BaseTest
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
             .Persist();
-        
+
         //User3 should see activity: User4 created Question
         var activitiesUser3 = R<UserActivityRepo>().GetByUser(user3);
         Assert.That(activitiesUser3.Count, Is.EqualTo(1));

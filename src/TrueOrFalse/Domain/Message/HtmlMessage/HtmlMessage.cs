@@ -3,7 +3,7 @@ using RazorEngine;
 
 public class HtmlMessage
 {
-    public static void Send(MailMessage2 mailMessage, string messageTitle, string signOutMessage = null, string utmSource = null, string utmCampaign = null)
+    public static void Send(MailMessage2 mailMessage, string messageTitle, JobQueueRepo jobQueueRepo, string signOutMessage = null, string utmSource = null, string utmCampaign = null)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate()),
@@ -20,6 +20,6 @@ public class HtmlMessage
         mailMessage.Body = parsedTemplate;
         mailMessage.IsBodyHtml = true;
 
-        SendEmail.Run(mailMessage, MailMessagePriority.Medium);
+        SendEmail.Run(mailMessage,jobQueueRepo);
     }
 }

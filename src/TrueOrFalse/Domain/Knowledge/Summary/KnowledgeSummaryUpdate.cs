@@ -27,6 +27,6 @@
         categoryValuationRepo.Update(categoryValuation);
     }
 
-    public static void ScheduleForCategory(int categoryId)
-        => Sl.JobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForCategory, categoryId.ToString());
+    public static void ScheduleForCategory(int categoryId, JobQueueRepo jobQueueRepo)
+        => jobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForCategory, categoryId.ToString());
 }

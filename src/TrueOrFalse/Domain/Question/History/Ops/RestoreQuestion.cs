@@ -3,10 +3,12 @@
 public class RestoreQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly int _currentUserId;
+    private readonly JobQueueRepo _jobQueueRepo;
 
-    public RestoreQuestion(int currentUserId)
+    public RestoreQuestion(int currentUserId, JobQueueRepo jobQueueRepo)
     {
         _currentUserId = currentUserId;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     public void Run(int questionChangeId, User author)
@@ -34,7 +36,7 @@ public class RestoreQuestion : IRegisterAsInstancePerLifetime
             SendEmail(question.Creator.Id, subject, body);
     }
 
-    private static void SendEmail(int receiverId, string subject, string body)
+    private void SendEmail(int receiverId, string subject, string body)
     {
         CustomMsg.Send(receiverId, subject, body);
 
@@ -44,6 +46,6 @@ public class RestoreQuestion : IRegisterAsInstancePerLifetime
         mail.From = new MailAddress(Settings.EmailFrom);
         mail.Subject = subject;
         mail.Body = body;
-        global::SendEmail.Run(mail, MailMessagePriority.Low);
+        global::SendEmail.Run(mail, _jobQueueRepo, MailMessagePriority.Low);
     }
 }

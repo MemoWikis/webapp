@@ -19,23 +19,23 @@ public class Write_activity_following : BaseTest
         var user2 = context.All[1];
         var user3 = context.All[2];
         var user4 = context.All[3];
-
+        var userRepo = R<UserRepo>();
         //user2.Followers.Add(user1);
         //user2.Followers.Add(user3);
         //user4.Followers.Add(user3);
-        user2.AddFollower(user1);
-        user2.AddFollower(user3);
-        user4.AddFollower(user3);
+        userRepo.AddFollower(user1, user2);
+        userRepo.AddFollower(user3, user2);
+        userRepo.AddFollower(user3, user4);
 
         R<UserRepo>().Update(user2);
         R<UserRepo>().Update(user4);
 
         //User2 now follows User3
         //was user3.Followers.Add(user2);
-        user3.AddFollower(user2);
+        userRepo.AddFollower(user2, user3);
         //User4 now follows User1
-        user1.AddFollower(user4);
-        
+        userRepo.AddFollower(user4, user1);
+
         //User1 should see activity: "User2 now follows User3"
         var activitiesUser1 = R<UserActivityRepo>().GetByUser(user1);
         Assert.That(activitiesUser1.Count, Is.EqualTo(1));

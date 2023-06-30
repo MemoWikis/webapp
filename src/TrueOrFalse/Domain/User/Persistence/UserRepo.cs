@@ -11,15 +11,19 @@ public class UserRepo : RepositoryDbBase<User>
   
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly ReputationUpdate _reputationUpdate;
+
 
     public UserRepo(ISession session,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        CategoryValuationRepo categoryValuationRepo) : base(session)
+        CategoryValuationRepo categoryValuationRepo,
+        ReputationUpdate reputationUpdate) : base(session)
     {
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
         _categoryValuationRepo = categoryValuationRepo;
+        _reputationUpdate = reputationUpdate;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -28,6 +32,17 @@ public class UserRepo : RepositoryDbBase<User>
         change(user);
         Update(user);
     }
+
+    public virtual void AddFollower(User follower, User user)
+    {
+        user.Followers.Add(new FollowerInfo
+            { Follower = follower, User = user, DateCreated = DateTime.Now, DateModified = DateTime.Now });
+        Sl.UserRepo.Flush();
+        UserActivityAdd.FollowedUser(follower, user);
+        UserActivityUpdate.NewFollower(follower, user);
+        _reputationUpdate.ForUser(user);
+    }
+
 
     public override void Create(User user)
     {

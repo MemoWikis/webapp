@@ -4,30 +4,33 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
     private readonly ReputationCalc _reputationCalc;
     private readonly UserRepo _userRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public ReputationUpdate(
-        ReputationCalc reputationCalc,
-        UserRepo userRepo)
+      ReputationCalc reputationCalc,
+      UserRepo userRepo,
+      JobQueueRepo jobQueueRepo)
     {
         _reputationCalc = reputationCalc;
         _userRepo = userRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
 
-    public static void ForQuestion(int questionId) => 
-        ScheduleUpdate(EntityCache.GetQuestionById(questionId).Creator.Id);
+    public void ForQuestion(int questionId) =>
+      ScheduleUpdate(EntityCache.GetQuestionById(questionId).Creator.Id);
 
 
-    public static void ForUser(User user) =>
-        ScheduleUpdate(user.Id);
+    public void ForUser(User user) =>
+      ScheduleUpdate(user.Id);
 
-    public static void ForUser(UserCacheItem user) =>
-        ScheduleUpdate(user.Id);
+    public void ForUser(UserCacheItem user) =>
+      ScheduleUpdate(user.Id);
 
-    public static void ForUser(UserTinyModel user) =>
-        ScheduleUpdate(user.Id);
+    public void ForUser(UserTinyModel user) =>
+      ScheduleUpdate(user.Id);
 
-    private static void ScheduleUpdate(int userId) =>
-        Sl.JobQueueRepo.Add(JobQueueType.UpdateReputationForUser, userId.ToString());
+    private void ScheduleUpdate(int userId) =>
+      _jobQueueRepo.Add(JobQueueType.UpdateReputationForUser, userId.ToString());
 
     public void Run(User userToUpdate)
     {
@@ -54,10 +57,10 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     public void RunForAll()
     {
         var allUsers = UserCacheItem.ToCacheUsers(_userRepo.GetAll());
-        
+
         var results = allUsers
-            .Select(user => _reputationCalc.Run(user))
-            .OrderByDescending(r => r.TotalReputation);
+          .Select(user => _reputationCalc.Run(user))
+          .OrderByDescending(r => r.TotalReputation);
 
         var i = 0;
         foreach (var result in results)
