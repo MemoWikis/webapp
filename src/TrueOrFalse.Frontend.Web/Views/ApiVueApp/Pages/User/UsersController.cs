@@ -9,11 +9,16 @@ namespace VueApp;
 public class VueUsersController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly MeiliSearchUsers _meiliSearchUsers;
 
-    public VueUsersController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    public VueUsersController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        MeiliSearchUsers meiliSearchUsers ) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
-    }
+        _meiliSearchUsers = meiliSearchUsers;
+    } 
+
     [HttpGet]
     public async Task<JsonResult> Get(
         int page,
@@ -21,7 +26,7 @@ public class VueUsersController : BaseController
         string searchTerm = "",
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
     {
-        var result = await Sl.MeiliSearchUsers.GetUsersByPagerAsync(searchTerm,
+        var result = await _meiliSearchUsers.GetUsersByPagerAsync(searchTerm,
             new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page },orderBy);
 
         var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
