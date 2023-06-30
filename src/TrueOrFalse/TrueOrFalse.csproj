@@ -410,7 +410,6 @@
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentRepository.cs" />
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
-    <Compile Include="Domain\ContentRecommendation\ContentRecommendationResult.cs" />
     <Compile Include="Domain\ICreator.cs" />
     <Compile Include="Domain\PermissionCheck.cs" />
     <Compile Include="Domain\Knowledge\GetKnowledgeStatus.cs" />
@@ -594,12 +593,6 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityUpdate_ValuationAll.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityUpdate_Valuation.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishQuestionCount.cs" />
-    <Compile Include="Domain\QuestionSet\Set.cs" />
-    <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
-    <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepo.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Domain\QuestionSet\SetListExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />

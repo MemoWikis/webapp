@@ -170,13 +170,6 @@ public class ImageFrontendData
             case ImageType.User:
                 imageSettings = new UserImageSettings(typeId);
                 break;
-            case ImageType.QuestionSet:
-
-                if(ImageMetaDataExists && ImageMetaData.IsYoutubePreviewImage)
-                    return new SetImageSettings(typeId).GetUrl(width, asSquare);
-
-                imageSettings = new SetImageSettings(typeId);
-                break;
             default:
                 imageSettings = new QuestionImageSettings(typeId);
                 break;

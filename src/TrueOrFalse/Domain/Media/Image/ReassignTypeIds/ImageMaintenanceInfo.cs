@@ -62,10 +62,6 @@ public class ImageMaintenanceInfo
                 Type = Sl.R<CategoryRepository>().GetById(MetaData.TypeId);
                 TypeUrl = Links.GetUrl(Type);
                 break;
-            case ImageType.QuestionSet:
-                Type = Sl.R<SetRepo>().GetById(MetaData.TypeId);
-                TypeUrl = Links.GetUrl(Type);
-                break;
             case ImageType.Question:
                 Type = Sl.R<QuestionRepo>().GetById(MetaData.TypeId);
                 TypeUrl = Links.GetUrl(Type);
@@ -146,9 +142,6 @@ public class ImageMaintenanceInfo
             
         if (MetaData.Type == ImageType.Question)
             Url_128 = new QuestionImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
-
-        if (MetaData.Type == ImageType.QuestionSet)
-            Url_128 = new SetImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
 
         FrontendData = new ImageFrontendData(MetaData);
     }

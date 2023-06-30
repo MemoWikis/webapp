@@ -9,16 +9,11 @@ using TrueOrFalse.Search;
 public class Sl
 {
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
-    public static MeiliSearchQuestions MeilieMeiliSearchQuestions => R<MeiliSearchQuestions>();
     public static MeiliSearchUsers MeiliSearchUsers => R<MeiliSearchUsers>();
     public static QuestionChangeRepo QuestionChangeRepo => R<QuestionChangeRepo>();
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
-    public static SessionUiData SessionUiData => R<SessionUiData>();
-    public static SetRepo SetRepo => R<SetRepo>();
-    public static UserActivityRepo UserActivityRepo => R<UserActivityRepo>();
-
     public static UserRepo UserRepo => R<UserRepo>();
 
     public static T R<T>()
