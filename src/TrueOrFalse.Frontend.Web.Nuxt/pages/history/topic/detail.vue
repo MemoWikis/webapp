@@ -10,7 +10,8 @@ interface ChangeDetail {
     imageWasUpdated: boolean
     isCurrent: boolean
     changeType: TopicChangeType
-    changeDate: string
+    currentChangeDate: string
+    previousChangeDate: string
 
     authorName: string
     authorId: number
@@ -39,7 +40,7 @@ const { $logger, $urlHelper } = useNuxtApp()
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: changeDetail } = await useFetch<ChangeDetail>(`/apiVue/HistoryTopicDetail/Get?topicId=${route.params.topicId}&currentRevisionId=${route.params.currentRevisionId}&firstEditId=${route.params.firstEditId ? route.params.firstEditId : 0}`, {
+const { data: changeDetail } = await useFetch<ChangeDetail>(route.params.firstEditId ? `/apiVue/HistoryTopicDetail/Get?topicId=${route.params.topicId}&currentRevisionId=${route.params.currentRevisionId}&firstEditId=${route.params.firstEditId}` : `/apiVue/HistoryTopicDetail/Get?topicId=${route.params.topicId}&currentRevisionId=${route.params.currentRevisionId}`, {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -60,7 +61,7 @@ const emit = defineEmits(['setBreadcrumb', 'setPage'])
 onMounted(() => {
     emit('setPage', Page.Default)
     if (changeDetail.value != null)
-        emit('setBreadcrumb', [{ name: `Bearbeitungshistorie für ${changeDetail.value.topicName}`, url: `/Historie/Thema/${route.params.topicId}` }, { name: `Änderungen vom ${changeDetail.value.changeDate}`, url: route.fullPath }])
+        emit('setBreadcrumb', [{ name: `Bearbeitungshistorie für ${changeDetail.value.topicName}`, url: `/Historie/Thema/${route.params.topicId}` }, { name: `Änderungen vom ${changeDetail.value.currentChangeDate}`, url: route.fullPath }])
 
 })
 
@@ -99,7 +100,7 @@ async function restore() {
                                 {{ changeDetail.authorName }}
                             </NuxtLink>
                             <div>
-                                vom {{ changeDetail.changeDate }}
+                                vom {{ changeDetail.currentChangeDate }}
                             </div>
                         </div>
                         <div>
@@ -119,6 +120,12 @@ async function restore() {
                         <code-diff v-if="changeDetail.currentContent != null" :old-string="changeDetail.previousContent"
                             :new-string="changeDetail.currentContent" :output-format="outputFormat" language="html" />
                     </ClientOnly>
+
+                    <div class="alert alert-info"
+                        v-if="changeDetail.currentContent == changeDetail.previousContent && changeDetail.currentName == changeDetail.previousContent">
+                        Zwischen den beiden Revisionen (vom {{ changeDetail.previousChangeDate }} und
+                        vom {{ changeDetail.currentChangeDate }}) gibt es <b>keine inhaltlichen Unterschiede</b>.
+                    </div>
                 </div>
             </template>
 
@@ -142,5 +149,9 @@ async function restore() {
             margin-right: 8px;
         }
     }
+}
+
+.alert {
+    margin-top: 36px;
 }
 </style>

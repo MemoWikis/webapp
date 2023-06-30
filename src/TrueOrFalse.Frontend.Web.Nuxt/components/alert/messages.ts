@@ -59,7 +59,9 @@ export const messages: any = {
             passwordIsWrong: "Falsches Passwort. Gib das Passwort erneut ein.",
             samePassword: "Das neue Passwort entspricht dem alten Passwort. Bitte gebe ein neues Passwort ein.",
             passwordNotCorrectlyRepeated: "Das wiederholte Passwort gleicht nicht deiner neuen Passworteingabe.",
-            inputError: "Bitte überprüfe deine Eingaben."
+            inputError: "Bitte überprüfe deine Eingaben.",
+            passwordResetTokenIsInvalid: "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team@memucho.de.",
+            passwordResetTokenIsExpired: "Der Link ist abgelaufen."
         } as { [key: string]: string },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         image: {
@@ -82,7 +84,7 @@ export const messages: any = {
     getByCompositeKey(messageKey: string): string | undefined {
         const keyParts = messageKey?.split('_');
         let currentLevel = messages;
-      
+
         for (const part of (keyParts ?? ["WillReturnUndefined"])) {
             if (currentLevel.hasOwnProperty(part)) {
                 currentLevel = currentLevel[part];
@@ -90,7 +92,7 @@ export const messages: any = {
                 console.error(`Unknown key: ${messageKey}`)
                 const { $logger } = useNuxtApp()
                 const err = new Error()
-                $logger.error(`Unknown key: ${messageKey}`, [{ stack: err.stack}])
+                $logger.error(`Unknown key: ${messageKey}`, [{ stack: err.stack }])
                 return undefined; // Key part not found in the messages structure
             }
         }

@@ -84,7 +84,7 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult ResetPassword(string email)
     {
-        var result = Sl.Resolve<PasswordRecovery>().Run(email);
+        var result = Sl.Resolve<PasswordRecovery>().RunForNuxt(email);
         //Don't reveal if email exists 
         return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
     } 

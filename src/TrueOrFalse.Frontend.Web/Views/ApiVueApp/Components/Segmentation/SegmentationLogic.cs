@@ -151,18 +151,26 @@ public class SegmentationLogic
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
+        var knowledgeBarSummary = KnowledgeSummaryLoader.RunFromMemoryCache(categoryId, _sessionUserId);
 
-        var questionCount = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count;
-        var knowledgeBarHtml = "";
-        if (questionCount > 0)
-            knowledgeBarHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(categoryCacheItem, _sessionUserId), _controllerContext);
         return new
         {
             categoryId = categoryCacheItem.Id,
             categoryName = categoryCacheItem.Name,
             visibility = categoryCacheItem.Visibility,
             linkToCategory,
-            knowledgeBarHtml
+            knowledgeBarData = new
+            {
+                Total = knowledgeBarSummary.Total,
+                NeedsLearning = knowledgeBarSummary.NeedsLearning,
+                NeedsLearningPercentage = knowledgeBarSummary.NeedsLearningPercentage,
+                NeedsConsolidation = knowledgeBarSummary.NeedsConsolidation,
+                NeedsConsolidationPercentage = knowledgeBarSummary.NeedsConsolidationPercentage,
+                Solid = knowledgeBarSummary.Solid,
+                SolidPercentage = knowledgeBarSummary.SolidPercentage,
+                NotLearned = knowledgeBarSummary.NotLearned,
+                NotLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage
+            },
         };
     }
 }

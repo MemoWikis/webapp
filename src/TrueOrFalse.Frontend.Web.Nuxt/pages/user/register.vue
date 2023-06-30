@@ -184,10 +184,6 @@ async function register() {
 
 
                         <fieldset>
-                            <div class="col-sm-offset-2" v-if="errorMessage.length > 0">
-                                Bitte überprüfe deine Eingaben
-                            </div>
-
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                                     <div class="register-divider-container">
@@ -202,6 +198,11 @@ async function register() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
+                                {{ errorMessage }}
+                            </div>
+
                             <div class="input-container">
                                 <form class="form-horizontal">
                                     <div class="form-group">
