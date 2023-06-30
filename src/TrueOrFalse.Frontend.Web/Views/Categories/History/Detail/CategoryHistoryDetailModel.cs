@@ -15,6 +15,7 @@ public class CategoryHistoryDetailModel
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -61,13 +62,15 @@ public class CategoryHistoryDetailModel
         ISession nhibernateSession,
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationRepo categoryValuationRepo, 
-        CategoryRepository categoryRepository)
+        CategoryRepository categoryRepository,
+        ImageMetaDataRepo imageMetaDataRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernateSession = nhibernateSession;
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _imageMetaDataRepo = imageMetaDataRepo;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
 
@@ -107,7 +110,7 @@ public class CategoryHistoryDetailModel
         if (currentRevision.DataVersion == 2)
         {
             ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
-            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
+            var imageMetaData = _imageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
             ImageFrontendData = new ImageFrontendData(imageMetaData);
         }
 

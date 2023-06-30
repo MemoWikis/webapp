@@ -10,7 +10,8 @@ namespace VueApp;
 
 public class EditControllerLogic
 {
-    private readonly CategoryRepository _categoryRepository; 
+    private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
@@ -21,7 +22,8 @@ public class EditControllerLogic
         bool isInstallationAdmin,
         PermissionCheck permissionCheck,
         SessionUser sessionUser,
-        CategoryRepository categoryRepository)
+        CategoryRepository categoryRepository, 
+        ImageMetaDataRepo imageMetaDataRepo)
     {
         _search = search; 
         _isInstallationAdmin = isInstallationAdmin;
@@ -29,6 +31,7 @@ public class EditControllerLogic
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _categoryRepository = categoryRepository;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     public dynamic ValidateName(string name)
@@ -99,7 +102,7 @@ public class EditControllerLogic
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         return new
         {
@@ -114,7 +117,7 @@ public class EditControllerLogic
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();

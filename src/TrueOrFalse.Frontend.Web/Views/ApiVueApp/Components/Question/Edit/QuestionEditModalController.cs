@@ -10,6 +10,7 @@ public class QuestionEditModalController : BaseController
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public QuestionEditModalController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -18,7 +19,8 @@ public class QuestionEditModalController : BaseController
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge, 
         CategoryValuationRepo categoryValuationRepo, 
-        CategoryRepository categoryRepository) :base(sessionUser)
+        CategoryRepository categoryRepository,
+        ImageMetaDataRepo imageMetaDataRepo) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
@@ -27,13 +29,14 @@ public class QuestionEditModalController : BaseController
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult Create(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo,_sessionUser,_learningSessionCache,_permissionCheck,_learningSessionCreator,_questionInKnowledge,_categoryValuationRepo,_categoryRepository).Create(questionDataJson); 
+        var data = new QuestionEditModalControllerLogic(_questionRepo,_sessionUser,_learningSessionCache,_permissionCheck,_learningSessionCreator,_questionInKnowledge,_categoryValuationRepo,_categoryRepository, _imageMetaDataRepo).Create(questionDataJson); 
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 
@@ -41,7 +44,7 @@ public class QuestionEditModalController : BaseController
     [HttpPost]
     public JsonResult Edit(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator, _questionInKnowledge, _categoryValuationRepo, _categoryRepository).Edit(questionDataJson);
+        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator, _questionInKnowledge, _categoryValuationRepo, _categoryRepository, _imageMetaDataRepo).Edit(questionDataJson);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 
@@ -49,7 +52,7 @@ public class QuestionEditModalController : BaseController
     [HttpGet]
     public JsonResult GetData(int id)
     {
-        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator, _questionInKnowledge, _categoryValuationRepo, _categoryRepository).GetData(id);
+        var data = new QuestionEditModalControllerLogic(_questionRepo, _sessionUser, _learningSessionCache, _permissionCheck, _learningSessionCreator, _questionInKnowledge, _categoryValuationRepo, _categoryRepository, _imageMetaDataRepo).GetData(id);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 

@@ -10,13 +10,16 @@ public class QuestionLandingPageController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -74,7 +77,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo, _imageMetaDataRepo).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

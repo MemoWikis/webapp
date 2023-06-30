@@ -8,8 +8,6 @@ using TrueOrFalse.Search;
 
 public class Sl
 {
-    public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
-
     public static JobQueueRepo JobQueueRepo => R<JobQueueRepo>();
     public static MeiliSearchQuestions MeilieMeiliSearchQuestions => R<MeiliSearchQuestions>();
     public static MeiliSearchUsers MeiliSearchUsers => R<MeiliSearchUsers>();

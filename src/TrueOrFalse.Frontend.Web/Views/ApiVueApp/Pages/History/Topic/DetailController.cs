@@ -14,6 +14,7 @@ public class HistoryTopicDetailController : Controller
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public HistoryTopicDetailController(PermissionCheck permissionCheck,
         ISession nhibernatesession,
@@ -21,7 +22,8 @@ public class HistoryTopicDetailController : Controller
         RestoreCategory restoreCategory,
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationRepo categoryValuationRepo,
-        CategoryRepository categoryRepository)
+        CategoryRepository categoryRepository,
+        ImageMetaDataRepo imageMetaDataRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernatesession = nhibernatesession;
@@ -30,6 +32,7 @@ public class HistoryTopicDetailController : Controller
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     [HttpGet]
@@ -57,7 +60,8 @@ public class HistoryTopicDetailController : Controller
             _nhibernatesession,
             _categoryChangeRepo,
             _categoryValuationRepo,
-            _categoryRepository);
+            _categoryRepository,
+            _imageMetaDataRepo);
 
         var result = new ChangeDetailResult
         {
@@ -151,7 +155,8 @@ public class HistoryTopicDetailController : Controller
             _nhibernatesession,
             _categoryChangeRepo,
             _categoryValuationRepo,
-            _categoryRepository);
+            _categoryRepository,
+            _imageMetaDataRepo);
     }
 
     [AccessOnlyAsLoggedIn]

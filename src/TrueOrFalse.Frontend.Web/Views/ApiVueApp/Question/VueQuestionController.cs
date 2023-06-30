@@ -15,19 +15,22 @@ public class VueQuestionController : BaseController
     private readonly RestoreQuestion _restoreQuestion;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public VueQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
         PermissionCheck permissionCheck,
         RestoreQuestion restoreQuestion,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
     {
         _questionRepo = questionRepo;
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     [HttpGet]
@@ -92,7 +95,7 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo, _imageMetaDataRepo).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -105,7 +108,7 @@ public class VueQuestionController : BaseController
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question))
+        question.ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question))
             .GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);

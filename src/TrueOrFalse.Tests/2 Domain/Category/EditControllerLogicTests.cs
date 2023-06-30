@@ -59,9 +59,10 @@ public class EditControllerLogicTests : BaseTest
         var search = A.Fake<IGlobalSearch>();
         var logik = new EditControllerLogic(search,
             isInstallationAdmin: true,
-            Resolve<PermissionCheck>(),
-            Resolve<SessionUser>(),
-            LifetimeScope.Resolve<CategoryRepository>());
+            R<PermissionCheck>(),
+            R<SessionUser>(),
+            R<CategoryRepository>(),
+            R<ImageMetaDataRepo>());
 
         var result = logik.QuickCreate("private4", -1, sessionUser);
         var resultJson = JsonConvert.SerializeObject(result);
@@ -122,9 +123,10 @@ public class EditControllerLogicTests : BaseTest
         var search = A.Fake<IGlobalSearch>();
         var logik = new EditControllerLogic(search, 
             true, 
-            LifetimeScope.Resolve<PermissionCheck>(),
-            LifetimeScope.Resolve<SessionUser>(),
-            LifetimeScope.Resolve<CategoryRepository>());
+            R<PermissionCheck>(),
+            R<SessionUser>(),
+            R<CategoryRepository>(),
+            R<ImageMetaDataRepo>());
 
         var result = JsonConvert.SerializeObject(logik.QuickCreate("private4",
             categoryContext.All.First().Id,
@@ -171,9 +173,10 @@ public class EditControllerLogicTests : BaseTest
         var search = A.Fake<IGlobalSearch>();
         var logik = new EditControllerLogic(search,
             true,
-            Resolve<PermissionCheck>(),
-            Resolve<SessionUser>(),
-            LifetimeScope.Resolve<CategoryRepository>());
+            R<PermissionCheck>(),
+            R<SessionUser>(),
+            R<CategoryRepository>(),
+            R<ImageMetaDataRepo>());
         var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
 
         var expectedValue =

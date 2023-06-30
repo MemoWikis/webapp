@@ -4,15 +4,21 @@ using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class SearchHelper : Controller
+public class SearchHelper
 {
-    public static void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck, int userId)
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+
+    public SearchHelper(ImageMetaDataRepo imageMetaDataRepo)
+    {
+        _imageMetaDataRepo = imageMetaDataRepo;
+    }
+    public void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck, int userId)
     {
         items.AddRange(
             elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
     }
 
-    public static SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic, int userId)
+    private SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic, int userId)
     {
         return new SearchTopicItem
         {
@@ -21,13 +27,13 @@ public class SearchHelper : Controller
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };
     }
 
-    public static SearchCategoryItem FillSearchCategoryItem(CategoryCacheItem c, int userId)
+    public SearchCategoryItem FillSearchCategoryItem(CategoryCacheItem c, int userId)
     {
         return new SearchCategoryItem
         {
@@ -37,7 +43,7 @@ public class SearchHelper : Controller
             QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
             IconHtml = GetIconHtml(c),
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(c.Id, ImageType.Category))
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(c.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)c.Visibility
         };

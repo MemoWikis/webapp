@@ -14,12 +14,14 @@ public class SegmentationLogic
     private readonly SessionUser _sessionUser;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public SegmentationLogic(ControllerContext controllerContext,
         PermissionCheck permissionCheck, 
         SessionUser sessionUser,
         CategoryValuationRepo categoryValuationRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        ImageMetaDataRepo imageMetaDataRepo)
     {
         _controllerContext = controllerContext;
         _permissionCheck = permissionCheck;
@@ -27,6 +29,7 @@ public class SegmentationLogic
         _sessionUser = sessionUser;
         _categoryValuationRepo = categoryValuationRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
     public dynamic GetSegmentation(int id)
     {
@@ -93,7 +96,7 @@ public class SegmentationLogic
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(categoryId, ImageType.Category);
+        var imageMetaData = _imageMetaDataRepo.GetBy(categoryId, ImageType.Category);
         var imageFrontendData = new ImageFrontendData(imageMetaData);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;

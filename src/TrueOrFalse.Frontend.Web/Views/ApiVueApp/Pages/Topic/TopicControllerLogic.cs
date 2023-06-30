@@ -15,13 +15,15 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryViewRepo _categoryViewRepo;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, 
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryValuationRepo categoryValuationRepo,
-        CategoryViewRepo categoryViewRepo)
+        CategoryViewRepo categoryViewRepo,
+        ImageMetaDataRepo imageMetaDataRepo)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
@@ -29,6 +31,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryViewRepo = categoryViewRepo;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     public dynamic GetTopicData(int id)
@@ -37,7 +40,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
         if (_permissionCheck.CanView(topic))
         {
-            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
+            var imageMetaData = _imageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
             return new
@@ -91,7 +94,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
         if (_permissionCheck.CanView(topic))
         {
-            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
+            var imageMetaData = _imageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
             return new
             {
@@ -142,7 +145,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic GetSegmentation(int id, ControllerContext context)
     {
-        var segmentationLogic = new SegmentationLogic(context, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader);
+        var segmentationLogic = new SegmentationLogic(context, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
 
         var category = EntityCache.GetCategory(id);
         var s = new SegmentationModel(category,_permissionCheck);
@@ -181,7 +184,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };

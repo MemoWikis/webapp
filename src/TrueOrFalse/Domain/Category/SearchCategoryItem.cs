@@ -1,4 +1,6 @@
-﻿public class SearchCategoryItem
+﻿using TrueOrFalse.Frontend.Web.Code;
+
+public class SearchCategoryItem
 {
     public int Id;
     public string Name;
@@ -9,3 +11,4 @@
     public string IconHtml;
     public int Visibility;
 }
+

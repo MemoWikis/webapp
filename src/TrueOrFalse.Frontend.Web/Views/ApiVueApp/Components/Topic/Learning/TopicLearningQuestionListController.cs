@@ -8,15 +8,18 @@ public class TopicLearningQuestionListController: BaseController
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public TopicLearningQuestionListController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo, 
+        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
@@ -31,7 +34,7 @@ public class TopicLearningQuestionListController: BaseController
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationRepo)
+        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationRepo, _imageMetaDataRepo)
             .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
@@ -51,7 +54,7 @@ public class TopicLearningQuestionListController: BaseController
             Id = question.Id,
             Title = question.Text,
             LinkToQuestion = Links.GetUrl(question),
-            ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(40, true).Url,
+            ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(40, true).Url,
             LearningSessionStepCount = steps.Count,
             LinkToQuestionVersions = Links.QuestionHistory(question.Id),
             LinkToComment = Links.GetUrl(question) + "#JumpLabel",

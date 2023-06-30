@@ -8,15 +8,18 @@ public class QuestionListModel
     private SessionUser _sessionUser { get; }
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
     public int CategoryId;
 
     public QuestionListModel(LearningSessionCache learningSessionCache,
         SessionUser sessionUser,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        ImageMetaDataRepo imageMetaDataRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     public List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
@@ -43,7 +46,7 @@ public class QuestionListModel
                 Id = q.Id,
                 Title = q.Text,
                 LinkToQuestion = Links.GetUrl(q),
-                ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url,
+                ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url,
                 LearningSessionStepCount = steps.Count,
                 LinkToQuestionVersions = Links.QuestionHistory(q.Id),
                 LinkToComment = Links.GetUrl(q) + "#JumpLabel",

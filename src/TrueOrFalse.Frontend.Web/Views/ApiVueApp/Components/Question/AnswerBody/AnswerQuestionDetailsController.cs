@@ -9,13 +9,16 @@ public class AnswerQuestionDetailsController: BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo):base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        ImageMetaDataRepo imageMetaDataRepo):base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
@@ -57,7 +60,7 @@ public class AnswerQuestionDetailsController: BaseController
                 QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
                 ImageUrl = new CategoryImageSettings(t.Id).GetUrl_128px(asSquare: true).Url,
                 IconHtml = CategoryCachedData.GetIconHtml(t),
-                MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(t.Id, ImageType.Category))
+                MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(t.Id, ImageType.Category))
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
                 Visibility = (int)t.Visibility,
                 IsSpoiler = IsSpoilerCategory.Yes(t.Name, question)

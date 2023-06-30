@@ -19,6 +19,7 @@ public class QuestionEditModalControllerLogic
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -27,7 +28,8 @@ public class QuestionEditModalControllerLogic
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
         CategoryValuationRepo categoryValuationRepo,
-        CategoryRepository categoryRepository) 
+        CategoryRepository categoryRepository,
+        ImageMetaDataRepo imageMetaDataRepo) 
     {
         _questionRepo = questionRepo;
         _sessionUser = sessionUser;
@@ -37,6 +39,7 @@ public class QuestionEditModalControllerLogic
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
@@ -78,7 +81,7 @@ public class QuestionEditModalControllerLogic
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
@@ -154,7 +157,7 @@ public class QuestionEditModalControllerLogic
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };

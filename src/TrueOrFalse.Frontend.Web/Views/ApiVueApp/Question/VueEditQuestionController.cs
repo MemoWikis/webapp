@@ -20,6 +20,7 @@ public class VueEditQuestionController : BaseController
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -28,7 +29,8 @@ public class VueEditQuestionController : BaseController
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
         CategoryValuationRepo categoryValuationRepo,
-        CategoryRepository categoryRepository) :base(sessionUser)
+        CategoryRepository categoryRepository,
+        ImageMetaDataRepo imageMetaDataRepo) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
@@ -37,6 +39,7 @@ public class VueEditQuestionController : BaseController
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
+        _imageMetaDataRepo = imageMetaDataRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -227,7 +230,7 @@ public class VueEditQuestionController : BaseController
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
