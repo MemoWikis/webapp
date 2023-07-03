@@ -74,7 +74,7 @@ public class VueUserController : BaseController
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(question => _permissionCheck.CanView(question) && question.IsInWishknowledge(id));
 
             return Json(new
             {
