@@ -114,17 +114,17 @@ const emit = defineEmits(['setBreadcrumb', 'setPage'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
         if (window != null && window.location.pathname != '/Nutzer/Einstellungen')
-            history.pushState(null, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
+            history.pushState({ back: window.location.pathname, current: `/Nutzer/Einstellungen` }, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
         const breadcrumbItem: BreadcrumbItem = {
             name: 'Einstellungen',
             url: `/Nutzer/Einstellungen`
         }
         emit('setBreadcrumb', [breadcrumbItem])
-    } else if (profile.value && profile.value.user.id > 0 && t == Tab.Wishknowledge) {
 
+    } else if (profile.value && profile.value.user.id > 0 && t == Tab.Wishknowledge) {
         const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
         if (window != null && window.location.pathname != newPath)
-            history.pushState(null, `${profile.value.user.name}'s Wunschwissen`, newPath)
+            history.pushState({ back: window.location.pathname, current: newPath }, `${profile.value.user.name}'s Wunschwissen`, newPath)
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
@@ -141,7 +141,7 @@ function handleBreadcrumb(t: Tab) {
 
         const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
         if (window != null && window.location.pathname != newPath)
-            history.pushState(null, `${profile.value.user.name}'s Profil`, newPath)
+            history.pushState({ back: window.location.pathname, current: newPath }, `${profile.value.user.name}'s Profil`, newPath)
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {

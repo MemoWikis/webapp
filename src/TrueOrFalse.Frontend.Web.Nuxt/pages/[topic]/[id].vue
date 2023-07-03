@@ -43,7 +43,7 @@ const segmentation = ref()
 const tabSwitched = ref(false)
 function handleNewPath(path: string) {
     if (window != null && window.location.pathname != path && topic.value != null)
-        history.pushState(null, topic.value.Name, path)
+        history.pushState({ back: window.location.pathname, current: path }, topic.value.Name, path)
 }
 if (topic.value != null) {
     if (topic.value?.CanAccess) {

@@ -18,7 +18,7 @@ interface GroupedChanges {
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 const pageNumber = ref(1)
 watch(pageNumber, (page) => {
-    history.pushState(null, `Bearbeitungshistorie aller Themen - Seite ${page}`, `/Historie/Themen/${page}`)
+    history.pushState({ back: window.location.pathname, current: `/Historie/Themen/${page}` }, `Bearbeitungshistorie aller Themen - Seite ${page}`, `/Historie/Themen/${page}`)
     emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${page}`, url: `/Historie/Themen/${page}` }])
 })
 
