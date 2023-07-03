@@ -248,9 +248,9 @@ async function loadAnswerBodyModel() {
 }
 function handleUrl() {
     if (!props.isLandingPage && tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
-        const newUrl = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
-        if (newUrl != route.fullPath)
-            history.pushState(null, topicStore.name, $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id))
+        const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
+        if (window != null && newPath != window.location.pathname)
+            history.pushState(null, topicStore.name, newPath)
     }
 }
 watch(() => tabsStore.activeTab, (tab) => {

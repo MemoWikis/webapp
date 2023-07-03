@@ -10,7 +10,15 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
-const { $logger } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp()
+
+interface Props {
+    content?: Content,
+    tab?: Tab
+}
+const props = withDefaults(defineProps<Props>(), {
+    tab: Tab.Overview,
+})
 
 interface Overview {
     activityPoints: {
@@ -92,7 +100,7 @@ const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/V
     },
 })
 
-const tab = ref<Tab>()
+const tab = ref<Tab>(props.tab)
 const isCurrentUser = computed(() => {
     if (profile.value?.isCurrentUser && userStore.id == profile.value?.user.id)
         return true
@@ -102,24 +110,22 @@ const isCurrentUser = computed(() => {
 const badgeCount = ref(0)
 const maxBadgeCount = ref(0)
 
-interface Props {
-    isSettingsPage?: boolean,
-    content?: Content,
-    isWuwiPage?: boolean
-}
-const props = defineProps<Props>()
-
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
-        history.pushState(null, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
+        if (window != null && window.location.pathname != '/Nutzer/Einstellungen')
+            history.pushState(null, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
         const breadcrumbItem: BreadcrumbItem = {
             name: 'Einstellungen',
             url: `/Nutzer/Einstellungen`
         }
         emit('setBreadcrumb', [breadcrumbItem])
     } else if (profile.value && profile.value.user.id > 0 && t == Tab.Wishknowledge) {
-        history.pushState(null, `${profile.value.user.name}'s Wunschwissen`, `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`)
+
+        const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
+        if (window != null && window.location.pathname != newPath)
+            history.pushState(null, `${profile.value.user.name}'s Wunschwissen`, newPath)
+
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
@@ -131,8 +137,11 @@ function handleBreadcrumb(t: Tab) {
             }]
         emit('setBreadcrumb', breadcrumbItems)
     }
-    else if (profile.value?.user.id && profile.value.user.id > 0) {
-        history.pushState(null, `${profile.value.user.name}'s Profil`, `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}`)
+    else if (profile.value?.user.id && profile.value.user.id > 0 && t == Tab.Overview) {
+
+        const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
+        if (window != null && window.location.pathname != newPath)
+            history.pushState(null, `${profile.value.user.name}'s Profil`, newPath)
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
@@ -140,7 +149,7 @@ function handleBreadcrumb(t: Tab) {
                 url: '/Nutzer'
             },
             {
-                name: `${profile.value?.user.name}`,
+                name: `${profile.value.user.name}`,
                 url: $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
             }]
         emit('setBreadcrumb', breadcrumbItems)
@@ -148,27 +157,21 @@ function handleBreadcrumb(t: Tab) {
         emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
     }
 }
+
 onMounted(() => {
     emit('setPage', Page.User)
-
-    if (props.isSettingsPage)
-        tab.value = Tab.Settings
-    else if (props.isWuwiPage)
-        tab.value = Tab.Wishknowledge
-    else tab.value = Tab.Overview
-
     handleBreadcrumb(tab.value)
-    watch(tab, (t) => {
-        if (t != undefined)
-            handleBreadcrumb(t)
-    })
+})
+
+watch(tab, (t) => {
+    if (t != undefined)
+        handleBreadcrumb(t)
 })
 
 watch(() => userStore.isLoggedIn, () => {
     refreshWuwi()
     refreshProfile()
 })
-const { $urlHelper } = useNuxtApp()
 useHead(() => ({
     link: [
         {
