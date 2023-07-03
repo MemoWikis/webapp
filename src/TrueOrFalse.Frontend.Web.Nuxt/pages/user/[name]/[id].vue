@@ -104,7 +104,8 @@ const maxBadgeCount = ref(0)
 
 interface Props {
     isSettingsPage?: boolean,
-    content?: Content
+    content?: Content,
+    isWuwiPage?: boolean
 }
 const props = defineProps<Props>()
 
@@ -117,8 +118,22 @@ function handleBreadcrumb(t: Tab) {
             url: `/Nutzer/Einstellungen`
         }
         emit('setBreadcrumb', [breadcrumbItem])
+    } else if (profile.value && profile.value.user.id > 0 && t == Tab.Wishknowledge) {
+        history.pushState(null, `${profile.value.user.name}'s Wunschwissen`, `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`)
+        const breadcrumbItems: BreadcrumbItem[] = [
+            {
+                name: 'Nutzer',
+                url: '/Nutzer'
+            },
+            {
+                name: `${profile.value.user.name}'s Wunschwissen`,
+                url: `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
+            }]
+        emit('setBreadcrumb', breadcrumbItems)
     }
     else if (profile.value?.user.id && profile.value.user.id > 0) {
+        history.pushState(null, `${profile.value.user.name}'s Profil`, `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}`)
+
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
@@ -126,7 +141,7 @@ function handleBreadcrumb(t: Tab) {
             },
             {
                 name: `${profile.value?.user.name}`,
-                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}`
+                url: $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
             }]
         emit('setBreadcrumb', breadcrumbItems)
     } else {
@@ -135,7 +150,13 @@ function handleBreadcrumb(t: Tab) {
 }
 onMounted(() => {
     emit('setPage', Page.User)
-    tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
+
+    if (props.isSettingsPage)
+        tab.value = Tab.Settings
+    else if (props.isWuwiPage)
+        tab.value = Tab.Wishknowledge
+    else tab.value = Tab.Overview
+
     handleBreadcrumb(tab.value)
     watch(tab, (t) => {
         if (t != undefined)

@@ -89,6 +89,12 @@ export default <RouterConfig>{
             props: { isSettingsPage: true }
         },
         {
+            name: 'userWuwiPage',
+            path: '/Nutzer/:name/:id/Wunschwissen',
+            component: () => import('~/pages/user/[name]/[id].vue'),
+            props: { isWuwiPage: true }
+        },
+        {
             name: 'directUserSettingsPage',
             path: '/Nutzer/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
