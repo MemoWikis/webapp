@@ -30,7 +30,6 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
-            $logger.warn('test')
         },
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -42,7 +41,10 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
 const segmentation = ref()
 
 const tabSwitched = ref(false)
-
+function handleNewPath(path: string) {
+    if (window != null && window.location.pathname != path && topic.value != null)
+        history.pushState(null, topic.value.Name, path)
+}
 if (topic.value != null) {
     if (topic.value?.CanAccess) {
 
@@ -59,20 +61,22 @@ if (topic.value != null) {
         useHead({
             title: topic.value.Name,
         })
-
         watch(() => tabsStore.activeTab, (t) => {
             tabSwitched.value = true
             if (topic.value == null)
                 return
-            if (t == Tab.Topic) {
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
-            }
+            if (t == Tab.Topic)
+                handleNewPath($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
+
             else if (t == Tab.Learning && route.params.questionId != null)
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
+                handleNewPath($urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
+
             else if (t == Tab.Learning)
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
+                handleNewPath($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
+
             else if (t == Tab.Analytics)
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
+                handleNewPath($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
+
         })
 
         watch(() => topicStore.name, () => {

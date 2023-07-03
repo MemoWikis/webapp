@@ -2,6 +2,7 @@ import type { RouterConfig } from '@nuxt/schema'
 import { Content } from '~/components/user/settings/contentEnum'
 import { Tab as TopicTab } from '~~/components/topic/tabs/tabsStore'
 import { Tab as UsersTab } from '~~/components/users/tabsEnum'
+import { Tab as UserTab } from '~~/components/user/tabs/tabsEnum'
 
 // https://router.vuejs.org/api/interfaces/routeroptions.html
 export default <RouterConfig>{
@@ -86,19 +87,25 @@ export default <RouterConfig>{
             name: 'userSettingsPage',
             path: '/Nutzer/:name/:id/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { isSettingsPage: true }
+            props: { tab: UserTab.Settings }
+        },
+        {
+            name: 'userWuwiPage',
+            path: '/Nutzer/:name/:id/Wunschwissen',
+            component: () => import('~/pages/user/[name]/[id].vue'),
+            props: { tab: UserTab.Wishknowledge }
         },
         {
             name: 'directUserSettingsPage',
             path: '/Nutzer/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { isSettingsPage: true }
+            props: { tab: UserTab.Settings }
         },
         {
             name: 'userSubscriptionPage',
             path: '/Nutzer/Einstellungen/Mitgliedschaft',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { isSettingsPage: true, content: Content.Membership }
+            props: { tab: UserTab.Settings, content: Content.Membership }
         },
         {
             name: 'topicContentPage',
