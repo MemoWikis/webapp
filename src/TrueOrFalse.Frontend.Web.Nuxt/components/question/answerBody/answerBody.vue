@@ -246,11 +246,11 @@ async function loadAnswerBodyModel() {
         handleUrl()
     }
 }
+const router = useRouter()
 function handleUrl() {
     if (!props.isLandingPage && tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
         const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
-        if (window != null && newPath != window.location.pathname)
-            history.pushState({ back: window.location.pathname, current: newPath }, topicStore.name, newPath)
+        router.push({ path: newPath })
     }
 }
 watch(() => tabsStore.activeTab, (tab) => {

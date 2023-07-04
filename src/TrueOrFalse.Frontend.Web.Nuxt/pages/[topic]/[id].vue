@@ -41,10 +41,22 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
 const segmentation = ref()
 
 const tabSwitched = ref(false)
-function handleNewPath(path: string) {
-    if (window != null && window.location.pathname != path && topic.value != null)
-        history.pushState({ back: window.location.pathname, current: path }, topic.value.Name, path)
-}
+
+
+const currentState = ref()
+onMounted(() => {
+    if (window != null)
+        currentState.value = window.history.state
+})
+// function handleNewPath(path: string) {
+//     if (window != null && window.location.pathname != path && topic.value != null) {
+
+//         Object.assign(currentState.value, { back: window.location.pathname, current: path });
+//         history.pushState(currentState.value, topic.value.Name, path)
+//         currentState.value = window.history.state
+//     }
+// }
+const router = useRouter()
 if (topic.value != null) {
     if (topic.value?.CanAccess) {
 
@@ -66,16 +78,16 @@ if (topic.value != null) {
             if (topic.value == null)
                 return
             if (t == Tab.Topic)
-                handleNewPath($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
+                router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
 
             else if (t == Tab.Learning && route.params.questionId != null)
-                handleNewPath($urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
+                router.push($urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
 
             else if (t == Tab.Learning)
-                handleNewPath($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
+                router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
 
             else if (t == Tab.Analytics)
-                handleNewPath($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
+                router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
 
         })
 
