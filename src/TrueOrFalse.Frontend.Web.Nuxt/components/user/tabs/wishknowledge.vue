@@ -112,7 +112,7 @@ const { $urlHelper } = useNuxtApp()
                 </NuxtLink>
                 <span> mit {{ t.questionCount }} Fragen</span>
             </div>
-            <div v-if="filteredTopics?.length == 0  && searchTopic.length > 0" class="search-error">
+            <div v-if="filteredTopics?.length == 0 && searchTopic.length > 0" class="search-error">
                 Huch! Wir haben kein Thema mit "{{ searchTopic }}" gefunden.
             </div>
         </div>

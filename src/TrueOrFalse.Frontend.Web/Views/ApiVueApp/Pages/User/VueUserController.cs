@@ -74,7 +74,7 @@ public class VueUserController : BaseController
             var valuations = Sl.QuestionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(question => _permissionCheck.CanView(question) && question.IsInWishknowledge(id));
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(question => _permissionCheck.CanView(question) && question.IsInWishknowledge(id) && question.CategoriesVisibleToCurrentUser(_permissionCheck).Any());
 
             return Json(new
             {
@@ -86,7 +86,7 @@ public class VueUserController : BaseController
                     id = q.Id
 
                 }).ToArray(),
-                topics = wishQuestions.QuestionsInCategories().Select(t => new
+                topics = wishQuestions.QuestionsInCategories().Where(t => _permissionCheck.CanView(t.CategoryCacheItem)).Select(t => new
                 {
                     name = t.CategoryCacheItem.Name,
                     id = t.CategoryCacheItem.Id,
