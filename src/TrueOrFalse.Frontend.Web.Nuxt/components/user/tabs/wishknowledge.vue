@@ -56,7 +56,7 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="wuwi-partial">
         <h4>Fragen im Wunschwissen ({{ props.questions?.length }})</h4>
-        <div class="search-section">
+        <div class="search-section" v-if="(props.questions ?? []).length > 0">
             <div class="search-container">
                 <input type="text" v-model="searchQuestion" class="search-input" placeholder="Suche" />
                 <div class="search-icon reset-icon" v-if="searchQuestion.length > 0" @click="searchQuestion = ''">
@@ -93,7 +93,7 @@ const { $urlHelper } = useNuxtApp()
     <div class="divider"></div>
     <div class="wuwi-partial">
         <h4>Themen mit Wunschwissen ({{ props.topics?.length }})</h4>
-        <div class="search-section">
+        <div class="search-section" v-if="(props.topics ?? []).length > 0">
 
             <div class="search-container">
                 <input type="text" v-model="searchTopic" class="search-input" placeholder="Suche" />

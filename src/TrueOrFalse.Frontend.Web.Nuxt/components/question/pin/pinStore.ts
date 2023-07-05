@@ -19,9 +19,7 @@ export const usePinStore = defineStore('pinStore', {
                 id: id
             }
             const result =  await $fetch<FetchResult<PinData>>('/apiVue/QuestionPinStore/Pin', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-            if (result.success) {
-                result.data = { id: id, state: PinState.Added}
-            }
+            result.data = { id: id, state: result.success ? PinState.Added : PinState.NotAdded}
             return result;
         },
 
@@ -30,9 +28,7 @@ export const usePinStore = defineStore('pinStore', {
                 id: id
             }
             const result = await $fetch<FetchResult<PinData>>('/apiVue/QuestionPinStore/UnPin', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-            if (result.success){
-                result.data = { id: id, state: PinState.NotAdded}
-            }
+            result.data = { id: id, state: result.success ? PinState.NotAdded : PinState.Added}
             return result
         }
     }

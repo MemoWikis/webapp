@@ -17,7 +17,6 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     }
 
     public const int AllgemeinwissenId = 709;
-    private readonly bool _isSolrActive;
 
     public CategoryRepository(
         ISession session,
