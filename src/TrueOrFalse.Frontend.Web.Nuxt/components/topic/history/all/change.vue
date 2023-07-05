@@ -60,7 +60,6 @@ function getChangeTypeText(change: Change) {
 }
 
 const { $urlHelper } = useNuxtApp()
-const slots = useSlots()
 
 </script>
 
@@ -95,7 +94,7 @@ const slots = useSlots()
                     Ansehen
                 </NuxtLink>
             </button>
-            <div class="extras" v-if="slots['extras']">
+            <div class="extras">
                 <slot name="extras"></slot>
             </div>
         </div>
