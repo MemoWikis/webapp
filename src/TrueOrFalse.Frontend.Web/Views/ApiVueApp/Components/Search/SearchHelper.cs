@@ -33,7 +33,6 @@ public class SearchHelper : Controller
         {
             Id = c.Id,
             Name = c.Name,
-            Url = Links.CategoryDetail(c.Name, c.Id),
             QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
             IconHtml = GetIconHtml(c),
@@ -46,12 +45,13 @@ public class SearchHelper : Controller
     public static void AddQuestionItems(List<SearchQuestionItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck)
     {
         items.AddRange(
-            elements.Questions.Where(q => permissionCheck.CanView(q)).Select((q, index) => new SearchQuestionItem
+            elements.Questions.Where(q => permissionCheck.CanView(q) && q.CategoriesVisibleToCurrentUser(permissionCheck).Any()).Select((q, index) => new SearchQuestionItem
             {
                 Id = q.Id,
                 Name = q.Text.Wrap(200),
                 ImageUrl = new QuestionImageSettings(q.Id).GetUrl_50px_square().Url,
-                Url = Links.AnswerQuestion(q, index, "searchbox")
+                PrimaryTopicId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
+                PrimaryTopicName = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
             }));
     }
 
@@ -62,8 +62,7 @@ public class SearchHelper : Controller
             {
                 Id = u.Id,
                 Name = u.Name,
-                ImageUrl = new UserImageSettings(u.Id).GetUrl_50px_square(u).Url,
-                Url = Links.UserDetail(u)
+                ImageUrl = new UserImageSettings(u.Id).GetUrl_50px_square(u).Url
             }));
     }
 

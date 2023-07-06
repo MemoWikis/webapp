@@ -12,10 +12,11 @@ const props = defineProps<Props>()
 const userStore = useUserStore()
 
 const showSearch = ref(true)
-
+const { $urlHelper } = useNuxtApp()
 function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
-    if (val != null)
-        navigateTo({ path: val.Url }, { replace: true })
+    if (val != null) {
+        navigateTo({ path: val.Url ? val.Url : '' }, { replace: true })
+    }
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
 
@@ -41,7 +42,6 @@ function handleError() {
         clearError()
 }
 
-const { $urlHelper } = useNuxtApp()
 const rootTopicChipStore = useRootTopicChipStore()
 </script>
 
