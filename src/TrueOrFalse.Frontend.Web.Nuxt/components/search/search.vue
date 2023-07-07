@@ -84,22 +84,37 @@ async function search() {
     if (result != null) {
         if (result.topics) {
             topics.value = result.topics
+            topics.value.forEach((t) => t.Type = 'TopicItem')
             topicCount.value = result.topicCount
         }
         if (result.questions) {
             questions.value = result.questions
+            questions.value.forEach((q) => q.Type = 'QuestionItem')
+
             questionCount.value = result.questionCount
         }
         if (result.users) {
             users.value = result.users
+            users.value.forEach((u) => u.Type = 'UserItem')
             userCount.value = result.userCount
         }
         noResults.value = result.topics?.length + result.questions?.length + result.users?.length <= 0
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }
-
+const { $urlHelper } = useNuxtApp()
 function selectItem(item: TopicItem | QuestionItem | UserItem) {
+    switch (item.Type) {
+        case 'TopicItem':
+            item.Url = $urlHelper.getTopicUrl(item.Name, item.Id)
+            break;
+        case 'QuestionItem':
+            item.Url = $urlHelper.getTopicUrlWithQuestionId(item.PrimaryTopicName, item.PrimaryTopicId, item.Id)
+            break;
+        case 'UserItem':
+            item.Url = $urlHelper.getUserUrl(item.Name, item.Id)
+            break;
+    }
     selectedItem.value = item
 }
 function openUsers() {

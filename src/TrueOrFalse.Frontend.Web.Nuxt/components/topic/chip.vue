@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { TopicItem } from '../search/searchHelper'
 
-
 interface Props {
     topic: TopicItem
     removableChip?: boolean
@@ -23,13 +22,13 @@ onBeforeMount(() => {
     if (props.isSpoiler)
         showName.value = false
 })
-
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
     <div class="category-chip-component">
         <div class="category-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <NuxtLink :to="topic.Url" v-if="showName">
+            <NuxtLink :to="$urlHelper.getTopicUrl(topic.Name, topic.Id)" v-if="showName">
                 <div class="category-chip" :v-tooltip="topic.Name">
 
                     <img v-if="showImage" :src="topic.MiniImageUrl" />

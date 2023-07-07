@@ -187,7 +187,7 @@ public class VueMaintenanceController : BaseController
         return Json(new
         {
             success = true,
-            data = "Themen wurden neu indiziert.."
+            data = "Themen wurden neu indiziert."
         });
     }
 
