@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  mem-nginx-reverse-live:
+    image: nginx:alpine
+    build: .
+    ports:
+      - "${SERVER_PORT:-error}:${SERVER_PORT:-error}"
+    environment:
+      - SERVER_PORT=${SERVER_PORT:-error}
+      - HOST_VAR=https://${MEM_ENVIRONMENT:-test}.memucho.de
+      - PORT_NUXT=${PORT_NUXT:-3003}
+    volumes:
+      - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
+      - ./robots.${MEM_ENVIRONMENT:-test}.txt:/etc/nginx/html/robots.txt
+    command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
+              /usr/sbin/nginx -g 'daemon off;'"
+    networks:
+      - environment-specific-network
+
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-test}
+    driver: bridge
+
+# Start like this:
+# docker-compose -f docker-compose.nginx-nuxt.yml -p mem-[environment] up -d
