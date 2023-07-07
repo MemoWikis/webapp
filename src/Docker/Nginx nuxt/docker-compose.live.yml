@@ -12,7 +12,7 @@ services:
       - PORT_NUXT=3001
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
-      - ./robots.txt:/etc/nginx/html/robots.txt
+      - ./robots.live.txt:/etc/nginx/html/robots.txt
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
