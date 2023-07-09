@@ -1,12 +1,7 @@
-﻿import { AlertType, useAlertStore } from "../alert/alertStore"
+﻿import { AlertType, messages, useAlertStore } from "../alert/alertStore"
 import { useUserStore, CurrentUser } from "./userStore"
 
 declare var window: any
-
-interface LoginResult {
-    success: boolean
-    currentUser?: CurrentUser
-}
 
 export class Google {
     public static SignIn() {
@@ -50,17 +45,17 @@ export class Google {
 
     public static async handleCredentialResponse(e: any) {
 
-        var result = await $fetch<LoginResult>('/apiVue/Google/Login', {
+        var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
             method: 'POST', body: { token: e.credential }, mode: 'cors', credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
-        if (result?.success && result.currentUser) {
+        if (result?.success == true) {
             const userStore = useUserStore()
-            userStore.initUser(result.currentUser)
+            userStore.initUser(result.data)
             if (window.location.pathname == '/Registrieren')
                 navigateTo('/')
-        } else {
+        } else if (result?.success == false) {
             const alertStore = useAlertStore()
-            alertStore.openAlert(AlertType.Error, { text: "Fehler" })
+            alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) ?? messages.error.default })
         }
     }
 }

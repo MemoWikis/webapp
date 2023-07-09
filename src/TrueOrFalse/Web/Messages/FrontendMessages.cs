@@ -77,6 +77,8 @@
             public static readonly string InputError = "error_user_inputError";
             public static readonly string PasswordResetTokenIsInvalid = "error_user_passwordResetTokenIsInvalid";
             public static readonly string PasswordResetTokenIsExpired = "error_user_passwordResetTokenIsExpired";
+            public static readonly string DoesNotExist = "error_user_doesNotExist";
+            public static readonly string InvalidFBToken = "error_user_invalidFBToken";
         }
 
         public static readonly string Default = "error_default";

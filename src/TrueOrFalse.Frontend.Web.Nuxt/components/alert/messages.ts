@@ -61,7 +61,9 @@ export const messages: any = {
             passwordNotCorrectlyRepeated: "Das wiederholte Passwort gleicht nicht deiner neuen Passworteingabe.",
             inputError: "Bitte überprüfe deine Eingaben.",
             passwordResetTokenIsInvalid: "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team@memucho.de.",
-            passwordResetTokenIsExpired: "Der Link ist abgelaufen."
+            passwordResetTokenIsExpired: "Der Link ist abgelaufen.",
+            doesNotExist: "Der angegebene Nutzern wurde nicht gefunden. Bitte überprüfen Sie, ob Sie den korrekten Anmeldedaten eingegeben haben.",
+            invalidFBToken: "Hoppla! Es scheint, als ob das von Ihnen eingegebene Facebook-Token nicht korrekt ist. Bitte versuchen Sie es erneut mit einer neuen Anmeldung über Facebook. Falls das Problem weiterhin besteht, kontaktieren Sie uns bitte für Unterstützung. Wir sind immer da, um Ihnen zu helfen."
         } as { [key: string]: string },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         image: {

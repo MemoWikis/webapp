@@ -4,6 +4,7 @@ import { useSpinnerStore } from '../spinner/spinnerStore'
 import { Topic } from '../topic/topicStore'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import * as Subscription from '~~/components/user/membership/subscription'
+import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 
 export interface UserLoginResult {
     Success: boolean
@@ -116,14 +117,16 @@ export const useUserStore = defineStore('userStore', {
 
             spinnerStore.showSpinner()
 
-            var result = await $fetch<UserLoginResult>('/apiVue/UserStore/Logout', {
+            var result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
 
-            if (!!result && result.Success) {
+            if (result?.success) {
                 spinnerStore.hideSpinner()
-                refreshNuxtData()
-                this.$reset()
+                this.reset()
+            } else if (result?.success == false) {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
             }
             spinnerStore.hideSpinner()
         },
@@ -131,7 +134,7 @@ export const useUserStore = defineStore('userStore', {
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
                 mode: 'cors',
                 method: 'POST',
-                body: {email: email},
+                body: { email: email },
                 credentials: 'include'
             })
             return result;
@@ -142,6 +145,10 @@ export const useUserStore = defineStore('userStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+        },
+        reset() {
+            refreshNuxtData()
+            this.$reset()
         }
     }
 })
