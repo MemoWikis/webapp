@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   mem-nginx-reverse:
-    image: nginx:1.24.0
+    image: nginx:1.25.1
     build: .
     ports:
       - "${SERVER_PORT:-error}:${SERVER_PORT:-error}"
