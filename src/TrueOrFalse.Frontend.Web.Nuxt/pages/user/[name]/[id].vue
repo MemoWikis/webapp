@@ -80,6 +80,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 })
 
 onBeforeMount(() => {
+    console.log(props.tab)
     if (profile.value == null || profile.value.user.id <= 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
@@ -94,9 +95,7 @@ const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/V
         }
     },
     onResponseError(context) {
-
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
     },
 })
 
@@ -115,7 +114,7 @@ const router = useRouter()
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
-        router.push({ path: 'Nutzer Einstellungen' })
+        router.push({ path: '/Nutzer/Einstellungen' })
 
         const breadcrumbItem: BreadcrumbItem = {
             name: 'Einstellungen',

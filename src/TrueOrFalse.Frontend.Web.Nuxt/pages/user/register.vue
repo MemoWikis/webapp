@@ -125,8 +125,8 @@ const eMail = ref('')
 const password = ref('')
 const passwordInputType = ref('password')
 
+const { $urlHelper } = useNuxtApp()
 async function register() {
-
     spinnerStore.showSpinner()
 
     const registerData = {
@@ -136,10 +136,8 @@ async function register() {
     }
     let result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
-    if (result == 'success' && userStore.personalWiki) {
-        var url = `/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`
-        navigateTo(url)
-    }
+    if (result == 'success' && userStore.personalWiki)
+        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
     else if (result)
         errorMessage.value = messages.error.user[result]
 }

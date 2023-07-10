@@ -149,8 +149,7 @@ const navOptions = ref()
                                     <div class="divider"></div>
 
                                     <div class="user-dropdown-managment">
-                                        <NuxtLink @click="hide()"
-                                            :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
+                                        <NuxtLink @click="hide()" :to="`/Nutzer/Einstellungen`">
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
 

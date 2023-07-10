@@ -67,8 +67,8 @@ public class UserRepo : RepositoryDbBase<User>
             .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("UPDATE learningSession SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        Session.CreateSQLQuery("UPDATE date SET User_Id = null WHERE User_id = :userId").SetParameter("userId", userId)
-            .ExecuteUpdate();
+        //Session.CreateSQLQuery("UPDATE date SET User_Id = null WHERE User_id = :userId").SetParameter("userId", userId)
+        //    .ExecuteUpdate();
         Session.CreateSQLQuery("UPDATE category SET Creator_Id = null WHERE Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
@@ -107,9 +107,9 @@ public class UserRepo : RepositoryDbBase<User>
         Session.CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId")
             .SetParameter("userId", userId)
             .ExecuteUpdate(); // visibility not necessary because everything has already been deleted
-        Session.CreateSQLQuery(
-                "Delete u.*, g.* From useractivity u Left Join  game g ON g.Id = u.Game_id Where u.UserCauser_id =  :userId;")
-            .SetParameter("userId", userId).ExecuteUpdate();
+        //Session.CreateSQLQuery(
+        //        "Delete u.*, g.* From useractivity u Left Join  game g ON g.Id = u.Game_id Where u.UserCauser_id =  :userId;")
+        //    .SetParameter("userId", userId).ExecuteUpdate();
 
         Session.CreateSQLQuery(
                 "Delete ua.* From useractivity ua Left Join  user u ON u.id = ua.UserConcerned_id Where u.id  =  :userId;")

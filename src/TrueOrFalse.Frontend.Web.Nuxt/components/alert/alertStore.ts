@@ -3,7 +3,7 @@ import { messages } from './messages'
 export { messages } from './messages'
 
 export interface AlertMsg {
-	text: string,
+	text: string | null,
 	reload?: boolean,
 	customHtml?: string,
 	customBtn?: string,
@@ -45,8 +45,8 @@ export const useAlertStore = defineStore('alertStore', {
 	},
 	getters: {
 		text(): string {
-			const text = this.msg?.text ?? ""
-			if(text=="" || !text && this.type == AlertType.Error){
+			const text = this.msg?.text ?? null
+			if (text == null || !text && this.type == AlertType.Error) {
 				return messages.error.default
 			}
 			return text;

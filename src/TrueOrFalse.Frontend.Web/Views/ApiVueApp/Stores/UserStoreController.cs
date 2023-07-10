@@ -68,10 +68,17 @@ public class UserStoreController : Controller
         RemovePersistentLoginFromCookie.Run();
         _sessionUser.Logout();
 
-        return Json(new
+        if (!_sessionUser.IsLoggedIn) 
+            return Json(new RequestResult
+            {
+                success = true,
+            });
+
+        return Json(new RequestResult
         {
-            Success = !_sessionUser.IsLoggedIn,
-        }, JsonRequestBehavior.AllowGet);
+            success = false,
+            messageKey = FrontendMessageKeys.Error.Default
+        });
     }
 
     [HttpGet]

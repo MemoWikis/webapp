@@ -15,15 +15,18 @@ public class FacebookUsersController : Controller
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
+    private readonly CategoryRepository _categoryRepository;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
         UserRepo userRepo,
-        SessionUser sessionUser,RegisterUser registerUser)
+        SessionUser sessionUser,RegisterUser registerUser,
+        CategoryRepository categoryRepository)
     {
         _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
         _registerUser = registerUser;
+        _categoryRepository = categoryRepository;
     }
 
     [HttpPost]
@@ -33,66 +36,74 @@ public class FacebookUsersController : Controller
 
         if (user == null)
         {
-            return Json(new
+            return Json(new RequestResult
             {
                 success = false,
-                key = "userDoesntExist"
+                messageKey = FrontendMessageKeys.Error.User.DoesNotExist
             });
         }
 
         if (IsFacebookAccessToken.Valid(facebookAccessToken, facebookUserId))
         {
-            return Json(new
+            _sessionUser.Login(user);
+
+            return Json(new RequestResult
             {
                 success = false,
-                key = "invalidFBToken"
+                data = _vueSessionUser.GetCurrentUserData()
             });
         }
 
-        _sessionUser.Login(user);
-
-        return Json(new
+        return Json(new RequestResult
         {
-            success = true,
-            currentUser = _vueSessionUser.GetCurrentUserData()
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.InvalidFBToken
         });
     }
 
     [HttpPost]
     public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
     {
+        if (_userRepo.FacebookUserExists(facebookUser.id))
+        {
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.EmailInUse
+            });
+        }
+
         var registerResult = _registerUser.Run(facebookUser);
+
         if (registerResult.Success)
         {
-            var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
+            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
-            Sl.CategoryRepo.Create(category);
+            _categoryRepository.Create(category);
             _sessionUser.User.StartTopicId = category.Id;
 
-            return Json(new
+            return Json(new RequestResult
             {
-                Success = true,
-                registerResult,
-                localHref = Links.CategoryDetail(category.Name, category.Id),
-                currentUser = _vueSessionUser.GetCurrentUserData(),
+                success = true,
+                data = _vueSessionUser.GetCurrentUserData(),
             });
         }
 
-        return Json(new
+        return Json(new RequestResult
         {
-            Success = false,
-            registerResult
+            success = false,
+            messageKey = FrontendMessageKeys.Error.Default
         });
     }
     
-    [HttpPost]
+    [HttpGet]
     public JsonResult UserExists(string facebookId)
     {
-        return Json(Sl.UserRepo.FacebookUserExists(facebookId));
+        return Json(_userRepo.FacebookUserExists(facebookId), JsonRequestBehavior.AllowGet);
     }
 
     [HttpPost]

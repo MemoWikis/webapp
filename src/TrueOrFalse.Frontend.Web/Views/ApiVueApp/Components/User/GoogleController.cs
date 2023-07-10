@@ -11,16 +11,19 @@ public class GoogleController : Controller
     private readonly RegisterUser _registerUser;
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
+    private readonly CategoryRepository _categoryRepo;
 
     public GoogleController(SessionUser sessionUser,
         UserRepo userRepo, 
         VueSessionUser vueSessionUser,
-        RegisterUser registerUser)
+        RegisterUser registerUser,
+        CategoryRepository categoryRepo)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
+        _categoryRepo = categoryRepo;
     }
 
     [HttpPost]
@@ -43,16 +46,17 @@ public class GoogleController : Controller
             }
 
             _sessionUser.Login(user);
-            return Json(new
+            return Json(new RequestResult
             {
                 success = true,
-                currentUser = _vueSessionUser.GetCurrentUserData()
+                data = _vueSessionUser.GetCurrentUserData()
             });
         }
 
-        return Json(new
+        return Json(new RequestResult
         {
             success = false,
+            messageKey = FrontendMessageKeys.Error.Default
         });
        
     }
@@ -60,7 +64,7 @@ public class GoogleController : Controller
     [HttpPost]
     public JsonResult UserExists(string googleId)
     {
-        return Json(Sl.UserRepo.GoogleUserExists(googleId));
+        return Json(_userRepo.GoogleUserExists(googleId));
     }
 
     [HttpPost]
@@ -70,20 +74,28 @@ public class GoogleController : Controller
 
         if (registerResult.Success)
         {
-            var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
+            var user = _userRepo.UserGetByGoogleId(googleUser.GoogleId);
             SendRegistrationEmail.Run(user);
             WelcomeMsg.Send(user);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
+            _categoryRepo.Create(category);
             user.StartTopicId = category.Id;
-            Sl.CategoryRepo.Create(category);
             _sessionUser.User.StartTopicId = category.Id;
         }
+        else
+        {
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.EmailInUse
+            });
+        }
 
-        return Json(new
+        return Json(new RequestResult
         {
             success = true,
-            CurrentUser = _vueSessionUser.GetCurrentUserData()
+            data = _vueSessionUser.GetCurrentUserData()
         });
     }
 
