@@ -83,26 +83,29 @@ public class JobExecute
     {
         using (new MutexX(5000, "IsRunning"))
         {
-            using (var session = scope.R<ISessionBuilder>().OpenSession())
-            using (var transaction = session.BeginTransaction(IsolationLevel.Serializable))
-            {
-                transaction.Begin();
-                var runningJobRepo = new RunningJobRepo(session);
-                if (runningJobRepo.IsJobRunning(jobName))
+                using (var session = scope.Resolve<ISessionBuilder>().OpenSession())
+                using (var transaction = session.BeginTransaction(IsolationLevel.Serializable))
                 {
-                    Logg.r().Information("Job is already running: {jobName}, {Environment}", jobName, Settings.Environment());
-                    return true;
+                    transaction.Begin();
+                    var runningJobRepo = new RunningJobRepo(session);
+                    if (runningJobRepo.IsJobRunning(jobName))
+                    {
+                        Logg.r().Information("Job is already running: {jobName}, {Environment}", jobName,
+                            Settings.Environment());
+                        return true;
+                    }
+
+                    runningJobRepo.Add(jobName);
+                    transaction.Commit();
                 }
-                runningJobRepo.Add(jobName);
-                transaction.Commit();
-            }
-            return false;
+
+                return false;
         }
     }
 
     private static void CloseJob(string jobName, ILifetimeScope scope)
     {
-        using (var session = scope.R<ISessionBuilder>().OpenSession())
+        using (var session = scope.Resolve<ISessionBuilder>().OpenSession())
         {
             new RunningJobRepo(session).Remove(jobName);
         }

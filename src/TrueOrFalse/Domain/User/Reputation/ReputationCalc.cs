@@ -4,14 +4,17 @@ using NHibernate;
 public class ReputationCalc : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
+    private readonly TotalFollowers _totalFollowers;
 
     public const int PointsPerQuestionCreated = 1; //excluding private questions
     public const int PointsPerQuestionInOtherWishknowledge = 5;
     public const int PointsPerUserFollowingMe = 20;
     public const int PointsForPublicWishknowledge = 30;
 
-    public ReputationCalc(ISession session){
+    public ReputationCalc(ISession session, TotalFollowers totalFollowers)
+    {
         _session = session;
+        _totalFollowers = totalFollowers;
     }
 
     public ReputationCalcResult Run(UserCacheItem user)
@@ -35,7 +38,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /* Calculate Reputation for other things */
 
         result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
-        result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(result.User.Id) * PointsPerUserFollowingMe;
+        result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
     }
@@ -58,7 +61,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /* Calculate Reputation for other things */
 
         result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
-        result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(result.User.Id) * PointsPerUserFollowingMe;
+        result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
     }

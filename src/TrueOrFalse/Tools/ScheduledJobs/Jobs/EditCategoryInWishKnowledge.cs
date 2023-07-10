@@ -26,7 +26,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 var allJobs = new List<JobQueue>();
-                allJobs.AddRange(scope.R<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge());
+                allJobs.AddRange(scope.Resolve<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge());
                 allJobs = allJobs.OrderBy(j => j.Id).ToList();
 
                 foreach (var job in allJobs)
@@ -50,7 +50,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 categoryUserPair = GetCategoryUserPair(job);
                 _categoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId, sessionUser);
                 
-                scope.R<JobQueueRepo>().Delete(job.Id);
+                scope.Resolve<JobQueueRepo>().Delete(job.Id);
                 Logg.r().Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
             }
             catch (Exception e)

@@ -24,14 +24,6 @@ public class Sl
     }
 }
 
-public static class SlExt
-{
-    public static T R<T>(this object o)
-    {
-        return Sl.R<T>();
-    }
-}
-
 public class ServiceLocator
 {
     private static IContainer _container;

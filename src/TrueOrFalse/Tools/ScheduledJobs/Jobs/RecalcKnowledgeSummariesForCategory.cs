@@ -21,7 +21,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope => 
             {
                 List<int> successfullJobIds = new List<int>();
-                var jobs = scope.R<JobQueueRepo>().GetRecalcKnowledgeSummariesForCategory();
+                var jobs = scope.Resolve<JobQueueRepo>().GetRecalcKnowledgeSummariesForCategory();
                 var jobsByCategoryId = jobs.GroupBy(j => j.JobContent);
                 foreach (var grouping in jobsByCategoryId)
                 {
@@ -40,7 +40,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 //Delete jobs that have been executed successfully
                 if (successfullJobIds.Count > 0)
                 {
-                    scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
+                    scope.Resolve<JobQueueRepo>().DeleteById(successfullJobIds);
                     Logg.r().Information("Job RecalcKnowledgeSummaryForCategory recalculated knowledge summary for " + successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }

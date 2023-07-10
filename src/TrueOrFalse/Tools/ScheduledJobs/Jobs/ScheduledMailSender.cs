@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Runtime.Caching;
 using System.Web;
-
+using Autofac;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
@@ -18,7 +18,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
         {
             JobExecute.Run(scope =>
             {
-                var job = scope.R<JobQueueRepo>().GetTopPriorityMailMessage();
+                var job = scope.Resolve<JobQueueRepo>().GetTopPriorityMailMessage();
 
                 var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey) ?? new List<int>();
 
@@ -70,7 +70,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                 currentJobId.Add(job.Id);
 
                 //Delete job that has been executed
-                scope.R<JobQueueRepo>().DeleteById(currentJobId);
+                scope.Resolve<JobQueueRepo>().DeleteById(currentJobId);
             }, "ScheduledMailSender");
         }
 
