@@ -29,7 +29,7 @@ public class TopicToPrivateStoreController : BaseController
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(User_().Id, _categoryValuationRepo);
+        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo);
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new

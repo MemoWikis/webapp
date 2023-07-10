@@ -10,16 +10,19 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly ISession _nhibernateSession;
     private readonly ReputationUpdate _reputationUpdate;
     private readonly QuestionRepo _questionRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionInKnowledge(SessionUser sessionUser,
         ISession nhibernateSession,
         ReputationUpdate reputationUpdate,
-        QuestionRepo questionRepo)
+        QuestionRepo questionRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
         _reputationUpdate = reputationUpdate;
         _questionRepo = questionRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
     public void Pin(int questionId, int userId)
     {
@@ -36,9 +39,9 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         UpdateRelevancePersonal(questionId, userId, -1);
     }
 
-    public static void Create(QuestionValuation questionValuation)
+    public void Create(QuestionValuation questionValuation)
     {
-        Sl.Resolve<QuestionValuationRepo>().CreateOrUpdate(questionValuation);
+        _questionValuationRepo.CreateOrUpdate(questionValuation);
 
         var sb = new StringBuilder();
 
@@ -48,19 +51,19 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         sb.Append(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
         sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
         
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
-        session.Flush();
+        
+        _nhibernateSession.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
+        _nhibernateSession.Flush();
     }
 
-    private static void ChangeTotalInOthersWishknowledge(bool isIncrement, int userId, QuestionCacheItem question)
+    private void ChangeTotalInOthersWishknowledge(bool isIncrement, int userId, QuestionCacheItem question)
     {
         if (question.Creator == null || question.Creator.Id == userId) 
             return; 
            
         var sign = isIncrement ? "+" : "-" ;
         
-                Sl.Resolve<ISession>()
+                _nhibernateSession
                     .CreateSQLQuery(
                 @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign + " 1 where id = " +
                 question.Creator.Id + ";")
@@ -95,9 +98,9 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
         SetUserWishCountQuestions(userId, _sessionUser);
 
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
-        session.Flush();
+       
+        _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
+        _nhibernateSession.Flush();
 
         _reputationUpdate.ForQuestion(questionId);
 
@@ -116,12 +119,12 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 WHERE userId = :userId
                 AND RelevancePersonal > 0) 
             WHERE Id = :userId";
-        Sl.Resolve<ISession>().CreateSQLQuery(query).SetParameter("userId", userId).ExecuteUpdate();
+        _nhibernateSession.CreateSQLQuery(query).SetParameter("userId", userId).ExecuteUpdate();
         query =
             $@"Select WishCountQuestions From user
             WHERE Id = :userId";
 
-        var wishKnowledgeCount = (int)Sl.Resolve<ISession>().CreateSQLQuery(query)
+        var wishKnowledgeCount = (int)_nhibernateSession.CreateSQLQuery(query)
             .SetParameter("userId", userId).UniqueResult();
         _sessionUser.User.WishCountQuestions = wishKnowledgeCount;
 

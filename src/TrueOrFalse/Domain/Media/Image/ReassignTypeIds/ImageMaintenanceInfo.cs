@@ -35,16 +35,20 @@ public class ImageMaintenanceInfo
     public string LicenseStateCssClass;
     public string LicenseStateHtmlList;
     public ImageFrontendData FrontendData;
-    private readonly List<LicenseImage> _offeredLicenses;
     public int SelectedMainLicenseId { get; set; }
 
 
-    public ImageMaintenanceInfo(int typeId, ImageType imageType, QuestionRepo questionRepo)
-        : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType), questionRepo)
+    public ImageMaintenanceInfo(int typeId,
+        ImageType imageType,
+        QuestionRepo questionRepo,
+        ImageMetaDataRepo imageMetaDataRepo, CategoryRepository categoryRepository)
+        : this(imageMetaDataRepo.GetBy(typeId, imageType), questionRepo, categoryRepository)
     {
     }
 
-    public ImageMaintenanceInfo(ImageMetaData imageMetaData, QuestionRepo questionRepo)
+    public ImageMaintenanceInfo(ImageMetaData imageMetaData,
+        QuestionRepo questionRepo,
+        CategoryRepository categoryRepository)
     {
         var categoryImgBasePath = new CategoryImageSettings().BasePath;
         var questionImgBasePath = new QuestionImageSettings(questionRepo).BasePath;
@@ -58,11 +62,11 @@ public class ImageMaintenanceInfo
         switch (MetaData.Type)
         {
             case ImageType.Category:
-                Type = Sl.R<CategoryRepository>().GetById(MetaData.TypeId);
+                Type = categoryRepository.GetById(MetaData.TypeId);
                 TypeUrl = Links.GetUrl(Type);
                 break;
             case ImageType.Question:
-                Type = Sl.R<QuestionRepo>().GetById(MetaData.TypeId);
+                Type = questionRepo.GetById(MetaData.TypeId);
                 TypeUrl = Links.GetUrl(Type);
                 break;
             default:
@@ -85,13 +89,13 @@ public class ImageMaintenanceInfo
                     ? ManualImageData.AuthorManuallyAdded
                     : MetaData.AuthorParsed;
 
-        _offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
+        var offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
             .Concat(new List<LicenseImage> { new LicenseImage { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
             .ToList();
             
         if (LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseImageRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
         {
-            _offeredLicenses = _offeredLicenses
+            offeredLicenses = offeredLicenses
                 .Concat(new List<LicenseImage>{new LicenseImage { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
                 .Concat(
                     LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses)
@@ -107,7 +111,7 @@ public class ImageMaintenanceInfo
             LicenseImageRepo.GetAllAuthorizedLicenses()
                 .Any(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
         {
-            _offeredLicenses = _offeredLicenses.Concat(new List<LicenseImage>{ new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
+            offeredLicenses = offeredLicenses.Concat(new List<LicenseImage>{ new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
                                                 .Concat(LicenseImageRepo.GetAllAuthorizedLicenses().Where(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
                                                 .ToList();
         }

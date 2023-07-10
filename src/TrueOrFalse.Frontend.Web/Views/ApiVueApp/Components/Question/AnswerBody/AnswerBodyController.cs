@@ -11,15 +11,18 @@ public class AnswerBodyController : BaseController
     private readonly AnswerQuestion _answerQuestion;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly AnswerLog _answerLog;
 
     public AnswerBodyController(AnswerQuestion answerQuestion,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        AnswerLog answerLog) : base(sessionUser)
     {
         _answerQuestion = answerQuestion;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
+        _answerLog = answerLog;
     }
 
     [HttpGet]
@@ -128,7 +131,7 @@ public class AnswerBodyController : BaseController
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
         if (!unanswered)
-            R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
+            _answerLog.LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
                 millisecondsSinceQuestionView);
 
         EscapeReferencesText(question.References);

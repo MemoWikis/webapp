@@ -4,11 +4,13 @@ using System.Linq;
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CategoryRepository _categoryRepository;
 
-    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo, CategoryRepository categoryRepository)
+    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo, QuestionValuationRepo questionValuationRepo, CategoryRepository categoryRepository)
     {
         _categoryValuationRepo = categoryValuationRepo;
+        _questionValuationRepo = questionValuationRepo;
         _categoryRepository = categoryRepository;
     }
 
@@ -85,12 +87,12 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         return knowledgeSummary;
     }
 
-    public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
+    public KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
         => Run(userId, 
             EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId).GetIds(),
             onlyValuated);
 
-    public static KnowledgeSummary Run(
+    public KnowledgeSummary Run(
         int userId, 
         IList<int> questionIds = null, 
         bool onlyValuated = true,
@@ -99,7 +101,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
-        var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(userId);
+        var questionValuations = _questionValuationRepo.GetByUserFromCache(userId);
         if (onlyValuated)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)

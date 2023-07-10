@@ -7,12 +7,17 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionRepo _questionRepository;
     private readonly SessionUser _sessionUser;
+    private readonly ISession _nhinbernateSession;
 
-    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository, QuestionRepo questionRepo, SessionUser sessionUser)
+    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository,
+        QuestionRepo questionRepo,
+        SessionUser sessionUser,
+        ISession nhinbernateSession)
     {
         _categoryRepository = categoryRepository;
         _questionRepository = questionRepo;
         _sessionUser = sessionUser;
+        _nhinbernateSession = nhinbernateSession;
     }
 
     public void All()
@@ -78,7 +83,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 	                )I_was_here
                 ) WHERE c.Id = {categoryId}";
 
-            Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();
+            _nhinbernateSession.CreateSQLQuery(query).ExecuteUpdate();
         }
     }
 }

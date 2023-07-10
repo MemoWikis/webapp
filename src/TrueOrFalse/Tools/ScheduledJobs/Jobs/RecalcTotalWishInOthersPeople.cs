@@ -8,10 +8,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class RecalcTotalWishInOthersPeople : IJob
     {
         private readonly JobQueueRepo _jobQueueRepo;
+        private readonly ISession _nhibernateSession;
+        private readonly UserRepo _userRepo;
 
-        public RecalcTotalWishInOthersPeople(JobQueueRepo jobQueueRepo)
+        public RecalcTotalWishInOthersPeople(JobQueueRepo jobQueueRepo,
+            ISession nhibernateSession,
+            UserRepo userRepo)
         {
             _jobQueueRepo = jobQueueRepo;
+            _nhibernateSession = nhibernateSession;
+            _userRepo = userRepo;
         }
         public void Execute(IJobExecutionContext context)
         {
@@ -20,7 +26,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 var start = DateTime.Now;
                 var report = GetReport();
 
-                Sl.Resolve<ISession>().CreateSQLQuery(
+                _nhibernateSession.CreateSQLQuery(
                         @"UPDATE user SET TotalInOthersWishknowledge = (
                         SELECT count(*) FROM questionvaluation qv
                         JOIN question q
@@ -42,13 +48,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private string GetReport()
         {
-            var userIds = Sl.UserRepo.GetAllIds();
+            var userIds = _userRepo.GetAllIds();
             var counter = 0;
 
             foreach (var userId in userIds)
             {
-                var userTotalWishKnowledgeInOtherPoeple = Sl.Resolve<ISession>().CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ").SetParameter("userId", userId).UniqueResult<int>();
-                var joinTotalWishKnowledgeInOtherPoeple = Sl.Resolve<ISession>().CreateSQLQuery(
+                var userTotalWishKnowledgeInOtherPoeple = _nhibernateSession.CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ").SetParameter("userId", userId).UniqueResult<int>();
+                var joinTotalWishKnowledgeInOtherPoeple = _nhibernateSession.CreateSQLQuery(
                     @"SELECT count(qv.Id) FROM questionvaluation qv JOIN 
                     question q ON qv.Questionid = q.Id
                     WHERE qv.RelevancePersonal > 0

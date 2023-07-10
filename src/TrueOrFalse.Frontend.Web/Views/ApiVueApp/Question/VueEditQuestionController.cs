@@ -21,6 +21,8 @@ public class VueEditQuestionController : BaseController
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageStore _imageStore;
+    private readonly SessionUiData _sessionUiData;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -30,7 +32,9 @@ public class VueEditQuestionController : BaseController
         QuestionInKnowledge questionInKnowledge,
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo) :base(sessionUser)
+        ImageMetaDataRepo imageMetaDataRepo,
+        ImageStore imageStore,
+        SessionUiData sessionUiData) :base(sessionUser)
     {
         _questionRepo = questionRepo;
         _learningSessionCache = learningSessionCache;
@@ -40,6 +44,8 @@ public class VueEditQuestionController : BaseController
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _imageStore = imageStore;
+        _sessionUiData = sessionUiData;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -322,13 +328,13 @@ public class VueEditQuestionController : BaseController
 
         if (imageSource == "wikimedia")
         {
-            Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
+            _imageStore.RunWikimedia<QuestionImageSettings>(
                 wikiFileName, questionId, ImageType.Question, _sessionUser.UserId);
         }
 
         if (imageSource == "upload")
         {
-            Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
+            _imageStore.RunUploaded<QuestionImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.UserId, uploadImageLicenseOwner);
         }
 
@@ -349,7 +355,7 @@ public class VueEditQuestionController : BaseController
     //todo: (DaMa) mit Jun schauen scheint nicht benötigt zu werden 
     public ActionResult ReferencePartial(int catId)
     {
-        var category = R<CategoryRepository>().GetById(catId);
+        var category = _categoryRepository.GetById(catId);
         return View("Reference", category);
     }
 

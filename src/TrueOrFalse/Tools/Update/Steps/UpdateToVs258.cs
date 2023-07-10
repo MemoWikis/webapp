@@ -4,9 +4,9 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs258
 {
-    public static void Run()
+    public static void Run(ISession nhibernateSession)
     {
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"DROP TABLE questionfeature;"
             ).ExecuteUpdate();

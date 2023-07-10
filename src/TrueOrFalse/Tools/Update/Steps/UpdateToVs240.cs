@@ -4,9 +4,9 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs240
 {
-    public static void Run()
+    public static void Run(ISession nhibernateSession)
     {
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"ALTER TABLE user ADD COLUMN subscriptionDuration DATETIME DEFAULT NULL;"
             ).ExecuteUpdate();

@@ -10,14 +10,20 @@ public class VueUsersController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly MeiliSearchUsers _meiliSearchUsers;
+    private readonly GetTotalUsers _totalUsers;
+    private readonly UserSummary _userSummary;
 
     public VueUsersController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        MeiliSearchUsers meiliSearchUsers ) : base(sessionUser)
+        MeiliSearchUsers meiliSearchUsers,
+        GetTotalUsers totalUsers,
+        UserSummary userSummary) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _meiliSearchUsers = meiliSearchUsers;
-    } 
+        _totalUsers = totalUsers;
+        _userSummary = userSummary;
+    }
 
     [HttpGet]
     public async Task<JsonResult> Get(
@@ -27,7 +33,7 @@ public class VueUsersController : BaseController
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
     {
         var result = await _meiliSearchUsers.GetUsersByPagerAsync(searchTerm,
-            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page },orderBy);
+            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
 
         var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
         var usersResult = users.Select(GetUserResult);
@@ -42,7 +48,7 @@ public class VueUsersController : BaseController
     [HttpGet]
     public JsonResult GetTotalUserCount()
     {
-        return Json(R<GetTotalUsers>().Run(), JsonRequestBehavior.AllowGet);
+        return Json(_totalUsers.Run(), JsonRequestBehavior.AllowGet);
     }
 
     public UserResult GetUserResult(UserCacheItem user)
@@ -67,8 +73,8 @@ public class VueUsersController : BaseController
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
-                Resolve<UserSummary>().AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
-            createdTopicsCount = Resolve<UserSummary>().AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
+               _userSummary.AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
+            createdTopicsCount = _userSummary.AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,

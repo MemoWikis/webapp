@@ -3,6 +3,12 @@ using System.Linq;
 
 public class GetStreaksDays : IRegisterAsInstancePerLifetime
 {
+    private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
+
+    public GetStreaksDays(GetAnswerStatsInPeriod getAnswerStatsInPeriod)
+    {
+        _getAnswerStatsInPeriod = getAnswerStatsInPeriod;
+    }
     public GetStreaksDaysResult Run(
         User user, 
         bool onlyLearningSessions = false,
@@ -10,7 +16,7 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
         int? endHour = null,
         DateTime? seperateStreakInRecentPeriodSince = null)
     {
-        var getAnswerStats = Sl.R<GetAnswerStatsInPeriod>().Run(
+        var getAnswerStats = _getAnswerStatsInPeriod.Run(
             user.Id, 
             user.DateCreated, 
             DateTime.Now.AddMinutes(1), 

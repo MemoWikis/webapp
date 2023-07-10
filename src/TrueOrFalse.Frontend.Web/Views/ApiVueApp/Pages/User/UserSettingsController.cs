@@ -6,10 +6,14 @@ namespace VueApp;
 public class VueUserSettingsController : BaseController
 {
     private readonly ReputationUpdate _reputationUpdate;
+    private readonly CredentialsAreValid _credentialsAreValid;
 
-    public VueUserSettingsController(SessionUser sessionUser, ReputationUpdate reputationUpdate) : base(sessionUser)
+    public VueUserSettingsController(SessionUser sessionUser,
+        ReputationUpdate reputationUpdate,
+        CredentialsAreValid credentialsAreValid) : base(sessionUser)
     {
         _reputationUpdate = reputationUpdate;
+        _credentialsAreValid = credentialsAreValid;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -42,9 +46,7 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ChangePassword(string currentPassword, string newPassword)
     {
-        var credentialsAreValid = R<CredentialsAreValid>();
-
-        if (credentialsAreValid.Yes(_sessionUser.User.EmailAddress, currentPassword))
+        if (_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, currentPassword))
         {
             if (currentPassword == newPassword)
 

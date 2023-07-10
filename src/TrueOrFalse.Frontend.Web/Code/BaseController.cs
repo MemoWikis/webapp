@@ -8,17 +8,10 @@ public class BaseController : Controller
     {
         _sessionUser = sessionUser; 
     }
-    protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
-
     public int UserId => _sessionUser.UserId;
 
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
     public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
     /// <summary>The user fresh from the db</summary>
-    public User User_() => R<UserRepo>().GetById(UserId);
     public User MemuchoUser() => Sl.UserRepo.GetMemuchoUser();
-
-    protected T Resolve<T>() => ServiceLocator.Resolve<T>();
-
-    protected T R<T>() => ServiceLocator.Resolve<T>();
 }

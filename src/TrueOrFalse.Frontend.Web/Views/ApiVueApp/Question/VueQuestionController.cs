@@ -16,6 +16,7 @@ public class VueQuestionController : BaseController
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
 
     public VueQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -23,7 +24,8 @@ public class VueQuestionController : BaseController
         RestoreQuestion restoreQuestion,
         LearningSessionCache learningSessionCache,
         CategoryValuationRepo categoryValuationRepo,
-        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo) : base(sessionUser)
     {
         _questionRepo = questionRepo;
         _permissionCheck = permissionCheck;
@@ -31,6 +33,7 @@ public class VueQuestionController : BaseController
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
     }
 
     [HttpGet]
@@ -138,7 +141,7 @@ public class VueQuestionController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int questionId, int questionChangeId)
     {
-        _restoreQuestion.Run(questionChangeId, User_());
+        _restoreQuestion.Run(questionChangeId, _userRepo.GetById(_sessionUser.UserId));
 
         var question = _questionRepo.GetById(questionId);
         return Redirect(Links.AnswerQuestion(question));

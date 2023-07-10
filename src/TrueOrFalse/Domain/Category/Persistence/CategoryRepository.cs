@@ -5,11 +5,12 @@ using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstancePerLifetime
+public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
 
     public enum CreateDeleteUpdate
     {
@@ -21,14 +22,15 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     public CategoryRepository(
         ISession session,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser, 
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        UpdateQuestionCountForCategory updateQuestionCountForCategory)
         : base(session)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
+        _updateQuestionCountForCategory = updateQuestionCountForCategory;
     }
 
     /// <summary>
@@ -64,8 +66,8 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         if (parentCategories.Count != 0)
         {
-           _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
-                CategoryChangeType.Relations);
+            _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
+                 CategoryChangeType.Relations);
         }
 
         var result = Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
@@ -91,7 +93,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     {
 
         base.Delete(category);
-        EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck, userId);
+        EntityCache.Remove(EntityCache.GetCategory(category), _permissionCheck, userId);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -270,7 +272,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         }
 
         Flush();
-        Sl.R<UpdateQuestionCountForCategory>().Run(category);
+        _updateQuestionCountForCategory.Run(category);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -287,5 +289,5 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         _session.CreateSQLQuery(sql).ExecuteUpdate();
     }
 
-   
+
 }

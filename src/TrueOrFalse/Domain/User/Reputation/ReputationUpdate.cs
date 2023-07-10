@@ -5,15 +5,18 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
     private readonly ReputationCalc _reputationCalc;
     private readonly UserRepo _userRepo;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly GetWishQuestionCount _getWishQuestionCount;
 
     public ReputationUpdate(
       ReputationCalc reputationCalc,
       UserRepo userRepo,
-      JobQueueRepo jobQueueRepo)
+      JobQueueRepo jobQueueRepo,
+      GetWishQuestionCount getWishQuestionCount)
     {
         _reputationCalc = reputationCalc;
         _userRepo = userRepo;
         _jobQueueRepo = jobQueueRepo;
+        _getWishQuestionCount = getWishQuestionCount;
     }
 
     public void ForQuestion(int questionId) =>
@@ -68,7 +71,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
             i++;
             result.User.User.ReputationPos = i;
             result.User.User.Reputation = result.TotalReputation;
-            result.User.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
+            result.User.User.WishCountQuestions = _getWishQuestionCount.Run(result.User.Id);
             //result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
 
             _userRepo.Update(result.User.User);

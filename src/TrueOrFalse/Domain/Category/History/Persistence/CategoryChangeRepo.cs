@@ -191,6 +191,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 
     public int GetCategoryId(int version)
     {
-        return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+        return _session.CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
     }
 }

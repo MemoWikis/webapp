@@ -1,10 +1,14 @@
 ﻿public class CustomMsg
 {
-    public static void Send(int receiverId, string subject, string body)
+    public static void Send(int receiverId,
+        string subject, 
+        string body,
+        MessageRepo messageRepo,
+        UserRepo userRepo)
     {
-        MessageUtils.LoadUser(receiverId);
+        MessageUtils.LoadUser(receiverId, userRepo);
 
-        Sl.R<MessageRepo>().Create(new Message
+        messageRepo.Create(new Message
         {
             ReceiverId = receiverId,
             Subject = subject,

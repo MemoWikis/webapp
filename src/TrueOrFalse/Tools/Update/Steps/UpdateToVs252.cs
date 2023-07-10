@@ -4,19 +4,19 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs252
 {
-    public static void Run()
+    public static void Run(ISession nhibernateSession)
     {
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"ALTER TABLE date_to_sets DROP FOREIGN KEY FKCB583B0E93032C55;"
             ).ExecuteUpdate();
 
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"ALTER TABLE date_to_sets DROP FOREIGN KEY FKCB583B0EBC787FC9;"
             ).ExecuteUpdate();
 
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"DROP TABLE date_to_sets;"
             ).ExecuteUpdate();

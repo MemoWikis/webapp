@@ -6,11 +6,14 @@ using System.Web.Mvc;
 public class TopicLearningQuestionController: BaseController
 {
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CommentRepository _commentRepository;
 
     public TopicLearningQuestionController(SessionUser sessionUser,
-        CategoryValuationRepo categoryValuationRepo) : base(sessionUser)
+        CategoryValuationRepo categoryValuationRepo,
+        CommentRepository commentRepository) : base(sessionUser)
     {
         _categoryValuationRepo = categoryValuationRepo;
+        _commentRepository = commentRepository;
     }
     [HttpPost]
     public JsonResult LoadQuestionData(int questionId)
@@ -33,7 +36,7 @@ public class TopicLearningQuestionController: BaseController
                 authorId = author.Id,
                 authorImageUrl = authorImage.Url,
                 extendedQuestion = question.TextExtendedHtml ?? "",
-                commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
+                commentCount = _commentRepository.GetForDisplay(question.Id)
                     .Where(c => !c.IsSettled)
                     .Select(c => new CommentModel(c))
                     .ToList()

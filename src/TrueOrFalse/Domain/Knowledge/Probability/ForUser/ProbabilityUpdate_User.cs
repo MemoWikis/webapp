@@ -12,16 +12,16 @@ public class ProbabilityUpdate_User
         Logg.r().Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
     }
 
-    public static void Run(User user)
+    public static void Run(User user, AnswerRepo answerRepo, UserRepo userRepo)
     {
         var sp = Stopwatch.StartNew();
 
-        var answers = Sl.R<AnswerRepo>().GetByUser(user.Id);
+        var answers = answerRepo.GetByUser(user.Id);
 
         user.CorrectnessProbability = ProbabilityCalc_Category.Run(answers);
         user.CorrectnessProbabilityAnswerCount = answers.Count;
 
-        Sl.R<UserRepo>().Update(user);
+        userRepo.Update(user);
 
         Logg.r().Information("Calculated probability in {elapsed} for user {user}", sp.Elapsed, user.Id);
     }

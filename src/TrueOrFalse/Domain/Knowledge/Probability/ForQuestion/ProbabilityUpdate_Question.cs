@@ -19,7 +19,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
     {
         var sp = Stopwatch.StartNew();
 
-        foreach (var question in Sl.R<QuestionRepo>().GetAll())
+        foreach (var question in _questionRepo.GetAll())
             Run(question);
 
         Logg.r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);

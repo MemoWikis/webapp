@@ -7,12 +7,15 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
 {
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly UserRepo _userRepo;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        UserRepo userRepo)
     {
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
+        _userRepo = userRepo;
     }
 
     private IList<int> QuestionsInValuatedCategories(int userId, IList<int> questionIds, int exeptCategoryId = -1)
@@ -44,7 +47,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
 
     public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId, SessionUser sessionUser)
     {
-        var user = Sl.UserRepo.GetByIds(userId).First();
+        var user = _userRepo.GetByIds(userId).First();
         var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId);
         var questionIds = questionsInCategory.GetIds();
 

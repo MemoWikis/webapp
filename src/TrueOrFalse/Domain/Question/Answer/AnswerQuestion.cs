@@ -10,13 +10,21 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly ISession _nhibernateSession;
     private readonly AnswerRepo _answerRepo;
     private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
+    private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
+    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
+    private readonly UserRepo _userRepo;
 
     public AnswerQuestion(QuestionRepo questionRepo,
         AnswerLog answerLog,
         LearningSessionCache learningSessionCache,
         ISession nhibernateSession,
         AnswerRepo answerRepo,
-        ProbabilityUpdate_Question probabilityUpdateQuestion)
+        ProbabilityUpdate_Question probabilityUpdateQuestion,
+        UpdateQuestionAnswerCount updateQuestionAnswerCount,
+        QuestionValuationRepo questionValuationRepo,
+        ProbabilityCalc_Simple1 probabilityCalcSimple1,
+        UserRepo userRepo)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
@@ -24,6 +32,10 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         _nhibernateSession = nhibernateSession;
         _answerRepo = answerRepo;
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
+        _updateQuestionAnswerCount = updateQuestionAnswerCount;
+        _questionValuationRepo = questionValuationRepo;
+        _probabilityCalcSimple1 = probabilityCalcSimple1;
+        _userRepo = userRepo;
     }
 
     public AnswerQuestionResult Run(
@@ -178,11 +190,11 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         _probabilityUpdateQuestion.Run(question);
         if (countLastAnswerAsCorrect)
-            Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
+            _updateQuestionAnswerCount.ChangeOneWrongAnswerToCorrect(questionId);
         else
-            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
+            _updateQuestionAnswerCount.Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionRepo);
+        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
 
         return result;
     }

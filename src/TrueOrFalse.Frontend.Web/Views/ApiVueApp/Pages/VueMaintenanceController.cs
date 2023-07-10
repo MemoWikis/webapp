@@ -15,13 +15,34 @@ public class VueMaintenanceController : BaseController
 {
     private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
     private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
+    private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
+    private readonly UpdateQuestionAnswerCounts _updateQuestionAnswerCounts;
+    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
+    private readonly ReputationUpdate _reputationUpdate;
+    private readonly UpdateWishcount _updateWishcount;
+    private readonly MeiliSearchReIndexCategories _meiliSearchReIndexCategories;
+    private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
 
     public VueMaintenanceController(SessionUser sessionUser,
         ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
-        ProbabilityUpdate_Question probabilityUpdateQuestion) :base(sessionUser)
+        ProbabilityUpdate_Question probabilityUpdateQuestion,
+        MeiliSearchReIndexAllQuestions meiliSearchReIndexAllQuestions,
+        UpdateQuestionAnswerCounts updateQuestionAnswerCounts,
+        UpdateQuestionCountForCategory updateQuestionCountForCategory,
+        ReputationUpdate reputationUpdate,
+        UpdateWishcount updateWishcount,
+        MeiliSearchReIndexCategories meiliSearchReIndexCategories,
+        MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers) :base(sessionUser)
     {
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
+        _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
+        _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
+        _updateQuestionCountForCategory = updateQuestionCountForCategory;
+        _reputationUpdate = reputationUpdate;
+        _updateWishcount = updateWishcount;
+        _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
+        _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
     }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
@@ -63,7 +84,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult CalcAggregatedValuesQuestions()
     {
-        Resolve<UpdateQuestionAnswerCounts>().Run();
+        _updateQuestionAnswerCounts.Run();
 
 
         return Json(new
@@ -77,7 +98,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult UpdateFieldQuestionCountForTopics()
     {
-        Resolve<UpdateQuestionCountForCategory>().All();
+        _updateQuestionCountForCategory.All();
 
         return Json(new
         {
@@ -90,7 +111,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult UpdateUserReputationAndRankings()
     {
-        Resolve<ReputationUpdate>().RunForAll();
+        _reputationUpdate.RunForAll();
 
         return Json(new
         {
@@ -103,7 +124,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult UpdateUserWishCount()
     {
-        Resolve<UpdateWishcount>().Run();
+        _updateWishcount.Run();
 
         return Json(new
         {
@@ -133,7 +154,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> ReIndexAllQuestions()
     {
-       await  Resolve<MeiliSearchReIndexAllQuestions>().Go();
+       await _meiliSearchReIndexAllQuestions.Go();
 
         return Json(new
         {
@@ -146,7 +167,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> ReIndexAllTopics()
     {
-        await Resolve<MeiliSearchReIndexCategories>().Go();
+        await _meiliSearchReIndexCategories.Go();
 
         return Json(new
         {
@@ -159,7 +180,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> ReIndexAllUsers()
     {
-        await Resolve<MeiliSearchReIndexAllUsers>().Run();
+        await _meiliSearchReIndexAllUsers.Run();
 
         return Json(new
         {
@@ -172,7 +193,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllQuestions()
     {
-        await Resolve<MeiliSearchReIndexAllQuestions>().Go();
+        await _meiliSearchReIndexAllQuestions.Go();
 
         return Json(new
         {
@@ -185,7 +206,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllTopics()
     {
-        await Resolve<MeiliSearchReIndexCategories>().Go();
+        await _meiliSearchReIndexCategories.Go();
 
         return Json(new
         {
@@ -198,7 +219,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllUsers()
     {
-        await Resolve<MeiliSearchReIndexAllUsers>().Run();
+        await _meiliSearchReIndexAllUsers.Run();
 
         return Json(new
         {

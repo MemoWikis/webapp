@@ -5,12 +5,12 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CommentMsg
 {
-    public static void Send(Comment comment)
+    public static void Send(Comment comment, QuestionRepo questionRepo, MessageRepo messageRepo)
     {
         if (comment.Type != CommentType.AnswerQuestion)
             throw new Exception("Other CommentType than AnswerQuestion is unknown.");
 
-        var question = Sl.R<QuestionRepo>().GetById(comment.TypeId);
+        var question = questionRepo.GetById(comment.TypeId);
 
         var questionUrl = "";
         if(HttpContext.Current != null)
@@ -54,18 +54,18 @@ public class CommentMsg
 {2}
 <p>{3}</p>", questionUrl, question.Text, shouldImproveOrRemove, comment.Text.LineBreaksToBRs());
 
-        Send_CommentToYourQuestion(body, receiverUserId: question.Creator.Id);
+        Send_CommentToYourQuestion(body, receiverUserId: question.Creator.Id, messageRepo);
 
         if(comment.AnswerTo != null && comment.AnswerTo.Creator.Id != question.Creator.Id)
-            Send_AnswerToYourComment(body, comment.AnswerTo.Creator.Id);
+            Send_AnswerToYourComment(body, comment.AnswerTo.Creator.Id, messageRepo);
 
-        Send_InfoToMemucho(body, Constants.MemuchoAdminUserId);
+        Send_InfoToMemucho(body, Constants.MemuchoAdminUserId, messageRepo);
 
     }
 
-    static public void Send_CommentToYourQuestion(string body, int receiverUserId)
+    public static void Send_CommentToYourQuestion(string body, int receiverUserId, MessageRepo messageRepo)
     {
-        Sl.R<MessageRepo>().Create(new Message
+        messageRepo.Create(new Message
         {
             ReceiverId = receiverUserId,
             Subject = "Ein neuer Kommentar",
@@ -74,9 +74,9 @@ public class CommentMsg
         });
     }
 
-    public static void Send_AnswerToYourComment(string body, int receiverUserId)
+    private static void Send_AnswerToYourComment(string body, int receiverUserId, MessageRepo messageRepo )
     {
-        Sl.R<MessageRepo>().Create(new Message
+        messageRepo.Create(new Message
         {
             ReceiverId = receiverUserId,
             Subject = "Antwort auf deinen Kommentar",
@@ -85,8 +85,8 @@ public class CommentMsg
         });
     }
 
-    public static void Send_InfoToMemucho(string body, int receiverUserId)
+    private static void Send_InfoToMemucho(string body, int receiverUserId, MessageRepo messageRepo)
     {
-        Send_CommentToYourQuestion(body, receiverUserId);
+        Send_CommentToYourQuestion(body, receiverUserId, messageRepo);
     }
 }

@@ -57,20 +57,6 @@ public class Category : DomainEntity, ICreator, ICloneable
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x));
 
-    public virtual IList<Category> CategoriesToInclude()
-    {
-        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString)
-            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)
-            : new List<Category>();
-    }
-
-    public virtual IList<Category> CategoriesToExclude()
-    {
-        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
-            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)
-            : new List<Category>();
-    }
-
     public virtual int CountQuestionsAggregated { get; set; }
 
     public virtual void UpdateCountQuestionsAggregated(int userId)

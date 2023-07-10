@@ -4,14 +4,14 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs255
 {
-    public static void Run()
+    public static void Run(ISession nhibernateSession)
     {
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"ALTER TABLE questionview DROP FOREIGN KEY FK_questionview_game_round;"
             ).ExecuteUpdate();
 
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"DROP TABLE game_round;"
             ).ExecuteUpdate();

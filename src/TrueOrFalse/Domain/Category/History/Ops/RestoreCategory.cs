@@ -5,16 +5,19 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly UserRepo _userRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly int _sessionUserId;
 
     public RestoreCategory(SessionUser sessionUser,
         CategoryRepository categoryRepository,
         CategoryChangeRepo categoryChangeRepo,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo,
+        UserRepo userRepo)
     {
         _categoryChangeRepo = categoryChangeRepo;
         _jobQueueRepo = jobQueueRepo;
+        _userRepo = userRepo;
         _categoryRepository = categoryRepository; 
         _sessionUserId = sessionUser.UserId;
     }
@@ -59,7 +62,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
     private void NotifyAboutRestore(CategoryChange categoryChange)
     {
         var category = categoryChange.Category;
-        var currentUser = Sl.UserRepo.GetById(_sessionUserId);
+        var currentUser = _userRepo.GetById(_sessionUserId);
         var subject = $"Kategorie {category.Name} zurückgesetzt";
         var body = $"Die Kategorie '{category.Name}' wurde gerade zurückgesetzt.\n" +
                    $"Zurückgesetzt auf Revision: vom {categoryChange.DateCreated} (Id {categoryChange.Id})\n" +
@@ -74,7 +77,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
     {
         CustomMsg.Send(receiverId, subject, body);
 
-        var user = Sl.UserRepo.GetById(receiverId);
+        var user = _userRepo.GetById(receiverId);
         var mail = new MailMessage();
         mail.To.Add(user.EmailAddress);
         mail.From = new MailAddress(Settings.EmailFrom);

@@ -10,19 +10,22 @@ public class TopicController : BaseController
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
 
     public TopicController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
     }
 
     [HttpGet]
@@ -58,7 +61,7 @@ public class TopicController : BaseController
         var topicCacheItem = EntityCache.GetCategory(topicId);
         if (_permissionCheck.CanView(topicCacheItem))
         {
-            var userCacheItem = SessionUserCache.GetItem(User_().Id, _categoryValuationRepo);
+            var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo);
             return Json(topicCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>

@@ -7,10 +7,14 @@ namespace VueApp;
 public class VueUserController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly ReputationCalc _rpReputationCalc;
 
-    public VueUserController(SessionUser sessionUser, PermissionCheck permissionCheck) :base(sessionUser)
+    public VueUserController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        ReputationCalc rpReputationCalc) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _rpReputationCalc = rpReputationCalc;
     }
     [HttpGet]
     public JsonResult Get(int id)
@@ -20,7 +24,7 @@ public class VueUserController : BaseController
         if (user != null)
         {
             var userWiki = EntityCache.GetCategory(user.StartTopicId);
-            var reputation = Resolve<ReputationCalc>().RunWithQuestionCacheItems(user);
+            var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
             var isCurrentUser = _sessionUser.UserId == user.Id;
             var allQuestionsCreatedByUser = EntityCache.GetAllQuestions().Where(q => q.Creator != null && q.CreatorId == user.Id);
             var allTopicsCreatedByUser = EntityCache.GetAllCategories().Where(c => c.Creator != null && c.CreatorId == user.Id);

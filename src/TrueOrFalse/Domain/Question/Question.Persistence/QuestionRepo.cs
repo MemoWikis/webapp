@@ -12,16 +12,19 @@ public class QuestionRepo : RepositoryDbBase<Question>
     private readonly CategoryRepository _categoryRepository;
     private readonly ReputationUpdate _reputationUpdate;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
 
 
     public QuestionRepo(ISession session,
         CategoryRepository categoryRepository,
         ReputationUpdate reputationUpdate,
-        JobQueueRepo jobQueueRepo) : base(session)
+        JobQueueRepo jobQueueRepo,
+        UpdateQuestionCountForCategory updateQuestionCountForCategory) : base(session)
     {
         _categoryRepository = categoryRepository;
         _reputationUpdate = reputationUpdate;
         _jobQueueRepo = jobQueueRepo;
+        _updateQuestionCountForCategory = updateQuestionCountForCategory;
     }
 
     public override void Create(Question question)
@@ -250,7 +253,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .ToList(); //All categories added or removed have to be updated
 
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
-        Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
+        _updateQuestionCountForCategory.Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Sl.QuestionChangeRepo.AddUpdateEntry(question, this);
 

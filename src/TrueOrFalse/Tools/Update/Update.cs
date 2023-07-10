@@ -1,44 +1,48 @@
-﻿namespace TrueOrFalse.Updates;
+﻿using NHibernate;
+
+namespace TrueOrFalse.Updates;
 
 public class Update : IRegisterAsInstancePerLifetime
 {
     private readonly UpdateStepExecuter _updateStepExecuter;
+    private readonly ISession _nhibernateSession;
 
-    public Update(UpdateStepExecuter updateStepExecuter)
+    public Update(UpdateStepExecuter updateStepExecuter, ISession nhibernateSession)
     {
         _updateStepExecuter = updateStepExecuter;
+        _nhibernateSession = nhibernateSession;
     }
 
     public void Run()
     {
         _updateStepExecuter
-            .Add(UpdateToVs239.Run)
-            .Add(UpdateToVs240.Run)
-            .Add(UpdateToVs241.Run)
-            .Add(UpdateToVs242.Run)
-            .Add(UpdateToVs243.Run)
-            .Add(UpdateToVs244.Run)
-            .Add(UpdateToVs245.Run)
-            .Add(UpdateToVs246.Run)
-            .Add(UpdateToVs247.Run)
-            .Add(UpdateToVs248.Run)
-            .Add(UpdateToVs249.Run)
-            .Add(UpdateToVs250.Run)
-            .Add(UpdateToVs251.Run)
-            .Add(UpdateToVs252.Run)
-            .Add(UpdateToVs253.Run)
-            .Add(UpdateToVs254.Run)
-            .Add(UpdateToVs255.Run)
-            .Add(UpdateToVs256.Run)
-            .Add(UpdateToVs257.Run)
-            .Add(UpdateToVs258.Run)
-            .Add(UpdateToVs259.Run)
-            .Add(UpdateToVs260.Run)
-            .Add(UpdateToVs261.Run)
-            .Add(UpdateToVs262.Run)
-            .Add(UpdateToVs263.Run)
-            .Add(UpdateToVs264.Run)
-            .Add(UpdateToVs265.Run)
+            .Add(()=> UpdateToVs239.Run(_nhibernateSession))
+            .Add(() => UpdateToVs240.Run(_nhibernateSession))
+            .Add(() => UpdateToVs241.Run(_nhibernateSession))
+            .Add(() => UpdateToVs242.Run(_nhibernateSession))
+            .Add(() => UpdateToVs243.Run(_nhibernateSession))
+            .Add(() => UpdateToVs244.Run(_nhibernateSession))
+            .Add(() => UpdateToVs245.Run(_nhibernateSession))
+            .Add(()=>UpdateToVs246.Run(_nhibernateSession))
+            .Add(()=>UpdateToVs247.Run(_nhibernateSession))
+            .Add(() => UpdateToVs248.Run(_nhibernateSession))
+            .Add(() => UpdateToVs249.Run(_nhibernateSession))
+            .Add(() => UpdateToVs250.Run(_nhibernateSession))
+            .Add(() => UpdateToVs251.Run(_nhibernateSession))
+            .Add(() => UpdateToVs252.Run(_nhibernateSession))
+            .Add(() => UpdateToVs253.Run(_nhibernateSession))
+            .Add(() => UpdateToVs254.Run(_nhibernateSession))                               
+            .Add(() => UpdateToVs255.Run(_nhibernateSession))
+            .Add(() => UpdateToVs256.Run(_nhibernateSession))
+            .Add(() => UpdateToVs257.Run(_nhibernateSession))
+            .Add(() => UpdateToVs258.Run(_nhibernateSession))
+            .Add(() => UpdateToVs259.Run(_nhibernateSession))
+            .Add(() => UpdateToVs260.Run(_nhibernateSession))
+            .Add(() => UpdateToVs261.Run(_nhibernateSession) )
+            .Add(() => UpdateToVs262.Run(_nhibernateSession))
+            .Add(() => UpdateToVs263.Run(_nhibernateSession))
+            .Add(() => UpdateToVs264.Run(_nhibernateSession))
+            .Add(() => UpdateToVs265.Run(_nhibernateSession))
             .Run();
     }
 }

@@ -9,11 +9,13 @@ using TrueOrFalse.Maintenance;
 public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly LoadImageMarkups _loadImageMarkups;
 
     public ImageMetaDataRepo(ISession session,
-        QuestionRepo questionRepo) : base(session)
+        QuestionRepo questionRepo, LoadImageMarkups loadImageMarkups) : base(session)
     {
         _questionRepo = questionRepo;
+        _loadImageMarkups = loadImageMarkups;
     }
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
@@ -73,7 +75,7 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
         imageMeta.ApiResult = wikiMetaData.JSonResult;
         imageMeta.UserId = userId;
 
-        ServiceLocator.Resolve<LoadImageMarkups>().Run(imageMeta);
+        _loadImageMarkups.Run(imageMeta);
 
         if(imageMeta.Id > 0 )
             Update(imageMeta);

@@ -6,7 +6,7 @@ public class KnowledgeReportMsg
     public const string UtmSource = "knowledgeReportEmail";
     public const string UtmCampaignFullString = "";
 
-    public static void SendHtmlMail(User user, JobQueueRepo jobQueueRepo)
+    public static void SendHtmlMail(User user, JobQueueRepo jobQueueRepo, MessageEmailRepo messageEmailRepo)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_KnowledgeReport()),
@@ -40,7 +40,7 @@ public class KnowledgeReportMsg
             utmSource: UtmSource,
             jobQueueRepo: jobQueueRepo);
 
-        Sl.R<MessageEmailRepo>().Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
+        messageEmailRepo.Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
         Logg.r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
     }
 
@@ -48,7 +48,7 @@ public class KnowledgeReportMsg
     /// <summary>
     /// Checks if a user should now get a KnowledgeReport according to his KnowledgeReportInterval-Setting
     /// </summary>
-    public static bool ShouldSendToUser(User user)
+    public static bool ShouldSendToUser(User user, MessageEmailRepo messageEmailRepo)
     {
 
         if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)) // defines standard behaviour if setting is not set
@@ -66,7 +66,7 @@ public class KnowledgeReportMsg
         if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Quarterly) && (DateTime.Now.Date != firstDayOfQuarter.Date))
             return false;
 
-        var lastMessageSent = Sl.R<MessageEmailRepo>().GetMostRecentForUserAndType(user.Id, MessageEmailTypes.KnowledgeReport);
+        var lastMessageSent = messageEmailRepo.GetMostRecentForUserAndType(user.Id, MessageEmailTypes.KnowledgeReport);
         var lastSentOrRegistered = lastMessageSent?.DateCreated ?? user.DateCreated;
 
         var shouldHaveSent = new DateTime();
