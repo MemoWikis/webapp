@@ -8,7 +8,7 @@ services:
       - "5001:5001"
     environment:
       - SERVER_PORT=5001
-      - HOST_VAR=https://live.memucho.de
+      - HOST_VAR=http://live.memucho.de
       - PORT_NUXT=3001
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
