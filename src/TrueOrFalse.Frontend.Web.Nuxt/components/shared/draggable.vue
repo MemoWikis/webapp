@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 interface Props {
-    transferData: string
+    transferData: any
     disabled?: boolean
 }
 const props = defineProps<Props>()
