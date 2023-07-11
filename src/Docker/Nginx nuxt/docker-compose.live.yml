@@ -2,13 +2,13 @@ version: '3.9'
 
 services:
   mem-nginx-reverse-live:
-    image: nginx:alpine
+    image: nginx:1.25.1
     build: .
     ports:
       - "5001:5001"
     environment:
       - SERVER_PORT=5001
-      - HOST_VAR=https://live.memucho.de
+      - HOST_VAR=http://live.memucho.de
       - PORT_NUXT=3001
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template

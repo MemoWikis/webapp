@@ -2,14 +2,14 @@ version: '3.9'
 
 services:
   mem-nginx-reverse:
-    image: nginx:alpine
+    image: nginx:1.25.1
     build: .
     ports:
       - "${SERVER_PORT:-error}:${SERVER_PORT:-error}"
     environment:
       - SERVER_PORT=${SERVER_PORT:-error}
-      - HOST_VAR=https://${MEM_ENVIRONMENT:-test}.memucho.de
-      - PORT_NUXT=${PORT_NUXT:-3003}
+      - HOST_VAR=${BACKEND_BASE_URL:-error}
+      - PORT_NUXT=${PORT_NUXT:-error}
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
       - ./robots.${MEM_ENVIRONMENT:-test}.txt:/etc/nginx/html/robots.txt

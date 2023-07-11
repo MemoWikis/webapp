@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   mem-nginx-reverse-stage:
-    image: nginx:alpine
+    image: nginx:1.25.1
     build: .
     ports:
       - "5002:5002"
