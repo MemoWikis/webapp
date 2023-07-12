@@ -6,7 +6,7 @@ public class Follower_persistence : BaseTest
     [Test]
     public void Should_Persist()
     {
-        var context = ContextUser.New()
+        var context = ContextUser.New(R<UserRepo>())
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")

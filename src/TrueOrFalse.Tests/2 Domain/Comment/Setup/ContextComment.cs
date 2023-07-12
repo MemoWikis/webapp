@@ -27,7 +27,7 @@ public class ContextComment : IRegisterAsInstancePerLifetime
         _userRepo = userRepo;
         _answerQuestion = answerQuestion;
         _contextUser = ContextUser.New(_userRepo);
-        _contextQuestion = ContextQuestion.New(_questionRepo, answerRepo, _answerQuestion);
+        _contextQuestion = ContextQuestion.New(_questionRepo, answerRepo, _answerQuestion, _userRepo);
         _user1 = _contextUser.Add("Test").Persist().All.First();
         Question = _contextQuestion.AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
     }

@@ -8,7 +8,7 @@ public class Write_activity_following : BaseTest
         //User1 follows User2
         //User2 follows nobody (but later follows User 3)
         //User3 follows User2 and User4
-        var context = ContextUser.New()
+        var context = ContextUser.New(R<UserRepo>())
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")

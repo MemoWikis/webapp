@@ -67,7 +67,9 @@ public class HistoryTopicDetailController : Controller
             _categoryChangeRepo,
             _categoryValuationRepo,
             _categoryRepository,
-            _imageMetaDataRepo);
+            _imageMetaDataRepo,
+            _userRepo,
+            _questionValuationRepo);
 
         var author = currentRevision.Author(_categoryValuationRepo, _userRepo, _questionValuationRepo);
         var result = new ChangeDetailResult
@@ -163,7 +165,9 @@ public class HistoryTopicDetailController : Controller
             _categoryChangeRepo,
             _categoryValuationRepo,
             _categoryRepository,
-            _imageMetaDataRepo);
+            _imageMetaDataRepo,
+            _userRepo,
+            _questionValuationRepo);
     }
 
     [AccessOnlyAsLoggedIn]

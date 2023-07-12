@@ -7,13 +7,24 @@ class Create_learning_session : BaseTest
     [Test]
     public void GetCorrectProbabilityQuestions()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache( LifetimeScope.Resolve<CategoryRepository>());
-        var learningSession = ContextLearningSession.GetLearningSession(
-            new LearningSessionConfig
-            {
-                MaxQuestionCount = 5,
-                CategoryId = 1
-            });
+        ContextQuestion.PutQuestionsIntoMemoryCache( R<CategoryRepository>(),
+            R<QuestionRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            R<UserRepo>());
+        var learningSessionConfig = new LearningSessionConfig
+        {
+            MaxQuestionCount = 5,
+            CategoryId = 1
+        };
+        var learningSession = new ContextLearningSession(R<CategoryRepository>(),
+            R<LearningSessionCreator>(), 
+            R<QuestionRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            learningSessionConfig, 
+            R<UserRepo>())
+            .GetLearningSession();
 
         foreach (var step in learningSession.Steps)
         {

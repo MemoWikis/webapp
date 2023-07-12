@@ -18,6 +18,7 @@ public class QuickCreateQuestionController : Controller
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly QuestionRepo _questionRepo;
     private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
@@ -27,7 +28,8 @@ public class QuickCreateQuestionController : Controller
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         QuestionRepo questionRepo,
-        UserRepo userRepo)
+        UserRepo userRepo, 
+        QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
@@ -38,6 +40,7 @@ public class QuickCreateQuestionController : Controller
         _imageMetaDataRepo = imageMetaDataRepo;
         _questionRepo = questionRepo;
         _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -92,7 +95,12 @@ public class QuickCreateQuestionController : Controller
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_sessionUser, _learningSessionCache, _categoryValuationRepo, _imageMetaDataRepo);
+        var questionController = new QuestionController(_sessionUser,
+            _learningSessionCache, 
+            _categoryValuationRepo,
+            _imageMetaDataRepo, 
+            _userRepo, 
+            _questionValuationRepo); 
 
         return questionController.LoadQuestion(question.Id);
     }

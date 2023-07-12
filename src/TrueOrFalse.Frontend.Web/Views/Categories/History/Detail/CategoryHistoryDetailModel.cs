@@ -16,6 +16,8 @@ public class CategoryHistoryDetailModel
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -61,9 +63,11 @@ public class CategoryHistoryDetailModel
         PermissionCheck permissionCheck,
         ISession nhibernateSession,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo, 
+        CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernateSession = nhibernateSession;
@@ -71,8 +75,10 @@ public class CategoryHistoryDetailModel
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
         ChangeType = currentRevision.Type;
-        var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete; 
+        var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete;
 
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
@@ -81,8 +87,8 @@ public class CategoryHistoryDetailModel
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         currentRevisionData = currentVersionTypeDelete ? new CategoryEditData_V2(_categoryRepository) : currentRevisionData;
 
-        CategoryId = currentRevision.Category == null ? 
-            _categoryChangeRepo.GetCategoryId(currentRevision.Id) :  
+        CategoryId = currentRevision.Category == null ?
+            _categoryChangeRepo.GetCategoryId(currentRevision.Id) :
             currentRevision.Category.Id;
 
         if (currentVersionTypeDelete) // is currentVersion deleted then is too category deleted
@@ -92,19 +98,24 @@ public class CategoryHistoryDetailModel
         else
             CategoryName = currentRevision.Category.Name;
 
-        Author = new UserTinyModel(currentRevision.Author(_categoryValuationRepo));
-        AuthorName = new UserTinyModel(currentRevision.Author(_categoryValuationRepo)).Name;
-        AuthorImageUrl = new UserImageSettings(new UserTinyModel(currentRevision.Author(_categoryValuationRepo)).Id).GetUrl_85px_square(new UserTinyModel(currentRevision.Author(_categoryValuationRepo))).Url;
+        var author =
+            new UserTinyModel(currentRevision.Author(_categoryValuationRepo, _userRepo, _questionValuationRepo));
+
+        Author = author;
+        AuthorName = author.Name;
+        AuthorImageUrl = new UserImageSettings(author.Id)
+            .GetUrl_85px_square(author).Url;
+
         CategoryUrl = isCategoryDeleted ? "" : Links.CategoryDetail(CategoryName, CategoryId);
-       
+
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
-        CurrentName = currentVersionTypeDelete ? previousRevisionData.Name :  currentRevisionData.Name;
+        CurrentName = currentVersionTypeDelete ? previousRevisionData.Name : currentRevisionData.Name;
         CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
         CurrentContent = FormatHtmlString(currentRevisionData.Content);
         CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
-        CurrentWikipediaUrl = currentVersionTypeDelete ? ""  : currentRevisionData.WikipediaURL;
+        CurrentWikipediaUrl = currentVersionTypeDelete ? "" : currentRevisionData.WikipediaURL;
         CurrentVisibility = currentRevisionData.Visibility;
 
         if (currentRevision.DataVersion == 2)
@@ -119,11 +130,11 @@ public class CategoryHistoryDetailModel
             var prevRevisionData = previousRevision.GetCategoryChangeData();
             PrevName = prevRevisionData?.Name;
             PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
-            PrevContent = prevRevisionData != null ? FormatHtmlString(prevRevisionData?.Content) : null ;
+            PrevContent = prevRevisionData != null ? FormatHtmlString(prevRevisionData?.Content) : null;
             PrevSegments = prevRevisionData?.CustomSegments;
             PrevDescription = prevRevisionData?.Description?.Replace("\\r\\n", "\r\n");
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
-            PrevVisibility = prevRevisionData != null ?  prevRevisionData.Visibility : CategoryVisibility.Owner;
+            PrevVisibility = prevRevisionData != null ? prevRevisionData.Visibility : CategoryVisibility.Owner;
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
@@ -141,7 +152,7 @@ public class CategoryHistoryDetailModel
         if (String.IsNullOrEmpty(unformatted))
             return "";
 
-        var parser = new HtmlParser(); 
+        var parser = new HtmlParser();
         var document = parser.ParseDocument("<asplaceholder>" + unformatted + "</asplaceholder>");
         var body = document.QuerySelector("asplaceholder");
         var sw = new StringWriter();
@@ -164,7 +175,7 @@ public class CategoryHistoryDetailModel
             category = EntityCache.GetCategory(categoryId);
             relatedCategory = EntityCache.GetCategory(relatedCategoryId);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Logg.Error(e);
         }
@@ -179,17 +190,17 @@ public class CategoryHistoryDetailModel
     {
         var relatedCategory = _categoryRepository.GetById(relation.RelatedCategoryId);
         var isRelatedCategoryNull = relatedCategory == null;
-        
-        var name = ""; 
+
+        var name = "";
         if (isRelatedCategoryNull) // then is category deleted
         {
-           var  prevVersion = _categoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
-                .Where(cc => cc.Type != CategoryChangeType.Delete).OrderByDescending(cc => cc.DateCreated).Select(cc => CategoryEditData_V2.CreateFromJson( cc.Data)).First();
-           name = prevVersion.Name; 
+            var prevVersion = _categoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
+                 .Where(cc => cc.Type != CategoryChangeType.Delete).OrderByDescending(cc => cc.DateCreated).Select(cc => CategoryEditData_V2.CreateFromJson(cc.Data)).First();
+            name = prevVersion.Name;
         }
         else
         {
-            name = relatedCategory.Name; 
+            name = relatedCategory.Name;
         }
         string res;
 

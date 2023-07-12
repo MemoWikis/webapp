@@ -18,9 +18,9 @@ public class ContextUser
         return new ContextUser(userRepo);
     }
 
-    public static User GetUser(string userName = "Firstname Lastname")
+    public static User GetUser(UserRepo userRepo, string userName = "Firstname Lastname")
     {
-        return New().Add(userName).Persist().All[0];
+        return New(userRepo).Add(userName).Persist().All[0];
     }
 
     public ContextUser Add(string userName)

@@ -10,7 +10,10 @@ public class QuestionValuation_add_totals_test : BaseTest
     [Test]
     public void Should_update_question_totals()
     {
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>())
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+                R<AnswerRepo>(), 
+                R<AnswerQuestion>(),
+                R<UserRepo>())
             .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", R<EntityCacheInitializer>())
             .Persist();
 

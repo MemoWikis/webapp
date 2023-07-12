@@ -8,13 +8,23 @@ class Get_questions_from_memory_cache : BaseTest
     [Test]
     public void Should_store_questions_into_memory_cache()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(LifetimeScope.Resolve<CategoryRepository>(),5000);
+        ContextQuestion.PutQuestionsIntoMemoryCache(LifetimeScope.Resolve<CategoryRepository>(),
+            R<QuestionRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            R<UserRepo>());
         Assert.That(EntityCache.GetAllQuestions().Count, Is.GreaterThan(4999));
     }
 
     [Test]
     public void Get_anonymous_learning_session()
     {
-        Assert.That(ContextLearningSession.GetSteps(4000, 4000).Count, Is.EqualTo(4000));
+        Assert.That(new ContextLearningSession(R<CategoryRepository>(),
+            R<LearningSessionCreator>(),
+            R<QuestionRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            new LearningSessionConfig(),
+            R<UserRepo>()).GetSteps(4000, 4000).Count, Is.EqualTo(4000));
     }
 }

@@ -16,7 +16,14 @@ public class LOM_Export_Tests : BaseTest
 
             Console.Write(lomXmlCategory);
 
-            var question = ContextQuestion.New().AddQuestion("Example question").AddCategory("cat 1", LifetimeScope.Resolve<EntityCacheInitializer>()).Persist().All
+            var question = ContextQuestion.New(R<QuestionRepo>(),
+                    R<AnswerRepo>(),
+                    R<AnswerQuestion>(),
+                    R<UserRepo>())
+                .AddQuestion("Example question")
+                .AddCategory("cat 1", R<EntityCacheInitializer>())
+                .Persist()
+                .All
                 .First();
             var lomXmlQuestion = question.ToLomXml(LifetimeScope.Resolve<CategoryRepository>());
 

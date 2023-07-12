@@ -43,7 +43,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         dummyTopic.Name = name;
         dummyTopic.Type = CategoryType.Standard;
         var topicNameAllowed = new CategoryNameAllowed();
-        if (topicNameAllowed.No(dummyTopic))
+        if (topicNameAllowed.No(dummyTopic, _categoryRepository))
         {
             var topic = EntityCache.GetCategoryByName(name).FirstOrDefault();
             var url = topic.Visibility == CategoryVisibility.All ? Links.CategoryDetail(topic) : "";
@@ -188,7 +188,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId);
+            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId, _userRepo);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);

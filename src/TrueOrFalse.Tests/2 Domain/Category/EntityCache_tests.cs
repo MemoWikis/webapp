@@ -76,7 +76,7 @@ class EntityCache_tests : BaseTest
     public void Should_able_to_deep_clone_cache_items()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>());
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), R<UserRepo>());
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
@@ -102,7 +102,7 @@ class EntityCache_tests : BaseTest
     public void Entity_in_cache_should_be_detached_from_NHibernate_session()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>());
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), R<UserRepo>());
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 

@@ -8,8 +8,12 @@ public class Question_persist_and_load_answer_type : BaseTest
     [Test]
     public void Should_store_answer_type()
     {
-        var entityCacheInitilizer = LifetimeScope.Resolve<EntityCacheInitializer>(); 
-        var context = ContextQuestion.New().AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
+        var entityCacheInitilizer = LifetimeScope.Resolve<EntityCacheInitializer>();
+        var context = ContextQuestion.New(R<QuestionRepo>(),
+                R<AnswerRepo>(),
+                R<AnswerQuestion>(),
+                R<UserRepo>())
+            .AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
             .AddCategory("A", entityCacheInitilizer)
             .AddCategory("B", entityCacheInitilizer)
             .AddCategory("C", entityCacheInitilizer)

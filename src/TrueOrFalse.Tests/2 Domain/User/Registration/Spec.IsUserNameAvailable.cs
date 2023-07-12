@@ -22,7 +22,7 @@ public class Spec_IsEmailAdressNotInUse : BaseTest
     private static ContextRegisteredUser _context;
 
     private readonly Func<IContextDescription> an_email_address_in_use
-        = () => _context = ContextRegisteredUser.New().
+        = () => _context = ContextRegisteredUser.New(R<UserRepo>()).
             SetEmailAddress("some@emailAddress.com").
             Add().Persist();
 

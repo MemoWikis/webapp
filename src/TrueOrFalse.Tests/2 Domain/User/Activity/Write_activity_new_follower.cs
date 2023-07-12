@@ -7,7 +7,7 @@ public class Write_activity_new_follower : BaseTest
     public void Should_write_activity_on_new_follower()
     {
         //NOT TESTED YET: Game created, because ContextGame.New().Add does not accept creator as parameter
-        var context = ContextUser.New()
+        var context = ContextUser.New(R<UserRepo>())
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")
@@ -27,7 +27,10 @@ public class Write_activity_new_follower : BaseTest
 
         //SET-UP: USER2 THROUGH USER6 ALL DO SOMETHING
         //User2 creates two questions
-        ContextQuestion.New()
+        ContextQuestion.New(R<QuestionRepo>(),
+                R<AnswerRepo>(),
+                R<AnswerQuestion>(),
+                R<UserRepo>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
             .Persist();

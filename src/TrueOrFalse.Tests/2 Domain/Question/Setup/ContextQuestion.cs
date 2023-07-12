@@ -8,7 +8,7 @@ namespace TrueOrFalse.Tests;
 
 public class ContextQuestion
 {
-    private readonly ContextUser _contextUser = ContextUser.New();
+    private readonly ContextUser _contextUser;
     private readonly ContextCategory _contextCategory = ContextCategory.New();
 
     private readonly QuestionRepo _questionRepo;
@@ -25,13 +25,15 @@ public class ContextQuestion
 
     private ContextQuestion(QuestionRepo questionRepo,
         AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion)
+        AnswerQuestion answerQuestion, UserRepo userRepo)
     {
+        _contextUser = ContextUser.New(userRepo);
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
         _questionRepo = questionRepo;
         _answerRepo = answerRepo;
         _answerQuestion = answerQuestion;
+        
     }
 
     public User Creator => _contextUser.All[0];
@@ -142,14 +144,14 @@ public class ContextQuestion
         return this;
     }
 
-    public static Question GetQuestion(QuestionRepo questionRepo, AnswerRepo answerRepo, AnswerQuestion answerQuestion)
+    public static Question GetQuestion(QuestionRepo questionRepo, AnswerRepo answerRepo, AnswerQuestion answerQuestion, UserRepo userRepo)
     {
-        return New(questionRepo, answerRepo, answerQuestion).AddQuestion().Persist().All[0];
+        return New(questionRepo, answerRepo, answerQuestion, userRepo).AddQuestion().Persist().All[0];
     }
 
-    public static ContextQuestion New(QuestionRepo questionRepo, AnswerRepo answerRepo, AnswerQuestion answerQuestion, bool persistImmediately = false)
+    public static ContextQuestion New(QuestionRepo questionRepo, AnswerRepo answerRepo, AnswerQuestion answerQuestion, UserRepo userRepo, bool persistImmediately = false)
     {
-        var result = new ContextQuestion(questionRepo, answerRepo, answerQuestion);
+        var result = new ContextQuestion(questionRepo, answerRepo, answerQuestion, userRepo);
 
         if (persistImmediately)
         {
@@ -177,24 +179,35 @@ public class ContextQuestion
         return this;
     }
 
-    public static void PutQuestionIntoMemoryCache(int answerProbability, int id, CategoryRepository categoryRepository, QuestionRepo questionRepo, AnswerRepo answerRepo, AnswerQuestion answerQuestion)
+    public static void PutQuestionIntoMemoryCache(int answerProbability,
+        int id, 
+        CategoryRepository categoryRepository, 
+        QuestionRepo questionRepo, 
+        AnswerRepo answerRepo, 
+        AnswerQuestion answerQuestion,
+        UserRepo userRepo)
     {
         ContextCategory.New(false).AddToEntityCache("Category name").Persist();
         var categories = categoryRepository.GetAllEager();
 
-        var questions = New(questionRepo, answerRepo, answerQuestion).AddQuestion("", "", id, true, null, categories, answerProbability).All;
+        var questions = New(questionRepo, answerRepo, answerQuestion, userRepo).AddQuestion("", "", id, true, null, categories, answerProbability).All;
 
         var categoryIds = new List<int> { 1 };
 
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(questions[0]), categoryIds);
     }
 
-    public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository, QuestionRepo questionRepo, AnswerRepo answerRepo, AnswerQuestion answerQuestion, int amount = 20)
+    public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository,
+        QuestionRepo questionRepo, 
+        AnswerRepo answerRepo, 
+        AnswerQuestion answerQuestion, 
+        UserRepo userRepo,
+        int amount = 20)
     {
         ContextCategory.New(false).AddToEntityCache("Category name").Persist();
         var categories = categoryRepository.GetAllEager();
 
-        var questions = New(questionRepo, answerRepo, answerQuestion).AddQuestions(amount, null, true, categories).All;
+        var questions = New(questionRepo, answerRepo, answerQuestion, userRepo).AddQuestions(amount, null, true, categories).All;
 
         var categoryIds = new List<int> { 1 };
 
@@ -212,12 +225,12 @@ public class ContextQuestion
         UserRepo userRepo, 
         QuestionValuationRepo questionValuationRepo)
     {
-        var contextUser = ContextUser.New();
+        var contextUser = ContextUser.New(userRepo);
         var users = contextUser.Add().All;
         var categoryList = ContextCategory.New().Add("Daniel").All;
         categoryList.First().Id = 1;
 
-        var questions = New(questionRepo, answerRepo, answerQuestion).AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
+        var questions = New(questionRepo, answerRepo, answerQuestion, userRepo).AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => userRepo.Create(u));
         SessionUserCache.AddOrUpdate(users.FirstOrDefault(),categoryValuationRepo, userRepo, questionValuationRepo);
 

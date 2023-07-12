@@ -10,16 +10,21 @@ public class Should_calculate_probability_ : BaseTest
     {
         var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
-        var question = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>()).AddQuestion(questionText: "question").Persist().All[0];
+        var question = ContextQuestion.New(R<QuestionRepo>(), 
+                R<AnswerRepo>(), 
+                R<AnswerQuestion>(), 
+                R<UserRepo>())
+            .AddQuestion(questionText: "question").Persist().All[0];
 
-        Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
-            new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
-            new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
+        var probSimple = R<ProbabilityCalc_Simple1>();
+        Assert.That(probSimple.Run(new List<Answer>{
+            new() { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
+            new() { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
         },QuestionCacheItem.ToCacheQuestion(question), userCacheItem).Probability,Is.EqualTo(36));
 
-        Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
-            new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
-            new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
+        Assert.That(probSimple.Run(new List<Answer>{
+            new() { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
+            new() { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
         }, QuestionCacheItem.ToCacheQuestion(question), userCacheItem).Probability, Is.EqualTo(63));            
     }
 
@@ -28,11 +33,15 @@ public class Should_calculate_probability_ : BaseTest
     {
         var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
-        var question = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>()).AddQuestion(questionText: "question").Persist().All[0];
+        var question = ContextQuestion.New(R<QuestionRepo>(),
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(),
+            R<UserRepo>())
+            .AddQuestion(questionText: "question").Persist().All[0];
 
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
-            new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
-            new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
+            new() { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
+            new() { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
         }, QuestionCacheItem.ToCacheQuestion(question), userCacheItem);
 
         Assert.That(correctnessProbability.Probability, Is.EqualTo(100));
@@ -43,11 +52,15 @@ public class Should_calculate_probability_ : BaseTest
     {
         var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
-        var question = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>()).AddQuestion(questionText: "question").Persist().All[0];
+        var question = ContextQuestion.New(R<QuestionRepo>(), 
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(),
+            R<UserRepo>())
+            .AddQuestion(questionText: "question").Persist().All[0];
 
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
-            new Answer{AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1)},
-            new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
+            new() {AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1)},
+            new() { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
         }, QuestionCacheItem.ToCacheQuestion(question), userCacheItem);
 
         Assert.That(correctnessProbability.Probability, Is.EqualTo(0));

@@ -10,7 +10,7 @@ public class Should_retrieve_streak : BaseTest
         var user = ContextRegisteredUser.New(R<UserRepo>()).Add().Persist().Users[0];
         user.DateCreated = DateTime.Now.AddYears(-2);
 
-        var ctx = new ContextHistory(R<ISession>(), R<QuestionRepo>(), R<AnswerQuestion>(), R<AnswerRepo>());
+        var ctx = R<ContextHistory>();
         ctx.WriteHistory(user, 0);
         ctx.WriteHistory(user, -1);
         ctx.WriteHistory(user, -10);

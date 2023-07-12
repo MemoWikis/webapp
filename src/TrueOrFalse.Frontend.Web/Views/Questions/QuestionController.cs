@@ -10,21 +10,27 @@ public class QuestionController : Controller
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionController(SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         CategoryValuationRepo categoryValuationRepo,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
     public JsonResult LoadQuestion(int questionId)
     {
         var user = _sessionUser;
-        var userQuestionValuation = SessionUserCache.GetItem(user.UserId, _categoryValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

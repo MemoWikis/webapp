@@ -10,7 +10,10 @@ public class Reference_persistence : BaseTest
     [Test]
     public void Should_persist_reference()
     {
-        var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "text", solutionText: "solution").Persist();
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(), 
+            R<UserRepo>()).AddQuestion(questionText: "text", solutionText: "solution").Persist();
         var contextCategory = ContextCategory.New().Add("categoryName").Persist();
             
         var reference = new Reference();
@@ -28,7 +31,11 @@ public class Reference_persistence : BaseTest
     [Test]
     public void Should_persist_reference_without_category()
     {
-        var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "text", solutionText: "solution").Persist();
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+                R<AnswerRepo>(), 
+                R<AnswerQuestion>(), 
+                R<UserRepo>())
+            .AddQuestion(questionText: "text", solutionText: "solution").Persist();
 
         var reference = new Reference();
         reference.Question = contextQuestion.All.First();
@@ -53,7 +60,10 @@ public class Reference_persistence : BaseTest
     public void Should_map_references_to_question()
     {
         //Arange
-        var contextQuestion = ContextQuestion.New().AddQuestion().Persist();
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(), 
+            R<UserRepo>()).AddQuestion().Persist();
         var question = contextQuestion.All[0];
         question.References.Add(new Reference{ReferenceText = "FTR"});
         question.References.Add(new Reference{AdditionalInfo = "AI"});

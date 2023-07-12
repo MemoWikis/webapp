@@ -13,7 +13,13 @@ class Delete_question : BaseTest
         var user1 = ContextUser.New(R<UserRepo>()).Add("User1").Persist().All.First();
         Resolve<SessionUser>().Login(user1);
 
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>()).AddQuestion(creator: user1).Persist();
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(), 
+            R<UserRepo>())
+            .AddQuestion(creator: user1)
+            .Persist();
+
         var question1 = contextQuestion.All[0];
         Resolve<QuestionDelete>().Run(question1.Id);
         Assert.That(Resolve<QuestionGetCount>().Run(user1.Id), Is.EqualTo(0));
@@ -22,18 +28,22 @@ class Delete_question : BaseTest
     [Test]
     public void Dont_delete_question_while_it_is_in_other_users_wishknowledge()
     {
-        var contextUser = ContextUser.New(R<UserRepo>()).Add("User1").Add("User2").Persist();
+        var userRepo = R<UserRepo>();
+        var contextUser = ContextUser.New(userRepo).Add("User1").Add("User2").Persist();
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
             
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>())
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+                R<AnswerRepo>(), 
+                R<AnswerQuestion>(),
+                userRepo)
             .PersistImmediately()
             .AddQuestion(creator: user1)
             .AddToWishknowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
         var question1 = contextQuestion.All[0];
 
         RecycleContainer();
-        user2 = R<UserRepo>().GetById(user2.Id);
+        user2 = userRepo.GetById(user2.Id);
         question1 = R<QuestionRepo>().GetById(question1.Id);
         Resolve<SessionUser>().Login(user1);
 
@@ -57,7 +67,10 @@ class Delete_question : BaseTest
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
         Resolve<SessionUser>().Login(user1);
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>())
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+                R<AnswerRepo>(), 
+                R<AnswerQuestion>(),
+                R<UserRepo>())
             .PersistImmediately()
             .AddQuestion(creator: user1);
         var question1 = contextQuestion.All[0];

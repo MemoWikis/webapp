@@ -9,7 +9,11 @@ public class Spec_changing_question_categories : BaseTest
     {
         var entityCacheInitilizer = R<EntityCacheInitializer>(); 
         var questionContext =
-            ContextQuestion.New().AddQuestion(questionText: "Question", solutionText: "Answer")
+            ContextQuestion.New(R<QuestionRepo>(),
+                    R<AnswerRepo>(),
+                    R<AnswerQuestion>(),
+                    R<UserRepo>())
+                .AddQuestion(questionText: "Question", solutionText: "Answer")
                 .AddCategory("A", entityCacheInitilizer)
                 .AddCategory("B", entityCacheInitilizer)
                 .AddCategory("C", entityCacheInitilizer)
