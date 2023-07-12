@@ -1,11 +1,12 @@
 ﻿using System.Net.Mail;
-using TrueOrFalse.Domain;
 
 public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly UserRepo _userRepo;
+    private readonly MessageRepo _messageRepo;
+    private readonly MessageRepo _message;
     private readonly CategoryRepository _categoryRepository;
     private readonly int _sessionUserId;
 
@@ -13,11 +14,13 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         CategoryRepository categoryRepository,
         CategoryChangeRepo categoryChangeRepo,
         JobQueueRepo jobQueueRepo,
-        UserRepo userRepo)
+        UserRepo userRepo,
+        MessageRepo messageRepo)
     {
         _categoryChangeRepo = categoryChangeRepo;
         _jobQueueRepo = jobQueueRepo;
         _userRepo = userRepo;
+        _messageRepo = messageRepo;
         _categoryRepository = categoryRepository; 
         _sessionUserId = sessionUser.UserId;
     }
@@ -75,7 +78,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 
     private void SendEmail(int receiverId, string subject, string body)
     {
-        CustomMsg.Send(receiverId, subject, body);
+        CustomMsg.Send(receiverId, subject, body, _messageRepo, _userRepo);
 
         var user = _userRepo.GetById(receiverId);
         var mail = new MailMessage();
@@ -83,6 +86,6 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         mail.From = new MailAddress(Settings.EmailFrom);
         mail.Subject = subject;
         mail.Body = body;
-        global::SendEmail.Run(mail, _jobQueueRepo, MailMessagePriority.Low);
+        global::SendEmail.Run(mail, _jobQueueRepo, _userRepo, MailMessagePriority.Low);
     }
 }

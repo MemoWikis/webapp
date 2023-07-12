@@ -8,51 +8,49 @@ public class VueSegmentationController : BaseController
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly SegmentationLogic _segmentationLogic;
 
     public VueSegmentationController(PermissionCheck permissionCheck,
         SessionUser sessionUser,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryValuationRepo categoryValuationRepo,
-        ImageMetaDataRepo imageMetaDataRepo) :base(sessionUser)
+        ImageMetaDataRepo imageMetaDataRepo,
+        SegmentationLogic segmentationLogic) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryValuationRepo = categoryValuationRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _segmentationLogic = segmentationLogic;
         _sessionUser = sessionUser;
     }
     [HttpPost]
     public JsonResult GetSegmentation(int id)
     {
-        var segmentationLogic = new SegmentationLogic(ControllerContext,_permissionCheck, _sessionUser,_categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
-        return Json(segmentationLogic.GetSegmentation(id));
+        return Json(_segmentationLogic.GetSegmentation(id));
     }
     [HttpPost]
     public JsonResult GetSegment(SegmentJson json)
     {
-        var segmentationLogic = new SegmentationLogic(ControllerContext, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
-        return Json(segmentationLogic.GetSegment(json));
+        return Json(_segmentationLogic.GetSegment(json));
     }
 
     [HttpPost]
     public JsonResult GetCategoriesData(int[] categoryIds)
     {
-        var segmentationLogic = new SegmentationLogic(ControllerContext, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
-        return Json(segmentationLogic.GetCategoriesData(categoryIds));
+        return Json(_segmentationLogic.GetCategoriesData(categoryIds));
     }
 
     [HttpPost]
     public JsonResult GetCategoryData(int categoryId)
     {
-        var segmentationLogic = new SegmentationLogic(ControllerContext, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
-        return Json(segmentationLogic.GetCategoryData(categoryId));
+        return Json(_segmentationLogic.GetCategoryData(categoryId));
     }
 
     [HttpPost]
     public JsonResult GetSegmentData(int categoryId)
     {
-        var segmentationLogic = new SegmentationLogic(ControllerContext, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
-        return Json(segmentationLogic.GetSegmentData(categoryId));
+        return Json(_segmentationLogic.GetSegmentData(categoryId));
     }
 }
 

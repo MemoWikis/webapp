@@ -27,8 +27,10 @@ public class Spec_IsEmailAdressNotInUse : BaseTest
             Add().Persist();
 
     private readonly Action the_email_address_should_not_be_usable_anymore 
-        = () => {
-            Assert.That(IsEmailAddressAvailable.Yes(_context.EmailAddress), Is.False);
-            Assert.That(IsEmailAddressAvailable.Yes("some@otherAddress.com"), Is.True);
+        = () =>
+        {
+            var userRepo = R<UserRepo>();
+            Assert.That(IsEmailAddressAvailable.Yes(_context.EmailAddress, userRepo), Is.False);
+            Assert.That(IsEmailAddressAvailable.Yes("some@otherAddress.com", userRepo), Is.True);
         };
 }

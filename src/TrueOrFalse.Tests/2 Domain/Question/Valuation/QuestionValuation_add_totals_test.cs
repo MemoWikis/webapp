@@ -10,7 +10,7 @@ public class QuestionValuation_add_totals_test : BaseTest
     [Test]
     public void Should_update_question_totals()
     {
-        var contextQuestion = ContextQuestion.New()
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>())
             .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", R<EntityCacheInitializer>())
             .Persist();
 
@@ -28,8 +28,8 @@ public class QuestionValuation_add_totals_test : BaseTest
             User = contextQuestion.Creator
         };
 
-        QuestionInKnowledge.Create(questionVal1);
-        QuestionInKnowledge.Create(questionVal2);
+        R<QuestionInKnowledge>().Create(questionVal1);
+        R<QuestionInKnowledge>().Create(questionVal2);
 
         Resolve<ISession>().Evict(contextQuestion.All.First());
 

@@ -100,8 +100,13 @@ public class Category_persistence_tests : BaseTest
             }
         }
         categories = EntityCache.GetAllCategories();
-            
-        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories( permissionCheck,true).Where(cci => SessionUserCache.IsInWishknowledge(user.Id,cci.Key, Resolve<CategoryValuationRepo>())).Count, Is.EqualTo(6));
+
+        var expectedResult = EntityCache.GetCategoryByName("A").First()
+            .AggregatedCategories(permissionCheck)
+            .Count(cci => SessionUserCache.IsInWishknowledge(user.Id, cci.Key, Resolve<CategoryValuationRepo>(), R<UserRepo>(),
+                R<QuestionValuationRepo>())); 
+
+        Assert.That(expectedResult, Is.EqualTo(6));
         Assert.That(categories.ByName("A").AggregatedCategories(permissionCheck, true).Count, Is.EqualTo(13));
     }
 }

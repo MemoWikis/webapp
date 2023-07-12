@@ -11,8 +11,9 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class VueMaintenanceController : BaseController
+public class VueMaintenanceController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
     private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
     private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
@@ -22,6 +23,9 @@ public class VueMaintenanceController : BaseController
     private readonly UpdateWishcount _updateWishcount;
     private readonly MeiliSearchReIndexCategories _meiliSearchReIndexCategories;
     private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly AnswerRepo _answerRepo;
+    private readonly UserRepo _userRepo;
 
     public VueMaintenanceController(SessionUser sessionUser,
         ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
@@ -32,8 +36,12 @@ public class VueMaintenanceController : BaseController
         ReputationUpdate reputationUpdate,
         UpdateWishcount updateWishcount,
         MeiliSearchReIndexCategories meiliSearchReIndexCategories,
-        MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers) :base(sessionUser)
+        MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
+        CategoryRepository categoryRepository,
+        AnswerRepo answerRepo,
+        UserRepo userRepo)
     {
+        _sessionUser = sessionUser;
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
         _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
@@ -43,6 +51,9 @@ public class VueMaintenanceController : BaseController
         _updateWishcount = updateWishcount;
         _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
         _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
+        _categoryRepository = categoryRepository;
+        _answerRepo = answerRepo;
+        _userRepo = userRepo;
     }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
@@ -69,8 +80,8 @@ public class VueMaintenanceController : BaseController
     {
         _probabilityUpdateValuationAll.Run();
         _probabilityUpdateQuestion.Run();
-        ProbabilityUpdate_Category.Run();
-        ProbabilityUpdate_User.Run();
+        ProbabilityUpdate_Category.Run(_categoryRepository, _answerRepo);
+        ProbabilityUpdate_User.Run(_userRepo, _answerRepo);
 
         return Json(new
             {
@@ -137,7 +148,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public ActionResult DeleteUser(int userId)
     {
-        Sl.UserRepo.DeleteFromAllTables(userId);
+        _userRepo.DeleteFromAllTables(userId);
 
         return Json(new
         {
@@ -232,7 +243,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult CheckForDuplicateInteractionNumbers()
     {
-        var duplicates = Sl.R<AnswerRepo>().GetAll()
+        var duplicates = _answerRepo.GetAll()
             .Where(a => a.QuestionViewGuid != Guid.Empty)
             .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
             .Where(g => g.Skip(1).Any())

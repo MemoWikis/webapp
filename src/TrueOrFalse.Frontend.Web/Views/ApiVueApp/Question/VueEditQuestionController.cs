@@ -11,9 +11,10 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class VueEditQuestionController : BaseController
+public class VueEditQuestionController : Controller
 {
     private readonly QuestionRepo _questionRepo;
+    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
@@ -23,6 +24,9 @@ public class VueEditQuestionController : BaseController
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly ImageStore _imageStore;
     private readonly SessionUiData _sessionUiData;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionChangeRepo _questionChangeRepo;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -34,9 +38,13 @@ public class VueEditQuestionController : BaseController
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         ImageStore imageStore,
-        SessionUiData sessionUiData) :base(sessionUser)
+        SessionUiData sessionUiData,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo,
+        QuestionChangeRepo questionChangeRepo) 
     {
         _questionRepo = questionRepo;
+        _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
@@ -46,6 +54,9 @@ public class VueEditQuestionController : BaseController
         _imageMetaDataRepo = imageMetaDataRepo;
         _imageStore = imageStore;
         _sessionUiData = sessionUiData;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
+        _questionChangeRepo = questionChangeRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -53,7 +64,7 @@ public class VueEditQuestionController : BaseController
     public JsonResult VueCreate(QuestionDataJson questionDataJson)
     {
         if (questionDataJson?.SessionConfig?.CurrentUserId <= 0)
-            questionDataJson.SessionConfig.CurrentUserId = UserId; 
+            questionDataJson.SessionConfig.CurrentUserId = _sessionUser.UserId; 
         
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
@@ -65,7 +76,7 @@ public class VueEditQuestionController : BaseController
                 }
             };
         var question = new Question();
-        var sessionUser = Sl.UserRepo.GetById(_sessionUser.UserId);
+        var sessionUser = _userRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
@@ -144,7 +155,7 @@ public class VueEditQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        var sessionUser = Sl.UserRepo.GetById(_sessionUser.UserId);
+        var sessionUser = _userRepo.GetById(_sessionUser.UserId);
         question.Creator =  sessionUser;
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
@@ -218,7 +229,7 @@ public class VueEditQuestionController : BaseController
             }
         }
 
-        question.License = IsInstallationAdmin
+        question.License = _sessionUser.IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
@@ -230,7 +241,7 @@ public class VueEditQuestionController : BaseController
     public JsonResult LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -313,7 +324,7 @@ public class VueEditQuestionController : BaseController
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            var creator = Sl.UserRepo.GetById(_sessionUser.UserId);
+            var creator = _userRepo.GetById(_sessionUser.UserId);
             question.Creator = creator;
             question.IsWorkInProgress = true;
             _questionRepo.Create(question);
@@ -339,7 +350,7 @@ public class VueEditQuestionController : BaseController
         }
 
         question = _questionRepo.GetById(questionId);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question, _questionRepo, imageWasChanged: true);
+        _questionChangeRepo.AddUpdateEntry(question, _questionRepo, imageWasChanged: true);
 
         var imageSettings = new QuestionImageSettings(questionId);
 
@@ -381,8 +392,8 @@ public class VueEditQuestionController : BaseController
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo) ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || IsInstallationAdmin)
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
+            if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

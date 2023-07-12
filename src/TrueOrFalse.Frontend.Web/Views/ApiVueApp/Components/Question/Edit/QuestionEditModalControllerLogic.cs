@@ -9,7 +9,7 @@ using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
-public class QuestionEditModalControllerLogic
+public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepo _questionRepo;
     private readonly SessionUser _sessionUser;
@@ -20,6 +20,8 @@ public class QuestionEditModalControllerLogic
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -29,7 +31,9 @@ public class QuestionEditModalControllerLogic
         QuestionInKnowledge questionInKnowledge,
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo) 
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo) 
     {
         _questionRepo = questionRepo;
         _sessionUser = sessionUser;
@@ -40,6 +44,8 @@ public class QuestionEditModalControllerLogic
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
@@ -56,7 +62,7 @@ public class QuestionEditModalControllerLogic
         }
 
         var question = new Question();
-        question.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
+        question.Creator = _userRepo.GetById(_sessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionRepo.Create(question);
@@ -75,7 +81,7 @@ public class QuestionEditModalControllerLogic
     private dynamic LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

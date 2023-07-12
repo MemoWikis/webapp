@@ -8,13 +8,16 @@ public class VueUserController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly ReputationCalc _rpReputationCalc;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public VueUserController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        ReputationCalc rpReputationCalc) :base(sessionUser)
+        ReputationCalc rpReputationCalc,
+        QuestionValuationRepo questionValuationRepo) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _rpReputationCalc = rpReputationCalc;
+        _questionValuationRepo = questionValuationRepo;
     }
     [HttpGet]
     public JsonResult Get(int id)
@@ -75,7 +78,7 @@ public class VueUserController : BaseController
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = Sl.QuestionValuationRepo
+            var valuations = _questionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);

@@ -4,13 +4,15 @@ using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class SubscriptionLogic : BaseStripeLogic
+public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
+    private readonly UserRepo _userRepo;
 
-    public SubscriptionLogic(SessionUser sessionUser)
+    public SubscriptionLogic(SessionUser sessionUser, UserRepo userRepo)
     {
         _sessionUser = sessionUser;
+        _userRepo = userRepo;
     }
 
     public async Task<string> CreateCustomer(string username, string email, int userId)
@@ -23,9 +25,9 @@ public class SubscriptionLogic : BaseStripeLogic
         var serviceUser = new CustomerService();
         var customer = await serviceUser.CreateAsync(optionsUser);
 
-        var user = Sl.UserRepo.GetById(userId);
+        var user = _userRepo.GetById(userId);
         user.StripeId = customer.Id;
-        Sl.UserRepo.Update(user);
+       _userRepo.Update(user);
 
         return customer.Id;
     }

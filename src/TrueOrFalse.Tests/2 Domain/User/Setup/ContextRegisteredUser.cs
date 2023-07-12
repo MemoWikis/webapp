@@ -11,14 +11,14 @@ public class ContextRegisteredUser : IContextDescription
 
     public List<User> Users = new List<User>();
 
-    private ContextRegisteredUser()
+    private ContextRegisteredUser(UserRepo userRepo)
     {
-        _userRepo = Sl.R<UserRepo>();
+        _userRepo = userRepo;
     }
 
-    public static ContextRegisteredUser New()
+    public static ContextRegisteredUser New(UserRepo userRepo)
     {
-        return new ContextRegisteredUser();
+        return new ContextRegisteredUser(userRepo);
     }
 
     public ContextRegisteredUser Add()

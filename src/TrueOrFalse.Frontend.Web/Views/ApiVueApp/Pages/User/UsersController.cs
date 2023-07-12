@@ -6,23 +6,29 @@ using TrueOrFalse.Search;
 
 namespace VueApp;
 
-public class VueUsersController : BaseController
+public class VueUsersController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly MeiliSearchUsers _meiliSearchUsers;
     private readonly GetTotalUsers _totalUsers;
     private readonly UserSummary _userSummary;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public VueUsersController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         MeiliSearchUsers meiliSearchUsers,
         GetTotalUsers totalUsers,
-        UserSummary userSummary) : base(sessionUser)
+        UserSummary userSummary,
+        QuestionValuationRepo questionValuationRepo
+        )
     {
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _meiliSearchUsers = meiliSearchUsers;
         _totalUsers = totalUsers;
         _userSummary = userSummary;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     [HttpGet]
@@ -58,7 +64,7 @@ public class VueUsersController : BaseController
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = Sl.QuestionValuationRepo
+            var valuations = _questionValuationRepo
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);

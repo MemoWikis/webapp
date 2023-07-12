@@ -8,14 +8,17 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
         CategoryValuationRepo categoryValuationRepo,
-        UserRepo userRepo)
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationRepo = categoryValuationRepo;
         _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     private IList<int> QuestionsInValuatedCategories(int userId, IList<int> questionIds, int exeptCategoryId = -1)
@@ -23,7 +26,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationRepo).Where(v => v.IsInWishKnowledge());
+        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationRepo, _userRepo, _questionValuationRepo).Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)
             valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);
@@ -59,7 +62,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
         foreach (var question in questionsToUnpin)
             _questionInKnowledge.Unpin(question.Id, user.Id);
 
-        QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
+        _questionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
         _questionInKnowledge.SetUserWishCountQuestions(user.Id, sessionUser);
     }
 }

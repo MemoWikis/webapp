@@ -3,22 +3,30 @@ using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class TopicLearningQuestionListController: BaseController
+public class TopicLearningQuestionListController: Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
     public TopicLearningQuestionListController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
         LearningSessionCache learningSessionCache,
         CategoryValuationRepo categoryValuationRepo, 
-        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo) 
     {
+        _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
     }
     [HttpPost]
@@ -29,12 +37,12 @@ public class TopicLearningQuestionListController: BaseController
             var config = new LearningSessionConfig
             {
                 CategoryId = topicId,
-                CurrentUserId = IsLoggedIn ? UserId : default
+                CurrentUserId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default
             };
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationRepo, _imageMetaDataRepo)
+        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationRepo, _imageMetaDataRepo, _userRepo, _questionValuationRepo)
             .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
@@ -45,7 +53,7 @@ public class TopicLearningQuestionListController: BaseController
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;

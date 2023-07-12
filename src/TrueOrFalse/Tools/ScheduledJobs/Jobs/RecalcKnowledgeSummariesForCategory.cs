@@ -9,11 +9,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class RecalcKnowledgeSummariesForCategory : IJob
     {
         private readonly CategoryValuationRepo _categoryValuationRepo;
+        private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
         public const int IntervalInSeconds = 5;
 
-        public RecalcKnowledgeSummariesForCategory(CategoryValuationRepo categoryValuationRepo)
+        public RecalcKnowledgeSummariesForCategory(CategoryValuationRepo categoryValuationRepo,
+            KnowledgeSummaryLoader knowledgeSummaryLoader)
         {
             _categoryValuationRepo = categoryValuationRepo;
+            _knowledgeSummaryLoader = knowledgeSummaryLoader;
         }
 
         public void Execute(IJobExecutionContext context)
@@ -27,7 +30,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     try
                     {
-                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key), _categoryValuationRepo);
+                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key), _categoryValuationRepo, _knowledgeSummaryLoader);
                         successfullJobIds.AddRange(grouping.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)

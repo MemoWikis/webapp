@@ -1,24 +1,24 @@
 ﻿class KnowledgeSummaryUpdate
 {
-    public static void RunForCategory(int catgoryId, CategoryValuationRepo categoryValuationRepo)
+    public static void RunForCategory(int catgoryId, CategoryValuationRepo categoryValuationRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
         foreach (var categoryValuation in categoryValuationRepo.GetByCategory(catgoryId))
         {
-            Run(categoryValuation, categoryValuationRepo);
+            Run(categoryValuation, categoryValuationRepo, knowledgeSummaryLoader);
         }
     }
 
-    public static void RunForUser(int userId, CategoryValuationRepo categoryValuationRepo)
+    public static void RunForUser(int userId, CategoryValuationRepo categoryValuationRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
         foreach (var categoryValuation in categoryValuationRepo.GetByUser(userId))
         {
-            Run(categoryValuation, categoryValuationRepo);
+            Run(categoryValuation, categoryValuationRepo,knowledgeSummaryLoader);
         }
     }
 
-    private static void Run(CategoryValuation categoryValuation, CategoryValuationRepo categoryValuationRepo)
+    private static void Run(CategoryValuation categoryValuation, CategoryValuationRepo categoryValuationRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.Run(categoryValuation.UserId, categoryValuation.CategoryId, false);
+        var knowledgeSummary = knowledgeSummaryLoader.Run(categoryValuation.UserId, categoryValuation.CategoryId, false);
         categoryValuation.CountNotLearned = knowledgeSummary.NotLearned;
         categoryValuation.CountNeedsLearning = knowledgeSummary.NeedsLearning;
         categoryValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;

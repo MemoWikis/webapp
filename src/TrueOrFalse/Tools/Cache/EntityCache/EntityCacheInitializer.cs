@@ -6,19 +6,22 @@ public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionRepo _questionRepo;
+    private readonly UserRepo _userRepo;
 
     public EntityCacheInitializer(CategoryRepository categoryRepository, 
-        QuestionRepo questionRepo)
+        QuestionRepo questionRepo,
+        UserRepo userRepo)
     {
         _categoryRepository = categoryRepository;
         _questionRepo = questionRepo;
+        _userRepo = userRepo;
     }
     public void Init(string customMessage = "")
     {
         var stopWatch = Stopwatch.StartNew();
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var allUsers = Sl.UserRepo.GetAll();
+        var allUsers = _userRepo.GetAll();
         Logg.r().Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Logg.r().Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);

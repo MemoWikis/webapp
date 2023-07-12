@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class RecentlyUsedRelationTargets
 {
-    public static void Add(int userId, int topicId)
+    public static void Add(int userId, int topicId, UserRepo userRepo)
     {
         var userCacheItem = EntityCache.GetUserById(userId);
 
@@ -22,7 +22,7 @@ public class RecentlyUsedRelationTargets
         var recentlyUsedRelationTargetTopics = string.Join(",", recentlyUsedRelationTargetTopicIds);
 
         userCacheItem.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics;
-        Sl.UserRepo.ApplyChangeAndUpdate(userId, user =>
+        userRepo.ApplyChangeAndUpdate(userId, user =>
         {
             user.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics;
         });

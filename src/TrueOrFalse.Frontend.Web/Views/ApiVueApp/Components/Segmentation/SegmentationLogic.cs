@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class SegmentationLogic
+public class SegmentationLogic : IRegisterAsInstancePerLifetime
 {
     private ControllerContext _controllerContext;
     private readonly PermissionCheck _permissionCheck;
@@ -15,13 +15,17 @@ public class SegmentationLogic
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public SegmentationLogic(ControllerContext controllerContext,
         PermissionCheck permissionCheck, 
         SessionUser sessionUser,
         CategoryValuationRepo categoryValuationRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo, 
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _controllerContext = controllerContext;
         _permissionCheck = permissionCheck;
@@ -30,6 +34,8 @@ public class SegmentationLogic
         _categoryValuationRepo = categoryValuationRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
     public dynamic GetSegmentation(int id)
     {
@@ -68,8 +74,8 @@ public class SegmentationLogic
 
         if (_sessionUser.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationRepo).StartTopicId;
+            userValuation = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
@@ -83,8 +89,8 @@ public class SegmentationLogic
     public dynamic GetCategoryData(int categoryId)
     {
         var categoryCardData = _sessionUser.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId, _categoryValuationRepo).CategoryValuations,
-                SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationRepo).StartTopicId)
+            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).CategoryValuations,
+                SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }

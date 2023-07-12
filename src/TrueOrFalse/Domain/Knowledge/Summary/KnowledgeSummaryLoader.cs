@@ -6,12 +6,17 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CategoryRepository _categoryRepository;
+    private readonly UserRepo _userRepo;
 
-    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo, QuestionValuationRepo questionValuationRepo, CategoryRepository categoryRepository)
+    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo,
+        QuestionValuationRepo questionValuationRepo, 
+        CategoryRepository categoryRepository,
+        UserRepo userRepo)
     {
         _categoryValuationRepo = categoryValuationRepo;
         _questionValuationRepo = questionValuationRepo;
         _categoryRepository = categoryRepository;
+        _userRepo = userRepo;
     }
 
     public KnowledgeSummary RunFromDbCache(Category category, int userId)
@@ -56,7 +61,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SessionUserCache.GetItem(userId, _categoryValuationRepo)?.QuestionValuations;
+        var userValuations = SessionUserCache.GetItem(userId, _categoryValuationRepo, _userRepo, _questionValuationRepo)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 

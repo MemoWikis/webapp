@@ -3,14 +3,28 @@ using RazorEngine;
 
 public class KnowledgeReportMsg
 {
-    public const string UtmSource = "knowledgeReportEmail";
-    public const string UtmCampaignFullString = "";
+    private const string UtmSource = "knowledgeReportEmail";
 
-    public static void SendHtmlMail(User user, JobQueueRepo jobQueueRepo, MessageEmailRepo messageEmailRepo)
+    public static void SendHtmlMail(User user,
+        JobQueueRepo jobQueueRepo,
+        MessageEmailRepo messageEmailRepo,
+        GetAnswerStatsInPeriod getAnswerStatsInPeriod,
+        GetStreaksDays getStreaksDays,
+        UserRepo userRepo,
+        QuestionRepo questionRepo,
+        GetUnreadMessageCount getUnreadMessageCount,
+        KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_KnowledgeReport()),
-            new KnowledgeReportMsgModel(user, UtmSource)
+            new KnowledgeReportMsgModel(user,
+                UtmSource,
+                getAnswerStatsInPeriod,
+                getStreaksDays,
+                userRepo,
+                questionRepo,
+                getUnreadMessageCount,
+                knowledgeSummaryLoader)
         );
 
         var messageTitle = "Dein " + (user.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "" : UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval) + "er") + " Wissensbericht";
@@ -23,22 +37,26 @@ public class KnowledgeReportMsg
                              "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Weekly) + "\">wöchentlich</a>, " +
                              "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Monthly) + "\">monatlich</a> oder " +
                              "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Quarterly) + "\">vierteljährlich</a>" +
-                             "). " + 
+                             "). " +
                              "Weitere Einstellungen zu deinen E-Mail-Benachrichtigungen sind in deinen " +
-                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?utm_medium=email&utm_source=" + UtmSource + UtmCampaignFullString + "&utm_term=editKnowledgeReportSettings\">Konto-Einstellungen</a> " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?utm_medium=email&utm_source=" + UtmSource + "&utm_term=editKnowledgeReportSettings\">Konto-Einstellungen</a> " +
                              "möglich.";
 
 
-        HtmlMessage.Send(new MailMessage2(
+
+        var mailmessage2 =new MailMessage2(
             Settings.EmailFrom,
             user.EmailAddress,
             "Dein Wissensstand bei memucho",
-            parsedTemplate)
-            { UserName = user.Name},
-            messageTitle: messageTitle,
-            signOutMessage: signOutMessage,
-            utmSource: UtmSource,
-            jobQueueRepo: jobQueueRepo);
+            parsedTemplate);
+        mailmessage2.UserName = user.Name; 
+
+        HtmlMessage.Send(mailmessage2,
+            messageTitle,
+            jobQueueRepo,
+            userRepo,
+            signOutMessage,
+           UtmSource);
 
         messageEmailRepo.Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
         Logg.r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
@@ -72,7 +90,7 @@ public class KnowledgeReportMsg
         var shouldHaveSent = new DateTime();
         switch (user.KnowledgeReportInterval)
         {
-            case UserSettingNotificationInterval.NotSet: 
+            case UserSettingNotificationInterval.NotSet:
                 goto case UserSettingNotificationInterval.Weekly; //defines the standard behaviour if setting is not set; needs to be the same as in UserSettings.aspx
             case UserSettingNotificationInterval.Daily:
                 shouldHaveSent = DateTime.Now.AddHours(-23);

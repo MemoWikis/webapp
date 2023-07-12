@@ -11,6 +11,7 @@ public class GoogleController : Controller
     private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly MessageRepo _messageRepo;
     private readonly UserRepo _userRepo;
     private readonly SessionUser _sessionUser;
 
@@ -19,12 +20,14 @@ public class GoogleController : Controller
         VueSessionUser vueSessionUser,
         RegisterUser registerUser,
         CategoryRepository categoryRepository,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo,
+        MessageRepo messageRepo)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
         _categoryRepository = categoryRepository;
         _jobQueueRepo = jobQueueRepo;
+        _messageRepo = messageRepo;
         _userRepo = userRepo;
         _sessionUser = sessionUser;
     }
@@ -66,7 +69,7 @@ public class GoogleController : Controller
     [HttpPost]
     public JsonResult UserExists(string googleId)
     {
-        return Json(Sl.UserRepo.GoogleUserExists(googleId));
+        return Json(_userRepo.GoogleUserExists(googleId));
     }
 
     [HttpPost]
@@ -76,9 +79,9 @@ public class GoogleController : Controller
 
         if (registerResult.Success)
         {
-            var user = Sl.UserRepo.UserGetByGoogleId(googleUser.GoogleId);
-            SendRegistrationEmail.Run(user, _jobQueueRepo);
-            WelcomeMsg.Send(user);
+            var user = _userRepo.UserGetByGoogleId(googleUser.GoogleId);
+            SendRegistrationEmail.Run(user, _jobQueueRepo, _userRepo);
+            WelcomeMsg.Send(user, _messageRepo);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;

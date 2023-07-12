@@ -6,16 +6,22 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly QuestionRepo _questionRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionDelete(PermissionCheck permissionCheck,
         SessionUser sessionUser,
         CategoryValuationRepo categoryValuationRepo,
-        QuestionRepo questionRepo)
+        QuestionRepo questionRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
         _categoryValuationRepo = categoryValuationRepo;
         _questionRepo = questionRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
     public void Run(int questionId)
     {
@@ -31,7 +37,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId, _categoryValuationRepo);
+        SessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 
@@ -40,7 +46,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         var questionCreator = question.Creator;
         if (_permissionCheck.CanDelete(question))
         {
-            var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
+            var howOftenInOtherPeopleWuwi = _questionRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
             if (howOftenInOtherPeopleWuwi > 0)
             {
                 return new CanBeDeletedResult

@@ -85,10 +85,10 @@ public class CategoryCacheItem
         return visibleVisited;
     }
 
-    public virtual IList<CategoryCacheItem> CategoriesToExclude()
+    public virtual IList<CategoryCacheItem> CategoriesToExclude(CategoryRepository categoryRepository)
     {
         return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
-            ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)).ToList()
+            ? ToCacheCategories(categoryRepository.GetByIdsFromString(CategoriesToExcludeIdsString)).ToList()
             : new List<CategoryCacheItem>();
     }
 
@@ -99,10 +99,10 @@ public class CategoryCacheItem
             .Select(x => Convert.ToInt32(x)));
     }
 
-    public virtual IList<CategoryCacheItem> CategoriesToInclude()
+    public virtual IList<CategoryCacheItem> CategoriesToInclude(CategoryRepository categoryRepository)
     {
         return !string.IsNullOrEmpty(CategoriesToIncludeIdsString)
-            ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)).ToList()
+            ? ToCacheCategories(categoryRepository.GetByIdsFromString(CategoriesToIncludeIdsString)).ToList()
             : new List<CategoryCacheItem>();
     }
 

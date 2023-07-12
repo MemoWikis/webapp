@@ -10,13 +10,17 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly GetUnreadMessageCount _getUnreadMessageCount;
 
     public VueSessionUser(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        TopicControllerLogic topicControllerLogic,
+        GetUnreadMessageCount getUnreadMessageCount)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -24,6 +28,8 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _topicControllerLogic = topicControllerLogic;
+        _getUnreadMessageCount = getUnreadMessageCount;
     }
 
     public dynamic GetCurrentUserData()
@@ -56,7 +62,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 ImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_50px(_sessionUser.User).Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo,_imageMetaDataRepo).GetTopicData(user.StartTopicId),
+                PersonalWiki = _topicControllerLogic.GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -68,7 +74,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                         ? 0
                         : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
                 },
-                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId),
+                UnreadMessagesCount = _getUnreadMessageCount.Run(_sessionUser.UserId),
                 SubscriptionType = user.EndDate > DateTime.Now
                     ? SubscriptionType.Plus
                     : SubscriptionType.Basic,
@@ -94,7 +100,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo, _imageMetaDataRepo).GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = _topicControllerLogic.GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = _sessionUser.GetTotalActivityPoints(),

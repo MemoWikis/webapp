@@ -11,6 +11,9 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly UserActivityRepo _userActivityRepo;
 
     public enum CreateDeleteUpdate
     {
@@ -24,13 +27,19 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         PermissionCheck permissionCheck,
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationRepo categoryValuationRepo,
-        UpdateQuestionCountForCategory updateQuestionCountForCategory)
+        UpdateQuestionCountForCategory updateQuestionCountForCategory,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo,
+        UserActivityRepo userActivityRepo)
         : base(session)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
+        _userActivityRepo = userActivityRepo;
     }
 
     /// <summary>
@@ -47,7 +56,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         base.Create(category);
         Flush();
 
-        UserActivityAdd.CreatedCategory(category);
+        UserActivityAdd.CreatedCategory(category, _userRepo, _userActivityRepo);
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
@@ -106,7 +115,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     {
         base.DeleteWithoutFlush(category);
         EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationRepo);
+        SessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()

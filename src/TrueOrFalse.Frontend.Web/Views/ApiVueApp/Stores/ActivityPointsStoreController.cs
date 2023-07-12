@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Web.Mvc;
 
-public class ActivityPointsStoreController : BaseController
+public class ActivityPointsStoreController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly ActivityPointsRepo _activityPointsRepo;
+    private readonly UserRepo _userRepo;
 
-    public ActivityPointsStoreController(SessionUser sessionUser, ActivityPointsRepo activityPointsRepo): base(sessionUser)
+    public ActivityPointsStoreController(SessionUser sessionUser,
+        ActivityPointsRepo activityPointsRepo,
+        UserRepo userRepo)
     {
+        _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
+        _userRepo = userRepo;
     }
     [HttpPost]
     public JsonResult Add(string activityTypeString, int points)
@@ -20,12 +26,12 @@ public class ActivityPointsStoreController : BaseController
             DateEarned = DateTime.Now
         };
 
-        if (IsLoggedIn)
+        if (_sessionUser.IsLoggedIn)
         {
             var oldUserLevel = _sessionUser.User.ActivityLevel;
             activityPoints.UserId = _sessionUser.UserId;
             _activityPointsRepo.Create(activityPoints);
-            Sl.UserRepo.UpdateActivityPointsData();
+            _userRepo.UpdateActivityPointsData();
 
             var activityLevel = _sessionUser.User.ActivityLevel;
             var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);

@@ -13,18 +13,30 @@ public class QuestionRepo : RepositoryDbBase<Question>
     private readonly ReputationUpdate _reputationUpdate;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
+    private readonly QuestionChangeRepo _questionChangeRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly UserRepo _userRepo;
+    private readonly UserActivityRepo _userActivityRepo;
 
 
     public QuestionRepo(ISession session,
         CategoryRepository categoryRepository,
         ReputationUpdate reputationUpdate,
         JobQueueRepo jobQueueRepo,
-        UpdateQuestionCountForCategory updateQuestionCountForCategory) : base(session)
+        UpdateQuestionCountForCategory updateQuestionCountForCategory,
+        QuestionChangeRepo questionChangeRepo,
+        QuestionValuationRepo questionValuationRepo, 
+        UserRepo userRepo,
+        UserActivityRepo userActivityRepo) : base(session)
     {
         _categoryRepository = categoryRepository;
         _reputationUpdate = reputationUpdate;
         _jobQueueRepo = jobQueueRepo;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
+        _questionChangeRepo = questionChangeRepo;
+        _questionValuationRepo = questionValuationRepo;
+        _userRepo = userRepo;
+        _userActivityRepo = userActivityRepo;
     }
 
     public override void Create(Question question)
@@ -37,7 +49,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
 
-        Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+        _updateQuestionCountForCategory.Run(question.Categories);
 
         foreach (var category in question.Categories.ToList())
         {
@@ -48,20 +60,20 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         if (question.Visibility != QuestionVisibility.Owner)
         {
-            UserActivityAdd.CreatedQuestion(question);
+            UserActivityAdd.CreatedQuestion(question, _userRepo, _userActivityRepo);
             _reputationUpdate.ForUser(question.Creator);
         }
 
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
-        Sl.QuestionChangeRepo.AddCreateEntry(question, this);
+        _questionChangeRepo.AddCreateEntry(question, this);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().CreateAsync(question));
     }
 
     public override void Delete(Question question)
     {
         base.Delete(question);
-        Sl.QuestionChangeRepo.AddDeleteEntry(question);
+        _questionChangeRepo.AddDeleteEntry(question);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().DeleteAsync(question));
     }
 
@@ -186,7 +198,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     /// </summary>
     public int HowOftenInOtherPeoplesWuwi(int userId, int questionId)
     {
-        return Sl.R<QuestionValuationRepo>()
+        return _questionValuationRepo
             .Query
             .Where(v =>
                 v.User.Id != userId &&
@@ -255,7 +267,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
-        Sl.QuestionChangeRepo.AddUpdateEntry(question, this);
+        _questionChangeRepo.AddUpdateEntry(question, this);
 
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().UpdateAsync(question));
     }

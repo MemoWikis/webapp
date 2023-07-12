@@ -3,17 +3,25 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class VueUserSettingsController : BaseController
+public class VueUserSettingsController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly ReputationUpdate _reputationUpdate;
     private readonly CredentialsAreValid _credentialsAreValid;
+    private readonly UserRepo _userRepo;
+    private readonly PasswordRecovery _passwordRecovery;
 
     public VueUserSettingsController(SessionUser sessionUser,
         ReputationUpdate reputationUpdate,
-        CredentialsAreValid credentialsAreValid) : base(sessionUser)
+        CredentialsAreValid credentialsAreValid,
+        UserRepo userRepo,
+        PasswordRecovery passwordRecovery)
     {
+        _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
         _credentialsAreValid = credentialsAreValid;
+        _userRepo = userRepo;
+        _passwordRecovery = passwordRecovery;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -22,13 +30,13 @@ public class VueUserSettingsController : BaseController
     {
         var result = new UpdateKnowledgeReportIntervalResult();
         var updatedResult =
-            UpdateKnowledgeReportInterval.Run(Sl.UserRepo.GetById(_sessionUser.UserId), notificationInterval, result);
+            UpdateKnowledgeReportInterval.Run(_userRepo.GetById(_sessionUser.UserId), notificationInterval, result, _userRepo);
         var message = updatedResult.ResultMessage;
         if (result.Success && _sessionUser.User.Id == result.AffectedUser.Id)
         {
             _sessionUser.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
             EntityCache.AddOrUpdate(_sessionUser.User);
-            Sl.UserRepo.Update(_sessionUser.User);
+            _userRepo.Update(_sessionUser.User);
             return Json(new
             {
                 success = true, message
@@ -58,7 +66,7 @@ public class VueUserSettingsController : BaseController
                 });
             }
 
-            var user = Sl.UserRepo.GetById(_sessionUser.User.Id);
+            var user = _userRepo.GetById(_sessionUser.User.Id);
             SetUserPassword.Run(newPassword.Trim(), user);
 
             return Json(new
@@ -86,11 +94,11 @@ public class VueUserSettingsController : BaseController
         }
 
         if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
-            IsEmailAddressAvailable.Yes(form.email))
+            IsEmailAddressAvailable.Yes(form.email, _userRepo))
         {
             _sessionUser.User.EmailAddress = form.email.Trim();
         }
-        else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email))
+        else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userRepo))
         {
             return Json(new
                 {
@@ -101,11 +109,11 @@ public class VueUserSettingsController : BaseController
         }
 
         if (form.username != null && form.username.Trim() != _sessionUser.User.Name &&
-            IsUserNameAvailable.Yes(form.username))
+            IsUserNameAvailable.Yes(form.username, _userRepo))
         {
             _sessionUser.User.Name = form.username.Trim();
         }
-        else if (form.username != null && !IsUserNameAvailable.Yes(form.username))
+        else if (form.username != null && !IsUserNameAvailable.Yes(form.username, _userRepo))
         {
             return Json(new
                 {
@@ -121,7 +129,7 @@ public class VueUserSettingsController : BaseController
         }
 
         EntityCache.AddOrUpdate(_sessionUser.User);
-        Sl.UserRepo.Update(_sessionUser.User);
+        _userRepo.Update(_sessionUser.User);
 
         return Json(new
         {
@@ -141,7 +149,7 @@ public class VueUserSettingsController : BaseController
         _sessionUser.User.AllowsSupportiveLogin = allowSupportiveLogin;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
-        Sl.UserRepo.Update(_sessionUser.User);
+        _userRepo.Update(_sessionUser.User);
 
         return Json(new
         {
@@ -158,7 +166,7 @@ public class VueUserSettingsController : BaseController
         _sessionUser.User.ShowWishKnowledge = showWuwi;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
-        Sl.UserRepo.Update(_sessionUser.User);
+        _userRepo.Update(_sessionUser.User);
         _reputationUpdate.ForUser(_sessionUser
             .User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
@@ -185,7 +193,7 @@ public class VueUserSettingsController : BaseController
     [HttpPost]
     public JsonResult ResetPassword()
     {
-        var passwordRecoveryResult = Sl.Resolve<PasswordRecovery>().Run(_sessionUser.User.EmailAddress);
+        var passwordRecoveryResult = _passwordRecovery.Run(_sessionUser.User.EmailAddress);
         return Json(passwordRecoveryResult.Success);
     }
 

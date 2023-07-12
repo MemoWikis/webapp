@@ -6,20 +6,27 @@ using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 namespace VueApp;
-public class QuestionLandingPageController : BaseController
+public class QuestionLandingPageController :Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
-        ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
-    {
+        ImageMetaDataRepo imageMetaDataRepo, 
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo){
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -57,11 +64,11 @@ public class QuestionLandingPageController : BaseController
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
-                imgUrl = GetQuestionImageFrontendData.Run(q).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url
+                imgUrl = GetQuestionImageFrontendData.Run(q, _imageMetaDataRepo).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url
             },
             solutionData = new
             {
@@ -77,7 +84,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo, _imageMetaDataRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo, _imageMetaDataRepo, _userRepo, _questionValuationRepo).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

@@ -6,16 +6,16 @@ public class ContextUser
 {
     private readonly UserRepo _userRepo;
 
-    public List<User> All = new List<User>();
+    public List<User> All = new();
 
-    private ContextUser()
+    private ContextUser(UserRepo userRepo)
     {
-        _userRepo = Sl.R<UserRepo>();
+        _userRepo = userRepo;
     }
 
-    public static ContextUser New()
+    public static ContextUser New(UserRepo userRepo)
     {
-        return new ContextUser();
+        return new ContextUser(userRepo);
     }
 
     public static User GetUser(string userName = "Firstname Lastname")

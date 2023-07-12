@@ -6,35 +6,41 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _nhibernateSession;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly UserRepo _userRepo;
+    private readonly MessageRepo _messageRepo;
 
     public RegisterUser(ISession nhibernateSession,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo,
+        UserRepo userRepo, 
+        MessageRepo messageRepo)
     {
         _nhibernateSession = nhibernateSession;
         _jobQueueRepo = jobQueueRepo;
+        _userRepo = userRepo;
+        _messageRepo = messageRepo;
     }
 
     public void Run(User user)
     {
         InitializeReputation(user);
 
-        var userRepo = Sl.R<UserRepo>();
+     
 
-        using (var transaction = userRepo.Session.BeginTransaction(IsolationLevel.ReadCommitted))
+        using (var transaction = _userRepo.Session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
-            if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
+            if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userRepo))
                 throw new Exception("There is already a user with that email address.");
 
-            if (!IsUserNameAvailable.Yes(user.Name))
+            if (!IsUserNameAvailable.Yes(user.Name, _userRepo))
                 throw new Exception("There is already a user with that name.");
 
-            userRepo.Create(user);
+            _userRepo.Create(user);
                 
             transaction.Commit();
         }
 
-        SendRegistrationEmail.Run(user, _jobQueueRepo);
-        WelcomeMsg.Send(user);
+        SendRegistrationEmail.Run(user, _jobQueueRepo, _userRepo);
+        WelcomeMsg.Send(user, _messageRepo);
     }
 
     public UserCreateResult Run(FacebookUserCreateParameter facebookUser)
@@ -63,14 +69,14 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
     private UserCreateResult Register(User user)
     {
-        if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
+        if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userRepo))
             return new UserCreateResult { Success = false, EmailAlreadyInUse = true};
 
         InitializeReputation(user);
 
-        Sl.UserRepo.Create(user);
+        _userRepo.Create(user);
 
-        WelcomeMsg.Send(user);
+        WelcomeMsg.Send(user, _messageRepo);
 
         return new UserCreateResult { Success = true };
     }

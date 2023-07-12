@@ -6,10 +6,15 @@ using System.Web.Mvc;
 using Stripe;
 using TrueOrFalse.Infrastructure.Logging;
 
-public class WebhookLogic
+public class WebhookLogic : IRegisterAsInstancePerLifetime
 {
+    private readonly UserRepo _userRepo;
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
+    public WebhookLogic(UserRepo userRepo)
+    {
+        _userRepo = userRepo;
+    }
     public async Task<HttpStatusCodeResult> Create(HttpContextBase context, HttpRequestBase baseRequest)
     {
         var eventAndStatus = await GetEvent(context, baseRequest);
@@ -102,7 +107,7 @@ public class WebhookLogic
         }
 
         var customerId = ((dynamic)paymentObject).CustomerId;
-        var user = Sl.UserRepo.GetByStripeId(customerId);
+        var user = _userRepo.GetByStripeId(customerId);
 
         return (paymentObject, user);
     }
@@ -178,7 +183,7 @@ public class WebhookLogic
         }
 
         user.EndDate = date;
-        Sl.UserRepo.Update(user);
+        _userRepo.Update(user);
         Logg.r().Information(log);
     }
 }

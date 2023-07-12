@@ -8,11 +8,24 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly ISession _nhibernateSession;
         private readonly CategoryValuationRepo _categoryValuationRepo;
+        private readonly QuestionValuationRepo _questionValuationRepo;
+        private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
+        private readonly AnswerRepo _answerRepo;
+        private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
 
-        public RecalcKnowledgeStati(ISession nhibernateSession, CategoryValuationRepo categoryValuationRepo )
+        public RecalcKnowledgeStati(ISession nhibernateSession,
+            CategoryValuationRepo categoryValuationRepo,
+            QuestionValuationRepo questionValuationRepo,
+            ProbabilityCalc_Simple1 probabilityCalcSimple1,
+            AnswerRepo answerRepo,
+            KnowledgeSummaryLoader knowledgeSummaryLoader)
         {
             _nhibernateSession = nhibernateSession;
             _categoryValuationRepo = categoryValuationRepo;
+            _questionValuationRepo = questionValuationRepo;
+            _probabilityCalcSimple1 = probabilityCalcSimple1;
+            _answerRepo = answerRepo;
+            _knowledgeSummaryLoader = knowledgeSummaryLoader;
         }
         public void Execute(IJobExecutionContext context)
         {
@@ -20,8 +33,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 foreach (var user in scope.Resolve<UserRepo>().GetAll())
                 {
-                    ProbabilityUpdate_Valuation.Run(user.Id, _nhibernateSession);
-                    KnowledgeSummaryUpdate.RunForUser(user.Id, _categoryValuationRepo);
+                    ProbabilityUpdate_Valuation.Run(user.Id, _nhibernateSession, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+                    KnowledgeSummaryUpdate.RunForUser(user.Id, _categoryValuationRepo, _knowledgeSummaryLoader);
                 }
             }, "RecalcKnowledgeStati");
         }

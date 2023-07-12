@@ -8,7 +8,7 @@ public class Comment_persistence : BaseTest
     [Test]
     public void Comments_should_be_persisted()
     {
-        var context = ContextComment.New();
+        var context = R<ContextComment>();
         context.Add("A").Add("B").Persist();
         context.Add("C", commentTo:context.All[0]).Persist();
 

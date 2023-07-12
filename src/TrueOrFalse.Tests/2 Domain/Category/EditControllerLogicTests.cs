@@ -16,7 +16,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicTestDateToLow()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New();
+        var contextUser = ContextUser.New(R<UserRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -57,14 +57,9 @@ public class EditControllerLogicTests : BaseTest
         field.SetValue(null, 2);
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search,
-            isInstallationAdmin: true,
-            R<PermissionCheck>(),
-            R<SessionUser>(),
-            R<CategoryRepository>(),
-            R<ImageMetaDataRepo>());
+       
 
-        var result = logik.QuickCreate("private4", -1, sessionUser);
+        var result = R<EditControllerLogic>().QuickCreate("private4", -1, sessionUser);
         var resultJson = JsonConvert.SerializeObject(result);
 
         var expectedValue = JsonConvert.SerializeObject(new
@@ -79,7 +74,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicToManyPrivateCategories()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New();
+        var contextUser = ContextUser.New(R<UserRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -121,14 +116,9 @@ public class EditControllerLogicTests : BaseTest
 
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search, 
-            true, 
-            R<PermissionCheck>(),
-            R<SessionUser>(),
-            R<CategoryRepository>(),
-            R<ImageMetaDataRepo>());
+        
 
-        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4",
+        var result = JsonConvert.SerializeObject(R<EditControllerLogic>().QuickCreate("private4",
             categoryContext.All.First().Id,
             sessionUser));
 
@@ -141,7 +131,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicToManyPrivateCategoriesOkAndDateToLow()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New();
+        var contextUser = ContextUser.New(R<UserRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -171,13 +161,8 @@ public class EditControllerLogicTests : BaseTest
 
 
         var search = A.Fake<IGlobalSearch>();
-        var logik = new EditControllerLogic(search,
-            true,
-            R<PermissionCheck>(),
-            R<SessionUser>(),
-            R<CategoryRepository>(),
-            R<ImageMetaDataRepo>());
-        var result = JsonConvert.SerializeObject(logik.QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
+        
+        var result = JsonConvert.SerializeObject(R<EditControllerLogic>().QuickCreate("private4", categoryContext.All.First().Id, sessionUser));
 
         var expectedValue =
 JsonConvert.SerializeObject(new { success = true, url = "", id = 2 });

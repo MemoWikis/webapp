@@ -17,13 +17,15 @@ public class FacebookUsersController : Controller
     private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
     private readonly JobQueueRepo _jobQueueRepo;
+    private readonly MessageRepo _messageRepo;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
         UserRepo userRepo,
         SessionUser sessionUser,
         RegisterUser registerUser,
         CategoryRepository categoryRepository,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo,
+        MessageRepo messageRepo)
     {
         _vueSessionUser = vueSessionUser;
         _userRepo = userRepo;
@@ -31,6 +33,7 @@ public class FacebookUsersController : Controller
         _registerUser = registerUser;
         _categoryRepository = categoryRepository;
         _jobQueueRepo = jobQueueRepo;
+        _messageRepo = messageRepo;
     }
 
     [HttpPost]
@@ -71,9 +74,9 @@ public class FacebookUsersController : Controller
         var registerResult = _registerUser.Run(facebookUser);
         if (registerResult.Success)
         {
-            var user = Sl.UserRepo.UserGetByFacebookId(facebookUser.id);
-            SendRegistrationEmail.Run(user, _jobQueueRepo);
-            WelcomeMsg.Send(user);
+            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
+            SendRegistrationEmail.Run(user, _jobQueueRepo, _userRepo);
+            WelcomeMsg.Send(user, _messageRepo);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
             user.StartTopicId = category.Id;
@@ -99,7 +102,7 @@ public class FacebookUsersController : Controller
     [HttpPost]
     public JsonResult UserExists(string facebookId)
     {
-        return Json(Sl.UserRepo.FacebookUserExists(facebookId));
+        return Json(_userRepo.FacebookUserExists(facebookId));
     }
 
     [HttpPost]
@@ -112,11 +115,13 @@ public class FacebookUsersController : Controller
         }
         var confirmationCode = GetHashString(userData["user_id"]?.ToString());
 
-        SendEmail.Run(new MailMessage(
+        var mailMessage = new MailMessage(
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "Facebook Data Deletion Callback",
-            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."), _jobQueueRepo, MailMessagePriority.High );
+            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}.");
+
+        SendEmail.Run(mailMessage, _jobQueueRepo, _userRepo, MailMessagePriority.High);
         var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
         return JsonConvert.SerializeObject(requestAnswer); ;
     }

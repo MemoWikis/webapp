@@ -63,47 +63,57 @@ public class Global : HttpApplication
     protected void Application_Start()
     {
         Logg.r().Information("=== Application Start (start) ===============================");
-        StripeConfiguration.ApiKey = Settings.SecurityKeyStripe;
-        IgnoreLog.Initialize();
         InitializeAutofac();
-
-        Sl.Resolve<Update>().Run();
-
-        AreaRegistration.RegisterAllAreas();
-
-        RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-        ViewEngines.Engines.Clear();
-        ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
-
-        if (!Settings.DisableAllJobs())
+        var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
+        using (var scope = container.BeginLifetimeScope())
         {
-            JobScheduler.Start();
-        }
+            var categoryRepo = scope.Resolve<CategoryRepository>();
+            var questionRepo = scope.Resolve<QuestionRepo>();
+            var userRepo = scope.Resolve<UserRepo>();
+            var update = scope.Resolve<Update>();
+            var nhibernateSession = scope.Resolve<ISession>();
+            var runningJobRepo = scope.Resolve<RunningJobRepo>();
 
-        if (Settings.InitEntityCacheViaJobScheduler())
-        {
-            JobScheduler
-                .StartImmediately_RefreshEntityCache(); 
-        }
-        else
-        {
-            var stopwatch = Stopwatch.StartNew();
-            Logg.r().Information("=== Init EntityCache (start) ===============================");
-
-            var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
-            using (var scope = container.BeginLifetimeScope())
-            {
-                var categoryRepo = scope.Resolve<CategoryRepository>();
-                var questionRepo = scope.Resolve<QuestionRepo>();
-                new EntityCacheInitializer(categoryRepo, questionRepo).Init();
-            }
+            StripeConfiguration.ApiKey = Settings.SecurityKeyStripe;
+            IgnoreLog.Initialize();
             
-            Logg.r().Information($"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
-            stopwatch.Stop();
+            update.Run();
+
+            AreaRegistration.RegisterAllAreas();
+
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
+
+            if (!Settings.DisableAllJobs())
+            {
+                JobScheduler.Start(runningJobRepo);
+            }
+
+            if (Settings.InitEntityCacheViaJobScheduler())
+            {
+                JobScheduler
+                    .StartImmediately_RefreshEntityCache();
+            }
+            else
+            {
+                var stopwatch = Stopwatch.StartNew();
+                Logg.r().Information("=== Init EntityCache (start) ===============================");
+
+
+           
+                new EntityCacheInitializer(categoryRepo, questionRepo, userRepo).Init();
+
+
+                Logg.r().Information(
+                    $"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
+                stopwatch.Stop();
+            }
+
+            nhibernateSession.Close();
         }
 
-        Sl.Resolve<ISession>().Close();
         Logg.r().Information("=== Application Start (end) ===============================");
     }
 
@@ -119,10 +129,12 @@ public class Global : HttpApplication
         using (var scope = container.BeginLifetimeScope())
         {
             var sessionUser = scope.Resolve<SessionUser>();
+            var userRepo = scope.Resolve<UserRepo>();
+            var persistentLoggingRepo =  scope.Resolve<PersistentLoginRepo>();
 
             if (!sessionUser.IsLoggedIn)
             {
-                LoginFromCookie.Run(sessionUser);
+                LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userRepo);
             }
         }
     }

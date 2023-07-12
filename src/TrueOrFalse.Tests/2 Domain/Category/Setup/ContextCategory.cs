@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ubiety.Dns.Core;
 
 namespace TrueOrFalse.Tests;
 
 public class ContextCategory: BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
-    private readonly ContextUser _contextUser = ContextUser.New();
+    private readonly ContextUser _contextUser = ContextUser.New(R<UserRepo>());
     private int NamesCounter = 0;
 
     public List<Category> All = new();
@@ -20,7 +19,7 @@ public class ContextCategory: BaseTest
 
     private ContextCategory(bool addContextUser = true)
     {
-        _categoryRepository = Sl.R<CategoryRepository>();
+        _categoryRepository = R<CategoryRepository>();
 
         if (addContextUser)
             _contextUser.Add("User" + NamesCounter).Persist();
@@ -169,7 +168,7 @@ public class ContextCategory: BaseTest
         var rootElement = Add("A").Persist().All.First();
 
         if (contextUser == null)
-            contextUser = ContextUser.New();
+            contextUser = ContextUser.New(R<UserRepo>());
         var user = contextUser.Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
 
         var firstChildren =

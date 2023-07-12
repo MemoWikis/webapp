@@ -9,11 +9,13 @@ class Get_wuwi_from_category : BaseTest
     [Test]
     public void GetWuwiSession()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(LifetimeScope.Resolve<CategoryRepository>());
-        ContextQuestion.SetWuwi(20, LifetimeScope.Resolve<CategoryValuationRepo>());
+        ContextQuestion.PutQuestionsIntoMemoryCache(R<CategoryRepository>(), R<QuestionRepo>(), R<AnswerRepo>(),R<AnswerQuestion>());
+        ContextQuestion.SetWuwi(20, R<CategoryValuationRepo>(), R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), R<UserRepo>(), R<QuestionValuationRepo>());
             
         var categoryId = 1;
-        var userCacheItem = SessionUserCache.GetAllCacheItems(Resolve<CategoryValuationRepo>()).First(uci => uci.Name == "Daniel" );
+        var userCacheItem = SessionUserCache.GetAllCacheItems(
+            Resolve<CategoryValuationRepo>(), R<UserRepo>(), R<QuestionValuationRepo>())
+            .First(uci => uci.Name == "Daniel" );
 
         var wuwis = userCacheItem.QuestionValuations
             .Select(qv => qv.Value)

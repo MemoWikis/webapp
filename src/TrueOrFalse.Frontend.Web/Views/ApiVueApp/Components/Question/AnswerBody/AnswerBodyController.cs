@@ -6,23 +6,30 @@ using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class AnswerBodyController : BaseController
-{
+public class AnswerBodyController : Controller {
     private readonly AnswerQuestion _answerQuestion;
+    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly AnswerLog _answerLog;
+    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly UserRepo _userRepo;
 
     public AnswerBodyController(AnswerQuestion answerQuestion,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         CategoryValuationRepo categoryValuationRepo,
-        AnswerLog answerLog) : base(sessionUser)
+        AnswerLog answerLog,
+        QuestionValuationRepo questionValuationRepo,
+        UserRepo userRepo)
     {
         _answerQuestion = answerQuestion;
+        _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _categoryValuationRepo = categoryValuationRepo;
         _answerLog = answerLog;
+        _questionValuationRepo = questionValuationRepo;
+        _userRepo = userRepo;
     }
 
     [HttpGet]
@@ -49,7 +56,7 @@ public class AnswerBodyController : BaseController
             solution = q.Solution,
 
             isCreator = q.Creator.Id = _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
@@ -67,7 +74,7 @@ public class AnswerBodyController : BaseController
         var learningSession =  _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
-        var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, 0,
+        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, questionViewGuid, 0,
             0, 0, new Guid(), inTestMode);
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
@@ -131,7 +138,7 @@ public class AnswerBodyController : BaseController
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
         if (!unanswered)
-            _answerLog.LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
+            _answerLog.LogAnswerView(question, _sessionUser.UserId, questionViewGuid, interactionNumber,
                 millisecondsSinceQuestionView);
 
         EscapeReferencesText(question.References);

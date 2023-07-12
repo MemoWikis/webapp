@@ -4,23 +4,31 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class PublishTopicStoreController : BaseController
+public class PublishTopicStoreController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionRepo _questionRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public PublishTopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        QuestionRepo questionRepo): base(sessionUser)
+        QuestionRepo questionRepo,
+         UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _questionRepo = questionRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     [HttpPost]
@@ -31,7 +39,7 @@ public class PublishTopicStoreController : BaseController
 
         if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == topicId)
         {
-            if (topicCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !IsInstallationAdmin)
+            if (topicCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
                 return Json(new
                 {
                     success = false,
@@ -81,7 +89,7 @@ public class PublishTopicStoreController : BaseController
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo);
+        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
 
         if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
             return Json(new

@@ -2,12 +2,12 @@
 
 public class ProbabilityUpdate_User
 {
-    public static void Run()
+    public static void Run(UserRepo userRepo, AnswerRepo answerRepo)
     {
         var sp = Stopwatch.StartNew();
 
-        foreach (var user in Sl.R<UserRepo>().GetAll())
-            Run(user);
+        foreach (var user in userRepo.GetAll())
+            Run(user, answerRepo, userRepo);
 
         Logg.r().Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
     }

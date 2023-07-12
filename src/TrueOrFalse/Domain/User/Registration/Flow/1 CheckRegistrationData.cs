@@ -1,14 +1,14 @@
 ﻿public class IsEmailAddressAvailable
 {
-    public static bool Yes(string emailAddress){
-        return Sl.R<UserRepo>().GetByEmail(emailAddress.TrimAndReplaceWhitespacesWithSingleSpace()) == null;
+    public static bool Yes(string emailAddress, UserRepo userRepo){
+        return userRepo.GetByEmail(emailAddress.TrimAndReplaceWhitespacesWithSingleSpace()) == null;
     }
 }
 
 public class IsUserNameAvailable
 {
-    public static bool Yes(string userName)
+    public static bool Yes(string userName, UserRepo userRepo)
     {
-        return Sl.R<UserRepo>().GetByName(userName.TrimAndReplaceWhitespacesWithSingleSpace()) == null;
+        return userRepo.GetByName(userName.TrimAndReplaceWhitespacesWithSingleSpace()) == null;
     }
 }

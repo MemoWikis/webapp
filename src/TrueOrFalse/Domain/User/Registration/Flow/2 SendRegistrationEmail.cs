@@ -3,7 +3,7 @@ using System.Text;
 
 public class SendRegistrationEmail
 {
-    public static void Run(User user, JobQueueRepo jobQueueRepo)
+    public static void Run(User user, JobQueueRepo jobQueueRepo, UserRepo userRepo)
     {
         var mail = new MailMessage();
         mail.To.Add(user.EmailAddress);
@@ -20,6 +20,6 @@ public class SendRegistrationEmail
         mail.Subject = "Willkommen bei memucho";
         mail.Body = emailBody.ToString();
             
-        SendEmail.Run(mail, jobQueueRepo, MailMessagePriority.High);
+        SendEmail.Run(mail, jobQueueRepo, userRepo, MailMessagePriority.High);
     }
 }

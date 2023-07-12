@@ -12,18 +12,24 @@ public class UserRepo : RepositoryDbBase<User>
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly ReputationUpdate _reputationUpdate;
+    private readonly UserActivityRepo _userActivityRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
 
     public UserRepo(ISession session,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
         CategoryValuationRepo categoryValuationRepo,
-        ReputationUpdate reputationUpdate) : base(session)
+        ReputationUpdate reputationUpdate,
+        UserActivityRepo userActivityRepo,
+        QuestionValuationRepo questionValuationRepo) : base(session)
     {
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
         _categoryValuationRepo = categoryValuationRepo;
         _reputationUpdate = reputationUpdate;
+        _userActivityRepo = userActivityRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -37,9 +43,9 @@ public class UserRepo : RepositoryDbBase<User>
     {
         user.Followers.Add(new FollowerInfo
             { Follower = follower, User = user, DateCreated = DateTime.Now, DateModified = DateTime.Now });
-        Sl.UserRepo.Flush();
-        UserActivityAdd.FollowedUser(follower, user);
-        UserActivityUpdate.NewFollower(follower, user);
+        Flush();
+        UserActivityAdd.FollowedUser(follower, user, _userActivityRepo);
+        UserActivityUpdate.NewFollower(follower, user, _userActivityRepo, _session, this);
         _reputationUpdate.ForUser(user);
     }
 
@@ -48,7 +54,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
-        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo);
+        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo, this, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
     }
@@ -242,7 +248,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
-        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo);
+        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo, this, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user));
     }

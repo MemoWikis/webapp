@@ -7,8 +7,11 @@ using Seedworks.Lib.Persistence;
 
 public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
 {
-    public CategoryValuationRepo(ISession session) : base(session)
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+
+    public CategoryValuationRepo(ISession session, KnowledgeSummaryLoader knowledgeSummaryLoader) : base(session)
     {
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
     }
 
     public IList<CategoryValuation> GetBy(int categoryId) =>
@@ -30,7 +33,17 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
             query.Where(q => q.RelevancePersonal >= -1);
             
         return query.List<CategoryValuation>();
-    } 
+    }
+
+    private void UpdateKnowledgeSummary(CategoryValuation categoryValuation)
+    {
+        var c = categoryValuation; 
+        var knowledgeSummary = _knowledgeSummaryLoader.Run(c.UserId, c.CategoryId, false);
+        c.CountNotLearned = knowledgeSummary.NotLearned;
+        c.CountNeedsLearning = knowledgeSummary.NeedsLearning;
+        c.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
+        c.CountSolid = knowledgeSummary.Solid;
+    }
 
     public IList<CategoryValuation> GetByCategory(int categoryId) =>
         _session.QueryOver<CategoryValuation>()
@@ -63,7 +76,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
 
     public override void Update(CategoryValuation categoryValuation)
     {
-        categoryValuation.UpdateKnowledgeSummary();
+        UpdateKnowledgeSummary(categoryValuation);
         base.Update(categoryValuation);
     }
 

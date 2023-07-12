@@ -6,7 +6,7 @@ public class UpdateKnowledgeReportInterval
     public const string CommandName = "kri";
     public const string ExpirationDateFormat = "yyyy-MM-dd";
 
-    public static UpdateKnowledgeReportIntervalResult Run(int userId, int val, string expires, string token)
+    public static UpdateKnowledgeReportIntervalResult Run(int userId, int val, string expires, string token, UserRepo userRepo)
     {
         var result = new UpdateKnowledgeReportIntervalResult();
         UserSettingNotificationInterval knowledgeReportInterval;
@@ -15,7 +15,7 @@ public class UpdateKnowledgeReportInterval
 
         try
         {
-            user = Sl.R<UserRepo>().GetById(userId);
+            user = userRepo.GetById(userId);
             if (user == null)
                 throw new Exception("User is not defined, id is " + userId);
 
@@ -37,7 +37,7 @@ public class UpdateKnowledgeReportInterval
                 return result;
             }
 
-            return Run(user, knowledgeReportInterval, result);
+            return Run(user, knowledgeReportInterval, result, userRepo);
         }
         catch (Exception exception)
         {
@@ -48,10 +48,10 @@ public class UpdateKnowledgeReportInterval
 
     }
 
-    public static UpdateKnowledgeReportIntervalResult Run(User user, UserSettingNotificationInterval knowledgeReportInterval, UpdateKnowledgeReportIntervalResult result)
+    public static UpdateKnowledgeReportIntervalResult Run(User user, UserSettingNotificationInterval knowledgeReportInterval, UpdateKnowledgeReportIntervalResult result, UserRepo userRepo)
     {
         user.KnowledgeReportInterval = knowledgeReportInterval;
-        Sl.R<UserRepo>().Update(user);
+        userRepo.Update(user);
 
         result.Success = true;
         result.AffectedUser = user;

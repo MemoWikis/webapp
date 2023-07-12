@@ -16,6 +16,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly SegmentationLogic _segmentationLogic;
     private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, 
@@ -23,7 +24,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryValuationRepo categoryValuationRepo,
         CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        SegmentationLogic segmentationLogic)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
@@ -32,6 +34,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _categoryValuationRepo = categoryValuationRepo;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _segmentationLogic = segmentationLogic;
     }
 
     public dynamic GetTopicData(int id)
@@ -145,11 +148,11 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic GetSegmentation(int id, ControllerContext context)
     {
-        var segmentationLogic = new SegmentationLogic(context, _permissionCheck, _sessionUser, _categoryValuationRepo, _knowledgeSummaryLoader, _imageMetaDataRepo);
+       
 
         var category = EntityCache.GetCategory(id);
         var s = new SegmentationModel(category,_permissionCheck);
-        var childTopics = segmentationLogic.GetCategoriesData(s.NotInSegmentCategoryList.GetIds().ToArray());
+        var childTopics = _segmentationLogic.GetCategoriesData(s.NotInSegmentCategoryList.GetIds().ToArray());
         var segments = new List<dynamic>();
         if (s.Segments != null && s.Segments.Count > 0)
         {
@@ -161,8 +164,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                     Title = segment.Title,
                     CategoryId = segment.Item.Id,
                     ChildCategoryIds = segmentChildrenIds,
-                    childTopics = segmentationLogic.GetCategoriesData(segmentChildrenIds),
-                    segmentData = segmentationLogic.GetSegmentData(segment.Item.Id)
+                    childTopics = _segmentationLogic.GetCategoriesData(segmentChildrenIds),
+                    segmentData = _segmentationLogic.GetSegmentData(segment.Item.Id)
                 });
             }
         }

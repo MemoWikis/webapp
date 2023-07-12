@@ -6,10 +6,12 @@ namespace VueApp;
 public class StripeAdminstrationController : Controller
 {
     private readonly SessionUser _sessionUser;
+    private readonly SubscriptionLogic _subscriptionLogic;
 
-    public StripeAdminstrationController(SessionUser sessionUser)
+    public StripeAdminstrationController(SessionUser sessionUser, SubscriptionLogic subscriptionLogic)
     {
         _sessionUser = sessionUser;
+        _subscriptionLogic = subscriptionLogic;
     }
     [AccessOnlyAsLoggedIn]
     [HttpGet]
@@ -22,7 +24,7 @@ public class StripeAdminstrationController : Controller
     [HttpPost]
     public async Task<JsonResult> CompletedSubscription(string priceId)
     {
-        var sessionId = await new SubscriptionLogic(_sessionUser).CreateStripeSession(priceId);
+        var sessionId = await _subscriptionLogic.CreateStripeSession(priceId);
         if (sessionId.Equals("-1"))
         {
             return Json(new { success = false });

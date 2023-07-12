@@ -3,19 +3,20 @@ using NHibernate;
 
 class UserActivityUpdate
 {   
-    public static void NewFollower(User userFollower, User userIsFollowed)
+    public static void NewFollower(User userFollower, User userIsFollowed, UserActivityRepo userActivityRepo, ISession nhibernateSession, UserRepo userRepo)
     {
         var userActivities = new List<UserActivity>();
-        AddCreatedQuestions(ref userActivities, userFollower, userIsFollowed);
-        AddCreatedCategory(ref userActivities, userFollower, userIsFollowed);
-        AddFollowedUser(ref userActivities, userFollower, userIsFollowed);
+        AddCreatedQuestions(ref userActivities, userFollower, userIsFollowed, nhibernateSession);
+        AddCreatedCategory(ref userActivities, userFollower, userIsFollowed, nhibernateSession);
+        AddFollowedUser(ref userActivities, userFollower, userIsFollowed, userRepo);
 
-        Sl.R<UserActivityRepo>().Create(userActivities);
+        userActivityRepo.Create(userActivities);
     }
 
-    private static void AddCreatedQuestions(ref List<UserActivity> userActivities, User userFollower, User userCauser, int amount = 10)
+    private static void AddCreatedQuestions(ref List<UserActivity> userActivities, User userFollower, User userCauser, ISession nhibernateSession)
     {
-        var questions = Sl.R<ISession>().QueryOver<Question>()
+        var amount = 10; 
+        var questions = nhibernateSession.QueryOver<Question>()
             .OrderBy(x => x.DateCreated).Desc
             .Where(q => q.Creator == userCauser && q.Visibility == QuestionVisibility.All)
             .Take(amount)
@@ -33,9 +34,10 @@ class UserActivityUpdate
             });
         }
     }
-    private static void AddCreatedCategory(ref List<UserActivity> userActivities, User userFollower, User userCauser, int amount = 10)
+    private static void AddCreatedCategory(ref List<UserActivity> userActivities, User userFollower, User userCauser, ISession nhibernateSession)
     {
-        var categories = Sl.R<ISession>().QueryOver<Category>()
+        var amount = 10;
+        var categories = nhibernateSession.QueryOver<Category>()
             .OrderBy(x => x.DateCreated).Desc
             .Where(q => q.Creator == userCauser)
             .Take(amount)
@@ -54,9 +56,9 @@ class UserActivityUpdate
         }
     }
 
-    private static void AddFollowedUser(ref List<UserActivity> userActivities, User userFollower, User userIsFollowed, int amount = 10)
+    private static void AddFollowedUser(ref List<UserActivity> userActivities, User userFollower, User userIsFollowed, UserRepo userRepo)
     {
-        var userIsFollowedFromDB = Sl.R<UserRepo>().GetById(userIsFollowed.Id); //needs to update userIsFollowed, because otherwise followers wouldn't be visible here (no session)
+        var userIsFollowedFromDB = userRepo.GetById(userIsFollowed.Id); //needs to update userIsFollowed, because otherwise followers wouldn't be visible here (no session)
         foreach (var follower in userIsFollowedFromDB.Following)
         {
             userActivities.Add(new UserActivity

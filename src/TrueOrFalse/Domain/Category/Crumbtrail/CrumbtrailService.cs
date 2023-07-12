@@ -5,11 +5,18 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
-    public CrumbtrailService(PermissionCheck permissionCheck, CategoryValuationRepo categoryValuationRepo)
+    public CrumbtrailService(PermissionCheck permissionCheck,
+        CategoryValuationRepo categoryValuationRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
@@ -133,7 +140,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
 
                     if (sessionUser.IsLoggedIn)
                     {
-                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId, _categoryValuationRepo).StartTopicId;
+                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

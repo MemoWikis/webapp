@@ -15,6 +15,8 @@ public class HistoryTopicDetailController : Controller
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public HistoryTopicDetailController(PermissionCheck permissionCheck,
         ISession nhibernatesession,
@@ -23,7 +25,9 @@ public class HistoryTopicDetailController : Controller
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernatesession = nhibernatesession;
@@ -33,6 +37,8 @@ public class HistoryTopicDetailController : Controller
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     [HttpGet]
@@ -63,6 +69,7 @@ public class HistoryTopicDetailController : Controller
             _categoryRepository,
             _imageMetaDataRepo);
 
+        var author = currentRevision.Author(_categoryValuationRepo, _userRepo, _questionValuationRepo);
         var result = new ChangeDetailResult
         {
             topicName = topicHistoryDetailModel.CategoryName,
@@ -70,9 +77,9 @@ public class HistoryTopicDetailController : Controller
             isCurrent = !topicHistoryDetailModel.NextRevExists,
             changeType = topicHistoryDetailModel.ChangeType,
             changeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
-            authorName = currentRevision.Author(_categoryValuationRepo).Name,
-            authorId = currentRevision.Author(_categoryValuationRepo).Id,
-            authorImgUrl = new UserImageSettings(currentRevision.Author(_categoryValuationRepo).Id).GetUrl_20px(currentRevision.Author(_categoryValuationRepo)).Url
+            authorName = author.Name,
+            authorId = author.Id,
+            authorImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url
         };
 
         if (topicHistoryDetailModel.CurrentName != topicHistoryDetailModel.PrevName)

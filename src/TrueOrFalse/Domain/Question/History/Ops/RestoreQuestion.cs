@@ -59,6 +59,6 @@ public class RestoreQuestion : IRegisterAsInstancePerLifetime
         mail.From = new MailAddress(Settings.EmailFrom);
         mail.Subject = subject;
         mail.Body = body;
-        global::SendEmail.Run(mail, _jobQueueRepo, MailMessagePriority.Low);
+        global::SendEmail.Run(mail, _jobQueueRepo, _userRepo, MailMessagePriority.Low);
     }
 }

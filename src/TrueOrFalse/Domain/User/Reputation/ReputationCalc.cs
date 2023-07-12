@@ -5,16 +5,20 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
     private readonly TotalFollowers _totalFollowers;
+    private readonly UserRepo _userRepo;
 
     public const int PointsPerQuestionCreated = 1; //excluding private questions
     public const int PointsPerQuestionInOtherWishknowledge = 5;
     public const int PointsPerUserFollowingMe = 20;
     public const int PointsForPublicWishknowledge = 30;
 
-    public ReputationCalc(ISession session, TotalFollowers totalFollowers)
+    public ReputationCalc(ISession session,
+        TotalFollowers totalFollowers,
+        UserRepo userRepo)
     {
         _session = session;
         _totalFollowers = totalFollowers;
+        _userRepo = userRepo;
     }
 
     public ReputationCalcResult Run(UserCacheItem user)
@@ -32,7 +36,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
-        var countQuestionsInOtherWishknowledge = Sl.UserRepo.GetByIds(user.Id);
+        var countQuestionsInOtherWishknowledge = _userRepo.GetByIds(user.Id);
         result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
         /* Calculate Reputation for other things */

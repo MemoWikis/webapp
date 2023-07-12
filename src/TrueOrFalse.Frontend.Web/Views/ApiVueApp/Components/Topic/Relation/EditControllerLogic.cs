@@ -8,10 +8,11 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class EditControllerLogic
+public class EditControllerLogic :IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly UserRepo _userRepo;
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
@@ -23,7 +24,8 @@ public class EditControllerLogic
         PermissionCheck permissionCheck,
         SessionUser sessionUser,
         CategoryRepository categoryRepository, 
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        UserRepo userRepo)
     {
         _search = search; 
         _isInstallationAdmin = isInstallationAdmin;
@@ -32,6 +34,7 @@ public class EditControllerLogic
         _sessionUser = sessionUser;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _userRepo = userRepo;
     }
 
     public dynamic ValidateName(string name)
@@ -83,7 +86,7 @@ public class EditControllerLogic
         var topic = new Category(name,_sessionUserId);
         new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
 
-        topic.Creator = Sl.UserRepo.GetById(_sessionUserId);
+        topic.Creator = _userRepo.GetById(_sessionUserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);

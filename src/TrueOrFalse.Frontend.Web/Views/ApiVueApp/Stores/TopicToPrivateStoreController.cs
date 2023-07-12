@@ -5,23 +5,31 @@ using TrueOrFalse.Domain;
 
 namespace VueApp;
 
-public class TopicToPrivateStoreController : BaseController
+public class TopicToPrivateStoreController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionRepo _questionRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public TopicToPrivateStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck, 
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        QuestionRepo questionRepo) :base(sessionUser)
+        QuestionRepo questionRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo) 
     {
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _questionRepo = questionRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     [HttpGet]
@@ -29,7 +37,7 @@ public class TopicToPrivateStoreController : BaseController
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo);
+        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
@@ -43,7 +51,7 @@ public class TopicToPrivateStoreController : BaseController
         var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
             .Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
-        if (!IsInstallationAdmin)
+        if (!_sessionUser.IsInstallationAdmin)
         {
             if (topicId == RootCategory.RootCategoryId)
                 return Json(new
@@ -121,7 +129,7 @@ public class TopicToPrivateStoreController : BaseController
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var topic = _categoryRepository.GetById(topicId);
         var pinCount = topic.TotalRelevancePersonalEntries;
-        if (!IsInstallationAdmin)
+        if (!_sessionUser.IsInstallationAdmin)
         {
             if (topicId == RootCategory.RootCategoryId)
                 return Json(new
@@ -171,9 +179,9 @@ public class TopicToPrivateStoreController : BaseController
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
-                IsInstallationAdmin)
+                _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);

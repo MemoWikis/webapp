@@ -28,9 +28,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.Shutdown(waitForJobsToComplete:true);
         }
 
-        public static void Start()
+        public static void Start(RunningJobRepo runningJobRepo)
         {
-            Sl.R<RunningJobRepo>().TruncateTable();
+           runningJobRepo.TruncateTable();
             
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_RecalcKnowledgeStati();

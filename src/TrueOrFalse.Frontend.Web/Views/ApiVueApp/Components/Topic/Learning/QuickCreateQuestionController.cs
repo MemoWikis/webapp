@@ -7,8 +7,9 @@ using System.Web.Script.Serialization;
 using TrueOrFalse;
 
 namespace VueApp;
-public class QuickCreateQuestionController : BaseController
+public class QuickCreateQuestionController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly LearningSessionCache _learningSessionCache;
@@ -16,6 +17,7 @@ public class QuickCreateQuestionController : BaseController
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly QuestionRepo _questionRepo;
+    private readonly UserRepo _userRepo;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
@@ -24,8 +26,10 @@ public class QuickCreateQuestionController : BaseController
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
-        QuestionRepo questionRepo): base(sessionUser)
+        QuestionRepo questionRepo,
+        UserRepo userRepo)
     {
+        _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
         _learningSessionCache = learningSessionCache;
@@ -33,6 +37,7 @@ public class QuickCreateQuestionController : BaseController
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
         _questionRepo = questionRepo;
+        _userRepo = userRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -72,7 +77,7 @@ public class QuickCreateQuestionController : BaseController
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = Sl.UserRepo.GetById(_sessionUser.UserId);
+        question.Creator = _userRepo.GetById(_sessionUser.UserId);
         question.Categories = new List<Category>
         {
             _categoryRepository.GetById(flashCardJson.TopicId)

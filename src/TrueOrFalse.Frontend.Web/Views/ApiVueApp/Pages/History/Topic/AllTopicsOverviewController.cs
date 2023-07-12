@@ -12,15 +12,21 @@ public class HistoryTopicAllTopicsOverviewController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
 
     public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
         PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo, 
-        CategoryValuationRepo categoryValuationRepo)
+        CategoryValuationRepo categoryValuationRepo,
+        UserRepo userRepo, 
+        QuestionValuationRepo questionValuationRepo)
     {
         _allTopicsHistory = allTopicsHistory;
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationRepo = categoryValuationRepo;
+        _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
     }
 
     [HttpGet]
@@ -103,7 +109,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         if (change.AuthorId < 1)
             return null;
 
-        var author = SessionUserCache.GetItem(change.AuthorId, _categoryValuationRepo);
+        var author = SessionUserCache.GetItem(change.AuthorId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
 
         return new Author
         {

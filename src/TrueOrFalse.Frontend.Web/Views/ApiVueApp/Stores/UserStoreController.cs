@@ -17,6 +17,11 @@ public class UserStoreController : Controller
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly PersistentLoginRepo _persistentLoginRepo;
+    private readonly UserRepo _userRepo;
+    private readonly GetUnreadMessageCount _getUnreadMessageCount;
+    private readonly PasswordRecovery _passwordRecovery;
+    private readonly SegmentationLogic _segmentationLogic;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -29,7 +34,12 @@ public class UserStoreController : Controller
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
         CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataRepo imageMetaDataRepo,
+        PersistentLoginRepo persistentLoginRepo,
+        UserRepo userRepo,
+        GetUnreadMessageCount getUnreadMessageCount,
+        PasswordRecovery passwordRecovery,
+        SegmentationLogic segmentationLogic)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -42,6 +52,11 @@ public class UserStoreController : Controller
         _categoryRepository = categoryRepository;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
+        _persistentLoginRepo = persistentLoginRepo;
+        _userRepo = userRepo;
+        _getUnreadMessageCount = getUnreadMessageCount;
+        _passwordRecovery = passwordRecovery;
+        _segmentationLogic = segmentationLogic;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -53,13 +68,13 @@ public class UserStoreController : Controller
 
             if (loginJson.PersistentLogin)
             {
-                WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id);
+                WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id, _persistentLoginRepo);
             }
 
             _sessionUser.Login(credentialsAreValid.User);
 
             TransferActivityPoints.FromSessionToUser(_sessionUser,_activityPointsRepo);
-            Sl.UserRepo.UpdateActivityPointsData();
+            _userRepo.UpdateActivityPointsData();
 
             return Json(new
             {
@@ -80,7 +95,7 @@ public class UserStoreController : Controller
     [AccessOnlyAsLoggedIn]
     public JsonResult LogOut()
     {
-        RemovePersistentLoginFromCookie.Run();
+        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo);
         _sessionUser.Logout();
 
         return Json(new
@@ -93,13 +108,13 @@ public class UserStoreController : Controller
     [AccessOnlyAsLoggedIn]
     public int GetUnreadMessagesCount()
     {
-        return Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId);
+        return _getUnreadMessageCount.Run(_sessionUser.UserId);
     }
 
     [HttpPost]
     public JsonResult ResetPassword(string email)
     {
-        var result = Sl.Resolve<PasswordRecovery>().Run(email);
+        var result = _passwordRecovery.Run(email);
         //Don't reveal if email exists 
         return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
     } 
@@ -107,7 +122,7 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult Register(RegisterJson json)
     {
-        if (!IsEmailAddressAvailable.Yes(json.Email))
+        if (!IsEmailAddressAvailable.Yes(json.Email, _userRepo))
             return Json(new
             {
                 Data = new
@@ -117,7 +132,7 @@ public class UserStoreController : Controller
                 }
             });
 
-        if (!global::IsUserNameAvailable.Yes(json.Name))
+        if (!global::IsUserNameAvailable.Yes(json.Name, _userRepo))
             return Json(new
             {
                 Data = new
@@ -140,7 +155,7 @@ public class UserStoreController : Controller
         _categoryRepository.Create(category);
         user.StartTopicId = category.Id;
 
-        Sl.UserRepo.Update(user);
+        _userRepo.Update(user);
 
         var type = UserType.Anonymous;
         if (_sessionUser.IsLoggedIn)
@@ -169,7 +184,7 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo, _imageMetaDataRepo).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo, _imageMetaDataRepo, _segmentationLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

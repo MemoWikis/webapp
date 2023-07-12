@@ -3,45 +3,41 @@ using System.Web.Mvc;
 
 namespace VueApp;
 
-public class TopicController : BaseController
+public class TopicController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
+    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly TopicControllerLogic _topicControllerLogic;
 
     public TopicController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo) : base(sessionUser)
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo,
+        TopicControllerLogic topicControllerLogic) 
     {
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
+        _questionValuationRepo = questionValuationRepo;
+        _topicControllerLogic = topicControllerLogic;
     }
 
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader,
-            _categoryValuationRepo, _categoryViewRepo, _imageMetaDataRepo);
-        return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
+        
+        return Json(_topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
     public JsonResult GetTopicWithSegments(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, _knowledgeSummaryLoader,
-            _categoryValuationRepo,_categoryViewRepo, _imageMetaDataRepo );
-        return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
+        return Json(_topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
@@ -61,7 +57,7 @@ public class TopicController : BaseController
         var topicCacheItem = EntityCache.GetCategory(topicId);
         if (_permissionCheck.CanView(topicCacheItem))
         {
-            var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo);
+            var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
             return Json(topicCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>
