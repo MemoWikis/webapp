@@ -5,14 +5,11 @@ using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstancePerLifetime
+public class CategoryRepository : RepositoryDbBase<Category>
 {
-    private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
     private readonly UserRepo _userRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly UserActivityRepo _userActivityRepo;
 
     public enum CreateDeleteUpdate
@@ -24,21 +21,15 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
 
     public CategoryRepository(
         ISession session,
-        PermissionCheck permissionCheck,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo,
         UpdateQuestionCountForCategory updateQuestionCountForCategory,
         UserRepo userRepo,
-        QuestionValuationRepo questionValuationRepo,
         UserActivityRepo userActivityRepo)
         : base(session)
     {
-        _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationRepo = categoryValuationRepo;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _userRepo = userRepo;
-        _questionValuationRepo = questionValuationRepo;
         _userActivityRepo = userActivityRepo;
     }
 
@@ -84,45 +75,6 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
             .ConfigureAwait(false));
     }
 
-    //todo (Meili) die Stelle nochmal anschauen
-    public void CreateOnlyDb(Category category)
-    {
-        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
-        {
-            related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
-        }
-
-        base.Create(category);
-        Flush();
-
-        _categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
-    }
-
-    public void Delete(Category category, int userId)
-    {
-
-        base.Delete(category);
-        EntityCache.Remove(EntityCache.GetCategory(category), _permissionCheck, userId);
-        Task.Run(async () =>
-        {
-            await new MeiliSearchCategoriesDatabaseOperations()
-                .DeleteAsync(category)
-                .ConfigureAwait(false);
-        });
-    }
-
-    public void DeleteWithoutFlush(Category category, int userId)
-    {
-        base.DeleteWithoutFlush(category);
-        EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo);
-        Task.Run(async () =>
-        {
-            await new MeiliSearchCategoriesDatabaseOperations()
-                .DeleteAsync(category)
-                .ConfigureAwait(false);
-        });
-    }
 
     public bool Exists(string categoryName)
     {

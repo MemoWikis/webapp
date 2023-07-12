@@ -33,7 +33,7 @@ public class ContextQuestion
         _questionRepo = questionRepo;
         _answerRepo = answerRepo;
         _answerQuestion = answerQuestion;
-        
+
     }
 
     public User Creator => _contextUser.All[0];
@@ -45,30 +45,6 @@ public class ContextQuestion
         _answerRepo.Flush();
 
         AllAnswers.Add(_answerRepo.GetLastCreated());
-
-        return this;
-    }
-
-    public ContextQuestion AddAnswers(int countCorrect, int countWrong, DateTime dateCreated = default)
-    {
-        if (dateCreated == default)
-        {
-            dateCreated = DateTime.Now;
-        }
-
-        var lastQuestion = All.Last();
-
-        for (var i = 0; i < countCorrect; i++)
-        {
-           _answerQuestion.Run(lastQuestion.Id, lastQuestion.Solution, Learner.Id, Guid.NewGuid(), 1, -1,
-                dateCreated);
-        }
-
-        for (var i = 0; i < countWrong; i++)
-        {
-            _answerQuestion.Run(lastQuestion.Id, lastQuestion.Solution + "möb", Learner.Id, Guid.NewGuid(),
-                1, -1, dateCreated);
-        }
 
         return this;
     }
@@ -179,28 +155,10 @@ public class ContextQuestion
         return this;
     }
 
-    public static void PutQuestionIntoMemoryCache(int answerProbability,
-        int id, 
-        CategoryRepository categoryRepository, 
-        QuestionRepo questionRepo, 
-        AnswerRepo answerRepo, 
-        AnswerQuestion answerQuestion,
-        UserRepo userRepo)
-    {
-        ContextCategory.New(false).AddToEntityCache("Category name").Persist();
-        var categories = categoryRepository.GetAllEager();
-
-        var questions = New(questionRepo, answerRepo, answerQuestion, userRepo).AddQuestion("", "", id, true, null, categories, answerProbability).All;
-
-        var categoryIds = new List<int> { 1 };
-
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(questions[0]), categoryIds);
-    }
-
     public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository,
-        QuestionRepo questionRepo, 
-        AnswerRepo answerRepo, 
-        AnswerQuestion answerQuestion, 
+        QuestionRepo questionRepo,
+        AnswerRepo answerRepo,
+        AnswerQuestion answerQuestion,
         UserRepo userRepo,
         int amount = 20)
     {
@@ -219,10 +177,10 @@ public class ContextQuestion
 
     public static List<SessionUserCacheItem> SetWuwi(int amountQuestion,
         CategoryValuationRepo categoryValuationRepo,
-        QuestionRepo questionRepo, 
-        AnswerRepo answerRepo, 
+        QuestionRepo questionRepo,
+        AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
-        UserRepo userRepo, 
+        UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         var contextUser = ContextUser.New(userRepo);
@@ -232,7 +190,7 @@ public class ContextQuestion
 
         var questions = New(questionRepo, answerRepo, answerQuestion, userRepo).AddQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => userRepo.Create(u));
-        SessionUserCache.AddOrUpdate(users.FirstOrDefault(),categoryValuationRepo, userRepo, questionValuationRepo);
+        SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationRepo, userRepo, questionValuationRepo);
 
         PutQuestionValuationsIntoUserCache(questions, users, categoryValuationRepo, userRepo, questionValuationRepo);
 

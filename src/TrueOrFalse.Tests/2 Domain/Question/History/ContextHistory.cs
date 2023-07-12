@@ -27,11 +27,6 @@ public class ContextHistory : IRegisterAsInstancePerLifetime
         User = ContextUser.New(_userRepo).Add("Firstname Lastname").Persist().All[0];
     }
 
-    public void WriteHistory(int daysOffset = -3)
-	{
-	    WriteHistory(User, daysOffset);
-	}
-
     public void WriteHistory(User user, int daysOffset = -3)
     {
         var _session = _nhibernateSession;

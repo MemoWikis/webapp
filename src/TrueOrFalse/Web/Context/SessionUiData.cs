@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Seedworks.Web.State;
 
 public class SessionUiData : IRegisterAsInstancePerLifetime
@@ -9,8 +8,6 @@ public class SessionUiData : IRegisterAsInstancePerLifetime
     {
         _sessionData = sessionData;
     }
-    public QuestionSearchSpec SearchSpecQuestionSearchBox => _sessionData.Get("searchSpecQuestionSearchBox", new QuestionSearchSpec{Key = "searchbox"});
 
-    public List<QuestionSearchSpec> SearchSpecQuestions => _sessionData.Get("searchSpecQuestions", new List<QuestionSearchSpec>());
     public TmpImageStore TmpImagesStore => _sessionData.Get("tmpImageStore", new TmpImageStore());
 }
