@@ -7,6 +7,12 @@ declare global {
         data: T
         messageKey: string
     }
+
+    type IndexPath = number[]
+
+    type NestedArray<T> = T | NestedArray<T>[]
+
+    type ElementAndNestedArray<T> = { element: T, array: NestedArray<T> }
 }
 
 // declare module '#app' {

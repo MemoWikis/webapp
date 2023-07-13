@@ -49,6 +49,7 @@
     "vue-awesome-paginate": "^1.1.46",
     "vue-final-modal": "^4.0.0-rc.7",
     "vue-tsc": "^1.0.9",
-    "vue3-perfect-scrollbar": "^1.6.1"
+    "vue3-perfect-scrollbar": "^1.6.1",
+    "vue3-smooth-dnd": "^0.0.5"
   }
 }

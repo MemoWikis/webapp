@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+// import { addElementAtPath, removeElementAtPath } from 'components/shared/utils'
 
 interface Item {
     name: string,
@@ -56,44 +57,148 @@ function onDragOver() {
 function onDragLeave() {
     isDroppableItemActive.value = false
 }
-function onDrop(event: any) {
-    console.log('dropped')
-    const e = JSON.parse(event.dataTransfer.getData('value'))
-    console.log(e)
+
+
+function removeElementAtPath(arr: Item[], indexPath: IndexPath): { element: Item, array: Item[] } | undefined {
+    let pathCopy = [...indexPath];
+    let targetIndex = pathCopy.pop();
+
+    let targetArray: Item[] = arr;
+    for (let index of pathCopy) {
+        if (index < targetArray.length && targetArray[index].children) {
+            targetArray = targetArray[index].children || [];
+        } else {
+            return undefined;
+        }
+    }
+
+    if (targetIndex !== undefined && targetIndex < targetArray.length) {
+        let removedElement = targetArray.splice(targetIndex, 1);
+        return { element: removedElement[0], array: arr };
+    } else {
+        return undefined;
+    }
 }
 
+function addElementAtPath(arr: Item[], indexPath: IndexPath, element: Item): void {
+    let pathCopy = [...indexPath];
+    let targetIndex = pathCopy.pop();
+
+    let targetArray: Item[] = arr;
+    for (let index of pathCopy) {
+        if (index < targetArray.length && targetArray[index].children) {
+            targetArray = targetArray[index].children || [];
+        } else {
+            throw new Error("Invalid index path: encountered non-array element before reaching target location");
+        }
+    }
+
+    if (targetIndex !== undefined) {
+        targetArray.splice(targetIndex, 0, element);
+    } else {
+        throw new Error("Invalid index path: did not resolve to array element");
+    }
+}
+
+function moveElement(arr: Item[], fromIndexPath: IndexPath, toIndexPath: IndexPath): Item[] {
+    let removed = removeElementAtPath(arr, fromIndexPath);
+    if (removed) {
+        addElementAtPath(removed.array, toIndexPath, removed.element);
+        return removed.array;
+    } else {
+        return arr;
+    }
+}
+
+function onDrop(event: any) {
+    console.log('target')
+    const e = event.dataTransfer.getData('value')
+    console.log(e)
+
+    moveElement(items.value, e, [0])
+}
+
+const isUpdatingArray = ref(false)
+
+async function onDndDrop({ event, targetPath }: { event: any, targetPath: IndexPath }) {
+    if (isUpdatingArray.value)
+        return
+    isUpdatingArray.value = true
+    const oldItems = [...items.value];
+    items.value = moveElement(items.value, event.payload.index, targetPath)
+    console.log(items.value)
+    // Wait for child events to possibly update the items
+    await nextTick()
+    isUpdatingArray.value = false
+    // If the items are the same as before, a child event has updated the items, so don't do anything
+    if (oldItems === items.value) {
+        return;
+    }
+    // console.log(event.payload.item)
+    // const newarray = moveElement(items.value, event.payload.index, targetPath)
+    // console.log('newarray', newarray)
+    // applyDrag(event)
+}
+
+function applyDrag(dragResult: any) {
+    const { removedIndex, addedIndex, payload } = dragResult
+    if (removedIndex === null && addedIndex === null) return
+
+    const result = [...items.value]
+    let itemToAdd = payload
+
+    if (removedIndex !== null) {
+        itemToAdd = result.splice(removedIndex, 1)[0]
+    }
+
+    if (addedIndex !== null) {
+        result.splice(addedIndex, 0, itemToAdd)
+    }
+
+    items.value = result
+}
+
+function getPayload(index: number) {
+    const payload = {
+        item: items.value[index],
+        index: [index]
+    }
+    return payload
+}
+
+function setNewArr(e: Item[]) {
+    console.log('newarr', e)
+    // items.value = e
+}
 </script>
 
 <template>
-    <div class="grid-container">
-        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
-            <TopicContentGridItem v-for="item in items" :item="item" />
-        </SharedDroppable>
+    <div class="row">
+        <div class="col-xs-12">
+            <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
+                <div class="grid-container" v-if="items">
+                    <TopicContentGridItem v-for="item, i in items" :item="item" :index="[i]" :items="items"
+                        @set-new-arr="setNewArr" />
+
+                </div>
+            </SharedDroppable>
+        </div>
+
+        <!-- <div class="grid-container">
+            <Container @drop="onDndDrop({ event: $event, targetPath: [0] })" :get-child-payload="getPayload"
+                group-name="test">
+                <TopicContentGridItem v-for="item, i in items" :item="item" :index="[i]" @on-dnd-drop="onDndDrop"
+                    :base-items="items" />
+            </Container>
+        </div> -->
     </div>
 </template>
 
 <style lang="less" scoped>
 .grid-container {
     margin-left: 10px;
-
-}
-
-.draggable {
-    transition: all 2s;
-    transform: scale(1);
-
-
-    .item {
-        width: 100%;
-        border: solid 1px silver;
-        padding: 10px;
-
-        transition: all 0.1s;
-        transform: scale(1);
-    }
-
-    .is-moving {
-        transform: scale(0);
-    }
+    padding: 10px;
+    border: solid 1px silver;
+    width: 100%;
 }
 </style>
