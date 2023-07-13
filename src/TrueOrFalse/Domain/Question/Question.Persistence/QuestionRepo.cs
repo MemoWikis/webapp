@@ -244,7 +244,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
         var categoriesReferences = _session
             .CreateSQLQuery(query)
             .List<int>();
-        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
+        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences)
+            .ToList();
+
+        var categoriesBeforeUpdate =_session
+            .QueryOver<Category>()
+            .WhereRestrictionOn(c => c.Id)
+            .IsIn(categoriesBeforeUpdateIds)
+            .List();
+
 
         if (merge)
         {
@@ -257,13 +265,13 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         Flush();
 
-        var categoriesToUpdateIds = categoriesBeforeUpdateIds
-            .Union(question.Categories.Select(c => c.Id))
+        var categoriesToUpdate = categoriesBeforeUpdate
+            .Union(question.Categories)
             .Union(question.References.Where(r => r.Category != null)
-                .Select(r => r.Category.Id))
-            .Distinct()
-            .ToList(); //All categories added or removed have to be updated
+                .Select(r => r.Category))
+            .ToList();
 
+        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdateIds);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
