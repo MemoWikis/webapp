@@ -4,25 +4,23 @@ using NHibernate;
 
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryRepository _categoryRepository;
     private readonly QuestionRepo _questionRepository;
     private readonly SessionUser _sessionUser;
     private readonly ISession _nhinbernateSession;
 
-    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository,
+    public UpdateQuestionCountForCategory(
         QuestionRepo questionRepo,
         SessionUser sessionUser,
         ISession nhinbernateSession)
     {
-        _categoryRepository = categoryRepository;
         _questionRepository = questionRepo;
         _sessionUser = sessionUser;
         _nhinbernateSession = nhinbernateSession;
     }
 
-    public void All()
+    public void All(CategoryRepository categoryRepository)
     {
-        RunWithSql(_categoryRepository.GetAll());
+        RunWithSql(categoryRepository.GetAll());
     }
 
     public void Run(Category category)
@@ -36,14 +34,6 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         foreach (var category in categories)
         {
             Run(category);
-        }
-    }
-
-    public void Run(IList<int> categoryIds)
-    {
-        foreach (var categoryId in categoryIds)
-        {
-            Run(_categoryRepository.GetById(categoryId));
         }
     }
 

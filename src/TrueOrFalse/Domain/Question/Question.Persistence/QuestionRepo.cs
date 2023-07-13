@@ -273,7 +273,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
-        _updateQuestionCountForCategory.Run(categoriesToUpdateIds);
+        _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         _questionChangeRepo.AddUpdateEntry(question, this);
 

@@ -52,7 +52,7 @@ public class DeleteQuestion : IJob
 
         //delete connected db-entries
         _referenceRepo.DeleteForQuestion(questionId);
-_answerRepo.DeleteFor(questionId);
+        _answerRepo.DeleteFor(questionId);
         _questionViewRepository.DeleteForQuestion(questionId);
         _userActivityRepo.DeleteForQuestion(questionId);
         _questionViewRepository.DeleteForQuestion(questionId);
@@ -66,9 +66,9 @@ _answerRepo.DeleteFor(questionId);
 
         _questionRepo.Delete(question);
 
-        var categoriesToUpdateIds = question.Categories.Select(c => c.Id).ToList();
-
-        _updateQuestionCountForCategory.Run(categoriesToUpdateIds);
+        var categoriesToUpdate = question.Categories.ToList();
+        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
+        _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Logg.r().Information("Question {id} deleted", questionId);
     }

@@ -32,7 +32,7 @@ public class VueMaintenanceController : Controller
         ProbabilityUpdate_Question probabilityUpdateQuestion,
         MeiliSearchReIndexAllQuestions meiliSearchReIndexAllQuestions,
         UpdateQuestionAnswerCounts updateQuestionAnswerCounts,
-        UpdateQuestionCountForCategory updateQuestionCountForCategory,
+        //UpdateQuestionCountForCategory updateQuestionCountForCategory,
         ReputationUpdate reputationUpdate,
         UpdateWishcount updateWishcount,
         MeiliSearchReIndexCategories meiliSearchReIndexCategories,
@@ -46,7 +46,7 @@ public class VueMaintenanceController : Controller
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
         _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
         _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
-        _updateQuestionCountForCategory = updateQuestionCountForCategory;
+        //_updateQuestionCountForCategory = updateQuestionCountForCategory;
         _reputationUpdate = reputationUpdate;
         _updateWishcount = updateWishcount;
         _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
@@ -109,7 +109,7 @@ public class VueMaintenanceController : Controller
     [HttpPost]
     public JsonResult UpdateFieldQuestionCountForTopics()
     {
-        _updateQuestionCountForCategory.All();
+        _updateQuestionCountForCategory.All(_categoryRepository);
 
         return Json(new
         {
