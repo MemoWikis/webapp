@@ -11,5 +11,5 @@
 
     public abstract string ToJson();
 
-    public abstract Question ToQuestion(int questionId);
+    public abstract Question ToQuestion(Question question);
 }

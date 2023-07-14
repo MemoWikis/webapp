@@ -27,6 +27,7 @@ public class VueEditQuestionController : Controller
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
 
     public VueEditQuestionController(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -41,7 +42,8 @@ public class VueEditQuestionController : Controller
         SessionUiData sessionUiData,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo,
-        QuestionChangeRepo questionChangeRepo) 
+        QuestionChangeRepo questionChangeRepo, 
+        QuestionWritingRepo questionWritingRepo) 
     {
         _questionRepo = questionRepo;
         _sessionUser = sessionUser;
@@ -57,6 +59,7 @@ public class VueEditQuestionController : Controller
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionChangeRepo = questionChangeRepo;
+        _questionWritingRepo = questionWritingRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -80,7 +83,7 @@ public class VueEditQuestionController : Controller
         question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
-        _questionRepo.Create(question);
+        _questionWritingRepo.Create(question, _categoryRepository);
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
@@ -162,7 +165,7 @@ public class VueEditQuestionController : Controller
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        _questionRepo.Create(question);
+        _questionWritingRepo.Create(question, _categoryRepository);
 
         if (flashCardJson.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), sessionUser.Id);
@@ -327,7 +330,7 @@ public class VueEditQuestionController : Controller
             var creator = _userRepo.GetById(_sessionUser.UserId);
             question.Creator = creator;
             question.IsWorkInProgress = true;
-            _questionRepo.Create(question);
+            _questionWritingRepo.Create(question, _categoryRepository);
 
             newQuestionId = questionId = question.Id;
         }

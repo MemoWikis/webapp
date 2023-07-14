@@ -191,14 +191,6 @@ namespace Seedworks.Lib.Persistence
                 OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
         }
 
-        public virtual void DeleteWithoutFlush(TDomainObject domainObject)
-        {
-            _session.Delete(domainObject);
-
-            if (OnItemDeleted != null)
-                OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
-        }
-
         public virtual void Delete(int id)
         {
             Delete(GetById(id));
@@ -235,18 +227,6 @@ namespace Seedworks.Lib.Persistence
             var result = _session.CreateCriteria(typeof(TDomainObject))
                            .Add(Restrictions.Eq("Id", id))
                            .UniqueResult<TDomainObject>();
-
-            if (AfterItemRetrieved != null)
-                AfterItemRetrieved(this, new TDomainObjectArgs(result));
-
-            return result;
-        }
-
-        public virtual TDomainObject GetBySetId(int id)
-        {
-            var result = _session.CreateCriteria(typeof(TDomainObject))
-                .Add(Restrictions.Eq("FormerSetId", id))
-                .UniqueResult<TDomainObject>();
 
             if (AfterItemRetrieved != null)
                 AfterItemRetrieved(this, new TDomainObjectArgs(result));
@@ -320,22 +300,6 @@ namespace Seedworks.Lib.Persistence
             return list;
         }
 
-        public TDomainObject GetByUnique(ISearchDesc searchDesc)
-        {
-            var criteria = GetExecutableCriteria();
-            AddGenericConditions(criteria, searchDesc.Filter);
-
-            var result = criteria.List<TDomainObject>();
-
-            if (result.Count > 1)
-                throw new Exception("An empty or single result is expected, but result count was: " + result.Count);
-
-            if(result.Count == 1)
-                return result[0];
-
-            return default(TDomainObject);
-        }
-
         public void Flush()
         {
             _session.Flush();
@@ -380,31 +344,6 @@ namespace Seedworks.Lib.Persistence
 
     		return criteria.List<int>();
     	}
-
-    	public IList<int> GetAllIds(ISearchDesc searchDesc)
-    	{
-			var criteria = GetExecutableCriteria();
-
-			AddGenericConditions(criteria, searchDesc.Filter);
-			AddOrderBy(criteria, searchDesc.OrderBy);
-
-			criteria.SetProjection(Projections.Property("Id")); // guaranteed to exist by IPersistable
-
-    		return criteria.List<int>();
-    	}
-
-		public IList GetProjectionBy(ISearchDesc searchDesc, params string[] projectionProperties)
-		{
-			var criteria = GetExecutableCriteria();
-
-			AddGenericConditions(criteria, searchDesc.Filter);
-			AddOrderBy(criteria, searchDesc.OrderBy);
-
-			foreach (var property in projectionProperties)
-				criteria.SetProjection(Projections.Property(property));
-
-			return criteria.List();
-		}
     }
 }
 

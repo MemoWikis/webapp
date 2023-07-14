@@ -16,7 +16,9 @@ public class Send_knowledgeReport : BaseTest
         var questions = ContextQuestion.New(questionRepo,
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                userRepo)
+                userRepo,
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(questionText: "q1", solutionText: "a1")
             .AddQuestion(questionText: "q2", solutionText: "a2")
             .AddQuestion(questionText: "q3", solutionText: "a3")

@@ -13,7 +13,9 @@ public class History_totals_per_user_tests : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                R<UserRepo>())
+                R<UserRepo>(), 
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", entityCacheInitilizer)
             .AddQuestion(questionText: "QuestionB", solutionText: "QuestionB").AddCategory("A", entityCacheInitilizer).
             Persist();

@@ -34,7 +34,7 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual Question ToHistoricQuestion()
     {
-        return GetQuestionChangeData().ToQuestion(Question.Id);
+        return GetQuestionChangeData().ToQuestion(Question);
     }
 }
 

@@ -32,7 +32,7 @@ class CategoryVisibilityTests : BaseTest
     //    subCategories.ByName("Child").Visibility = global::CategoryVisibility.Owner;
     //    subCategories.ByName("GrandChild").Visibility = global::CategoryVisibility.All;
 
-    //    ContextQuestion.New().AddQuestions(15, 
+    //    ContextQuestion.New().AddRandomQuestions(15, 
     //        categoriesQuestions: subCategories.Where(sc => sc.Name == "GrandChild").ToList(), 
     //        persistImmediately: true);
             

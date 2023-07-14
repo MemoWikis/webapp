@@ -1,0 +1,32 @@
+﻿using System.Linq;
+using NUnit.Framework;
+
+namespace TrueOrFalse.Tests.Persistence;
+
+public class Comment_persistence_tests : BaseTest
+{
+    [Test]
+    public void Comments_should_be_persisted()
+    {
+        var userRepo = R<UserRepo>(); 
+        var context =  new ContextComment(R<CommentRepository>(), userRepo );
+        context.Add("A").Add("B").Persist();
+        context.Add("C", commentTo:context.All[0]).Persist();
+
+        var allComments = Resolve<CommentRepository>().GetAll();
+        Assert.That(allComments.Count, Is.EqualTo(3));
+
+        RecycleContainer();
+
+        var question =  ContextQuestion.New(R<QuestionRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            userRepo,
+            R<CategoryRepository>(), 
+            R<QuestionWritingRepo>())
+            .AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
+
+        var comments = Resolve<CommentRepository>().GetForDisplay(question.Id);
+        Assert.That(comments.First(c => c.Text == "A").Answers[0].Text, Is.EqualTo("C"));
+    }
+}

@@ -35,16 +35,14 @@ public class Write_activity_question : BaseTest
         //User4 creates one question
         System.Threading.Thread.Sleep(50); // to much commits without sleep
         ContextQuestion.New(R<QuestionRepo>(),
-            R<AnswerRepo>(),
-            R<AnswerQuestion>(), 
-            R<UserRepo>()).AddQuestion(creator: user4).Persist();
-        //User2 creates two questions
-        ContextQuestion.New(R<QuestionRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>())
+                R<UserRepo>(),
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
+            .AddQuestion(creator: user4)
             .Persist();
 
         //User3 should see activity: User4 created Question

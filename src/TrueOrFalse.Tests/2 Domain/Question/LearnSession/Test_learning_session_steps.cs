@@ -23,7 +23,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningSessionConfig,
-            R<UserRepo>())
+            R<UserRepo>(),
+            R<QuestionWritingRepo>())
             .GetLearningSessionWithUser();
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
@@ -54,7 +55,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>())
             .GetLearningSessionForAnonymusUser(5);
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
@@ -81,7 +83,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>())
             .GetLearningSessionForAnonymusUser(1);
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         learningSession.NextStep();
@@ -93,7 +96,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             new LearningSessionConfig(), 
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>())
             .GetLearningSessionForAnonymusUser(1);
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
@@ -114,7 +118,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>())
             .GetLearningSessionWithUser();
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });

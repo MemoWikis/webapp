@@ -16,7 +16,9 @@ class Delete_question : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<CategoryRepository>(),
+            R<QuestionWritingRepo>())
             .AddQuestion(creator: user1)
             .Persist();
 
@@ -36,7 +38,9 @@ class Delete_question : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                userRepo)
+                userRepo,
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .PersistImmediately()
             .AddQuestion(creator: user1)
             .AddToWishknowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
@@ -70,7 +74,9 @@ class Delete_question : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                R<UserRepo>())
+                R<UserRepo>(), 
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .PersistImmediately()
             .AddQuestion(creator: user1);
         var question1 = contextQuestion.All[0];

@@ -11,6 +11,7 @@ internal class ContextLearningSession
     private readonly AnswerQuestion _answerQuestion;
     private readonly LearningSessionConfig _learningSessionConfig;
     private readonly UserRepo _userRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
 
     public ContextLearningSession(
         CategoryRepository categoryRepository,
@@ -19,7 +20,8 @@ internal class ContextLearningSession
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         LearningSessionConfig learningSessionConfig,
-        UserRepo userRepo)
+        UserRepo userRepo,
+        QuestionWritingRepo questionWritingRepo)
     {
         _categoryRepository = categoryRepository;
         _learningSessionCreator = learningSessionCreator;
@@ -28,6 +30,7 @@ internal class ContextLearningSession
         _answerQuestion = answerQuestion;
         _learningSessionConfig = learningSessionConfig;
         _userRepo = userRepo;
+        _questionWritingRepo = questionWritingRepo;
     }
     public List<LearningSessionStep> GetSteps(int amountQuestionInMemory,
         int amountQuestions = 20)
@@ -39,7 +42,7 @@ internal class ContextLearningSession
 
     public LearningSession GetLearningSessionForAnonymusUser(int amountQuestions, int amountQuestionInMemory = 20)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository, _questionRepo, _answerRepo, _answerQuestion, _userRepo, amountQuestionInMemory);
+        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository, _questionRepo, _answerRepo, _answerQuestion, _userRepo, _questionWritingRepo, amountQuestionInMemory);
         var learningSession =_learningSessionCreator.BuildLearningSession(
             new LearningSessionConfig
             {
@@ -51,13 +54,24 @@ internal class ContextLearningSession
 
     public LearningSession GetLearningSessionWithUser()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository, _questionRepo, _answerRepo, _answerQuestion,_userRepo , _learningSessionConfig.MaxQuestionCount);
+        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository,
+            _questionRepo, 
+            _answerRepo, 
+            _answerQuestion,
+            _userRepo, 
+            _questionWritingRepo, 
+            _learningSessionConfig.MaxQuestionCount);
         return new LearningSession(GetSteps(_learningSessionConfig.MaxQuestionCount), _learningSessionConfig);
     }
 
     public LearningSession GetLearningSession()
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository, _questionRepo, _answerRepo, _answerQuestion,_userRepo);
+        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository,
+            _questionRepo, 
+            _answerRepo, 
+            _answerQuestion,
+            _userRepo, 
+            _questionWritingRepo);
         return _learningSessionCreator.BuildLearningSession(_learningSessionConfig);
     }
 }

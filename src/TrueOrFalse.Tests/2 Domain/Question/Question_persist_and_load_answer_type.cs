@@ -12,7 +12,9 @@ public class Question_persist_and_load_answer_type : BaseTest
         var context = ContextQuestion.New(R<QuestionRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>())
+                R<UserRepo>(),
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
             .AddCategory("A", entityCacheInitilizer)
             .AddCategory("B", entityCacheInitilizer)

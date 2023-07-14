@@ -14,10 +14,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
                     .List<Question>();
 
-                var questionRepo = scope.Resolve<QuestionRepo>();
+                var questionWritingRepo = scope.Resolve<QuestionWritingRepo>();
 
                 foreach (var question in questions)
-                    questionRepo.Delete(question);
+                    questionWritingRepo.Delete(question);
 
                 Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
             }, "CleanUpWorkInProgressQuestions");

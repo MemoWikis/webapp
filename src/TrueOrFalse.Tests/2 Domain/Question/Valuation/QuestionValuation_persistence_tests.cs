@@ -13,7 +13,10 @@ public class QestionValuation_persistence_tests : BaseTest
             R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            R<UserRepo>()).AddQuestion(questionText: "a", solutionText: "b").Persist();
+            R<UserRepo>(),
+            R<CategoryRepository>(),
+            R<QuestionWritingRepo>())
+            .AddQuestion(questionText: "a", solutionText: "b").Persist();
         var questionValuation = 
             new QuestionValuation  
             {
@@ -34,7 +37,9 @@ public class QestionValuation_persistence_tests : BaseTest
                 R<QuestionRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>())
+                R<UserRepo>(),
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(questionText: "1", solutionText: "a")
             .AddQuestion(questionText: "2", solutionText: "a")
             .AddQuestion(questionText: "3", solutionText: "a")

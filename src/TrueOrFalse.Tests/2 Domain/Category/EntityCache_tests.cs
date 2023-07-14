@@ -76,7 +76,12 @@ class EntityCache_tests : BaseTest
     public void Should_able_to_deep_clone_cache_items()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), R<UserRepo>());
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(), 
+            R<UserRepo>(), 
+            R<CategoryRepository>(),
+            R<QuestionWritingRepo>());
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
@@ -102,7 +107,12 @@ class EntityCache_tests : BaseTest
     public void Entity_in_cache_should_be_detached_from_NHibernate_session()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), R<UserRepo>());
+        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            R<UserRepo>(),
+            R<CategoryRepository>(),
+            R<QuestionWritingRepo>()); 
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
@@ -112,14 +122,7 @@ class EntityCache_tests : BaseTest
         var questionRepo = R<QuestionRepo>();
         questionRepo.Update(question1);
 
-        var session = typeof(PersistentGenericBag<Category>).GetField("session", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(question1.Categories);
-        var session2 = question1.Categories.GetFieldValue<object>("session");
-
-        var persistentGenericBag = ((PersistentGenericBag<Category>) question1.Categories);
-        var session3 = persistentGenericBag.GetFieldValue<ISessionImplementor>("session");
-
         Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
-
 
         questionRepo.Session.Evict(question1.Categories);
 
@@ -176,16 +179,5 @@ class EntityCache_tests : BaseTest
 
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("G").Id), "I"), Is.EqualTo(true));
         Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
-    }
-}
-
-public static class ReflectionExtensions
-{
-    public static T GetFieldValue<T>(this object obj, string name)
-    {
-        // Set the flags so that private and public fields from instances will be found
-        var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-        var field = obj.GetType().GetField(name, bindingFlags);
-        return (T)field?.GetValue(obj);
     }
 }

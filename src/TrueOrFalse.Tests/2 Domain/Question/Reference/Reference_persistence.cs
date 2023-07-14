@@ -13,7 +13,9 @@ public class Reference_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserRepo>()).AddQuestion(questionText: "text", solutionText: "solution").Persist();
+            R<UserRepo>(), 
+            R<CategoryRepository>(), 
+            R<QuestionWritingRepo>()).AddQuestion(questionText: "text", solutionText: "solution").Persist();
         var contextCategory = ContextCategory.New().Add("categoryName").Persist();
             
         var reference = new Reference();
@@ -34,7 +36,9 @@ public class Reference_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
-                R<UserRepo>())
+                R<UserRepo>(), 
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(questionText: "text", solutionText: "solution").Persist();
 
         var reference = new Reference();
@@ -63,7 +67,11 @@ public class Reference_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserRepo>()).AddQuestion().Persist();
+            R<UserRepo>(), 
+            R<CategoryRepository>(), 
+            R<QuestionWritingRepo>())
+            .AddQuestion()
+            .Persist();
         var question = contextQuestion.All[0];
         question.References.Add(new Reference{ReferenceText = "FTR"});
         question.References.Add(new Reference{AdditionalInfo = "AI"});

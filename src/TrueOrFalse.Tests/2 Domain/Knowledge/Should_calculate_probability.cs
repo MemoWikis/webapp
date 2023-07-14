@@ -13,7 +13,9 @@ public class Should_calculate_probability_ : BaseTest
         var question = ContextQuestion.New(R<QuestionRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
-                R<UserRepo>())
+                R<UserRepo>(),
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
         var probSimple = R<ProbabilityCalc_Simple1>();
@@ -36,7 +38,9 @@ public class Should_calculate_probability_ : BaseTest
         var question = ContextQuestion.New(R<QuestionRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
-            R<UserRepo>())
+            R<UserRepo>(),
+            R<CategoryRepository>(), 
+            R<QuestionWritingRepo>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
@@ -55,7 +59,9 @@ public class Should_calculate_probability_ : BaseTest
         var question = ContextQuestion.New(R<QuestionRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<CategoryRepository>(), 
+            R<QuestionWritingRepo>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{

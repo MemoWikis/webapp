@@ -284,7 +284,7 @@
     <Compile Include="1 View\TemplateParserTest.cs" />
     <Compile Include="2 Domain\Category\CategoryChange_tests.cs" />
     <Compile Include="2 Domain\Category\UserValuationCache_tests.cs" />
-    <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
+    <Compile Include="2 Domain\Comment\Comment_persistence_tests.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
     <Compile Include="2 Domain\Image\ImageLicenses_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageInfo_from_wikimedia.cs" />

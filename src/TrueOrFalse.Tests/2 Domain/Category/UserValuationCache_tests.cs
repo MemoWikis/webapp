@@ -20,7 +20,7 @@ public class UserValuationCache_tests : BaseTest
         var category3 = categoryRepo.GetByName("3").FirstOrDefault();
 
         var userRepo = R<UserRepo>();
-        ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), userRepo)
+        ContextQuestion.New(R<QuestionRepo>(), R<AnswerRepo>(), R<AnswerQuestion>(), userRepo, categoryRepo, R<QuestionWritingRepo>())
             .AddQuestion(questionText: "Question1", solutionText: "Answer", categories: new List<Category> { category1 })
             .AddQuestion(questionText: "Question2", solutionText: "Answer", categories: new List<Category> { category2 })
             .AddQuestion(questionText: "Question3", solutionText: "Answer", categories: new List<Category> { category3 })

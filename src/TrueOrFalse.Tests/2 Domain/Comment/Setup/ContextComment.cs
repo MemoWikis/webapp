@@ -3,33 +3,20 @@ using System.Linq;
 
 namespace TrueOrFalse.Tests;
 
-public class ContextComment : IRegisterAsInstancePerLifetime
+public class ContextComment
 {
     private readonly CommentRepository _commentRepo;
-    private readonly QuestionRepo _questionRepo;
-    private readonly UserRepo _userRepo;
-    private readonly AnswerQuestion _answerQuestion;
-    private readonly ContextUser _contextUser;
-    private readonly ContextQuestion _contextQuestion;
-
     private readonly User _user1;
-    public readonly Question Question;
         
     public List<Comment> All = new();
 
-    private ContextComment(CommentRepository commentRepository, 
-        QuestionRepo questionRepo,
-        UserRepo userRepo,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion){
+    public ContextComment(CommentRepository commentRepository,
+        UserRepo userRepo
+       ){
         _commentRepo = commentRepository ;
-        _questionRepo = questionRepo;
-        _userRepo = userRepo;
-        _answerQuestion = answerQuestion;
-        _contextUser = ContextUser.New(_userRepo);
-        _contextQuestion = ContextQuestion.New(_questionRepo, answerRepo, _answerQuestion, _userRepo);
-        _user1 = _contextUser.Add("Test").Persist().All.First();
-        Question = _contextQuestion.AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
+        var userRepo1 = userRepo;
+        var contextUser = ContextUser.New(userRepo1);
+        _user1 = contextUser.Add("Test").Persist().All.First();
     }
 
 

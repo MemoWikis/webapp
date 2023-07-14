@@ -11,7 +11,9 @@ public class QuestionAnswerPersistenceTests : BaseTest
         answer.Question = ContextQuestion.GetQuestion(R<QuestionRepo>(), 
             answerRepo, 
             R<AnswerQuestion>(),
-            R<UserRepo>());
+            R<UserRepo>(),
+            R<CategoryRepository>(),
+            R<QuestionWritingRepo>());
         answer.MillisecondsSinceQuestionView = 100;
         answer.UserId = 1;
         answer.AnswerText = "asdfasfsf";

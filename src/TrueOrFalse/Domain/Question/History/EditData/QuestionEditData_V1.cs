@@ -5,16 +5,13 @@ using NHibernate;
 public class QuestionEditData_V1 : QuestionEditData
 {
     private readonly ISession _nhibernateSession;
-    private readonly QuestionRepo _questionRepo;
     public QuestionEditData_V1(){}
 
     public QuestionEditData_V1(Question question,
         bool imageWasChanged,
-        ISession nhibernateSession,
-        QuestionRepo questionRepo)
+        ISession nhibernateSession)
     {
         _nhibernateSession = nhibernateSession;
-        _questionRepo = questionRepo;
         //TextHtml is missing here
         QuestionText = question.Text;
         QuestionTextExtended = question.TextExtended;
@@ -36,10 +33,8 @@ public class QuestionEditData_V1 : QuestionEditData
         return JsonConvert.DeserializeObject<QuestionEditData_V1>(json);
     }
 
-    public override Question ToQuestion(int questionId)
+    public override Question ToQuestion(Question question)
     {
-        var question =_questionRepo.GetById(questionId);
-
         // Query Categories and References properties to load and thus prevent an
         // NHibernate.LazyInitializationException
         question.Categories.ToList();

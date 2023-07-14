@@ -11,7 +11,8 @@ class Create_learning_session : BaseTest
             R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            R<UserRepo>());
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>());
         var learningSessionConfig = new LearningSessionConfig
         {
             MaxQuestionCount = 5,
@@ -23,7 +24,8 @@ class Create_learning_session : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningSessionConfig, 
-            R<UserRepo>())
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>())
             .GetLearningSession();
 
         foreach (var step in learningSession.Steps)

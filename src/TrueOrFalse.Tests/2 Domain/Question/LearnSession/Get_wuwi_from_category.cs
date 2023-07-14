@@ -9,6 +9,7 @@ class Get_wuwi_from_category : BaseTest
     [Test]
     public void GetWuwiSession()
     {
+        var questionwriterRepo = R<QuestionWritingRepo>(); 
         var userRepo = R<UserRepo>();
         var questionRepo = R<QuestionRepo>();
         var answerQuestion = R<AnswerQuestion>();
@@ -17,16 +18,19 @@ class Get_wuwi_from_category : BaseTest
             questionRepo, 
             answerRepo,
             answerQuestion,
-            userRepo);
+            userRepo,
+            questionwriterRepo);
 
         var questionValuationRepo = R<QuestionValuationRepo>();
-        ContextQuestion.SetWuwi(20, 
+        ContextQuestion.SetWuwi(20,
             R<CategoryValuationRepo>(),
-            questionRepo, 
-            answerRepo, 
-            answerQuestion, 
-            userRepo, 
-            questionValuationRepo);
+            questionRepo,
+            answerRepo,
+            answerQuestion,
+            userRepo,
+            questionValuationRepo,
+            R<CategoryRepository>(),
+            questionwriterRepo);
             
         var categoryId = 1;
         var userCacheItem = SessionUserCache.GetAllCacheItems(

@@ -12,6 +12,8 @@ public class Should_get_following_answer : BaseTest
                     answerRepo, 
                     R<AnswerQuestion>(),
                     R<UserRepo>(),
+                    R<CategoryRepository>(), 
+                    R<QuestionWritingRepo>(),
                     persistImmediately: true)
                 .AddQuestion(questionText: "Some Question", solutionText: "Some answer")
                 .AddAnswer("some answer 1")

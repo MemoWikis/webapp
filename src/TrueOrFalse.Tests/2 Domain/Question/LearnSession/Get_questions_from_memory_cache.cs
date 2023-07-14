@@ -12,7 +12,8 @@ class Get_questions_from_memory_cache : BaseTest
             R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            R<UserRepo>());
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>());
         Assert.That(EntityCache.GetAllQuestions().Count, Is.GreaterThan(4999));
     }
 
@@ -25,6 +26,7 @@ class Get_questions_from_memory_cache : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
-            R<UserRepo>()).GetSteps(4000, 4000).Count, Is.EqualTo(4000));
+            R<UserRepo>(), 
+            R<QuestionWritingRepo>()).GetSteps(4000, 4000).Count, Is.EqualTo(4000));
     }
 }

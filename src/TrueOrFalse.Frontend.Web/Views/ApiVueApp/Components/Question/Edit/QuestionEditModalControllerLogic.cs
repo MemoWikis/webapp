@@ -22,6 +22,7 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
 
     public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
         SessionUser sessionUser,
@@ -33,7 +34,8 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
-        QuestionValuationRepo questionValuationRepo) 
+        QuestionValuationRepo questionValuationRepo,
+        QuestionWritingRepo questionWritingRepo) 
     {
         _questionRepo = questionRepo;
         _sessionUser = sessionUser;
@@ -46,6 +48,7 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
+        _questionWritingRepo = questionWritingRepo;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
@@ -65,7 +68,7 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
         question.Creator = _userRepo.GetById(_sessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
-        _questionRepo.Create(question);
+        _questionWritingRepo.Create(question, _categoryRepository);
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 

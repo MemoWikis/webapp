@@ -7,7 +7,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs;
 public class DeleteQuestion : IJob
 {
     private readonly CategoryValuationRepo _categoryValuationRepo;
-    private readonly QuestionRepo _questionRepo;
     private readonly ReferenceRepo _referenceRepo;
     private readonly AnswerRepo _answerRepo;
     private readonly QuestionViewRepository _questionViewRepository;
@@ -15,11 +14,10 @@ public class DeleteQuestion : IJob
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CommentRepository _commentRepository;
     private readonly ISession _nhibernateSession;
-    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
     private readonly UserRepo _userRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
 
     public DeleteQuestion(CategoryValuationRepo categoryValuationRepo,
-        QuestionRepo questionRepo,
         ReferenceRepo referenceRepo,
         AnswerRepo answerRepo,
         QuestionViewRepository questionViewRepository,
@@ -27,11 +25,9 @@ public class DeleteQuestion : IJob
         QuestionValuationRepo questionValuationRepo,
         CommentRepository commentRepository,
         ISession nhibernateSession,
-        UpdateQuestionCountForCategory updateQuestionCountForCategory,
-        UserRepo userRepo)
+        UserRepo userRepo, QuestionWritingRepo questionWritingRepo)
     {
         _categoryValuationRepo = categoryValuationRepo;
-        _questionRepo = questionRepo;
         _referenceRepo = referenceRepo;
         _answerRepo = answerRepo;
         _questionViewRepository = questionViewRepository;
@@ -39,8 +35,8 @@ public class DeleteQuestion : IJob
         _questionValuationRepo = questionValuationRepo;
         _commentRepository = commentRepository;
         _nhibernateSession = nhibernateSession;
-        _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _userRepo = userRepo;
+        _questionWritingRepo = questionWritingRepo;
     }
     public void Execute(IJobExecutionContext context)
     {
@@ -61,14 +57,8 @@ public class DeleteQuestion : IJob
         _nhibernateSession
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();
-        
-        var question = _questionRepo.GetById(questionId);
 
-        _questionRepo.Delete(question);
-
-        var categoriesToUpdate = question.Categories.ToList();
-        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        _updateQuestionCountForCategory.Run(categoriesToUpdate);
+        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Logg.r().Information("Question {id} deleted", questionId);
     }

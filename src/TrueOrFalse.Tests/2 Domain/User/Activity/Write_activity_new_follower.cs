@@ -30,7 +30,9 @@ public class Write_activity_new_follower : BaseTest
         ContextQuestion.New(R<QuestionRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>())
+                R<UserRepo>(),
+                R<CategoryRepository>(), 
+                R<QuestionWritingRepo>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
             .Persist();
