@@ -31,7 +31,7 @@ public class AnswerBodyController : BaseController
             id = q.Id,
             text = q.Text,
             title = title,
-            encodedTitle = UriSanitizer.Run(title, 10),
+            encodedTitle = UriSanitizer.Run(title),
             solutionType = q.SolutionType,
             renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
             description = q.Description,

@@ -51,7 +51,7 @@ useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: `${config.public.officialBase}${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`,
+			href: `${config.public.officialBase}/Fragen/${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}/1`,
 		},
 	],
 	meta: [
