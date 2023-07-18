@@ -51,7 +51,7 @@ useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: `${config.public.serverBase}/${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`,
+			href: `${config.public.officialBase}${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`,
 		},
 	],
 	meta: [
@@ -61,7 +61,7 @@ useHead(() => ({
 		},
 		{
 			property: 'og:url',
-			content: `${config.public.serverBase}/Fragen/${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`
+			content: `${config.public.officialBase}Fragen/${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`
 		},
 		{
 			property: 'og:type',

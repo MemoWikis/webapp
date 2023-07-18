@@ -129,7 +129,7 @@ useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: `${config.public.serverBase}/${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
+            href: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
         },
     ],
     meta: [
@@ -143,7 +143,7 @@ useHead(() => ({
         },
         {
             property: 'og:url',
-            content: `${config.public.serverBase}/${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
+            content: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
         },
         {
             property: 'og:type',
