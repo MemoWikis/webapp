@@ -123,7 +123,7 @@ onBeforeMount(() => {
                         v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus">
                         <!-- @click="handleCheckout(Subscription.Type.Plus) -->
                         <!-- Auswählen -->
-                        Cooming soon...
+                        Coming soon...
                     </button>
                     <button class="memo-button btn-success"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Plus">
