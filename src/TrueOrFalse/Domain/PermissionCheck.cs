@@ -103,7 +103,7 @@
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        var creator = question.Creator.Id
+        var creator = question.Creator.Id;
         if (question.Visibility == QuestionVisibility.Owner && question.CreatorId == _userId)
             return true;
 
