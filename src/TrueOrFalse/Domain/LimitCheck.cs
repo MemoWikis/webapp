@@ -14,7 +14,8 @@ public class LimitCheck
         {
             maxPrivateTopicCount = _privateTopicsQuantity,
             maxPrivateQuestionCount = _privateQuestionsQuantity,
-            maxWishknowledgeCount = _wishCountKnowledge
+            maxWishknowledgeCount = _wishCountKnowledge,
+            testToBeDeleted = true
         };
     }
 

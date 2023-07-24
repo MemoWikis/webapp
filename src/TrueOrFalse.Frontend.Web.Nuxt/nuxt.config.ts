@@ -10,6 +10,7 @@ export default defineNuxtConfig({
         public: {
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",
+            officialBase: "https://memucho.de",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
             discord: "https://discord.com/invite/nXKwGrN",
             stripePlusPriceId: "price_1NI9weCrH8zPItlldHVfhAKI",

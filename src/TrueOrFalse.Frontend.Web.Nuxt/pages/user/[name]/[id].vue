@@ -173,7 +173,7 @@ useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: profile.value ? `${config.public.serverBase}${$urlHelper.getUserUrl(profile.value.user.name, profile.value?.user.id)}` : '',
+            href: profile.value ? `${config.public.officialBase}${$urlHelper.getUserUrl(profile.value.user.name, profile.value?.user.id)}` : '',
         },
     ],
     meta: [

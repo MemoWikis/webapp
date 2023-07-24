@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -29,6 +30,12 @@ public class QuestionLandingPageController : BaseController
     public JsonResult GetQuestionPage(int id)
     {
         var q = EntityCache.GetQuestion(id);
+
+        if (!_permissionCheck.CanView(q))
+        {
+            throw new SecurityException("Not allowed to view question");
+        }
+
         var primaryTopic = q.Categories.LastOrDefault();
         var solution = GetQuestionSolution.Run(q);
         var title = Regex.Replace(q.Text, "<.*?>", String.Empty);
@@ -48,7 +55,7 @@ public class QuestionLandingPageController : BaseController
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = _sessionUser.UserId,
+                isCreator = q.Creator.Id == _sessionUser.UserId,
                 isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
 
                 questionViewGuid = Guid.NewGuid(),

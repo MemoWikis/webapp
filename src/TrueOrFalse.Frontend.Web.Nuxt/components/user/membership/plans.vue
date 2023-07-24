@@ -120,9 +120,10 @@ onBeforeMount(() => {
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-primary btn"
-                        v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus"
-                        @click="handleCheckout(Subscription.Type.Plus)">
-                        Auswählen
+                        v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus">
+                        <!-- @click="handleCheckout(Subscription.Type.Plus) -->
+                        <!-- Auswählen -->
+                        Coming soon...
                     </button>
                     <button class="memo-button btn-success"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType == Subscription.Type.Plus">

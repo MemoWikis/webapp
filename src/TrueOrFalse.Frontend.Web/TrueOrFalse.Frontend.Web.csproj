@@ -301,7 +301,7 @@
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\FacebookUsersController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\User\Membership\PlansController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\User\Membership\UserMembershipPlansController.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\StartpageController.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
