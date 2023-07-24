@@ -80,7 +80,6 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 })
 
 onBeforeMount(() => {
-    console.log(props.tab)
     if (profile.value == null || profile.value.user.id <= 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
