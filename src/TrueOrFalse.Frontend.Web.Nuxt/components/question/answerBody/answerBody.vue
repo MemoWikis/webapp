@@ -411,7 +411,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
                                 </div>
 
-                                <LazyNuxtLink :to="`/Fragen/${answerBodyModel.encodedTitle}/${answerBodyModel.id}`"
+                                <LazyNuxtLink :to="$urlHelper.getQuestionUrl(answerBodyModel.title, answerBodyModel.id)"
                                     v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
                                     <div class="dropdown-row">
                                         <div class="dropdown-icon">
@@ -461,9 +461,9 @@ const allMultipleChoiceCombinationTried = computed(() => {
         <div class="row">
 
             <div id="MarkdownCol"
-                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended">
-                <div class="RenderedMarkdown" v-html="handleNewLine(answerBodyModel.renderedQuestionTextExtended)">
-                </div>
+                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended.length">
+                <SharedRawHtml class="RenderedMarkdown" :html="answerBodyModel.renderedQuestionTextExtended"
+                    id="RenderedMarkdown" />
             </div>
 
 
@@ -539,7 +539,6 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                             </button>
                                         </div>
 
-
                                     </template>
 
                                     <template v-else-if="showAnswerButtons">
@@ -612,23 +611,23 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                     <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard" id="AnswerFeedback">
                                         <div id="divAnsweredCorrect" v-if="answerIsCorrect">
                                             <b class="correct-answer-label">Richtig! </b>
-                                            <div v-html="wellDoneMsg" v-if="wellDoneMsg.length > 0"></div>
+                                            <SharedRawHtml v-if="wellDoneMsg.length > 0" :html="wellDoneMsg" />
                                         </div>
 
                                         <div id="Solution" v-if="showAnswer">
                                             <div class="solution-label">
                                                 Richtige Antwort:
                                             </div>
-                                            <div class="Content body-m" v-html="handleNewLine(solutionData?.answerAsHTML)">
-                                            </div>
+                                            <SharedRawHtml class="Content body-m" v-if="solutionData"
+                                                :html="solutionData.answerAsHTML" />
+
                                         </div>
 
                                         <div id="divWrongAnswer" v-if="answerIsWrong">
                                             <div id="spnWrongAnswer">
                                                 <b class="wrong-answer-label">Falsch beantwortet </b>
                                             </div>
-                                            <div v-html="wrongAnswerMsg" v-if="wrongAnswerMsg.length > 0">
-                                            </div>
+                                            <SharedRawHtml v-if="wrongAnswerMsg.length > 0" :html="wrongAnswerMsg" />
                                             <br />
 
                                             <div id="divWrongAnswers" v-if="showWrongAnswers">
@@ -636,8 +635,10 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                                     Deine {{ answersSoFar.length == 1 ? 'Antwort' : 'Antworten' }}:
                                                 </span>
                                                 <ul id="ulAnswerHistory">
-                                                    <li v-for="answers in answersSoFar" v-html="answers">
+                                                    <li v-for="answer in answersSoFar">
+                                                        <SharedRawHtml :html="answer" />
                                                     </li>
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -650,9 +651,10 @@ const allMultipleChoiceCombinationTried = computed(() => {
                                             <div class="solution-label">
                                                 Ergänzungen zur Antwort:
                                             </div>
-                                            <div class="Content body-m"
-                                                v-html="handleNewLine(solutionData?.answerDescription)">
-                                            </div>
+
+                                            <SharedRawHtml v-if="solutionData" class="Content body-m"
+                                                :html="solutionData.answerDescription" />
+
                                         </div>
                                     </div>
                                 </div>
