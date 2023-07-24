@@ -46,22 +46,22 @@ onBeforeMount(() => {
 		})
 	if (!question.value) emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
 })
-
+const { $urlHelper } = useNuxtApp()
 useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: `${config.public.serverBase}/${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`,
+			href: `${config.public.serverBase}/${$urlHelper.sanitizeUri(question.value?.answerBodyModel.title)}/${question.value?.answerBodyModel.id}`,
 		},
 	],
 	meta: [
 		{
 			property: 'og:title',
-			content: question.value?.answerBodyModel.encodedTitle
+			content: $urlHelper.sanitizeUri(question.value?.answerBodyModel.title)
 		},
 		{
 			property: 'og:url',
-			content: `${config.public.serverBase}/Fragen/${question.value?.answerBodyModel.encodedTitle}/${question.value?.answerBodyModel.id}`
+			content: `${config.public.serverBase}/Fragen/${$urlHelper.sanitizeUri(question.value?.answerBodyModel.title)}/${question.value?.answerBodyModel.id}`
 		},
 		{
 			property: 'og:type',

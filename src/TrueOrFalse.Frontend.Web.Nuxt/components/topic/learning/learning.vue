@@ -4,7 +4,6 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 import { useTopicStore } from '../topicStore'
-import { useDeleteQuestionStore } from '~/components/question/edit/delete/deleteQuestionStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
