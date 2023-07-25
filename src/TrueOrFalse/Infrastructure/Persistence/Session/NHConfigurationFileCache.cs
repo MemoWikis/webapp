@@ -47,7 +47,7 @@ public class NHConfigurationFileCache
         if (!IsConfigurationFileValid)
             return null;
 
-        using (var file = File.Open(_cacheFile, FileMode.Open, FileAccess.Read))
+        using (var file = File.Open(_cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
             var bf = new BinaryFormatter();
             return bf.Deserialize(file) as Configuration;
