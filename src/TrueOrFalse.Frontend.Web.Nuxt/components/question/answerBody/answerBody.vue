@@ -352,7 +352,11 @@ function startNewSession() {
     learningSessionStore.showResult = false
     learningSessionStore.startNewSession()
 }
-
+if (props.isLandingPage && props.landingPageModel && props.landingPageSolutionData) {
+    answerBodyModel.value = props.landingPageModel
+    solutionData.value = props.landingPageSolutionData
+    showAnswer.value = true
+}
 onBeforeMount(() => {
     if (props.isLandingPage && props.landingPageModel && props.landingPageSolutionData) {
         answerBodyModel.value = props.landingPageModel
@@ -391,8 +395,11 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
                 <div class="Pin answerbody-btn" :data-question-id="answerBodyModel.id">
                     <div class="answerbody-btn-inner">
-                        <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
-                            :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
+                        <ClientOnly>
+                            <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
+                                :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
+                        </ClientOnly>
+
                     </div>
                 </div>
                 <div class="Button dropdown answerbody-btn" v-if="!isLandingPage">
