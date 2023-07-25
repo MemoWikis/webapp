@@ -16,21 +16,23 @@ onBeforeMount(() => {
 
 async function highlightCode() {
     await nextTick()
-    mounted.value = true
-    await nextTick()
 
-    if (!props.id)
+    if (!props.id) {
+        mounted.value = true
         return
-
-    var el = document.getElementById(props.id)
+    }
+    mounted.value = false
+    const el = document.getElementById(props.id)
     if (el != null)
         el.querySelectorAll('code').forEach(block => {
             if (block.textContent != null)
                 block.innerHTML = getHighlightedCode(block.textContent)
         })
+    await nextTick()
+    mounted.value = true
 }
 const mounted = ref(false)
-onMounted(async () => {
+onMounted(() => {
     highlightCode()
 
     watch(() => props.html, async (val) => {
@@ -38,7 +40,6 @@ onMounted(async () => {
             const handledHtml = handleNewLine(props.html)
             if (handledHtml.length > 0)
                 safeHtml.value = handledHtml
-            await nextTick()
             highlightCode()
         }
     })
@@ -48,5 +49,5 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div :id="props.id" v-if="safeHtml && mounted" v-html="safeHtml"></div>
+    <div :id="props.id" v-if="props.html && mounted" v-html="safeHtml"></div>
 </template>

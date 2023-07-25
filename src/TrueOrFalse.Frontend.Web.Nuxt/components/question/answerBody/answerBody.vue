@@ -463,7 +463,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
             <div id="MarkdownCol"
                 v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended.length">
                 <SharedRawHtml class="RenderedMarkdown" :html="answerBodyModel.renderedQuestionTextExtended"
-                    id="RenderedMarkdown" />
+                    id="ExtendedQuestionContainer" />
             </div>
 
 
