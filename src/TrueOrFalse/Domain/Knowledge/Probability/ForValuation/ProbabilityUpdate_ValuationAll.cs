@@ -10,21 +10,21 @@ namespace TrueOrFalse
     public class ProbabilityUpdate_ValuationAll : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _nhibernateSession;
-        private readonly QuestionRepo _questionRepo;
+        private readonly QuestionReadingRepo _questionReadingRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
         private readonly UserRepo _userRepo;
         private readonly QuestionValuationRepo _questionValuationRepo;
 
         public ProbabilityUpdate_ValuationAll(ISession nhibernateSession,
-            QuestionRepo questionRepo,
+            QuestionReadingRepo questionReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             UserRepo userRepo,
             QuestionValuationRepo questionValuationRepo)
         {
             _nhibernateSession = nhibernateSession;
-            _questionRepo = questionRepo;
+            _questionReadingRepo = questionReadingRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
             _userRepo = userRepo;
@@ -43,7 +43,7 @@ namespace TrueOrFalse
                 ProbabilityUpdate_Valuation.Run((int) item[0],
                     (int) item[1],
                     _nhibernateSession,
-                    _questionRepo,
+                    _questionReadingRepo,
                     _userRepo,
                     _questionValuationRepo,
                     _probabilityCalcSimple1,

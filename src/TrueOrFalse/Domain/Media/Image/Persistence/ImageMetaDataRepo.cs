@@ -8,16 +8,16 @@ using TrueOrFalse.Maintenance;
 
 public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly LoadImageMarkups _loadImageMarkups;
     private readonly CategoryRepository _categoryRepository;
 
     public ImageMetaDataRepo(ISession session,
-        QuestionRepo questionRepo,
+        QuestionReadingRepo questionReadingRepo,
         LoadImageMarkups loadImageMarkups,
         CategoryRepository categoryRepository) : base(session)
     {
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _loadImageMarkups = loadImageMarkups;
         _categoryRepository = categoryRepository;
     }
@@ -116,7 +116,7 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
     public override void Create(ImageMetaData imageMetaData)
     {
         if(HttpContext.Current != null)
-            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionRepo, _categoryRepository).LicenseState;
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionReadingRepo, _categoryRepository).LicenseState;
 
         base.Create(imageMetaData);
     }
@@ -124,7 +124,7 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
     public override void Update(ImageMetaData imageMetaData)
     {
         if (HttpContext.Current != null)
-            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionRepo, _categoryRepository).LicenseState;
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionReadingRepo, _categoryRepository).LicenseState;
 
         base.Update(imageMetaData);
     }

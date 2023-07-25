@@ -10,25 +10,28 @@ public class PublishTopicStoreController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
 
     public PublishTopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
-        QuestionRepo questionRepo,
-         UserRepo userRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionReadingRepo questionReadingRepo,
+        UserRepo userRepo,
+        QuestionValuationRepo questionValuationRepo,
+        QuestionWritingRepo questionWritingRepo)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
+        _questionWritingRepo = questionWritingRepo;
     }
 
     [HttpPost]
@@ -77,9 +80,9 @@ public class PublishTopicStoreController : Controller
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = _questionRepo.GetById(questionId);
+                var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
-                _questionRepo.Update(question);
+                _questionWritingRepo.UpdateOrMerge(question, false);
             }
         }
     }

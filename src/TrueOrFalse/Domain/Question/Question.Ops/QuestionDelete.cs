@@ -5,28 +5,28 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUser _sessionUser;
     private readonly CategoryValuationRepo _categoryValuationRepo;
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionDelete(PermissionCheck permissionCheck,
         SessionUser sessionUser,
         CategoryValuationRepo categoryValuationRepo,
-        QuestionRepo questionRepo,
+        QuestionReadingRepo questionReadingRepo,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
         _categoryValuationRepo = categoryValuationRepo;
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
     }
     public void Run(int questionId)
     {
         
-        var question = _questionRepo.GetById(questionId);
+        var question = _questionReadingRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
 
@@ -46,7 +46,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         var questionCreator = question.Creator;
         if (_permissionCheck.CanDelete(question))
         {
-            var howOftenInOtherPeopleWuwi = _questionRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
+            var howOftenInOtherPeopleWuwi = _questionValuationRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
             if (howOftenInOtherPeopleWuwi > 0)
             {
                 return new CanBeDeletedResult

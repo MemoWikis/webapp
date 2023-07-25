@@ -68,7 +68,7 @@ public class Global : HttpApplication
         using (var scope = container.BeginLifetimeScope())
         {
             var categoryRepo = scope.Resolve<CategoryRepository>();
-            var questionRepo = scope.Resolve<QuestionRepo>();
+            var questionReadingRepo = scope.Resolve<QuestionReadingRepo>();
             var userRepo = scope.Resolve<UserRepo>();
             var update = scope.Resolve<Update>();
             var nhibernateSession = scope.Resolve<ISession>();
@@ -103,7 +103,7 @@ public class Global : HttpApplication
 
 
            
-                new EntityCacheInitializer(categoryRepo, questionRepo, userRepo).Init();
+                new EntityCacheInitializer(categoryRepo, userRepo, questionReadingRepo).Init();
 
 
                 Logg.r().Information(

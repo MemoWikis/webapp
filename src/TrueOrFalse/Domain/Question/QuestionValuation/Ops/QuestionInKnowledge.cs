@@ -9,7 +9,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly ISession _nhibernateSession;
     private readonly ReputationUpdate _reputationUpdate;
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly AnswerRepo _answerRepo;
@@ -18,7 +18,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     public QuestionInKnowledge(SessionUser sessionUser,
         ISession nhibernateSession,
         ReputationUpdate reputationUpdate,
-        QuestionRepo questionRepo,
+        QuestionReadingRepo questionReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
         AnswerRepo answerRepo,
@@ -27,7 +27,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
         _reputationUpdate = reputationUpdate;
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _probabilityCalcSimple1 = probabilityCalcSimple1;
         _answerRepo = answerRepo;
@@ -89,7 +89,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             ChangeTotalInOthersWishknowledge(relevance==50, user.Id, question);
             _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession, _questionRepo,_questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession, _questionReadingRepo,_questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
         }
         UpdateTotalRelevancePersonalInCache(questions);
         SetUserWishCountQuestions(user.Id,_sessionUser);
@@ -114,7 +114,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _reputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
     }
 
     public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
@@ -204,7 +204,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = _questionRepo.GetById(question.Id),
+                Question = _questionReadingRepo.GetById(question.Id),
                 User = _userRepo.GetById(userId),
                 RelevancePersonal = relevancePersonal,
                 CorrectnessProbability = question.CorrectnessProbability

@@ -8,7 +8,6 @@ class Create_learning_session : BaseTest
     public void GetCorrectProbabilityQuestions()
     {
         ContextQuestion.PutQuestionsIntoMemoryCache( R<CategoryRepository>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             R<UserRepo>(), 
@@ -20,7 +19,6 @@ class Create_learning_session : BaseTest
         };
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(), 
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningSessionConfig, 

@@ -10,12 +10,11 @@ public class Should_calculate_probability_ : BaseTest
     {
         var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
-        var question = ContextQuestion.New(R<QuestionRepo>(), 
+        var question = ContextQuestion.New(R<QuestionWritingRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
                 R<UserRepo>(),
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
         var probSimple = R<ProbabilityCalc_Simple1>();
@@ -35,12 +34,11 @@ public class Should_calculate_probability_ : BaseTest
     {
         var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
-        var question = ContextQuestion.New(R<QuestionRepo>(),
+        var question = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
             R<UserRepo>(),
-            R<CategoryRepository>(), 
-            R<QuestionWritingRepo>())
+            R<CategoryRepository>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
@@ -56,12 +54,11 @@ public class Should_calculate_probability_ : BaseTest
     {
         var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
-        var question = ContextQuestion.New(R<QuestionRepo>(), 
+        var question = ContextQuestion.New(R<QuestionWritingRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
             R<UserRepo>(), 
-            R<CategoryRepository>(), 
-            R<QuestionWritingRepo>())
+            R<CategoryRepository>(  ))
             .AddQuestion(questionText: "question").Persist().All[0];
 
         var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{

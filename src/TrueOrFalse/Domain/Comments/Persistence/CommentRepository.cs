@@ -5,21 +5,21 @@ using Seedworks.Lib.Persistence;
 
 public class CommentRepository : RepositoryDb<Comment>
 {
-    private readonly QuestionRepo _questionRepo;
     private readonly MessageRepo _messageRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
     public CommentRepository(ISession session,
-        QuestionRepo questionRepo, 
-        MessageRepo messageRepo) : base(session)
+        MessageRepo messageRepo,
+        QuestionReadingRepo questionReadingRepo) : base(session)
     {
-        _questionRepo = questionRepo;
         _messageRepo = messageRepo;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public override void Create(Comment comment)
     {
         base.Create(comment);
-        CommentMsg.Send(comment, _questionRepo, _messageRepo);
+        CommentMsg.Send(comment, _questionReadingRepo,_messageRepo);
     }
 
     public IList<Comment> GetForDisplay(int questionId)

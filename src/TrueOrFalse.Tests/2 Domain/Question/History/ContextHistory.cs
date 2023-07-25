@@ -6,7 +6,6 @@ using TrueOrFalse.Tests;
 public class ContextHistory : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _nhibernateSession;
-    private readonly QuestionRepo _questionRepo;
     private readonly AnswerQuestion _answerQuestion;
     private readonly AnswerRepo _answerRepo;
     private readonly UserRepo _userRepo;
@@ -16,7 +15,6 @@ public class ContextHistory : IRegisterAsInstancePerLifetime
     public User User;
 
     public ContextHistory(ISession nhibernateSession,
-        QuestionRepo questionRepo,
         AnswerQuestion answerQuestion,
         AnswerRepo answerRepo,
         UserRepo userRepo,
@@ -24,7 +22,6 @@ public class ContextHistory : IRegisterAsInstancePerLifetime
         QuestionWritingRepo questionWritingRepo)
     {
         _nhibernateSession = nhibernateSession;
-        _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
         _answerRepo = answerRepo;
         _userRepo = userRepo;
@@ -40,8 +37,7 @@ public class ContextHistory : IRegisterAsInstancePerLifetime
 	    var historyItem = new Answer
 	    {
 		    UserId = user.Id,
-		    Question = ContextQuestion.GetQuestion(_questionRepo,
-                _answerRepo, 
+		    Question = ContextQuestion.GetQuestion(_answerRepo, 
                 _answerQuestion, 
                 _userRepo,
                 _categoryRepository, 

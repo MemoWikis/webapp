@@ -10,7 +10,6 @@ class Count_answer_as_correct : BaseTest
     {
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             new LearningSessionConfig(),
@@ -35,7 +34,6 @@ class Count_answer_as_correct : BaseTest
 
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
@@ -55,7 +53,6 @@ class Count_answer_as_correct : BaseTest
         learningSession = new ContextLearningSession(
             R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
@@ -71,8 +68,7 @@ class Count_answer_as_correct : BaseTest
     public void SetAnswerAsCorrectTestModeAndWishSession()
     {
         var lastUserCacheItem =  ContextQuestion.SetWuwi(1000, 
-            R<CategoryValuationRepo>(), 
-            R<QuestionRepo>(),
+            R<CategoryValuationRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
             R<UserRepo>(),
@@ -92,7 +88,6 @@ class Count_answer_as_correct : BaseTest
 
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
@@ -108,7 +103,6 @@ class Count_answer_as_correct : BaseTest
     public void SetAnswerAsCorrectWishSession(){
         var lastUserCacheItem = ContextQuestion.SetWuwi(10,
             R<CategoryValuationRepo>(), 
-            R<QuestionRepo>(), 
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             R<UserRepo>(),
@@ -125,8 +119,7 @@ class Count_answer_as_correct : BaseTest
             CategoryId = 1
         }; 
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
-            R<LearningSessionCreator>()
-            , R<QuestionRepo>(), 
+            R<LearningSessionCreator>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
             learningSessionConfig, 

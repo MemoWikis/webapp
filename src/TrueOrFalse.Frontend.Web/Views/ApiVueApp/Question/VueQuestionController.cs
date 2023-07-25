@@ -10,7 +10,6 @@ namespace VueApp;
 
 public class VueQuestionController : Controller
 {
-    private readonly QuestionRepo _questionRepo;
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly RestoreQuestion _restoreQuestion;
@@ -19,18 +18,18 @@ public class VueQuestionController : Controller
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public VueQuestionController(QuestionRepo questionRepo,
-        SessionUser sessionUser,
+    public VueQuestionController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         RestoreQuestion restoreQuestion,
         LearningSessionCache learningSessionCache,
         CategoryValuationRepo categoryValuationRepo,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
-        QuestionValuationRepo questionValuationRepo) 
+        QuestionValuationRepo questionValuationRepo,
+        QuestionReadingRepo questionReadingRepo) 
     {
-        _questionRepo = questionRepo;
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
@@ -39,6 +38,7 @@ public class VueQuestionController : Controller
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     [HttpGet]
@@ -151,7 +151,7 @@ public class VueQuestionController : Controller
     {
         _restoreQuestion.Run(questionChangeId, _userRepo.GetById(_sessionUser.UserId));
 
-        var question = _questionRepo.GetById(questionId);
+        var question = _questionReadingRepo.GetById(questionId);
         return Redirect(Links.AnswerQuestion(question));
     }
 

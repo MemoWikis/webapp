@@ -4,7 +4,7 @@ using TrueOrFalse;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly AnswerLog _answerLog;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly ISession _nhibernateSession;
@@ -15,7 +15,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly UserRepo _userRepo;
 
-    public AnswerQuestion(QuestionRepo questionRepo,
+    public AnswerQuestion(QuestionReadingRepo questionReadingRepo,
         AnswerLog answerLog,
         LearningSessionCache learningSessionCache,
         ISession nhibernateSession,
@@ -26,7 +26,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
         UserRepo userRepo)
     {
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _answerLog = answerLog;
         _learningSessionCache = learningSessionCache;
         _nhibernateSession = nhibernateSession;
@@ -175,7 +175,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         bool countLastAnswerAsCorrect = false,
         bool countUnansweredAsCorrect = false)
     {
-        var question = _questionRepo.GetById(questionId);
+        var question = _questionReadingRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         var solution = GetQuestionSolution.Run(questionCacheItem);
 
@@ -194,7 +194,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             _updateQuestionAnswerCount.Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
 
         return result;
     }

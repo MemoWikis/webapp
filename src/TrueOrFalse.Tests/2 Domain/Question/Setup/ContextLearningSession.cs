@@ -6,7 +6,6 @@ internal class ContextLearningSession
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly LearningSessionCreator _learningSessionCreator;
-    private readonly QuestionRepo _questionRepo;
     private readonly AnswerRepo _answerRepo;
     private readonly AnswerQuestion _answerQuestion;
     private readonly LearningSessionConfig _learningSessionConfig;
@@ -16,7 +15,6 @@ internal class ContextLearningSession
     public ContextLearningSession(
         CategoryRepository categoryRepository,
         LearningSessionCreator learningSessionCreator,
-        QuestionRepo questionRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         LearningSessionConfig learningSessionConfig,
@@ -25,7 +23,6 @@ internal class ContextLearningSession
     {
         _categoryRepository = categoryRepository;
         _learningSessionCreator = learningSessionCreator;
-        _questionRepo = questionRepo;
         _answerRepo = answerRepo;
         _answerQuestion = answerQuestion;
         _learningSessionConfig = learningSessionConfig;
@@ -42,7 +39,7 @@ internal class ContextLearningSession
 
     public LearningSession GetLearningSessionForAnonymusUser(int amountQuestions, int amountQuestionInMemory = 20)
     {
-        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository, _questionRepo, _answerRepo, _answerQuestion, _userRepo, _questionWritingRepo, amountQuestionInMemory);
+        ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository, _answerRepo, _answerQuestion, _userRepo, _questionWritingRepo, amountQuestionInMemory);
         var learningSession =_learningSessionCreator.BuildLearningSession(
             new LearningSessionConfig
             {
@@ -55,7 +52,6 @@ internal class ContextLearningSession
     public LearningSession GetLearningSessionWithUser()
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository,
-            _questionRepo, 
             _answerRepo, 
             _answerQuestion,
             _userRepo, 
@@ -67,7 +63,6 @@ internal class ContextLearningSession
     public LearningSession GetLearningSession()
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(_categoryRepository,
-            _questionRepo, 
             _answerRepo, 
             _answerQuestion,
             _userRepo, 

@@ -6,7 +6,7 @@ using NHibernate.Criterion;
 
 namespace Seedworks.Lib.Persistence
 {
-    public abstract class RepositoryDb<TDomainObject>
+    public class RepositoryDb<TDomainObject>
         where TDomainObject : class, IPersistable
     {
         protected readonly ISession _session;
@@ -30,7 +30,7 @@ namespace Seedworks.Lib.Persistence
         /// </summary>
         protected event EventHandler<TDomainObjectListArgs> AfterItemListRetrieved;
 
-        protected RepositoryDb(ISession session)
+        public RepositoryDb(ISession session)
         {
             _session = session;
         	OnItemCreated += ItemMutated;

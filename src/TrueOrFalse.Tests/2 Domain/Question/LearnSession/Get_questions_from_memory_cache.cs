@@ -9,7 +9,6 @@ class Get_questions_from_memory_cache : BaseTest
     public void Should_store_questions_into_memory_cache()
     {
         ContextQuestion.PutQuestionsIntoMemoryCache(LifetimeScope.Resolve<CategoryRepository>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             R<UserRepo>(), 
@@ -22,7 +21,6 @@ class Get_questions_from_memory_cache : BaseTest
     {
         Assert.That(new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),

@@ -3,15 +3,15 @@
 namespace VueApp;
 public class QuestionEditDeleteController : Controller
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionDelete _questionDelete;
     private readonly LearningSessionCache _learningSessionCache;
 
-    public QuestionEditDeleteController(QuestionRepo questionRepo,
+    public QuestionEditDeleteController(QuestionReadingRepo questionReadingRepo,
         QuestionDelete questionDelete,
         LearningSessionCache learningSessionCache)
     {
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _questionDelete = questionDelete;
         _learningSessionCache = learningSessionCache;
     }
@@ -19,7 +19,7 @@ public class QuestionEditDeleteController : Controller
     [HttpGet]
     public JsonResult DeleteDetails(int questionId)
     {
-        var question = _questionRepo.GetById(questionId);
+        var question = _questionReadingRepo.GetById(questionId);
         var canBeDeleted = _questionDelete.CanBeDeleted(question.Creator.Id, question);
 
         return Json(new

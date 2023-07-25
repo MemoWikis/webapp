@@ -11,9 +11,10 @@ public class KnowledgeReportMsg
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
         GetStreaksDays getStreaksDays,
         UserRepo userRepo,
-        QuestionRepo questionRepo,
+
         GetUnreadMessageCount getUnreadMessageCount,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        QuestionReadingRepo questionReadingRepo)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_KnowledgeReport()),
@@ -22,9 +23,9 @@ public class KnowledgeReportMsg
                 getAnswerStatsInPeriod,
                 getStreaksDays,
                 userRepo,
-                questionRepo,
                 getUnreadMessageCount,
-                knowledgeSummaryLoader)
+                knowledgeSummaryLoader,
+                questionReadingRepo)
         );
 
         var messageTitle = "Dein " + (user.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "" : UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval) + "er") + " Wissensbericht";

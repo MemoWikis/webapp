@@ -9,12 +9,11 @@ public class Spec_changing_question_categories : BaseTest
     {
         var entityCacheInitilizer = R<EntityCacheInitializer>(); 
         var questionContext =
-            ContextQuestion.New(R<QuestionRepo>(),
+            ContextQuestion.New(R<QuestionWritingRepo>(),
                     R<AnswerRepo>(),
                     R<AnswerQuestion>(),
                     R<UserRepo>(), 
-                    R<CategoryRepository>(), 
-                    R<QuestionWritingRepo>())
+                    R<CategoryRepository>())
                 .AddQuestion(questionText: "Question", solutionText: "Answer")
                 .AddCategory("A", entityCacheInitilizer)
                 .AddCategory("B", entityCacheInitilizer)
@@ -29,10 +28,10 @@ public class Spec_changing_question_categories : BaseTest
         question.Categories.Add(categoryA);
         question.Categories.Add(categoryB);
 
-        var categoryRepository = Resolve<QuestionRepo>();
-        categoryRepository.Update(question);
+    
+        Resolve<QuestionWritingRepo>().UpdateOrMerge(question, false);
 
-        var questionFromDb = categoryRepository.GetAll()[0];
+        var questionFromDb = Resolve<QuestionWritingRepo>().GetAll()[0];
         Assert.That(questionFromDb.Categories.Count, Is.EqualTo(2));
         Assert.That(questionFromDb.Categories[0].Name, Is.EqualTo("A"));
         Assert.That(questionFromDb.Categories[1].Name, Is.EqualTo("B"));

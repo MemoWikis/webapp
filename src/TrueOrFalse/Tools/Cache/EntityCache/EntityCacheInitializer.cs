@@ -5,16 +5,16 @@ using System.Linq;
 public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
-    private readonly QuestionRepo _questionRepo;
     private readonly UserRepo _userRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public EntityCacheInitializer(CategoryRepository categoryRepository, 
-        QuestionRepo questionRepo,
-        UserRepo userRepo)
+    public EntityCacheInitializer(CategoryRepository categoryRepository,
+        UserRepo userRepo,
+        QuestionReadingRepo questionReadingRepo)
     {
         _categoryRepository = categoryRepository;
-        _questionRepo = questionRepo;
         _userRepo = userRepo;
+        _questionReadingRepo = questionReadingRepo;
     }
     public void Init(string customMessage = "")
     {
@@ -35,7 +35,7 @@ public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
 
         IntoForeverCache(EntityCache.CacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
 
-        var allQuestions = _questionRepo.GetAllEager();
+        var allQuestions = _questionReadingRepo.GetAllEager();
         Logg.r().Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();
         Logg.r().Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);

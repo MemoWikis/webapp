@@ -18,12 +18,11 @@ public class Comment_persistence_tests : BaseTest
 
         RecycleContainer();
 
-        var question =  ContextQuestion.New(R<QuestionRepo>(),
+        var question =  ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             userRepo,
-            R<CategoryRepository>(), 
-            R<QuestionWritingRepo>())
+            R<CategoryRepository>())
             .AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
 
         var comments = Resolve<CommentRepository>().GetForDisplay(question.Id);

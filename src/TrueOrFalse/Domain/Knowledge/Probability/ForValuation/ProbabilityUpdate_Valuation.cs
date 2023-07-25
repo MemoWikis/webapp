@@ -26,7 +26,7 @@ namespace TrueOrFalse
         public static void Run(int questionId, 
             int userId, 
             ISession nhibernateSession,
-            QuestionRepo questionRepo,
+            QuestionReadingRepo questionReadingRepo,
             UserRepo userRepo,
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
@@ -37,13 +37,13 @@ namespace TrueOrFalse
             if(user == null)
                 return;
 
-            Run(EntityCache.GetQuestion(questionId), user, nhibernateSession, questionRepo, questionValuationRepo, probabilityCalcSimple1, answerRepo);
+            Run(EntityCache.GetQuestion(questionId), user, nhibernateSession, questionReadingRepo, questionValuationRepo, probabilityCalcSimple1, answerRepo);
         }
 
         public static void Run(QuestionCacheItem question,
             User user,
             ISession nhibernateSession,
-            QuestionRepo questionRepo,
+            QuestionReadingRepo questionReadingRepo,
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo)
@@ -52,7 +52,7 @@ namespace TrueOrFalse
                 questionValuationRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
-                        Question = questionRepo.GetById(question.Id),
+                        Question = questionReadingRepo.GetById(question.Id),
                         User = user
                     };
 

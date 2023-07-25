@@ -9,9 +9,8 @@ using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
-public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
+public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepo _questionRepo;
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
@@ -23,9 +22,9 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public QuestionEditModalControllerLogic(QuestionRepo questionRepo,
-        SessionUser sessionUser,
+    public QuestionEditModalControllerLogic(SessionUser sessionUser,
         LearningSessionCache learningSessionCache, 
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
@@ -35,9 +34,9 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo,
-        QuestionWritingRepo questionWritingRepo) 
+        QuestionWritingRepo questionWritingRepo,
+        QuestionReadingRepo questionReadingRepo) 
     {
-        _questionRepo = questionRepo;
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
@@ -49,6 +48,7 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
@@ -123,10 +123,10 @@ public class QuestionEditModalControllerLogic: IRegisterAsInstancePerLifetime
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
-        var question = _questionRepo.GetById(questionDataJson.QuestionId);
+        var question = _questionReadingRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
 
-        _questionRepo.Update(updatedQuestion);
+        _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
         if (questionDataJson.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));

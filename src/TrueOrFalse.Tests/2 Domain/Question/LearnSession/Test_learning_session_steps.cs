@@ -19,7 +19,6 @@ class Test_learning_session_steps : BaseTest
         }; 
         var learningSession = new ContextLearningSession(R<CategoryRepository>(), 
             R<LearningSessionCreator>(), 
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningSessionConfig,
@@ -51,7 +50,6 @@ class Test_learning_session_steps : BaseTest
     {
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
@@ -79,7 +77,6 @@ class Test_learning_session_steps : BaseTest
         var leraningSessionCreator = R<LearningSessionCreator>(); 
         var learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
@@ -92,7 +89,6 @@ class Test_learning_session_steps : BaseTest
 
         learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(), 
-            R<QuestionRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             new LearningSessionConfig(), 
@@ -114,7 +110,6 @@ class Test_learning_session_steps : BaseTest
 
         learningSession = new ContextLearningSession(R<CategoryRepository>(),
             R<LearningSessionCreator>(),
-            R<QuestionRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,

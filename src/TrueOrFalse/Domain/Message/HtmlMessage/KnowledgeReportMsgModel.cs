@@ -5,9 +5,9 @@ public class KnowledgeReportMsgModel
     private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
     private readonly GetStreaksDays _getStreaksDays;
     private readonly UserRepo _userRepo;
-    private readonly QuestionRepo _questionRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public DateTime ShowStatsForPeriodSince;
     public string ShowStatsForPeriodSinceString;
 
@@ -48,17 +48,18 @@ public class KnowledgeReportMsgModel
     public KnowledgeReportMsgModel(User user, 
         string utmSource, 
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
-        GetStreaksDays getStreaksDays, UserRepo userRepo,
-        QuestionRepo questionRepo,
+        GetStreaksDays getStreaksDays, 
+        UserRepo userRepo,
         GetUnreadMessageCount getUnreadMessageCount,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        QuestionReadingRepo questionReadingRepo)
     {
         _getAnswerStatsInPeriod = getAnswerStatsInPeriod;
         _getStreaksDays = getStreaksDays;
         _userRepo = userRepo;
-        _questionRepo = questionRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _questionReadingRepo = questionReadingRepo;
         UtmSourceFullString = "&utm_source=" + utmSource;
 
         switch (user.KnowledgeReportInterval)
@@ -130,8 +131,8 @@ public class KnowledgeReportMsgModel
 
         /* Stats on new content */
 
-        NewQuestions = _questionRepo.HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
-        TotalAvailableQuestions = _questionRepo.TotalPublicQuestionCount().ToString();
+        NewQuestions = _questionReadingRepo.HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
+        TotalAvailableQuestions = _questionReadingRepo.TotalPublicQuestionCount().ToString();
 
         /* User's additional status & infos */
 

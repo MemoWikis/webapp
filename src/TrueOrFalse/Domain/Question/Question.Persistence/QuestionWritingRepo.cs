@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NHibernate;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
-public class QuestionWritingRepo : IRegisterAsInstancePerLifetime
+public class QuestionWritingRepo : RepositoryDbBase<Question>
 {
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
     private readonly JobQueueRepo _jobQueueRepo;
@@ -11,7 +14,9 @@ public class QuestionWritingRepo : IRegisterAsInstancePerLifetime
     private readonly UserRepo _userRepo;
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
-    private readonly QuestionRepo _questionRepo;
+    private readonly ISession _nhibernateSession;
+    private readonly RepositoryDb<Question> _repo;
+
 
     public QuestionWritingRepo(UpdateQuestionCountForCategory updateQuestionCountForCategory,
         JobQueueRepo jobQueueRepo,
@@ -19,15 +24,17 @@ public class QuestionWritingRepo : IRegisterAsInstancePerLifetime
         UserRepo userRepo,
         UserActivityRepo userActivityRepo,
         QuestionChangeRepo questionChangeRepo,
-        QuestionRepo questionRepo) 
+        ISession nhibernateSession) : base(nhibernateSession)
     {
+        _repo = new RepositoryDb<Question>(nhibernateSession);
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _jobQueueRepo = jobQueueRepo;
         _reputationUpdate = reputationUpdate;
         _userRepo = userRepo;
         _userActivityRepo = userActivityRepo;
         _questionChangeRepo = questionChangeRepo;
-        _questionRepo = questionRepo;
+        _nhibernateSession = nhibernateSession;
+       
     }
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -36,8 +43,8 @@ public class QuestionWritingRepo : IRegisterAsInstancePerLifetime
             throw new Exception("no creator");
         }
 
-        _questionRepo.Create(question);
-        _questionRepo.Flush();
+        _repo.Create(question);
+        _repo.Flush();
 
         _updateQuestionCountForCategory.Run(question.Categories);
 
@@ -62,7 +69,7 @@ public class QuestionWritingRepo : IRegisterAsInstancePerLifetime
 
     public List<int> Delete(int questionId)
     {
-        var question = _questionRepo.GetById(questionId);
+        var question = GetById(questionId);
         Delete(question);
         var categoriesToUpdate = question.Categories.ToList();
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
@@ -72,8 +79,56 @@ public class QuestionWritingRepo : IRegisterAsInstancePerLifetime
 
     public void Delete(Question question)
     {
-        _questionRepo.Delete(question);
+        base.Delete(question);
         _questionChangeRepo.AddDeleteEntry(question);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().DeleteAsync(question));
+    }
+
+    public  void UpdateOrMerge(Question question, bool withMerge)
+    {
+        var categoriesIds = _nhibernateSession
+            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
+            .List<int>();
+        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
+                    " AND Category_id is not null";
+        var categoriesReferences = _nhibernateSession
+            .CreateSQLQuery(query)
+            .List<int>();
+        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences)
+            .ToList();
+
+        var categoriesBeforeUpdate = _nhibernateSession
+            .QueryOver<Category>()
+            .WhereRestrictionOn(c => c.Id)
+            .IsIn(categoriesBeforeUpdateIds)
+            .List();
+
+        UpdateOrMerge(question, withMerge);
+        if (withMerge)
+        {
+            Merge(question);
+        }
+        else
+        {
+          Update(question);
+        }
+        Flush();
+        var categoriesToUpdate = categoriesBeforeUpdate
+            .Union(question.Categories)
+            .Union(question.References.Where(r => r.Category != null)
+                .Select(r => r.Category))
+            .ToList();
+
+        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
+        _updateQuestionCountForCategory.Run(categoriesToUpdate);
+        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
+        _questionChangeRepo.AddUpdateEntry(question);
+
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().UpdateAsync(question));
+    }
+    public void UpdateFieldsOnly(Question question)
+    {
+        base.Update(question);
     }
 }

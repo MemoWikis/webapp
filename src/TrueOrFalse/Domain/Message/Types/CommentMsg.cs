@@ -5,12 +5,12 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CommentMsg
 {
-    public static void Send(Comment comment, QuestionRepo questionRepo, MessageRepo messageRepo)
+    public static void Send(Comment comment, QuestionReadingRepo questionReadingRepo, MessageRepo messageRepo)
     {
         if (comment.Type != CommentType.AnswerQuestion)
             throw new Exception("Other CommentType than AnswerQuestion is unknown.");
 
-        var question = questionRepo.GetById(comment.TypeId);
+        var question = questionReadingRepo.GetById(comment.TypeId);
 
         var questionUrl = "";
         if(HttpContext.Current != null)

@@ -3,7 +3,7 @@ using System.Linq;
 
 public class QuestionImageSettings : ImageSettings, IImageSettings
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public override int Id { get; set; }
     public ImageType ImageType => ImageType.Question;
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 50, 20 };
@@ -15,21 +15,13 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     private Question __question;
     private Question _question
     {
-        get => __question ??= _questionRepo.GetById(Id);
+        get => __question ??= _questionReadingRepo.GetById(Id);
         set => __question = value;
     }
 
-    public QuestionImageSettings(QuestionRepo questionRepo)
+    public QuestionImageSettings(QuestionReadingRepo questionReadingRepo)
     {
-        _questionRepo = questionRepo;
-    }
-
-    public QuestionImageSettings(Question question, QuestionRepo questionRepo)
-    {
-        _questionRepo = questionRepo;
-        _question = question;
-
-        Init(question.Id);
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public QuestionImageSettings(int questionId){
@@ -64,7 +56,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
 
     public QuestionImageSettings Create(int questionId)
     {
-        var result = new QuestionImageSettings(_questionRepo);
+        var result = new QuestionImageSettings(_questionReadingRepo);
         result.Init(questionId);
         return result;
     }

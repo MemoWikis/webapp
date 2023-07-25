@@ -13,7 +13,6 @@ namespace VueApp;
 
 public class VueEditQuestionController : Controller
 {
-    private readonly QuestionRepo _questionRepo;
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
@@ -28,9 +27,9 @@ public class VueEditQuestionController : Controller
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public VueEditQuestionController(QuestionRepo questionRepo,
-        SessionUser sessionUser,
+    public VueEditQuestionController(SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
@@ -43,9 +42,9 @@ public class VueEditQuestionController : Controller
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo,
         QuestionChangeRepo questionChangeRepo, 
-        QuestionWritingRepo questionWritingRepo) 
+        QuestionWritingRepo questionWritingRepo,
+        QuestionReadingRepo questionReadingRepo) 
     {
-        _questionRepo = questionRepo;
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
@@ -60,6 +59,7 @@ public class VueEditQuestionController : Controller
         _questionValuationRepo = questionValuationRepo;
         _questionChangeRepo = questionChangeRepo;
         _questionWritingRepo = questionWritingRepo;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -111,10 +111,10 @@ public class VueEditQuestionController : Controller
                 }
             };
 
-        var question =_questionRepo.GetById(questionDataJson.QuestionId);
+        var question =_questionReadingRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
 
-        _questionRepo.Update(updatedQuestion);
+        _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
         if (questionDataJson.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
@@ -336,7 +336,7 @@ public class VueEditQuestionController : Controller
         }
         else
         {
-            if (!_permissionCheck.CanEdit(_questionRepo.GetById(questionId)))
+            if (!_permissionCheck.CanEdit(_questionReadingRepo.GetById(questionId)))
                 throw new SecurityException("Not allowed to edit question");
         }
 
@@ -352,8 +352,8 @@ public class VueEditQuestionController : Controller
                 _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.UserId, uploadImageLicenseOwner);
         }
 
-        question = _questionRepo.GetById(questionId);
-        _questionChangeRepo.AddUpdateEntry(question, _questionRepo, imageWasChanged: true);
+        question = _questionReadingRepo.GetById(questionId);
+        _questionChangeRepo.AddUpdateEntry(question, imageWasChanged: true);
 
         var imageSettings = new QuestionImageSettings(questionId);
 
@@ -382,9 +382,9 @@ public class VueEditQuestionController : Controller
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = _questionRepo.GetById(questionId);
+                var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
-                _questionRepo.Update(question);
+                _questionWritingRepo.UpdateOrMerge(question, false);
             }
         }
     }
@@ -400,9 +400,9 @@ public class VueEditQuestionController : Controller
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = _questionRepo.GetById(questionId);
+                var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
-                _questionRepo.Update(question);
+                _questionWritingRepo.UpdateOrMerge(question, false);
             }
         }
     }

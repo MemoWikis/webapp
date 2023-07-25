@@ -12,13 +12,12 @@ public class Send_knowledgeReport : BaseTest
             .Add(new User { EmailAddress = "test@test.de", Name = "Firstname Lastname" })
             .Persist().All[0];
 
-        var questionRepo = R<QuestionRepo>();
+        var questionRepo = R<QuestionWritingRepo>();
         var questions = ContextQuestion.New(questionRepo,
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
                 userRepo,
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(questionText: "q1", solutionText: "a1")
             .AddQuestion(questionText: "q2", solutionText: "a2")
             .AddQuestion(questionText: "q3", solutionText: "a3")
@@ -33,9 +32,9 @@ public class Send_knowledgeReport : BaseTest
             R<MessageEmailRepo>(), 
             R<GetAnswerStatsInPeriod>(), 
             R<GetStreaksDays>(), 
-            userRepo, 
-            questionRepo, 
+            userRepo,
             R<GetUnreadMessageCount>(), 
-            R<KnowledgeSummaryLoader>());
+            R<KnowledgeSummaryLoader>(),
+            R<QuestionReadingRepo>());
     }
 } 

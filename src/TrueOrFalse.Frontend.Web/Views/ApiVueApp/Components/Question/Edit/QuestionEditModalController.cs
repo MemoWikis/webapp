@@ -3,35 +3,12 @@
 namespace VueApp;
 public class QuestionEditModalController : BaseController
 {
-    private readonly QuestionRepo _questionRepo;
-    private readonly LearningSessionCache _learningSessionCache;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly LearningSessionCreator _learningSessionCreator;
-    private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly QuestionEditModalControllerLogic _questionEditModalControllerLogic;
 
-    public QuestionEditModalController(QuestionRepo questionRepo,
-        SessionUser sessionUser,
-        LearningSessionCache learningSessionCache,
-        PermissionCheck permissionCheck,
-        LearningSessionCreator learningSessionCreator,
-        QuestionInKnowledge questionInKnowledge, 
-        CategoryValuationRepo categoryValuationRepo, 
-        CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo,
-        QuestionEditModalControllerLogic questionEditModalControllerLogic) :base(sessionUser)
+    public QuestionEditModalController(SessionUser sessionUser,
+        QuestionEditModalControllerLogic questionEditModalControllerLogic) 
+        : base(sessionUser)
     {
-        _questionRepo = questionRepo;
-        _learningSessionCache = learningSessionCache;
-        _permissionCheck = permissionCheck;
-        _learningSessionCreator = learningSessionCreator;
-        _questionInKnowledge = questionInKnowledge;
-        _categoryValuationRepo = categoryValuationRepo;
-        _categoryRepository = categoryRepository;
-        _imageMetaDataRepo = imageMetaDataRepo;
         _questionEditModalControllerLogic = questionEditModalControllerLogic;
     }
 

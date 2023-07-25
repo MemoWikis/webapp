@@ -8,8 +8,7 @@ public class QuestionAnswerPersistenceTests : BaseTest
     {
         var answerRepo = R<AnswerRepo>();
         var answer = new Answer();
-        answer.Question = ContextQuestion.GetQuestion(R<QuestionRepo>(), 
-            answerRepo, 
+        answer.Question = ContextQuestion.GetQuestion(answerRepo, 
             R<AnswerQuestion>(),
             R<UserRepo>(),
             R<CategoryRepository>(),

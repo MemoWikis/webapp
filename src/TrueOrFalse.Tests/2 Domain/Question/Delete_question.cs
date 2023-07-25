@@ -13,12 +13,11 @@ class Delete_question : BaseTest
         var user1 = ContextUser.New(R<UserRepo>()).Add("User1").Persist().All.First();
         Resolve<SessionUser>().Login(user1);
 
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             R<UserRepo>(), 
-            R<CategoryRepository>(),
-            R<QuestionWritingRepo>())
+            R<CategoryRepository>())
             .AddQuestion(creator: user1)
             .Persist();
 
@@ -35,12 +34,11 @@ class Delete_question : BaseTest
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
             
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
                 userRepo,
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .PersistImmediately()
             .AddQuestion(creator: user1)
             .AddToWishknowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
@@ -48,7 +46,7 @@ class Delete_question : BaseTest
 
         RecycleContainer();
         user2 = userRepo.GetById(user2.Id);
-        question1 = R<QuestionRepo>().GetById(question1.Id);
+        question1 = R<QuestionReadingRepo>().GetById(question1.Id);
         Resolve<SessionUser>().Login(user1);
 
         Assert.That(user2.WishCountQuestions, Is.EqualTo(1));
@@ -71,12 +69,11 @@ class Delete_question : BaseTest
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
         Resolve<SessionUser>().Login(user1);
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
                 R<UserRepo>(), 
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .PersistImmediately()
             .AddQuestion(creator: user1);
         var question1 = contextQuestion.All[0];

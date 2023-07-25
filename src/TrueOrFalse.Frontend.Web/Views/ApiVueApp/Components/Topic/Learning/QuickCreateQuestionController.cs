@@ -16,7 +16,6 @@ public class QuickCreateQuestionController : Controller
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly QuestionRepo _questionRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
@@ -28,7 +27,6 @@ public class QuickCreateQuestionController : Controller
         CategoryValuationRepo categoryValuationRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
-        QuestionRepo questionRepo,
         UserRepo userRepo, 
         QuestionValuationRepo questionValuationRepo,
         QuestionWritingRepo questionWritingRepo)
@@ -40,7 +38,6 @@ public class QuickCreateQuestionController : Controller
         _categoryValuationRepo = categoryValuationRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _questionRepo = questionRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;

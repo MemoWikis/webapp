@@ -76,26 +76,25 @@ class EntityCache_tests : BaseTest
     public void Should_able_to_deep_clone_cache_items()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             R<UserRepo>(), 
-            R<CategoryRepository>(),
-            R<QuestionWritingRepo>());
+            R<CategoryRepository>());
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
         question1.Categories.Add(rootCategory);
 
-        var questionRepo = R<QuestionRepo>(); 
-       questionRepo.Update(question1);
+       
+        R<QuestionWritingRepo>().UpdateOrMerge(question1, false);
 
         RecycleContainer();
 
         Resolve<EntityCacheInitializer>().Init();
 
-        var questions = questionRepo.GetAll();
+        var questions = R<QuestionReadingRepo>().GetAll();
         var categories = LifetimeScope.Resolve<CategoryRepository>().GetAllEager();
 
         ObjectExtensions.DeepClone(EntityCache.GetAllCategories().First());
@@ -107,24 +106,21 @@ class EntityCache_tests : BaseTest
     public void Entity_in_cache_should_be_detached_from_NHibernate_session()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             R<UserRepo>(),
-            R<CategoryRepository>(),
-            R<QuestionWritingRepo>()); 
+            R<CategoryRepository>()); 
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
         question1.Categories.Add(rootCategory);
-
-        var questionRepo = R<QuestionRepo>();
-        questionRepo.Update(question1);
+        R<QuestionWritingRepo>().UpdateOrMerge(question1, false);
 
         Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
 
-        questionRepo.Session.Evict(question1.Categories);
+        R<ISession>().Evict(question1.Categories);
 
         RecycleContainer();
 

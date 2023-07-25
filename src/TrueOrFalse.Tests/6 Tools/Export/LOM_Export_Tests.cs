@@ -16,12 +16,11 @@ public class LOM_Export_Tests : BaseTest
 
             Console.Write(lomXmlCategory);
 
-            var question = ContextQuestion.New(R<QuestionRepo>(),
+            var question = ContextQuestion.New(R<QuestionWritingRepo>(),
                     R<AnswerRepo>(),
                     R<AnswerQuestion>(),
                     R<UserRepo>(), 
-                    R<CategoryRepository>(), 
-                    R<QuestionWritingRepo>())
+                    R<CategoryRepository>())
                 .AddQuestion("Example question")
                 .AddCategory("cat 1", R<EntityCacheInitializer>())
                 .Persist()

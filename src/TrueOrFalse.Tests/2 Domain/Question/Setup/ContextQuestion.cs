@@ -11,7 +11,6 @@ public class ContextQuestion
     private readonly ContextUser _contextUser;
     private readonly ContextCategory _contextCategory = ContextCategory.New();
 
-    private readonly QuestionRepo _questionRepo;
     private readonly AnswerRepo _answerRepo;
     private readonly AnswerQuestion _answerQuestion;
     private readonly CategoryRepository _categoryRepository;
@@ -25,17 +24,15 @@ public class ContextQuestion
     private bool _persistQuestionsImmediately;
     private readonly Random Rand = new();
 
-    private ContextQuestion(QuestionRepo questionRepo,
+    private ContextQuestion(QuestionWritingRepo questionWritingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserRepo userRepo,
-        CategoryRepository categoryRepository,
-        QuestionWritingRepo questionWritingRepo)
+        CategoryRepository categoryRepository)
     {
         _contextUser = ContextUser.New(userRepo);
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
-        _questionRepo = questionRepo;
         _answerRepo = answerRepo;
         _answerQuestion = answerQuestion;
         _categoryRepository = categoryRepository;
@@ -126,25 +123,24 @@ public class ContextQuestion
         return this;
     }
 
-    public static Question GetQuestion(QuestionRepo questionRepo,
+    public static Question GetQuestion(
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserRepo userRepo, 
         CategoryRepository categoryRepository,
         QuestionWritingRepo questionWritingRepo)
     {
-        return New(questionRepo, answerRepo, answerQuestion, userRepo, categoryRepository, questionWritingRepo).AddQuestion().Persist().All[0];
+        return New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository).AddQuestion().Persist().All[0];
     }
 
-    public static ContextQuestion New(QuestionRepo questionRepo,
+    public static ContextQuestion New(QuestionWritingRepo questionWritingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserRepo userRepo,
-        CategoryRepository categoryRepository,
-        QuestionWritingRepo questionWritingRepo,
+        CategoryRepository categoryRepository, 
         bool persistImmediately = false)
     {
-        var result = new ContextQuestion(questionRepo, answerRepo, answerQuestion, userRepo, categoryRepository, questionWritingRepo);
+        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository);
 
         if (persistImmediately)
         {
@@ -158,10 +154,10 @@ public class ContextQuestion
     {
         foreach (var question in All)
         {
-            _questionRepo.Create(question);
+            _questionWritingRepo.Create(question);
         }
 
-        _questionRepo.Flush();
+        _questionWritingRepo.Flush();
 
         return this;
     }
@@ -173,7 +169,6 @@ public class ContextQuestion
     }
 
     public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository,
-        QuestionRepo questionRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserRepo userRepo,
@@ -183,7 +178,7 @@ public class ContextQuestion
         ContextCategory.New(false).AddToEntityCache("Category name").Persist();
         var categories = categoryRepository.GetAllEager();
 
-        var questions = New(questionRepo, answerRepo, answerQuestion, userRepo, categoryRepository, questionWritingRepo)
+        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository)
             .AddRandomQuestions(amount, null, true, categories).All;
 
         var categoryIds = new List<int> { 1 };
@@ -196,7 +191,6 @@ public class ContextQuestion
 
     public static List<SessionUserCacheItem> SetWuwi(int amountQuestion,
         CategoryValuationRepo categoryValuationRepo,
-        QuestionRepo questionRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserRepo userRepo,
@@ -209,7 +203,7 @@ public class ContextQuestion
         var categoryList = ContextCategory.New().Add("Daniel").All;
         categoryList.First().Id = 1;
 
-        var questions = New(questionRepo, answerRepo, answerQuestion, userRepo, categoryRepository, questionWritingRepo)
+        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository)
             .AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => userRepo.Create(u));
         SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationRepo, userRepo, questionValuationRepo);

@@ -10,12 +10,11 @@ public class Reference_persistence : BaseTest
     [Test]
     public void Should_persist_reference()
     {
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             R<UserRepo>(), 
-            R<CategoryRepository>(), 
-            R<QuestionWritingRepo>()).AddQuestion(questionText: "text", solutionText: "solution").Persist();
+            R<CategoryRepository>()).AddQuestion(questionText: "text", solutionText: "solution").Persist();
         var contextCategory = ContextCategory.New().Add("categoryName").Persist();
             
         var reference = new Reference();
@@ -33,12 +32,11 @@ public class Reference_persistence : BaseTest
     [Test]
     public void Should_persist_reference_without_category()
     {
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
                 R<UserRepo>(), 
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(questionText: "text", solutionText: "solution").Persist();
 
         var reference = new Reference();
@@ -64,12 +62,11 @@ public class Reference_persistence : BaseTest
     public void Should_map_references_to_question()
     {
         //Arange
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(),
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             R<UserRepo>(), 
-            R<CategoryRepository>(), 
-            R<QuestionWritingRepo>())
+            R<CategoryRepository>())
             .AddQuestion()
             .Persist();
         var question = contextQuestion.All[0];
@@ -77,13 +74,11 @@ public class Reference_persistence : BaseTest
         question.References.Add(new Reference{AdditionalInfo = "AI"});
 
         //Act
-        R<QuestionRepo>().Update(question);
+        R<QuestionWritingRepo>().UpdateOrMerge(question, false);
 
         //Assert
         RecycleContainer();
-
-        var questionRepo = R<QuestionRepo>();
-        var questionFromDb = questionRepo.GetAll()[0];
+        var questionFromDb = R<QuestionReadingRepo>().GetAll()[0];
         Assert.That(questionFromDb.References.Count, Is.EqualTo(2));
         Assert.That(questionFromDb.References[0].Question, Is.EqualTo(questionFromDb));
     }

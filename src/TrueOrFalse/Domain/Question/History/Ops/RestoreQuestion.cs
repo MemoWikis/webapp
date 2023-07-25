@@ -4,34 +4,33 @@ public class RestoreQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly int _currentUserId;
     private readonly JobQueueRepo _jobQueueRepo;
-    private readonly QuestionRepo _questionRepo;
+  
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly UserRepo _userRepo;
     private readonly MessageRepo _messageRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
 
     public RestoreQuestion(int currentUserId,
         JobQueueRepo jobQueueRepo,
-        QuestionRepo questionRepo,
         QuestionChangeRepo questionChangeRepo,
         UserRepo userRepo,
-        MessageRepo messageRepo)
+        MessageRepo messageRepo,
+        QuestionWritingRepo questionWritingRepo)
     {
         _currentUserId = currentUserId;
         _jobQueueRepo = jobQueueRepo;
-        _questionRepo = questionRepo;
         _questionChangeRepo = questionChangeRepo;
         _userRepo = userRepo;
         _messageRepo = messageRepo;
+        _questionWritingRepo = questionWritingRepo;
     }
 
     public void Run(int questionChangeId, User author)
     {
         var questionChange = _questionChangeRepo.GetByIdEager(questionChangeId);
         var historicQuestion = questionChange.ToHistoricQuestion();
-        _questionRepo.Merge(historicQuestion);
-
-        _questionChangeRepo.AddUpdateEntry(historicQuestion, _questionRepo);
-
+        _questionWritingRepo.Merge(historicQuestion);
+        _questionChangeRepo.AddUpdateEntry(historicQuestion);
         NotifyAboutRestore(questionChange);
     }
 

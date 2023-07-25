@@ -11,11 +11,9 @@ class Get_wuwi_from_category : BaseTest
     {
         var questionwriterRepo = R<QuestionWritingRepo>(); 
         var userRepo = R<UserRepo>();
-        var questionRepo = R<QuestionRepo>();
         var answerQuestion = R<AnswerQuestion>();
         var answerRepo = R<AnswerRepo>();
         ContextQuestion.PutQuestionsIntoMemoryCache(R<CategoryRepository>(),
-            questionRepo, 
             answerRepo,
             answerQuestion,
             userRepo,
@@ -24,7 +22,6 @@ class Get_wuwi_from_category : BaseTest
         var questionValuationRepo = R<QuestionValuationRepo>();
         ContextQuestion.SetWuwi(20,
             R<CategoryValuationRepo>(),
-            questionRepo,
             answerRepo,
             answerQuestion,
             userRepo,

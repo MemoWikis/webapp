@@ -4,28 +4,28 @@ using NHibernate;
 
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepo _questionRepository;
+    private readonly QuestionReadingRepo _questionReadingRepository;
     private readonly SessionUser _sessionUser;
     private readonly ISession _nhinbernateSession;
 
     public UpdateQuestionCountForCategory(
-        QuestionRepo questionRepo,
+        QuestionReadingRepo questionReadingRepo,
         SessionUser sessionUser,
         ISession nhinbernateSession)
     {
-        _questionRepository = questionRepo;
+        _questionReadingRepository = questionReadingRepo;
         _sessionUser = sessionUser;
         _nhinbernateSession = nhinbernateSession;
     }
 
     public void All(CategoryRepository categoryRepository)
     {
-        RunWithSql(categoryRepository.GetAll());
+        RunWithSql(categoryRepository.GetAll().Select(c => c.Id));
     }
 
     public void Run(Category category)
     {
-        category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
+        category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;
         category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
     }
 
@@ -37,12 +37,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         }
     }
 
-    public void RunWithSql(IList<Category> categories)
-    {
-        RunWithSql(categories.Select(c => c.Id));
-    }
-
-    public void RunWithSql(IEnumerable<int> categoryIds)
+    private void RunWithSql(IEnumerable<int> categoryIds)
     {
         foreach (var categoryId in categoryIds)
         {
@@ -70,7 +65,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 			                WHERE r.Category_id = {categoryId}
 			                AND q.Visibility = 0
 		                )
-	                )I_was_here
+	                )
                 ) WHERE c.Id = {categoryId}";
 
             _nhinbernateSession.CreateSQLQuery(query).ExecuteUpdate();

@@ -280,6 +280,7 @@
     <Compile Include="Domain\Category\History\AllTopicsHistory.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\LimitCheck.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionReadingRepo.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionWritingRepo.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="GlobalUsings.cs" />

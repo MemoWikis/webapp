@@ -40,18 +40,18 @@ public class ImageMaintenanceInfo
 
     public ImageMaintenanceInfo(int typeId,
         ImageType imageType,
-        QuestionRepo questionRepo,
+        QuestionReadingRepo questionReadingRepo,
         ImageMetaDataRepo imageMetaDataRepo, CategoryRepository categoryRepository)
-        : this(imageMetaDataRepo.GetBy(typeId, imageType), questionRepo, categoryRepository)
+        : this(imageMetaDataRepo.GetBy(typeId, imageType), questionReadingRepo, categoryRepository)
     {
     }
 
     public ImageMaintenanceInfo(ImageMetaData imageMetaData,
-        QuestionRepo questionRepo,
+        QuestionReadingRepo questionReadingRepo,
         CategoryRepository categoryRepository)
     {
         var categoryImgBasePath = new CategoryImageSettings().BasePath;
-        var questionImgBasePath = new QuestionImageSettings(questionRepo).BasePath;
+        var questionImgBasePath = new QuestionImageSettings(questionReadingRepo).BasePath;
         var setImgBasePath = new SetImageSettings().BasePath;
 
         ImageId = imageMetaData.Id;
@@ -66,7 +66,7 @@ public class ImageMaintenanceInfo
                 TypeUrl = Links.GetUrl(Type);
                 break;
             case ImageType.Question:
-                Type = questionRepo.GetById(MetaData.TypeId);
+                Type = questionReadingRepo.GetById(MetaData.TypeId);
                 TypeUrl = Links.GetUrl(Type);
                 break;
             default:

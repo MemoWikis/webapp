@@ -8,22 +8,19 @@ using TrueOrFalse.Search;
 public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 {
  
-    private readonly QuestionRepo _questionRepo;
+  
     private readonly CategoryValuationRepo _categoryValuationRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionValuationRepo(
         ISession session,
-        QuestionRepo questionRepo, 
         CategoryValuationRepo categoryValuationRepo,
-        UserRepo userRepo,
-        QuestionValuationRepo questionValuationRepo) : base(session)
+        UserRepo userRepo) : base(session)
     {
-        _questionRepo = questionRepo;
         _categoryValuationRepo = categoryValuationRepo;
         _userRepo = userRepo;
-        _questionValuationRepo = questionValuationRepo;
+ 
     }
 
     public override void Create(IList<QuestionValuation> questionValuations)
@@ -35,7 +32,17 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem(), _categoryValuationRepo, _userRepo, _questionValuationRepo);
         }
     }
-
+    public int HowOftenInOtherPeoplesWuwi(int userId, int questionId)
+    {
+        return _session
+            .QueryOver<QuestionValuation>()
+            .Where(v =>
+                v.User.Id != userId &&
+                v.Question.Id == questionId &&
+                v.RelevancePersonal > -1
+            )
+            .RowCount();
+    }
     public override void Create(QuestionValuation questionValuation)
     {
         base.Create(questionValuation);

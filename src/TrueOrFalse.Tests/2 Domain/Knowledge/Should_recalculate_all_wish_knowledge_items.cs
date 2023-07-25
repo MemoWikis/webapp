@@ -9,12 +9,11 @@ public class Should_recalculate_all_wish_knowledge_items : BaseTest
     [Test]
     public void Run()
     {
-        var context = ContextQuestion.New(R<QuestionRepo>(),
+        var context = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
                 R<UserRepo>(), 
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(questionText: "1", solutionText: "")
             .AddQuestion(questionText: "2", solutionText: "")
             .AddQuestion(questionText: "3", solutionText: "")

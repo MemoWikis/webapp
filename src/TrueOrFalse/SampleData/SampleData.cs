@@ -4,20 +4,10 @@ namespace TrueOrFalse
 {
     public class SampleData : IRegisterAsInstancePerLifetime
     {
-        private readonly QuestionRepo _questionRepo;
-        private readonly CategoryRepository _categoryRepository;
-        private readonly Importer _importer;
         private readonly RegisterUser _registerUser;
 
-        public SampleData(
-            QuestionRepo questionRepo, 
-            CategoryRepository categoryRepository, 
-            Importer importer,
-            RegisterUser registerUser)
+        public SampleData(RegisterUser registerUser)
         {
-            _questionRepo = questionRepo;
-            _categoryRepository = categoryRepository;
-            _importer = importer;
             _registerUser = registerUser;
         }
 

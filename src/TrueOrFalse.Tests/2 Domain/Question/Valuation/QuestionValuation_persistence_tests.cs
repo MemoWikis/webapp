@@ -10,12 +10,11 @@ public class QestionValuation_persistence_tests : BaseTest
     public void QuestionValuation_should_be_persisted()
     {
         var contextQuestion = ContextQuestion.New(
-            R<QuestionRepo>(),
+            R<QuestionWritingRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             R<UserRepo>(),
-            R<CategoryRepository>(),
-            R<QuestionWritingRepo>())
+            R<CategoryRepository>())
             .AddQuestion(questionText: "a", solutionText: "b").Persist();
         var questionValuation = 
             new QuestionValuation  
@@ -34,12 +33,11 @@ public class QestionValuation_persistence_tests : BaseTest
     public void Should_select_by_question_ids()
     {
         var context = ContextQuestion.New(
-                R<QuestionRepo>(),
+                R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
                 R<UserRepo>(),
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(questionText: "1", solutionText: "a")
             .AddQuestion(questionText: "2", solutionText: "a")
             .AddQuestion(questionText: "3", solutionText: "a")

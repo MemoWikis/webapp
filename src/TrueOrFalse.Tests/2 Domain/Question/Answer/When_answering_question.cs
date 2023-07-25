@@ -11,12 +11,11 @@ public class When_answering_question : BaseTest
     public void It_should_be_create_answer_history_item_and_knowledge_item()
     {
         var contextUsers = ContextRegisteredUser.New(R<UserRepo>()).Add().Persist();
-        var contextQuestion = ContextQuestion.New(R<QuestionRepo>(), 
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
                 R<UserRepo>(),
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(questionText: "Some Question", solutionText: "Some answer")
             .AddCategory("A", LifetimeScope.Resolve<EntityCacheInitializer>()).
             Persist();

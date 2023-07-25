@@ -8,12 +8,11 @@ public class Should_get_following_answer : BaseTest
     {
         var answerRepo = R<AnswerRepo>();
         var contextQuestion = 
-            ContextQuestion.New(R<QuestionRepo>(),
+            ContextQuestion.New(R<QuestionWritingRepo>(),
                     answerRepo, 
                     R<AnswerQuestion>(),
                     R<UserRepo>(),
-                    R<CategoryRepository>(), 
-                    R<QuestionWritingRepo>(),
+                    R<CategoryRepository>(),
                     persistImmediately: true)
                 .AddQuestion(questionText: "Some Question", solutionText: "Some answer")
                 .AddAnswer("some answer 1")

@@ -27,12 +27,11 @@ public class Write_activity_new_follower : BaseTest
 
         //SET-UP: USER2 THROUGH USER6 ALL DO SOMETHING
         //User2 creates two questions
-        ContextQuestion.New(R<QuestionRepo>(),
+        ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
                 R<UserRepo>(),
-                R<CategoryRepository>(), 
-                R<QuestionWritingRepo>())
+                R<CategoryRepository>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
             .Persist();
