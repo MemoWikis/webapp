@@ -14,7 +14,11 @@ onBeforeMount(() => {
         safeHtml.value = handledHtml
 })
 
-function highlightCode() {
+async function highlightCode() {
+    await nextTick()
+    mounted.value = true
+    await nextTick()
+
     if (!props.id)
         return
 
@@ -27,11 +31,20 @@ function highlightCode() {
 }
 const mounted = ref(false)
 onMounted(async () => {
-    await nextTick()
-    mounted.value = true
-    await nextTick()
     highlightCode()
+
+    watch(() => props.html, async (val) => {
+        if (val) {
+            const handledHtml = handleNewLine(props.html)
+            if (handledHtml.length > 0)
+                safeHtml.value = handledHtml
+            await nextTick()
+            highlightCode()
+        }
+    })
+
 })
+
 </script>
 
 <template>
