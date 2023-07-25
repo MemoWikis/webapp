@@ -2,14 +2,16 @@
 import { ref } from 'vue'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useUserStore } from '../user/userStore'
+import { useTopicStore } from '../topic/topicStore'
 
 const alertStore = useAlertStore()
 const userStore = useUserStore()
+const topicStore = useTopicStore()
 
 const eMail = ref('')
 const password = ref('')
 const persistentLogin = ref(false)
-
+const { $urlHelper } = useNuxtApp()
 async function login() {
 
     errorMessage.value = ''
@@ -23,6 +25,8 @@ async function login() {
     const result = await userStore.login(data)
     if (!result.success)
         errorMessage.value = result.msg!
+    else if (topicStore.id == 1 && userStore.personalWiki)
+        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
 }
 const passwordInputType = ref('password')
 
@@ -78,10 +82,10 @@ async function primaryAction() {
     else if (showPasswordReset.value) {
         const result = await userStore.resetPassword(eMail.value)
         userStore.showLoginModal = false
-        if(result.success){
+        if (result.success) {
             alertStore.openAlert(AlertType.Default, { text: messages.info.passwordResetRequested(eMail.value) })
         } else {
-            alertStore.openAlert(AlertType.Error, { text: messages.error.default})
+            alertStore.openAlert(AlertType.Error, { text: messages.error.default })
         }
     }
     else login()
