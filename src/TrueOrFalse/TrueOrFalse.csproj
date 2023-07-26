@@ -277,6 +277,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Category\CategoryValuation\Persistence\CategoryValuationWritingRepo.cs" />
     <Compile Include="Domain\Category\History\AllTopicsHistory.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\LimitCheck.cs" />
@@ -336,7 +337,7 @@
     <Compile Include="Domain\Category\CategoryValuation\CategoryInKnowledge.cs" />
     <Compile Include="Domain\Category\CategoryValuation\CategoryValuation.cs" />
     <Compile Include="Domain\Category\CategoryValuation\Persistence\CategoryValuationMap.cs" />
-    <Compile Include="Domain\Category\CategoryValuation\Persistence\CategoryValuationRepo.cs" />
+    <Compile Include="Domain\Category\CategoryValuation\Persistence\CategoryValuationReadingRepo.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryEditData_V1.cs" />
     <Compile Include="Domain\Category\History\CategoryChange.cs" />
     <Compile Include="Domain\Category\History\EditData\CategoryRelation_EditData_V1.cs" />

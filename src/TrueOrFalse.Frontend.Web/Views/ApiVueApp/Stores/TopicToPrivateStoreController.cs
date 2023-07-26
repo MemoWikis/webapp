@@ -9,7 +9,7 @@ public class TopicToPrivateStoreController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly UserRepo _userRepo;
@@ -18,7 +18,7 @@ public class TopicToPrivateStoreController : Controller
 
     public TopicToPrivateStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck, 
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         QuestionReadingRepo questionReadingRepo,
         UserRepo userRepo,
@@ -27,7 +27,7 @@ public class TopicToPrivateStoreController : Controller
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _questionReadingRepo = questionReadingRepo;
         _userRepo = userRepo;
@@ -40,7 +40,7 @@ public class TopicToPrivateStoreController : Controller
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
+        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
@@ -182,7 +182,7 @@ public class TopicToPrivateStoreController : Controller
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
                 _sessionUser.IsInstallationAdmin)
             {

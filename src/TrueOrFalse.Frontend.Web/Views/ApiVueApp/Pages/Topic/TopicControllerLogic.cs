@@ -13,7 +13,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly SegmentationLogic _segmentationLogic;
@@ -22,7 +22,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     public TopicControllerLogic(SessionUser sessionUser, 
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataRepo imageMetaDataRepo,
         SegmentationLogic segmentationLogic)
@@ -31,7 +31,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
         _segmentationLogic = segmentationLogic;

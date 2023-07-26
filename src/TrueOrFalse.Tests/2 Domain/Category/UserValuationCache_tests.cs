@@ -33,13 +33,13 @@ public class UserValuationCache_tests : BaseTest
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));
         Assert.That(Cache.Count, Is.EqualTo(0));
 
-        var cacheItem = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationRepo>(), R<UserRepo>(), R<QuestionValuationRepo>());
+        var cacheItem = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationReadingRepo>(), R<UserRepo>(), R<QuestionValuationRepo>());
 
         Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
 
         cacheItem.CategoryValuations.TryRemove(cacheItem.CategoryValuations.Keys.First(), out var catValout);
 
-        var cacheItem2 = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationRepo>(), R<UserRepo>(), R<QuestionValuationRepo>());
+        var cacheItem2 = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationReadingRepo>(), R<UserRepo>(), R<QuestionValuationRepo>());
 
         Assert.That(cacheItem2.CategoryValuations.Count, Is.EqualTo(2));
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));

@@ -21,7 +21,7 @@ class Get_wuwi_from_category : BaseTest
 
         var questionValuationRepo = R<QuestionValuationRepo>();
         ContextQuestion.SetWuwi(20,
-            R<CategoryValuationRepo>(),
+            R<CategoryValuationReadingRepo>(),
             answerRepo,
             answerQuestion,
             userRepo,
@@ -31,7 +31,7 @@ class Get_wuwi_from_category : BaseTest
             
         var categoryId = 1;
         var userCacheItem = SessionUserCache.GetAllCacheItems(
-            Resolve<CategoryValuationRepo>(), userRepo, questionValuationRepo)
+            Resolve<CategoryValuationReadingRepo>(), userRepo, questionValuationRepo)
             .First(uci => uci.Name == "Daniel" );
 
         var wuwis = userCacheItem.QuestionValuations

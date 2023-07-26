@@ -8,15 +8,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcKnowledgeSummariesForCategory : IJob
     {
-        private readonly CategoryValuationRepo _categoryValuationRepo;
+        private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-        public const int IntervalInSeconds = 5;
+        private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
 
-        public RecalcKnowledgeSummariesForCategory(CategoryValuationRepo categoryValuationRepo,
-            KnowledgeSummaryLoader knowledgeSummaryLoader)
+        public RecalcKnowledgeSummariesForCategory(CategoryValuationReadingRepo categoryValuationReadingRepo,
+            KnowledgeSummaryLoader knowledgeSummaryLoader,
+            CategoryValuationWritingRepo categoryValuationWritingRepo)
         {
-            _categoryValuationRepo = categoryValuationRepo;
+            _categoryValuationReadingRepo = categoryValuationReadingRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
+            _categoryValuationWritingRepo = categoryValuationWritingRepo;
         }
 
         public void Execute(IJobExecutionContext context)
@@ -30,7 +32,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     try
                     {
-                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key), _categoryValuationRepo, _knowledgeSummaryLoader);
+                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key), 
+                            _categoryValuationReadingRepo, 
+                            _categoryValuationWritingRepo,
+                            _knowledgeSummaryLoader);
+
                         successfullJobIds.AddRange(grouping.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)

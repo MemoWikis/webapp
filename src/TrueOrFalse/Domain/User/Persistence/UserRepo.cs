@@ -10,7 +10,7 @@ public class UserRepo : RepositoryDbBase<User>
     private readonly SessionUser _sessionUser;
   
     private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ReputationUpdate _reputationUpdate;
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
@@ -19,14 +19,14 @@ public class UserRepo : RepositoryDbBase<User>
     public UserRepo(ISession session,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         ReputationUpdate reputationUpdate,
         UserActivityRepo userActivityRepo,
         QuestionValuationRepo questionValuationRepo) : base(session)
     {
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _reputationUpdate = reputationUpdate;
         _userActivityRepo = userActivityRepo;
         _questionValuationRepo = questionValuationRepo;
@@ -54,7 +54,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
-        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo, this, _questionValuationRepo);
+        SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, this, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
     }
@@ -248,7 +248,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Update(user);
-        SessionUserCache.AddOrUpdate(user, _categoryValuationRepo, this, _questionValuationRepo);
+        SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, this, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user));
     }

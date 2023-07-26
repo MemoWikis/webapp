@@ -16,7 +16,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
@@ -29,7 +29,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
@@ -42,7 +42,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
@@ -84,7 +84,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private dynamic LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

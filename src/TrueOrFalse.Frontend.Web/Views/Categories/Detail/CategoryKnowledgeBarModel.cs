@@ -1,7 +1,7 @@
 ﻿public class CategoryKnowledgeBarModel
 {
     public CategoryCacheItem Category;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
 
     public KnowledgeSummary CategoryKnowledgeSummary;
 

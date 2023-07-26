@@ -1,22 +1,28 @@
 ﻿class KnowledgeSummaryUpdate
 {
-    public static void RunForCategory(int catgoryId, CategoryValuationRepo categoryValuationRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public static void RunForCategory(int catgoryId,
+        CategoryValuationReadingRepo categoryValuationReadingRepo, 
+        CategoryValuationWritingRepo categoryValuationWritingRepo, 
+        KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        foreach (var categoryValuation in categoryValuationRepo.GetByCategory(catgoryId))
+        foreach (var categoryValuation in categoryValuationReadingRepo.GetByCategory(catgoryId))
         {
-            Run(categoryValuation, categoryValuationRepo, knowledgeSummaryLoader);
+            Run(categoryValuation, categoryValuationWritingRepo, knowledgeSummaryLoader);
         }
     }
 
-    public static void RunForUser(int userId, CategoryValuationRepo categoryValuationRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public static void RunForUser(int userId,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
+        CategoryValuationWritingRepo categoryValuationWritingRepo,
+        KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        foreach (var categoryValuation in categoryValuationRepo.GetByUser(userId))
+        foreach (var categoryValuation in categoryValuationReadingRepo.GetByUser(userId))
         {
-            Run(categoryValuation, categoryValuationRepo,knowledgeSummaryLoader);
+            Run(categoryValuation, categoryValuationWritingRepo, knowledgeSummaryLoader);
         }
     }
 
-    private static void Run(CategoryValuation categoryValuation, CategoryValuationRepo categoryValuationRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
+    private static void Run(CategoryValuation categoryValuation, CategoryValuationWritingRepo categoryValuationWritingRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
         var knowledgeSummary = knowledgeSummaryLoader.Run(categoryValuation.UserId, categoryValuation.CategoryId, false);
         categoryValuation.CountNotLearned = knowledgeSummary.NotLearned;
@@ -24,7 +30,7 @@
         categoryValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
         categoryValuation.CountSolid = knowledgeSummary.Solid;
 
-        categoryValuationRepo.Update(categoryValuation);
+        categoryValuationWritingRepo.Update(categoryValuation);
     }
 
     public static void ScheduleForCategory(int categoryId, JobQueueRepo jobQueueRepo)

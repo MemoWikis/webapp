@@ -13,7 +13,7 @@ public class CategoryHistoryDetailModel
     private readonly PermissionCheck _permissionCheck;
     private readonly ISession _nhibernateSession;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
@@ -63,7 +63,7 @@ public class CategoryHistoryDetailModel
         PermissionCheck permissionCheck,
         ISession nhibernateSession,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
@@ -72,7 +72,7 @@ public class CategoryHistoryDetailModel
         _permissionCheck = permissionCheck;
         _nhibernateSession = nhibernateSession;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
@@ -99,7 +99,7 @@ public class CategoryHistoryDetailModel
             CategoryName = currentRevision.Category.Name;
 
         var author =
-            new UserTinyModel(currentRevision.Author(_categoryValuationRepo, _userRepo, _questionValuationRepo));
+            new UserTinyModel(currentRevision.Author(_categoryValuationReadingRepo, _userRepo, _questionValuationRepo));
 
         Author = author;
         AuthorName = author.Name;

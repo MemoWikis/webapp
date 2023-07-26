@@ -9,21 +9,21 @@ public class AnswerQuestionDetailsController: Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
@@ -44,7 +44,7 @@ public class AnswerQuestionDetailsController: Controller
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 

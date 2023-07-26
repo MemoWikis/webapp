@@ -6,7 +6,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs;
 
 public class DeleteQuestion : IJob
 {
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ReferenceRepo _referenceRepo;
     private readonly AnswerRepo _answerRepo;
     private readonly QuestionViewRepository _questionViewRepository;
@@ -17,7 +17,7 @@ public class DeleteQuestion : IJob
     private readonly UserRepo _userRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
 
-    public DeleteQuestion(CategoryValuationRepo categoryValuationRepo,
+    public DeleteQuestion(CategoryValuationReadingRepo categoryValuationReadingRepo,
         ReferenceRepo referenceRepo,
         AnswerRepo answerRepo,
         QuestionViewRepository questionViewRepository,
@@ -27,7 +27,7 @@ public class DeleteQuestion : IJob
         ISession nhibernateSession,
         UserRepo userRepo, QuestionWritingRepo questionWritingRepo)
     {
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _referenceRepo = referenceRepo;
         _answerRepo = answerRepo;
         _questionViewRepository = questionViewRepository;
@@ -44,7 +44,7 @@ public class DeleteQuestion : IJob
         var questionId = dataMap.GetInt("questionId");
         Logg.r().Information("Job started - DeleteQuestion {id}", questionId);
 
-        SessionUserCache.RemoveQuestionForAllUsers(questionId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
+        SessionUserCache.RemoveQuestionForAllUsers(questionId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
 
         //delete connected db-entries
         _referenceRepo.DeleteForQuestion(questionId);

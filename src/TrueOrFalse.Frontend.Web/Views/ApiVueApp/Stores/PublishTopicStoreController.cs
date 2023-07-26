@@ -8,7 +8,7 @@ public class PublishTopicStoreController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly UserRepo _userRepo;
@@ -17,7 +17,7 @@ public class PublishTopicStoreController : Controller
 
     public PublishTopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         QuestionReadingRepo questionReadingRepo,
         UserRepo userRepo,
@@ -26,7 +26,7 @@ public class PublishTopicStoreController : Controller
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _questionReadingRepo = questionReadingRepo;
         _userRepo = userRepo;
@@ -92,7 +92,7 @@ public class PublishTopicStoreController : Controller
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
+        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
 
         if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
             return Json(new

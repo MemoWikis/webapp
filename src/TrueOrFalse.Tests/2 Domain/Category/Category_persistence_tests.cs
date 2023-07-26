@@ -103,7 +103,7 @@ public class Category_persistence_tests : BaseTest
 
         var expectedResult = EntityCache.GetCategoryByName("A").First()
             .AggregatedCategories(permissionCheck)
-            .Count(cci => SessionUserCache.IsInWishknowledge(user.Id, cci.Key, Resolve<CategoryValuationRepo>(), R<UserRepo>(),
+            .Count(cci => SessionUserCache.IsInWishknowledge(user.Id, cci.Key, Resolve<CategoryValuationReadingRepo>(), R<UserRepo>(),
                 R<QuestionValuationRepo>())); 
 
         Assert.That(expectedResult, Is.EqualTo(6));

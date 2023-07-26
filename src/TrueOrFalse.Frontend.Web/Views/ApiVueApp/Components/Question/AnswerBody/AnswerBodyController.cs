@@ -10,7 +10,7 @@ public class AnswerBodyController : Controller {
     private readonly AnswerQuestion _answerQuestion;
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly AnswerLog _answerLog;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly UserRepo _userRepo;
@@ -18,7 +18,7 @@ public class AnswerBodyController : Controller {
     public AnswerBodyController(AnswerQuestion answerQuestion,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         AnswerLog answerLog,
         QuestionValuationRepo questionValuationRepo,
         UserRepo userRepo)
@@ -26,7 +26,7 @@ public class AnswerBodyController : Controller {
         _answerQuestion = answerQuestion;
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _answerLog = answerLog;
         _questionValuationRepo = questionValuationRepo;
         _userRepo = userRepo;
@@ -56,7 +56,7 @@ public class AnswerBodyController : Controller {
             solution = q.Solution,
 
             isCreator = q.Creator.Id = _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step

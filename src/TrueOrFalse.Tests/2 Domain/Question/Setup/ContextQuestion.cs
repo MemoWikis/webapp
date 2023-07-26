@@ -190,7 +190,7 @@ public class ContextQuestion
     }
 
     public static List<SessionUserCacheItem> SetWuwi(int amountQuestion,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserRepo userRepo,
@@ -206,14 +206,14 @@ public class ContextQuestion
         var questions = New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository)
             .AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => userRepo.Create(u));
-        SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationRepo, userRepo, questionValuationRepo);
+        SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationReadingRepo, userRepo, questionValuationRepo);
 
-        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationRepo, userRepo, questionValuationRepo);
+        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userRepo, questionValuationRepo);
 
-        return SessionUserCache.GetAllCacheItems(categoryValuationRepo, userRepo, questionValuationRepo);
+        return SessionUserCache.GetAllCacheItems(categoryValuationReadingRepo, userRepo, questionValuationRepo);
     }
 
-    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationRepo categoryValuationRepo, UserRepo userRepo, QuestionValuationRepo questionValuationRepo)
+    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationReadingRepo categoryValuationReadingRepo, UserRepo userRepo, QuestionValuationRepo questionValuationRepo)
     {
         var rand = new Random();
         for (var i = 0; i < questions.Count; i++)
@@ -232,8 +232,8 @@ public class ContextQuestion
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
 
-            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationRepo, userRepo, questionValuationRepo);
-            SessionUserCache.AddOrUpdate(questionValuation, categoryValuationRepo, userRepo, questionValuationRepo);
+            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userRepo, questionValuationRepo);
+            SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userRepo, questionValuationRepo);
         }
     }
 }

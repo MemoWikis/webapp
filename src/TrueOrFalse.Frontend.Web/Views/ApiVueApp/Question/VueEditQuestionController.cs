@@ -18,7 +18,7 @@ public class VueEditQuestionController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly ImageStore _imageStore;
@@ -34,7 +34,7 @@ public class VueEditQuestionController : Controller
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         ImageStore imageStore,
@@ -50,7 +50,7 @@ public class VueEditQuestionController : Controller
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
         _imageStore = imageStore;
@@ -244,7 +244,7 @@ public class VueEditQuestionController : Controller
     public JsonResult LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -395,7 +395,7 @@ public class VueEditQuestionController : Controller
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;

@@ -12,7 +12,7 @@ public class HistoryTopicDetailController : Controller
     private readonly SessionUser _sessionUser;
     private readonly RestoreCategory _restoreCategory;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
@@ -23,7 +23,7 @@ public class HistoryTopicDetailController : Controller
         SessionUser sessionUser,
         RestoreCategory restoreCategory,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
@@ -34,7 +34,7 @@ public class HistoryTopicDetailController : Controller
         _sessionUser = sessionUser;
         _restoreCategory = restoreCategory;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
@@ -65,13 +65,13 @@ public class HistoryTopicDetailController : Controller
             _permissionCheck,
             _nhibernatesession,
             _categoryChangeRepo,
-            _categoryValuationRepo,
+            _categoryValuationReadingRepo,
             _categoryRepository,
             _imageMetaDataRepo,
             _userRepo,
             _questionValuationRepo);
 
-        var author = currentRevision.Author(_categoryValuationRepo, _userRepo, _questionValuationRepo);
+        var author = currentRevision.Author(_categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
         var result = new ChangeDetailResult
         {
             topicName = topicHistoryDetailModel.CategoryName,
@@ -163,7 +163,7 @@ public class HistoryTopicDetailController : Controller
             _permissionCheck,
             _nhibernatesession,
             _categoryChangeRepo,
-            _categoryValuationRepo,
+            _categoryValuationReadingRepo,
             _categoryRepository,
             _imageMetaDataRepo,
             _userRepo,

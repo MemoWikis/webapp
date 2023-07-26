@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NHibernate;
-using TrueOrFalse.Search;
 
 public class CategoryDeleter : IRegisterAsInstancePerLifetime
 {
@@ -9,7 +8,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly UserActivityRepo _userActivityRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReading;
     private readonly PermissionCheck _permissionCheck;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
@@ -21,20 +21,22 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         UserActivityRepo userActivityRepo,
         CategoryRepository categoryRepository,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationWritingRepo categoryValuationWritingRepo,
         PermissionCheck permissionCheck,
         UserRepo userRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReading)
     {
         _session = session;
         _sessionUser = sessionUser;
         _userActivityRepo = userActivityRepo;
         _categoryRepository = categoryRepository;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationWritingRepo = categoryValuationWritingRepo;
         _permissionCheck = permissionCheck;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
+        _categoryValuationReading = categoryValuationReading;
     }
 
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
@@ -68,7 +70,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _userActivityRepo.DeleteForCategory(category.Id);
         _categoryRepository.Delete(category);
         _categoryChangeRepo.AddDeleteEntry(category, userId);
-       _categoryValuationRepo.DeleteCategoryValuation(category.Id);
+       _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
         EntityCache.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
@@ -79,7 +81,12 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationRepo, _userRepo, _questionValuationRepo); 
+        SessionUserCache.RemoveAllForCategory(category.Id, 
+            _categoryValuationReading, 
+            _categoryValuationWritingRepo,
+            _userRepo, 
+            _questionValuationRepo); 
+
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;
     }

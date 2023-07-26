@@ -6,7 +6,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
@@ -15,7 +15,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
 
     public VueSessionUser(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataRepo imageMetaDataRepo,
@@ -24,7 +24,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;

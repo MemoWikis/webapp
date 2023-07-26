@@ -5,18 +5,18 @@ using System.Web.Mvc;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class TopicLearningQuestionController: BaseController
 {
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CommentRepository _commentRepository;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public TopicLearningQuestionController(SessionUser sessionUser,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CommentRepository commentRepository, 
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo) : base(sessionUser)
     {
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _commentRepository = commentRepository;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
@@ -64,7 +64,7 @@ public class TopicLearningQuestionController: BaseController
     public JsonResult GetKnowledgeStatus(int id)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;

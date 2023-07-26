@@ -7,21 +7,21 @@ public class TopicController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly TopicControllerLogic _topicControllerLogic;
 
     public TopicController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo,
         TopicControllerLogic topicControllerLogic) 
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
         _topicControllerLogic = topicControllerLogic;
@@ -57,7 +57,7 @@ public class TopicController : Controller
         var topicCacheItem = EntityCache.GetCategory(topicId);
         if (_permissionCheck.CanView(topicCacheItem))
         {
-            var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo);
+            var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
             return Json(topicCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>

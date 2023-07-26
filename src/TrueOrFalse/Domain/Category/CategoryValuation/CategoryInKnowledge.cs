@@ -6,17 +6,17 @@ using MySqlX.XDevAPI;
 public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
 {
     private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _questionInKnowledge = questionInKnowledge;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -26,7 +26,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationRepo, _userRepo, _questionValuationRepo).Where(v => v.IsInWishKnowledge());
+        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)
             valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);

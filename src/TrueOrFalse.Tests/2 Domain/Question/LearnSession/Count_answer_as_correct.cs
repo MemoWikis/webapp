@@ -68,7 +68,7 @@ class Count_answer_as_correct : BaseTest
     public void SetAnswerAsCorrectTestModeAndWishSession()
     {
         var lastUserCacheItem =  ContextQuestion.SetWuwi(1000, 
-            R<CategoryValuationRepo>(),
+            R<CategoryValuationReadingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
             R<UserRepo>(),
@@ -102,7 +102,7 @@ class Count_answer_as_correct : BaseTest
     [Test]
     public void SetAnswerAsCorrectWishSession(){
         var lastUserCacheItem = ContextQuestion.SetWuwi(10,
-            R<CategoryValuationRepo>(), 
+            R<CategoryValuationReadingRepo>(), 
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             R<UserRepo>(),

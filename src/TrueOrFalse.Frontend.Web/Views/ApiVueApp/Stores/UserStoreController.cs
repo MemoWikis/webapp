@@ -13,7 +13,7 @@ public class UserStoreController : Controller
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly RegisterUser _registerUser;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
@@ -31,7 +31,7 @@ public class UserStoreController : Controller
         ActivityPointsRepo activityPointsRepo,
         RegisterUser registerUser,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataRepo imageMetaDataRepo,
@@ -48,7 +48,7 @@ public class UserStoreController : Controller
         _activityPointsRepo = activityPointsRepo;
         _registerUser = registerUser;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
@@ -184,7 +184,7 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationRepo, _categoryViewRepo, _imageMetaDataRepo, _segmentationLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationReadingRepo, _categoryViewRepo, _imageMetaDataRepo, _segmentationLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

@@ -7,25 +7,28 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class RecalcKnowledgeStati : IJob
     {
         private readonly ISession _nhibernateSession;
-        private readonly CategoryValuationRepo _categoryValuationRepo;
+        private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
         private readonly QuestionValuationRepo _questionValuationRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+        private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
 
         public RecalcKnowledgeStati(ISession nhibernateSession,
-            CategoryValuationRepo categoryValuationRepo,
+            CategoryValuationReadingRepo categoryValuationReadingRepo,
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
-            KnowledgeSummaryLoader knowledgeSummaryLoader)
+            KnowledgeSummaryLoader knowledgeSummaryLoader,
+            CategoryValuationWritingRepo categoryValuationWritingRepo)
         {
             _nhibernateSession = nhibernateSession;
-            _categoryValuationRepo = categoryValuationRepo;
+            _categoryValuationReadingRepo = categoryValuationReadingRepo;
             _questionValuationRepo = questionValuationRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
+            _categoryValuationWritingRepo = categoryValuationWritingRepo;
         }
         public void Execute(IJobExecutionContext context)
         {
@@ -34,7 +37,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var user in scope.Resolve<UserRepo>().GetAll())
                 {
                     ProbabilityUpdate_Valuation.Run(user.Id, _nhibernateSession, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
-                    KnowledgeSummaryUpdate.RunForUser(user.Id, _categoryValuationRepo, _knowledgeSummaryLoader);
+                    KnowledgeSummaryUpdate.RunForUser(user.Id,
+                        _categoryValuationReadingRepo,
+                        _categoryValuationWritingRepo, 
+                        _knowledgeSummaryLoader);
                 }
             }, "RecalcKnowledgeStati");
         }

@@ -3,17 +3,17 @@ using System.Linq;
 
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly UserRepo _userRepo;
 
-    public KnowledgeSummaryLoader(CategoryValuationRepo categoryValuationRepo,
+    public KnowledgeSummaryLoader(CategoryValuationReadingRepo categoryValuationReadingRepo,
         QuestionValuationRepo questionValuationRepo, 
         CategoryRepository categoryRepository,
         UserRepo userRepo)
     {
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _categoryRepository = categoryRepository;
         _userRepo = userRepo;
@@ -21,7 +21,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 
     public KnowledgeSummary RunFromDbCache(Category category, int userId)
     {
-        var categoryValuation = _categoryValuationRepo.GetBy(category.Id, userId);
+        var categoryValuation = _categoryValuationReadingRepo.GetBy(category.Id, userId);
 
         if (categoryValuation == null)
         {
@@ -61,7 +61,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SessionUserCache.GetItem(userId, _categoryValuationRepo, _userRepo, _questionValuationRepo)?.QuestionValuations;
+        var userValuations = SessionUserCache.GetItem(userId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 

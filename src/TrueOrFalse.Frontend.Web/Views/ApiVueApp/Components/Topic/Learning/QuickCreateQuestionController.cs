@@ -13,7 +13,7 @@ public class QuickCreateQuestionController : Controller
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
@@ -24,7 +24,7 @@ public class QuickCreateQuestionController : Controller
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo, 
@@ -35,7 +35,7 @@ public class QuickCreateQuestionController : Controller
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
         _learningSessionCache = learningSessionCache;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
@@ -97,7 +97,7 @@ public class QuickCreateQuestionController : Controller
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_sessionUser,
             _learningSessionCache, 
-            _categoryValuationRepo,
+            _categoryValuationReadingRepo,
             _imageMetaDataRepo, 
             _userRepo, 
             _questionValuationRepo); 

@@ -14,7 +14,7 @@ public class VueQuestionController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly RestoreQuestion _restoreQuestion;
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly UserRepo _userRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
@@ -24,7 +24,7 @@ public class VueQuestionController : Controller
         PermissionCheck permissionCheck,
         RestoreQuestion restoreQuestion,
         LearningSessionCache learningSessionCache,
-        CategoryValuationRepo categoryValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataRepo imageMetaDataRepo,
         UserRepo userRepo,
         QuestionValuationRepo questionValuationRepo,
@@ -34,7 +34,7 @@ public class VueQuestionController : Controller
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
         _learningSessionCache = learningSessionCache;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
         _userRepo = userRepo;
         _questionValuationRepo = questionValuationRepo;
@@ -84,7 +84,7 @@ public class VueQuestionController : Controller
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
@@ -103,7 +103,7 @@ public class VueQuestionController : Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationRepo, _imageMetaDataRepo, _userRepo, _questionValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataRepo, _userRepo, _questionValuationRepo).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -111,7 +111,7 @@ public class VueQuestionController : Controller
     public JsonResult LoadQuestion(int questionId)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn ? 
-            SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationRepo, _userRepo, _questionValuationRepo)
+            SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo)
                 .QuestionValuations : null;
 
         var q = EntityCache.GetQuestionById(questionId);
