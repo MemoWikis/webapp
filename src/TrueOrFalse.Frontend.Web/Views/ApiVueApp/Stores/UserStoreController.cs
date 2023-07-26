@@ -31,6 +31,7 @@ public class UserStoreController : Controller
         _registerUser = registerUser;
         _userRepo = userRepo;
     }
+
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
     {

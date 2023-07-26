@@ -78,6 +78,7 @@ export const useUserStore = defineStore('userStore', {
             this.subscriptionStartDate = currentUser.SubscriptionStartDate != null ? new Date(currentUser.SubscriptionStartDate) : null
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.ActivityPoints)
+            return
         },
         async login(loginData: {
             EmailAddress: string,
@@ -111,13 +112,12 @@ export const useUserStore = defineStore('userStore', {
             this.showLoginModal = true
         },
         async logout() {
-            this.isLoggedIn = false
 
             const spinnerStore = useSpinnerStore()
 
             spinnerStore.showSpinner()
 
-            var result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
+            const result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
 
@@ -128,6 +128,7 @@ export const useUserStore = defineStore('userStore', {
                 const alertStore = useAlertStore()
                 alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
             }
+
             spinnerStore.hideSpinner()
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {

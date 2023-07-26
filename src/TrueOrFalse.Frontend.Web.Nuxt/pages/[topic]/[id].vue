@@ -119,9 +119,10 @@ function setTab() {
 
 onMounted(() => setTab())
 watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
-    if (!isLoggedIn && topicStore.visibility != Visibility.All)
-        navigateTo($urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id))
-    await refresh()
+    if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
+        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+    else
+        await refresh()
 })
 
 useHead(() => ({

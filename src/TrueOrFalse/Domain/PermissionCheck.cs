@@ -5,8 +5,8 @@
 
     public PermissionCheck(SessionUser sessionUser)
     {
-        _userId = sessionUser.IsSesionActive() ? sessionUser.UserId : default;
-        _isInstallationAdmin = sessionUser.IsSesionActive() && sessionUser.IsInstallationAdmin;
+        _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
+        _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
     }
 
     public PermissionCheck(UserCacheItem userCacheItem)

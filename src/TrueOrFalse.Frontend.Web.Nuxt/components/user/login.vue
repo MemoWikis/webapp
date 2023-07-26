@@ -25,8 +25,6 @@ async function login() {
     const result = await userStore.login(data)
     if (!result.success)
         errorMessage.value = result.msg!
-    else if (topicStore.id == 1 && userStore.personalWiki)
-        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
 }
 const passwordInputType = ref('password')
 
