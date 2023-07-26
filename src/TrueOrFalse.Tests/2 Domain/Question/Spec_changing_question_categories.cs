@@ -12,7 +12,7 @@ public class Spec_changing_question_categories : BaseTest
             ContextQuestion.New(R<QuestionWritingRepo>(),
                     R<AnswerRepo>(),
                     R<AnswerQuestion>(),
-                    R<UserReadingRepo>(), 
+                    R<UserWritingRepo>(), 
                     R<CategoryRepository>())
                 .AddQuestion(questionText: "Question", solutionText: "Answer")
                 .AddCategory("A", entityCacheInitilizer)

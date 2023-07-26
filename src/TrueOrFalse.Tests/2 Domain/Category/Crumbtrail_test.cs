@@ -16,7 +16,7 @@ public class Crumbtrail_test : BaseTest
         var branchRoot = context.Add("branch").Persist().All.First();
 
 
-        var userContext = ContextUser.New(R<UserReadingRepo>());
+        var userContext = ContextUser.New(R<UserWritingRepo>());
         var branchUser = userContext.Add("secondUser").Persist().All.First();
 
         var rootOfFirstRootContext = context
@@ -74,7 +74,7 @@ public class Crumbtrail_test : BaseTest
     public void Get_Correct_BreadcrumbItems()
     {
         var categoryContext = ContextCategory.New();
-        var userContext = ContextUser.New(R<UserReadingRepo>());
+        var userContext = ContextUser.New(R<UserWritingRepo>());
 
         var aWikiUser = userContext.Add("aWikiUser").Persist().All.First();
         var aWiki = categoryContext.Add("aWiki", creator: aWikiUser).Persist().All.First();

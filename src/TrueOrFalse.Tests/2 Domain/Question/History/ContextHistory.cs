@@ -8,26 +8,26 @@ public class ContextHistory : IRegisterAsInstancePerLifetime
     private readonly ISession _nhibernateSession;
     private readonly AnswerQuestion _answerQuestion;
     private readonly AnswerRepo _answerRepo;
-    private readonly UserReadingRepo _userReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
     public List<Answer> All = new();
     public User User;
 
     public ContextHistory(ISession nhibernateSession,
         AnswerQuestion answerQuestion,
         AnswerRepo answerRepo,
-        UserReadingRepo userReadingRepo,
         CategoryRepository categoryRepository,
-        QuestionWritingRepo questionWritingRepo)
+        QuestionWritingRepo questionWritingRepo,
+        UserWritingRepo userWritingRepo)
     {
         _nhibernateSession = nhibernateSession;
         _answerQuestion = answerQuestion;
         _answerRepo = answerRepo;
-        _userReadingRepo = userReadingRepo;
         _categoryRepository = categoryRepository;
         _questionWritingRepo = questionWritingRepo;
-        User = ContextUser.New(_userReadingRepo).Add("Firstname Lastname").Persist().All[0];
+        _userWritingRepo = userWritingRepo;
+        User = ContextUser.New(_userWritingRepo).Add("Firstname Lastname").Persist().All[0];
     }
 
     public void WriteHistory(User user, int daysOffset = -3)
@@ -39,7 +39,7 @@ public class ContextHistory : IRegisterAsInstancePerLifetime
 		    UserId = user.Id,
 		    Question = ContextQuestion.GetQuestion(_answerRepo, 
                 _answerQuestion, 
-                _userReadingRepo,
+                _userWritingRepo,
                 _categoryRepository, 
                 _questionWritingRepo),
 		    AnswerredCorrectly = AnswerCorrectness.True,

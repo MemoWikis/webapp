@@ -11,7 +11,7 @@ public class Should_calculate_wish_knowledge_count : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserReadingRepo>(), 
+                R<UserWritingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", R<EntityCacheInitializer>())
             .Persist();

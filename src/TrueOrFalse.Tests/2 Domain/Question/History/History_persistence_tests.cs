@@ -10,7 +10,7 @@ public class QuestionAnswerPersistenceTests : BaseTest
         var answer = new Answer();
         answer.Question = ContextQuestion.GetQuestion(answerRepo, 
             R<AnswerQuestion>(),
-            R<UserReadingRepo>(),
+            R<UserWritingRepo>(),
             R<CategoryRepository>(),
             R<QuestionWritingRepo>());
         answer.MillisecondsSinceQuestionView = 100;

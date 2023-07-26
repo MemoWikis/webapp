@@ -5,15 +5,15 @@ public class ActivityPointsStoreController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
 
     public ActivityPointsStoreController(SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        UserReadingRepo userReadingRepo)
+        UserWritingRepo userWritingRepo)
     {
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
-        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
     [HttpPost]
     public JsonResult Add(string activityTypeString, int points)
@@ -31,7 +31,7 @@ public class ActivityPointsStoreController : Controller
             var oldUserLevel = _sessionUser.User.ActivityLevel;
             activityPoints.UserId = _sessionUser.UserId;
             _activityPointsRepo.Create(activityPoints);
-            _userReadingRepo.UpdateActivityPointsData();
+            _userWritingRepo.UpdateActivityPointsData();
 
             var activityLevel = _sessionUser.User.ActivityLevel;
             var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);

@@ -8,11 +8,13 @@ public class Should_retrieve_stats_in_time_period : BaseTest
     [Test]
     public void Run()
     {
-        var contextUsers = ContextRegisteredUser.New(R<UserReadingRepo>()).Add().Persist();
+        var userWritingRepo = R<UserWritingRepo>();
+        var userReadingRepo = R<UserReadingRepo>();
+        var contextUsers = ContextRegisteredUser.New(userReadingRepo, userWritingRepo).Add().Persist();
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserReadingRepo>(), 
+                R<UserWritingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "Question", solutionText: "Answer")
                 .AddCategory("A", LifetimeScope.Resolve<EntityCacheInitializer>()).

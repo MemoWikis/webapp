@@ -22,8 +22,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningSessionConfig,
-            R<UserReadingRepo>(),
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionWithUser();
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
@@ -53,8 +53,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionForAnonymusUser(5);
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
@@ -80,8 +80,8 @@ class Test_learning_session_steps : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             new LearningSessionConfig(),
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionForAnonymusUser(1);
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         learningSession.NextStep();
@@ -91,9 +91,9 @@ class Test_learning_session_steps : BaseTest
             R<LearningSessionCreator>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            new LearningSessionConfig(), 
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            new LearningSessionConfig(),
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionForAnonymusUser(1);
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
@@ -112,9 +112,9 @@ class Test_learning_session_steps : BaseTest
             R<LearningSessionCreator>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            learningsessionConfig,
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            learningsessionConfig, 
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionWithUser();
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });

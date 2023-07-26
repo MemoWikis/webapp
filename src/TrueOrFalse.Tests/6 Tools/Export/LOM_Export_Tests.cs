@@ -19,7 +19,7 @@ public class LOM_Export_Tests : BaseTest
             var question = ContextQuestion.New(R<QuestionWritingRepo>(),
                     R<AnswerRepo>(),
                     R<AnswerQuestion>(),
-                    R<UserReadingRepo>(), 
+                    R<UserWritingRepo>(), 
                     R<CategoryRepository>())
                 .AddQuestion("Example question")
                 .AddCategory("cat 1", R<EntityCacheInitializer>())

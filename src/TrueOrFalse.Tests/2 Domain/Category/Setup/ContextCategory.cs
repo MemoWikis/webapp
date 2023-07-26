@@ -7,7 +7,7 @@ namespace TrueOrFalse.Tests;
 public class ContextCategory: BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
-    private readonly ContextUser _contextUser = ContextUser.New(R<UserReadingRepo>());
+    private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
     private int NamesCounter = 0;
 
     public List<Category> All = new();
@@ -168,7 +168,7 @@ public class ContextCategory: BaseTest
         var rootElement = Add("A").Persist().All.First();
 
         if (contextUser == null)
-            contextUser = ContextUser.New(R<UserReadingRepo>());
+            contextUser = ContextUser.New(R<UserWritingRepo>());
         var user = contextUser.Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
 
         var firstChildren =

@@ -7,7 +7,7 @@ public class Should_retrieve_streak : BaseTest
     [Test]
     public void With_typical_data()
     {
-        var user = ContextRegisteredUser.New(R<UserReadingRepo>()).Add().Persist().Users[0];
+        var user = ContextRegisteredUser.New(R<UserReadingRepo>(), R<UserWritingRepo>()).Add().Persist().Users[0];
         user.DateCreated = DateTime.Now.AddYears(-2);
 
         var ctx = R<ContextHistory>();
@@ -27,7 +27,12 @@ public class Should_retrieve_streak : BaseTest
     [Test]
     public void With_empty_data()
     {
-        var user = ContextRegisteredUser.New(R<UserReadingRepo>()).Add().Persist().Users[0];
+        var user = ContextRegisteredUser
+            .New(R<UserReadingRepo>(), R<UserWritingRepo>())
+            .Add()
+            .Persist()
+            .Users[0];
+
         user.DateCreated = DateTime.Now.AddYears(-2);
 
         var streakResult = R<GetStreaksDays>().Run(user);

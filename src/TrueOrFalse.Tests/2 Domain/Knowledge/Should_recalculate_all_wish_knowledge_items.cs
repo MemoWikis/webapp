@@ -12,7 +12,7 @@ public class Should_recalculate_all_wish_knowledge_items : BaseTest
         var context = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserReadingRepo>(), 
+                R<UserWritingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "1", solutionText: "")
             .AddQuestion(questionText: "2", solutionText: "")

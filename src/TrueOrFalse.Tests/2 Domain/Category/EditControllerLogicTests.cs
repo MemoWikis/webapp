@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Autofac;
 using FakeItEasy;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -16,7 +15,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicTestDateToLow()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New(R<UserReadingRepo>());
+        var contextUser = ContextUser.New(R<UserWritingRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -74,7 +73,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicToManyPrivateCategories()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New(R<UserReadingRepo>());
+        var contextUser = ContextUser.New(R<UserWritingRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -131,7 +130,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicToManyPrivateCategoriesOkAndDateToLow()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New(R<UserReadingRepo>());
+        var contextUser = ContextUser.New(R<UserWritingRepo>());
 
         var user = contextUser.Add(new User
             {

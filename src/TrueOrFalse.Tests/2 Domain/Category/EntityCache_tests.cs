@@ -79,7 +79,7 @@ class EntityCache_tests : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserReadingRepo>(), 
+            R<UserWritingRepo>(), 
             R<CategoryRepository>());
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
@@ -109,7 +109,7 @@ class EntityCache_tests : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            R<UserReadingRepo>(),
+            R<UserWritingRepo>(),
             R<CategoryRepository>()); 
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();

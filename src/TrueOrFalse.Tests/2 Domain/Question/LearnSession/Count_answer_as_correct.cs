@@ -13,8 +13,8 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             new LearningSessionConfig(),
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionForAnonymusUser(5);
 
         learningSession.SetCurrentStepAsCorrect();
@@ -37,8 +37,8 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSessionWithUser();
         learningSession.SetCurrentStepAsCorrect();
         Assert.That(learningSession.Steps.Count, Is.EqualTo(4));
@@ -56,8 +56,8 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSession();
 
         learningSession.SetCurrentStepAsCorrect();
@@ -74,7 +74,8 @@ class Count_answer_as_correct : BaseTest
             R<UserReadingRepo>(),
             R<QuestionValuationRepo>(),
             R<CategoryRepository>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .Last();
 
         var learningsessionConfig = new LearningSessionConfig
@@ -90,9 +91,9 @@ class Count_answer_as_correct : BaseTest
             R<LearningSessionCreator>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            learningsessionConfig,
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>())
+            learningsessionConfig, 
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .GetLearningSession();
 
         learningSession.SetCurrentStepAsCorrect();
@@ -108,7 +109,8 @@ class Count_answer_as_correct : BaseTest
             R<UserReadingRepo>(),
             R<QuestionValuationRepo>(), 
             R<CategoryRepository>(), 
-            R<QuestionWritingRepo>())
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
             .Last();
         var learningSessionConfig = new LearningSessionConfig
         {
@@ -122,9 +124,9 @@ class Count_answer_as_correct : BaseTest
             R<LearningSessionCreator>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
-            learningSessionConfig, 
-            R<UserReadingRepo>(), 
-            R<QuestionWritingRepo>()).GetLearningSession(
+            learningSessionConfig,
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>()).GetLearningSession(
            );
         learningSession.SetCurrentStepAsCorrect();
         Assert.That(learningSession.Steps.Count, Is.EqualTo(4));

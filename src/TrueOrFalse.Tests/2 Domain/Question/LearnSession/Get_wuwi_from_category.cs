@@ -13,10 +13,11 @@ class Get_wuwi_from_category : BaseTest
         var userReadingRepo = R<UserReadingRepo>();
         var answerQuestion = R<AnswerQuestion>();
         var answerRepo = R<AnswerRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
         ContextQuestion.PutQuestionsIntoMemoryCache(R<CategoryRepository>(),
             answerRepo,
             answerQuestion,
-            userReadingRepo,
+            userWritingRepo,
             questionwriterRepo);
 
         var questionValuationRepo = R<QuestionValuationRepo>();
@@ -27,7 +28,8 @@ class Get_wuwi_from_category : BaseTest
             userReadingRepo,
             questionValuationRepo,
             R<CategoryRepository>(),
-            questionwriterRepo);
+            questionwriterRepo,
+            userWritingRepo);
             
         var categoryId = 1;
         var userCacheItem = SessionUserCache.GetAllCacheItems(
