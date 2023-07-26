@@ -2,12 +2,12 @@
 
 public class CredentialsAreValid : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     public User User;
 
-    public CredentialsAreValid(UserRepo userRepo)
+    public CredentialsAreValid(UserReadingRepo userReadingRepo)
     {
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
     public bool Yes(string emailAdress, string password)
     {
@@ -15,7 +15,7 @@ public class CredentialsAreValid : IRegisterAsInstancePerLifetime
             return false;
 
         User = null;
-        var user = _userRepo.GetByEmailEager(emailAdress.Trim());
+        var user = _userReadingRepo.GetByEmailEager(emailAdress.Trim());
 
         if (user == null)
             return false;

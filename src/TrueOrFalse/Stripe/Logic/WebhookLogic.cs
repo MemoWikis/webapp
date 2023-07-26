@@ -8,12 +8,15 @@ using TrueOrFalse.Infrastructure.Logging;
 
 public class WebhookLogic : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
-    public WebhookLogic(UserRepo userRepo)
+    public WebhookLogic(UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo)
     {
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
     public async Task<HttpStatusCodeResult> Create(HttpContextBase context, HttpRequestBase baseRequest)
     {
@@ -107,7 +110,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
         }
 
         var customerId = ((dynamic)paymentObject).CustomerId;
-        var user = _userRepo.GetByStripeId(customerId);
+        var user = _userReadingRepo.GetByStripeId(customerId);
 
         return (paymentObject, user);
     }
@@ -183,7 +186,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
         }
 
         user.EndDate = date;
-        _userRepo.Update(user);
+        _userWritingRepo.Update(user);
         Logg.r().Information(log);
     }
 }

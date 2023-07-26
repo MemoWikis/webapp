@@ -15,7 +15,7 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public SegmentationLogic(ControllerContext controllerContext,
@@ -24,7 +24,7 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         ImageMetaDataRepo imageMetaDataRepo, 
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _controllerContext = controllerContext;
@@ -34,7 +34,7 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
     public dynamic GetSegmentation(int id)
@@ -74,8 +74,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
 
         if (_sessionUser.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).StartTopicId;
+            userValuation = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).CategoryValuations;
+            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
@@ -89,8 +89,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     public dynamic GetCategoryData(int categoryId)
     {
         var categoryCardData = _sessionUser.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).CategoryValuations,
-                SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).StartTopicId)
+            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).CategoryValuations,
+                SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }

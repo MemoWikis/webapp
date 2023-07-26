@@ -17,7 +17,7 @@ public class Question_persistence : BaseTest
         var context = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
             .AddCategory("A", entityCacheInitilizer)
@@ -43,7 +43,7 @@ public class Question_persistence : BaseTest
         var context = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "Q")
             .AddCategory("C", LifetimeScope.Resolve<EntityCacheInitializer>())
@@ -96,7 +96,7 @@ public class Question_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "text", solutionText: "solution").Persist();
         var contextCategory = ContextCategory.New().Add(uniqueCategoryName).Persist();

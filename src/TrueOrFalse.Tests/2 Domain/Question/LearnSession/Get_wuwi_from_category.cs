@@ -10,13 +10,13 @@ class Get_wuwi_from_category : BaseTest
     public void GetWuwiSession()
     {
         var questionwriterRepo = R<QuestionWritingRepo>(); 
-        var userRepo = R<UserRepo>();
+        var userReadingRepo = R<UserReadingRepo>();
         var answerQuestion = R<AnswerQuestion>();
         var answerRepo = R<AnswerRepo>();
         ContextQuestion.PutQuestionsIntoMemoryCache(R<CategoryRepository>(),
             answerRepo,
             answerQuestion,
-            userRepo,
+            userReadingRepo,
             questionwriterRepo);
 
         var questionValuationRepo = R<QuestionValuationRepo>();
@@ -24,14 +24,14 @@ class Get_wuwi_from_category : BaseTest
             R<CategoryValuationReadingRepo>(),
             answerRepo,
             answerQuestion,
-            userRepo,
+            userReadingRepo,
             questionValuationRepo,
             R<CategoryRepository>(),
             questionwriterRepo);
             
         var categoryId = 1;
         var userCacheItem = SessionUserCache.GetAllCacheItems(
-            Resolve<CategoryValuationReadingRepo>(), userRepo, questionValuationRepo)
+            Resolve<CategoryValuationReadingRepo>(), userReadingRepo, questionValuationRepo)
             .First(uci => uci.Name == "Daniel" );
 
         var wuwis = userCacheItem.QuestionValuations

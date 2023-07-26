@@ -13,7 +13,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly AnswerRepo _answerRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public QuestionInKnowledge(SessionUser sessionUser,
         ISession nhibernateSession,
@@ -22,7 +22,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         QuestionValuationRepo questionValuationRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
         AnswerRepo answerRepo,
-         UserRepo userRepo)
+         UserReadingRepo userReadingRepo)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
@@ -31,7 +31,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _questionValuationRepo = questionValuationRepo;
         _probabilityCalcSimple1 = probabilityCalcSimple1;
         _answerRepo = answerRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
     public void Pin(int questionId, int userId)
     {
@@ -114,7 +114,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _reputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userReadingRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
     }
 
     public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
@@ -205,7 +205,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             var newQuestionVal = new QuestionValuation
             {
                 Question = _questionReadingRepo.GetById(question.Id),
-                User = _userRepo.GetById(userId),
+                User = _userReadingRepo.GetById(userId),
                 RelevancePersonal = relevancePersonal,
                 CorrectnessProbability = question.CorrectnessProbability
             };

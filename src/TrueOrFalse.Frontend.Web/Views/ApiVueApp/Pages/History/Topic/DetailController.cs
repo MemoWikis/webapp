@@ -15,7 +15,7 @@ public class HistoryTopicDetailController : Controller
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public HistoryTopicDetailController(PermissionCheck permissionCheck,
@@ -26,7 +26,7 @@ public class HistoryTopicDetailController : Controller
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
@@ -37,7 +37,7 @@ public class HistoryTopicDetailController : Controller
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
 
@@ -68,10 +68,10 @@ public class HistoryTopicDetailController : Controller
             _categoryValuationReadingRepo,
             _categoryRepository,
             _imageMetaDataRepo,
-            _userRepo,
+            _userReadingRepo,
             _questionValuationRepo);
 
-        var author = currentRevision.Author(_categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+        var author = currentRevision.Author(_categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
         var result = new ChangeDetailResult
         {
             topicName = topicHistoryDetailModel.CategoryName,
@@ -166,7 +166,7 @@ public class HistoryTopicDetailController : Controller
             _categoryValuationReadingRepo,
             _categoryRepository,
             _imageMetaDataRepo,
-            _userRepo,
+            _userReadingRepo,
             _questionValuationRepo);
     }
 

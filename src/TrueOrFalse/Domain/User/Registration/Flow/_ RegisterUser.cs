@@ -4,20 +4,23 @@ using NHibernate.Criterion;
 
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
-    private readonly ISession _nhibernateSession;
+    private readonly ISession _session;
     private readonly JobQueueRepo _jobQueueRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly MessageRepo _messageRepo;
+    private readonly UserWritingRepo _userWritingRepo;
 
-    public RegisterUser(ISession nhibernateSession,
+    public RegisterUser(ISession session,
         JobQueueRepo jobQueueRepo,
-        UserRepo userRepo, 
-        MessageRepo messageRepo)
+        UserReadingRepo userReadingRepo, 
+        MessageRepo messageRepo,
+        UserWritingRepo userWritingRepo)
     {
-        _nhibernateSession = nhibernateSession;
+        _session = session;
         _jobQueueRepo = jobQueueRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _messageRepo = messageRepo;
+        _userWritingRepo = userWritingRepo;
     }
 
     public void Run(User user)
@@ -26,20 +29,20 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
      
 
-        using (var transaction = _userRepo.Session.BeginTransaction(IsolationLevel.ReadCommitted))
+        using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
-            if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userRepo))
+            if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
                 throw new Exception("There is already a user with that email address.");
 
-            if (!IsUserNameAvailable.Yes(user.Name, _userRepo))
+            if (!IsUserNameAvailable.Yes(user.Name, _userReadingRepo))
                 throw new Exception("There is already a user with that name.");
 
-            _userRepo.Create(user);
+            _userWritingRepo.Create(user);
                 
             transaction.Commit();
         }
 
-        SendRegistrationEmail.Run(user, _jobQueueRepo, _userRepo);
+        SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
         WelcomeMsg.Send(user, _messageRepo);
     }
 
@@ -69,12 +72,12 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
     private UserCreateResult Register(User user)
     {
-        if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userRepo))
+        if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
             return new UserCreateResult { Success = false, EmailAlreadyInUse = true};
 
         InitializeReputation(user);
 
-        _userRepo.Create(user);
+        _userWritingRepo.Create(user);
 
         WelcomeMsg.Send(user, _messageRepo);
 
@@ -85,7 +88,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     {
         user.Reputation = 0;
         user.ReputationPos =
-            _nhibernateSession.QueryOver<User>()
+            _session.QueryOver<User>()
                 .Select(
                     Projections.ProjectionList()
                         .Add(Projections.Max<User>(u => u.ReputationPos)))

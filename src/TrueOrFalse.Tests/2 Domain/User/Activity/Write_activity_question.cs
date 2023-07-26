@@ -11,7 +11,7 @@ public class Write_activity_question : BaseTest
         //User2 follows User3 (and creates two questions)
         //User3 follows User4
         //User4 follows nobody (but creates one question)
-        var context = ContextUser.New(R<UserRepo>())
+        var context = ContextUser.New(R<UserReadingRepo>())
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")
@@ -23,21 +23,21 @@ public class Write_activity_question : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        var userRepo = R<UserRepo>();
+        var userReadingRepo = R<UserReadingRepo>();
 
-        userRepo.AddFollower(user3, user4);
-        userRepo.AddFollower(user1, user4);
-        userRepo.AddFollower(user1, user2);
+        userReadingRepo.AddFollower(user3, user4);
+        userReadingRepo.AddFollower(user1, user4);
+        userReadingRepo.AddFollower(user1, user2);
 
-        userRepo.Update(user4);
-        userRepo.Update(user3);
+        userReadingRepo.Update(user4);
+        userReadingRepo.Update(user3);
 
         //User4 creates one question
         System.Threading.Thread.Sleep(50); // to much commits without sleep
         ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>(),
+                R<UserReadingRepo>(),
                 R<CategoryRepository>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)

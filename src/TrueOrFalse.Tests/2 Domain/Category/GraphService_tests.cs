@@ -130,7 +130,7 @@ class GraphService_tests : BaseTest
         var context = ContextCategory.New();
 
         var parent = context.Add("parent").Persist().All.First();
-        var user = ContextUser.New(R<UserRepo>()).Add("User").Persist(true, context).All[0];
+        var user = ContextUser.New(R<UserReadingRepo>()).Add("User").Persist(true, context).All[0];
 
         Resolve<SessionUser>().Login(user);
         EntityCache.Clear();

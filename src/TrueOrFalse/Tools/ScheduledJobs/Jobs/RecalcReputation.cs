@@ -28,7 +28,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                         try
                         {
-                            scope.Resolve<ReputationUpdate>().Run(scope.Resolve<UserRepo>().GetById(Convert.ToInt32(userJobs.Key)));
+                            scope.Resolve<ReputationUpdate>().Run(scope.Resolve<UserReadingRepo>().GetById(Convert.ToInt32(userJobs.Key)));
                             successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
                         }
                         catch (Exception e)

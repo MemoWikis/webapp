@@ -4,20 +4,20 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
     private readonly PasswordRecoveryTokenRepository _tokenRepository;
     private readonly JobQueueRepo _jobQueueRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository,
         JobQueueRepo jobQueueRepo, 
-        UserRepo userRepo)
+        UserReadingRepo userReadingRepo)
     {
         _tokenRepository = tokenRepository;
         _jobQueueRepo = jobQueueRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
     public PasswordRecoveryResult Run(string email)
     {
-        if (IsEmailAddressAvailable.Yes(email, _userRepo))
+        if (IsEmailAddressAvailable.Yes(email, _userReadingRepo))
             return new PasswordRecoveryResult { EmailDoesNotExist = true, Success = false };
 
         try
@@ -26,7 +26,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
             var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
-            SendEmail.Run(GetMailMessage(email, passwortResetUrl), _jobQueueRepo, _userRepo, MailMessagePriority.High);
+            SendEmail.Run(GetMailMessage(email, passwortResetUrl), _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
         }
         catch(Exception e)
         {

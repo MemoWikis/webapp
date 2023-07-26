@@ -12,7 +12,7 @@ namespace VueApp;
 public class FacebookUsersController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
@@ -20,7 +20,7 @@ public class FacebookUsersController : Controller
     private readonly MessageRepo _messageRepo;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         SessionUser sessionUser,
         RegisterUser registerUser,
         CategoryRepository categoryRepository,
@@ -28,7 +28,7 @@ public class FacebookUsersController : Controller
         MessageRepo messageRepo)
     {
         _vueSessionUser = vueSessionUser;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
         _registerUser = registerUser;
         _categoryRepository = categoryRepository;
@@ -39,7 +39,7 @@ public class FacebookUsersController : Controller
     [HttpPost]
     public JsonResult Login(string facebookUserId, string facebookAccessToken)
     {
-        var user = _userRepo.UserGetByFacebookId(facebookUserId);
+        var user = _userReadingRepo.UserGetByFacebookId(facebookUserId);
 
         if (user == null)
         {
@@ -74,8 +74,8 @@ public class FacebookUsersController : Controller
         var registerResult = _registerUser.Run(facebookUser);
         if (registerResult.Success)
         {
-            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
-            SendRegistrationEmail.Run(user, _jobQueueRepo, _userRepo);
+            var user = _userReadingRepo.UserGetByFacebookId(facebookUser.id);
+            SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
             WelcomeMsg.Send(user, _messageRepo);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
@@ -102,7 +102,7 @@ public class FacebookUsersController : Controller
     [HttpPost]
     public JsonResult UserExists(string facebookId)
     {
-        return Json(_userRepo.FacebookUserExists(facebookId));
+        return Json(_userReadingRepo.FacebookUserExists(facebookId));
     }
 
     [HttpPost]
@@ -121,7 +121,7 @@ public class FacebookUsersController : Controller
             "Facebook Data Deletion Callback",
             $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}.");
 
-        SendEmail.Run(mailMessage, _jobQueueRepo, _userRepo, MailMessagePriority.High);
+        SendEmail.Run(mailMessage, _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
         var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
         return JsonConvert.SerializeObject(requestAnswer); ;
     }

@@ -4,7 +4,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly JobQueueRepo _jobQueueRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly MessageRepo _messageRepo;
     private readonly MessageRepo _message;
     private readonly CategoryRepository _categoryRepository;
@@ -14,12 +14,12 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         CategoryRepository categoryRepository,
         CategoryChangeRepo categoryChangeRepo,
         JobQueueRepo jobQueueRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         MessageRepo messageRepo)
     {
         _categoryChangeRepo = categoryChangeRepo;
         _jobQueueRepo = jobQueueRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _messageRepo = messageRepo;
         _categoryRepository = categoryRepository; 
         _sessionUserId = sessionUser.UserId;
@@ -65,7 +65,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
     private void NotifyAboutRestore(CategoryChange categoryChange)
     {
         var category = categoryChange.Category;
-        var currentUser = _userRepo.GetById(_sessionUserId);
+        var currentUser = _userReadingRepo.GetById(_sessionUserId);
         var subject = $"Kategorie {category.Name} zurückgesetzt";
         var body = $"Die Kategorie '{category.Name}' wurde gerade zurückgesetzt.\n" +
                    $"Zurückgesetzt auf Revision: vom {categoryChange.DateCreated} (Id {categoryChange.Id})\n" +
@@ -78,14 +78,14 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 
     private void SendEmail(int receiverId, string subject, string body)
     {
-        CustomMsg.Send(receiverId, subject, body, _messageRepo, _userRepo);
+        CustomMsg.Send(receiverId, subject, body, _messageRepo, _userReadingRepo);
 
-        var user = _userRepo.GetById(receiverId);
+        var user = _userReadingRepo.GetById(receiverId);
         var mail = new MailMessage();
         mail.To.Add(user.EmailAddress);
         mail.From = new MailAddress(Settings.EmailFrom);
         mail.Subject = subject;
         mail.Body = body;
-        global::SendEmail.Run(mail, _jobQueueRepo, _userRepo, MailMessagePriority.Low);
+        global::SendEmail.Run(mail, _jobQueueRepo, _userReadingRepo, MailMessagePriority.Low);
     }
 }

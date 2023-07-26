@@ -13,7 +13,7 @@ public class QuestionValuation_add_totals_test : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", R<EntityCacheInitializer>())
             .Persist();

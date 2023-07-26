@@ -10,7 +10,7 @@ class Create_learning_session : BaseTest
         ContextQuestion.PutQuestionsIntoMemoryCache( R<CategoryRepository>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>());
         var learningSessionConfig = new LearningSessionConfig
         {
@@ -22,7 +22,7 @@ class Create_learning_session : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningSessionConfig, 
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>())
             .GetLearningSession();
 

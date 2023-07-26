@@ -11,7 +11,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReading;
     private readonly PermissionCheck _permissionCheck;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public CategoryDeleter(
@@ -23,7 +23,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationWritingRepo categoryValuationWritingRepo,
         PermissionCheck permissionCheck,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         CategoryValuationReadingRepo categoryValuationReading)
     {
@@ -34,7 +34,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationWritingRepo = categoryValuationWritingRepo;
         _permissionCheck = permissionCheck;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _categoryValuationReading = categoryValuationReading;
     }
@@ -84,7 +84,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         SessionUserCache.RemoveAllForCategory(category.Id, 
             _categoryValuationReading, 
             _categoryValuationWritingRepo,
-            _userRepo, 
+            _userReadingRepo, 
             _questionValuationRepo); 
 
         hasDeleted.DeletedSuccessful = true;

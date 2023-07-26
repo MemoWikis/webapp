@@ -23,7 +23,7 @@ public class VueEditQuestionController : Controller
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly ImageStore _imageStore;
     private readonly SessionUiData _sessionUiData;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
@@ -39,7 +39,7 @@ public class VueEditQuestionController : Controller
         ImageMetaDataRepo imageMetaDataRepo,
         ImageStore imageStore,
         SessionUiData sessionUiData,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         QuestionChangeRepo questionChangeRepo, 
         QuestionWritingRepo questionWritingRepo,
@@ -55,7 +55,7 @@ public class VueEditQuestionController : Controller
         _imageMetaDataRepo = imageMetaDataRepo;
         _imageStore = imageStore;
         _sessionUiData = sessionUiData;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionChangeRepo = questionChangeRepo;
         _questionWritingRepo = questionWritingRepo;
@@ -79,7 +79,7 @@ public class VueEditQuestionController : Controller
                 }
             };
         var question = new Question();
-        var sessionUser = _userRepo.GetById(_sessionUser.UserId);
+        var sessionUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUser;
         question = UpdateQuestion(question, questionDataJson, safeText);
 
@@ -158,7 +158,7 @@ public class VueEditQuestionController : Controller
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        var sessionUser = _userRepo.GetById(_sessionUser.UserId);
+        var sessionUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator =  sessionUser;
         question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
         var visibility = (QuestionVisibility)flashCardJson.Visibility;
@@ -244,7 +244,7 @@ public class VueEditQuestionController : Controller
     public JsonResult LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
@@ -327,7 +327,7 @@ public class VueEditQuestionController : Controller
             question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
-            var creator = _userRepo.GetById(_sessionUser.UserId);
+            var creator = _userReadingRepo.GetById(_sessionUser.UserId);
             question.Creator = creator;
             question.IsWorkInProgress = true;
             _questionWritingRepo.Create(question, _categoryRepository);
@@ -395,7 +395,7 @@ public class VueEditQuestionController : Controller
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;

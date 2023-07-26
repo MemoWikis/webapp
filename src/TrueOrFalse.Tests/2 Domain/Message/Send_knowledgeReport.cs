@@ -7,8 +7,8 @@ public class Send_knowledgeReport : BaseTest
     [Test][Ignore("Need to create TrainingDates etc for context user for test not to fail.")]
     public void ShouldSend()
     {
-        var userRepo = R<UserRepo>();
-        var user = ContextUser.New(userRepo)
+        var userReadingRepo = R<UserReadingRepo>();
+        var user = ContextUser.New(userReadingRepo)
             .Add(new User { EmailAddress = "test@test.de", Name = "Firstname Lastname" })
             .Persist().All[0];
 
@@ -16,7 +16,7 @@ public class Send_knowledgeReport : BaseTest
         var questions = ContextQuestion.New(questionRepo,
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                userRepo,
+                userReadingRepo,
                 R<CategoryRepository>())
             .AddQuestion(questionText: "q1", solutionText: "a1")
             .AddQuestion(questionText: "q2", solutionText: "a2")
@@ -32,7 +32,7 @@ public class Send_knowledgeReport : BaseTest
             R<MessageEmailRepo>(), 
             R<GetAnswerStatsInPeriod>(), 
             R<GetStreaksDays>(), 
-            userRepo,
+            userReadingRepo,
             R<GetUnreadMessageCount>(), 
             R<KnowledgeSummaryLoader>(),
             R<QuestionReadingRepo>());

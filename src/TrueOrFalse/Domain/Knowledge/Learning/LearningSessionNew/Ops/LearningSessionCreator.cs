@@ -7,7 +7,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public struct QuestionDetail
@@ -39,14 +39,14 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         LearningSessionCache learningSessionCache, 
         PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
 
@@ -55,7 +55,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Where(q => q.Id > 0).ToList();
         allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -107,7 +107,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         _learningSessionCache.TryRemove();
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -181,7 +181,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
 
         if (learningSession != null)
         {
-            var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+            var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
             var questionDetail = BuildQuestionDetail(config, question, allQuestionValuation);
 
             learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);

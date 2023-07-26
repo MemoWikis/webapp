@@ -27,10 +27,10 @@ public class ContextQuestion
     private ContextQuestion(QuestionWritingRepo questionWritingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         CategoryRepository categoryRepository)
     {
-        _contextUser = ContextUser.New(userRepo);
+        _contextUser = ContextUser.New(userReadingRepo);
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
         _answerRepo = answerRepo;
@@ -126,21 +126,21 @@ public class ContextQuestion
     public static Question GetQuestion(
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
-        UserRepo userRepo, 
+        UserReadingRepo userReadingRepo, 
         CategoryRepository categoryRepository,
         QuestionWritingRepo questionWritingRepo)
     {
-        return New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository).AddQuestion().Persist().All[0];
+        return New(questionWritingRepo, answerRepo, answerQuestion, userReadingRepo, categoryRepository).AddQuestion().Persist().All[0];
     }
 
     public static ContextQuestion New(QuestionWritingRepo questionWritingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         CategoryRepository categoryRepository, 
         bool persistImmediately = false)
     {
-        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository);
+        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userReadingRepo, categoryRepository);
 
         if (persistImmediately)
         {
@@ -171,14 +171,14 @@ public class ContextQuestion
     public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionWritingRepo questionWritingRepo,
         int amount = 20)
     {
         ContextCategory.New(false).AddToEntityCache("Category name").Persist();
         var categories = categoryRepository.GetAllEager();
 
-        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository)
+        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userReadingRepo, categoryRepository)
             .AddRandomQuestions(amount, null, true, categories).All;
 
         var categoryIds = new List<int> { 1 };
@@ -193,27 +193,27 @@ public class ContextQuestion
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         CategoryRepository categoryRepository,
         QuestionWritingRepo questionWritingRepo)
     {
-        var contextUser = ContextUser.New(userRepo);
+        var contextUser = ContextUser.New(userReadingRepo);
         var users = contextUser.Add().All;
         var categoryList = ContextCategory.New().Add("Daniel").All;
         categoryList.First().Id = 1;
 
-        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userRepo, categoryRepository)
+        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userReadingRepo, categoryRepository)
             .AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
-        users.ForEach(u => userRepo.Create(u));
-        SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationReadingRepo, userRepo, questionValuationRepo);
+        users.ForEach(u => userReadingRepo.Create(u));
+        SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
 
-        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userRepo, questionValuationRepo);
+        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
 
-        return SessionUserCache.GetAllCacheItems(categoryValuationReadingRepo, userRepo, questionValuationRepo);
+        return SessionUserCache.GetAllCacheItems(categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
     }
 
-    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationReadingRepo categoryValuationReadingRepo, UserRepo userRepo, QuestionValuationRepo questionValuationRepo)
+    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationRepo questionValuationRepo)
     {
         var rand = new Random();
         for (var i = 0; i < questions.Count; i++)
@@ -232,8 +232,8 @@ public class ContextQuestion
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
 
-            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userRepo, questionValuationRepo);
-            SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userRepo, questionValuationRepo);
+            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+            SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
         }
     }
 }

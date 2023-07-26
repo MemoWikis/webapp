@@ -7,12 +7,16 @@ using Stripe.Checkout;
 public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
 
-    public SubscriptionLogic(SessionUser sessionUser, UserRepo userRepo)
+    public SubscriptionLogic(SessionUser sessionUser,
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo)
     {
         _sessionUser = sessionUser;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
 
     public async Task<string> CreateCustomer(string username, string email, int userId)
@@ -25,9 +29,9 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
         var serviceUser = new CustomerService();
         var customer = await serviceUser.CreateAsync(optionsUser);
 
-        var user = _userRepo.GetById(userId);
+        var user = _userReadingRepo.GetById(userId);
         user.StripeId = customer.Id;
-       _userRepo.Update(user);
+       _userWritingRepo.Update(user);
 
         return customer.Id;
     }

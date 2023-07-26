@@ -1,6 +1,6 @@
 ﻿public class LoginFromCookie
 {
-    public static bool Run(SessionUser sessionUser, PersistentLoginRepo persistentLoginRepo, UserRepo userRepo)
+    public static bool Run(SessionUser sessionUser, PersistentLoginRepo persistentLoginRepo, UserReadingRepo userReadingRepo)
     {
         var cookieValues = GetPersistentLoginCookieValues.Run();
 
@@ -12,7 +12,7 @@
         if (persistentLogin == null)
             return false;
 
-        var user = userRepo.GetById(cookieValues.UserId);
+        var user = userReadingRepo.GetById(cookieValues.UserId);
         if (user == null)
             return false;
 

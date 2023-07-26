@@ -3,20 +3,23 @@
 public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
     private readonly ReputationCalc _reputationCalc;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly GetWishQuestionCount _getWishQuestionCount;
+    private readonly UserWritingRepo _userWritingRepo;
 
     public ReputationUpdate(
       ReputationCalc reputationCalc,
-      UserRepo userRepo,
+      UserReadingRepo userReadingRepo,
       JobQueueRepo jobQueueRepo,
-      GetWishQuestionCount getWishQuestionCount)
+      GetWishQuestionCount getWishQuestionCount,
+      UserWritingRepo userWritingRepo)
     {
         _reputationCalc = reputationCalc;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _jobQueueRepo = jobQueueRepo;
         _getWishQuestionCount = getWishQuestionCount;
+        _userWritingRepo = userWritingRepo;
     }
 
     public void ForQuestion(int questionId) =>
@@ -42,7 +45,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         var oldReputation = userToUpdate.Reputation;
         var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;
 
-        var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
+        var users = _userReadingRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
         foreach (User user in users)
         {
             userToUpdate.ReputationPos = user.ReputationPos;
@@ -51,15 +54,15 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
             else
                 user.ReputationPos++;
 
-            _userRepo.Update(user);
+            _userWritingRepo.Update(user);
         }
 
-        _userRepo.Update(userToUpdate);
+        _userWritingRepo.Update(userToUpdate);
     }
 
     public void RunForAll()
     {
-        var allUsers = UserCacheItem.ToCacheUsers(_userRepo.GetAll());
+        var allUsers = UserCacheItem.ToCacheUsers(_userReadingRepo.GetAll());
 
         var results = allUsers
           .Select(user => _reputationCalc.Run(user))
@@ -74,7 +77,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
             result.User.User.WishCountQuestions = _getWishQuestionCount.Run(result.User.Id);
             //result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
 
-            _userRepo.Update(result.User.User);
+            _userWritingRepo.Update(result.User.User);
         }
     }
 }

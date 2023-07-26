@@ -13,21 +13,21 @@ namespace TrueOrFalse
         private readonly QuestionReadingRepo _questionReadingRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
-        private readonly UserRepo _userRepo;
+        private readonly UserReadingRepo _userReadingRepo;
         private readonly QuestionValuationRepo _questionValuationRepo;
 
         public ProbabilityUpdate_ValuationAll(ISession nhibernateSession,
             QuestionReadingRepo questionReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
-            UserRepo userRepo,
+            UserReadingRepo userReadingRepo,
             QuestionValuationRepo questionValuationRepo)
         {
             _nhibernateSession = nhibernateSession;
             _questionReadingRepo = questionReadingRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
-            _userRepo = userRepo;
+            _userReadingRepo = userReadingRepo;
             _questionValuationRepo = questionValuationRepo;
         }
         public void Run()
@@ -44,7 +44,7 @@ namespace TrueOrFalse
                     (int) item[1],
                     _nhibernateSession,
                     _questionReadingRepo,
-                    _userRepo,
+                    _userReadingRepo,
                     _questionValuationRepo,
                     _probabilityCalcSimple1,
                     _answerRepo);   

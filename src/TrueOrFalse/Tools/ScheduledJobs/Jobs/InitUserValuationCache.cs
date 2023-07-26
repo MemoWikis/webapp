@@ -7,13 +7,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class InitUserValuationCache : IJob
     {
         private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-        private readonly UserRepo _userRepo;
+        private readonly UserReadingRepo _userReadingRepo;
         private readonly QuestionValuationRepo _questionValuationRepo;
 
-        public InitUserValuationCache(CategoryValuationReadingRepo categoryValuationReadingRepo, UserRepo userRepo, QuestionValuationRepo questionValuationRepo)
+        public InitUserValuationCache(CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationRepo questionValuationRepo)
         {
             _categoryValuationReadingRepo = categoryValuationReadingRepo;
-            _userRepo = userRepo;
+            _userReadingRepo = userReadingRepo;
             _questionValuationRepo = questionValuationRepo;
         }
         public void Execute(IJobExecutionContext context)
@@ -24,7 +24,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 var dataMap = context.JobDetail.JobDataMap;
 
-                SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"), _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+                SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"), _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
 
             }, "InitUserValuationCache");
         }

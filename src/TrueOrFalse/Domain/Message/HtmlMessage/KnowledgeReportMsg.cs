@@ -10,7 +10,7 @@ public class KnowledgeReportMsg
         MessageEmailRepo messageEmailRepo,
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
         GetStreaksDays getStreaksDays,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
 
         GetUnreadMessageCount getUnreadMessageCount,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
@@ -22,7 +22,7 @@ public class KnowledgeReportMsg
                 UtmSource,
                 getAnswerStatsInPeriod,
                 getStreaksDays,
-                userRepo,
+                userReadingRepo,
                 getUnreadMessageCount,
                 knowledgeSummaryLoader,
                 questionReadingRepo)
@@ -55,7 +55,7 @@ public class KnowledgeReportMsg
         HtmlMessage.Send(mailmessage2,
             messageTitle,
             jobQueueRepo,
-            userRepo,
+            userReadingRepo,
             signOutMessage,
            UtmSource);
 

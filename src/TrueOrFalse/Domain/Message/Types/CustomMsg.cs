@@ -4,9 +4,9 @@
         string subject, 
         string body,
         MessageRepo messageRepo,
-        UserRepo userRepo)
+        UserReadingRepo userReadingRepo)
     {
-        MessageUtils.LoadUser(receiverId, userRepo);
+        MessageUtils.LoadUser(receiverId, userReadingRepo);
 
         messageRepo.Create(new Message
         {

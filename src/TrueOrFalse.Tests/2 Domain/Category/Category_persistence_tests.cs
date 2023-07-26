@@ -13,9 +13,9 @@ public class Category_persistence_tests : BaseTest
     public void Category_should_be_persisted()
     {
         var user = new User { Name = "Some user" };
-        Resolve<UserRepo>().Create(user);
-        var sessionUser = Resolve<SessionUser>(); 
-        var categoryRepo = Resolve<CategoryRepository>();
+        R<UserWritingRepo>().Create(user);
+        var sessionUser = R<SessionUser>(); 
+        var categoryRepo = R<CategoryRepository>();
 
        
 
@@ -103,7 +103,7 @@ public class Category_persistence_tests : BaseTest
 
         var expectedResult = EntityCache.GetCategoryByName("A").First()
             .AggregatedCategories(permissionCheck)
-            .Count(cci => SessionUserCache.IsInWishknowledge(user.Id, cci.Key, Resolve<CategoryValuationReadingRepo>(), R<UserRepo>(),
+            .Count(cci => SessionUserCache.IsInWishknowledge(user.Id, cci.Key, Resolve<CategoryValuationReadingRepo>(), R<UserReadingRepo>(),
                 R<QuestionValuationRepo>())); 
 
         Assert.That(expectedResult, Is.EqualTo(6));

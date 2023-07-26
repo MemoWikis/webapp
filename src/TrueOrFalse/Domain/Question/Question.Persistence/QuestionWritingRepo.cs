@@ -11,7 +11,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly ReputationUpdate _reputationUpdate;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly ISession _nhibernateSession;
@@ -21,7 +21,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     public QuestionWritingRepo(UpdateQuestionCountForCategory updateQuestionCountForCategory,
         JobQueueRepo jobQueueRepo,
         ReputationUpdate reputationUpdate,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         QuestionChangeRepo questionChangeRepo,
         ISession nhibernateSession) : base(nhibernateSession)
@@ -30,7 +30,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _jobQueueRepo = jobQueueRepo;
         _reputationUpdate = reputationUpdate;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _userActivityRepo = userActivityRepo;
         _questionChangeRepo = questionChangeRepo;
         _nhibernateSession = nhibernateSession;
@@ -57,7 +57,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
 
         if (question.Visibility != QuestionVisibility.Owner)
         {
-            UserActivityAdd.CreatedQuestion(question, _userRepo, _userActivityRepo);
+            UserActivityAdd.CreatedQuestion(question, _userReadingRepo, _userActivityRepo);
             _reputationUpdate.ForUser(question.Creator);
         }
 

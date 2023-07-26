@@ -7,13 +7,13 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchReIndexAllUsers : IRegisterAsInstancePerLifetime
     {
-        private readonly UserRepo _userRepo;
+        private readonly UserReadingRepo _userReadingRepo;
         private readonly MeilisearchClient _client; 
 
-        public MeiliSearchReIndexAllUsers(UserRepo userRepo) 
+        public MeiliSearchReIndexAllUsers(UserReadingRepo userReadingRepo) 
            
         {
-            _userRepo = userRepo;
+            _userReadingRepo = userReadingRepo;
             _client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey); 
         }
 
@@ -23,7 +23,7 @@ namespace TrueOrFalse.Search
             await _client.DeleteIndexAsync("MeiliSearchCategory"); 
 
 
-            var allUser = _userRepo.GetAll();
+            var allUser = _userReadingRepo.GetAll();
             var listMeilieSearchUser = new List<MeiliSearchUserMap>(); 
 
             foreach (var user in allUser)

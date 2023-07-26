@@ -16,7 +16,7 @@ public class CategoryHistoryDetailModel
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     public int CategoryId;
     public string CategoryName;
@@ -66,7 +66,7 @@ public class CategoryHistoryDetailModel
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _permissionCheck = permissionCheck;
@@ -75,7 +75,7 @@ public class CategoryHistoryDetailModel
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete;
@@ -99,7 +99,7 @@ public class CategoryHistoryDetailModel
             CategoryName = currentRevision.Category.Name;
 
         var author =
-            new UserTinyModel(currentRevision.Author(_categoryValuationReadingRepo, _userRepo, _questionValuationRepo));
+            new UserTinyModel(currentRevision.Author(_categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo));
 
         Author = author;
         AuthorName = author.Name;

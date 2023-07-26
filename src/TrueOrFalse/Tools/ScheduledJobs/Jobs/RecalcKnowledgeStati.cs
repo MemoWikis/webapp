@@ -34,7 +34,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope => 
             {
-                foreach (var user in scope.Resolve<UserRepo>().GetAll())
+                foreach (var user in scope.Resolve<UserReadingRepo>().GetAll())
                 {
                     ProbabilityUpdate_Valuation.Run(user.Id, _nhibernateSession, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
                     KnowledgeSummaryUpdate.RunForUser(user.Id,

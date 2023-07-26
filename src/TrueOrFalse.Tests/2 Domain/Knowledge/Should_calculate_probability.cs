@@ -8,12 +8,12 @@ public class Should_calculate_probability_ : BaseTest
     [Test]
     public void Should_calculate_probability()
     {
-        var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
+        var user = ContextUser.New(R<UserReadingRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
         var question = ContextQuestion.New(R<QuestionWritingRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
-                R<UserRepo>(),
+                R<UserReadingRepo>(),
                 R<CategoryRepository>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
@@ -32,12 +32,12 @@ public class Should_calculate_probability_ : BaseTest
     [Test]
     public void When_history_is_always_true_probability_should_be_100_percent()
     {
-        var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
+        var user = ContextUser.New(R<UserReadingRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
         var question = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
-            R<UserRepo>(),
+            R<UserReadingRepo>(),
             R<CategoryRepository>())
             .AddQuestion(questionText: "question").Persist().All[0];
 
@@ -52,12 +52,12 @@ public class Should_calculate_probability_ : BaseTest
     [Test]
     public void When_history_is_always_false_correctness_probability_should_be_0_percent()
     {
-        var user = ContextUser.New(R<UserRepo>()).Add("User").Persist().All[0];
+        var user = ContextUser.New(R<UserReadingRepo>()).Add("User").Persist().All[0];
         var userCacheItem = UserCacheItem.ToCacheUser(user);
         var question = ContextQuestion.New(R<QuestionWritingRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<CategoryRepository>(  ))
             .AddQuestion(questionText: "question").Persist().All[0];
 

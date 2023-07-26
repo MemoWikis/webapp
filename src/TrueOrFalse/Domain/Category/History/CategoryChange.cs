@@ -9,7 +9,11 @@ public class CategoryChange : Entity, WithDateCreated
     public virtual bool ShowInSidebar { get; set; } = true;
 
     private SessionUserCacheItem _author;
-    public virtual SessionUserCacheItem Author(CategoryValuationReadingRepo categoryValuationReadingRepo, UserRepo userRepo, QuestionValuationRepo questionValuationRepo) => _author ??= SessionUserCache.GetItem(AuthorId, categoryValuationReadingRepo, userRepo, questionValuationRepo);
+    public virtual SessionUserCacheItem Author(
+        CategoryValuationReadingRepo categoryValuationReadingRepo, 
+        UserReadingRepo userReadingRepo,
+        QuestionValuationRepo questionValuationRepo) => 
+        _author ??= SessionUserCache.GetItem(AuthorId, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
 
     public virtual int AuthorId { get; set; }
 

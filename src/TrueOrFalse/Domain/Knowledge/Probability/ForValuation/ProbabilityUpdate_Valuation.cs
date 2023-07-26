@@ -27,12 +27,12 @@ namespace TrueOrFalse
             int userId, 
             ISession nhibernateSession,
             QuestionReadingRepo questionReadingRepo,
-            UserRepo userRepo,
+            UserReadingRepo userReadingRepo,
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo)
         {
-            var user = userRepo.GetById(userId);
+            var user = userReadingRepo.GetById(userId);
 
             if(user == null)
                 return;

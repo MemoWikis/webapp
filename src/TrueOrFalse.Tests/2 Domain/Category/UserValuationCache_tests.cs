@@ -19,27 +19,27 @@ public class UserValuationCache_tests : BaseTest
         var category2 = categoryRepo.GetByName("2").FirstOrDefault();
         var category3 = categoryRepo.GetByName("3").FirstOrDefault();
 
-        var userRepo = R<UserRepo>();
-        ContextQuestion.New(R<QuestionWritingRepo>() ,R<AnswerRepo>(), R<AnswerQuestion>(), userRepo, categoryRepo)
+        var userReadingRepo = R<UserReadingRepo>();
+        ContextQuestion.New(R<QuestionWritingRepo>() ,R<AnswerRepo>(), R<AnswerQuestion>(), userReadingRepo, categoryRepo)
             .AddQuestion(questionText: "Question1", solutionText: "Answer", categories: new List<Category> { category1 })
             .AddQuestion(questionText: "Question2", solutionText: "Answer", categories: new List<Category> { category2 })
             .AddQuestion(questionText: "Question3", solutionText: "Answer", categories: new List<Category> { category3 })
             .Persist();
 
-        var user = ContextUser.GetUser(userRepo);
+        var user = ContextUser.GetUser(userReadingRepo);
 
         RecycleContainer();
 
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));
         Assert.That(Cache.Count, Is.EqualTo(0));
 
-        var cacheItem = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationReadingRepo>(), R<UserRepo>(), R<QuestionValuationRepo>());
+        var cacheItem = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationReadingRepo>(), R<UserReadingRepo>(), R<QuestionValuationRepo>());
 
         Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
 
         cacheItem.CategoryValuations.TryRemove(cacheItem.CategoryValuations.Keys.First(), out var catValout);
 
-        var cacheItem2 = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationReadingRepo>(), R<UserRepo>(), R<QuestionValuationRepo>());
+        var cacheItem2 = SessionUserCache.GetItem(user.Id, Resolve<CategoryValuationReadingRepo>(), R<UserReadingRepo>(), R<QuestionValuationRepo>());
 
         Assert.That(cacheItem2.CategoryValuations.Count, Is.EqualTo(2));
         Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));

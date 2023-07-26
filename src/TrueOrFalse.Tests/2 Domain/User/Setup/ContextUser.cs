@@ -4,23 +4,23 @@ using TrueOrFalse.Tests;
 
 public class ContextUser
 {
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public List<User> All = new();
 
-    private ContextUser(UserRepo userRepo)
+    private ContextUser(UserReadingRepo userReadingRepo)
     {
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
-    public static ContextUser New(UserRepo userRepo)
+    public static ContextUser New(UserReadingRepo userReadingRepo)
     {
-        return new ContextUser(userRepo);
+        return new ContextUser(userReadingRepo);
     }
 
-    public static User GetUser(UserRepo userRepo, string userName = "Firstname Lastname")
+    public static User GetUser(UserReadingRepo userReadingRepo, string userName = "Firstname Lastname")
     {
-        return New(userRepo).Add(userName).Persist().All[0];
+        return New(userReadingRepo).Add(userName).Persist().All[0];
     }
 
     public ContextUser Add(string userName)
@@ -53,7 +53,7 @@ public class ContextUser
     {
         foreach (var usr in All)
         {
-            _userRepo.Create(usr);
+            _userReadingRepo.Create(usr);
             if (withStartTopic && usr != null)
             {
                 Category firstStartTopic;

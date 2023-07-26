@@ -5,15 +5,15 @@ using System.Linq;
 public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public EntityCacheInitializer(CategoryRepository categoryRepository,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionReadingRepo questionReadingRepo)
     {
         _categoryRepository = categoryRepository;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
     }
     public void Init(string customMessage = "")
@@ -21,7 +21,7 @@ public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
         var stopWatch = Stopwatch.StartNew();
 
         Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var allUsers = _userRepo.GetAll();
+        var allUsers = _userReadingRepo.GetAll();
         Logg.r().Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Logg.r().Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);

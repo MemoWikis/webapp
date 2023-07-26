@@ -19,7 +19,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
         var questionContext = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(nameQuestion1)
             .AddQuestion(nameQuestion2)
@@ -60,7 +60,7 @@ internal class QuestionPinStoreControllerLogic_Tests : BaseTest
         var questionContext = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(nameQuestion1)
             .AddQuestion(nameQuestion2)

@@ -11,10 +11,10 @@ public class ContextComment
     public List<Comment> All = new();
 
     public ContextComment(CommentRepository commentRepository,
-        UserRepo userRepo
+        UserReadingRepo userReadingRepo
        ){
         _commentRepo = commentRepository ;
-        var userRepo1 = userRepo;
+        var userRepo1 = userReadingRepo;
         var contextUser = ContextUser.New(userRepo1);
         _user1 = contextUser.Add("Test").Persist().All.First();
     }

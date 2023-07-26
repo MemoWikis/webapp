@@ -18,10 +18,11 @@ public class UserStoreController : Controller
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
     private readonly PersistentLoginRepo _persistentLoginRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly PasswordRecovery _passwordRecovery;
     private readonly SegmentationLogic _segmentationLogic;
+    private readonly UserWritingRepo _userWritingRepo;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -36,10 +37,11 @@ public class UserStoreController : Controller
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataRepo imageMetaDataRepo,
         PersistentLoginRepo persistentLoginRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         GetUnreadMessageCount getUnreadMessageCount,
         PasswordRecovery passwordRecovery,
-        SegmentationLogic segmentationLogic)
+        SegmentationLogic segmentationLogic,
+        UserWritingRepo userWritingRepo)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -53,10 +55,11 @@ public class UserStoreController : Controller
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
         _persistentLoginRepo = persistentLoginRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
         _passwordRecovery = passwordRecovery;
         _segmentationLogic = segmentationLogic;
+        _userWritingRepo = userWritingRepo;
     }
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
@@ -74,7 +77,7 @@ public class UserStoreController : Controller
             _sessionUser.Login(credentialsAreValid.User);
 
             TransferActivityPoints.FromSessionToUser(_sessionUser,_activityPointsRepo);
-            _userRepo.UpdateActivityPointsData();
+            _userWritingRepo.UpdateActivityPointsData();
 
             return Json(new
             {
@@ -122,7 +125,7 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult Register(RegisterJson json)
     {
-        if (!IsEmailAddressAvailable.Yes(json.Email, _userRepo))
+        if (!IsEmailAddressAvailable.Yes(json.Email, _userReadingRepo))
             return Json(new
             {
                 Data = new
@@ -132,7 +135,7 @@ public class UserStoreController : Controller
                 }
             });
 
-        if (!global::IsUserNameAvailable.Yes(json.Name, _userRepo))
+        if (!global::IsUserNameAvailable.Yes(json.Name, _userReadingRepo))
             return Json(new
             {
                 Data = new
@@ -155,7 +158,7 @@ public class UserStoreController : Controller
         _categoryRepository.Create(category);
         user.StartTopicId = category.Id;
 
-        _userRepo.Update(user);
+        _userWritingRepo.Update(user);
 
         var type = UserType.Anonymous;
         if (_sessionUser.IsLoggedIn)

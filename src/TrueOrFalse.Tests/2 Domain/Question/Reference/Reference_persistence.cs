@@ -13,7 +13,7 @@ public class Reference_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<CategoryRepository>()).AddQuestion(questionText: "text", solutionText: "solution").Persist();
         var contextCategory = ContextCategory.New().Add("categoryName").Persist();
             
@@ -35,7 +35,7 @@ public class Reference_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(), 
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "text", solutionText: "solution").Persist();
 
@@ -65,7 +65,7 @@ public class Reference_persistence : BaseTest
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<CategoryRepository>())
             .AddQuestion()
             .Persist();

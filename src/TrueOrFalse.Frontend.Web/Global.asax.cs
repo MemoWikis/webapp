@@ -69,7 +69,7 @@ public class Global : HttpApplication
         {
             var categoryRepo = scope.Resolve<CategoryRepository>();
             var questionReadingRepo = scope.Resolve<QuestionReadingRepo>();
-            var userRepo = scope.Resolve<UserRepo>();
+            var userReadingRepo = scope.Resolve<UserReadingRepo>();
             var update = scope.Resolve<Update>();
             var nhibernateSession = scope.Resolve<ISession>();
             var runningJobRepo = scope.Resolve<RunningJobRepo>();
@@ -103,7 +103,7 @@ public class Global : HttpApplication
 
 
            
-                new EntityCacheInitializer(categoryRepo, userRepo, questionReadingRepo).Init();
+                new EntityCacheInitializer(categoryRepo, userReadingRepo, questionReadingRepo).Init();
 
 
                 Logg.r().Information(
@@ -129,12 +129,12 @@ public class Global : HttpApplication
         using (var scope = container.BeginLifetimeScope())
         {
             var sessionUser = scope.Resolve<SessionUser>();
-            var userRepo = scope.Resolve<UserRepo>();
+            var userReadingRepo = scope.Resolve<UserReadingRepo>();
             var persistentLoggingRepo =  scope.Resolve<PersistentLoginRepo>();
 
             if (!sessionUser.IsLoggedIn)
             {
-                LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userRepo);
+                LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo);
             }
         }
     }

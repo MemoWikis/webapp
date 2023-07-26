@@ -9,7 +9,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly UserActivityRepo _userActivityRepo;
 
     public enum CreateDeleteUpdate
@@ -23,13 +23,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
         ISession session,
         CategoryChangeRepo categoryChangeRepo,
         UpdateQuestionCountForCategory updateQuestionCountForCategory,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo)
         : base(session)
     {
         _categoryChangeRepo = categoryChangeRepo;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _userActivityRepo = userActivityRepo;
     }
 
@@ -47,7 +47,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Create(category);
         Flush();
 
-        UserActivityAdd.CreatedCategory(category, _userRepo, _userActivityRepo);
+        UserActivityAdd.CreatedCategory(category, _userReadingRepo, _userActivityRepo);
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);

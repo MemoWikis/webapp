@@ -16,7 +16,7 @@ public class VueQuestionController : Controller
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
@@ -26,7 +26,7 @@ public class VueQuestionController : Controller
         LearningSessionCache learningSessionCache,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         QuestionReadingRepo questionReadingRepo) 
     {
@@ -36,7 +36,7 @@ public class VueQuestionController : Controller
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionReadingRepo = questionReadingRepo;
     }
@@ -84,7 +84,7 @@ public class VueQuestionController : Controller
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id = _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
@@ -103,7 +103,7 @@ public class VueQuestionController : Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataRepo, _userRepo, _questionValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -111,7 +111,7 @@ public class VueQuestionController : Controller
     public JsonResult LoadQuestion(int questionId)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn ? 
-            SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo)
+            SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo)
                 .QuestionValuations : null;
 
         var q = EntityCache.GetQuestionById(questionId);
@@ -149,7 +149,7 @@ public class VueQuestionController : Controller
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int questionId, int questionChangeId)
     {
-        _restoreQuestion.Run(questionChangeId, _userRepo.GetById(_sessionUser.UserId));
+        _restoreQuestion.Run(questionChangeId, _userReadingRepo.GetById(_sessionUser.UserId));
 
         var question = _questionReadingRepo.GetById(questionId);
         return Redirect(Links.AnswerQuestion(question));

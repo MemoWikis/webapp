@@ -8,8 +8,8 @@ public class Comment_persistence_tests : BaseTest
     [Test]
     public void Comments_should_be_persisted()
     {
-        var userRepo = R<UserRepo>(); 
-        var context =  new ContextComment(R<CommentRepository>(), userRepo );
+        var userReadingRepo = R<UserReadingRepo>(); 
+        var context =  new ContextComment(R<CommentRepository>(), userReadingRepo );
         context.Add("A").Add("B").Persist();
         context.Add("C", commentTo:context.All[0]).Persist();
 
@@ -21,7 +21,7 @@ public class Comment_persistence_tests : BaseTest
         var question =  ContextQuestion.New(R<QuestionWritingRepo>(),
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            userRepo,
+            userReadingRepo,
             R<CategoryRepository>())
             .AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
 

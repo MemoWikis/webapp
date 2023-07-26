@@ -5,18 +5,18 @@ using Newtonsoft.Json;
 
 public class SendEmail
 {
-    public static void Run(List<MailMessage> lowPriorityMails, JobQueueRepo jobQueueRepo, UserRepo userRepo)
+    public static void Run(List<MailMessage> lowPriorityMails, JobQueueRepo jobQueueRepo, UserReadingRepo UserReadingRepo)
     {
         foreach (var mail in lowPriorityMails)
-            Run(mail, jobQueueRepo, userRepo);
+            Run(mail, jobQueueRepo, UserReadingRepo);
     }
 
-    public static void Run(MailMessage mailMessage, JobQueueRepo jopJobQueueRepo, UserRepo userRepo, MailMessagePriority priority = MailMessagePriority.Medium)
+    public static void Run(MailMessage mailMessage, JobQueueRepo jopJobQueueRepo, UserReadingRepo userReadingRepo, MailMessagePriority priority = MailMessagePriority.Medium)
     {
         if (mailMessage.To.Count > 1)
             throw new Exception("only emails to one user are allowed");
 
-        var user = userRepo.GetByEmail(mailMessage.To[0].Address);
+        var user = userReadingRepo.GetByEmail(mailMessage.To[0].Address);
 
         if (user == null)
             throw new Exception("no receiver");

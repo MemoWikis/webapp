@@ -6,17 +6,17 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public SessionUser(HttpContext httpContext,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _httpContext = httpContext;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
 
@@ -48,7 +48,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.Add("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
 
     public bool IsLoggedInUser(int userId)
     {
@@ -71,7 +71,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         if (_httpContext != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
-        SessionUserCache.CreateItemFromDatabase(user.Id, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo);
+        SessionUserCache.CreateItemFromDatabase(user.Id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
     }
 
     public void Logout()

@@ -8,12 +8,12 @@ public class History_totals_per_user_tests : BaseTest
     [Test]
     public void Run()
     {
-        var contextUsers = ContextRegisteredUser.New(R<UserRepo>()).Add().Add().Persist();
+        var contextUsers = ContextRegisteredUser.New(R<UserReadingRepo>()).Add().Add().Persist();
         var entityCacheInitilizer = R<EntityCacheInitializer>(); 
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A", entityCacheInitilizer)
             .AddQuestion(questionText: "QuestionB", solutionText: "QuestionB").AddCategory("A", entityCacheInitilizer).

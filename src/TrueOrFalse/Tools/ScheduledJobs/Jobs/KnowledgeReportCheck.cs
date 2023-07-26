@@ -10,7 +10,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class KnowledgeReportCheck : IJob
     {
         private readonly JobQueueRepo _jobQueueRepo;
-        private readonly UserRepo _userRepo;
+        private readonly UserReadingRepo _userReadingRepo;
         private readonly MessageEmailRepo _messageEmailRepo;
         private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
         private readonly GetStreaksDays _getStreaksDays;
@@ -19,7 +19,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private readonly QuestionReadingRepo _questionReadingRepo;
 
         public KnowledgeReportCheck(JobQueueRepo jobQueueRepo,
-            UserRepo userRepo,
+            UserReadingRepo userReadingRepo,
             MessageEmailRepo messageEmailRepo,
             GetAnswerStatsInPeriod getAnswerStatsInPeriod,
             GetStreaksDays getStreaksDays,
@@ -28,7 +28,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             QuestionReadingRepo questionReadingRepo)
         {
             _jobQueueRepo = jobQueueRepo;
-            _userRepo = userRepo;
+            _userReadingRepo = userReadingRepo;
             _messageEmailRepo = messageEmailRepo;
             _getAnswerStatsInPeriod = getAnswerStatsInPeriod;
             _getStreaksDays = getStreaksDays;
@@ -40,7 +40,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                var users = _userRepo.GetAll().Where(u => u.WishCountQuestions > 1);
+                var users = _userReadingRepo.GetAll().Where(u => u.WishCountQuestions > 1);
                 foreach (var user in users)
                 {
                     if (KnowledgeReportMsg.ShouldSendToUser(user, _messageEmailRepo))
@@ -51,7 +51,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             _messageEmailRepo, 
                             _getAnswerStatsInPeriod, 
                             _getStreaksDays, 
-                            _userRepo, 
+                            _userReadingRepo, 
                             _getUnreadMessageCount, 
                             _knowledgeSummaryLoader,
                             _questionReadingRepo);

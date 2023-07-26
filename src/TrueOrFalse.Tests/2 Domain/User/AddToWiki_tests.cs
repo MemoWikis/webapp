@@ -8,19 +8,21 @@ public class AddToWiki_tests : BaseTest
     {
         var user = new User();
         user.RecentlyUsedRelationTargetTopics = "";
-        var userRepository = R<UserRepo>();
-        userRepository.Create(user);
+        var userReadingRepo= R<UserReadingRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
 
-        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo(""));
+        R<UserWritingRepo>().Create(user);
 
-        RecentlyUsedRelationTargets.Add(user.Id, 3, userRepository);
-        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3"));
+        Assert.That(userReadingRepo.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo(""));
 
-        RecentlyUsedRelationTargets.Add(user.Id, 6, userRepository);
-        RecentlyUsedRelationTargets.Add(user.Id, 12, userRepository);
-        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3,6,12"));
+        RecentlyUsedRelationTargets.Add(user.Id, 3, userWritingRepo);
+        Assert.That(userReadingRepo.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3"));
 
-        RecentlyUsedRelationTargets.Add(user.Id, 4, userRepository);
-        Assert.That(userRepository.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("6,12,4"));
+        RecentlyUsedRelationTargets.Add(user.Id, 6, userWritingRepo);
+        RecentlyUsedRelationTargets.Add(user.Id, 12, userWritingRepo);
+        Assert.That(userReadingRepo.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("3,6,12"));
+
+        RecentlyUsedRelationTargets.Add(user.Id, 4, userWritingRepo);
+        Assert.That(userReadingRepo.GetAll().FirstOrDefault().RecentlyUsedRelationTargetTopics, Is.EqualTo("6,12,4"));
     }
 }

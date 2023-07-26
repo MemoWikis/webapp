@@ -12,11 +12,11 @@ public class GoogleController : Controller
     private readonly CategoryRepository _categoryRepository;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly MessageRepo _messageRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly SessionUser _sessionUser;
 
     public GoogleController(SessionUser sessionUser,
-        UserRepo userRepo, 
+        UserReadingRepo userReadingRepo, 
         VueSessionUser vueSessionUser,
         RegisterUser registerUser,
         CategoryRepository categoryRepository,
@@ -28,7 +28,7 @@ public class GoogleController : Controller
         _categoryRepository = categoryRepository;
         _jobQueueRepo = jobQueueRepo;
         _messageRepo = messageRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
     }
 
@@ -38,7 +38,7 @@ public class GoogleController : Controller
         var googleUser = await GetGoogleUser(token);
         if (googleUser != null)
         {
-            var user = _userRepo.UserGetByGoogleId(googleUser.Subject);
+            var user = _userReadingRepo.UserGetByGoogleId(googleUser.Subject);
 
             if (user == null)
             {
@@ -69,7 +69,7 @@ public class GoogleController : Controller
     [HttpPost]
     public JsonResult UserExists(string googleId)
     {
-        return Json(_userRepo.GoogleUserExists(googleId));
+        return Json(_userReadingRepo.GoogleUserExists(googleId));
     }
 
     [HttpPost]
@@ -79,8 +79,8 @@ public class GoogleController : Controller
 
         if (registerResult.Success)
         {
-            var user = _userRepo.UserGetByGoogleId(googleUser.GoogleId);
-            SendRegistrationEmail.Run(user, _jobQueueRepo, _userRepo);
+            var user = _userReadingRepo.UserGetByGoogleId(googleUser.GoogleId);
+            SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
             WelcomeMsg.Send(user, _messageRepo);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);

@@ -19,7 +19,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
@@ -32,7 +32,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         QuestionWritingRepo questionWritingRepo,
         QuestionReadingRepo questionReadingRepo) 
@@ -45,7 +45,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
         _questionReadingRepo = questionReadingRepo;
@@ -65,7 +65,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         }
 
         var question = new Question();
-        question.Creator = _userRepo.GetById(_sessionUser.UserId);
+        question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
         question = UpdateQuestion(question, questionDataJson, safeText);
 
         _questionWritingRepo.Create(question, _categoryRepository);
@@ -84,7 +84,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private dynamic LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations;
+        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

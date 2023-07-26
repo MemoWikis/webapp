@@ -283,6 +283,7 @@
     <Compile Include="Domain\LimitCheck.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionReadingRepo.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionWritingRepo.cs" />
+    <Compile Include="Domain\User\Persistence\UserReadingRepo.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="GlobalUsings.cs" />
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
@@ -729,7 +730,7 @@
     <Compile Include="Domain\User\Registration\Flow\1 CheckRegistrationData.cs" />
     <Compile Include="Domain\User\Registration\Flow\2 SendRegistrationEmail.cs" />
     <Compile Include="Domain\User\Persistence\UserMap.cs" />
-    <Compile Include="Domain\User\Persistence\UserRepo.cs" />
+    <Compile Include="Domain\User\Persistence\UserWritingRepo.cs" />
     <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
     <Compile Include="Domain\User\Registration\Password\HashPassword.cs" />
     <Compile Include="Domain\User\Registration\Password\SetUserPassword.cs" />

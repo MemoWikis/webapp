@@ -16,7 +16,7 @@ public class QuickCreateQuestionController : Controller
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
 
@@ -27,7 +27,7 @@ public class QuickCreateQuestionController : Controller
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo, 
+        UserReadingRepo userReadingRepo, 
         QuestionValuationRepo questionValuationRepo,
         QuestionWritingRepo questionWritingRepo)
     {
@@ -38,7 +38,7 @@ public class QuickCreateQuestionController : Controller
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
     }
@@ -80,7 +80,7 @@ public class QuickCreateQuestionController : Controller
 
         question.Solution = serializer.Serialize(solutionModelFlashCard);
 
-        question.Creator = _userRepo.GetById(_sessionUser.UserId);
+        question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Categories = new List<Category>
         {
             _categoryRepository.GetById(flashCardJson.TopicId)
@@ -99,7 +99,7 @@ public class QuickCreateQuestionController : Controller
             _learningSessionCache, 
             _categoryValuationReadingRepo,
             _imageMetaDataRepo, 
-            _userRepo, 
+            _userReadingRepo, 
             _questionValuationRepo); 
 
         return questionController.LoadQuestion(question.Id);

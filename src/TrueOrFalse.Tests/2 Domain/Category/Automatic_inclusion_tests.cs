@@ -57,7 +57,7 @@ class Automatic_inclusion_tests : BaseTest
         LifetimeScope.Resolve<EntityCacheInitializer>().Init();
 
 
-        var user = ContextUser.New(R<UserRepo>()).Add("Dandor").Persist().All.First();
+        var user = ContextUser.New(R<UserReadingRepo>()).Add("Dandor").Persist().All.First();
         LifetimeScope.Resolve<SessionUser>().Login(user);
 
         context

@@ -16,7 +16,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicTestDateToLow()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New(R<UserRepo>());
+        var contextUser = ContextUser.New(R<UserReadingRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -74,7 +74,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicToManyPrivateCategories()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New(R<UserRepo>());
+        var contextUser = ContextUser.New(R<UserReadingRepo>());
 
         var user = contextUser.Add(new User
             {
@@ -131,7 +131,7 @@ public class EditControllerLogicTests : BaseTest
     public void SaveTopicToManyPrivateCategoriesOkAndDateToLow()
     {
         var categoryContext = ContextCategory.New();
-        var contextUser = ContextUser.New(R<UserRepo>());
+        var contextUser = ContextUser.New(R<UserReadingRepo>());
 
         var user = contextUser.Add(new User
             {

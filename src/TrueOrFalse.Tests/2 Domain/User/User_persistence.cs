@@ -10,7 +10,7 @@ public class User_persistence : BaseTest
         user.Name = "Vorname Nachname";
         user.Birthday = new DateTime(1980, 08, 03);
 
-        var userRepository = Resolve<UserRepo>();
+        var userRepository = Resolve<UserReadingRepo>();
         userRepository.Create(user);
 
         Assert.That(userRepository.GetAll().Count, Is.EqualTo(1));

@@ -1,8 +1,8 @@
 ﻿public class WelcomeMsg
 {
-    public static void Send(int receiverId, UserRepo userRepo, MessageRepo messageRepo)
+    public static void Send(int receiverId, UserReadingRepo userReadingRepo, MessageRepo messageRepo)
     {
-        var user = MessageUtils.LoadUser(receiverId, userRepo);
+        var user = MessageUtils.LoadUser(receiverId, userReadingRepo);
         Send(user, messageRepo);
     }
 

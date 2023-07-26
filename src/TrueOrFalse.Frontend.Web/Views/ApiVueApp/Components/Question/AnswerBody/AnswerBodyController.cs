@@ -13,7 +13,7 @@ public class AnswerBodyController : Controller {
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly AnswerLog _answerLog;
     private readonly QuestionValuationRepo _questionValuationRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public AnswerBodyController(AnswerQuestion answerQuestion,
         SessionUser sessionUser,
@@ -21,7 +21,7 @@ public class AnswerBodyController : Controller {
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         AnswerLog answerLog,
         QuestionValuationRepo questionValuationRepo,
-        UserRepo userRepo)
+        UserReadingRepo userReadingRepo)
     {
         _answerQuestion = answerQuestion;
         _sessionUser = sessionUser;
@@ -29,7 +29,7 @@ public class AnswerBodyController : Controller {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _answerLog = answerLog;
         _questionValuationRepo = questionValuationRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
     [HttpGet]
@@ -56,7 +56,7 @@ public class AnswerBodyController : Controller {
             solution = q.Solution,
 
             isCreator = q.Creator.Id = _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step

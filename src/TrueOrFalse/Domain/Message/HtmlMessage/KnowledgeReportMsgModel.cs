@@ -4,7 +4,7 @@ public class KnowledgeReportMsgModel
 {
     private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
     private readonly GetStreaksDays _getStreaksDays;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly QuestionReadingRepo _questionReadingRepo;
@@ -49,14 +49,14 @@ public class KnowledgeReportMsgModel
         string utmSource, 
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
         GetStreaksDays getStreaksDays, 
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         GetUnreadMessageCount getUnreadMessageCount,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         QuestionReadingRepo questionReadingRepo)
     {
         _getAnswerStatsInPeriod = getAnswerStatsInPeriod;
         _getStreaksDays = getStreaksDays;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _questionReadingRepo = questionReadingRepo;
@@ -137,8 +137,8 @@ public class KnowledgeReportMsgModel
         /* User's additional status & infos */
 
         UnreadMessagesCount = _getUnreadMessageCount.Run(user.Id).ToString();
-        var followerIAmCount = _userRepo.GetById(user.Id).Followers.Count; //needs to be reloaded for avoiding lazy-load problems
-        var followedIAmCount = _userRepo.GetById(user.Id).Followers.Count;
+        var followerIAmCount = _userReadingRepo.GetById(user.Id).Followers.Count; //needs to be reloaded for avoiding lazy-load problems
+        var followedIAmCount = _userReadingRepo.GetById(user.Id).Followers.Count;
         FollowerIAm = followerIAmCount + " Nutzer" + StringUtils.PluralSuffix(followerIAmCount, "n");
         FollowedIAm = followedIAmCount + " Nutzer folg" + StringUtils.PluralSuffix(followedIAmCount, "en", "t");
 

@@ -13,7 +13,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public AnswerQuestion(QuestionReadingRepo questionReadingRepo,
         AnswerLog answerLog,
@@ -24,7 +24,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         UpdateQuestionAnswerCount updateQuestionAnswerCount,
         QuestionValuationRepo questionValuationRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
-        UserRepo userRepo)
+        UserReadingRepo userReadingRepo)
     {
         _questionReadingRepo = questionReadingRepo;
         _answerLog = answerLog;
@@ -35,7 +35,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         _updateQuestionAnswerCount = updateQuestionAnswerCount;
         _questionValuationRepo = questionValuationRepo;
         _probabilityCalcSimple1 = probabilityCalcSimple1;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
     public AnswerQuestionResult Run(
@@ -194,7 +194,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             _updateQuestionAnswerCount.Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userReadingRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
 
         return result;
     }

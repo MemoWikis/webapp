@@ -6,7 +6,7 @@ public class Follower_persistence : BaseTest
     [Test]
     public void Should_Persist()
     {
-        var context = ContextUser.New(R<UserRepo>())
+        var context = ContextUser.New(R<UserReadingRepo>())
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")
@@ -18,18 +18,18 @@ public class Follower_persistence : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        var userRepo = R<UserRepo>();
-        userRepo.AddFollower(user1, user1);
-        userRepo.AddFollower(user1, user1);
-        userRepo.AddFollower(user1, user1);
+        var userReadingRepo = R<UserReadingRepo>();
+        userReadingRepo.AddFollower(user1, user1);
+        userReadingRepo.AddFollower(user1, user1);
+        userReadingRepo.AddFollower(user1, user1);
 
-        R<UserRepo>().Update(user1);
+        R<UserReadingRepo>().Update(user1);
 
         RecycleContainer();
 
        
-        var userFromDb1 = userRepo.GetById(user1.Id);
-        var userFromDb2 = userRepo.GetById(user2.Id);
+        var userFromDb1 = userReadingRepo.GetById(user1.Id);
+        var userFromDb2 = userReadingRepo.GetById(user2.Id);
 
         Assert.That(userFromDb1.Followers.Count, Is.EqualTo(3));
         Assert.That(userFromDb2.Following.Count, Is.EqualTo(1));

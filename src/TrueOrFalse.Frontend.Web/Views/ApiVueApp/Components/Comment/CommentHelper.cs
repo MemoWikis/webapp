@@ -9,12 +9,12 @@ namespace VueApp;
 public class CommentHelper : IRegisterAsInstancePerLifetime
 {
     private readonly CommentRepository _commentRepository;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
-    public CommentHelper(CommentRepository commentRepository, UserRepo userRepo)
+    public CommentHelper(CommentRepository commentRepository, UserReadingRepo userReadingRepo)
     {
         _commentRepository = commentRepository;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
     public static CommentJson GetComment(Comment c, bool showSettled = false)
@@ -67,7 +67,7 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
         comment.TypeId = typeId;
         comment.Text = text;
         comment.Title = title;
-        comment.Creator = _userRepo.GetById(userId);
+        comment.Creator = _userReadingRepo.GetById(userId);
 
         _commentRepository.Create(comment);
     }

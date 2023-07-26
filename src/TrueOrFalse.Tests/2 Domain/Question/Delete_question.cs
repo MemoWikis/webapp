@@ -10,13 +10,13 @@ class Delete_question : BaseTest
     [Test]
     public void Delete_question_right_after_creation()
     {
-        var user1 = ContextUser.New(R<UserRepo>()).Add("User1").Persist().All.First();
+        var user1 = ContextUser.New(R<UserReadingRepo>()).Add("User1").Persist().All.First();
         Resolve<SessionUser>().Login(user1);
 
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<CategoryRepository>())
             .AddQuestion(creator: user1)
             .Persist();
@@ -29,15 +29,15 @@ class Delete_question : BaseTest
     [Test]
     public void Dont_delete_question_while_it_is_in_other_users_wishknowledge()
     {
-        var userRepo = R<UserRepo>();
-        var contextUser = ContextUser.New(userRepo).Add("User1").Add("User2").Persist();
+        var userReadingRepo = R<UserReadingRepo>();
+        var contextUser = ContextUser.New(userReadingRepo).Add("User1").Add("User2").Persist();
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
             
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                userRepo,
+                userReadingRepo,
                 R<CategoryRepository>())
             .PersistImmediately()
             .AddQuestion(creator: user1)
@@ -45,7 +45,7 @@ class Delete_question : BaseTest
         var question1 = contextQuestion.All[0];
 
         RecycleContainer();
-        user2 = userRepo.GetById(user2.Id);
+        user2 = userReadingRepo.GetById(user2.Id);
         question1 = R<QuestionReadingRepo>().GetById(question1.Id);
         Resolve<SessionUser>().Login(user1);
 
@@ -65,14 +65,14 @@ class Delete_question : BaseTest
     public void Delete_question_even_if_it_has_been_trained()
     {
         //Scenario: User1 creates question1. User1 and User2 answer/learn that question. User1 can still delete the question.
-        var contextUser = ContextUser.New(R<UserRepo>()).Add("User1").Add("User2").Persist();
+        var contextUser = ContextUser.New(R<UserReadingRepo>()).Add("User1").Add("User2").Persist();
         var user1 = contextUser.All[0];
         var user2 = contextUser.All[1];
         Resolve<SessionUser>().Login(user1);
         var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(), 
                 R<AnswerQuestion>(),
-                R<UserRepo>(), 
+                R<UserReadingRepo>(), 
                 R<CategoryRepository>())
             .PersistImmediately()
             .AddQuestion(creator: user1);

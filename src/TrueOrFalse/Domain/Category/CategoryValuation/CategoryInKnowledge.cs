@@ -7,17 +7,17 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
 {
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
 
@@ -26,7 +26,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).Where(v => v.IsInWishKnowledge());
+        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)
             valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);
@@ -50,7 +50,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
 
     public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId, SessionUser sessionUser)
     {
-        var user = _userRepo.GetByIds(userId).First();
+        var user = _userReadingRepo.GetByIds(userId).First();
         var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId);
         var questionIds = questionsInCategory.GetIds();
 

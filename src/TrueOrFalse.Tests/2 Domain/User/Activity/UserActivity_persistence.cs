@@ -7,7 +7,7 @@ public class UserActivity_persistence : BaseTest
     [Test]
     public void Should_persist()
     {
-        var contextUser = ContextUser.New(R<UserRepo>()).Add("Firstname Lastname").Persist();
+        var contextUser = ContextUser.New(R<UserReadingRepo>()).Add("Firstname Lastname").Persist();
         var contextCategory = ContextCategory.New().Add("Mathe2").Persist();
 
         var userActivity = new UserActivity

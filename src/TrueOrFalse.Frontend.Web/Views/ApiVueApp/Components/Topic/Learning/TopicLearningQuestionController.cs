@@ -7,18 +7,18 @@ public class TopicLearningQuestionController: BaseController
 {
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CommentRepository _commentRepository;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public TopicLearningQuestionController(SessionUser sessionUser,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CommentRepository commentRepository, 
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo) : base(sessionUser)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _commentRepository = commentRepository;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
     [HttpPost]
@@ -64,7 +64,7 @@ public class TopicLearningQuestionController: BaseController
     public JsonResult GetKnowledgeStatus(int id)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;

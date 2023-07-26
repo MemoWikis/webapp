@@ -9,15 +9,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly JobQueueRepo _jobQueueRepo;
         private readonly ISession _nhibernateSession;
-        private readonly UserRepo _userRepo;
+        private readonly UserReadingRepo _userReadingRepo;
 
         public RecalcTotalWishInOthersPeople(JobQueueRepo jobQueueRepo,
             ISession nhibernateSession,
-            UserRepo userRepo)
+            UserReadingRepo userReadingRepo)
         {
             _jobQueueRepo = jobQueueRepo;
             _nhibernateSession = nhibernateSession;
-            _userRepo = userRepo;
+            _userReadingRepo = userReadingRepo;
         }
         public void Execute(IJobExecutionContext context)
         {
@@ -48,7 +48,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private string GetReport()
         {
-            var userIds = _userRepo.GetAllIds();
+            var userIds = _userReadingRepo.GetAllIds();
             var counter = 0;
 
             foreach (var userId in userIds)
@@ -75,7 +75,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             SendEmail.Run(new MailMessage("daniel.majunke@googlemail.com", to,
                 "Report TotalWishKnowledge in other people",
-                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), _jobQueueRepo, _userRepo);
+                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), _jobQueueRepo, _userReadingRepo);
         }
     }
 }

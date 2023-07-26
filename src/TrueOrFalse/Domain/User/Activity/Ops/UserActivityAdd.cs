@@ -1,11 +1,11 @@
 public class UserActivityAdd
 {
-    public static void CreatedQuestion(Question question, UserRepo userRepo, UserActivityRepo userActivityRepo)
+    public static void CreatedQuestion(Question question, UserReadingRepo userReadingRepo, UserActivityRepo userActivityRepo)
     {
         if(question.Creator == null)
             return;
 
-        var userCreator = userRepo.GetById(question.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        var userCreator = userReadingRepo.GetById(question.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
             userActivityRepo.Create(new UserActivity {
@@ -22,12 +22,12 @@ public class UserActivityAdd
     /// Add Category to UserActivityRepo
     /// </summary>
     /// <param name="category"></param>
-    public static void CreatedCategory(Category category, UserRepo userRepo, UserActivityRepo userActivityRepo)
+    public static void CreatedCategory(Category category, UserReadingRepo userReadingRepo, UserActivityRepo userActivityRepo)
     {
         if(category.Creator == null)
             return;
 
-        var userCreator = userRepo.GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        var userCreator = userReadingRepo.GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
             userActivityRepo.Create(new UserActivity
@@ -43,7 +43,7 @@ public class UserActivityAdd
 
     public static void FollowedUser(User userFollows, User userIsFollowed, UserActivityRepo userActivityRepo)
     {
-        //var userFollowsFromDb = Sl.R<UserRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        //var userFollowsFromDb = Sl.R<UserReadingRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userFollows.Followers)
         {
             userActivityRepo.Create(new UserActivity

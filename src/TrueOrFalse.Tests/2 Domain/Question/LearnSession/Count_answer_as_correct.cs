@@ -13,7 +13,7 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(), 
             R<AnswerQuestion>(), 
             new LearningSessionConfig(),
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>())
             .GetLearningSessionForAnonymusUser(5);
 
@@ -37,7 +37,7 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>())
             .GetLearningSessionWithUser();
         learningSession.SetCurrentStepAsCorrect();
@@ -56,7 +56,7 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>())
             .GetLearningSession();
 
@@ -71,7 +71,7 @@ class Count_answer_as_correct : BaseTest
             R<CategoryValuationReadingRepo>(),
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
-            R<UserRepo>(),
+            R<UserReadingRepo>(),
             R<QuestionValuationRepo>(),
             R<CategoryRepository>(), 
             R<QuestionWritingRepo>())
@@ -91,7 +91,7 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
             learningsessionConfig,
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>())
             .GetLearningSession();
 
@@ -105,7 +105,7 @@ class Count_answer_as_correct : BaseTest
             R<CategoryValuationReadingRepo>(), 
             R<AnswerRepo>(),
             R<AnswerQuestion>(),
-            R<UserRepo>(),
+            R<UserReadingRepo>(),
             R<QuestionValuationRepo>(), 
             R<CategoryRepository>(), 
             R<QuestionWritingRepo>())
@@ -123,7 +123,7 @@ class Count_answer_as_correct : BaseTest
             R<AnswerRepo>(), 
             R<AnswerQuestion>(),
             learningSessionConfig, 
-            R<UserRepo>(), 
+            R<UserReadingRepo>(), 
             R<QuestionWritingRepo>()).GetLearningSession(
            );
         learningSession.SetCurrentStepAsCorrect();

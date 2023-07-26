@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrueOrFalse.Domain;
@@ -12,7 +11,8 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
@@ -25,7 +25,8 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         SessionUser sessionUser,
         CategoryRepository categoryRepository, 
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo)
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo)
     {
         _search = search; 
         _isInstallationAdmin = isInstallationAdmin;
@@ -34,7 +35,8 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         _sessionUser = sessionUser;
         _categoryRepository = categoryRepository;
         _imageMetaDataRepo = imageMetaDataRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
 
     public dynamic ValidateName(string name)
@@ -86,7 +88,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         var topic = new Category(name,_sessionUserId);
         new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
 
-        topic.Creator = _userRepo.GetById(_sessionUserId);
+        topic.Creator = _userReadingRepo.GetById(_sessionUserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
@@ -188,7 +190,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId, _userRepo);
+            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId, _userWritingRepo);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);

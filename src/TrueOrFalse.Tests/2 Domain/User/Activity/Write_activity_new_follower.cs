@@ -7,7 +7,7 @@ public class Write_activity_new_follower : BaseTest
     public void Should_write_activity_on_new_follower()
     {
         //NOT TESTED YET: Game created, because ContextGame.New().Add does not accept creator as parameter
-        var context = ContextUser.New(R<UserRepo>())
+        var context = ContextUser.New(R<UserReadingRepo>())
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")
@@ -30,21 +30,21 @@ public class Write_activity_new_follower : BaseTest
         ContextQuestion.New(R<QuestionWritingRepo>(),
                 R<AnswerRepo>(),
                 R<AnswerQuestion>(),
-                R<UserRepo>(),
+                R<UserReadingRepo>(),
                 R<CategoryRepository>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
             .Persist();
         //User3 creates one category
         ContextCategory.New().Add("Cat 1", creator: user3).Persist();
-        var userRepo = R<UserRepo>(); 
+        var userReadingRepo = R<UserReadingRepo>(); 
         //User6 follows User7
-        userRepo.AddFollower(user6, user7);
+        userReadingRepo.AddFollower(user6, user7);
 
         RecycleContainer();
 
         //NEW FOLLOWER I: Now User1 follows User2
-        userRepo.AddFollower(user1, user2);
+        userReadingRepo.AddFollower(user1, user2);
 
         //User1 should see activity: User2 created two questions
         var activitiesUser1 = R<UserActivityRepo>().GetByUser(user1);
@@ -53,10 +53,10 @@ public class Write_activity_new_follower : BaseTest
         Assert.That(activitiesUser1[0].UserCauser, Is.EqualTo(user2));
  
         //NEW FOLLOWER II: Now User1 also follows User3 through User6
-        userRepo.AddFollower(user1, user3);
-        userRepo.AddFollower(user1, user4);
-        userRepo.AddFollower(user1, user5);
-        userRepo.AddFollower(user1, user6);
+        userReadingRepo.AddFollower(user1, user3);
+        userReadingRepo.AddFollower(user1, user4);
+        userReadingRepo.AddFollower(user1, user5);
+        userReadingRepo.AddFollower(user1, user6);
 
         RecycleContainer();
 

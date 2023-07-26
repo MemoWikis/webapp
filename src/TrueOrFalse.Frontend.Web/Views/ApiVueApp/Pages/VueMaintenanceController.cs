@@ -25,7 +25,8 @@ public class VueMaintenanceController : Controller
     private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
     private readonly CategoryRepository _categoryRepository;
     private readonly AnswerRepo _answerRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
 
     public VueMaintenanceController(SessionUser sessionUser,
         ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
@@ -38,7 +39,7 @@ public class VueMaintenanceController : Controller
         MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
         CategoryRepository categoryRepository,
         AnswerRepo answerRepo,
-        UserRepo userRepo)
+        UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo)
     {
         _sessionUser = sessionUser;
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
@@ -51,7 +52,8 @@ public class VueMaintenanceController : Controller
         _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
         _categoryRepository = categoryRepository;
         _answerRepo = answerRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
@@ -79,7 +81,7 @@ public class VueMaintenanceController : Controller
         _probabilityUpdateValuationAll.Run();
         _probabilityUpdateQuestion.Run();
         ProbabilityUpdate_Category.Run(_categoryRepository, _answerRepo);
-        ProbabilityUpdate_User.Run(_userRepo, _answerRepo);
+        ProbabilityUpdate_User.Run(_userReadingRepo, _userWritingRepo, _answerRepo);
 
         return Json(new
             {
@@ -146,7 +148,7 @@ public class VueMaintenanceController : Controller
     [HttpPost]
     public ActionResult DeleteUser(int userId)
     {
-        _userRepo.DeleteFromAllTables(userId);
+        _userWritingRepo.DeleteFromAllTables(userId);
 
         return Json(new
         {

@@ -9,7 +9,7 @@ public class TopicLearningQuestionListController: Controller
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly ImageMetaDataRepo _imageMetaDataRepo;
 
@@ -18,14 +18,14 @@ public class TopicLearningQuestionListController: Controller
         LearningSessionCache learningSessionCache,
         CategoryValuationReadingRepo categoryValuationReadingRepo, 
         ImageMetaDataRepo imageMetaDataRepo,
-        UserRepo userRepo,
+        UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo) 
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _imageMetaDataRepo = imageMetaDataRepo;
     }
@@ -42,7 +42,7 @@ public class TopicLearningQuestionListController: Controller
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationReadingRepo, _imageMetaDataRepo, _userRepo, _questionValuationRepo)
+        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationReadingRepo, _imageMetaDataRepo, _userReadingRepo, _questionValuationRepo)
             .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
@@ -53,7 +53,7 @@ public class TopicLearningQuestionListController: Controller
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userRepo, _questionValuationRepo).QuestionValuations
+            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
