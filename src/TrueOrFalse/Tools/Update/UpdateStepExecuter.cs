@@ -8,7 +8,7 @@ namespace TrueOrFalse.Updates
     public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DbSettingsRepo _dbSettingsRepo;
-        private readonly Dictionary<int, Action> _actions = new Dictionary<int, Action>();
+        private readonly Dictionary<int, Action> _actions = new();
 
         public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo){
             _dbSettingsRepo = dbSettingsRepo;
