@@ -24,7 +24,7 @@ function getKeyFromValue(value: string): string | undefined {
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.config.errorHandler = (error, context, info) => {
         const logger = new CustomPino()
-        if (error instanceof SyntaxError) {
+        if (error instanceof SyntaxError || error instanceof TypeError) {
             const errorObject = {
                 name: error.name,
                 message: error.message,

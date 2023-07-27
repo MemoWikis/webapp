@@ -58,7 +58,7 @@ function onDragLeave() {
 }
 function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
-    const e = JSON.parse(event.dataTransfer.getData('value'))
+    const e = event.dataTransfer.getData('value')
     if (index != null) {
         pairs.value[index].ElementRight.Text = e
         temp.value = null

@@ -7,7 +7,7 @@ const alertStore = useAlertStore()
 <template>
     <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false" :z-index-auto="false"
         @close="alertStore.show = false">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" :class="{ 'has-icon': alertStore.type != AlertType.Default }" role="document">
             <div class="modal-content">
 
                 <div class="modal-body">
@@ -18,17 +18,13 @@ const alertStore = useAlertStore()
                             class="error" />
                         {{ alertStore.title }}
                     </h3>
-                    <div class="alert-msg-container" :class="{ 'has-icon': alertStore.type != AlertType.Default }">
+                    <div class="alert-msg-container">
                         <template v-if="alertStore.title == null || alertStore.title.length == 0">
-                            <font-awesome-icon v-if="alertStore.type == AlertType.Success" icon="fa-solid fa-circle-check"
-                                class="success msg-icon" />
-                            <font-awesome-icon v-else-if="alertStore.type == AlertType.Error"
-                                icon="fa-solid fa-circle-xmark" class="error msg-icon" />
-
+                            <img v-if="alertStore.type == AlertType.Error" width="200" src="~/assets/images/illustrations/owl_error3.png"/>
+                            <img v-else-if="alertStore.type == AlertType.Success" width="200" src="~/assets/images/illustrations/butterfly.png"/>
                         </template>
                         <div class="alert-msg">
                             {{ alertStore.text }}
-
                         </div>
                     </div>
                     <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
@@ -70,20 +66,35 @@ const alertStore = useAlertStore()
 }
 
 .alert-msg-container {
+    padding: 25px 0 0;
     display: flex;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    font-size: 18px;
+    line-height: 1.5;
 
     .msg-icon {
         font-size: 25px;
     }
 
-    &.has-icon {
+    .has-icon & {
+
         .alert-msg {
             padding-left: 20px;
+            flex-grow: 1;
         }
+    }   
+}
+
+.modal-footer {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+@media(min-width: 992px) {
+    .modal-dialog {
+        margin: 200px auto;
     }
 }
+
 </style>

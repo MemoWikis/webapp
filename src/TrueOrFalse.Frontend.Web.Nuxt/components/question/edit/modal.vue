@@ -3,8 +3,8 @@ import { Visibility } from '../../shared/visibilityEnum'
 import { useUserStore } from '../../user/userStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from './editQuestionStore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
-import { SearchTopicItem, TopicResult, TopicItem } from '../../search/searchHelper'
+import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
+import { TopicResult, TopicItem } from '../../search/searchHelper'
 import { debounce } from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
 import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
@@ -298,7 +298,7 @@ type QuestionData = {
     TextExtended: string
     TopicIds: number[]
     DescriptionHtml: string
-    Topics: SearchTopicItem[]
+    Topics: TopicItem[]
     LicenseId: number
     Visibility: Visibility
 }

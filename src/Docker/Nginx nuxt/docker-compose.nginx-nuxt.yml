@@ -1,18 +1,18 @@
 version: '3.9'
 
 services:
-  mem-nginx-reverse-stage:
+  mem-nginx-reverse:
     image: nginx:1.25.1
     build: .
     ports:
-      - "5002:5002"
+      - "${SERVER_PORT:-error}:${SERVER_PORT:-error}"
     environment:
-      - SERVER_PORT=5002
-      - HOST_VAR=https://stage.memucho.de
-      - PORT_NUXT=3002
+      - SERVER_PORT=${SERVER_PORT:-error}
+      - HOST_VAR=${BACKEND_BASE_URL:-error}
+      - PORT_NUXT=${PORT_NUXT:-error}
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
-      - ./robots.stage.txt:/etc/nginx/html/robots.txt
+      - ./robots.${MEM_ENVIRONMENT:-test}.txt:/etc/nginx/html/robots.txt
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
@@ -20,8 +20,8 @@ services:
 
 networks:
   environment-specific-network:
-    name: mem-stage
+    name: mem-${MEM_ENVIRONMENT:-test}
     driver: bridge
 
 # Start like this:
-# docker-compose -f docker-compose.stage.yml -p mem-stage up -d
+# docker-compose -f docker-compose.nginx-nuxt.yml -p mem-[environment] up -d

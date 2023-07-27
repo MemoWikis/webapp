@@ -41,7 +41,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     {
         var topic = EntityCache.GetCategory(id);
 
-        if (_permissionCheck.CanView(topic))
+        if (_permissionCheck.CanView(_sessionUser.UserId, topic))
         {
             var imageMetaData = _imageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
@@ -95,7 +95,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     {
         var topic = EntityCache.GetCategory(id);
 
-        if (_permissionCheck.CanView(topic))
+        if (_permissionCheck.CanView(_sessionUser.UserId, topic))
         {
             var imageMetaData = _imageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);

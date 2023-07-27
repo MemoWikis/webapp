@@ -5,8 +5,8 @@
 
     public PermissionCheck(SessionUser sessionUser)
     {
-        _userId = sessionUser.IsSesionActive() ? sessionUser.UserId : default;
-        _isInstallationAdmin = sessionUser.IsSesionActive() && sessionUser.IsInstallationAdmin;
+        _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
+        _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
     }
 
     public PermissionCheck(UserCacheItem userCacheItem)
@@ -103,7 +103,7 @@
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.Creator.Id == _userId)
+        if (question.Visibility == QuestionVisibility.Owner && question.CreatorId == _userId)
             return true;
 
         return false;

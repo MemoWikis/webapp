@@ -222,7 +222,7 @@ public class VueMaintenanceController : Controller
         return Json(new
         {
             success = true,
-            data = "Themen wurden neu indiziert.."
+            data = "Themen wurden neu indiziert."
         });
     }
 

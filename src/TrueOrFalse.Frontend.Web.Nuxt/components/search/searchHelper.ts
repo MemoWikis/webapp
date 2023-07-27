@@ -10,20 +10,11 @@ export enum SearchType {
     Topic = Category
 }
 
-export interface SearchTopicItem {
-    Id: number
-    Name: string
-    Url: string
-    QuestionCount: number
-    ImageUrl: string
-    MiniImageUrl: string
-    Visibility: Visibility
-}
-
 export interface TopicItem {
+    Type?: 'TopicItem'
     Id: number
     Name: string
-    Url: string
+    Url: string | null
     QuestionCount: number
     ImageUrl: string
     MiniImageUrl: string
@@ -31,18 +22,22 @@ export interface TopicItem {
     IsSpoiler?: boolean
 }
 
-export type QuestionItem = {
+export interface QuestionItem {
+    Type?: 'QuestionItem'
     Id: number
     Name: string
-    Url: string
+    Url: string | null
     ImageUrl: string
     Visibility: number
+    PrimaryTopicId: number
+    PrimaryTopicName: string
 }
 
-export type UserItem = {
+export interface UserItem {
+    Type?: 'UserItem'
     Id: number
     Name: string
-    Url: string
+    Url: string | null
     ImageUrl: string
     Visibility: number
 }

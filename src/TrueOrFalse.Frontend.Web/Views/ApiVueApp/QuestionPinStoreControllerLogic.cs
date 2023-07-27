@@ -1,4 +1,5 @@
-﻿using TrueOrFalse.Domain;
+﻿using System;
+using TrueOrFalse.Domain;
 
 public class QuestionPinStoreControllerLogic
 {
@@ -10,28 +11,48 @@ public class QuestionPinStoreControllerLogic
     }
     public dynamic Pin(int id, SessionUser sessionUser)
     {
+        if (!sessionUser.IsLoggedIn)
+        {
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
+        }
+
         if (!LimitCheck.CanAddNewKnowledge(sessionUser))
         {
-            return new { success = false, key = "cantAddKnowledge" };
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
         }
 
-        if (sessionUser.User == null)
+        try
         {
-            return new { success = false, key = "" };
+            _questionInKnowledge.Pin(id, sessionUser.UserId);
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error(e, $"Error while pinning question id={id} for userId={sessionUser.UserId}");
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
         }
 
-        _questionInKnowledge.Pin(id, sessionUser.UserId);
-        return true;
+        var success = EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId);
+        return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 
     public dynamic Unpin(int id, SessionUser sessionUser)
     {
-        if (sessionUser.User == null)
+        if (!sessionUser.IsLoggedIn)
         {
-            return false;
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
         }
 
-        _questionInKnowledge.Unpin(id, sessionUser.UserId);
-        return true;
+        try
+        {
+            _questionInKnowledge.Unpin(id, sessionUser.UserId);
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error(e, $"Error while unpinning question id={id} for userId={sessionUser.UserId}");
+            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
+        }
+
+        var success = !EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId);
+        return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 }

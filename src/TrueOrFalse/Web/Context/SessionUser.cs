@@ -20,7 +20,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         _questionValuationRepo = questionValuationRepo;
     }
 
-    public bool IsSesionActive() => _httpContext.Session is not null;
+    public bool SessionIsActive () => _httpContext.Session is not null;
 
     public bool HasBetaAccess
     {

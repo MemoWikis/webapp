@@ -44,11 +44,6 @@ const topicMethods = ref<MethodData[]>([
     { url: 'UpdateFieldQuestionCountForTopics', label: 'Feld: Anzahl Fragen pro Thema aktualisieren' },
     { url: 'UpdateCategoryAuthors', label: 'Themenautoren aktualisieren' }
 ])
-const solrMethods = ref<MethodData[]>([
-    { url: 'ReIndexAllQuestions', label: 'Fragen' },
-    { url: 'ReIndexAllTopics', label: 'Themen' },
-    { url: 'ReIndexAllUsers', label: 'Nutzer' }
-])
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', label: 'Fragen' },
     { url: 'MeiliReIndexAllTopics', label: 'Themen' },
@@ -103,8 +98,12 @@ async function deleteUser() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('userId', userIdToDelete.value.toString())
+
     const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/DeleteUser`, {
-        body: { userId: userIdToDelete.value },
+        body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
@@ -118,7 +117,11 @@ async function removeAdminRights() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+
     const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/RemoveAdminRights`, {
+        body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
@@ -152,9 +155,6 @@ async function removeAdminRights() {
                         <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Themen" :methods="topicMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Suche Solr" :methods="solrMethods"
-                            description="Alle für Suche neu indizieren:" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Suche MeiliSearch" :methods="meiliSearchMethods"
                             description="Alle für Suche neu indizieren:" @method-clicked="handleClick"

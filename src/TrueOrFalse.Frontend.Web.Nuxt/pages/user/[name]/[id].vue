@@ -4,12 +4,21 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
+import { Page } from '~/components/shared/pageEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
-const { $logger } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp()
+
+interface Props {
+    content?: Content,
+    tab?: Tab
+}
+const props = withDefaults(defineProps<Props>(), {
+    tab: Tab.Overview,
+})
 
 interface Overview {
     activityPoints: {
@@ -85,13 +94,11 @@ const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/V
         }
     },
     onResponseError(context) {
-
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
     },
 })
 
-const tab = ref<Tab>()
+const tab = ref<Tab>(props.tab)
 const isCurrentUser = computed(() => {
     if (profile.value?.isCurrentUser && userStore.id == profile.value?.user.id)
         return true
@@ -101,57 +108,72 @@ const isCurrentUser = computed(() => {
 const badgeCount = ref(0)
 const maxBadgeCount = ref(0)
 
-interface Props {
-    isSettingsPage?: boolean,
-    content?: Content
-}
-const props = defineProps<Props>()
+const router = useRouter()
 
-const emit = defineEmits(['setBreadcrumb'])
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
-        history.pushState(null, 'Nutzer Einstellungen', `/Nutzer/Einstellungen`)
+        router.push({ path: '/Nutzer/Einstellungen' })
+
         const breadcrumbItem: BreadcrumbItem = {
             name: 'Einstellungen',
             url: `/Nutzer/Einstellungen`
         }
         emit('setBreadcrumb', [breadcrumbItem])
-    }
-    else if (profile.value?.user.id && profile.value.user.id > 0) {
-        history.pushState(null, `${profile.value?.user.name}`, `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/`)
+
+    } else if (profile.value && profile.value.user.id > 0 && t == Tab.Wishknowledge) {
+        const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
+        router.push({ path: newPath })
+
         const breadcrumbItems: BreadcrumbItem[] = [
             {
                 name: 'Nutzer',
                 url: '/Nutzer'
             },
             {
-                name: `${profile.value?.user.name}`,
-                url: `/Nutzer/${profile.value?.user.name}/${profile.value?.user.id}/`
+                name: `${profile.value.user.name}'s Wunschwissen`,
+                url: `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
+            }]
+        emit('setBreadcrumb', breadcrumbItems)
+    }
+    else if (profile.value?.user.id && profile.value.user.id > 0 && t == Tab.Overview) {
+        const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
+        router.push({ path: newPath })
+
+        const breadcrumbItems: BreadcrumbItem[] = [
+            {
+                name: 'Nutzer',
+                url: '/Nutzer'
+            },
+            {
+                name: `${profile.value.user.name}`,
+                url: $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
             }]
         emit('setBreadcrumb', breadcrumbItems)
     } else {
         emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
     }
 }
+
 onMounted(() => {
-    tab.value = props.isSettingsPage && profile.value?.isCurrentUser ? Tab.Settings : Tab.Overview
+    emit('setPage', Page.User)
     handleBreadcrumb(tab.value)
-    watch(tab, (t) => {
-        if (t != undefined)
-            handleBreadcrumb(t)
-    })
+})
+
+watch(tab, (t) => {
+    if (t != undefined)
+        handleBreadcrumb(t)
 })
 
 watch(() => userStore.isLoggedIn, () => {
     refreshWuwi()
     refreshProfile()
 })
-const { $urlHelper } = useNuxtApp()
 useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: profile.value ? `${config.public.serverBase}${$urlHelper.getUserUrl(profile.value.user.name, profile.value?.user.id)}` : '',
+            href: profile.value ? `${config.public.officialBase}${$urlHelper.getUserUrl(profile.value.user.name, profile.value?.user.id)}` : '',
         },
     ],
     meta: [

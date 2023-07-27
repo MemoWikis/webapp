@@ -286,6 +286,7 @@
     <Compile Include="Domain\User\Persistence\UserReadingRepo.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
     <Compile Include="GlobalUsings.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenValidator.cs" />
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionData.cs" />
     <Compile Include="Infrastructure\StandardFetchResult.cs" />

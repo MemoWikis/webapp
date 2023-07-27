@@ -282,7 +282,11 @@
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\LimitCheck.cs" />
     <Compile Include="Domain\User\RecentlyUsedRelationTargets.cs" />
+<<<<<<< HEAD
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenValidator.cs" />
+=======
     <Compile Include="GlobalUsings.cs" />
+>>>>>>> origin/master
     <Compile Include="Infrastructure\Logging\StripePaymentEvents.cs" />
     <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionData.cs" />
     <Compile Include="Infrastructure\StandardFetchResult.cs" />
@@ -671,22 +675,6 @@
     <Compile Include="Infrastructure\ProjectionEqualityComparer.cs" />
     <Compile Include="Infrastructure\StringUtils.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
-<<<<<<< HEAD
-    <Compile Include="Search\Category\IndexOperations\SolrReIndexAllCategories.cs" />
-    <Compile Include="Search\Category\IndexOperations\SolrSearchIndexCategory.cs" />
-    <Compile Include="Search\Category\Model\CategorySolrMap.cs" />
-    <Compile Include="Search\Category\Model\ToCategorytSolrMap.cs" />
-    <Compile Include="Search\Category\SolrSearchCategories.cs" />
-    <Compile Include="Search\Category\SearchCategoriesOrderBy.cs" />
-    <Compile Include="Search\Category\SolrSearchCategoriesResult.cs" />
-    <Compile Include="Search\Question\IndexOperations\SearchIndexQuestion.cs" />
-    <Compile Include="Search\Question\Model\QuestionSolrMap.cs" />
-    <Compile Include="Search\Question\IndexOperations\ReIndexAllQuestions.cs" />
-    <Compile Include="Search\Question\Model\ToQuestionSolrMap.cs" />
-    <Compile Include="Search\Question\SolrSearchQuestions.cs" />
-=======
-    <Compile Include="Infrastructure\Time\TimeSpanLabel.cs" />
->>>>>>> origin/master
     <Compile Include="Search\Question\SearchQuestionsOrderBy.cs" />
     <Compile Include="Search\SpellCheckResult.cs" />
     <Compile Include="Search\User\SearchUsersOrderBy.cs" />

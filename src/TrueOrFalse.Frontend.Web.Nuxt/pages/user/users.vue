@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Page } from '~/components/shared/pageEnum';
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { UserResult } from '~~/components/users/userResult'
@@ -71,12 +72,13 @@ watch(pageDataPending, (p) => {
     else spinnerStore.hideSpinner()
 })
 
-const emit = defineEmits(['setBreadcrumb'])
+const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
 
 onMounted(() => {
+    emit('setPage', Page.Default)
     const breadcrumbItem: BreadcrumbItem = {
-        name: 'Nutzer',
+        name: 'Alle Nutzer',
         url: '/Nutzer'
     }
     emit('setBreadcrumb', [breadcrumbItem])

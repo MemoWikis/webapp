@@ -15,10 +15,18 @@ interface GroupedChanges {
     changes: Change[]
 }
 
+const currentState = ref()
+
+onMounted(() => {
+    if (window != null)
+        currentState.value = window.history.state
+})
+
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
+const router = useRouter()
 const pageNumber = ref(1)
 watch(pageNumber, (page) => {
-    history.pushState(null, `Bearbeitungshistorie aller Themen - Seite ${page}`, `/Historie/Themen/${page}`)
+    router.push({ path: `/Historie/Themen/${page}` })
     emit('setBreadcrumb', [{ name: `Bearbeitungshistorie aller Themen - Seite ${page}`, url: `/Historie/Themen/${page}` }])
 })
 

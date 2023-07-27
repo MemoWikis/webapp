@@ -3,8 +3,11 @@ import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Topic, useTopicStore, FooterTopics } from '~/components/topic/topicStore'
 import { Page } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
+import { useRootTopicChipStore } from './components/header/rootTopicChipStore'
+import { Visibility } from './components/shared/visibilityEnum'
 
 const userStore = useUserStore()
+const rootTopicChipStore = useRootTopicChipStore()
 const config = useRuntimeConfig()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -70,6 +73,14 @@ const breadcrumbItems = ref<BreadcrumbItem[]>()
 function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
+
+const { $urlHelper } = useNuxtApp()
+watch(() => userStore.isLoggedIn, (isLoggedIn) => {
+	if (!isLoggedIn && page.value == Page.Topic && topicStore.visibility != Visibility.All) {
+		const url = $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)
+		navigateTo(url)
+	}
+})
 
 </script>
 

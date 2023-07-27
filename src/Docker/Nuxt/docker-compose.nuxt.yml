@@ -7,7 +7,7 @@ services:
     ports:
       - "${NUXT_PORT:-3000}:3000"
       # Probably only needed in Development for Hot Module Reloading:
-      - "${NUXT_HMR_PORT:-24678}:24678"
+      # - "${NUXT_HMR_PORT:-24678}:24678"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:

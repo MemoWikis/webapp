@@ -44,13 +44,13 @@ async function loadQuestions(page: number) {
 }
 const itemsPerPage = ref(25)
 function loadPageWithSpecificQuestion() {
-    if (learningSessionStore.currentIndex == 0)
-        loadQuestions(1)
-    const page = Math.ceil((learningSessionStore.currentIndex + 1) / itemsPerPage.value)
 
+    const page = Math.ceil((learningSessionStore.currentIndex + 1) / itemsPerPage.value)
     currentPage.value = page
-    if (page == 1)
+
+    if (page == 1 || learningSessionStore.currentIndex == 0)
         loadQuestions(1)
+
 }
 
 onBeforeMount(() => {

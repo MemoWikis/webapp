@@ -71,17 +71,18 @@ public class HistoryTopicDetailController : Controller
             _userReadingRepo,
             _questionValuationRepo);
 
-        var author = currentRevision.Author(_categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var currentAuthor = currentRevision.Author(_categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
         var result = new ChangeDetailResult
         {
             topicName = topicHistoryDetailModel.CategoryName,
             imageWasUpdated = topicHistoryDetailModel.ImageWasUpdated,
             isCurrent = !topicHistoryDetailModel.NextRevExists,
             changeType = topicHistoryDetailModel.ChangeType,
-            changeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
-            authorName = author.Name,
-            authorId = author.Id,
-            authorImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url
+            currentChangeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            previousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            authorName = currentAuthor.Name,
+            authorId = currentAuthor.Id,
+            authorImgUrl = new UserImageSettings(currentAuthor.Id).GetUrl_20px(currentAuthor).Url
         };
 
         if (topicHistoryDetailModel.CurrentName != topicHistoryDetailModel.PrevName)
@@ -132,7 +133,8 @@ public class HistoryTopicDetailController : Controller
         public string authorName { get; set; }
         public int authorId { get; set; }
         public string authorImgUrl { get; set; }
-        public string changeDate { get; set; }
+        public string currentChangeDate { get; set; }
+        public string previousChangeDate { get; set; }
         public string currentName { get; set; }
         public string previousName { get; set; }
         public string currentMarkdown { get; set; }
@@ -145,6 +147,7 @@ public class HistoryTopicDetailController : Controller
         public string previousRelations { get; set; }
         public string currentDescription { get; set; }
         public string previousDescription { get; set; }
+
     }
 
 

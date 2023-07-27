@@ -83,7 +83,7 @@ public class VueQuestionController : Controller
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id = _sessionUser.UserId,
+                isCreator = q.Creator.Id == _sessionUser.UserId,
                 isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo),
 
                 questionViewGuid = Guid.NewGuid(),

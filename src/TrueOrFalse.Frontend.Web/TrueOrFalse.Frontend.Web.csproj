@@ -300,10 +300,11 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\FacebookUsersController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\User\Membership\PlansController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\User\Membership\UserMembershipPlansController.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\StartpageController.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\ResetPasswordController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\CancelController.cs" />
@@ -347,7 +348,6 @@
     <Compile Include="Views\ApiVueApp\Pages\User\VueUserController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Header\BreadcrumbController.cs" />
-    <Compile Include="Views\ApiVueApp\VueRegisterController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\SegmentationLogic.cs" />
     <Compile Include="Views\ApiVueApp\AuthorController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\UserStoreController.cs" />

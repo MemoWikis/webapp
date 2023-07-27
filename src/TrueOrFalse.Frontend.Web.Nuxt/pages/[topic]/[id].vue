@@ -4,12 +4,15 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+import { Visibility } from '~/components/shared/visibilityEnum'
+import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
 const topicStore = useTopicStore()
+const rootTopicChipStore = useRootTopicChipStore()
 
 interface Props {
     tab?: Tab,
@@ -30,7 +33,6 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
-            $logger.warn('test')
         },
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -40,50 +42,61 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
     })
 
 const segmentation = ref()
-
 const tabSwitched = ref(false)
+const currentState = ref()
 
-if (topic.value != null) {
-    if (topic.value?.CanAccess) {
+onMounted(() => {
+    if (window != null)
+        currentState.value = window.history.state
+})
 
-        topicStore.setTopic(topic.value)
+const router = useRouter()
+function setTopic() {
+    if (topic.value != null) {
+        if (topic.value?.CanAccess) {
 
-        const spinnerStore = useSpinnerStore()
-        //preset segmentation
-        segmentation.value = topic.value.Segmentation
-        watch(() => topicStore.id, (val) => {
-            if (val != 0)
-                spinnerStore.showSpinner()
-        })
+            topicStore.setTopic(topic.value)
 
-        useHead({
-            title: topic.value.Name,
-        })
-
-        watch(() => tabsStore.activeTab, (t) => {
-            tabSwitched.value = true
-            if (topic.value == null)
-                return
-            if (t == Tab.Topic) {
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
-            }
-            else if (t == Tab.Learning && route.params.questionId != null)
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
-            else if (t == Tab.Learning)
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
-            else if (t == Tab.Analytics)
-                history.pushState(null, topic.value.Name, $urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
-        })
-
-        watch(() => topicStore.name, () => {
-            useHead({
-                title: topicStore.name,
+            const spinnerStore = useSpinnerStore()
+            //preset segmentation
+            segmentation.value = topic.value.Segmentation
+            watch(() => topicStore.id, (val) => {
+                if (val != 0)
+                    spinnerStore.showSpinner()
             })
-        })
-    } else {
-        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+
+            useHead({
+                title: topic.value.Name,
+            })
+            watch(() => tabsStore.activeTab, (t) => {
+                tabSwitched.value = true
+                if (topic.value == null)
+                    return
+                if (t == Tab.Topic)
+                    router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
+
+                else if (t == Tab.Learning && route.params.questionId != null)
+                    router.push($urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
+
+                else if (t == Tab.Learning)
+                    router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
+
+                else if (t == Tab.Analytics)
+                    router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
+
+            })
+
+            watch(() => topicStore.name, () => {
+                useHead({
+                    title: topicStore.name,
+                })
+            })
+        } else {
+            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        }
     }
 }
+setTopic()
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 
@@ -105,15 +118,18 @@ function setTab() {
 }
 
 onMounted(() => setTab())
-watch(() => userStore.isLoggedIn, () => {
-    refresh()
+watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
+    if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
+        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+    else
+        await refresh()
 })
 
 useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: `${config.public.serverBase}/${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
+            href: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
         },
     ],
     meta: [
@@ -127,7 +143,7 @@ useHead(() => ({
         },
         {
             property: 'og:url',
-            content: `${config.public.serverBase}/${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
+            content: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
         },
         {
             property: 'og:type',
@@ -152,6 +168,11 @@ useHead(() => ({
 
                         <TopicTabsContent
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                        <DevOnly>
+                            <TopicContentGrid
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                        </DevOnly>
+
                         <TopicContentSegmentation
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                             :segmentation="segmentation" />

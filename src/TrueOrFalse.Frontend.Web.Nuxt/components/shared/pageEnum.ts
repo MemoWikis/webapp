@@ -8,5 +8,6 @@ export enum Page {
     Register,
     Messages,
     Default,
-    Error
+    Error,
+    ResetPassword
 }

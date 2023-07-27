@@ -37,6 +37,28 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         return new PasswordRecoveryResult { Success = true };
     }
 
+    public PasswordRecoveryResult RunForNuxt(string email)
+    {
+        if (IsEmailAddressAvailable.Yes(email))
+            return new PasswordRecoveryResult { EmailDoesNotExist = true, Success = false };
+
+        try
+        {
+            var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
+            var passwordResetUrl = "https://memucho.de/NeuesPasswort/" + token;
+
+            _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
+            SendEmail.Run(GetMailMessage(email, passwordResetUrl), MailMessagePriority.High);
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error(e, $"Error while trying to reset password for email: {email}");
+            return new PasswordRecoveryResult { Success = false };
+        }
+
+        return new PasswordRecoveryResult { Success = true };
+    }
+
     private MailMessage GetMailMessage(string emailAdresse, string passwortResetUrl)
     {
         var mailMessage = new MailMessage();

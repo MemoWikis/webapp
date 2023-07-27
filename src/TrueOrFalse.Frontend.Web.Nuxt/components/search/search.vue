@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { isEmpty } from 'underscore'
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
 
@@ -13,13 +12,15 @@ interface Props {
     placeholderLabel?: string
     showDefaultSearchIcon?: boolean
     mainSearch?: boolean
+    distance?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     showSearchIcon: true,
     placement: 'bottom-start',
     placeholderLabel: 'Suche',
-    topicIdsToFilter: () => []
+    topicIdsToFilter: () => [],
+    distance: 6
 })
 
 
@@ -83,22 +84,37 @@ async function search() {
     if (result != null) {
         if (result.topics) {
             topics.value = result.topics
+            topics.value.forEach((t) => t.Type = 'TopicItem')
             topicCount.value = result.topicCount
         }
         if (result.questions) {
             questions.value = result.questions
+            questions.value.forEach((q) => q.Type = 'QuestionItem')
+
             questionCount.value = result.questionCount
         }
         if (result.users) {
             users.value = result.users
+            users.value.forEach((u) => u.Type = 'UserItem')
             userCount.value = result.userCount
         }
         noResults.value = result.topics?.length + result.questions?.length + result.users?.length <= 0
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }
-
+const { $urlHelper } = useNuxtApp()
 function selectItem(item: TopicItem | QuestionItem | UserItem) {
+    switch (item.Type) {
+        case 'TopicItem':
+            item.Url = $urlHelper.getTopicUrl(item.Name, item.Id)
+            break;
+        case 'QuestionItem':
+            item.Url = $urlHelper.getTopicUrlWithQuestionId(item.PrimaryTopicName, item.PrimaryTopicId, item.Id)
+            break;
+        case 'UserItem':
+            item.Url = $urlHelper.getUserUrl(item.Name, item.Id)
+            break;
+    }
     selectedItem.value = item
 }
 function openUsers() {
@@ -116,66 +132,69 @@ function hide() {
 </script>
 
 <template>
-    <div class="search-category-component" v-click-outside="hide">
-        <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
-            <div class="form-group searchAutocomplete">
-                <div class="searchInputContainer">
-                    <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
-                        v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                        :placeholder="props.placeholderLabel" />
-                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
-                        v-if="props.showDefaultSearchIcon" />
+    <LazyClientOnly>
+        <div class="search-category-component" v-click-outside="hide">
+            <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
+                <div class="form-group searchAutocomplete">
+                    <div class="searchInputContainer">
+                        <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
+                            v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
+                            :placeholder="props.placeholderLabel" />
+                        <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
+                            v-if="props.showDefaultSearchIcon" />
 
-                </div>
-            </div>
-        </form>
-
-        <VDropdown :distance="6" :triggers="[]" v-model:shown="showDropdown" no-auto-focus :auto-hide="false"
-            :placement="props.placement">
-            <template #popper>
-                <div class="searchDropdown">
-                    <div v-if="topics.length > 0" class="searchBanner">
-                        <div>Themen </div>
-                        <div>{{ topicCount }} Treffer</div>
-                    </div>
-                    <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
-                        <Image :src="t.ImageUrl" :format="ImageFormat.Topic" />
-                        <div class="searchResultLabelContainer">
-                            <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                            <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template
-                                    v-if="t.QuestionCount != 1">n</template></div>
-                        </div>
-                    </div>
-                    <div v-if="questions.length > 0" class="searchBanner">
-                        <div>Fragen </div>
-                        <div>{{ questionCount }} Treffer</div>
-                    </div>
-                    <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.Name">
-                        <Image :src="q.ImageUrl" />
-                        <div class="searchResultLabelContainer">
-                            <div class="searchResultLabel body-m">{{ q.Name }}</div>
-                            <div class="searchResultSubLabel body-s"></div>
-                        </div>
-                    </div>
-                    <div v-if="users.length > 0" class="searchBanner">
-                        <div>Nutzer </div>
-                        <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
-                    </div>
-                    <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.Name">
-                        <Image :src="u.ImageUrl" :format="ImageFormat.Author" />
-                        <div class="searchResultLabelContainer">
-                            <div class="searchResultLabel body-m">{{ u.Name }}</div>
-                            <div class="searchResultSubLabel body-s"></div>
-                        </div>
-                    </div>
-                    <div v-if="noResults" class="noResult">
-                        <div>Kein Treffer</div>
                     </div>
                 </div>
+            </form>
 
-            </template>
-        </VDropdown>
-    </div>
+            <VDropdown :distance="props.distance" :triggers="[]" v-model:shown="showDropdown" no-auto-focus
+                :auto-hide="false" :placement="props.placement">
+                <template #popper>
+                    <div class="searchDropdown">
+                        <div v-if="topics.length > 0" class="searchBanner">
+                            <div>Themen </div>
+                            <div>{{ topicCount }} Treffer</div>
+                        </div>
+                        <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
+                            <Image :src="t.ImageUrl" :format="ImageFormat.Topic" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ t.Name }}</div>
+                                <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template
+                                        v-if="t.QuestionCount != 1">n</template></div>
+                            </div>
+                        </div>
+                        <div v-if="questions.length > 0" class="searchBanner">
+                            <div>Fragen </div>
+                            <div>{{ questionCount }} Treffer</div>
+                        </div>
+                        <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.Name">
+                            <Image :src="q.ImageUrl" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ q.Name }}</div>
+                                <div class="searchResultSubLabel body-s"></div>
+                            </div>
+                        </div>
+                        <div v-if="users.length > 0" class="searchBanner">
+                            <div>Nutzer </div>
+                            <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
+                        </div>
+                        <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.Name">
+                            <Image :src="u.ImageUrl" :format="ImageFormat.Author" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ u.Name }}</div>
+                                <div class="searchResultSubLabel body-s"></div>
+                            </div>
+                        </div>
+                        <div v-if="noResults" class="noResult">
+                            <div>Kein Treffer</div>
+                        </div>
+                    </div>
+
+                </template>
+            </VDropdown>
+        </div>
+
+    </LazyClientOnly>
 </template>
 
 <style scoped lang="less">

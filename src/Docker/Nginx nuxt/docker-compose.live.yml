@@ -2,17 +2,17 @@ version: '3.9'
 
 services:
   mem-nginx-reverse-live:
-    image: nginx:alpine
+    image: nginx:1.25.1
     build: .
     ports:
       - "5001:5001"
     environment:
       - SERVER_PORT=5001
-      - HOST_VAR=https://live.memucho.de
+      - HOST_VAR=http://live.memucho.de
       - PORT_NUXT=3001
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
-      - ./robots.txt:/etc/nginx/html/robots.txt
+      - ./robots.live.txt:/etc/nginx/html/robots.txt
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
     networks:

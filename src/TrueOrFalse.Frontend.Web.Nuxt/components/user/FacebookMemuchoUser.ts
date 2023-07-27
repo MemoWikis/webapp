@@ -1,16 +1,14 @@
-﻿import { UserCreateResult } from './userCreateResult'
-import { useSpinnerStore } from '../spinner/spinnerStore'
+﻿import { useSpinnerStore } from '../spinner/spinnerStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
 import { useUserStore, CurrentUser } from '../user/userStore'
-
 
 export class FacebookMemuchoUser {
 
     static async Exists(facebookId: string): Promise<boolean> {
 
         var doesExist = await $fetch<boolean>('/apiVue/FacebookUsers/UserExists', {
-            method: 'POST', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache'
+            method: 'GET', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
 
         return !!doesExist;
@@ -29,7 +27,7 @@ export class FacebookMemuchoUser {
 
         spinnerStore.showSpinner();
 
-        var result = await $fetch<UserCreateResult>('/apiVue/FacebookUsers/UserExists', {
+        var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/CreateAndLogin', {
             method: 'POST',
             body: { facebookUser: user },
             credentials: 'include',
@@ -40,27 +38,20 @@ export class FacebookMemuchoUser {
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        if (!!result) {
-            spinnerStore.hideSpinner();
+        spinnerStore.hideSpinner()
 
-            if (result.Success) {
-                const userStore = useUserStore()
-
-                userStore.isLoggedIn = true
-                userStore.initUser(result.currentUser!)
-                if (window.location.pathname == '/Registrieren')
-                    navigateTo('/')
-            }
-            else {
-                Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
-                if (result.EmailAlreadyInUse) {
-                    const alertStore = useAlertStore()
-
-                    alertStore.openAlert(AlertType.Error, {
-                        text: messages.error.user.emailInUse
-                    })
-                }
-            }
+        if (result?.success == true) {
+            const userStore = useUserStore()
+            userStore.initUser(result.data)
+            if (window.location.pathname == '/Registrieren')
+                navigateTo('/')
+        }
+        else if (result?.success == false) {
+            Facebook.RevokeUserAuthorization(user.id, facebookAccessToken)
+            const alertStore = useAlertStore()
+            alertStore.openAlert(AlertType.Error, {
+                text: messages.getByCompositeKey(result.messageKey)
+            })
         }
     }
 
@@ -70,7 +61,7 @@ export class FacebookMemuchoUser {
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
         spinnerStore.showSpinner();
 
-        var result = await $fetch<{ success: string, key?: string, currentUser?: CurrentUser }>('/apiVue/FacebookUsers/Login', {
+        var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/Login', {
             method: 'POST',
             body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             credentials: 'include',
@@ -81,14 +72,18 @@ export class FacebookMemuchoUser {
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        if (!!result && result.success) {
+        if (result?.success == true) {
             const userStore = useUserStore()
 
-            userStore.initUser(result.currentUser!)
+            userStore.initUser(result.data)
             if (window.location.pathname == '/Registrieren')
                 navigateTo('/')
+        } else if (result?.success == false) {
+            const alertStore = useAlertStore()
+            alertStore.openAlert(AlertType.Error, {
+                text: messages.getByCompositeKey(result.messageKey)
+            })
         }
-
     }
 
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
@@ -102,7 +97,6 @@ export class FacebookMemuchoUser {
         stayOnPage = false,
         disallowRegistration = false) {
         if (response.status === 'connected') {
-
             FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
             if (window.location.pathname == '/Registrieren')
                 navigateTo('/')
@@ -126,7 +120,6 @@ export class FacebookMemuchoUser {
             },
                 { scope: 'email' });
         }
-
     }
 
     private static async handleResponse(facebookId: string, facebookAccessToken: string, stayOnPage: boolean) {
@@ -140,21 +133,19 @@ export class FacebookMemuchoUser {
                     FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)
                 })
         }
-
-
     }
 
     static Logout(onLogout: () => void) {
         FB.getLoginStatus(response => {
             if (response.status === 'connected') {
                 FB.logout(responseLogout => {
-                    onLogout();
-                });
+                    onLogout()
+                })
             } else {
-                onLogout();
+                onLogout()
             }
             const userStore = useUserStore()
-            userStore.isLoggedIn = false
-        });
+            userStore.reset()
+        })
     }
 }

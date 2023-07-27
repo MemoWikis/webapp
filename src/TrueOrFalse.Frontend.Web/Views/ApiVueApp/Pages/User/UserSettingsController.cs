@@ -196,7 +196,7 @@ public class VueUserSettingsController : Controller
     [HttpPost]
     public JsonResult ResetPassword()
     {
-        var passwordRecoveryResult = _passwordRecovery.Run(_sessionUser.User.EmailAddress);
+        var passwordRecoveryResult = _passwordRecovery.RunForNuxt(_sessionUser.User.EmailAddress);
         return Json(passwordRecoveryResult.Success);
     }
 

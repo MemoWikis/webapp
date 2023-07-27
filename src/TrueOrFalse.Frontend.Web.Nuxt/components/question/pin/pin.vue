@@ -8,8 +8,10 @@ const pinStore = usePinStore()
 const userStore = useUserStore()
 interface Props {
     isInWishknowledge: boolean,
-    questionId: number
+    questionId: number,
 }
+
+const isActivePin = ref(false);
 
 const props = defineProps<Props>()
 
@@ -32,22 +34,30 @@ const emit = defineEmits(['set-wuwi-state'])
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
         after((result: FetchResult<PinData>) => {
-            if (result.success) { 
-                if(result.data?.id == props.questionId) {
-                    pinState.value = result.data?.state
+            if(result.data?.id != props.questionId) return
+            if (result.success) {
+                pinState.value = result.data?.state
+                ;(function emitToParentQuestionRow(){
                     emit('set-wuwi-state', result.data?.state)
-                }
+                })()
             } else {
-                const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
-                pinState.value = props.isInWishknowledge ? PinState.Added : PinState.NotAdded;
+                if(isActivePin.value){
+                    const alertStore = useAlertStore()
+                    alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+                    ;(function resetToInitialPinState(){
+                        pinState.value = props.isInWishknowledge ? PinState.Added : PinState.NotAdded;
+                    })()
+                }
+
             }
+            isActivePin.value = false
         })
     })
 })
 
 function pin() {
     if (userStore.isLoggedIn) {
+        isActivePin.value = true
         pinState.value = PinState.Loading
         pinStore.pin(props.questionId)
     } else {
@@ -57,6 +67,7 @@ function pin() {
 
 function unpin() {
     if (userStore.isLoggedIn) {
+        isActivePin.value = true
         pinState.value = PinState.Loading
         pinStore.unpin(props.questionId)
     } else {

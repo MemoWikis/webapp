@@ -46,6 +46,9 @@ function handleResize() {
 }
 
 const { isDesktopOrTablet, isMobile } = useDevice()
+const distance = computed(() => {
+    return userStore.isLoggedIn ? 24 : 6
+})
 
 onBeforeMount(() => {
     if (isMobile)
@@ -67,7 +70,6 @@ onMounted(async () => {
 
 const partialLeft = ref()
 const navOptions = ref()
-
 
 </script>
 
@@ -91,7 +93,7 @@ const navOptions = ref()
                             </div>
                             <div class="StickySearch">
                                 <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
-                                    placement="bottom-end" :main-search="true" />
+                                    placement="bottom-end" :main-search="true" :distance="distance" />
                             </div>
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
@@ -147,8 +149,7 @@ const navOptions = ref()
                                     <div class="divider"></div>
 
                                     <div class="user-dropdown-managment">
-                                        <NuxtLink @click="hide()"
-                                            :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}/Einstellungen`">
+                                        <NuxtLink @click="hide()" :to="`/Nutzer/Einstellungen`">
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
 

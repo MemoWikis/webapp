@@ -30,7 +30,7 @@ public class EntityCache : BaseCache
         if (Users.TryGetValue(userId, out var user))
             return user;
 
-        Logg.r().Warning("UserId is not available");
+        Logg.r().Warning("UserId is not available: {userId}", userId);
         return new UserCacheItem();
     }
 

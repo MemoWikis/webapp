@@ -13,6 +13,7 @@ public class UserStoreController : Controller
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly RegisterUser _registerUser;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly UserRepo _userRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryViewRepo _categoryViewRepo;
@@ -61,6 +62,7 @@ public class UserStoreController : Controller
         _segmentationLogic = segmentationLogic;
         _userWritingRepo = userWritingRepo;
     }
+
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
     {
@@ -101,10 +103,17 @@ public class UserStoreController : Controller
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo);
         _sessionUser.Logout();
 
-        return Json(new
+        if (!_sessionUser.IsLoggedIn) 
+            return Json(new RequestResult
+            {
+                success = true,
+            });
+
+        return Json(new RequestResult
         {
-            Success = !_sessionUser.IsLoggedIn,
-        }, JsonRequestBehavior.AllowGet);
+            success = false,
+            messageKey = FrontendMessageKeys.Error.Default
+        });
     }
 
     [HttpGet]
@@ -117,7 +126,7 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult ResetPassword(string email)
     {
-        var result = _passwordRecovery.Run(email);
+        var result = _passwordRecovery.RunForNuxt(email);
         //Don't reveal if email exists 
         return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
     } 

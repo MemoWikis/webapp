@@ -4,6 +4,7 @@ import { useSpinnerStore } from '../spinner/spinnerStore'
 import { Topic } from '../topic/topicStore'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import * as Subscription from '~~/components/user/membership/subscription'
+import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 
 export interface UserLoginResult {
     Success: boolean
@@ -77,6 +78,7 @@ export const useUserStore = defineStore('userStore', {
             this.subscriptionStartDate = currentUser.SubscriptionStartDate != null ? new Date(currentUser.SubscriptionStartDate) : null
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.ActivityPoints)
+            return
         },
         async login(loginData: {
             EmailAddress: string,
@@ -110,28 +112,30 @@ export const useUserStore = defineStore('userStore', {
             this.showLoginModal = true
         },
         async logout() {
-            this.isLoggedIn = false
 
             const spinnerStore = useSpinnerStore()
 
             spinnerStore.showSpinner()
 
-            var result = await $fetch<UserLoginResult>('/apiVue/UserStore/Logout', {
+            const result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
 
-            if (!!result && result.Success) {
+            if (result?.success) {
                 spinnerStore.hideSpinner()
-                refreshNuxtData()
-                this.$reset()
+                this.reset()
+            } else if (result?.success == false) {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
             }
+
             spinnerStore.hideSpinner()
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
                 mode: 'cors',
                 method: 'POST',
-                body: {email: email},
+                body: { email: email },
                 credentials: 'include'
             })
             return result;
@@ -142,6 +146,10 @@ export const useUserStore = defineStore('userStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+        },
+        reset() {
+            refreshNuxtData()
+            this.$reset()
         }
     }
 })

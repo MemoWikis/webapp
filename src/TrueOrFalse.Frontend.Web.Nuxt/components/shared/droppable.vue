@@ -13,7 +13,7 @@ function handleOnDragOver(event: any) {
 </script>
 
 <template>
-    <span @dragover="handleOnDragOver" @dragleave="onDragLeave" @drop="onDrop">
+    <span @dragover="handleOnDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
         <slot />
     </span>
 </template>

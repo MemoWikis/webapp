@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { SearchTopicItem } from '../../search/searchHelper'
+import { TopicItem } from '../../search/searchHelper'
 import { useTopicStore } from '../topicStore'
 import { useUserStore } from '../../user/userStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
@@ -33,8 +33,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             redirect: false,
             addTopicBtnExists: false,
             categoriesToFilter: [] as number[],
-            personalWiki: null as SearchTopicItem | null,
-            recentlyUsedRelationTargetTopics: null as SearchTopicItem[] | null,
+            personalWiki: null as TopicItem | null,
+            recentlyUsedRelationTargetTopics: null as TopicItem[] | null,
             topicIdToRemove: 0
         }
     },
@@ -68,8 +68,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         async initWikiData() {
             type personalWikiDataResult = {
                 success: boolean,
-                personalWiki: SearchTopicItem,
-                recentlyUsedRelationTargetTopics: SearchTopicItem[]
+                personalWiki: TopicItem,
+                recentlyUsedRelationTargetTopics: TopicItem[]
             }
             var result = await $fetch<personalWikiDataResult>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 

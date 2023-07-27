@@ -165,7 +165,7 @@ const extendedQuestionId = ref('#eqId-' + props.question.Id)
 const answerId = ref('#aId' + props.question.Id)
 const extendedAnswerId = ref('#eaId' + props.question.Id)
 const correctnessProbability = ref('')
-const correctnessProbabilityLabel = ref('')
+const correctnessProbabilityLabel = ref('Nicht gelernt')
 
 function showCommentModal() {
     commentsStore.openModal(props.question.Id)
@@ -257,6 +257,20 @@ editQuestionStore.$onAction(({ name, after }) => {
             }
         })
 })
+
+watch(showFullQuestion, async (val) => {
+    if (val) {
+        await nextTick()
+        highlightCode(extendedQuestionId.value)
+        highlightCode(answerId.value)
+        if (extendedAnswer.value.length > 0)
+            highlightCode(extendedAnswerId.value)
+    }
+})
+
+function hasContent(str: string) {
+    return str.replace(/<div>/, '').replace(/<\/div>(?![\s\S]*<\/div>[\s\S]*$)/, '').length > 0
+}
 </script>
 
 <template>
@@ -295,16 +309,16 @@ editQuestionStore.$onAction(({ name, after }) => {
                         <div class="extendedQuestionContainer" v-show="showFullQuestion">
                             <div class="questionBody">
                                 <div class="RenderedMarkdown extendedQuestion" :id="extendedQuestionId">
-                                    <div v-html="extendedQuestion" @hook:mounted="highlightCode(extendedQuestionId)">
+                                    <div v-html="extendedQuestion">
                                     </div>
                                 </div>
                                 <div class="answer body-m" :id="answerId">
-                                    Richtige Antwort: <div v-html="answer" @hook:mounted="highlightCode(answerId)">
-                                    </div>
+                                    Richtige Antwort:
+                                    <div v-html="answer"></div>
                                 </div>
-                                <div class="extendedAnswer body-m" v-if="extendedAnswer.length > 11" :id="extendedAnswerId">
+                                <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)" :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
-                                    <div :v-html="extendedAnswer" @hook:mounted="highlightCode(extendedAnswerId)"></div>
+                                    <div :v-html="extendedAnswer"></div>
                                 </div>
                             </div>
                         </div>

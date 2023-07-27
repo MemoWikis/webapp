@@ -125,6 +125,9 @@ public class Global : HttpApplication
 
     protected void Session_Start()
     {
+        var userAgent = Request.UserAgent;
+        var referrer = Request.UrlReferrer?.ToString() ?? "No referrer";
+        Logg.r().Information("SessionStart - userAgent: {userAgent}, referrer: {referrer}", userAgent, referrer);
         var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
         using (var scope = container.BeginLifetimeScope())
         {

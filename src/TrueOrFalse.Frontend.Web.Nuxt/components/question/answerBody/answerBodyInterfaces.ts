@@ -4,7 +4,6 @@ export interface AnswerBodyModel {
     id: number
     text: string
     title: string
-    encodedTitle: string
     solutionType: SolutionType
     renderedQuestionTextExtended: string
     description: string

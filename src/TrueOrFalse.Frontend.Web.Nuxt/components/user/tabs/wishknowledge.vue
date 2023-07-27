@@ -56,7 +56,7 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="wuwi-partial">
         <h4>Fragen im Wunschwissen ({{ props.questions?.length }})</h4>
-        <div class="search-section">
+        <div class="search-section" v-if="(props.questions ?? []).length > 0">
             <div class="search-container">
                 <input type="text" v-model="searchQuestion" class="search-input" placeholder="Suche" />
                 <div class="search-icon reset-icon" v-if="searchQuestion.length > 0" @click="searchQuestion = ''">
@@ -73,7 +73,7 @@ const { $urlHelper } = useNuxtApp()
                     {{ q.title }}
                 </NuxtLink>
             </div>
-            <div v-if="filteredQuestions?.length == 0" class="search-error">
+            <div v-if="filteredQuestions?.length == 0 && searchQuestion.length > 0" class="search-error">
                 Hmmm..., leider gibt es keine Frage mit "{{ searchQuestion }}"
             </div>
         </div>
@@ -93,7 +93,7 @@ const { $urlHelper } = useNuxtApp()
     <div class="divider"></div>
     <div class="wuwi-partial">
         <h4>Themen mit Wunschwissen ({{ props.topics?.length }})</h4>
-        <div class="search-section">
+        <div class="search-section" v-if="(props.topics ?? []).length > 0">
 
             <div class="search-container">
                 <input type="text" v-model="searchTopic" class="search-input" placeholder="Suche" />
@@ -112,7 +112,7 @@ const { $urlHelper } = useNuxtApp()
                 </NuxtLink>
                 <span> mit {{ t.questionCount }} Fragen</span>
             </div>
-            <div v-if="filteredTopics?.length == 0" class="search-error">
+            <div v-if="filteredTopics?.length == 0 && searchTopic.length > 0" class="search-error">
                 Huch! Wir haben kein Thema mit "{{ searchTopic }}" gefunden.
             </div>
         </div>

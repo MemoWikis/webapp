@@ -125,8 +125,8 @@ const eMail = ref('')
 const password = ref('')
 const passwordInputType = ref('password')
 
+const { $urlHelper } = useNuxtApp()
 async function register() {
-
     spinnerStore.showSpinner()
 
     const registerData = {
@@ -136,10 +136,8 @@ async function register() {
     }
     let result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
-    if (result == 'success' && userStore.personalWiki) {
-        var url = `/${userStore.personalWiki.Name}'/${userStore.personalWiki.Id}`
-        navigateTo(url)
-    }
+    if (result == 'success' && userStore.personalWiki)
+        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
     else if (result)
         errorMessage.value = messages.error.user[result]
 }
@@ -184,10 +182,6 @@ async function register() {
 
 
                         <fieldset>
-                            <div class="col-sm-offset-2" v-if="errorMessage.length > 0">
-                                Bitte überprüfe deine Eingaben
-                            </div>
-
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                                     <div class="register-divider-container">
@@ -202,6 +196,11 @@ async function register() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
+                                {{ errorMessage }}
+                            </div>
+
                             <div class="input-container">
                                 <form class="form-horizontal">
                                     <div class="form-group">

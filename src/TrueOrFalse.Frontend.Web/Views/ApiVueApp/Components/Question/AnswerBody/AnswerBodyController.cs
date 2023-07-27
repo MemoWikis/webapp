@@ -46,7 +46,6 @@ public class AnswerBodyController : Controller {
             id = q.Id,
             text = q.Text,
             title = title,
-            encodedTitle = UriSanitizer.Run(title, 10),
             solutionType = q.SolutionType,
             renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
             description = q.Description,
@@ -55,7 +54,7 @@ public class AnswerBodyController : Controller {
             primaryTopicName = primaryTopic?.Name,
             solution = q.Solution,
 
-            isCreator = q.Creator.Id = _sessionUser.UserId,
+            isCreator = q.Creator.Id == _sessionUser.UserId,
             isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo),
 
             questionViewGuid = Guid.NewGuid(),

@@ -29,7 +29,6 @@ export default defineNuxtComponent({
 			linkToCategory: '',
 			visibility: 0,
 			segmentTitle: null as null | string,
-			knowledgeBarHtml: '',
 			disabled: true,
 			knowledgeBarData: null,
 		};
@@ -136,7 +135,6 @@ export default defineNuxtComponent({
 		setSegmentData(data: any) {
 			this.linkToCategory = data.linkToCategory;
 			this.visibility = data.visibility;
-			this.knowledgeBarHtml = handleNewLine(data.knowledgeBarHtml);
 			this.knowledgeBarData = data.knowledgeBarData;
 			if (this.title) this.segmentTitle = this.title;
 			else this.segmentTitle = data.categoryName;
@@ -356,7 +354,29 @@ export default defineNuxtComponent({
 			</div>
 
 			<div class="segmentKnowledgeBar">
-				<div class="KnowledgeBarWrapper" v-html="knowledgeBarHtml"></div>
+				<div class="KnowledgeBarWrapper">
+					<div class="knowledge-bar">
+						<div v-if="$props.segmentData.knowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
+							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NeedsLearning} Fragen (${$props.segmentData.knowledgeBarData.NeedsLearningPercentage})`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.NeedsLearningPercentage + '%' }">
+						</div>
+
+						<div v-if="$props.segmentData.knowledgeBarData.NeedsConsolidationPercentage > 0"
+							class="needs-consolidation"
+							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NeedsConsolidation} Fragen (${$props.segmentData.knowledgeBarData.NeedsConsolidationPercentage})`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.NeedsConsolidationPercentage + '%' }">
+						</div>
+
+						<div v-if="$props.segmentData.knowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
+							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.Solid} Fragen (${$props.segmentData.knowledgeBarData.SolidPercentage})`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.SolidPercentage + '%' }"></div>
+
+						<div v-if="$props.segmentData.knowledgeBarData.NotLearnedPercentage > 0" class="not-learned"
+							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NotLearned} Fragen (${$props.segmentData.knowledgeBarData.NotLearnedPercentage})`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.NotLearnedPercentage + '%' }"></div>
+					</div>
+					<div class="KnowledgeBarLegend">Dein Wissensstand</div>
+				</div>
 			</div>
 		</div>
 		<div class="topicNavigation row" :key="cardsKey!">
@@ -406,7 +426,6 @@ export default defineNuxtComponent({
 	}
 
 	#GeneratedSegmentSection,
-	.segment,
 	.segmentCategoryCard {
 		transition: 0.2s;
 
@@ -420,8 +439,20 @@ export default defineNuxtComponent({
 		}
 	}
 
+	.segment {
+		transition: 0.2s;
+
+		.row {
+			margin-bottom: 25px;
+		}
+
+		&.hover {
+			cursor: pointer;
+		}
+	}
+
 	.topicNavigation {
-		margin-top: 20px;
+		margin-top: 0px;
 
 		.segmentCategoryCard {
 
@@ -481,284 +512,340 @@ export default defineNuxtComponent({
 		.segmentSubHeader {
 			.segmentKnowledgeBar {
 				max-width: 420px;
-			}
-		}
-	}
 
-	.segmentHeader {
-		display: inline-flex;
-		width: 100%;
-		justify-content: space-between;
-		margin-top: 20px;
-		margin-bottom: 10px;
+				.knowledge-bar {
+					display: inline-flex;
+					margin-top: 15px;
+					height: 10px;
+					min-width: 150px;
+					width: 100%;
 
-		.segmentTitle {
-			display: inline-flex;
-			align-items: center;
+					.solid-knowledge,
+					.needs-learning,
+					.needs-consolidation,
+					.not-learned,
+					.not-in-wish-knowledge {
+						height: inherit;
+						float: left;
+					}
 
-			a {
-				color: @memo-blue;
-				transition: 0.2s;
-				padding-right: 10px;
+					.needs-learning {
+						background-color: @needs-learning-color;
+					}
 
-				&:hover {
-					text-decoration: none;
-					color: @memo-blue-link;
-				}
-			}
+					.needs-consolidation {
+						background-color: @needs-consolidation-color;
+					}
 
-			h2 {
-				margin: 0;
-			}
+					.solid-knowledge {
+						background-color: @solid-knowledge-color;
+					}
 
-			span.Button {
-				padding-top: 10px;
-				margin-left: 10px;
-			}
-		}
+					.not-learned {
+						background-color: @not-learned-color;
+					}
 
-		.ButtonEllipsis {
-			font-size: 18px;
-			color: @memo-grey-dark;
-			border-radius: 50%;
-			height: 40px;
-			width: 40px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background: white;
-
-			&:hover {
-				filter: brightness(0.85);
-			}
-
-			&:active {
-				filter: brightness(0.7);
-			}
-		}
-	}
-
-	.segmentDropdown,
-	.dropdown {
-		font-size: 35px;
-		opacity: 0;
-		transition: all .1s ease-in-out;
-	}
-
-	.segmentDropdown,
-	.dropdown {
-		&.hover {
-			opacity: 1;
-			transition: all .1s ease-in-out;
-		}
-	}
-
-	.DropdownButton {
-		.dropdown-toggle {
-			background: #FFFFFFE6;
-			border-radius: 50%;
-			height: 40px;
-			width: 40px;
-			text-align: center;
-			padding: 6px;
-			transition: all .3s ease-in-out;
-
-			.fa-ellipsis-vertical {
-				color: @memo-grey-dark;
-				transition: all .3s ease-in-out;
-			}
-		}
-	}
-
-	& .hover {
-		.DropdownButton {
-			.dropdown-toggle {
-				&:hover {
-					background: #EFEFEFE6;
-
-					.fa-ellipsis-v {
-						color: @memo-blue;
+					.not-in-wish-knowledge {
+						background-color: @not-in-wish-knowledge-color;
 					}
 				}
+
+				.KnowledgeBarLegend {
+					.greyed;
+					font-size: 12px;
+					line-height: 1.5em;
+					//text-transform: uppercase;
+					opacity: 0;
+					transition: opacity 0.2s linear;
+
+					.media-below-sm ({
+						opacity: 1;
+					});
 			}
+
+			&:hover {
+
+				//show on hover over navigation tile
+				.KnowledgeBarLegend {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+}
+
+.segmentHeader {
+	display: inline-flex;
+	width: 100%;
+	justify-content: space-between;
+	margin-top: 20px;
+
+	.segmentTitle {
+		display: inline-flex;
+		align-items: center;
+
+		a {
+			color: @memo-blue;
+			transition: 0.2s;
+			padding-right: 10px;
+
+			&:hover {
+				text-decoration: none;
+				color: @memo-blue-link;
+			}
+		}
+
+		h2 {
+			margin: 0;
+		}
+
+		span.Button {
+			padding-top: 10px;
+			margin-left: 10px;
+		}
+	}
+
+	.ButtonEllipsis {
+		font-size: 18px;
+		color: @memo-grey-dark;
+		border-radius: 50%;
+		height: 40px;
+		width: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: white;
+
+		&:hover {
+			filter: brightness(0.85);
+		}
+
+		&:active {
+			filter: brightness(0.7);
+		}
+	}
+}
+
+.segmentDropdown,
+.dropdown {
+	font-size: 35px;
+	opacity: 0;
+	transition: all .1s ease-in-out;
+}
+
+.segmentDropdown,
+.dropdown {
+	&.hover {
+		opacity: 1;
+		transition: all .1s ease-in-out;
+	}
+}
+
+.DropdownButton {
+	.dropdown-toggle {
+		background: #FFFFFFE6;
+		border-radius: 50%;
+		height: 40px;
+		width: 40px;
+		text-align: center;
+		padding: 6px;
+		transition: all .3s ease-in-out;
+
+		.fa-ellipsis-vertical {
+			color: @memo-grey-dark;
+			transition: all .3s ease-in-out;
+		}
+	}
+}
+
+& .hover {
+	.DropdownButton {
+		.dropdown-toggle {
+			&:hover {
+				background: #EFEFEFE6;
+
+				.fa-ellipsis-v {
+					color: @memo-blue;
+				}
+			}
+		}
+	}
+}
+
+.set-question-count {
+	.sub-label {
+		color: @memo-grey-dark;
+	}
+}
+
+.segmentCardLock,
+.segmentLock {
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	margin-right: 4px;
+	margin-left: 4px;
+	background: white;
+	width: 24px;
+	height: 24px;
+	justify-content: center;
+	border-radius: 15px;
+	font-size: 16px;
+
+	.fa-unlock {
+		display: none !important;
+	}
+
+	.fa-lock {
+		display: unset !important;
+	}
+
+	&:hover {
+
+		.fa-lock {
+			display: none !important;
+			color: @memo-blue;
+		}
+
+		.fa-unlock {
+			display: unset !important;
+			color: @memo-blue;
+		}
+
+		filter: brightness(0.95)
+	}
+
+	&:active {
+		filter: brightness(0.85)
+	}
+}
+
+.topicNavigation,
+.setCardMiniList {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-between;
+	justify-content: flex-start;
+	margin-bottom: 20px;
+
+	&.row:before,
+	&.row:after {
+		display: inline-block;
+	}
+
+	img {
+		border-radius: 0;
+	}
+
+	a {
+		color: @global-text-color;
+
+		&:hover,
+		&:active,
+		&:focus {
+			text-decoration: none;
 		}
 	}
 
 	.set-question-count {
-		.sub-label {
-			color: @memo-grey-dark;
-		}
+		color: @gray-light;
+		margin-top: 8px;
+		line-height: 22px;
 	}
 
-	.segmentCardLock,
-	.segmentLock {
-		cursor: pointer;
-		display: inline-flex;
-		align-items: center;
-		margin-right: 4px;
-		margin-left: 4px;
-		background: white;
-		width: 24px;
-		height: 24px;
-		justify-content: center;
-		border-radius: 15px;
-		font-size: 16px;
+	.topic,
+	.setCardMini {
 
-		.fa-unlock {
-			display: none !important;
+		.row {
+			margin-top: 20px;
+			margin-bottom: 25px;
 		}
 
-		.fa-lock {
-			display: unset !important;
-		}
+		.stack-below(@extra-breakpoint-cards);
 
-		&:hover {
+		.ImageContainer {
+			max-width: 80px;
+			min-width: 70px;
 
-			.fa-lock {
-				display: none !important;
-				color: @memo-blue;
-			}
+			.LicenseInfo {
+				text-align: center;
+				color: @gray-light;
 
-			.fa-unlock {
-				display: unset !important;
-				color: @memo-blue;
-			}
-
-			filter: brightness(0.95)
-		}
-
-		&:active {
-			filter: brightness(0.85)
-		}
-	}
-
-	.topicNavigation,
-	.setCardMiniList {
-		display: flex;
-		flex-wrap: wrap;
-		align-content: space-between;
-		justify-content: flex-start;
-		margin-bottom: 20px;
-
-		&.row:before,
-		&.row:after {
-			display: inline-block;
-		}
-
-		img {
-			border-radius: 0;
-		}
-
-		a {
-			color: @global-text-color;
-
-			&:hover,
-			&:active,
-			&:focus {
-				text-decoration: none;
-			}
-		}
-
-		.set-question-count {
-			color: @gray-light;
-			margin-top: 8px;
-			line-height: 22px;
-		}
-
-		.topic,
-		.setCardMini {
-
-			.row {
-				margin-top: 20px;
-				margin-bottom: 25px;
-			}
-
-			.stack-below(@extra-breakpoint-cards);
-
-			.ImageContainer {
-				max-width: 80px;
-				min-width: 70px;
-
-				.LicenseInfo {
-					text-align: center;
-					color: @gray-light;
-
-					&:after {
-						content: "Lizenz";
-					}
+				&:after {
+					content: "Lizenz";
 				}
 			}
-
-			.topic-name {
-				max-height: 65px;
-				display: flex;
-				align-items: center;
-				height: 100%;
-				overflow: hidden;
-
-				@media (max-width: (@extra-breakpoint-cards - 1px)) {
-					max-height: none;
-				}
-			}
-
-			.KnowledgeBarLegend {
-				.greyed;
-				font-size: 12px;
-				line-height: 1.5em;
-				//text-transform: uppercase;
-				opacity: 0;
-				transition: opacity 0.2s linear;
-
-				.media-below-sm ({
-					opacity: 1;
-				});
 		}
 
-		&:hover {
+		.topic-name {
+			max-height: 65px;
+			display: flex;
+			align-items: center;
+			height: 100%;
+			overflow: hidden;
 
-			//show on hover over navigation tile
-			.KnowledgeBarLegend {
+			@media (max-width: (@extra-breakpoint-cards - 1px)) {
+				max-height: none;
+			}
+		}
+
+		.KnowledgeBarLegend {
+			.greyed;
+			font-size: 12px;
+			line-height: 1.5em;
+			//text-transform: uppercase;
+			opacity: 0;
+			transition: opacity 0.2s linear;
+
+			.media-below-sm ({
 				opacity: 1;
-			}
-		}
+			});
 	}
 
-	.knowledge-bar {
-		display: inline-flex;
-		margin-top: 15px;
-		height: 10px;
-		min-width: 150px;
-		width: 100%;
-		max-width: 180px;
+	&:hover {
 
-		.solid-knowledge,
-		.needs-learning,
-		.needs-consolidation,
-		.not-learned,
-		.not-in-wish-knowledge {
-			height: inherit;
-			float: left;
+		//show on hover over navigation tile
+		.KnowledgeBarLegend {
+			opacity: 1;
 		}
+	}
+}
 
-		.needs-learning {
-			background-color: @needs-learning-color;
-		}
+.knowledge-bar {
+	display: inline-flex;
+	margin-top: 15px;
+	height: 10px;
+	min-width: 150px;
+	width: 100%;
 
-		.needs-consolidation {
-			background-color: @needs-consolidation-color;
-		}
+	.solid-knowledge,
+	.needs-learning,
+	.needs-consolidation,
+	.not-learned,
+	.not-in-wish-knowledge {
+		height: inherit;
+		float: left;
+	}
 
-		.solid-knowledge {
-			background-color: @solid-knowledge-color;
-		}
+	.needs-learning {
+		background-color: @needs-learning-color;
+	}
 
-		.not-learned {
-			background-color: @not-learned-color;
-		}
+	.needs-consolidation {
+		background-color: @needs-consolidation-color;
+	}
 
-		.not-in-wish-knowledge {
-			background-color: @not-in-wish-knowledge-color;
-		}
+	.solid-knowledge {
+		background-color: @solid-knowledge-color;
+	}
+
+	.not-learned {
+		background-color: @not-learned-color;
+	}
+
+	.not-in-wish-knowledge {
+		background-color: @not-in-wish-knowledge-color;
 	}
 }
 }
