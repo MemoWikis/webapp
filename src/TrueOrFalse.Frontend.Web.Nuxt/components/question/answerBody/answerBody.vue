@@ -246,11 +246,12 @@ async function loadAnswerBodyModel() {
         handleUrl()
     }
 }
+
+const router = useRouter()
 function handleUrl() {
     if (!props.isLandingPage && tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
         const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
-        const currentState = history.state
-        history.replaceState(currentState, '', newPath)
+        router.push(newPath)
     }
 }
 watch(() => tabsStore.activeTab, (tab) => {
@@ -399,7 +400,6 @@ const allMultipleChoiceCombinationTried = computed(() => {
                             <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
                                 :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                         </ClientOnly>
-
                     </div>
                 </div>
                 <div class="Button dropdown answerbody-btn" v-if="!isLandingPage">
