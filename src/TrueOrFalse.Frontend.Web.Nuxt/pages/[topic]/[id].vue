@@ -4,7 +4,6 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-import { Visibility } from '~/components/shared/visibilityEnum'
 import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
@@ -43,12 +42,6 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
 
 const segmentation = ref()
 const tabSwitched = ref(false)
-const currentState = ref()
-
-onMounted(() => {
-    if (window != null)
-        currentState.value = window.history.state
-})
 
 const router = useRouter()
 function setTopic() {

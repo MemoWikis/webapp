@@ -123,13 +123,15 @@ export const useUserStore = defineStore('userStore', {
 
             if (result?.success) {
                 spinnerStore.hideSpinner()
-                this.reset()
+                return true
             } else if (result?.success == false) {
                 const alertStore = useAlertStore()
                 alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
+                return false
             }
 
             spinnerStore.hideSpinner()
+            return
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
@@ -148,7 +150,6 @@ export const useUserStore = defineStore('userStore', {
             })
         },
         reset() {
-            refreshNuxtData()
             this.$reset()
         }
     }

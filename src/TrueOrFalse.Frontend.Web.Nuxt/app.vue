@@ -12,7 +12,7 @@ const config = useRuntimeConfig()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
+const { data: currentUser, refresh: refreshUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
 	mode: 'no-cors',
@@ -31,7 +31,7 @@ if (currentUser.value != null) {
 	useState('currentuser', () => currentUser.value)
 }
 
-const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
+const { data: footerTopics, refresh: refreshFooterTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
@@ -75,13 +75,26 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 }
 
 const { $urlHelper } = useNuxtApp()
-watch(() => userStore.isLoggedIn, (isLoggedIn) => {
-	if (!isLoggedIn && page.value == Page.Topic && topicStore.visibility != Visibility.All) {
-		const url = $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)
-		navigateTo(url)
+
+userStore.$onAction(({ name, after }) => {
+	if (name == 'logout') {
+
+		after(async (loggedOut) => {
+			if (loggedOut) {
+				userStore.reset()
+
+				if (page.value == Page.Topic && topicStore.visibility != Visibility.All) {
+					const url = $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)
+					navigateTo(url)
+					refreshUser()
+					refreshFooterTopics()
+				} else {
+					refreshNuxtData()
+				}
+			}
+		})
 	}
 })
-
 </script>
 
 <template>
