@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Web.Mvc;
+using NHibernate;
 
 namespace VueApp;
 
@@ -8,11 +9,22 @@ public class ResetPasswordController : BaseController
 {
     private readonly PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator;
     private readonly VueSessionUser _vueSessionUser;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
+    private readonly ISession _session;
 
-    public ResetPasswordController(PasswordRecoveryTokenValidator passwordRecoveryTokenValidator, SessionUser sessionUser, VueSessionUser vueSessionUser) :base(sessionUser)
+    public ResetPasswordController(PasswordRecoveryTokenValidator passwordRecoveryTokenValidator,
+        SessionUser sessionUser, 
+        VueSessionUser vueSessionUser,
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo,
+        ISession session) :base(sessionUser)
     {
         _passwordRecoveryTokenValidator = passwordRecoveryTokenValidator;
         _vueSessionUser = vueSessionUser;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
+        _session = session;
     }
 
     private RequestResult ValidateToken(string token)
@@ -51,16 +63,16 @@ public class ResetPasswordController : BaseController
         {
             return Json(validationResult);
         }
-        var result = PasswordResetPrepare.Run(token);
+        var result = PasswordResetPrepare.Run(token, _session);
 
-        var userRepo = Sl.Resolve<UserRepo>();
-        var user = userRepo.GetByEmail(result.Email);
+       
+        var user = _userReadingRepo.GetByEmail(result.Email);
 
         if (user == null)
             throw new Exception();
 
         SetUserPassword.Run(newPassword, user);
-        userRepo.Update(user);
+        _userWritingRepo.Update(user);
 
         _sessionUser.Login(user);
         return Json(new RequestResult

@@ -39,7 +39,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
 
     public PasswordRecoveryResult RunForNuxt(string email)
     {
-        if (IsEmailAddressAvailable.Yes(email))
+        if (IsEmailAddressAvailable.Yes(email, _userReadingRepo))
             return new PasswordRecoveryResult { EmailDoesNotExist = true, Success = false };
 
         try
@@ -48,7 +48,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
             var passwordResetUrl = "https://memucho.de/NeuesPasswort/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
-            SendEmail.Run(GetMailMessage(email, passwordResetUrl), MailMessagePriority.High);
+            SendEmail.Run(GetMailMessage(email, passwordResetUrl), _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
         }
         catch (Exception e)
         {

@@ -14,10 +14,9 @@ public class GoogleController : Controller
     private readonly MessageRepo _messageRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly SessionUser _sessionUser;
-    private readonly CategoryRepository _categoryRepo;
 
     public GoogleController(SessionUser sessionUser,
-        UserReadingRepo userReadingRepo, 
+        UserReadingRepo userReadingRepo,
         VueSessionUser vueSessionUser,
         RegisterUser registerUser,
         CategoryRepository categoryRepository,
@@ -31,7 +30,6 @@ public class GoogleController : Controller
         _messageRepo = messageRepo;
         _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
-        _categoryRepo = categoryRepo;
     }
 
     [HttpPost]
@@ -66,7 +64,7 @@ public class GoogleController : Controller
             success = false,
             messageKey = FrontendMessageKeys.Error.Default
         });
-       
+
     }
 
     [HttpPost]
@@ -82,23 +80,13 @@ public class GoogleController : Controller
 
         if (registerResult.Success)
         {
-    }
-
-    [HttpPost]
-    public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
-    {
-        var registerResult = _registerUser.Run(googleUser);
-
-        if (registerResult.Success)
-        {
             var user = _userReadingRepo.UserGetByGoogleId(googleUser.GoogleId);
             SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
             WelcomeMsg.Send(user, _messageRepo);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
-            _categoryRepo.Create(category);
-            user.StartTopicId = category.Id;
             _categoryRepository.Create(category);
+            user.StartTopicId = category.Id;
             _sessionUser.User.StartTopicId = category.Id;
         }
         else
@@ -117,11 +105,13 @@ public class GoogleController : Controller
         });
     }
 
+
     public async Task<GoogleJsonWebSignature.Payload> GetGoogleUser(string token)
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
-            Audience = new List<string>() { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
+            Audience = new List<string>()
+                    { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
         };
 
         try

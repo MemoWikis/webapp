@@ -9,15 +9,21 @@ public class VueUserController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly ReputationCalc _rpReputationCalc;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public VueUserController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         ReputationCalc rpReputationCalc,
-        QuestionValuationRepo questionValuationRepo) :base(sessionUser)
+        QuestionValuationRepo questionValuationRepo,
+        CategoryValuationReadingRepo categoryValuationReadingRepo,
+        UserReadingRepo userReadingRepo) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _rpReputationCalc = rpReputationCalc;
         _questionValuationRepo = questionValuationRepo;
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
+        _userReadingRepo = userReadingRepo;
     }
     [HttpGet]
     public JsonResult Get(int id)
@@ -83,7 +89,7 @@ public class VueUserController : BaseController
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(question => _permissionCheck.CanView(question) 
-                    && question.IsInWishknowledge(id) 
+                    && question.IsInWishknowledge(id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo) 
                     && question.CategoriesVisibleToCurrentUser(_permissionCheck).Any());
 
             return Json(new

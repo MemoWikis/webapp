@@ -100,11 +100,6 @@ public class UserReadingRepo
             .SingleOrDefault();
     }
 
-    public User GetMemuchoUser()
-    {
-        return _repo.GetById(Settings.MemuchoUserId);
-    }
-
     public IList<User> GetWhereReputationIsBetween(int newReputation, int oldRepution)
     {
         var query = _repo.Session.QueryOver<User>();

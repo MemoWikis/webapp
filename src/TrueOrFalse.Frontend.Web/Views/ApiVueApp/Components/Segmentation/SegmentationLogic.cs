@@ -168,7 +168,7 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
-        var knowledgeBarSummary = KnowledgeSummaryLoader.RunFromMemoryCache(categoryId, _sessionUserId);
+        var knowledgeBarSummary = _knowledgeSummaryLoader.RunFromMemoryCache(categoryId, _sessionUserId);
 
         return new
         {

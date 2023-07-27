@@ -13,7 +13,6 @@ public class UserStoreController : Controller
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly RegisterUser _registerUser;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly UserRepo _userRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryViewRepo _categoryViewRepo;

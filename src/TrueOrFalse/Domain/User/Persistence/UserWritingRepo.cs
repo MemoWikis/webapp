@@ -51,7 +51,7 @@ public class UserWritingRepo
         { Follower = follower, User = user, DateCreated = DateTime.Now, DateModified = DateTime.Now });
         _repo.Flush();
         UserActivityAdd.FollowedUser(follower, user, _userActivityRepo);
-        UserActivityUpdate.NewFollower(follower, user, _userActivityRepo, _repo.Session, _userReadingRepo );
+        UserActivityUpdate.NewFollower(follower, user, _userActivityRepo, _repo.Session, _userReadingRepo);
         _reputationUpdate.ForUser(user);
     }
 
@@ -97,11 +97,9 @@ public class UserWritingRepo
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session.CreateSQLQuery("UPDATE learningSession SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("UPDATE date SET User_Id = null WHERE User_id = :userId").SetParameter("userId", userId)
-        .ExecuteUpdate();
         _repo.Session.CreateSQLQuery("UPDATE category SET Creator_Id = null WHERE Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-            _repo.Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
+        _repo.Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
@@ -121,12 +119,12 @@ public class UserWritingRepo
         _repo.Session.CreateSQLQuery("Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
             .SetParameter("userid", userId).ExecuteUpdate();
 
-            _repo.Session.CreateSQLQuery(
-                "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
+        _repo.Session.CreateSQLQuery(
+            "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
             .SetParameter("userid", userId).ExecuteUpdate();
 
-            _repo.Session.CreateSQLQuery(
-                "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
+        _repo.Session.CreateSQLQuery(
+            "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
             .SetParameter("userid", userId).ExecuteUpdate();
         _repo.Session.CreateSQLQuery(
                 "Delete ua.* From Useractivity ua  Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")
@@ -136,9 +134,6 @@ public class UserWritingRepo
         _repo.Session.CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId")
             .SetParameter("userId", userId)
             .ExecuteUpdate(); // visibility not necessary because everything has already been deleted
-        _repo.Session.CreateSQLQuery(
-                "Delete u.*, g.* From useractivity u Left Join  game g ON g.Id = u.Game_id Where u.UserCauser_id =  :userId;")
-            .SetParameter("userId", userId).ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery(
                 "Delete ua.* From useractivity ua Left Join  user u ON u.id = ua.UserConcerned_id Where u.id  =  :userId;")

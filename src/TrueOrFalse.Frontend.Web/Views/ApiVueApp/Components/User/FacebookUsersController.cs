@@ -71,7 +71,7 @@ public class FacebookUsersController : Controller
     [HttpPost]
     public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
     {
-        if (_userRepo.FacebookUserExists(facebookUser.id))
+        if (_userReadingRepo.FacebookUserExists(facebookUser.id))
         {
             return Json(new RequestResult
             {
@@ -89,8 +89,8 @@ public class FacebookUsersController : Controller
             WelcomeMsg.Send(user, _messageRepo);
             _sessionUser.Login(user);
             var category = PersonalTopic.GetPersonalCategory(user);
-            user.StartTopicId = category.Id;
             _categoryRepository.Create(category);
+            user.StartTopicId = category.Id;
             _sessionUser.User.StartTopicId = category.Id;
 
             return Json(new RequestResult
